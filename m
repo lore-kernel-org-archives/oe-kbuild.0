@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7079624490137454562=="
+Content-Type: multipart/mixed; boundary="===============7731160697208239755=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Sun, 10 Apr 2022 13:57:34 +0800
-Message-ID: <202204101322.kzHZodrj-lkp@intel.com>
+Subject: [l1k:smsc95xx_5.17 340/888] drivers/media/i2c/ov5647.c:595:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 10 Apr 2022 13:27:04 +0800
+Message-ID: <202204101333.iRw0Qyh3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7079624490137454562==
+--===============7731160697208239755==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,38 +16,32 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+TO: David Plowman <david.plowman@raspberrypi.org>
+CC: Dom Cobley <popcornmix@gmail.com>
+CC: Naushir Patuck <naush@raspberrypi.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e1f700ebd6bea293abe3c7e2807b252018efde01
-commit: b62c4e5fba2f910bc9f23ae152d11627e4c2f00f ASoC: qcom: lpass-sc7280: =
-Add platform driver for lpass audio
-date:   6 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 6 weeks ago
-config: arm-randconfig-c002-20220406 (https://download.01.org/0day-ci/archi=
-ve/20220410/202204101322.kzHZodrj-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
-7d0979e7ff20d7d541af666d822d66b566)
+tree:   https://github.com/l1k/linux smsc95xx_5.17
+head:   240f56c27361c195cd502d95aba51c6b8e5b808c
+commit: 645a01bf4309d11d09fc477f931da135347a70dc [340/888] media: ov5647: F=
+ix return codes from ov5647_write/ov5647_read functions.
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+410/202204101333.iRw0Qyh3-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 893e1c=
+18b98d8bbc7b8d7d22cc2c348f65c72ad9)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db62c4e5fba2f910bc9f23ae152d11627e4c2f00f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b62c4e5fba2f910bc9f23ae152d11627e4c2f00f
+        # https://github.com/l1k/linux/commit/645a01bf4309d11d09fc477f931da=
+135347a70dc
+        git remote add l1k https://github.com/l1k/linux
+        git fetch --no-tags l1k smsc95xx_5.17
+        git checkout 645a01bf4309d11d09fc477f931da135347a70dc
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,325 +49,306 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/sh/rcar/rsnd.h:529:33: note: expanded from macro 'rsnd_io_to_r=
-untime'
-   #define rsnd_io_to_runtime(io) ((io)->substream ? \
-                                   ^~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/ssi.c:933:36: note: '?' condition is false
-           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
-                                             ^
-   sound/soc/sh/rcar/rsnd.h:529:33: note: expanded from macro 'rsnd_io_to_r=
-untime'
-   #define rsnd_io_to_runtime(io) ((io)->substream ? \
-                                   ^
-   sound/soc/sh/rcar/ssi.c:933:2: note: 'runtime' initialized to a null poi=
-nter value
-           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/ssi.c:935:38: note: Left side of '||' is false
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   sound/soc/sh/rcar/ssi.c:935:38: note: Left side of '||' is false
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   sound/soc/sh/rcar/ssi.c:935:38: note: Left side of '||' is true
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   sound/soc/sh/rcar/ssi.c:935:38: note: Taking false branch
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
                    ^
-   sound/soc/sh/rcar/ssi.c:935:38: note: Loop condition is false.  Exiting =
-loop
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                       ^
+   include/linux/hid.h:1036:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/linux/hid.h:1036:3: note: '?' condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
+_emit'
+                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
+fmt) : NULL, \
+                                          ^
+   include/linux/hid.h:1036:3: note: '?' condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
+_emit'
+                                   .level =3D __builtin_constant_p(_level) =
+? (_level) : NULL, \
+                                            ^
+   include/linux/hid.h:1036:3: note: Loop condition is false.  Exiting loop
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
-letime_assert'
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
+emit'
            do {                                                            \
            ^
-   sound/soc/sh/rcar/ssi.c:935:29: note: Passing null pointer value via 1st=
- parameter 'runtime'
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                                      ^~~~~~~
-   sound/soc/sh/rcar/ssi.c:935:13: note: Calling 'bytes_to_frames'
-           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/sound/pcm.h:686:20: note: Access to field 'frame_bits' results i=
-n a dereference of a null pointer (loaded from variable 'runtime')
-           return size * 8 / runtime->frame_bits;
-                             ^~~~~~~
-   sound/soc/sh/rcar/ssi.c:365:17: warning: Value stored to 'dev' during it=
-s initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D rsnd_priv_to_dev(priv);
-                          ^~~
-   sound/soc/sh/rcar/ssi.c:365:17: note: Value stored to 'dev' during its i=
-nitialization is never read
-           struct device *dev =3D rsnd_priv_to_dev(priv);
-                          ^~~
+   include/linux/hid.h:1037:9: note: Access to field 'name' results in a de=
+reference of a null pointer (loaded from variable 'input')
+                                       input->name, c, type);
+                                       ^
+   include/linux/printk.h:656:49: note: expanded from macro 'pr_warn_rateli=
+mited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+                                                          ^~~~~~~~~~~
+   include/linux/printk.h:640:17: note: expanded from macro 'printk_ratelim=
+ited'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                                 ^~~~~~~~~~~
+   include/linux/printk.h:446:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                              ^~~~~~~~~~~
+   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
+rap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
    1 warning generated.
->> sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluate=
-s to a garbage value [clang-analyzer-core.uninitialized.Branch]
-                   if (!dmactl)
-                       ^~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:261:2: note: 'dmactl' declared without an=
- initial value
-           struct lpaif_dmactl *dmactl;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:264:2: note: Control jumps to 'case 3:'  =
-at line 272
-           switch (cmd) {
+   drivers/media/i2c/ov2680.c:424:2: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           ret =3D ov2680_write_reg16(sensor, OV2680_REG_GAIN_PK, gain);
            ^
-   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Calling '__lpass_get_dmactl_=
-handle'
-                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:43:2: note: Control jumps to the 'default=
-' case at line 56
-           switch (dai_id) {
+   drivers/media/i2c/ov2680.c:424:2: note: Value stored to 'ret' is never r=
+ead
+   7 warnings generated.
+>> drivers/media/i2c/ov5647.c:595:3: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   drivers/media/i2c/ov5647.c:595:3: note: Value stored to 'ret' is never r=
+ead
+                   ret =3D 0;
+                   ^     ~
+   drivers/media/i2c/ov5647.c:617:3: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   drivers/media/i2c/ov5647.c:617:3: note: Value stored to 'ret' is never r=
+ead
+                   ret =3D 0;
+                   ^     ~
+   drivers/media/i2c/ov5647.c:622:4: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/media/i2c/ov5647.c:622:4: note: Value stored to 'ret' is never r=
+ead
+                           ret =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/media/i2c/ov5647.c:653:3: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   drivers/media/i2c/ov5647.c:653:3: note: Value stored to 'ret' is never r=
+ead
+                   ret =3D 0;
+                   ^     ~
+   drivers/media/i2c/ov5647.c:658:4: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/media/i2c/ov5647.c:658:4: note: Value stored to 'ret' is never r=
+ead
+                           ret =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/media/i2c/ov5647.c:839:8: warning: The left expression of the co=
+mpound assignment is an uninitialized value. The computed value will also b=
+e garbage [clang-analyzer-core.uninitialized.Assign]
+           rdval &=3D ~0x01;
+           ~~~~~ ^
+   drivers/media/i2c/ov5647.c:824:2: note: 'rdval' declared without an init=
+ial value
+           u8 rdval;
+           ^~~~~~~~
+   drivers/media/i2c/ov5647.c:827:2: note: '?' condition is false
+           dev_dbg(dev, "OV5647 power off\n");
            ^
-   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Loop condition is false.  Exi=
-ting loop
-                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
-d\n", dai_id);
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
            ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
            ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   sound/soc/qcom/lpass-cdc-dma.c:58:3: note:  Execution continues on line =
-57
-                   break;
-                   ^
-   sound/soc/qcom/lpass-cdc-dma.c:60:1: note: Returning without writing to =
-'*dmactl'
-   }
-   ^
-   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Returning from '__lpass_get_=
-dmactl_handle'
-                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:274:7: note: Branch condition evaluates t=
-o a garbage value
-                   if (!dmactl)
-                       ^~~~~~~
-   1 warning generated.
-   fs/ntfs3/xattr.c:966:3: warning: 2nd function call argument is an uninit=
-ialized value [clang-analyzer-core.CallAndMessage]
-                   i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/xattr.c:960:6: note: Calling 'ntfs_get_ea'
-           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/xattr.c:209:6: note: Assuming the condition is false
-           if (!(ni->ni_flags & NI_FLAG_EA))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/xattr.c:209:2: note: Taking false branch
-           if (!(ni->ni_flags & NI_FLAG_EA))
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
            ^
-   fs/ntfs3/xattr.c:212:7: note: 'required' is non-null
-           if (!required)
-                ^~~~~~~~
-   fs/ntfs3/xattr.c:212:2: note: Taking false branch
-           if (!required)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/media/i2c/ov5647.c:827:2: note: '?' condition is false
+           dev_dbg(dev, "OV5647 power off\n");
            ^
-   fs/ntfs3/xattr.c:217:6: note: 'name_len' is <=3D 255
-           if (name_len > 255) {
-               ^~~~~~~~
-   fs/ntfs3/xattr.c:217:2: note: Taking false branch
-           if (name_len > 255) {
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
            ^
-   fs/ntfs3/xattr.c:223:6: note: 'err' is not equal to 0
-           if (err)
-               ^~~
-   fs/ntfs3/xattr.c:223:2: note: Taking true branch
-           if (err)
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
            ^
-   fs/ntfs3/xattr.c:224:3: note: Control jumps to line 253
-                   goto out;
-                   ^
-   fs/ntfs3/xattr.c:254:7: note: 'required' is non-null
-           if (!required)
-                ^~~~~~~~
-   fs/ntfs3/xattr.c:254:2: note: Taking false branch
-           if (!required)
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
            ^
-   fs/ntfs3/xattr.c:257:9: note: 'err' is not equal to 0
-           return err ? err : len;
-                  ^~~
-   fs/ntfs3/xattr.c:257:9: note: '?' condition is true
-   fs/ntfs3/xattr.c:257:2: note: Returning without writing to '*buffer'
-           return err ? err : len;
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   fs/ntfs3/xattr.c:960:6: note: Returning from 'ntfs_get_ea'
-           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/xattr.c:960:6: note: Assuming the condition is true
-           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/xattr.c:960:6: note: Left side of '&&' is true
-   fs/ntfs3/xattr.c:962:6: note: Assuming the condition is true
-               ntfs_get_ea(inode, "$LXGID", sizeof("$LXGID") - 1, &value[1],
+   drivers/media/i2c/ov5647.c:827:2: note: Taking false branch
+           dev_dbg(dev, "OV5647 power off\n");
+           ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/media/i2c/ov5647.c:827:2: note: Loop condition is false.  Exitin=
+g loop
+           dev_dbg(dev, "OV5647 power off\n");
+           ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
 
-vim +274 sound/soc/qcom/lpass-cdc-dma.c
+vim +/ret +595 drivers/media/i2c/ov5647.c
 
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  256  =
+d7d6074ecd49607 Jacopo Mondi   2020-11-19  582  =
 
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  257  static int lpass_cd=
-c_dma_daiops_trigger(struct snd_pcm_substream *substream,
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  258  				    int cmd, st=
-ruct snd_soc_dai *dai)
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  259  {
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  260  	struct snd_soc_pcm=
-_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  261  	struct lpaif_dmact=
-l *dmactl;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  262  	int ret =3D 0, id;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  263  =
+2512c06441e3f0d Dave Stevenson 2020-11-19  583  static int ov5647_write16(s=
+truct v4l2_subdev *sd, u16 reg, u16 val)
+2512c06441e3f0d Dave Stevenson 2020-11-19  584  {
+2512c06441e3f0d Dave Stevenson 2020-11-19  585  	unsigned char data[4] =3D =
+{ reg >> 8, reg & 0xff, val >> 8, val & 0xff};
+2512c06441e3f0d Dave Stevenson 2020-11-19  586  	struct i2c_client *client =
+=3D v4l2_get_subdevdata(sd);
+2512c06441e3f0d Dave Stevenson 2020-11-19  587  	int ret;
+2512c06441e3f0d Dave Stevenson 2020-11-19  588  =
 
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  264  	switch (cmd) {
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  265  	case SNDRV_PCM_TRI=
-GGER_START:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  266  	case SNDRV_PCM_TRI=
-GGER_RESUME:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  267  	case SNDRV_PCM_TRI=
-GGER_PAUSE_RELEASE:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  268  		__lpass_platform_=
-codec_intf_init(dai, substream);
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  269  		break;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  270  	case SNDRV_PCM_TRI=
-GGER_STOP:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  271  	case SNDRV_PCM_TRI=
-GGER_SUSPEND:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  272  	case SNDRV_PCM_TRI=
-GGER_PAUSE_PUSH:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  273  		__lpass_get_dmact=
-l_handle(substream, dai, &dmactl, &id);
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24 @274  		if (!dmactl)
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  275  			return -EINVAL;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  276  =
+2512c06441e3f0d Dave Stevenson 2020-11-19  589  	ret =3D i2c_master_send(cl=
+ient, data, 4);
+645a01bf4309d11 David Plowman  2020-01-15  590  	/*
+645a01bf4309d11 David Plowman  2020-01-15  591  	 * Writing the wrong numbe=
+r of bytes also needs to be flagged as an
+645a01bf4309d11 David Plowman  2020-01-15  592  	 * error. Success needs to=
+ produce a 0 return code.
+645a01bf4309d11 David Plowman  2020-01-15  593  	 */
+645a01bf4309d11 David Plowman  2020-01-15  594  	if (ret =3D=3D 4) {
+645a01bf4309d11 David Plowman  2020-01-15 @595  		ret =3D 0;
+645a01bf4309d11 David Plowman  2020-01-15  596  	} else {
+2512c06441e3f0d Dave Stevenson 2020-11-19  597  		dev_dbg(&client->dev, "%s=
+: i2c write error, reg: %x\n",
+2512c06441e3f0d Dave Stevenson 2020-11-19  598  			__func__, reg);
+2512c06441e3f0d Dave Stevenson 2020-11-19  599  		return ret;
+2512c06441e3f0d Dave Stevenson 2020-11-19  600  	}
+2512c06441e3f0d Dave Stevenson 2020-11-19  601  =
 
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  277  		ret =3D regmap_fi=
-elds_write(dmactl->codec_enable, id, LPAIF_DMACTL_ENABLE_OFF);
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  278  		if (ret) {
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  279  			dev_err(soc_runt=
-ime->dev,
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  280  				"error writing =
-to dmactl codec_enable reg: %d\n", ret);
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  281  			return ret;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  282  		}
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  283  		break;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  284  	default:
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  285  		ret =3D -EINVAL;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  286  		dev_err(soc_runti=
-me->dev, "%s: invalid %d interface\n", __func__, cmd);
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  287  		break;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  288  	}
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  289  	return ret;
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  290  }
-b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  291  =
+2512c06441e3f0d Dave Stevenson 2020-11-19  602  	return 0;
+2512c06441e3f0d Dave Stevenson 2020-11-19  603  }
+2512c06441e3f0d Dave Stevenson 2020-11-19  604  =
 
-
-:::::: The code at line 274 was first introduced by commit
-:::::: b81af585ea54ee9f749391e594ee9cbd44061eae ASoC: qcom: Add lpass CPU d=
-river for codec dma control
-
-:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7079624490137454562==--
+--===============7731160697208239755==--
 
