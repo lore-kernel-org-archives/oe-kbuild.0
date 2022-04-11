@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0652516494380642378=="
+Content-Type: multipart/mixed; boundary="===============1675467601986493780=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/dma/direct.c:185 dma_direct_alloc_no_mapping() warn: should '((page - mem_map) + arch_pfn_offset) << 14' be a 64 bit type?
-Date: Tue, 12 Apr 2022 03:04:52 +0800
-Message-ID: <202204120206.uO1WwdKm-lkp@intel.com>
+Subject: drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntaxError]
+Date: Tue, 12 Apr 2022 02:03:16 +0800
+Message-ID: <202204120127.4ZYIwytX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0652516494380642378==
+--===============1675467601986493780==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,71 +15,83 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Robin Murphy <robin.murphy@arm.com>
+TO: Eugen Hristev <eugen.hristev@microchip.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
-commit: d541ae55d538265861ef729a64d2d816d34ef1e2 dma-direct: factor out a h=
-elper for DMA_ATTR_NO_KERNEL_MAPPING allocations
-date:   4 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 4 months ago
-config: arc-randconfig-m031-20220411 (https://download.01.org/0day-ci/archi=
-ve/20220412/202204120206.uO1WwdKm-lkp(a)intel.com/config)
+commit: 8940de2e48902e95b588b6244d5a1b61a4d75c4a iio: adc: at91-sama5d2_adc=
+: convert to platform specific data structures
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
 compiler: arc-elf-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 8940de2e48902e95b588b6244d5a1b61a4d75c4a
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/dma/direct.c:185 dma_direct_alloc_no_mapping() warn: should '((page =
-- mem_map) + arch_pfn_offset) << 14' be a 64 bit type?
 
-vim +185 kernel/dma/direct.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-5b138c534fda57 kernel/dma/direct.c Christoph Hellwig 2020-10-07  170  =
+>> drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntax=
+Error]
+    .nr_channels =3D AT91_SAMA5D2_SINGLE_CHAN_CNT +
+                                                ^
 
-d541ae55d53826 kernel/dma/direct.c Christoph Hellwig 2021-10-18  171  stati=
-c void *dma_direct_alloc_no_mapping(struct device *dev, size_t size,
-d541ae55d53826 kernel/dma/direct.c Christoph Hellwig 2021-10-18  172  		dma=
-_addr_t *dma_handle, gfp_t gfp)
-b18814e767a445 kernel/dma/direct.c Christoph Hellwig 2018-11-04  173  {
-b18814e767a445 kernel/dma/direct.c Christoph Hellwig 2018-11-04  174  	stru=
-ct page *page;
-633d5fce78a61e kernel/dma/direct.c David Rientjes    2020-06-11  175  =
+vim +530 drivers/iio/adc/at91-sama5d2_adc.c
 
-3773dfe6ea4d22 kernel/dma/direct.c Christoph Hellwig 2020-08-17  176  	page=
- =3D __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
-080321d3b3139b lib/dma-direct.c    Christoph Hellwig 2017-12-22  177  	if (=
-!page)
-080321d3b3139b lib/dma-direct.c    Christoph Hellwig 2017-12-22  178  		ret=
-urn NULL;
-d541ae55d53826 kernel/dma/direct.c Christoph Hellwig 2021-10-18  179  =
+8940de2e48902e Eugen Hristev 2021-09-01  524  =
 
-d98849aff87911 kernel/dma/direct.c Christoph Hellwig 2019-06-14  180  	/* r=
-emove any dirty cache lines on the kernel alias */
-d98849aff87911 kernel/dma/direct.c Christoph Hellwig 2019-06-14  181  	if (=
-!PageHighMem(page))
-d98849aff87911 kernel/dma/direct.c Christoph Hellwig 2019-06-14  182  		arc=
-h_dma_prep_coherent(page, size);
-d541ae55d53826 kernel/dma/direct.c Christoph Hellwig 2021-10-18  183  =
-
-d98849aff87911 kernel/dma/direct.c Christoph Hellwig 2019-06-14  184  	/* r=
-eturn the page pointer as the opaque cookie */
-d541ae55d53826 kernel/dma/direct.c Christoph Hellwig 2021-10-18 @185  	*dma=
-_handle =3D phys_to_dma_direct(dev, page_to_phys(page));
-849facea92fa68 kernel/dma/direct.c Christoph Hellwig 2020-10-07  186  	retu=
-rn page;
-3acac065508f6c kernel/dma/direct.c Christoph Hellwig 2019-10-29  187  }
-3acac065508f6c kernel/dma/direct.c Christoph Hellwig 2019-10-29  188  =
+8940de2e48902e Eugen Hristev 2021-09-01  525  static const struct at91_adc_=
+platform sama5d2_platform =3D {
+8940de2e48902e Eugen Hristev 2021-09-01  526  	.layout =3D &sama5d2_layout,
+8940de2e48902e Eugen Hristev 2021-09-01  527  	.adc_channels =3D &at91_sama=
+5d2_adc_channels,
+8940de2e48902e Eugen Hristev 2021-09-01  528  #define AT91_SAMA5D2_SINGLE_C=
+HAN_CNT 12
+8940de2e48902e Eugen Hristev 2021-09-01  529  #define AT91_SAMA5D2_DIFF_CHA=
+N_CNT 6
+8940de2e48902e Eugen Hristev 2021-09-01 @530  	.nr_channels =3D AT91_SAMA5D=
+2_SINGLE_CHAN_CNT +
+8940de2e48902e Eugen Hristev 2021-09-01  531  		       AT91_SAMA5D2_DIFF_CH=
+AN_CNT,
+8940de2e48902e Eugen Hristev 2021-09-01  532  #define AT91_SAMA5D2_TOUCH_X_=
+CHAN_IDX	(AT91_SAMA5D2_SINGLE_CHAN_CNT + \
+8940de2e48902e Eugen Hristev 2021-09-01  533  					AT91_SAMA5D2_DIFF_CHAN_C=
+NT * 2)
+8940de2e48902e Eugen Hristev 2021-09-01  534  	.touch_chan_x =3D AT91_SAMA5=
+D2_TOUCH_X_CHAN_IDX,
+8940de2e48902e Eugen Hristev 2021-09-01  535  #define AT91_SAMA5D2_TOUCH_Y_=
+CHAN_IDX	(AT91_SAMA5D2_TOUCH_X_CHAN_IDX + 1)
+8940de2e48902e Eugen Hristev 2021-09-01  536  	.touch_chan_y =3D AT91_SAMA5=
+D2_TOUCH_Y_CHAN_IDX,
+8940de2e48902e Eugen Hristev 2021-09-01  537  #define AT91_SAMA5D2_TOUCH_P_=
+CHAN_IDX	(AT91_SAMA5D2_TOUCH_Y_CHAN_IDX + 1)
+8940de2e48902e Eugen Hristev 2021-09-01  538  	.touch_chan_p =3D AT91_SAMA5=
+D2_TOUCH_P_CHAN_IDX,
+8940de2e48902e Eugen Hristev 2021-09-01  539  #define AT91_SAMA5D2_MAX_CHAN=
+_IDX	AT91_SAMA5D2_TOUCH_P_CHAN_IDX
+8940de2e48902e Eugen Hristev 2021-09-01  540  	.max_channels =3D ARRAY_SIZE=
+(at91_sama5d2_adc_channels),
+8940de2e48902e Eugen Hristev 2021-09-01  541  	.max_index =3D AT91_SAMA5D2_=
+MAX_CHAN_IDX,
+8940de2e48902e Eugen Hristev 2021-09-01  542  #define AT91_SAMA5D2_HW_TRIG_=
+CNT	3
+8940de2e48902e Eugen Hristev 2021-09-01  543  	.hw_trig_cnt =3D AT91_SAMA5D=
+2_HW_TRIG_CNT,
+5e1a1da0f8c914 Eugen Hristev 2017-06-15  544  };
+5e1a1da0f8c914 Eugen Hristev 2017-06-15  545  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0652516494380642378==--
+--===============1675467601986493780==--
 
