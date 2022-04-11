@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1675467601986493780=="
+Content-Type: multipart/mixed; boundary="===============7279302676358771556=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntaxError]
-Date: Tue, 12 Apr 2022 02:03:16 +0800
-Message-ID: <202204120127.4ZYIwytX-lkp@intel.com>
+Subject: drivers/infiniband/sw/siw/iwarp.h:114 __ddp_get_version() warn: mask and shift to zero
+Date: Tue, 12 Apr 2022 00:50:10 +0800
+Message-ID: <202204120010.X72uNDzF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1675467601986493780==
+--===============7279302676358771556==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,83 +15,53 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
-commit: 8940de2e48902e95b588b6244d5a1b61a4d75c4a iio: adc: at91-sama5d2_adc=
-: convert to platform specific data structures
-date:   7 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 7 months ago
-compiler: arc-elf-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 8940de2e48902e95b588b6244d5a1b61a4d75c4a
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   12 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-m001-20220411 (https://download.01.org/0day-ci/ar=
+chive/20220412/202204120010.X72uNDzF-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/infiniband/sw/siw/iwarp.h:114 __ddp_get_version() warn: mask and sh=
+ift to zero
+
+vim +114 drivers/infiniband/sw/siw/iwarp.h
+
+0e935ae6afcdbe6 Bernard Metzler 2019-06-20  111  =
+
+0e935ae6afcdbe6 Bernard Metzler 2019-06-20  112  static inline u8 __ddp_get=
+_version(struct iwarp_ctrl *ctrl)
+0e935ae6afcdbe6 Bernard Metzler 2019-06-20  113  {
+0e935ae6afcdbe6 Bernard Metzler 2019-06-20 @114  	return be16_to_cpu(ctrl->=
+ddp_rdmap_ctrl & DDP_MASK_VERSION) >> 8;
+0e935ae6afcdbe6 Bernard Metzler 2019-06-20  115  }
+0e935ae6afcdbe6 Bernard Metzler 2019-06-20  116  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 114 was first introduced by commit
+:::::: 0e935ae6afcdbe6f0c0aa457ae57feccc63bb9be rdma/siw: iWarp wire packet=
+ format
 
->> drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntax=
-Error]
-    .nr_channels =3D AT91_SAMA5D2_SINGLE_CHAN_CNT +
-                                                ^
-
-vim +530 drivers/iio/adc/at91-sama5d2_adc.c
-
-8940de2e48902e Eugen Hristev 2021-09-01  524  =
-
-8940de2e48902e Eugen Hristev 2021-09-01  525  static const struct at91_adc_=
-platform sama5d2_platform =3D {
-8940de2e48902e Eugen Hristev 2021-09-01  526  	.layout =3D &sama5d2_layout,
-8940de2e48902e Eugen Hristev 2021-09-01  527  	.adc_channels =3D &at91_sama=
-5d2_adc_channels,
-8940de2e48902e Eugen Hristev 2021-09-01  528  #define AT91_SAMA5D2_SINGLE_C=
-HAN_CNT 12
-8940de2e48902e Eugen Hristev 2021-09-01  529  #define AT91_SAMA5D2_DIFF_CHA=
-N_CNT 6
-8940de2e48902e Eugen Hristev 2021-09-01 @530  	.nr_channels =3D AT91_SAMA5D=
-2_SINGLE_CHAN_CNT +
-8940de2e48902e Eugen Hristev 2021-09-01  531  		       AT91_SAMA5D2_DIFF_CH=
-AN_CNT,
-8940de2e48902e Eugen Hristev 2021-09-01  532  #define AT91_SAMA5D2_TOUCH_X_=
-CHAN_IDX	(AT91_SAMA5D2_SINGLE_CHAN_CNT + \
-8940de2e48902e Eugen Hristev 2021-09-01  533  					AT91_SAMA5D2_DIFF_CHAN_C=
-NT * 2)
-8940de2e48902e Eugen Hristev 2021-09-01  534  	.touch_chan_x =3D AT91_SAMA5=
-D2_TOUCH_X_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  535  #define AT91_SAMA5D2_TOUCH_Y_=
-CHAN_IDX	(AT91_SAMA5D2_TOUCH_X_CHAN_IDX + 1)
-8940de2e48902e Eugen Hristev 2021-09-01  536  	.touch_chan_y =3D AT91_SAMA5=
-D2_TOUCH_Y_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  537  #define AT91_SAMA5D2_TOUCH_P_=
-CHAN_IDX	(AT91_SAMA5D2_TOUCH_Y_CHAN_IDX + 1)
-8940de2e48902e Eugen Hristev 2021-09-01  538  	.touch_chan_p =3D AT91_SAMA5=
-D2_TOUCH_P_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  539  #define AT91_SAMA5D2_MAX_CHAN=
-_IDX	AT91_SAMA5D2_TOUCH_P_CHAN_IDX
-8940de2e48902e Eugen Hristev 2021-09-01  540  	.max_channels =3D ARRAY_SIZE=
-(at91_sama5d2_adc_channels),
-8940de2e48902e Eugen Hristev 2021-09-01  541  	.max_index =3D AT91_SAMA5D2_=
-MAX_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  542  #define AT91_SAMA5D2_HW_TRIG_=
-CNT	3
-8940de2e48902e Eugen Hristev 2021-09-01  543  	.hw_trig_cnt =3D AT91_SAMA5D=
-2_HW_TRIG_CNT,
-5e1a1da0f8c914 Eugen Hristev 2017-06-15  544  };
-5e1a1da0f8c914 Eugen Hristev 2017-06-15  545  =
-
+:::::: TO: Bernard Metzler <bmt@zurich.ibm.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1675467601986493780==--
+--===============7279302676358771556==--
 
