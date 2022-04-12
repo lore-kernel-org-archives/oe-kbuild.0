@@ -1,256 +1,365 @@
-Content-Type: multipart/mixed; boundary="===============9045629997696021217=="
+Content-Type: multipart/mixed; boundary="===============3278792741188863761=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 2/2] clk: ingenic-tcu: Fix missing TCU clock for X1000 SoCs
-Date: Tue, 12 Apr 2022 18:41:28 +0800
-Message-ID: <202204121856.LxK9kEyg-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_bw.c:634:16: warning: Array access (via field 'data_rate') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Tue, 12 Apr 2022 18:10:25 +0800
+Message-ID: <202204121811.NdIdQQ85-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9045629997696021217==
+--===============3278792741188863761==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220411154241.50834-3-aidanmacdonald.0x0@gmail.com>
-References: <20220411154241.50834-3-aidanmacdonald.0x0@gmail.com>
-TO: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-TO: paul(a)crapouillou.net
-TO: robh+dt(a)kernel.org
-TO: krzk+dt(a)kernel.org
-TO: tsbogend(a)alpha.franken.de
-TO: mturquette(a)baylibre.com
-TO: sboyd(a)kernel.org
-CC: linux-mips(a)vger.kernel.org
-CC: devicetree(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: linux-clk(a)vger.kernel.org
+TO: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
+CC: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 
-Hi Aidan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
+commit: 6d8ebef53c2ccea482ed77769b7b5cbb453b7715 drm/i915: Extract intel_bw=
+_check_data_rate()
+date:   7 weeks ago
+:::::: branch date: 34 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-c007-20220411 (https://download.01.org/0day-ci/ar=
+chive/20220412/202204121811.NdIdQQ85-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
+560f06cdfe8aa47b248d8bdc58f947274b)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6d8ebef53c2ccea482ed77769b7b5cbb453b7715
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6d8ebef53c2ccea482ed77769b7b5cbb453b7715
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on clk/clk-next linus/master linux/master v5.18-rc=
-2 next-20220412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aidan-MacDonald/Fix-=
-missing-TCU-clock-for-X1000-X1830-SoCs/20220411-234531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
-next
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arc-randconfig-m031-20220411 (https://download.01.org/0day-ci/archi=
-ve/20220412/202204121856.LxK9kEyg-lkp(a)intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/clk/ingenic/tcu.c:456 ingenic_tcu_probe() error: uninitialized symb=
-ol 'ret'.
 
-vim +/ret +456 drivers/clk/ingenic/tcu.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/gpu/drm/i915/display/intel_bw.c:369:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/gpu/drm/i915/display/intel_bw.c:369:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:375:6: note: Assuming field 'typ=
+e' is equal to INTEL_DRAM_LPDDR4
+           if (dram_info->type =3D=3D INTEL_DRAM_LPDDR4 || dram_info->type =
+=3D=3D INTEL_DRAM_LPDDR5)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:375:43: note: Left side of '||' =
+is true
+           if (dram_info->type =3D=3D INTEL_DRAM_LPDDR4 || dram_info->type =
+=3D=3D INTEL_DRAM_LPDDR5)
+                                                    ^
+   drivers/gpu/drm/i915/display/intel_bw.c:376:3: note: Value assigned to '=
+num_channels'
+                   num_channels *=3D 2;
+                   ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:378:20: note: '?' condition is t=
+rue
+           qi.deinterleave =3D qi.deinterleave ? : DIV_ROUND_UP(num_channel=
+s, is_y_tile ? 4 : 2);
+                             ^
+   drivers/gpu/drm/i915/display/intel_bw.c:380:6: note: Assuming 'num_chann=
+els' is >=3D field 'max_numchannels'
+           if (num_channels < qi.max_numchannels && DISPLAY_VER(dev_priv) >=
+=3D 12)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:380:40: note: Left side of '&&' =
+is false
+           if (num_channels < qi.max_numchannels && DISPLAY_VER(dev_priv) >=
+=3D 12)
+                                                 ^
+   drivers/gpu/drm/i915/display/intel_bw.c:383:6: note: Assuming field 'ver=
+' is > 11
+           if (DISPLAY_VER(dev_priv) > 11 && num_channels > qi.max_numchann=
+els)
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:957:27: note: expanded from macro 'DISPL=
+AY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   drivers/gpu/drm/i915/display/intel_bw.c:383:6: note: Left side of '&&' i=
+s true
+           if (DISPLAY_VER(dev_priv) > 11 && num_channels > qi.max_numchann=
+els)
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:957:27: note: expanded from macro 'DISPL=
+AY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   drivers/gpu/drm/i915/display/intel_bw.c:383:36: note: Assuming 'num_chan=
+nels' is <=3D field 'max_numchannels'
+           if (DISPLAY_VER(dev_priv) > 11 && num_channels > qi.max_numchann=
+els)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:383:2: note: Taking false branch
+           if (DISPLAY_VER(dev_priv) > 11 && num_channels > qi.max_numchann=
+els)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:385:6: note: Assuming field 'max=
+_numchannels' is equal to 0
+           if (qi.max_numchannels !=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:385:2: note: Taking false branch
+           if (qi.max_numchannels !=3D 0)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:391:12: note: Assuming '__UNIQUE=
+_ID___x531' is >=3D '__UNIQUE_ID___y532'
+           maxdebw =3D min(sa->deprogbwlimit * 1000, peakbw * 6 / 10); /* 6=
+0% */
+                     ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:391:12: note: '?' condition is f=
+alse
+           maxdebw =3D min(sa->deprogbwlimit * 1000, peakbw * 6 / 10); /* 6=
+0% */
+                     ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/gpu/drm/i915/display/intel_bw.c:393:47: note: Division by zero
+           ipqdepth =3D min(ipqdepthpch, sa->displayrtids / num_channels);
+                                                        ^
+   include/linux/minmax.h:45:36: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                                            ^
+   include/linux/minmax.h:38:17: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                                 ^
+   include/linux/minmax.h:32:25: note: expanded from macro '__cmp_once'
+                   typeof(y) unique_y =3D (y);               \
+                                         ^
+>> drivers/gpu/drm/i915/display/intel_bw.c:634:16: warning: Array access (v=
+ia field 'data_rate') results in a null pointer dereference [clang-analyzer=
+-core.NullDereference]
+                   data_rate +=3D bw_state->data_rate[pipe];
+                                ^
+   drivers/gpu/drm/i915/display/intel_bw.c:900:6: note: Assuming field 'ver=
+' is >=3D 11
+           if (DISPLAY_VER(dev_priv) < 11)
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:957:27: note: expanded from macro 'DISPL=
+AY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   drivers/gpu/drm/i915/display/intel_bw.c:900:2: note: Taking false branch
+           if (DISPLAY_VER(dev_priv) < 11)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:904:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/i915/display/intel_bw.c:904:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:908:2: note: Value assigned to '=
+new_bw_state'
+           new_bw_state =3D intel_atomic_get_new_bw_state(state);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:910:6: note: Assuming 'new_bw_st=
+ate' is null
+           if (new_bw_state &&
+               ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:910:19: note: Left side of '&&' =
+is false
+           if (new_bw_state &&
+                            ^
+   drivers/gpu/drm/i915/display/intel_bw.c:919:6: note: Assuming 'changed' =
+is true
+           if (!changed)
+               ^~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:919:2: note: Taking false branch
+           if (!changed)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:923:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/i915/display/intel_bw.c:923:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:926:43: note: Passing null point=
+er value via 2nd parameter 'bw_state'
+           data_rate =3D intel_bw_data_rate(dev_priv, new_bw_state);
+                                                    ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:926:14: note: Calling 'intel_bw_=
+data_rate'
+           data_rate =3D intel_bw_data_rate(dev_priv, new_bw_state);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:633:2: note: Loop condition is t=
+rue.  Entering loop body
+           for_each_pipe(dev_priv, pipe)
+           ^
+   drivers/gpu/drm/i915/display/intel_display.h:376:2: note: expanded from =
+macro 'for_each_pipe'
+           for ((__p) =3D 0; (__p) < I915_MAX_PIPES; (__p)++) \
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:633:2: note: Assuming the condit=
+ion is false
+           for_each_pipe(dev_priv, pipe)
+           ^
+   drivers/gpu/drm/i915/display/intel_display.h:377:3: note: expanded from =
+macro 'for_each_pipe'
+                   for_each_if(INTEL_INFO(__dev_priv)->display.pipe_mask & =
+BIT(__p))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   include/drm/drm_util.h:63:36: note: expanded from macro 'for_each_if'
+   #define for_each_if(condition) if (!(condition)) {} else
+                                      ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:633:2: note: Taking false branch
+           for_each_pipe(dev_priv, pipe)
+           ^
+   drivers/gpu/drm/i915/display/intel_display.h:377:3: note: expanded from =
+macro 'for_each_pipe'
+                   for_each_if(INTEL_INFO(__dev_priv)->display.pipe_mask & =
+BIT(__p))
+                   ^
+   include/drm/drm_util.h:63:32: note: expanded from macro 'for_each_if'
+   #define for_each_if(condition) if (!(condition)) {} else
+                                  ^
+   drivers/gpu/drm/i915/display/intel_bw.c:634:16: note: Array access (via =
+field 'data_rate') results in a null pointer dereference
+                   data_rate +=3D bw_state->data_rate[pipe];
+                                ^         ~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:1003:32: warning: Access to fiel=
+d 'qgv_points_mask' results in a dereference of a null pointer (loaded from=
+ variable 'new_bw_state') [clang-analyzer-core.NullDereference]
+           new_bw_state->qgv_points_mask =3D ~allowed_points &
+           ~~~~~~~~~~~~                  ^
+   drivers/gpu/drm/i915/display/intel_bw.c:900:6: note: Assuming field 'ver=
+' is >=3D 11
+           if (DISPLAY_VER(dev_priv) < 11)
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:957:27: note: expanded from macro 'DISPL=
+AY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   drivers/gpu/drm/i915/display/intel_bw.c:900:2: note: Taking false branch
+           if (DISPLAY_VER(dev_priv) < 11)
+           ^
+   drivers/gpu/drm/i915/display/intel_bw.c:903:8: note: Calling 'intel_bw_c=
+heck_data_rate'
+           ret =3D intel_bw_check_data_rate(state, &changed);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:846:2: note: Assuming 'i' is < f=
+ield 'num_crtc'
+           for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
+           ^
+   drivers/gpu/drm/i915/display/intel_display.h:510:7: note: expanded from =
+macro 'for_each_oldnew_intel_crtc_in_state'
+                (__i) < (__state)->base.dev->mode_config.num_crtc && \
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_bw.c:846:2: note: Left side of '&&' i=
+s true
+           for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
+           ^
+   drivers/gpu/drm/i915/display/intel_display.h:510:7: note: expanded from =
+macro 'for_each_oldnew_intel_crtc_in_state'
+                (__i) < (__state)->base.dev->mode_config.num_crtc && \
+                ^
+   drivers/gpu/drm/i915/display/intel_bw.c:846:2: note: Loop condition is t=
+rue.  Entering loop body
+           for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  336  =
+vim +/data_rate +634 drivers/gpu/drm/i915/display/intel_bw.c
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  337  static int __init ingenic_=
-tcu_probe(struct device_node *np)
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  338  {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  339  	const struct of_device_id=
- *id =3D of_match_node(ingenic_tcu_of_match, np);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  340  	struct ingenic_tcu *tcu;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  341  	struct regmap *map;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  342  	unsigned int i;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  343  	int ret;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  344  =
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  626  =
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  345  	map =3D device_node_to_re=
-gmap(np);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  346  	if (IS_ERR(map))
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  347  		return PTR_ERR(map);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  348  =
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  627  static unsigned int intel_bw_data_rate(struct drm_i91=
+5_private *dev_priv,
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  628  				       const struct intel_bw_state *bw_state)
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  629  {
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  630  	unsigned int data_rate =3D 0;
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  631  	enum pipe pipe;
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  632  =
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  349  	tcu =3D kzalloc(sizeof(*t=
-cu), GFP_KERNEL);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  350  	if (!tcu)
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  351  		return -ENOMEM;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  352  =
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  633  	for_each_pipe(dev_priv, pipe)
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24 @634  		data_rate +=3D bw_state->data_rate[pipe];
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  635  =
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  353  	tcu->map =3D map;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  354  	tcu->soc_info =3D id->dat=
-a;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  355  =
+cca084692394ad drivers/gpu/drm/i915/display/intel_bw.c Tvrtko Ursulin 2021-=
+11-26  636  	if (DISPLAY_VER(dev_priv) >=3D 13 && intel_vtd_active(dev_priv=
+))
+0788abdef6d110 drivers/gpu/drm/i915/display/intel_bw.c Matt Roper     2021-=
+05-11  637  		data_rate =3D data_rate * 105 / 100;
+0788abdef6d110 drivers/gpu/drm/i915/display/intel_bw.c Matt Roper     2021-=
+05-11  638  =
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  356  	if (tcu->soc_info->has_tc=
-u_clk) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  357  		tcu->clk =3D of_clk_get_=
-by_name(np, "tcu");
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  358  		if (IS_ERR(tcu->clk)) {
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  359  			/*
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  360  			 * Old device trees for=
- some SoCs did not include the
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  361  			 * TCU clock because th=
-is driver (incorrectly) didn't
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  362  			 * use it. In this case=
- we complain loudly and attempt
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  363  			 * to continue without =
-the clock, which might work if
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  364  			 * booting with workaro=
-unds like "clk_ignore_unused".
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  365  			 */
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  366  			if (tcu->soc_info->allo=
-w_missing_tcu_clk &&
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  367  			    PTR_ERR(tcu->clk) =
-=3D=3D -EINVAL) {
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  368  				pr_warn("TCU clock mis=
-sing from device tree, please update your device tree\n");
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  369  				tcu->clk =3D NULL;
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  370  			} else {
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  371  				pr_crit("Cannot get TC=
-U clock from device tree\n");
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  372  				goto err_free_tcu;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  373  			}
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  374  		} else {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  375  			ret =3D clk_prepare_ena=
-ble(tcu->clk);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  376  			if (ret) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  377  				pr_crit("Unable to ena=
-ble TCU clock\n");
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  378  				goto err_put_clk;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  379  			}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  380  		}
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  381  	}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  382  =
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  639  	return data_rate;
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  640  }
+c457d9cf256e94 drivers/gpu/drm/i915/intel_bw.c         Ville Syrj=C3=A4l=C3=
+=A4  2019-05-24  641  =
 
-e620a1e061c4738 Stephen Kitt    2019-09-27  383  	tcu->clocks =3D kzalloc(s=
-truct_size(tcu->clocks, hws, TCU_CLK_COUNT),
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  384  			      GFP_KERNEL);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  385  	if (!tcu->clocks) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  386  		ret =3D -ENOMEM;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  387  		goto err_clk_disable;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  388  	}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  389  =
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  390  	tcu->clocks->num =3D TCU_=
-CLK_COUNT;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  391  =
+:::::: The code at line 634 was first introduced by commit
+:::::: c457d9cf256e942138a54a2e80349ee7fe20c391 drm/i915: Make sure we have=
+ enough memory bandwidth on ICL
 
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  392  	for (i =3D 0; i < tcu->so=
-c_info->num_channels; i++) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  393  		ret =3D ingenic_tcu_regi=
-ster_clock(tcu, i, TCU_PARENT_EXT,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  394  						 &ingenic_tcu_clk_in=
-fo[i],
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  395  						 tcu->clocks);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  396  		if (ret) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  397  			pr_crit("cannot registe=
-r clock %d\n", i);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  398  			goto err_unregister_tim=
-er_clocks;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  399  		}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  400  	}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  401  =
-
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  402  	/*
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  403  	 * We set EXT as the defa=
-ult parent clock for all the TCU clocks
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  404  	 * except for the watchdo=
-g one, where we set the RTC clock as the
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  405  	 * parent. Since the EXT =
-and PCLK are much faster than the RTC clock,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  406  	 * the watchdog would kic=
-k after a maximum time of 5s, and we might
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  407  	 * want a slower kicking =
-time.
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  408  	 */
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  409  	ret =3D ingenic_tcu_regis=
-ter_clock(tcu, TCU_CLK_WDT, TCU_PARENT_RTC,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  410  					 &ingenic_tcu_watchdo=
-g_clk_info,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  411  					 tcu->clocks);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  412  	if (ret) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  413  		pr_crit("cannot register=
- watchdog clock\n");
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  414  		goto err_unregister_time=
-r_clocks;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  415  	}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  416  =
-
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  417  	if (tcu->soc_info->has_os=
-t) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  418  		ret =3D ingenic_tcu_regi=
-ster_clock(tcu, TCU_CLK_OST,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  419  						 TCU_PARENT_EXT,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  420  						 &ingenic_tcu_ost_cl=
-k_info,
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  421  						 tcu->clocks);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  422  		if (ret) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  423  			pr_crit("cannot registe=
-r ost clock\n");
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  424  			goto err_unregister_wat=
-chdog_clock;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  425  		}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  426  	}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  427  =
-
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  428  	ret =3D of_clk_add_hw_pro=
-vider(np, of_clk_hw_onecell_get, tcu->clocks);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  429  	if (ret) {
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  430  		pr_crit("cannot add OF c=
-lock provider\n");
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  431  		goto err_unregister_ost_=
-clock;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  432  	}
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  433  =
-
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  434  	ingenic_tcu =3D tcu;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  435  =
-
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  436  	return 0;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  437  =
-
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  438  err_unregister_ost_clock:
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  439  	if (tcu->soc_info->has_os=
-t)
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  440  		clk_hw_unregister(tcu->c=
-locks->hws[i + 1]);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  441  err_unregister_watchdog_cl=
-ock:
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  442  	clk_hw_unregister(tcu->cl=
-ocks->hws[i]);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  443  err_unregister_timer_clock=
-s:
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  444  	for (i =3D 0; i < tcu->cl=
-ocks->num; i++)
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  445  		if (tcu->clocks->hws[i])
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  446  			clk_hw_unregister(tcu->=
-clocks->hws[i]);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  447  	kfree(tcu->clocks);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  448  err_clk_disable:
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  449  	if (tcu->clk)
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  450  		clk_disable_unprepare(tc=
-u->clk);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  451  err_put_clk:
-8c04eee82a9d67a Aidan MacDonald 2022-04-11  452  	if (tcu->clk)
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  453  		clk_put(tcu->clk);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  454  err_free_tcu:
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  455  	kfree(tcu);
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24 @456  	return ret;
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  457  }
-4f89e4b8f1215c1 Paul Cercueil   2019-07-24  458  =
-
+:::::: TO: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+:::::: CC: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9045629997696021217==--
+--===============3278792741188863761==--
 
