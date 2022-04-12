@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1978043380807206008=="
+Content-Type: multipart/mixed; boundary="===============0185292410306844473=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 13 Apr 2022 07:07:43 +0800
-Message-ID: <202204130658.3r2GuAb7-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:497:3: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Wed, 13 Apr 2022 04:14:04 +0800
+Message-ID: <202204130410.GgQjsQnq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1978043380807206008==
+--===============0185292410306844473==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,36 +16,34 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Hannes Reinecke <hare@suse.com>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+TO: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: Matthew Brost <matthew.brost@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
-commit: b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347 ata: pata_pdc2027x: Replac=
-e PDPRINTK() with standard ata logging
-date:   3 months ago
+commit: d9a5696e7d52edf68776599f2a38b9aee1382be9 drm/i915/guc: Convert gold=
+en context prep to iosys_map
+date:   7 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20220411 (https://download.01.org/0day-ci/arc=
-hive/20220413/202204130658.3r2GuAb7-lkp(a)intel.com/config)
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-c007-20220411 (https://download.01.org/0day-ci/ar=
+chive/20220413/202204130410.GgQjsQnq-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
 560f06cdfe8aa47b248d8bdc58f947274b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
+t/commit/?id=3Dd9a5696e7d52edf68776599f2a38b9aee1382be9
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
+        git checkout d9a5696e7d52edf68776599f2a38b9aee1382be9
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,441 +51,468 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           for (i =3D 0; i < rc_map->len; i++) {
-                       ^~~~~~~~~~~~~~~
-   drivers/media/rc/rc-main.c:388:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < rc_map->len; i++) {
+                   if (is_acpi_data_node(child)) {
+                   ^
+   drivers/acpi/property.c:616:8: note: Calling 'acpi_data_node_match'
+                           if (acpi_data_node_match(child, childname))
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/acpi/acpi_bus.h:446:9: note: Assuming the condition is true
+           return is_acpi_data_node(fwnode) ?
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/acpi/acpi_bus.h:446:9: note: '?' condition is true
+   include/acpi/acpi_bus.h:447:12: note: Assuming the condition is false
+                   (!strcmp(to_acpi_data_node(fwnode)->name, name)) : false;
+                            ^
+   include/acpi/acpi_bus.h:431:3: note: expanded from macro 'to_acpi_data_n=
+ode'
+                   is_acpi_data_node(__to_acpi_data_node_fwnode) ?         \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/acpi/acpi_bus.h:447:12: note: '?' condition is false
+                   (!strcmp(to_acpi_data_node(fwnode)->name, name)) : false;
+                            ^
+   include/acpi/acpi_bus.h:431:3: note: expanded from macro 'to_acpi_data_n=
+ode'
+                   is_acpi_data_node(__to_acpi_data_node_fwnode) ?         \
+                   ^
+   include/acpi/acpi_bus.h:447:12: note: Access to field 'name' results in =
+a dereference of a null pointer
+                   (!strcmp(to_acpi_data_node(fwnode)->name, name)) : false;
+                            ^
+   include/acpi/acpi_bus.h:428:2: note: expanded from macro 'to_acpi_data_n=
+ode'
+           ({                                                              \
            ^
-   drivers/media/rc/rc-main.c:389:32: note: The left operand of '=3D=3D' is=
- a garbage value
-                   if (rc_map->scan[i].scancode =3D=3D scancode)
-                       ~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   drivers/regulator/core.c:1109:2: warning: Value stored to 'count' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           count +=3D scnprintf(buf + count, len - count, ", %s",
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/core.c:1109:2: note: Value stored to 'count' is never =
-read
-           count +=3D scnprintf(buf + count, len - count, ", %s",
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/core.c:3792:3: warning: Value stored to 'possible_uV' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   possible_uV =3D desired_min_uV;
-                   ^             ~~~~~~~~~~~~~~
-   drivers/regulator/core.c:3792:3: note: Value stored to 'possible_uV' is =
-never read
-                   possible_uV =3D desired_min_uV;
-                   ^             ~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/input/misc/atmel_captouch.c:68:8: warning: Excessive padding in =
-'struct atmel_captouch_device' (75 padding bytes, where 11 is optimal). =
-
-   Optimal fields order: =
-
-   xfer_buf, =
-
-   client, =
-
-   input, =
-
-   num_btn, =
-
-   keycodes, =
-
-   prev_btn, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct atmel_captouch_device {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/misc/atmel_captouch.c:68:8: note: Excessive padding in 'st=
-ruct atmel_captouch_device' (75 padding bytes, where 11 is optimal). Optima=
-l fields order: xfer_buf, client, input, num_btn, keycodes, prev_btn, consi=
-der reordering the fields or adding explicit padding members
-   struct atmel_captouch_device {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:80:3: warning: Dereference of null=
+ pointer [clang-analyzer-core.NullDereference]
+                   i915->params.enable_guc,
+                   ^
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:122:2: note: Value assigned to fie=
+ld 'i915'
+           intel_huc_init_early(&uc->huc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:124:2: note: Calling '__confirm_op=
+tions'
+           __confirm_options(uc);
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:76:2: note: 'i915' initialized here
+           struct drm_i915_private *i915 =3D uc_to_gt(uc)->i915;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:78:10: note: Assuming pointer valu=
+e is null
+           drm_dbg(&i915->drm,
+                   ^
+   include/drm/drm_print.h:461:15: note: expanded from macro 'drm_dbg'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__V=
+A_ARGS__)
+                        ^~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:78:2: note: '?' condition is false
+           drm_dbg(&i915->drm,
            ^
-   drivers/ata/pata_pdc2027x.c:521:2: note: Value stored to 'pll_ctl' is ne=
-ver read
-   drivers/ata/pata_pdc2027x.c:570:2: warning: Value stored to 'pll_ctl' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
-           ^
-   drivers/ata/pata_pdc2027x.c:570:2: note: Value stored to 'pll_ctl' is ne=
-ver read
-   Suppressed 4 warnings (4 in non-user code).
+   include/drm/drm_print.h:461:14: note: expanded from macro 'drm_dbg'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__V=
+A_ARGS__)
+                       ^
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:80:3: note: Dereference of null po=
+inter
+                   i915->params.enable_guc,
+                   ^
+   include/drm/drm_print.h:461:63: note: expanded from macro 'drm_dbg'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__V=
+A_ARGS__)
+                                                                        ^~~=
+~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
+   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c:267:27: warning: Value stored t=
+o 'i915' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct drm_i915_private *i915 =3D __uc_fw_to_gt(uc_fw)->i915;
+                                    ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c:267:27: note: Value stored to '=
+i915' during its initialization is never read
+           struct drm_i915_private *i915 =3D __uc_fw_to_gt(uc_fw)->i915;
+                                    ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
    Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   drivers/i2c/busses/i2c-rk3x.c:504:9: warning: Access to field 'flags' re=
-sults in a dereference of a null pointer (loaded from field 'msg') [clang-a=
-nalyzer-core.NullDereference]
-                   if (!(i2c->msg->flags & I2C_M_IGNORE_NAK))
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:203:2: warning: Undefined or =
+garbage value returned to caller [clang-analyzer-core.uninitialized.UndefRe=
+turn]
+           return ret;
+           ^      ~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:187:2: note: 'ret' declared w=
+ithout an initial value
+           int ret;
+           ^~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:189:2: note: Taking false bra=
+nch
+           if (iosys_map_is_null(&guc->ads_map))
+           ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:197:6: note: Assuming the con=
+dition is false
+           if (!intel_guc_is_ready(guc))
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:197:2: note: Taking false bra=
+nch
+           if (!intel_guc_is_ready(guc))
+           ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:200:2: note: Loop condition i=
+s false. Execution continues on line 203
+           with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref)
+           ^
+   drivers/gpu/drm/i915/intel_runtime_pm.h:184:2: note: expanded from macro=
+ 'with_intel_runtime_pm'
+           for ((wf) =3D intel_runtime_pm_get(rpm); (wf); \
+           ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:203:2: note: Undefined or gar=
+bage value returned to caller
+           return ret;
+           ^      ~~~
+>> drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:497:3: warning: Assigned valu=
+e is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   ads_blob_write(guc, ads.golden_context_lrca[guc_class],
+                   ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:67:2: note: expanded from mac=
+ro 'ads_blob_write'
+           iosys_map_wr_field(&(guc_)->ads_map, 0, struct __guc_ads_blob,  \
+           ^
+   include/linux/iosys-map.h:456:8: note: expanded from macro 'iosys_map_wr=
+_field'
+                        typeof(s->field__), val__);                        =
+                \
+                        ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:743:6: note: Assuming field '=
+ads_vma' is non-null
+           if (!guc->ads_vma)
+               ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:743:2: note: Taking false bra=
+nch
+           if (!guc->ads_vma)
+           ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:746:2: note: Calling '__guc_a=
+ds_init'
+           __guc_ads_init(guc);
+           ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:619:3: note: '?' condition is=
+ false
+                   hweight8(gt->info.sseu.slice_mask);
+                   ^
+   include/asm-generic/bitops/const_hweight.h:26:23: note: expanded from ma=
+cro 'hweight8'
+   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
+_arch_hweight8(w))
                          ^
-   drivers/i2c/busses/i2c-rk3x.c:1140:9: note: Calling 'rk3x_i2c_xfer_commo=
-n'
-           return rk3x_i2c_xfer_common(adap, msgs, num, true);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
-iting loop
-           spin_lock_irqsave(&i2c->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:237:36: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:623:6: note: Assuming field '=
+ver' is < 12
+           if (GRAPHICS_VER(i915) >=3D 12 && !IS_DGFX(i915)) {
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:943:29: note: expanded from macro 'GRAPH=
+ICS_VER'
+   #define GRAPHICS_VER(i915)              (INTEL_INFO(i915)->graphics.ver)
+                                           ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:623:31: note: Left side of '&=
+&' is false
+           if (GRAPHICS_VER(i915) >=3D 12 && !IS_DGFX(i915)) {
                                         ^
-   include/linux/irqflags.h:169:2: note: expanded from macro 'raw_local_irq=
-_save'
-           do {                                            \
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:632:2: note: Calling 'guc_pre=
+p_golden_context'
+           guc_prep_golden_context(guc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:439:6: note: 'addr_ggtt' decl=
+ared without an initial value
+           u32 addr_ggtt, offset;
+               ^~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:457:2: note: Taking false bra=
+nch
+           if (!iosys_map_is_null(&guc->ads_map)) {
            ^
-   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
-iting loop
-           spin_lock_irqsave(&i2c->lock, flags);
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:468:2: note: Loop condition i=
+s true.  Entering loop body
+           for (engine_class =3D 0; engine_class <=3D MAX_ENGINE_CLASS; ++e=
+ngine_class) {
            ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:469:7: note: 'engine_class' i=
+s not equal to OTHER_CLASS
+                   if (engine_class =3D=3D OTHER_CLASS)
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:469:3: note: Taking false bra=
+nch
+                   if (engine_class =3D=3D OTHER_CLASS)
                    ^
-   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:237:31: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                   ^
-   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
-iting loop
-           spin_lock_irqsave(&i2c->lock, flags);
-           ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:474:7: note: Assuming the con=
+dition is false
+                   if (!info_map_read(&info_map, engine_enabled_masks[guc_c=
+lass]))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:474:3: note: Taking false bra=
+nch
+                   if (!info_map_read(&info_map, engine_enabled_masks[guc_c=
+lass]))
+                   ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:481:3: note: Taking false bra=
+nch
+                   if (iosys_map_is_null(&guc->ads_map))
+                   ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:497:3: note: Assigned value i=
+s garbage or undefined
+                   ads_blob_write(guc, ads.golden_context_lrca[guc_class],
+                   ^
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:67:2: note: expanded from mac=
+ro 'ads_blob_write'
+           iosys_map_wr_field(&(guc_)->ads_map, 0, struct __guc_ads_blob,  \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iosys-map.h:456:8: note: expanded from macro 'iosys_map_wr=
+_field'
+                        typeof(s->field__), val__);                        =
+                \
+   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iosys-map.h:367:2: note: expanded from macro 'iosys_map_wr'
+           type__ val =3D (val__);                                         =
+  \
+           ^            ~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   mm/mmu_gather.c:86:3: warning: Value stored to 'batch' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   batch =3D tlb->active;
+                   ^       ~~~~~~~~~~~
+   mm/mmu_gather.c:86:3: note: Value stored to 'batch' is never read
+                   batch =3D tlb->active;
+                   ^       ~~~~~~~~~~~
+   3 warnings generated.
+   mm/vmalloc.c:300:2: warning: Value stored to 'start' is never read [clan=
+g-analyzer-deadcode.DeadStores]
+           start =3D addr;
+           ^       ~~~~
+   mm/vmalloc.c:300:2: note: Value stored to 'start' is never read
+           start =3D addr;
+           ^       ~~~~
+   mm/vmalloc.c:582:18: warning: Value stored to 'nr' during its initializa=
+tion is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int i, nr =3D (end - addr) >> PAGE_SHIFT;
+                           ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmalloc.c:582:18: note: Value stored to 'nr' during its initializatio=
+n is never read
+           unsigned int i, nr =3D (end - addr) >> PAGE_SHIFT;
+                           ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   6 warnings generated.
+   mm/page_alloc.c:1151:13: warning: 2nd function call argument is an unini=
+tialized value [clang-analyzer-core.CallAndMessage]
+                   to_tail =3D buddy_merge_likely(pfn, buddy_pfn, page, ord=
+er);
+                             ^
+   mm/page_alloc.c:8287:2: note: Calling 'drain_pages'
+           drain_pages(cpu);
 
-vim +/pll_ctl +521 drivers/ata/pata_pdc2027x.c
+vim +497 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  492  =
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  433  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  493  /**
-1906cf27fcc0707 Lee Jones       2021-02-01  494   * pdc_adjust_pll - Adjust=
- the PLL input clock in Hz.
-669a5db411d85a1 Jeff Garzik     2006-08-29  495   *
-5d728824efeda61 Tejun Heo       2007-04-17  496   * @host: target ATA host
-669a5db411d85a1 Jeff Garzik     2006-08-29  497   * @pll_clock: The input o=
-f PLL in HZ
-1906cf27fcc0707 Lee Jones       2021-02-01  498   * @board_idx: board ident=
-ifier
-669a5db411d85a1 Jeff Garzik     2006-08-29  499   */
-5d728824efeda61 Tejun Heo       2007-04-17  500  static void pdc_adjust_pll=
-(struct ata_host *host, long pll_clock, unsigned int board_idx)
-669a5db411d85a1 Jeff Garzik     2006-08-29  501  {
-5d728824efeda61 Tejun Heo       2007-04-17  502  	void __iomem *mmio_base =
-=3D host->iomap[PDC_MMIO_BAR];
-669a5db411d85a1 Jeff Garzik     2006-08-29  503  	u16 pll_ctl;
-669a5db411d85a1 Jeff Garzik     2006-08-29  504  	long pll_clock_khz =3D pl=
-l_clock / 1000;
-669a5db411d85a1 Jeff Garzik     2006-08-29  505  	long pout_required =3D bo=
-ard_idx? PDC_133_MHZ:PDC_100_MHZ;
-669a5db411d85a1 Jeff Garzik     2006-08-29  506  	long ratio =3D pout_requi=
-red / pll_clock_khz;
-669a5db411d85a1 Jeff Garzik     2006-08-29  507  	int F, R;
-669a5db411d85a1 Jeff Garzik     2006-08-29  508  =
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  434  #define LR_HW_CONTEXT_SIZE (80 * sizeof(u32))
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  435  #define LRC_SKIP_SIZE (LRC_PPHWSP_SZ * PAGE_SIZE + LR_=
+HW_CONTEXT_SIZE)
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  436  static int guc_prep_golden_context(struct intel_guc *g=
+uc)
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  437  {
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  438  	struct intel_gt *gt =3D guc_to_gt(guc);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  439  	u32 addr_ggtt, offset;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  440  	u32 total_size =3D 0, alloc_size, real_size;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  441  	u8 engine_class, guc_class;
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  442  	struct guc_gt_system_info local_info;
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  443  	struct iosys_map info_map;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  444  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  509  	/* Sanity check */
-669a5db411d85a1 Jeff Garzik     2006-08-29  510  	if (unlikely(pll_clock_kh=
-z < 5000L || pll_clock_khz > 70000L)) {
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  511  		dev_err(host->dev, "Inva=
-lid PLL input clock %ldkHz, give up!\n",
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  512  			pll_clock_khz);
-669a5db411d85a1 Jeff Garzik     2006-08-29  513  		return;
-669a5db411d85a1 Jeff Garzik     2006-08-29  514  	}
-669a5db411d85a1 Jeff Garzik     2006-08-29  515  =
+c24f0c1de481c1 drivers/gpu/drm/i915/intel_guc_ads.c       Sujaritha Sundare=
+san 2018-01-02  445  	/*
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  446  	 * Reserve the memory for the golden contexts and poi=
+nt GuC at it but
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  447  	 * leave it empty for now. The context data will be f=
+illed in later
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  448  	 * once there is something available to put there.
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  449  	 *
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  450  	 * Note that the HWSP and ring context are not includ=
+ed.
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  451  	 *
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  452  	 * Note also that the storage must be pinned in the G=
+GTT, so that the
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  453  	 * address won't change after GuC has been told where=
+ to find it. The
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  454  	 * GuC will also validate that the LRC base + size fa=
+ll within the
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  455  	 * allowed GGTT range.
+c24f0c1de481c1 drivers/gpu/drm/i915/intel_guc_ads.c       Sujaritha Sundare=
+san 2018-01-02  456  	 */
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  457  	if (!iosys_map_is_null(&guc->ads_map)) {
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  458  		offset =3D guc_ads_golden_ctxt_offset(guc);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  459  		addr_ggtt =3D intel_guc_ggtt_offset(guc, guc->ads_vm=
+a) + offset;
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  460  		info_map =3D IOSYS_MAP_INIT_OFFSET(&guc->ads_map,
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  461  						 offsetof(struct __guc_ads_blob, system_info));
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  462  	} else {
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  463  		memset(&local_info, 0, sizeof(local_info));
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  464  		iosys_map_set_vaddr(&info_map, &local_info);
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  465  		fill_engine_enable_masks(gt, &info_map);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  466  	}
+c24f0c1de481c1 drivers/gpu/drm/i915/intel_guc_ads.c       Sujaritha Sundare=
+san 2018-01-02  467  =
 
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  516  	dev_dbg(host->dev, "pout_=
-required is %ld\n", pout_required);
-669a5db411d85a1 Jeff Garzik     2006-08-29  517  =
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  468  	for (engine_class =3D 0; engine_class <=3D MAX_ENGINE=
+_CLASS; ++engine_class) {
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  469  		if (engine_class =3D=3D OTHER_CLASS)
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  470  			continue;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  471  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  518  	/* Show the current clock=
- value of PLL control register
-669a5db411d85a1 Jeff Garzik     2006-08-29  519  	 * (maybe already configu=
-red by the firmware)
-669a5db411d85a1 Jeff Garzik     2006-08-29  520  	 */
-d2a84f47899d1ef Alan Cox        2007-09-20 @521  	pll_ctl =3D ioread16(mmio=
-_base + PDC_PLL_CTL);
-669a5db411d85a1 Jeff Garzik     2006-08-29  522  =
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  472  		guc_class =3D engine_class_to_guc_class(engine_class=
+);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  473  =
 
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  523  	dev_dbg(host->dev, "pll_c=
-tl[%X]\n", pll_ctl);
-669a5db411d85a1 Jeff Garzik     2006-08-29  524  =
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  474  		if (!info_map_read(&info_map, engine_enabled_masks[g=
+uc_class]))
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  475  			continue;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  476  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  525  	/*
-669a5db411d85a1 Jeff Garzik     2006-08-29  526  	 * Calculate the ratio of=
- F, R and OD
-669a5db411d85a1 Jeff Garzik     2006-08-29  527  	 * POUT =3D (F + 2) / (( =
-R + 2) * NO)
-669a5db411d85a1 Jeff Garzik     2006-08-29  528  	 */
-669a5db411d85a1 Jeff Garzik     2006-08-29  529  	if (ratio < 8600L) { /* 8=
-.6x */
-669a5db411d85a1 Jeff Garzik     2006-08-29  530  		/* Using NO =3D 0x01, R =
-=3D 0x0D */
-669a5db411d85a1 Jeff Garzik     2006-08-29  531  		R =3D 0x0d;
-669a5db411d85a1 Jeff Garzik     2006-08-29  532  	} else if (ratio < 12900L=
-) { /* 12.9x */
-669a5db411d85a1 Jeff Garzik     2006-08-29  533  		/* Using NO =3D 0x01, R =
-=3D 0x08 */
-669a5db411d85a1 Jeff Garzik     2006-08-29  534  		R =3D 0x08;
-669a5db411d85a1 Jeff Garzik     2006-08-29  535  	} else if (ratio < 16100L=
-) { /* 16.1x */
-669a5db411d85a1 Jeff Garzik     2006-08-29  536  		/* Using NO =3D 0x01, R =
-=3D 0x06 */
-669a5db411d85a1 Jeff Garzik     2006-08-29  537  		R =3D 0x06;
-669a5db411d85a1 Jeff Garzik     2006-08-29  538  	} else if (ratio < 64000L=
-) { /* 64x */
-669a5db411d85a1 Jeff Garzik     2006-08-29  539  		R =3D 0x00;
-669a5db411d85a1 Jeff Garzik     2006-08-29  540  	} else {
-669a5db411d85a1 Jeff Garzik     2006-08-29  541  		/* Invalid ratio */
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  542  		dev_err(host->dev, "Inva=
-lid ratio %ld, give up!\n", ratio);
-669a5db411d85a1 Jeff Garzik     2006-08-29  543  		return;
-669a5db411d85a1 Jeff Garzik     2006-08-29  544  	}
-669a5db411d85a1 Jeff Garzik     2006-08-29  545  =
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  477  		real_size =3D intel_engine_context_size(gt, engine_c=
+lass);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  478  		alloc_size =3D PAGE_ALIGN(real_size);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  479  		total_size +=3D alloc_size;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  480  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  546  	F =3D (ratio * (R+2)) / 1=
-000 - 2;
-669a5db411d85a1 Jeff Garzik     2006-08-29  547  =
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  481  		if (iosys_map_is_null(&guc->ads_map))
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  482  			continue;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  483  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  548  	if (unlikely(F < 0 || F >=
- 127)) {
-669a5db411d85a1 Jeff Garzik     2006-08-29  549  		/* Invalid F */
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  550  		dev_err(host->dev, "F[%d=
-] invalid!\n", F);
-669a5db411d85a1 Jeff Garzik     2006-08-29  551  		return;
-669a5db411d85a1 Jeff Garzik     2006-08-29  552  	}
-669a5db411d85a1 Jeff Garzik     2006-08-29  553  =
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  484  		/*
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  485  		 * This interface is slightly confusing. We need to =
+pass the
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  486  		 * base address of the full golden context and the s=
+ize of just
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  487  		 * the engine state, which is the section of the con=
+text image
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  488  		 * that starts after the execlists context. This is =
+required to
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  489  		 * allow the GuC to restore just the engine state wh=
+en a
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  490  		 * watchdog reset occurs.
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  491  		 * We calculate the engine state size by removing th=
+e size of
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  492  		 * what comes before it in the context image (which =
+is identical
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  493  		 * on all engines).
+d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
+    2021-09-09  494  		 */
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  495  		ads_blob_write(guc, ads.eng_state_size[guc_class],
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  496  			       real_size - LRC_SKIP_SIZE);
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16 @497  		ads_blob_write(guc, ads.golden_context_lrca[guc_clas=
+s],
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  498  			       addr_ggtt);
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  499  =
 
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  554  	dev_dbg(host->dev, "F[%d]=
- R[%d] ratio*1000[%ld]\n", F, R, ratio);
-669a5db411d85a1 Jeff Garzik     2006-08-29  555  =
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  500  		addr_ggtt +=3D alloc_size;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  501  	}
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  502  =
 
-669a5db411d85a1 Jeff Garzik     2006-08-29  556  	pll_ctl =3D (R << 8) | F;
-669a5db411d85a1 Jeff Garzik     2006-08-29  557  =
+d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
+    2022-02-16  503  	if (iosys_map_is_null(&guc->ads_map))
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  504  		return total_size;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  505  =
 
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  558  	dev_dbg(host->dev, "Writi=
-ng pll_ctl[%X]\n", pll_ctl);
-669a5db411d85a1 Jeff Garzik     2006-08-29  559  =
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  506  	GEM_BUG_ON(guc->ads_golden_ctxt_size !=3D total_size);
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  507  	return total_size;
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  508  }
+481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
+    2021-07-26  509  =
 
-d2a84f47899d1ef Alan Cox        2007-09-20  560  	iowrite16(pll_ctl, mmio_b=
-ase + PDC_PLL_CTL);
-d2a84f47899d1ef Alan Cox        2007-09-20  561  	ioread16(mmio_base + PDC_=
-PLL_CTL); /* flush */
-669a5db411d85a1 Jeff Garzik     2006-08-29  562  =
-
-669a5db411d85a1 Jeff Garzik     2006-08-29  563  	/* Wait the PLL circuit t=
-o be stable */
-b3506c7ed216dd2 Jia-Ju Bai      2018-01-25  564  	msleep(30);
-669a5db411d85a1 Jeff Garzik     2006-08-29  565  =
-
-669a5db411d85a1 Jeff Garzik     2006-08-29  566  	/*
-669a5db411d85a1 Jeff Garzik     2006-08-29  567  	 *  Show the current cloc=
-k value of PLL control register
-669a5db411d85a1 Jeff Garzik     2006-08-29  568  	 * (maybe configured by t=
-he firmware)
-669a5db411d85a1 Jeff Garzik     2006-08-29  569  	 */
-d2a84f47899d1ef Alan Cox        2007-09-20  570  	pll_ctl =3D ioread16(mmio=
-_base + PDC_PLL_CTL);
-669a5db411d85a1 Jeff Garzik     2006-08-29  571  =
-
-b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  572  	dev_dbg(host->dev, "pll_c=
-tl[%X]\n", pll_ctl);
-669a5db411d85a1 Jeff Garzik     2006-08-29  573  =
-
-669a5db411d85a1 Jeff Garzik     2006-08-29  574  	return;
-669a5db411d85a1 Jeff Garzik     2006-08-29  575  }
-669a5db411d85a1 Jeff Garzik     2006-08-29  576  =
-
-
-:::::: The code at line 521 was first introduced by commit
-:::::: d2a84f47899d1efc24fa610696f7b793692279c7 pdc2027x: Switch properly t=
-o ioread/iowrite
-
-:::::: TO: Alan Cox <alan@lxorguk.ukuu.org.uk>
-:::::: CC: Jeff Garzik <jeff@garzik.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1978043380807206008==--
+--===============0185292410306844473==--
 
