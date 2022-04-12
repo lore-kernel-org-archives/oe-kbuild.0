@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8639949285308388810=="
+Content-Type: multipart/mixed; boundary="===============0172929120449382165=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1415:15: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Tue, 12 Apr 2022 18:00:01 +0800
-Message-ID: <202204121722.hPLOkyZN-lkp@intel.com>
+Subject: drivers/ata/pata_amd.c:280:9: warning: Although the value stored to 'saved_udma' is used in the enclosing expression, the value is never actually read from 'saved_udma' [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 12 Apr 2022 17:39:13 +0800
+Message-ID: <202204121702.NUAEcKdN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8639949285308388810==
+--===============0172929120449382165==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,21 +16,21 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Felix Fietkau <nbd@nbd.name>
+TO: Hannes Reinecke <hare@suse.de>
+CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
-commit: 2663ce498459bae8e47140cc34147e16bf68af8c mt76: mt7915: rely on mt76=
-_connac_mcu_sta_basic_tlv
-date:   10 weeks ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 10 weeks ago
-config: riscv-randconfig-c006-20220410 (https://download.01.org/0day-ci/arc=
-hive/20220412/202204121722.hPLOkyZN-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 256c6b=
-0ba14e8a7ab6373b61b7193ea8c0a3651c)
+commit: 742bef476ca5352b16063161fb73a56629a6d995 ata: libata: move ata_{por=
+t,link,dev}_dbg to standard pr_XXX() macros
+date:   3 months ago
+:::::: branch date: 33 hours ago
+:::::: commit date: 3 months ago
+config: riscv-randconfig-c006-20220411 (https://download.01.org/0day-ci/arc=
+hive/20220412/202204121702.NUAEcKdN-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
+560f06cdfe8aa47b248d8bdc58f947274b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -38,11 +38,11 @@ make.cross -O ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2663ce498459bae8e47140cc34147e16bf68af8c
+t/commit/?id=3D742bef476ca5352b16063161fb73a56629a6d995
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 2663ce498459bae8e47140cc34147e16bf68af8c
+        git checkout 742bef476ca5352b16063161fb73a56629a6d995
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -53,93 +53,230 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~
+   drivers/media/i2c/ov5647.c:1423:2: note: Taking true branch
+           if (ret < 0)
            ^
-   sound/core/memalloc.c:102:3: note: Taking false branch
-                   if (err !=3D -ENOMEM)
+   drivers/media/i2c/ov5647.c:1424:3: note: Control jumps to line 1440
+                   goto power_off;
                    ^
-   sound/core/memalloc.c:104:7: note: Assuming the condition is false
-                   if (size <=3D PAGE_SIZE)
-                       ^~~~~~~~~~~~~~~~~
-   sound/core/memalloc.c:104:3: note: Taking false branch
-                   if (size <=3D PAGE_SIZE)
-                   ^
-   sound/core/memalloc.c:107:23: note: Calling 'get_order'
-                   size =3D PAGE_SIZE << get_order(size);
-                                       ^~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h:31:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/asm-generic/getorder.h:44:9: note: Calling 'fls'
-           return fls(size);
-                  ^~~~~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
+   drivers/media/i2c/ov5647.c:1440:2: note: Calling 'ov5647_power_off'
+           ov5647_power_off(dev);
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov5647.c:798:2: note: 'rdval' declared without an init=
+ial value
+           u8 rdval;
            ^~~~~~~~
-   include/asm-generic/getorder.h:44:9: note: Returning from 'fls'
-           return fls(size);
-                  ^~~~~~~~~
-   include/asm-generic/getorder.h:44:2: note: Returning the value 32
-           return fls(size);
-           ^~~~~~~~~~~~~~~~
-   sound/core/memalloc.c:107:23: note: Returning from 'get_order'
-                   size =3D PAGE_SIZE << get_order(size);
-                                       ^~~~~~~~~~~~~~~
-   sound/core/memalloc.c:107:20: note: The result of the left shift is unde=
-fined due to shifting by '32', which is greater or equal to the width of ty=
-pe 'unsigned long'
-                   size =3D PAGE_SIZE << get_order(size);
-                                    ^  ~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   drivers/media/i2c/ov5647.c:801:2: note: Taking false branch
+           dev_dbg(dev, "OV5647 power off\n");
+           ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/media/i2c/ov5647.c:805:6: note: 'ret' is < 0
+           if (ret < 0)
+               ^~~
+   drivers/media/i2c/ov5647.c:805:2: note: Taking true branch
+           if (ret < 0)
+           ^
+   drivers/media/i2c/ov5647.c:806:3: note: Taking false branch
+                   dev_dbg(dev, "disable oe failed\n");
+                   ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/media/i2c/ov5647.c:809:8: note: Calling 'ov5647_read'
+           ret =3D ov5647_read(&sensor->sd, OV5647_SW_STANDBY, &rdval);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov5647.c:622:6: note: Assuming 'ret' is < 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/media/i2c/ov5647.c:622:2: note: Taking true branch
+           if (ret < 0) {
+           ^
+   drivers/media/i2c/ov5647.c:623:3: note: Taking false branch
+                   dev_dbg(&client->dev, "%s: i2c write error, reg: %x\n",
+                   ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/media/i2c/ov5647.c:625:3: note: Returning without writing to '*v=
+al'
+                   return ret;
+                   ^
+   drivers/media/i2c/ov5647.c:809:8: note: Returning from 'ov5647_read'
+           ret =3D ov5647_read(&sensor->sd, OV5647_SW_STANDBY, &rdval);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov5647.c:810:6: note: 'ret' is < 0
+           if (ret < 0)
+               ^~~
+   drivers/media/i2c/ov5647.c:810:2: note: Taking true branch
+           if (ret < 0)
+           ^
+   drivers/media/i2c/ov5647.c:811:3: note: Taking false branch
+                   dev_dbg(dev, "software standby failed\n");
+                   ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/media/i2c/ov5647.c:813:8: note: The left expression of the compo=
+und assignment is an uninitialized value. The computed value will also be g=
+arbage
+           rdval &=3D ~0x01;
+           ~~~~~ ^
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/ata/sata_sx4.c:1326:8: warning: Although the value stored to 'sp=
+eed' is used in the enclosing expression, the value is never actually read =
+from 'speed' [clang-analyzer-deadcode.DeadStores]
+           if (!(speed =3D pdc20621_detect_dimm(host))) {
+                 ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/sata_sx4.c:1326:8: note: Although the value stored to 'speed=
+' is used in the enclosing expression, the value is never actually read fro=
+m 'speed'
+           if (!(speed =3D pdc20621_detect_dimm(host))) {
+                 ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/ata/pata_ali.c:126:10: warning: Although the value stored to 'ma=
+sk' is used in the enclosing expression, the value is never actually read f=
+rom 'mask' [clang-analyzer-deadcode.DeadStores]
+                   return mask &=3D ~ATA_MASK_UDMA;
+                          ^       ~~~~~~~~~~~~~~
+   drivers/ata/pata_ali.c:126:10: note: Although the value stored to 'mask'=
+ is used in the enclosing expression, the value is never actually read from=
+ 'mask'
+                   return mask &=3D ~ATA_MASK_UDMA;
+                          ^       ~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/ata/pata_amd.c:280:9: warning: Although the value stored to 'sav=
+ed_udma' is used in the enclosing expression, the value is never actually r=
+ead from 'saved_udma' [clang-analyzer-deadcode.DeadStores]
+           udma =3D saved_udma =3D (unsigned long)ap->host->private_data;
+                  ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_amd.c:280:9: note: Although the value stored to 'saved_=
+udma' is used in the enclosing expression, the value is never actually read=
+ from 'saved_udma'
+           udma =3D saved_udma =3D (unsigned long)ap->host->private_data;
+                  ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/tty/mxser.c:389:7: warning: Although the value stored to 'hwid' =
+is used in the enclosing expression, the value is never actually read from =
+'hwid' [clang-analyzer-deadcode.DeadStores]
+           if ((hwid =3D inb(io + UART_MCR)) !=3D 0) {
+                ^
+   drivers/tty/mxser.c:389:7: note: Although the value stored to 'hwid' is =
+used in the enclosing expression, the value is never actually read from 'hw=
+id'
+   drivers/tty/mxser.c:1489:12: warning: Although the value stored to 'lsr'=
+ is used in the enclosing expression, the value is never actually read from=
+ 'lsr' [clang-analyzer-deadcode.DeadStores]
+           while (!((lsr =3D inb(info->ioaddr + UART_LSR)) & UART_LSR_TEMT)=
+) {
+                     ^
+   drivers/tty/mxser.c:1489:12: note: Although the value stored to 'lsr' is=
+ used in the enclosing expression, the value is never actually read from 'l=
+sr'
+   drivers/tty/mxser.c:1687:3: warning: Value stored to 'status' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   status =3D inb(port->ioaddr + UART_LSR);
+                   ^
+   drivers/tty/mxser.c:1687:3: note: Value stored to 'status' is never read
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
@@ -147,299 +284,154 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/net/wireless/mediatek/mt76/mt7915/eeprom.c:178:3: warning: Value=
- stored to 'nss' is never read [clang-analyzer-deadcode.DeadStores]
-                   nss =3D nss_band;
-                   ^     ~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/eeprom.c:178:3: note: Value st=
-ored to 'nss' is never read
-                   nss =3D nss_band;
-                   ^     ~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1415:15: warning: Assign=
-ed value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   bf->mem_20m =3D matrix[bf->nrow][bf->ncol];
-                               ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1811:9: note: Assuming '=
-sta' is non-null
-           msta =3D sta ? (struct mt7915_sta *)sta->drv_priv : &mvif->sta;
-                  ^~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1811:9: note: '?' condit=
-ion is true
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1815:2: note: Taking fal=
-se branch
-           if (IS_ERR(skb))
+   fs/namespace.c:2242:13: warning: Access to field 'd_inode' results in a =
+dereference of a null pointer (loaded from variable 'dentry') [clang-analyz=
+er-core.NullDereference]
+           inode_lock(dentry->d_inode);
+                      ^
+   fs/namespace.c:3816:1: note: Calling '__do_sys_pivot_root'
+   SYSCALL_DEFINE2(pivot_root, const char __user *, new_root,
+   ^
+   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS=
+__)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:249:14: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
+_));\
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   fs/namespace.c:3824:6: note: Assuming the condition is false
+           if (!may_mount())
+               ^~~~~~~~~~~~
+   fs/namespace.c:3824:2: note: Taking false branch
+           if (!may_mount())
            ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1820:6: note: Assuming '=
-enable' is true
-           if (!enable)
-               ^~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1820:2: note: Taking fal=
-se branch
-           if (!enable)
-           ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1824:6: note: 'sta' is n=
-on-null
-           if (sta && sta->ht_cap.ht_supported) {
-               ^~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1824:6: note: Left side =
-of '&&' is true
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1824:13: note: Assuming =
-field 'ht_supported' is true
-           if (sta && sta->ht_cap.ht_supported) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1824:2: note: Taking tru=
-e branch
-           if (sta && sta->ht_cap.ht_supported) {
-           ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1826:3: note: Calling 'm=
-t7915_mcu_sta_bfer_tlv'
-                   mt7915_mcu_sta_bfer_tlv(dev, skb, vif, sta);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1370:3: note: Assuming f=
-ield 'band_idx' is 0
-                   mvif->mt76.band_idx ? mt7915_ext_phy(dev) : &dev->phy;
-                   ^~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1370:3: note: '?' condit=
-ion is false
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1371:15: note: '?' condi=
-tion is false
-           int tx_ant =3D hweight8(phy->mt76->chainmask) - 1;
-                        ^
-   include/asm-generic/bitops/const_hweight.h:26:23: note: expanded from ma=
-cro 'hweight8'
-   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
-_arch_hweight8(w))
-                         ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1382:8: note: Calling 'm=
-t7915_is_ebf_supported'
-           ebf =3D mt7915_is_ebf_supported(phy, vif, sta, false);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1199:15: note: '?' condi=
-tion is false
-           int tx_ant =3D hweight8(phy->mt76->chainmask) - 1;
-                        ^
-   include/asm-generic/bitops/const_hweight.h:26:23: note: expanded from ma=
-cro 'hweight8'
-   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
-_arch_hweight8(w))
-                         ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1201:6: note: Assuming f=
-ield 'type' is equal to NL80211_IFTYPE_STATION
-           if (vif->type !=3D NL80211_IFTYPE_STATION &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1201:42: note: Left side=
- of '&&' is false
-           if (vif->type !=3D NL80211_IFTYPE_STATION &&
-                                                   ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1205:7: note: 'bfee' is =
-false
-           if (!bfee && tx_ant < 2)
-                ^~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1205:6: note: Left side =
-of '&&' is true
-           if (!bfee && tx_ant < 2)
-               ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1205:15: note: Assuming =
-'tx_ant' is >=3D 2
-           if (!bfee && tx_ant < 2)
-                        ^~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1205:2: note: Taking fal=
-se branch
-           if (!bfee && tx_ant < 2)
-           ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1208:6: note: Assuming f=
-ield 'has_he' is true, which participates in a condition later
-           if (sta->he_cap.has_he) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1208:2: note: Taking tru=
-e branch
-           if (sta->he_cap.has_he) {
-           ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1211:7: note: 'bfee' is =
-false
-                   if (bfee)
-                       ^~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1211:3: note: Taking fal=
-se branch
-                   if (bfee)
-                   ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1215:11: note: Assuming =
-field 'he_su_ebfer' is true
-                           return mvif->cap.he_su_ebfer &&
-                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1215:11: note: Left side=
- of '&&' is true
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1215:4: note: Returning =
-without writing to 'sta->he_cap.has_he', which participates in a condition =
-later
-                           return mvif->cap.he_su_ebfer &&
-                           ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1215:4: note: Returning =
-value, which participates in a condition later
-                           return mvif->cap.he_su_ebfer &&
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1382:8: note: Returning =
-from 'mt7915_is_ebf_supported'
-           ebf =3D mt7915_is_ebf_supported(phy, vif, sta, false);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1383:6: note: Assuming '=
-ebf' is true
-           if (!ebf && !dev->ibf)
-               ^~~~
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1383:11: note: Left side=
- of '&&' is false
-           if (!ebf && !dev->ibf)
-                    ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1393:18: note: Field 'ha=
-s_he' is true
-           if (sta->he_cap.has_he && ebf)
-                           ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1393:6: note: Left side =
-of '&&' is true
+   fs/namespace.c:3829:6: note: Assuming 'error' is 0
 
-vim +1415 drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
+vim +280 drivers/ata/pata_amd.c
 
-89029a85482cbc Ryder Lee        2020-05-12  1363  =
+669a5db411d85a Jeff Garzik    2006-08-29  260  =
 
-89029a85482cbc Ryder Lee        2020-05-12  1364  static void
-f89f297aef2815 Ryder Lee        2021-10-18  1365  mt7915_mcu_sta_bfer_tlv(s=
-truct mt7915_dev *dev, struct sk_buff *skb,
-f89f297aef2815 Ryder Lee        2021-10-18  1366  			struct ieee80211_vif *=
-vif, struct ieee80211_sta *sta)
-89029a85482cbc Ryder Lee        2020-05-12  1367  {
-f89f297aef2815 Ryder Lee        2021-10-18  1368  	struct mt7915_vif *mvif =
-=3D (struct mt7915_vif *)vif->drv_priv;
-f89f297aef2815 Ryder Lee        2021-10-18  1369  	struct mt7915_phy *phy =
-=3D
-6cf4392f248903 Lorenzo Bianconi 2021-12-14  1370  		mvif->mt76.band_idx ? m=
-t7915_ext_phy(dev) : &dev->phy;
-b9027e0816ebbc Lorenzo Bianconi 2021-01-05  1371  	int tx_ant =3D hweight8(=
-phy->mt76->chainmask) - 1;
-89029a85482cbc Ryder Lee        2020-05-12  1372  	struct sta_rec_bf *bf;
-89029a85482cbc Ryder Lee        2020-05-12  1373  	struct tlv *tlv;
-89029a85482cbc Ryder Lee        2020-05-12  1374  	const u8 matrix[4][4] =
-=3D {
-89029a85482cbc Ryder Lee        2020-05-12  1375  		{0, 0, 0, 0},
-89029a85482cbc Ryder Lee        2020-05-12  1376  		{1, 1, 0, 0},	/* 2x1, 2=
-x2, 2x3, 2x4 */
-89029a85482cbc Ryder Lee        2020-05-12  1377  		{2, 4, 4, 0},	/* 3x1, 3=
-x2, 3x3, 3x4 */
-89029a85482cbc Ryder Lee        2020-05-12  1378  		{3, 5, 6, 0}	/* 4x1, 4x=
-2, 4x3, 4x4 */
-89029a85482cbc Ryder Lee        2020-05-12  1379  	};
-f89f297aef2815 Ryder Lee        2021-10-18  1380  	bool ebf;
-89029a85482cbc Ryder Lee        2020-05-12  1381  =
+ce54d161630211 Tejun Heo      2007-12-18  261  /* Both host-side and drive-=
+side detection results are worthless on NV
+ce54d161630211 Tejun Heo      2007-12-18  262   * PATAs.  Ignore them and j=
+ust follow what BIOS configured.  Both the
+ce54d161630211 Tejun Heo      2007-12-18  263   * current configuration in =
+PCI config reg and ACPI GTM result are
+ce54d161630211 Tejun Heo      2007-12-18  264   * cached during driver atta=
+ch and are consulted to select transfer
+ce54d161630211 Tejun Heo      2007-12-18  265   * mode.
+ce54d161630211 Tejun Heo      2007-12-18  266   */
+ce54d161630211 Tejun Heo      2007-12-18  267  static unsigned long nv_mode=
+_filter(struct ata_device *dev,
+ce54d161630211 Tejun Heo      2007-12-18  268  				    unsigned long xfer_m=
+ask)
+ce54d161630211 Tejun Heo      2007-12-18  269  {
+ce54d161630211 Tejun Heo      2007-12-18  270  	static const unsigned int u=
+dma_mask_map[] =3D
+ce54d161630211 Tejun Heo      2007-12-18  271  		{ ATA_UDMA2, ATA_UDMA1, AT=
+A_UDMA0, 0,
+ce54d161630211 Tejun Heo      2007-12-18  272  		  ATA_UDMA3, ATA_UDMA4, AT=
+A_UDMA5, ATA_UDMA6 };
+ce54d161630211 Tejun Heo      2007-12-18  273  	struct ata_port *ap =3D dev=
+->link->ap;
+ce54d161630211 Tejun Heo      2007-12-18  274  	char acpi_str[32] =3D "";
+ce54d161630211 Tejun Heo      2007-12-18  275  	u32 saved_udma, udma;
+ce54d161630211 Tejun Heo      2007-12-18  276  	const struct ata_acpi_gtm *=
+gtm;
+ce54d161630211 Tejun Heo      2007-12-18  277  	unsigned long bios_limit =
+=3D 0, acpi_limit =3D 0, limit;
+ce54d161630211 Tejun Heo      2007-12-18  278  =
 
-f89f297aef2815 Ryder Lee        2021-10-18  1382  	ebf =3D mt7915_is_ebf_su=
-pported(phy, vif, sta, false);
-f89f297aef2815 Ryder Lee        2021-10-18  1383  	if (!ebf && !dev->ibf)
-f89f297aef2815 Ryder Lee        2021-10-18  1384  		return;
-89029a85482cbc Ryder Lee        2020-05-12  1385  =
+ce54d161630211 Tejun Heo      2007-12-18  279  	/* find out what BIOS confi=
+gured */
+ce54d161630211 Tejun Heo      2007-12-18 @280  	udma =3D saved_udma =3D (un=
+signed long)ap->host->private_data;
+ce54d161630211 Tejun Heo      2007-12-18  281  =
 
-069c8e341ad537 Lorenzo Bianconi 2021-12-19  1386  	tlv =3D mt76_connac_mcu_=
-add_tlv(skb, STA_REC_BF, sizeof(*bf));
-89029a85482cbc Ryder Lee        2020-05-12  1387  	bf =3D (struct sta_rec_b=
-f *)tlv;
-89029a85482cbc Ryder Lee        2020-05-12  1388  =
+ce54d161630211 Tejun Heo      2007-12-18  282  	if (ap->port_no =3D=3D 0)
+ce54d161630211 Tejun Heo      2007-12-18  283  		udma >>=3D 16;
+ce54d161630211 Tejun Heo      2007-12-18  284  	if (dev->devno =3D=3D 0)
+ce54d161630211 Tejun Heo      2007-12-18  285  		udma >>=3D 8;
+ce54d161630211 Tejun Heo      2007-12-18  286  =
 
-6d6dc980e07d1f Ryder Lee        2021-01-14  1389  	/* he: eBF only, in acco=
-rdance with spec
-6d6dc980e07d1f Ryder Lee        2021-01-14  1390  	 * vht: support eBF and =
-iBF
-6d6dc980e07d1f Ryder Lee        2021-01-14  1391  	 * ht: iBF only, since m=
-ac80211 lacks of eBF support
-6d6dc980e07d1f Ryder Lee        2021-01-14  1392  	 */
-f89f297aef2815 Ryder Lee        2021-10-18  1393  	if (sta->he_cap.has_he &=
-& ebf)
-6d6dc980e07d1f Ryder Lee        2021-01-14  1394  		mt7915_mcu_sta_bfer_he(=
-sta, vif, phy, bf);
-6d6dc980e07d1f Ryder Lee        2021-01-14  1395  	else if (sta->vht_cap.vh=
-t_supported)
-f89f297aef2815 Ryder Lee        2021-10-18  1396  		mt7915_mcu_sta_bfer_vht=
-(sta, phy, bf, ebf);
-6d6dc980e07d1f Ryder Lee        2021-01-14  1397  	else if (sta->ht_cap.ht_=
-supported)
-6d6dc980e07d1f Ryder Lee        2021-01-14  1398  		mt7915_mcu_sta_bfer_ht(=
-sta, phy, bf);
-6d6dc980e07d1f Ryder Lee        2021-01-14  1399  	else
-6d6dc980e07d1f Ryder Lee        2021-01-14  1400  		return;
-6d6dc980e07d1f Ryder Lee        2021-01-14  1401  =
+ce54d161630211 Tejun Heo      2007-12-18  287  	if ((udma & 0xc0) =3D=3D 0x=
+c0)
+ce54d161630211 Tejun Heo      2007-12-18  288  		bios_limit =3D ata_pack_xf=
+ermask(0, 0, udma_mask_map[udma & 0x7]);
+ce54d161630211 Tejun Heo      2007-12-18  289  =
 
-a56c431ededa4e Ryder Lee        2021-10-18  1402  	bf->bf_cap =3D ebf ? ebf=
- : dev->ibf << 1;
-89029a85482cbc Ryder Lee        2020-05-12  1403  	bf->bw =3D sta->bandwidt=
-h;
-89029a85482cbc Ryder Lee        2020-05-12  1404  	bf->ibf_dbw =3D sta->ban=
-dwidth;
-89029a85482cbc Ryder Lee        2020-05-12  1405  	bf->ibf_nrow =3D tx_ant;
-89029a85482cbc Ryder Lee        2020-05-12  1406  =
+ce54d161630211 Tejun Heo      2007-12-18  290  	/* consult ACPI GTM too */
+ce54d161630211 Tejun Heo      2007-12-18  291  	gtm =3D ata_acpi_init_gtm(a=
+p);
+ce54d161630211 Tejun Heo      2007-12-18  292  	if (gtm) {
+ce54d161630211 Tejun Heo      2007-12-18  293  		acpi_limit =3D ata_acpi_gt=
+m_xfermask(dev, gtm);
+ce54d161630211 Tejun Heo      2007-12-18  294  =
 
-a56c431ededa4e Ryder Lee        2021-10-18  1407  	if (!ebf && sta->bandwid=
-th <=3D IEEE80211_STA_RX_BW_40 && !bf->ncol)
-6d6dc980e07d1f Ryder Lee        2021-01-14  1408  		bf->ibf_timeout =3D 0x4=
-8;
-6d6dc980e07d1f Ryder Lee        2021-01-14  1409  	else
-6d6dc980e07d1f Ryder Lee        2021-01-14  1410  		bf->ibf_timeout =3D 0x1=
-8;
-89029a85482cbc Ryder Lee        2020-05-12  1411  =
+ce54d161630211 Tejun Heo      2007-12-18  295  		snprintf(acpi_str, sizeof(=
+acpi_str), " (%u:%u:0x%x)",
+ce54d161630211 Tejun Heo      2007-12-18  296  			 gtm->drive[0].dma, gtm->=
+drive[1].dma, gtm->flags);
+ce54d161630211 Tejun Heo      2007-12-18  297  	}
+ce54d161630211 Tejun Heo      2007-12-18  298  =
 
-a56c431ededa4e Ryder Lee        2021-10-18  1412  	if (ebf && bf->nrow !=3D=
- tx_ant)
-a56c431ededa4e Ryder Lee        2021-10-18  1413  		bf->mem_20m =3D matrix[=
-tx_ant][bf->ncol];
-89029a85482cbc Ryder Lee        2020-05-12  1414  	else
-a56c431ededa4e Ryder Lee        2021-10-18 @1415  		bf->mem_20m =3D matrix[=
-bf->nrow][bf->ncol];
-89029a85482cbc Ryder Lee        2020-05-12  1416  =
+ce54d161630211 Tejun Heo      2007-12-18  299  	/* be optimistic, EH can ta=
+ke care of things if something goes wrong */
+ce54d161630211 Tejun Heo      2007-12-18  300  	limit =3D bios_limit | acpi=
+_limit;
+ce54d161630211 Tejun Heo      2007-12-18  301  =
 
-89029a85482cbc Ryder Lee        2020-05-12  1417  	switch (sta->bandwidth) {
-89029a85482cbc Ryder Lee        2020-05-12  1418  	case IEEE80211_STA_RX_BW=
-_160:
-89029a85482cbc Ryder Lee        2020-05-12  1419  	case IEEE80211_STA_RX_BW=
-_80:
-89029a85482cbc Ryder Lee        2020-05-12  1420  		bf->mem_total =3D bf->m=
-em_20m * 2;
-89029a85482cbc Ryder Lee        2020-05-12  1421  		break;
-89029a85482cbc Ryder Lee        2020-05-12  1422  	case IEEE80211_STA_RX_BW=
-_40:
-89029a85482cbc Ryder Lee        2020-05-12  1423  		bf->mem_total =3D bf->m=
-em_20m;
-89029a85482cbc Ryder Lee        2020-05-12  1424  		break;
-89029a85482cbc Ryder Lee        2020-05-12  1425  	case IEEE80211_STA_RX_BW=
-_20:
-89029a85482cbc Ryder Lee        2020-05-12  1426  	default:
-89029a85482cbc Ryder Lee        2020-05-12  1427  		break;
-89029a85482cbc Ryder Lee        2020-05-12  1428  	}
-89029a85482cbc Ryder Lee        2020-05-12  1429  }
-89029a85482cbc Ryder Lee        2020-05-12  1430  =
+ce54d161630211 Tejun Heo      2007-12-18  302  	/* If PIO or DMA isn't conf=
+igured at all, don't limit.  Let EH
+ce54d161630211 Tejun Heo      2007-12-18  303  	 * handle it.
+ce54d161630211 Tejun Heo      2007-12-18  304  	 */
+ce54d161630211 Tejun Heo      2007-12-18  305  	if (!(limit & ATA_MASK_PIO))
+ce54d161630211 Tejun Heo      2007-12-18  306  		limit |=3D ATA_MASK_PIO;
+ce54d161630211 Tejun Heo      2007-12-18  307  	if (!(limit & (ATA_MASK_MWD=
+MA | ATA_MASK_UDMA)))
+ce54d161630211 Tejun Heo      2007-12-18  308  		limit |=3D ATA_MASK_MWDMA =
+| ATA_MASK_UDMA;
+90950a2504b66d Robert Hancock 2009-09-12  309  	/* PIO4, MWDMA2, UDMA2 shou=
+ld always be supported regardless of
+90950a2504b66d Robert Hancock 2009-09-12  310  	   cable detection result */
+90950a2504b66d Robert Hancock 2009-09-12  311  	limit |=3D ata_pack_xfermas=
+k(ATA_PIO4, ATA_MWDMA2, ATA_UDMA2);
+ce54d161630211 Tejun Heo      2007-12-18  312  =
+
+a9a79dfec23956 Joe Perches    2011-04-15  313  	ata_port_dbg(ap, "nv_mode_f=
+ilter: 0x%lx&0x%lx->0x%lx, "
+ce54d161630211 Tejun Heo      2007-12-18  314  			"BIOS=3D0x%lx (0x%x) ACPI=
+=3D0x%lx%s\n",
+ce54d161630211 Tejun Heo      2007-12-18  315  			xfer_mask, limit, xfer_ma=
+sk & limit, bios_limit,
+ce54d161630211 Tejun Heo      2007-12-18  316  			saved_udma, acpi_limit, a=
+cpi_str);
+ce54d161630211 Tejun Heo      2007-12-18  317  =
+
+ce54d161630211 Tejun Heo      2007-12-18  318  	return xfer_mask & limit;
+ce54d161630211 Tejun Heo      2007-12-18  319  }
+669a5db411d85a Jeff Garzik    2006-08-29  320  =
 
 
-:::::: The code at line 1415 was first introduced by commit
-:::::: a56c431ededa4e0f02cf4740cc5cd76063d3df1e mt76: mt7915: improve stare=
-c readability of txbf
+:::::: The code at line 280 was first introduced by commit
+:::::: ce54d1616302117fa98513ae916bb3333e1c02ea pata_amd: update mode selec=
+tion for NV PATAs
 
-:::::: TO: Ryder Lee <ryder.lee@mediatek.com>
-:::::: CC: Felix Fietkau <nbd@nbd.name>
+:::::: TO: Tejun Heo <htejun@gmail.com>
+:::::: CC: Jeff Garzik <jeff@garzik.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8639949285308388810==--
+--===============0172929120449382165==--
 
