@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5829108583991705632=="
+Content-Type: multipart/mixed; boundary="===============1978043380807206008=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [bvanassche:ufs-for-next 29/29] drivers/ufs/core/ufshpb.c:1544:17: warning: Access to field 'is_last' results in a dereference of an undefined pointer value (loaded from variable 'srgn') [clang-analyzer-core.NullDereference]
-Date: Wed, 13 Apr 2022 08:59:41 +0800
-Message-ID: <202204130800.NZRwIfhc-lkp@intel.com>
+Subject: drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 13 Apr 2022 07:07:43 +0800
+Message-ID: <202204130658.3r2GuAb7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5829108583991705632==
+--===============1978043380807206008==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,32 +16,36 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
+TO: Hannes Reinecke <hare@suse.com>
+CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-tree:   https://github.com/bvanassche/linux ufs-for-next
-head:   e1c32435245394413b0308d1329938ce4db52877
-commit: e1c32435245394413b0308d1329938ce4db52877 [29/29] scsi: ufs: Split t=
-he drivers/scsi/ufs directory
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arm-randconfig-c002-20220411 (https://download.01.org/0day-ci/archi=
-ve/20220413/202204130800.NZRwIfhc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fe2478=
-d44e4f7f191c43fef629ac7a23d0251e72)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
+commit: b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347 ata: pata_pdc2027x: Replac=
+e PDPRINTK() with standard ata logging
+date:   3 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 3 months ago
+config: riscv-randconfig-c006-20220411 (https://download.01.org/0day-ci/arc=
+hive/20220413/202204130658.3r2GuAb7-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
+560f06cdfe8aa47b248d8bdc58f947274b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/bvanassche/linux/commit/e1c32435245394413b0308=
-d1329938ce4db52877
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche ufs-for-next
-        git checkout e1c32435245394413b0308d1329938ce4db52877
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,600 +53,441 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree_staging.c:224:2: note: Call to function 'memcpy'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(nops, cur->bc_ops, sizeof(struct xfs_btree_ops));
+           for (i =3D 0; i < rc_map->len; i++) {
+                       ^~~~~~~~~~~~~~~
+   drivers/media/rc/rc-main.c:388:2: note: Loop condition is true.  Enterin=
+g loop body
+           for (i =3D 0; i < rc_map->len; i++) {
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 53 warnings (53 in non-user code).
+   drivers/media/rc/rc-main.c:389:32: note: The left operand of '=3D=3D' is=
+ a garbage value
+                   if (rc_map->scan[i].scancode =3D=3D scancode)
+                       ~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   58 warnings generated.
-   drivers/ufs/core/ufshpb.c:306:2: warning: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(ppn_buf, page_address(page) + (offset * HPB_ENTRY_SIZE),
+   4 warnings generated.
+   drivers/regulator/core.c:1109:2: warning: Value stored to 'count' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           count +=3D scnprintf(buf + count, len - count, ", %s",
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/core.c:1109:2: note: Value stored to 'count' is never =
+read
+           count +=3D scnprintf(buf + count, len - count, ", %s",
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/core.c:3792:3: warning: Value stored to 'possible_uV' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   possible_uV =3D desired_min_uV;
+                   ^             ~~~~~~~~~~~~~~
+   drivers/regulator/core.c:3792:3: note: Value stored to 'possible_uV' is =
+never read
+                   possible_uV =3D desired_min_uV;
+                   ^             ~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/input/misc/atmel_captouch.c:68:8: warning: Excessive padding in =
+'struct atmel_captouch_device' (75 padding bytes, where 11 is optimal). =
+
+   Optimal fields order: =
+
+   xfer_buf, =
+
+   client, =
+
+   input, =
+
+   num_btn, =
+
+   keycodes, =
+
+   prev_btn, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct atmel_captouch_device {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/misc/atmel_captouch.c:68:8: note: Excessive padding in 'st=
+ruct atmel_captouch_device' (75 padding bytes, where 11 is optimal). Optima=
+l fields order: xfer_buf, client, input, num_btn, keycodes, prev_btn, consi=
+der reordering the fields or adding explicit padding members
+   struct atmel_captouch_device {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:306:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(ppn_buf, page_address(page) + (offset * HPB_ENTRY_SIZE),
+   drivers/ata/pata_pdc2027x.c:521:2: note: Value stored to 'pll_ctl' is ne=
+ver read
+   drivers/ata/pata_pdc2027x.c:570:2: warning: Value stored to 'pll_ctl' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:336:2: warning: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&cdb[6], &ppn_tmp, sizeof(__be64));
+   drivers/ata/pata_pdc2027x.c:570:2: note: Value stored to 'pll_ctl' is ne=
+ver read
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/i2c/busses/i2c-rk3x.c:504:9: warning: Access to field 'flags' re=
+sults in a dereference of a null pointer (loaded from field 'msg') [clang-a=
+nalyzer-core.NullDereference]
+                   if (!(i2c->msg->flags & I2C_M_IGNORE_NAK))
+                         ^
+   drivers/i2c/busses/i2c-rk3x.c:1140:9: note: Calling 'rk3x_i2c_xfer_commo=
+n'
+           return rk3x_i2c_xfer_common(adap, msgs, num, true);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
+iting loop
+           spin_lock_irqsave(&i2c->lock, flags);
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:336:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&cdb[6], &ppn_tmp, sizeof(__be64));
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:754:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   clear_page(page_address(mctx->m_page[i]));
+   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
                    ^
-   arch/arm/include/asm/page.h:139:26: note: expanded from macro 'clear_pag=
-e'
-   #define clear_page(page)        memset((void *)(page), 0, PAGE_SIZE)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:754:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   clear_page(page_address(mctx->m_page[i]));
-                   ^
-   arch/arm/include/asm/page.h:139:26: note: expanded from macro 'clear_pag=
-e'
-   #define clear_page(page)        memset((void *)(page), 0, PAGE_SIZE)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> drivers/ufs/core/ufshpb.c:1544:17: warning: Access to field 'is_last' re=
-sults in a dereference of an undefined pointer value (loaded from variable =
-'srgn') [clang-analyzer-core.NullDereference]
-                   srgn->is_last =3D true;
-                                 ^
-   drivers/ufs/core/ufshpb.c:2478:6: note: Assuming 'lun' is < field 'max_l=
-u_supported'
-           if (lun >=3D hba->dev_info.max_lu_supported)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:2478:2: note: Taking false branch
-           if (lun >=3D hba->dev_info.max_lu_supported)
-           ^
-   drivers/ufs/core/ufshpb.c:2482:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/ufs/core/ufshpb.c:2482:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/ufs/core/ufshpb.c:2485:8: note: Calling 'ufshpb_alloc_hpb_lu'
-           hpb =3D ufshpb_alloc_hpb_lu(hba, sdev, &hba->ufshpb_dev,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:2191:6: note: Assuming 'hpb' is non-null
-           if (!hpb)
-               ^~~~
-   drivers/ufs/core/ufshpb.c:2191:2: note: Taking false branch
-           if (!hpb)
-           ^
-   drivers/ufs/core/ufshpb.c:2199:8: note: Calling 'ufshpb_lu_hpb_init'
-           ret =3D ufshpb_lu_hpb_init(hba, hpb);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:2114:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_init(&hpb->rgn_state_lock);
-           ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/ufs/core/ufshpb.c:2115:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_init(&hpb->rsp_list_lock);
-           ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/ufs/core/ufshpb.c:2116:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_init(&hpb->param_lock);
-           ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/ufs/core/ufshpb.c:2123:2: note: Loop condition is false.  Exitin=
-g loop
-           INIT_WORK(&hpb->map_work, ufshpb_map_work_handler);
-           ^
-   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
-           __INIT_WORK((_work), (_func), 0)
-           ^
-   include/linux/workqueue.h:225:2: note: expanded from macro '__INIT_WORK'
-           do {                                                            \
-           ^
-   drivers/ufs/core/ufshpb.c:2124:6: note: Assuming field 'is_hcm' is false
-           if (hpb->is_hcm) {
-               ^~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:2124:2: note: Taking false branch
-           if (hpb->is_hcm) {
-           ^
-   drivers/ufs/core/ufshpb.c:2133:6: note: Assuming field 'map_req_cache' i=
-s non-null
-           if (!hpb->map_req_cache) {
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:2133:2: note: Taking false branch
-           if (!hpb->map_req_cache) {
-           ^
-   drivers/ufs/core/ufshpb.c:2142:6: note: Assuming field 'm_page_cache' is=
- non-null
-           if (!hpb->m_page_cache) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:2142:2: note: Taking false branch
-           if (!hpb->m_page_cache) {
-           ^
-   drivers/ufs/core/ufshpb.c:2150:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/ufs/core/ufshpb.c:2150:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/ufs/core/ufshpb.c:2156:8: note: Calling 'ufshpb_alloc_region_tbl'
-           ret =3D ufshpb_alloc_region_tbl(hba, hpb);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1620:6: note: Assuming 'rgn_table' is non-null
-           if (!rgn_table)
-               ^~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1620:2: note: Taking false branch
-           if (!rgn_table)
-           ^
-   drivers/ufs/core/ufshpb.c:1623:20: note: Assuming 'rgn_idx' is < field '=
-rgns_per_lu'
-           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1623:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
-           ^
-   drivers/ufs/core/ufshpb.c:1630:3: note: Loop condition is false.  Exitin=
-g loop
-                   spin_lock_init(&rgn->rgn_lock);
-                   ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/ufs/core/ufshpb.c:1636:7: note: Assuming the condition is true
-                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1636:3: note: Taking true branch
-                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
-                   ^
-   drivers/ufs/core/ufshpb.c:1643:7: note: 'ret' is 0
-                   if (ret)
-                       ^~~
-   drivers/ufs/core/ufshpb.c:1643:3: note: Taking false branch
-                   if (ret)
-                   ^
-   drivers/ufs/core/ufshpb.c:1645:3: note: Calling 'ufshpb_init_subregion_t=
-bl'
-                   ufshpb_init_subregion_tbl(hpb, rgn, last_srgn);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1533:2: note: 'srgn' declared without an initi=
-al value
-           struct ufshpb_subregion *srgn;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1535:2: note: Assuming 'srgn_idx' is >=3D fiel=
-d 'srgn_cnt'
-           for_each_sub_region(rgn, srgn_idx, srgn) {
-           ^
-   drivers/ufs/core/ufshpb.h:143:8: note: expanded from macro 'for_each_sub=
-_region'
-                ((i) < (rgn)->srgn_cnt) && ((srgn) =3D &(rgn)->srgn_tbl[i])=
-; \
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1535:2: note: Left side of '&&' is false
-           for_each_sub_region(rgn, srgn_idx, srgn) {
-           ^
-   drivers/ufs/core/ufshpb.h:143:31: note: expanded from macro 'for_each_su=
-b_region'
-                ((i) < (rgn)->srgn_cnt) && ((srgn) =3D &(rgn)->srgn_tbl[i])=
-; \
-                                        ^
-   drivers/ufs/core/ufshpb.c:1543:15: note: 'last' is true
-           if (unlikely(last && hpb->last_srgn_entries))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/ufs/core/ufshpb.c:1543:15: note: Left side of '&&' is true
-           if (unlikely(last && hpb->last_srgn_entries))
-                        ^
-   drivers/ufs/core/ufshpb.c:1543:6: note: Assuming the condition is false
-           if (unlikely(last && hpb->last_srgn_entries))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/ufs/core/ufshpb.c:1543:2: note: Taking true branch
-           if (unlikely(last && hpb->last_srgn_entries))
-           ^
-   drivers/ufs/core/ufshpb.c:1544:17: note: Access to field 'is_last' resul=
-ts in a dereference of an undefined pointer value (loaded from variable 'sr=
-gn')
-                   srgn->is_last =3D true;
-                   ~~~~          ^
->> drivers/ufs/core/ufshpb.c:1601:22: warning: Division by zero [clang-anal=
-yzer-core.DivideZero]
-           hpb->srgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
-                               ^
-   include/linux/math.h:37:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                        ~~~~~~~~~~~~~~~~^~~~~
-   drivers/ufs/core/ufshpb.c:1567:6: note: Assuming the condition is false
-           if (ufshpb_is_legacy(hba))
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1567:2: note: Taking false branch
-           if (ufshpb_is_legacy(hba))
-           ^
-   drivers/ufs/core/ufshpb.c:1573:23: note: Assuming field 'num_pinned' is 0
-           hpb->lu_pinned_end =3D hpb_lu_info->num_pinned ?
-                                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshpb.c:1573:23: note: '?' condition is false
-   drivers/ufs/core/ufshpb.c:1581:2: note: Left side of '&&' is false
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   drivers/ufs/core/ufshpb.c:1581:2: note: Left side of '&&' is false
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
                                                    ^
-   drivers/ufs/core/ufshpb.c:1581:2: note: Assuming the condition is false
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:237:36: note: expanded from macro 'local_irq_sa=
+ve'
+   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
+(0)
+                                        ^
+   include/linux/irqflags.h:169:2: note: expanded from macro 'raw_local_irq=
+_save'
+           do {                                            \
            ^
-   include/asm-generic/div64.h:234:20: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                      ~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/ufs/core/ufshpb.c:1581:2: note: Taking false branch
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
+iting loop
+           spin_lock_irqsave(&i2c->lock, flags);
            ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   drivers/ufs/core/ufshpb.c:1586:2: note: Left side of '&&' is false
-           do_div(tmp, HPB_ENTRY_SIZE);
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
            ^
-   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   drivers/ufs/core/ufshpb.c:1586:2: note: Left side of '&&' is false
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
+   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
                                                    ^
-   drivers/ufs/core/ufshpb.c:1586:2: note: Assuming the condition is false
-           do_div(tmp, HPB_ENTRY_SIZE);
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:237:31: note: expanded from macro 'local_irq_sa=
+ve'
+   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
+(0)
+                                   ^
+   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
+iting loop
+           spin_lock_irqsave(&i2c->lock, flags);
            ^
-   include/asm-generic/div64.h:234:20: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                      ~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/ufs/core/ufshpb.c:1586:2: note: Taking false branch
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   drivers/ufs/core/ufshpb.c:1588:31: note: '?' condition is false
-           hpb->entries_per_rgn_shift =3D ilog2(entries_per_rgn);
-                                        ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/ufs/core/ufshpb.c:1588:31: note: '?' condition is true
-           hpb->entries_per_rgn_shift =3D ilog2(entries_per_rgn);
-                                        ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/ufs/core/ufshpb.c:1592:32: note: '?' condition is false
-           hpb->entries_per_srgn_shift =3D ilog2(hpb->entries_per_srgn);
-                                         ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/ufs/core/ufshpb.c:1592:32: note: '?' condition is true
-           hpb->entries_per_srgn_shift =3D ilog2(hpb->entries_per_srgn);
-                                         ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/ufs/core/ufshpb.c:1596:2: note: Left side of '&&' is false
-           do_div(tmp, hpb->srgn_mem_size);
-           ^
-   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
 
-vim +1544 drivers/ufs/core/ufshpb.c
+vim +/pll_ctl +521 drivers/ata/pata_pdc2027x.c
 
-4b5f49079c52a7e drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1528  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  492  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1529  sta=
-tic void ufshpb_init_subregion_tbl(struct ufshpb_lu *hpb,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1530  			=
-	      struct ufshpb_region *rgn, bool last)
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1531  {
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1532  	in=
-t srgn_idx;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1533  	st=
-ruct ufshpb_subregion *srgn;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1534  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  493  /**
+1906cf27fcc0707 Lee Jones       2021-02-01  494   * pdc_adjust_pll - Adjust=
+ the PLL input clock in Hz.
+669a5db411d85a1 Jeff Garzik     2006-08-29  495   *
+5d728824efeda61 Tejun Heo       2007-04-17  496   * @host: target ATA host
+669a5db411d85a1 Jeff Garzik     2006-08-29  497   * @pll_clock: The input o=
+f PLL in HZ
+1906cf27fcc0707 Lee Jones       2021-02-01  498   * @board_idx: board ident=
+ifier
+669a5db411d85a1 Jeff Garzik     2006-08-29  499   */
+5d728824efeda61 Tejun Heo       2007-04-17  500  static void pdc_adjust_pll=
+(struct ata_host *host, long pll_clock, unsigned int board_idx)
+669a5db411d85a1 Jeff Garzik     2006-08-29  501  {
+5d728824efeda61 Tejun Heo       2007-04-17  502  	void __iomem *mmio_base =
+=3D host->iomap[PDC_MMIO_BAR];
+669a5db411d85a1 Jeff Garzik     2006-08-29  503  	u16 pll_ctl;
+669a5db411d85a1 Jeff Garzik     2006-08-29  504  	long pll_clock_khz =3D pl=
+l_clock / 1000;
+669a5db411d85a1 Jeff Garzik     2006-08-29  505  	long pout_required =3D bo=
+ard_idx? PDC_133_MHZ:PDC_100_MHZ;
+669a5db411d85a1 Jeff Garzik     2006-08-29  506  	long ratio =3D pout_requi=
+red / pll_clock_khz;
+669a5db411d85a1 Jeff Garzik     2006-08-29  507  	int F, R;
+669a5db411d85a1 Jeff Garzik     2006-08-29  508  =
 
-4b5f49079c52a7e drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1535  	fo=
-r_each_sub_region(rgn, srgn_idx, srgn) {
-4b5f49079c52a7e drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1536  		I=
-NIT_LIST_HEAD(&srgn->list_act_srgn);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1537  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  509  	/* Sanity check */
+669a5db411d85a1 Jeff Garzik     2006-08-29  510  	if (unlikely(pll_clock_kh=
+z < 5000L || pll_clock_khz > 70000L)) {
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  511  		dev_err(host->dev, "Inva=
+lid PLL input clock %ldkHz, give up!\n",
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  512  			pll_clock_khz);
+669a5db411d85a1 Jeff Garzik     2006-08-29  513  		return;
+669a5db411d85a1 Jeff Garzik     2006-08-29  514  	}
+669a5db411d85a1 Jeff Garzik     2006-08-29  515  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1538  		s=
-rgn->rgn_idx =3D rgn->rgn_idx;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1539  		s=
-rgn->srgn_idx =3D srgn_idx;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1540  		s=
-rgn->srgn_state =3D HPB_SRGN_UNUSED;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1541  	}
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1542  =
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  516  	dev_dbg(host->dev, "pout_=
+required is %ld\n", pout_required);
+669a5db411d85a1 Jeff Garzik     2006-08-29  517  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1543  	if=
- (unlikely(last && hpb->last_srgn_entries))
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12 @1544  		s=
-rgn->is_last =3D true;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1545  }
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1546  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  518  	/* Show the current clock=
+ value of PLL control register
+669a5db411d85a1 Jeff Garzik     2006-08-29  519  	 * (maybe already configu=
+red by the firmware)
+669a5db411d85a1 Jeff Garzik     2006-08-29  520  	 */
+d2a84f47899d1ef Alan Cox        2007-09-20 @521  	pll_ctl =3D ioread16(mmio=
+_base + PDC_PLL_CTL);
+669a5db411d85a1 Jeff Garzik     2006-08-29  522  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1547  sta=
-tic int ufshpb_alloc_subregion_tbl(struct ufshpb_lu *hpb,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1548  			=
-	      struct ufshpb_region *rgn, int srgn_cnt)
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1549  {
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1550  	rg=
-n->srgn_tbl =3D kvcalloc(srgn_cnt, sizeof(struct ufshpb_subregion),
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1551  			=
-	 GFP_KERNEL);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1552  	if=
- (!rgn->srgn_tbl)
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1553  		r=
-eturn -ENOMEM;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1554  =
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  523  	dev_dbg(host->dev, "pll_c=
+tl[%X]\n", pll_ctl);
+669a5db411d85a1 Jeff Garzik     2006-08-29  524  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1555  	rg=
-n->srgn_cnt =3D srgn_cnt;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1556  	re=
-turn 0;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1557  }
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1558  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  525  	/*
+669a5db411d85a1 Jeff Garzik     2006-08-29  526  	 * Calculate the ratio of=
+ F, R and OD
+669a5db411d85a1 Jeff Garzik     2006-08-29  527  	 * POUT =3D (F + 2) / (( =
+R + 2) * NO)
+669a5db411d85a1 Jeff Garzik     2006-08-29  528  	 */
+669a5db411d85a1 Jeff Garzik     2006-08-29  529  	if (ratio < 8600L) { /* 8=
+.6x */
+669a5db411d85a1 Jeff Garzik     2006-08-29  530  		/* Using NO =3D 0x01, R =
+=3D 0x0D */
+669a5db411d85a1 Jeff Garzik     2006-08-29  531  		R =3D 0x0d;
+669a5db411d85a1 Jeff Garzik     2006-08-29  532  	} else if (ratio < 12900L=
+) { /* 12.9x */
+669a5db411d85a1 Jeff Garzik     2006-08-29  533  		/* Using NO =3D 0x01, R =
+=3D 0x08 */
+669a5db411d85a1 Jeff Garzik     2006-08-29  534  		R =3D 0x08;
+669a5db411d85a1 Jeff Garzik     2006-08-29  535  	} else if (ratio < 16100L=
+) { /* 16.1x */
+669a5db411d85a1 Jeff Garzik     2006-08-29  536  		/* Using NO =3D 0x01, R =
+=3D 0x06 */
+669a5db411d85a1 Jeff Garzik     2006-08-29  537  		R =3D 0x06;
+669a5db411d85a1 Jeff Garzik     2006-08-29  538  	} else if (ratio < 64000L=
+) { /* 64x */
+669a5db411d85a1 Jeff Garzik     2006-08-29  539  		R =3D 0x00;
+669a5db411d85a1 Jeff Garzik     2006-08-29  540  	} else {
+669a5db411d85a1 Jeff Garzik     2006-08-29  541  		/* Invalid ratio */
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  542  		dev_err(host->dev, "Inva=
+lid ratio %ld, give up!\n", ratio);
+669a5db411d85a1 Jeff Garzik     2006-08-29  543  		return;
+669a5db411d85a1 Jeff Garzik     2006-08-29  544  	}
+669a5db411d85a1 Jeff Garzik     2006-08-29  545  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1559  sta=
-tic void ufshpb_lu_parameter_init(struct ufs_hba *hba,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1560  			=
-	     struct ufshpb_lu *hpb,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1561  			=
-	     struct ufshpb_dev_info *hpb_dev_info,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1562  			=
-	     struct ufshpb_lu_info *hpb_lu_info)
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1563  {
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1564  	u3=
-2 entries_per_rgn;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1565  	u6=
-4 rgn_mem_size, tmp;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1566  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  546  	F =3D (ratio * (R+2)) / 1=
+000 - 2;
+669a5db411d85a1 Jeff Garzik     2006-08-29  547  =
 
-41d8a9333cc96f5 drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1567  	if=
- (ufshpb_is_legacy(hba))
-41d8a9333cc96f5 drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1568  		h=
-pb->pre_req_max_tr_len =3D HPB_LEGACY_CHUNK_HIGH;
-41d8a9333cc96f5 drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1569  	el=
-se
-9ec5128a8b5631d drivers/scsi/ufs/ufshpb.c Avri Altman 2021-10-31  1570  		h=
-pb->pre_req_max_tr_len =3D hpb_dev_info->max_hpb_single_cmd;
-41d8a9333cc96f5 drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1571  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  548  	if (unlikely(F < 0 || F >=
+ 127)) {
+669a5db411d85a1 Jeff Garzik     2006-08-29  549  		/* Invalid F */
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  550  		dev_err(host->dev, "F[%d=
+] invalid!\n", F);
+669a5db411d85a1 Jeff Garzik     2006-08-29  551  		return;
+669a5db411d85a1 Jeff Garzik     2006-08-29  552  	}
+669a5db411d85a1 Jeff Garzik     2006-08-29  553  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1572  	hp=
-b->lu_pinned_start =3D hpb_lu_info->pinned_start;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1573  	hp=
-b->lu_pinned_end =3D hpb_lu_info->num_pinned ?
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1574  		(=
-hpb_lu_info->pinned_start + hpb_lu_info->num_pinned - 1)
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1575  		:=
- PINNED_NOT_SET;
-4b5f49079c52a7e drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1576  	hp=
-b->lru_info.max_lru_active_cnt =3D
-4b5f49079c52a7e drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1577  		h=
-pb_lu_info->max_active_rgns - hpb_lu_info->num_pinned;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1578  =
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  554  	dev_dbg(host->dev, "F[%d]=
+ R[%d] ratio*1000[%ld]\n", F, R, ratio);
+669a5db411d85a1 Jeff Garzik     2006-08-29  555  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1579  	rg=
-n_mem_size =3D (1ULL << hpb_dev_info->rgn_size) * HPB_RGN_SIZE_UNIT
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1580  			=
-* HPB_ENTRY_SIZE;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1581  	do=
-_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1582  	hp=
-b->srgn_mem_size =3D (1ULL << hpb_dev_info->srgn_size)
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1583  		*=
- HPB_RGN_SIZE_UNIT / HPB_ENTRY_BLOCK_SIZE * HPB_ENTRY_SIZE;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1584  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  556  	pll_ctl =3D (R << 8) | F;
+669a5db411d85a1 Jeff Garzik     2006-08-29  557  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1585  	tm=
-p =3D rgn_mem_size;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1586  	do=
-_div(tmp, HPB_ENTRY_SIZE);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1587  	en=
-tries_per_rgn =3D (u32)tmp;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1588  	hp=
-b->entries_per_rgn_shift =3D ilog2(entries_per_rgn);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1589  	hp=
-b->entries_per_rgn_mask =3D entries_per_rgn - 1;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1590  =
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  558  	dev_dbg(host->dev, "Writi=
+ng pll_ctl[%X]\n", pll_ctl);
+669a5db411d85a1 Jeff Garzik     2006-08-29  559  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1591  	hp=
-b->entries_per_srgn =3D hpb->srgn_mem_size / HPB_ENTRY_SIZE;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1592  	hp=
-b->entries_per_srgn_shift =3D ilog2(hpb->entries_per_srgn);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1593  	hp=
-b->entries_per_srgn_mask =3D hpb->entries_per_srgn - 1;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1594  =
+d2a84f47899d1ef Alan Cox        2007-09-20  560  	iowrite16(pll_ctl, mmio_b=
+ase + PDC_PLL_CTL);
+d2a84f47899d1ef Alan Cox        2007-09-20  561  	ioread16(mmio_base + PDC_=
+PLL_CTL); /* flush */
+669a5db411d85a1 Jeff Garzik     2006-08-29  562  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1595  	tm=
-p =3D rgn_mem_size;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1596  	do=
-_div(tmp, hpb->srgn_mem_size);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1597  	hp=
-b->srgns_per_rgn =3D (int)tmp;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1598  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  563  	/* Wait the PLL circuit t=
+o be stable */
+b3506c7ed216dd2 Jia-Ju Bai      2018-01-25  564  	msleep(30);
+669a5db411d85a1 Jeff Garzik     2006-08-29  565  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1599  	hp=
-b->rgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1600  			=
-	entries_per_rgn);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12 @1601  	hp=
-b->srgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1602  			=
-	(hpb->srgn_mem_size / HPB_ENTRY_SIZE));
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1603  	hp=
-b->last_srgn_entries =3D hpb_lu_info->num_blocks
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1604  			=
-	 % (hpb->srgn_mem_size / HPB_ENTRY_SIZE);
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1605  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  566  	/*
+669a5db411d85a1 Jeff Garzik     2006-08-29  567  	 *  Show the current cloc=
+k value of PLL control register
+669a5db411d85a1 Jeff Garzik     2006-08-29  568  	 * (maybe configured by t=
+he firmware)
+669a5db411d85a1 Jeff Garzik     2006-08-29  569  	 */
+d2a84f47899d1ef Alan Cox        2007-09-20  570  	pll_ctl =3D ioread16(mmio=
+_base + PDC_PLL_CTL);
+669a5db411d85a1 Jeff Garzik     2006-08-29  571  =
 
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1606  	hp=
-b->pages_per_srgn =3D DIV_ROUND_UP(hpb->srgn_mem_size, PAGE_SIZE);
-119ee38c10fa34f drivers/scsi/ufs/ufshpb.c Avri Altman 2021-07-12  1607  =
+b5a5fc8b0f8175e Hannes Reinecke 2021-12-21  572  	dev_dbg(host->dev, "pll_c=
+tl[%X]\n", pll_ctl);
+669a5db411d85a1 Jeff Garzik     2006-08-29  573  =
 
-119ee38c10fa34f drivers/scsi/ufs/ufshpb.c Avri Altman 2021-07-12  1608  	if=
- (hpb_dev_info->control_mode =3D=3D HPB_HOST_CONTROL)
-119ee38c10fa34f drivers/scsi/ufs/ufshpb.c Avri Altman 2021-07-12  1609  		h=
-pb->is_hcm =3D true;
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1610  }
-f02bc9754a6887b drivers/scsi/ufs/ufshpb.c Daejun Park 2021-07-12  1611  =
+669a5db411d85a1 Jeff Garzik     2006-08-29  574  	return;
+669a5db411d85a1 Jeff Garzik     2006-08-29  575  }
+669a5db411d85a1 Jeff Garzik     2006-08-29  576  =
 
 
-:::::: The code at line 1544 was first introduced by commit
-:::::: f02bc9754a6887bf5e286889265d24ce5e3b1952 scsi: ufs: ufshpb: Introduc=
-e Host Performance Buffer feature
+:::::: The code at line 521 was first introduced by commit
+:::::: d2a84f47899d1efc24fa610696f7b793692279c7 pdc2027x: Switch properly t=
+o ioread/iowrite
 
-:::::: TO: Daejun Park <daejun7.park@samsung.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: TO: Alan Cox <alan@lxorguk.ukuu.org.uk>
+:::::: CC: Jeff Garzik <jeff@garzik.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5829108583991705632==--
+--===============1978043380807206008==--
 
