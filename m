@@ -1,122 +1,166 @@
-Content-Type: multipart/mixed; boundary="===============8050226539344012981=="
+Content-Type: multipart/mixed; boundary="===============2839092838772619046=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/veth.c:1612:68: warning: Parameter 'tb' can be declared with const [constParameter]
-Date: Wed, 13 Apr 2022 00:16:55 +0800
-Message-ID: <202204130000.rIiu28CD-lkp@intel.com>
+Subject: [linux-next:master 3072/3449] drivers/edac/edac_mc.c:424 edac_mc_alloc() warn: Please consider using kcalloc instead
+Date: Tue, 12 Apr 2022 23:25:11 +0800
+Message-ID: <202204122306.smUyZ1hT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8050226539344012981==
+--===============2839092838772619046==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Paolo Abeni <pabeni@redhat.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Borislav Petkov <bp@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
-commit: 9d3684c24a5232c2d7ea8f8a3e60fe235e6a9867 veth: create by default nr=
-_possible_cpus queues
-date:   9 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 9 months ago
-compiler: arc-elf-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 9d3684c24a5232c2d7ea8f8a3e60fe235e6a9867
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   d0c745e7b2d6ce8bcc768b32361ab8ef520821ee
+commit: 0bbb265f7089584aaa6d440805ca75ea4f3930d4 [3072/3449] EDAC/mc: Get r=
+id of silly one-shot struct allocation in edac_mc_alloc()
+:::::: branch date: 10 hours ago
+:::::: commit date: 30 hours ago
+config: i386-randconfig-m021-20220411 (https://download.01.org/0day-ci/arch=
+ive/20220412/202204122306.smUyZ1hT-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/edac/edac_mc.c:424 edac_mc_alloc() warn: Please consider using kcal=
+loc instead
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +424 drivers/edac/edac_mc.c
 
->> net/nfc/llcp_sock.c:622:29: warning: Uninitialized variables: lsk.sk, ls=
-k.dev, lsk.local, lsk.target_idx, lsk.nfc_protocol, lsk.ssap, lsk.dsap, lsk=
-.service_name, lsk.service_name_len, lsk.rw, lsk.miux, lsk.remote_rw, lsk.r=
-emote_miu, lsk.send_n, lsk.send_ack_n, lsk.recv_n, lsk.recv_ack_n, lsk.remo=
-te_ready, lsk.reserved_ssap, lsk.tx_queue, lsk.tx_pending_queue, lsk.accept=
-_queue, lsk.parent [uninitvar]
-      nfc_llcp_send_disconnect(lsk);
-                               ^
---
-   drivers/net/veth.c:1509:18: warning: Boolean result is used in bitwise o=
-peration. Clarify expression with parentheses. [clarifyCondition]
-    if ((!!old_prog ^ !!prog) && peer)
-                    ^
-   drivers/net/veth.c:146:5: warning: %u in format string (no. 1) requires =
-'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType=
-_uint]
-       snprintf(p, ETH_GSTRING_LEN,
-       ^
-   drivers/net/veth.c:154:5: warning: %u in format string (no. 1) requires =
-'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType=
-_uint]
-       snprintf(p, ETH_GSTRING_LEN,
-       ^
->> drivers/net/veth.c:1612:68: warning: Parameter 'tb' can be declared with=
- const [constParameter]
-   static int veth_init_queues(struct net_device *dev, struct nlattr *tb[])
-                                                                      ^
-   drivers/net/veth.c:1630:40: warning: Parameter 'data' can be declared wi=
-th const [constParameter]
-      struct nlattr *tb[], struct nlattr *data[],
-                                          ^
->> net/mpls/af_mpls.c:693:6: warning: Redundant initialization for 'err'. T=
-he initialized value is overwritten before it is read. [redundantInitializa=
-tion]
-    err =3D -EINVAL;
-        ^
-   net/mpls/af_mpls.c:683:10: note: err is initialized
-    int err =3D -ENODEV;
-            ^
-   net/mpls/af_mpls.c:693:6: note: err is overwritten
-    err =3D -EINVAL;
-        ^
->> net/mpls/af_mpls.c:2494:41: warning: Found suspicious operator ',' [cons=
-tStatement]
-    struct mpls_route __rcu **labels =3D NULL, **old;
-                                           ^
+da9bb1d27b21cb2 Alan Cox        2006-01-18  389  =
 
-vim +/tb +1612 drivers/net/veth.c
+1f27c79062385af Robert Richter  2020-01-23  390  struct mem_ctl_info *edac_=
+mc_alloc(unsigned int mc_num,
+1f27c79062385af Robert Richter  2020-01-23  391  				   unsigned int n_laye=
+rs,
+1f27c79062385af Robert Richter  2020-01-23  392  				   struct edac_mc_laye=
+r *layers,
+1f27c79062385af Robert Richter  2020-01-23  393  				   unsigned int sz_pvt)
+1f27c79062385af Robert Richter  2020-01-23  394  {
+1f27c79062385af Robert Richter  2020-01-23  395  	struct mem_ctl_info *mci;
+1f27c79062385af Robert Richter  2020-01-23  396  	struct edac_mc_layer *lay=
+er;
+0bbb265f7089584 Borislav Petkov 2022-02-20  397  	unsigned int idx, tot_dim=
+ms =3D 1;
+4aa92c86463273b Robert Richter  2020-02-17  398  	unsigned int tot_csrows =
+=3D 1, tot_channels =3D 1;
+1f27c79062385af Robert Richter  2020-01-23  399  	bool per_rank =3D false;
+1f27c79062385af Robert Richter  2020-01-23  400  =
 
-d3256efd8e8b23 Paolo Abeni 2021-04-09  1611  =
+1f27c79062385af Robert Richter  2020-01-23  401  	if (WARN_ON(n_layers > ED=
+AC_MAX_LAYERS || n_layers =3D=3D 0))
+1f27c79062385af Robert Richter  2020-01-23  402  		return NULL;
+1f27c79062385af Robert Richter  2020-01-23  403  =
 
-9d3684c24a5232 Paolo Abeni 2021-07-20 @1612  static int veth_init_queues(st=
-ruct net_device *dev, struct nlattr *tb[])
-9d3684c24a5232 Paolo Abeni 2021-07-20  1613  {
-9d3684c24a5232 Paolo Abeni 2021-07-20  1614  	int err;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1615  =
+1f27c79062385af Robert Richter  2020-01-23  404  	/*
+1f27c79062385af Robert Richter  2020-01-23  405  	 * Calculate the total am=
+ount of dimms and csrows/cschannels while
+1f27c79062385af Robert Richter  2020-01-23  406  	 * in the old API emulati=
+on mode
+1f27c79062385af Robert Richter  2020-01-23  407  	 */
+1f27c79062385af Robert Richter  2020-01-23  408  	for (idx =3D 0; idx < n_l=
+ayers; idx++) {
+1f27c79062385af Robert Richter  2020-01-23  409  		tot_dimms *=3D layers[id=
+x].size;
+1f27c79062385af Robert Richter  2020-01-23  410  =
 
-9d3684c24a5232 Paolo Abeni 2021-07-20  1616  	if (!tb[IFLA_NUM_TX_QUEUES] &=
-& dev->num_tx_queues > 1) {
-9d3684c24a5232 Paolo Abeni 2021-07-20  1617  		err =3D netif_set_real_num_t=
-x_queues(dev, 1);
-9d3684c24a5232 Paolo Abeni 2021-07-20  1618  		if (err)
-9d3684c24a5232 Paolo Abeni 2021-07-20  1619  			return err;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1620  	}
-9d3684c24a5232 Paolo Abeni 2021-07-20  1621  	if (!tb[IFLA_NUM_RX_QUEUES] &=
-& dev->num_rx_queues > 1) {
-9d3684c24a5232 Paolo Abeni 2021-07-20  1622  		err =3D netif_set_real_num_r=
-x_queues(dev, 1);
-9d3684c24a5232 Paolo Abeni 2021-07-20  1623  		if (err)
-9d3684c24a5232 Paolo Abeni 2021-07-20  1624  			return err;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1625  	}
-9d3684c24a5232 Paolo Abeni 2021-07-20  1626  	return 0;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1627  }
-9d3684c24a5232 Paolo Abeni 2021-07-20  1628  =
+1f27c79062385af Robert Richter  2020-01-23  411  		if (layers[idx].is_virt_=
+csrow)
+1f27c79062385af Robert Richter  2020-01-23  412  			tot_csrows *=3D layers[=
+idx].size;
+1f27c79062385af Robert Richter  2020-01-23  413  		else
+1f27c79062385af Robert Richter  2020-01-23  414  			tot_channels *=3D layer=
+s[idx].size;
+1f27c79062385af Robert Richter  2020-01-23  415  =
+
+1f27c79062385af Robert Richter  2020-01-23  416  		if (layers[idx].type =3D=
+=3D EDAC_MC_LAYER_CHIP_SELECT)
+1f27c79062385af Robert Richter  2020-01-23  417  			per_rank =3D true;
+1f27c79062385af Robert Richter  2020-01-23  418  	}
+1f27c79062385af Robert Richter  2020-01-23  419  =
+
+0bbb265f7089584 Borislav Petkov 2022-02-20  420  	mci =3D kzalloc(sizeof(st=
+ruct mem_ctl_info), GFP_KERNEL);
+0bbb265f7089584 Borislav Petkov 2022-02-20  421  	if (!mci)
+1f27c79062385af Robert Richter  2020-01-23  422  		return NULL;
+1f27c79062385af Robert Richter  2020-01-23  423  =
+
+0bbb265f7089584 Borislav Petkov 2022-02-20 @424  	mci->layers =3D kmalloc_a=
+rray(n_layers, sizeof(struct edac_mc_layer), GFP_KERNEL | __GFP_ZERO);
+0bbb265f7089584 Borislav Petkov 2022-02-20  425  	if (!mci->layers)
+0bbb265f7089584 Borislav Petkov 2022-02-20  426  		goto error;
+0bbb265f7089584 Borislav Petkov 2022-02-20  427  =
+
+0bbb265f7089584 Borislav Petkov 2022-02-20  428  	mci->pvt_info =3D kzalloc=
+(sz_pvt, GFP_KERNEL);
+0bbb265f7089584 Borislav Petkov 2022-02-20  429  	if (!mci->pvt_info)
+0bbb265f7089584 Borislav Petkov 2022-02-20  430  		goto error;
+0bbb265f7089584 Borislav Petkov 2022-02-20  431  =
+
+1f27c79062385af Robert Richter  2020-01-23  432  	mci->dev.release =3D mci_=
+release;
+1f27c79062385af Robert Richter  2020-01-23  433  	device_initialize(&mci->d=
+ev);
+1f27c79062385af Robert Richter  2020-01-23  434  =
+
+1f27c79062385af Robert Richter  2020-01-23  435  	/* setup index and variou=
+s internal pointers */
+1f27c79062385af Robert Richter  2020-01-23  436  	mci->mc_idx =3D mc_num;
+1f27c79062385af Robert Richter  2020-01-23  437  	mci->tot_dimms =3D tot_di=
+mms;
+1f27c79062385af Robert Richter  2020-01-23  438  	mci->n_layers =3D n_layer=
+s;
+1f27c79062385af Robert Richter  2020-01-23  439  	memcpy(mci->layers, layer=
+s, sizeof(*layer) * n_layers);
+1f27c79062385af Robert Richter  2020-01-23  440  	mci->nr_csrows =3D tot_cs=
+rows;
+1f27c79062385af Robert Richter  2020-01-23  441  	mci->num_cschannel =3D to=
+t_channels;
+1f27c79062385af Robert Richter  2020-01-23  442  	mci->csbased =3D per_rank;
+1f27c79062385af Robert Richter  2020-01-23  443  =
+
+1f27c79062385af Robert Richter  2020-01-23  444  	if (edac_mc_alloc_csrows(=
+mci))
+1f27c79062385af Robert Richter  2020-01-23  445  		goto error;
+1f27c79062385af Robert Richter  2020-01-23  446  =
+
+1f27c79062385af Robert Richter  2020-01-23  447  	if (edac_mc_alloc_dimms(m=
+ci))
+1f27c79062385af Robert Richter  2020-01-23  448  		goto error;
+1f27c79062385af Robert Richter  2020-01-23  449  =
+
+1f27c79062385af Robert Richter  2020-01-23  450  	mci->op_state =3D OP_ALLO=
+C;
+1f27c79062385af Robert Richter  2020-01-23  451  =
+
+1f27c79062385af Robert Richter  2020-01-23  452  	return mci;
+1f27c79062385af Robert Richter  2020-01-23  453  =
+
+1f27c79062385af Robert Richter  2020-01-23  454  error:
+1f27c79062385af Robert Richter  2020-01-23  455  	_edac_mc_free(mci);
+1f27c79062385af Robert Richter  2020-01-23  456  =
+
+1f27c79062385af Robert Richter  2020-01-23  457  	return NULL;
+1f27c79062385af Robert Richter  2020-01-23  458  }
+1f27c79062385af Robert Richter  2020-01-23  459  EXPORT_SYMBOL_GPL(edac_mc_=
+alloc);
+1f27c79062385af Robert Richter  2020-01-23  460  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8050226539344012981==--
+--===============2839092838772619046==--
 
