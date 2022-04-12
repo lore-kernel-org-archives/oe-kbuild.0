@@ -1,175 +1,256 @@
-Content-Type: multipart/mixed; boundary="===============7190948520921640407=="
+Content-Type: multipart/mixed; boundary="===============9045629997696021217=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] leds: pca955x: Add HW blink support
-Date: Tue, 12 Apr 2022 19:22:41 +0800
-Message-ID: <202204121953.zHZcX6EV-lkp@intel.com>
+Subject: Re: [PATCH v4 2/2] clk: ingenic-tcu: Fix missing TCU clock for X1000 SoCs
+Date: Tue, 12 Apr 2022 18:41:28 +0800
+Message-ID: <202204121856.LxK9kEyg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7190948520921640407==
+--===============9045629997696021217==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220411162033.39613-5-eajames@linux.ibm.com>
-References: <20220411162033.39613-5-eajames@linux.ibm.com>
-TO: Eddie James <eajames@linux.ibm.com>
-TO: linux-leds(a)vger.kernel.org
+In-Reply-To: <20220411154241.50834-3-aidanmacdonald.0x0@gmail.com>
+References: <20220411154241.50834-3-aidanmacdonald.0x0@gmail.com>
+TO: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+TO: paul(a)crapouillou.net
+TO: robh+dt(a)kernel.org
+TO: krzk+dt(a)kernel.org
+TO: tsbogend(a)alpha.franken.de
+TO: mturquette(a)baylibre.com
+TO: sboyd(a)kernel.org
+CC: linux-mips(a)vger.kernel.org
+CC: devicetree(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: pavel(a)ucw.cz
-CC: patrick(a)stwcx.xyz
-CC: andy.shevchenko(a)gmail.com
-CC: openbmc(a)lists.ozlabs.org
-CC: joel(a)jms.id.au
-CC: Eddie James <eajames@linux.ibm.com>
+CC: linux-clk(a)vger.kernel.org
 
-Hi Eddie,
+Hi Aidan,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on pavel-leds/for-next]
-[also build test WARNING on linus/master v5.18-rc2 next-20220412]
-[cannot apply to linux/master]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on clk/clk-next linus/master linux/master v5.18-rc=
+2 next-20220412]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/leds-pca=
-955x-Add-HW-blink-support/20220412-002330
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git =
-for-next
+url:    https://github.com/intel-lab-lkp/linux/commits/Aidan-MacDonald/Fix-=
+missing-TCU-clock-for-X1000-X1830-SoCs/20220411-234531
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
+next
 :::::: branch date: 19 hours ago
 :::::: commit date: 19 hours ago
-config: i386-randconfig-m021-20220411 (https://download.01.org/0day-ci/arch=
-ive/20220412/202204121953.zHZcX6EV-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+config: arc-randconfig-m031-20220411 (https://download.01.org/0day-ci/archi=
+ve/20220412/202204121856.LxK9kEyg-lkp(a)intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/leds/leds-pca955x.c:455 pca955x_led_blink() error: uninitialized sy=
-mbol 'ret'.
+drivers/clk/ingenic/tcu.c:456 ingenic_tcu_probe() error: uninitialized symb=
+ol 'ret'.
 
-vim +/ret +455 drivers/leds/leds-pca955x.c
+vim +/ret +456 drivers/clk/ingenic/tcu.c
 
-3b7b1899f6cc6d Eddie James      2022-04-11  389  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  336  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  390  static int pca955x_led_bli=
-nk(struct led_classdev *led_cdev,
-3b7b1899f6cc6d Eddie James      2022-04-11  391  			     unsigned long *del=
-ay_on, unsigned long *delay_off)
-3b7b1899f6cc6d Eddie James      2022-04-11  392  {
-3b7b1899f6cc6d Eddie James      2022-04-11  393  	struct pca955x_led *pca95=
-5x_led =3D led_to_pca955x(led_cdev);
-3b7b1899f6cc6d Eddie James      2022-04-11  394  	struct pca955x *pca955x =
-=3D pca955x_led->pca955x;
-3b7b1899f6cc6d Eddie James      2022-04-11  395  	unsigned long p =3D *dela=
-y_on + *delay_off;
-3b7b1899f6cc6d Eddie James      2022-04-11  396  	int ret;
-3b7b1899f6cc6d Eddie James      2022-04-11  397  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  337  static int __init ingenic_=
+tcu_probe(struct device_node *np)
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  338  {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  339  	const struct of_device_id=
+ *id =3D of_match_node(ingenic_tcu_of_match, np);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  340  	struct ingenic_tcu *tcu;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  341  	struct regmap *map;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  342  	unsigned int i;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  343  	int ret;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  344  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  398  	mutex_lock(&pca955x->lock=
-);
-3b7b1899f6cc6d Eddie James      2022-04-11  399  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  345  	map =3D device_node_to_re=
+gmap(np);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  346  	if (IS_ERR(map))
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  347  		return PTR_ERR(map);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  348  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  400  	if (p) {
-3b7b1899f6cc6d Eddie James      2022-04-11  401  		if (*delay_on !=3D *dela=
-y_off) {
-3b7b1899f6cc6d Eddie James      2022-04-11  402  			ret =3D -EINVAL;
-3b7b1899f6cc6d Eddie James      2022-04-11  403  			goto out;
-3b7b1899f6cc6d Eddie James      2022-04-11  404  		}
-3b7b1899f6cc6d Eddie James      2022-04-11  405  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  349  	tcu =3D kzalloc(sizeof(*t=
+cu), GFP_KERNEL);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  350  	if (!tcu)
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  351  		return -ENOMEM;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  352  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  406  		if (p < pca955x_psc_to_p=
-eriod(pca955x, 0) ||
-3b7b1899f6cc6d Eddie James      2022-04-11  407  		    p > pca955x_psc_to_p=
-eriod(pca955x, 0xff)) {
-3b7b1899f6cc6d Eddie James      2022-04-11  408  			ret =3D -EINVAL;
-3b7b1899f6cc6d Eddie James      2022-04-11  409  			goto out;
-3b7b1899f6cc6d Eddie James      2022-04-11  410  		}
-3b7b1899f6cc6d Eddie James      2022-04-11  411  	} else {
-3b7b1899f6cc6d Eddie James      2022-04-11  412  		p =3D pca955x->active_bl=
-ink ? pca955x->blink_period :
-3b7b1899f6cc6d Eddie James      2022-04-11  413  			PCA955X_BLINK_DEFAULT_M=
-S;
-3b7b1899f6cc6d Eddie James      2022-04-11  414  	}
-3b7b1899f6cc6d Eddie James      2022-04-11  415  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  353  	tcu->map =3D map;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  354  	tcu->soc_info =3D id->dat=
+a;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  355  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  416  	if (!pca955x->active_blin=
-k ||
-3b7b1899f6cc6d Eddie James      2022-04-11  417  	    pca955x->active_blink=
- =3D=3D BIT(pca955x_led->led_num) ||
-3b7b1899f6cc6d Eddie James      2022-04-11  418  	    pca955x->blink_period=
- =3D=3D p) {
-3b7b1899f6cc6d Eddie James      2022-04-11  419  		u8 psc =3D pca955x_perio=
-d_to_psc(pca955x, p);
-f46e9203d9a100 Nate Case        2008-07-16  420  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  356  	if (tcu->soc_info->has_tc=
+u_clk) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  357  		tcu->clk =3D of_clk_get_=
+by_name(np, "tcu");
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  358  		if (IS_ERR(tcu->clk)) {
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  359  			/*
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  360  			 * Old device trees for=
+ some SoCs did not include the
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  361  			 * TCU clock because th=
+is driver (incorrectly) didn't
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  362  			 * use it. In this case=
+ we complain loudly and attempt
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  363  			 * to continue without =
+the clock, which might work if
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  364  			 * booting with workaro=
+unds like "clk_ignore_unused".
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  365  			 */
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  366  			if (tcu->soc_info->allo=
+w_missing_tcu_clk &&
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  367  			    PTR_ERR(tcu->clk) =
+=3D=3D -EINVAL) {
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  368  				pr_warn("TCU clock mis=
+sing from device tree, please update your device tree\n");
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  369  				tcu->clk =3D NULL;
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  370  			} else {
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  371  				pr_crit("Cannot get TC=
+U clock from device tree\n");
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  372  				goto err_free_tcu;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  373  			}
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  374  		} else {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  375  			ret =3D clk_prepare_ena=
+ble(tcu->clk);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  376  			if (ret) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  377  				pr_crit("Unable to ena=
+ble TCU clock\n");
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  378  				goto err_put_clk;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  379  			}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  380  		}
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  381  	}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  382  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  421  		if (!test_and_set_bit(pc=
-a955x_led->led_num,
-3b7b1899f6cc6d Eddie James      2022-04-11  422  				      &pca955x->active=
-_blink)) {
-3b7b1899f6cc6d Eddie James      2022-04-11  423  			u8 ls;
-3b7b1899f6cc6d Eddie James      2022-04-11  424  			int reg =3D pca955x_led=
-->led_num / 4;
-3b7b1899f6cc6d Eddie James      2022-04-11  425  			int bit =3D pca955x_led=
-->led_num % 4;
-3b7b1899f6cc6d Eddie James      2022-04-11  426  =
+e620a1e061c4738 Stephen Kitt    2019-09-27  383  	tcu->clocks =3D kzalloc(s=
+truct_size(tcu->clocks, hws, TCU_CLK_COUNT),
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  384  			      GFP_KERNEL);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  385  	if (!tcu->clocks) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  386  		ret =3D -ENOMEM;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  387  		goto err_clk_disable;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  388  	}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  389  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  427  			ret =3D pca955x_read_ls=
-(pca955x, reg, &ls);
-3b7b1899f6cc6d Eddie James      2022-04-11  428  			if (ret)
-3b7b1899f6cc6d Eddie James      2022-04-11  429  				goto out;
-3b7b1899f6cc6d Eddie James      2022-04-11  430  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  390  	tcu->clocks->num =3D TCU_=
+CLK_COUNT;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  391  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  431  			ls =3D pca955x_ledsel(l=
-s, bit, PCA955X_LS_BLINK0);
-9e58c2a7bb91f6 Eddie James      2022-04-11  432  			ret =3D pca955x_write_l=
-s(pca955x, reg, ls);
-3b7b1899f6cc6d Eddie James      2022-04-11  433  			if (ret)
-3b7b1899f6cc6d Eddie James      2022-04-11  434  				goto out;
-3b7b1899f6cc6d Eddie James      2022-04-11  435  		}
-3b7b1899f6cc6d Eddie James      2022-04-11  436  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  392  	for (i =3D 0; i < tcu->so=
+c_info->num_channels; i++) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  393  		ret =3D ingenic_tcu_regi=
+ster_clock(tcu, i, TCU_PARENT_EXT,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  394  						 &ingenic_tcu_clk_in=
+fo[i],
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  395  						 tcu->clocks);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  396  		if (ret) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  397  			pr_crit("cannot registe=
+r clock %d\n", i);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  398  			goto err_unregister_tim=
+er_clocks;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  399  		}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  400  	}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  401  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  437  		if (pca955x->blink_perio=
-d !=3D p) {
-3b7b1899f6cc6d Eddie James      2022-04-11  438  			pca955x->blink_period =
-=3D p;
-3b7b1899f6cc6d Eddie James      2022-04-11  439  			ret =3D pca955x_write_p=
-sc(pca955x, 0, psc);
-3b7b1899f6cc6d Eddie James      2022-04-11  440  			if (ret)
-3b7b1899f6cc6d Eddie James      2022-04-11  441  				goto out;
-3b7b1899f6cc6d Eddie James      2022-04-11  442  		}
-3b7b1899f6cc6d Eddie James      2022-04-11  443  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  402  	/*
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  403  	 * We set EXT as the defa=
+ult parent clock for all the TCU clocks
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  404  	 * except for the watchdo=
+g one, where we set the RTC clock as the
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  405  	 * parent. Since the EXT =
+and PCLK are much faster than the RTC clock,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  406  	 * the watchdog would kic=
+k after a maximum time of 5s, and we might
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  407  	 * want a slower kicking =
+time.
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  408  	 */
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  409  	ret =3D ingenic_tcu_regis=
+ter_clock(tcu, TCU_CLK_WDT, TCU_PARENT_RTC,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  410  					 &ingenic_tcu_watchdo=
+g_clk_info,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  411  					 tcu->clocks);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  412  	if (ret) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  413  		pr_crit("cannot register=
+ watchdog clock\n");
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  414  		goto err_unregister_time=
+r_clocks;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  415  	}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  416  =
 
-3b7b1899f6cc6d Eddie James      2022-04-11  444  		p =3D pca955x_psc_to_per=
-iod(pca955x, psc);
-3b7b1899f6cc6d Eddie James      2022-04-11  445  		p /=3D 2;
-3b7b1899f6cc6d Eddie James      2022-04-11  446  		*delay_on =3D p;
-3b7b1899f6cc6d Eddie James      2022-04-11  447  		*delay_off =3D p;
-3b7b1899f6cc6d Eddie James      2022-04-11  448  	} else {
-3b7b1899f6cc6d Eddie James      2022-04-11  449  		ret =3D -EBUSY;
-3b7b1899f6cc6d Eddie James      2022-04-11  450  	}
-e7e11d8ba807d4 Alexander Stein  2012-05-29  451  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  417  	if (tcu->soc_info->has_os=
+t) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  418  		ret =3D ingenic_tcu_regi=
+ster_clock(tcu, TCU_CLK_OST,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  419  						 TCU_PARENT_EXT,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  420  						 &ingenic_tcu_ost_cl=
+k_info,
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  421  						 tcu->clocks);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  422  		if (ret) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  423  			pr_crit("cannot registe=
+r ost clock\n");
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  424  			goto err_unregister_wat=
+chdog_clock;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  425  		}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  426  	}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  427  =
 
-1591caf2d5eafd C=C3=A9dric Le Goater 2017-08-30  452  out:
-e7e11d8ba807d4 Alexander Stein  2012-05-29  453  	mutex_unlock(&pca955x->lo=
-ck);
-f46e9203d9a100 Nate Case        2008-07-16  454  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  428  	ret =3D of_clk_add_hw_pro=
+vider(np, of_clk_hw_onecell_get, tcu->clocks);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  429  	if (ret) {
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  430  		pr_crit("cannot add OF c=
+lock provider\n");
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  431  		goto err_unregister_ost_=
+clock;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  432  	}
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  433  =
 
-1591caf2d5eafd C=C3=A9dric Le Goater 2017-08-30 @455  	return ret;
-f46e9203d9a100 Nate Case        2008-07-16  456  }
-f46e9203d9a100 Nate Case        2008-07-16  457  =
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  434  	ingenic_tcu =3D tcu;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  435  =
+
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  436  	return 0;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  437  =
+
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  438  err_unregister_ost_clock:
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  439  	if (tcu->soc_info->has_os=
+t)
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  440  		clk_hw_unregister(tcu->c=
+locks->hws[i + 1]);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  441  err_unregister_watchdog_cl=
+ock:
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  442  	clk_hw_unregister(tcu->cl=
+ocks->hws[i]);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  443  err_unregister_timer_clock=
+s:
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  444  	for (i =3D 0; i < tcu->cl=
+ocks->num; i++)
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  445  		if (tcu->clocks->hws[i])
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  446  			clk_hw_unregister(tcu->=
+clocks->hws[i]);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  447  	kfree(tcu->clocks);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  448  err_clk_disable:
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  449  	if (tcu->clk)
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  450  		clk_disable_unprepare(tc=
+u->clk);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  451  err_put_clk:
+8c04eee82a9d67a Aidan MacDonald 2022-04-11  452  	if (tcu->clk)
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  453  		clk_put(tcu->clk);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  454  err_free_tcu:
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  455  	kfree(tcu);
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24 @456  	return ret;
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  457  }
+4f89e4b8f1215c1 Paul Cercueil   2019-07-24  458  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7190948520921640407==--
+--===============9045629997696021217==--
 
