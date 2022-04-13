@@ -1,308 +1,623 @@
-Content-Type: multipart/mixed; boundary="===============6970069642830016358=="
+Content-Type: multipart/mixed; boundary="===============8864549376280128304=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/macsec.c:4024:6: warning: Local variable 'send_sci' shadows outer function [shadowFunction]
-Date: Sun, 10 Apr 2022 04:25:45 +0800
-Message-ID: <202204100436.VElI8nEP-lkp@intel.com>
+Subject: Re: [PATCH v2 2/4] PCI: Move jailhouse's isolated function handling to pci_scan_slot()
+Date: Thu, 14 Apr 2022 06:12:03 +0800
+Message-ID: <202204140641.r3fD3EBW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6970069642830016358==
+--===============8864549376280128304==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Lior Nahmanson <liorna@nvidia.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Raed Salem <raeds@nvidia.com>
+In-Reply-To: <20220412143040.1882096-3-schnelle@linux.ibm.com>
+References: <20220412143040.1882096-3-schnelle@linux.ibm.com>
+TO: Niklas Schnelle <schnelle@linux.ibm.com>
+TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Jan Kiszka <jan.kiszka@siemens.com>
+TO: Matthew Rosato <mjrosato@linux.ibm.com>
+TO: Pierre Morel <pmorel@linux.ibm.com>
+CC: linux-s390(a)vger.kernel.org
+CC: linux-pci(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e1f700ebd6bea293abe3c7e2807b252018efde01
-commit: d0cfa548dbde354de986911d3913897b5448faad net: macsec: Verify that s=
-end_sci is on when setting Tx sci explicitly
-date:   10 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 weeks ago
-compiler: microblaze-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout d0cfa548dbde354de986911d3913897b5448faad
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Niklas,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on helgaas-pci/next]
+[also build test WARNING on s390/features tip/x86/core v5.18-rc2 next-20220=
+413]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Schnelle/PCI-=
+Rework-pci_scan_slot-and-isolated-PCI-functions/20220412-223307
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: x86_64-randconfig-c007-20220411 (https://download.01.org/0day-ci/ar=
+chive/20220414/202204140641.r3fD3EBW-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fe2478=
+d44e4f7f191c43fef629ac7a23d0251e72)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5cac6729750b7434ff5=
+d6ae99469e9e54bc9fb6e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Niklas-Schnelle/PCI-Rework-pci_sca=
+n_slot-and-isolated-PCI-functions/20220412-223307
+        git checkout 5cac6729750b7434ff5d6ae99469e9e54bc9fb6e
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
-   drivers/net/macsec.c:3824:7: warning: Local variable 'ret' shadows outer=
- variable [shadowVariable]
-     int ret;
-         ^
-   drivers/net/macsec.c:3799:6: note: Shadowed declaration
-    int ret;
-        ^
-   drivers/net/macsec.c:3824:7: note: Shadow variable
-     int ret;
-         ^
+clang-analyzer warnings: (new ones prefixed by >>)
+           if (primary & WM831X_TCHDATA_INT)
+           ^
+   drivers/mfd/wm831x-irq.c:478:2: note: Loop condition is true.  Entering =
+loop body
+           for (i =3D 0; i < ARRAY_SIZE(wm831x_irqs); i++) {
+           ^
+   drivers/mfd/wm831x-irq.c:481:7: note: Assuming the condition is false
+                   if (!(primary & wm831x_irqs[i].primary))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/wm831x-irq.c:481:3: note: Taking false branch
+                   if (!(primary & wm831x_irqs[i].primary))
+                   ^
+   drivers/mfd/wm831x-irq.c:488:7: note: Assuming the condition is false
+                   if (!read[offset]) {
+                       ^~~~~~~~~~~~~
+   drivers/mfd/wm831x-irq.c:488:3: note: Taking false branch
+                   if (!read[offset]) {
+                   ^
+   drivers/mfd/wm831x-irq.c:510:7: note: Assuming the condition is false
+                   if (*status & wm831x_irqs[i].mask)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/wm831x-irq.c:510:3: note: Taking false branch
+                   if (*status & wm831x_irqs[i].mask)
+                   ^
+   drivers/mfd/wm831x-irq.c:517:7: note: Assuming 'primary' is equal to WM8=
+31X_GP_INT
+                   if (primary =3D=3D WM831X_GP_INT &&
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/wm831x-irq.c:517:7: note: Left side of '&&' is true
+   drivers/mfd/wm831x-irq.c:518:7: note: Assuming the condition is false
+                       wm831x->gpio_level_high[i - WM831X_IRQ_GPIO_1]) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/wm831x-irq.c:517:3: note: Taking false branch
+                   if (primary =3D=3D WM831X_GP_INT &&
+                   ^
+   drivers/mfd/wm831x-irq.c:528:7: note: 'primary' is equal to WM831X_GP_INT
+                   if (primary =3D=3D WM831X_GP_INT &&
+                       ^~~~~~~
+   drivers/mfd/wm831x-irq.c:528:7: note: Left side of '&&' is true
+   drivers/mfd/wm831x-irq.c:529:7: note: Assuming the condition is true
+                       wm831x->gpio_level_low[i - WM831X_IRQ_GPIO_1]) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/wm831x-irq.c:528:3: note: Taking true branch
+                   if (primary =3D=3D WM831X_GP_INT &&
+                   ^
+   drivers/mfd/wm831x-irq.c:531:21: note: The result of the left shift is u=
+ndefined due to shifting by '4294967295', which is greater or equal to the =
+width of type 'int'
+                           while (!(ret & 1 << (i - WM831X_IRQ_GPIO_1))) {
+                                            ^  ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   47 warnings generated.
+   block/partitions/cmdline.c:84:3: warning: Call to function 'strncpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   strncpy(new_subpart->name, partdef, length);
+                   ^~~~~~~
+   block/partitions/cmdline.c:84:3: note: Call to function 'strncpy' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'strncpy_s' in case of C11
+                   strncpy(new_subpart->name, partdef, length);
+                   ^~~~~~~
+   block/partitions/cmdline.c:143:2: warning: Call to function 'strncpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(newparts->name, bdevdef, length);
+           ^~~~~~~
+   block/partitions/cmdline.c:143:2: note: Call to function 'strncpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'strncpy_s' in case of C11
+           strncpy(newparts->name, bdevdef, length);
+           ^~~~~~~
+   block/partitions/cmdline.c:156:3: warning: Call to function 'strncpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   strncpy(buf, bdevdef, length);
+                   ^~~~~~~
+   block/partitions/cmdline.c:156:3: note: Call to function 'strncpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'strncpy_s' in case of C11
+                   strncpy(buf, bdevdef, length);
+                   ^~~~~~~
+   block/partitions/cmdline.c:270:2: warning: Call to function 'strncpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(info->volname, subpart->name, label_min);
+           ^~~~~~~
+   block/partitions/cmdline.c:270:2: note: Call to function 'strncpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'strncpy_s' in case of C11
+           strncpy(info->volname, subpart->name, label_min);
+           ^~~~~~~
+   block/partitions/cmdline.c:273:2: warning: Call to function 'snprintf' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(tmp, sizeof(tmp), "(%s)", info->volname);
+           ^~~~~~~~
+   block/partitions/cmdline.c:273:2: note: Call to function 'snprintf' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'snprintf_s' in case of C11
+           snprintf(tmp, sizeof(tmp), "(%s)", info->volname);
+           ^~~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   drivers/pci/probe.c:1013:4: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           snprintf(addr, sizeof(addr), fmt,
+                           ^~~~~~~~
+   drivers/pci/probe.c:1013:4: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+                           snprintf(addr, sizeof(addr), fmt,
+                           ^~~~~~~~
+   drivers/pci/probe.c:1447:2: warning: Call to function 'sprintf' is insec=
+ure as it does not provide bounding of the memory buffer or security checks=
+ introduced in the C11 standard. Replace with analogous functions that supp=
+ort length arguments or provides boundary checks such as 'sprintf_s' in cas=
+e of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandl=
+ing]
+           sprintf(child->name,
+           ^~~~~~~
+   drivers/pci/probe.c:1447:2: note: Call to function 'sprintf' is insecure=
+ as it does not provide bounding of the memory buffer or security checks in=
+troduced in the C11 standard. Replace with analogous functions that support=
+ length arguments or provides boundary checks such as 'sprintf_s' in case o=
+f C11
+           sprintf(child->name,
+           ^~~~~~~
+>> drivers/pci/probe.c:2867:3: warning: Value stored to 'nr_devs' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   nr_devs =3D pci_scan_slot(bus, devfn);
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/probe.c:2867:3: note: Value stored to 'nr_devs' is never read
+                   nr_devs =3D pci_scan_slot(bus, devfn);
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 34 warnings (33 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   drivers/pci/pci.c:286:9: warning: Call to function 'sscanf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   ret =3D sscanf(p, "/%x.%x%c", &slot, &func, &end);
+                         ^~~~~~
+   drivers/pci/pci.c:286:9: note: Call to function 'sscanf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sscanf_s' in case of C11
+                   ret =3D sscanf(p, "/%x.%x%c", &slot, &func, &end);
+                         ^~~~~~
+   drivers/pci/pci.c:312:8: warning: Call to function 'sscanf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret =3D sscanf(wpath, "%x:%x:%x.%x%c", &seg, &bus, &slot,
+                 ^~~~~~
+   drivers/pci/pci.c:312:8: note: Call to function 'sscanf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sscanf_s' in case of C11
+           ret =3D sscanf(wpath, "%x:%x:%x.%x%c", &seg, &bus, &slot,
+                 ^~~~~~
+   drivers/pci/pci.c:316:9: warning: Call to function 'sscanf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   ret =3D sscanf(wpath, "%x:%x.%x%c", &bus, &slot, &func, =
+&end);
+                         ^~~~~~
+   drivers/pci/pci.c:316:9: note: Call to function 'sscanf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sscanf_s' in case of C11
+                   ret =3D sscanf(wpath, "%x:%x.%x%c", &bus, &slot, &func, =
+&end);
+                         ^~~~~~
+   drivers/pci/pci.c:372:9: warning: Call to function 'sscanf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   ret =3D sscanf(p, "%hx:%hx:%hx:%hx%n", &vendor, &device,
+                         ^~~~~~
+   drivers/pci/pci.c:372:9: note: Call to function 'sscanf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sscanf_s' in case of C11
+                   ret =3D sscanf(p, "%hx:%hx:%hx:%hx%n", &vendor, &device,
+                         ^~~~~~
+   drivers/pci/pci.c:375:10: warning: Call to function 'sscanf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           ret =3D sscanf(p, "%hx:%hx%n", &vendor, &device,=
+ &count);
+                                 ^~~~~~
+   drivers/pci/pci.c:375:10: note: Call to function 'sscanf' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'sscanf_s' in case of C11
+                           ret =3D sscanf(p, "%hx:%hx%n", &vendor, &device,=
+ &count);
+                                 ^~~~~~
+   drivers/pci/pci.c:1783:2: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(state->config_space, dev->saved_config_space,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/pci/pci.c:1783:2: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+           memcpy(state->config_space, dev->saved_config_space,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/pci/pci.c:1789:3: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(cap, &tmp->cap, len);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/pci/pci.c:1789:3: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                   memcpy(cap, &tmp->cap, len);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/pci/pci.c:1813:2: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dev->saved_config_space, state->config_space,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/nr_devs +2867 drivers/pci/probe.c
 
->> net/sched/sch_taprio.c:1132:22: warning: Uninitialized variable: entry->=
-interval [uninitvar]
-     interval +=3D entry->interval;
-                        ^
-   net/sched/sch_taprio.c:1241:51: warning: Uninitialized variable: entry->=
-gate_mask [uninitvar]
-     e->gate_mask =3D tc_map_to_queue_mask(dev, entry->gate_mask);
-                                                     ^
---
->> drivers/net/macsec.c:4024:6: warning: Local variable 'send_sci' shadows =
-outer function [shadowFunction]
-     u8 send_sci =3D !!nla_get_u8(data[IFLA_MACSEC_INC_SCI]);
-        ^
-   drivers/net/macsec.c:245:13: note: Shadowed declaration
-   static bool send_sci(const struct macsec_secy *secy)
-               ^
-   drivers/net/macsec.c:4024:6: note: Shadow variable
-     u8 send_sci =3D !!nla_get_u8(data[IFLA_MACSEC_INC_SCI]);
-        ^
->> drivers/net/macsec.c:1009:37: warning: Uninitialized variable: macsec->s=
-ecy [uninitvar]
-     struct net_device *ndev =3D macsec->secy.netdev;
-                                       ^
-   drivers/net/macsec.c:3940:15: warning: Uninitialized variable: macsec->s=
-ecy [uninitvar]
-     if (macsec->secy.sci =3D=3D sci)
-                 ^
->> drivers/net/macsec.c:4294:32: warning: Uninitialized variable: m->secy [=
-uninitvar]
-      struct net_device *dev =3D m->secy.netdev;
-                                  ^
-   drivers/net/macsec.c:4306:29: warning: Uninitialized variable: m->secy [=
-uninitvar]
-      macsec_common_dellink(m->secy.netdev, &head);
-                               ^
-   drivers/net/macsec.c:4321:32: warning: Uninitialized variable: m->secy [=
-uninitvar]
-      struct net_device *dev =3D m->secy.netdev;
-                                  ^
+bccf90d6e063d27 Palmer Dabbelt  2017-06-23  2841  =
 
-vim +/send_sci +4024 drivers/net/macsec.c
+1c02ea81006548a Mika Westerberg 2017-10-13  2842  /**
+1c02ea81006548a Mika Westerberg 2017-10-13  2843   * pci_scan_child_bus_ext=
+end() - Scan devices below a bus
+1c02ea81006548a Mika Westerberg 2017-10-13  2844   * @bus: Bus to scan for =
+devices
+1c02ea81006548a Mika Westerberg 2017-10-13  2845   * @available_buses: Tota=
+l number of buses available (%0 does not try to
+1c02ea81006548a Mika Westerberg 2017-10-13  2846   *		     extend beyond th=
+e minimal)
+1c02ea81006548a Mika Westerberg 2017-10-13  2847   *
+1c02ea81006548a Mika Westerberg 2017-10-13  2848   * Scans devices below @b=
+us including subordinate buses. Returns new
+1c02ea81006548a Mika Westerberg 2017-10-13  2849   * subordinate number inc=
+luding all the found devices. Passing
+1c02ea81006548a Mika Westerberg 2017-10-13  2850   * @available_buses cause=
+s the remaining bus space to be distributed
+1c02ea81006548a Mika Westerberg 2017-10-13  2851   * equally between hotplu=
+g-capable bridges to allow future extension of the
+1c02ea81006548a Mika Westerberg 2017-10-13  2852   * hierarchy.
+1c02ea81006548a Mika Westerberg 2017-10-13  2853   */
+1c02ea81006548a Mika Westerberg 2017-10-13  2854  static unsigned int pci_s=
+can_child_bus_extend(struct pci_bus *bus,
+1c02ea81006548a Mika Westerberg 2017-10-13  2855  					      unsigned int a=
+vailable_buses)
+1c02ea81006548a Mika Westerberg 2017-10-13  2856  {
+1c02ea81006548a Mika Westerberg 2017-10-13  2857  	unsigned int used_buses,=
+ normal_bridges =3D 0, hotplug_bridges =3D 0;
+1c02ea81006548a Mika Westerberg 2017-10-13  2858  	unsigned int start =3D b=
+us->busn_res.start;
+5cac6729750b743 Niklas Schnelle 2022-04-12  2859  	unsigned int devfn, cmax=
+, max =3D start;
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2860  	struct pci_dev *dev;
+690f4304104f37e Jan Kiszka      2018-03-07  2861  	int nr_devs;
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2862  =
 
-845e0ebb4408d44 Cong Wang         2020-06-08  3986  =
+0207c356ef0e2ba Bjorn Helgaas   2009-11-04  2863  	dev_dbg(&bus->dev, "scan=
+ning bus\n");
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2864  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3987  static int macsec_newli=
-nk(struct net *net, struct net_device *dev,
-7a3f4a185169b19 Matthias Schiffer 2017-06-25  3988  			  struct nlattr *tb[=
-], struct nlattr *data[],
-7a3f4a185169b19 Matthias Schiffer 2017-06-25  3989  			  struct netlink_ext=
-_ack *extack)
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3990  {
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3991  	struct macsec_dev *mac=
-sec =3D macsec_priv(dev);
-7f327080364abcc Taehee Yoo        2020-04-23  3992  	rx_handler_func_t *rx_=
-handler;
-7f327080364abcc Taehee Yoo        2020-04-23  3993  	u8 icv_len =3D DEFAULT=
-_ICV_LEN;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3994  	struct net_device *rea=
-l_dev;
-7f327080364abcc Taehee Yoo        2020-04-23  3995  	int err, mtu;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3996  	sci_t sci;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3997  =
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2865  	/* Go find them, Rover! =
+*/
+5cac6729750b743 Niklas Schnelle 2022-04-12  2866  	for (devfn =3D 0; devfn =
+< 256; devfn +=3D 8)
+690f4304104f37e Jan Kiszka      2018-03-07 @2867  		nr_devs =3D pci_scan_sl=
+ot(bus, devfn);
+690f4304104f37e Jan Kiszka      2018-03-07  2868  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3998  	if (!tb[IFLA_LINK])
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  3999  		return -EINVAL;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4000  	real_dev =3D __dev_get=
-_by_index(net, nla_get_u32(tb[IFLA_LINK]));
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4001  	if (!real_dev)
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4002  		return -ENODEV;
-b06d072ccc4b1ac Willem de Bruijn  2020-03-22  4003  	if (real_dev->type !=
-=3D ARPHRD_ETHER)
-b06d072ccc4b1ac Willem de Bruijn  2020-03-22  4004  		return -EINVAL;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4005  =
+3e466e2d3a04c72 Bjorn Helgaas   2017-11-30  2869  	/* Reserve buses for SR-=
+IOV capability */
+1c02ea81006548a Mika Westerberg 2017-10-13  2870  	used_buses =3D pci_iov_b=
+us_range(bus);
+1c02ea81006548a Mika Westerberg 2017-10-13  2871  	max +=3D used_buses;
+a28724b0fb909d2 Yu Zhao         2009-03-20  2872  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4006  	dev->priv_flags |=3D I=
-FF_MACSEC;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4007  =
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2873  	/*
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2874  	 * After performing arch=
+-dependent fixup of the bus, look behind
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2875  	 * all PCI-to-PCI bridge=
+s on this bus.
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2876  	 */
+74710ded8e16fc8 Alex Chiang     2009-03-20  2877  	if (!bus->is_added) {
+0207c356ef0e2ba Bjorn Helgaas   2009-11-04  2878  		dev_dbg(&bus->dev, "fix=
+ups for bus\n");
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2879  		pcibios_fixup_bus(bus);
+74710ded8e16fc8 Alex Chiang     2009-03-20  2880  		bus->is_added =3D 1;
+74710ded8e16fc8 Alex Chiang     2009-03-20  2881  	}
+74710ded8e16fc8 Alex Chiang     2009-03-20  2882  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4008  	macsec->real_dev =3D r=
-eal_dev;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4009  =
+1c02ea81006548a Mika Westerberg 2017-10-13  2883  	/*
+1c02ea81006548a Mika Westerberg 2017-10-13  2884  	 * Calculate how many ho=
+tplug bridges and normal bridges there
+1c02ea81006548a Mika Westerberg 2017-10-13  2885  	 * are on this bus. We w=
+ill distribute the additional available
+1c02ea81006548a Mika Westerberg 2017-10-13  2886  	 * buses between hotplug=
+ bridges.
+1c02ea81006548a Mika Westerberg 2017-10-13  2887  	 */
+1c02ea81006548a Mika Westerberg 2017-10-13  2888  	for_each_pci_bridge(dev,=
+ bus) {
+1c02ea81006548a Mika Westerberg 2017-10-13  2889  		if (dev->is_hotplug_bri=
+dge)
+1c02ea81006548a Mika Westerberg 2017-10-13  2890  			hotplug_bridges++;
+1c02ea81006548a Mika Westerberg 2017-10-13  2891  		else
+1c02ea81006548a Mika Westerberg 2017-10-13  2892  			normal_bridges++;
+1c02ea81006548a Mika Westerberg 2017-10-13  2893  	}
+1c02ea81006548a Mika Westerberg 2017-10-13  2894  =
 
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4010  	if (data && data[IFLA_=
-MACSEC_OFFLOAD])
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4011  		macsec->offload =3D n=
-la_get_offload(data[IFLA_MACSEC_OFFLOAD]);
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4012  	else
-3cf3227a21d1fb0 Antoine Tenart    2020-01-13  4013  		/* MACsec offloading =
-is off by default */
-3cf3227a21d1fb0 Antoine Tenart    2020-01-13  4014  		macsec->offload =3D M=
-ACSEC_OFFLOAD_OFF;
-3cf3227a21d1fb0 Antoine Tenart    2020-01-13  4015  =
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2895  	/*
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2896  	 * Scan bridges that are=
+ already configured. We don't touch them
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2897  	 * unless they are misco=
+nfigured (which will be done in the second
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2898  	 * scan below).
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2899  	 */
+1c02ea81006548a Mika Westerberg 2017-10-13  2900  	for_each_pci_bridge(dev,=
+ bus) {
+1c02ea81006548a Mika Westerberg 2017-10-13  2901  		cmax =3D max;
+1c02ea81006548a Mika Westerberg 2017-10-13  2902  		max =3D pci_scan_bridge=
+_extend(bus, dev, max, 0, 0);
+3374c545c27c535 Mika Westerberg 2018-05-28  2903  =
 
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4016  	/* Check if the offloa=
-ding mode is supported by the underlying layers */
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4017  	if (macsec->offload !=
-=3D MACSEC_OFFLOAD_OFF &&
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4018  	    !macsec_check_offl=
-oad(macsec->offload, macsec))
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4019  		return -EOPNOTSUPP;
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4020  =
+3374c545c27c535 Mika Westerberg 2018-05-28  2904  		/*
+3374c545c27c535 Mika Westerberg 2018-05-28  2905  		 * Reserve one bus for =
+each bridge now to avoid extending
+3374c545c27c535 Mika Westerberg 2018-05-28  2906  		 * hotplug bridges too =
+much during the second scan below.
+3374c545c27c535 Mika Westerberg 2018-05-28  2907  		 */
+3374c545c27c535 Mika Westerberg 2018-05-28  2908  		used_buses++;
+3374c545c27c535 Mika Westerberg 2018-05-28  2909  		if (cmax - max > 1)
+3374c545c27c535 Mika Westerberg 2018-05-28  2910  			used_buses +=3D cmax -=
+ max - 1;
+1c02ea81006548a Mika Westerberg 2017-10-13  2911  	}
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2912  =
 
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4021  	/* send_sci must be se=
-t to true when transmit sci explicitly is set */
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4022  	if ((data && data[IFLA=
-_MACSEC_SCI]) &&
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4023  	    (data && data[IFLA=
-_MACSEC_INC_SCI])) {
-d0cfa548dbde354 Lior Nahmanson    2022-01-30 @4024  		u8 send_sci =3D !!nla=
-_get_u8(data[IFLA_MACSEC_INC_SCI]);
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4025  =
+4147c2fd9b12ae1 Mika Westerberg 2017-10-13  2913  	/* Scan bridges that nee=
+d to be reconfigured */
+1c02ea81006548a Mika Westerberg 2017-10-13  2914  	for_each_pci_bridge(dev,=
+ bus) {
+1c02ea81006548a Mika Westerberg 2017-10-13  2915  		unsigned int buses =3D =
+0;
+1c02ea81006548a Mika Westerberg 2017-10-13  2916  =
 
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4026  		if (!send_sci)
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4027  			return -EINVAL;
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4028  	}
-d0cfa548dbde354 Lior Nahmanson    2022-01-30  4029  =
+1c02ea81006548a Mika Westerberg 2017-10-13  2917  		if (!hotplug_bridges &&=
+ normal_bridges =3D=3D 1) {
+3e466e2d3a04c72 Bjorn Helgaas   2017-11-30  2918  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4030  	if (data && data[IFLA_=
-MACSEC_ICV_LEN])
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4031  		icv_len =3D nla_get_u=
-8(data[IFLA_MACSEC_ICV_LEN]);
-7f327080364abcc Taehee Yoo        2020-04-23  4032  	mtu =3D real_dev->mtu =
-- icv_len - macsec_extra_len(true);
-7f327080364abcc Taehee Yoo        2020-04-23  4033  	if (mtu < 0)
-7f327080364abcc Taehee Yoo        2020-04-23  4034  		dev->mtu =3D 0;
-7f327080364abcc Taehee Yoo        2020-04-23  4035  	else
-7f327080364abcc Taehee Yoo        2020-04-23  4036  		dev->mtu =3D mtu;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4037  =
+1c02ea81006548a Mika Westerberg 2017-10-13  2919  			/*
+1c02ea81006548a Mika Westerberg 2017-10-13  2920  			 * There is only one b=
+ridge on the bus (upstream
+1c02ea81006548a Mika Westerberg 2017-10-13  2921  			 * port) so it gets al=
+l available buses which it
+1c02ea81006548a Mika Westerberg 2017-10-13  2922  			 * can then distribute=
+ to the possible hotplug
+1c02ea81006548a Mika Westerberg 2017-10-13  2923  			 * bridges below.
+1c02ea81006548a Mika Westerberg 2017-10-13  2924  			 */
+1c02ea81006548a Mika Westerberg 2017-10-13  2925  			buses =3D available_bu=
+ses;
+1c02ea81006548a Mika Westerberg 2017-10-13  2926  		} else if (dev->is_hotp=
+lug_bridge) {
+3e466e2d3a04c72 Bjorn Helgaas   2017-11-30  2927  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4038  	rx_handler =3D rtnl_de=
-reference(real_dev->rx_handler);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4039  	if (rx_handler && rx_h=
-andler !=3D macsec_handle_frame)
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4040  		return -EBUSY;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4041  =
+1c02ea81006548a Mika Westerberg 2017-10-13  2928  			/*
+1c02ea81006548a Mika Westerberg 2017-10-13  2929  			 * Distribute the extr=
+a buses between hotplug
+1c02ea81006548a Mika Westerberg 2017-10-13  2930  			 * bridges if any.
+1c02ea81006548a Mika Westerberg 2017-10-13  2931  			 */
+1c02ea81006548a Mika Westerberg 2017-10-13  2932  			buses =3D available_bu=
+ses / hotplug_bridges;
+3374c545c27c535 Mika Westerberg 2018-05-28  2933  			buses =3D min(buses, a=
+vailable_buses - used_buses + 1);
+1c02ea81006548a Mika Westerberg 2017-10-13  2934  		}
+1c02ea81006548a Mika Westerberg 2017-10-13  2935  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4042  	err =3D register_netde=
-vice(dev);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4043  	if (err < 0)
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4044  		return err;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4045  =
+1c02ea81006548a Mika Westerberg 2017-10-13  2936  		cmax =3D max;
+1c02ea81006548a Mika Westerberg 2017-10-13  2937  		max =3D pci_scan_bridge=
+_extend(bus, dev, cmax, buses, 1);
+3374c545c27c535 Mika Westerberg 2018-05-28  2938  		/* One bus is already a=
+ccounted so don't add it again */
+3374c545c27c535 Mika Westerberg 2018-05-28  2939  		if (max - cmax > 1)
+3374c545c27c535 Mika Westerberg 2018-05-28  2940  			used_buses +=3D max - =
+cmax - 1;
+1c02ea81006548a Mika Westerberg 2017-10-13  2941  	}
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2942  =
 
-1a33e10e4a95cb1 Cong Wang         2020-05-02  4046  	netdev_lockdep_set_cla=
-sses(dev);
-be74294ffa24f5f Cong Wang         2020-06-26  4047  	lockdep_set_class(&dev=
-->addr_list_lock,
-be74294ffa24f5f Cong Wang         2020-06-26  4048  			  &macsec_netdev_add=
-r_lock_key);
-1a33e10e4a95cb1 Cong Wang         2020-05-02  4049  =
+e16b46605960bd0 Keith Busch     2016-07-21  2943  	/*
+e16b46605960bd0 Keith Busch     2016-07-21  2944  	 * Make sure a hotplug b=
+ridge has at least the minimum requested
+1c02ea81006548a Mika Westerberg 2017-10-13  2945  	 * number of buses but a=
+llow it to grow up to the maximum available
+1c02ea81006548a Mika Westerberg 2017-10-13  2946  	 * bus number of there i=
+s room.
+e16b46605960bd0 Keith Busch     2016-07-21  2947  	 */
+1c02ea81006548a Mika Westerberg 2017-10-13  2948  	if (bus->self && bus->se=
+lf->is_hotplug_bridge) {
+1c02ea81006548a Mika Westerberg 2017-10-13  2949  		used_buses =3D max_t(un=
+signed int, available_buses,
+1c02ea81006548a Mika Westerberg 2017-10-13  2950  				   pci_hotplug_bus_si=
+ze - 1);
+1c02ea81006548a Mika Westerberg 2017-10-13  2951  		if (max - start < used_=
+buses) {
+1c02ea81006548a Mika Westerberg 2017-10-13  2952  			max =3D start + used_b=
+uses;
+a20c7f36bd3d20d Mika Westerberg 2017-10-13  2953  =
 
-42ab19ee9029299 David Ahern       2017-10-04  4050  	err =3D netdev_upper_d=
-ev_link(real_dev, dev, extack);
-e20038724552cd0 Sabrina Dubroca   2016-08-12  4051  	if (err < 0)
-bd28899dd34f928 Dan Carpenter     2018-04-16  4052  		goto unregister;
-e20038724552cd0 Sabrina Dubroca   2016-08-12  4053  =
+a20c7f36bd3d20d Mika Westerberg 2017-10-13  2954  			/* Do not allocate mor=
+e buses than we have room left */
+a20c7f36bd3d20d Mika Westerberg 2017-10-13  2955  			if (max > bus->busn_re=
+s.end)
+a20c7f36bd3d20d Mika Westerberg 2017-10-13  2956  				max =3D bus->busn_res=
+.end;
+1c02ea81006548a Mika Westerberg 2017-10-13  2957  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4054  	/* need to be already =
-registered so that ->init has run and
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4055  	 * the MAC addr is set
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4056  	 */
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4057  	if (data && data[IFLA_=
-MACSEC_SCI])
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4058  		sci =3D nla_get_sci(d=
-ata[IFLA_MACSEC_SCI]);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4059  	else if (data && data[=
-IFLA_MACSEC_PORT])
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4060  		sci =3D dev_to_sci(de=
-v, nla_get_be16(data[IFLA_MACSEC_PORT]));
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4061  	else
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4062  		sci =3D dev_to_sci(de=
-v, MACSEC_PORT_ES);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4063  =
+1c02ea81006548a Mika Westerberg 2017-10-13  2958  			dev_dbg(&bus->dev, "%p=
+R extended by %#02x\n",
+1c02ea81006548a Mika Westerberg 2017-10-13  2959  				&bus->busn_res, max -=
+ start);
+1c02ea81006548a Mika Westerberg 2017-10-13  2960  		}
+e16b46605960bd0 Keith Busch     2016-07-21  2961  	}
+e16b46605960bd0 Keith Busch     2016-07-21  2962  =
 
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4064  	if (rx_handler && sci_=
-exists(real_dev, sci)) {
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4065  		err =3D -EBUSY;
-e20038724552cd0 Sabrina Dubroca   2016-08-12  4066  		goto unlink;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4067  	}
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4068  =
-
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4069  	err =3D macsec_add_dev=
-(dev, sci, icv_len);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4070  	if (err)
-e20038724552cd0 Sabrina Dubroca   2016-08-12  4071  		goto unlink;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4072  =
-
-ccfdec908922950 Felix Walter      2018-01-05  4073  	if (data) {
-ccfdec908922950 Felix Walter      2018-01-05  4074  		err =3D macsec_change=
-link_common(dev, data);
-ccfdec908922950 Felix Walter      2018-01-05  4075  		if (err)
-ccfdec908922950 Felix Walter      2018-01-05  4076  			goto del_dev;
-ccfdec908922950 Felix Walter      2018-01-05  4077  	}
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4078  =
-
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4079  	/* If h/w offloading i=
-s available, propagate to the device */
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4080  	if (macsec_is_offloade=
-d(macsec)) {
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4081  		const struct macsec_o=
-ps *ops;
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4082  		struct macsec_context=
- ctx;
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4083  =
-
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4084  		ops =3D macsec_get_op=
-s(macsec, &ctx);
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4085  		if (ops) {
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4086  			ctx.secy =3D &macsec=
-->secy;
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4087  			err =3D macsec_offlo=
-ad(ops->mdo_add_secy, &ctx);
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4088  			if (err)
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4089  				goto del_dev;
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4090  		}
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4091  	}
-791bb3fcafcedd1 Mark Starovoytov  2020-03-25  4092  =
-
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4093  	err =3D register_macse=
-c_dev(real_dev, dev);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4094  	if (err < 0)
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4095  		goto del_dev;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4096  =
-
-e6ac075882b2afc Sabrina Dubroca   2018-10-28  4097  	netif_stacked_transfer=
-_operstate(real_dev, dev);
-e6ac075882b2afc Sabrina Dubroca   2018-10-28  4098  	linkwatch_fire_event(d=
-ev);
-e6ac075882b2afc Sabrina Dubroca   2018-10-28  4099  =
-
-96cfc5052c5d434 Sabrina Dubroca   2016-04-22  4100  	macsec_generation++;
-96cfc5052c5d434 Sabrina Dubroca   2016-04-22  4101  =
-
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4102  	return 0;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4103  =
-
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4104  del_dev:
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4105  	macsec_del_dev(macsec);
-e20038724552cd0 Sabrina Dubroca   2016-08-12  4106  unlink:
-e20038724552cd0 Sabrina Dubroca   2016-08-12  4107  	netdev_upper_dev_unlin=
-k(real_dev, dev);
-bd28899dd34f928 Dan Carpenter     2018-04-16  4108  unregister:
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4109  	unregister_netdevice(d=
-ev);
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4110  	return err;
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4111  }
-c09440f7dcb3040 Sabrina Dubroca   2016-03-11  4112  =
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2963  	/*
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2964  	 * We've scanned the bus=
+ and so we know all about what's on
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2965  	 * the other side of any=
+ bridges that may be on this bus plus
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2966  	 * any devices.
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2967  	 *
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2968  	 * Return how far we've =
+got finding sub-buses.
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2969  	 */
+0207c356ef0e2ba Bjorn Helgaas   2009-11-04  2970  	dev_dbg(&bus->dev, "bus =
+scan returning with max=3D%02x\n", max);
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2971  	return max;
+^1da177e4c3f415 Linus Torvalds  2005-04-16  2972  }
+1c02ea81006548a Mika Westerberg 2017-10-13  2973  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6970069642830016358==--
+--===============8864549376280128304==--
 
