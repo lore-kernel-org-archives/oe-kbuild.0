@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0903037264587737606=="
+Content-Type: multipart/mixed; boundary="===============1527521933280920800=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 19/22] clk: Stop forwarding clk_rate_requests to the parent
-Date: Sun, 10 Apr 2022 17:30:07 +0800
-Message-ID: <202204101750.HBf16Mxv-lkp@intel.com>
+Subject: [krzk-github:n/qcom-ufs-opp-v2 14/16] drivers/opp/core.c:1215:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Thu, 14 Apr 2022 23:31:37 +0800
+Message-ID: <202204142327.zrhNmG2E-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0903037264587737606==
+--===============1527521933280920800==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,53 +15,30 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220408091037.2041955-20-maxime@cerno.tech>
-References: <20220408091037.2041955-20-maxime@cerno.tech>
-TO: Maxime Ripard <maxime@cerno.tech>
-TO: Mike Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: linux-clk(a)vger.kernel.org
-CC: Naresh Kamboju <naresh.kamboju@linaro.org>
-CC: Alexander Stein <alexander.stein@ew.tq-group.com>
-CC: Marek Szyprowski <m.szyprowski@samsung.com>
-CC: Tony Lindgren <tony@atomide.com>
-CC: Jerome Brunet <jbrunet@baylibre.com>
-CC: Yassine Oudjana <y.oudjana@protonmail.com>
-CC: Neil Armstrong <narmstrong@baylibre.com>
-CC: Maxime Ripard <maxime@cerno.tech>
+CC: linux-kernel(a)vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-Hi Maxime,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v5.18-rc1 next-20220408]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/clk-Mo=
-re-clock-rate-fixes-and-tests/20220408-171635
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
-ext
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c002-20220409 (https://download.01.org/0day-ci/archi=
-ve/20220410/202204101750.HBf16Mxv-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 9fdd25=
-848a79892eaacc5414d5aef18555b79919)
+tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v2
+head:   bf7d30c9329c87f06dff42b303a9bcfd2e1f54eb
+commit: be46c855d54f763bfb95424e5204fe7496e2ee5f [14/16] PM: opp: allow con=
+trol of multiple clocks
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-c002-20220414 (https://download.01.org/0day-ci/archi=
+ve/20220414/202204142327.zrhNmG2E-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6b7e6e=
+a489f6dd45a9b0da9ac20871560917b9b0)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/09996dda67af2c68d79=
-e0c27380e72014b78d734
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/clk-More-clock-rate-=
-fixes-and-tests/20220408-171635
-        git checkout 09996dda67af2c68d79e0c27380e72014b78d734
+        # https://github.com/krzk/linux/commit/be46c855d54f763bfb95424e5204=
+fe7496e2ee5f
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/qcom-ufs-opp-v2
+        git checkout be46c855d54f763bfb95424e5204fe7496e2ee5f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -72,294 +49,491 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                             ^
-   drivers/clk/clk.c:1576:6: note: Assuming 'clk' is non-null
-           if (!clk)
-               ^~~~
-   drivers/clk/clk.c:1576:2: note: Taking false branch
-           if (!clk)
+                           ^~~~   ~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   drivers/counter/microchip-tcb-capture.c:337:3: warning: Call to function=
+ 'snprintf' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
+                   ^~~~~~~~
+   drivers/counter/microchip-tcb-capture.c:337:3: note: Call to function 's=
+nprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'snprintf_s' in case of C11
+                   snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
+                   ^~~~~~~~
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   32 warnings generated.
+   lib/test_meminit.c:55:3: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&p[i], GARBAGE_BYTE, size);
+                   ^~~~~~
+   lib/test_meminit.c:55:3: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                   memset(&p[i], GARBAGE_BYTE, size);
+                   ^~~~~~
+   lib/test_meminit.c:245:4: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(buf_copy, buf, size);
+                           ^~~~~~
+   lib/test_meminit.c:245:4: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                           memcpy(buf_copy, buf, size);
+                           ^~~~~~
+   lib/test_meminit.c:297:2: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buf_contents, buf, size);
+           ^~~~~~
+   lib/test_meminit.c:297:2: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+           memcpy(buf_contents, buf, size);
+           ^~~~~~
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/opp/core.c:914:3: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(data->old_opp.supplies, old_opp->supplies, size);
+                   ^~~~~~
+   drivers/opp/core.c:914:3: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                   memcpy(data->old_opp.supplies, old_opp->supplies, size);
+                   ^~~~~~
+   drivers/opp/core.c:915:3: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(data->new_opp.supplies, opp->supplies, size);
+                   ^~~~~~
+   drivers/opp/core.c:915:3: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                   memcpy(data->new_opp.supplies, opp->supplies, size);
+                   ^~~~~~
+>> drivers/opp/core.c:1215:2: warning: Undefined or garbage value returned =
+to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/opp/core.c:1160:2: note: 'ret' declared without an initial value
+           int ret;
+           ^~~~~~~
+   drivers/opp/core.c:1163:2: note: Taking false branch
+           if (IS_ERR(opp_table)) {
            ^
-   drivers/clk/clk.c:1581:6: note: Assuming field 'exclusive_count' is 0
-           if (clk->exclusive_count)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1581:2: note: Taking false branch
-           if (clk->exclusive_count)
+   drivers/opp/core.c:1168:6: note: Assuming 'target_freq' is not equal to 0
+           if (target_freq) {
+               ^~~~~~~~~~~
+   drivers/opp/core.c:1168:2: note: Taking true branch
+           if (target_freq) {
            ^
-   drivers/clk/clk.c:1586:8: note: Calling 'clk_core_round_rate_nolock'
-           ret =3D clk_core_round_rate_nolock(clk->core, &req);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1486:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&prepare_lock);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/clk/clk.c:1486:2: note: Left side of '&&' is false
-           lockdep_assert_held(&prepare_lock);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   drivers/clk/clk.c:1486:2: note: Loop condition is false.  Exiting loop
-           lockdep_assert_held(&prepare_lock);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   drivers/clk/clk.c:1488:7: note: 'core' is non-null
-           if (!core) {
-                ^~~~
-   drivers/clk/clk.c:1488:2: note: Taking false branch
-           if (!core) {
-           ^
-   drivers/clk/clk.c:1493:6: note: Assuming the condition is false
-           if (clk_core_can_round(core))
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1493:2: note: Taking false branch
-           if (clk_core_can_round(core))
-           ^
-   drivers/clk/clk.c:1496:6: note: Assuming the condition is true
-           if (core->flags & CLK_SET_RATE_PARENT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1496:2: note: Taking true branch
-           if (core->flags & CLK_SET_RATE_PARENT) {
-           ^
-   drivers/clk/clk.c:1499:3: note: Calling 'clk_core_forward_rate_req'
-                   clk_core_forward_rate_req(core, core->parent, req, &pare=
-nt_req);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/clk/clk.c:579:14: note: Assuming the condition is false
-           if (WARN_ON(!clk_core_has_parent(core, parent)))
-                       ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/clk/clk.c:579:2: note: Taking false branch
-           if (WARN_ON(!clk_core_has_parent(core, parent)))
-           ^
-   drivers/clk/clk.c:582:2: note: Calling 'clk_core_init_rate_req'
-           clk_core_init_rate_req(parent, req, old_req->rate);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1440:15: note: 'core' is null
-           if (WARN_ON(!core || !req))
-                        ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/clk/clk.c:1440:20: note: Left side of '||' is true
-           if (WARN_ON(!core || !req))
-                             ^
-   drivers/clk/clk.c:1440:2: note: Taking true branch
-           if (WARN_ON(!core || !req))
-           ^
-   drivers/clk/clk.c:1441:3: note: Returning without writing to 'req->min_r=
-ate'
-                   return;
+   drivers/opp/core.c:1176:7: note: Assuming the condition is true
+                   if (!_get_opp_count(opp_table)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/opp/core.c:1176:3: note: Taking true branch
+                   if (!_get_opp_count(opp_table)) {
                    ^
-   drivers/clk/clk.c:582:2: note: Returning from 'clk_core_init_rate_req'
-           clk_core_init_rate_req(parent, req, old_req->rate);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:584:20: note: The left operand of '<' is a garbage val=
-ue
-           if (req->min_rate < old_req->min_rate)
-               ~~~~~~~~~~~~~ ^
->> drivers/clk/clk.c:1408:14: warning: Assigned value is garbage or undefin=
-ed [clang-analyzer-core.uninitialized.Assign]
-           req->rate =3D clamp(req->rate, req->min_rate, req->max_rate);
-                       ^
-   include/linux/minmax.h:89:45: note: expanded from macro 'clamp'
-   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
-                                               ^
-   include/linux/minmax.h:52:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(x, y, >)
+   drivers/opp/core.c:1177:8: note: Assuming field 'clks' is null
+                           if (opp_table->clks)
+                               ^~~~~~~~~~~~~~~
+   drivers/opp/core.c:1177:4: note: Taking false branch
+                           if (opp_table->clks)
                            ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:31:3: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x =3D (x);               \
-                   ^
-   drivers/clk/clk.c:1576:6: note: Assuming 'clk' is non-null
-           if (!clk)
-               ^~~~
-   drivers/clk/clk.c:1576:2: note: Taking false branch
-           if (!clk)
+   drivers/opp/core.c:1181:4: note: Control jumps to line 1214
+                           goto put_opp_table;
+                           ^
+   drivers/opp/core.c:1215:2: note: Undefined or garbage value returned to =
+caller
+           return ret;
+           ^      ~~~
+   Suppressed 42 warnings (41 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/opp/of.c:586:3: warning: Call to function 'snprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(name, sizeof(name), "opp-microvolt-%s",
+                   ^~~~~~~~
+   drivers/opp/of.c:586:3: note: Call to function 'snprintf' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'snprintf_s' in case of C11
+                   snprintf(name, sizeof(name), "opp-microvolt-%s",
+                   ^~~~~~~~
+   drivers/opp/of.c:593:3: warning: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(name, "opp-microvolt");
+                   ^~~~~~~
+   drivers/opp/of.c:593:3: note: Call to function 'sprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sprintf_s' in case of C11
+                   sprintf(name, "opp-microvolt");
+                   ^~~~~~~
+   drivers/opp/of.c:649:3: warning: Call to function 'snprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(name, sizeof(name), "opp-microamp-%s",
+                   ^~~~~~~~
+   drivers/opp/of.c:649:3: note: Call to function 'snprintf' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'snprintf_s' in case of C11
+                   snprintf(name, sizeof(name), "opp-microamp-%s",
+                   ^~~~~~~~
+   drivers/opp/of.c:656:3: warning: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(name, "opp-microamp");
+                   ^~~~~~~
+   drivers/opp/of.c:656:3: note: Call to function 'sprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sprintf_s' in case of C11
+                   sprintf(name, "opp-microamp");
+                   ^~~~~~~
+   drivers/opp/of.c:693:2: warning: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(name, "opp-microwatt");
+           ^~~~~~~
+   drivers/opp/of.c:693:2: note: Call to function 'sprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sprintf_s' in case of C11
+           sprintf(name, "opp-microwatt");
+           ^~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   46 warnings generated.
+   drivers/clk/clk-si5341.c:691:2: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           err =3D si5341_encode_44_32(synth->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:691:2: note: Value stored to 'err' is never read
+           err =3D si5341_encode_44_32(synth->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:856:23: warning: Division by zero [clang-analyz=
+er-core.DivideZero]
+                   rate =3D *parent_rate / (r << 1);
+                          ~~~~~~~~~~~~~^~~~~~~~~~
+   drivers/clk/clk-si5341.c:835:6: note: Assuming 'rate' is not equal to 0
+           if (!rate)
+               ^~~~~
+   drivers/clk/clk-si5341.c:835:2: note: Taking false branch
+           if (!rate)
            ^
-   drivers/clk/clk.c:1581:6: note: Assuming field 'exclusive_count' is 0
-           if (clk->exclusive_count)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1581:2: note: Taking false branch
-           if (clk->exclusive_count)
+   drivers/clk/clk-si5341.c:841:6: note: Assuming 'r' is 0
+           if (r && !(r % rate))
+               ^
+   drivers/clk/clk-si5341.c:841:8: note: Left side of '&&' is false
+           if (r && !(r % rate))
+                 ^
+   drivers/clk/clk-si5341.c:844:6: note: Assuming the condition is false
+           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:844:2: note: Taking false branch
+           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
            ^
-   drivers/clk/clk.c:1584:2: note: Calling 'clk_core_init_rate_req'
-           clk_core_init_rate_req(clk->core, &req, rate);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1440:14: note: Assuming 'core' is non-null
-           if (WARN_ON(!core || !req))
-                       ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/clk/clk.c:1440:14: note: Left side of '||' is false
-           if (WARN_ON(!core || !req))
-                       ^
-   drivers/clk/clk.c:1440:2: note: Taking false branch
-           if (WARN_ON(!core || !req))
-           ^
-   drivers/clk/clk.c:1447:6: note: Assuming 'parent' is null
-           if (parent) {
-               ^~~~~~
-   drivers/clk/clk.c:1447:2: note: Taking false branch
-           if (parent) {
-           ^
-   drivers/clk/clk.c:1584:2: note: Returning from 'clk_core_init_rate_req'
-           clk_core_init_rate_req(clk->core, &req, rate);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1586:8: note: Calling 'clk_core_round_rate_nolock'
-           ret =3D clk_core_round_rate_nolock(clk->core, &req);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1486:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&prepare_lock);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/clk/clk.c:1486:2: note: Left side of '&&' is false
-           lockdep_assert_held(&prepare_lock);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   drivers/clk/clk.c:1486:2: note: Loop condition is false.  Exiting loop
-           lockdep_assert_held(&prepare_lock);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   drivers/clk/clk.c:1488:7: note: 'core' is non-null
-           if (!core) {
-                ^~~~
-   drivers/clk/clk.c:1488:2: note: Taking false branch
-           if (!core) {
-           ^
-   drivers/clk/clk.c:1493:6: note: Calling 'clk_core_can_round'
-           if (clk_core_can_round(core))
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1478:9: note: Assuming field 'determine_rate' is null
-           return core->ops->determine_rate || core->ops->round_rate;
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:1478:9: note: Left side of '||' is false
-   drivers/clk/clk.c:1478:2: note: Returning without writing to 'core->pare=
-nt', which participates in a condition later
-           return core->ops->determine_rate || core->ops->round_rate;
-           ^
-   drivers/clk/clk.c:1493:6: note: Returning from 'clk_core_can_round'
+   drivers/clk/clk-si5341.c:856:23: note: Division by zero
+                   rate =3D *parent_rate / (r << 1);
 
-vim +1408 drivers/clk/clk.c
+vim +1215 drivers/opp/core.c
 
-7ec986efed0208c Dong Aisheng       2016-06-30  1397  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1143  =
 
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1398  static int clk_core_de=
-termine_round_nolock(struct clk_core *core,
-0817b62cc037a56 Boris Brezillon    2015-07-07  1399  					   struct clk_rat=
-e_request *req)
-b2476490ef11134 Mike Turquette     2012-03-15  1400  {
-0817b62cc037a56 Boris Brezillon    2015-07-07  1401  	long rate;
-4dff95dc9477a34 Stephen Boyd       2015-04-30  1402  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1144  /**
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1145   * dev_pm_opp_set_rate() - Configure new OPP based on frequency
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1146   * @dev:	 device for which we do this operation
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1147   * @target_freq: frequency to achieve
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1148   *
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1149   * This configures the power-supplies to the levels specified by th=
+e OPP
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1150   * corresponding to the target_freq, and programs the clock to a va=
+lue <=3D
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1151   * target_freq, as rounded by clk_round_rate(). Device wanting to r=
+un@fmax
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1152   * provided by the opp, should have already rounded to the target O=
+PP's
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1153   * frequency.
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1154   */
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1155  int dev_pm_opp_set_rate(struct device *dev, unsigned long target_fr=
+eq)
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1156  {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1157  	struct opp_table *opp_table;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1158  	unsigned long freq =3D 0, temp_freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1159  	struct dev_pm_opp *opp =3D NULL;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1160  	int ret;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1161  =
 
-4dff95dc9477a34 Stephen Boyd       2015-04-30  1403  	lockdep_assert_held(&=
-prepare_lock);
-b2476490ef11134 Mike Turquette     2012-03-15  1404  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1162  	opp_table =3D _find_opp_table(dev);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1163  	if (IS_ERR(opp_table)) {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1164  		dev_err(dev, "%s: device's opp table doesn't exist\n", __func__);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1165  		return PTR_ERR(opp_table);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1166  	}
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1167  =
 
-d6968fca789700a Stephen Boyd       2015-04-30  1405  	if (!core)
-4dff95dc9477a34 Stephen Boyd       2015-04-30  1406  		return 0;
-b2476490ef11134 Mike Turquette     2012-03-15  1407  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1168  	if (target_freq) {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1169  		/*
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1170  		 * For IO devices which require an OPP on some platforms/SoCs
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1171  		 * while just needing to scale the clock on some others
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1172  		 * we look for empty OPP tables with just a clock handle and
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1173  		 * scale only the clk. This makes dev_pm_opp_set_rate()
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1174  		 * equivalent to a clk_set_rate()
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1175  		 */
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1176  		if (!_get_opp_count(opp_table)) {
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1177  			if (opp_table->clks)
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1178  				ret =3D _generic_set_opp_clk_only(dev,
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1179  								opp_table->clks[0],
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1180  								target_freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1181  			goto put_opp_table;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1182  		}
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1183  =
 
-948fb0969eae856 Maxime Ripard      2022-02-25 @1408  	req->rate =3D clamp(r=
-eq->rate, req->min_rate, req->max_rate);
-948fb0969eae856 Maxime Ripard      2022-02-25  1409  =
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1184  		if (opp_table->clks)
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1185  			freq =3D clk_round_rate(opp_table->clks[0], target_freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1186  		if ((long)freq <=3D 0)
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1187  			freq =3D target_freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1188  =
 
-55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1410  	/*
-e27453adcadd7be Geert Uytterhoeven 2021-03-26  1411  	 * At this point, cor=
-e protection will be disabled
-55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1412  	 * - if the provider =
-is not protected at all
-55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1413  	 * - if the calling c=
-onsumer is the only one which has exclusivity
-55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1414  	 *   over the provider
-55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1415  	 */
-e55a839a7a1c561 Jerome Brunet      2017-12-01  1416  	if (clk_core_rate_is_=
-protected(core)) {
-e55a839a7a1c561 Jerome Brunet      2017-12-01  1417  		req->rate =3D core->=
-rate;
-e55a839a7a1c561 Jerome Brunet      2017-12-01  1418  	} else if (core->ops-=
->determine_rate) {
-0817b62cc037a56 Boris Brezillon    2015-07-07  1419  		return core->ops->de=
-termine_rate(core->hw, req);
-0817b62cc037a56 Boris Brezillon    2015-07-07  1420  	} else if (core->ops-=
->round_rate) {
-0817b62cc037a56 Boris Brezillon    2015-07-07  1421  		rate =3D core->ops->=
-round_rate(core->hw, req->rate,
-0817b62cc037a56 Boris Brezillon    2015-07-07  1422  					     &req->best_p=
-arent_rate);
-0817b62cc037a56 Boris Brezillon    2015-07-07  1423  		if (rate < 0)
-0817b62cc037a56 Boris Brezillon    2015-07-07  1424  			return rate;
-0817b62cc037a56 Boris Brezillon    2015-07-07  1425  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1189  		/*
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1190  		 * The clock driver may support finer resolution of the
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1191  		 * frequencies than the OPP table, don't update the frequency we
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1192  		 * pass to clk_set_rate() here.
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1193  		 */
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1194  		temp_freq =3D freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1195  		opp =3D _find_freq_ceil(opp_table, &temp_freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1196  		if (IS_ERR(opp)) {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1197  			ret =3D PTR_ERR(opp);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1198  			dev_err(dev, "%s: failed to find OPP for freq %lu (%d)\n",
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1199  				__func__, freq, ret);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1200  			goto put_opp_table;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1201  		}
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1202  		/*
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1203  		 * opp->rates are used for scaling clocks, so be sure accurate
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1204  		 * 'freq' is used, instead what was defined via e.g. Devicetree.
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1205  		 */
+be46c855d54f76 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1206  		opp->rates[0] =3D freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1207  	}
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1208  =
 
-0817b62cc037a56 Boris Brezillon    2015-07-07  1426  		req->rate =3D rate;
-0817b62cc037a56 Boris Brezillon    2015-07-07  1427  	} else {
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1428  		return -EINVAL;
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1429  	}
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1430  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1209  	ret =3D _set_opp(dev, opp_table, opp, freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1210  =
 
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1431  	return 0;
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1432  }
-0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1433  =
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1211  	if (target_freq)
+8a31d9d94297b1 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+  1212  		dev_pm_opp_put(opp);
+052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+  1213  put_opp_table:
+5b650b388844f2 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+  1214  	dev_pm_opp_put_opp_table(opp_table);
+052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+ @1215  	return ret;
+6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar        2016-02-09=
+  1216  }
+6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar        2016-02-09=
+  1217  EXPORT_SYMBOL_GPL(dev_pm_opp_set_rate);
+6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar        2016-02-09=
+  1218  =
 
+
+:::::: The code at line 1215 was first introduced by commit
+:::::: 052c6f19141dd13f266cc465fde6f38ddc93d5fb PM / OPP: Move away from RC=
+U locking
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0903037264587737606==--
+--===============1527521933280920800==--
 
