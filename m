@@ -1,55 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============6996856047356589233=="
+Content-Type: multipart/mixed; boundary="===============0586608480641066420=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [krzk-github:n/qcom-ufs-opp-v2 14/16] drivers/opp/core.c:1215 dev_pm_opp_set_rate() error: uninitialized symbol 'ret'.
-Date: Fri, 15 Apr 2022 09:49:41 +0300
-Message-ID: <20220415064941.GF12805@kadam>
-In-Reply-To: <202204150900.qnJMf3Gu-lkp@intel.com>
+From: kernel test robot <lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.17-rc6 24/28] drivers/iommu/iommufd/vfio_compat.c:494:2-8: preceding lock on line 491
+Date: Fri, 15 Apr 2022 13:40:44 +0800
+Message-ID: <202204151332.VXctgcaF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6996856047356589233==
+--===============0586608480641066420==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 15, 2022 at 09:45:47AM +0300, Dan Carpenter wrote:
-> tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v2
-> head:   bf7d30c9329c87f06dff42b303a9bcfd2e1f54eb
-> commit: be46c855d54f763bfb95424e5204fe7496e2ee5f [14/16] PM: opp: allow c=
-ontrol of multiple clocks
-> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/202=
-20415/202204150900.qnJMf3Gu-lkp(a)intel.com/config)
-> compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
-> =
+CC: kbuild-all(a)lists.01.org
+BCC: lkp(a)intel.com
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> =
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.17-rc6
+head:   71a58479a11e89a480ebc59ed5163440d3e2772c
+commit: a3273f1f88fe60e784d6e9916269a7d70fc6daf4 [24/28] iommufd: Add vfio_=
+group_set/unset_iommufd helpers
+:::::: branch date: 2 days ago
+:::::: commit date: 4 weeks ago
+config: sparc64-randconfig-c024-20220414 (https://download.01.org/0day-ci/a=
+rchive/20220415/202204151332.VXctgcaF-lkp(a)intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.2.0
 
-> New smatch warnings:
-> drivers/opp/core.c:1215 dev_pm_opp_set_rate() error: uninitialized symbol=
- 'ret'.
-> =
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-This one is the warning I meant to include.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/vfio_compat.c:494:2-8: preceding lock on line 491
 
-> Old smatch warnings:
-> drivers/opp/core.c:1197 dev_pm_opp_set_rate() warn: passing a valid point=
-er to 'PTR_ERR'
-> drivers/opp/core.c:2813 _opp_set_availability() warn: passing a valid poi=
-nter to 'PTR_ERR'
-> drivers/opp/core.c:2884 dev_pm_opp_adjust_voltage() warn: passing a valid=
- pointer to 'PTR_ERR'
+vim +494 drivers/iommu/iommufd/vfio_compat.c
 
-Sorry, these are false positives.  It comes from Smatch thinking
-pointers are signed on certain arches.  I've been too lazy to set up a
-cross compile system to debug the issue, but I really need to do that.  :/
+a3273f1f88fe60 Nicolin Chen 2022-01-31  481  =
 
-regards,
-dan carpenter
+a3273f1f88fe60 Nicolin Chen 2022-01-31  482  void vfio_group_unset_iommufd(=
+void *iommufd, struct list_head *device_list)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  483  {
+a3273f1f88fe60 Nicolin Chen 2022-01-31  484  	struct iommufd_ctx *ictx =3D =
+(struct iommufd_ctx *)iommufd;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  485  	struct iommufd_ioas *ioas;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  486  	struct vfio_device *device;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  487  	unsigned int ioas_id;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  488  =
 
---===============6996856047356589233==--
+a3273f1f88fe60 Nicolin Chen 2022-01-31  489  	if (!ictx)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  490  		return;
+a3273f1f88fe60 Nicolin Chen 2022-01-31 @491  	mutex_lock(&ictx->vfio_compat=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  492  	ioas =3D get_compat_ioas(ictx=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  493  	if (IS_ERR(ioas))
+a3273f1f88fe60 Nicolin Chen 2022-01-31 @494  		return;
+
+-- =
+
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+--===============0586608480641066420==--
 
