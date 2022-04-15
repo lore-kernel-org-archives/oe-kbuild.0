@@ -1,83 +1,80 @@
-Content-Type: multipart/mixed; boundary="===============2222871973284382495=="
+Content-Type: multipart/mixed; boundary="===============0259609315621311472=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: block/holder.c:10:72: warning: Parameter 'bdev' can be declared with const [constParameter]
-Date: Fri, 15 Apr 2022 23:23:12 +0800
-Message-ID: <202204152333.1wHVf4EU-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.17-rc6 24/28] drivers/iommu/iommufd/vfio_compat.c:503 vfio_group_unset_iommufd() warn: inconsistent returns '&ictx->vfio_compat'.
+Date: Fri, 15 Apr 2022 22:52:45 +0800
+Message-ID: <202204152248.K66L5JbF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2222871973284382495==
+--===============0259609315621311472==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   028192fea1de083f4f12bfb1eb7c4d7beb5c8ecd
-commit: 0dbcfe247f22a6d73302dfa691c48b3c14d31c4c block: look up holders by =
-bdev
-date:   8 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 8 months ago
-compiler: powerpc-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 0dbcfe247f22a6d73302dfa691c48b3c14d31c4c
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.17-rc6
+head:   71a58479a11e89a480ebc59ed5163440d3e2772c
+commit: a3273f1f88fe60e784d6e9916269a7d70fc6daf4 [24/28] iommufd: Add vfio_=
+group_set/unset_iommufd helpers
+:::::: branch date: 2 days ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-m031-20220415 (https://download.01.org/0day-ci/arc=
+hive/20220415/202204152248.K66L5JbF-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/iommu/iommufd/vfio_compat.c:503 vfio_group_unset_iommufd() warn: in=
+consistent returns '&ictx->vfio_compat'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +503 drivers/iommu/iommufd/vfio_compat.c
 
->> block/holder.c:10:72: warning: Parameter 'bdev' can be declared with con=
-st [constParameter]
-   static struct bd_holder_disk *bd_find_holder_disk(struct block_device *b=
-dev,
-                                                                          ^
+a3273f1f88fe60 Nicolin Chen 2022-01-31  481  =
 
-vim +/bdev +10 block/holder.c
+a3273f1f88fe60 Nicolin Chen 2022-01-31  482  void vfio_group_unset_iommufd(=
+void *iommufd, struct list_head *device_list)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  483  {
+a3273f1f88fe60 Nicolin Chen 2022-01-31  484  	struct iommufd_ctx *ictx =3D =
+(struct iommufd_ctx *)iommufd;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  485  	struct iommufd_ioas *ioas;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  486  	struct vfio_device *device;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  487  	unsigned int ioas_id;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  488  =
 
-c66fd019713e9cf Christoph Hellwig 2021-08-04   9  =
+a3273f1f88fe60 Nicolin Chen 2022-01-31  489  	if (!ictx)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  490  		return;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  491  	mutex_lock(&ictx->vfio_compat=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  492  	ioas =3D get_compat_ioas(ictx=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  493  	if (IS_ERR(ioas))
+a3273f1f88fe60 Nicolin Chen 2022-01-31  494  		return;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  495  =
 
-c66fd019713e9cf Christoph Hellwig 2021-08-04 @10  static struct bd_holder_d=
-isk *bd_find_holder_disk(struct block_device *bdev,
-c66fd019713e9cf Christoph Hellwig 2021-08-04  11  						  struct gendisk *d=
-isk)
-c66fd019713e9cf Christoph Hellwig 2021-08-04  12  {
-c66fd019713e9cf Christoph Hellwig 2021-08-04  13  	struct bd_holder_disk *h=
-older;
-c66fd019713e9cf Christoph Hellwig 2021-08-04  14  =
+a3273f1f88fe60 Nicolin Chen 2022-01-31  496  	ioas_id =3D ioas->obj.id;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  497  	iommufd_put_object(&ioas->obj=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  498  =
 
-0dbcfe247f22a6d Christoph Hellwig 2021-08-04  15  	list_for_each_entry(hold=
-er, &disk->slave_bdevs, list)
-0dbcfe247f22a6d Christoph Hellwig 2021-08-04  16  		if (holder->bdev =3D=3D=
- bdev)
-c66fd019713e9cf Christoph Hellwig 2021-08-04  17  			return holder;
-c66fd019713e9cf Christoph Hellwig 2021-08-04  18  	return NULL;
-c66fd019713e9cf Christoph Hellwig 2021-08-04  19  }
-c66fd019713e9cf Christoph Hellwig 2021-08-04  20  =
-
-
-:::::: The code at line 10 was first introduced by commit
-:::::: c66fd019713e9cf7d6f1243c378cd177d01fe18a block: make the block holde=
-r code optional
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+a3273f1f88fe60 Nicolin Chen 2022-01-31  499  	vfio_device_detach_unbind(ict=
+x, ioas_id, device, device_list);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  500  	if (--ictx->groups =3D=3D 0)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  501  		iommufd_ioas_destroy(&ioas->=
+obj);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  502  	mutex_unlock(&ictx->vfio_comp=
+at);
+a3273f1f88fe60 Nicolin Chen 2022-01-31 @503  	fput(ictx->filp);
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2222871973284382495==--
+--===============0259609315621311472==--
 
