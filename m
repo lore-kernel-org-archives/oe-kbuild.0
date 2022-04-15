@@ -1,80 +1,201 @@
-Content-Type: multipart/mixed; boundary="===============0259609315621311472=="
+Content-Type: multipart/mixed; boundary="===============6844729757679009679=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [luxis1999-iommufd:iommufd-v5.17-rc6 24/28] drivers/iommu/iommufd/vfio_compat.c:503 vfio_group_unset_iommufd() warn: inconsistent returns '&ictx->vfio_compat'.
-Date: Fri, 15 Apr 2022 22:52:45 +0800
-Message-ID: <202204152248.K66L5JbF-lkp@intel.com>
+Subject: [linux-next:master 2484/4328] drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error: uninitialized symbol 'error'.
+Date: Fri, 15 Apr 2022 22:32:23 +0800
+Message-ID: <202204152239.uvvdoxwn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0259609315621311472==
+--===============6844729757679009679==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Liu Yi L <yi.l.liu@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jeff LaBundy <jeff@labundy.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-tree:   https://github.com/luxis1999/iommufd iommufd-v5.17-rc6
-head:   71a58479a11e89a480ebc59ed5163440d3e2772c
-commit: a3273f1f88fe60e784d6e9916269a7d70fc6daf4 [24/28] iommufd: Add vfio_=
-group_set/unset_iommufd helpers
-:::::: branch date: 2 days ago
-:::::: commit date: 4 weeks ago
-config: arm64-randconfig-m031-20220415 (https://download.01.org/0day-ci/arc=
-hive/20220415/202204152248.K66L5JbF-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   40354149f4d738dc3492d9998e45b3f02950369a
+commit: e505edaedcb9e7d16eefddc62d2189afaea0febc [2484/4328] Input: add sup=
+port for Azoteq IQS7222A/B/C
+:::::: branch date: 33 hours ago
+:::::: commit date: 7 days ago
+config: s390-randconfig-m031-20220414 (https://download.01.org/0day-ci/arch=
+ive/20220415/202204152239.uvvdoxwn-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/iommu/iommufd/vfio_compat.c:503 vfio_group_unset_iommufd() warn: in=
-consistent returns '&ictx->vfio_compat'.
+drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error: uninitialized s=
+ymbol 'error'.
 
-vim +503 drivers/iommu/iommufd/vfio_compat.c
+vim +/error +1404 drivers/input/misc/iqs7222.c
 
-a3273f1f88fe60 Nicolin Chen 2022-01-31  481  =
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1329  =
 
-a3273f1f88fe60 Nicolin Chen 2022-01-31  482  void vfio_group_unset_iommufd(=
-void *iommufd, struct list_head *device_list)
-a3273f1f88fe60 Nicolin Chen 2022-01-31  483  {
-a3273f1f88fe60 Nicolin Chen 2022-01-31  484  	struct iommufd_ctx *ictx =3D =
-(struct iommufd_ctx *)iommufd;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  485  	struct iommufd_ioas *ioas;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  486  	struct vfio_device *device;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  487  	unsigned int ioas_id;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  488  =
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1330  static int iqs7222_dev_init(s=
+truct iqs7222_private *iqs7222, int dir)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1331  {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1332  	const struct iqs7222_dev_des=
+c *dev_desc =3D iqs7222->dev_desc;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1333  	int comms_offset =3D dev_des=
+c->comms_offset;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1334  	int error, i, j, k;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1335  =
 
-a3273f1f88fe60 Nicolin Chen 2022-01-31  489  	if (!ictx)
-a3273f1f88fe60 Nicolin Chen 2022-01-31  490  		return;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  491  	mutex_lock(&ictx->vfio_compat=
-);
-a3273f1f88fe60 Nicolin Chen 2022-01-31  492  	ioas =3D get_compat_ioas(ictx=
-);
-a3273f1f88fe60 Nicolin Chen 2022-01-31  493  	if (IS_ERR(ioas))
-a3273f1f88fe60 Nicolin Chen 2022-01-31  494  		return;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  495  =
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1336  	/*
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1337  	 * Take advantage of the sto=
+p-bit disable function, if available, to
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1338  	 * save the trouble of havin=
+g to reopen a communication window after
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1339  	 * each burst read or write.
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1340  	 */
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1341  	if (comms_offset) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1342  		u16 comms_setup;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1343  =
 
-a3273f1f88fe60 Nicolin Chen 2022-01-31  496  	ioas_id =3D ioas->obj.id;
-a3273f1f88fe60 Nicolin Chen 2022-01-31  497  	iommufd_put_object(&ioas->obj=
-);
-a3273f1f88fe60 Nicolin Chen 2022-01-31  498  =
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1344  		error =3D iqs7222_read_word=
+(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1345  					  IQS7222_SYS_SETUP + co=
+mms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1346  					  &comms_setup);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1347  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1348  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1349  =
 
-a3273f1f88fe60 Nicolin Chen 2022-01-31  499  	vfio_device_detach_unbind(ict=
-x, ioas_id, device, device_list);
-a3273f1f88fe60 Nicolin Chen 2022-01-31  500  	if (--ictx->groups =3D=3D 0)
-a3273f1f88fe60 Nicolin Chen 2022-01-31  501  		iommufd_ioas_destroy(&ioas->=
-obj);
-a3273f1f88fe60 Nicolin Chen 2022-01-31  502  	mutex_unlock(&ictx->vfio_comp=
-at);
-a3273f1f88fe60 Nicolin Chen 2022-01-31 @503  	fput(ictx->filp);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1350  		error =3D iqs7222_write_wor=
+d(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1351  					   IQS7222_SYS_SETUP + c=
+omms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1352  					   comms_setup | IQS7222=
+_COMMS_HOLD);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1353  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1354  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1355  	}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1356  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1357  	for (i =3D 0; i < IQS7222_NU=
+M_REG_GRPS; i++) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1358  		int num_row =3D dev_desc->r=
+eg_grps[i].num_row;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1359  		int num_col =3D dev_desc->r=
+eg_grps[i].num_col;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1360  		u16 reg =3D dev_desc->reg_g=
+rps[i].base;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1361  		__le16 *val_buf;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1362  		u16 *val;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1363  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1364  		if (!num_col)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1365  			continue;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1366  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1367  		val =3D iqs7222_setup(iqs72=
+22, i, 0);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1368  		if (!val)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1369  			continue;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1370  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1371  		val_buf =3D kcalloc(num_col=
+, sizeof(__le16), GFP_KERNEL);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1372  		if (!val_buf)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1373  			return -ENOMEM;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1374  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1375  		for (j =3D 0; j < num_row; =
+j++) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1376  			switch (dir) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1377  			case READ:
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1378  				error =3D iqs7222_read_bu=
+rst(iqs7222, reg,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1379  							   val_buf, num_col);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1380  				for (k =3D 0; k < num_col=
+; k++)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1381  					val[k] =3D le16_to_cpu(v=
+al_buf[k]);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1382  				break;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1383  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1384  			case WRITE:
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1385  				for (k =3D 0; k < num_col=
+; k++)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1386  					val_buf[k] =3D cpu_to_le=
+16(val[k]);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1387  				error =3D iqs7222_write_b=
+urst(iqs7222, reg,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1388  							    val_buf, num_col);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1389  				break;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1390  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1391  			default:
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1392  				error =3D -EINVAL;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1393  			}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1394  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1395  			if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1396  				break;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1397  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1398  			reg +=3D IQS7222_REG_OFFSE=
+T;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1399  			val +=3D iqs7222_max_cols[=
+i];
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1400  		}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1401  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1402  		kfree(val_buf);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1403  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08 @1404  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1405  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1406  	}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1407  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1408  	if (comms_offset) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1409  		u16 comms_setup;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1410  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1411  		error =3D iqs7222_read_word=
+(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1412  					  IQS7222_SYS_SETUP + co=
+mms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1413  					  &comms_setup);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1414  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1415  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1416  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1417  		error =3D iqs7222_write_wor=
+d(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1418  					   IQS7222_SYS_SETUP + c=
+omms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1419  					   comms_setup & ~IQS722=
+2_COMMS_HOLD);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1420  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1421  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1422  	}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1423  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1424  	if (dir =3D=3D READ)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1425  		return 0;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1426  =
+
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1427  	return iqs7222_ati_trigger(i=
+qs7222);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1428  }
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1429  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0259609315621311472==--
+--===============6844729757679009679==--
 
