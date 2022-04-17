@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1509595941495412376=="
+Content-Type: multipart/mixed; boundary="===============1342589900807926793=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hv/channel_mgmt.c:785 init_vp_index() error: uninitialized symbol 'target_cpu'.
-Date: Mon, 18 Apr 2022 05:55:58 +0800
-Message-ID: <202204180525.9FX5pouS-lkp@intel.com>
+Subject: [jsarha:topic/chromeos-4.19-s0ix 9356/9999] drivers/gpu/drm/i915/i915_gem.c:3322:19: error: format '%d' expects argument of type 'int', but argument 4 has type 'u64' {aka 'long long unsigned int'}
+Date: Mon, 18 Apr 2022 05:25:10 +0800
+Message-ID: <202204180502.mVuKQ2TE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1509595941495412376==
+--===============1342589900807926793==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,171 +15,149 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Haiyang Zhang <haiyangz@microsoft.com>
-CC: Wei Liu <wei.liu@kernel.org>
-CC: Michael Kelley <mikelley@microsoft.com>
+TO: Guenter Roeck <groeck@chromium.org>
+CC: Douglas Anderson <dianders@chromium.org>
+CC: Rob Clark <robdclark@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a1901b464e7e3e28956ae7423db2847dbbfb5be8
-commit: 7c9ff3deeee61b253715dcf968a6307af148c9b2 Drivers: hv: vmbus: Fix du=
-plicate CPU assignments within a device
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-m031-20220418 (https://download.01.org/0day-ci/ar=
-chive/20220418/202204180525.9FX5pouS-lkp(a)intel.com/config)
+Hi Guenter,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
+head:   430bdaa0a8c38697780f45a148964d71951df11f
+commit: 5a4de0d9ac4bc240999584010ecb3d5f902bf165 [9356/9999] FIXUP: CHROMIU=
+M: drm/vgem: fix cache synchronization on arm/arm64 (take three)
+:::::: branch date: 2 years, 6 months ago
+:::::: commit date: 2 years, 7 months ago
+config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/202=
+20418/202204180502.mVuKQ2TE-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+reproduce (this is a W=3D1 build):
+        # https://github.com/jsarha/linux/commit/5a4de0d9ac4bc240999584010e=
+cb3d5f902bf165
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/chromeos-4.19-s0ix
+        git checkout 5a4de0d9ac4bc240999584010ecb3d5f902bf165
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/gp=
+u/drm/i915/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/hv/channel_mgmt.c:785 init_vp_index() error: uninitialized symbol '=
-target_cpu'.
+All errors (new ones prefixed by >>):
 
-vim +/target_cpu +785 drivers/hv/channel_mgmt.c
-
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  714  =
-
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  715  /*
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  716   * Starting with =
-Win8, we can statically distribute the incoming
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  717   * channel interr=
-upt load by binding a channel to VCPU.
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  718   *
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  719   * For pre-win8 h=
-osts or non-performance critical channels we assign the
-d570aec0f2154e1 Andrea Parri (Microsoft  2020-04-06  720)  * VMBUS_CONNECT_=
-CPU.
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  721)  *
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  722)  * Starting with =
-win8, performance critical channels will be distributed
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  723)  * evenly among a=
-ll the available NUMA nodes.  Once the node is assigned,
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  724)  * we will assign=
- the CPU based on a simple round robin scheme.
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  725   */
-afaa33da08abd10 Andrea Parri (Microsoft  2020-05-22  726) static void init_=
-vp_index(struct vmbus_channel *channel)
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  727  {
-afaa33da08abd10 Andrea Parri (Microsoft  2020-05-22  728) 	bool perf_chn =
-=3D hv_is_perf_channel(channel);
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  729  	u32 i, ncpu =3D =
-num_online_cpus();
-25355252607ca28 Dexuan Cui               2018-09-23  730  	cpumask_var_t av=
-ailable_mask;
-9f01ec53458d9e9 K. Y. Srinivasan         2015-08-05  731  	struct cpumask *=
-alloced_mask;
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  732) 	u32 target_cpu;
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  733) 	int numa_node;
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  734  =
-
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  735  	if ((vmbus_proto=
-_version =3D=3D VERSION_WS2008) ||
-25355252607ca28 Dexuan Cui               2018-09-23  736  	    (vmbus_proto=
-_version =3D=3D VERSION_WIN7) || (!perf_chn) ||
-25355252607ca28 Dexuan Cui               2018-09-23  737  	    !alloc_cpuma=
-sk_var(&available_mask, GFP_KERNEL)) {
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  738  		/*
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  739  		 * Prior to win=
-8, all channel interrupts are
-d570aec0f2154e1 Andrea Parri (Microsoft  2020-04-06  740) 		 * delivered on=
- VMBUS_CONNECT_CPU.
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  741  		 * Also if the =
-channel is not a performance critical
-d570aec0f2154e1 Andrea Parri (Microsoft  2020-04-06  742) 		 * channel, bin=
-d it to VMBUS_CONNECT_CPU.
-d570aec0f2154e1 Andrea Parri (Microsoft  2020-04-06  743) 		 * In case allo=
-c_cpumask_var() fails, bind it to
-d570aec0f2154e1 Andrea Parri (Microsoft  2020-04-06  744) 		 * VMBUS_CONNEC=
-T_CPU.
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  745  		 */
-d570aec0f2154e1 Andrea Parri (Microsoft  2020-04-06  746) 		channel->target=
-_cpu =3D VMBUS_CONNECT_CPU;
-afaa33da08abd10 Andrea Parri (Microsoft  2020-05-22  747) 		if (perf_chn)
-afaa33da08abd10 Andrea Parri (Microsoft  2020-05-22  748) 			hv_set_alloced=
-_cpu(VMBUS_CONNECT_CPU);
-d3ba720dd58cdf6 K. Y. Srinivasan         2014-04-08  749  		return;
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  750  	}
-ce59fec836a9b4d Vitaly Kuznetsov         2015-05-06  751  =
-
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  752  	for (i =3D 1; i =
-<=3D ncpu + 1; i++) {
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  753  		while (true) {
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  754) 			numa_node =3D =
-next_numa_node_id++;
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  755) 			if (numa_node =
-=3D=3D nr_node_ids) {
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  756) 				next_numa_nod=
-e_id =3D 0;
-509879bdb30b8e1 K. Y. Srinivasan         2016-09-02  757  				continue;
-509879bdb30b8e1 K. Y. Srinivasan         2016-09-02  758  			}
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  759) 			if (cpumask_em=
-pty(cpumask_of_node(numa_node)))
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  760  				continue;
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  761  			break;
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  762  		}
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  763) 		alloced_mask =
-=3D &hv_context.hv_numa_map[numa_node];
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  764  =
-
-9f01ec53458d9e9 K. Y. Srinivasan         2015-08-05  765  		if (cpumask_wei=
-ght(alloced_mask) =3D=3D
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  766) 		    cpumask_wei=
-ght(cpumask_of_node(numa_node))) {
-ce59fec836a9b4d Vitaly Kuznetsov         2015-05-06  767  			/*
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  768  			 * We have cyc=
-led through all the CPUs in the node;
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  769  			 * reset the a=
-lloced map.
-ce59fec836a9b4d Vitaly Kuznetsov         2015-05-06  770  			 */
-9f01ec53458d9e9 K. Y. Srinivasan         2015-08-05  771  			cpumask_clear(=
-alloced_mask);
-ce59fec836a9b4d Vitaly Kuznetsov         2015-05-06  772  		}
-ce59fec836a9b4d Vitaly Kuznetsov         2015-05-06  773  =
-
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  774  		cpumask_xor(ava=
-ilable_mask, alloced_mask,
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  775  			    cpumask_of=
-_node(numa_node));
-79fd8e706637a5c Vitaly Kuznetsov         2016-01-27  776  =
-
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  777) 		target_cpu =3D =
-cpumask_first(available_mask);
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06  778) 		cpumask_set_cpu=
-(target_cpu, alloced_mask);
-1f656ff3fdddc2f K. Y. Srinivasan         2015-05-30  779  =
-
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  780  		if (channel->of=
-fermsg.offer.sub_channel_index >=3D ncpu ||
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  781  		    i > ncpu ||=
- !hv_cpuself_used(target_cpu, channel))
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  782  			break;
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  783  	}
-7c9ff3deeee61b2 Haiyang Zhang            2021-07-16  784  =
-
-8ef4c4abbbcdcd9 Andrea Parri (Microsoft  2020-04-06 @785) 	channel->target_=
-cpu =3D target_cpu;
-25355252607ca28 Dexuan Cui               2018-09-23  786  =
-
-25355252607ca28 Dexuan Cui               2018-09-23  787  	free_cpumask_var=
-(available_mask);
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  788  }
-a119845f6e98c89 K. Y. Srinivasan         2012-12-01  789  =
+   In file included from include/linux/list.h:9,
+                    from include/linux/agp_backend.h:33,
+                    from include/drm/drmP.h:35,
+                    from drivers/gpu/drm/i915/i915_gem.c:28:
+   drivers/gpu/drm/i915/i915_gem.c: In function 'nop_submit_request':
+>> drivers/gpu/drm/i915/i915_gem.c:3322:19: error: format '%d' expects argu=
+ment of type 'int', but argument 4 has type 'u64' {aka 'long long unsigned =
+int'} [-Werror=3Dformat=3D]
+    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3323 |                   request->engine->name,
+    3324 |                   request->fence.context, request->fence.seqno);
+         |                                           ~~~~~~~~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         u64 {aka=
+ long long unsigned int}
+   include/linux/kernel.h:683:47: note: in definition of macro '__trace_pri=
+ntk_check_format'
+     683 |                 ____trace_printk_check_format(fmt, ##args);     =
+        \
+         |                                               ^~~
+   include/linux/kernel.h:720:17: note: in expansion of macro 'do_trace_pri=
+ntk'
+     720 |                 do_trace_printk(fmt, ##__VA_ARGS__);    \
+         |                 ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.h:64:24: note: in expansion of macro 'trac=
+e_printk'
+      64 | #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+         |                        ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.c:3322:9: note: in expansion of macro 'GEM=
+_TRACE'
+    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
+         |         ^~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.c:3322:35: note: format string is defined =
+here
+    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
+         |                                  ~^
+         |                                   |
+         |                                   int
+         |                                  %lld
+   In file included from include/linux/list.h:9,
+                    from include/linux/agp_backend.h:33,
+                    from include/drm/drmP.h:35,
+                    from drivers/gpu/drm/i915/i915_gem.c:28:
+   drivers/gpu/drm/i915/i915_gem.c:3322:19: error: format '%d' expects argu=
+ment of type 'int', but argument 5 has type 'u64' {aka 'long long unsigned =
+int'} [-Werror=3Dformat=3D]
+    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3323 |                   request->engine->name,
+    3324 |                   request->fence.context, request->fence.seqno);
+         |                                           ~~~~~~~~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         u64 {aka=
+ long long unsigned int}
+   include/linux/kernel.h:736:43: note: in definition of macro 'do_trace_pr=
+intk'
+     736 |                 __trace_printk(_THIS_IP_, fmt, ##args);         =
+        \
+         |                                           ^~~
+   drivers/gpu/drm/i915/i915_gem.h:64:24: note: in expansion of macro 'trac=
+e_printk'
+      64 | #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+         |                        ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.c:3322:9: note: in expansion of macro 'GEM=
+_TRACE'
+    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
+         |         ^~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.c:3322:35: note: format string is defined =
+here
+    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
+         |                                  ~^
+         |                                   |
+         |                                   int
+         |                                  %lld
+   cc1: all warnings being treated as errors
 
 
-:::::: The code at line 785 was first introduced by commit
-:::::: 8ef4c4abbbcdcd9d4bc0fd9454df03e6dac24b73 Drivers: hv: vmbus: Remove =
-the unused HV_LOCALIZED channel affinity logic
+vim +3322 drivers/gpu/drm/i915/i915_gem.c
 
-:::::: TO: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+d80270931314a88 Chris Wilson  2017-02-08  3319  =
+
+e61e0f51ba7974b Chris Wilson  2018-02-21  3320  static void nop_submit_requ=
+est(struct i915_request *request)
+af7a8ffad9c58de Daniel Vetter 2017-10-11  3321  {
+d9b13c4dde6cacd Chris Wilson  2018-03-15 @3322  	GEM_TRACE("%s fence %llx:%=
+d -> -EIO\n",
+d9b13c4dde6cacd Chris Wilson  2018-03-15  3323  		  request->engine->name,
+d9b13c4dde6cacd Chris Wilson  2018-03-15  3324  		  request->fence.context,=
+ request->fence.seqno);
+af7a8ffad9c58de Daniel Vetter 2017-10-11  3325  	dma_fence_set_error(&reque=
+st->fence, -EIO);
+af7a8ffad9c58de Daniel Vetter 2017-10-11  3326  =
+
+e61e0f51ba7974b Chris Wilson  2018-02-21  3327  	i915_request_submit(reques=
+t);
+af7a8ffad9c58de Daniel Vetter 2017-10-11  3328  }
+af7a8ffad9c58de Daniel Vetter 2017-10-11  3329  =
+
+
+:::::: The code at line 3322 was first introduced by commit
+:::::: d9b13c4dde6cacd8f2c4385cd6d293b0ac622e0b drm/i915: Trace GEM steps b=
+etween submit and wedging
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1509595941495412376==--
+--===============1342589900807926793==--
 
