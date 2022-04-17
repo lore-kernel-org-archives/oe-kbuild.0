@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2365727540564051932=="
+Content-Type: multipart/mixed; boundary="===============6169476962662618501=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] mtd: rawnand: Fix return value check of wait_for_completion_timeout
-Date: Sun, 17 Apr 2022 10:49:59 +0800
-Message-ID: <202204171027.PZ0Cy8gG-lkp@intel.com>
+Subject: [jgunthorpe:iommufd 3/13] drivers/iommu/iommufd/main.c:142:7: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Sun, 17 Apr 2022 09:38:46 +0800
+Message-ID: <202204170931.vGKRbm7l-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2365727540564051932==
+--===============6169476962662618501==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,58 +15,32 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220412020834.7161-1-linmq006@gmail.com>
-References: <20220412020834.7161-1-linmq006@gmail.com>
-TO: Miaoqian Lin <linmq006@gmail.com>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
-TO: Richard Weinberger <richard@nod.at>
-TO: Vignesh Raghavendra <vigneshr@ti.com>
-TO: Pratyush Yadav <p.yadav@ti.com>
-TO: Miaoqian Lin <linmq006@gmail.com>
-TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
-TO: Paul Cercueil <paul@crapouillou.net>
-TO: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-TO: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
-TO: Bastian Hecht <hechtb@googlemail.com>
-TO: linux-mtd(a)lists.infradead.org
-TO: linux-kernel(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Yi Liu <yi.l.liu@intel.com>
 
-Hi Miaoqian,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on linus/master linux/master v5.18-rc2 next-202204=
-14]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miaoqian-Lin/mtd-raw=
-nand-Fix-return-value-check-of-wait_for_completion_timeout/20220412-101006
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/=
-next
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-c002-20220417 (https://download.01.org/0day-ci/archi=
-ve/20220417/202204171027.PZ0Cy8gG-lkp(a)intel.com/config)
+tree:   https://github.com/jgunthorpe/linux iommufd
+head:   fc388f906088fe5f5f2db6a36931e00124f52042
+commit: 80866de54d68bbcdb9a65b74f93d4eba596a6f3d [3/13] iommufd: File descr=
+iptor, context, kconfig and makefiles
+:::::: branch date: 4 weeks ago
+:::::: commit date: 4 weeks ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+417/202204170931.vGKRbm7l-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 64c045=
 e25b8471bbb572bd29159c294a82a86a25)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/3de25b46a3f73a3e003=
-1e5186eb4e2afa9098b46
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Miaoqian-Lin/mtd-rawnand-Fix-retur=
-n-value-check-of-wait_for_completion_timeout/20220412-101006
-        git checkout 3de25b46a3f73a3e0031e5186eb4e2afa9098b46
+        # https://github.com/jgunthorpe/linux/commit/80866de54d68bbcdb9a65b=
+74f93d4eba596a6f3d
+        git remote add jgunthorpe https://github.com/jgunthorpe/linux
+        git fetch --no-tags jgunthorpe iommufd
+        git checkout 80866de54d68bbcdb9a65b74f93d4eba596a6f3d
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -74,440 +48,304 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           memset(state->msg, 0, 2 * sizeof(struct i2c_msg));
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/i2c/i2c-core-base.c:1007:2: note: '?' condition is true
+           if (ACPI_COMPANION(&client->dev))
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib0070.c:80:2: note: Call to function 'mems=
-et' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memset_s' in case of C11
-           memset(state->msg, 0, 2 * sizeof(struct i2c_msg));
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib0070.c:113:2: warning: Call to function '=
-memset' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(state->msg, 0, sizeof(struct i2c_msg));
+   drivers/i2c/i2c-core-base.c:1007:2: note: Taking true branch
+           if (ACPI_COMPANION(&client->dev))
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib0070.c:113:2: note: Call to function 'mem=
-set' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memset_s' in case of C11
-           memset(state->msg, 0, sizeof(struct i2c_msg));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib0070.c:755:2: warning: Call to function '=
-memcpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&fe->ops.tuner_ops, &dib0070_ops, sizeof(struct dvb_tuner=
-_ops));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib0070.c:755:2: note: Call to function 'mem=
-cpy' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&fe->ops.tuner_ops, &dib0070_ops, sizeof(struct dvb_tuner=
-_ops));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 49 warnings (48 in non-user code, 1 with check filters).
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/i2c/i2c-core-base.c:1008:32: note: Assuming the condition is fal=
+se
+                   acpi_device_clear_enumerated(ACPI_COMPANION(&client->dev=
+));
+                                                ^
+   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
+   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
+e)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/acpi/acpi_bus.h:421:3: note: expanded from macro 'to_acpi_device=
+_node'
+                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-core-base.c:1008:32: note: '?' condition is false
+                   acpi_device_clear_enumerated(ACPI_COMPANION(&client->dev=
+));
+                                                ^
+   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
+   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
+e)
+                                           ^
+   include/acpi/acpi_bus.h:421:3: note: expanded from macro 'to_acpi_device=
+_node'
+                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
+                   ^
+   drivers/i2c/i2c-core-base.c:1008:32: note: Passing null pointer value vi=
+a 1st parameter 'adev'
+                   acpi_device_clear_enumerated(ACPI_COMPANION(&client->dev=
+));
+                                                ^
+   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
+   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
+e)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/acpi/acpi_bus.h:418:2: note: expanded from macro 'to_acpi_device=
+_node'
+           ({                                                              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-core-base.c:1008:3: note: Calling 'acpi_device_clear_enu=
+merated'
+                   acpi_device_clear_enumerated(ACPI_COMPANION(&client->dev=
+));
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/acpi.h:704:22: note: Dereference of null pointer
+           adev->flags.visited =3D false;
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   drivers/mtd/nand/raw/sh_flctl.c:192:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&cfg, 0, sizeof(cfg));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:192:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(&cfg, 0, sizeof(cfg));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/sh_flctl.c:447:2: warning: Undefined or garbage val=
-ue returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^
-   drivers/mtd/nand/raw/sh_flctl.c:750:6: note: Assuming 'command' is not e=
-qual to NAND_CMD_PAGEPROG
-           if (command !=3D NAND_CMD_PAGEPROG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:750:2: note: Taking true branch
-           if (command !=3D NAND_CMD_PAGEPROG)
-           ^
-   drivers/mtd/nand/raw/sh_flctl.c:753:2: note: Control jumps to 'case 1:' =
- at line 754
-           switch (command) {
-           ^
-   drivers/mtd/nand/raw/sh_flctl.c:756:7: note: Assuming field 'hwecc' is 0
-                   if (flctl->hwecc) {
-                       ^~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:756:3: note: Taking false branch
-                   if (flctl->hwecc) {
-                   ^
-   drivers/mtd/nand/raw/sh_flctl.c:761:7: note: Assuming field 'page_size' =
-is 0
-                   if (flctl->page_size)
-                       ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:761:3: note: Taking false branch
-                   if (flctl->page_size)
-                   ^
-   drivers/mtd/nand/raw/sh_flctl.c:770:7: note: Assuming the condition is f=
-alse
-                   if (flctl->chip.options & NAND_BUSWIDTH_16)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:770:3: note: Taking false branch
-                   if (flctl->chip.options & NAND_BUSWIDTH_16)
-                   ^
-   drivers/mtd/nand/raw/sh_flctl.c:773:3: note: Control jumps to line 907
-                   goto read_normal_exit;
-                   ^
-   drivers/mtd/nand/raw/sh_flctl.c:910:2: note: Calling 'read_fiforeg'
-           read_fiforeg(flctl, flctl->read_bytes, 0);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:469:6: note: Assuming field 'chan_fifo0_=
-rx' is non-null
-           if (flctl->chan_fifo0_rx && rlen >=3D 32 &&
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:469:6: note: Left side of '&&' is true
-   drivers/mtd/nand/raw/sh_flctl.c:469:30: note: Assuming 'rlen' is >=3D 32
-           if (flctl->chan_fifo0_rx && rlen >=3D 32 &&
-                                       ^~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:469:6: note: Left side of '&&' is true
-           if (flctl->chan_fifo0_rx && rlen >=3D 32 &&
-               ^
-   drivers/mtd/nand/raw/sh_flctl.c:470:3: note: Calling 'flctl_dma_fifo0_tr=
-ansfer'
-                   flctl_dma_fifo0_transfer(flctl, buf, rlen, DMA_FROM_DEVI=
-CE) > 0)
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+   4 warnings generated.
+   drivers/char/tpm/eventlog/tpm1.c:276:2: warning: Value stored to 'len' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           len +=3D get_event_name(eventname, event, event_entry);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/eventlog/tpm1.c:276:2: note: Value stored to 'len' is n=
+ever read
+           len +=3D get_event_name(eventname, event, event_entry);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/char/tpm/tpm_tis_core.c:423:2: warning: Value stored to 'rc' is =
+never read [clang-analyzer-deadcode.DeadStores]
+           rc =3D tpm_tis_write32(priv, TPM_INT_ENABLE(priv->locality), int=
+mask);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
 ~~~
-   drivers/mtd/nand/raw/sh_flctl.c:387:2: note: 'ret' declared without an i=
-nitial value
-           int ret;
-           ^~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:390:6: note: 'dir' is equal to DMA_FROM_=
-DEVICE
-           if (dir =3D=3D DMA_FROM_DEVICE) {
-               ^~~
-   drivers/mtd/nand/raw/sh_flctl.c:390:2: note: Taking true branch
-           if (dir =3D=3D DMA_FROM_DEVICE) {
+   drivers/char/tpm/tpm_tis_core.c:423:2: note: Value stored to 'rc' is nev=
+er read
+           rc =3D tpm_tis_write32(priv, TPM_INT_ENABLE(priv->locality), int=
+mask);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+>> drivers/iommu/iommufd/main.c:142:7: warning: Use of memory after it is f=
+reed [clang-analyzer-unix.Malloc]
+           if (!iommufd_object_destroy_user(ucmd->ictx, obj))
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/iommu/iommufd/main.c:138:8: note: Calling 'iommufd_get_object'
+           obj =3D iommufd_get_object(ucmd->ictx, cmd->id, IOMMUFD_OBJ_ANY);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/main.c:95:6: note: Assuming 'obj' is non-null
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/iommu/iommufd/main.c:95:6: note: Left side of '||' is false
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+               ^
+   drivers/iommu/iommufd/main.c:95:15: note: 'type' is equal to IOMMUFD_OBJ=
+_ANY
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/iommu/iommufd/main.c:95:39: note: Left side of '&&' is false
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+                                                ^
+   drivers/iommu/iommufd/main.c:95:2: note: '?' condition is false
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
            ^
-   drivers/mtd/nand/raw/sh_flctl.c:400:2: note: Taking true branch
-           if (!dma_mapping_error(chan->device->dev, dma_addr))
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/iommu/iommufd/main.c:95:7: note: 'obj' is non-null
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/iommu/iommufd/main.c:95:6: note: Left side of '||' is false
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+               ^
+   drivers/iommu/iommufd/main.c:95:15: note: 'type' is equal to IOMMUFD_OBJ=
+_ANY
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/iommu/iommufd/main.c:95:39: note: Left side of '&&' is false
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
+                                                ^
+   drivers/iommu/iommufd/main.c:96:6: note: Assuming the condition is false
+               !iommufd_lock_obj(obj))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/iommu/iommufd/main.c:95:2: note: '?' condition is false
+           if (!obj || (type !=3D IOMMUFD_OBJ_ANY && obj->type !=3D type) ||
            ^
-   drivers/mtd/nand/raw/sh_flctl.c:404:6: note: Assuming 'desc' is non-null
-           if (desc) {
-               ^~~~
-   drivers/mtd/nand/raw/sh_flctl.c:404:2: note: Taking true branch
-           if (desc) {
-           ^
-   drivers/mtd/nand/raw/sh_flctl.c:412:3: note: Taking false branch
-                   if (dma_submit_error(cookie)) {
-                   ^
-   drivers/mtd/nand/raw/sh_flctl.c:433:6: note: Assuming 'time_left' is not=
- equal to 0
-           if (time_left =3D=3D 0) {
-               ^~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:433:2: note: Taking false branch
-           if (time_left =3D=3D 0) {
-           ^
-   drivers/mtd/nand/raw/sh_flctl.c:447:2: note: Undefined or garbage value =
-returned to caller
-           return ret;
-           ^      ~~~
-   drivers/mtd/nand/raw/sh_flctl.c:965:2: warning: Call to function 'memcpy=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&flctl->done_buff[flctl->index], buf, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/sh_flctl.c:965:2: note: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&flctl->done_buff[flctl->index], buf, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
 
-vim +447 drivers/mtd/nand/raw/sh_flctl.c
+vim +142 drivers/iommu/iommufd/main.c
 
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c     Yoshihiro Shimoda 2008-10-14=
-  377  =
+80866de54d68bb Jason Gunthorpe 2021-11-11  132  =
 
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  378  static int flctl_dma_fifo0_transfer(struct sh_flctl *flctl, unsigned=
- long *buf,
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  379  					int len, enum dma_data_direction dir)
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  380  {
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  381  	struct dma_async_tx_descriptor *desc =3D NULL;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  382  	struct dma_chan *chan;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  383  	enum dma_transfer_direction tr_dir;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  384  	dma_addr_t dma_addr;
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  385  	dma_cookie_t cookie;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  386  	uint32_t reg;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  387  	int ret;
-3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
-  388  	unsigned long time_left;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  389  =
+80866de54d68bb Jason Gunthorpe 2021-11-11  133  static int iommufd_destroy(=
+struct iommufd_ucmd *ucmd)
+80866de54d68bb Jason Gunthorpe 2021-11-11  134  {
+80866de54d68bb Jason Gunthorpe 2021-11-11  135  	struct iommu_destroy *cmd =
+=3D ucmd->cmd;
+80866de54d68bb Jason Gunthorpe 2021-11-11  136  	struct iommufd_object *obj;
+80866de54d68bb Jason Gunthorpe 2021-11-11  137  =
 
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  390  	if (dir =3D=3D DMA_FROM_DEVICE) {
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  391  		chan =3D flctl->chan_fifo0_rx;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  392  		tr_dir =3D DMA_DEV_TO_MEM;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  393  	} else {
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  394  		chan =3D flctl->chan_fifo0_tx;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  395  		tr_dir =3D DMA_MEM_TO_DEV;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  396  	}
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  397  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  398  	dma_addr =3D dma_map_single(chan->device->dev, buf, len, dir);
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  399  =
-
-dbf5f6424ed921 drivers/mtd/nand/sh_flctl.c     Pan Bian          2017-08-08=
-  400  	if (!dma_mapping_error(chan->device->dev, dma_addr))
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  401  		desc =3D dmaengine_prep_slave_single(chan, dma_addr, len,
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  402  			tr_dir, DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  403  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  404  	if (desc) {
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  405  		reg =3D readl(FLINTDMACR(flctl));
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  406  		reg |=3D DREQ0EN;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  407  		writel(reg, FLINTDMACR(flctl));
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  408  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  409  		desc->callback =3D flctl_dma_complete;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  410  		desc->callback_param =3D flctl;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  411  		cookie =3D dmaengine_submit(desc);
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  412  		if (dma_submit_error(cookie)) {
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  413  			ret =3D dma_submit_error(cookie);
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  414  			dev_warn(&flctl->pdev->dev,
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  415  				 "DMA submit failed, falling back to PIO\n");
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  416  			goto out;
-3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
-  417  		}
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  418  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  419  		dma_async_issue_pending(chan);
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  420  	} else {
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  421  		/* DMA failed, fall back to PIO */
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  422  		flctl_release_dma(flctl);
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  423  		dev_warn(&flctl->pdev->dev,
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  424  			 "DMA failed, falling back to PIO\n");
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  425  		ret =3D -EIO;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  426  		goto out;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  427  	}
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  428  =
-
-3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
-  429  	time_left =3D
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  430  	wait_for_completion_timeout(&flctl->dma_complete,
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  431  				msecs_to_jiffies(3000));
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  432  =
-
-3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
-  433  	if (time_left =3D=3D 0) {
-0e497c36deef92 drivers/mtd/nand/sh_flctl.c     Vinod Koul        2014-10-11=
-  434  		dmaengine_terminate_all(chan);
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  435  		dev_err(&flctl->pdev->dev, "wait_for_completion_timeout\n");
-3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
-  436  		ret =3D -ETIMEDOUT;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  437  	}
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  438  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  439  out:
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  440  	reg =3D readl(FLINTDMACR(flctl));
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  441  	reg &=3D ~DREQ0EN;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  442  	writel(reg, FLINTDMACR(flctl));
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  443  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  444  	dma_unmap_single(chan->device->dev, dma_addr, len, dir);
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  445  =
-
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  446  	/* ret > 0 is success */
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
- @447  	return ret;
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  448  }
-83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
-  449  =
+80866de54d68bb Jason Gunthorpe 2021-11-11  138  	obj =3D iommufd_get_object=
+(ucmd->ictx, cmd->id, IOMMUFD_OBJ_ANY);
+80866de54d68bb Jason Gunthorpe 2021-11-11  139  	if (IS_ERR(obj))
+80866de54d68bb Jason Gunthorpe 2021-11-11  140  		return PTR_ERR(obj);
+80866de54d68bb Jason Gunthorpe 2021-11-11  141  	iommufd_put_object_keep_us=
+er(obj);
+80866de54d68bb Jason Gunthorpe 2021-11-11 @142  	if (!iommufd_object_destro=
+y_user(ucmd->ictx, obj))
+80866de54d68bb Jason Gunthorpe 2021-11-11  143  		return -EBUSY;
+80866de54d68bb Jason Gunthorpe 2021-11-11  144  	return 0;
+80866de54d68bb Jason Gunthorpe 2021-11-11  145  }
+80866de54d68bb Jason Gunthorpe 2021-11-11  146  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2365727540564051932==--
+--===============6169476962662618501==--
 
