@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8779074082322460223=="
+Content-Type: multipart/mixed; boundary="===============6648435531945263631=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1911/4328] net/ipv4/tcp_cong.c:418:32: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Sun, 17 Apr 2022 17:25:32 +0800
-Message-ID: <202204171743.qmKlw6vi-lkp@intel.com>
+Subject: drivers/net/wwan/wwan_hwsim.c:286:3: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Sun, 17 Apr 2022 16:44:48 +0800
+Message-ID: <202204171651.3XFL5mUb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8779074082322460223==
+--===============6648435531945263631==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Loic Poulain <loic.poulain@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   40354149f4d738dc3492d9998e45b3f02950369a
-commit: 40570375356c874b1578e05c1dcc3ff7c1322dbe [1911/4328] tcp: add acces=
-sors to read/set tp->snd_cwnd
-:::::: branch date: 3 days ago
-:::::: commit date: 11 days ago
-config: x86_64-randconfig-c007-20220411 (https://download.01.org/0day-ci/ar=
-chive/20220417/202204171743.qmKlw6vi-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
-560f06cdfe8aa47b248d8bdc58f947274b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a2c29ccd9477861b16ddc02c411a6c9665250558
+commit: 89212e160b81e778f829b89743570665810e3b13 net: wwan: Fix WWAN config=
+ symbols
+date:   10 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220417 (https://download.01.org/0day-ci/archi=
+ve/20220417/202204171651.3XFL5mUb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 64c045=
+e25b8471bbb572bd29159c294a82a86a25)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D40570375356c874b1578e05c1dcc3ff7c1322dbe
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 40570375356c874b1578e05c1dcc3ff7c1322dbe
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D89212e160b81e778f829b89743570665810e3b13
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 89212e160b81e778f829b89743570665810e3b13
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,324 +52,322 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/media/cec/core/cec-api.c:677:4: note: Loop condition is false.  =
+Exiting loop
+                           list_first_entry(&fh->msgs, struct cec_msg_entry=
+, list);
                            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   crypto/cmac.c:188:4: note: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11
-                           memset(p, 0, rlen);
-                           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 13 warnings (13 in non-user code).
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/media/cec/core/cec-api.c:679:3: note: Calling 'list_del'
+                   list_del(&entry->list);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:147:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   102 warnings generated.
-   Suppressed 102 warnings (102 in non-user code).
+   4 warnings generated.
+   drivers/fsi/fsi-core.c:719:4: warning: Value stored to 'rc' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           rc =3D -EFAULT;
+                           ^    ~~~~~~~
+   drivers/fsi/fsi-core.c:719:4: note: Value stored to 'rc' is never read
+                           rc =3D -EFAULT;
+                           ^    ~~~~~~~
+   drivers/fsi/fsi-core.c:724:2: warning: Value stored to 'rc' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           rc =3D count;
+           ^    ~~~~~
+   drivers/fsi/fsi-core.c:724:2: note: Value stored to 'rc' is never read
+           rc =3D count;
+           ^    ~~~~~
+   drivers/fsi/fsi-core.c:753:4: warning: Value stored to 'rc' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           rc =3D -EFAULT;
+                           ^    ~~~~~~~
+   drivers/fsi/fsi-core.c:753:4: note: Value stored to 'rc' is never read
+                           rc =3D -EFAULT;
+                           ^    ~~~~~~~
+   drivers/fsi/fsi-core.c:761:2: warning: Value stored to 'rc' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           rc =3D count;
+           ^    ~~~~~
+   drivers/fsi/fsi-core.c:761:2: note: Value stored to 'rc' is never read
+           rc =3D count;
+           ^    ~~~~~
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   106 warnings generated.
-   net/ipv4/tcp_cong.c:147:9: warning: Call to function 'strncpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   ret =3D strncpy(buffer, ca->name,
-                         ^~~~~~~
-   net/ipv4/tcp_cong.c:147:9: note: Call to function 'strncpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'strncpy_s' in case of C11
-                   ret =3D strncpy(buffer, ca->name,
-                         ^~~~~~~
-   net/ipv4/tcp_cong.c:168:2: warning: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(icsk->icsk_ca_priv, 0, sizeof(icsk->icsk_ca_priv));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:168:2: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-           memset(icsk->icsk_ca_priv, 0, sizeof(icsk->icsk_ca_priv));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:197:2: warning: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(icsk->icsk_ca_priv, 0, sizeof(icsk->icsk_ca_priv));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:197:2: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-           memset(icsk->icsk_ca_priv, 0, sizeof(icsk->icsk_ca_priv));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:264:11: warning: Call to function 'snprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   offs +=3D snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:264:11: note: Call to function 'snprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'snprintf_s' in case of C11
-                   offs +=3D snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:281:2: warning: Call to function 'strncpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(name, ca->name, TCP_CA_NAME_MAX);
-           ^~~~~~~
-   net/ipv4/tcp_cong.c:281:2: note: Call to function 'strncpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'strncpy_s' in case of C11
-           strncpy(name, ca->name, TCP_CA_NAME_MAX);
-           ^~~~~~~
-   net/ipv4/tcp_cong.c:296:11: warning: Call to function 'snprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   offs +=3D snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:296:11: note: Call to function 'snprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'snprintf_s' in case of C11
-                   offs +=3D snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
->> net/ipv4/tcp_cong.c:418:32: warning: Division by zero [clang-analyzer-co=
-re.DivideZero]
-                   u32 delta =3D tp->snd_cwnd_cnt / w;
-                                                ^
-   net/ipv4/tcp_cong.c:438:2: note: Taking false branch
-           if (!tcp_is_cwnd_limited(sk))
-           ^
-   net/ipv4/tcp_cong.c:442:2: note: Taking true branch
-           if (tcp_in_slow_start(tp)) {
-           ^
-   net/ipv4/tcp_cong.c:443:11: note: Calling 'tcp_slow_start'
-                   acked =3D tcp_slow_start(tp, acked);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:396:13: note: Assuming '__UNIQUE_ID___x541' is >=3D =
-'__UNIQUE_ID___y542'
-           u32 cwnd =3D min(tcp_snd_cwnd(tp) + acked, tp->snd_ssthresh);
-                      ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   net/ipv4/tcp_cong.c:396:13: note: '?' condition is false
-           u32 cwnd =3D min(tcp_snd_cwnd(tp) + acked, tp->snd_ssthresh);
-                      ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> drivers/net/wwan/wwan_hwsim.c:286:3: warning: Use of memory after it is =
+freed [clang-analyzer-unix.Malloc]
+                   wwan_hwsim_port_del(port);
                    ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   net/ipv4/tcp_cong.c:399:23: note: Assuming '__UNIQUE_ID___x543' is >=3D =
-'__UNIQUE_ID___y544'
-           tcp_snd_cwnd_set(tp, min(cwnd, tp->snd_cwnd_clamp));
-                                ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   net/ipv4/tcp_cong.c:399:23: note: '?' condition is false
-           tcp_snd_cwnd_set(tp, min(cwnd, tp->snd_cwnd_clamp));
-                                ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   net/ipv4/tcp_cong.c:399:23: note: Passing value via 2nd parameter 'val'
-           tcp_snd_cwnd_set(tp, min(cwnd, tp->snd_cwnd_clamp));
-                                ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:2: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-           ^~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:399:2: note: Calling 'tcp_snd_cwnd_set'
-           tcp_snd_cwnd_set(tp, min(cwnd, tp->snd_cwnd_clamp));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/tcp.h:1217:15: note: Assuming 'val' is <=3D 0
-           WARN_ON_ONCE((int)val <=3D 0);
-                        ^
-   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_on =3D !!(condition);                      \
-                                  ^~~~~~~~~
-   include/net/tcp.h:1217:2: note: Taking true branch
-           WARN_ON_ONCE((int)val <=3D 0);
+   drivers/net/wwan/wwan_hwsim.c:489:2: note: Calling 'wwan_hwsim_free_devs'
+           wwan_hwsim_free_devs();
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wwan/wwan_hwsim.c:444:2: note: Loop condition is true.  Ente=
+ring loop body
+           while (!list_empty(&wwan_hwsim_devs)) {
            ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
+   drivers/net/wwan/wwan_hwsim.c:445:9: note: Left side of '&&' is false
+                   dev =3D list_first_entry(&wwan_hwsim_devs, struct wwan_h=
+wsim_dev,
+                         ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   include/net/tcp.h:1217:2: note: Loop condition is false.  Exiting loop
-           WARN_ON_ONCE((int)val <=3D 0);
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   include/asm-generic/bug.h:106:3: note: expanded from macro 'WARN_ON_ONCE'
-                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
+   include/linux/kernel.h:716:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/net/wwan/wwan_hwsim.c:445:9: note: Taking false branch
+                   dev =3D list_first_entry(&wwan_hwsim_devs, struct wwan_h=
+wsim_dev,
+                         ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/net/wwan/wwan_hwsim.c:445:9: note: Loop condition is false.  Exi=
+ting loop
+                   dev =3D list_first_entry(&wwan_hwsim_devs, struct wwan_h=
+wsim_dev,
+                         ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/net/wwan/wwan_hwsim.c:449:3: note: Calling 'wwan_hwsim_dev_del'
+                   wwan_hwsim_dev_del(dev);
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wwan/wwan_hwsim.c:279:2: note: Loop condition is true.  Ente=
+ring loop body
+           while (!list_empty(&dev->ports)) {
+           ^
+   drivers/net/wwan/wwan_hwsim.c:282:10: note: Left side of '&&' is false
+                   port =3D list_first_entry(&dev->ports, struct wwan_hwsim=
+_port,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:716:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/net/wwan/wwan_hwsim.c:282:10: note: Taking false branch
+                   port =3D list_first_entry(&dev->ports, struct wwan_hwsim=
+_port,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
 
-vim +418 net/ipv4/tcp_cong.c
+vim +286 drivers/net/wwan/wwan_hwsim.c
 
-40efc6fa179f44 Stephen Hemminger 2006-01-03  404  =
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  273  =
 
-814d488c612605 Neal Cardwell     2015-01-28  405  /* In theory this is tp->=
-snd_cwnd +=3D 1 / tp->snd_cwnd (or alternative w),
-814d488c612605 Neal Cardwell     2015-01-28  406   * for every packet that =
-was ACKed.
-814d488c612605 Neal Cardwell     2015-01-28  407   */
-e73ebb0881ea55 Neal Cardwell     2015-01-28  408  void tcp_cong_avoid_ai(st=
-ruct tcp_sock *tp, u32 w, u32 acked)
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  409  {
-9949afa42be0b7 Neal Cardwell     2015-03-10  410  	/* If credits accumulate=
-d at a higher w, apply them gently now. */
-9949afa42be0b7 Neal Cardwell     2015-03-10  411  	if (tp->snd_cwnd_cnt >=
-=3D w) {
-9949afa42be0b7 Neal Cardwell     2015-03-10  412  		tp->snd_cwnd_cnt =3D 0;
-40570375356c87 Eric Dumazet      2022-04-05  413  		tcp_snd_cwnd_set(tp, tc=
-p_snd_cwnd(tp) + 1);
-9949afa42be0b7 Neal Cardwell     2015-03-10  414  	}
-9949afa42be0b7 Neal Cardwell     2015-03-10  415  =
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  274  static void wwan_hwsim_dev=
+_del(struct wwan_hwsim_dev *dev)
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  275  {
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  276  	debugfs_remove(dev->debug=
+fs_portcreate);	/* Avoid new ports */
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  277  =
 
-e73ebb0881ea55 Neal Cardwell     2015-01-28  416  	tp->snd_cwnd_cnt +=3D ac=
-ked;
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  417  	if (tp->snd_cwnd_cn=
-t >=3D w) {
-814d488c612605 Neal Cardwell     2015-01-28 @418  		u32 delta =3D tp->snd_c=
-wnd_cnt / w;
-814d488c612605 Neal Cardwell     2015-01-28  419  =
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  278  	spin_lock(&dev->ports_loc=
+k);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  279  	while (!list_empty(&dev->=
+ports)) {
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  280  		struct wwan_hwsim_port *=
+port;
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  281  =
 
-814d488c612605 Neal Cardwell     2015-01-28  420  		tp->snd_cwnd_cnt -=3D d=
-elta * w;
-40570375356c87 Eric Dumazet      2022-04-05  421  		tcp_snd_cwnd_set(tp, tc=
-p_snd_cwnd(tp) + delta);
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  422  	}
-40570375356c87 Eric Dumazet      2022-04-05  423  	tcp_snd_cwnd_set(tp, min=
-(tcp_snd_cwnd(tp), tp->snd_cwnd_clamp));
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  424  }
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  425  EXPORT_SYMBOL_GPL(tc=
-p_cong_avoid_ai);
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  426  =
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  282  		port =3D list_first_entr=
+y(&dev->ports, struct wwan_hwsim_port,
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  283  					list);
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  284  		list_del_init(&port->lis=
+t);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  285  		spin_unlock(&dev->ports_=
+lock);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08 @286  		wwan_hwsim_port_del(port=
+);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  287  		spin_lock(&dev->ports_lo=
+ck);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  288  	}
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  289  	spin_unlock(&dev->ports_l=
+ock);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  290  =
+
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  291  	debugfs_remove(dev->debug=
+fs_topdir);
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  292  =
+
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  293  	/* Make sure that there i=
+s no pending deletion work */
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  294  	if (current_work() !=3D &=
+dev->del_work)
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  295  		cancel_work_sync(&dev->d=
+el_work);
+9ee23f48f6705ff Sergey Ryazanov 2021-06-08  296  =
+
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  297  	device_unregister(&dev->d=
+ev);
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  298  	/* Memory will be freed i=
+n the device release callback */
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  299  }
+f36a111a74e71ed Sergey Ryazanov 2021-06-08  300  =
 
 
-:::::: The code at line 418 was first introduced by commit
-:::::: 814d488c61260521b1b3cc97063700a5a6667c8f tcp: fix the timid additive=
- increase on stretch ACKs
+:::::: The code at line 286 was first introduced by commit
+:::::: f36a111a74e71edbba27d4c0cf3d7bbccc172108 wwan_hwsim: WWAN device sim=
+ulator
 
-:::::: TO: Neal Cardwell <ncardwell@google.com>
+:::::: TO: Sergey Ryazanov <ryazanov.s.a@gmail.com>
 :::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8779074082322460223==--
+--===============6648435531945263631==--
 
