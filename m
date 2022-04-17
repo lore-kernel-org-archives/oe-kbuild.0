@@ -1,163 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============1342589900807926793=="
+Content-Type: multipart/mixed; boundary="===============2287479201158491249=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jsarha:topic/chromeos-4.19-s0ix 9356/9999] drivers/gpu/drm/i915/i915_gem.c:3322:19: error: format '%d' expects argument of type 'int', but argument 4 has type 'u64' {aka 'long long unsigned int'}
-Date: Mon, 18 Apr 2022 05:25:10 +0800
-Message-ID: <202204180502.mVuKQ2TE-lkp@intel.com>
+Subject: [jimc:dyn-drm-trc 23/23] drivers/gpu/drm/drm_print.c:289 __drm_dev_dbg() warn: should this be a bitwise op?
+Date: Mon, 18 Apr 2022 05:25:08 +0800
+Message-ID: <202204180554.UZsI2iDK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1342589900807926793==
+--===============2287479201158491249==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Guenter Roeck <groeck@chromium.org>
-CC: Douglas Anderson <dianders@chromium.org>
-CC: Rob Clark <robdclark@google.com>
+TO: Jim Cromie <jim.cromie@gmail.com>
 
-Hi Guenter,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
-head:   430bdaa0a8c38697780f45a148964d71951df11f
-commit: 5a4de0d9ac4bc240999584010ecb3d5f902bf165 [9356/9999] FIXUP: CHROMIU=
-M: drm/vgem: fix cache synchronization on arm/arm64 (take three)
-:::::: branch date: 2 years, 6 months ago
-:::::: commit date: 2 years, 7 months ago
-config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/202=
-20418/202204180502.mVuKQ2TE-lkp(a)intel.com/config)
+tree:   https://github.com/jimc/linux.git dyn-drm-trc
+head:   a6edc399f08cd7094247f602209a8738c0bb29f6
+commit: a6edc399f08cd7094247f602209a8738c0bb29f6 [23/23] dyndbg: 4 new trac=
+e-events: pr_debug, dev_dbg, drm_{,dev}debug
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
+config: x86_64-randconfig-m031-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220418/202204180554.UZsI2iDK-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
-reproduce (this is a W=3D1 build):
-        # https://github.com/jsarha/linux/commit/5a4de0d9ac4bc240999584010e=
-cb3d5f902bf165
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/chromeos-4.19-s0ix
-        git checkout 5a4de0d9ac4bc240999584010ecb3d5f902bf165
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/gp=
-u/drm/i915/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/drm_print.c:289 __drm_dev_dbg() warn: should this be a bitw=
+ise op?
 
-   In file included from include/linux/list.h:9,
-                    from include/linux/agp_backend.h:33,
-                    from include/drm/drmP.h:35,
-                    from drivers/gpu/drm/i915/i915_gem.c:28:
-   drivers/gpu/drm/i915/i915_gem.c: In function 'nop_submit_request':
->> drivers/gpu/drm/i915/i915_gem.c:3322:19: error: format '%d' expects argu=
-ment of type 'int', but argument 4 has type 'u64' {aka 'long long unsigned =
-int'} [-Werror=3Dformat=3D]
-    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3323 |                   request->engine->name,
-    3324 |                   request->fence.context, request->fence.seqno);
-         |                                           ~~~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         u64 {aka=
- long long unsigned int}
-   include/linux/kernel.h:683:47: note: in definition of macro '__trace_pri=
-ntk_check_format'
-     683 |                 ____trace_printk_check_format(fmt, ##args);     =
-        \
-         |                                               ^~~
-   include/linux/kernel.h:720:17: note: in expansion of macro 'do_trace_pri=
-ntk'
-     720 |                 do_trace_printk(fmt, ##__VA_ARGS__);    \
-         |                 ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gem.h:64:24: note: in expansion of macro 'trac=
-e_printk'
-      64 | #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
-         |                        ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gem.c:3322:9: note: in expansion of macro 'GEM=
-_TRACE'
-    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
-         |         ^~~~~~~~~
-   drivers/gpu/drm/i915/i915_gem.c:3322:35: note: format string is defined =
-here
-    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
-         |                                  ~^
-         |                                   |
-         |                                   int
-         |                                  %lld
-   In file included from include/linux/list.h:9,
-                    from include/linux/agp_backend.h:33,
-                    from include/drm/drmP.h:35,
-                    from drivers/gpu/drm/i915/i915_gem.c:28:
-   drivers/gpu/drm/i915/i915_gem.c:3322:19: error: format '%d' expects argu=
-ment of type 'int', but argument 5 has type 'u64' {aka 'long long unsigned =
-int'} [-Werror=3Dformat=3D]
-    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3323 |                   request->engine->name,
-    3324 |                   request->fence.context, request->fence.seqno);
-         |                                           ~~~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         u64 {aka=
- long long unsigned int}
-   include/linux/kernel.h:736:43: note: in definition of macro 'do_trace_pr=
-intk'
-     736 |                 __trace_printk(_THIS_IP_, fmt, ##args);         =
-        \
-         |                                           ^~~
-   drivers/gpu/drm/i915/i915_gem.h:64:24: note: in expansion of macro 'trac=
-e_printk'
-      64 | #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
-         |                        ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gem.c:3322:9: note: in expansion of macro 'GEM=
-_TRACE'
-    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
-         |         ^~~~~~~~~
-   drivers/gpu/drm/i915/i915_gem.c:3322:35: note: format string is defined =
-here
-    3322 |         GEM_TRACE("%s fence %llx:%d -> -EIO\n",
-         |                                  ~^
-         |                                   |
-         |                                   int
-         |                                  %lld
-   cc1: all warnings being treated as errors
+Old smatch warnings:
+drivers/gpu/drm/drm_print.c:295 __drm_dev_dbg() warn: should this be a bitw=
+ise op?
 
+vim +289 drivers/gpu/drm/drm_print.c
 
-vim +3322 drivers/gpu/drm/i915/i915_gem.c
+db87086492581c8 Joe Perches     2018-03-16  270  =
 
-d80270931314a88 Chris Wilson  2017-02-08  3319  =
+f551ecc93512f82 Jim Cromie      2021-12-28  271  void __drm_dev_dbg(struct =
+_ddebug *desc, const struct device *dev,
+f551ecc93512f82 Jim Cromie      2021-12-28  272  		   enum drm_debug_catego=
+ry category, const char *format, ...)
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  273  {
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  274  	struct va_format vaf;
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  275  	va_list args;
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  276  =
 
-e61e0f51ba7974b Chris Wilson  2018-02-21  3320  static void nop_submit_requ=
-est(struct i915_request *request)
-af7a8ffad9c58de Daniel Vetter 2017-10-11  3321  {
-d9b13c4dde6cacd Chris Wilson  2018-03-15 @3322  	GEM_TRACE("%s fence %llx:%=
-d -> -EIO\n",
-d9b13c4dde6cacd Chris Wilson  2018-03-15  3323  		  request->engine->name,
-d9b13c4dde6cacd Chris Wilson  2018-03-15  3324  		  request->fence.context,=
- request->fence.seqno);
-af7a8ffad9c58de Daniel Vetter 2017-10-11  3325  	dma_fence_set_error(&reque=
-st->fence, -EIO);
-af7a8ffad9c58de Daniel Vetter 2017-10-11  3326  =
+b4ea019663f81ca Jim Cromie      2022-01-19  277  	if (!__drm_debug_enabled(=
+category))
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  278  		return;
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  279  =
 
-e61e0f51ba7974b Chris Wilson  2018-02-21  3327  	i915_request_submit(reques=
-t);
-af7a8ffad9c58de Daniel Vetter 2017-10-11  3328  }
-af7a8ffad9c58de Daniel Vetter 2017-10-11  3329  =
+f551ecc93512f82 Jim Cromie      2021-12-28  280  	/* we know we are printin=
+g for either syslog, tracefs, or both */
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  281  	va_start(args, format);
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  282  	vaf.fmt =3D format;
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  283  	vaf.va =3D &args;
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  284  =
 
+f551ecc93512f82 Jim Cromie      2021-12-28  285  	if (dev) {
+c565d1ed5ffa369 Jim Cromie      2021-11-22  286  		if (desc->flags && _DPRI=
+NTK_FLAGS_PRINTK)
+db87086492581c8 Joe Perches     2018-03-16  287  			dev_printk(KERN_DEBUG, =
+dev, "[" DRM_NAME ":%ps] %pV",
+db87086492581c8 Joe Perches     2018-03-16  288  				   __builtin_return_ad=
+dress(0), &vaf);
+a6edc399f08cd70 Jim Cromie      2021-12-01 @289  		if (desc->flags && _DPRI=
+NTK_FLAGS_TRACE)
+a6edc399f08cd70 Jim Cromie      2021-12-01  290  			trace_drm_devdbg(dev, c=
+ategory, &vaf);
+f551ecc93512f82 Jim Cromie      2021-12-28  291  	} else {
+c565d1ed5ffa369 Jim Cromie      2021-11-22  292  		if (desc->flags && _DPRI=
+NTK_FLAGS_PRINTK)
+db87086492581c8 Joe Perches     2018-03-16  293  			printk(KERN_DEBUG "[" D=
+RM_NAME ":%ps] %pV",
+db87086492581c8 Joe Perches     2018-03-16  294  			       __builtin_return=
+_address(0), &vaf);
+a6edc399f08cd70 Jim Cromie      2021-12-01  295  		if (desc->flags && _DPRI=
+NTK_FLAGS_TRACE)
+a6edc399f08cd70 Jim Cromie      2021-12-01  296  			trace_drm_debug(categor=
+y, &vaf);
+f551ecc93512f82 Jim Cromie      2021-12-28  297  	}
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  298  	va_end(args);
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  299  }
+cfba4ec4f3059e6 Jim Cromie      2021-12-18  300  EXPORT_SYMBOL(__drm_dev_db=
+g);
+02c9656b2f0d699 Haneen Mohammed 2017-10-17  301  =
 
-:::::: The code at line 3322 was first introduced by commit
-:::::: d9b13c4dde6cacd8f2c4385cd6d293b0ac622e0b drm/i915: Trace GEM steps b=
-etween submit and wedging
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1342589900807926793==--
+--===============2287479201158491249==--
 
