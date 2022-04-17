@@ -1,47 +1,53 @@
-Content-Type: multipart/mixed; boundary="===============5181088132713768839=="
+Content-Type: multipart/mixed; boundary="===============5195860587054812311=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.15/linux 336/2399] kernel/locking/test-ww_mutex.c:172:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sun, 17 Apr 2022 16:14:21 +0800
-Message-ID: <202204171609.7n9Nq9AC-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gt/sysfs_engines.c:27:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length argu...
+Date: Sun, 17 Apr 2022 14:33:17 +0800
+Message-ID: <202204171458.RmC9WJsd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5181088132713768839==
+--===============5195860587054812311==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Junxiao Chang <junxiao.chang@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Alex Shi <alexs@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   d86220b9804b7e73ffc262a6d8bf5afbbf17be81
-commit: 53956aadc1f3755f43e9a8d6741cb2b1d4c58ac6 [336/2399] kernel/locking:=
- Add context to ww_mutex_trylock()
-:::::: branch date: 5 days ago
-:::::: commit date: 8 weeks ago
-config: arm-randconfig-c002-20220417 (https://download.01.org/0day-ci/archi=
-ve/20220417/202204171609.7n9Nq9AC-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 64c045=
-e25b8471bbb572bd29159c294a82a86a25)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a2c29ccd9477861b16ddc02c411a6c9665250558
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
+11
+date:   5 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-c007-20220411 (https://download.01.org/0day-ci/ar=
+chive/20220417/202204171458.RmC9WJsd-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
+560f06cdfe8aa47b248d8bdc58f947274b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel/linux-intel-lts/commit/53956aadc1f3755f4=
-3e9a8d6741cb2b1d4c58ac6
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
-it
-        git fetch --no-tags intel-lts 5.15/linux
-        git checkout 53956aadc1f3755f43e9a8d6741cb2b1d4c58ac6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,342 +55,860 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                           ^
-   include/linux/spinlock_api_up.h:65:35: note: expanded from macro '_raw_s=
-pin_lock_irq'
-   #define _raw_spin_lock_irq(lock)                __LOCK_IRQ(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:37:29: note: expanded from macro '__LOCK=
-_IRQ'
-     do { local_irq_disable(); __LOCK(lock); } while (0)
-                               ^
-   include/linux/spinlock_api_up.h:31:3: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-     ^
-   kernel/locking/rtmutex_api.c:394:2: note: Loop condition is false.  Exit=
-ing loop
-           raw_spin_lock_irq(&lock->wait_lock);
-           ^
-   include/linux/spinlock.h:286:34: note: expanded from macro 'raw_spin_loc=
-k_irq'
-   #define raw_spin_lock_irq(lock)         _raw_spin_lock_irq(lock)
-                                           ^
-   include/linux/spinlock_api_up.h:65:35: note: expanded from macro '_raw_s=
-pin_lock_irq'
-   #define _raw_spin_lock_irq(lock)                __LOCK_IRQ(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:37:3: note: expanded from macro '__LOCK_=
-IRQ'
-     do { local_irq_disable(); __LOCK(lock); } while (0)
-     ^
-   kernel/locking/rtmutex_api.c:411:6: note: Assuming the condition is true
-           if (rt_mutex_owner(lock) !=3D current) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex_api.c:411:2: note: Taking true branch
-           if (rt_mutex_owner(lock) !=3D current) {
-           ^
-   kernel/locking/rtmutex_api.c:412:23: note: Passing value via 2nd paramet=
-er 'waiter'
-                   remove_waiter(lock, waiter);
-                                       ^~~~~~
-   kernel/locking/rtmutex_api.c:412:3: note: Calling 'remove_waiter'
-                   remove_waiter(lock, waiter);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1411:24: note: Assuming pointer value is null
-           bool is_top_waiter =3D (waiter =3D=3D rt_mutex_top_waiter(lock));
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1415:2: note: Loop condition is false.  Exiting=
- loop
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:411:34: note: expanded from macro 'lockdep_asser=
-t_held'
-   #define lockdep_assert_held(l)                  do { (void)(l); } while =
-(0)
-                                                   ^
-   kernel/locking/rtmutex.c:1417:2: note: Loop condition is false.  Exiting=
- loop
-           raw_spin_lock(&current->pi_lock);
-           ^
-   include/linux/spinlock.h:229:29: note: expanded from macro 'raw_spin_loc=
-k'
-   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-                                   ^
-   include/linux/spinlock_api_up.h:58:32: note: expanded from macro '_raw_s=
-pin_lock'
-   #define _raw_spin_lock(lock)                    __LOCK(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:31:8: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-          ^
-   include/linux/preempt.h:179:27: note: expanded from macro 'preempt_disab=
-le'
-   #define preempt_disable() \
-                             ^
-   kernel/locking/rtmutex.c:1417:2: note: Loop condition is false.  Exiting=
- loop
-           raw_spin_lock(&current->pi_lock);
-           ^
-   include/linux/spinlock.h:229:29: note: expanded from macro 'raw_spin_loc=
-k'
-   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-                                   ^
-   include/linux/spinlock_api_up.h:58:32: note: expanded from macro '_raw_s=
-pin_lock'
-   #define _raw_spin_lock(lock)                    __LOCK(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:31:27: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-                             ^
-   include/linux/spinlock_api_up.h:28:3: note: expanded from macro '___LOCK'
-     do { __acquire(lock); (void)(lock); } while (0)
-     ^
-   kernel/locking/rtmutex.c:1417:2: note: Loop condition is false.  Exiting=
- loop
-           raw_spin_lock(&current->pi_lock);
-           ^
-   include/linux/spinlock.h:229:29: note: expanded from macro 'raw_spin_loc=
-k'
-   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-                                   ^
-   include/linux/spinlock_api_up.h:58:32: note: expanded from macro '_raw_s=
-pin_lock'
-   #define _raw_spin_lock(lock)                    __LOCK(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:31:3: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-     ^
-   kernel/locking/rtmutex.c:1418:25: note: Passing null pointer value via 2=
-nd parameter 'waiter'
-           rt_mutex_dequeue(lock, waiter);
-                                  ^~~~~~
-   kernel/locking/rtmutex.c:1418:2: note: Calling 'rt_mutex_dequeue'
-           rt_mutex_dequeue(lock, waiter);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:404:6: note: Access to field '__rb_parent_color=
-' results in a dereference of a null pointer
-           if (RB_EMPTY_NODE(&waiter->tree_entry))
-               ^
-   include/linux/rbtree.h:34:3: note: expanded from macro 'RB_EMPTY_NODE'
-           ((node)->__rb_parent_color =3D=3D (unsigned long)(node))
-            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+                                     ^~~~
+   block/blk-mq.c:2549:3: note: Calling 'blk_mq_commit_rqs'
+                   blk_mq_commit_rqs(hctx, &queued, from_schedule);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/blk-mq.c:2379:6: note: Access to field 'queue' results in a derefe=
+rence of a null pointer (loaded from variable 'hctx')
+           if (hctx->queue->mq_ops->commit_rqs) {
+               ^~~~
+   block/blk-mq.c:3954:4: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(new_hctxs, hctxs, q->nr_hw_queues *
+                           ^~~~~~
+   block/blk-mq.c:3954:4: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+                           memcpy(new_hctxs, hctxs, q->nr_hw_queues *
+                           ^~~~~~
+   block/blk-mq.c:4210:3: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(new_tags, set->tags, cur_nr_hw_queues *
+                   ^~~~~~
+   block/blk-mq.c:4210:3: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+                   memcpy(new_tags, set->tags, cur_nr_hw_queues *
+                   ^~~~~~
+   block/blk-mq.c:4320:2: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(set, 0, sizeof(*set));
+           ^~~~~~
+   block/blk-mq.c:4320:2: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+           memset(set, 0, sizeof(*set));
+           ^~~~~~
+   Suppressed 37 warnings (37 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> kernel/locking/test-ww_mutex.c:172:2: warning: Undefined or garbage valu=
-e returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^
-   kernel/locking/test-ww_mutex.c:625:2: note: Left side of '&&' is true
-           printk(KERN_INFO "Beginning ww mutex selftests\n");
-           ^
-   include/linux/printk.h:450:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:374:7: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                       ^
-   kernel/locking/test-ww_mutex.c:625:2: note: Taking true branch
-           printk(KERN_INFO "Beginning ww mutex selftests\n");
-           ^
-   include/linux/printk.h:450:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:374:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   kernel/locking/test-ww_mutex.c:625:2: note: '?' condition is true
-           printk(KERN_INFO "Beginning ww mutex selftests\n");
-           ^
-   include/linux/printk.h:450:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   kernel/locking/test-ww_mutex.c:625:2: note: '?' condition is true
-           printk(KERN_INFO "Beginning ww mutex selftests\n");
-           ^
-   include/linux/printk.h:450:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:387:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   kernel/locking/test-ww_mutex.c:625:2: note: Loop condition is false.  Ex=
-iting loop
-           printk(KERN_INFO "Beginning ww mutex selftests\n");
-           ^
-   include/linux/printk.h:450:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:373:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   kernel/locking/test-ww_mutex.c:628:6: note: Assuming 'wq' is non-null
-           if (!wq)
-               ^~~
-   kernel/locking/test-ww_mutex.c:628:2: note: Taking false branch
-           if (!wq)
-           ^
-   kernel/locking/test-ww_mutex.c:632:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   kernel/locking/test-ww_mutex.c:632:2: note: Taking false branch
-           if (ret)
-           ^
-   kernel/locking/test-ww_mutex.c:636:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   kernel/locking/test-ww_mutex.c:636:2: note: Taking false branch
-           if (ret)
-           ^
-   kernel/locking/test-ww_mutex.c:639:8: note: Calling 'test_aa'
-           ret =3D test_aa(true);
-                 ^~~~~~~~~~~~~
-   kernel/locking/test-ww_mutex.c:125:2: note: 'ret' declared without an in=
-itial value
-           int ret;
-           ^~~~~~~
-   kernel/locking/test-ww_mutex.c:126:21: note: 'trylock' is true
-           const char *from =3D trylock ? "trylock" : "lock";
-                              ^~~~~~~
-   kernel/locking/test-ww_mutex.c:126:21: note: '?' condition is true
-   kernel/locking/test-ww_mutex.c:131:7: note: 'trylock' is true
-           if (!trylock) {
-                ^~~~~~~
-   kernel/locking/test-ww_mutex.c:131:2: note: Taking false branch
-           if (!trylock) {
-           ^
-   kernel/locking/test-ww_mutex.c:138:7: note: Assuming the condition is tr=
-ue
-                   if (!ww_mutex_trylock(&mutex, &ctx)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/test-ww_mutex.c:138:3: note: Taking true branch
-
-vim +172 kernel/locking/test-ww_mutex.c
-
-f2a5fec17395f2 Chris Wilson      2016-12-01  120  =
-
-53956aadc1f375 Maarten Lankhorst 2021-09-09  121  static int test_aa(bool t=
-rylock)
-c22fb3807fd0a3 Chris Wilson      2016-12-01  122  {
-c22fb3807fd0a3 Chris Wilson      2016-12-01  123  	struct ww_mutex mutex;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  124  	struct ww_acquire_ctx ct=
-x;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  125  	int ret;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  126  	const char *from =3D try=
-lock ? "trylock" : "lock";
-c22fb3807fd0a3 Chris Wilson      2016-12-01  127  =
-
-c22fb3807fd0a3 Chris Wilson      2016-12-01  128  	ww_mutex_init(&mutex, &w=
-w_class);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  129  	ww_acquire_init(&ctx, &w=
-w_class);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  130  =
-
-53956aadc1f375 Maarten Lankhorst 2021-09-09  131  	if (!trylock) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  132  		ret =3D ww_mutex_lock(&=
-mutex, &ctx);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  133  		if (ret) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  134  			pr_err("%s: initial lo=
-ck failed!\n", __func__);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  135  			goto out;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  136  		}
-53956aadc1f375 Maarten Lankhorst 2021-09-09  137  	} else {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  138  		if (!ww_mutex_trylock(&=
-mutex, &ctx)) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  139  			pr_err("%s: initial tr=
-ylock failed!\n", __func__);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  140  			goto out;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  141  		}
-53956aadc1f375 Maarten Lankhorst 2021-09-09  142  	}
-53956aadc1f375 Maarten Lankhorst 2021-09-09  143  =
-
-53956aadc1f375 Maarten Lankhorst 2021-09-09  144  	if (ww_mutex_trylock(&mu=
-tex, NULL))  {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  145  		pr_err("%s: trylocked i=
-tself without context from %s!\n", __func__, from);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  146  		ww_mutex_unlock(&mutex);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  147  		ret =3D -EINVAL;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  148  		goto out;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  149  	}
-c22fb3807fd0a3 Chris Wilson      2016-12-01  150  =
-
-53956aadc1f375 Maarten Lankhorst 2021-09-09  151  	if (ww_mutex_trylock(&mu=
-tex, &ctx))  {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  152  		pr_err("%s: trylocked i=
-tself with context from %s!\n", __func__, from);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  153  		ww_mutex_unlock(&mutex);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  154  		ret =3D -EINVAL;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  155  		goto out;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  156  	}
-c22fb3807fd0a3 Chris Wilson      2016-12-01  157  =
-
-c22fb3807fd0a3 Chris Wilson      2016-12-01  158  	ret =3D ww_mutex_lock(&m=
-utex, &ctx);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  159  	if (ret !=3D -EALREADY) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  160  		pr_err("%s: missed dead=
-lock for recursing, ret=3D%d from %s\n",
-53956aadc1f375 Maarten Lankhorst 2021-09-09  161  		       __func__, ret, f=
-rom);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  162  		if (!ret)
-c22fb3807fd0a3 Chris Wilson      2016-12-01  163  			ww_mutex_unlock(&mutex=
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   drivers/gpu/drm/drm_encoder.c:201:2: warning: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(encoder, 0, sizeof(*encoder));
+           ^~~~~~
+   drivers/gpu/drm/drm_encoder.c:201:2: note: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11
+           memset(encoder, 0, sizeof(*encoder));
+           ^~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   drivers/gpu/drm/drm_property.c:576:3: warning: Call to function 'memcpy'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(blob->data, data, length);
+                   ^~~~~~
+   drivers/gpu/drm/drm_property.c:576:3: note: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(blob->data, data, length);
+                   ^~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   drivers/gpu/drm/drm_plane.c:203:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(formats_ptr(blob_data), plane->format_types, formats_size=
 );
-c22fb3807fd0a3 Chris Wilson      2016-12-01  164  		ret =3D -EINVAL;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  165  		goto out;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  166  	}
-c22fb3807fd0a3 Chris Wilson      2016-12-01  167  =
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:203:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(formats_ptr(blob_data), plane->format_types, formats_size=
+);
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:321:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(plane->format_types, formats, format_count * sizeof(uint3=
+2_t));
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:321:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(plane->format_types, formats, format_count * sizeof(uint3=
+2_t));
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:323:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(plane->modifiers, format_modifiers,
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:323:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(plane->modifiers, format_modifiers,
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:553:2: warning: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(plane, 0, sizeof(*plane));
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:553:2: note: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11
+           memset(plane, 0, sizeof(*plane));
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:1183:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&new_req, req, sizeof(struct drm_mode_cursor));
+           ^~~~~~
+   drivers/gpu/drm/drm_plane.c:1183:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&new_req, req, sizeof(struct drm_mode_cursor));
+           ^~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   39 warnings generated.
+   drivers/gpu/drm/i915/gt/shmem_utils.c:109:4: warning: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(vaddr + offset_in_page(off), ptr, this);
+                           ^~~~~~
+   drivers/gpu/drm/i915/gt/shmem_utils.c:109:4: note: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(vaddr + offset_in_page(off), ptr, this);
+                           ^~~~~~
+   drivers/gpu/drm/i915/gt/shmem_utils.c:112:4: warning: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(ptr, vaddr + offset_in_page(off), this);
+                           ^~~~~~
+   drivers/gpu/drm/i915/gt/shmem_utils.c:112:4: note: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(ptr, vaddr + offset_in_page(off), this);
+                           ^~~~~~
+   Suppressed 37 warnings (37 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   60 warnings generated.
+>> drivers/gpu/drm/i915/gt/sysfs_engines.c:27:9: warning: Call to function =
+'sprintf' is insecure as it does not provide bounding of the memory buffer =
+or security checks introduced in the C11 standard. Replace with analogous f=
+unctions that support length arguments or provides boundary checks such as =
+'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedO=
+rUnsafeBufferHandling]
+           return sprintf(buf, "%s\n", kobj_to_engine(kobj)->name);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:27:9: note: Call to function 'sp=
+rintf' is insecure as it does not provide bounding of the memory buffer or =
+security checks introduced in the C11 standard. Replace with analogous func=
+tions that support length arguments or provides boundary checks such as 'sp=
+rintf_s' in case of C11
+           return sprintf(buf, "%s\n", kobj_to_engine(kobj)->name);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:36:9: warning: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", kobj_to_engine(kobj)->uabi_class);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:36:9: note: Call to function 'sp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", kobj_to_engine(kobj)->uabi_class);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:45:9: warning: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", kobj_to_engine(kobj)->uabi_instance);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:45:9: note: Call to function 'sp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", kobj_to_engine(kobj)->uabi_instance);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:54:9: warning: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "0x%x\n", kobj_to_engine(kobj)->mmio_base);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:54:9: note: Call to function 'sp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "0x%x\n", kobj_to_engine(kobj)->mmio_base);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:110:12: warning: Call to functio=
+n 'snprintf' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'snprintf_s' in case of C11 [c=
+lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   len +=3D snprintf(buf + len, PAGE_SIZE -=
+ len,
+                                          ^~~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:110:12: note: Call to function '=
+snprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'snprintf_s' in case of C11
+                                   len +=3D snprintf(buf + len, PAGE_SIZE -=
+ len,
+                                          ^~~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:113:11: warning: Call to functio=
+n 'snprintf' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'snprintf_s' in case of C11 [c=
+lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           len +=3D snprintf(buf + len, PAGE_SIZE - len,
+                                  ^~~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:113:11: note: Call to function '=
+snprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'snprintf_s' in case of C11
+                           len +=3D snprintf(buf + len, PAGE_SIZE - len,
+                                  ^~~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:184:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->props.max_busywait_duration=
+_ns);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:184:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->props.max_busywait_duration=
+_ns);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:195:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->defaults.max_busywait_durat=
+ion_ns);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:195:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->defaults.max_busywait_durat=
+ion_ns);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:237:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->props.timeslice_duration_ms=
+);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:237:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->props.timeslice_duration_ms=
+);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:248:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->defaults.timeslice_duration=
+_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:248:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->defaults.timeslice_duration=
+_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:287:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->props.stop_timeout_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:287:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->props.stop_timeout_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:298:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->defaults.stop_timeout_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:298:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->defaults.stop_timeout_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:342:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->props.preempt_timeout_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:342:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->props.preempt_timeout_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:354:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->defaults.preempt_timeout_ms=
+);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:354:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->defaults.preempt_timeout_ms=
+);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:397:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->props.heartbeat_interval_ms=
+);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:397:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->props.heartbeat_interval_ms=
+);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:408:9: warning: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", engine->defaults.heartbeat_interval=
+_ms);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/gt/sysfs_engines.c:408:9: note: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", engine->defaults.heartbeat_interval=
+_ms);
+                  ^~~~~~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   61 warnings generated.
+   drivers/gpu/drm/i915/display/intel_vdsc.c:906:2: warning: Call to functi=
+on 'memset' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memset_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(rc_buf_thresh_dword, 0, sizeof(rc_buf_thresh_dword));
+--
+           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:294:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(data.block + 1, values, length);
+           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:410:4: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(msg[0].buf + 1, data->block, msg[0].len -=
+ 1);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:410:4: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(msg[0].buf + 1, data->block, msg[0].len -=
+ 1);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:425:3: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(msg[0].buf + 1, data->block, msg[0].len - 1);
+                   ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:425:3: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(msg[0].buf + 1, data->block, msg[0].len - 1);
+                   ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:447:4: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(msg[0].buf + 1, data->block + 1, data->bl=
+ock[0]);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:447:4: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(msg[0].buf + 1, data->block + 1, data->bl=
+ock[0]);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:497:4: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(data->block + 1, msg[1].buf, data->block[=
+0]);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:497:4: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(data->block + 1, msg[1].buf, data->block[=
+0]);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:508:4: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(data->block, msg[1].buf, msg[1].buf[0] + =
+1);
+                           ^~~~~~
+   drivers/i2c/i2c-core-smbus.c:508:4: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(data->block, msg[1].buf, msg[1].buf[0] + =
+1);
+                           ^~~~~~
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   27 warnings generated.
+   drivers/input/joystick/adi.c:139:6: warning: Although the value stored t=
+o 'z' is used in the enclosing expression, the value is never actually read=
+ from 'z' [clang-analyzer-deadcode.DeadStores]
+           v =3D z =3D gameport_read(gameport);
+               ^   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/joystick/adi.c:139:6: note: Although the value stored to '=
+z' is used in the enclosing expression, the value is never actually read fr=
+om 'z'
+           v =3D z =3D gameport_read(gameport);
+               ^   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/joystick/adi.c:397:2: warning: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(buf, ADI_MAX_PHYS_LENGTH, adi_names[t], adi->id);
+           ^~~~~~~~
+   drivers/input/joystick/adi.c:397:2: note: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(buf, ADI_MAX_PHYS_LENGTH, adi_names[t], adi->id);
+           ^~~~~~~~
+   drivers/input/joystick/adi.c:398:2: warning: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(adi->name, ADI_MAX_NAME_LENGTH, "Logitech %s [%s]", buf=
+, adi->cname);
+           ^~~~~~~~
+   drivers/input/joystick/adi.c:398:2: note: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(adi->name, ADI_MAX_NAME_LENGTH, "Logitech %s [%s]", buf=
+, adi->cname);
+           ^~~~~~~~
+   drivers/input/joystick/adi.c:399:2: warning: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(adi->phys, ADI_MAX_PHYS_LENGTH, "%s/input%d", port->gam=
+eport->phys, half);
+           ^~~~~~~~
+   drivers/input/joystick/adi.c:399:2: note: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(adi->phys, ADI_MAX_PHYS_LENGTH, "%s/input%d", port->gam=
+eport->phys, half);
+           ^~~~~~~~
+   Suppressed 23 warnings (23 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   34 warnings generated.
+   Suppressed 34 warnings (34 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   drivers/ptp/ptp_vclock.c:129:2: warning: Call to function 'snprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(vclock->info.name, PTP_CLOCK_NAME_LEN, "ptp%d_virt",
+           ^~~~~~~~
+   drivers/ptp/ptp_vclock.c:129:2: note: Call to function 'snprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'snprintf_s' in case of C11
+           snprintf(vclock->info.name, PTP_CLOCK_NAME_LEN, "ptp%d_virt",
+           ^~~~~~~~
+   drivers/ptp/ptp_vclock.c:163:2: warning: Call to function 'snprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(name, PTP_CLOCK_NAME_LEN, "ptp%d", pclock_index);
+           ^~~~~~~~
+   drivers/ptp/ptp_vclock.c:163:2: note: Call to function 'snprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'snprintf_s' in case of C11
+           snprintf(name, PTP_CLOCK_NAME_LEN, "ptp%d", pclock_index);
+           ^~~~~~~~
+   drivers/ptp/ptp_vclock.c:179:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(*vclock_index, ptp->vclock_index, sizeof(int) * ptp->n_vc=
+locks);
+           ^~~~~~
+   drivers/ptp/ptp_vclock.c:179:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(*vclock_index, ptp->vclock_index, sizeof(int) * ptp->n_vc=
+locks);
+           ^~~~~~
+   drivers/ptp/ptp_vclock.c:198:2: warning: Call to function 'snprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(name, PTP_CLOCK_NAME_LEN, "ptp%d", vclock_index);
+           ^~~~~~~~
+   drivers/ptp/ptp_vclock.c:198:2: note: Call to function 'snprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'snprintf_s' in case of C11
+           snprintf(name, PTP_CLOCK_NAME_LEN, "ptp%d", vclock_index);
+           ^~~~~~~~
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   59 warnings generated.
+   Suppressed 59 warnings (59 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   47 warnings generated.
+>> drivers/gpu/drm/i915/i915_pmu.c:806:9: warning: Call to function 'sprint=
+f' is insecure as it does not provide bounding of the memory buffer or secu=
+rity checks introduced in the C11 standard. Replace with analogous function=
+s that support length arguments or provides boundary checks such as 'sprint=
+f_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafe=
+BufferHandling]
+           return sprintf(buf, "%s\n", eattr->str);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/i915_pmu.c:806:9: note: Call to function 'sprintf' =
+is insecure as it does not provide bounding of the memory buffer or securit=
+y checks introduced in the C11 standard. Replace with analogous functions t=
+hat support length arguments or provides boundary checks such as 'sprintf_s=
+' in case of C11
+           return sprintf(buf, "%s\n", eattr->str);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/i915_pmu.c:836:9: warning: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "config=3D0x%lx\n", eattr->val);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/i915_pmu.c:836:9: note: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "config=3D0x%lx\n", eattr->val);
+                  ^~~~~~~
+   drivers/gpu/drm/i915/i915_pmu.c:1046:19: warning: Value stored to 'pmu' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i915_pmu *pmu =3D hlist_entry_safe(node, typeof(*pmu), cp=
+uhp.node);
+                            ^~~
+   drivers/gpu/drm/i915/i915_pmu.c:1046:19: note: Value stored to 'pmu' dur=
+ing its initialization is never read
+           struct i915_pmu *pmu =3D hlist_entry_safe(node, typeof(*pmu), cp=
+uhp.node);
+                            ^~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/power/supply/power_supply_sysfs.c:251:13: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
+fer or security checks introduced in the C11 standard. Replace with analogo=
+us functions that support length arguments or provides boundary checks such=
+ as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depreca=
+tedOrUnsafeBufferHandling]
+                           count +=3D sprintf(buf + count, "[%s] ",
+                                    ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:251:13: note: Call to function=
+ 'sprintf' is insecure as it does not provide bounding of the memory buffer=
+ or security checks introduced in the C11 standard. Replace with analogous =
+functions that support length arguments or provides boundary checks such as=
+ 'sprintf_s' in case of C11
+                           count +=3D sprintf(buf + count, "[%s] ",
+                                    ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:255:13: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
+fer or security checks introduced in the C11 standard. Replace with analogo=
+us functions that support length arguments or provides boundary checks such=
+ as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depreca=
+tedOrUnsafeBufferHandling]
+                           count +=3D sprintf(buf + count, "%s ",
+                                    ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:255:13: note: Call to function=
+ 'sprintf' is insecure as it does not provide bounding of the memory buffer=
+ or security checks introduced in the C11 standard. Replace with analogous =
+functions that support length arguments or provides boundary checks such as=
+ 'sprintf_s' in case of C11
+                           count +=3D sprintf(buf + count, "%s ",
+                                    ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:299:10: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
+fer or security checks introduced in the C11 standard. Replace with analogo=
+us functions that support length arguments or provides boundary checks such=
+ as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depreca=
+tedOrUnsafeBufferHandling]
+                   return sprintf(buf, "%s\n", ps_attr->text_values[value.i=
+ntval]);
+                          ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:299:10: note: Call to function=
+ 'sprintf' is insecure as it does not provide bounding of the memory buffer=
+ or security checks introduced in the C11 standard. Replace with analogous =
+functions that support length arguments or provides boundary checks such as=
+ 'sprintf_s' in case of C11
+                   return sprintf(buf, "%s\n", ps_attr->text_values[value.i=
+ntval]);
+                          ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:308:9: warning: Call to functi=
+on 'sprintf' is insecure as it does not provide bounding of the memory buff=
+er or security checks introduced in the C11 standard. Replace with analogou=
+s functions that support length arguments or provides boundary checks such =
+as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Deprecat=
+edOrUnsafeBufferHandling]
+                   ret =3D sprintf(buf, "%s\n", value.strval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:308:9: note: Call to function =
+'sprintf' is insecure as it does not provide bounding of the memory buffer =
+or security checks introduced in the C11 standard. Replace with analogous f=
+unctions that support length arguments or provides boundary checks such as =
+'sprintf_s' in case of C11
+                   ret =3D sprintf(buf, "%s\n", value.strval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:311:9: warning: Call to functi=
+on 'sprintf' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'sprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   ret =3D sprintf(buf, "%d\n", value.intval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:311:9: note: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11
+                   ret =3D sprintf(buf, "%d\n", value.intval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:415:4: warning: Call to functi=
+on 'sprintf' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'sprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           sprintf(power_supply_attrs[i].attr_name, "_err_%=
+d", i);
+                           ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:415:4: note: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11
+                           sprintf(power_supply_attrs[i].attr_name, "_err_%=
+d", i);
+                           ^~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   kernel/static_call.c:275:47: warning: Access to field 'func' results in =
+a dereference of a null pointer (loaded from variable 'key') [clang-analyze=
+r-core.NullDereference]
+                   arch_static_call_transform(site_addr, NULL, key->func,
+                                                               ^
+   kernel/static_call.c:478:6: note: Assuming 'static_call_initialized' is =
+false
+           if (static_call_initialized)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/static_call.c:478:2: note: Taking false branch
+           if (static_call_initialized)
+           ^
+   kernel/static_call.c:483:8: note: Calling '__static_call_init'
+           ret =3D __static_call_init(NULL, __start_static_call_sites,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/static_call.c:217:6: note: 'start' is not equal to 'stop'
+           if (start =3D=3D stop)
+               ^~~~~
+   kernel/static_call.c:217:2: note: Taking false branch
+           if (start =3D=3D stop)
+           ^
+   kernel/static_call.c:222:2: note: Loop condition is true.  Entering loop=
+ body
+           for (site =3D start; site < stop; site++) {
+           ^
+   kernel/static_call.c:225:8: note: 'mod' is null
+                   if ((mod && within_module_init((unsigned long)site_addr,=
+ mod)) ||
+                        ^~~
+   kernel/static_call.c:225:12: note: Left side of '&&' is false
+                   if ((mod && within_module_init((unsigned long)site_addr,=
+ mod)) ||
+                            ^
+   kernel/static_call.c:226:9: note: 'mod' is null
+                       (!mod && init_section_contains(site_addr, 1)))
+                         ^~~
+   kernel/static_call.c:226:8: note: Left side of '&&' is true
+                       (!mod && init_section_contains(site_addr, 1)))
+                        ^
+   kernel/static_call.c:225:3: note: Taking false branch
+                   if ((mod && within_module_init((unsigned long)site_addr,=
+ mod)) ||
+                   ^
+   kernel/static_call.c:229:3: note: Value assigned to 'key'
+                   key =3D static_call_key(site);
 
-53956aadc1f375 Maarten Lankhorst 2021-09-09  168  	ww_mutex_unlock(&mutex);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  169  	ret =3D 0;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  170  out:
-c22fb3807fd0a3 Chris Wilson      2016-12-01  171  	ww_acquire_fini(&ctx);
-c22fb3807fd0a3 Chris Wilson      2016-12-01 @172  	return ret;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  173  }
-c22fb3807fd0a3 Chris Wilson      2016-12-01  174  =
+vim +27 drivers/gpu/drm/i915/gt/sysfs_engines.c
+
+4ec76dbeb62b5f Chris Wilson 2020-02-28  23  =
+
+4ec76dbeb62b5f Chris Wilson 2020-02-28  24  static ssize_t
+4ec76dbeb62b5f Chris Wilson 2020-02-28  25  name_show(struct kobject *kobj,=
+ struct kobj_attribute *attr, char *buf)
+4ec76dbeb62b5f Chris Wilson 2020-02-28  26  {
+4ec76dbeb62b5f Chris Wilson 2020-02-28 @27  	return sprintf(buf, "%s\n", ko=
+bj_to_engine(kobj)->name);
+4ec76dbeb62b5f Chris Wilson 2020-02-28  28  }
+4ec76dbeb62b5f Chris Wilson 2020-02-28  29  =
 
 
-:::::: The code at line 172 was first introduced by commit
-:::::: c22fb3807fd0a3bdd98c13c4d2190ab064e6c09d locking/ww_mutex: Add kself=
-tests for ww_mutex AA deadlock detection
+:::::: The code at line 27 was first introduced by commit
+:::::: 4ec76dbeb62b5f897641af502b8309808e4e2d82 drm/i915/gt: Expose engine =
+properties via sysfs
 
 :::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5181088132713768839==--
+--===============5195860587054812311==--
 
