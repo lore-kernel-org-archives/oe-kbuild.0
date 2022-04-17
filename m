@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7726221604259491739=="
+Content-Type: multipart/mixed; boundary="===============2365727540564051932=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/marvell/mwifiex/main.c:1152:7: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support lengt...
-Date: Sun, 17 Apr 2022 12:51:42 +0800
-Message-ID: <202204171229.A3BhvrIL-lkp@intel.com>
+Subject: Re: [PATCH] mtd: rawnand: Fix return value check of wait_for_completion_timeout
+Date: Sun, 17 Apr 2022 10:49:59 +0800
+Message-ID: <202204171027.PZ0Cy8gG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7726221604259491739==
+--===============2365727540564051932==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,24 +15,41 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+In-Reply-To: <20220412020834.7161-1-linmq006@gmail.com>
+References: <20220412020834.7161-1-linmq006@gmail.com>
+TO: Miaoqian Lin <linmq006@gmail.com>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Richard Weinberger <richard@nod.at>
+TO: Vignesh Raghavendra <vigneshr@ti.com>
+TO: Pratyush Yadav <p.yadav@ti.com>
+TO: Miaoqian Lin <linmq006@gmail.com>
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+TO: Paul Cercueil <paul@crapouillou.net>
+TO: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+TO: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+TO: Bastian Hecht <hechtb@googlemail.com>
+TO: linux-mtd(a)lists.infradead.org
+TO: linux-kernel(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a2c29ccd9477861b16ddc02c411a6c9665250558
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
-date:   5 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 weeks ago
+Hi Miaoqian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on mtd/nand/next]
+[also build test WARNING on linus/master linux/master v5.18-rc2 next-202204=
+14]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miaoqian-Lin/mtd-raw=
+nand-Fix-return-value-check-of-wait_for_completion_timeout/20220412-101006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/=
+next
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
 config: arm-randconfig-c002-20220417 (https://download.01.org/0day-ci/archi=
-ve/20220417/202204171229.A3BhvrIL-lkp(a)intel.com/config)
+ve/20220417/202204171027.PZ0Cy8gG-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 64c045=
 e25b8471bbb572bd29159c294a82a86a25)
 reproduce (this is a W=3D1 build):
@@ -41,12 +58,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # https://github.com/intel-lab-lkp/linux/commit/3de25b46a3f73a3e003=
+1e5186eb4e2afa9098b46
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Miaoqian-Lin/mtd-rawnand-Fix-retur=
+n-value-check-of-wait_for_completion_timeout/20220412-101006
+        git checkout 3de25b46a3f73a3e0031e5186eb4e2afa9098b46
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -57,1575 +74,440 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~
-   Suppressed 73 warnings (73 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   drivers/gpu/host1x/cdma.c:604:15: warning: Value stored to 'space' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int space =3D cdma->slots_free;
-                        ^~~~~   ~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/cdma.c:604:15: note: Value stored to 'space' during i=
-ts initialization is never read
-           unsigned int space =3D cdma->slots_free;
-                        ^~~~~   ~~~~~~~~~~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   drivers/gpu/host1x/job.c:570:3: warning: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(job->gather_copy_mapped + offset, gather + g->off=
-set,
-                   ^~~~~~
-   drivers/gpu/host1x/job.c:570:3: note: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(job->gather_copy_mapped + offset, gather + g->off=
-set,
-                   ^~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   drivers/gpu/host1x/debug.c:34:8: warning: Call to function 'vsnprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len =3D vsnprintf(o->buf, sizeof(o->buf), fmt, args);
-                 ^~~~~~~~~
-   drivers/gpu/host1x/debug.c:34:8: note: Call to function 'vsnprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'vsnprintf_s' in case of C11
-           len =3D vsnprintf(o->buf, sizeof(o->buf), fmt, args);
-                 ^~~~~~~~~
-   drivers/gpu/host1x/debug.c:46:8: warning: Call to function 'vsnprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len =3D vsnprintf(o->buf, sizeof(o->buf), fmt, args);
-                 ^~~~~~~~~
-   drivers/gpu/host1x/debug.c:46:8: note: Call to function 'vsnprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'vsnprintf_s' in case of C11
-           len =3D vsnprintf(o->buf, sizeof(o->buf), fmt, args);
-                 ^~~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   67 warnings generated.
-   drivers/net/wireless/ath/ath6kl/core.c:303:2: warning: Call to function =
-'memset' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset((u8 *)ar->sta_list, 0,
-           ^~~~~~
-   drivers/net/wireless/ath/ath6kl/core.c:303:2: note: Call to function 'me=
-mset' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memset_s' in case of C11
-           memset((u8 *)ar->sta_list, 0,
-           ^~~~~~
-   drivers/net/wireless/ath/ath6kl/core.c:324:2: warning: Call to function =
-'memcpy' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(ar->ap_country_code, DEF_AP_COUNTRY_CODE, 3);
-           ^~~~~~
-   drivers/net/wireless/ath/ath6kl/core.c:324:2: note: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(ar->ap_country_code, DEF_AP_COUNTRY_CODE, 3);
-           ^~~~~~
-   Suppressed 65 warnings (65 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   65 warnings generated.
-   Suppressed 65 warnings (65 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   65 warnings generated.
-   Suppressed 65 warnings (65 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   116 warnings generated.
-   drivers/net/wireless/marvell/mwifiex/main.c:83:2: warning: Call to funct=
-ion 'memmove' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memmove_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memmove(&adapter->if_ops, if_ops, sizeof(struct mwifiex_if_ops));
-           ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:83:2: note: Call to function=
- 'memmove' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memmove_s' in case of C11
-           memmove(&adapter->if_ops, if_ops, sizeof(struct mwifiex_if_ops));
-           ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:237:2: warning: Call to func=
-tion 'memset' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memset_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&ver_ext, 0, sizeof(ver_ext));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:237:2: note: Call to functio=
-n 'memset' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&ver_ext, 0, sizeof(ver_ext));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:570:2: warning: Call to func=
-tion 'memset' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memset_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&fw, 0, sizeof(struct mwifiex_fw_image));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:570:2: note: Call to functio=
-n 'memset' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&fw, 0, sizeof(struct mwifiex_fw_image));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:948:2: warning: Call to func=
-tion 'memset' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memset_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(tx_info, 0, sizeof(*tx_info));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:948:2: note: Call to functio=
-n 'memset' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memset_s' in case of C11
-           memset(tx_info, 0, sizeof(*tx_info));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1146:2: warning: Call to fun=
-ction 'strcpy' is insecure as it does not provide bounding of the memory bu=
-ffer. Replace unbounded copy functions with analogous functions that suppor=
-t length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.inse=
-cureAPI.strcpy]
-           strcpy(p, "=3D=3D=3D=3D=3D=3D=3D=3DStart dump driverinfo=3D=3D=
-=3D=3D=3D=3D=3D=3D\n");
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1146:2: note: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119
-           strcpy(p, "=3D=3D=3D=3D=3D=3D=3D=3DStart dump driverinfo=3D=3D=
-=3D=3D=3D=3D=3D=3D\n");
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1148:7: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "driver_name =3D " "\"mwifiex\"\n");
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1148:7: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "driver_name =3D " "\"mwifiex\"\n");
-                ^~~~~~~
->> drivers/net/wireless/marvell/mwifiex/main.c:1152:7: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide bounding of the memory b=
-uffer or security checks introduced in the C11 standard. Replace with analo=
-gous functions that support length arguments or provides boundary checks su=
-ch as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depre=
-catedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "driver_version =3D %s\n", drv_version);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1152:7: note: Call to functi=
-on 'sprintf' is insecure as it does not provide bounding of the memory buff=
-er or security checks introduced in the C11 standard. Replace with analogou=
-s functions that support length arguments or provides boundary checks such =
-as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "driver_version =3D %s\n", drv_version);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1156:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "tx_cmd_urb_pending =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1156:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "tx_cmd_urb_pending =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1158:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "tx_data_urb_pending_port_0 =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1158:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "tx_data_urb_pending_port_0 =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1160:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "tx_data_urb_pending_port_1 =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1160:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "tx_data_urb_pending_port_1 =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1162:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "rx_cmd_urb_pending =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1162:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "rx_cmd_urb_pending =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1164:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "rx_data_urb_pending =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1164:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "rx_data_urb_pending =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1168:7: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "tx_pending =3D %d\n",
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1168:7: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "tx_pending =3D %d\n",
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1170:7: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "rx_pending =3D %d\n",
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1170:7: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "rx_pending =3D %d\n",
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1175:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "\nmp_rd_bitmap=3D0x%x curr_rd_port=3D=
-0x%x\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1175:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "\nmp_rd_bitmap=3D0x%x curr_rd_port=3D=
-0x%x\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1177:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "mp_wr_bitmap=3D0x%x curr_wr_port=3D0x=
-%x\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1177:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "mp_wr_bitmap=3D0x%x curr_wr_port=3D0x=
-%x\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1185:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide bounding of the memory b=
-uffer or security checks introduced in the C11 standard. Replace with analo=
-gous functions that support length arguments or provides boundary checks su=
-ch as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depre=
-catedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "\n[interface  : \"%s\"]\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1185:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide bounding of the memory buff=
-er or security checks introduced in the C11 standard. Replace with analogou=
-s functions that support length arguments or provides boundary checks such =
-as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "\n[interface  : \"%s\"]\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1187:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "wmm_tx_pending[0] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1187:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "wmm_tx_pending[0] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1189:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "wmm_tx_pending[1] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1189:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "wmm_tx_pending[1] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1191:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "wmm_tx_pending[2] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1191:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "wmm_tx_pending[2] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1193:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "wmm_tx_pending[3] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1193:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "wmm_tx_pending[3] =3D %d\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1195:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide bounding of the memory b=
-uffer or security checks introduced in the C11 standard. Replace with analo=
-gous functions that support length arguments or provides boundary checks su=
-ch as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depre=
-catedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "media_state=3D\"%s\"\n", !priv->media=
-_connected ?
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1195:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide bounding of the memory buff=
-er or security checks introduced in the C11 standard. Replace with analogou=
-s functions that support length arguments or provides boundary checks such =
-as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "media_state=3D\"%s\"\n", !priv->media=
-_connected ?
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1197:8: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide bounding of the memory b=
-uffer or security checks introduced in the C11 standard. Replace with analo=
-gous functions that support length arguments or provides boundary checks su=
-ch as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depre=
-catedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "carrier %s\n", (netif_carrier_ok(priv=
-->netdev)
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/main.c:1197:8: note: Call to functi=
-on 'sprintf' is insecure as it does not provide bounding of the memory buff=
-er or security checks introduced in the C11 standard. Replace with analogou=
-s functions that support length arguments or provides boundary checks such =
-as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "carrier %s\n", (netif_carrier_ok(priv=
-->netdev)
---
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
+           memset(state->msg, 0, 2 * sizeof(struct i2c_msg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/dib0070.c:80:2: note: Call to function 'mems=
+et' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memset_s' in case of C11
+           memset(state->msg, 0, 2 * sizeof(struct i2c_msg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/dib0070.c:113:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(state->msg, 0, sizeof(struct i2c_msg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/dib0070.c:113:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(state->msg, 0, sizeof(struct i2c_msg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/dib0070.c:755:2: warning: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&fe->ops.tuner_ops, &dib0070_ops, sizeof(struct dvb_tuner=
+_ops));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/dib0070.c:755:2: note: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&fe->ops.tuner_ops, &dib0070_ops, sizeof(struct dvb_tuner=
+_ops));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 49 warnings (48 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   drivers/phy/cadence/cdns-dphy.c:103:2: warning: Call to function 'memset=
+   drivers/mtd/nand/raw/sh_flctl.c:192:2: warning: Call to function 'memset=
 ' is insecure as it does not provide security checks introduced in the C11 =
 standard. Replace with analogous functions that support length arguments or=
  provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
 -security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(cfg, 0, sizeof(*cfg));
-           ^~~~~~
-   drivers/phy/cadence/cdns-dphy.c:103:2: note: Call to function 'memset' i=
+           memset(&cfg, 0, sizeof(cfg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:192:2: note: Call to function 'memset' i=
 s insecure as it does not provide security checks introduced in the C11 sta=
 ndard. Replace with analogous functions that support length arguments or pr=
 ovides boundary checks such as 'memset_s' in case of C11
-           memset(cfg, 0, sizeof(*cfg));
-           ^~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   drivers/phy/marvell/phy-mmp3-usb.c:143:16: warning: Value stored to 'bas=
-e' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
-res]
-           void __iomem *base =3D mmp3_usb_phy->base;
-                         ^~~~   ~~~~~~~~~~~~~~~~~~
-   drivers/phy/marvell/phy-mmp3-usb.c:143:16: note: Value stored to 'base' =
-during its initialization is never read
-           void __iomem *base =3D mmp3_usb_phy->base;
-                         ^~~~   ~~~~~~~~~~~~~~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   106 warnings generated.
-   drivers/net/wireless/marvell/mwifiex/util.c:184:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->packets_out,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:184:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->packets_out,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:222:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_cmd_id, adapter->dbg.last_cmd_id,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:222:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_cmd_id, adapter->dbg.last_cmd_id,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:224:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_cmd_act, adapter->dbg.last_cmd_act,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:224:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_cmd_act, adapter->dbg.last_cmd_act,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:227:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_cmd_resp_id, adapter->dbg.last_cmd_res=
-p_id,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:227:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_cmd_resp_id, adapter->dbg.last_cmd_res=
-p_id,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:230:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_event, adapter->dbg.last_event,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:230:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_event, adapter->dbg.last_event,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:233:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_mp_wr_bitmap, adapter->dbg.last_mp_wr_=
-bitmap,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:233:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_mp_wr_bitmap, adapter->dbg.last_mp_wr_=
-bitmap,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:235:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_mp_wr_ports, adapter->dbg.last_mp_wr_p=
-orts,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:235:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_mp_wr_ports, adapter->dbg.last_mp_wr_p=
-orts,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:237:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_mp_curr_wr_port,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:237:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_mp_curr_wr_port,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:240:3: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(info->last_mp_wr_len, adapter->dbg.last_mp_wr_len,
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:240:3: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(info->last_mp_wr_len, adapter->dbg.last_mp_wr_len,
-                   ^~~~~~
->> drivers/net/wireless/marvell/mwifiex/util.c:264:8: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Deprec=
-atedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "%s=3D", d[i].name);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:264:8: note: Call to functio=
-n 'sprintf' is insecure as it does not provide bounding of the memory buffe=
-r or security checks introduced in the C11 standard. Replace with analogous=
- functions that support length arguments or provides boundary checks such a=
-s 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "%s=3D", d[i].name);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:292:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "%#lx ", val);
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:292:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "%#lx ", val);
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:296:8: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:296:8: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:300:8: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "Tx BA stream table:\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:300:8: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "Tx BA stream table:\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:302:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "tid =3D %d, ra =3D %pM\n",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:302:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "tid =3D %d, ra =3D %pM\n",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:307:8: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "Rx reorder table:\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:307:8: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "Rx reorder table:\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:309:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "tid =3D %d, ta =3D %pM, ",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:309:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "tid =3D %d, ta =3D %pM, ",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:312:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "start_win =3D %d, ",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:312:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "start_win =3D %d, ",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:314:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "win_size =3D %d, buffer: ",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:314:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "win_size =3D %d, buffer: ",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:318:10: warning: Call to fun=
-ction 'sprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'sprintf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   p +=3D sprintf(p, "%c ",
-                                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:318:10: note: Call to functi=
-on 'sprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'sprintf_s' in case of C11
-                                   p +=3D sprintf(p, "%c ",
-                                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:322:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "\n");
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:322:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "\n");
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:327:8: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "TDLS peer table:\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:327:8: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "TDLS peer table:\n");
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:329:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "peer =3D %pM",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:329:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "peer =3D %pM",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:331:9: warning: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "\n");
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:331:9: note: Call to functio=
-n 'sprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "\n");
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:421:2: warning: Call to func=
-tion 'memmove' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memmove_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memmove(skb->data + sizeof(struct ieee80211_hdr_3addr),
+           memset(&cfg, 0, sizeof(cfg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> drivers/mtd/nand/raw/sh_flctl.c:447:2: warning: Undefined or garbage val=
+ue returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:750:6: note: Assuming 'command' is not e=
+qual to NAND_CMD_PAGEPROG
+           if (command !=3D NAND_CMD_PAGEPROG)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:750:2: note: Taking true branch
+           if (command !=3D NAND_CMD_PAGEPROG)
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:753:2: note: Control jumps to 'case 1:' =
+ at line 754
+           switch (command) {
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:756:7: note: Assuming field 'hwecc' is 0
+                   if (flctl->hwecc) {
+                       ^~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:756:3: note: Taking false branch
+                   if (flctl->hwecc) {
+                   ^
+   drivers/mtd/nand/raw/sh_flctl.c:761:7: note: Assuming field 'page_size' =
+is 0
+                   if (flctl->page_size)
+                       ^~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:761:3: note: Taking false branch
+                   if (flctl->page_size)
+                   ^
+   drivers/mtd/nand/raw/sh_flctl.c:770:7: note: Assuming the condition is f=
+alse
+                   if (flctl->chip.options & NAND_BUSWIDTH_16)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:770:3: note: Taking false branch
+                   if (flctl->chip.options & NAND_BUSWIDTH_16)
+                   ^
+   drivers/mtd/nand/raw/sh_flctl.c:773:3: note: Control jumps to line 907
+                   goto read_normal_exit;
+                   ^
+   drivers/mtd/nand/raw/sh_flctl.c:910:2: note: Calling 'read_fiforeg'
+           read_fiforeg(flctl, flctl->read_bytes, 0);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:469:6: note: Assuming field 'chan_fifo0_=
+rx' is non-null
+           if (flctl->chan_fifo0_rx && rlen >=3D 32 &&
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:469:6: note: Left side of '&&' is true
+   drivers/mtd/nand/raw/sh_flctl.c:469:30: note: Assuming 'rlen' is >=3D 32
+           if (flctl->chan_fifo0_rx && rlen >=3D 32 &&
+                                       ^~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:469:6: note: Left side of '&&' is true
+           if (flctl->chan_fifo0_rx && rlen >=3D 32 &&
+               ^
+   drivers/mtd/nand/raw/sh_flctl.c:470:3: note: Calling 'flctl_dma_fifo0_tr=
+ansfer'
+                   flctl_dma_fifo0_transfer(flctl, buf, rlen, DMA_FROM_DEVI=
+CE) > 0)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/nand/raw/sh_flctl.c:387:2: note: 'ret' declared without an i=
+nitial value
+           int ret;
            ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:421:2: note: Call to functio=
-n 'memmove' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memmove_s' in case of C11
-           memmove(skb->data + sizeof(struct ieee80211_hdr_3addr),
-           ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:619:2: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(node->mac_addr, mac, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/util.c:619:2: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(node->mac_addr, mac, ETH_ALEN);
-           ^~~~~~
-   Suppressed 81 warnings (81 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   drivers/dma/tegra210-adma.c:213:2: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&tdc->sconfig, sconfig, sizeof(*sconfig));
---
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:988:4: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&sta_ptr->tdls_cap.ht_oper, pos + 2,
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:988:4: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&sta_ptr->tdls_cap.ht_oper, pos + 2,
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1001:4: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy((u8 *)&sta_ptr->tdls_cap.extcap, pos,
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1001:4: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy((u8 *)&sta_ptr->tdls_cap.extcap, pos,
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1011:4: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy((u8 *)&sta_ptr->tdls_cap.rsn_ie, pos,
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1011:4: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy((u8 *)&sta_ptr->tdls_cap.rsn_ie, pos,
-                           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1027:5: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   memcpy(&sta_ptr->tdls_cap.vhtoper, pos +=
- 2,
-                                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1027:5: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-                                   memcpy(&sta_ptr->tdls_cap.vhtoper, pos +=
- 2,
-                                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1036:5: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   memcpy((u8 *)&sta_ptr->tdls_cap.vhtcap, =
-pos + 2,
-                                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1036:5: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-                                   memcpy((u8 *)&sta_ptr->tdls_cap.vhtcap, =
-pos + 2,
-                                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1063:2: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1063:2: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1072:2: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&tdls_oper.peer_mac, peer, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1072:2: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&tdls_oper.peer_mac, peer, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1084:2: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1084:2: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1099:2: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&tdls_oper.peer_mac, peer, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1099:2: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&tdls_oper.peer_mac, peer, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1111:2: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1111:2: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1126:2: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&tdls_oper.peer_mac, peer, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1126:2: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&tdls_oper.peer_mac, peer, ETH_ALEN);
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1172:3: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(sta_ptr->rx_seq, 0xff, sizeof(sta_ptr->rx_seq));
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1172:3: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(sta_ptr->rx_seq, 0xff, sizeof(sta_ptr->rx_seq));
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1260:3: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper=
-));
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1260:3: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(&tdls_oper, 0, sizeof(struct mwifiex_ds_tdls_oper=
-));
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1271:3: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&tdls_oper.peer_mac, sta_ptr->mac_addr, ETH_ALEN);
-                   ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/tdls.c:1271:3: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(&tdls_oper.peer_mac, sta_ptr->mac_addr, ETH_ALEN);
-                   ^~~~~~
-   Suppressed 81 warnings (81 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   140 warnings generated.
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:91:2: warning: Call to fu=
-nction 'memset' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'memset_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&info, 0, sizeof(info));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:91:2: note: Call to funct=
-ion 'memset' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&info, 0, sizeof(info));
-           ^~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:100:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "driver_name =3D " "\"mwifiex\"\n");
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:100:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "driver_name =3D " "\"mwifiex\"\n");
-                ^~~~~~~
->> drivers/net/wireless/marvell/mwifiex/debugfs.c:101:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "driver_version =3D %s", fmt);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:101:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "driver_version =3D %s", fmt);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:102:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "\nverext =3D %s", priv->version_str);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:102:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "\nverext =3D %s", priv->version_str);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:103:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "\ninterface_name=3D\"%s\"\n", netdev->name);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:103:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "\ninterface_name=3D\"%s\"\n", netdev->name);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:106:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "bss_mode=3D\"%d\"\n", info.bss_mode);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:106:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "bss_mode=3D\"%d\"\n", info.bss_mode);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:108:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "bss_mode=3D\"%s\"\n", bss_modes[info.=
-bss_mode]);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:108:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "bss_mode=3D\"%s\"\n", bss_modes[info.=
-bss_mode]);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:110:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "media_state=3D\"%s\"\n",
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:110:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "media_state=3D\"%s\"\n",
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:112:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "mac_address=3D\"%pM\"\n", netdev->dev_addr);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:112:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "mac_address=3D\"%pM\"\n", netdev->dev_addr);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:115:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "multicast_count=3D\"%d\"\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:115:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "multicast_count=3D\"%d\"\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:117:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "essid=3D\"%.*s\"\n", info.ssid.ssid_l=
-en,
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:117:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "essid=3D\"%.*s\"\n", info.ssid.ssid_l=
-en,
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:119:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "bssid=3D\"%pM\"\n", info.bssid);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:119:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "bssid=3D\"%pM\"\n", info.bssid);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:120:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "channel=3D\"%d\"\n", (int) info.bss_c=
-han);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:120:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "channel=3D\"%d\"\n", (int) info.bss_c=
-han);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:121:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "country_code =3D \"%s\"\n", info.coun=
-try_code);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:121:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "country_code =3D \"%s\"\n", info.coun=
-try_code);
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:122:8: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   p +=3D sprintf(p, "region_code=3D\"0x%x\"\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:122:8: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   p +=3D sprintf(p, "region_code=3D\"0x%x\"\n",
-                        ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:126:9: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           p +=3D sprintf(p, "multicast_address[%d]=3D\"%pM=
-\"\n",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:126:9: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                           p +=3D sprintf(p, "multicast_address[%d]=3D\"%pM=
-\"\n",
-                                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:130:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "num_tx_bytes =3D %lu\n", priv->stats.tx_bytes=
-);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:130:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "num_tx_bytes =3D %lu\n", priv->stats.tx_bytes=
-);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:131:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "num_rx_bytes =3D %lu\n", priv->stats.rx_bytes=
-);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:131:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "num_rx_bytes =3D %lu\n", priv->stats.rx_bytes=
-);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:132:7: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           p +=3D sprintf(p, "num_tx_pkts =3D %lu\n", priv->stats.tx_packet=
-s);
-                ^~~~~~~
-   drivers/net/wireless/marvell/mwifiex/debugfs.c:132:7: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           p +=3D sprintf(p, "num_tx_pkts =3D %lu\n", priv->stats.tx_packet=
-s);
+   drivers/mtd/nand/raw/sh_flctl.c:390:6: note: 'dir' is equal to DMA_FROM_=
+DEVICE
+           if (dir =3D=3D DMA_FROM_DEVICE) {
+               ^~~
+   drivers/mtd/nand/raw/sh_flctl.c:390:2: note: Taking true branch
+           if (dir =3D=3D DMA_FROM_DEVICE) {
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:400:2: note: Taking true branch
+           if (!dma_mapping_error(chan->device->dev, dma_addr))
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:404:6: note: Assuming 'desc' is non-null
+           if (desc) {
+               ^~~~
+   drivers/mtd/nand/raw/sh_flctl.c:404:2: note: Taking true branch
+           if (desc) {
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:412:3: note: Taking false branch
+                   if (dma_submit_error(cookie)) {
+                   ^
+   drivers/mtd/nand/raw/sh_flctl.c:433:6: note: Assuming 'time_left' is not=
+ equal to 0
+           if (time_left =3D=3D 0) {
+               ^~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:433:2: note: Taking false branch
+           if (time_left =3D=3D 0) {
+           ^
+   drivers/mtd/nand/raw/sh_flctl.c:447:2: note: Undefined or garbage value =
+returned to caller
+           return ret;
+           ^      ~~~
+   drivers/mtd/nand/raw/sh_flctl.c:965:2: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&flctl->done_buff[flctl->index], buf, len);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/sh_flctl.c:965:2: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&flctl->done_buff[flctl->index], buf, len);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
 
-vim +1152 drivers/net/wireless/marvell/mwifiex/main.c
+vim +447 drivers/mtd/nand/raw/sh_flctl.c
 
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1131  =
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c     Yoshihiro Shimoda 2008-10-14=
+  377  =
 
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1132  void mwifiex_drv_info_dump(struct mwifiex_adapter *adapt=
-er)
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1133  {
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1134  	char *p;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1135  	char drv_version[64];
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1136  	struct usb_card_rec *cardp;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1137  	struct sdio_mmc_card *sdio_card;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1138  	struct mwifiex_private *priv;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1139  	int i, idx;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1140  	struct netdev_queue *txq;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1141  	struct mwifiex_debug_info *debug_info;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1142  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  378  static int flctl_dma_fifo0_transfer(struct sh_flctl *flctl, unsigned=
+ long *buf,
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  379  					int len, enum dma_data_direction dir)
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  380  {
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  381  	struct dma_async_tx_descriptor *desc =3D NULL;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  382  	struct dma_chan *chan;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  383  	enum dma_transfer_direction tr_dir;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  384  	dma_addr_t dma_addr;
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  385  	dma_cookie_t cookie;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  386  	uint32_t reg;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  387  	int ret;
+3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
+  388  	unsigned long time_left;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  389  =
 
-9cc0dbf0436767 drivers/net/wireless/mwifiex/main.c         Amitkumar Karwar=
- 2015-05-26  1143  	mwifiex_dbg(adapter, MSG, "=3D=3D=3Dmwifiex driverinfo =
-dump start=3D=3D=3D\n");
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1144  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  390  	if (dir =3D=3D DMA_FROM_DEVICE) {
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  391  		chan =3D flctl->chan_fifo0_rx;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  392  		tr_dir =3D DMA_DEV_TO_MEM;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  393  	} else {
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  394  		chan =3D flctl->chan_fifo0_tx;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  395  		tr_dir =3D DMA_MEM_TO_DEV;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  396  	}
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  397  =
 
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1145  	p =3D adapter->devdump_data;
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1146  	strcpy(p, "=3D=3D=3D=3D=3D=3D=3D=3DStart dump driverinf=
-o=3D=3D=3D=3D=3D=3D=3D=3D\n");
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1147  	p +=3D strlen("=3D=3D=3D=3D=3D=3D=3D=3DStart dump drive=
-rinfo=3D=3D=3D=3D=3D=3D=3D=3D\n");
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1148  	p +=3D sprintf(p, "driver_name =3D " "\"mwifiex\"\n");
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1149  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  398  	dma_addr =3D dma_map_single(chan->device->dev, buf, len, dir);
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  399  =
 
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1150  	mwifiex_drv_get_driver_version(adapter, drv_version,
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1151  				       sizeof(drv_version) - 1);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23 @1152  	p +=3D sprintf(p, "driver_version =3D %s\n", drv_versio=
-n);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1153  =
+dbf5f6424ed921 drivers/mtd/nand/sh_flctl.c     Pan Bian          2017-08-08=
+  400  	if (!dma_mapping_error(chan->device->dev, dma_addr))
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  401  		desc =3D dmaengine_prep_slave_single(chan, dma_addr, len,
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  402  			tr_dir, DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  403  =
 
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1154  	if (adapter->iface_type =3D=3D MWIFIEX_USB) {
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1155  		cardp =3D (struct usb_card_rec *)adapter->card;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1156  		p +=3D sprintf(p, "tx_cmd_urb_pending =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1157  			     atomic_read(&cardp->tx_cmd_urb_pending));
-308fe29ef24394 drivers/net/wireless/mwifiex/main.c         Zhaoyang Liu    =
- 2015-09-18  1158  		p +=3D sprintf(p, "tx_data_urb_pending_port_0 =3D %d\n=
-",
-308fe29ef24394 drivers/net/wireless/mwifiex/main.c         Zhaoyang Liu    =
- 2015-09-18  1159  			     atomic_read(&cardp->port[0].tx_data_urb_pending)=
-);
-308fe29ef24394 drivers/net/wireless/mwifiex/main.c         Zhaoyang Liu    =
- 2015-09-18  1160  		p +=3D sprintf(p, "tx_data_urb_pending_port_1 =3D %d\n=
-",
-308fe29ef24394 drivers/net/wireless/mwifiex/main.c         Zhaoyang Liu    =
- 2015-09-18  1161  			     atomic_read(&cardp->port[1].tx_data_urb_pending)=
-);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1162  		p +=3D sprintf(p, "rx_cmd_urb_pending =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1163  			     atomic_read(&cardp->rx_cmd_urb_pending));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1164  		p +=3D sprintf(p, "rx_data_urb_pending =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1165  			     atomic_read(&cardp->rx_data_urb_pending));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1166  	}
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1167  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  404  	if (desc) {
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  405  		reg =3D readl(FLINTDMACR(flctl));
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  406  		reg |=3D DREQ0EN;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  407  		writel(reg, FLINTDMACR(flctl));
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  408  =
 
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1168  	p +=3D sprintf(p, "tx_pending =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1169  		     atomic_read(&adapter->tx_pending));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1170  	p +=3D sprintf(p, "rx_pending =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1171  		     atomic_read(&adapter->rx_pending));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1172  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  409  		desc->callback =3D flctl_dma_complete;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  410  		desc->callback_param =3D flctl;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  411  		cookie =3D dmaengine_submit(desc);
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  412  		if (dma_submit_error(cookie)) {
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  413  			ret =3D dma_submit_error(cookie);
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  414  			dev_warn(&flctl->pdev->dev,
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  415  				 "DMA submit failed, falling back to PIO\n");
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  416  			goto out;
+3fe4f900bf3061 drivers/mtd/nand/sh_flctl.c     Brian Norris      2016-05-05=
+  417  		}
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  418  =
 
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1173  	if (adapter->iface_type =3D=3D MWIFIEX_SDIO) {
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1174  		sdio_card =3D (struct sdio_mmc_card *)adapter->card;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1175  		p +=3D sprintf(p, "\nmp_rd_bitmap=3D0x%x curr_rd_port=
-=3D0x%x\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1176  			     sdio_card->mp_rd_bitmap, sdio_card->curr_rd_port=
-);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1177  		p +=3D sprintf(p, "mp_wr_bitmap=3D0x%x curr_wr_port=3D=
-0x%x\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1178  			     sdio_card->mp_wr_bitmap, sdio_card->curr_wr_port=
-);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1179  	}
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1180  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  419  		dma_async_issue_pending(chan);
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  420  	} else {
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  421  		/* DMA failed, fall back to PIO */
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  422  		flctl_release_dma(flctl);
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  423  		dev_warn(&flctl->pdev->dev,
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  424  			 "DMA failed, falling back to PIO\n");
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  425  		ret =3D -EIO;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  426  		goto out;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  427  	}
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  428  =
 
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1181  	for (i =3D 0; i < adapter->priv_num; i++) {
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1182  		if (!adapter->priv[i] || !adapter->priv[i]->netdev)
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1183  			continue;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1184  		priv =3D adapter->priv[i];
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1185  		p +=3D sprintf(p, "\n[interface  : \"%s\"]\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1186  			     priv->netdev->name);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1187  		p +=3D sprintf(p, "wmm_tx_pending[0] =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1188  			     atomic_read(&priv->wmm_tx_pending[0]));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1189  		p +=3D sprintf(p, "wmm_tx_pending[1] =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1190  			     atomic_read(&priv->wmm_tx_pending[1]));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1191  		p +=3D sprintf(p, "wmm_tx_pending[2] =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1192  			     atomic_read(&priv->wmm_tx_pending[2]));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1193  		p +=3D sprintf(p, "wmm_tx_pending[3] =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1194  			     atomic_read(&priv->wmm_tx_pending[3]));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1195  		p +=3D sprintf(p, "media_state=3D\"%s\"\n", !priv->med=
-ia_connected ?
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1196  			     "Disconnected" : "Connected");
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1197  		p +=3D sprintf(p, "carrier %s\n", (netif_carrier_ok(pr=
-iv->netdev)
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1198  			     ? "on" : "off"));
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1199  		for (idx =3D 0; idx < priv->netdev->num_tx_queues; idx=
-++) {
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1200  			txq =3D netdev_get_tx_queue(priv->netdev, idx);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1201  			p +=3D sprintf(p, "tx queue %d:%s  ", idx,
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1202  				     netif_tx_queue_stopped(txq) ?
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1203  				     "stopped" : "started");
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1204  		}
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1205  		p +=3D sprintf(p, "\n%s: num_tx_timeout =3D %d\n",
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1206  			     priv->netdev->name, priv->num_tx_timeout);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1207  	}
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1208  =
+3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
+  429  	time_left =3D
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  430  	wait_for_completion_timeout(&flctl->dma_complete,
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  431  				msecs_to_jiffies(3000));
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  432  =
 
-4646968b94bdf8 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2016-04-05  1209  	if (adapter->iface_type =3D=3D MWIFIEX_SDIO ||
-4646968b94bdf8 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2016-04-05  1210  	    adapter->iface_type =3D=3D MWIFIEX_PCIE) {
-4646968b94bdf8 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2016-04-05  1211  		p +=3D sprintf(p, "\n=3D=3D=3D %s register dump=3D=3D=
-=3D\n",
-4646968b94bdf8 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2016-04-05  1212  			     adapter->iface_type =3D=3D MWIFIEX_SDIO ?
-4646968b94bdf8 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2016-04-05  1213  							"SDIO" : "PCIE");
-809c6ea8abe9f1 drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1214  		if (adapter->if_ops.reg_dump)
-809c6ea8abe9f1 drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1215  			p +=3D adapter->if_ops.reg_dump(adapter, p);
-809c6ea8abe9f1 drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1216  	}
-9cc0dbf0436767 drivers/net/wireless/mwifiex/main.c         Amitkumar Karwar=
- 2015-05-26  1217  	p +=3D sprintf(p, "\n=3D=3D=3D more debug information\n=
-");
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1218  	debug_info =3D kzalloc(sizeof(*debug_info), GFP_KERNEL);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1219  	if (debug_info) {
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1220  		for (i =3D 0; i < adapter->priv_num; i++) {
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1221  			if (!adapter->priv[i] || !adapter->priv[i]->netdev)
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1222  				continue;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1223  			priv =3D adapter->priv[i];
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1224  			mwifiex_get_debug_info(priv, debug_info);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1225  			p +=3D mwifiex_debug_info_to_buffer(priv, p, debug_in=
-fo);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1226  			break;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1227  		}
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1228  		kfree(debug_info);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1229  	}
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1230  =
+3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
+  433  	if (time_left =3D=3D 0) {
+0e497c36deef92 drivers/mtd/nand/sh_flctl.c     Vinod Koul        2014-10-11=
+  434  		dmaengine_terminate_all(chan);
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  435  		dev_err(&flctl->pdev->dev, "wait_for_completion_timeout\n");
+3de25b46a3f73a drivers/mtd/nand/raw/sh_flctl.c Miaoqian Lin      2022-04-12=
+  436  		ret =3D -ETIMEDOUT;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  437  	}
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  438  =
 
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1231  	strcpy(p, "\n=3D=3D=3D=3D=3D=3D=3D=3DEnd dump=3D=3D=3D=
-=3D=3D=3D=3D=3D\n");
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1232  	p +=3D strlen("\n=3D=3D=3D=3D=3D=3D=3D=3DEnd dump=3D=3D=
-=3D=3D=3D=3D=3D=3D\n");
-9cc0dbf0436767 drivers/net/wireless/mwifiex/main.c         Amitkumar Karwar=
- 2015-05-26  1233  	mwifiex_dbg(adapter, MSG, "=3D=3D=3Dmwifiex driverinfo =
-dump end=3D=3D=3D\n");
-d0e2b44ef32814 drivers/net/wireless/marvell/mwifiex/main.c Xinming Hu      =
- 2017-12-12  1234  	adapter->devdump_len =3D p - (char *)adapter->devdump_d=
-ata;
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1235  }
-fc697159ad4c40 drivers/net/wireless/mwifiex/main.c         Amitkumar Karwar=
- 2015-05-26  1236  EXPORT_SYMBOL_GPL(mwifiex_drv_info_dump);
-11cd07a9694cbd drivers/net/wireless/mwifiex/main.c         Xinming Hu      =
- 2014-12-23  1237  =
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  439  out:
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  440  	reg =3D readl(FLINTDMACR(flctl));
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  441  	reg &=3D ~DREQ0EN;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  442  	writel(reg, FLINTDMACR(flctl));
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  443  =
 
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  444  	dma_unmap_single(chan->device->dev, dma_addr, len, dir);
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  445  =
 
-:::::: The code at line 1152 was first introduced by commit
-:::::: 11cd07a9694cbd4d06361d6f46b735a47daa9a77 mwifiex: save driver inform=
-ation to file when firmware dump
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  446  	/* ret > 0 is success */
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+ @447  	return ret;
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  448  }
+83738d87e3a0a4 drivers/mtd/nand/sh_flctl.c     Bastian Hecht     2012-10-19=
+  449  =
 
-:::::: TO: Xinming Hu <huxm@marvell.com>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7726221604259491739==--
+--===============2365727540564051932==--
 
