@@ -1,522 +1,176 @@
-Content-Type: multipart/mixed; boundary="===============5392277789285843757=="
+Content-Type: multipart/mixed; boundary="===============1958168805403087839=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:497:3: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 17 Apr 2022 08:58:03 +0800
-Message-ID: <202204170838.eGf0l1iG-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2582:17: warning: Uninitialized variable: ras_node->ras_obj [uninitvar]
+Date: Sun, 17 Apr 2022 08:47:46 +0800
+Message-ID: <202204170818.1tfa5bTN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5392277789285843757==
+--===============1958168805403087839==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+TO: yipechai <YiPeng.Chai@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Tao Zhou <tao.zhou1@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   90ea17a9e27b5778ec517efb1ce0b81d36905654
-commit: d9a5696e7d52edf68776599f2a38b9aee1382be9 drm/i915/guc: Convert gold=
-en context prep to iosys_map
-date:   7 weeks ago
+commit: 1f211a827cbda87bd0ec145a1f44f2615c3f56d3 drm/amdgpu: centrally call=
+s the .ras_fini function of all ras blocks
+date:   6 weeks ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-c007-20220411 (https://download.01.org/0day-ci/ar=
-chive/20220417/202204170838.eGf0l1iG-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f=
-560f06cdfe8aa47b248d8bdc58f947274b)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd9a5696e7d52edf68776599f2a38b9aee1382be9
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d9a5696e7d52edf68776599f2a38b9aee1382be9
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+:::::: commit date: 6 weeks ago
+compiler: alpha-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 1f211a827cbda87bd0ec145a1f44f2615c3f56d3
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/misc/mei/interrupt.c:432:6: note: Assuming the condition is false
-           if (&cl->link =3D=3D &dev->file_list) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/mei/interrupt.c:432:2: note: Taking false branch
-           if (&cl->link =3D=3D &dev->file_list) {
-           ^
-   drivers/misc/mei/interrupt.c:450:41: note: Passing null pointer value vi=
-a 3rd parameter 'meta'
-           ret =3D mei_cl_irq_read_msg(cl, mei_hdr, meta_hdr, cmpl_list);
-                                                  ^~~~~~~~
-   drivers/misc/mei/interrupt.c:450:8: note: Calling 'mei_cl_irq_read_msg'
-           ret =3D mei_cl_irq_read_msg(cl, mei_hdr, meta_hdr, cmpl_list);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/mei/interrupt.c:107:6: note: Assuming field 'extended' is n=
-ot equal to 0
-           if (mei_hdr->extended) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/misc/mei/interrupt.c:107:2: note: Taking true branch
-           if (mei_hdr->extended) {
-           ^
-   drivers/misc/mei/interrupt.c:108:44: note: Access to field 'size' result=
-s in a dereference of a null pointer (loaded from variable 'meta')
-                   ext_len =3D sizeof(*meta) + mei_slots2data(meta->size);
-                                                            ^~~~
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:80:3: warning: Dereference of null=
- pointer [clang-analyzer-core.NullDereference]
-                   i915->params.enable_guc,
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1443:42: warning: Uninitialized =
+variable: obj->head [uninitvar]
+     if (amdgpu_ras_is_supported(adev, obj->head.block) &&
+                                            ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1437:35: note: Assuming conditio=
+n is false
+    if (!IS_ENABLED(CONFIG_DEBUG_FS) || !con)
+                                     ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1443:42: note: Uninitialized var=
+iable: obj->head
+     if (amdgpu_ras_is_supported(adev, obj->head.block) &&
+                                            ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2508:44: warning: Uninitialized =
+variable: obj->head [uninitvar]
+      if (!amdgpu_ras_is_supported(adev, obj->head.block)) {
+                                              ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2488:25: note: Assuming conditio=
+n is false
+    if (!adev->ras_enabled || !con) {
+                           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2508:44: note: Uninitialized var=
+iable: obj->head
+      if (!amdgpu_ras_is_supported(adev, obj->head.block)) {
+                                              ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2537:14: warning: Uninitialized =
+variable: node->ras_obj [uninitvar]
+     if (!node->ras_obj) {
+                ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2582:17: warning: Uninitialized =
+variable: ras_node->ras_obj [uninitvar]
+     if (ras_node->ras_obj) {
                    ^
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:122:2: note: Value assigned to fie=
-ld 'i915'
-           intel_huc_init_early(&uc->huc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:124:2: note: Calling '__confirm_op=
-tions'
-           __confirm_options(uc);
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:76:2: note: 'i915' initialized here
-           struct drm_i915_private *i915 =3D uc_to_gt(uc)->i915;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:78:10: note: Assuming pointer valu=
-e is null
-           drm_dbg(&i915->drm,
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2578:25: note: Assuming conditio=
+n is false
+    if (!adev->ras_enabled || !con)
+                           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2582:17: note: Uninitialized var=
+iable: ras_node->ras_obj
+     if (ras_node->ras_obj) {
                    ^
-   include/drm/drm_print.h:461:15: note: expanded from macro 'drm_dbg'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__V=
-A_ARGS__)
-                        ^~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:78:2: note: '?' condition is false
-           drm_dbg(&i915->drm,
-           ^
-   include/drm/drm_print.h:461:14: note: expanded from macro 'drm_dbg'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__V=
-A_ARGS__)
-                       ^
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:80:3: note: Dereference of null po=
-inter
-                   i915->params.enable_guc,
-                   ^
-   include/drm/drm_print.h:461:63: note: expanded from macro 'drm_dbg'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__V=
-A_ARGS__)
-                                                                        ^~~=
-~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c:267:27: warning: Value stored t=
-o 'i915' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct drm_i915_private *i915 =3D __uc_fw_to_gt(uc_fw)->i915;
-                                    ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c:267:27: note: Value stored to '=
-i915' during its initialization is never read
-           struct drm_i915_private *i915 =3D __uc_fw_to_gt(uc_fw)->i915;
-                                    ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:203:2: warning: Undefined or =
-garbage value returned to caller [clang-analyzer-core.uninitialized.UndefRe=
-turn]
-           return ret;
-           ^      ~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:187:2: note: 'ret' declared w=
-ithout an initial value
-           int ret;
-           ^~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:189:2: note: Taking false bra=
-nch
-           if (iosys_map_is_null(&guc->ads_map))
-           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:197:6: note: Assuming the con=
-dition is false
-           if (!intel_guc_is_ready(guc))
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:197:2: note: Taking false bra=
-nch
-           if (!intel_guc_is_ready(guc))
-           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:200:2: note: Loop condition i=
-s false. Execution continues on line 203
-           with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref)
-           ^
-   drivers/gpu/drm/i915/intel_runtime_pm.h:184:2: note: expanded from macro=
- 'with_intel_runtime_pm'
-           for ((wf) =3D intel_runtime_pm_get(rpm); (wf); \
-           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:203:2: note: Undefined or gar=
-bage value returned to caller
-           return ret;
-           ^      ~~~
->> drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:497:3: warning: Assigned valu=
-e is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   ads_blob_write(guc, ads.golden_context_lrca[guc_class],
-                   ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:67:2: note: expanded from mac=
-ro 'ads_blob_write'
-           iosys_map_wr_field(&(guc_)->ads_map, 0, struct __guc_ads_blob,  \
-           ^
-   include/linux/iosys-map.h:456:8: note: expanded from macro 'iosys_map_wr=
-_field'
-                        typeof(s->field__), val__);                        =
-                \
-                        ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:743:6: note: Assuming field '=
-ads_vma' is non-null
-           if (!guc->ads_vma)
-               ^~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:743:2: note: Taking false bra=
-nch
-           if (!guc->ads_vma)
-           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:746:2: note: Calling '__guc_a=
-ds_init'
-           __guc_ads_init(guc);
-           ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:619:3: note: '?' condition is=
- false
-                   hweight8(gt->info.sseu.slice_mask);
-                   ^
-   include/asm-generic/bitops/const_hweight.h:26:23: note: expanded from ma=
-cro 'hweight8'
-   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
-_arch_hweight8(w))
-                         ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:623:6: note: Assuming field '=
-ver' is < 12
-           if (GRAPHICS_VER(i915) >=3D 12 && !IS_DGFX(i915)) {
-               ^
-   drivers/gpu/drm/i915/i915_drv.h:943:29: note: expanded from macro 'GRAPH=
-ICS_VER'
-   #define GRAPHICS_VER(i915)              (INTEL_INFO(i915)->graphics.ver)
-                                           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:623:31: note: Left side of '&=
-&' is false
-           if (GRAPHICS_VER(i915) >=3D 12 && !IS_DGFX(i915)) {
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2584:38: warning: Uninitialized =
+variable: obj [uninitvar]
+      if (amdgpu_ras_is_supported(adev, obj->ras_comm.block) &&
                                         ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:632:2: note: Calling 'guc_pre=
-p_golden_context'
-           guc_prep_golden_context(guc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:439:6: note: 'addr_ggtt' decl=
-ared without an initial value
-           u32 addr_ggtt, offset;
-               ^~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:457:2: note: Taking false bra=
-nch
-           if (!iosys_map_is_null(&guc->ads_map)) {
-           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:468:2: note: Loop condition i=
-s true.  Entering loop body
-           for (engine_class =3D 0; engine_class <=3D MAX_ENGINE_CLASS; ++e=
-ngine_class) {
-           ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:469:7: note: 'engine_class' i=
-s not equal to OTHER_CLASS
-                   if (engine_class =3D=3D OTHER_CLASS)
-                       ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:469:3: note: Taking false bra=
-nch
-                   if (engine_class =3D=3D OTHER_CLASS)
-                   ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:474:7: note: Assuming the con=
-dition is false
-                   if (!info_map_read(&info_map, engine_enabled_masks[guc_c=
-lass]))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:474:3: note: Taking false bra=
-nch
-                   if (!info_map_read(&info_map, engine_enabled_masks[guc_c=
-lass]))
-                   ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:481:3: note: Taking false bra=
-nch
-                   if (iosys_map_is_null(&guc->ads_map))
-                   ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:497:3: note: Assigned value i=
-s garbage or undefined
-                   ads_blob_write(guc, ads.golden_context_lrca[guc_class],
-                   ^
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:67:2: note: expanded from mac=
-ro 'ads_blob_write'
-           iosys_map_wr_field(&(guc_)->ads_map, 0, struct __guc_ads_blob,  \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/iosys-map.h:456:8: note: expanded from macro 'iosys_map_wr=
-_field'
-                        typeof(s->field__), val__);                        =
-                \
-   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/iosys-map.h:367:2: note: expanded from macro 'iosys_map_wr'
-           type__ val =3D (val__);                                         =
-  \
-           ^            ~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1103:9: warning: Called function poi=
-nter is null (null dereference) [clang-analyzer-core.CallAndMessage]
-           return viter->dma_address(viter);
-                  ^
-   drivers/gpu/drm/vmwgfx/vmwgfx_mob.c:128:9: note: Assuming field 'page_ta=
-ble' is equal to null
-           BUG_ON(otable->page_table !=3D NULL);
-                  ^
-   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2578:25: note: Assuming conditio=
+n is false
+    if (!adev->ras_enabled || !con)
+                           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2583:18: note: Assignment 'obj=
+=3Dras_node->ras_obj', assigned value is <Uninit>
+      obj =3D ras_node->ras_obj;
+                    ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2584:38: note: Uninitialized var=
+iable: obj
+      if (amdgpu_ras_is_supported(adev, obj->ras_comm.block) &&
+                                        ^
 
-vim +497 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+vim +2582 drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
 
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  433  =
+c030f2e4166c3f xinhui pan        2018-10-31  2571  =
 
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  434  #define LR_HW_CONTEXT_SIZE (80 * sizeof(u32))
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  435  #define LRC_SKIP_SIZE (LRC_PPHWSP_SZ * PAGE_SIZE + LR_=
-HW_CONTEXT_SIZE)
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  436  static int guc_prep_golden_context(struct intel_guc *g=
-uc)
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  437  {
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  438  	struct intel_gt *gt =3D guc_to_gt(guc);
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  439  	u32 addr_ggtt, offset;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  440  	u32 total_size =3D 0, alloc_size, real_size;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  441  	u8 engine_class, guc_class;
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  442  	struct guc_gt_system_info local_info;
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  443  	struct iosys_map info_map;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  444  =
+c030f2e4166c3f xinhui pan        2018-10-31  2572  int amdgpu_ras_fini(stru=
+ct amdgpu_device *adev)
+c030f2e4166c3f xinhui pan        2018-10-31  2573  {
+d5e8ff5f7b2a41 yipechai          2022-01-29  2574  	struct amdgpu_ras_block=
+_list *ras_node, *tmp;
+1f211a827cbda8 yipechai          2022-02-14  2575  	struct amdgpu_ras_block=
+_object *obj =3D NULL;
+c030f2e4166c3f xinhui pan        2018-10-31  2576  	struct amdgpu_ras *con =
+=3D amdgpu_ras_get_context(adev);
+c030f2e4166c3f xinhui pan        2018-10-31  2577  =
 
-c24f0c1de481c1 drivers/gpu/drm/i915/intel_guc_ads.c       Sujaritha Sundare=
-san 2018-01-02  445  	/*
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  446  	 * Reserve the memory for the golden contexts and poi=
-nt GuC at it but
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  447  	 * leave it empty for now. The context data will be f=
-illed in later
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  448  	 * once there is something available to put there.
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  449  	 *
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  450  	 * Note that the HWSP and ring context are not includ=
-ed.
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  451  	 *
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  452  	 * Note also that the storage must be pinned in the G=
-GTT, so that the
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  453  	 * address won't change after GuC has been told where=
- to find it. The
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  454  	 * GuC will also validate that the LRC base + size fa=
-ll within the
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  455  	 * allowed GGTT range.
-c24f0c1de481c1 drivers/gpu/drm/i915/intel_guc_ads.c       Sujaritha Sundare=
-san 2018-01-02  456  	 */
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  457  	if (!iosys_map_is_null(&guc->ads_map)) {
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  458  		offset =3D guc_ads_golden_ctxt_offset(guc);
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  459  		addr_ggtt =3D intel_guc_ggtt_offset(guc, guc->ads_vm=
-a) + offset;
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  460  		info_map =3D IOSYS_MAP_INIT_OFFSET(&guc->ads_map,
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  461  						 offsetof(struct __guc_ads_blob, system_info));
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  462  	} else {
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  463  		memset(&local_info, 0, sizeof(local_info));
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  464  		iosys_map_set_vaddr(&info_map, &local_info);
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  465  		fill_engine_enable_masks(gt, &info_map);
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  466  	}
-c24f0c1de481c1 drivers/gpu/drm/i915/intel_guc_ads.c       Sujaritha Sundare=
-san 2018-01-02  467  =
+8ab0d6f030bab4 Luben Tuikov      2021-05-04  2578  	if (!adev->ras_enabled =
+|| !con)
+c030f2e4166c3f xinhui pan        2018-10-31  2579  		return 0;
+c030f2e4166c3f xinhui pan        2018-10-31  2580  =
 
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  468  	for (engine_class =3D 0; engine_class <=3D MAX_ENGINE=
-_CLASS; ++engine_class) {
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  469  		if (engine_class =3D=3D OTHER_CLASS)
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  470  			continue;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  471  =
+1f211a827cbda8 yipechai          2022-02-14  2581  	list_for_each_entry_saf=
+e(ras_node, tmp, &adev->ras_list, node) {
+1f211a827cbda8 yipechai          2022-02-14 @2582  		if (ras_node->ras_obj)=
+ {
+1f211a827cbda8 yipechai          2022-02-14  2583  			obj =3D ras_node->ras=
+_obj;
+1f211a827cbda8 yipechai          2022-02-14 @2584  			if (amdgpu_ras_is_sup=
+ported(adev, obj->ras_comm.block) &&
+1f211a827cbda8 yipechai          2022-02-14  2585  			    obj->ras_fini)
+1f211a827cbda8 yipechai          2022-02-14  2586  				obj->ras_fini(adev, =
+&obj->ras_comm);
+1f211a827cbda8 yipechai          2022-02-14  2587  		}
+1f211a827cbda8 yipechai          2022-02-14  2588  =
 
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  472  		guc_class =3D engine_class_to_guc_class(engine_class=
+1f211a827cbda8 yipechai          2022-02-14  2589  		/* Clear ras blocks fr=
+om ras_list and free ras block list node */
+1f211a827cbda8 yipechai          2022-02-14  2590  		list_del(&ras_node->no=
+de);
+1f211a827cbda8 yipechai          2022-02-14  2591  		kfree(ras_node);
+1f211a827cbda8 yipechai          2022-02-14  2592  	}
+1f211a827cbda8 yipechai          2022-02-14  2593  =
+
+c030f2e4166c3f xinhui pan        2018-10-31  2594  	amdgpu_ras_fs_fini(adev=
 );
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  473  =
+c030f2e4166c3f xinhui pan        2018-10-31  2595  	amdgpu_ras_interrupt_re=
+move_all(adev);
+c030f2e4166c3f xinhui pan        2018-10-31  2596  =
 
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  474  		if (!info_map_read(&info_map, engine_enabled_masks[g=
-uc_class]))
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  475  			continue;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  476  =
+c030f2e4166c3f xinhui pan        2018-10-31  2597  	WARN(con->features, "Fe=
+ature mask is not cleared");
+c030f2e4166c3f xinhui pan        2018-10-31  2598  =
 
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  477  		real_size =3D intel_engine_context_size(gt, engine_c=
-lass);
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  478  		alloc_size =3D PAGE_ALIGN(real_size);
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  479  		total_size +=3D alloc_size;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  480  =
+c030f2e4166c3f xinhui pan        2018-10-31  2599  	if (con->features)
+c030f2e4166c3f xinhui pan        2018-10-31  2600  		amdgpu_ras_disable_all=
+_features(adev, 1);
+c030f2e4166c3f xinhui pan        2018-10-31  2601  =
 
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  481  		if (iosys_map_is_null(&guc->ads_map))
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  482  			continue;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  483  =
+05adfd80cc52e0 Luben Tuikov      2021-05-21  2602  	cancel_delayed_work_syn=
+c(&con->ras_counte_delay_work);
+05adfd80cc52e0 Luben Tuikov      2021-05-21  2603  =
 
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  484  		/*
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  485  		 * This interface is slightly confusing. We need to =
-pass the
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  486  		 * base address of the full golden context and the s=
-ize of just
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  487  		 * the engine state, which is the section of the con=
-text image
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  488  		 * that starts after the execlists context. This is =
-required to
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  489  		 * allow the GuC to restore just the engine state wh=
-en a
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  490  		 * watchdog reset occurs.
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  491  		 * We calculate the engine state size by removing th=
-e size of
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  492  		 * what comes before it in the context image (which =
-is identical
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  493  		 * on all engines).
-d135865cb8e396 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Matthew Brost    =
-    2021-09-09  494  		 */
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  495  		ads_blob_write(guc, ads.eng_state_size[guc_class],
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  496  			       real_size - LRC_SKIP_SIZE);
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16 @497  		ads_blob_write(guc, ads.golden_context_lrca[guc_clas=
-s],
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  498  			       addr_ggtt);
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  499  =
+c030f2e4166c3f xinhui pan        2018-10-31  2604  	amdgpu_ras_set_context(=
+adev, NULL);
+c030f2e4166c3f xinhui pan        2018-10-31  2605  	kfree(con);
+c030f2e4166c3f xinhui pan        2018-10-31  2606  =
 
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  500  		addr_ggtt +=3D alloc_size;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  501  	}
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  502  =
-
-d9a5696e7d52ed drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c Lucas De Marchi  =
-    2022-02-16  503  	if (iosys_map_is_null(&guc->ads_map))
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  504  		return total_size;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  505  =
-
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  506  	GEM_BUG_ON(guc->ads_golden_ctxt_size !=3D total_size);
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  507  	return total_size;
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  508  }
-481d458caede24 drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c John Harrison    =
-    2021-07-26  509  =
+c030f2e4166c3f xinhui pan        2018-10-31  2607  	return 0;
+c030f2e4166c3f xinhui pan        2018-10-31  2608  }
+7c6e68c777f109 Andrey Grodzovsky 2019-09-13  2609  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5392277789285843757==--
+--===============1958168805403087839==--
 
