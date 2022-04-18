@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0122459471697956647=="
+Content-Type: multipart/mixed; boundary="===============6132450698342717540=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jgunthorpe:iommufd 3/13] drivers/iommu/iommufd/main.c:171:13: warning: Uninitialized variable: obj->type [uninitvar]
-Date: Mon, 18 Apr 2022 15:44:12 +0800
-Message-ID: <202204181532.LRaEH9kw-lkp@intel.com>
+Subject: drivers/platform/x86/x86-android-tablets.c:275 asus_me176c_tf103c_init() error: uninitialized symbol 'gpiod'.
+Date: Mon, 18 Apr 2022 15:13:54 +0800
+Message-ID: <202204181545.KfUL5XkG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0122459471697956647==
+--===============6132450698342717540==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,88 +15,60 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: Yi Liu <yi.l.liu@intel.com>
+TO: Hans de Goede <hdegoede@redhat.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-tree:   https://github.com/jgunthorpe/linux iommufd
-head:   fc388f906088fe5f5f2db6a36931e00124f52042
-commit: 80866de54d68bbcdb9a65b74f93d4eba596a6f3d [3/13] iommufd: File descr=
-iptor, context, kconfig and makefiles
-:::::: branch date: 4 weeks ago
-:::::: commit date: 4 weeks ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 80866de54d68bbcdb9a65b74f93d4eba596a6f3d
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b2d229d4ddb17db541098b83524d901257e93845
+commit: 66d1d6665a6166078112d4fbbf76153080b2e4d9 platform/x86: x86-android-=
+tablets: Add lid-switch gpio-keys pdev to Asus ME176C + TF103C
+date:   9 weeks ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 9 weeks ago
+config: x86_64-randconfig-m031-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220418/202204181545.KfUL5XkG-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/platform/x86/x86-android-tablets.c:275 asus_me176c_tf103c_init() er=
+ror: uninitialized symbol 'gpiod'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/platform/x86/x86-android-tablets.c:103 x86_acpi_irq_helper_get() er=
+ror: uninitialized symbol 'gpiod'.
 
->> drivers/iommu/iommufd/main.c:171:13: warning: Uninitialized variable: ob=
-j->type [uninitvar]
-      if (obj->type !=3D cur)
-               ^
---
->> drivers/vfio/pci/vfio_pci_core.c:746:8: warning: Local variable 'cmd' sh=
-adows outer argument [shadowArgument]
-      u16 cmd;
-          ^
-   drivers/vfio/pci/vfio_pci_core.c:637:70: note: Shadowed declaration
-   long vfio_pci_core_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
-                                                                        ^
-   drivers/vfio/pci/vfio_pci_core.c:746:8: note: Shadow variable
-      u16 cmd;
-          ^
+vim +/gpiod +275 drivers/platform/x86/x86-android-tablets.c
 
-vim +171 drivers/iommu/iommufd/main.c
+66d1d6665a61660 Hans de Goede 2022-02-05  266  =
 
-80866de54d68bb Jason Gunthorpe 2021-11-11  160  =
+66d1d6665a61660 Hans de Goede 2022-02-05  267  static int __init asus_me176=
+c_tf103c_init(void)
+66d1d6665a61660 Hans de Goede 2022-02-05  268  {
+66d1d6665a61660 Hans de Goede 2022-02-05  269  	struct gpio_desc *gpiod;
+66d1d6665a61660 Hans de Goede 2022-02-05  270  	int ret;
+66d1d6665a61660 Hans de Goede 2022-02-05  271  =
 
-80866de54d68bb Jason Gunthorpe 2021-11-11  161  static int iommufd_fops_rel=
-ease(struct inode *inode, struct file *filp)
-80866de54d68bb Jason Gunthorpe 2021-11-11  162  {
-80866de54d68bb Jason Gunthorpe 2021-11-11  163  	struct iommufd_ctx *ictx =
-=3D filp->private_data;
-80866de54d68bb Jason Gunthorpe 2021-11-11  164  	struct iommufd_object *obj;
-80866de54d68bb Jason Gunthorpe 2021-11-11  165  	unsigned long index =3D 0;
-80866de54d68bb Jason Gunthorpe 2021-11-11  166  	int cur =3D 0;
-80866de54d68bb Jason Gunthorpe 2021-11-11  167  =
+66d1d6665a61660 Hans de Goede 2022-02-05  272  	ret =3D x86_android_tablet_=
+get_gpiod("INT33FC:02", 12, &gpiod);
+66d1d6665a61660 Hans de Goede 2022-02-05  273  	if (ret < 0)
+66d1d6665a61660 Hans de Goede 2022-02-05  274  		return ret;
+66d1d6665a61660 Hans de Goede 2022-02-05 @275  	asus_me176c_tf103c_lid.gpio=
+ =3D desc_to_gpio(gpiod);
+66d1d6665a61660 Hans de Goede 2022-02-05  276  =
 
-80866de54d68bb Jason Gunthorpe 2021-11-11  168  	/* Destroy the graph from =
-depth first */
-80866de54d68bb Jason Gunthorpe 2021-11-11  169  	while (cur < IOMMUFD_OBJ_M=
-AX) {
-80866de54d68bb Jason Gunthorpe 2021-11-11  170  		xa_for_each(&ictx->object=
-s, index, obj) {
-80866de54d68bb Jason Gunthorpe 2021-11-11 @171  			if (obj->type !=3D cur)
-80866de54d68bb Jason Gunthorpe 2021-11-11  172  				continue;
-80866de54d68bb Jason Gunthorpe 2021-11-11  173  			xa_erase(&ictx->objects,=
- index);
-80866de54d68bb Jason Gunthorpe 2021-11-11  174  			if (WARN_ON(!refcount_de=
-c_and_test(&obj->users)))
-80866de54d68bb Jason Gunthorpe 2021-11-11  175  				continue;
-80866de54d68bb Jason Gunthorpe 2021-11-11  176  			iommufd_object_ops[obj->=
-type].destroy(obj);
-80866de54d68bb Jason Gunthorpe 2021-11-11  177  			kfree(obj);
-80866de54d68bb Jason Gunthorpe 2021-11-11  178  		}
-80866de54d68bb Jason Gunthorpe 2021-11-11  179  		cur++;
-80866de54d68bb Jason Gunthorpe 2021-11-11  180  	}
-80866de54d68bb Jason Gunthorpe 2021-11-11  181  	WARN_ON(!xa_empty(&ictx->o=
-bjects));
-80866de54d68bb Jason Gunthorpe 2021-11-11  182  	kfree(ictx);
-80866de54d68bb Jason Gunthorpe 2021-11-11  183  	return 0;
-80866de54d68bb Jason Gunthorpe 2021-11-11  184  }
-80866de54d68bb Jason Gunthorpe 2021-11-11  185  =
+66d1d6665a61660 Hans de Goede 2022-02-05  277  	return 0;
+66d1d6665a61660 Hans de Goede 2022-02-05  278  }
+66d1d6665a61660 Hans de Goede 2022-02-05  279  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0122459471697956647==--
+--===============6132450698342717540==--
 
