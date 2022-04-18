@@ -1,397 +1,169 @@
-Content-Type: multipart/mixed; boundary="===============3288123013357021243=="
+Content-Type: multipart/mixed; boundary="===============0353308256935159330=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/acpi/acpi_apd.c:94:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-an...
-Date: Tue, 19 Apr 2022 02:32:46 +0800
-Message-ID: <202204190206.ztx28PdH-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.17-rc6 21/29] drivers/iommu/iommufd/hw_pagetable.c:48:13: warning: Uninitialized variable: hwpt->domain [uninitvar]
+Date: Tue, 19 Apr 2022 01:31:52 +0800
+Message-ID: <202204190136.VJiUT8SL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3288123013357021243==
+--===============0353308256935159330==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Mario Limonciello <Mario.Limonciello@amd.com>
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: 7fdb98e8a768b3ccc05494d3ea4436047f512b9d ACPI: APD: Add a fmw prope=
-rty clk-name
-date:   3 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-c001-20220418 (https://download.01.org/0day-ci/arch=
-ive/20220419/202204190206.ztx28PdH-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b27430=
-f9f46b88bcd54d992debc8d72e131e1bd0)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7fdb98e8a768b3ccc05494d3ea4436047f512b9d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7fdb98e8a768b3ccc05494d3ea4436047f512b9d
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.17-rc6
+head:   10674417c235cb4a4caf2202fffb078611441da2
+commit: 085c3eb8ff8b6ef7093d9c798b04d5fab76c41ac [21/29] vfio/pci: Add bind=
+_iommufd() support
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 weeks ago
+compiler: sparc-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 085c3eb8ff8b6ef7093d9c798b04d5fab76c41ac
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   arch/x86/include/asm/pgtable.h:65:29: note: expanded from macro 'set_pte'
-   #define set_pte(ptep, pte)              native_set_pte(ptep, pte)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable-2level.h:17:8: note: Dereference of null po=
-inter (loaded from variable 'ptep')
-           *ptep =3D pte;
-            ~~~~ ^
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^
-   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
-                         ^
-   drivers/video/console/vgacon.c:808:2: note: Control jumps to 'case -1:' =
- at line 823
-           switch (blank) {
-           ^
-   drivers/video/console/vgacon.c:824:7: note: Assuming 'mode_switch' is 0
-                   if (!mode_switch && vga_video_type =3D=3D VIDEO_TYPE_VGA=
-C) {
-                       ^~~~~~~~~~~~
-   drivers/video/console/vgacon.c:824:7: note: Left side of '&&' is true
-   drivers/video/console/vgacon.c:824:23: note: Assuming 'vga_video_type' i=
-s equal to VIDEO_TYPE_VGAC
-                   if (!mode_switch && vga_video_type =3D=3D VIDEO_TYPE_VGA=
-C) {
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/console/vgacon.c:824:3: note: Taking true branch
-                   if (!mode_switch && vga_video_type =3D=3D VIDEO_TYPE_VGA=
-C) {
-                   ^
-   drivers/video/console/vgacon.c:825:4: note: Calling 'vga_pal_blank'
-                           vga_pal_blank(&vgastate);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/console/vgacon.c:797:2: note: Calling 'vga_w'
-           vga_w(state->vgabase, VGA_PEL_MSK, 0xff);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/video/vga.h:244:6: note: Assuming 'regbase' is null
-           if (regbase)
-               ^~~~~~~
-   include/video/vga.h:244:2: note: Taking false branch
-           if (regbase)
-           ^
-   include/video/vga.h:247:3: note: Calling 'vga_io_w'
-                   vga_io_w (port, val);
-                   ^~~~~~~~~~~~~~~~~~~~
-   include/video/vga.h:209:2: note: Calling 'outb_p'
-           outb_p(val, port);
-           ^
-   arch/x86/include/asm/io.h:351:16: note: expanded from macro 'outb_p'
-   #define outb_p outb_p
-                  ^
-   arch/x86/include/asm/io.h:334:1: note: Calling 'slow_down_io'
-   BUILDIO(b, b, char)
-   ^
-   arch/x86/include/asm/io.h:292:2: note: expanded from macro 'BUILDIO'
-           slow_down_io();                                                 \
-           ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:55:2: note: Assigned value is garbage or=
- undefined
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
-                         ^       ~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> drivers/acpi/acpi_apd.c:94:3: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(clk_data->name, obj->string.pointer);
-                   ^~~~~~
-   drivers/acpi/acpi_apd.c:94:3: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                   strcpy(clk_data->name, obj->string.pointer);
-                   ^~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/acpi/power.c:940:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_name(device), ACPI_POWER_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/power.c:940:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(acpi_device_name(device), ACPI_POWER_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/power.c:941:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_class(device), ACPI_POWER_CLASS);
-           ^~~~~~
-   drivers/acpi/power.c:941:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(acpi_device_class(device), ACPI_POWER_CLASS);
-           ^~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   fs/ext4/readpage.c:379:39: warning: The left operand of '<<' is a garbag=
-e value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                           bio->bi_iter.bi_sector =3D blocks[0] << (blkbits=
- - 9);
-                                                    ~~~~~~~~~ ^
-   fs/ext4/readpage.c:243:26: note: Assuming 'rac' is null
-           unsigned int nr_pages =3D rac ? readahead_count(rac) : 1;
-                                   ^~~
-   fs/ext4/readpage.c:243:26: note: '?' condition is false
-   fs/ext4/readpage.c:250:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (; nr_pages; nr_pages--) {
-           ^
-   fs/ext4/readpage.c:254:7: note: 'rac' is null
-                   if (rac) {
-                       ^~~
-   fs/ext4/readpage.c:254:3: note: Taking false branch
-                   if (rac) {
-                   ^
-   fs/ext4/readpage.c:259:7: note: Assuming the condition is false
-                   if (page_has_buffers(page))
-                       ^
-   include/linux/buffer_head.h:146:32: note: expanded from macro 'page_has_=
-buffers'
-   #define page_has_buffers(page)  PagePrivate(page)
-                                   ^~~~~~~~~~~~~~~~~
-   fs/ext4/readpage.c:259:3: note: Taking false branch
-                   if (page_has_buffers(page))
-                   ^
-   fs/ext4/readpage.c:267:7: note: Assuming 'last_block' is > 'last_block_i=
-n_file'
-                   if (last_block > last_block_in_file)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/readpage.c:267:3: note: Taking true branch
-                   if (last_block > last_block_in_file)
-                   ^
-   fs/ext4/readpage.c:274:39: note: Left side of '&&' is false
-                   if ((map.m_flags & EXT4_MAP_MAPPED) &&
-                                                       ^
-   fs/ext4/readpage.c:299:10: note: Assuming 'page_block' is >=3D 'blocks_p=
-er_page'
-                   while (page_block < blocks_per_page) {
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/readpage.c:299:3: note: Loop condition is false. Execution conti=
-nues on line 339
-                   while (page_block < blocks_per_page) {
-                   ^
-   fs/ext4/readpage.c:339:7: note: 'first_hole' is equal to 'blocks_per_pag=
-e'
-                   if (first_hole !=3D blocks_per_page) {
-                       ^~~~~~~~~~
-   fs/ext4/readpage.c:339:3: note: Taking false branch
-                   if (first_hole !=3D blocks_per_page) {
-                   ^
-   fs/ext4/readpage.c:350:14: note: 'fully_mapped' is 1
-                   } else if (fully_mapped) {
-                              ^~~~~~~~~~~~
-   fs/ext4/readpage.c:350:10: note: Taking true branch
-                   } else if (fully_mapped) {
-                          ^
-   fs/ext4/readpage.c:353:7: note: 'fully_mapped' is 1
-                   if (fully_mapped && blocks_per_page =3D=3D 1 &&
-                       ^~~~~~~~~~~~
-   fs/ext4/readpage.c:353:7: note: Left side of '&&' is true
-   fs/ext4/readpage.c:353:23: note: 'blocks_per_page' is not equal to 1
-                   if (fully_mapped && blocks_per_page =3D=3D 1 &&
-                                       ^~~~~~~~~~~~~~~
-   fs/ext4/readpage.c:353:44: note: Left side of '&&' is false
-                   if (fully_mapped && blocks_per_page =3D=3D 1 &&
-                                                            ^
-   fs/ext4/readpage.c:363:7: note: 'bio' is null
-                   if (bio && (last_block_in_bio !=3D blocks[0] - 1 ||
-                       ^~~
-   fs/ext4/readpage.c:363:11: note: Left side of '&&' is false
-                   if (bio && (last_block_in_bio !=3D blocks[0] - 1 ||
-                           ^
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +94 drivers/acpi/acpi_apd.c
+>> drivers/iommu/iommufd/hw_pagetable.c:48:13: warning: Uninitialized varia=
+ble: hwpt->domain [uninitvar]
+     if (hwpt->domain->ops =3D=3D dev_iommu_ops(dev)->default_domain_ops) {
+               ^
+--
+>> drivers/iommu/iommufd/device.c:124:29: warning: Parameter 'group' can be=
+ declared with const [constParameter]
+           struct iommu_group *group)
+                               ^
 
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   69  =
+vim +48 drivers/iommu/iommufd/hw_pagetable.c
 
-d58669b093997e Akshu Agrawal     2020-07-31   70  static int fch_misc_setup=
-(struct apd_private_data *pdata)
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   71  {
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   72  	struct acpi_device *adev=
- =3D pdata->adev;
-7f8802f2d2ed67 Akshu Agrawal     2020-07-31   73  	const union acpi_object =
-*obj;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   74  	struct platform_device *=
-clkdev;
-d58669b093997e Akshu Agrawal     2020-07-31   75  	struct fch_clk_data *clk=
-_data;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   76  	struct resource_entry *r=
-entry;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   77  	struct list_head resourc=
-e_list;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   78  	int ret;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   79  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  24  =
 
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   80  	clk_data =3D devm_kzallo=
-c(&adev->dev, sizeof(*clk_data), GFP_KERNEL);
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   81  	if (!clk_data)
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   82  		return -ENOMEM;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   83  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  25  /*
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  26   * When automatically managi=
+ng the domains we search for a compatible domain in
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  27   * the iopt and if one is fo=
+und use it, otherwise create a new domain.
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  28   * Automatic domain selectio=
+n will never pick a manually created domain.
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  29   */
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  30  static struct iommufd_hw_pag=
+etable *
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  31  iommufd_hw_pagetable_auto_ge=
+t(struct iommufd_ctx *ictx,
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  32  			      struct iommufd_ioas=
+ *ioas, struct device *dev)
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  33  {
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  34  	struct iommufd_hw_pagetable=
+ *hwpt;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  35  	int rc;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  36  =
 
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   84  	INIT_LIST_HEAD(&resource=
-_list);
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   85  	ret =3D acpi_dev_get_res=
-ources(adev, &resource_list, misc_check_res,
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   86  				     NULL);
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   87  	if (ret < 0)
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   88  		return -ENOENT;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09   89  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  37  	/*
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  38  	 * There is no differentiat=
+ion when domains are allocated, so any domain
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  39  	 * from the right ops is in=
+terchangeable with any other.
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  40  	 */
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  41  	mutex_lock(&ioas->mutex);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  42  	list_for_each_entry (hwpt, =
+&ioas->auto_domains, auto_domains_item) {
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  43  		/*
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  44  		 * FIXME: We really need a=
+n op from the driver to test if a
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  45  		 * device is compatible wi=
+th a domain. This thing from VFIO
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  46  		 * works sometimes.
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  47  		 */
+be2881f40dc8ab Jason Gunthorpe 2021-11-11 @48  		if (hwpt->domain->ops =3D=
+=3D dev_iommu_ops(dev)->default_domain_ops) {
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  49  			if (refcount_inc_not_zero=
+(&hwpt->obj.users)) {
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  50  				mutex_unlock(&ioas->mute=
+x);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  51  				return hwpt;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  52  			}
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  53  		}
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  54  	}
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  55  =
 
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   90  	if (!acpi_dev_get_proper=
-ty(adev, "clk-name", ACPI_TYPE_STRING, &obj)) {
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   91  		clk_data->name =3D devm=
-_kzalloc(&adev->dev, obj->string.length,
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   92  					      GFP_KERNEL);
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   93  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  56  	hwpt =3D iommufd_object_all=
+oc(ictx, hwpt, IOMMUFD_OBJ_HW_PAGETABLE);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  57  	if (IS_ERR(hwpt)) {
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  58  		rc =3D PTR_ERR(hwpt);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  59  		goto out_unlock;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  60  	}
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  61  =
 
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12  @94  		strcpy(clk_data->name, =
-obj->string.pointer);
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   95  	} else {
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   96  		/* Set default name to =
-mclk if entry missing in firmware */
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   97  		clk_data->name =3D "mcl=
-k";
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   98  	}
-7fdb98e8a768b3 Ajit Kumar Pandey 2021-12-12   99  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  62  	hwpt->domain =3D iommu_doma=
+in_alloc(dev->bus);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  63  	if (!hwpt->domain) {
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  64  		rc =3D -ENOMEM;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  65  		goto out_abort;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  66  	}
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  67  =
 
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  100  	list_for_each_entry(rent=
-ry, &resource_list, node) {
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  101  		clk_data->base =3D devm=
-_ioremap(&adev->dev, rentry->res->start,
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  102  					      resource_size(=
-rentry->res));
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  103  		break;
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  104  	}
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  105  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  68  	INIT_LIST_HEAD(&hwpt->devic=
+es);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  69  	mutex_init(&hwpt->devices_l=
+ock);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  70  	hwpt->ioas =3D ioas;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  71  	/* The calling driver is a =
+user until iommufd_hw_pagetable_put() */
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  72  	refcount_inc(&ioas->obj.use=
+rs);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  73  =
 
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  106  	acpi_dev_free_resource_l=
-ist(&resource_list);
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  107  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  74  	list_add_tail(&hwpt->auto_d=
+omains_item, &ioas->auto_domains);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  75  	/*
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  76  	 * iommufd_object_finalize(=
+) consumes the refcount, get one for the
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  77  	 * caller. This pairs with =
+the first put in
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  78  	 * iommufd_object_destroy_u=
+ser()
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  79  	 */
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  80  	refcount_inc(&hwpt->obj.use=
+rs);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  81  	iommufd_object_finalize(ict=
+x, &hwpt->obj);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  82  =
 
-d58669b093997e Akshu Agrawal     2020-07-31  108  	clkdev =3D platform_devi=
-ce_register_data(&adev->dev, "clk-fch",
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  109  					       PLATFORM_DEVI=
-D_NONE, clk_data,
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  110  					       sizeof(*clk_d=
-ata));
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  111  	return PTR_ERR_OR_ZERO(c=
-lkdev);
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  112  }
-3f4ba94e3615fe Akshu Agrawal     2018-05-09  113  =
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  83  	mutex_unlock(&ioas->mutex);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  84  	return hwpt;
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  85  =
 
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  86  out_abort:
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  87  	iommufd_object_abort(ictx, =
+&hwpt->obj);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  88  out_unlock:
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  89  	mutex_unlock(&ioas->mutex);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  90  	return ERR_PTR(rc);
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  91  }
+be2881f40dc8ab Jason Gunthorpe 2021-11-11  92  =
+
+
+:::::: The code at line 48 was first introduced by commit
+:::::: be2881f40dc8ab1549dffa80bdf5f982796a17b9 iommufd: Add a HW pagetable=
+ object
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3288123013357021243==--
+--===============0353308256935159330==--
 
