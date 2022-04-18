@@ -1,313 +1,346 @@
-Content-Type: multipart/mixed; boundary="===============2031625263709448129=="
+Content-Type: multipart/mixed; boundary="===============3204390975900154520=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c:1053:12: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
-Date: Tue, 19 Apr 2022 10:13:25 +0800
-Message-ID: <202204191037.9JDSPIGa-lkp@intel.com>
+Subject: Re: [PATCH v6 2/2] leds: ktd2692: Make aux-gpios optional
+Date: Tue, 19 Apr 2022 07:49:41 +0800
+Message-ID: <202204190742.7hPtHoMK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2031625263709448129==
+--===============3204390975900154520==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Alex Deucher <alexander.deucher@amd.com>
+In-Reply-To: <20220408184104.13665-3-markuss.broks@gmail.com>
+References: <20220408184104.13665-3-markuss.broks@gmail.com>
+TO: Markuss Broks <markuss.broks@gmail.com>
+TO: linux-kernel(a)vger.kernel.org
+CC: phone-devel(a)vger.kernel.org
+CC: ~postmarketos/upstreaming(a)lists.sr.ht
+CC: Markuss Broks <markuss.broks@gmail.com>
+CC: Pavel Machek <pavel@ucw.cz>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: linux-leds(a)vger.kernel.org
+CC: devicetree(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: d5c7255dc7ff6e1239d794b9c53029d83ced04ca drm/amdgpu/pm: fix powerpl=
-ay OD interface
-date:   5 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 5 months ago
-compiler: alpha-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout d5c7255dc7ff6e1239d794b9c53029d83ced04ca
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Markuss,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on pavel-leds/for-next]
+[also build test WARNING on linus/master linux/master v5.18-rc3 next-202204=
+14]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markuss-Broks/Make-A=
+UX-gpio-pin-optional-for-ktd2692/20220409-024603
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git =
+for-next
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: x86_64-randconfig-c007-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220419/202204190742.7hPtHoMK-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b27430=
+f9f46b88bcd54d992debc8d72e131e1bd0)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0b519b2b7290b0e3d0b=
+c3687cdc39efc967c6b21
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Markuss-Broks/Make-AUX-gpio-pin-op=
+tional-for-ktd2692/20220409-024603
+        git checkout 0b519b2b7290b0e3d0bc3687cdc39efc967c6b21
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/gpu/ipu-v3/ipu-di.c:460:13: warning: Local variable 'div' shadow=
-s outer variable [shadowVariable]
-      unsigned div;
-               ^
-   drivers/gpu/ipu-v3/ipu-di.c:441:12: note: Shadowed declaration
-     unsigned div, error;
-              ^
-   drivers/gpu/ipu-v3/ipu-di.c:460:13: note: Shadow variable
-      unsigned div;
-               ^
-
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> drivers/i2c/i2c-dev.c:59:16: warning: Uninitialized variable: i2c_dev->a=
-dap [uninitvar]
-     if (i2c_dev->adap->nr =3D=3D index)
-                  ^
---
-   drivers/gpu/ipu-v3/ipu-prv.h:146:25: warning: Shifting signed 32-bit val=
-ue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    IPU_CONF_CSI_SEL  =3D (1 << 31),
-                           ^
-   drivers/gpu/ipu-v3/ipu-prv.h:146:25: warning: Signed integer overflow fo=
-r expression '1<<31'. [integerOverflow]
-    IPU_CONF_CSI_SEL  =3D (1 << 31),
-                           ^
->> drivers/gpu/ipu-v3/ipu-di.c:196:19: warning: Signed integer overflow for=
- expression '0xffff<<(16*((wave_gen-1)&0x1))'. [integerOverflow]
-     reg &=3D ~(0xffff << (16 * ((wave_gen - 1) & 0x1)));
-                     ^
---
->> drivers/mmc/core/mmc_test.c:1487:6: warning: The if condition is the sam=
-e as the previous if condition [duplicateCondition]
-    if (timed)
-        ^
-   drivers/mmc/core/mmc_test.c:1484:6: note: First condition
-    if (timed)
-        ^
-   drivers/mmc/core/mmc_test.c:1487:6: note: Second condition
-    if (timed)
-        ^
->> drivers/mmc/core/mmc_test.c:3026:51: warning: Parameter 'card' can be de=
-clared with const [constParameter]
-   static void mmc_test_free_result(struct mmc_card *card)
-                                                     ^
-   drivers/mmc/core/mmc_test.c:3159:55: warning: Parameter 'card' can be de=
-clared with const [constParameter]
-   static void mmc_test_free_dbgfs_file(struct mmc_card *card)
-                                                         ^
->> drivers/mmc/core/mmc_test.c:3035:19: warning: Uninitialized variable: gr=
-->card [uninitvar]
-     if (card && gr->card !=3D card)
-                     ^
-   drivers/mmc/core/mmc_test.c:3062:11: warning: Uninitialized variable: gr=
-->card [uninitvar]
-     if (gr->card !=3D card)
-             ^
->> drivers/mmc/core/mmc_test.c:3071:19: warning: Uninitialized variable: tr=
-->iops [uninitvar]
-       tr->rate, tr->iops / 100, tr->iops % 100);
-                     ^
-   drivers/mmc/core/mmc_test.c:3062:16: note: Assuming condition is false
-     if (gr->card !=3D card)
-                  ^
-   drivers/mmc/core/mmc_test.c:3071:19: note: Uninitialized variable: tr->i=
-ops
-       tr->rate, tr->iops / 100, tr->iops % 100);
-                     ^
->> drivers/mmc/core/mmc_test.c:3166:19: warning: Uninitialized variable: df=
-->card [uninitvar]
-     if (card && df->card !=3D card)
-                     ^
---
-   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
-mu10_hwmgr.c:
->> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c:1053:12: warning: %=
-d in format string (no. 1) requires 'int' but the argument type is 'unsigne=
-d int'. [invalidPrintfArgType_sint]
-      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
-              ^
-
-vim +1053 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-
-a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
-      2017-05-11  1016  =
-
-c425688520990d drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-03-06  1017  static int smu10_print_clock_levels(struct pp_hwmgr=
- *hwmgr,
-a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
-      2017-05-11  1018  		enum pp_clock_type type, char *buf)
-a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
-      2017-05-11  1019  {
-c425688520990d drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-03-06  1020  	struct smu10_hwmgr *data =3D (struct smu10_hwmgr *=
-)(hwmgr->backend);
-c425688520990d drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-03-06  1021  	struct smu10_voltage_dependency_table *mclk_table =
-=3D
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1022  			data->clock_vol_info.vdd_dep_on_fclk;
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1023  	uint32_t i, now, size =3D 0;
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1024  	uint32_t min_freq, max_freq =3D 0;
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1025  	uint32_t ret =3D 0;
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1026  =
-
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1027  	switch (type) {
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1028  	case PP_SCLK:
-a0ec225633d9f6 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Evan Qu=
-an    2020-03-27  1029  		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetGfxclkFr=
-equency, &now);
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1030  =
-
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1031  	/* driver only know min/max gfx_clk, Add level 1 f=
-or all other gfx clks */
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1032  		if (now =3D=3D data->gfx_max_freq_limit/100)
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1033  			i =3D 2;
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1034  		else if (now =3D=3D data->gfx_min_freq_limit/100)
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1035  			i =3D 0;
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1036  		else
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1037  			i =3D 1;
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1038  =
-
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1039  		size +=3D sprintf(buf + size, "0: %uMhz %s\n",
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1040  					data->gfx_min_freq_limit/100,
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1041  					i =3D=3D 0 ? "*" : "");
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1042  		size +=3D sprintf(buf + size, "1: %uMhz %s\n",
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1043  					i =3D=3D 1 ? now : SMU10_UMD_PSTATE_GFXCLK,
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1044  					i =3D=3D 1 ? "*" : "");
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1045  		size +=3D sprintf(buf + size, "2: %uMhz %s\n",
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1046  					data->gfx_max_freq_limit/100,
-21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
-      2018-04-20  1047  					i =3D=3D 2 ? "*" : "");
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1048  		break;
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1049  	case PP_MCLK:
-a0ec225633d9f6 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Evan Qu=
-an    2020-03-27  1050  		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetFclkFreq=
-uency, &now);
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1051  =
-
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1052  		for (i =3D 0; i < mclk_table->count; i++)
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23 @1053  			size +=3D sprintf(buf + size, "%d: %uMhz %s\n",
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1054  					i,
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1055  					mclk_table->entries[i].clk / 100,
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1056  					((mclk_table->entries[i].clk / 100)
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1057  					 =3D=3D now) ? "*" : "");
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1058  		break;
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1059  	case OD_SCLK:
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1060  		if (hwmgr->od_enabled) {
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1061  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC_MSG_Ge=
-tMinGfxclkFrequency, &min_freq);
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1062  			if (ret)
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1063  				return ret;
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1064  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC_MSG_Ge=
-tMaxGfxclkFrequency, &max_freq);
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1065  			if (ret)
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1066  				return ret;
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1067  =
-
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1068  			size +=3D sprintf(buf + size, "%s:\n", "OD_SCLK"=
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/mux/mmio.c:58:2: note: Taking false branch
+           if (ret =3D=3D 0 || ret % 2)
+           ^
+   drivers/mux/mmio.c:60:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/mux/mmio.c:60:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/mux/mmio.c:69:2: note: Taking false branch
+           if (IS_ERR(mux_chip))
+           ^
+   drivers/mux/mmio.c:74:14: note: Assuming 'i' is < 'num_fields'
+           for (i =3D 0; i < num_fields; i++) {
+                       ^~~~~~~~~~~~~~
+   drivers/mux/mmio.c:74:2: note: Loop condition is true.  Entering loop bo=
+dy
+           for (i =3D 0; i < num_fields; i++) {
+           ^
+   drivers/mux/mmio.c:78:12: note: 'mask' declared without an initial value
+                   u32 reg, mask;
+                            ^~~~
+   drivers/mux/mmio.c:83:7: note: Assuming 'ret' is not equal to 0
+                   if (!ret)
+                       ^~~~
+   drivers/mux/mmio.c:83:3: note: Taking false branch
+                   if (!ret)
+                   ^
+   drivers/mux/mmio.c:86:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0) {
+                       ^~~~~~~
+   drivers/mux/mmio.c:86:3: note: Taking false branch
+                   if (ret < 0) {
+                   ^
+   drivers/mux/mmio.c:93:15: note: 1st function call argument is an uniniti=
+alized value
+                   field.msb =3D fls(mask) - 1;
+                               ^   ~~~~
+   drivers/mux/mmio.c:102:15: warning: Passed-by-value struct argument cont=
+ains uninitialized data (e.g., field: 'id_size') [clang-analyzer-core.CallA=
+ndMessage]
+                   fields[i] =3D devm_regmap_field_alloc(dev, regmap, field=
 );
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1069  			size +=3D sprintf(buf + size, "0: %10uMhz\n",
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1070  			(data->gfx_actual_soft_min_freq > 0) ? data->gfx=
-_actual_soft_min_freq : min_freq);
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1071  			size +=3D sprintf(buf + size, "1: %10uMhz\n",
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1072  			(data->gfx_actual_soft_max_freq > 0) ? data->gfx=
-_actual_soft_max_freq : max_freq);
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1073  		}
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1074  		break;
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1075  	case OD_RANGE:
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1076  		if (hwmgr->od_enabled) {
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1077  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC_MSG_Ge=
-tMinGfxclkFrequency, &min_freq);
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1078  			if (ret)
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1079  				return ret;
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1080  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC_MSG_Ge=
-tMaxGfxclkFrequency, &max_freq);
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1081  			if (ret)
-37f5d8b777a9a5 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-12-18  1082  				return ret;
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1083  =
+                               ^                                    ~~~~~
+   drivers/mux/mmio.c:47:6: note: Assuming the condition is true
+           if (of_device_is_compatible(np, "mmio-mux"))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:47:2: note: Taking true branch
+           if (of_device_is_compatible(np, "mmio-mux"))
+           ^
+   drivers/mux/mmio.c:51:2: note: Taking false branch
+           if (IS_ERR(regmap)) {
+           ^
+   drivers/mux/mmio.c:58:6: note: Assuming 'ret' is not equal to 0
+           if (ret =3D=3D 0 || ret % 2)
+               ^~~~~~~~
+   drivers/mux/mmio.c:58:6: note: Left side of '||' is false
+   drivers/mux/mmio.c:58:18: note: Assuming the condition is false
+           if (ret =3D=3D 0 || ret % 2)
+                           ^~~~~~~
+   drivers/mux/mmio.c:58:2: note: Taking false branch
+           if (ret =3D=3D 0 || ret % 2)
+           ^
+   drivers/mux/mmio.c:60:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/mux/mmio.c:60:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/mux/mmio.c:69:2: note: Taking false branch
+           if (IS_ERR(mux_chip))
+           ^
+   drivers/mux/mmio.c:74:14: note: Assuming 'i' is < 'num_fields'
+           for (i =3D 0; i < num_fields; i++) {
+                       ^~~~~~~~~~~~~~
+   drivers/mux/mmio.c:74:2: note: Loop condition is true.  Entering loop bo=
+dy
+           for (i =3D 0; i < num_fields; i++) {
+           ^
+   drivers/mux/mmio.c:76:3: note: 'field' initialized here
+                   struct reg_field field;
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:83:7: note: Assuming 'ret' is 0
+                   if (!ret)
+                       ^~~~
+   drivers/mux/mmio.c:83:3: note: Taking true branch
+                   if (!ret)
+                   ^
+   drivers/mux/mmio.c:86:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0) {
+                       ^~~~~~~
+   drivers/mux/mmio.c:86:3: note: Taking false branch
+                   if (ret < 0) {
+                   ^
+   drivers/mux/mmio.c:96:7: note: Assuming the condition is false
+                   if (mask !=3D GENMASK(field.msb, field.lsb)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:96:3: note: Taking false branch
+                   if (mask !=3D GENMASK(field.msb, field.lsb)) {
+                   ^
+   drivers/mux/mmio.c:102:15: note: Passed-by-value struct argument contain=
+s uninitialized data (e.g., field: 'id_size')
+                   fields[i] =3D devm_regmap_field_alloc(dev, regmap, field=
+);
+                               ^                                    ~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> drivers/leds/flash/leds-ktd2692.c:241:15: warning: Assigned value is gar=
+bage or undefined [clang-analyzer-core.uninitialized.Assign]
+           setting->max =3D cfg->flash_max_timeout;
+                        ^
+   drivers/leds/flash/leds-ktd2692.c:359:6: note: Assuming 'led' is non-null
+           if (!led)
+               ^~~~
+   drivers/leds/flash/leds-ktd2692.c:359:2: note: Taking false branch
+           if (!led)
+           ^
+   drivers/leds/flash/leds-ktd2692.c:365:8: note: Calling 'ktd2692_parse_dt'
+           ret =3D ktd2692_parse_dt(led, &pdev->dev, &led_cfg);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/flash/leds-ktd2692.c:277:6: note: Assuming 'np' is non-null
+           if (!np)
+               ^~~
+   drivers/leds/flash/leds-ktd2692.c:277:2: note: Taking false branch
+           if (!np)
+           ^
+   drivers/leds/flash/leds-ktd2692.c:282:6: note: 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/leds/flash/leds-ktd2692.c:282:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/leds/flash/leds-ktd2692.c:288:2: note: Taking true branch
+           if (IS_ERR(led->aux_gpio)) {
+           ^
+   drivers/leds/flash/leds-ktd2692.c:290:3: note: Loop condition is false. =
+ Exiting loop
+                   dev_err(dev, "cannot get aux-gpios %d\n", ret);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/leds/flash/leds-ktd2692.c:291:3: note: Returning without writing=
+ to 'cfg->flash_max_timeout'
+                   return ret;
+                   ^
+   drivers/leds/flash/leds-ktd2692.c:365:8: note: Returning from 'ktd2692_p=
+arse_dt'
+           ret =3D ktd2692_parse_dt(led, &pdev->dev, &led_cfg);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/flash/leds-ktd2692.c:366:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/leds/flash/leds-ktd2692.c:366:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/leds/flash/leds-ktd2692.c:369:2: note: Calling 'ktd2692_init_fla=
+sh_timeout'
+           ktd2692_init_flash_timeout(fled_cdev, &led_cfg);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/flash/leds-ktd2692.c:241:15: note: Assigned value is garbag=
+e or undefined
+           setting->max =3D cfg->flash_max_timeout;
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   mm/huge_memory.c:583:9: warning: Value stored to 'off' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           loff_t off =3D (loff_t)pgoff << PAGE_SHIFT;
+                  ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/huge_memory.c:583:9: note: Value stored to 'off' during its initializ=
+ation is never read
+           loff_t off =3D (loff_t)pgoff << PAGE_SHIFT;
+                  ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/huge_memory.c:3096:4: warning: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(file_path, tok);
+                           ^~~~~~
+   mm/huge_memory.c:3096:4: note: Call to function 'strcpy' is insecure as =
+it does not provide bounding of the memory buffer. Replace unbounded copy f=
+unctions with analogous functions that support length arguments such as 'st=
+rlcpy'. CWE-119
+                           strcpy(file_path, tok);
+                           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1084  			size +=3D sprintf(buf + size, "%s:\n", "OD_RANGE=
-");
-d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Alex De=
-ucher 2021-11-23  1085  			size +=3D sprintf(buf + size, "SCLK: %7uMHz %10u=
-MHz\n",
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1086  				min_freq, max_freq);
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1087  		}
-12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
-n Du  2020-09-27  1088  		break;
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1089  	default:
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1090  		break;
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1091  	}
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1092  =
+vim +241 drivers/leds/flash/leds-ktd2692.c
 
-5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
-an    2017-09-26  1093  	return size;
-a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
-      2017-05-11  1094  }
-a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
-      2017-05-11  1095  =
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  233  =
+
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  234  static=
+ void ktd2692_init_flash_timeout(struct led_classdev_flash *fled_cdev,
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  235  				  =
+     struct ktd2692_led_config_data *cfg)
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  236  {
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  237  	struc=
+t led_flash_setting *setting;
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  238  =
+
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  239  	setti=
+ng =3D &fled_cdev->timeout;
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  240  	setti=
+ng->min =3D KTD2692_FLASH_MODE_TIMEOUT_DISABLE;
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12 @241  	setti=
+ng->max =3D cfg->flash_max_timeout;
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  242  	setti=
+ng->step =3D cfg->flash_max_timeout
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  243  			/ (=
+KTD2692_FLASH_MODE_TIMEOUT_LEVELS - 1);
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  244  	setti=
+ng->val =3D cfg->flash_max_timeout;
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  245  }
+b7da8c5c725cc2 drivers/leds/leds-ktd2692.c Ingi Kim 2015-05-12  246  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2031625263709448129==--
+--===============3204390975900154520==--
 
