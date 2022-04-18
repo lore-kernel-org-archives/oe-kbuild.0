@@ -1,153 +1,549 @@
-Content-Type: multipart/mixed; boundary="===============6676470363344961571=="
+Content-Type: multipart/mixed; boundary="===============3969658973063604689=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/x86/x86-android-tablets.c:101 x86_acpi_irq_helper_get() error: uninitialized symbol 'gpiod'.
-Date: Mon, 18 Apr 2022 13:01:36 +0800
-Message-ID: <202204181310.arrkWhHp-lkp@intel.com>
+Subject: drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1019:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 18 Apr 2022 12:21:04 +0800
+Message-ID: <202204181240.XAtJPVJs-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6676470363344961571==
+--===============3969658973063604689==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Hans de Goede <hdegoede@redhat.com>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: 381d785d9eefd2516985f662c71fde1f028b014d platform/x86: x86-android-=
-tablets: Add x86_android_tablet_get_gpiod() helper
-date:   9 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-m031-20220418 (https://download.01.org/0day-ci/ar=
-chive/20220418/202204181310.arrkWhHp-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+commit: 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7 media: platform: place NXP=
+ drivers on a separate dir
+date:   5 weeks ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20220418 (https://download.01.org/0day-ci/archi=
+ve/20220418/202204181240.XAtJPVJs-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ef9460=
+9d6ebe981767788e6877b0b3b731d425af)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/platform/x86/x86-android-tablets.c:101 x86_acpi_irq_helper_get() er=
-ror: uninitialized symbol 'gpiod'.
-
-vim +/gpiod +101 drivers/platform/x86/x86-android-tablets.c
-
-381d785d9eefd25 Hans de Goede     2022-02-05   76  =
-
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   77  static int x86_acpi_irq_=
-helper_get(const struct x86_acpi_irq_data *data)
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   78  {
-cd26465fbc03bea Hans de Goede     2021-12-30   79  	struct irq_fwspec fwspe=
-c =3D { };
-cd26465fbc03bea Hans de Goede     2021-12-30   80  	struct irq_domain *doma=
-in;
-cd26465fbc03bea Hans de Goede     2021-12-30   81  	struct acpi_device *ade=
-v;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   82  	struct gpio_desc *gpiod;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   83  	unsigned int irq_type;
-cd26465fbc03bea Hans de Goede     2021-12-30   84  	acpi_handle handle;
-cd26465fbc03bea Hans de Goede     2021-12-30   85  	acpi_status status;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   86  	int irq, ret;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   87  =
-
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   88  	switch (data->type) {
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   89  	case X86_ACPI_IRQ_TYPE_=
-APIC:
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   90  		irq =3D acpi_register_=
-gsi(NULL, data->index, data->trigger, data->polarity);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   91  		if (irq < 0)
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   92  			pr_err("error %d gett=
-ing APIC IRQ %d\n", irq, data->index);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   93  =
-
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   94  		return irq;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   95  	case X86_ACPI_IRQ_TYPE_=
-GPIOINT:
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   96  		/* Like acpi_dev_gpio_=
-irq_get(), but without parsing ACPI resources */
-381d785d9eefd25 Hans de Goede     2022-02-05   97  		ret =3D x86_android_ta=
-blet_get_gpiod(data->chip, data->index, &gpiod);
-381d785d9eefd25 Hans de Goede     2022-02-05   98  		if (ret)
-55fa3c9665bfcf3 Hans de Goede     2021-12-23   99  			return ret;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  100  =
-
-55fa3c9665bfcf3 Hans de Goede     2021-12-23 @101  		irq =3D gpiod_to_irq(g=
-piod);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  102  		if (irq < 0) {
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  103  			pr_err("error %d gett=
-ing IRQ %s %d\n", irq, data->chip, data->index);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  104  			return irq;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  105  		}
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  106  =
-
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  107  		irq_type =3D acpi_dev_=
-get_irq_type(data->trigger, data->polarity);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  108  		if (irq_type !=3D IRQ_=
-TYPE_NONE && irq_type !=3D irq_get_trigger_type(irq))
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  109  			irq_set_irq_type(irq,=
- irq_type);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  110  =
-
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  111  		return irq;
-cd26465fbc03bea Hans de Goede     2021-12-30  112  	case X86_ACPI_IRQ_TYPE_=
-PMIC:
-cd26465fbc03bea Hans de Goede     2021-12-30  113  		status =3D acpi_get_ha=
-ndle(NULL, data->chip, &handle);
-cd26465fbc03bea Hans de Goede     2021-12-30  114  		if (ACPI_FAILURE(statu=
-s)) {
-cd26465fbc03bea Hans de Goede     2021-12-30  115  			pr_err("error could n=
-ot get %s handle\n", data->chip);
-cd26465fbc03bea Hans de Goede     2021-12-30  116  			return -ENODEV;
-cd26465fbc03bea Hans de Goede     2021-12-30  117  		}
-cd26465fbc03bea Hans de Goede     2021-12-30  118  =
-
-f7e62c5890f0854 Rafael J. Wysocki 2022-01-26  119  		adev =3D acpi_fetch_ac=
-pi_dev(handle);
-cd26465fbc03bea Hans de Goede     2021-12-30  120  		if (!adev) {
-cd26465fbc03bea Hans de Goede     2021-12-30  121  			pr_err("error could n=
-ot get %s adev\n", data->chip);
-cd26465fbc03bea Hans de Goede     2021-12-30  122  			return -ENODEV;
-cd26465fbc03bea Hans de Goede     2021-12-30  123  		}
-cd26465fbc03bea Hans de Goede     2021-12-30  124  =
-
-cd26465fbc03bea Hans de Goede     2021-12-30  125  		fwspec.fwnode =3D acpi=
-_fwnode_handle(adev);
-cd26465fbc03bea Hans de Goede     2021-12-30  126  		domain =3D irq_find_ma=
-tching_fwspec(&fwspec, data->domain);
-cd26465fbc03bea Hans de Goede     2021-12-30  127  		if (!domain) {
-cd26465fbc03bea Hans de Goede     2021-12-30  128  			pr_err("error could n=
-ot find IRQ domain for %s\n", data->chip);
-cd26465fbc03bea Hans de Goede     2021-12-30  129  			return -ENODEV;
-cd26465fbc03bea Hans de Goede     2021-12-30  130  		}
-cd26465fbc03bea Hans de Goede     2021-12-30  131  =
-
-cd26465fbc03bea Hans de Goede     2021-12-30  132  		return irq_create_mapp=
-ing(domain, data->index);
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  133  	default:
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  134  		return 0;
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  135  	}
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  136  }
-55fa3c9665bfcf3 Hans de Goede     2021-12-23  137  =
 
 
-:::::: The code at line 101 was first introduced by commit
-:::::: 55fa3c9665bfcf32b21af8ecdeb48d5c5177d8d7 platform/x86: x86-android-t=
-ablets: New driver for x86 Android tablets
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:933:6: note: Left side of=
+ '||' is false
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:933:18: note: Assuming 'd=
+st_buf' is non-null
+           if (!src_buf || !dst_buf) {
+                           ^~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:933:2: note: Taking false=
+ branch
+           if (!src_buf || !dst_buf) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:939:7: note: 'q_data_cap'=
+ is non-null
+           if (!q_data_cap)
+                ^~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:939:2: note: Taking false=
+ branch
+           if (!q_data_cap)
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:942:7: note: 'q_data_out'=
+ is non-null
+           if (!q_data_out)
+                ^~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:942:2: note: Taking false=
+ branch
+           if (!q_data_out)
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:950:6: note: Assuming fie=
+ld 'colplanes' is equal to field 'num_planes'
+           if (q_data_cap->fmt->colplanes !=3D dst_buf->vb2_buf.num_planes)=
+ {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:950:2: note: Taking false=
+ branch
+           if (q_data_cap->fmt->colplanes !=3D dst_buf->vb2_buf.num_planes)=
+ {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:956:6: note: Assuming fie=
+ld 'jpeg_parse_error' is false
+           if (jpeg_src_buf->jpeg_parse_error) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:956:2: note: Taking false=
+ branch
+           if (jpeg_src_buf->jpeg_parse_error) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:971:11: note: Field 'slot=
+' is < MXC_MAX_SLOTS
+           if (ctx->slot >=3D MXC_MAX_SLOTS) {
+                    ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:971:2: note: Taking false=
+ branch
+           if (ctx->slot >=3D MXC_MAX_SLOTS) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:975:2: note: Taking false=
+ branch
+           if (!mxc_jpeg_alloc_slot_data(jpeg, ctx->slot)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:983:6: note: Assuming fie=
+ld 'mode' is equal to MXC_JPEG_ENCODE
+           if (jpeg->mode =3D=3D MXC_JPEG_ENCODE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:983:2: note: Taking true =
+branch
+           if (jpeg->mode =3D=3D MXC_JPEG_ENCODE) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:984:3: note: Taking false=
+ branch
+                   dev_dbg(dev, "Encoding on slot %d\n", ctx->slot);
+                   ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:986:3: note: Calling 'mxc=
+_jpeg_config_enc_desc'
+                   mxc_jpeg_config_enc_desc(&dst_buf->vb2_buf, ctx,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:901:12: note: Calling 'mx=
+c_jpeg_fourcc_to_imgfmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:402:2: note: Control jump=
+s to the 'default' case at line 415
+           switch (fourcc) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:416:3: note: Returning th=
+e value -1
+                   return MXC_JPEG_INVALID;
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:901:12: note: Returning f=
+rom 'mxc_jpeg_fourcc_to_imgfmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:901:2: note: The value -1=
+ is assigned to 'img_fmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:902:6: note: 'img_fmt' is=
+ equal to MXC_JPEG_INVALID
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
+               ^~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:902:2: note: Taking true =
+branch
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Loop conditi=
+on is false.  Exiting loop
+                   dev_err(jpeg->dev, "No valid image format detected\n");
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:905:5: note: The result o=
+f the left shift is undefined because the left operand is negative
+                            STM_CTRL_IMAGE_FORMAT(img_fmt);
+                            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h:84:52: note: expanded =
+from macro 'STM_CTRL_IMAGE_FORMAT'
+   #define STM_CTRL_IMAGE_FORMAT(img_fmt)          ((img_fmt) << 3)
+                                                    ~~~~~~~~~ ^
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1019:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1019:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1046:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1046:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: warning: Branch c=
+ondition evaluates to a garbage value [clang-analyzer-core.uninitialized.Br=
+anch]
+                   if (!q->sizeimage[0])
+                       ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
+c_jpeg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
+ield 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
+ion is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
+f '||' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
+e branch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
+n-null
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
+f '||' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
+q_type' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
+e branch
+           if (!fmt || fmt->flags !=3D q_type) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
+c_jpeg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
+ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
+ion is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
+ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
+ion is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is false. Execution continues on line 1655
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
+c_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
+e condition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
+rom 'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
+c_jpeg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Branch cond=
+ition evaluates to a garbage value
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1522:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1522:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1662:22: warning: Assigne=
+d value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   pfmt->bytesperline =3D tmp_q.bytesperline[i];
+                                      ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
+c_jpeg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
+ield 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
+ion is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
+f '||' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
+e branch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
+n-null
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
+f '||' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
+q_type' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
+e branch
+           if (!fmt || fmt->flags !=3D q_type) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
+c_jpeg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
+ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
+ion is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
+ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
+ion is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is < field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is true.  Entering loop body
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is false. Execution continues on line 1655
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
+c_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
+e condition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
+rom 'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
+c_jpeg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Assuming th=
+e condition is false
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:3: note: Taking fals=
+e branch
+                   if (!q->sizeimage[0])
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:7: note: Assuming th=
+e condition is false
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:3: note: Taking fals=
+e branch
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
 
-:::::: TO: Hans de Goede <hdegoede@redhat.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+vim +/dev +1019 drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+
+d8ebe298d008ccb drivers/media/platform/imx-jpeg/mxc-jpeg.c Ming Qian      2=
+022-02-22  1013  =
+
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1014  static int mxc_jpeg_decoder_cmd(struct file *file, void *p=
+riv,
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1015  				struct v4l2_decoder_cmd *cmd)
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1016  {
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1017  	struct v4l2_fh *fh =3D file->private_data;
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1018  	struct mxc_jpeg_ctx *ctx =3D mxc_jpeg_fh_to_ctx(fh);
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11 @1019  	struct device *dev =3D ctx->mxc_jpeg->dev;
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1020  	int ret;
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1021  =
+
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1022  	ret =3D v4l2_m2m_ioctl_try_decoder_cmd(file, fh, cmd);
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1023  	if (ret < 0)
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1024  		return ret;
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1025  =
+
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1026  	if (cmd->cmd =3D=3D V4L2_DEC_CMD_STOP) {
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1027  		dev_dbg(dev, "Received V4L2_DEC_CMD_STOP");
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1028  		if (v4l2_m2m_num_src_bufs_ready(fh->m2m_ctx) =3D=3D 0) {
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1029  			/* No more src bufs, notify app EOS */
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1030  			notify_eos(ctx);
+d8ebe298d008ccb drivers/media/platform/imx-jpeg/mxc-jpeg.c Ming Qian      2=
+022-02-22  1031  			mxc_jpeg_set_last_buffer_dequeued(ctx);
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1032  		} else {
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1033  			/* will send EOS later*/
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1034  			ctx->stopping =3D 1;
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1035  		}
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1036  	}
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1037  =
+
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1038  	return 0;
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1039  }
+2db16c6ed72ce64 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 2=
+021-03-11  1040  =
+
+
+:::::: The code at line 1019 was first introduced by commit
+:::::: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 d=
+river for i.MX8 JPEG Encoder/Decoder
+
+:::::: TO: Mirela Rabulea <mirela.rabulea@nxp.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6676470363344961571==--
+--===============3969658973063604689==--
 
