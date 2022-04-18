@@ -1,565 +1,259 @@
-Content-Type: multipart/mixed; boundary="===============7625884685819690823=="
+Content-Type: multipart/mixed; boundary="===============5045681758836575493=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/host1x/intr.c:29:2: warning: Attempt to free released memory [clang-analyzer-unix.Malloc]
-Date: Mon, 18 Apr 2022 19:55:48 +0800
-Message-ID: <202204181914.BwtVKdyD-lkp@intel.com>
+Subject: drivers/scsi/libiscsi.c:682 __iscsi_conn_send_pdu() warn: test_bit() takes a bit number
+Date: Mon, 18 Apr 2022 18:13:19 +0800
+Message-ID: <202204181822.wuWQfQdm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7625884685819690823==
+--===============5045681758836575493==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Thierry Reding <treding@nvidia.com>
-CC: Dave Airlie <airlied@redhat.com>
-
-Hi Dave,
-
-First bad commit (maybe !=3D root cause):
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Lee Duncan <lduncan@suse.com>
+CC: Chris Leech <cleech@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: 12fc11bce6f29a73eb3d61ab4e76a9ece3da1f1d Merge tag 'drm/tegra/for-5=
-.13-rc1' of ssh://git.freedesktop.org/git/tegra/linux into drm-next
-date:   12 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220418 (https://download.01.org/0day-ci/archi=
-ve/20220418/202204181914.BwtVKdyD-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ef9460=
-9d6ebe981767788e6877b0b3b731d425af)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D12fc11bce6f29a73eb3d61ab4e76a9ece3da1f1d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 12fc11bce6f29a73eb3d61ab4e76a9ece3da1f1d
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: 44ac97109e42f87b1a34954704b81b6c8eca80c4 scsi: iscsi: Fix NOP handl=
+ing during conn recovery
+date:   6 days ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-m001-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220418/202204181822.wuWQfQdm-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/scsi/libiscsi.c:682 __iscsi_conn_send_pdu() warn: test_bit() takes =
+a bit number
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   kernel/locking/rtmutex.c:299:30: note: Passing null pointer value via 1s=
-t parameter 'left'
-           return rt_mutex_waiter_less(__node_2_pi_waiter(a), __node_2_pi_w=
-aiter(b));
-                                       ^
-   kernel/locking/rtmutex.c:295:2: note: expanded from macro '__node_2_pi_w=
-aiter'
-           rb_entry((node), struct rt_mutex_waiter, pi_tree_entry)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rbtree.h:38:37: note: expanded from macro 'rb_entry'
-   #define rb_entry(ptr, type, member) container_of(ptr, type, member)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:707:41: note: expanded from macro 'container_of'
-   #define container_of(ptr, type, member) ({                              \
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:299:9: note: Calling 'rt_mutex_waiter_less'
-           return rt_mutex_waiter_less(__node_2_pi_waiter(a), __node_2_pi_w=
-aiter(b));
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   kernel/locking/rtmutex.c:236:6: note: Access to field 'prio' results in =
-a dereference of a null pointer (loaded from variable 'left')
-           if (left->prio < right->prio)
-               ^~~~
-   kernel/locking/rtmutex.c:287:6: warning: Access to field '__rb_parent_co=
-lor' results in a dereference of a null pointer [clang-analyzer-core.NullDe=
-reference]
-           if (RB_EMPTY_NODE(&waiter->tree_entry))
-               ^
-   include/linux/rbtree.h:44:3: note: expanded from macro 'RB_EMPTY_NODE'
-           ((node)->__rb_parent_color =3D=3D (unsigned long)(node))
-            ^
-   kernel/locking/rtmutex.c:1894:6: note: Assuming the condition is true
-           if (rt_mutex_owner(lock) !=3D current) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1894:2: note: Taking true branch
-           if (rt_mutex_owner(lock) !=3D current) {
-           ^
-   kernel/locking/rtmutex.c:1895:23: note: Passing value via 2nd parameter =
-'waiter'
-                   remove_waiter(lock, waiter);
-                                       ^~~~~~
-   kernel/locking/rtmutex.c:1895:3: note: Calling 'remove_waiter'
-                   remove_waiter(lock, waiter);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1050:24: note: Assuming pointer value is null
-           bool is_top_waiter =3D (waiter =3D=3D rt_mutex_top_waiter(lock));
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1054:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:305:11: note: expanded from macro 'lockdep_asser=
-t_held'
-                   WARN_ON(debug_locks && !lockdep_is_held(l));    \
-                           ^~~~~~~~~~~
-   include/asm-generic/bug.h:119:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   kernel/locking/rtmutex.c:1054:2: note: Left side of '&&' is false
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:305:23: note: expanded from macro 'lockdep_asser=
-t_held'
-                   WARN_ON(debug_locks && !lockdep_is_held(l));    \
-                                       ^
-   kernel/locking/rtmutex.c:1054:2: note: Taking false branch
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:305:3: note: expanded from macro 'lockdep_assert=
-_held'
-                   WARN_ON(debug_locks && !lockdep_is_held(l));    \
-                   ^
-   include/asm-generic/bug.h:120:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   kernel/locking/rtmutex.c:1054:2: note: Loop condition is false.  Exiting=
- loop
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:304:32: note: expanded from macro 'lockdep_asser=
-t_held'
-   #define lockdep_assert_held(l)  do {                            \
-                                   ^
-   kernel/locking/rtmutex.c:1057:25: note: Passing null pointer value via 2=
-nd parameter 'waiter'
-           rt_mutex_dequeue(lock, waiter);
-                                  ^~~~~~
-   kernel/locking/rtmutex.c:1057:2: note: Calling 'rt_mutex_dequeue'
-           rt_mutex_dequeue(lock, waiter);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:287:6: note: Access to field '__rb_parent_color=
-' results in a dereference of a null pointer
-           if (RB_EMPTY_NODE(&waiter->tree_entry))
-               ^
-   include/linux/rbtree.h:44:3: note: expanded from macro 'RB_EMPTY_NODE'
-           ((node)->__rb_parent_color =3D=3D (unsigned long)(node))
-            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/gpu/host1x/intr.c:29:2: warning: Attempt to free released memory=
- [clang-analyzer-unix.Malloc]
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^
-   drivers/gpu/host1x/intr.c:257:6: note: Assuming the condition is true
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:257:2: note: Taking true branch
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-           ^
-   drivers/gpu/host1x/intr.c:260:3: note: Calling 'kref_put'
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:6: note: Assuming the condition is true
-           if (refcount_dec_and_test(&kref->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/host1x/intr.c:29:8: note: Loop condition is false.  Exiting =
-loop
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/host1x/intr.c:29:2: note: Memory is released
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:260:3: note: Returning; memory was released
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:264:6: note: Assuming 'flush' is false
-           if (flush) {
-               ^~~~~
-   drivers/gpu/host1x/intr.c:264:2: note: Taking false branch
-           if (flush) {
-           ^
-   drivers/gpu/host1x/intr.c:270:2: note: Calling 'kref_put'
-           kref_put(&waiter->refcount, waiter_release);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:6: note: Assuming the condition is true
-           if (refcount_dec_and_test(&kref->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
---
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/crypto/keembay/ocs-aes.c:1154:3: warning: 1st function call argu=
-ment is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   iowrite8(enc_a[i],
-                   ^
-   include/asm-generic/io.h:743:18: note: expanded from macro 'iowrite8'
-   #define iowrite8 iowrite8
-                    ^
-   drivers/crypto/keembay/ocs-aes.c:1327:6: note: 'rc' is 0
-           if (rc)
-               ^~
-   drivers/crypto/keembay/ocs-aes.c:1327:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/crypto/keembay/ocs-aes.c:1369:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/crypto/keembay/ocs-aes.c:1369:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/crypto/keembay/ocs-aes.c:1379:2: note: Calling 'ocs_aes_ccm_do_a=
-data'
-           ocs_aes_ccm_do_adata(aes_dev, adata_dma_list, adata_size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/keembay/ocs-aes.c:1164:6: note: Assuming 'adata_size' is =
-not equal to 0
-           if (!adata_size) {
-               ^~~~~~~~~~~
-   drivers/crypto/keembay/ocs-aes.c:1164:2: note: Taking false branch
-           if (!adata_size) {
-           ^
-   drivers/crypto/keembay/ocs-aes.c:1176:2: note: Calling 'ocs_aes_ccm_writ=
-e_adata_len'
-           ocs_aes_ccm_write_adata_len(aes_dev, adata_size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/keembay/ocs-aes.c:1141:6: note: Assuming 'adata_len' is <=
- 65280
-           if (adata_len < 65280) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/crypto/keembay/ocs-aes.c:1141:2: note: Taking true branch
-           if (adata_len < 65280) {
-           ^
-   drivers/crypto/keembay/ocs-aes.c:1153:2: note: Loop condition is true.  =
-Entering loop body
-           for (i =3D 0; i < len; i++)
-           ^
-   drivers/crypto/keembay/ocs-aes.c:1153:23: note: The value 1 is assigned =
-to 'i'
-           for (i =3D 0; i < len; i++)
-                                ^~~
-   drivers/crypto/keembay/ocs-aes.c:1153:2: note: Loop condition is true.  =
-Entering loop body
-           for (i =3D 0; i < len; i++)
-           ^
-   drivers/crypto/keembay/ocs-aes.c:1154:3: note: 1st function call argumen=
-t is an uninitialized value
-                   iowrite8(enc_a[i],
-                   ^        ~~~~~~~~
-   include/asm-generic/io.h:743:18: note: expanded from macro 'iowrite8'
-   #define iowrite8 iowrite8
-                    ^
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/gpu/host1x/intr.c:29:2: warning: Attempt to free released memory=
- [clang-analyzer-unix.Malloc]
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^
-   drivers/gpu/host1x/intr.c:257:6: note: Assuming the condition is true
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:257:2: note: Taking true branch
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-           ^
-   drivers/gpu/host1x/intr.c:260:3: note: Calling 'kref_put'
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:6: note: Assuming the condition is true
-           if (refcount_dec_and_test(&kref->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/host1x/intr.c:29:8: note: Loop condition is false.  Exiting =
-loop
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/host1x/intr.c:29:2: note: Memory is released
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:260:3: note: Returning; memory was released
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:264:6: note: Assuming 'flush' is false
-           if (flush) {
-               ^~~~~
-   drivers/gpu/host1x/intr.c:264:2: note: Taking false branch
-           if (flush) {
-           ^
-   drivers/gpu/host1x/intr.c:270:2: note: Calling 'kref_put'
-           kref_put(&waiter->refcount, waiter_release);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:6: note: Assuming the condition is true
-           if (refcount_dec_and_test(&kref->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+Old smatch warnings:
+drivers/scsi/libiscsi.c:1396 iscsi_set_conn_failed() warn: test_bit() takes=
+ a bit number
+drivers/scsi/libiscsi.c:1397 iscsi_set_conn_failed() warn: test_bit() takes=
+ a bit number
+drivers/scsi/libiscsi.c:1458 iscsi_xmit_task() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:1536 iscsi_data_xmit() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:1750 iscsi_queuecommand() warn: test_bit() takes a =
+bit number
+drivers/scsi/libiscsi.c:1939 iscsi_suspend_queue() warn: test_bit() takes a=
+ bit number
+drivers/scsi/libiscsi.c:1957 iscsi_suspend_tx() warn: test_bit() takes a bi=
+t number
+drivers/scsi/libiscsi.c:1965 iscsi_start_tx() warn: test_bit() takes a bit =
+number
+drivers/scsi/libiscsi.c:2218 iscsi_conn_unbind() warn: test_bit() takes a b=
+it number
+drivers/scsi/libiscsi.c:3324 iscsi_conn_bind() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:3337 iscsi_conn_bind() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:3338 iscsi_conn_bind() warn: test_bit() takes a bit=
+ number
 
-vim +29 drivers/gpu/host1x/intr.c
+vim +682 drivers/scsi/libiscsi.c
 
-7ede0b0bf3e259 Terje Bergstrom 2013-03-22  26  =
+052d014485d2ce Mike Christie    2008-05-21  670  =
 
-7ede0b0bf3e259 Terje Bergstrom 2013-03-22  27  static void waiter_release(s=
-truct kref *kref)
-7ede0b0bf3e259 Terje Bergstrom 2013-03-22  28  {
-7ede0b0bf3e259 Terje Bergstrom 2013-03-22 @29  	kfree(container_of(kref, st=
-ruct host1x_waitlist, refcount));
-7ede0b0bf3e259 Terje Bergstrom 2013-03-22  30  }
-7ede0b0bf3e259 Terje Bergstrom 2013-03-22  31  =
+9c19a7d0387124 Mike Christie    2008-05-21  671  static struct iscsi_task *
+f6d5180c78780d Mike Christie    2007-12-13  672  __iscsi_conn_send_pdu(stru=
+ct iscsi_conn *conn, struct iscsi_hdr *hdr,
+f6d5180c78780d Mike Christie    2007-12-13  673  		      char *data, uint32=
+_t data_size)
+f6d5180c78780d Mike Christie    2007-12-13  674  {
+f6d5180c78780d Mike Christie    2007-12-13  675  	struct iscsi_session *ses=
+sion =3D conn->session;
+1336aed10b8af7 Mike Christie    2009-05-13  676  	struct iscsi_host *ihost =
+=3D shost_priv(session->host);
+4f704dc0329740 Mike Christie    2009-11-11  677  	uint8_t opcode =3D hdr->o=
+pcode & ISCSI_OPCODE_MASK;
+9c19a7d0387124 Mike Christie    2008-05-21  678  	struct iscsi_task *task;
+262ef63627977a Mike Christie    2008-12-02  679  	itt_t itt;
+f6d5180c78780d Mike Christie    2007-12-13  680  =
 
+44ac97109e42f8 Mike Christie    2022-04-07  681  	if (session->state =3D=3D=
+ ISCSI_STATE_TERMINATE ||
+44ac97109e42f8 Mike Christie    2022-04-07 @682  	    !test_bit(ISCSI_CONN_=
+FLAG_BOUND, &conn->flags))
+f6d5180c78780d Mike Christie    2007-12-13  683  		return NULL;
+f6d5180c78780d Mike Christie    2007-12-13  684  =
 
-:::::: The code at line 29 was first introduced by commit
-:::::: 7ede0b0bf3e2595d40d6195b6fe4c4dcef438830 gpu: host1x: Add syncpoint =
-wait and interrupts
+4f704dc0329740 Mike Christie    2009-11-11  685  	if (opcode =3D=3D ISCSI_O=
+P_LOGIN || opcode =3D=3D ISCSI_OP_TEXT) {
+f6d5180c78780d Mike Christie    2007-12-13  686  		/*
+f6d5180c78780d Mike Christie    2007-12-13  687  		 * Login and Text are se=
+nt serially, in
+f6d5180c78780d Mike Christie    2007-12-13  688  		 * request-followed-by-r=
+esponse sequence.
+3e5c28ad039138 Mike Christie    2008-05-21  689  		 * Same task can be used=
+. Same ITT must be used.
+3e5c28ad039138 Mike Christie    2008-05-21  690  		 * Note that login_task =
+is preallocated at conn_create().
+f6d5180c78780d Mike Christie    2007-12-13  691  		 */
+4f704dc0329740 Mike Christie    2009-11-11  692  		if (conn->login_task->st=
+ate !=3D ISCSI_TASK_FREE) {
+4f704dc0329740 Mike Christie    2009-11-11  693  			iscsi_conn_printk(KERN_=
+ERR, conn, "Login/Text in "
+4f704dc0329740 Mike Christie    2009-11-11  694  					  "progress. Cannot s=
+tart new task.\n");
+4f704dc0329740 Mike Christie    2009-11-11  695  			return NULL;
+4f704dc0329740 Mike Christie    2009-11-11  696  		}
+4f704dc0329740 Mike Christie    2009-11-11  697  =
 
-:::::: TO: Terje Bergstrom <tbergstrom@nvidia.com>
-:::::: CC: Thierry Reding <thierry.reding@avionic-design.de>
+cbaa42213461e9 Mike Christie    2014-09-03  698  		if (data_size > ISCSI_DE=
+F_MAX_RECV_SEG_LEN) {
+cbaa42213461e9 Mike Christie    2014-09-03  699  			iscsi_conn_printk(KERN_=
+ERR, conn, "Invalid buffer len of %u for login task. Max len is %u\n", data=
+_size, ISCSI_DEF_MAX_RECV_SEG_LEN);
+cbaa42213461e9 Mike Christie    2014-09-03  700  			return NULL;
+cbaa42213461e9 Mike Christie    2014-09-03  701  		}
+cbaa42213461e9 Mike Christie    2014-09-03  702  =
+
+9c19a7d0387124 Mike Christie    2008-05-21  703  		task =3D conn->login_tas=
+k;
+4f704dc0329740 Mike Christie    2009-11-11  704  	} else {
+26013ad4c43f49 Mike Christie    2009-05-13  705  		if (session->state !=3D =
+ISCSI_STATE_LOGGED_IN)
+26013ad4c43f49 Mike Christie    2009-05-13  706  			return NULL;
+26013ad4c43f49 Mike Christie    2009-05-13  707  =
+
+cbaa42213461e9 Mike Christie    2014-09-03  708  		if (data_size !=3D 0) {
+cbaa42213461e9 Mike Christie    2014-09-03  709  			iscsi_conn_printk(KERN_=
+ERR, conn, "Can not send data buffer of len %u for op 0x%x\n", data_size, o=
+pcode);
+cbaa42213461e9 Mike Christie    2014-09-03  710  			return NULL;
+cbaa42213461e9 Mike Christie    2014-09-03  711  		}
+cbaa42213461e9 Mike Christie    2014-09-03  712  =
+
+f6d5180c78780d Mike Christie    2007-12-13  713  		BUG_ON(conn->c_stage =3D=
+=3D ISCSI_CONN_INITIAL_STAGE);
+f6d5180c78780d Mike Christie    2007-12-13  714  		BUG_ON(conn->c_stage =3D=
+=3D ISCSI_CONN_STOPPED);
+f6d5180c78780d Mike Christie    2007-12-13  715  =
+
+7acd72eb85f1c7 Stefani Seibold  2009-12-21  716  		if (!kfifo_out(&session-=
+>cmdpool.queue,
+9c19a7d0387124 Mike Christie    2008-05-21  717  				 (void*)&task, sizeof(=
+void*)))
+f6d5180c78780d Mike Christie    2007-12-13  718  			return NULL;
+f6d5180c78780d Mike Christie    2007-12-13  719  	}
+3e5c28ad039138 Mike Christie    2008-05-21  720  	/*
+3e5c28ad039138 Mike Christie    2008-05-21  721  	 * released in complete p=
+du for task we expect a response for, and
+3e5c28ad039138 Mike Christie    2008-05-21  722  	 * released by the lld wh=
+en it has transmitted the task for
+3e5c28ad039138 Mike Christie    2008-05-21  723  	 * pdus we do not expect =
+a response for.
+3e5c28ad039138 Mike Christie    2008-05-21  724  	 */
+6dc618cdd6b896 Elena Reshetova  2017-03-09  725  	refcount_set(&task->refco=
+unt, 1);
+9c19a7d0387124 Mike Christie    2008-05-21  726  	task->conn =3D conn;
+9c19a7d0387124 Mike Christie    2008-05-21  727  	task->sc =3D NULL;
+3bbaaad95fd38d Mike Christie    2009-05-13  728  	INIT_LIST_HEAD(&task->run=
+ning);
+3bbaaad95fd38d Mike Christie    2009-05-13  729  	task->state =3D ISCSI_TAS=
+K_PENDING;
+f6d5180c78780d Mike Christie    2007-12-13  730  =
+
+f6d5180c78780d Mike Christie    2007-12-13  731  	if (data_size) {
+9c19a7d0387124 Mike Christie    2008-05-21  732  		memcpy(task->data, data,=
+ data_size);
+9c19a7d0387124 Mike Christie    2008-05-21  733  		task->data_count =3D dat=
+a_size;
+f6d5180c78780d Mike Christie    2007-12-13  734  	} else
+9c19a7d0387124 Mike Christie    2008-05-21  735  		task->data_count =3D 0;
+f6d5180c78780d Mike Christie    2007-12-13  736  =
+
+184b57c630c86d Mike Christie    2009-05-13  737  	if (conn->session->tt->al=
+loc_pdu) {
+2ff79d52d56eeb Mike Christie    2008-12-02  738  		if (conn->session->tt->a=
+lloc_pdu(task, hdr->opcode)) {
+577577da6d197e Mike Christie    2008-12-02  739  			iscsi_conn_printk(KERN_=
+ERR, conn, "Could not allocate "
+577577da6d197e Mike Christie    2008-12-02  740  					 "pdu for mgmt task.\=
+n");
+3bbaaad95fd38d Mike Christie    2009-05-13  741  			goto free_task;
+577577da6d197e Mike Christie    2008-12-02  742  		}
+184b57c630c86d Mike Christie    2009-05-13  743  	}
+184b57c630c86d Mike Christie    2009-05-13  744  =
+
+262ef63627977a Mike Christie    2008-12-02  745  	itt =3D task->hdr->itt;
+577577da6d197e Mike Christie    2008-12-02  746  	task->hdr_len =3D sizeof(=
+struct iscsi_hdr);
+9c19a7d0387124 Mike Christie    2008-05-21  747  	memcpy(task->hdr, hdr, si=
+zeof(struct iscsi_hdr));
+262ef63627977a Mike Christie    2008-12-02  748  =
+
+262ef63627977a Mike Christie    2008-12-02  749  	if (hdr->itt !=3D RESERVE=
+D_ITT) {
+262ef63627977a Mike Christie    2008-12-02  750  		if (session->tt->parse_p=
+du_itt)
+262ef63627977a Mike Christie    2008-12-02  751  			task->hdr->itt =3D itt;
+262ef63627977a Mike Christie    2008-12-02  752  		else
+262ef63627977a Mike Christie    2008-12-02  753  			task->hdr->itt =3D buil=
+d_itt(task->itt,
+262ef63627977a Mike Christie    2008-12-02  754  						   task->conn->sessi=
+on->age);
+262ef63627977a Mike Christie    2008-12-02  755  	}
+262ef63627977a Mike Christie    2008-12-02  756  =
+
+fe0a8a95e7134d Lee Duncan       2020-11-06  757  	if (unlikely(READ_ONCE(co=
+nn->ping_task) =3D=3D INVALID_SCSI_TASK))
+fe0a8a95e7134d Lee Duncan       2020-11-06  758  		WRITE_ONCE(conn->ping_ta=
+sk, task);
+fe0a8a95e7134d Lee Duncan       2020-11-06  759  =
+
+1336aed10b8af7 Mike Christie    2009-05-13  760  	if (!ihost->workq) {
+577577da6d197e Mike Christie    2008-12-02  761  		if (iscsi_prep_mgmt_task=
+(conn, task))
+577577da6d197e Mike Christie    2008-12-02  762  			goto free_task;
+052d014485d2ce Mike Christie    2008-05-21  763  =
+
+9c19a7d0387124 Mike Christie    2008-05-21  764  		if (session->tt->xmit_ta=
+sk(task))
+577577da6d197e Mike Christie    2008-12-02  765  			goto free_task;
+3bbaaad95fd38d Mike Christie    2009-05-13  766  	} else {
+3bbaaad95fd38d Mike Christie    2009-05-13  767  		list_add_tail(&task->run=
+ning, &conn->mgmtqueue);
+32ae763e3fce41 Mike Christie    2009-03-05  768  		iscsi_conn_queue_work(co=
+nn);
+3bbaaad95fd38d Mike Christie    2009-05-13  769  	}
+052d014485d2ce Mike Christie    2008-05-21  770  =
+
+9c19a7d0387124 Mike Christie    2008-05-21  771  	return task;
+577577da6d197e Mike Christie    2008-12-02  772  =
+
+577577da6d197e Mike Christie    2008-12-02  773  free_task:
+659743b02c4110 Shlomo Pongratz  2014-02-07  774  	/* regular RX path uses b=
+ack_lock */
+4fa507992f0a10 Jitendra Bhivare 2016-10-13  775  	spin_lock(&session->back_=
+lock);
+577577da6d197e Mike Christie    2008-12-02  776  	__iscsi_put_task(task);
+4fa507992f0a10 Jitendra Bhivare 2016-10-13  777  	spin_unlock(&session->bac=
+k_lock);
+577577da6d197e Mike Christie    2008-12-02  778  	return NULL;
+f6d5180c78780d Mike Christie    2007-12-13  779  }
+f6d5180c78780d Mike Christie    2007-12-13  780  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7625884685819690823==--
+--===============5045681758836575493==--
 
