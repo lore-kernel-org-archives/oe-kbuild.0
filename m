@@ -1,87 +1,121 @@
-Content-Type: multipart/mixed; boundary="===============4320097305882170731=="
+Content-Type: multipart/mixed; boundary="===============7260697597017026332=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jonmason-ntb:ntb-next 2/2] drivers/ntb/test/ntb_perf.c:1454:5-20: duplicated argument to && or ||
-Date: Mon, 18 Apr 2022 11:50:35 +0800
-Message-ID: <202204181138.SMFMdIbn-lkp@intel.com>
+Subject: [arm:cex7 87/153] drivers/net/phy/phylink.c:885 phylink_change_inband_advert() error: we previously assumed 'pl->pcs' could be null (see line 868)
+Date: Mon, 18 Apr 2022 11:40:18 +0800
+Message-ID: <202204181153.vlIktEuJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4320097305882170731==
+--===============7260697597017026332==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-ntb(a)googlegroups.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Fomichev <fomichev.ru@gmail.com>
-CC: Jon Mason <jdmason@kudzu.us>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-tree:   https://github.com/jonmason/ntb ntb-next
-head:   10003e852471b1214f4383d79592497b3f4c7b39
-commit: 10003e852471b1214f4383d79592497b3f4c7b39 [2/2] ntb_perf: extend wit=
-h burst/poll/doorbell latency measurement
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: s390-randconfig-c003-20220417 (https://download.01.org/0day-ci/arch=
-ive/20220418/202204181138.SMFMdIbn-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git cex7
+head:   b6888b287e6d36d5aef685db612f122f715acd80
+commit: 81634647667671fbe18a3dbb75b927acb10fc732 [87/153] net: phylink: rem=
+ove pcs_ops member
+:::::: branch date: 12 hours ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-m001-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220418/202204181153.vlIktEuJ-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/net/phy/phylink.c:885 phylink_change_inband_advert() error: we prev=
+iously assumed 'pl->pcs' could be null (see line 868)
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/ntb/test/ntb_perf.c:1454:5-20: duplicated argument to && or ||
-   drivers/ntb/test/ntb_perf.c:1454:24-39: duplicated argument to && or ||
+vim +885 drivers/net/phy/phylink.c
 
-vim +1454 drivers/ntb/test/ntb_perf.c
+9525ae83959b60 Russell King          2017-07-25  854  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18  1449  =
+1571e700fd610c Russell King          2020-07-21  855  /*
+1571e700fd610c Russell King          2020-07-21  856   * Reconfigure for a =
+change of inband advertisement.
+1571e700fd610c Russell King          2020-07-21  857   * If we have a separ=
+ate PCS, we only need to call its pcs_config() method,
+1571e700fd610c Russell King          2020-07-21  858   * and then restart A=
+N if it indicates something changed. Otherwise, we do
+1571e700fd610c Russell King          2020-07-21  859   * the full MAC recon=
+figuration.
+1571e700fd610c Russell King          2020-07-21  860   */
+1571e700fd610c Russell King          2020-07-21  861  static int phylink_ch=
+ange_inband_advert(struct phylink *pl)
+1571e700fd610c Russell King          2020-07-21  862  {
+1571e700fd610c Russell King          2020-07-21  863  	int ret;
+1571e700fd610c Russell King          2020-07-21  864  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18  1450  static void perf_ext_la=
-t_work(struct work_struct *work)
-10003e852471b1 Alexander Fomichev 2022-04-18  1451  {
-10003e852471b1 Alexander Fomichev 2022-04-18  1452  	struct perf_ext_lat_da=
-ta *data =3D to_ext_lat_data(work);
-10003e852471b1 Alexander Fomichev 2022-04-18  1453  =
+1571e700fd610c Russell King          2020-07-21  865  	if (test_bit(PHYLINK=
+_DISABLE_STOPPED, &pl->phylink_disable_state))
+1571e700fd610c Russell King          2020-07-21  866  		return 0;
+1571e700fd610c Russell King          2020-07-21  867  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18 @1454  	if (!data->ops.init ||=
- !data->ops.init || !data->ops.init) {
-10003e852471b1 Alexander Fomichev 2022-04-18  1455  		struct perf_ctx *perf=
- =3D data->perf;
-10003e852471b1 Alexander Fomichev 2022-04-18  1456  =
+81634647667671 Russell King (Oracle  2022-04-14 @868) 	if (!pl->pcs && pl->=
+config->legacy_pre_march2020) {
+1571e700fd610c Russell King          2020-07-21  869  		/* Legacy method */
+1571e700fd610c Russell King          2020-07-21  870  		phylink_mac_config(=
+pl, &pl->link_config);
+1571e700fd610c Russell King          2020-07-21  871  		phylink_mac_pcs_an_=
+restart(pl);
+1571e700fd610c Russell King          2020-07-21  872  		return 0;
+1571e700fd610c Russell King          2020-07-21  873  	}
+1571e700fd610c Russell King          2020-07-21  874  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18  1457  		data->status =3D -EFA=
-ULT;
-10003e852471b1 Alexander Fomichev 2022-04-18  1458  		atomic_set(&perf->run=
-ning, 0);
-10003e852471b1 Alexander Fomichev 2022-04-18  1459  		wake_up(&perf->twait);
-10003e852471b1 Alexander Fomichev 2022-04-18  1460  		return;
-10003e852471b1 Alexander Fomichev 2022-04-18  1461  	}
-10003e852471b1 Alexander Fomichev 2022-04-18  1462  =
+1571e700fd610c Russell King          2020-07-21  875  	phylink_dbg(pl, "%s:=
+ mode=3D%s/%s adv=3D%*pb pause=3D%02x\n", __func__,
+1571e700fd610c Russell King          2020-07-21  876  		    phylink_an_mode=
+_str(pl->cur_link_an_mode),
+1571e700fd610c Russell King          2020-07-21  877  		    phy_modes(pl->l=
+ink_config.interface),
+1571e700fd610c Russell King          2020-07-21  878  		    __ETHTOOL_LINK_=
+MODE_MASK_NBITS, pl->link_config.advertising,
+1571e700fd610c Russell King          2020-07-21  879  		    pl->link_config=
+.pause);
+1571e700fd610c Russell King          2020-07-21  880  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18  1463  	data->status =3D data-=
->ops.init(data);
-10003e852471b1 Alexander Fomichev 2022-04-18  1464  	if (data->status)
-10003e852471b1 Alexander Fomichev 2022-04-18  1465  		return;
-10003e852471b1 Alexander Fomichev 2022-04-18  1466  =
+1571e700fd610c Russell King          2020-07-21  881  	/* Modern PCS-based =
+method; update the advert at the PCS, and
+1571e700fd610c Russell King          2020-07-21  882  	 * restart negotiati=
+on if the pcs_config() helper indicates that
+1571e700fd610c Russell King          2020-07-21  883  	 * the programmed ad=
+vertisement has changed.
+1571e700fd610c Russell King          2020-07-21  884  	 */
+81634647667671 Russell King (Oracle  2022-04-14 @885) 	ret =3D pl->pcs->ops=
+->pcs_config(pl->pcs, pl->cur_link_an_mode,
+1571e700fd610c Russell King          2020-07-21  886  				       pl->link_c=
+onfig.interface,
+1571e700fd610c Russell King          2020-07-21  887  				       pl->link_c=
+onfig.advertising,
+81634647667671 Russell King (Oracle  2022-04-14  888) 				       !!(pl->lin=
+k_config.pause &
+81634647667671 Russell King (Oracle  2022-04-14  889) 					  MLO_PAUSE_AN));
+1571e700fd610c Russell King          2020-07-21  890  	if (ret < 0)
+1571e700fd610c Russell King          2020-07-21  891  		return ret;
+1571e700fd610c Russell King          2020-07-21  892  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18  1467  	data->status =3D data-=
->ops.run(data);
-10003e852471b1 Alexander Fomichev 2022-04-18  1468  =
+1571e700fd610c Russell King          2020-07-21  893  	if (ret > 0)
+1571e700fd610c Russell King          2020-07-21  894  		phylink_mac_pcs_an_=
+restart(pl);
+1571e700fd610c Russell King          2020-07-21  895  =
 
-10003e852471b1 Alexander Fomichev 2022-04-18  1469  	data->ops.clear(data);
-10003e852471b1 Alexander Fomichev 2022-04-18  1470  }
-10003e852471b1 Alexander Fomichev 2022-04-18  1471  =
+1571e700fd610c Russell King          2020-07-21  896  	return 0;
+1571e700fd610c Russell King          2020-07-21  897  }
+1571e700fd610c Russell King          2020-07-21  898  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4320097305882170731==--
+--===============7260697597017026332==--
 
