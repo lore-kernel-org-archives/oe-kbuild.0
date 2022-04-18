@@ -1,332 +1,262 @@
-Content-Type: multipart/mixed; boundary="===============8842241226487871614=="
+Content-Type: multipart/mixed; boundary="===============1523656349622131440=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cpufreq/intel_pstate.c:1790:9: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Tue, 19 Apr 2022 03:44:26 +0800
-Message-ID: <202204190359.if6OtMYX-lkp@intel.com>
+Subject: drivers/clk/clk-apple-nco.c:216:20: warning: Parameter 'parent_rate' can be declared with const [constParameter]
+Date: Tue, 19 Apr 2022 03:13:59 +0800
+Message-ID: <202204190342.2AtIuYEQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8842241226487871614==
+--===============1523656349622131440==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+TO: "Martin Povi=C5=A1er" <povik+lin@cutebit.org>
+CC: Stephen Boyd <sboyd@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: 46573fd6369f098f15e11768850b6430f374905f cpufreq: intel_pstate: hyb=
-rid: Rework HWP calibration
-date:   7 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-c007-20220418 (https://download.01.org/0day-ci/ar=
-chive/20220419/202204190359.if6OtMYX-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b27430=
-f9f46b88bcd54d992debc8d72e131e1bd0)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D46573fd6369f098f15e11768850b6430f374905f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 46573fd6369f098f15e11768850b6430f374905f
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+commit: 6641057d5dba87338780cf3e0d0ae8389ef1125c clk: clk-apple-nco: Add dr=
+iver for Apple NCO
+date:   5 weeks ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 5 weeks ago
+compiler: ia64-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 6641057d5dba87338780cf3e0d0ae8389ef1125c
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                   ^
-   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
-_has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-                                         ^
-   arch/x86/include/asm/cpufeature.h:90:5: note: expanded from macro 'REQUI=
-RED_MASK_BIT_SET'
-              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 16, feature_bit) ||    \
-              ^
-   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
-K_BIT_IN_MASK_WORD'
-           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
-                               ^
-   drivers/cpufreq/intel_pstate.c:742:6: note: Left side of '&&' is false
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-               ^
-   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
-t_cpu_has'
-   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
-                                   ^
-   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
-_has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-                                         ^
-   arch/x86/include/asm/cpufeature.h:91:5: note: expanded from macro 'REQUI=
-RED_MASK_BIT_SET'
-              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 17, feature_bit) ||    \
-              ^
-   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
-K_BIT_IN_MASK_WORD'
-           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
-                               ^
-   drivers/cpufreq/intel_pstate.c:742:6: note: Left side of '&&' is false
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-               ^
-   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
-t_cpu_has'
-   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
-                                   ^
-   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
-_has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-                                         ^
-   arch/x86/include/asm/cpufeature.h:92:5: note: expanded from macro 'REQUI=
-RED_MASK_BIT_SET'
-              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 18, feature_bit) ||    \
-              ^
-   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
-K_BIT_IN_MASK_WORD'
-           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
-                               ^
-   drivers/cpufreq/intel_pstate.c:742:6: note: Left side of '&&' is false
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-               ^
-   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
-t_cpu_has'
-   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
-                                   ^
-   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
-_has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-                                         ^
-   arch/x86/include/asm/cpufeature.h:93:5: note: expanded from macro 'REQUI=
-RED_MASK_BIT_SET'
-              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 19, feature_bit) ||    \
-              ^
-   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
-K_BIT_IN_MASK_WORD'
-           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
-                               ^
-   drivers/cpufreq/intel_pstate.c:742:6: note: Left side of '||' is false
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-               ^
-   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
-t_cpu_has'
-   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
-                                   ^
-   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
-_has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-                                         ^
-   arch/x86/include/asm/cpufeature.h:74:5: note: expanded from macro 'REQUI=
-RED_MASK_BIT_SET'
-            ( CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK,  0, feature_bit) ||    \
-              ^
-   arch/x86/include/asm/cpufeature.h:64:2: note: expanded from macro 'CHECK=
-_BIT_IN_MASK_WORD'
-           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
-           ^
-   drivers/cpufreq/intel_pstate.c:742:6: note: '?' condition is false
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-               ^
-   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
-t_cpu_has'
-   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
-                                   ^
-   arch/x86/include/asm/cpufeature.h:122:3: note: expanded from macro 'cpu_=
-has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-            ^
-   drivers/cpufreq/intel_pstate.c:742:6: note: Assuming the condition is fa=
-lse
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-               ^
-   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
-t_cpu_has'
-   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/cpufeature.h:122:3: note: expanded from macro 'cpu_=
-has'
-           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
-            ^~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/intel_pstate.c:742:2: note: Taking false branch
-           if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
-           ^
-   drivers/cpufreq/intel_pstate.c:758:7: note: Assuming the condition is tr=
-ue
-                   if (epp =3D=3D -EINVAL)
-                       ^~~~~~~~~~~~~~
-   drivers/cpufreq/intel_pstate.c:758:3: note: Taking true branch
-                   if (epp =3D=3D -EINVAL)
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/clk/clk-apple-nco.c:216:20: warning: Parameter 'parent_rate' can=
+ be declared with const [constParameter]
+       unsigned long *parent_rate)
+                      ^
+>> drivers/clk/clk-apple-nco.c:180:19: warning: Shifting signed 32-bit valu=
+e by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    writel_relaxed(1 << 31, chan->base + REG_ACCINIT);
+                     ^
+   drivers/clk/clk-apple-nco.c:205:17: warning: Shifting signed 32-bit valu=
+e by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (inc1 >=3D (1 << 31) || inc2 < (1 << 31) || (inc1 =3D=3D 0 && inc2 =
+=3D=3D 0))
                    ^
-   drivers/cpufreq/intel_pstate.c:759:27: note: The result of the left shif=
-t is undefined because the left operand is negative
-                           epp =3D (pref_index - 1) << 2;
-                                 ~~~~~~~~~~~~~~~~ ^
->> drivers/cpufreq/intel_pstate.c:1790:9: warning: Division by zero [clang-=
-analyzer-core.DivideZero]
-           return DIV_ROUND_UP(core_get_scaling() * hybrid_ref_perf,
-                  ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                        ~~~~~~~~~~~~~~~~^~~~~
-   drivers/cpufreq/intel_pstate.c:1791:8: note: Calling 'intel_pstate_cppc_=
-nominal'
-                               intel_pstate_cppc_nominal(cpu));
-                               ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:57: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                                           ^
-   drivers/cpufreq/intel_pstate.c:393:6: note: Assuming the condition is tr=
-ue
-           if (cppc_get_nominal_perf(cpu, &nominal_perf))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/intel_pstate.c:393:2: note: Taking true branch
-           if (cppc_get_nominal_perf(cpu, &nominal_perf))
-           ^
-   drivers/cpufreq/intel_pstate.c:394:3: note: Returning zero
-                   return 0;
-                   ^~~~~~~~
-   drivers/cpufreq/intel_pstate.c:1791:8: note: Returning from 'intel_pstat=
-e_cppc_nominal'
-                               intel_pstate_cppc_nominal(cpu));
-                               ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:57: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                                           ^
-   drivers/cpufreq/intel_pstate.c:1790:9: note: Division by zero
-           return DIV_ROUND_UP(core_get_scaling() * hybrid_ref_perf,
-                  ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                        ~~~~~~~~~~~~~~~~^~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   mm/memfd.c:281:2: warning: Call to function 'strcpy' is insecure as it d=
-oes not provide bounding of the memory buffer. Replace unbounded copy funct=
-ions with analogous functions that support length arguments such as 'strlcp=
-y'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(name, MFD_NAME_PREFIX);
-           ^~~~~~
-   mm/memfd.c:281:2: note: Call to function 'strcpy' is insecure as it does=
- not provide bounding of the memory buffer. Replace unbounded copy function=
-s with analogous functions that support length arguments such as 'strlcpy'.=
- CWE-119
-           strcpy(name, MFD_NAME_PREFIX);
-           ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/i2c/i2c-core-smbus.c:109:2: warning: Undefined or garbage value =
-returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return (status < 0) ? status : data.byte;
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/i2c-core-smbus.c:106:11: note: Calling 'i2c_smbus_xfer'
-           status =3D i2c_smbus_xfer(client->adapter, client->addr, client-=
->flags,
+>> drivers/clk/clk-apple-nco.c:180:19: warning: Signed integer overflow for=
+ expression '1<<31'. [integerOverflow]
+    writel_relaxed(1 << 31, chan->base + REG_ACCINIT);
+                     ^
+   drivers/clk/clk-apple-nco.c:205:17: warning: Signed integer overflow for=
+ expression '1<<31'. [integerOverflow]
+    if (inc1 >=3D (1 << 31) || inc2 < (1 << 31) || (inc1 =3D=3D 0 && inc2 =
+=3D=3D 0))
+                   ^
+--
+>> drivers/pwm/pwm-mediatek.c:246:3: warning: %d in format string (no. 1) r=
+equires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgTyp=
+e_sint]
+     snprintf(name, sizeof(name), "pwm%d", i + 1);
+     ^
+--
+>> drivers/clk/sifive/sifive-prci.c:237:10: warning: Shifting signed 32-bit=
+ value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSign=
+ed]
+    if (r & PRCI_COREPLLCFG1_CKE_MASK)
+            ^
+   drivers/clk/sifive/sifive-prci.c:252:35: warning: Shifting signed 32-bit=
+ value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSign=
+ed]
+    __prci_wrpll_write_cfg1(pd, pwd, PRCI_COREPLLCFG1_CKE_MASK);
+                                     ^
+   drivers/clk/sifive/sifive-prci.c:271:8: warning: Shifting signed 32-bit =
+value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigne=
+d]
+    r &=3D ~PRCI_COREPLLCFG1_CKE_MASK;
+          ^
+>> drivers/clk/sifive/sifive-prci.c:237:10: warning: Signed integer overflo=
+w for expression '0x1<<31'. [integerOverflow]
+    if (r & PRCI_COREPLLCFG1_CKE_MASK)
+            ^
+   drivers/clk/sifive/sifive-prci.c:252:35: warning: Signed integer overflo=
+w for expression '0x1<<31'. [integerOverflow]
+    __prci_wrpll_write_cfg1(pd, pwd, PRCI_COREPLLCFG1_CKE_MASK);
+                                     ^
+   drivers/clk/sifive/sifive-prci.c:271:8: warning: Signed integer overflow=
+ for expression '0x1<<31'. [integerOverflow]
+    r &=3D ~PRCI_COREPLLCFG1_CKE_MASK;
+          ^
+>> drivers/clk/qcom/clk-smd-rpm.c:293:40: warning: Same expression in both =
+branches of ternary operator. [duplicateExpressionTernary]
+    active_rate =3D r->branch ? !!peer_rate : peer_rate;
+                                          ^
+   drivers/clk/qcom/clk-smd-rpm.c:298:45: warning: Same expression in both =
+branches of ternary operator. [duplicateExpressionTernary]
+    sleep_rate =3D r->branch ? !!peer_sleep_rate : peer_sleep_rate;
+                                               ^
+--
+>> drivers/vfio/platform/vfio_platform_common.c:701:34: warning: Parameter =
+'fn' can be declared with const [constParameter]
+           vfio_platform_reset_fn_t fn)
+                                    ^
+>> drivers/vfio/platform/vfio_platform_common.c:442:47: warning: Parameter =
+'ppos' can be declared with const [constParameter]
+         char __user *buf, size_t count, loff_t *ppos)
+                                                 ^
+   drivers/vfio/platform/vfio_platform_common.c:519:30: warning: Parameter =
+'ppos' can be declared with const [constParameter]
+          size_t count, loff_t *ppos)
+                                ^
+>> drivers/vfio/platform/vfio_platform_common.c:39:21: warning: Uninitializ=
+ed variable: iter->compat [uninitvar]
+     if (!strcmp(iter->compat, compat) &&
+                       ^
+   drivers/vfio/platform/vfio_platform_common.c:707:21: warning: Uninitiali=
+zed variable: iter->compat [uninitvar]
+     if (!strcmp(iter->compat, compat) && (iter->of_reset =3D=3D fn)) {
+                       ^
 
-vim +1790 drivers/cpufreq/intel_pstate.c
+vim +/parent_rate +216 drivers/clk/clk-apple-nco.c
 
-46573fd6369f09 Rafael J. Wysocki 2021-09-04  1787  =
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  153  =
 
-46573fd6369f09 Rafael J. Wysocki 2021-09-04  1788  static int hybrid_get_cp=
-u_scaling(int cpu)
-46573fd6369f09 Rafael J. Wysocki 2021-09-04  1789  {
-46573fd6369f09 Rafael J. Wysocki 2021-09-04 @1790  	return DIV_ROUND_UP(cor=
-e_get_scaling() * hybrid_ref_perf,
-46573fd6369f09 Rafael J. Wysocki 2021-09-04  1791  			    intel_pstate_cppc=
-_nominal(cpu));
-46573fd6369f09 Rafael J. Wysocki 2021-09-04  1792  }
-46573fd6369f09 Rafael J. Wysocki 2021-09-04  1793  =
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  154  static int applnco_set_=
+rate(struct clk_hw *hw, unsigned long rate,
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  155  				unsigned long paren=
+t_rate)
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  156  {
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  157  	struct applnco_channel=
+ *chan =3D to_applnco_channel(hw);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  158  	unsigned long flags;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  159  	u32 div, inc1, inc2;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  160  	bool was_enabled;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  161  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  162  	div =3D 2 * parent_rat=
+e / rate;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  163  	inc1 =3D 2 * parent_ra=
+te - div * rate;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  164  	inc2 =3D inc1 - rate;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  165  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  166  	if (applnco_div_out_of=
+_range(div))
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  167  		return -EINVAL;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  168  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  169  	div =3D applnco_div_tr=
+anslate(chan->tbl, div);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  170  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  171  	spin_lock_irqsave(&cha=
+n->lock, flags);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  172  	was_enabled =3D applnc=
+o_is_enabled(hw);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  173  	applnco_disable_nolock=
+(hw);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  174  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  175  	writel_relaxed(div,  c=
+han->base + REG_DIV);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  176  	writel_relaxed(inc1, c=
+han->base + REG_INC1);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  177  	writel_relaxed(inc2, c=
+han->base + REG_INC2);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  178  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  179  	/* Presumably a neutra=
+l initial value for accumulator */
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08 @180  	writel_relaxed(1 << 31=
+, chan->base + REG_ACCINIT);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  181  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  182  	if (was_enabled)
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  183  		applnco_enable_nolock=
+(hw);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  184  	spin_unlock_irqrestore=
+(&chan->lock, flags);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  185  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  186  	return 0;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  187  }
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  188  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  189  static unsigned long ap=
+plnco_recalc_rate(struct clk_hw *hw,
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  190  				unsigned long paren=
+t_rate)
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  191  {
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  192  	struct applnco_channel=
+ *chan =3D to_applnco_channel(hw);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  193  	u32 div, inc1, inc2, i=
+ncbase;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  194  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  195  	div =3D applnco_div_tr=
+anslate_inv(chan->tbl,
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  196  			readl_relaxed(chan->=
+base + REG_DIV));
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  197  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  198  	inc1 =3D readl_relaxed=
+(chan->base + REG_INC1);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  199  	inc2 =3D readl_relaxed=
+(chan->base + REG_INC2);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  200  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  201  	/*
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  202  	 * We don't support wr=
+aparound of accumulator
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  203  	 * nor the edge case o=
+f both increments being zero
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  204  	 */
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  205  	if (inc1 >=3D (1 << 31=
+) || inc2 < (1 << 31) || (inc1 =3D=3D 0 && inc2 =3D=3D 0))
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  206  		return 0;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  207  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  208  	/* Scale both sides of=
+ division by incbase to maintain precision */
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  209  	incbase =3D inc1 - inc=
+2;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  210  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  211  	return div64_u64(((u64=
+) parent_rate) * 2 * incbase,
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  212  			((u64) div) * incbas=
+e + inc1);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  213  }
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  214  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  215  static long applnco_rou=
+nd_rate(struct clk_hw *hw, unsigned long rate,
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08 @216  				unsigned long *pare=
+nt_rate)
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  217  {
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  218  	unsigned long lo =3D *=
+parent_rate / (COARSE_DIV_OFFSET + LFSR_TBLSIZE) + 1;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  219  	unsigned long hi =3D *=
+parent_rate / COARSE_DIV_OFFSET;
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  220  =
+
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  221  	return clamp(rate, lo,=
+ hi);
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  222  }
+6641057d5dba87 Martin Povi=C5=A1er 2022-02-08  223  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8842241226487871614==--
+--===============1523656349622131440==--
 
