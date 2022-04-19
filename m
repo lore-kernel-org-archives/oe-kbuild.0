@@ -1,88 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============3376308100061326219=="
+Content-Type: multipart/mixed; boundary="===============7445077866396528194=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2266/4328] drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size() warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit type?
-Date: Tue, 19 Apr 2022 13:03:36 +0800
-Message-ID: <202204191232.1PN0grE0-lkp@intel.com>
+Subject: drivers/gpu/drm/ingenic/ingenic-drm-drv.c:431:70: warning: Parameter 'plane' can be declared with const [constParameter]
+Date: Tue, 19 Apr 2022 12:32:55 +0800
+Message-ID: <202204191219.aPh3PQ33-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3376308100061326219==
+--===============7445077866396528194==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Paul Cercueil <paul@crapouillou.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   40354149f4d738dc3492d9998e45b3f02950369a
-commit: c9cad937c0c58618fe5b0310fd539a854dc1ae95 [2266/4328] drm/amdgpu: ad=
-d drm buddy support to amdgpu
-:::::: branch date: 5 days ago
-:::::: commit date: 11 days ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-419/202204191232.1PN0grE0-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b2d229d4ddb17db541098b83524d901257e93845
+commit: 68b433fe6937cfa3f8975d18643d5956254edd6a drm/ingenic: Switch IPU pl=
+ane to type OVERLAY
+date:   11 months ago
+:::::: branch date: 32 hours ago
+:::::: commit date: 11 months ago
+compiler: riscv32-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 68b433fe6937cfa3f8975d18643d5956254edd6a
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
-) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
-pe?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
-) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
-pe?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:413 amdgpu_vram_mgr_new() warn=
-: should 'vres->base.num_pages << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:428 amdgpu_vram_mgr_new() warn=
-: should 'pages_per_block << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
-) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
-pe?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
-) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
-pe?
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:369 amdgpu_vram_mgr_new() warn=
-: should 'place->lpfn << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:373 amdgpu_vram_mgr_new() warn=
-: should 'place->fpfn << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418 amdgpu_vram_mgr_new() warn=
-: should 'tbo->page_alignment << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:472 amdgpu_vram_mgr_new() warn=
-: should 'vres->base.num_pages << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:384 amdgpu_move_blit() warn: should=
- 'new_mem->num_pages << 12' be a 64 bit type?
-drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:521 amdgpu_cs_parser_bos() error: we=
- previously assumed 'p->bo_list' could be null (see line 512)
-drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:541 amdgpu_cs_parser_bos() warn: Ple=
-ase consider using kvcalloc instead
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +53 drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+>> drivers/gpu/drm/ingenic/ingenic-drm-drv.c:431:70: warning: Parameter 'pl=
+ane' can be declared with const [constParameter]
+   void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *pla=
+ne)
+                                                                        ^
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:417:28: warning: Parameter 'pl=
+ane' can be declared with const [constParameter]
+            struct drm_plane *plane)
+                              ^
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1137:49: warning: Parameter 'd=
+ata' can be declared with const [constParameter]
+   static int compare_of(struct device *dev, void *data)
+                                                   ^
+--
+>> drivers/gpu/drm/mcde/mcde_dsi.c:810:11: warning: Signed integer overflow=
+ for expression '0x3fff<<18'. [integerOverflow]
+     (0x3fff << DSI_MCTL_DPHY_TIMEOUT_LPRX_TO_VAL_SHIFT);
+             ^
 
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  50  =
+vim +/plane +431 drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  51  static inline u64 a=
-mdgpu_vram_mgr_block_size(struct drm_buddy_block *block)
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  52  {
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08 @53  	return PAGE_SIZE <=
-< drm_buddy_block_order(block);
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  54  }
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  55  =
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  430  =
 
+fc1acf317b01083 Paul Cercueil 2020-07-16 @431  void ingenic_drm_plane_disab=
+le(struct device *dev, struct drm_plane *plane)
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  432  {
+fc1acf317b01083 Paul Cercueil 2020-07-16  433  	struct ingenic_drm *priv =
+=3D dev_get_drvdata(dev);
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  434  	unsigned int en_bit;
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  435  =
+
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  436  	if (priv->soc_info->has_osd=
+) {
+68b433fe6937cfa Paul Cercueil 2021-03-29  437  		if (plane !=3D &priv->f0)
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  438  			en_bit =3D JZ_LCD_OSDC_F1=
+EN;
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  439  		else
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  440  			en_bit =3D JZ_LCD_OSDC_F0=
+EN;
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  441  =
+
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  442  		regmap_clear_bits(priv->ma=
+p, JZ_REG_LCD_OSDC, en_bit);
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  443  	}
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  444  }
+3c9bea4ef32bdcd Paul Cercueil 2020-07-16  445  =
+
+
+:::::: The code at line 431 was first introduced by commit
+:::::: fc1acf317b01083d47228c0d21cfc0764f37a04e drm/ingenic: Add support fo=
+r the IPU
+
+:::::: TO: Paul Cercueil <paul@crapouillou.net>
+:::::: CC: Paul Cercueil <paul@crapouillou.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3376308100061326219==--
+--===============7445077866396528194==--
 
