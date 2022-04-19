@@ -1,130 +1,193 @@
-Content-Type: multipart/mixed; boundary="===============1241634196521180704=="
+Content-Type: multipart/mixed; boundary="===============6215378825181963625=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 6/8] test_firmware: Add test support for firmware upload
-Date: Tue, 19 Apr 2022 19:50:41 +0800
-Message-ID: <202204191900.1DwwOU9L-lkp@intel.com>
+Subject: drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface() warn: passing a valid pointer to 'PTR_ERR'
+Date: Tue, 19 Apr 2022 14:26:40 +0800
+Message-ID: <202204191443.S4E9qa3P-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1241634196521180704==
+--===============6215378825181963625==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220418223753.639058-7-russell.h.weight@intel.com>
-References: <20220418223753.639058-7-russell.h.weight@intel.com>
-TO: Russ Weight <russell.h.weight@intel.com>
-TO: mcgrof(a)kernel.org
-TO: rafael(a)kernel.org
-TO: linux-kernel(a)vger.kernel.org
-CC: trix(a)redhat.com
-CC: lgoncalv(a)redhat.com
-CC: yilun.xu(a)intel.com
-CC: hao.wu(a)intel.com
-CC: matthew.gerlach(a)linux.intel.com
-CC: basheer.ahmed.muddebihal(a)intel.com
-CC: tianfei.zhang(a)intel.com
-CC: Russ Weight <russell.h.weight@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Hi Russ,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on shuah-kselftest/next mcgrof/sysctl-next linus/m=
-aster v5.18-rc3 next-20220419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russ-Weight/Extend-F=
-W-framework-for-user-FW-uploads/20220419-064126
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.=
-git 3123109284176b1532874591f7c81f3837bbdc17
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: powerpc64-randconfig-c003-20220418 (https://download.01.org/0day-ci=
-/archive/20220419/202204191900.1DwwOU9L-lkp(a)intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b2d229d4ddb17db541098b83524d901257e93845
+commit: d8701fe890ecbab239086e7053d62d0f08587d7c mtd: rawnand: renesas: Add=
+ new NAND controller driver
+date:   4 months ago
+:::::: branch date: 33 hours ago
+:::::: commit date: 4 months ago
+config: h8300-randconfig-m031-20220418 (https://download.01.org/0day-ci/arc=
+hive/20220419/202204191443.S4E9qa3P-lkp(a)intel.com/config)
+compiler: h8300-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface()=
+ warn: passing a valid pointer to 'PTR_ERR'
 
-cocci warnings: (new ones prefixed by >>)
->> lib/test_firmware.c:1291:5-8: ERROR: invalid reference to the index vari=
-able of the iterator on line 1287
+vim +/PTR_ERR +900 drivers/mtd/nand/raw/renesas-nand-controller.c
 
-vim +1291 lib/test_firmware.c
+d8701fe890ecba Miquel Raynal 2021-12-17  888  =
 
-c92316bf8e94830a Luis R. Rodriguez 2017-07-20  1273  =
+d8701fe890ecba Miquel Raynal 2021-12-17  889  static int rnandc_setup_inter=
+face(struct nand_chip *chip, int chipnr,
+d8701fe890ecba Miquel Raynal 2021-12-17  890  				  const struct nand_inter=
+face_config *conf)
+d8701fe890ecba Miquel Raynal 2021-12-17  891  {
+d8701fe890ecba Miquel Raynal 2021-12-17  892  	struct rnand_chip *rnand =3D=
+ to_rnand(chip);
+d8701fe890ecba Miquel Raynal 2021-12-17  893  	struct rnandc *rnandc =3D to=
+_rnandc(chip->controller);
+d8701fe890ecba Miquel Raynal 2021-12-17  894  	unsigned int period_ns =3D 1=
+000000000 / clk_get_rate(rnandc->eclk);
+d8701fe890ecba Miquel Raynal 2021-12-17  895  	const struct nand_sdr_timing=
+s *sdr;
+d8701fe890ecba Miquel Raynal 2021-12-17  896  	unsigned int cyc, cle, ale, =
+bef_dly, ca_to_data;
+d8701fe890ecba Miquel Raynal 2021-12-17  897  =
 
-cb4d12e8d7596410 Russ Weight       2022-04-18  1274  static ssize_t upload_=
-read_show(struct device *dev,
-cb4d12e8d7596410 Russ Weight       2022-04-18  1275  				struct device_attr=
-ibute *attr,
-cb4d12e8d7596410 Russ Weight       2022-04-18  1276  				char *buf)
-cb4d12e8d7596410 Russ Weight       2022-04-18  1277  {
-cb4d12e8d7596410 Russ Weight       2022-04-18  1278  	struct test_firmware_=
-upload *tst;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1279  	int ret =3D -EINVAL;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1280  =
+d8701fe890ecba Miquel Raynal 2021-12-17  898  	sdr =3D nand_get_sdr_timings=
+(conf);
+d8701fe890ecba Miquel Raynal 2021-12-17  899  	if (IS_ERR(sdr))
+d8701fe890ecba Miquel Raynal 2021-12-17 @900  		return PTR_ERR(sdr);
+d8701fe890ecba Miquel Raynal 2021-12-17  901  =
 
-cb4d12e8d7596410 Russ Weight       2022-04-18  1281  	if (!test_fw_config->=
-upload_name) {
-cb4d12e8d7596410 Russ Weight       2022-04-18  1282  		pr_err("Set config_u=
-pload_name before using upload_read\n");
-cb4d12e8d7596410 Russ Weight       2022-04-18  1283  		return -EINVAL;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1284  	}
-cb4d12e8d7596410 Russ Weight       2022-04-18  1285  =
+d8701fe890ecba Miquel Raynal 2021-12-17  902  	if (sdr->tRP_min !=3D sdr->t=
+WP_min || sdr->tREH_min !=3D sdr->tWH_min) {
+d8701fe890ecba Miquel Raynal 2021-12-17  903  		dev_err(rnandc->dev, "Read =
+and write hold times must be identical\n");
+d8701fe890ecba Miquel Raynal 2021-12-17  904  		return -EINVAL;
+d8701fe890ecba Miquel Raynal 2021-12-17  905  	}
+d8701fe890ecba Miquel Raynal 2021-12-17  906  =
 
-cb4d12e8d7596410 Russ Weight       2022-04-18  1286  	mutex_lock(&test_fw_m=
-utex);
-cb4d12e8d7596410 Russ Weight       2022-04-18 @1287  	list_for_each_entry(t=
-st, &test_upload_list, node)
-cb4d12e8d7596410 Russ Weight       2022-04-18  1288  		if (tst->name =3D=3D=
- test_fw_config->upload_name)
-cb4d12e8d7596410 Russ Weight       2022-04-18  1289  			break;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1290  =
+d8701fe890ecba Miquel Raynal 2021-12-17  907  	if (chipnr < 0)
+d8701fe890ecba Miquel Raynal 2021-12-17  908  		return 0;
+d8701fe890ecba Miquel Raynal 2021-12-17  909  =
 
-cb4d12e8d7596410 Russ Weight       2022-04-18 @1291  	if (tst->name !=3D te=
-st_fw_config->upload_name) {
-cb4d12e8d7596410 Russ Weight       2022-04-18  1292  		pr_err("Firmware nam=
-e not found: %s\n",
-cb4d12e8d7596410 Russ Weight       2022-04-18  1293  		       test_fw_confi=
-g->upload_name);
-cb4d12e8d7596410 Russ Weight       2022-04-18  1294  		goto out;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1295  	}
-cb4d12e8d7596410 Russ Weight       2022-04-18  1296  =
+d8701fe890ecba Miquel Raynal 2021-12-17  910  	rnand->timings_asyn =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  911  		TIMINGS_ASYN_TRWP(TO_CYCLES=
+64(sdr->tRP_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  912  		TIMINGS_ASYN_TRWH(TO_CYCLES=
+64(sdr->tREH_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  913  	rnand->tim_seq0 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  914  		TIM_SEQ0_TCCS(TO_CYCLES64(s=
+dr->tCCS_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  915  		TIM_SEQ0_TADL(TO_CYCLES64(s=
+dr->tADL_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  916  		TIM_SEQ0_TRHW(TO_CYCLES64(s=
+dr->tRHW_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  917  		TIM_SEQ0_TWHR(TO_CYCLES64(s=
+dr->tWHR_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  918  	rnand->tim_seq1 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  919  		TIM_SEQ1_TWB(TO_CYCLES64(sd=
+r->tWB_max, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  920  		TIM_SEQ1_TRR(TO_CYCLES64(sd=
+r->tRR_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  921  		TIM_SEQ1_TWW(TO_CYCLES64(sd=
+r->tWW_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  922  =
 
-cb4d12e8d7596410 Russ Weight       2022-04-18  1297  	if (tst->size > PAGE_=
-SIZE) {
-cb4d12e8d7596410 Russ Weight       2022-04-18  1298  		pr_err("Testing inte=
-rface must use PAGE_SIZE firmware for now\n");
-cb4d12e8d7596410 Russ Weight       2022-04-18  1299  		goto out;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1300  	}
-cb4d12e8d7596410 Russ Weight       2022-04-18  1301  =
+d8701fe890ecba Miquel Raynal 2021-12-17  923  	cyc =3D sdr->tDS_min + sdr->=
+tDH_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  924  	cle =3D sdr->tCLH_min + sdr-=
+>tCLS_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  925  	ale =3D sdr->tALH_min + sdr-=
+>tALS_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  926  	bef_dly =3D sdr->tWB_max - s=
+dr->tDH_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  927  	ca_to_data =3D sdr->tWHR_min=
+ + sdr->tREA_max - sdr->tDH_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  928  =
 
-cb4d12e8d7596410 Russ Weight       2022-04-18  1302  	memcpy(buf, tst->buf,=
- tst->size);
-cb4d12e8d7596410 Russ Weight       2022-04-18  1303  	ret =3D tst->size;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1304  out:
-cb4d12e8d7596410 Russ Weight       2022-04-18  1305  	mutex_unlock(&test_fw=
-_mutex);
-cb4d12e8d7596410 Russ Weight       2022-04-18  1306  	return ret;
-cb4d12e8d7596410 Russ Weight       2022-04-18  1307  }
-cb4d12e8d7596410 Russ Weight       2022-04-18  1308  static DEVICE_ATTR_RO(=
-upload_read);
-cb4d12e8d7596410 Russ Weight       2022-04-18  1309  =
+d8701fe890ecba Miquel Raynal 2021-12-17  929  	/*
+d8701fe890ecba Miquel Raynal 2021-12-17  930  	 * D0 =3D CMD -> ADDR =3D tC=
+LH + tCLS - 1 cycle
+d8701fe890ecba Miquel Raynal 2021-12-17  931  	 * D1 =3D CMD -> CMD =3D tCL=
+H + tCLS - 1 cycle
+d8701fe890ecba Miquel Raynal 2021-12-17  932  	 * D2 =3D CMD -> DLY =3D tWB=
+ - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  933  	 * D3 =3D CMD -> DATA =3D tW=
+HR + tREA - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  934  	 */
+d8701fe890ecba Miquel Raynal 2021-12-17  935  	rnand->tim_gen_seq0 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  936  		TIM_GEN_SEQ0_D0(TO_CYCLES64=
+(cle - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  937  		TIM_GEN_SEQ0_D1(TO_CYCLES64=
+(cle - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  938  		TIM_GEN_SEQ0_D2(TO_CYCLES64=
+(bef_dly, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  939  		TIM_GEN_SEQ0_D3(TO_CYCLES64=
+(ca_to_data, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  940  =
+
+d8701fe890ecba Miquel Raynal 2021-12-17  941  	/*
+d8701fe890ecba Miquel Raynal 2021-12-17  942  	 * D4 =3D ADDR -> CMD =3D tA=
+LH + tALS - 1 cyle
+d8701fe890ecba Miquel Raynal 2021-12-17  943  	 * D5 =3D ADDR -> ADDR =3D t=
+ALH + tALS - 1 cyle
+d8701fe890ecba Miquel Raynal 2021-12-17  944  	 * D6 =3D ADDR -> DLY =3D tW=
+B - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  945  	 * D7 =3D ADDR -> DATA =3D t=
+WHR + tREA - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  946  	 */
+d8701fe890ecba Miquel Raynal 2021-12-17  947  	rnand->tim_gen_seq1 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  948  		TIM_GEN_SEQ1_D4(TO_CYCLES64=
+(ale - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  949  		TIM_GEN_SEQ1_D5(TO_CYCLES64=
+(ale - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  950  		TIM_GEN_SEQ1_D6(TO_CYCLES64=
+(bef_dly, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  951  		TIM_GEN_SEQ1_D7(TO_CYCLES64=
+(ca_to_data, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  952  =
+
+d8701fe890ecba Miquel Raynal 2021-12-17  953  	/*
+d8701fe890ecba Miquel Raynal 2021-12-17  954  	 * D8 =3D DLY -> DATA =3D tR=
+R + tREA
+d8701fe890ecba Miquel Raynal 2021-12-17  955  	 * D9 =3D DLY -> CMD =3D tRR
+d8701fe890ecba Miquel Raynal 2021-12-17  956  	 * D10 =3D DATA -> CMD =3D t=
+CLH + tCLS - 1 cycle
+d8701fe890ecba Miquel Raynal 2021-12-17  957  	 * D11 =3D DATA -> DLY =3D t=
+WB - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  958  	 */
+d8701fe890ecba Miquel Raynal 2021-12-17  959  	rnand->tim_gen_seq2 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  960  		TIM_GEN_SEQ2_D8(TO_CYCLES64=
+(sdr->tRR_min + sdr->tREA_max, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  961  		TIM_GEN_SEQ2_D9(TO_CYCLES64=
+(sdr->tRR_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  962  		TIM_GEN_SEQ2_D10(TO_CYCLES6=
+4(cle - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  963  		TIM_GEN_SEQ2_D11(TO_CYCLES6=
+4(bef_dly, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  964  =
+
+d8701fe890ecba Miquel Raynal 2021-12-17  965  	/* D12 =3D DATA -> END =3D t=
+CLH - tDH */
+d8701fe890ecba Miquel Raynal 2021-12-17  966  	rnand->tim_gen_seq3 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  967  		TIM_GEN_SEQ3_D12(TO_CYCLES6=
+4(sdr->tCLH_min - sdr->tDH_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  968  =
+
+d8701fe890ecba Miquel Raynal 2021-12-17  969  	return 0;
+d8701fe890ecba Miquel Raynal 2021-12-17  970  }
+d8701fe890ecba Miquel Raynal 2021-12-17  971  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1241634196521180704==--
+--===============6215378825181963625==--
 
