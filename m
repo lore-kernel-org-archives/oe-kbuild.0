@@ -1,241 +1,397 @@
-Content-Type: multipart/mixed; boundary="===============7901686738355220560=="
+Content-Type: multipart/mixed; boundary="===============3781005344371464904=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed integer overflow for expression '0xff<<24'. [integerOverflow]
-Date: Tue, 19 Apr 2022 14:06:16 +0800
-Message-ID: <202204191351.k02s4Hoq-lkp@intel.com>
+Subject: Re: [PATCH 3/7] clk: mediatek: reset: Merge and revise reset register function
+Date: Tue, 19 Apr 2022 13:55:59 +0800
+Message-ID: <202204191359.GQ8twLel-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7901686738355220560==
+--===============3781005344371464904==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220418132154.7401-4-rex-bc.chen@mediatek.com>
+References: <20220418132154.7401-4-rex-bc.chen@mediatek.com>
+TO: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
+TO: mturquette(a)baylibre.com
+TO: sboyd(a)kernel.org
+CC: matthias.bgg(a)gmail.com
+CC: p.zabel(a)pengutronix.de
+CC: angelogioacchino.delregno(a)collabora.com
+CC: chun-jie.chen(a)mediatek.com
+CC: wenst(a)chromium.org
+CC: yong.liang(a)mediatek.com
+CC: runyang.chen(a)mediatek.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Paul Boddie <paul@boddie.org.uk>
-CC: Paul Cercueil <paul@crapouillou.net>
-CC: Ezequiel Garcia <ezequiel@collabora.com>
-CC: "H. Nikolaus Schaller" <hns@goldelico.com>
+CC: allen-kh.cheng(a)mediatek.com
+CC: linux-clk(a)vger.kernel.org
+CC: linux-arm-kernel(a)lists.infradead.org
+CC: linux-mediatek(a)lists.infradead.org
+CC: Project_Global_Chrome_Upstream_Group(a)mediatek.com
+CC: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: b807fd2c43fe008eb6f4083e196ea38dadad9680 drm/ingenic: Add support f=
-or JZ4780 and HDMI output
-date:   4 months ago
-:::::: branch date: 33 hours ago
-:::::: commit date: 4 months ago
-compiler: riscv32-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout b807fd2c43fe008eb6f4083e196ea38dadad9680
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Rex-BC,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on v5.18-rc3 next-20220414]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rex-BC-Chen/Cleanup-=
+MediaTek-clk-reset-drivers/20220418-223139
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
+ext
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: arm-randconfig-c002-20220417 (https://download.01.org/0day-ci/archi=
+ve/20220419/202204191359.GQ8twLel-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 429cba=
+c0390654f90bba18a41799464adf31a5ec)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/52d97559ba77d8eb304=
+19528d80d37d8f0dd09cf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rex-BC-Chen/Cleanup-MediaTek-clk-r=
+eset-drivers/20220418-223139
+        git checkout 52d97559ba77d8eb30419528d80d37d8f0dd09cf
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
-   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:523:70: warning: Parameter 'pl=
-ane' can be declared with const [constParameter]
-   void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *pla=
-ne)
-                                                                        ^
-   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:509:28: warning: Parameter 'pl=
-ane' can be declared with const [constParameter]
-            struct drm_plane *plane)
+clang-analyzer warnings: (new ones prefixed by >>)
+                   if ((s32)(waiter->thresh - sync) > 0)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/intr.c:64:3: note: Taking false branch
+                   if ((s32)(waiter->thresh - sync) > 0)
+                   ^
+   drivers/gpu/host1x/intr.c:67:3: note: Null pointer value stored to 'dest'
+                   dest =3D completed + waiter->action;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/intr.c:70:7: note: Assuming field 'action' is equal t=
+o HOST1X_INTR_ACTION_SUBMIT_COMPLETE
+                   if (waiter->action =3D=3D HOST1X_INTR_ACTION_SUBMIT_COMP=
+LETE &&
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/intr.c:70:7: note: Left side of '&&' is true
+   drivers/gpu/host1x/intr.c:71:19: note: Passing null pointer value via 1s=
+t parameter 'head'
+                       !list_empty(dest)) {
+                                   ^~~~
+   drivers/gpu/host1x/intr.c:71:8: note: Calling 'list_empty'
+                       !list_empty(dest)) {
+                        ^~~~~~~~~~~~~~~~
+   include/linux/list.h:292:9: note: Left side of '||' is false
+           return READ_ONCE(head->next) =3D=3D head;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
                               ^
-   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1368:49: warning: Parameter 'd=
-ata' can be declared with const [constParameter]
-   static int compare_of(struct device *dev, void *data)
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/list.h:292:9: note: Left side of '||' is false
+           return READ_ONCE(head->next) =3D=3D head;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/list.h:292:9: note: Left side of '||' is true
+           return READ_ONCE(head->next) =3D=3D head;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   include/linux/list.h:292:9: note: Taking false branch
+           return READ_ONCE(head->next) =3D=3D head;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/list.h:292:9: note: Loop condition is false.  Exiting loop
+           return READ_ONCE(head->next) =3D=3D head;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/list.h:292:9: note: Dereference of null pointer
+           return READ_ONCE(head->next) =3D=3D head;
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   3 warnings generated.
+>> drivers/clk/mediatek/clk-mt8135.c:564:2: warning: Value stored to 'r' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0x30, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt8135.c:564:2: note: Value stored to 'r' is ne=
+ver read
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0x30, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt8135.c:594:2: warning: Value stored to 'r' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt8135.c:594:2: note: Value stored to 'r' is ne=
+ver read
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/dma-buf/dma-resv.c:525:34: warning: Access to field 'shared_coun=
+t' results in a dereference of a null pointer (loaded from variable 'list')=
+ [clang-analyzer-core.NullDereference]
+                           RCU_INIT_POINTER(list->shared[list->shared_count=
+++], f);
+                                                         ^
+   include/linux/rcupdate.h:860:14: note: expanded from macro 'RCU_INIT_POI=
+NTER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                              ^
+   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONC=
+E'
+           __WRITE_ONCE(x, val);                                           \
+                        ^
+   include/asm-generic/rwonce.h:55:27: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+                                    ^
+   drivers/dma-buf/dma-resv.c:494:2: note: Loop condition is false.  Exitin=
+g loop
+           dma_resv_assert_held(dst);
+           ^
+   include/linux/dma-resv.h:271:35: note: expanded from macro 'dma_resv_ass=
+ert_held'
+   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
+                                     ^
+   include/linux/lockdep.h:411:34: note: expanded from macro 'lockdep_asser=
+t_held'
+   #define lockdep_assert_held(l)                  do { (void)(l); } while =
+(0)
                                                    ^
->> drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed intege=
-r overflow for expression '0xff<<24'. [integerOverflow]
-       (0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
-             ^
+   drivers/dma-buf/dma-resv.c:496:2: note: Null pointer value stored to 'li=
+st'
+           list =3D NULL;
+           ^~~~~~~~~~~
+   drivers/dma-buf/dma-resv.c:500:2: note: Loop condition is true.  Enterin=
+g loop body
+           dma_resv_for_each_fence_unlocked(&cursor, f) {
+           ^
+   include/linux/dma-resv.h:249:2: note: expanded from macro 'dma_resv_for_=
+each_fence_unlocked'
+           for (fence =3D dma_resv_iter_first_unlocked(cursor);            =
+  \
+           ^
+   drivers/dma-buf/dma-resv.c:502:7: note: Assuming the condition is false
+                   if (dma_resv_iter_is_restarted(&cursor)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-resv.c:502:3: note: Taking false branch
+                   if (dma_resv_iter_is_restarted(&cursor)) {
+                   ^
+   drivers/dma-buf/dma-resv.c:522:3: note: Taking false branch
+                   if (dma_resv_iter_is_exclusive(&cursor))
+                   ^
+   drivers/dma-buf/dma-resv.c:525:4: note: Left side of '||' is false
+                           RCU_INIT_POINTER(list->shared[list->shared_count=
+++], f);
+                           ^
+   include/linux/rcupdate.h:860:3: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                   ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/dma-buf/dma-resv.c:525:4: note: Left side of '||' is false
+                           RCU_INIT_POINTER(list->shared[list->shared_count=
+++], f);
+                           ^
+   include/linux/rcupdate.h:860:3: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                   ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/dma-buf/dma-resv.c:525:4: note: Left side of '||' is true
+                           RCU_INIT_POINTER(list->shared[list->shared_count=
+++], f);
+                           ^
+   include/linux/rcupdate.h:860:3: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                   ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
 
-vim +697 drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+vim +/r +564 drivers/clk/mediatek/clk-mt8135.c
 
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  641  =
+a8aede7948438f James Liao  2015-04-23  544  =
 
-90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-06-03  642  static void ingenic_drm_plane_atomic_update(struct drm_plane =
-*plane,
-977697e20b3d758 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  643  					    struct drm_atomic_state *state)
-90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-06-03  644  {
-3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-07-16  645  	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
-4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-05-23  646  	struct drm_plane_state *newstate =3D drm_atomic_get_new_plan=
-e_state(state, plane);
-4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-05-23  647  	struct drm_plane_state *oldstate =3D drm_atomic_get_old_plan=
-e_state(state, plane);
-1bdb542da736e29 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  648  	unsigned int width, height, cpp, next_id, plane_id;
-6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  649  	struct ingenic_drm_private_state *priv_state;
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  650  	struct drm_crtc_state *crtc_state;
-3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-07-16  651  	struct ingenic_dma_hwdesc *hwdesc;
-354b051c5dcbeb3 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-12-10  652  	dma_addr_t addr;
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  653  	u32 fourcc;
-90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-06-03  654  =
+a8aede7948438f James Liao  2015-04-23  545  static void __init mtk_infrasys=
+_init(struct device_node *node)
+a8aede7948438f James Liao  2015-04-23  546  {
+a8aede7948438f James Liao  2015-04-23  547  	struct clk_onecell_data *clk_d=
+ata;
+a8aede7948438f James Liao  2015-04-23  548  	int r;
+a8aede7948438f James Liao  2015-04-23  549  =
 
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  655  	if (newstate && newstate->fb) {
-4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-05-23  656  		if (priv->soc_info->map_noncoherent)
-4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-05-23  657  			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstat=
-e);
-4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-05-23  658  =
+a8aede7948438f James Liao  2015-04-23  550  	clk_data =3D mtk_alloc_clk_dat=
+a(CLK_INFRA_NR_CLK);
+a8aede7948438f James Liao  2015-04-23  551  =
 
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  659  		crtc_state =3D newstate->crtc->state;
-1bdb542da736e29 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  660  		plane_id =3D !!(priv->soc_info->has_osd && plane !=3D &priv=
-->f0);
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  661  =
+a8aede7948438f James Liao  2015-04-23  552  	mtk_clk_register_gates(node, i=
+nfra_clks, ARRAY_SIZE(infra_clks),
+a8aede7948438f James Liao  2015-04-23  553  						clk_data);
+a8aede7948438f James Liao  2015-04-23  554  =
 
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  662  		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  663  		width =3D newstate->src_w >> 16;
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  664  		height =3D newstate->src_h >> 16;
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  665  		cpp =3D newstate->fb->format->cpp[0];
-90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-06-03  666  =
+a8aede7948438f James Liao  2015-04-23  555  	clk_prepare_enable(clk_data->c=
+lks[CLK_INFRA_M4U]);
+a8aede7948438f James Liao  2015-04-23  556  =
 
-6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  667  		priv_state =3D ingenic_drm_get_new_priv_state(priv, state);
-6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  668  		next_id =3D (priv_state && priv_state->use_palette) ? HWDES=
-C_PALETTE : plane_id;
-3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-07-16  669  =
+a8aede7948438f James Liao  2015-04-23  557  	r =3D of_clk_add_provider(node=
+, of_clk_src_onecell_get, clk_data);
+52d97559ba77d8 Rex-BC Chen 2022-04-18  558  	if (r) {
+a8aede7948438f James Liao  2015-04-23  559  		pr_err("%s(): could not regis=
+ter clock provider: %d\n",
+a8aede7948438f James Liao  2015-04-23  560  			__func__, r);
+52d97559ba77d8 Rex-BC Chen 2022-04-18  561  		return;
+52d97559ba77d8 Rex-BC Chen 2022-04-18  562  	}
+a8aede7948438f James Liao  2015-04-23  563  =
 
-6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  670  		hwdesc =3D &priv->dma_hwdescs->hwdesc[plane_id];
-3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-07-16  671  		hwdesc->addr =3D addr;
-3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-07-16  672  		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * cpp =
-/ 4);
-6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-1-10-26  673  		hwdesc->next =3D dma_hwdesc_addr(priv, next_id);
-3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-07-16  674  =
-
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  675  		if (priv->soc_info->use_extended_hwdesc) {
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  676  			hwdesc->cmd |=3D JZ_LCD_CMD_FRM_ENABLE;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  677  =
-
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  678  			/* Extended 8-byte descriptor */
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  679  			hwdesc->cpos =3D 0;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  680  			hwdesc->offsize =3D 0;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  681  			hwdesc->pagewidth =3D 0;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  682  =
-
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  683  			switch (newstate->fb->format->format) {
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  684  			case DRM_FORMAT_XRGB1555:
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  685  				hwdesc->cpos |=3D JZ_LCD_CPOS_RGB555;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  686  				fallthrough;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  687  			case DRM_FORMAT_RGB565:
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  688  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_15_16;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  689  				break;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  690  			case DRM_FORMAT_XRGB8888:
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  691  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  692  				break;
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  693  			}
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  694  			hwdesc->cpos |=3D (JZ_LCD_CPOS_COEFFICIENT_1 <<
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  695  					 JZ_LCD_CPOS_COEFFICIENT_OFFSET);
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  696  			hwdesc->dessize =3D
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02 @697  				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  698  				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK, height - 1) |
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  699  				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK, width - 1);
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  700  		}
-b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
-1-12-02  701  =
-
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  702  		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
-1-02-19  703  			fourcc =3D newstate->fb->format->format;
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  704  =
-
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  705  			ingenic_drm_plane_config(priv->dev, plane, fourcc);
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  706  =
-
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  707  			crtc_state->color_mgmt_changed =3D fourcc =3D=3D DRM_FORMA=
-T_C8;
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  708  		}
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  709  =
-
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  710  		if (crtc_state->color_mgmt_changed)
-686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
-0-09-27  711  			ingenic_drm_update_palette(priv, crtc_state->gamma_lut->da=
-ta);
-90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-06-03  712  	}
-354b051c5dcbeb3 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-12-10  713  }
-90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
-9-06-03  714  =
+52d97559ba77d8 Rex-BC Chen 2022-04-18 @564  	r =3D mtk_clk_register_rst_ctr=
+l(node, 2, 0x30, MTK_RST_V1);
+a8aede7948438f James Liao  2015-04-23  565  }
+a8aede7948438f James Liao  2015-04-23  566  CLK_OF_DECLARE(mtk_infrasys, "m=
+ediatek,mt8135-infracfg", mtk_infrasys_init);
+a8aede7948438f James Liao  2015-04-23  567  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7901686738355220560==--
+--===============3781005344371464904==--
 
