@@ -1,597 +1,237 @@
-Content-Type: multipart/mixed; boundary="===============6295457924511113892=="
+Content-Type: multipart/mixed; boundary="===============3479111303763318623=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/marvell/libertas/debugfs.c:834:10: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support l...
-Date: Tue, 19 Apr 2022 12:30:08 +0800
-Message-ID: <202204191101.NJ4VDjiE-lkp@intel.com>
+Subject: sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: potentially dereferencing uninitialized 'sg'.
+Date: Tue, 19 Apr 2022 11:26:03 +0800
+Message-ID: <202204191154.yjELcnzc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6295457924511113892==
+--===============3479111303763318623==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
-date:   5 weeks ago
-:::::: branch date: 31 hours ago
-:::::: commit date: 5 weeks ago
-config: x86_64-randconfig-c007-20220418 (https://download.01.org/0day-ci/ar=
-chive/20220419/202204191101.NJ4VDjiE-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b27430=
-f9f46b88bcd54d992debc8d72e131e1bd0)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+commit: 36ad9bf1d93d66b901342eab9f8ed6c1537655a6 ASoC: qdsp6: audioreach: a=
+dd topology support
+date:   6 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 6 months ago
+config: h8300-randconfig-m031-20220418 (https://download.01.org/0day-ci/arc=
+hive/20220419/202204191154.yjELcnzc-lkp(a)intel.com/config)
+compiler: h8300-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:355 audioreach_parse_sg_tokens() error: uni=
+nitialized symbol 'sg'.
+sound/soc/qcom/qdsp6/topology.c:382 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:402 audioreach_parse_cont_tokens() error: u=
+ninitialized symbol 'cont'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   68 warnings generated.
-   Suppressed 68 warnings (68 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/hwmon/ltc2945.c:286:2: warning: Value stored to 'ret' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_update_bits(regmap, LTC2945_CONTROL, CONTROL_TEST=
-_MODE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/hwmon/ltc2945.c:286:2: note: Value stored to 'ret' is never read
-           ret =3D regmap_update_bits(regmap, LTC2945_CONTROL, CONTROL_TEST=
-_MODE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   62 warnings generated.
-   Suppressed 62 warnings (62 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   77 warnings generated.
-   drivers/net/wireless/marvell/libertas/debugfs.c:44:9: warning: Call to f=
-unction 'snprintf' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'snprintf_s' in case of =
-C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           pos +=3D snprintf(buf+pos, len-pos, "state =3D %s\n",
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:44:9: note: Call to func=
-tion 'snprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           pos +=3D snprintf(buf+pos, len-pos, "state =3D %s\n",
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:46:9: warning: Call to f=
-unction 'snprintf' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'snprintf_s' in case of =
-C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           pos +=3D snprintf(buf+pos, len-pos, "region_code =3D %02x\n",
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:46:9: note: Call to func=
-tion 'snprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           pos +=3D snprintf(buf+pos, len-pos, "region_code =3D %02x\n",
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:69:8: warning: Call to f=
-unction 'sscanf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'sscanf_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret =3D sscanf(buf, "%d %d %d %d %d %d", &p1, &p2, &p3, &p4, &p5=
-, &p6);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:69:8: note: Call to func=
-tion 'sscanf' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'sscanf_s' in case of C11
-           ret =3D sscanf(buf, "%d %d %d %d %d %d", &p1, &p2, &p3, &p4, &p5=
-, &p6);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:108:9: warning: Call to =
-function 'snprintf' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'snprintf_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           pos +=3D snprintf(buf, len, "%d %d %d %d %d %d\n", sp.sp_error,
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:108:9: note: Call to fun=
-ction 'snprintf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           pos +=3D snprintf(buf, len, "%d %d %d %d %d %d\n", sp.sp_error,
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:133:8: warning: Call to =
-function 'sscanf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sscanf_s' in case of C11=
- [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret =3D sscanf(buf, "%d", &host_sleep);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:133:8: note: Call to fun=
-ction 'sscanf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sscanf_s' in case of C11
-           ret =3D sscanf(buf, "%d", &host_sleep);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:173:9: warning: Call to =
-function 'snprintf' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'snprintf_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           pos +=3D snprintf(buf, len, "%d\n", priv->is_host_sleep_activate=
-d);
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:173:9: note: Call to fun=
-ction 'snprintf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           pos +=3D snprintf(buf, len, "%d\n", priv->is_host_sleep_activate=
-d);
-                  ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:254:10: warning: Call to=
- function 'snprintf' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'snprintf_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   pos +=3D snprintf(buf, len, "%d %d %d\n", value, freq,
-                          ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:254:10: note: Call to fu=
-nction 'snprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'snprintf_s' in case of C=
-11
-                   pos +=3D snprintf(buf, len, "%d %d %d\n", value, freq,
-                          ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:286:8: warning: Call to =
-function 'sscanf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sscanf_s' in case of C11=
- [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret =3D sscanf(buf, "%d %d %d", &value, &freq, &new_mask);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:286:8: note: Call to fun=
-ction 'sscanf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sscanf_s' in case of C11
-           ret =3D sscanf(buf, "%d %d %d", &value, &freq, &new_mask);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:449:9: warning: Call to =
-function 'snprintf' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'snprintf_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   pos =3D snprintf(buf, len, "MAC[0x%x] =3D 0x%08x\n",
-                         ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:449:9: note: Call to fun=
-ction 'snprintf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'snprintf_s' in case of C11
-                   pos =3D snprintf(buf, len, "MAC[0x%x] =3D 0x%08x\n",
-                         ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:487:8: warning: Call to =
-function 'sscanf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sscanf_s' in case of C11=
- [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           res =3D sscanf(buf, "%x %x", &offset, &value);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:487:8: note: Call to fun=
-ction 'sscanf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sscanf_s' in case of C11
-           res =3D sscanf(buf, "%x %x", &offset, &value);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:519:9: warning: Call to =
-function 'snprintf' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'snprintf_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   pos =3D snprintf(buf, len, "BBP[0x%x] =3D 0x%08x\n",
-                         ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:519:9: note: Call to fun=
-ction 'snprintf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'snprintf_s' in case of C11
-                   pos =3D snprintf(buf, len, "BBP[0x%x] =3D 0x%08x\n",
-                         ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:559:8: warning: Call to =
-function 'sscanf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sscanf_s' in case of C11=
- [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           res =3D sscanf(buf, "%x %x", &offset, &value);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:559:8: note: Call to fun=
-ction 'sscanf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sscanf_s' in case of C11
-           res =3D sscanf(buf, "%x %x", &offset, &value);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:591:9: warning: Call to =
-function 'snprintf' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'snprintf_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   pos =3D snprintf(buf, len, "RF[0x%x] =3D 0x%08x\n",
-                         ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:591:9: note: Call to fun=
-ction 'snprintf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'snprintf_s' in case of C11
-                   pos =3D snprintf(buf, len, "RF[0x%x] =3D 0x%08x\n",
-                         ^~~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:630:8: warning: Call to =
-function 'sscanf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sscanf_s' in case of C11=
- [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           res =3D sscanf(buf, "%x %x", &offset, &value);
-                 ^~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:630:8: note: Call to fun=
-ction 'sscanf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sscanf_s' in case of C11
-           res =3D sscanf(buf, "%x %x", &offset, &value);
-                 ^~~~~~
->> drivers/net/wireless/marvell/libertas/debugfs.c:834:10: warning: Call to=
- function 'sprintf' is insecure as it does not provide bounding of the memo=
-ry buffer or security checks introduced in the C11 standard. Replace with a=
-nalogous functions that support length arguments or provides boundary check=
-s such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.D=
-eprecatedOrUnsafeBufferHandling]
-                   pos +=3D sprintf(p + pos, "%s=3D%d\n", d[i].name, val);
-                          ^~~~~~~
-   drivers/net/wireless/marvell/libertas/debugfs.c:834:10: note: Call to fu=
-nction 'sprintf' is insecure as it does not provide bounding of the memory =
-buffer or security checks introduced in the C11 standard. Replace with anal=
-ogous functions that support length arguments or provides boundary checks s=
-uch as 'sprintf_s' in case of C11
-                   pos +=3D sprintf(p + pos, "%s=3D%d\n", d[i].name, val);
-                          ^~~~~~~
-   Suppressed 62 warnings (62 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   26 warnings generated.
-   drivers/char/ipmi/ipmi_si_hotmod.c:205:3: warning: Call to function 'mem=
-set' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memset_s' in case of C11 [clang-analy=
-zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&h, 0, sizeof(h));
-                   ^~~~~~
-   drivers/char/ipmi/ipmi_si_hotmod.c:205:3: note: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11
-                   memset(&h, 0, sizeof(h));
-                   ^~~~~~
-   Suppressed 25 warnings (25 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   drivers/char/ipmi/ipmi_si_hardcode.c:67:2: warning: Call to function 'me=
-mset' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memset_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&p, 0, sizeof(p));
-           ^~~~~~
-   drivers/char/ipmi/ipmi_si_hardcode.c:67:2: note: Call to function 'memse=
-t' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memset_s' in case of C11
-           memset(&p, 0, sizeof(p));
-           ^~~~~~
-   drivers/char/ipmi/ipmi_si_hardcode.c:99:2: warning: Call to function 'me=
-mset' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memset_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(si_type, 0, sizeof(si_type));
-           ^~~~~~
-   drivers/char/ipmi/ipmi_si_hardcode.c:99:2: note: Call to function 'memse=
-t' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memset_s' in case of C11
-           memset(si_type, 0, sizeof(si_type));
-           ^~~~~~
-   Suppressed 25 warnings (25 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   34 warnings generated.
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   34 warnings generated.
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   60 warnings generated.
-   drivers/media/i2c/adv7604.c:1467:3: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(stdi, 0, sizeof(struct stdi_readback));
-                   ^~~~~~
-   drivers/media/i2c/adv7604.c:1467:3: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-                   memset(stdi, 0, sizeof(struct stdi_readback));
-                   ^~~~~~
-   drivers/media/i2c/adv7604.c:1571:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(timings, 0, sizeof(struct v4l2_dv_timings));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:1571:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(timings, 0, sizeof(struct v4l2_dv_timings));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:1672:3: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(timings, 0, sizeof(struct v4l2_dv_timings));
-                   ^~~~~~
-   drivers/media/i2c/adv7604.c:1672:3: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-                   memset(timings, 0, sizeof(struct v4l2_dv_timings));
-                   ^~~~~~
-   drivers/media/i2c/adv7604.c:1852:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(format, 0, sizeof(*format));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:1852:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(format, 0, sizeof(*format));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2277:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(edid->reserved, 0, sizeof(edid->reserved));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2277:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(edid->reserved, 0, sizeof(edid->reserved));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2305:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(edid->edid, data + edid->start_block * 128, edid->blocks =
-* 128);
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2305:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(edid->edid, data + edid->start_block * 128, edid->blocks =
-* 128);
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2319:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(edid->reserved, 0, sizeof(edid->reserved));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2319:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(edid->reserved, 0, sizeof(edid->reserved));
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2403:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(state->edid.edid, edid->edid, 128 * edid->blocks);
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:2403:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(state->edid.edid, edid->edid, 128 * edid->blocks);
-           ^~~~~~
-   drivers/media/i2c/adv7604.c:3478:2: warning: Call to function 'snprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyze=
-r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(sd->name, sizeof(sd->name), "%s %d-%04x",
-           ^~~~~~~~
-   drivers/media/i2c/adv7604.c:3478:2: note: Call to function 'snprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(sd->name, sizeof(sd->name), "%s %d-%04x",
-           ^~~~~~~~
-   Suppressed 51 warnings (50 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   63 warnings generated.
-   net/sched/ematch.c:312:2: warning: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(tree, 0, sizeof(*tree));
+Old smatch warnings:
+sound/soc/qcom/qdsp6/topology.c:339 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:342 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:357 audioreach_parse_sg_tokens() error: uni=
+nitialized symbol 'sg'.
+sound/soc/qcom/qdsp6/topology.c:385 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:388 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:391 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
 
-vim +834 drivers/net/wireless/marvell/libertas/debugfs.c
+vim +/sg +336 sound/soc/qcom/qdsp6/topology.c
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  795  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  302  =
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  796  /**
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  797   * lbs_debugfs_read - proc read function
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  798   *
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  799   * @file:	file to read
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  800   * @userbuf:	pointer to buffer
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  801   * @count:	number of bytes to read
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  802   * @ppos:	read data starting position
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  803   *
-8973a6e770fc89 drivers/net/wireless/libertas/debugfs.c Randy Dunlap    2011=
--04-26  804   * returns:	amount of data read or negative error code
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  805   */
-1007832103d016 drivers/net/wireless/libertas/debugfs.c Holger Schurig  2007=
--11-15  806  static ssize_t lbs_debugfs_read(struct file *file, char __user=
- *userbuf,
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  807  			size_t count, loff_t *ppos)
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  808  {
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  809  	int val =3D 0;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  810  	size_t pos =3D 0;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  811  	ssize_t res;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  812  	char *p;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  813  	int i;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  814  	struct debug_data *d;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  815  	unsigned long addr =3D get_zeroed_page(GFP_KERNEL);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  816  	char *buf =3D (char *)addr;
-ad43f8bfb7b9a6 drivers/net/wireless/libertas/debugfs.c Kiran Divekar   2009=
--08-28  817  	if (!buf)
-ad43f8bfb7b9a6 drivers/net/wireless/libertas/debugfs.c Kiran Divekar   2009=
--08-28  818  		return -ENOMEM;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  819  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  303  static struct audioreac=
+h_sub_graph *audioreach_parse_sg_tokens(struct q6apm *apm,
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  304  						       struct snd=
+_soc_tplg_private *private)
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  305  {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  306  	struct snd_soc_tplg_ve=
+ndor_value_elem *sg_elem;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  307  	struct snd_soc_tplg_ve=
+ndor_array *sg_array;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  308  	struct audioreach_grap=
+h_info *info =3D NULL;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  309  	int graph_id, sub_grap=
+h_id, tkn_count =3D 0;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  310  	struct audioreach_sub_=
+graph *sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  311  	bool found;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  312  =
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  820  	p =3D buf;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  821  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  313  	sg_array =3D audioreac=
+h_get_sg_array(private);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  314  	sg_elem =3D sg_array->=
+value;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  315  =
 
-57674308d00b5e drivers/net/wireless/libertas/debugfs.c Joe Perches     2010=
--07-12  822  	d =3D file->private_data;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  823  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  316  	while (tkn_count <=3D =
+(le32_to_cpu(sg_array->num_elems) - 1)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  317  		switch (le32_to_cpu(s=
+g_elem->token)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  318  		case AR_TKN_U32_SUB_G=
+RAPH_INSTANCE_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  319  			sub_graph_id =3D le3=
+2_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  320  			sg =3D audioreach_tp=
+lg_alloc_sub_graph(apm, sub_graph_id, &found);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  321  			if (IS_ERR(sg)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  322  				return sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  323  			} else if (found) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  324  				/* Already parsed d=
+ata for this sub-graph */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  325  				return sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  326  			}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  327  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  328  		case AR_TKN_DAI_INDEX:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  329  			/* Sub graph is asso=
+ciated with predefined graph */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  330  			graph_id =3D le32_to=
+_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  331  			info =3D audioreach_=
+tplg_alloc_graph_info(apm, graph_id, &found);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  332  			if (IS_ERR(info))
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  333  				return ERR_CAST(inf=
+o);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  334  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  335  		case AR_TKN_U32_SUB_G=
+RAPH_PERF_MODE:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @336  			sg->perf_mode =3D le=
+32_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  337  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  338  		case AR_TKN_U32_SUB_G=
+RAPH_DIRECTION:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  339  			sg->direction =3D le=
+32_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  340  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  341  		case AR_TKN_U32_SUB_G=
+RAPH_SCENARIO_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  342  			sg->scenario_id =3D =
+le32_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  343  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  344  		default:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  345  			dev_err(apm->dev, "N=
+ot a valid token %d for graph\n", sg_elem->token);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  346  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  347  =
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  824  	for (i =3D 0; i < num_of_items; i++) {
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  825  		if (d[i].size =3D=3D 1)
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  826  			val =3D *((u8 *) d[i].addr);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  827  		else if (d[i].size =3D=3D 2)
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  828  			val =3D *((u16 *) d[i].addr);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  829  		else if (d[i].size =3D=3D 4)
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  830  			val =3D *((u32 *) d[i].addr);
-4269e2ad83036e drivers/net/wireless/libertas/debugfs.c Dan Williams    2007=
--05-10  831  		else if (d[i].size =3D=3D 8)
-4269e2ad83036e drivers/net/wireless/libertas/debugfs.c Dan Williams    2007=
--05-10  832  			val =3D *((u64 *) d[i].addr);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  833  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  348  		}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  349  		tkn_count++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  350  		sg_elem++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  351  	}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  352  =
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10 @834  		pos +=3D sprintf(p + pos, "%s=3D%d\n", d[i].name, val);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  835  	}
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  836  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  353  	/* Sub graph is associ=
+ated with predefined graph */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  354  	if (info)
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @355  		audioreach_tplg_add_s=
+ub_graph(sg, info);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  356  =
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  837  	res =3D simple_read_from_buffer(userbuf, count, ppos, p, pos);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  838  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  357  	return sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  358  }
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  359  =
 
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  839  	free_page(addr);
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  840  	return res;
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  841  }
-876c9d3aeb989c drivers/net/wireless/libertas/debugfs.c Marcelo Tosatti 2007=
--02-10  842  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  360  static struct audioreac=
+h_container *audioreach_parse_cont_tokens(struct q6apm *apm,
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  361  							 struct audiorea=
+ch_sub_graph *sg,
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  362  							 struct snd_soc_=
+tplg_private *private)
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  363  {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  364  	struct snd_soc_tplg_ve=
+ndor_value_elem *cont_elem;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  365  	struct snd_soc_tplg_ve=
+ndor_array *cont_array;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  366  	struct audioreach_cont=
+ainer *cont;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  367  	int container_id, tkn_=
+count =3D 0;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  368  	bool found =3D false;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  369  =
 
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  370  	cont_array =3D audiore=
+ach_get_cont_array(private);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  371  	cont_elem =3D cont_arr=
+ay->value;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  372  =
 
-:::::: The code@line 834 was first introduced by commit
-:::::: 876c9d3aeb989cf1961f2c228d309ba5dcfb1172 [PATCH] Marvell Libertas 83=
-88 802.11b/g USB driver
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  373  	while (tkn_count <=3D =
+(le32_to_cpu(cont_array->num_elems) - 1)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  374  		switch (le32_to_cpu(c=
+ont_elem->token)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  375  		case AR_TKN_U32_CONTA=
+INER_INSTANCE_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  376  			container_id =3D le3=
+2_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  377  			cont =3D audioreach_=
+tplg_alloc_container(apm, sg, container_id, &found);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  378  			if (IS_ERR(cont) || =
+found)/* Error or Already parsed container data */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  379  				return cont;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  380  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  381  		case AR_TKN_U32_CONTA=
+INER_CAPABILITY_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @382  			cont->capability_id =
+=3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  383  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  384  		case AR_TKN_U32_CONTA=
+INER_STACK_SIZE:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  385  			cont->stack_size =3D=
+ le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  386  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  387  		case AR_TKN_U32_CONTA=
+INER_GRAPH_POS:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  388  			cont->graph_pos =3D =
+le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  389  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  390  		case AR_TKN_U32_CONTA=
+INER_PROC_DOMAIN:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  391  			cont->proc_domain =
+=3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  392  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  393  		default:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  394  			dev_err(apm->dev, "N=
+ot a valid token %d for graph\n", cont_elem->token);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  395  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  396  =
 
-:::::: TO: Marcelo Tosatti <marcelo@kvack.org>
-:::::: CC: Jeff Garzik <jeff@garzik.org>
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  397  		}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  398  		tkn_count++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  399  		cont_elem++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  400  	}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  401  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @402  	return cont;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  403  }
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  404  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6295457924511113892==--
+--===============3479111303763318623==--
 
