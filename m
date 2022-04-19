@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6215378825181963625=="
+Content-Type: multipart/mixed; boundary="===============7901686738355220560=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface() warn: passing a valid pointer to 'PTR_ERR'
-Date: Tue, 19 Apr 2022 14:26:40 +0800
-Message-ID: <202204191443.S4E9qa3P-lkp@intel.com>
+Subject: drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed integer overflow for expression '0xff<<24'. [integerOverflow]
+Date: Tue, 19 Apr 2022 14:06:16 +0800
+Message-ID: <202204191351.k02s4Hoq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6215378825181963625==
+--===============7901686738355220560==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,179 +15,227 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Paul Boddie <paul@boddie.org.uk>
+CC: Paul Cercueil <paul@crapouillou.net>
+CC: Ezequiel Garcia <ezequiel@collabora.com>
+CC: "H. Nikolaus Schaller" <hns@goldelico.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: d8701fe890ecbab239086e7053d62d0f08587d7c mtd: rawnand: renesas: Add=
- new NAND controller driver
+commit: b807fd2c43fe008eb6f4083e196ea38dadad9680 drm/ingenic: Add support f=
+or JZ4780 and HDMI output
 date:   4 months ago
 :::::: branch date: 33 hours ago
 :::::: commit date: 4 months ago
-config: h8300-randconfig-m031-20220418 (https://download.01.org/0day-ci/arc=
-hive/20220419/202204191443.S4E9qa3P-lkp(a)intel.com/config)
-compiler: h8300-linux-gcc (GCC) 11.2.0
+compiler: riscv32-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout b807fd2c43fe008eb6f4083e196ea38dadad9680
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface()=
- warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/PTR_ERR +900 drivers/mtd/nand/raw/renesas-nand-controller.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-d8701fe890ecba Miquel Raynal 2021-12-17  888  =
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:523:70: warning: Parameter 'pl=
+ane' can be declared with const [constParameter]
+   void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *pla=
+ne)
+                                                                        ^
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:509:28: warning: Parameter 'pl=
+ane' can be declared with const [constParameter]
+            struct drm_plane *plane)
+                              ^
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1368:49: warning: Parameter 'd=
+ata' can be declared with const [constParameter]
+   static int compare_of(struct device *dev, void *data)
+                                                   ^
+>> drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed intege=
+r overflow for expression '0xff<<24'. [integerOverflow]
+       (0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
+             ^
 
-d8701fe890ecba Miquel Raynal 2021-12-17  889  static int rnandc_setup_inter=
-face(struct nand_chip *chip, int chipnr,
-d8701fe890ecba Miquel Raynal 2021-12-17  890  				  const struct nand_inter=
-face_config *conf)
-d8701fe890ecba Miquel Raynal 2021-12-17  891  {
-d8701fe890ecba Miquel Raynal 2021-12-17  892  	struct rnand_chip *rnand =3D=
- to_rnand(chip);
-d8701fe890ecba Miquel Raynal 2021-12-17  893  	struct rnandc *rnandc =3D to=
-_rnandc(chip->controller);
-d8701fe890ecba Miquel Raynal 2021-12-17  894  	unsigned int period_ns =3D 1=
-000000000 / clk_get_rate(rnandc->eclk);
-d8701fe890ecba Miquel Raynal 2021-12-17  895  	const struct nand_sdr_timing=
-s *sdr;
-d8701fe890ecba Miquel Raynal 2021-12-17  896  	unsigned int cyc, cle, ale, =
-bef_dly, ca_to_data;
-d8701fe890ecba Miquel Raynal 2021-12-17  897  =
+vim +697 drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 
-d8701fe890ecba Miquel Raynal 2021-12-17  898  	sdr =3D nand_get_sdr_timings=
-(conf);
-d8701fe890ecba Miquel Raynal 2021-12-17  899  	if (IS_ERR(sdr))
-d8701fe890ecba Miquel Raynal 2021-12-17 @900  		return PTR_ERR(sdr);
-d8701fe890ecba Miquel Raynal 2021-12-17  901  =
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  641  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  902  	if (sdr->tRP_min !=3D sdr->t=
-WP_min || sdr->tREH_min !=3D sdr->tWH_min) {
-d8701fe890ecba Miquel Raynal 2021-12-17  903  		dev_err(rnandc->dev, "Read =
-and write hold times must be identical\n");
-d8701fe890ecba Miquel Raynal 2021-12-17  904  		return -EINVAL;
-d8701fe890ecba Miquel Raynal 2021-12-17  905  	}
-d8701fe890ecba Miquel Raynal 2021-12-17  906  =
+90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-06-03  642  static void ingenic_drm_plane_atomic_update(struct drm_plane =
+*plane,
+977697e20b3d758 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  643  					    struct drm_atomic_state *state)
+90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-06-03  644  {
+3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-07-16  645  	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
+4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-05-23  646  	struct drm_plane_state *newstate =3D drm_atomic_get_new_plan=
+e_state(state, plane);
+4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-05-23  647  	struct drm_plane_state *oldstate =3D drm_atomic_get_old_plan=
+e_state(state, plane);
+1bdb542da736e29 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  648  	unsigned int width, height, cpp, next_id, plane_id;
+6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  649  	struct ingenic_drm_private_state *priv_state;
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  650  	struct drm_crtc_state *crtc_state;
+3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-07-16  651  	struct ingenic_dma_hwdesc *hwdesc;
+354b051c5dcbeb3 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-12-10  652  	dma_addr_t addr;
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  653  	u32 fourcc;
+90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-06-03  654  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  907  	if (chipnr < 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  908  		return 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  909  =
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  655  	if (newstate && newstate->fb) {
+4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-05-23  656  		if (priv->soc_info->map_noncoherent)
+4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-05-23  657  			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstat=
+e);
+4a791cb6d34f42e drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-05-23  658  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  910  	rnand->timings_asyn =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  911  		TIMINGS_ASYN_TRWP(TO_CYCLES=
-64(sdr->tRP_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  912  		TIMINGS_ASYN_TRWH(TO_CYCLES=
-64(sdr->tREH_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  913  	rnand->tim_seq0 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  914  		TIM_SEQ0_TCCS(TO_CYCLES64(s=
-dr->tCCS_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  915  		TIM_SEQ0_TADL(TO_CYCLES64(s=
-dr->tADL_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  916  		TIM_SEQ0_TRHW(TO_CYCLES64(s=
-dr->tRHW_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  917  		TIM_SEQ0_TWHR(TO_CYCLES64(s=
-dr->tWHR_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  918  	rnand->tim_seq1 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  919  		TIM_SEQ1_TWB(TO_CYCLES64(sd=
-r->tWB_max, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  920  		TIM_SEQ1_TRR(TO_CYCLES64(sd=
-r->tRR_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  921  		TIM_SEQ1_TWW(TO_CYCLES64(sd=
-r->tWW_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  922  =
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  659  		crtc_state =3D newstate->crtc->state;
+1bdb542da736e29 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  660  		plane_id =3D !!(priv->soc_info->has_osd && plane !=3D &priv=
+->f0);
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  661  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  923  	cyc =3D sdr->tDS_min + sdr->=
-tDH_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  924  	cle =3D sdr->tCLH_min + sdr-=
->tCLS_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  925  	ale =3D sdr->tALH_min + sdr-=
->tALS_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  926  	bef_dly =3D sdr->tWB_max - s=
-dr->tDH_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  927  	ca_to_data =3D sdr->tWHR_min=
- + sdr->tREA_max - sdr->tDH_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  928  =
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  662  		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  663  		width =3D newstate->src_w >> 16;
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  664  		height =3D newstate->src_h >> 16;
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  665  		cpp =3D newstate->fb->format->cpp[0];
+90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-06-03  666  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  929  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  930  	 * D0 =3D CMD -> ADDR =3D tC=
-LH + tCLS - 1 cycle
-d8701fe890ecba Miquel Raynal 2021-12-17  931  	 * D1 =3D CMD -> CMD =3D tCL=
-H + tCLS - 1 cycle
-d8701fe890ecba Miquel Raynal 2021-12-17  932  	 * D2 =3D CMD -> DLY =3D tWB=
- - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  933  	 * D3 =3D CMD -> DATA =3D tW=
-HR + tREA - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  934  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  935  	rnand->tim_gen_seq0 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  936  		TIM_GEN_SEQ0_D0(TO_CYCLES64=
-(cle - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  937  		TIM_GEN_SEQ0_D1(TO_CYCLES64=
-(cle - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  938  		TIM_GEN_SEQ0_D2(TO_CYCLES64=
-(bef_dly, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  939  		TIM_GEN_SEQ0_D3(TO_CYCLES64=
-(ca_to_data, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  940  =
+6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  667  		priv_state =3D ingenic_drm_get_new_priv_state(priv, state);
+6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  668  		next_id =3D (priv_state && priv_state->use_palette) ? HWDES=
+C_PALETTE : plane_id;
+3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-07-16  669  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  941  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  942  	 * D4 =3D ADDR -> CMD =3D tA=
-LH + tALS - 1 cyle
-d8701fe890ecba Miquel Raynal 2021-12-17  943  	 * D5 =3D ADDR -> ADDR =3D t=
-ALH + tALS - 1 cyle
-d8701fe890ecba Miquel Raynal 2021-12-17  944  	 * D6 =3D ADDR -> DLY =3D tW=
-B - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  945  	 * D7 =3D ADDR -> DATA =3D t=
-WHR + tREA - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  946  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  947  	rnand->tim_gen_seq1 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  948  		TIM_GEN_SEQ1_D4(TO_CYCLES64=
-(ale - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  949  		TIM_GEN_SEQ1_D5(TO_CYCLES64=
-(ale - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  950  		TIM_GEN_SEQ1_D6(TO_CYCLES64=
-(bef_dly, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  951  		TIM_GEN_SEQ1_D7(TO_CYCLES64=
-(ca_to_data, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  952  =
+6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  670  		hwdesc =3D &priv->dma_hwdescs->hwdesc[plane_id];
+3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-07-16  671  		hwdesc->addr =3D addr;
+3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-07-16  672  		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * cpp =
+/ 4);
+6055466203df46a drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+1-10-26  673  		hwdesc->next =3D dma_hwdesc_addr(priv, next_id);
+3c9bea4ef32bdcd drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-07-16  674  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  953  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  954  	 * D8 =3D DLY -> DATA =3D tR=
-R + tREA
-d8701fe890ecba Miquel Raynal 2021-12-17  955  	 * D9 =3D DLY -> CMD =3D tRR
-d8701fe890ecba Miquel Raynal 2021-12-17  956  	 * D10 =3D DATA -> CMD =3D t=
-CLH + tCLS - 1 cycle
-d8701fe890ecba Miquel Raynal 2021-12-17  957  	 * D11 =3D DATA -> DLY =3D t=
-WB - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  958  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  959  	rnand->tim_gen_seq2 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  960  		TIM_GEN_SEQ2_D8(TO_CYCLES64=
-(sdr->tRR_min + sdr->tREA_max, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  961  		TIM_GEN_SEQ2_D9(TO_CYCLES64=
-(sdr->tRR_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  962  		TIM_GEN_SEQ2_D10(TO_CYCLES6=
-4(cle - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  963  		TIM_GEN_SEQ2_D11(TO_CYCLES6=
-4(bef_dly, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  964  =
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  675  		if (priv->soc_info->use_extended_hwdesc) {
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  676  			hwdesc->cmd |=3D JZ_LCD_CMD_FRM_ENABLE;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  677  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  965  	/* D12 =3D DATA -> END =3D t=
-CLH - tDH */
-d8701fe890ecba Miquel Raynal 2021-12-17  966  	rnand->tim_gen_seq3 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  967  		TIM_GEN_SEQ3_D12(TO_CYCLES6=
-4(sdr->tCLH_min - sdr->tDH_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  968  =
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  678  			/* Extended 8-byte descriptor */
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  679  			hwdesc->cpos =3D 0;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  680  			hwdesc->offsize =3D 0;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  681  			hwdesc->pagewidth =3D 0;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  682  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  969  	return 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  970  }
-d8701fe890ecba Miquel Raynal 2021-12-17  971  =
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  683  			switch (newstate->fb->format->format) {
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  684  			case DRM_FORMAT_XRGB1555:
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  685  				hwdesc->cpos |=3D JZ_LCD_CPOS_RGB555;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  686  				fallthrough;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  687  			case DRM_FORMAT_RGB565:
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  688  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_15_16;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  689  				break;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  690  			case DRM_FORMAT_XRGB8888:
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  691  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  692  				break;
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  693  			}
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  694  			hwdesc->cpos |=3D (JZ_LCD_CPOS_COEFFICIENT_1 <<
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  695  					 JZ_LCD_CPOS_COEFFICIENT_OFFSET);
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  696  			hwdesc->dessize =3D
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02 @697  				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  698  				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK, height - 1) |
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  699  				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK, width - 1);
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  700  		}
+b807fd2c43fe008 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   202=
+1-12-02  701  =
+
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  702  		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+41016fe1028e4b0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 202=
+1-02-19  703  			fourcc =3D newstate->fb->format->format;
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  704  =
+
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  705  			ingenic_drm_plane_config(priv->dev, plane, fourcc);
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  706  =
+
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  707  			crtc_state->color_mgmt_changed =3D fourcc =3D=3D DRM_FORMA=
+T_C8;
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  708  		}
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  709  =
+
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  710  		if (crtc_state->color_mgmt_changed)
+686d4b4b99afe79 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 202=
+0-09-27  711  			ingenic_drm_update_palette(priv, crtc_state->gamma_lut->da=
+ta);
+90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-06-03  712  	}
+354b051c5dcbeb3 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-12-10  713  }
+90b86fcc47b4d18 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 201=
+9-06-03  714  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6215378825181963625==--
+--===============7901686738355220560==--
 
