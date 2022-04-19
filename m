@@ -1,79 +1,88 @@
-Content-Type: multipart/mixed; boundary="===============1673393844980679429=="
+Content-Type: multipart/mixed; boundary="===============3376308100061326219=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/bridge/br_switchdev.c:18:14: warning: Uninitialized variable: p->hwdom [uninitvar]
-Date: Tue, 19 Apr 2022 13:34:58 +0800
-Message-ID: <202204191318.NZ8GuARJ-lkp@intel.com>
+Subject: [linux-next:master 2266/4328] drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size() warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit type?
+Date: Tue, 19 Apr 2022 13:03:36 +0800
+Message-ID: <202204191232.1PN0grE0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1673393844980679429==
+--===============3376308100061326219==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Tobias Waldekranz <tobias@waldekranz.com>
-CC: Vladimir Oltean <vladimir.oltean@nxp.com>
-CC: Grygorii Strashko <grygorii.strashko@ti.com>
-CC: Florian Fainelli <f.fainelli@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: f7cf972f9375388838b0fbdaa007ce8494646990 net: bridge: disambiguate =
-offload_fwd_mark
-date:   9 months ago
-:::::: branch date: 33 hours ago
-:::::: commit date: 9 months ago
-compiler: or1k-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout f7cf972f9375388838b0fbdaa007ce8494646990
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   40354149f4d738dc3492d9998e45b3f02950369a
+commit: c9cad937c0c58618fe5b0310fd539a854dc1ae95 [2266/4328] drm/amdgpu: ad=
+d drm buddy support to amdgpu
+:::::: branch date: 5 days ago
+:::::: commit date: 11 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+419/202204191232.1PN0grE0-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
+) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
+pe?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
+) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
+pe?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:413 amdgpu_vram_mgr_new() warn=
+: should 'vres->base.num_pages << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:428 amdgpu_vram_mgr_new() warn=
+: should 'pages_per_block << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
+) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
+pe?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:53 amdgpu_vram_mgr_block_size(=
+) warn: should '((1) << 12) << drm_buddy_block_order(block)' be a 64 bit ty=
+pe?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:369 amdgpu_vram_mgr_new() warn=
+: should 'place->lpfn << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:373 amdgpu_vram_mgr_new() warn=
+: should 'place->fpfn << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418 amdgpu_vram_mgr_new() warn=
+: should 'tbo->page_alignment << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:472 amdgpu_vram_mgr_new() warn=
+: should 'vres->base.num_pages << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:384 amdgpu_move_blit() warn: should=
+ 'new_mem->num_pages << 12' be a 64 bit type?
+drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:521 amdgpu_cs_parser_bos() error: we=
+ previously assumed 'p->bo_list' could be null (see line 512)
+drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:541 amdgpu_cs_parser_bos() warn: Ple=
+ase consider using kvcalloc instead
 
->> net/bridge/br_switchdev.c:18:14: warning: Uninitialized variable: p->hwd=
-om [uninitvar]
-      return p->hwdom;
-                ^
+vim +53 drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
 
-vim +18 net/bridge/br_switchdev.c
+c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  50  =
 
-6bc506b4fb065e Ido Schimmel      2016-08-25  10  =
-
-f7cf972f937538 Tobias Waldekranz 2021-07-21  11  static int br_switchdev_hw=
-dom_get(struct net_bridge *br, struct net_device *dev)
-6bc506b4fb065e Ido Schimmel      2016-08-25  12  {
-6bc506b4fb065e Ido Schimmel      2016-08-25  13  	struct net_bridge_port *p;
-6bc506b4fb065e Ido Schimmel      2016-08-25  14  =
-
-6bc506b4fb065e Ido Schimmel      2016-08-25  15  	/* dev is yet to be added=
- to the port list. */
-6bc506b4fb065e Ido Schimmel      2016-08-25  16  	list_for_each_entry(p, &b=
-r->port_list, list) {
-bccb30254a4a02 Florian Fainelli  2019-02-06  17  		if (netdev_port_same_par=
-ent_id(dev, p->dev))
-f7cf972f937538 Tobias Waldekranz 2021-07-21 @18  			return p->hwdom;
-6bc506b4fb065e Ido Schimmel      2016-08-25  19  	}
-6bc506b4fb065e Ido Schimmel      2016-08-25  20  =
-
-f7cf972f937538 Tobias Waldekranz 2021-07-21  21  	return ++br->last_hwdom;
-6bc506b4fb065e Ido Schimmel      2016-08-25  22  }
-6bc506b4fb065e Ido Schimmel      2016-08-25  23  =
+c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  51  static inline u64 a=
+mdgpu_vram_mgr_block_size(struct drm_buddy_block *block)
+c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  52  {
+c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08 @53  	return PAGE_SIZE <=
+< drm_buddy_block_order(block);
+c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  54  }
+c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  55  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1673393844980679429==--
+--===============3376308100061326219==--
 
