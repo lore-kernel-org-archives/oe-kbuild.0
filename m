@@ -1,488 +1,234 @@
-Content-Type: multipart/mixed; boundary="===============1786108034175837919=="
+Content-Type: multipart/mixed; boundary="===============5053682740258703083=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: crypto/dh.c:438:9: warning: Potential leak of memory pointed to by 'key' [clang-analyzer-unix.Malloc]
-Date: Thu, 21 Apr 2022 16:09:53 +0800
-Message-ID: <202204211538.czruKBL9-lkp@intel.com>
+Subject: drivers/net/wireless/ath/ath11k/qmi.c:2031 ath11k_qmi_load_file_target_mem() error: uninitialized symbol 'ret'.
+Date: Thu, 21 Apr 2022 15:28:08 +0800
+Message-ID: <202204211519.wpw4Zz0V-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1786108034175837919==
+--===============5053682740258703083==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nicolai Stange <nstange@suse.de>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Hannes Reinecke <hare@suse.de>
+TO: Anilkumar Kolli <akolli@codeaurora.org>
+CC: Kalle Valo <kvalo@codeaurora.org>
+CC: Jouni Malinen <jouni@codeaurora.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b253435746d9a4a701b5f09211b9c14d3370d0da
-commit: 1e207964566738b49b003e80063fd712af75b82c crypto: dh - implement pri=
-vate key generation primitive for ffdheXYZ(dh)
-date:   7 weeks ago
+commit: 336e7b53c82fc74d261024773a0fab43623a94fb ath11k: clean up BDF downl=
+oad functions
+date:   7 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 7 weeks ago
-config: riscv-randconfig-c006-20220418 (https://download.01.org/0day-ci/arc=
-hive/20220421/202204211538.czruKBL9-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 429cba=
-c0390654f90bba18a41799464adf31a5ec)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D1e207964566738b49b003e80063fd712af75b82c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 1e207964566738b49b003e80063fd712af75b82c
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-m001-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220421/202204211519.wpw4Zz0V-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/net/wireless/ath/ath11k/qmi.c:2031 ath11k_qmi_load_file_target_mem(=
+) error: uninitialized symbol 'ret'.
+
+vim +/ret +2031 drivers/net/wireless/ath/ath11k/qmi.c
+
+d5c65159f289537 Kalle Valo      2019-11-23  1919  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1920  static int ath11k_qmi_loa=
+d_file_target_mem(struct ath11k_base *ab,
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1921  					   const u8 *data, u=
+32 len, u8 type)
+d5c65159f289537 Kalle Valo      2019-11-23  1922  {
+d5c65159f289537 Kalle Valo      2019-11-23  1923  	struct qmi_wlanfw_bdf_do=
+wnload_req_msg_v01 *req;
+d5c65159f289537 Kalle Valo      2019-11-23  1924  	struct qmi_wlanfw_bdf_do=
+wnload_resp_msg_v01 resp;
+d5c65159f289537 Kalle Valo      2019-11-23  1925  	struct qmi_txn txn =3D {=
+};
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1926  	const u8 *temp =3D data;
+d5c65159f289537 Kalle Valo      2019-11-23  1927  	void __iomem *bdf_addr =
+=3D NULL;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1928  	int ret;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1929  	u32 remaining =3D len;
+d5c65159f289537 Kalle Valo      2019-11-23  1930  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1931  	req =3D kzalloc(sizeof(*=
+req), GFP_KERNEL);
+d5c65159f289537 Kalle Valo      2019-11-23  1932  	if (!req)
+d5c65159f289537 Kalle Valo      2019-11-23  1933  		return -ENOMEM;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1934  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1935  	memset(&resp, 0, sizeof(=
+resp));
+d5c65159f289537 Kalle Valo      2019-11-23  1936  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1937  	if (ab->bus_params.fixed=
+_bdf_addr) {
+c72aa32d6d1c04f Anilkumar Kolli 2021-09-28  1938  		bdf_addr =3D ioremap(ab=
+->hw_params.bdf_addr, ab->hw_params.fw.board_size);
+d5c65159f289537 Kalle Valo      2019-11-23  1939  		if (!bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1940  			ath11k_warn(ab, "qmi i=
+oremap error for bdf_addr\n");
+d5c65159f289537 Kalle Valo      2019-11-23  1941  			ret =3D -EIO;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1942  			goto err_free_req;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1943  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1944  	}
+d5c65159f289537 Kalle Valo      2019-11-23  1945  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1946  	while (remaining) {
+d5c65159f289537 Kalle Valo      2019-11-23  1947  		req->valid =3D 1;
+d5c65159f289537 Kalle Valo      2019-11-23  1948  		req->file_id_valid =3D =
+1;
+d5c65159f289537 Kalle Valo      2019-11-23  1949  		req->file_id =3D ab->qm=
+i.target.board_id;
+d5c65159f289537 Kalle Valo      2019-11-23  1950  		req->total_size_valid =
+=3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1951  		req->total_size =3D rem=
+aining;
+d5c65159f289537 Kalle Valo      2019-11-23  1952  		req->seg_id_valid =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1953  		req->data_valid =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1954  		req->bdf_type =3D type;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1955  		req->bdf_type_valid =3D=
+ 1;
+d5c65159f289537 Kalle Valo      2019-11-23  1956  		req->end_valid =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1957  		req->end =3D 0;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1958  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1959  		if (remaining > QMI_WLA=
+NFW_MAX_DATA_SIZE_V01) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1960  			req->data_len =3D QMI_=
+WLANFW_MAX_DATA_SIZE_V01;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1961  		} else {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1962  			req->data_len =3D rema=
+ining;
+d5c65159f289537 Kalle Valo      2019-11-23  1963  			req->end =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1964  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1965  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1966  		if (ab->bus_params.fixe=
+d_bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1967  			req->data_valid =3D 0;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1968  			req->end =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1969  			req->data_len =3D ATH1=
+1K_QMI_MAX_BDF_FILE_NAME_SIZE;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1970  		} else {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1971  			memcpy(req->data, temp=
+, req->data_len);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1972  		}
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1973  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1974  		if (ab->bus_params.fixe=
+d_bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1975  			if (type =3D=3D ATH11K=
+_QMI_FILE_TYPE_CALDATA)
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1976  				bdf_addr +=3D ab->hw_=
+params.fw.cal_offset;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1977  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1978  			memcpy_toio(bdf_addr, =
+temp, len);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1979  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1980  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1981  		ret =3D qmi_txn_init(&a=
+b->qmi.handle, &txn,
+d5c65159f289537 Kalle Valo      2019-11-23  1982  				   qmi_wlanfw_bdf_dow=
+nload_resp_msg_v01_ei,
+d5c65159f289537 Kalle Valo      2019-11-23  1983  				   &resp);
+d5c65159f289537 Kalle Valo      2019-11-23  1984  		if (ret < 0)
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1985  			goto err_iounmap;
+d5c65159f289537 Kalle Valo      2019-11-23  1986  =
+
+bf458d79cfc46f7 Kalle Valo      2021-02-22  1987  		ath11k_dbg(ab, ATH11K_D=
+BG_QMI, "qmi bdf download req fixed addr type %d\n",
+bf458d79cfc46f7 Kalle Valo      2021-02-22  1988  			   type);
+bf458d79cfc46f7 Kalle Valo      2021-02-22  1989  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1990  		ret =3D qmi_send_reques=
+t(&ab->qmi.handle, NULL, &txn,
+d5c65159f289537 Kalle Valo      2019-11-23  1991  				       QMI_WLANFW_BDF=
+_DOWNLOAD_REQ_V01,
+d5c65159f289537 Kalle Valo      2019-11-23  1992  				       QMI_WLANFW_BDF=
+_DOWNLOAD_REQ_MSG_V01_MAX_LEN,
+d5c65159f289537 Kalle Valo      2019-11-23  1993  				       qmi_wlanfw_bdf=
+_download_req_msg_v01_ei, req);
+d5c65159f289537 Kalle Valo      2019-11-23  1994  		if (ret < 0) {
+d5c65159f289537 Kalle Valo      2019-11-23  1995  			qmi_txn_cancel(&txn);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1996  			goto err_iounmap;
+d5c65159f289537 Kalle Valo      2019-11-23  1997  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1998  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1999  		ret =3D qmi_txn_wait(&t=
+xn, msecs_to_jiffies(ATH11K_QMI_WLANFW_TIMEOUT_MS));
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2000  		if (ret < 0) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2001  			ath11k_warn(ab, "faile=
+d to wait board file download request: %d\n",
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2002  				    ret);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2003  			goto err_iounmap;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2004  		}
+d5c65159f289537 Kalle Valo      2019-11-23  2005  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  2006  		if (resp.resp.result !=
+=3D QMI_RESULT_SUCCESS_V01) {
+097e9f0714555e5 Kalle Valo      2021-02-22  2007  			ath11k_warn(ab, "board=
+ file download request failed: %d %d\n",
+d5c65159f289537 Kalle Valo      2019-11-23  2008  				    resp.resp.result,=
+ resp.resp.error);
+d5c65159f289537 Kalle Valo      2019-11-23  2009  			ret =3D -EINVAL;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2010  			goto err_iounmap;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2011  		}
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2012  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2013  		if (ab->bus_params.fixe=
+d_bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2014  			remaining =3D 0;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2015  		} else {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2016  			remaining -=3D req->da=
+ta_len;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2017  			temp +=3D req->data_le=
+n;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2018  			req->seg_id++;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2019  			ath11k_dbg(ab, ATH11K_=
+DBG_QMI, "qmi bdf download request remaining %i\n",
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2020  				   remaining);
+d5c65159f289537 Kalle Valo      2019-11-23  2021  		}
+d5c65159f289537 Kalle Valo      2019-11-23  2022  	}
+d5c65159f289537 Kalle Valo      2019-11-23  2023  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2024  err_iounmap:
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2025  	if (ab->bus_params.fixed=
+_bdf_addr)
+d5c65159f289537 Kalle Valo      2019-11-23  2026  		iounmap(bdf_addr);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2027  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2028  err_free_req:
+d5c65159f289537 Kalle Valo      2019-11-23  2029  	kfree(req);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2030  =
+
+d5c65159f289537 Kalle Valo      2019-11-23 @2031  	return ret;
+d5c65159f289537 Kalle Valo      2019-11-23  2032  }
+d5c65159f289537 Kalle Valo      2019-11-23  2033  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/jfs/jfs_debug.h:55:31: note: expanded from macro 'jfs_info'
-   #define jfs_info(fmt, arg...) do {                      \
-                                 ^
-   fs/jfs/namei.c:699:2: note: Control jumps to 'case 32768:'  at line 700
-           switch (type) {
-           ^
-   fs/jfs/namei.c:701:3: note:  Execution continues on line 714
-                   break;
-                   ^
-   fs/jfs/namei.c:714:2: note: Assuming the condition is false
-           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/jfs/namei.c:714:2: note: '?' condition is false
-           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/jfs/namei.c:714:2: note: '?' condition is true
-           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/jfs/namei.c:714:2: note: Taking true branch
-           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/jfs/namei.c:727:3: note: Calling 'PXDaddress'
-                   PXDaddress(&pxdlock->pxd, xaddr);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_types.h:67:33: note: The left operand of '&' is a garbage val=
-ue
-           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
-                            ~~~~~~~~~~~~~ ^
-   fs/jfs/namei.c:881:16: warning: Value stored to 'ip' during its initiali=
-zation is never read [clang-analyzer-deadcode.DeadStores]
-           struct inode *ip =3D d_inode(dentry);
-                         ^~   ~~~~~~~~~~~~~~~
-   fs/jfs/namei.c:881:16: note: Value stored to 'ip' during its initializat=
-ion is never read
-           struct inode *ip =3D d_inode(dentry);
-                         ^~   ~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> crypto/dh.c:438:9: warning: Potential leak of memory pointed to by 'key'=
- [clang-analyzer-unix.Malloc]
-           return ERR_PTR(err);
-                  ^
-   crypto/dh.c:358:6: note: '?' condition is false
-           n =3D roundup_pow_of_two(2 * safe_prime->max_strength);
-               ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __builtin_constant_p(n) ? (             \
-           ^
-   crypto/dh.c:359:2: note: '?' condition is false
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/dh.c:359:2: note: '?' condition is true
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   crypto/dh.c:359:2: note: Taking true branch
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   crypto/dh.c:359:2: note: Loop condition is false.  Exiting loop
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:106:3: note: expanded from macro 'WARN_ON_ONCE'
-                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
-                   ^
-   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FL=
-AGS'
-   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
-                               ^
-   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLA=
-GS'
-   #define __BUG_FLAGS(flags)                                      \
-                                                                   ^
-   crypto/dh.c:367:8: note: Memory is allocated
-           key =3D kmalloc(oversampling_size, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/dh.c:368:6: note: Assuming 'key' is non-null
-           if (!key)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/dh.c:368:2: note: '?' condition is false
-           if (!key)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/dh.c:368:7: note: 'key' is non-null
-           if (!key)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   crypto/dh.c:368:2: note: '?' condition is false
-           if (!key)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+:::::: The code at line 2031 was first introduced by commit
+:::::: d5c65159f2895379e11ca13f62feabe93278985d ath11k: driver for Qualcomm=
+ IEEE 802.11ax devices
 
-vim +/key +438 crypto/dh.c
-
-1e207964566738 Nicolai Stange 2022-02-21  333  =
-
-1e207964566738 Nicolai Stange 2022-02-21  334  static void *dh_safe_prime_g=
-en_privkey(const struct dh_safe_prime *safe_prime,
-1e207964566738 Nicolai Stange 2022-02-21  335  				       unsigned int *key=
-_size)
-1e207964566738 Nicolai Stange 2022-02-21  336  {
-1e207964566738 Nicolai Stange 2022-02-21  337  	unsigned int n, oversamplin=
-g_size;
-1e207964566738 Nicolai Stange 2022-02-21  338  	__be64 *key;
-1e207964566738 Nicolai Stange 2022-02-21  339  	int err;
-1e207964566738 Nicolai Stange 2022-02-21  340  	u64 h, o;
-1e207964566738 Nicolai Stange 2022-02-21  341  =
-
-1e207964566738 Nicolai Stange 2022-02-21  342  	/*
-1e207964566738 Nicolai Stange 2022-02-21  343  	 * Generate a private key f=
-ollowing NIST SP800-56Ar3,
-1e207964566738 Nicolai Stange 2022-02-21  344  	 * sec. 5.6.1.1.1 and 5.6.1=
-.1.3 resp..
-1e207964566738 Nicolai Stange 2022-02-21  345  	 *
-1e207964566738 Nicolai Stange 2022-02-21  346  	 * 5.6.1.1.1: choose key le=
-ngth N such that
-1e207964566738 Nicolai Stange 2022-02-21  347  	 * 2 * ->max_strength <=3D =
-N <=3D log2(q) + 1 =3D ->p_size * 8 - 1
-1e207964566738 Nicolai Stange 2022-02-21  348  	 * with q =3D (p - 1) / 2 f=
-or the safe-prime groups.
-1e207964566738 Nicolai Stange 2022-02-21  349  	 * Choose the lower bound's=
- next power of two for N in order to
-1e207964566738 Nicolai Stange 2022-02-21  350  	 * avoid excessively large =
-private keys while still
-1e207964566738 Nicolai Stange 2022-02-21  351  	 * maintaining some extra r=
-eserve beyond the bare minimum in
-1e207964566738 Nicolai Stange 2022-02-21  352  	 * most cases. Note that fo=
-r each entry in safe_prime_groups[],
-1e207964566738 Nicolai Stange 2022-02-21  353  	 * the following holds for =
-such N:
-1e207964566738 Nicolai Stange 2022-02-21  354  	 * - N >=3D 256, in particu=
-lar it is a multiple of 2^6 =3D 64
-1e207964566738 Nicolai Stange 2022-02-21  355  	 *   bits and
-1e207964566738 Nicolai Stange 2022-02-21  356  	 * - N < log2(q) + 1, i.e. =
-N respects the upper bound.
-1e207964566738 Nicolai Stange 2022-02-21  357  	 */
-1e207964566738 Nicolai Stange 2022-02-21  358  	n =3D roundup_pow_of_two(2 =
-* safe_prime->max_strength);
-1e207964566738 Nicolai Stange 2022-02-21  359  	WARN_ON_ONCE(n & ((1u << 6)=
- - 1));
-1e207964566738 Nicolai Stange 2022-02-21  360  	n >>=3D 6; /* Convert N int=
-o units of u64. */
-1e207964566738 Nicolai Stange 2022-02-21  361  =
-
-1e207964566738 Nicolai Stange 2022-02-21  362  	/*
-1e207964566738 Nicolai Stange 2022-02-21  363  	 * Reserve one extra u64 to=
- hold the extra random bits
-1e207964566738 Nicolai Stange 2022-02-21  364  	 * required as per 5.6.1.1.=
-3.
-1e207964566738 Nicolai Stange 2022-02-21  365  	 */
-1e207964566738 Nicolai Stange 2022-02-21  366  	oversampling_size =3D (n + =
-1) * sizeof(__be64);
-1e207964566738 Nicolai Stange 2022-02-21  367  	key =3D kmalloc(oversamplin=
-g_size, GFP_KERNEL);
-1e207964566738 Nicolai Stange 2022-02-21  368  	if (!key)
-1e207964566738 Nicolai Stange 2022-02-21  369  		return ERR_PTR(-ENOMEM);
-1e207964566738 Nicolai Stange 2022-02-21  370  =
-
-1e207964566738 Nicolai Stange 2022-02-21  371  	/*
-1e207964566738 Nicolai Stange 2022-02-21  372  	 * 5.6.1.1.3, step 3 (and i=
-mplicitly step 4): obtain N + 64
-1e207964566738 Nicolai Stange 2022-02-21  373  	 * random bits and interpre=
-t them as a big endian integer.
-1e207964566738 Nicolai Stange 2022-02-21  374  	 */
-1e207964566738 Nicolai Stange 2022-02-21  375  	err =3D -EFAULT;
-1e207964566738 Nicolai Stange 2022-02-21  376  	if (crypto_get_default_rng(=
-))
-1e207964566738 Nicolai Stange 2022-02-21  377  		goto out_err;
-1e207964566738 Nicolai Stange 2022-02-21  378  =
-
-1e207964566738 Nicolai Stange 2022-02-21  379  	err =3D crypto_rng_get_byte=
-s(crypto_default_rng, (u8 *)key,
-1e207964566738 Nicolai Stange 2022-02-21  380  				   oversampling_size);
-1e207964566738 Nicolai Stange 2022-02-21  381  	crypto_put_default_rng();
-1e207964566738 Nicolai Stange 2022-02-21  382  	if (err)
-1e207964566738 Nicolai Stange 2022-02-21  383  		goto out_err;
-1e207964566738 Nicolai Stange 2022-02-21  384  =
-
-1e207964566738 Nicolai Stange 2022-02-21  385  	/*
-1e207964566738 Nicolai Stange 2022-02-21  386  	 * 5.6.1.1.3, step 5 is imp=
-licit: 2^N < q and thus,
-1e207964566738 Nicolai Stange 2022-02-21  387  	 * M =3D min(2^N, q) =3D 2^=
-N.
-1e207964566738 Nicolai Stange 2022-02-21  388  	 *
-1e207964566738 Nicolai Stange 2022-02-21  389  	 * For step 6, calculate
-1e207964566738 Nicolai Stange 2022-02-21  390  	 * key =3D (key[] mod (M - =
-1)) + 1 =3D (key[] mod (2^N - 1)) + 1.
-1e207964566738 Nicolai Stange 2022-02-21  391  	 *
-1e207964566738 Nicolai Stange 2022-02-21  392  	 * In order to avoid expens=
-ive divisions, note that
-1e207964566738 Nicolai Stange 2022-02-21  393  	 * 2^N mod (2^N - 1) =3D 1 =
-and thus, for any integer h,
-1e207964566738 Nicolai Stange 2022-02-21  394  	 * 2^N * h mod (2^N - 1) =
-=3D h mod (2^N - 1) always holds.
-1e207964566738 Nicolai Stange 2022-02-21  395  	 * The big endian integer k=
-ey[] composed of n + 1 64bit words
-1e207964566738 Nicolai Stange 2022-02-21  396  	 * may be written as key[] =
-=3D h * 2^N + l, with h =3D key[0]
-1e207964566738 Nicolai Stange 2022-02-21  397  	 * representing the 64 most=
- significant bits and l
-1e207964566738 Nicolai Stange 2022-02-21  398  	 * corresponding to the rem=
-aining 2^N bits. With the remark
-1e207964566738 Nicolai Stange 2022-02-21  399  	 * from above,
-1e207964566738 Nicolai Stange 2022-02-21  400  	 * h * 2^N + l mod (2^N - 1=
-) =3D l + h mod (2^N - 1).
-1e207964566738 Nicolai Stange 2022-02-21  401  	 * As both, l and h are les=
-s than 2^N, their sum after
-1e207964566738 Nicolai Stange 2022-02-21  402  	 * this first reduction is =
-guaranteed to be <=3D 2^(N + 1) - 2.
-1e207964566738 Nicolai Stange 2022-02-21  403  	 * Or equivalently, that th=
-eir sum can again be written as
-1e207964566738 Nicolai Stange 2022-02-21  404  	 * h' * 2^N + l' with h' no=
-w either zero or one and if one,
-1e207964566738 Nicolai Stange 2022-02-21  405  	 * then l' <=3D 2^N - 2. Th=
-us, all bits@positions >=3D N will
-1e207964566738 Nicolai Stange 2022-02-21  406  	 * be zero after a second r=
-eduction:
-1e207964566738 Nicolai Stange 2022-02-21  407  	 * h' * 2^N + l' mod (2^N -=
- 1) =3D l' + h' mod (2^N - 1).
-1e207964566738 Nicolai Stange 2022-02-21  408  	 * At this point, it is sti=
-ll possible that
-1e207964566738 Nicolai Stange 2022-02-21  409  	 * l' + h' =3D 2^N - 1, i.e=
-. that l' + h' mod (2^N - 1)
-1e207964566738 Nicolai Stange 2022-02-21  410  	 * is zero. This condition =
-will be detected below by means of
-1e207964566738 Nicolai Stange 2022-02-21  411  	 * the final increment over=
-flowing in this case.
-1e207964566738 Nicolai Stange 2022-02-21  412  	 */
-1e207964566738 Nicolai Stange 2022-02-21  413  	h =3D be64_to_cpu(key[0]);
-1e207964566738 Nicolai Stange 2022-02-21  414  	h =3D __add_u64_to_be(key +=
- 1, n, h);
-1e207964566738 Nicolai Stange 2022-02-21  415  	h =3D __add_u64_to_be(key +=
- 1, n, h);
-1e207964566738 Nicolai Stange 2022-02-21  416  	WARN_ON_ONCE(h);
-1e207964566738 Nicolai Stange 2022-02-21  417  =
-
-1e207964566738 Nicolai Stange 2022-02-21  418  	/* Increment to obtain the =
-final result. */
-1e207964566738 Nicolai Stange 2022-02-21  419  	o =3D __add_u64_to_be(key +=
- 1, n, 1);
-1e207964566738 Nicolai Stange 2022-02-21  420  	/*
-1e207964566738 Nicolai Stange 2022-02-21  421  	 * The overflow bit o from =
-the increment is either zero or
-1e207964566738 Nicolai Stange 2022-02-21  422  	 * one. If zero, key[1:n] h=
-olds the final result in big-endian
-1e207964566738 Nicolai Stange 2022-02-21  423  	 * order. If one, key[1:n] =
-is zero now, but needs to be set to
-1e207964566738 Nicolai Stange 2022-02-21  424  	 * one, c.f. above.
-1e207964566738 Nicolai Stange 2022-02-21  425  	 */
-1e207964566738 Nicolai Stange 2022-02-21  426  	if (o)
-1e207964566738 Nicolai Stange 2022-02-21  427  		key[n] =3D cpu_to_be64(1);
-1e207964566738 Nicolai Stange 2022-02-21  428  =
-
-1e207964566738 Nicolai Stange 2022-02-21  429  	/* n is in units of u64, co=
-nvert to bytes. */
-1e207964566738 Nicolai Stange 2022-02-21  430  	*key_size =3D n << 3;
-1e207964566738 Nicolai Stange 2022-02-21  431  	/* Strip the leading extra =
-__be64, which is (virtually) zero by now. */
-1e207964566738 Nicolai Stange 2022-02-21  432  	memmove(key, &key[1], *key_=
-size);
-1e207964566738 Nicolai Stange 2022-02-21  433  =
-
-1e207964566738 Nicolai Stange 2022-02-21  434  	return key;
-1e207964566738 Nicolai Stange 2022-02-21  435  =
-
-1e207964566738 Nicolai Stange 2022-02-21  436  out_err:
-1e207964566738 Nicolai Stange 2022-02-21  437  	kfree_sensitive(key);
-1e207964566738 Nicolai Stange 2022-02-21 @438  	return ERR_PTR(err);
-1e207964566738 Nicolai Stange 2022-02-21  439  }
-1e207964566738 Nicolai Stange 2022-02-21  440  =
-
+:::::: TO: Kalle Valo <kvalo@codeaurora.org>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1786108034175837919==--
+--===============5053682740258703083==--
 
