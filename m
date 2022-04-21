@@ -1,649 +1,370 @@
-Content-Type: multipart/mixed; boundary="===============0523519043274063364=="
+Content-Type: multipart/mixed; boundary="===============5770789687937564726=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/input/misc/yealink.c:691:10: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
-Date: Thu, 21 Apr 2022 16:41:02 +0800
-Message-ID: <202204211603.EaMhwtaX-lkp@intel.com>
+Subject: drivers/scsi/libiscsi.c:1457 iscsi_xmit_task() warn: test_bit() takes a bit number
+Date: Thu, 21 Apr 2022 16:40:57 +0800
+Message-ID: <202204211604.RW1PoQXA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0523519043274063364==
+--===============5770789687937564726==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Lee Duncan <lduncan@suse.com>
+CC: Chris Leech <cleech@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b253435746d9a4a701b5f09211b9c14d3370d0da
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
-date:   6 weeks ago
+commit: 5bd856256f8c03e329f8ff36d8c8efcb111fe6df scsi: iscsi: Merge suspend=
+ fields
+date:   9 days ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-c006-20220420 (https://download.01.org/0day-ci/arc=
-hive/20220421/202204211603.EaMhwtaX-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
-5bf85669e3376610cfc4c4f9ca015e7b9b)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+:::::: commit date: 9 days ago
+config: x86_64-randconfig-m001-20220418 (https://download.01.org/0day-ci/ar=
+chive/20220421/202204211604.RW1PoQXA-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/scsi/libiscsi.c:1457 iscsi_xmit_task() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:1535 iscsi_data_xmit() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:1749 iscsi_queuecommand() warn: test_bit() takes a =
+bit number
+drivers/scsi/bnx2i/bnx2i_hwi.c:1980 bnx2i_process_new_cqes() warn: test_bit=
+() takes a bit number
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/linux/bitops.h:155:10: note: Returning from 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/linux/bitops.h:155:3: note: Returning the value 32
-                   return fls(l);
-                   ^~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Returning from 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
-ned due to shifting by '32', which is greater or equal to the width of type=
- 'unsigned long'
-           return 1UL << fls_long(n - 1);
-                      ^  ~~~~~~~~~~~~~~~
-   Suppressed 48 warnings (43 in non-user code, 5 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/input/misc/tps65218-pwrbutton.c:113:2: warning: Call to function=
- 'snprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
-           ^~~~~~~~
-   drivers/input/misc/tps65218-pwrbutton.c:113:2: note: Call to function 's=
-nprintf' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
-           ^~~~~~~~
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   Suppressed 27 warnings (27 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   28 warnings generated.
-   drivers/input/misc/uinput.c:956:4: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memset(&ff_up.old, 0, sizeof(struct ff_effect));
-                           ^~~~~~
-   drivers/input/misc/uinput.c:956:4: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-                           memset(&ff_up.old, 0, sizeof(struct ff_effect));
-                           ^~~~~~
-   Suppressed 27 warnings (27 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   drivers/input/misc/yealink.c:288:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:288:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:305:3: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(p->data, &buf[ix], len);
-                   ^~~~~~
-   drivers/input/misc/yealink.c:305:3: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(p->data, &buf[ix], len);
-                   ^~~~~~
-   drivers/input/misc/yealink.c:321:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:321:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:516:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:516:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:558:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, &map_seg7, sizeof(map_seg7));
-           ^~~~~~
-   drivers/input/misc/yealink.c:558:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(buf, &map_seg7, sizeof(map_seg7));
-           ^~~~~~
-   drivers/input/misc/yealink.c:567:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&map_seg7, buf, sizeof(map_seg7));
-           ^~~~~~
-   drivers/input/misc/yealink.c:567:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&map_seg7, buf, sizeof(map_seg7));
-           ^~~~~~
->> drivers/input/misc/yealink.c:691:10: warning: Call to function 'sprintf'=
- is insecure as it does not provide bounding of the memory buffer or securi=
-ty checks introduced in the C11 standard. Replace with analogous functions =
-that support length arguments or provides boundary checks such as 'sprintf_=
-s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
-fferHandling]
-                   ret +=3D sprintf(&buf[ret], "%s %s\n",
-                          ^~~~~~~
-   drivers/input/misc/yealink.c:691:10: note: Call to function 'sprintf' is=
- insecure as it does not provide bounding of the memory buffer or security =
-checks introduced in the C11 standard. Replace with analogous functions tha=
-t support length arguments or provides boundary checks such as 'sprintf_s' =
-in case of C11
-                   ret +=3D sprintf(&buf[ret], "%s %s\n",
-                          ^~~~~~~
-   drivers/input/misc/yealink.c:979:2: warning: Value stored to 'ret' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           ret =3D sysfs_create_group(&intf->dev.kobj, &yld_attr_group);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/misc/yealink.c:979:2: note: Value stored to 'ret' is never=
- read
-           ret =3D sysfs_create_group(&intf->dev.kobj, &yld_attr_group);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/input/keyboard/tca8418_keypad.c:241:15: warning: The result of t=
-he left shift is undefined because the left operand is negative [clang-anal=
-yzer-core.UndefinedBinaryOperatorResult]
-           reg +=3D (~(~0 << cols)) << 8;
-                        ^
-   drivers/input/keyboard/tca8418_keypad.c:273:2: note: Taking false branch
-           if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYT=
-E)) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:280:6: note: Assuming 'error' is=
- 0
-           if (error)
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:280:2: note: Taking false branch
-           if (error)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:283:6: note: Assuming 'rows' is =
-not equal to 0
-           if (!rows || rows > TCA8418_MAX_ROWS) {
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:283:6: note: Left side of '||' i=
-s false
-   drivers/input/keyboard/tca8418_keypad.c:283:15: note: Assuming 'rows' is=
- <=3D TCA8418_MAX_ROWS
-           if (!rows || rows > TCA8418_MAX_ROWS) {
-                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:283:2: note: Taking false branch
-           if (!rows || rows > TCA8418_MAX_ROWS) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:288:6: note: Assuming 'cols' is =
-not equal to 0
-           if (!cols || cols > TCA8418_MAX_COLS) {
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:288:6: note: Left side of '||' i=
-s false
-   drivers/input/keyboard/tca8418_keypad.c:288:15: note: Assuming 'cols' is=
- <=3D TCA8418_MAX_COLS
-           if (!cols || cols > TCA8418_MAX_COLS) {
-                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:288:2: note: Taking false branch
-           if (!cols || cols > TCA8418_MAX_COLS) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:297:6: note: Assuming 'keypad_da=
-ta' is non-null
-           if (!keypad_data)
-               ^~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:297:2: note: Taking false branch
-           if (!keypad_data)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:305:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:305:2: note: Taking false branch
-           if (error)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:310:6: note: Assuming 'input' is=
- non-null
-           if (!input)
-               ^~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:310:2: note: Taking false branch
-           if (!input)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:322:6: note: Assuming 'error' is=
- 0
-           if (error) {
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:322:2: note: Taking false branch
-           if (error) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:327:6: note: Assuming the condit=
-ion is false
-           if (device_property_read_bool(dev, "keypad,autorepeat"))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:327:2: note: Taking false branch
-           if (device_property_read_bool(dev, "keypad,autorepeat"))
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:336:6: note: Assuming 'error' is=
- 0
-           if (error) {
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:336:2: note: Taking false branch
-           if (error) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:343:10: note: Calling 'tca8418_c=
-onfigure'
-           error =3D tca8418_configure(keypad_data, rows, cols);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:241:15: note: The result of the =
-left shift is undefined because the left operand is negative
-           reg +=3D (~(~0 << cols)) << 8;
-                     ~~ ^
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/input/touchscreen/cyttsp_i2c_common.c:73:2: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&xfer_buf[1], values, length);
-           ^~~~~~
+Old smatch warnings:
+drivers/scsi/libiscsi.c:1395 iscsi_set_conn_failed() warn: test_bit() takes=
+ a bit number
+drivers/scsi/libiscsi.c:1396 iscsi_set_conn_failed() warn: test_bit() takes=
+ a bit number
+drivers/scsi/libiscsi.c:1938 iscsi_suspend_queue() warn: test_bit() takes a=
+ bit number
+drivers/scsi/libiscsi.c:1956 iscsi_suspend_tx() warn: test_bit() takes a bi=
+t number
+drivers/scsi/libiscsi.c:1964 iscsi_start_tx() warn: test_bit() takes a bit =
+number
+drivers/scsi/libiscsi.c:3332 iscsi_conn_bind() warn: test_bit() takes a bit=
+ number
+drivers/scsi/libiscsi.c:3333 iscsi_conn_bind() warn: test_bit() takes a bit=
+ number
 
-vim +691 drivers/input/misc/yealink.c
+vim +1457 drivers/scsi/libiscsi.c
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  552  =
+77a23c21aaa723f Mike Christie   2007-05-30  1430  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  553  /=
-* Interface to the 7-segments translation table aka. char set.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  554   =
+5923d64b7ab63dc Mike Christie   2021-02-06  1431  static int iscsi_xmit_tas=
+k(struct iscsi_conn *conn, struct iscsi_task *task,
+5923d64b7ab63dc Mike Christie   2021-02-06  1432  			   bool was_requeue)
+77a23c21aaa723f Mike Christie   2007-05-30  1433  {
+843c0a8a76078cf Mike Christie   2007-12-13  1434  	int rc;
+77a23c21aaa723f Mike Christie   2007-05-30  1435  =
+
+79edd00dc6a9664 Anoob Soman     2019-02-13  1436  	spin_lock_bh(&conn->sess=
+ion->back_lock);
+5923d64b7ab63dc Mike Christie   2021-02-06  1437  =
+
+5923d64b7ab63dc Mike Christie   2021-02-06  1438  	if (!conn->task) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1439  		/* Take a ref so we can=
+ access it after xmit_task() */
+5923d64b7ab63dc Mike Christie   2021-02-06  1440  		__iscsi_get_task(task);
+5923d64b7ab63dc Mike Christie   2021-02-06  1441  	} else {
+5923d64b7ab63dc Mike Christie   2021-02-06  1442  		/* Already have a ref f=
+rom when we failed to send it last call */
+5923d64b7ab63dc Mike Christie   2021-02-06  1443  		conn->task =3D NULL;
+5923d64b7ab63dc Mike Christie   2021-02-06  1444  	}
+5923d64b7ab63dc Mike Christie   2021-02-06  1445  =
+
+5923d64b7ab63dc Mike Christie   2021-02-06  1446  	/*
+5923d64b7ab63dc Mike Christie   2021-02-06  1447  	 * If this was a requeue=
+ for a R2T we have an extra ref on the task in
+5923d64b7ab63dc Mike Christie   2021-02-06  1448  	 * case a bad target sen=
+ds a cmd rsp before we have handled the task.
+5923d64b7ab63dc Mike Christie   2021-02-06  1449  	 */
+5923d64b7ab63dc Mike Christie   2021-02-06  1450  	if (was_requeue)
+5923d64b7ab63dc Mike Christie   2021-02-06  1451  		__iscsi_put_task(task);
+5923d64b7ab63dc Mike Christie   2021-02-06  1452  =
+
+5923d64b7ab63dc Mike Christie   2021-02-06  1453  	/*
+5923d64b7ab63dc Mike Christie   2021-02-06  1454  	 * Do this after droppin=
+g the extra ref because if this was a requeue
+5923d64b7ab63dc Mike Christie   2021-02-06  1455  	 * it's removed from tha=
+t list and cleanup_queued_task would miss it.
+5923d64b7ab63dc Mike Christie   2021-02-06  1456  	 */
+5bd856256f8c03e Mike Christie   2022-04-07 @1457  	if (test_bit(ISCSI_CONN_=
+FLAG_SUSPEND_TX, &conn->flags)) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1458  		/*
+5923d64b7ab63dc Mike Christie   2021-02-06  1459  		 * Save the task and re=
+f in case we weren't cleaning up this
+5923d64b7ab63dc Mike Christie   2021-02-06  1460  		 * task and get woken u=
+p again.
+5923d64b7ab63dc Mike Christie   2021-02-06  1461  		 */
+5923d64b7ab63dc Mike Christie   2021-02-06  1462  		conn->task =3D task;
+79edd00dc6a9664 Anoob Soman     2019-02-13  1463  		spin_unlock_bh(&conn->s=
+ession->back_lock);
+79edd00dc6a9664 Anoob Soman     2019-02-13  1464  		return -ENODATA;
+79edd00dc6a9664 Anoob Soman     2019-02-13  1465  	}
+79edd00dc6a9664 Anoob Soman     2019-02-13  1466  	spin_unlock_bh(&conn->se=
+ssion->back_lock);
+5923d64b7ab63dc Mike Christie   2021-02-06  1467  =
+
+659743b02c41107 Shlomo Pongratz 2014-02-07  1468  	spin_unlock_bh(&conn->se=
+ssion->frwd_lock);
+9c19a7d0387124a Mike Christie   2008-05-21  1469  	rc =3D conn->session->tt=
+->xmit_task(task);
+659743b02c41107 Shlomo Pongratz 2014-02-07  1470  	spin_lock_bh(&conn->sess=
+ion->frwd_lock);
+d355e57d58193b8 Mike Christie   2009-06-15  1471  	if (!rc) {
+9c19a7d0387124a Mike Christie   2008-05-21  1472  		/* done with this task =
 */
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  555  s=
-tatic ssize_t show_map(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  556  	=
-			char *buf)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  557  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16 @558  	=
-memcpy(buf, &map_seg7, sizeof(map_seg7));
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  559  	=
-return sizeof(map_seg7);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  560  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  561  =
+d355e57d58193b8 Mike Christie   2009-06-15  1473  		task->last_xfer =3D jif=
+fies;
+d355e57d58193b8 Mike Christie   2009-06-15  1474  	}
+659743b02c41107 Shlomo Pongratz 2014-02-07  1475  	/* regular RX path uses =
+back_lock */
+72b9740201d5f0e Shlomo Pongratz 2014-03-30  1476  	spin_lock(&conn->session=
+->back_lock);
+5923d64b7ab63dc Mike Christie   2021-02-06  1477  	if (rc && task->state =
+=3D=3D ISCSI_TASK_RUNNING) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1478  		/*
+5923d64b7ab63dc Mike Christie   2021-02-06  1479  		 * get an extra ref tha=
+t is released next time we access it
+5923d64b7ab63dc Mike Christie   2021-02-06  1480  		 * as conn->task above.
+5923d64b7ab63dc Mike Christie   2021-02-06  1481  		 */
+5923d64b7ab63dc Mike Christie   2021-02-06  1482  		__iscsi_get_task(task);
+5923d64b7ab63dc Mike Christie   2021-02-06  1483  		conn->task =3D task;
+5923d64b7ab63dc Mike Christie   2021-02-06  1484  	}
+5923d64b7ab63dc Mike Christie   2021-02-06  1485  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  562  s=
-tatic ssize_t store_map(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  563  	=
-			const char *buf, size_t cnt)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  564  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  565  	=
-if (cnt !=3D sizeof(map_seg7))
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  566  	=
-	return -EINVAL;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  567  	=
-memcpy(&map_seg7, buf, sizeof(map_seg7));
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  568  	=
-return sizeof(map_seg7);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  569  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  570  =
+d355e57d58193b8 Mike Christie   2009-06-15  1486  	__iscsi_put_task(task);
+72b9740201d5f0e Shlomo Pongratz 2014-03-30  1487  	spin_unlock(&conn->sessi=
+on->back_lock);
+77a23c21aaa723f Mike Christie   2007-05-30  1488  	return rc;
+77a23c21aaa723f Mike Christie   2007-05-30  1489  }
+77a23c21aaa723f Mike Christie   2007-05-30  1490  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  571  /=
-* Interface to the LCD.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  572   =
-*/
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  573  =
+843c0a8a76078cf Mike Christie   2007-12-13  1491  /**
+9c19a7d0387124a Mike Christie   2008-05-21  1492   * iscsi_requeue_task - r=
+equeue task to run from session workqueue
+9c19a7d0387124a Mike Christie   2008-05-21  1493   * @task: task to requeue
+843c0a8a76078cf Mike Christie   2007-12-13  1494   *
+5923d64b7ab63dc Mike Christie   2021-02-06  1495   * Callers must have take=
+n a ref to the task that is going to be requeued.
+843c0a8a76078cf Mike Christie   2007-12-13  1496   */
+9c19a7d0387124a Mike Christie   2008-05-21  1497  void iscsi_requeue_task(s=
+truct iscsi_task *task)
+843c0a8a76078cf Mike Christie   2007-12-13  1498  {
+9c19a7d0387124a Mike Christie   2008-05-21  1499  	struct iscsi_conn *conn =
+=3D task->conn;
+843c0a8a76078cf Mike Christie   2007-12-13  1500  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  574  /=
-* Reading /sys/../lineX will return the format string with its settings:
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  575   *
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  576   =
-* Example:
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  577   =
-* cat ./line3
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  578   =
-* 888888888888
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  579   =
-* Linux Rocks!
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  580   =
-*/
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  581  s=
-tatic ssize_t show_line(struct device *dev, char *buf, int a, int b)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  582  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  583  	=
-struct yealink_dev *yld;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  584  	=
-int i;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  585  =
+3bbaaad95fd38de Mike Christie   2009-05-13  1501  	/*
+3bbaaad95fd38de Mike Christie   2009-05-13  1502  	 * this may be on the re=
+queue list already if the xmit_task callout
+3bbaaad95fd38de Mike Christie   2009-05-13  1503  	 * is handling the r2ts =
+while we are adding new ones
+3bbaaad95fd38de Mike Christie   2009-05-13  1504  	 */
+5923d64b7ab63dc Mike Christie   2021-02-06  1505  	spin_lock_bh(&conn->sess=
+ion->frwd_lock);
+5923d64b7ab63dc Mike Christie   2021-02-06  1506  	if (list_empty(&task->ru=
+nning)) {
+3bbaaad95fd38de Mike Christie   2009-05-13  1507  		list_add_tail(&task->ru=
+nning, &conn->requeue);
+5923d64b7ab63dc Mike Christie   2021-02-06  1508  	} else {
+5923d64b7ab63dc Mike Christie   2021-02-06  1509  		/*
+5923d64b7ab63dc Mike Christie   2021-02-06  1510  		 * Don't need the extra=
+ ref since it's already requeued and
+5923d64b7ab63dc Mike Christie   2021-02-06  1511  		 * has a ref.
+5923d64b7ab63dc Mike Christie   2021-02-06  1512  		 */
+5923d64b7ab63dc Mike Christie   2021-02-06  1513  		iscsi_put_task(task);
+5923d64b7ab63dc Mike Christie   2021-02-06  1514  	}
+32ae763e3fce419 Mike Christie   2009-03-05  1515  	iscsi_conn_queue_work(co=
+nn);
+5923d64b7ab63dc Mike Christie   2021-02-06  1516  	spin_unlock_bh(&conn->se=
+ssion->frwd_lock);
+843c0a8a76078cf Mike Christie   2007-12-13  1517  }
+9c19a7d0387124a Mike Christie   2008-05-21  1518  EXPORT_SYMBOL_GPL(iscsi_r=
+equeue_task);
+843c0a8a76078cf Mike Christie   2007-12-13  1519  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  586  	=
-down_read(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  587  	=
-yld =3D dev_get_drvdata(dev);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  588  	=
-if (yld =3D=3D NULL) {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  589  	=
-	up_read(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  590  	=
-	return -ENODEV;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  591  	}
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  592  =
+7996a778ff8c717 Mike Christie   2006-04-06  1520  /**
+7996a778ff8c717 Mike Christie   2006-04-06  1521   * iscsi_data_xmit - xmit=
+ any command into the scheduled connection
+7996a778ff8c717 Mike Christie   2006-04-06  1522   * @conn: iscsi connection
+7996a778ff8c717 Mike Christie   2006-04-06  1523   *
+7996a778ff8c717 Mike Christie   2006-04-06  1524   * Notes:
+7996a778ff8c717 Mike Christie   2006-04-06  1525   *	The function can retur=
+n -EAGAIN in which case the caller must
+7996a778ff8c717 Mike Christie   2006-04-06  1526   *	re-schedule it again l=
+ater or recover. '0' return code means
+7996a778ff8c717 Mike Christie   2006-04-06  1527   *	successful xmit.
+7996a778ff8c717 Mike Christie   2006-04-06  1528   **/
+7996a778ff8c717 Mike Christie   2006-04-06  1529  static int iscsi_data_xmi=
+t(struct iscsi_conn *conn)
+7996a778ff8c717 Mike Christie   2006-04-06  1530  {
+5d12c05e29fc871 Mike Christie   2009-11-11  1531  	struct iscsi_task *task;
+3219e5294150aee Mike Christie   2006-05-30  1532  	int rc =3D 0;
+7996a778ff8c717 Mike Christie   2006-04-06  1533  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  593  	=
-for (i =3D a; i < b; i++)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  594  	=
-	*buf++ =3D lcdMap[i].type;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  595  	=
-*buf++ =3D '\n';
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  596  	=
-for (i =3D a; i < b; i++)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  597  	=
-	*buf++ =3D yld->lcdMap[i];
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  598  	=
-*buf++ =3D '\n';
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  599  	=
-*buf =3D 0;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  600  =
+659743b02c41107 Shlomo Pongratz 2014-02-07  1534  	spin_lock_bh(&conn->sess=
+ion->frwd_lock);
+5bd856256f8c03e Mike Christie   2022-04-07 @1535  	if (test_bit(ISCSI_CONN_=
+FLAG_SUSPEND_TX, &conn->flags)) {
+1b2c7af877f427a Mike Christie   2009-03-05  1536  		ISCSI_DBG_SESSION(conn-=
+>session, "Tx suspended!\n");
+659743b02c41107 Shlomo Pongratz 2014-02-07  1537  		spin_unlock_bh(&conn->s=
+ession->frwd_lock);
+3219e5294150aee Mike Christie   2006-05-30  1538  		return -ENODATA;
+7996a778ff8c717 Mike Christie   2006-04-06  1539  	}
+7996a778ff8c717 Mike Christie   2006-04-06  1540  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  601  	=
-up_read(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  602  	=
-return 3 + ((b - a) << 1);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  603  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  604  =
+9c19a7d0387124a Mike Christie   2008-05-21  1541  	if (conn->task) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1542  		rc =3D iscsi_xmit_task(=
+conn, conn->task, false);
+3219e5294150aee Mike Christie   2006-05-30  1543  	        if (rc)
+70b31c152dc49ef Mike Christie   2009-08-20  1544  		        goto done;
+7996a778ff8c717 Mike Christie   2006-04-06  1545  	}
+77a23c21aaa723f Mike Christie   2007-05-30  1546  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  605  s=
-tatic ssize_t show_line1(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  606  	=
-		char *buf)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  607  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  608  	=
-return show_line(dev, buf, LCD_LINE1_OFFSET, LCD_LINE2_OFFSET);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  609  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  610  =
+77a23c21aaa723f Mike Christie   2007-05-30  1547  	/*
+77a23c21aaa723f Mike Christie   2007-05-30  1548  	 * process mgmt pdus lik=
+e nops before commands since we should
+77a23c21aaa723f Mike Christie   2007-05-30  1549  	 * only have one nop-out=
+ as a ping from us and targets should not
+77a23c21aaa723f Mike Christie   2007-05-30  1550  	 * overflow us with nop-=
+ins
+77a23c21aaa723f Mike Christie   2007-05-30  1551  	 */
+77a23c21aaa723f Mike Christie   2007-05-30  1552  check_mgmt:
+843c0a8a76078cf Mike Christie   2007-12-13  1553  	while (!list_empty(&conn=
+->mgmtqueue)) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1554  		task =3D list_entry(con=
+n->mgmtqueue.next, struct iscsi_task,
+5923d64b7ab63dc Mike Christie   2021-02-06  1555  				  running);
+5923d64b7ab63dc Mike Christie   2021-02-06  1556  		list_del_init(&task->ru=
+nning);
+5923d64b7ab63dc Mike Christie   2021-02-06  1557  		if (iscsi_prep_mgmt_tas=
+k(conn, task)) {
+659743b02c41107 Shlomo Pongratz 2014-02-07  1558  			/* regular RX path use=
+s back_lock */
+659743b02c41107 Shlomo Pongratz 2014-02-07  1559  			spin_lock_bh(&conn->se=
+ssion->back_lock);
+5923d64b7ab63dc Mike Christie   2021-02-06  1560  			__iscsi_put_task(task);
+659743b02c41107 Shlomo Pongratz 2014-02-07  1561  			spin_unlock_bh(&conn->=
+session->back_lock);
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1562  			continue;
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1563  		}
+5923d64b7ab63dc Mike Christie   2021-02-06  1564  		rc =3D iscsi_xmit_task(=
+conn, task, false);
+3219e5294150aee Mike Christie   2006-05-30  1565  		if (rc)
+70b31c152dc49ef Mike Christie   2009-08-20  1566  			goto done;
+7996a778ff8c717 Mike Christie   2006-04-06  1567  	}
+7996a778ff8c717 Mike Christie   2006-04-06  1568  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  611  s=
-tatic ssize_t show_line2(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  612  	=
-		char *buf)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  613  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  614  	=
-return show_line(dev, buf, LCD_LINE2_OFFSET, LCD_LINE3_OFFSET);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  615  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  616  =
+843c0a8a76078cf Mike Christie   2007-12-13  1569  	/* process pending comma=
+nd queue */
+3bbaaad95fd38de Mike Christie   2009-05-13  1570  	while (!list_empty(&conn=
+->cmdqueue)) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1571  		task =3D list_entry(con=
+n->cmdqueue.next, struct iscsi_task,
+5d12c05e29fc871 Mike Christie   2009-11-11  1572  				  running);
+5923d64b7ab63dc Mike Christie   2021-02-06  1573  		list_del_init(&task->ru=
+nning);
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1574  		if (conn->session->stat=
+e =3D=3D ISCSI_STATE_LOGGING_OUT) {
+5923d64b7ab63dc Mike Christie   2021-02-06  1575  			fail_scsi_task(task, D=
+ID_IMM_RETRY);
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1576  			continue;
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1577  		}
+5923d64b7ab63dc Mike Christie   2021-02-06  1578  		rc =3D iscsi_prep_scsi_=
+cmd_pdu(task);
+577577da6d197ea Mike Christie   2008-12-02  1579  		if (rc) {
+d28d48c69977997 Mike Christie   2021-02-06  1580  			if (rc =3D=3D -ENOMEM =
+|| rc =3D=3D -EACCES)
+5923d64b7ab63dc Mike Christie   2021-02-06  1581  				fail_scsi_task(task, =
+DID_IMM_RETRY);
+d28d48c69977997 Mike Christie   2021-02-06  1582  			else
+5923d64b7ab63dc Mike Christie   2021-02-06  1583  				fail_scsi_task(task, =
+DID_ABORT);
+004d6530f83bee4 Boaz Harrosh    2007-12-13  1584  			continue;
+004d6530f83bee4 Boaz Harrosh    2007-12-13  1585  		}
+5923d64b7ab63dc Mike Christie   2021-02-06  1586  		rc =3D iscsi_xmit_task(=
+conn, task, false);
+3219e5294150aee Mike Christie   2006-05-30  1587  		if (rc)
+70b31c152dc49ef Mike Christie   2009-08-20  1588  			goto done;
+77a23c21aaa723f Mike Christie   2007-05-30  1589  		/*
+9c19a7d0387124a Mike Christie   2008-05-21  1590  		 * we could continuousl=
+y get new task requests so
+77a23c21aaa723f Mike Christie   2007-05-30  1591  		 * we need to check the=
+ mgmt queue for nops that need to
+77a23c21aaa723f Mike Christie   2007-05-30  1592  		 * be sent to aviod sta=
+rvation
+77a23c21aaa723f Mike Christie   2007-05-30  1593  		 */
+843c0a8a76078cf Mike Christie   2007-12-13  1594  		if (!list_empty(&conn->=
+mgmtqueue))
+843c0a8a76078cf Mike Christie   2007-12-13  1595  			goto check_mgmt;
+843c0a8a76078cf Mike Christie   2007-12-13  1596  	}
+843c0a8a76078cf Mike Christie   2007-12-13  1597  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  617  s=
-tatic ssize_t show_line3(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  618  	=
-		char *buf)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  619  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  620  	=
-return show_line(dev, buf, LCD_LINE3_OFFSET, LCD_LINE4_OFFSET);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  621  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  622  =
+843c0a8a76078cf Mike Christie   2007-12-13  1598  	while (!list_empty(&conn=
+->requeue)) {
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1599  		/*
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1600  		 * we always do fastlog=
+out - conn stop code will clean up.
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1601  		 */
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1602  		if (conn->session->stat=
+e =3D=3D ISCSI_STATE_LOGGING_OUT)
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1603  			break;
+b3a7ea8d50f6028 Mike Christie   2007-12-13  1604  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  623  /=
-* Writing to /sys/../lineX will set the coresponding LCD line.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  624   =
-* - Excess characters are ignored.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  625   =
-* - If less characters are written than allowed, the remaining digits are
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  626   =
-*   unchanged.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  627   =
-* - The '\n' or '\t' char is a placeholder, it does not overwrite the
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  628   =
-*   original content.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  629   =
-*/
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  630  s=
-tatic ssize_t store_line(struct device *dev, const char *buf, size_t count,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  631  	=
-	int el, size_t len)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  632  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  633  	=
-struct yealink_dev *yld;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  634  	=
-int i;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  635  =
+5d12c05e29fc871 Mike Christie   2009-11-11  1605  		task =3D list_entry(con=
+n->requeue.next, struct iscsi_task,
+5d12c05e29fc871 Mike Christie   2009-11-11  1606  				  running);
+5923d64b7ab63dc Mike Christie   2021-02-06  1607  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  636  	=
-down_write(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  637  	=
-yld =3D dev_get_drvdata(dev);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  638  	=
-if (yld =3D=3D NULL) {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  639  	=
-	up_write(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  640  	=
-	return -ENODEV;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  641  	}
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  642  =
+5d12c05e29fc871 Mike Christie   2009-11-11  1608  		if (iscsi_check_tmf_res=
+trictions(task, ISCSI_OP_SCSI_DATA_OUT))
+5d12c05e29fc871 Mike Christie   2009-11-11  1609  			break;
+5d12c05e29fc871 Mike Christie   2009-11-11  1610  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  643  	=
-if (len > count)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  644  	=
-	len =3D count;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  645  	=
-for (i =3D 0; i < len; i++)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  646  	=
-	setChar(yld, el++, buf[i]);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  647  =
+5923d64b7ab63dc Mike Christie   2021-02-06  1611  		list_del_init(&task->ru=
+nning);
+5923d64b7ab63dc Mike Christie   2021-02-06  1612  		rc =3D iscsi_xmit_task(=
+conn, task, true);
+843c0a8a76078cf Mike Christie   2007-12-13  1613  		if (rc)
+70b31c152dc49ef Mike Christie   2009-08-20  1614  			goto done;
+843c0a8a76078cf Mike Christie   2007-12-13  1615  		if (!list_empty(&conn->=
+mgmtqueue))
+77a23c21aaa723f Mike Christie   2007-05-30  1616  			goto check_mgmt;
+7996a778ff8c717 Mike Christie   2006-04-06  1617  	}
+659743b02c41107 Shlomo Pongratz 2014-02-07  1618  	spin_unlock_bh(&conn->se=
+ssion->frwd_lock);
+3219e5294150aee Mike Christie   2006-05-30  1619  	return -ENODATA;
+7996a778ff8c717 Mike Christie   2006-04-06  1620  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  648  	=
-up_write(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  649  	=
-return count;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  650  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  651  =
+70b31c152dc49ef Mike Christie   2009-08-20  1621  done:
+659743b02c41107 Shlomo Pongratz 2014-02-07  1622  	spin_unlock_bh(&conn->se=
+ssion->frwd_lock);
+3219e5294150aee Mike Christie   2006-05-30  1623  	return rc;
+7996a778ff8c717 Mike Christie   2006-04-06  1624  }
+7996a778ff8c717 Mike Christie   2006-04-06  1625  =
 
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  652  s=
-tatic ssize_t store_line1(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  653  	=
-			const char *buf, size_t count)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  654  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  655  	=
-return store_line(dev, buf, count, LCD_LINE1_OFFSET, LCD_LINE1_SIZE);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  656  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  657  =
-
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  658  s=
-tatic ssize_t store_line2(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  659  	=
-			const char *buf, size_t count)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  660  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  661  	=
-return store_line(dev, buf, count, LCD_LINE2_OFFSET, LCD_LINE2_SIZE);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  662  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  663  =
-
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  664  s=
-tatic ssize_t store_line3(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  665  	=
-			const char *buf, size_t count)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  666  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  667  	=
-return store_line(dev, buf, count, LCD_LINE3_OFFSET, LCD_LINE3_SIZE);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  668  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  669  =
-
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  670  /=
-* Interface to visible and audible "icons", these include:
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  671   =
-* pictures on the LCD, the LED, and the dialtone signal.
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  672   =
-*/
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  673  =
-
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  674  /=
-* Get a list of "switchable elements" with their current state. */
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  675  s=
-tatic ssize_t get_icons(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  676  	=
-		char *buf)
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  677  {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  678  	=
-struct yealink_dev *yld;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  679  	=
-int i, ret =3D 1;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  680  =
-
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  681  	=
-down_read(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  682  	=
-yld =3D dev_get_drvdata(dev);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  683  	=
-if (yld =3D=3D NULL) {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  684  	=
-	up_read(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  685  	=
-	return -ENODEV;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  686  	}
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  687  =
-
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  688  	=
-for (i =3D 0; i < ARRAY_SIZE(lcdMap); i++) {
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  689  	=
-	if (lcdMap[i].type !=3D '.')
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  690  	=
-		continue;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16 @691  	=
-	ret +=3D sprintf(&buf[ret], "%s %s\n",
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  692  	=
-			yld->lcdMap[i] =3D=3D ' ' ? "  " : "on",
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  693  	=
-			lcdMap[i].u.p.name);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  694  	}
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  695  	=
-up_read(&sysfs_rwsema);
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  696  	=
-return ret;
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  697  }
-aca951a22a1d93 drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  698  =
-
-
-:::::: The code at line 691 was first introduced by commit
-:::::: aca951a22a1d93ebe31b54052b3eb9a8196df2fc [PATCH] input-driver-yealin=
-k-P1K-usb-phone
-
-:::::: TO: Henk <Henk.Vergonet@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0523519043274063364==--
+--===============5770789687937564726==--
 
