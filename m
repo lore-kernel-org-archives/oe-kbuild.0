@@ -1,237 +1,704 @@
-Content-Type: multipart/mixed; boundary="===============4374303994190058320=="
+Content-Type: multipart/mixed; boundary="===============4200356059463789323=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 767/4957] kernel/bpf/bpf_iter.c:312:26: warning: Uninitialized variable: tinfo->reg_info [uninitvar]
-Date: Thu, 21 Apr 2022 14:43:03 +0800
-Message-ID: <202204210640.qtgMdhnI-lkp@intel.com>
+Subject: drivers/input/misc/yealink.c:691:10: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
+Date: Thu, 21 Apr 2022 14:42:28 +0800
+Message-ID: <202204210447.YcuVMJdA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4374303994190058320==
+--===============4200356059463789323==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jakob Koschel <jakobkoschel@gmail.com>
-CC: Andrii Nakryiko <andrii@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Alex Shi <alexs@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   f1244c81da13009dbf61cb807f45881501c44789
-commit: 185da3da9379948ffbe45051b16d526c428fb06e [767/4957] bpf: Replace us=
-age of supported with dedicated list iterator variable
-:::::: branch date: 14 hours ago
-:::::: commit date: 2 weeks ago
-compiler: ia64-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 185da3da9379948ffbe45051b16d526c428fb06e
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   559089e0a93d44280ec3ab478830af319c56dbe3
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
+11
+date:   6 weeks ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 6 weeks ago
+config: riscv-randconfig-c006-20220420 (https://download.01.org/0day-ci/arc=
+hive/20220421/202204210447.YcuVMJdA-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
+5bf85669e3376610cfc4c4f9ca015e7b9b)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^~~~~~
+   drivers/input/joystick/xpad.c:1035:3: note: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(xpad->odata, packet->data, packet->len);
+                   ^~~~~~
+   drivers/input/joystick/xpad.c:1236:2: warning: Call to function 'memcpy'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(packet->data, mode_report_ack, packet->len);
+           ^~~~~~
+   drivers/input/joystick/xpad.c:1236:2: note: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(packet->data, mode_report_ack, packet->len);
+           ^~~~~~
+   drivers/input/joystick/xpad.c:1465:2: warning: Call to function 'snprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'snprintf_s' in case of C11 [clang-analy=
+zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(led->name, sizeof(led->name), "xpad%d", xpad->pad_nr);
+           ^~~~~~~~
+   drivers/input/joystick/xpad.c:1465:2: note: Call to function 'snprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(led->name, sizeof(led->name), "xpad%d", xpad->pad_nr);
+           ^~~~~~~~
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (20 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (20 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   31 warnings generated.
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   drivers/input/misc/tps65218-pwrbutton.c:113:2: warning: Call to function=
+ 'snprintf' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
+           ^~~~~~~~
+   drivers/input/misc/tps65218-pwrbutton.c:113:2: note: Call to function 's=
+nprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
+           ^~~~~~~~
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   31 warnings generated.
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   27 warnings generated.
+   Suppressed 27 warnings (27 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   drivers/input/misc/uinput.c:956:4: warning: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memset(&ff_up.old, 0, sizeof(struct ff_effect));
+                           ^~~~~~
+   drivers/input/misc/uinput.c:956:4: note: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11
+                           memset(&ff_up.old, 0, sizeof(struct ff_effect));
+                           ^~~~~~
+   Suppressed 27 warnings (27 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   drivers/input/misc/yealink.c:288:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
+           ^~~~~~
+   drivers/input/misc/yealink.c:288:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
+           ^~~~~~
+   drivers/input/misc/yealink.c:305:3: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(p->data, &buf[ix], len);
+                   ^~~~~~
+   drivers/input/misc/yealink.c:305:3: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(p->data, &buf[ix], len);
+                   ^~~~~~
+   drivers/input/misc/yealink.c:321:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
+           ^~~~~~
+   drivers/input/misc/yealink.c:321:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
+           ^~~~~~
+   drivers/input/misc/yealink.c:516:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
+           ^~~~~~
+   drivers/input/misc/yealink.c:516:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
+           ^~~~~~
+   drivers/input/misc/yealink.c:558:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buf, &map_seg7, sizeof(map_seg7));
+           ^~~~~~
+   drivers/input/misc/yealink.c:558:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(buf, &map_seg7, sizeof(map_seg7));
+           ^~~~~~
+   drivers/input/misc/yealink.c:567:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&map_seg7, buf, sizeof(map_seg7));
+           ^~~~~~
+   drivers/input/misc/yealink.c:567:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&map_seg7, buf, sizeof(map_seg7));
+           ^~~~~~
+>> drivers/input/misc/yealink.c:691:10: warning: Call to function 'sprintf'=
+ is insecure as it does not provide bounding of the memory buffer or securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+                   ret +=3D sprintf(&buf[ret], "%s %s\n",
+                          ^~~~~~~
+   drivers/input/misc/yealink.c:691:10: note: Call to function 'sprintf' is=
+ insecure as it does not provide bounding of the memory buffer or security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+                   ret +=3D sprintf(&buf[ret], "%s %s\n",
+                          ^~~~~~~
+   drivers/input/misc/yealink.c:979:2: warning: Value stored to 'ret' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           ret =3D sysfs_create_group(&intf->dev.kobj, &yld_attr_group);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/misc/yealink.c:979:2: note: Value stored to 'ret' is never=
+ read
+           ret =3D sysfs_create_group(&intf->dev.kobj, &yld_attr_group);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   34 warnings generated.
+   drivers/usb/serial/cypress_m8.c:705:2: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(port->interrupt_out_urb->transfer_buffer, 0,
+           ^~~~~~
+   drivers/usb/serial/cypress_m8.c:705:2: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+           memset(port->interrupt_out_urb->transfer_buffer, 0,
+           ^~~~~~
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   31 warnings generated.
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   drivers/accessibility/speakup/synth.c:225:6: warning: Call to function '=
+vsnprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'vsnprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           r =3D vsnprintf(buf, sizeof(buf), fmt, args);
+               ^~~~~~~~~
+   drivers/accessibility/speakup/synth.c:225:6: note: Call to function 'vsn=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'vsnprintf_s' in case of C11
+           r =3D vsnprintf(buf, sizeof(buf), fmt, args);
+               ^~~~~~~~~
+   drivers/accessibility/speakup/synth.c:331:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&synth_res, 0, sizeof(synth_res));
+           ^~~~~~
+   drivers/accessibility/speakup/synth.c:331:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(&synth_res, 0, sizeof(synth_res));
+           ^~~~~~
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   31 warnings generated.
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   35 warnings generated.
+   drivers/char/xillybus/xillyusb.c:355:2: warning: Call to function 'memcp=
+y' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dst, src, n);
+           ^~~~~~
+   drivers/char/xillybus/xillyusb.c:355:2: note: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(dst, src, n);
+           ^~~~~~
+   drivers/char/xillybus/xillyusb.c:1153:4: warning: Value stored to 'rc' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           rc =3D wait_event_interruptible_timeout(chan->fl=
+ushq,
+                           ^
+   drivers/char/xillybus/xillyusb.c:1153:4: note: Value stored to 'rc' is n=
+ever read
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   35 warnings generated.
+   drivers/usb/serial/usb-serial.c:781:9: warning: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", port->port_number);
+                  ^~~~~~~
+   drivers/usb/serial/usb-serial.c:781:9: note: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", port->port_number);
+                  ^~~~~~~
+   drivers/usb/serial/usb-serial.c:1524:2: warning: Value stored to 'rc' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           rc =3D driver_attach(&udriver->drvwrap.driver);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/usb-serial.c:1524:2: note: Value stored to 'rc' is ne=
+ver read
+           rc =3D driver_attach(&udriver->drvwrap.driver);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 33 warnings (33 in non-user code).
 
-   kernel/bpf/bpf_iter.c:456:12: warning: Boolean result is used in bitwise=
- operation. Clarify expression with parentheses. [clarifyCondition]
-    if (!ulen ^ !ubuf)
-              ^
-   kernel/bpf/bpf_iter.c:516:29: warning: Boolean result is used in bitwise=
- operation. Clarify expression with parentheses. [clarifyCondition]
-    if (bpfptr_is_null(ulinfo) ^ !linfo_len)
-                               ^
->> kernel/bpf/bpf_iter.c:312:26: warning: Uninitialized variable: tinfo->re=
-g_info [uninitvar]
-     if (reg_info =3D=3D tinfo->reg_info) {
-                            ^
->> kernel/bpf/bpf_iter.c:343:13: warning: Uninitialized variable: iter->btf=
-_id [uninitvar]
-     if (iter->btf_id && iter->btf_id =3D=3D prog_btf_id) {
-               ^
-   kernel/bpf/bpf_iter.c:338:13: note: Assuming condition is false
-    if (strncmp(attach_fname, prefix, prefix_len))
-               ^
-   kernel/bpf/bpf_iter.c:343:13: note: Uninitialized variable: iter->btf_id
-     if (iter->btf_id && iter->btf_id =3D=3D prog_btf_id) {
-               ^
->> kernel/bpf/bpf_iter.c:371:14: warning: Uninitialized variable: tinfo->bt=
-f_id [uninitvar]
-     if (tinfo->btf_id =3D=3D prog->aux->attach_btf_id) {
-                ^
->> kernel/bpf/bpf_iter.c:375:8: warning: Uninitialized variable: reg_info [=
-uninitvar]
-      if (reg_info->get_func_proto)
-          ^
-   kernel/bpf/bpf_iter.c:374:20: note: Assignment 'reg_info=3Dtinfo->reg_in=
-fo', assigned value is <Uninit>
-      reg_info =3D tinfo->reg_info;
-                      ^
-   kernel/bpf/bpf_iter.c:375:8: note: Uninitialized variable: reg_info
-      if (reg_info->get_func_proto)
-          ^
->> net/unix/af_unix.c:210:46: warning: Parameter 'sk' can be declared with =
-const [constParameter]
-   static inline int unix_our_peer(struct sock *sk, struct sock *osk)
-                                                ^
->> net/unix/af_unix.c:2530:23: warning: Parameter 'last' can be declared wi=
-th const [constParameter]
-         struct sk_buff *last, unsigned int last_len,
-                         ^
->> net/unix/af_unix.c:3228:68: warning: Parameter 'pos' can be declared wit=
-h const [constParameter]
-   static struct sock *unix_from_bucket(struct seq_file *seq, loff_t *pos)
-                                                                      ^
+vim +691 drivers/input/misc/yealink.c
 
-vim +312 kernel/bpf/bpf_iter.c
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  552  =
 
-ae24345da54e452 Yonghong Song    2020-05-09  304  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  553  =
+/* Interface to the 7-segments translation table aka. char set.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  554  =
+ */
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  555  =
+static ssize_t show_map(struct device *dev, struct device_attribute *attr,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  556  =
+				char *buf)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  557  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16 @558  =
+	memcpy(buf, &map_seg7, sizeof(map_seg7));
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  559  =
+	return sizeof(map_seg7);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  560  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  561  =
 
-ab2ee4fcb9d61fd Yonghong Song    2020-05-13  305  void bpf_iter_unreg_targe=
-t(const struct bpf_iter_reg *reg_info)
-ae24345da54e452 Yonghong Song    2020-05-09  306  {
-ae24345da54e452 Yonghong Song    2020-05-09  307  	struct bpf_iter_target_i=
-nfo *tinfo;
-ae24345da54e452 Yonghong Song    2020-05-09  308  	bool found =3D false;
-ae24345da54e452 Yonghong Song    2020-05-09  309  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  562  =
+static ssize_t store_map(struct device *dev, struct device_attribute *attr,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  563  =
+				const char *buf, size_t cnt)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  564  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  565  =
+	if (cnt !=3D sizeof(map_seg7))
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  566  =
+		return -EINVAL;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  567  =
+	memcpy(&map_seg7, buf, sizeof(map_seg7));
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  568  =
+	return sizeof(map_seg7);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  569  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  570  =
 
-ae24345da54e452 Yonghong Song    2020-05-09  310  	mutex_lock(&targets_mute=
-x);
-ae24345da54e452 Yonghong Song    2020-05-09  311  	list_for_each_entry(tinf=
-o, &targets, list) {
-ab2ee4fcb9d61fd Yonghong Song    2020-05-13 @312  		if (reg_info =3D=3D tin=
-fo->reg_info) {
-ae24345da54e452 Yonghong Song    2020-05-09  313  			list_del(&tinfo->list);
-ae24345da54e452 Yonghong Song    2020-05-09  314  			kfree(tinfo);
-ae24345da54e452 Yonghong Song    2020-05-09  315  			found =3D true;
-ae24345da54e452 Yonghong Song    2020-05-09  316  			break;
-ae24345da54e452 Yonghong Song    2020-05-09  317  		}
-ae24345da54e452 Yonghong Song    2020-05-09  318  	}
-ae24345da54e452 Yonghong Song    2020-05-09  319  	mutex_unlock(&targets_mu=
-tex);
-ae24345da54e452 Yonghong Song    2020-05-09  320  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  571  =
+/* Interface to the LCD.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  572  =
+ */
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  573  =
 
-ae24345da54e452 Yonghong Song    2020-05-09  321  	WARN_ON(found =3D=3D fal=
-se);
-ae24345da54e452 Yonghong Song    2020-05-09  322  }
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  323  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  574  =
+/* Reading /sys/../lineX will return the format string with its settings:
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  575  =
+ *
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  576  =
+ * Example:
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  577  =
+ * cat ./line3
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  578  =
+ * 888888888888
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  579  =
+ * Linux Rocks!
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  580  =
+ */
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  581  =
+static ssize_t show_line(struct device *dev, char *buf, int a, int b)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  582  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  583  =
+	struct yealink_dev *yld;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  584  =
+	int i;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  585  =
 
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  324  static void cache_btf_id(=
-struct bpf_iter_target_info *tinfo,
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  325  			 struct bpf_prog *prog)
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  326  {
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  327  	tinfo->btf_id =3D prog->=
-aux->attach_btf_id;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  328  }
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  329  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  586  =
+	down_read(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  587  =
+	yld =3D dev_get_drvdata(dev);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  588  =
+	if (yld =3D=3D NULL) {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  589  =
+		up_read(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  590  =
+		return -ENODEV;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  591  =
+	}
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  592  =
 
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  330  bool bpf_iter_prog_suppor=
-ted(struct bpf_prog *prog)
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  331  {
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  332  	const char *attach_fname=
- =3D prog->aux->attach_func_name;
-185da3da9379948 Jakob Koschel    2022-03-31  333  	struct bpf_iter_target_i=
-nfo *tinfo =3D NULL, *iter;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  334  	u32 prog_btf_id =3D prog=
-->aux->attach_btf_id;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  335  	const char *prefix =3D B=
-PF_ITER_FUNC_PREFIX;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  336  	int prefix_len =3D strle=
-n(prefix);
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  337  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  593  =
+	for (i =3D a; i < b; i++)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  594  =
+		*buf++ =3D lcdMap[i].type;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  595  =
+	*buf++ =3D '\n';
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  596  =
+	for (i =3D a; i < b; i++)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  597  =
+		*buf++ =3D yld->lcdMap[i];
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  598  =
+	*buf++ =3D '\n';
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  599  =
+	*buf =3D 0;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  600  =
 
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  338  	if (strncmp(attach_fname=
-, prefix, prefix_len))
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  339  		return false;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  340  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  601  =
+	up_read(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  602  =
+	return 3 + ((b - a) << 1);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  603  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  604  =
 
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  341  	mutex_lock(&targets_mute=
-x);
-185da3da9379948 Jakob Koschel    2022-03-31  342  	list_for_each_entry(iter=
-, &targets, list) {
-185da3da9379948 Jakob Koschel    2022-03-31 @343  		if (iter->btf_id && ite=
-r->btf_id =3D=3D prog_btf_id) {
-185da3da9379948 Jakob Koschel    2022-03-31  344  			tinfo =3D iter;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  345  			break;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  346  		}
-185da3da9379948 Jakob Koschel    2022-03-31  347  		if (!strcmp(attach_fnam=
-e + prefix_len, iter->reg_info->target)) {
-185da3da9379948 Jakob Koschel    2022-03-31  348  			cache_btf_id(iter, pro=
-g);
-185da3da9379948 Jakob Koschel    2022-03-31  349  			tinfo =3D iter;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  350  			break;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  351  		}
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  352  	}
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  353  	mutex_unlock(&targets_mu=
-tex);
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  354  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  605  =
+static ssize_t show_line1(struct device *dev, struct device_attribute *attr,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  606  =
+			char *buf)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  607  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  608  =
+	return show_line(dev, buf, LCD_LINE1_OFFSET, LCD_LINE2_OFFSET);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  609  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  610  =
 
-185da3da9379948 Jakob Koschel    2022-03-31  355  	if (tinfo) {
-3c32cc1bceba8a1 Yonghong Song    2020-05-13  356  		prog->aux->ctx_arg_info=
-_size =3D tinfo->reg_info->ctx_arg_info_size;
-3c32cc1bceba8a1 Yonghong Song    2020-05-13  357  		prog->aux->ctx_arg_info=
- =3D tinfo->reg_info->ctx_arg_info;
-3c32cc1bceba8a1 Yonghong Song    2020-05-13  358  	}
-3c32cc1bceba8a1 Yonghong Song    2020-05-13  359  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  611  =
+static ssize_t show_line2(struct device *dev, struct device_attribute *attr,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  612  =
+			char *buf)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  613  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  614  =
+	return show_line(dev, buf, LCD_LINE2_OFFSET, LCD_LINE3_OFFSET);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  615  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  616  =
 
-185da3da9379948 Jakob Koschel    2022-03-31  360  	return tinfo !=3D NULL;
-15d83c4d7cef5c0 Yonghong Song    2020-05-09  361  }
-de4e05cac46d206 Yonghong Song    2020-05-09  362  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  617  =
+static ssize_t show_line3(struct device *dev, struct device_attribute *attr,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  618  =
+			char *buf)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  619  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  620  =
+	return show_line(dev, buf, LCD_LINE3_OFFSET, LCD_LINE4_OFFSET);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  621  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  622  =
 
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  363  const struct bpf_func_pro=
-to *
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  364  bpf_iter_get_func_proto(e=
-num bpf_func_id func_id, const struct bpf_prog *prog)
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  365  {
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  366  	const struct bpf_iter_ta=
-rget_info *tinfo;
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  367  	const struct bpf_func_pr=
-oto *fn =3D NULL;
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  368  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  623  =
+/* Writing to /sys/../lineX will set the coresponding LCD line.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  624  =
+ * - Excess characters are ignored.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  625  =
+ * - If less characters are written than allowed, the remaining digits are
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  626  =
+ *   unchanged.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  627  =
+ * - The '\n' or '\t' char is a placeholder, it does not overwrite the
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  628  =
+ *   original content.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  629  =
+ */
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  630  =
+static ssize_t store_line(struct device *dev, const char *buf, size_t count,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  631  =
+		int el, size_t len)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  632  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  633  =
+	struct yealink_dev *yld;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  634  =
+	int i;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  635  =
 
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  369  	mutex_lock(&targets_mute=
-x);
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  370  	list_for_each_entry(tinf=
-o, &targets, list) {
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01 @371  		if (tinfo->btf_id =3D=
-=3D prog->aux->attach_btf_id) {
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  372  			const struct bpf_iter_=
-reg *reg_info;
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  373  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  636  =
+	down_write(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  637  =
+	yld =3D dev_get_drvdata(dev);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  638  =
+	if (yld =3D=3D NULL) {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  639  =
+		up_write(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  640  =
+		return -ENODEV;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  641  =
+	}
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  642  =
 
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  374  			reg_info =3D tinfo->re=
-g_info;
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01 @375  			if (reg_info->get_func=
-_proto)
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  376  				fn =3D reg_info->get_=
-func_proto(func_id, prog);
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  377  			break;
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  378  		}
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  379  	}
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  380  	mutex_unlock(&targets_mu=
-tex);
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  381  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  643  =
+	if (len > count)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  644  =
+		len =3D count;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  645  =
+	for (i =3D 0; i < len; i++)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  646  =
+		setChar(yld, el++, buf[i]);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  647  =
 
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  382  	return fn;
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  383  }
-3cee6fb8e69ecd7 Martin KaFai Lau 2021-07-01  384  =
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  648  =
+	up_write(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  649  =
+	return count;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  650  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  651  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  652  =
+static ssize_t store_line1(struct device *dev, struct device_attribute *att=
+r,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  653  =
+				const char *buf, size_t count)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  654  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  655  =
+	return store_line(dev, buf, count, LCD_LINE1_OFFSET, LCD_LINE1_SIZE);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  656  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  657  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  658  =
+static ssize_t store_line2(struct device *dev, struct device_attribute *att=
+r,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  659  =
+				const char *buf, size_t count)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  660  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  661  =
+	return store_line(dev, buf, count, LCD_LINE2_OFFSET, LCD_LINE2_SIZE);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  662  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  663  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  664  =
+static ssize_t store_line3(struct device *dev, struct device_attribute *att=
+r,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  665  =
+				const char *buf, size_t count)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  666  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  667  =
+	return store_line(dev, buf, count, LCD_LINE3_OFFSET, LCD_LINE3_SIZE);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  668  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  669  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  670  =
+/* Interface to visible and audible "icons", these include:
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  671  =
+ * pictures on the LCD, the LED, and the dialtone signal.
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  672  =
+ */
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  673  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  674  =
+/* Get a list of "switchable elements" with their current state. */
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  675  =
+static ssize_t get_icons(struct device *dev, struct device_attribute *attr,
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  676  =
+			char *buf)
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  677  {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  678  =
+	struct yealink_dev *yld;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  679  =
+	int i, ret =3D 1;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  680  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  681  =
+	down_read(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  682  =
+	yld =3D dev_get_drvdata(dev);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  683  =
+	if (yld =3D=3D NULL) {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  684  =
+		up_read(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  685  =
+		return -ENODEV;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  686  =
+	}
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  687  =
+
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  688  =
+	for (i =3D 0; i < ARRAY_SIZE(lcdMap); i++) {
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  689  =
+		if (lcdMap[i].type !=3D '.')
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  690  =
+			continue;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16 @691  =
+		ret +=3D sprintf(&buf[ret], "%s %s\n",
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  692  =
+				yld->lcdMap[i] =3D=3D ' ' ? "  " : "on",
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  693  =
+				lcdMap[i].u.p.name);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  694  =
+	}
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  695  =
+	up_read(&sysfs_rwsema);
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  696  =
+	return ret;
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  697  }
+aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  698  =
 
 
-:::::: The code at line 312 was first introduced by commit
-:::::: ab2ee4fcb9d61fd57db70db694adbcf54662bd80 bpf: Change func bpf_iter_u=
-nreg_target() signature
+:::::: The code at line 691 was first introduced by commit
+:::::: aca951a22a1d93ebe31b54052b3eb9a8196df2fc [PATCH] input-driver-yealin=
+k-P1K-usb-phone
 
-:::::: TO: Yonghong Song <yhs@fb.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+:::::: TO: Henk <Henk.Vergonet@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4374303994190058320==--
+--===============4200356059463789323==--
 
