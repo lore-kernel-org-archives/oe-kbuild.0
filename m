@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9128521614923756037=="
+Content-Type: multipart/mixed; boundary="===============0514451088962045980=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/7] clk: mediatek: reset: Merge and revise reset register function
-Date: Thu, 21 Apr 2022 14:41:45 +0800
-Message-ID: <202204210107.zeGBZsr1-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 138/396] fs/xfs/xfs_inode.c:3840:20: warning: Value stored to 'ifp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 21 Apr 2022 14:40:57 +0800
+Message-ID: <202204202314.RKE4xVnk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9128521614923756037==
+--===============0514451088962045980==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,61 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220418132154.7401-4-rex-bc.chen@mediatek.com>
-References: <20220418132154.7401-4-rex-bc.chen@mediatek.com>
-TO: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
-TO: mturquette(a)baylibre.com
-TO: sboyd(a)kernel.org
-CC: matthias.bgg(a)gmail.com
-CC: p.zabel(a)pengutronix.de
-CC: angelogioacchino.delregno(a)collabora.com
-CC: chun-jie.chen(a)mediatek.com
-CC: wenst(a)chromium.org
-CC: yong.liang(a)mediatek.com
-CC: runyang.chen(a)mediatek.com
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-CC: allen-kh.cheng(a)mediatek.com
-CC: linux-clk(a)vger.kernel.org
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: linux-mediatek(a)lists.infradead.org
-CC: Project_Global_Chrome_Upstream_Group(a)mediatek.com
-CC: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi Rex-BC,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on v5.18-rc3 next-20220420]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rex-BC-Chen/Cleanup-=
-MediaTek-clk-reset-drivers/20220418-223139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
-ext
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c002-20220420 (https://download.01.org/0day-ci/archi=
-ve/20220421/202204210107.zeGBZsr1-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
-5bf85669e3376610cfc4c4f9ca015e7b9b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   f5b8bfb5a673179515ef7df607347b696b3a0029
+commit: 2fab0f12c84469a81921ee1fd6874e7e43bafd8f [138/396] xfs: implement l=
+ive quotacheck inode scan
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: riscv-randconfig-c006-20220419 (https://download.01.org/0day-ci/arc=
+hive/20220420/202204202314.RKE4xVnk-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c1c49a=
+356162b22554088d269f7689bdb044a9f1)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/52d97559ba77d8eb304=
-19528d80d37d8f0dd09cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rex-BC-Chen/Cleanup-MediaTek-clk-r=
-eset-drivers/20220418-223139
-        git checkout 52d97559ba77d8eb30419528d80d37d8f0dd09cf
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3D2fab0f12c84469a81921ee1fd6874e7e43bafd8f
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs vectorized-scrub
+        git checkout 2fab0f12c84469a81921ee1fd6874e7e43bafd8f
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -77,316 +52,271 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/pinctrl/pinctrl-single.c:1856:2: note: Calling 'platform_set_drv=
-data'
-           platform_set_drvdata(pdev, pcs);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:243:2: note: Calling 'dev_set_drvdata'
-           dev_set_drvdata(&pdev->dev, data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:699:1: note: Returning without writing to 'data->=
-bits_per_mux', which participates in a condition later
-   }
-   ^
-   include/linux/device.h:699:1: note: Returning without writing to 'data->=
-bits_per_pin'
-   include/linux/platform_device.h:243:2: note: Returning from 'dev_set_drv=
-data'
-           dev_set_drvdata(&pdev->dev, data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:244:1: note: Returning without writing t=
-o 'data->bits_per_mux', which participates in a condition later
-   }
-   ^
-   include/linux/platform_device.h:244:1: note: Returning without writing t=
-o 'data->bits_per_pin'
-   drivers/pinctrl/pinctrl-single.c:1856:2: note: Returning from 'platform_=
-set_drvdata'
-           platform_set_drvdata(pdev, pcs);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:1858:2: note: Control jumps to the 'def=
-ault' case at line 1871
-           switch (pcs->width) {
-           ^
-   drivers/pinctrl/pinctrl-single.c:1872:3: note:  Execution continues on l=
-ine 1875
-                   break;
-                   ^
-   drivers/pinctrl/pinctrl-single.c:1878:6: note: Assuming the condition is=
- false
-           if (PCS_HAS_PINCONF)
-               ^
-   drivers/pinctrl/pinctrl-single.c:212:27: note: expanded from macro 'PCS_=
-HAS_PINCONF'
-   #define PCS_HAS_PINCONF         (pcs->flags & PCS_FEAT_PINCONF)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:1878:2: note: Taking false branch
-           if (PCS_HAS_PINCONF)
-           ^
-   drivers/pinctrl/pinctrl-single.c:1882:8: note: Calling 'pcs_allocate_pin=
-_table'
-           ret =3D pcs_allocate_pin_table(pcs);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:730:11: note: Field 'bits_per_mux' is t=
-rue
-           if (pcs->bits_per_mux) {
+                                    ^~~~~~~~~~~~~~~
+   mm/vmalloc.c:1824:20: note: expanded from macro 'VMAP_BBMAP_BITS'
+                           VMALLOC_PAGES / roundup_pow_of_two(NR_CPUS) / 16=
+))
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/log2.h:177:4: note: expanded from macro 'roundup_pow_of_tw=
+o'
+                   ((n) =3D=3D 1) ? 1 :                \
                     ^
-   drivers/pinctrl/pinctrl-single.c:730:2: note: Taking true branch
-           if (pcs->bits_per_mux) {
+   mm/vmalloc.c:1820:45: note: expanded from macro 'VMAP_MAX'
+   #define VMAP_MAX(x, y)          ((x) > (y) ? (x) : (y)) /* can't use max=
+() */
+                                                       ^
+   mm/vmalloc.c:1819:33: note: expanded from macro 'VMAP_MIN'
+   #define VMAP_MIN(x, y)          ((x) < (y) ? (x) : (y)) /* can't use min=
+() */
+                                           ^
+   mm/vmalloc.c:2055:20: note: '?' condition is true
+           offset =3D (addr & (VMAP_BLOCK_SIZE - 1)) >> PAGE_SHIFT;
+                             ^
+   mm/vmalloc.c:1826:27: note: expanded from macro 'VMAP_BLOCK_SIZE'
+   #define VMAP_BLOCK_SIZE         (VMAP_BBMAP_BITS * PAGE_SIZE)
+                                    ^
+   mm/vmalloc.c:1824:20: note: expanded from macro 'VMAP_BBMAP_BITS'
+                           VMALLOC_PAGES / roundup_pow_of_two(NR_CPUS) / 16=
+))
+                                           ^
+   include/linux/log2.h:177:3: note: expanded from macro 'roundup_pow_of_tw=
+o'
+                   ((n) =3D=3D 1) ? 1 :                \
+                   ^
+   mm/vmalloc.c:2055:20: note: '?' condition is true
+           offset =3D (addr & (VMAP_BLOCK_SIZE - 1)) >> PAGE_SHIFT;
+                             ^
+   mm/vmalloc.c:1826:27: note: expanded from macro 'VMAP_BLOCK_SIZE'
+   #define VMAP_BLOCK_SIZE         (VMAP_BBMAP_BITS * PAGE_SIZE)
+                                    ^
+   mm/vmalloc.c:1822:3: note: expanded from macro 'VMAP_BBMAP_BITS'
+                   VMAP_MIN(VMAP_BBMAP_BITS_MAX,   \
+                   ^
+   mm/vmalloc.c:1819:26: note: expanded from macro 'VMAP_MIN'
+   #define VMAP_MIN(x, y)          ((x) < (y) ? (x) : (y)) /* can't use min=
+() */
+                                    ^
+   mm/vmalloc.c:2060:2: note: Taking false branch
+           if (debug_pagealloc_enabled_static())
            ^
-   drivers/pinctrl/pinctrl-single.c:731:23: note: Calling 'fls'
-                   pcs->bits_per_pin =3D fls(pcs->fmask);
-                                       ^~~~~~~~~~~~~~~
-   include/asm-generic/bitops/builtin-fls.h:14:9: note: Assuming 'x' is 0
-           return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
-                  ^
-   include/asm-generic/bitops/builtin-fls.h:14:9: note: '?' condition is fa=
-lse
-   include/asm-generic/bitops/builtin-fls.h:14:2: note: Returning zero
-           return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:731:23: note: Returning from 'fls'
-                   pcs->bits_per_pin =3D fls(pcs->fmask);
-                                       ^~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:731:3: note: The value 0 is assigned to=
- field 'bits_per_pin'
-                   pcs->bits_per_pin =3D fls(pcs->fmask);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:732:41: note: Division by zero
-                   nr_pins =3D (pcs->size * BITS_PER_BYTE) / pcs->bits_per_=
-pin;
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:1417:3: warning: Value stored to 'mask'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   mask =3D pcs->read(pcswi->reg);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-single.c:1417:3: note: Value stored to 'mask' is=
- never read
-                   mask =3D pcs->read(pcswi->reg);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/clk/mediatek/clk-mt8173.c:887:2: warning: Value stored to 'r' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           r =3D mtk_clk_register_rst_ctrl(node, 2, 0x30, MTK_RST_V1);
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mt8173.c:887:2: note: Value stored to 'r' is ne=
-ver read
-           r =3D mtk_clk_register_rst_ctrl(node, 2, 0x30, MTK_RST_V1);
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mt8173.c:917:2: warning: Value stored to 'r' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           r =3D mtk_clk_register_rst_ctrl(node, 2, 0, MTK_RST_V1);
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mt8173.c:917:2: note: Value stored to 'r' is ne=
-ver read
-           r =3D mtk_clk_register_rst_ctrl(node, 2, 0, MTK_RST_V1);
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   lib/glob.c:48:32: warning: Assigned value is garbage or undefined [clang=
--analyzer-core.uninitialized.Assign]
-           char const *back_pat =3D NULL, *back_str =3D back_str;
-                                         ^          ~~~~~~~~
-   lib/glob.c:48:32: note: Assigned value is garbage or undefined
-           char const *back_pat =3D NULL, *back_str =3D back_str;
-                                         ^          ~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
+   mm/vmalloc.c:2066:18: note: Assuming '__UNIQUE_ID___x291' is >=3D '__UNI=
+QUE_ID___y292'
+           vb->dirty_min =3D min(vb->dirty_min, offset);
+                           ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   mm/vmalloc.c:2066:18: note: '?' condition is false
+           vb->dirty_min =3D min(vb->dirty_min, offset);
+                           ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   mm/vmalloc.c:2067:51: note: The result of the left shift is undefined du=
+e to shifting by '64', which is greater or equal to the width of type 'unsi=
+gned long'
+           vb->dirty_max =3D max(vb->dirty_max, offset + (1UL << order));
+                                                            ^
+   include/linux/minmax.h:52:36: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                                            ^
+   include/linux/minmax.h:38:17: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                                 ^
+   include/linux/minmax.h:32:25: note: expanded from macro '__cmp_once'
+                   typeof(y) unique_y =3D (y);               \
+                                         ^
    Suppressed 4 warnings (3 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   fs/xfs/xfs_iops.c:650:11: warning: Value stored to 'uid' during its init=
+ialization is never read [clang-analyzer-deadcode.DeadStores]
+           kuid_t                  uid =3D GLOBAL_ROOT_UID;
+                                   ^~~
+   fs/xfs/xfs_iops.c:650:11: note: Value stored to 'uid' during its initial=
+ization is never read
+           kuid_t                  uid =3D GLOBAL_ROOT_UID;
+                                   ^~~
+   fs/xfs/xfs_iops.c:651:11: warning: Value stored to 'gid' during its init=
+ialization is never read [clang-analyzer-deadcode.DeadStores]
+           kgid_t                  gid =3D GLOBAL_ROOT_GID;
+                                   ^~~
+   fs/xfs/xfs_iops.c:651:11: note: Value stored to 'gid' during its initial=
+ization is never read
+           kgid_t                  gid =3D GLOBAL_ROOT_GID;
+                                   ^~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   arch/arm/kernel/setup.c:1121:17: warning: Access to field 'name' results=
- in a dereference of a null pointer (loaded from variable 'mdesc') [clang-a=
-nalyzer-core.NullDereference]
-           machine_name =3D mdesc->name;
-                          ^~~~~
-   arch/arm/kernel/setup.c:1099:6: note: Assuming '__atags_pointer' is 0
-           if (__atags_pointer)
-               ^~~~~~~~~~~~~~~
-   arch/arm/kernel/setup.c:1099:2: note: Taking false branch
-           if (__atags_pointer)
+>> fs/xfs/xfs_inode.c:3840:20: warning: Value stored to 'ifp' during its in=
+itialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(ip, XFS_DATA_FORK=
+);
+                                    ^~~
+   fs/xfs/xfs_inode.c:3840:20: note: Value stored to 'ifp' during its initi=
+alization is never read
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(ip, XFS_DATA_FORK=
+);
+                                    ^~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/xfs/xfs_reflink.c:1356:2: warning: Value stored to 'ret' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           ret =3D -EINVAL;
+           ^     ~~~~~~~
+   fs/xfs/xfs_reflink.c:1356:2: note: Value stored to 'ret' is never read
+           ret =3D -EINVAL;
+           ^     ~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/spi/spi-amd.c:162:17: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+                           cmd_opcode =3D *(u8 *)xfer->tx_buf;
+                                        ^
+   drivers/spi/spi-amd.c:216:2: note: Calling 'amd_spi_fifo_xfer'
+           amd_spi_fifo_xfer(amd_spi, master, msg);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-amd.c:152:2: note: Loop condition is true.  Entering loo=
+p body
+           list_for_each_entry(xfer, &message->transfers,
            ^
-   arch/arm/kernel/setup.c:1103:6: note: 'atags_vaddr' is null
-           if (atags_vaddr) {
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/spi/spi-amd.c:154:7: note: Assuming field 'rx_buf' is null
+                   if (xfer->rx_buf)
+                       ^~~~~~~~~~~~
+   drivers/spi/spi-amd.c:154:3: note: Taking false branch
+                   if (xfer->rx_buf)
+                   ^
+   drivers/spi/spi-amd.c:156:7: note: Assuming field 'tx_buf' is non-null
+                   if (xfer->tx_buf)
+                       ^~~~~~~~~~~~
+   drivers/spi/spi-amd.c:156:3: note: Taking true branch
+                   if (xfer->tx_buf)
+                   ^
+   drivers/spi/spi-amd.c:159:3: note: Taking true branch
+                   if (m_cmd & AMD_SPI_XFER_TX) {
+                   ^
+   drivers/spi/spi-amd.c:167:16: note: Assuming 'i' is >=3D 'tx_len'
+                           for (i =3D 0; i < tx_len; i++) {
+                                       ^~~~~~~~~~
+   drivers/spi/spi-amd.c:167:4: note: Loop condition is false. Execution co=
+ntinues on line 172
+                           for (i =3D 0; i < tx_len; i++) {
+                           ^
+   drivers/spi/spi-amd.c:177:3: note: Taking false branch
+                   if (m_cmd & AMD_SPI_XFER_RX) {
+                   ^
+   drivers/spi/spi-amd.c:152:2: note: Loop condition is true.  Entering loo=
+p body
+           list_for_each_entry(xfer, &message->transfers,
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/spi/spi-amd.c:154:7: note: Assuming field 'rx_buf' is null
+                   if (xfer->rx_buf)
+                       ^~~~~~~~~~~~
+   drivers/spi/spi-amd.c:154:3: note: Taking false branch
+                   if (xfer->rx_buf)
 
-vim +/r +887 drivers/clk/mediatek/clk-mt8173.c
+vim +/ifp +3840 fs/xfs/xfs_inode.c
 
-c1e81a3bef36cb James Liao  2015-04-23  865  =
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3831  =
 
-c1e81a3bef36cb James Liao  2015-04-23  866  static void __init mtk_infrasys=
-_init(struct device_node *node)
-c1e81a3bef36cb James Liao  2015-04-23  867  {
-c1e81a3bef36cb James Liao  2015-04-23  868  	struct clk_onecell_data *clk_d=
-ata;
-c1e81a3bef36cb James Liao  2015-04-23  869  	int r;
-c1e81a3bef36cb James Liao  2015-04-23  870  =
-
-c1e81a3bef36cb James Liao  2015-04-23  871  	clk_data =3D mtk_alloc_clk_dat=
-a(CLK_INFRA_NR_CLK);
-c1e81a3bef36cb James Liao  2015-04-23  872  =
-
-c1e81a3bef36cb James Liao  2015-04-23  873  	mtk_clk_register_gates(node, i=
-nfra_clks, ARRAY_SIZE(infra_clks),
-c1e81a3bef36cb James Liao  2015-04-23  874  						clk_data);
-2d61fe0fc7f0a8 Joe.C       2015-07-13  875  	mtk_clk_register_factors(infra=
-_divs, ARRAY_SIZE(infra_divs), clk_data);
-c1e81a3bef36cb James Liao  2015-04-23  876  =
-
-567bf2ed86d13a Sean Wang   2017-05-05  877  	mtk_clk_register_cpumuxes(node=
-, cpu_muxes, ARRAY_SIZE(cpu_muxes),
-567bf2ed86d13a Sean Wang   2017-05-05  878  				  clk_data);
-567bf2ed86d13a Sean Wang   2017-05-05  879  =
-
-c1e81a3bef36cb James Liao  2015-04-23  880  	r =3D of_clk_add_provider(node=
-, of_clk_src_onecell_get, clk_data);
-52d97559ba77d8 Rex-BC Chen 2022-04-18  881  	if (r) {
-c1e81a3bef36cb James Liao  2015-04-23  882  		pr_err("%s(): could not regis=
-ter clock provider: %d\n",
-c1e81a3bef36cb James Liao  2015-04-23  883  			__func__, r);
-52d97559ba77d8 Rex-BC Chen 2022-04-18  884  		return;
-52d97559ba77d8 Rex-BC Chen 2022-04-18  885  	}
-c1e81a3bef36cb James Liao  2015-04-23  886  =
-
-52d97559ba77d8 Rex-BC Chen 2022-04-18 @887  	r =3D mtk_clk_register_rst_ctr=
-l(node, 2, 0x30, MTK_RST_V1);
-c1e81a3bef36cb James Liao  2015-04-23  888  }
-c1e81a3bef36cb James Liao  2015-04-23  889  CLK_OF_DECLARE(mtk_infrasys, "m=
-ediatek,mt8173-infracfg", mtk_infrasys_init);
-c1e81a3bef36cb James Liao  2015-04-23  890  =
-
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3832  /* Compute the number of=
+ data and realtime blocks used by a file. */
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3833  void
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3834  xfs_inode_count_blocks(
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3835  	struct xfs_trans	*tp,
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3836  	struct xfs_inode	*ip,
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3837  	xfs_filblks_t		*dblocks,
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3838  	xfs_filblks_t		*rblocks)
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06  3839  {
+2fab0f12c84469a8 Darrick J. Wong 2022-01-06 @3840  	struct xfs_ifork	*ifp =
+=3D XFS_IFORK_PTR(ip, XFS_DATA_FORK);
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9128521614923756037==--
+--===============0514451088962045980==--
 
