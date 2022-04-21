@@ -1,111 +1,488 @@
-Content-Type: multipart/mixed; boundary="===============4406150928926704404=="
+Content-Type: multipart/mixed; boundary="===============1786108034175837919=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/sh/rcar/ssiu.c:73 rsnd_ssiu_busif_err_irq_ctrl() error: uninitialized symbol 'offset'.
-Date: Thu, 21 Apr 2022 16:40:55 +0800
-Message-ID: <202204211602.hatl19fU-lkp@intel.com>
+Subject: crypto/dh.c:438:9: warning: Potential leak of memory pointed to by 'key' [clang-analyzer-unix.Malloc]
+Date: Thu, 21 Apr 2022 16:09:53 +0800
+Message-ID: <202204211538.czruKBL9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4406150928926704404==
+--===============1786108034175837919==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Nicolai Stange <nstange@suse.de>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Hannes Reinecke <hare@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b253435746d9a4a701b5f09211b9c14d3370d0da
-commit: 0ab000e5e57e6dcb34605fbdee92a1b0947606e0 ASoC: rsnd: tidyup rsnd_ss=
-iu_busif_err_irq_ctrl()
-date:   11 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 11 months ago
-config: h8300-randconfig-m031-20220418 (https://download.01.org/0day-ci/arc=
-hive/20220421/202204211602.hatl19fU-lkp(a)intel.com/config)
-compiler: h8300-linux-gcc (GCC) 11.2.0
+commit: 1e207964566738b49b003e80063fd712af75b82c crypto: dh - implement pri=
+vate key generation primitive for ffdheXYZ(dh)
+date:   7 weeks ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 7 weeks ago
+config: riscv-randconfig-c006-20220418 (https://download.01.org/0day-ci/arc=
+hive/20220421/202204211538.czruKBL9-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 429cba=
+c0390654f90bba18a41799464adf31a5ec)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D1e207964566738b49b003e80063fd712af75b82c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1e207964566738b49b003e80063fd712af75b82c
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-sound/soc/sh/rcar/ssiu.c:73 rsnd_ssiu_busif_err_irq_ctrl() error: uninitial=
-ized symbol 'offset'.
-sound/soc/sh/rcar/ssiu.c:74 rsnd_ssiu_busif_err_irq_ctrl() error: uninitial=
-ized symbol 'shift'.
 
-Old smatch warnings:
-sound/soc/sh/rcar/ssiu.c:108 rsnd_ssiu_busif_err_status_clear() error: unin=
-itialized symbol 'offset'.
-sound/soc/sh/rcar/ssiu.c:110 rsnd_ssiu_busif_err_status_clear() error: unin=
-itialized symbol 'shift'.
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   fs/jfs/jfs_debug.h:55:31: note: expanded from macro 'jfs_info'
+   #define jfs_info(fmt, arg...) do {                      \
+                                 ^
+   fs/jfs/namei.c:699:2: note: Control jumps to 'case 32768:'  at line 700
+           switch (type) {
+           ^
+   fs/jfs/namei.c:701:3: note:  Execution continues on line 714
+                   break;
+                   ^
+   fs/jfs/namei.c:714:2: note: Assuming the condition is false
+           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/jfs/namei.c:714:2: note: '?' condition is false
+           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/jfs/namei.c:714:2: note: '?' condition is true
+           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/jfs/namei.c:714:2: note: Taking true branch
+           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/jfs/namei.c:727:3: note: Calling 'PXDaddress'
+                   PXDaddress(&pxdlock->pxd, xaddr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jfs/jfs_types.h:67:33: note: The left operand of '&' is a garbage val=
+ue
+           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
+                            ~~~~~~~~~~~~~ ^
+   fs/jfs/namei.c:881:16: warning: Value stored to 'ip' during its initiali=
+zation is never read [clang-analyzer-deadcode.DeadStores]
+           struct inode *ip =3D d_inode(dentry);
+                         ^~   ~~~~~~~~~~~~~~~
+   fs/jfs/namei.c:881:16: note: Value stored to 'ip' during its initializat=
+ion is never read
+           struct inode *ip =3D d_inode(dentry);
+                         ^~   ~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> crypto/dh.c:438:9: warning: Potential leak of memory pointed to by 'key'=
+ [clang-analyzer-unix.Malloc]
+           return ERR_PTR(err);
+                  ^
+   crypto/dh.c:358:6: note: '?' condition is false
+           n =3D roundup_pow_of_two(2 * safe_prime->max_strength);
+               ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __builtin_constant_p(n) ? (             \
+           ^
+   crypto/dh.c:359:2: note: '?' condition is false
+           WARN_ON_ONCE(n & ((1u << 6) - 1));
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   crypto/dh.c:359:2: note: '?' condition is true
+           WARN_ON_ONCE(n & ((1u << 6) - 1));
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   crypto/dh.c:359:2: note: Taking true branch
+           WARN_ON_ONCE(n & ((1u << 6) - 1));
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   crypto/dh.c:359:2: note: Loop condition is false.  Exiting loop
+           WARN_ON_ONCE(n & ((1u << 6) - 1));
+           ^
+   include/asm-generic/bug.h:106:3: note: expanded from macro 'WARN_ON_ONCE'
+                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
+                   ^
+   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FL=
+AGS'
+   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
+                               ^
+   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLA=
+GS'
+   #define __BUG_FLAGS(flags)                                      \
+                                                                   ^
+   crypto/dh.c:367:8: note: Memory is allocated
+           key =3D kmalloc(oversampling_size, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/dh.c:368:6: note: Assuming 'key' is non-null
+           if (!key)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   crypto/dh.c:368:2: note: '?' condition is false
+           if (!key)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   crypto/dh.c:368:7: note: 'key' is non-null
+           if (!key)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   crypto/dh.c:368:2: note: '?' condition is false
+           if (!key)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
 
-vim +/offset +73 sound/soc/sh/rcar/ssiu.c
+vim +/key +438 crypto/dh.c
 
-4e7788fb8018af Kuninori Morimoto 2018-11-06  47  =
+1e207964566738 Nicolai Stange 2022-02-21  333  =
 
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  48  /* enable busif buffer ove=
-r/under run interrupt. */
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  49  #define rsnd_ssiu_busif_er=
-r_irq_enable(mod)  rsnd_ssiu_busif_err_irq_ctrl(mod, 1)
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  50  #define rsnd_ssiu_busif_er=
-r_irq_disable(mod) rsnd_ssiu_busif_err_irq_ctrl(mod, 0)
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  51  static void rsnd_ssiu_busi=
-f_err_irq_ctrl(struct rsnd_mod *mod, int enable)
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  52  {
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  53  	int id =3D rsnd_mod_id(mo=
-d);
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  54  	int shift, offset;
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  55  	int i;
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  56  =
+1e207964566738 Nicolai Stange 2022-02-21  334  static void *dh_safe_prime_g=
+en_privkey(const struct dh_safe_prime *safe_prime,
+1e207964566738 Nicolai Stange 2022-02-21  335  				       unsigned int *key=
+_size)
+1e207964566738 Nicolai Stange 2022-02-21  336  {
+1e207964566738 Nicolai Stange 2022-02-21  337  	unsigned int n, oversamplin=
+g_size;
+1e207964566738 Nicolai Stange 2022-02-21  338  	__be64 *key;
+1e207964566738 Nicolai Stange 2022-02-21  339  	int err;
+1e207964566738 Nicolai Stange 2022-02-21  340  	u64 h, o;
+1e207964566738 Nicolai Stange 2022-02-21  341  =
 
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  57  	switch (id) {
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  58  	case 0:
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  59  	case 1:
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  60  	case 2:
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  61  	case 3:
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  62  	case 4:
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  63  		shift  =3D id;
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  64  		offset =3D 0;
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  65  		break;
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  66  	case 9:
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  67  		shift  =3D 1;
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  68  		offset =3D 1;
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  69  		break;
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  70  	}
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  71  =
+1e207964566738 Nicolai Stange 2022-02-21  342  	/*
+1e207964566738 Nicolai Stange 2022-02-21  343  	 * Generate a private key f=
+ollowing NIST SP800-56Ar3,
+1e207964566738 Nicolai Stange 2022-02-21  344  	 * sec. 5.6.1.1.1 and 5.6.1=
+.1.3 resp..
+1e207964566738 Nicolai Stange 2022-02-21  345  	 *
+1e207964566738 Nicolai Stange 2022-02-21  346  	 * 5.6.1.1.1: choose key le=
+ngth N such that
+1e207964566738 Nicolai Stange 2022-02-21  347  	 * 2 * ->max_strength <=3D =
+N <=3D log2(q) + 1 =3D ->p_size * 8 - 1
+1e207964566738 Nicolai Stange 2022-02-21  348  	 * with q =3D (p - 1) / 2 f=
+or the safe-prime groups.
+1e207964566738 Nicolai Stange 2022-02-21  349  	 * Choose the lower bound's=
+ next power of two for N in order to
+1e207964566738 Nicolai Stange 2022-02-21  350  	 * avoid excessively large =
+private keys while still
+1e207964566738 Nicolai Stange 2022-02-21  351  	 * maintaining some extra r=
+eserve beyond the bare minimum in
+1e207964566738 Nicolai Stange 2022-02-21  352  	 * most cases. Note that fo=
+r each entry in safe_prime_groups[],
+1e207964566738 Nicolai Stange 2022-02-21  353  	 * the following holds for =
+such N:
+1e207964566738 Nicolai Stange 2022-02-21  354  	 * - N >=3D 256, in particu=
+lar it is a multiple of 2^6 =3D 64
+1e207964566738 Nicolai Stange 2022-02-21  355  	 *   bits and
+1e207964566738 Nicolai Stange 2022-02-21  356  	 * - N < log2(q) + 1, i.e. =
+N respects the upper bound.
+1e207964566738 Nicolai Stange 2022-02-21  357  	 */
+1e207964566738 Nicolai Stange 2022-02-21  358  	n =3D roundup_pow_of_two(2 =
+* safe_prime->max_strength);
+1e207964566738 Nicolai Stange 2022-02-21  359  	WARN_ON_ONCE(n & ((1u << 6)=
+ - 1));
+1e207964566738 Nicolai Stange 2022-02-21  360  	n >>=3D 6; /* Convert N int=
+o units of u64. */
+1e207964566738 Nicolai Stange 2022-02-21  361  =
 
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  72  	for (i =3D 0; i < 4; i++)=
- {
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27 @73  		enum rsnd_reg reg =3D SS=
-I_SYS_INT_ENABLE((i * 2) + offset);
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27 @74  		u32 val =3D 0xf << (shif=
-t * 4);
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  75  		u32 sys_int_enable =3D r=
-snd_mod_read(mod, reg);
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  76  =
+1e207964566738 Nicolai Stange 2022-02-21  362  	/*
+1e207964566738 Nicolai Stange 2022-02-21  363  	 * Reserve one extra u64 to=
+ hold the extra random bits
+1e207964566738 Nicolai Stange 2022-02-21  364  	 * required as per 5.6.1.1.=
+3.
+1e207964566738 Nicolai Stange 2022-02-21  365  	 */
+1e207964566738 Nicolai Stange 2022-02-21  366  	oversampling_size =3D (n + =
+1) * sizeof(__be64);
+1e207964566738 Nicolai Stange 2022-02-21  367  	key =3D kmalloc(oversamplin=
+g_size, GFP_KERNEL);
+1e207964566738 Nicolai Stange 2022-02-21  368  	if (!key)
+1e207964566738 Nicolai Stange 2022-02-21  369  		return ERR_PTR(-ENOMEM);
+1e207964566738 Nicolai Stange 2022-02-21  370  =
 
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  77  		if (enable)
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  78  			sys_int_enable |=3D val;
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  79  		else
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  80  			sys_int_enable &=3D ~va=
-l;
-0ab000e5e57e6d Kuninori Morimoto 2021-05-27  81  		rsnd_mod_write(mod, reg,=
- sys_int_enable);
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  82  	}
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  83  }
-83b220cf8eb2aa Kuninori Morimoto 2021-05-27  84  =
+1e207964566738 Nicolai Stange 2022-02-21  371  	/*
+1e207964566738 Nicolai Stange 2022-02-21  372  	 * 5.6.1.1.3, step 3 (and i=
+mplicitly step 4): obtain N + 64
+1e207964566738 Nicolai Stange 2022-02-21  373  	 * random bits and interpre=
+t them as a big endian integer.
+1e207964566738 Nicolai Stange 2022-02-21  374  	 */
+1e207964566738 Nicolai Stange 2022-02-21  375  	err =3D -EFAULT;
+1e207964566738 Nicolai Stange 2022-02-21  376  	if (crypto_get_default_rng(=
+))
+1e207964566738 Nicolai Stange 2022-02-21  377  		goto out_err;
+1e207964566738 Nicolai Stange 2022-02-21  378  =
+
+1e207964566738 Nicolai Stange 2022-02-21  379  	err =3D crypto_rng_get_byte=
+s(crypto_default_rng, (u8 *)key,
+1e207964566738 Nicolai Stange 2022-02-21  380  				   oversampling_size);
+1e207964566738 Nicolai Stange 2022-02-21  381  	crypto_put_default_rng();
+1e207964566738 Nicolai Stange 2022-02-21  382  	if (err)
+1e207964566738 Nicolai Stange 2022-02-21  383  		goto out_err;
+1e207964566738 Nicolai Stange 2022-02-21  384  =
+
+1e207964566738 Nicolai Stange 2022-02-21  385  	/*
+1e207964566738 Nicolai Stange 2022-02-21  386  	 * 5.6.1.1.3, step 5 is imp=
+licit: 2^N < q and thus,
+1e207964566738 Nicolai Stange 2022-02-21  387  	 * M =3D min(2^N, q) =3D 2^=
+N.
+1e207964566738 Nicolai Stange 2022-02-21  388  	 *
+1e207964566738 Nicolai Stange 2022-02-21  389  	 * For step 6, calculate
+1e207964566738 Nicolai Stange 2022-02-21  390  	 * key =3D (key[] mod (M - =
+1)) + 1 =3D (key[] mod (2^N - 1)) + 1.
+1e207964566738 Nicolai Stange 2022-02-21  391  	 *
+1e207964566738 Nicolai Stange 2022-02-21  392  	 * In order to avoid expens=
+ive divisions, note that
+1e207964566738 Nicolai Stange 2022-02-21  393  	 * 2^N mod (2^N - 1) =3D 1 =
+and thus, for any integer h,
+1e207964566738 Nicolai Stange 2022-02-21  394  	 * 2^N * h mod (2^N - 1) =
+=3D h mod (2^N - 1) always holds.
+1e207964566738 Nicolai Stange 2022-02-21  395  	 * The big endian integer k=
+ey[] composed of n + 1 64bit words
+1e207964566738 Nicolai Stange 2022-02-21  396  	 * may be written as key[] =
+=3D h * 2^N + l, with h =3D key[0]
+1e207964566738 Nicolai Stange 2022-02-21  397  	 * representing the 64 most=
+ significant bits and l
+1e207964566738 Nicolai Stange 2022-02-21  398  	 * corresponding to the rem=
+aining 2^N bits. With the remark
+1e207964566738 Nicolai Stange 2022-02-21  399  	 * from above,
+1e207964566738 Nicolai Stange 2022-02-21  400  	 * h * 2^N + l mod (2^N - 1=
+) =3D l + h mod (2^N - 1).
+1e207964566738 Nicolai Stange 2022-02-21  401  	 * As both, l and h are les=
+s than 2^N, their sum after
+1e207964566738 Nicolai Stange 2022-02-21  402  	 * this first reduction is =
+guaranteed to be <=3D 2^(N + 1) - 2.
+1e207964566738 Nicolai Stange 2022-02-21  403  	 * Or equivalently, that th=
+eir sum can again be written as
+1e207964566738 Nicolai Stange 2022-02-21  404  	 * h' * 2^N + l' with h' no=
+w either zero or one and if one,
+1e207964566738 Nicolai Stange 2022-02-21  405  	 * then l' <=3D 2^N - 2. Th=
+us, all bits@positions >=3D N will
+1e207964566738 Nicolai Stange 2022-02-21  406  	 * be zero after a second r=
+eduction:
+1e207964566738 Nicolai Stange 2022-02-21  407  	 * h' * 2^N + l' mod (2^N -=
+ 1) =3D l' + h' mod (2^N - 1).
+1e207964566738 Nicolai Stange 2022-02-21  408  	 * At this point, it is sti=
+ll possible that
+1e207964566738 Nicolai Stange 2022-02-21  409  	 * l' + h' =3D 2^N - 1, i.e=
+. that l' + h' mod (2^N - 1)
+1e207964566738 Nicolai Stange 2022-02-21  410  	 * is zero. This condition =
+will be detected below by means of
+1e207964566738 Nicolai Stange 2022-02-21  411  	 * the final increment over=
+flowing in this case.
+1e207964566738 Nicolai Stange 2022-02-21  412  	 */
+1e207964566738 Nicolai Stange 2022-02-21  413  	h =3D be64_to_cpu(key[0]);
+1e207964566738 Nicolai Stange 2022-02-21  414  	h =3D __add_u64_to_be(key +=
+ 1, n, h);
+1e207964566738 Nicolai Stange 2022-02-21  415  	h =3D __add_u64_to_be(key +=
+ 1, n, h);
+1e207964566738 Nicolai Stange 2022-02-21  416  	WARN_ON_ONCE(h);
+1e207964566738 Nicolai Stange 2022-02-21  417  =
+
+1e207964566738 Nicolai Stange 2022-02-21  418  	/* Increment to obtain the =
+final result. */
+1e207964566738 Nicolai Stange 2022-02-21  419  	o =3D __add_u64_to_be(key +=
+ 1, n, 1);
+1e207964566738 Nicolai Stange 2022-02-21  420  	/*
+1e207964566738 Nicolai Stange 2022-02-21  421  	 * The overflow bit o from =
+the increment is either zero or
+1e207964566738 Nicolai Stange 2022-02-21  422  	 * one. If zero, key[1:n] h=
+olds the final result in big-endian
+1e207964566738 Nicolai Stange 2022-02-21  423  	 * order. If one, key[1:n] =
+is zero now, but needs to be set to
+1e207964566738 Nicolai Stange 2022-02-21  424  	 * one, c.f. above.
+1e207964566738 Nicolai Stange 2022-02-21  425  	 */
+1e207964566738 Nicolai Stange 2022-02-21  426  	if (o)
+1e207964566738 Nicolai Stange 2022-02-21  427  		key[n] =3D cpu_to_be64(1);
+1e207964566738 Nicolai Stange 2022-02-21  428  =
+
+1e207964566738 Nicolai Stange 2022-02-21  429  	/* n is in units of u64, co=
+nvert to bytes. */
+1e207964566738 Nicolai Stange 2022-02-21  430  	*key_size =3D n << 3;
+1e207964566738 Nicolai Stange 2022-02-21  431  	/* Strip the leading extra =
+__be64, which is (virtually) zero by now. */
+1e207964566738 Nicolai Stange 2022-02-21  432  	memmove(key, &key[1], *key_=
+size);
+1e207964566738 Nicolai Stange 2022-02-21  433  =
+
+1e207964566738 Nicolai Stange 2022-02-21  434  	return key;
+1e207964566738 Nicolai Stange 2022-02-21  435  =
+
+1e207964566738 Nicolai Stange 2022-02-21  436  out_err:
+1e207964566738 Nicolai Stange 2022-02-21  437  	kfree_sensitive(key);
+1e207964566738 Nicolai Stange 2022-02-21 @438  	return ERR_PTR(err);
+1e207964566738 Nicolai Stange 2022-02-21  439  }
+1e207964566738 Nicolai Stange 2022-02-21  440  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4406150928926704404==--
+--===============1786108034175837919==--
 
