@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2580064414725767480=="
+Content-Type: multipart/mixed; boundary="===============1203842095931599428=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: crypto/dh.c:438:9: warning: Potential leak of memory pointed to by 'key' [clang-analyzer-unix.Malloc]
-Date: Thu, 21 Apr 2022 14:43:12 +0800
-Message-ID: <202204210601.xvQ2IRMD-lkp@intel.com>
+Subject: drivers/scsi/pm8001/pm8001_sas.c:1112:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 21 Apr 2022 14:43:09 +0800
+Message-ID: <202204210640.CQAJz3o5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2580064414725767480==
+--===============1203842095931599428==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,22 +16,21 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nicolai Stange <nstange@suse.de>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Hannes Reinecke <hare@suse.de>
+TO: John Garry <john.garry@huawei.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   559089e0a93d44280ec3ab478830af319c56dbe3
-commit: 1e207964566738b49b003e80063fd712af75b82c crypto: dh - implement pri=
-vate key generation primitive for ffdheXYZ(dh)
-date:   7 weeks ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 7 weeks ago
-config: riscv-randconfig-c006-20220418 (https://download.01.org/0day-ci/arc=
-hive/20220421/202204210601.xvQ2IRMD-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ef9460=
-9d6ebe981767788e6877b0b3b731d425af)
+head:   b253435746d9a4a701b5f09211b9c14d3370d0da
+commit: 2cbbf489778eb9dde51392ec5f74ae2868e4b857 scsi: pm8001: Use libsas i=
+nternal abort support
+date:   5 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 5 weeks ago
+config: riscv-randconfig-c006-20220419 (https://download.01.org/0day-ci/arc=
+hive/20220421/202204210640.CQAJz3o5-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c1c49a=
+356162b22554088d269f7689bdb044a9f1)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -39,11 +38,11 @@ make.cross -O ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D1e207964566738b49b003e80063fd712af75b82c
+t/commit/?id=3D2cbbf489778eb9dde51392ec5f74ae2868e4b857
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 1e207964566738b49b003e80063fd712af75b82c
+        git checkout 2cbbf489778eb9dde51392ec5f74ae2868e4b857
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -54,424 +53,526 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                         ^
-   kernel/time/test_udelay.c:56:2: note: Left side of '&&' is false
-           do_div(avg, iters);
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ref-verify.c:982:2: note: Taking false branch
+           if (!btrfs_test_opt(fs_info, REF_VERIFY))
            ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                                                   ^
-   kernel/time/test_udelay.c:56:2: note: '?' condition is false
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:986:6: note: Assuming 'path' is non-null
+           if (!path)
+               ^~~~~
+   fs/btrfs/ref-verify.c:986:2: note: Taking false branch
+           if (!path)
            ^
-   include/asm-generic/div64.h:227:9: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                  ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/time/test_udelay.c:56:2: note: Left side of '&&' is false
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:996:2: note: Loop condition is true.  Entering loo=
+p body
+           while (1) {
            ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                                                   ^
-   kernel/time/test_udelay.c:56:2: note: '?' condition is false
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:1005:7: note: Assuming 'ret' is not equal to 0
+                   if (ret)
+                       ^~~
+   fs/btrfs/ref-verify.c:1005:3: note: Taking true branch
+                   if (ret)
+                   ^
+   fs/btrfs/ref-verify.c:1006:4: note:  Execution continues on line 1015
+                           break;
+                           ^
+   fs/btrfs/ref-verify.c:1015:6: note: 'ret' is not equal to 0
+           if (ret) {
+               ^~~
+   fs/btrfs/ref-verify.c:1015:2: note: Taking true branch
+           if (ret) {
            ^
-   include/asm-generic/div64.h:227:9: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                  ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   fs/btrfs/ref-verify.c:1017:3: note: Calling 'btrfs_free_ref_cache'
+                   btrfs_free_ref_cache(fs_info);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ref-verify.c:895:6: note: Assuming the condition is false
+           if (!btrfs_test_opt(fs_info, REF_VERIFY))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ref-verify.c:895:2: note: Taking false branch
+           if (!btrfs_test_opt(fs_info, REF_VERIFY))
            ^
-   kernel/time/test_udelay.c:56:2: note: Taking false branch
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:899:2: note: Loop condition is true.  Entering loo=
+p body
+           while ((n =3D rb_first(&fs_info->block_tree))) {
            ^
-   include/asm-generic/div64.h:227:9: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                  ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/time/test_udelay.c:56:2: note: '?' condition is false
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:902:3: note: Calling 'free_block_entry'
+                   free_block_entry(be);
+                   ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ref-verify.c:239:2: note: Loop condition is false. Execution co=
+ntinues on line 245
+           while ((n =3D rb_first(&be->roots))) {
            ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/time/test_udelay.c:56:2: note: '?' condition is true
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:245:2: note: Loop condition is false. Execution co=
+ntinues on line 251
+           while((n =3D rb_first(&be->refs))) {
            ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   fs/btrfs/ref-verify.c:251:2: note: Loop condition is true.  Entering loo=
+p body
+           while (!list_empty(&be->actions)) {
            ^
-   kernel/time/test_udelay.c:56:2: note: Taking true branch
-           do_div(avg, iters);
+   fs/btrfs/ref-verify.c:255:3: note: Memory is released
+                   kfree(ra);
+                   ^~~~~~~~~
+   fs/btrfs/ref-verify.c:251:2: note: Loop condition is true.  Entering loo=
+p body
+           while (!list_empty(&be->actions)) {
            ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/time/test_udelay.c:56:2: note: Division by zero
-           do_div(avg, iters);
-           ^
-   include/asm-generic/div64.h:235:25: note: expanded from macro 'do_div'
-                   __rem =3D (uint32_t)(n) % __base;         \
-                           ~~~~~~~~~~~~~~^~~~~~~~
+   fs/btrfs/ref-verify.c:254:3: note: Calling 'list_del'
+                   list_del(&ra->list);
+                   ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:149:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/scsi/pm8001/pm8001_init.c:413:3: warning: Value stored to 'rc' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D -ENOMEM;
+                   ^    ~~~~~~~
+   drivers/scsi/pm8001/pm8001_init.c:413:3: note: Value stored to 'rc' is n=
+ever read
+                   rc =3D -ENOMEM;
+                   ^    ~~~~~~~
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   10 warnings generated.
+   drivers/scsi/pm8001/pm8001_sas.c:422:24: warning: Value stored to 'pm800=
+1_dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct pm8001_device *pm8001_dev =3D dev->lldd_dev;
+                                 ^~~~~~~~~~   ~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:422:24: note: Value stored to 'pm8001_d=
+ev' during its initialization is never read
+           struct pm8001_device *pm8001_dev =3D dev->lldd_dev;
+                                 ^~~~~~~~~~   ~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:659:4: warning: Value stored to 'res' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           res =3D -1;
+                           ^     ~~
+   drivers/scsi/pm8001/pm8001_sas.c:659:4: note: Value stored to 'res' is n=
+ever read
+                           res =3D -1;
+                           ^     ~~
+   drivers/scsi/pm8001/pm8001_sas.c:924:3: warning: Value stored to 'rc' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D sas_phy_reset(phy, 1);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:924:3: note: Value stored to 'rc' is ne=
+ver read
+                   rc =3D sas_phy_reset(phy, 1);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/pm8001/pm8001_sas.c:1112:4: warning: Value stored to 'ret' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                           ret =3D sas_execute_internal_abort_single(dev, t=
+ag, 0, NULL);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:1112:4: note: Value stored to 'ret' is =
+never read
+                           ret =3D sas_execute_internal_abort_single(dev, t=
+ag, 0, NULL);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> crypto/dh.c:438:9: warning: Potential leak of memory pointed to by 'key'=
- [clang-analyzer-unix.Malloc]
-           return ERR_PTR(err);
-                  ^
-   crypto/dh.c:358:6: note: '?' condition is false
-           n =3D roundup_pow_of_two(2 * safe_prime->max_strength);
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:379:27: warning: The r=
+esult of the left shift is undefined because the left operand is negative [=
+clang-analyzer-core.UndefinedBinaryOperatorResult]
+           timing[2] =3D (T(CWL) - 1) << 24 |
+                                    ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:515:6: note: Assuming =
+field 'state' is not equal to NVA3_TRAIN_ONCE
+           if (ram->ltrain.state =3D=3D NVA3_TRAIN_ONCE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:515:2: note: Taking fa=
+lse branch
+           if (ram->ltrain.state =3D=3D NVA3_TRAIN_ONCE)
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:521:6: note: Assuming =
+'data' is not equal to 0
+           if (!data || ver !=3D 0x10 || hdr < 0x05) {
+               ^~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:521:6: note: Left side=
+ of '||' is false
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:521:15: note: Assuming=
+ 'ver' is equal to 16
+           if (!data || ver !=3D 0x10 || hdr < 0x05) {
+                        ^~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:521:6: note: Left side=
+ of '||' is false
+           if (!data || ver !=3D 0x10 || hdr < 0x05) {
                ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __builtin_constant_p(n) ? (             \
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:521:30: note: Assuming=
+ 'hdr' is >=3D 5
+           if (!data || ver !=3D 0x10 || hdr < 0x05) {
+                                       ^~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:521:2: note: Taking fa=
+lse branch
+           if (!data || ver !=3D 0x10 || hdr < 0x05) {
            ^
-   crypto/dh.c:359:2: note: '?' condition is false
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:528:6: note: Assuming =
+'strap' is < 'cnt'
+           if (strap >=3D cnt) {
+               ^~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:528:2: note: Taking fa=
+lse branch
+           if (strap >=3D cnt) {
            ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/dh.c:359:2: note: '?' condition is true
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   crypto/dh.c:359:2: note: Taking true branch
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   crypto/dh.c:359:2: note: Loop condition is false.  Exiting loop
-           WARN_ON_ONCE(n & ((1u << 6) - 1));
-           ^
-   include/asm-generic/bug.h:106:3: note: expanded from macro 'WARN_ON_ONCE'
-                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
-                   ^
-   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FL=
-AGS'
-   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
-                               ^
-   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLA=
-GS'
-   #define __BUG_FLAGS(flags)                                      \
-                                                                   ^
-   crypto/dh.c:367:8: note: Memory is allocated
-           key =3D kmalloc(oversampling_size, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/dh.c:368:6: note: Assuming 'key' is non-null
-           if (!key)
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:535:6: note: Assuming =
+'data' is not equal to 0
+           if (!data || ver !=3D 0x10 || hdr < 0x09) {
+               ^~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:535:6: note: Left side=
+ of '||' is false
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:535:15: note: Assuming=
+ 'ver' is equal to 16
+           if (!data || ver !=3D 0x10 || hdr < 0x09) {
+                        ^~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:535:6: note: Left side=
+ of '||' is false
+           if (!data || ver !=3D 0x10 || hdr < 0x09) {
                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/dh.c:368:2: note: '?' condition is false
-           if (!key)
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:535:30: note: Assuming=
+ 'hdr' is >=3D 9
+           if (!data || ver !=3D 0x10 || hdr < 0x09) {
+                                       ^~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:535:2: note: Taking fa=
+lse branch
+           if (!data || ver !=3D 0x10 || hdr < 0x09) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/dh.c:368:7: note: 'key' is non-null
-           if (!key)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   crypto/dh.c:368:2: note: '?' condition is false
-           if (!key)
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:541:6: note: Assuming =
+field 'ramcfg_timing' is equal to 255
+           if (next->bios.ramcfg_timing !=3D 0xff) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:541:2: note: Taking fa=
+lse branch
+           if (next->bios.ramcfg_timing !=3D 0xff) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:552:6: note: Assuming =
+'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:552:2: note: Taking fa=
+lse branch
+           if (ret < 0) {
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:557:2: note: Calling '=
+gt215_ram_timing_calc'
+           gt215_ram_timing_calc(ram, timing);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgt215.c:362:11: note: Assuming=
+ field 'timing_10_CWL' is 0
+           switch ((!T(CWL)) * ram->base.type) {
+                    ^~~~~~~
 
-vim +/key +438 crypto/dh.c
+vim +/ret +1112 drivers/scsi/pm8001/pm8001_sas.c
 
-1e207964566738 Nicolai Stange 2022-02-21  333  =
+dbf9bfe615717d jack wang    2009-10-14   978  =
 
-1e207964566738 Nicolai Stange 2022-02-21  334  static void *dh_safe_prime_g=
-en_privkey(const struct dh_safe_prime *safe_prime,
-1e207964566738 Nicolai Stange 2022-02-21  335  				       unsigned int *key=
-_size)
-1e207964566738 Nicolai Stange 2022-02-21  336  {
-1e207964566738 Nicolai Stange 2022-02-21  337  	unsigned int n, oversamplin=
-g_size;
-1e207964566738 Nicolai Stange 2022-02-21  338  	__be64 *key;
-1e207964566738 Nicolai Stange 2022-02-21  339  	int err;
-1e207964566738 Nicolai Stange 2022-02-21  340  	u64 h, o;
-1e207964566738 Nicolai Stange 2022-02-21  341  =
+32877947b7a806 Weitao Hou   2019-05-20   979  /*  mandatory SAM-3, still ne=
+ed free task/ccb info, abort the specified task */
+dbf9bfe615717d jack wang    2009-10-14   980  int pm8001_abort_task(struct =
+sas_task *task)
+dbf9bfe615717d jack wang    2009-10-14   981  {
+dbf9bfe615717d jack wang    2009-10-14   982  	unsigned long flags;
+1db49906d8fa87 Viswas G     2017-10-18   983  	u32 tag;
+dbf9bfe615717d jack wang    2009-10-14   984  	struct domain_device *dev ;
+1db49906d8fa87 Viswas G     2017-10-18   985  	struct pm8001_hba_info *pm80=
+01_ha;
+dbf9bfe615717d jack wang    2009-10-14   986  	struct pm8001_device *pm8001=
+_dev;
+869ddbdcae3b4f Viswas G     2017-10-18   987  	int rc =3D TMF_RESP_FUNC_FAI=
+LED, ret;
+ee05cb71f9f7eb Ajish Koshy  2021-12-28   988  	u32 phy_id, port_id;
+869ddbdcae3b4f Viswas G     2017-10-18   989  	struct sas_task_slow slow_ta=
+sk;
+a961ea0afd632c akshatzen    2021-01-09   990  =
 
-1e207964566738 Nicolai Stange 2022-02-21  342  	/*
-1e207964566738 Nicolai Stange 2022-02-21  343  	 * Generate a private key f=
-ollowing NIST SP800-56Ar3,
-1e207964566738 Nicolai Stange 2022-02-21  344  	 * sec. 5.6.1.1.1 and 5.6.1=
-.1.3 resp..
-1e207964566738 Nicolai Stange 2022-02-21  345  	 *
-1e207964566738 Nicolai Stange 2022-02-21  346  	 * 5.6.1.1.1: choose key le=
-ngth N such that
-1e207964566738 Nicolai Stange 2022-02-21  347  	 * 2 * ->max_strength <=3D =
-N <=3D log2(q) + 1 =3D ->p_size * 8 - 1
-1e207964566738 Nicolai Stange 2022-02-21  348  	 * with q =3D (p - 1) / 2 f=
-or the safe-prime groups.
-1e207964566738 Nicolai Stange 2022-02-21  349  	 * Choose the lower bound's=
- next power of two for N in order to
-1e207964566738 Nicolai Stange 2022-02-21  350  	 * avoid excessively large =
-private keys while still
-1e207964566738 Nicolai Stange 2022-02-21  351  	 * maintaining some extra r=
-eserve beyond the bare minimum in
-1e207964566738 Nicolai Stange 2022-02-21  352  	 * most cases. Note that fo=
-r each entry in safe_prime_groups[],
-1e207964566738 Nicolai Stange 2022-02-21  353  	 * the following holds for =
-such N:
-1e207964566738 Nicolai Stange 2022-02-21  354  	 * - N >=3D 256, in particu=
-lar it is a multiple of 2^6 =3D 64
-1e207964566738 Nicolai Stange 2022-02-21  355  	 *   bits and
-1e207964566738 Nicolai Stange 2022-02-21  356  	 * - N < log2(q) + 1, i.e. =
-N respects the upper bound.
-1e207964566738 Nicolai Stange 2022-02-21  357  	 */
-1e207964566738 Nicolai Stange 2022-02-21  358  	n =3D roundup_pow_of_two(2 =
-* safe_prime->max_strength);
-1e207964566738 Nicolai Stange 2022-02-21  359  	WARN_ON_ONCE(n & ((1u << 6)=
- - 1));
-1e207964566738 Nicolai Stange 2022-02-21  360  	n >>=3D 6; /* Convert N int=
-o units of u64. */
-1e207964566738 Nicolai Stange 2022-02-21  361  =
+dbf9bfe615717d jack wang    2009-10-14   991  	if (unlikely(!task || !task-=
+>lldd_task || !task->dev))
+1db49906d8fa87 Viswas G     2017-10-18   992  		return TMF_RESP_FUNC_FAILED;
+a961ea0afd632c akshatzen    2021-01-09   993  =
 
-1e207964566738 Nicolai Stange 2022-02-21  362  	/*
-1e207964566738 Nicolai Stange 2022-02-21  363  	 * Reserve one extra u64 to=
- hold the extra random bits
-1e207964566738 Nicolai Stange 2022-02-21  364  	 * required as per 5.6.1.1.=
-3.
-1e207964566738 Nicolai Stange 2022-02-21  365  	 */
-1e207964566738 Nicolai Stange 2022-02-21  366  	oversampling_size =3D (n + =
-1) * sizeof(__be64);
-1e207964566738 Nicolai Stange 2022-02-21  367  	key =3D kmalloc(oversamplin=
-g_size, GFP_KERNEL);
-1e207964566738 Nicolai Stange 2022-02-21  368  	if (!key)
-1e207964566738 Nicolai Stange 2022-02-21  369  		return ERR_PTR(-ENOMEM);
-1e207964566738 Nicolai Stange 2022-02-21  370  =
+1db49906d8fa87 Viswas G     2017-10-18   994  	dev =3D task->dev;
+1db49906d8fa87 Viswas G     2017-10-18   995  	pm8001_dev =3D dev->lldd_dev;
+1db49906d8fa87 Viswas G     2017-10-18   996  	pm8001_ha =3D pm8001_find_ha=
+_by_dev(dev);
+869ddbdcae3b4f Viswas G     2017-10-18   997  	phy_id =3D pm8001_dev->attac=
+hed_phy;
+a961ea0afd632c akshatzen    2021-01-09   998  =
 
-1e207964566738 Nicolai Stange 2022-02-21  371  	/*
-1e207964566738 Nicolai Stange 2022-02-21  372  	 * 5.6.1.1.3, step 3 (and i=
-mplicitly step 4): obtain N + 64
-1e207964566738 Nicolai Stange 2022-02-21  373  	 * random bits and interpre=
-t them as a big endian integer.
-1e207964566738 Nicolai Stange 2022-02-21  374  	 */
-1e207964566738 Nicolai Stange 2022-02-21  375  	err =3D -EFAULT;
-1e207964566738 Nicolai Stange 2022-02-21  376  	if (crypto_get_default_rng(=
-))
-1e207964566738 Nicolai Stange 2022-02-21  377  		goto out_err;
-1e207964566738 Nicolai Stange 2022-02-21  378  =
+a961ea0afd632c akshatzen    2021-01-09   999  	if (PM8001_CHIP_DISP->fatal_=
+errors(pm8001_ha)) {
+a961ea0afd632c akshatzen    2021-01-09  1000  		// If the controller is see=
+ing fatal errors
+a961ea0afd632c akshatzen    2021-01-09  1001  		// abort task will not get =
+a response from the controller
+a961ea0afd632c akshatzen    2021-01-09  1002  		return TMF_RESP_FUNC_FAILED;
+a961ea0afd632c akshatzen    2021-01-09  1003  	}
+a961ea0afd632c akshatzen    2021-01-09  1004  =
 
-1e207964566738 Nicolai Stange 2022-02-21  379  	err =3D crypto_rng_get_byte=
-s(crypto_default_rng, (u8 *)key,
-1e207964566738 Nicolai Stange 2022-02-21  380  				   oversampling_size);
-1e207964566738 Nicolai Stange 2022-02-21  381  	crypto_put_default_rng();
-1e207964566738 Nicolai Stange 2022-02-21  382  	if (err)
-1e207964566738 Nicolai Stange 2022-02-21  383  		goto out_err;
-1e207964566738 Nicolai Stange 2022-02-21  384  =
+51c1c5f6ed64c2 peter chang  2019-11-14  1005  	ret =3D pm8001_find_tag(task=
+, &tag);
+51c1c5f6ed64c2 peter chang  2019-11-14  1006  	if (ret =3D=3D 0) {
+2ce6e200a04c24 Joe Perches  2020-11-23  1007  		pm8001_info(pm8001_ha, "no =
+tag for task:%p\n", task);
+1db49906d8fa87 Viswas G     2017-10-18  1008  		return TMF_RESP_FUNC_FAILED;
+1db49906d8fa87 Viswas G     2017-10-18  1009  	}
+dbf9bfe615717d jack wang    2009-10-14  1010  	spin_lock_irqsave(&task->tas=
+k_state_lock, flags);
+dbf9bfe615717d jack wang    2009-10-14  1011  	if (task->task_state_flags &=
+ SAS_TASK_STATE_DONE) {
+dbf9bfe615717d jack wang    2009-10-14  1012  		spin_unlock_irqrestore(&tas=
+k->task_state_lock, flags);
+1db49906d8fa87 Viswas G     2017-10-18  1013  		return TMF_RESP_FUNC_COMPLE=
+TE;
+dbf9bfe615717d jack wang    2009-10-14  1014  	}
+869ddbdcae3b4f Viswas G     2017-10-18  1015  	task->task_state_flags |=3D =
+SAS_TASK_STATE_ABORTED;
+869ddbdcae3b4f Viswas G     2017-10-18  1016  	if (task->slow_task =3D=3D N=
+ULL) {
+869ddbdcae3b4f Viswas G     2017-10-18  1017  		init_completion(&slow_task.=
+completion);
+869ddbdcae3b4f Viswas G     2017-10-18  1018  		task->slow_task =3D &slow_t=
+ask;
+dbf9bfe615717d jack wang    2009-10-14  1019  	}
+dbf9bfe615717d jack wang    2009-10-14  1020  	spin_unlock_irqrestore(&task=
+->task_state_lock, flags);
+dbf9bfe615717d jack wang    2009-10-14  1021  	if (task->task_proto & SAS_P=
+ROTOCOL_SSP) {
+4fea759edfa795 John Garry   2022-02-17  1022  		rc =3D sas_abort_task(task,=
+ tag);
+2cbbf489778eb9 John Garry   2022-03-11  1023  		sas_execute_internal_abort_=
+single(dev, tag, 0, NULL);
+dbf9bfe615717d jack wang    2009-10-14  1024  	} else if (task->task_proto =
+& SAS_PROTOCOL_SATA ||
+dbf9bfe615717d jack wang    2009-10-14  1025  		task->task_proto & SAS_PROT=
+OCOL_STP) {
+869ddbdcae3b4f Viswas G     2017-10-18  1026  		if (pm8001_ha->chip_id =3D=
+=3D chip_8006) {
+869ddbdcae3b4f Viswas G     2017-10-18  1027  			DECLARE_COMPLETION_ONSTACK=
+(completion_reset);
+869ddbdcae3b4f Viswas G     2017-10-18  1028  			DECLARE_COMPLETION_ONSTACK=
+(completion);
+869ddbdcae3b4f Viswas G     2017-10-18  1029  			struct pm8001_phy *phy =3D=
+ pm8001_ha->phy + phy_id;
+ee05cb71f9f7eb Ajish Koshy  2021-12-28  1030  			port_id =3D phy->port->por=
+t_id;
+869ddbdcae3b4f Viswas G     2017-10-18  1031  =
 
-1e207964566738 Nicolai Stange 2022-02-21  385  	/*
-1e207964566738 Nicolai Stange 2022-02-21  386  	 * 5.6.1.1.3, step 5 is imp=
-licit: 2^N < q and thus,
-1e207964566738 Nicolai Stange 2022-02-21  387  	 * M =3D min(2^N, q) =3D 2^=
-N.
-1e207964566738 Nicolai Stange 2022-02-21  388  	 *
-1e207964566738 Nicolai Stange 2022-02-21  389  	 * For step 6, calculate
-1e207964566738 Nicolai Stange 2022-02-21  390  	 * key =3D (key[] mod (M - =
-1)) + 1 =3D (key[] mod (2^N - 1)) + 1.
-1e207964566738 Nicolai Stange 2022-02-21  391  	 *
-1e207964566738 Nicolai Stange 2022-02-21  392  	 * In order to avoid expens=
-ive divisions, note that
-1e207964566738 Nicolai Stange 2022-02-21  393  	 * 2^N mod (2^N - 1) =3D 1 =
-and thus, for any integer h,
-1e207964566738 Nicolai Stange 2022-02-21  394  	 * 2^N * h mod (2^N - 1) =
-=3D h mod (2^N - 1) always holds.
-1e207964566738 Nicolai Stange 2022-02-21  395  	 * The big endian integer k=
-ey[] composed of n + 1 64bit words
-1e207964566738 Nicolai Stange 2022-02-21  396  	 * may be written as key[] =
-=3D h * 2^N + l, with h =3D key[0]
-1e207964566738 Nicolai Stange 2022-02-21  397  	 * representing the 64 most=
- significant bits and l
-1e207964566738 Nicolai Stange 2022-02-21  398  	 * corresponding to the rem=
-aining 2^N bits. With the remark
-1e207964566738 Nicolai Stange 2022-02-21  399  	 * from above,
-1e207964566738 Nicolai Stange 2022-02-21  400  	 * h * 2^N + l mod (2^N - 1=
-) =3D l + h mod (2^N - 1).
-1e207964566738 Nicolai Stange 2022-02-21  401  	 * As both, l and h are les=
-s than 2^N, their sum after
-1e207964566738 Nicolai Stange 2022-02-21  402  	 * this first reduction is =
-guaranteed to be <=3D 2^(N + 1) - 2.
-1e207964566738 Nicolai Stange 2022-02-21  403  	 * Or equivalently, that th=
-eir sum can again be written as
-1e207964566738 Nicolai Stange 2022-02-21  404  	 * h' * 2^N + l' with h' no=
-w either zero or one and if one,
-1e207964566738 Nicolai Stange 2022-02-21  405  	 * then l' <=3D 2^N - 2. Th=
-us, all bits@positions >=3D N will
-1e207964566738 Nicolai Stange 2022-02-21  406  	 * be zero after a second r=
-eduction:
-1e207964566738 Nicolai Stange 2022-02-21  407  	 * h' * 2^N + l' mod (2^N -=
- 1) =3D l' + h' mod (2^N - 1).
-1e207964566738 Nicolai Stange 2022-02-21  408  	 * At this point, it is sti=
-ll possible that
-1e207964566738 Nicolai Stange 2022-02-21  409  	 * l' + h' =3D 2^N - 1, i.e=
-. that l' + h' mod (2^N - 1)
-1e207964566738 Nicolai Stange 2022-02-21  410  	 * is zero. This condition =
-will be detected below by means of
-1e207964566738 Nicolai Stange 2022-02-21  411  	 * the final increment over=
-flowing in this case.
-1e207964566738 Nicolai Stange 2022-02-21  412  	 */
-1e207964566738 Nicolai Stange 2022-02-21  413  	h =3D be64_to_cpu(key[0]);
-1e207964566738 Nicolai Stange 2022-02-21  414  	h =3D __add_u64_to_be(key +=
- 1, n, h);
-1e207964566738 Nicolai Stange 2022-02-21  415  	h =3D __add_u64_to_be(key +=
- 1, n, h);
-1e207964566738 Nicolai Stange 2022-02-21  416  	WARN_ON_ONCE(h);
-1e207964566738 Nicolai Stange 2022-02-21  417  =
+869ddbdcae3b4f Viswas G     2017-10-18  1032  			/* 1. Set Device state as =
+Recovery */
+869ddbdcae3b4f Viswas G     2017-10-18  1033  			pm8001_dev->setds_completi=
+on =3D &completion;
+869ddbdcae3b4f Viswas G     2017-10-18  1034  			PM8001_CHIP_DISP->set_dev_=
+state_req(pm8001_ha,
+9ec3d4c1056533 Igor Pylypiv 2021-03-04  1035  				pm8001_dev, DS_IN_RECOVER=
+Y);
+869ddbdcae3b4f Viswas G     2017-10-18  1036  			wait_for_completion(&compl=
+etion);
+869ddbdcae3b4f Viswas G     2017-10-18  1037  =
 
-1e207964566738 Nicolai Stange 2022-02-21  418  	/* Increment to obtain the =
-final result. */
-1e207964566738 Nicolai Stange 2022-02-21  419  	o =3D __add_u64_to_be(key +=
- 1, n, 1);
-1e207964566738 Nicolai Stange 2022-02-21  420  	/*
-1e207964566738 Nicolai Stange 2022-02-21  421  	 * The overflow bit o from =
-the increment is either zero or
-1e207964566738 Nicolai Stange 2022-02-21  422  	 * one. If zero, key[1:n] h=
-olds the final result in big-endian
-1e207964566738 Nicolai Stange 2022-02-21  423  	 * order. If one, key[1:n] =
-is zero now, but needs to be set to
-1e207964566738 Nicolai Stange 2022-02-21  424  	 * one, c.f. above.
-1e207964566738 Nicolai Stange 2022-02-21  425  	 */
-1e207964566738 Nicolai Stange 2022-02-21  426  	if (o)
-1e207964566738 Nicolai Stange 2022-02-21  427  		key[n] =3D cpu_to_be64(1);
-1e207964566738 Nicolai Stange 2022-02-21  428  =
+869ddbdcae3b4f Viswas G     2017-10-18  1038  			/* 2. Send Phy Control Har=
+d Reset */
+869ddbdcae3b4f Viswas G     2017-10-18  1039  			reinit_completion(&complet=
+ion);
+51c1c5f6ed64c2 peter chang  2019-11-14  1040  			phy->port_reset_status =3D=
+ PORT_RESET_TMO;
+869ddbdcae3b4f Viswas G     2017-10-18  1041  			phy->reset_success =3D fal=
+se;
+869ddbdcae3b4f Viswas G     2017-10-18  1042  			phy->enable_completion =3D=
+ &completion;
+869ddbdcae3b4f Viswas G     2017-10-18  1043  			phy->reset_completion =3D =
+&completion_reset;
+869ddbdcae3b4f Viswas G     2017-10-18  1044  			ret =3D PM8001_CHIP_DISP->=
+phy_ctl_req(pm8001_ha, phy_id,
+869ddbdcae3b4f Viswas G     2017-10-18  1045  				PHY_HARD_RESET);
+51c1c5f6ed64c2 peter chang  2019-11-14  1046  			if (ret) {
+51c1c5f6ed64c2 peter chang  2019-11-14  1047  				phy->enable_completion =
+=3D NULL;
+51c1c5f6ed64c2 peter chang  2019-11-14  1048  				phy->reset_completion =3D=
+ NULL;
+869ddbdcae3b4f Viswas G     2017-10-18  1049  				goto out;
+51c1c5f6ed64c2 peter chang  2019-11-14  1050  			}
+51c1c5f6ed64c2 peter chang  2019-11-14  1051  =
 
-1e207964566738 Nicolai Stange 2022-02-21  429  	/* n is in units of u64, co=
-nvert to bytes. */
-1e207964566738 Nicolai Stange 2022-02-21  430  	*key_size =3D n << 3;
-1e207964566738 Nicolai Stange 2022-02-21  431  	/* Strip the leading extra =
-__be64, which is (virtually) zero by now. */
-1e207964566738 Nicolai Stange 2022-02-21  432  	memmove(key, &key[1], *key_=
-size);
-1e207964566738 Nicolai Stange 2022-02-21  433  =
+51c1c5f6ed64c2 peter chang  2019-11-14  1052  			/* In the case of the rese=
+t timeout/fail we still
+51c1c5f6ed64c2 peter chang  2019-11-14  1053  			 * abort the command at th=
+e firmware. The assumption
+51c1c5f6ed64c2 peter chang  2019-11-14  1054  			 * here is that the drive =
+is off doing something so
+51c1c5f6ed64c2 peter chang  2019-11-14  1055  			 * that it's not processin=
+g requests, and we want to
+51c1c5f6ed64c2 peter chang  2019-11-14  1056  			 * avoid getting a complet=
+ion for this and either
+51c1c5f6ed64c2 peter chang  2019-11-14  1057  			 * leaking the task in lib=
+sas or losing the race and
+51c1c5f6ed64c2 peter chang  2019-11-14  1058  			 * getting a double free.
+51c1c5f6ed64c2 peter chang  2019-11-14  1059  			 */
+1b5d2793283dcb Joe Perches  2020-11-20  1060  			pm8001_dbg(pm8001_ha, MSG,
+1b5d2793283dcb Joe Perches  2020-11-20  1061  				   "Waiting for local phy=
+ ctl\n");
+51c1c5f6ed64c2 peter chang  2019-11-14  1062  			ret =3D wait_for_completio=
+n_timeout(&completion,
+51c1c5f6ed64c2 peter chang  2019-11-14  1063  					PM8001_TASK_TIMEOUT * HZ=
+);
+51c1c5f6ed64c2 peter chang  2019-11-14  1064  			if (!ret || !phy->reset_su=
+ccess) {
+51c1c5f6ed64c2 peter chang  2019-11-14  1065  				phy->enable_completion =
+=3D NULL;
+51c1c5f6ed64c2 peter chang  2019-11-14  1066  				phy->reset_completion =3D=
+ NULL;
+51c1c5f6ed64c2 peter chang  2019-11-14  1067  			} else {
+51c1c5f6ed64c2 peter chang  2019-11-14  1068  				/* 3. Wait for Port Reset=
+ complete or
+51c1c5f6ed64c2 peter chang  2019-11-14  1069  				 * Port reset TMO
+51c1c5f6ed64c2 peter chang  2019-11-14  1070  				 */
+1b5d2793283dcb Joe Perches  2020-11-20  1071  				pm8001_dbg(pm8001_ha, MSG,
+1b5d2793283dcb Joe Perches  2020-11-20  1072  					   "Waiting for Port res=
+et\n");
+51c1c5f6ed64c2 peter chang  2019-11-14  1073  				ret =3D wait_for_completi=
+on_timeout(
+51c1c5f6ed64c2 peter chang  2019-11-14  1074  					&completion_reset,
+51c1c5f6ed64c2 peter chang  2019-11-14  1075  					PM8001_TASK_TIMEOUT * HZ=
+);
+51c1c5f6ed64c2 peter chang  2019-11-14  1076  				if (!ret)
+51c1c5f6ed64c2 peter chang  2019-11-14  1077  					phy->reset_completion =
+=3D NULL;
+51c1c5f6ed64c2 peter chang  2019-11-14  1078  				WARN_ON(phy->port_reset_s=
+tatus =3D=3D
+51c1c5f6ed64c2 peter chang  2019-11-14  1079  						PORT_RESET_TMO);
+51c1c5f6ed64c2 peter chang  2019-11-14  1080  				if (phy->port_reset_statu=
+s =3D=3D PORT_RESET_TMO) {
+196ba6629cf95e Deepak Ukey  2019-07-09  1081  					pm8001_dev_gone_notify(d=
+ev);
+ee05cb71f9f7eb Ajish Koshy  2021-12-28  1082  					PM8001_CHIP_DISP->hw_eve=
+nt_ack_req(
+ee05cb71f9f7eb Ajish Koshy  2021-12-28  1083  						pm8001_ha, 0,
+ee05cb71f9f7eb Ajish Koshy  2021-12-28  1084  						0x07, /*HW_EVENT_PHY_DO=
+WN ack*/
+ee05cb71f9f7eb Ajish Koshy  2021-12-28  1085  						port_id, phy_id, 0, 0);
+869ddbdcae3b4f Viswas G     2017-10-18  1086  					goto out;
+196ba6629cf95e Deepak Ukey  2019-07-09  1087  				}
+51c1c5f6ed64c2 peter chang  2019-11-14  1088  			}
+869ddbdcae3b4f Viswas G     2017-10-18  1089  =
 
-1e207964566738 Nicolai Stange 2022-02-21  434  	return key;
-1e207964566738 Nicolai Stange 2022-02-21  435  =
+869ddbdcae3b4f Viswas G     2017-10-18  1090  			/*
+869ddbdcae3b4f Viswas G     2017-10-18  1091  			 * 4. SATA Abort ALL
+869ddbdcae3b4f Viswas G     2017-10-18  1092  			 * we wait for the task to=
+ be aborted so that the task
+869ddbdcae3b4f Viswas G     2017-10-18  1093  			 * is removed from the ccb=
+. on success the caller is
+869ddbdcae3b4f Viswas G     2017-10-18  1094  			 * going to free the task.
+869ddbdcae3b4f Viswas G     2017-10-18  1095  			 */
+2cbbf489778eb9 John Garry   2022-03-11  1096  			ret =3D sas_execute_intern=
+al_abort_dev(dev, 0, NULL);
+869ddbdcae3b4f Viswas G     2017-10-18  1097  			if (ret)
+869ddbdcae3b4f Viswas G     2017-10-18  1098  				goto out;
+869ddbdcae3b4f Viswas G     2017-10-18  1099  			ret =3D wait_for_completio=
+n_timeout(
+869ddbdcae3b4f Viswas G     2017-10-18  1100  				&task->slow_task->complet=
+ion,
+869ddbdcae3b4f Viswas G     2017-10-18  1101  				PM8001_TASK_TIMEOUT * HZ);
+869ddbdcae3b4f Viswas G     2017-10-18  1102  			if (!ret)
+869ddbdcae3b4f Viswas G     2017-10-18  1103  				goto out;
+869ddbdcae3b4f Viswas G     2017-10-18  1104  =
 
-1e207964566738 Nicolai Stange 2022-02-21  436  out_err:
-1e207964566738 Nicolai Stange 2022-02-21  437  	kfree_sensitive(key);
-1e207964566738 Nicolai Stange 2022-02-21 @438  	return ERR_PTR(err);
-1e207964566738 Nicolai Stange 2022-02-21  439  }
-1e207964566738 Nicolai Stange 2022-02-21  440  =
+869ddbdcae3b4f Viswas G     2017-10-18  1105  			/* 5. Set Device State as =
+Operational */
+869ddbdcae3b4f Viswas G     2017-10-18  1106  			reinit_completion(&complet=
+ion);
+869ddbdcae3b4f Viswas G     2017-10-18  1107  			pm8001_dev->setds_completi=
+on =3D &completion;
+869ddbdcae3b4f Viswas G     2017-10-18  1108  			PM8001_CHIP_DISP->set_dev_=
+state_req(pm8001_ha,
+9ec3d4c1056533 Igor Pylypiv 2021-03-04  1109  				pm8001_dev, DS_OPERATIONA=
+L);
+869ddbdcae3b4f Viswas G     2017-10-18  1110  			wait_for_completion(&compl=
+etion);
+869ddbdcae3b4f Viswas G     2017-10-18  1111  		} else {
+2cbbf489778eb9 John Garry   2022-03-11 @1112  			ret =3D sas_execute_intern=
+al_abort_single(dev, tag, 0, NULL);
+dbf9bfe615717d jack wang    2009-10-14  1113  		}
+869ddbdcae3b4f Viswas G     2017-10-18  1114  		rc =3D TMF_RESP_FUNC_COMPLE=
+TE;
+dbf9bfe615717d jack wang    2009-10-14  1115  	} else if (task->task_proto =
+& SAS_PROTOCOL_SMP) {
+dbf9bfe615717d jack wang    2009-10-14  1116  		/* SMP */
+2cbbf489778eb9 John Garry   2022-03-11  1117  		rc =3D sas_execute_internal=
+_abort_single(dev, tag, 0, NULL);
+dbf9bfe615717d jack wang    2009-10-14  1118  =
+
+dbf9bfe615717d jack wang    2009-10-14  1119  	}
+dbf9bfe615717d jack wang    2009-10-14  1120  out:
+869ddbdcae3b4f Viswas G     2017-10-18  1121  	spin_lock_irqsave(&task->tas=
+k_state_lock, flags);
+869ddbdcae3b4f Viswas G     2017-10-18  1122  	if (task->slow_task =3D=3D &=
+slow_task)
+869ddbdcae3b4f Viswas G     2017-10-18  1123  		task->slow_task =3D NULL;
+869ddbdcae3b4f Viswas G     2017-10-18  1124  	spin_unlock_irqrestore(&task=
+->task_state_lock, flags);
+dbf9bfe615717d jack wang    2009-10-14  1125  	if (rc !=3D TMF_RESP_FUNC_CO=
+MPLETE)
+2ce6e200a04c24 Joe Perches  2020-11-23  1126  		pm8001_info(pm8001_ha, "rc=
+=3D %d\n", rc);
+dbf9bfe615717d jack wang    2009-10-14  1127  	return rc;
+dbf9bfe615717d jack wang    2009-10-14  1128  }
+dbf9bfe615717d jack wang    2009-10-14  1129  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2580064414725767480==--
+--===============1203842095931599428==--
 
