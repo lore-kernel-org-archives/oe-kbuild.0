@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2245229820996132255=="
+Content-Type: multipart/mixed; boundary="===============8879005648867448244=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 1/1] power: supply: bq27xxx: expose battery data when CI=1
-Date: Thu, 21 Apr 2022 14:45:03 +0800
-Message-ID: <202204211203.6kgrqpFU-lkp@intel.com>
+Subject: [linux-next:master 4074/4957] include/linux/mm_inline.h:126:26: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Thu, 21 Apr 2022 14:45:00 +0800
+Message-ID: <202204211142.GQLKLSCH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2245229820996132255==
+--===============8879005648867448244==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,50 +15,37 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220420123059.1206443-2-absicsz@gmail.com>
-References: <20220420123059.1206443-2-absicsz@gmail.com>
-TO: "Sicelo A. Mhlongo" <absicsz@gmail.com>
-TO: pali(a)kernel.org
-TO: sre(a)kernel.org
-CC: linux-pm(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
-CC: "Sicelo A. Mhlongo" <absicsz@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Yu Zhao <yuzhao@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi "Sicelo,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on v5.18-rc3 next-20220420]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sicelo-A-Mhlongo/pow=
-er-supply-bq27xxx-expose-battery-data-when-CI-1/20220420-203454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-sup=
-ply.git for-next
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: arm-randconfig-c002-20220420 (https://download.01.org/0day-ci/archi=
-ve/20220421/202204211203.6kgrqpFU-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f1244c81da13009dbf61cb807f45881501c44789
+commit: c81723809cc65cac8155686768dcf75db38f3b57 [4074/4957] mm: multi-gen =
+LRU: groundwork
+:::::: branch date: 20 hours ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-c006-20220420 (https://download.01.org/0day-ci/arc=
+hive/20220421/202204211142.GQLKLSCH-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
 5bf85669e3376610cfc4c4f9ca015e7b9b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/90fd98ac9f5c7b3b6f0=
-c72a863518b40f2a20790
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sicelo-A-Mhlongo/power-supply-bq27=
-xxx-expose-battery-data-when-CI-1/20220420-203454
-        git checkout 90fd98ac9f5c7b3b6f0c72a863518b40f2a20790
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dc81723809cc65cac8155686768dcf75db38f3b57
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout c81723809cc65cac8155686768dcf75db38f3b57
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -66,415 +53,250 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           if (status)
-                               ^~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:68:4: note: Taking true branch
-                           if (status)
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:37:3: note: expanded from macro '__careful_cmp'
+                   __cmp(x, y, op), \
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   mm/compaction.c:1480:15: note: Assuming '__UNIQUE_ID___x346' is <=3D '__=
+UNIQUE_ID___y347'
+                                   highest =3D max(pageblock_start_pfn(pfn),
+                                             ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   mm/compaction.c:1480:15: note: '?' condition is false
+                                   highest =3D max(pageblock_start_pfn(pfn),
+                                             ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
                            ^
-   drivers/media/dvb-frontends/cxd2099.c:79:9: note: Returning from 'read_b=
-lock'
-           return read_block(ci, reg, val, 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:493:2: note: Returning from 'read_=
-reg'
-           read_reg(ci, 0x04, &istat);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:494:6: note: Assuming 'istat' is n=
-ot equal to 0
-           if (!istat)
-               ^~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:494:2: note: Taking false branch
-           if (!istat)
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   mm/compaction.c:1483:8: note: Assuming 'pfn' is >=3D 'low_pfn'
+                           if (pfn >=3D low_pfn) {
+                               ^~~~~~~~~~~~~~
+   mm/compaction.c:1483:4: note: Taking true branch
+                           if (pfn >=3D low_pfn) {
+                           ^
+   mm/compaction.c:1487:5: note:  Execution continues on line 1502
+                                   break;
+                                   ^
+   mm/compaction.c:1502:7: note: Assuming pointer value is null
+                   if (!page && high_pfn) {
+                       ^~~~~
+   mm/compaction.c:1502:7: note: Assuming 'page' is null
+                   if (!page && high_pfn) {
+                       ^~~~~
+   mm/compaction.c:1502:7: note: Left side of '&&' is true
+   mm/compaction.c:1502:16: note: 'high_pfn' is 0
+                   if (!page && high_pfn) {
+                                ^~~~~~~~
+   mm/compaction.c:1502:3: note: Taking false branch
+                   if (!page && high_pfn) {
+                   ^
+   mm/compaction.c:1510:3: note: Calling 'move_freelist_head'
+                   move_freelist_head(freelist, freepage);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:1335:6: note: Assuming the condition is true
+           if (!list_is_last(freelist, &freepage->lru)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:1335:2: note: Taking true branch
+           if (!list_is_last(freelist, &freepage->lru)) {
            ^
-   drivers/media/dvb-frontends/cxd2099.c:498:6: note: Assuming the conditio=
-n is false
-           if (istat & 0x40)
-               ^~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:498:2: note: Taking false branch
-           if (istat & 0x40)
+   mm/compaction.c:1336:3: note: Calling 'list_cut_before'
+                   list_cut_before(&sublist, freelist, &freepage->lru);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:430:6: note: Assuming 'entry' is equal to field 'ne=
+xt'
+           if (head->next =3D=3D entry) {
+               ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:430:2: note: Taking true branch
+           if (head->next =3D=3D entry) {
            ^
-   drivers/media/dvb-frontends/cxd2099.c:500:6: note: Assuming the conditio=
-n is false
-           if (istat & 0x20)
-               ^~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:500:2: note: Taking false branch
-           if (istat & 0x20)
+   include/linux/list.h:432:3: note: Returning without writing to 'head->pr=
+ev'
+                   return;
+                   ^
+   mm/compaction.c:1336:3: note: Returning from 'list_cut_before'
+                   list_cut_before(&sublist, freelist, &freepage->lru);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:1337:3: note: Calling 'list_splice_tail'
+                   list_splice_tail(&sublist, freelist);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:476:2: note: Taking true branch
+           if (!list_empty(list))
            ^
-   drivers/media/dvb-frontends/cxd2099.c:503:6: note: Assuming the conditio=
-n is true
-           if (istat & 2) {
-               ^~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:503:2: note: Taking true branch
-           if (istat & 2) {
+   include/linux/list.h:477:23: note: Passing null pointer value via 2nd pa=
+rameter 'prev'
+                   __list_splice(list, head->prev, head);
+                                       ^~~~~~~~~~
+   include/linux/list.h:477:3: note: Calling '__list_splice'
+                   __list_splice(list, head->prev, head);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:450:13: note: Access to field 'next' results in a d=
+ereference of a null pointer (loaded from variable 'prev')
+           prev->next =3D first;
+           ~~~~       ^
+>> include/linux/mm_inline.h:126:26: warning: Dereference of null pointer [=
+clang-analyzer-core.NullDereference]
+           unsigned long max_seq =3D lruvec->lrugen.max_seq;
+                                   ^
+   mm/compaction.c:823:2: note: Loop condition is false. Execution continue=
+s on line 838
+           while (unlikely(too_many_isolated(pgdat))) {
            ^
-   drivers/media/dvb-frontends/cxd2099.c:504:3: note: 'slotstat' declared w=
-ithout an initial value
-                   u8 slotstat;
-                   ^~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:506:3: note: Calling 'read_reg'
-                   read_reg(ci, 0x01, &slotstat);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:79:9: note: Calling 'read_block'
-           return read_block(ci, reg, val, 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:57:6: note: Assuming 'adr' is not =
-equal to field 'lastaddress'
-           if (ci->lastaddress !=3D adr)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:57:2: note: Taking true branch
-           if (ci->lastaddress !=3D adr)
+   mm/compaction.c:840:6: note: Assuming field 'direct_compaction' is false
+           if (cc->direct_compaction && (cc->mode =3D=3D MIGRATE_ASYNC)) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:840:28: note: Left side of '&&' is false
+           if (cc->direct_compaction && (cc->mode =3D=3D MIGRATE_ASYNC)) {
+                                     ^
+   mm/compaction.c:846:9: note: Assuming 'low_pfn' is < 'end_pfn'
+           for (; low_pfn < end_pfn; low_pfn++) {
+                  ^~~~~~~~~~~~~~~~~
+   mm/compaction.c:846:2: note: Loop condition is true.  Entering loop body
+           for (; low_pfn < end_pfn; low_pfn++) {
            ^
-   drivers/media/dvb-frontends/cxd2099.c:59:6: note: Assuming 'status' is n=
-ot equal to 0
-           if (!status) {
-               ^~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:59:2: note: Taking false branch
-           if (!status) {
-           ^
-   drivers/media/dvb-frontends/cxd2099.c:74:2: note: Returning without writ=
-ing to '*data'
-           return status;
-           ^
-   drivers/media/dvb-frontends/cxd2099.c:79:9: note: Returning from 'read_b=
-lock'
-           return read_block(ci, reg, val, 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:79:2: note: Returning without writ=
-ing to '*val'
-           return read_block(ci, reg, val, 1);
-           ^
-   drivers/media/dvb-frontends/cxd2099.c:506:3: note: Returning from 'read_=
-reg'
-                   read_reg(ci, 0x01, &slotstat);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:507:11: note: The right operand of=
- '&' is a garbage value
-                   if (!(2 & slotstat)) {
-                           ^ ~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:620:2: warning: Call to function '=
-memcpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&ci->cfg, cfg, sizeof(ci->cfg));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2099.c:620:2: note: Call to function 'mem=
-cpy' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&ci->cfg, cfg, sizeof(ci->cfg));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   27 warnings generated.
->> drivers/power/supply/bq27xxx_battery.c:1767:7: warning: Value stored to =
-'has_ci_flag' during its initialization is never read [clang-analyzer-deadc=
-ode.DeadStores]
-           bool has_ci_flag =3D di->opts & BQ27XXX_O_HAS_CI;
-                ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq27xxx_battery.c:1767:7: note: Value stored to 'ha=
-s_ci_flag' during its initialization is never read
-           bool has_ci_flag =3D di->opts & BQ27XXX_O_HAS_CI;
-                ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 26 warnings (25 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   drivers/power/supply/bq27xxx_battery_i2c.c:124:2: warning: Call to funct=
-ion 'memcpy' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'memcpy_s' in case of C11 [cla=
-ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&buf[1], data, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/power/supply/bq27xxx_battery_i2c.c:124:2: note: Call to function=
- 'memcpy' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&buf[1], data, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   Suppressed 19 warnings (19 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   25 warnings generated.
-   drivers/power/supply/max1721x_battery.c:259:2: warning: Call to function=
- 'snprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(str, 13, "%04X%04X%04X", val[0], val[1], val[2]);
-           ^~~~~~~~
-   drivers/power/supply/max1721x_battery.c:259:2: note: Call to function 's=
-nprintf' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(str, 13, "%04X%04X%04X", val[0], val[1], val[2]);
-           ^~~~~~~~
-   drivers/power/supply/max1721x_battery.c:341:2: warning: Call to function=
- 'snprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(info->name, sizeof(info->name),
-           ^~~~~~~~
-   drivers/power/supply/max1721x_battery.c:341:2: note: Call to function 's=
-nprintf' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(info->name, sizeof(info->name),
-           ^~~~~~~~
-   drivers/power/supply/max1721x_battery.c:387:3: warning: Call to function=
- 'strncpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'strncpy_s' in case of C11 [clan=
-g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   strncpy(info->ManufacturerName, DEF_MFG_NAME,
-                   ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:387:3: note: Call to function 's=
-trncpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'strncpy_s' in case of C11
-                   strncpy(info->ManufacturerName, DEF_MFG_NAME,
-                   ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:406:4: warning: Call to function=
- 'strncpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'strncpy_s' in case of C11 [clan=
-g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           strncpy(info->DeviceName, DEF_DEV_NAME_MAX17211,
-                           ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:406:4: note: Call to function 's=
-trncpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'strncpy_s' in case of C11
-                           strncpy(info->DeviceName, DEF_DEV_NAME_MAX17211,
-                           ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:410:4: warning: Call to function=
- 'strncpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'strncpy_s' in case of C11 [clan=
-g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           strncpy(info->DeviceName, DEF_DEV_NAME_MAX17215,
-                           ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:410:4: note: Call to function 's=
-trncpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'strncpy_s' in case of C11
-                           strncpy(info->DeviceName, DEF_DEV_NAME_MAX17215,
-                           ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:414:4: warning: Call to function=
- 'strncpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'strncpy_s' in case of C11 [clan=
-g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           strncpy(info->DeviceName, DEF_DEV_NAME_UNKNOWN,
-                           ^~~~~~~
-   drivers/power/supply/max1721x_battery.c:414:4: note: Call to function 's=
-trncpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'strncpy_s' in case of C11
-                           strncpy(info->DeviceName, DEF_DEV_NAME_UNKNOWN,
-                           ^~~~~~~
-   Suppressed 19 warnings (19 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   drivers/media/dvb-frontends/s5h1411.c:880:2: warning: Call to function '=
-memcpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&state->frontend.ops, &s5h1411_ops,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/s5h1411.c:880:2: note: Call to function 'mem=
-cpy' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&state->frontend.ops, &s5h1411_ops,
+   mm/compaction.c:848:7: note: 'skip_on_failure' is false
+                   if (skip_on_failure && low_pfn >=3D next_skip_pfn) {
+                       ^~~~~~~~~~~~~~~
+   mm/compaction.c:848:23: note: Left side of '&&' is false
+                   if (skip_on_failure && low_pfn >=3D next_skip_pfn) {
+                                       ^
+   mm/compaction.c:875:7: note: Assuming the condition is false
+                   if (!(low_pfn % SWAP_CLUSTER_MAX)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:875:3: note: Taking false branch
+                   if (!(low_pfn % SWAP_CLUSTER_MAX)) {
+                   ^
+   mm/compaction.c:901:8: note: 'valid_page' is null
+                   if (!valid_page && IS_ALIGNED(low_pfn, pageblock_nr_page=
+s)) {
+                        ^~~~~~~~~~
+   mm/compaction.c:901:7: note: Left side of '&&' is true
+                   if (!valid_page && IS_ALIGNED(low_pfn, pageblock_nr_page=
+s)) {
+                       ^
+   mm/compaction.c:901:42: note: '?' condition is false
+                   if (!valid_page && IS_ALIGNED(low_pfn, pageblock_nr_page=
+s)) {
+                                                          ^
+   include/linux/pageblock-flags.h:55:36: note: expanded from macro 'pagebl=
+ock_nr_pages'
+   #define pageblock_nr_pages      (1UL << pageblock_order)
+                                           ^
+   include/linux/pageblock-flags.h:44:26: note: expanded from macro 'pagebl=
+ock_order'
+   #define pageblock_order         min_t(unsigned int, HUGETLB_PAGE_ORDER, =
+MAX_ORDER - 1)
+                                   ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:37:3: note: expanded from macro '__careful_cmp'
+                   __cmp(x, y, op), \
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   mm/compaction.c:901:22: note: Assuming the condition is false
+                   if (!valid_page && IS_ALIGNED(low_pfn, pageblock_nr_page=
+s)) {
+                                      ^
+   include/linux/align.h:13:28: note: expanded from macro 'IS_ALIGNED'
+   #define IS_ALIGNED(x, a)                (((x) & ((typeof(x))@ - 1)) =
+=3D=3D 0)
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   mm/compaction.c:901:3: note: Taking false branch
+                   if (!valid_page && IS_ALIGNED(low_pfn, pageblock_nr_page=
+s)) {
+                   ^
+   mm/compaction.c:910:7: note: Assuming the condition is false
+                   if (PageHuge(page) && cc->alloc_contig) {
+                       ^~~~~~~~~~~~~~
+   mm/compaction.c:910:22: note: Left side of '&&' is false
+                   if (PageHuge(page) && cc->alloc_contig) {
+                                      ^
+   mm/compaction.c:948:3: note: Taking false branch
+                   if (PageBuddy(page)) {
+                   ^
+   mm/compaction.c:969:7: note: Assuming the condition is false
+                   if (PageCompound(page) && !cc->alloc_contig) {
+                       ^~~~~~~~~~~~~~~~~~
+   mm/compaction.c:969:26: note: Left side of '&&' is false
+                   if (PageCompound(page) && !cc->alloc_contig) {
+                                          ^
+   mm/compaction.c:982:7: note: Assuming the condition is false
+                   if (!PageLRU(page)) {
+                       ^~~~~~~~~~~~~~
+   mm/compaction.c:982:3: note: Taking false branch
+                   if (!PageLRU(page)) {
+                   ^
+   mm/compaction.c:1007:7: note: Assuming 'mapping' is non-null
+                   if (!mapping && page_count(page) > page_mapcount(page))
+                       ^~~~~~~~
+   mm/compaction.c:1007:16: note: Left side of '&&' is false
+                   if (!mapping && page_count(page) > page_mapcount(page))
+                                ^
+   mm/compaction.c:1014:7: note: Assuming the condition is false
+                   if (!(cc->gfp_mask & __GFP_FS) && mapping)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:1014:34: note: Left side of '&&' is false
+                   if (!(cc->gfp_mask & __GFP_FS) && mapping)
+                                                  ^
+   mm/compaction.c:1022:16: note: Assuming the condition is false
+                   if (unlikely(!get_page_unless_zero(page)))
+                                ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
 
-vim +/has_ci_flag +1767 drivers/power/supply/bq27xxx_battery.c
+vim +126 include/linux/mm_inline.h
 
-9903e62700a122 drivers/power/bq27x00_battery.c        Syed Rafiuddin       =
-  2012-05-17  1763  =
+c81723809cc65c Yu Zhao 2022-04-13  123  =
 
-703df6c097956d drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-11-23  1764  void bq27xxx_battery_update(struct bq27xxx_device_info =
-*di)
-b996ad0e9fb15c drivers/power/bq27x00_battery.c        Rodolfo Giometti     =
-  2008-08-20  1765  {
-081bab217db769 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1766  	struct bq27xxx_reg_cache cache =3D {0, };
-7be64ae0bf369e drivers/power/supply/bq27xxx_battery.c Krzysztof Kozlowski  =
-  2020-09-19 @1767  	bool has_ci_flag =3D di->opts & BQ27XXX_O_HAS_CI;
-3a731c6414c940 drivers/power/supply/bq27xxx_battery.c Liam Breck           =
-  2017-08-23  1768  	bool has_singe_flag =3D di->opts & BQ27XXX_O_ZERO;
-b996ad0e9fb15c drivers/power/bq27x00_battery.c        Rodolfo Giometti     =
-  2008-08-20  1769  =
+c81723809cc65c Yu Zhao 2022-04-13  124  static inline bool lru_gen_is_activ=
+e(struct lruvec *lruvec, int gen)
+c81723809cc65c Yu Zhao 2022-04-13  125  {
+c81723809cc65c Yu Zhao 2022-04-13 @126  	unsigned long max_seq =3D lruvec->=
+lrugen.max_seq;
+c81723809cc65c Yu Zhao 2022-04-13  127  =
 
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1770  	cache.flags =3D bq27xxx_read(di, BQ27XXX_REG_FLAGS, ha=
-s_singe_flag);
-3dd843e1c26a02 drivers/power/bq27x00_battery.c        Marek Belisko        =
-  2014-06-30  1771  	if ((cache.flags & 0xff) =3D=3D 0xff)
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1772  		cache.flags =3D -1; /* read error */
-297a533b3e621b drivers/power/bq27x00_battery.c        Lars-Peter Clausen   =
-  2011-01-07  1773  	if (cache.flags >=3D 0) {
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1774  		cache.temperature =3D bq27xxx_battery_read_temperatur=
-e(di);
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1775  		if (di->regs[BQ27XXX_REG_TTE] !=3D INVALID_REG_ADDR)
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1776  			cache.time_to_empty =3D bq27xxx_battery_read_time(di=
-, BQ27XXX_REG_TTE);
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1777  		if (di->regs[BQ27XXX_REG_TTECP] !=3D INVALID_REG_ADDR)
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1778  			cache.time_to_empty_avg =3D bq27xxx_battery_read_tim=
-e(di, BQ27XXX_REG_TTECP);
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1779  		if (di->regs[BQ27XXX_REG_TTF] !=3D INVALID_REG_ADDR)
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1780  			cache.time_to_full =3D bq27xxx_battery_read_time(di,=
- BQ27XXX_REG_TTF);
-6f24ff97e3231a drivers/power/supply/bq27xxx_battery.c Dan Murphy           =
-  2020-07-29  1781  =
+c81723809cc65c Yu Zhao 2022-04-13  128  	VM_BUG_ON(gen >=3D MAX_NR_GENS);
+c81723809cc65c Yu Zhao 2022-04-13  129  =
 
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1782  		cache.charge_full =3D bq27xxx_battery_read_fcc(di);
-c570903290d7cb drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1783  		cache.capacity =3D bq27xxx_battery_read_soc(di);
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1784  		if (di->regs[BQ27XXX_REG_AE] !=3D INVALID_REG_ADDR)
-081bab217db769 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1785  			cache.energy =3D bq27xxx_battery_read_energy(di);
-9b2c945f9f4d34 drivers/power/supply/bq27xxx_battery.c Arthur Demchenkov    =
-  2019-02-18  1786  		di->cache.flags =3D cache.flags;
-081bab217db769 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1787  		cache.health =3D bq27xxx_battery_read_health(di);
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1788  		if (di->regs[BQ27XXX_REG_CYCT] !=3D INVALID_REG_ADDR)
-081bab217db769 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1789  			cache.cycle_count =3D bq27xxx_battery_read_cyct(di);
-e20908d95e89d0 drivers/power/bq27x00_battery.c        Grazvydas Ignotas    =
-  2010-02-12  1790  =
-
-631c17ee5daf0c drivers/power/bq27x00_battery.c        Pali Roh=C3=A1r      =
-       2011-02-01  1791  		/* We only have to read charge design full once =
+c81723809cc65c Yu Zhao 2022-04-13  130  	/* see the comment on MIN_NR_GENS =
 */
-631c17ee5daf0c drivers/power/bq27x00_battery.c        Pali Roh=C3=A1r      =
-       2011-02-01  1792  		if (di->charge_design_full <=3D 0)
-d74534c2777585 drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-09-22  1793  			di->charge_design_full =3D bq27xxx_battery_read_dcap=
-(di);
-b996ad0e9fb15c drivers/power/bq27x00_battery.c        Rodolfo Giometti     =
-  2008-08-20  1794  	}
-297a533b3e621b drivers/power/bq27x00_battery.c        Lars-Peter Clausen   =
-  2011-01-07  1795  =
-
-243f8ffc883a12 drivers/power/supply/bq27xxx_battery.c Krzysztof Kozlowski  =
-  2019-04-26  1796  	if ((di->cache.capacity !=3D cache.capacity) ||
-243f8ffc883a12 drivers/power/supply/bq27xxx_battery.c Krzysztof Kozlowski  =
-  2019-04-26  1797  	    (di->cache.flags !=3D cache.flags))
-297d716f6260cc drivers/power/bq27x00_battery.c        Krzysztof Kozlowski  =
-  2015-03-12  1798  		power_supply_changed(di->bat);
-90f04a28fbadbc drivers/power/bq27x00_battery.c        Puthikorn Voravootiva=
-t 2014-10-21  1799  =
-
-90f04a28fbadbc drivers/power/bq27x00_battery.c        Puthikorn Voravootiva=
-t 2014-10-21  1800  	if (memcmp(&di->cache, &cache, sizeof(cache)) !=3D 0)
-90f04a28fbadbc drivers/power/bq27x00_battery.c        Puthikorn Voravootiva=
-t 2014-10-21  1801  		di->cache =3D cache;
-e20908d95e89d0 drivers/power/bq27x00_battery.c        Grazvydas Ignotas    =
-  2010-02-12  1802  =
-
-297a533b3e621b drivers/power/bq27x00_battery.c        Lars-Peter Clausen   =
-  2011-01-07  1803  	di->last_update =3D jiffies;
-b996ad0e9fb15c drivers/power/bq27x00_battery.c        Rodolfo Giometti     =
-  2008-08-20  1804  }
-703df6c097956d drivers/power/bq27xxx_battery.c        Andrew F. Davis      =
-  2015-11-23  1805  EXPORT_SYMBOL_GPL(bq27xxx_battery_update);
-b996ad0e9fb15c drivers/power/bq27x00_battery.c        Rodolfo Giometti     =
-  2008-08-20  1806  =
+c81723809cc65c Yu Zhao 2022-04-13  131  	return gen =3D=3D lru_gen_from_seq=
+(max_seq) || gen =3D=3D lru_gen_from_seq(max_seq - 1);
+c81723809cc65c Yu Zhao 2022-04-13  132  }
+c81723809cc65c Yu Zhao 2022-04-13  133  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2245229820996132255==--
+--===============8879005648867448244==--
 
