@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4200356059463789323=="
+Content-Type: multipart/mixed; boundary="===============9128521614923756037=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/input/misc/yealink.c:691:10: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
-Date: Thu, 21 Apr 2022 14:42:28 +0800
-Message-ID: <202204210447.YcuVMJdA-lkp@intel.com>
+Subject: Re: [PATCH 3/7] clk: mediatek: reset: Merge and revise reset register function
+Date: Thu, 21 Apr 2022 14:41:45 +0800
+Message-ID: <202204210107.zeGBZsr1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4200356059463789323==
+--===============9128521614923756037==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,41 +15,61 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220418132154.7401-4-rex-bc.chen@mediatek.com>
+References: <20220418132154.7401-4-rex-bc.chen@mediatek.com>
+TO: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
+TO: mturquette(a)baylibre.com
+TO: sboyd(a)kernel.org
+CC: matthias.bgg(a)gmail.com
+CC: p.zabel(a)pengutronix.de
+CC: angelogioacchino.delregno(a)collabora.com
+CC: chun-jie.chen(a)mediatek.com
+CC: wenst(a)chromium.org
+CC: yong.liang(a)mediatek.com
+CC: runyang.chen(a)mediatek.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+CC: allen-kh.cheng(a)mediatek.com
+CC: linux-clk(a)vger.kernel.org
+CC: linux-arm-kernel(a)lists.infradead.org
+CC: linux-mediatek(a)lists.infradead.org
+CC: Project_Global_Chrome_Upstream_Group(a)mediatek.com
+CC: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   559089e0a93d44280ec3ab478830af319c56dbe3
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
-date:   6 weeks ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-c006-20220420 (https://download.01.org/0day-ci/arc=
-hive/20220421/202204210447.YcuVMJdA-lkp(a)intel.com/config)
+Hi Rex-BC,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on v5.18-rc3 next-20220420]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rex-BC-Chen/Cleanup-=
+MediaTek-clk-reset-drivers/20220418-223139
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
+ext
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20220420 (https://download.01.org/0day-ci/archi=
+ve/20220421/202204210107.zeGBZsr1-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
 5bf85669e3376610cfc4c4f9ca015e7b9b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/52d97559ba77d8eb304=
+19528d80d37d8f0dd09cf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rex-BC-Chen/Cleanup-MediaTek-clk-r=
+eset-drivers/20220418-223139
+        git checkout 52d97559ba77d8eb30419528d80d37d8f0dd09cf
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -57,648 +77,316 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~
-   drivers/input/joystick/xpad.c:1035:3: note: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(xpad->odata, packet->data, packet->len);
-                   ^~~~~~
-   drivers/input/joystick/xpad.c:1236:2: warning: Call to function 'memcpy'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(packet->data, mode_report_ack, packet->len);
-           ^~~~~~
-   drivers/input/joystick/xpad.c:1236:2: note: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(packet->data, mode_report_ack, packet->len);
-           ^~~~~~
-   drivers/input/joystick/xpad.c:1465:2: warning: Call to function 'snprint=
-f' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'snprintf_s' in case of C11 [clang-analy=
-zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(led->name, sizeof(led->name), "xpad%d", xpad->pad_nr);
-           ^~~~~~~~
-   drivers/input/joystick/xpad.c:1465:2: note: Call to function 'snprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(led->name, sizeof(led->name), "xpad%d", xpad->pad_nr);
-           ^~~~~~~~
-   Suppressed 33 warnings (33 in non-user code).
+           ^
+   drivers/pinctrl/pinctrl-single.c:1856:2: note: Calling 'platform_set_drv=
+data'
+           platform_set_drvdata(pdev, pcs);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:243:2: note: Calling 'dev_set_drvdata'
+           dev_set_drvdata(&pdev->dev, data);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:699:1: note: Returning without writing to 'data->=
+bits_per_mux', which participates in a condition later
+   }
+   ^
+   include/linux/device.h:699:1: note: Returning without writing to 'data->=
+bits_per_pin'
+   include/linux/platform_device.h:243:2: note: Returning from 'dev_set_drv=
+data'
+           dev_set_drvdata(&pdev->dev, data);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:244:1: note: Returning without writing t=
+o 'data->bits_per_mux', which participates in a condition later
+   }
+   ^
+   include/linux/platform_device.h:244:1: note: Returning without writing t=
+o 'data->bits_per_pin'
+   drivers/pinctrl/pinctrl-single.c:1856:2: note: Returning from 'platform_=
+set_drvdata'
+           platform_set_drvdata(pdev, pcs);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1858:2: note: Control jumps to the 'def=
+ault' case at line 1871
+           switch (pcs->width) {
+           ^
+   drivers/pinctrl/pinctrl-single.c:1872:3: note:  Execution continues on l=
+ine 1875
+                   break;
+                   ^
+   drivers/pinctrl/pinctrl-single.c:1878:6: note: Assuming the condition is=
+ false
+           if (PCS_HAS_PINCONF)
+               ^
+   drivers/pinctrl/pinctrl-single.c:212:27: note: expanded from macro 'PCS_=
+HAS_PINCONF'
+   #define PCS_HAS_PINCONF         (pcs->flags & PCS_FEAT_PINCONF)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1878:2: note: Taking false branch
+           if (PCS_HAS_PINCONF)
+           ^
+   drivers/pinctrl/pinctrl-single.c:1882:8: note: Calling 'pcs_allocate_pin=
+_table'
+           ret =3D pcs_allocate_pin_table(pcs);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:730:11: note: Field 'bits_per_mux' is t=
+rue
+           if (pcs->bits_per_mux) {
+                    ^
+   drivers/pinctrl/pinctrl-single.c:730:2: note: Taking true branch
+           if (pcs->bits_per_mux) {
+           ^
+   drivers/pinctrl/pinctrl-single.c:731:23: note: Calling 'fls'
+                   pcs->bits_per_pin =3D fls(pcs->fmask);
+                                       ^~~~~~~~~~~~~~~
+   include/asm-generic/bitops/builtin-fls.h:14:9: note: Assuming 'x' is 0
+           return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+                  ^
+   include/asm-generic/bitops/builtin-fls.h:14:9: note: '?' condition is fa=
+lse
+   include/asm-generic/bitops/builtin-fls.h:14:2: note: Returning zero
+           return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:731:23: note: Returning from 'fls'
+                   pcs->bits_per_pin =3D fls(pcs->fmask);
+                                       ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:731:3: note: The value 0 is assigned to=
+ field 'bits_per_pin'
+                   pcs->bits_per_pin =3D fls(pcs->fmask);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:732:41: note: Division by zero
+                   nr_pins =3D (pcs->size * BITS_PER_BYTE) / pcs->bits_per_=
+pin;
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1417:3: warning: Value stored to 'mask'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   mask =3D pcs->read(pcswi->reg);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1417:3: note: Value stored to 'mask' is=
+ never read
+                   mask =3D pcs->read(pcswi->reg);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (20 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (20 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/input/misc/tps65218-pwrbutton.c:113:2: warning: Call to function=
- 'snprintf' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
-           ^~~~~~~~
-   drivers/input/misc/tps65218-pwrbutton.c:113:2: note: Call to function 's=
-nprintf' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
-           ^~~~~~~~
-   Suppressed 43 warnings (43 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   Suppressed 27 warnings (27 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   28 warnings generated.
-   drivers/input/misc/uinput.c:956:4: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memset(&ff_up.old, 0, sizeof(struct ff_effect));
-                           ^~~~~~
-   drivers/input/misc/uinput.c:956:4: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-                           memset(&ff_up.old, 0, sizeof(struct ff_effect));
-                           ^~~~~~
-   Suppressed 27 warnings (27 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   drivers/input/misc/yealink.c:288:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:288:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:305:3: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(p->data, &buf[ix], len);
-                   ^~~~~~
-   drivers/input/misc/yealink.c:305:3: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(p->data, &buf[ix], len);
-                   ^~~~~~
-   drivers/input/misc/yealink.c:321:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:321:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:516:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:516:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(yld->ctl_data, 0, sizeof(*(yld->ctl_data)));
-           ^~~~~~
-   drivers/input/misc/yealink.c:558:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, &map_seg7, sizeof(map_seg7));
-           ^~~~~~
-   drivers/input/misc/yealink.c:558:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(buf, &map_seg7, sizeof(map_seg7));
-           ^~~~~~
-   drivers/input/misc/yealink.c:567:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&map_seg7, buf, sizeof(map_seg7));
-           ^~~~~~
-   drivers/input/misc/yealink.c:567:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&map_seg7, buf, sizeof(map_seg7));
-           ^~~~~~
->> drivers/input/misc/yealink.c:691:10: warning: Call to function 'sprintf'=
- is insecure as it does not provide bounding of the memory buffer or securi=
-ty checks introduced in the C11 standard. Replace with analogous functions =
-that support length arguments or provides boundary checks such as 'sprintf_=
-s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
-fferHandling]
-                   ret +=3D sprintf(&buf[ret], "%s %s\n",
-                          ^~~~~~~
-   drivers/input/misc/yealink.c:691:10: note: Call to function 'sprintf' is=
- insecure as it does not provide bounding of the memory buffer or security =
-checks introduced in the C11 standard. Replace with analogous functions tha=
-t support length arguments or provides boundary checks such as 'sprintf_s' =
-in case of C11
-                   ret +=3D sprintf(&buf[ret], "%s %s\n",
-                          ^~~~~~~
-   drivers/input/misc/yealink.c:979:2: warning: Value stored to 'ret' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           ret =3D sysfs_create_group(&intf->dev.kobj, &yld_attr_group);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/misc/yealink.c:979:2: note: Value stored to 'ret' is never=
- read
-           ret =3D sysfs_create_group(&intf->dev.kobj, &yld_attr_group);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   34 warnings generated.
-   drivers/usb/serial/cypress_m8.c:705:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(port->interrupt_out_urb->transfer_buffer, 0,
-           ^~~~~~
-   drivers/usb/serial/cypress_m8.c:705:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(port->interrupt_out_urb->transfer_buffer, 0,
-           ^~~~~~
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   drivers/accessibility/speakup/synth.c:225:6: warning: Call to function '=
-vsnprintf' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'vsnprintf_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           r =3D vsnprintf(buf, sizeof(buf), fmt, args);
-               ^~~~~~~~~
-   drivers/accessibility/speakup/synth.c:225:6: note: Call to function 'vsn=
-printf' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'vsnprintf_s' in case of C11
-           r =3D vsnprintf(buf, sizeof(buf), fmt, args);
-               ^~~~~~~~~
-   drivers/accessibility/speakup/synth.c:331:2: warning: Call to function '=
-memset' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&synth_res, 0, sizeof(synth_res));
-           ^~~~~~
-   drivers/accessibility/speakup/synth.c:331:2: note: Call to function 'mem=
-set' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memset_s' in case of C11
-           memset(&synth_res, 0, sizeof(synth_res));
-           ^~~~~~
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/char/xillybus/xillyusb.c:355:2: warning: Call to function 'memcp=
-y' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyze=
-r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(dst, src, n);
-           ^~~~~~
-   drivers/char/xillybus/xillyusb.c:355:2: note: Call to function 'memcpy' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, n);
-           ^~~~~~
-   drivers/char/xillybus/xillyusb.c:1153:4: warning: Value stored to 'rc' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                           rc =3D wait_event_interruptible_timeout(chan->fl=
-ushq,
-                           ^
-   drivers/char/xillybus/xillyusb.c:1153:4: note: Value stored to 'rc' is n=
-ever read
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/usb/serial/usb-serial.c:781:9: warning: Call to function 'sprint=
-f' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%u\n", port->port_number);
-                  ^~~~~~~
-   drivers/usb/serial/usb-serial.c:781:9: note: Call to function 'sprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%u\n", port->port_number);
-                  ^~~~~~~
-   drivers/usb/serial/usb-serial.c:1524:2: warning: Value stored to 'rc' is=
+   6 warnings generated.
+>> drivers/clk/mediatek/clk-mt8173.c:887:2: warning: Value stored to 'r' is=
  never read [clang-analyzer-deadcode.DeadStores]
-           rc =3D driver_attach(&udriver->drvwrap.driver);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/serial/usb-serial.c:1524:2: note: Value stored to 'rc' is ne=
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0x30, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt8173.c:887:2: note: Value stored to 'r' is ne=
 ver read
-           rc =3D driver_attach(&udriver->drvwrap.driver);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 33 warnings (33 in non-user code).
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0x30, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt8173.c:917:2: warning: Value stored to 'r' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt8173.c:917:2: note: Value stored to 'r' is ne=
+ver read
+           r =3D mtk_clk_register_rst_ctrl(node, 2, 0, MTK_RST_V1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   lib/glob.c:48:32: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   lib/glob.c:48:32: note: Assigned value is garbage or undefined
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   arch/arm/kernel/setup.c:1121:17: warning: Access to field 'name' results=
+ in a dereference of a null pointer (loaded from variable 'mdesc') [clang-a=
+nalyzer-core.NullDereference]
+           machine_name =3D mdesc->name;
+                          ^~~~~
+   arch/arm/kernel/setup.c:1099:6: note: Assuming '__atags_pointer' is 0
+           if (__atags_pointer)
+               ^~~~~~~~~~~~~~~
+   arch/arm/kernel/setup.c:1099:2: note: Taking false branch
+           if (__atags_pointer)
+           ^
+   arch/arm/kernel/setup.c:1103:6: note: 'atags_vaddr' is null
+           if (atags_vaddr) {
 
-vim +691 drivers/input/misc/yealink.c
+vim +/r +887 drivers/clk/mediatek/clk-mt8173.c
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  552  =
+c1e81a3bef36cb James Liao  2015-04-23  865  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  553  =
-/* Interface to the 7-segments translation table aka. char set.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  554  =
- */
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  555  =
-static ssize_t show_map(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  556  =
-				char *buf)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  557  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16 @558  =
-	memcpy(buf, &map_seg7, sizeof(map_seg7));
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  559  =
-	return sizeof(map_seg7);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  560  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  561  =
+c1e81a3bef36cb James Liao  2015-04-23  866  static void __init mtk_infrasys=
+_init(struct device_node *node)
+c1e81a3bef36cb James Liao  2015-04-23  867  {
+c1e81a3bef36cb James Liao  2015-04-23  868  	struct clk_onecell_data *clk_d=
+ata;
+c1e81a3bef36cb James Liao  2015-04-23  869  	int r;
+c1e81a3bef36cb James Liao  2015-04-23  870  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  562  =
-static ssize_t store_map(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  563  =
-				const char *buf, size_t cnt)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  564  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  565  =
-	if (cnt !=3D sizeof(map_seg7))
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  566  =
-		return -EINVAL;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  567  =
-	memcpy(&map_seg7, buf, sizeof(map_seg7));
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  568  =
-	return sizeof(map_seg7);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  569  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  570  =
+c1e81a3bef36cb James Liao  2015-04-23  871  	clk_data =3D mtk_alloc_clk_dat=
+a(CLK_INFRA_NR_CLK);
+c1e81a3bef36cb James Liao  2015-04-23  872  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  571  =
-/* Interface to the LCD.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  572  =
- */
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  573  =
+c1e81a3bef36cb James Liao  2015-04-23  873  	mtk_clk_register_gates(node, i=
+nfra_clks, ARRAY_SIZE(infra_clks),
+c1e81a3bef36cb James Liao  2015-04-23  874  						clk_data);
+2d61fe0fc7f0a8 Joe.C       2015-07-13  875  	mtk_clk_register_factors(infra=
+_divs, ARRAY_SIZE(infra_divs), clk_data);
+c1e81a3bef36cb James Liao  2015-04-23  876  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  574  =
-/* Reading /sys/../lineX will return the format string with its settings:
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  575  =
- *
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  576  =
- * Example:
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  577  =
- * cat ./line3
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  578  =
- * 888888888888
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  579  =
- * Linux Rocks!
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  580  =
- */
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  581  =
-static ssize_t show_line(struct device *dev, char *buf, int a, int b)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  582  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  583  =
-	struct yealink_dev *yld;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  584  =
-	int i;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  585  =
+567bf2ed86d13a Sean Wang   2017-05-05  877  	mtk_clk_register_cpumuxes(node=
+, cpu_muxes, ARRAY_SIZE(cpu_muxes),
+567bf2ed86d13a Sean Wang   2017-05-05  878  				  clk_data);
+567bf2ed86d13a Sean Wang   2017-05-05  879  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  586  =
-	down_read(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  587  =
-	yld =3D dev_get_drvdata(dev);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  588  =
-	if (yld =3D=3D NULL) {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  589  =
-		up_read(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  590  =
-		return -ENODEV;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  591  =
-	}
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  592  =
+c1e81a3bef36cb James Liao  2015-04-23  880  	r =3D of_clk_add_provider(node=
+, of_clk_src_onecell_get, clk_data);
+52d97559ba77d8 Rex-BC Chen 2022-04-18  881  	if (r) {
+c1e81a3bef36cb James Liao  2015-04-23  882  		pr_err("%s(): could not regis=
+ter clock provider: %d\n",
+c1e81a3bef36cb James Liao  2015-04-23  883  			__func__, r);
+52d97559ba77d8 Rex-BC Chen 2022-04-18  884  		return;
+52d97559ba77d8 Rex-BC Chen 2022-04-18  885  	}
+c1e81a3bef36cb James Liao  2015-04-23  886  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  593  =
-	for (i =3D a; i < b; i++)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  594  =
-		*buf++ =3D lcdMap[i].type;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  595  =
-	*buf++ =3D '\n';
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  596  =
-	for (i =3D a; i < b; i++)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  597  =
-		*buf++ =3D yld->lcdMap[i];
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  598  =
-	*buf++ =3D '\n';
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  599  =
-	*buf =3D 0;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  600  =
+52d97559ba77d8 Rex-BC Chen 2022-04-18 @887  	r =3D mtk_clk_register_rst_ctr=
+l(node, 2, 0x30, MTK_RST_V1);
+c1e81a3bef36cb James Liao  2015-04-23  888  }
+c1e81a3bef36cb James Liao  2015-04-23  889  CLK_OF_DECLARE(mtk_infrasys, "m=
+ediatek,mt8173-infracfg", mtk_infrasys_init);
+c1e81a3bef36cb James Liao  2015-04-23  890  =
 
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  601  =
-	up_read(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  602  =
-	return 3 + ((b - a) << 1);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  603  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  604  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  605  =
-static ssize_t show_line1(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  606  =
-			char *buf)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  607  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  608  =
-	return show_line(dev, buf, LCD_LINE1_OFFSET, LCD_LINE2_OFFSET);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  609  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  610  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  611  =
-static ssize_t show_line2(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  612  =
-			char *buf)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  613  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  614  =
-	return show_line(dev, buf, LCD_LINE2_OFFSET, LCD_LINE3_OFFSET);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  615  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  616  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  617  =
-static ssize_t show_line3(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  618  =
-			char *buf)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  619  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  620  =
-	return show_line(dev, buf, LCD_LINE3_OFFSET, LCD_LINE4_OFFSET);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  621  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  622  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  623  =
-/* Writing to /sys/../lineX will set the coresponding LCD line.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  624  =
- * - Excess characters are ignored.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  625  =
- * - If less characters are written than allowed, the remaining digits are
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  626  =
- *   unchanged.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  627  =
- * - The '\n' or '\t' char is a placeholder, it does not overwrite the
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  628  =
- *   original content.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  629  =
- */
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  630  =
-static ssize_t store_line(struct device *dev, const char *buf, size_t count,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  631  =
-		int el, size_t len)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  632  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  633  =
-	struct yealink_dev *yld;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  634  =
-	int i;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  635  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  636  =
-	down_write(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  637  =
-	yld =3D dev_get_drvdata(dev);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  638  =
-	if (yld =3D=3D NULL) {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  639  =
-		up_write(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  640  =
-		return -ENODEV;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  641  =
-	}
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  642  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  643  =
-	if (len > count)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  644  =
-		len =3D count;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  645  =
-	for (i =3D 0; i < len; i++)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  646  =
-		setChar(yld, el++, buf[i]);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  647  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  648  =
-	up_write(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  649  =
-	return count;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  650  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  651  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  652  =
-static ssize_t store_line1(struct device *dev, struct device_attribute *att=
-r,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  653  =
-				const char *buf, size_t count)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  654  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  655  =
-	return store_line(dev, buf, count, LCD_LINE1_OFFSET, LCD_LINE1_SIZE);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  656  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  657  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  658  =
-static ssize_t store_line2(struct device *dev, struct device_attribute *att=
-r,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  659  =
-				const char *buf, size_t count)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  660  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  661  =
-	return store_line(dev, buf, count, LCD_LINE2_OFFSET, LCD_LINE2_SIZE);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  662  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  663  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  664  =
-static ssize_t store_line3(struct device *dev, struct device_attribute *att=
-r,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  665  =
-				const char *buf, size_t count)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  666  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  667  =
-	return store_line(dev, buf, count, LCD_LINE3_OFFSET, LCD_LINE3_SIZE);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  668  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  669  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  670  =
-/* Interface to visible and audible "icons", these include:
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  671  =
- * pictures on the LCD, the LED, and the dialtone signal.
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  672  =
- */
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  673  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  674  =
-/* Get a list of "switchable elements" with their current state. */
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  675  =
-static ssize_t get_icons(struct device *dev, struct device_attribute *attr,
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  676  =
-			char *buf)
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  677  {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  678  =
-	struct yealink_dev *yld;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  679  =
-	int i, ret =3D 1;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  680  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  681  =
-	down_read(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  682  =
-	yld =3D dev_get_drvdata(dev);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  683  =
-	if (yld =3D=3D NULL) {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  684  =
-		up_read(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  685  =
-		return -ENODEV;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  686  =
-	}
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  687  =
-
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  688  =
-	for (i =3D 0; i < ARRAY_SIZE(lcdMap); i++) {
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  689  =
-		if (lcdMap[i].type !=3D '.')
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  690  =
-			continue;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16 @691  =
-		ret +=3D sprintf(&buf[ret], "%s %s\n",
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  692  =
-				yld->lcdMap[i] =3D=3D ' ' ? "  " : "on",
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  693  =
-				lcdMap[i].u.p.name);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  694  =
-	}
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  695  =
-	up_read(&sysfs_rwsema);
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  696  =
-	return ret;
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  697  }
-aca951a22a1d93e drivers/usb/input/yealink.c Henk Vergonet 2005-08-16  698  =
-
-
-:::::: The code at line 691 was first introduced by commit
-:::::: aca951a22a1d93ebe31b54052b3eb9a8196df2fc [PATCH] input-driver-yealin=
-k-P1K-usb-phone
-
-:::::: TO: Henk <Henk.Vergonet@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4200356059463789323==--
+--===============9128521614923756037==--
 
