@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5770789687937564726=="
+Content-Type: multipart/mixed; boundary="===============4406150928926704404=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/libiscsi.c:1457 iscsi_xmit_task() warn: test_bit() takes a bit number
-Date: Thu, 21 Apr 2022 16:40:57 +0800
-Message-ID: <202204211604.RW1PoQXA-lkp@intel.com>
+Subject: sound/soc/sh/rcar/ssiu.c:73 rsnd_ssiu_busif_err_irq_ctrl() error: uninitialized symbol 'offset'.
+Date: Thu, 21 Apr 2022 16:40:55 +0800
+Message-ID: <202204211602.hatl19fU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5770789687937564726==
+--===============4406150928926704404==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,356 +15,97 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Lee Duncan <lduncan@suse.com>
-CC: Chris Leech <cleech@redhat.com>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b253435746d9a4a701b5f09211b9c14d3370d0da
-commit: 5bd856256f8c03e329f8ff36d8c8efcb111fe6df scsi: iscsi: Merge suspend=
- fields
-date:   9 days ago
+commit: 0ab000e5e57e6dcb34605fbdee92a1b0947606e0 ASoC: rsnd: tidyup rsnd_ss=
+iu_busif_err_irq_ctrl()
+date:   11 months ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-m001-20220418 (https://download.01.org/0day-ci/ar=
-chive/20220421/202204211604.RW1PoQXA-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+:::::: commit date: 11 months ago
+config: h8300-randconfig-m031-20220418 (https://download.01.org/0day-ci/arc=
+hive/20220421/202204211602.hatl19fU-lkp(a)intel.com/config)
+compiler: h8300-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/scsi/libiscsi.c:1457 iscsi_xmit_task() warn: test_bit() takes a bit=
- number
-drivers/scsi/libiscsi.c:1535 iscsi_data_xmit() warn: test_bit() takes a bit=
- number
-drivers/scsi/libiscsi.c:1749 iscsi_queuecommand() warn: test_bit() takes a =
-bit number
-drivers/scsi/bnx2i/bnx2i_hwi.c:1980 bnx2i_process_new_cqes() warn: test_bit=
-() takes a bit number
+sound/soc/sh/rcar/ssiu.c:73 rsnd_ssiu_busif_err_irq_ctrl() error: uninitial=
+ized symbol 'offset'.
+sound/soc/sh/rcar/ssiu.c:74 rsnd_ssiu_busif_err_irq_ctrl() error: uninitial=
+ized symbol 'shift'.
 
 Old smatch warnings:
-drivers/scsi/libiscsi.c:1395 iscsi_set_conn_failed() warn: test_bit() takes=
- a bit number
-drivers/scsi/libiscsi.c:1396 iscsi_set_conn_failed() warn: test_bit() takes=
- a bit number
-drivers/scsi/libiscsi.c:1938 iscsi_suspend_queue() warn: test_bit() takes a=
- bit number
-drivers/scsi/libiscsi.c:1956 iscsi_suspend_tx() warn: test_bit() takes a bi=
-t number
-drivers/scsi/libiscsi.c:1964 iscsi_start_tx() warn: test_bit() takes a bit =
-number
-drivers/scsi/libiscsi.c:3332 iscsi_conn_bind() warn: test_bit() takes a bit=
- number
-drivers/scsi/libiscsi.c:3333 iscsi_conn_bind() warn: test_bit() takes a bit=
- number
+sound/soc/sh/rcar/ssiu.c:108 rsnd_ssiu_busif_err_status_clear() error: unin=
+itialized symbol 'offset'.
+sound/soc/sh/rcar/ssiu.c:110 rsnd_ssiu_busif_err_status_clear() error: unin=
+itialized symbol 'shift'.
 
-vim +1457 drivers/scsi/libiscsi.c
+vim +/offset +73 sound/soc/sh/rcar/ssiu.c
 
-77a23c21aaa723f Mike Christie   2007-05-30  1430  =
+4e7788fb8018af Kuninori Morimoto 2018-11-06  47  =
 
-5923d64b7ab63dc Mike Christie   2021-02-06  1431  static int iscsi_xmit_tas=
-k(struct iscsi_conn *conn, struct iscsi_task *task,
-5923d64b7ab63dc Mike Christie   2021-02-06  1432  			   bool was_requeue)
-77a23c21aaa723f Mike Christie   2007-05-30  1433  {
-843c0a8a76078cf Mike Christie   2007-12-13  1434  	int rc;
-77a23c21aaa723f Mike Christie   2007-05-30  1435  =
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  48  /* enable busif buffer ove=
+r/under run interrupt. */
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  49  #define rsnd_ssiu_busif_er=
+r_irq_enable(mod)  rsnd_ssiu_busif_err_irq_ctrl(mod, 1)
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  50  #define rsnd_ssiu_busif_er=
+r_irq_disable(mod) rsnd_ssiu_busif_err_irq_ctrl(mod, 0)
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  51  static void rsnd_ssiu_busi=
+f_err_irq_ctrl(struct rsnd_mod *mod, int enable)
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  52  {
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  53  	int id =3D rsnd_mod_id(mo=
+d);
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  54  	int shift, offset;
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  55  	int i;
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  56  =
 
-79edd00dc6a9664 Anoob Soman     2019-02-13  1436  	spin_lock_bh(&conn->sess=
-ion->back_lock);
-5923d64b7ab63dc Mike Christie   2021-02-06  1437  =
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  57  	switch (id) {
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  58  	case 0:
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  59  	case 1:
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  60  	case 2:
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  61  	case 3:
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  62  	case 4:
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  63  		shift  =3D id;
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  64  		offset =3D 0;
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  65  		break;
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  66  	case 9:
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  67  		shift  =3D 1;
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  68  		offset =3D 1;
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  69  		break;
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  70  	}
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  71  =
 
-5923d64b7ab63dc Mike Christie   2021-02-06  1438  	if (!conn->task) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1439  		/* Take a ref so we can=
- access it after xmit_task() */
-5923d64b7ab63dc Mike Christie   2021-02-06  1440  		__iscsi_get_task(task);
-5923d64b7ab63dc Mike Christie   2021-02-06  1441  	} else {
-5923d64b7ab63dc Mike Christie   2021-02-06  1442  		/* Already have a ref f=
-rom when we failed to send it last call */
-5923d64b7ab63dc Mike Christie   2021-02-06  1443  		conn->task =3D NULL;
-5923d64b7ab63dc Mike Christie   2021-02-06  1444  	}
-5923d64b7ab63dc Mike Christie   2021-02-06  1445  =
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  72  	for (i =3D 0; i < 4; i++)=
+ {
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27 @73  		enum rsnd_reg reg =3D SS=
+I_SYS_INT_ENABLE((i * 2) + offset);
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27 @74  		u32 val =3D 0xf << (shif=
+t * 4);
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  75  		u32 sys_int_enable =3D r=
+snd_mod_read(mod, reg);
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  76  =
 
-5923d64b7ab63dc Mike Christie   2021-02-06  1446  	/*
-5923d64b7ab63dc Mike Christie   2021-02-06  1447  	 * If this was a requeue=
- for a R2T we have an extra ref on the task in
-5923d64b7ab63dc Mike Christie   2021-02-06  1448  	 * case a bad target sen=
-ds a cmd rsp before we have handled the task.
-5923d64b7ab63dc Mike Christie   2021-02-06  1449  	 */
-5923d64b7ab63dc Mike Christie   2021-02-06  1450  	if (was_requeue)
-5923d64b7ab63dc Mike Christie   2021-02-06  1451  		__iscsi_put_task(task);
-5923d64b7ab63dc Mike Christie   2021-02-06  1452  =
-
-5923d64b7ab63dc Mike Christie   2021-02-06  1453  	/*
-5923d64b7ab63dc Mike Christie   2021-02-06  1454  	 * Do this after droppin=
-g the extra ref because if this was a requeue
-5923d64b7ab63dc Mike Christie   2021-02-06  1455  	 * it's removed from tha=
-t list and cleanup_queued_task would miss it.
-5923d64b7ab63dc Mike Christie   2021-02-06  1456  	 */
-5bd856256f8c03e Mike Christie   2022-04-07 @1457  	if (test_bit(ISCSI_CONN_=
-FLAG_SUSPEND_TX, &conn->flags)) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1458  		/*
-5923d64b7ab63dc Mike Christie   2021-02-06  1459  		 * Save the task and re=
-f in case we weren't cleaning up this
-5923d64b7ab63dc Mike Christie   2021-02-06  1460  		 * task and get woken u=
-p again.
-5923d64b7ab63dc Mike Christie   2021-02-06  1461  		 */
-5923d64b7ab63dc Mike Christie   2021-02-06  1462  		conn->task =3D task;
-79edd00dc6a9664 Anoob Soman     2019-02-13  1463  		spin_unlock_bh(&conn->s=
-ession->back_lock);
-79edd00dc6a9664 Anoob Soman     2019-02-13  1464  		return -ENODATA;
-79edd00dc6a9664 Anoob Soman     2019-02-13  1465  	}
-79edd00dc6a9664 Anoob Soman     2019-02-13  1466  	spin_unlock_bh(&conn->se=
-ssion->back_lock);
-5923d64b7ab63dc Mike Christie   2021-02-06  1467  =
-
-659743b02c41107 Shlomo Pongratz 2014-02-07  1468  	spin_unlock_bh(&conn->se=
-ssion->frwd_lock);
-9c19a7d0387124a Mike Christie   2008-05-21  1469  	rc =3D conn->session->tt=
-->xmit_task(task);
-659743b02c41107 Shlomo Pongratz 2014-02-07  1470  	spin_lock_bh(&conn->sess=
-ion->frwd_lock);
-d355e57d58193b8 Mike Christie   2009-06-15  1471  	if (!rc) {
-9c19a7d0387124a Mike Christie   2008-05-21  1472  		/* done with this task =
-*/
-d355e57d58193b8 Mike Christie   2009-06-15  1473  		task->last_xfer =3D jif=
-fies;
-d355e57d58193b8 Mike Christie   2009-06-15  1474  	}
-659743b02c41107 Shlomo Pongratz 2014-02-07  1475  	/* regular RX path uses =
-back_lock */
-72b9740201d5f0e Shlomo Pongratz 2014-03-30  1476  	spin_lock(&conn->session=
-->back_lock);
-5923d64b7ab63dc Mike Christie   2021-02-06  1477  	if (rc && task->state =
-=3D=3D ISCSI_TASK_RUNNING) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1478  		/*
-5923d64b7ab63dc Mike Christie   2021-02-06  1479  		 * get an extra ref tha=
-t is released next time we access it
-5923d64b7ab63dc Mike Christie   2021-02-06  1480  		 * as conn->task above.
-5923d64b7ab63dc Mike Christie   2021-02-06  1481  		 */
-5923d64b7ab63dc Mike Christie   2021-02-06  1482  		__iscsi_get_task(task);
-5923d64b7ab63dc Mike Christie   2021-02-06  1483  		conn->task =3D task;
-5923d64b7ab63dc Mike Christie   2021-02-06  1484  	}
-5923d64b7ab63dc Mike Christie   2021-02-06  1485  =
-
-d355e57d58193b8 Mike Christie   2009-06-15  1486  	__iscsi_put_task(task);
-72b9740201d5f0e Shlomo Pongratz 2014-03-30  1487  	spin_unlock(&conn->sessi=
-on->back_lock);
-77a23c21aaa723f Mike Christie   2007-05-30  1488  	return rc;
-77a23c21aaa723f Mike Christie   2007-05-30  1489  }
-77a23c21aaa723f Mike Christie   2007-05-30  1490  =
-
-843c0a8a76078cf Mike Christie   2007-12-13  1491  /**
-9c19a7d0387124a Mike Christie   2008-05-21  1492   * iscsi_requeue_task - r=
-equeue task to run from session workqueue
-9c19a7d0387124a Mike Christie   2008-05-21  1493   * @task: task to requeue
-843c0a8a76078cf Mike Christie   2007-12-13  1494   *
-5923d64b7ab63dc Mike Christie   2021-02-06  1495   * Callers must have take=
-n a ref to the task that is going to be requeued.
-843c0a8a76078cf Mike Christie   2007-12-13  1496   */
-9c19a7d0387124a Mike Christie   2008-05-21  1497  void iscsi_requeue_task(s=
-truct iscsi_task *task)
-843c0a8a76078cf Mike Christie   2007-12-13  1498  {
-9c19a7d0387124a Mike Christie   2008-05-21  1499  	struct iscsi_conn *conn =
-=3D task->conn;
-843c0a8a76078cf Mike Christie   2007-12-13  1500  =
-
-3bbaaad95fd38de Mike Christie   2009-05-13  1501  	/*
-3bbaaad95fd38de Mike Christie   2009-05-13  1502  	 * this may be on the re=
-queue list already if the xmit_task callout
-3bbaaad95fd38de Mike Christie   2009-05-13  1503  	 * is handling the r2ts =
-while we are adding new ones
-3bbaaad95fd38de Mike Christie   2009-05-13  1504  	 */
-5923d64b7ab63dc Mike Christie   2021-02-06  1505  	spin_lock_bh(&conn->sess=
-ion->frwd_lock);
-5923d64b7ab63dc Mike Christie   2021-02-06  1506  	if (list_empty(&task->ru=
-nning)) {
-3bbaaad95fd38de Mike Christie   2009-05-13  1507  		list_add_tail(&task->ru=
-nning, &conn->requeue);
-5923d64b7ab63dc Mike Christie   2021-02-06  1508  	} else {
-5923d64b7ab63dc Mike Christie   2021-02-06  1509  		/*
-5923d64b7ab63dc Mike Christie   2021-02-06  1510  		 * Don't need the extra=
- ref since it's already requeued and
-5923d64b7ab63dc Mike Christie   2021-02-06  1511  		 * has a ref.
-5923d64b7ab63dc Mike Christie   2021-02-06  1512  		 */
-5923d64b7ab63dc Mike Christie   2021-02-06  1513  		iscsi_put_task(task);
-5923d64b7ab63dc Mike Christie   2021-02-06  1514  	}
-32ae763e3fce419 Mike Christie   2009-03-05  1515  	iscsi_conn_queue_work(co=
-nn);
-5923d64b7ab63dc Mike Christie   2021-02-06  1516  	spin_unlock_bh(&conn->se=
-ssion->frwd_lock);
-843c0a8a76078cf Mike Christie   2007-12-13  1517  }
-9c19a7d0387124a Mike Christie   2008-05-21  1518  EXPORT_SYMBOL_GPL(iscsi_r=
-equeue_task);
-843c0a8a76078cf Mike Christie   2007-12-13  1519  =
-
-7996a778ff8c717 Mike Christie   2006-04-06  1520  /**
-7996a778ff8c717 Mike Christie   2006-04-06  1521   * iscsi_data_xmit - xmit=
- any command into the scheduled connection
-7996a778ff8c717 Mike Christie   2006-04-06  1522   * @conn: iscsi connection
-7996a778ff8c717 Mike Christie   2006-04-06  1523   *
-7996a778ff8c717 Mike Christie   2006-04-06  1524   * Notes:
-7996a778ff8c717 Mike Christie   2006-04-06  1525   *	The function can retur=
-n -EAGAIN in which case the caller must
-7996a778ff8c717 Mike Christie   2006-04-06  1526   *	re-schedule it again l=
-ater or recover. '0' return code means
-7996a778ff8c717 Mike Christie   2006-04-06  1527   *	successful xmit.
-7996a778ff8c717 Mike Christie   2006-04-06  1528   **/
-7996a778ff8c717 Mike Christie   2006-04-06  1529  static int iscsi_data_xmi=
-t(struct iscsi_conn *conn)
-7996a778ff8c717 Mike Christie   2006-04-06  1530  {
-5d12c05e29fc871 Mike Christie   2009-11-11  1531  	struct iscsi_task *task;
-3219e5294150aee Mike Christie   2006-05-30  1532  	int rc =3D 0;
-7996a778ff8c717 Mike Christie   2006-04-06  1533  =
-
-659743b02c41107 Shlomo Pongratz 2014-02-07  1534  	spin_lock_bh(&conn->sess=
-ion->frwd_lock);
-5bd856256f8c03e Mike Christie   2022-04-07 @1535  	if (test_bit(ISCSI_CONN_=
-FLAG_SUSPEND_TX, &conn->flags)) {
-1b2c7af877f427a Mike Christie   2009-03-05  1536  		ISCSI_DBG_SESSION(conn-=
->session, "Tx suspended!\n");
-659743b02c41107 Shlomo Pongratz 2014-02-07  1537  		spin_unlock_bh(&conn->s=
-ession->frwd_lock);
-3219e5294150aee Mike Christie   2006-05-30  1538  		return -ENODATA;
-7996a778ff8c717 Mike Christie   2006-04-06  1539  	}
-7996a778ff8c717 Mike Christie   2006-04-06  1540  =
-
-9c19a7d0387124a Mike Christie   2008-05-21  1541  	if (conn->task) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1542  		rc =3D iscsi_xmit_task(=
-conn, conn->task, false);
-3219e5294150aee Mike Christie   2006-05-30  1543  	        if (rc)
-70b31c152dc49ef Mike Christie   2009-08-20  1544  		        goto done;
-7996a778ff8c717 Mike Christie   2006-04-06  1545  	}
-77a23c21aaa723f Mike Christie   2007-05-30  1546  =
-
-77a23c21aaa723f Mike Christie   2007-05-30  1547  	/*
-77a23c21aaa723f Mike Christie   2007-05-30  1548  	 * process mgmt pdus lik=
-e nops before commands since we should
-77a23c21aaa723f Mike Christie   2007-05-30  1549  	 * only have one nop-out=
- as a ping from us and targets should not
-77a23c21aaa723f Mike Christie   2007-05-30  1550  	 * overflow us with nop-=
-ins
-77a23c21aaa723f Mike Christie   2007-05-30  1551  	 */
-77a23c21aaa723f Mike Christie   2007-05-30  1552  check_mgmt:
-843c0a8a76078cf Mike Christie   2007-12-13  1553  	while (!list_empty(&conn=
-->mgmtqueue)) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1554  		task =3D list_entry(con=
-n->mgmtqueue.next, struct iscsi_task,
-5923d64b7ab63dc Mike Christie   2021-02-06  1555  				  running);
-5923d64b7ab63dc Mike Christie   2021-02-06  1556  		list_del_init(&task->ru=
-nning);
-5923d64b7ab63dc Mike Christie   2021-02-06  1557  		if (iscsi_prep_mgmt_tas=
-k(conn, task)) {
-659743b02c41107 Shlomo Pongratz 2014-02-07  1558  			/* regular RX path use=
-s back_lock */
-659743b02c41107 Shlomo Pongratz 2014-02-07  1559  			spin_lock_bh(&conn->se=
-ssion->back_lock);
-5923d64b7ab63dc Mike Christie   2021-02-06  1560  			__iscsi_put_task(task);
-659743b02c41107 Shlomo Pongratz 2014-02-07  1561  			spin_unlock_bh(&conn->=
-session->back_lock);
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1562  			continue;
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1563  		}
-5923d64b7ab63dc Mike Christie   2021-02-06  1564  		rc =3D iscsi_xmit_task(=
-conn, task, false);
-3219e5294150aee Mike Christie   2006-05-30  1565  		if (rc)
-70b31c152dc49ef Mike Christie   2009-08-20  1566  			goto done;
-7996a778ff8c717 Mike Christie   2006-04-06  1567  	}
-7996a778ff8c717 Mike Christie   2006-04-06  1568  =
-
-843c0a8a76078cf Mike Christie   2007-12-13  1569  	/* process pending comma=
-nd queue */
-3bbaaad95fd38de Mike Christie   2009-05-13  1570  	while (!list_empty(&conn=
-->cmdqueue)) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1571  		task =3D list_entry(con=
-n->cmdqueue.next, struct iscsi_task,
-5d12c05e29fc871 Mike Christie   2009-11-11  1572  				  running);
-5923d64b7ab63dc Mike Christie   2021-02-06  1573  		list_del_init(&task->ru=
-nning);
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1574  		if (conn->session->stat=
-e =3D=3D ISCSI_STATE_LOGGING_OUT) {
-5923d64b7ab63dc Mike Christie   2021-02-06  1575  			fail_scsi_task(task, D=
-ID_IMM_RETRY);
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1576  			continue;
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1577  		}
-5923d64b7ab63dc Mike Christie   2021-02-06  1578  		rc =3D iscsi_prep_scsi_=
-cmd_pdu(task);
-577577da6d197ea Mike Christie   2008-12-02  1579  		if (rc) {
-d28d48c69977997 Mike Christie   2021-02-06  1580  			if (rc =3D=3D -ENOMEM =
-|| rc =3D=3D -EACCES)
-5923d64b7ab63dc Mike Christie   2021-02-06  1581  				fail_scsi_task(task, =
-DID_IMM_RETRY);
-d28d48c69977997 Mike Christie   2021-02-06  1582  			else
-5923d64b7ab63dc Mike Christie   2021-02-06  1583  				fail_scsi_task(task, =
-DID_ABORT);
-004d6530f83bee4 Boaz Harrosh    2007-12-13  1584  			continue;
-004d6530f83bee4 Boaz Harrosh    2007-12-13  1585  		}
-5923d64b7ab63dc Mike Christie   2021-02-06  1586  		rc =3D iscsi_xmit_task(=
-conn, task, false);
-3219e5294150aee Mike Christie   2006-05-30  1587  		if (rc)
-70b31c152dc49ef Mike Christie   2009-08-20  1588  			goto done;
-77a23c21aaa723f Mike Christie   2007-05-30  1589  		/*
-9c19a7d0387124a Mike Christie   2008-05-21  1590  		 * we could continuousl=
-y get new task requests so
-77a23c21aaa723f Mike Christie   2007-05-30  1591  		 * we need to check the=
- mgmt queue for nops that need to
-77a23c21aaa723f Mike Christie   2007-05-30  1592  		 * be sent to aviod sta=
-rvation
-77a23c21aaa723f Mike Christie   2007-05-30  1593  		 */
-843c0a8a76078cf Mike Christie   2007-12-13  1594  		if (!list_empty(&conn->=
-mgmtqueue))
-843c0a8a76078cf Mike Christie   2007-12-13  1595  			goto check_mgmt;
-843c0a8a76078cf Mike Christie   2007-12-13  1596  	}
-843c0a8a76078cf Mike Christie   2007-12-13  1597  =
-
-843c0a8a76078cf Mike Christie   2007-12-13  1598  	while (!list_empty(&conn=
-->requeue)) {
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1599  		/*
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1600  		 * we always do fastlog=
-out - conn stop code will clean up.
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1601  		 */
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1602  		if (conn->session->stat=
-e =3D=3D ISCSI_STATE_LOGGING_OUT)
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1603  			break;
-b3a7ea8d50f6028 Mike Christie   2007-12-13  1604  =
-
-5d12c05e29fc871 Mike Christie   2009-11-11  1605  		task =3D list_entry(con=
-n->requeue.next, struct iscsi_task,
-5d12c05e29fc871 Mike Christie   2009-11-11  1606  				  running);
-5923d64b7ab63dc Mike Christie   2021-02-06  1607  =
-
-5d12c05e29fc871 Mike Christie   2009-11-11  1608  		if (iscsi_check_tmf_res=
-trictions(task, ISCSI_OP_SCSI_DATA_OUT))
-5d12c05e29fc871 Mike Christie   2009-11-11  1609  			break;
-5d12c05e29fc871 Mike Christie   2009-11-11  1610  =
-
-5923d64b7ab63dc Mike Christie   2021-02-06  1611  		list_del_init(&task->ru=
-nning);
-5923d64b7ab63dc Mike Christie   2021-02-06  1612  		rc =3D iscsi_xmit_task(=
-conn, task, true);
-843c0a8a76078cf Mike Christie   2007-12-13  1613  		if (rc)
-70b31c152dc49ef Mike Christie   2009-08-20  1614  			goto done;
-843c0a8a76078cf Mike Christie   2007-12-13  1615  		if (!list_empty(&conn->=
-mgmtqueue))
-77a23c21aaa723f Mike Christie   2007-05-30  1616  			goto check_mgmt;
-7996a778ff8c717 Mike Christie   2006-04-06  1617  	}
-659743b02c41107 Shlomo Pongratz 2014-02-07  1618  	spin_unlock_bh(&conn->se=
-ssion->frwd_lock);
-3219e5294150aee Mike Christie   2006-05-30  1619  	return -ENODATA;
-7996a778ff8c717 Mike Christie   2006-04-06  1620  =
-
-70b31c152dc49ef Mike Christie   2009-08-20  1621  done:
-659743b02c41107 Shlomo Pongratz 2014-02-07  1622  	spin_unlock_bh(&conn->se=
-ssion->frwd_lock);
-3219e5294150aee Mike Christie   2006-05-30  1623  	return rc;
-7996a778ff8c717 Mike Christie   2006-04-06  1624  }
-7996a778ff8c717 Mike Christie   2006-04-06  1625  =
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  77  		if (enable)
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  78  			sys_int_enable |=3D val;
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  79  		else
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  80  			sys_int_enable &=3D ~va=
+l;
+0ab000e5e57e6d Kuninori Morimoto 2021-05-27  81  		rsnd_mod_write(mod, reg,=
+ sys_int_enable);
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  82  	}
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  83  }
+83b220cf8eb2aa Kuninori Morimoto 2021-05-27  84  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5770789687937564726==--
+--===============4406150928926704404==--
 
