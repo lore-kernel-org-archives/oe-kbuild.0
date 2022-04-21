@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0227685858819493172=="
+Content-Type: multipart/mixed; boundary="===============3708273892352649643=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/ntfs3/attrib.c:1353:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Thu, 21 Apr 2022 14:32:07 +0800
-Message-ID: <202204202014.95CrpH92-lkp@intel.com>
+Subject: drivers/scsi/pm8001/pm8001_sas.c:381:24: warning: Value stored to 'pm8001_dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 21 Apr 2022 14:32:06 +0800
+Message-ID: <202204202002.zsf44OL8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0227685858819493172==
+--===============3708273892352649643==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,20 +16,23 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: John Garry <john.garry@huawei.com>
+CC: Jack Wang <jinpu.wang@ionos.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   559089e0a93d44280ec3ab478830af319c56dbe3
-commit: 6e5be40d32fb1907285277c02e74493ed43d77fe fs/ntfs3: Add NTFS3 in fs/=
-Kconfig and fs/Makefile
-date:   8 months ago
+commit: e29c47fe8946cc732b0e0d393b65b13c84bb69d0 scsi: pm8001: Simplify pm8=
+001_task_exec()
+date:   8 weeks ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 8 months ago
-config: riscv-randconfig-c006-20220420 (https://download.01.org/0day-ci/arc=
-hive/20220420/202204202014.95CrpH92-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
-5bf85669e3376610cfc4c4f9ca015e7b9b)
+:::::: commit date: 8 weeks ago
+config: riscv-randconfig-c006-20220419 (https://download.01.org/0day-ci/arc=
+hive/20220420/202204202002.zsf44OL8-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c1c49a=
+356162b22554088d269f7689bdb044a9f1)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -37,11 +40,11 @@ make.cross -O ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6e5be40d32fb1907285277c02e74493ed43d77fe
+t/commit/?id=3De29c47fe8946cc732b0e0d393b65b13c84bb69d0
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 6e5be40d32fb1907285277c02e74493ed43d77fe
+        git checkout e29c47fe8946cc732b0e0d393b65b13c84bb69d0
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -52,462 +55,472 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+                   ^
+   mm/zsmalloc.c:1901:2: note: Loop condition is false.  Exiting loop
+           kunmap_atomic(s_addr);
            ^
-   fs/ntfs3/attrib.c:519:6: note: Assuming 'new_size' is <=3D 'old_size'
-           if (new_size > old_size) {
-               ^~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:519:2: note: Taking false branch
-           if (new_size > old_size) {
+   include/linux/highmem-internal.h:245:2: note: expanded from macro 'kunma=
+p_atomic'
+           BUILD_BUG_ON(__same_type((__addr), struct page *));     \
            ^
-   fs/ntfs3/attrib.c:686:6: note: Assuming 'new_size' is not equal to 'old_=
-size'
-           if (new_size !=3D old_size ||
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:686:27: note: Left side of '||' is true
-           if (new_size !=3D old_size ||
-                                    ^
-   fs/ntfs3/attrib.c:688:9: note: Assuming '__UNIQUE_ID___x275' is <=3D '__=
-UNIQUE_ID___y276'
-                   vcn =3D max(svcn, new_alen);
-                         ^
-   include/linux/minmax.h:52:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(x, y, >)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/ntfs3/attrib.c:688:9: note: '?' condition is false
-                   vcn =3D max(svcn, new_alen);
-                         ^
-   include/linux/minmax.h:52:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(x, y, >)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/ntfs3/attrib.c:694:7: note: Assuming 'err' is 0
-                   if (err)
-                       ^~~
-   fs/ntfs3/attrib.c:694:3: note: Taking false branch
-                   if (err)
-                   ^
-   fs/ntfs3/attrib.c:699:7: note: Assuming 'vcn' is <=3D 'svcn'
-                   if (vcn > svcn) {
-                       ^~~~~~~~~~
-   fs/ntfs3/attrib.c:699:3: note: Taking false branch
-                   if (vcn > svcn) {
-                   ^
-   fs/ntfs3/attrib.c:703:14: note: Assuming 'le' is null
-                   } else if (le && le->vcn) {
-                              ^~
-   fs/ntfs3/attrib.c:703:17: note: Left side of '&&' is false
-                   } else if (le && le->vcn) {
-                                 ^
-   fs/ntfs3/attrib.c:728:7: note: 'vcn' is equal to 'new_alen'
-                   if (vcn =3D=3D new_alen) {
-                       ^~~
-   fs/ntfs3/attrib.c:728:3: note: Taking true branch
-                   if (vcn =3D=3D new_alen) {
-                   ^
-   fs/ntfs3/attrib.c:730:8: note: Assuming 'new_size' is >=3D 'old_valid'
-                           if (new_size < old_valid)
-                               ^~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:730:4: note: Taking false branch
-                           if (new_size < old_valid)
-                           ^
-   fs/ntfs3/attrib.c:744:7: note: 'is_ext' is false
-                   if (is_ext)
-                       ^~~~~~
-   fs/ntfs3/attrib.c:744:3: note: Taking false branch
-                   if (is_ext)
-                   ^
-   fs/ntfs3/attrib.c:750:7: note: Assuming 'new_alloc_tmp' is > 'new_alloc'
-                   if (new_alloc_tmp <=3D new_alloc)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:750:3: note: Taking false branch
-                   if (new_alloc_tmp <=3D new_alloc)
-                   ^
-   fs/ntfs3/attrib.c:756:7: note: 'le' is not equal to 'le_b'
-                   if (le =3D=3D le_b) {
-                       ^~
-   fs/ntfs3/attrib.c:756:3: note: Taking false branch
-                   if (le =3D=3D le_b) {
-                   ^
-   fs/ntfs3/attrib.c:764:7: note: Access to field 'type' results in a deref=
-erence of a null pointer (loaded from variable 'le')
-                   if (le->type !=3D type || le->name_len !=3D name_len ||
-                       ^~
-   fs/ntfs3/attrib.c:1191:7: warning: Value stored to 'vcn' during its init=
-ialization is never read [clang-analyzer-deadcode.DeadStores]
-           CLST vcn =3D from >> cluster_bits;
-                ^~~   ~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1191:7: note: Value stored to 'vcn' during its initial=
-ization is never read
-           CLST vcn =3D from >> cluster_bits;
-                ^~~   ~~~~~~~~~~~~~~~~~~~~
->> fs/ntfs3/attrib.c:1353:2: warning: Undefined or garbage value returned t=
-o caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return err;
-           ^      ~~~
-   fs/ntfs3/attrib.c:1225:9: note: 'err' declared without an initial value
-           int i, err;
-                  ^~~
-   fs/ntfs3/attrib.c:1229:6: note: Assuming field 'i_size' is >=3D 42949672=
-96
-           if (ni->vfs_inode.i_size < 0x100000000ull) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1229:2: note: Taking false branch
-           if (ni->vfs_inode.i_size < 0x100000000ull) {
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
            ^
-   fs/ntfs3/attrib.c:1245:6: note: Assuming field 'non_res' is not equal to=
- 0
-           if (!attr->non_res) {
-               ^~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1245:2: note: Taking false branch
-           if (!attr->non_res) {
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   fs/ntfs3/attrib.c:1270:6: note: Assuming 'page' is non-null
-           if (!page) {
-               ^~~~~
-   fs/ntfs3/attrib.c:1270:2: note: Taking false branch
-           if (!page) {
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   fs/ntfs3/attrib.c:1282:6: note: Assuming the condition is false
-           if (vbo[1]) {
-               ^~~~~~
-   fs/ntfs3/attrib.c:1282:2: note: Taking false branch
-           if (vbo[1]) {
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
            ^
-   fs/ntfs3/attrib.c:1296:7: note: Assuming 'index' is equal to field 'inde=
-x'
-                   if (index !=3D page->index) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1296:3: note: Taking false branch
-                   if (index !=3D page->index) {
+   mm/zsmalloc.c:1901:2: note: Loop condition is false.  Exiting loop
+           kunmap_atomic(s_addr);
+           ^
+   include/linux/highmem-internal.h:243:35: note: expanded from macro 'kunm=
+ap_atomic'
+   #define kunmap_atomic(__addr)                                   \
+                                                                   ^
+   mm/zsmalloc.c:1903:2: note: Calling 'replace_sub_page'
+           replace_sub_page(class, zspage, newpage, page);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:1801:2: note: Initializing to a null pointer value
+           struct page *pages[ZS_MAX_PAGES_PER_ZSPAGE] =3D {NULL, };
+           ^~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:1806:7: note: Assuming 'page' is not equal to 'oldpage'
+                   if (page =3D=3D oldpage)
+                       ^~~~~~~~~~~~~~~
+   mm/zsmalloc.c:1806:3: note: Taking false branch
+                   if (page =3D=3D oldpage)
                    ^
-   fs/ntfs3/attrib.c:1315:7: note: 'i' is 1
-                   if (i) {
-                       ^
-   fs/ntfs3/attrib.c:1315:3: note: Taking true branch
-                   if (i) {
-                   ^
-   fs/ntfs3/attrib.c:1316:4: note: Taking false branch
-                           if (bytes_per_off =3D=3D sizeof(__le32)) {
-                           ^
-   fs/ntfs3/attrib.c:1293:2: note: Loop condition is false.  Exiting loop
+   mm/zsmalloc.c:1805:2: note: Loop condition is false.  Exiting loop
            do {
            ^
-   fs/ntfs3/attrib.c:1353:2: note: Undefined or garbage value returned to c=
-aller
-           return err;
-           ^      ~~~
-   fs/ntfs3/attrib.c:1678:15: warning: Dereference of null pointer [clang-a=
-nalyzer-core.NullDereference]
-           valid_size =3D le64_to_cpu(attr_b->nres.valid_size);
-                        ^
-   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64=
-_to_cpu'
-   #define le64_to_cpu __le64_to_cpu
+   mm/zsmalloc.c:1813:2: note: Calling 'create_page_chain'
+           create_page_chain(class, zspage, pages);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:1033:14: note: Assuming 'i' is < 'nr_pages'
+           for (i =3D 0; i < nr_pages; i++) {
+                       ^~~~~~~~~~~~
+   mm/zsmalloc.c:1033:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < nr_pages; i++) {
+           ^
+   mm/zsmalloc.c:1037:7: note: 'i' is equal to 0
+                   if (i =3D=3D 0) {
                        ^
-   include/uapi/linux/byteorder/little_endian.h:32:50: note: expanded from =
-macro '__le64_to_cpu'
-   #define __le64_to_cpu(x) ((__force __u64)(__le64)(x))
-                                                    ^~~
-   fs/ntfs3/attrib.c:1482:6: note: Assuming 'attr_b' is non-null
-           if (!attr_b)
-               ^~~~~~~
-   fs/ntfs3/attrib.c:1482:2: note: Taking false branch
-           if (!attr_b)
-           ^
-   fs/ntfs3/attrib.c:1485:6: note: Assuming the condition is false
-           if (!is_attr_ext(attr_b))
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1485:2: note: Taking false branch
-           if (!is_attr_ext(attr_b))
-           ^
-   fs/ntfs3/attrib.c:1495:6: note: Assuming 'svcn' is > 'vcn'
-           if (svcn <=3D vcn && vcn < evcn1) {
-               ^~~~~~~~~~~
-   fs/ntfs3/attrib.c:1495:18: note: Left side of '&&' is false
-           if (svcn <=3D vcn && vcn < evcn1) {
-                           ^
-   fs/ntfs3/attrib.c:1499:13: note: Assuming 'le_b' is non-null
-           } else if (!le_b) {
-                      ^~~~~
-   fs/ntfs3/attrib.c:1499:9: note: Taking false branch
-           } else if (!le_b) {
-                  ^
-   fs/ntfs3/attrib.c:1506:7: note: Assuming 'attr' is non-null
-                   if (!attr) {
-                       ^~~~~
-   fs/ntfs3/attrib.c:1506:3: note: Taking false branch
-                   if (!attr) {
+   mm/zsmalloc.c:1037:3: note: Taking true branch
+                   if (i =3D=3D 0) {
                    ^
-   fs/ntfs3/attrib.c:1515:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   fs/ntfs3/attrib.c:1515:2: note: Taking false branch
-           if (err)
+   mm/zsmalloc.c:1040:17: note: Assuming field 'objs_per_zspage' is not equ=
+al to 1
+                           if (unlikely(class->objs_per_zspage =3D=3D 1 &&
+                                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   mm/zsmalloc.c:1040:45: note: Left side of '&&' is false
+                           if (unlikely(class->objs_per_zspage =3D=3D 1 &&
+                                                                    ^
+   mm/zsmalloc.c:1040:4: note: Taking false branch
+                           if (unlikely(class->objs_per_zspage =3D=3D 1 &&
+                           ^
+   mm/zsmalloc.c:1033:28: note: The value 1 is assigned to 'i'
+           for (i =3D 0; i < nr_pages; i++) {
+                                     ^~~
+   mm/zsmalloc.c:1033:14: note: Assuming 'i' is < 'nr_pages'
+           for (i =3D 0; i < nr_pages; i++) {
+                       ^~~~~~~~~~~~
+   mm/zsmalloc.c:1033:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < nr_pages; i++) {
            ^
-   fs/ntfs3/attrib.c:1518:8: note: Calling 'attr_is_frame_compressed'
-           err =3D attr_is_frame_compressed(ni, attr_b, frame, &clst_data);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1373:6: note: Assuming the condition is false
-           if (!is_attr_compressed(attr))
+   mm/zsmalloc.c:1034:3: note: Null pointer value stored to 'page'
+                   page =3D pages[i];
+                   ^~~~~~~~~~~~~~~
+   mm/zsmalloc.c:1035:20: note: Passing null pointer value via 1st paramete=
+r 'page'
+                   set_page_private(page, (unsigned long)zspage);
+                                    ^~~~
+   mm/zsmalloc.c:1035:3: note: Calling 'set_page_private'
+                   set_page_private(page, (unsigned long)zspage);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mm_types.h:308:16: note: Dereference of null pointer
+           page->private =3D private;
+           ~~~~~~~~~~~~~~^~~~~~~~~
+   mm/zsmalloc.c:934:2: warning: Value stored to 'next' is never read [clan=
+g-analyzer-deadcode.DeadStores]
+           next =3D page =3D get_first_page(zspage);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:934:2: note: Value stored to 'next' is never read
+           next =3D page =3D get_first_page(zspage);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+>> drivers/scsi/pm8001/pm8001_sas.c:381:24: warning: Value stored to 'pm800=
+1_dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct pm8001_device *pm8001_dev =3D dev->lldd_dev;
+                                 ^~~~~~~~~~   ~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:381:24: note: Value stored to 'pm8001_d=
+ev' during its initialization is never read
+           struct pm8001_device *pm8001_dev =3D dev->lldd_dev;
+                                 ^~~~~~~~~~   ~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:639:4: warning: Value stored to 'res' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           res =3D -1;
+                           ^     ~~
+   drivers/scsi/pm8001/pm8001_sas.c:639:4: note: Value stored to 'res' is n=
+ever read
+                           res =3D -1;
+                           ^     ~~
+   drivers/scsi/pm8001/pm8001_sas.c:943:3: warning: Value stored to 'rc' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D pm8001_exec_internal_task_abort(pm8001_ha, pm8001=
+_dev,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/pm8001/pm8001_sas.c:943:3: note: Value stored to 'rc' is ne=
+ver read
+                   rc =3D pm8001_exec_internal_task_abort(pm8001_ha, pm8001=
+_dev,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/pm8001/pm8001_sas.c:959:3: warning: Value stored to 'rc' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D pm8001_exec_internal_task_abort(pm8001_ha, pm8001=
+_dev,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/pm8001/pm8001_sas.c:959:3: note: Value stored to 'rc' is ne=
+ver read
+                   rc =3D pm8001_exec_internal_task_abort(pm8001_ha, pm8001=
+_dev,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/pm8001/pm8001_sas.c:987:3: warning: Value stored to 'rc' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D pm8001_exec_internal_task_abort(pm8001_ha, pm8001=
+_dev,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/pm8001/pm8001_sas.c:987:3: note: Value stored to 'rc' is ne=
+ver read
+                   rc =3D pm8001_exec_internal_task_abort(pm8001_ha, pm8001=
+_dev,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/pm8001/pm8001_sas.c:989:3: warning: Value stored to 'rc' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D sas_phy_reset(phy, 1);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:989:3: note: Value stored to 'rc' is ne=
+ver read
+                   rc =3D sas_phy_reset(phy, 1);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:1179:4: warning: Value stored to 'rc' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           rc =3D pm8001_exec_internal_task_abort(pm8001_ha,
+                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/pm8001/pm8001_sas.c:1179:4: note: Value stored to 'rc' is n=
+ever read
+                           rc =3D pm8001_exec_internal_task_abort(pm8001_ha,
+                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:154:48: warning: Access t=
+o field 'data' results in a dereference of an undefined pointer value (load=
+ed from variable 'fw') [clang-analyzer-core.NullDereference]
+           nvkm_acr_lsfw_from_desc(&nvfw_ls_desc(subdev, fw->data)->head, l=
+sfw);
+                                                         ^~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:146:2: note: 'fw' declare=
+d without an initial value
+           const struct firmware *fw;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:149:9: note: Calling 'nvk=
+m_acr_lsfw_load_sig_image_desc_'
+           lsfw =3D nvkm_acr_lsfw_load_sig_image_desc_(subdev, falcon, id, =
+path, ver,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:97:2: note: Taking false =
+branch
+           if (IS_ERR((lsfw =3D nvkm_acr_lsfw_add(func, acr, falcon, id))))
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:101:6: note: Assuming 're=
+t' is not equal to 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:101:2: note: Taking true =
+branch
+           if (ret)
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:102:3: note: Control jump=
+s to line 110
+                   goto done;
+                   ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:110:6: note: 'ret' is not=
+ equal to 0
+           if (ret) {
+               ^~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:110:2: note: Taking true =
+branch
+           if (ret) {
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:112:3: note: Returning wi=
+thout writing to '*pdesc'
+                   return ERR_PTR(ret);
+                   ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:149:9: note: Returning fr=
+om 'nvkm_acr_lsfw_load_sig_image_desc_'
+           lsfw =3D nvkm_acr_lsfw_load_sig_image_desc_(subdev, falcon, id, =
+path, ver,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:151:2: note: Taking false=
+ branch
+           if (IS_ERR(lsfw))
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:154:48: note: Access to f=
+ield 'data' results in a dereference of an undefined pointer value (loaded =
+from variable 'fw')
+           nvkm_acr_lsfw_from_desc(&nvfw_ls_desc(subdev, fw->data)->head, l=
+sfw);
+                                                         ^~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:174:51: warning: Access t=
+o field 'data' results in a dereference of an undefined pointer value (load=
+ed from variable 'fw') [clang-analyzer-core.NullDereference]
+           nvkm_acr_lsfw_from_desc(&nvfw_ls_desc_v1(subdev, fw->data)->head=
+, lsfw);
+                                                            ^~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:166:2: note: 'fw' declare=
+d without an initial value
+           const struct firmware *fw;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:169:9: note: Calling 'nvk=
+m_acr_lsfw_load_sig_image_desc_'
+           lsfw =3D nvkm_acr_lsfw_load_sig_image_desc_(subdev, falcon, id, =
+path, ver,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:97:2: note: Taking false =
+branch
+           if (IS_ERR((lsfw =3D nvkm_acr_lsfw_add(func, acr, falcon, id))))
+           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:101:6: note: Assuming 're=
+t' is not equal to 0
+           if (ret)
 
-vim +1353 fs/ntfs3/attrib.c
+vim +/pm8001_dev +381 drivers/scsi/pm8001/pm8001_sas.c
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1208  =
+1cc943ae5003e4 jack wang       2009-12-07  366  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1209  #ifdef CONFIG_NTFS3_LZX=
-_XPRESS
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1210  /*
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1211   * attr_wof_frame_info
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1212   *
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1213   * read header of xpres=
-s/lzx file to get info about frame
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1214   */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1215  int attr_wof_frame_info=
-(struct ntfs_inode *ni, struct ATTRIB *attr,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1216  			struct runs_tree *ru=
-n, u64 frame, u64 frames,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1217  			u8 frame_bits, u32 *=
-ondisk_size, u64 *vbo_data)
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1218  {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1219  	struct ntfs_sb_info *s=
-bi =3D ni->mi.sbi;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1220  	u64 vbo[2], off[2], wo=
-f_size;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1221  	u32 voff;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1222  	u8 bytes_per_off;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1223  	char *addr;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1224  	struct page *page;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1225  	int i, err;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1226  	__le32 *off32;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1227  	__le64 *off64;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1228  =
+a0cf5ce40d125a Lee Jones       2020-07-21  367  #define DEV_IS_GONE(pm8001_=
+dev)	\
+a0cf5ce40d125a Lee Jones       2020-07-21  368  	((!pm8001_dev || (pm8001_d=
+ev->dev_type =3D=3D SAS_PHY_UNUSED)))
+96e54376a8b270 John Garry      2022-02-17  369  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1229  	if (ni->vfs_inode.i_si=
-ze < 0x100000000ull) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1230  		/* file starts with a=
-rray of 32 bit offsets */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1231  		bytes_per_off =3D siz=
-eof(__le32);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1232  		vbo[1] =3D frame << 2;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1233  		*vbo_data =3D frames =
-<< 2;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1234  	} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1235  		/* file starts with a=
-rray of 64 bit offsets */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1236  		bytes_per_off =3D siz=
-eof(__le64);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1237  		vbo[1] =3D frame << 3;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1238  		*vbo_data =3D frames =
-<< 3;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1239  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1240  =
+dbf9bfe615717d jack wang       2009-10-14  370  /**
+96e54376a8b270 John Garry      2022-02-17  371    * pm8001_queue_command - =
+register for upper layer used, all IO commands sent
+96e54376a8b270 John Garry      2022-02-17  372    * to HBA are from this in=
+terface.
+dbf9bfe615717d jack wang       2009-10-14  373    * @task: the task to be e=
+xecute.
+96e54376a8b270 John Garry      2022-02-17  374    * @gfp_flags: gfp_flags
+dbf9bfe615717d jack wang       2009-10-14  375    */
+96e54376a8b270 John Garry      2022-02-17  376  int pm8001_queue_command(st=
+ruct sas_task *task, gfp_t gfp_flags)
+dbf9bfe615717d jack wang       2009-10-14  377  {
+e29c47fe8946cc Damien Le Moal  2022-02-20  378  	struct task_status_struct =
+*ts =3D &task->task_status;
+e29c47fe8946cc Damien Le Moal  2022-02-20  379  	enum sas_protocol task_pro=
+to =3D task->task_proto;
+dbf9bfe615717d jack wang       2009-10-14  380  	struct domain_device *dev =
+=3D task->dev;
+e29c47fe8946cc Damien Le Moal  2022-02-20 @381  	struct pm8001_device *pm80=
+01_dev =3D dev->lldd_dev;
+dbf9bfe615717d jack wang       2009-10-14  382  	struct pm8001_hba_info *pm=
+8001_ha;
+1cc943ae5003e4 jack wang       2009-12-07  383  	struct pm8001_port *port =
+=3D NULL;
+dbf9bfe615717d jack wang       2009-10-14  384  	struct pm8001_ccb_info *cc=
+b;
+96e54376a8b270 John Garry      2022-02-17  385  	struct sas_tmf_task *tmf =
+=3D task->tmf;
+96e54376a8b270 John Garry      2022-02-17  386  	int is_tmf =3D !!task->tmf;
+e29c47fe8946cc Damien Le Moal  2022-02-20  387  	unsigned long flags;
+e29c47fe8946cc Damien Le Moal  2022-02-20  388  	u32 n_elem =3D 0;
+e29c47fe8946cc Damien Le Moal  2022-02-20  389  	int rc =3D 0;
+dbf9bfe615717d jack wang       2009-10-14  390  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1241  	/*
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1242  	 * read 4/8 bytes at [=
-vbo - 4(8)] =3D=3D offset where compressed frame starts
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1243  	 * read 4/8 bytes@[=
-vbo] =3D=3D offset where compressed frame ends
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1244  	 */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1245  	if (!attr->non_res) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1246  		if (vbo[1] + bytes_pe=
-r_off > le32_to_cpu(attr->res.data_size)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1247  			ntfs_inode_err(&ni->=
-vfs_inode, "is corrupted");
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1248  			return -EINVAL;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1249  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1250  		addr =3D resident_dat=
-a(attr);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1251  =
+dbf9bfe615717d jack wang       2009-10-14  391  	if (!dev->port) {
+e29c47fe8946cc Damien Le Moal  2022-02-20  392  		ts->resp =3D SAS_TASK_UND=
+ELIVERED;
+e29c47fe8946cc Damien Le Moal  2022-02-20  393  		ts->stat =3D SAS_PHY_DOWN;
+aa9f8328fc5146 James Bottomley 2013-05-07  394  		if (dev->dev_type !=3D SA=
+S_SATA_DEV)
+e29c47fe8946cc Damien Le Moal  2022-02-20  395  			task->task_done(task);
+dbf9bfe615717d jack wang       2009-10-14  396  		return 0;
+dbf9bfe615717d jack wang       2009-10-14  397  	}
+72349b62a571ef Deepak Ukey     2018-09-11  398  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1252  		if (bytes_per_off =3D=
-=3D sizeof(__le32)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1253  			off32 =3D Add2Ptr(ad=
-dr, vbo[1]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1254  			off[0] =3D vbo[1] ? =
-le32_to_cpu(off32[-1]) : 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1255  			off[1] =3D le32_to_c=
-pu(off32[0]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1256  		} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1257  			off64 =3D Add2Ptr(ad=
-dr, vbo[1]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1258  			off[0] =3D vbo[1] ? =
-le64_to_cpu(off64[-1]) : 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1259  			off[1] =3D le64_to_c=
-pu(off64[0]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1260  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1261  =
+e29c47fe8946cc Damien Le Moal  2022-02-20  399  	pm8001_ha =3D pm8001_find_=
+ha_by_dev(dev);
+e29c47fe8946cc Damien Le Moal  2022-02-20  400  	if (pm8001_ha->controller_=
+fatal_error) {
+72349b62a571ef Deepak Ukey     2018-09-11  401  		ts->resp =3D SAS_TASK_UND=
+ELIVERED;
+e29c47fe8946cc Damien Le Moal  2022-02-20  402  		task->task_done(task);
+72349b62a571ef Deepak Ukey     2018-09-11  403  		return 0;
+72349b62a571ef Deepak Ukey     2018-09-11  404  	}
+e29c47fe8946cc Damien Le Moal  2022-02-20  405  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1262  		*vbo_data +=3D off[0];
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1263  		*ondisk_size =3D off[=
-1] - off[0];
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1264  		return 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1265  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1266  =
+1b5d2793283dcb Joe Perches     2020-11-20  406  	pm8001_dbg(pm8001_ha, IO, =
+"pm8001_task_exec device\n");
+e29c47fe8946cc Damien Le Moal  2022-02-20  407  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1267  	wof_size =3D le64_to_c=
-pu(attr->nres.data_size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1268  	down_write(&ni->file.r=
-un_lock);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1269  	page =3D ni->file.offs=
-_page;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1270  	if (!page) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1271  		page =3D alloc_page(G=
-FP_KERNEL);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1272  		if (!page) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1273  			err =3D -ENOMEM;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1274  			goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1275  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1276  		page->index =3D -1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1277  		ni->file.offs_page =
-=3D page;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1278  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1279  	lock_page(page);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1280  	addr =3D page_address(=
-page);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1281  =
+dbf9bfe615717d jack wang       2009-10-14  408  	spin_lock_irqsave(&pm8001_=
+ha->lock, flags);
+e29c47fe8946cc Damien Le Moal  2022-02-20  409  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1282  	if (vbo[1]) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1283  		voff =3D vbo[1] & (PA=
-GE_SIZE - 1);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1284  		vbo[0] =3D vbo[1] - b=
-ytes_per_off;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1285  		i =3D 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1286  	} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1287  		voff =3D 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1288  		vbo[0] =3D 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1289  		off[0] =3D 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1290  		i =3D 1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1291  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1292  =
+dbf9bfe615717d jack wang       2009-10-14  410  	pm8001_dev =3D dev->lldd_d=
+ev;
+1cc943ae5003e4 jack wang       2009-12-07  411  	port =3D &pm8001_ha->port[=
+sas_find_local_port_id(dev)];
+e29c47fe8946cc Damien Le Moal  2022-02-20  412  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1293  	do {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1294  		pgoff_t index =3D vbo=
-[i] >> PAGE_SHIFT;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1295  =
+b90b378ad5767c Mark Salyzyn    2011-09-22  413  	if (DEV_IS_GONE(pm8001_dev=
+) || !port->port_attached) {
+1cc943ae5003e4 jack wang       2009-12-07  414  		ts->resp =3D SAS_TASK_UND=
+ELIVERED;
+1cc943ae5003e4 jack wang       2009-12-07  415  		ts->stat =3D SAS_PHY_DOWN;
+e29c47fe8946cc Damien Le Moal  2022-02-20  416  		if (sas_protocol_ata(task=
+_proto)) {
+1cc943ae5003e4 jack wang       2009-12-07  417  			spin_unlock_irqrestore(&=
+pm8001_ha->lock, flags);
+e29c47fe8946cc Damien Le Moal  2022-02-20  418  			task->task_done(task);
+1cc943ae5003e4 jack wang       2009-12-07  419  			spin_lock_irqsave(&pm800=
+1_ha->lock, flags);
+1cc943ae5003e4 jack wang       2009-12-07  420  		} else {
+e29c47fe8946cc Damien Le Moal  2022-02-20  421  			task->task_done(task);
+1cc943ae5003e4 jack wang       2009-12-07  422  		}
+e29c47fe8946cc Damien Le Moal  2022-02-20  423  		rc =3D -ENODEV;
+e29c47fe8946cc Damien Le Moal  2022-02-20  424  		goto err_out;
+1cc943ae5003e4 jack wang       2009-12-07  425  	}
+99df0edb5a9849 Damien Le Moal  2022-02-20  426  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1296  		if (index !=3D page->=
-index) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1297  			u64 from =3D vbo[i] =
-& ~(u64)(PAGE_SIZE - 1);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1298  			u64 to =3D min(from =
-+ PAGE_SIZE, wof_size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1299  =
+e29c47fe8946cc Damien Le Moal  2022-02-20  427  	ccb =3D pm8001_ccb_alloc(p=
+m8001_ha, pm8001_dev, task);
+99df0edb5a9849 Damien Le Moal  2022-02-20  428  	if (!ccb) {
+99df0edb5a9849 Damien Le Moal  2022-02-20  429  		rc =3D -SAS_QUEUE_FULL;
+dbf9bfe615717d jack wang       2009-10-14  430  		goto err_out;
+99df0edb5a9849 Damien Le Moal  2022-02-20  431  	}
+dbf9bfe615717d jack wang       2009-10-14  432  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1300  			err =3D attr_load_ru=
-ns_range(ni, ATTR_DATA, WOF_NAME,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1301  						   ARRAY_SIZE(WOF=
-_NAME), run,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1302  						   from, to);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1303  			if (err)
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1304  				goto out1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1305  =
+a88d9db94c4c9f Vikram Auradkar 2019-11-14  433  	if (!sas_protocol_ata(task=
+_proto)) {
+e29c47fe8946cc Damien Le Moal  2022-02-20  434  		if (task->num_scatter) {
+e29c47fe8946cc Damien Le Moal  2022-02-20  435  			n_elem =3D dma_map_sg(pm=
+8001_ha->dev, task->scatter,
+e29c47fe8946cc Damien Le Moal  2022-02-20  436  					    task->num_scatter,=
+ task->data_dir);
+dbf9bfe615717d jack wang       2009-10-14  437  			if (!n_elem) {
+dbf9bfe615717d jack wang       2009-10-14  438  				rc =3D -ENOMEM;
+99df0edb5a9849 Damien Le Moal  2022-02-20  439  				goto err_out_ccb;
+dbf9bfe615717d jack wang       2009-10-14  440  			}
+dbf9bfe615717d jack wang       2009-10-14  441  		}
+dbf9bfe615717d jack wang       2009-10-14  442  	} else {
+e29c47fe8946cc Damien Le Moal  2022-02-20  443  		n_elem =3D task->num_scat=
+ter;
+dbf9bfe615717d jack wang       2009-10-14  444  	}
+dbf9bfe615717d jack wang       2009-10-14  445  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1306  			err =3D ntfs_bio_pag=
-es(sbi, run, &page, 1, from,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1307  					     to - from, RE=
-Q_OP_READ);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1308  			if (err) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1309  				page->index =3D -1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1310  				goto out1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1311  			}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1312  			page->index =3D inde=
-x;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1313  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1314  =
+e29c47fe8946cc Damien Le Moal  2022-02-20  446  	task->lldd_task =3D ccb;
+dbf9bfe615717d jack wang       2009-10-14  447  	ccb->n_elem =3D n_elem;
+99df0edb5a9849 Damien Le Moal  2022-02-20  448  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1315  		if (i) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1316  			if (bytes_per_off =
-=3D=3D sizeof(__le32)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1317  				off32 =3D Add2Ptr(a=
-ddr, voff);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1318  				off[1] =3D le32_to_=
-cpu(*off32);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1319  			} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1320  				off64 =3D Add2Ptr(a=
-ddr, voff);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1321  				off[1] =3D le64_to_=
-cpu(*off64);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1322  			}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1323  		} else if (!voff) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1324  			if (bytes_per_off =
-=3D=3D sizeof(__le32)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1325  				off32 =3D Add2Ptr(a=
-ddr, PAGE_SIZE - sizeof(u32));
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1326  				off[0] =3D le32_to_=
-cpu(*off32);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1327  			} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1328  				off64 =3D Add2Ptr(a=
-ddr, PAGE_SIZE - sizeof(u64));
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1329  				off[0] =3D le64_to_=
-cpu(*off64);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1330  			}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1331  		} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1332  			/* two values in one=
- page*/
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1333  			if (bytes_per_off =
-=3D=3D sizeof(__le32)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1334  				off32 =3D Add2Ptr(a=
-ddr, voff);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1335  				off[0] =3D le32_to_=
-cpu(off32[-1]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1336  				off[1] =3D le32_to_=
-cpu(off32[0]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1337  			} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1338  				off64 =3D Add2Ptr(a=
-ddr, voff);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1339  				off[0] =3D le64_to_=
-cpu(off64[-1]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1340  				off[1] =3D le64_to_=
-cpu(off64[0]);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1341  			}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1342  			break;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1343  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1344  	} while (++i < 2);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1345  =
+e29c47fe8946cc Damien Le Moal  2022-02-20  449  	atomic_inc(&pm8001_dev->ru=
+nning_req);
+e29c47fe8946cc Damien Le Moal  2022-02-20  450  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1346  	*vbo_data +=3D off[0];
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1347  	*ondisk_size =3D off[1=
-] - off[0];
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1348  =
+a88d9db94c4c9f Vikram Auradkar 2019-11-14  451  	switch (task_proto) {
+dbf9bfe615717d jack wang       2009-10-14  452  	case SAS_PROTOCOL_SMP:
+dbf9bfe615717d jack wang       2009-10-14  453  		rc =3D pm8001_task_prep_s=
+mp(pm8001_ha, ccb);
+dbf9bfe615717d jack wang       2009-10-14  454  		break;
+dbf9bfe615717d jack wang       2009-10-14  455  	case SAS_PROTOCOL_SSP:
+dbf9bfe615717d jack wang       2009-10-14  456  		if (is_tmf)
+e29c47fe8946cc Damien Le Moal  2022-02-20  457  			rc =3D pm8001_task_prep_=
+ssp_tm(pm8001_ha, ccb, tmf);
+dbf9bfe615717d jack wang       2009-10-14  458  		else
+dbf9bfe615717d jack wang       2009-10-14  459  			rc =3D pm8001_task_prep_=
+ssp(pm8001_ha, ccb);
+dbf9bfe615717d jack wang       2009-10-14  460  		break;
+dbf9bfe615717d jack wang       2009-10-14  461  	case SAS_PROTOCOL_SATA:
+dbf9bfe615717d jack wang       2009-10-14  462  	case SAS_PROTOCOL_STP:
+dbf9bfe615717d jack wang       2009-10-14  463  		rc =3D pm8001_task_prep_a=
+ta(pm8001_ha, ccb);
+dbf9bfe615717d jack wang       2009-10-14  464  		break;
+dbf9bfe615717d jack wang       2009-10-14  465  	default:
+dbf9bfe615717d jack wang       2009-10-14  466  		dev_printk(KERN_ERR, pm80=
+01_ha->dev,
+a88d9db94c4c9f Vikram Auradkar 2019-11-14  467  			   "unknown sas_task pro=
+to: 0x%x\n", task_proto);
+dbf9bfe615717d jack wang       2009-10-14  468  		rc =3D -EINVAL;
+dbf9bfe615717d jack wang       2009-10-14  469  		break;
+dbf9bfe615717d jack wang       2009-10-14  470  	}
+dbf9bfe615717d jack wang       2009-10-14  471  =
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1349  out1:
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1350  	unlock_page(page);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1351  out:
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1352  	up_write(&ni->file.run=
-_lock);
-be71b5cba2e648 Konstantin Komarov 2021-08-13 @1353  	return err;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1354  }
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1355  #endif
-be71b5cba2e648 Konstantin Komarov 2021-08-13  1356  =
+dbf9bfe615717d jack wang       2009-10-14  472  	if (rc) {
+4a2efd4b89fcaa Viswas G        2020-11-02  473  		atomic_dec(&pm8001_dev->r=
+unning_req);
+e29c47fe8946cc Damien Le Moal  2022-02-20  474  		if (!sas_protocol_ata(tas=
+k_proto) && n_elem)
+e29c47fe8946cc Damien Le Moal  2022-02-20  475  			dma_unmap_sg(pm8001_ha->=
+dev, task->scatter,
+e29c47fe8946cc Damien Le Moal  2022-02-20  476  				     task->num_scatter,=
+ task->data_dir);
+99df0edb5a9849 Damien Le Moal  2022-02-20  477  err_out_ccb:
+99df0edb5a9849 Damien Le Moal  2022-02-20  478  		pm8001_ccb_free(pm8001_ha=
+, ccb);
+e29c47fe8946cc Damien Le Moal  2022-02-20  479  =
 
+dbf9bfe615717d jack wang       2009-10-14  480  err_out:
+e29c47fe8946cc Damien Le Moal  2022-02-20  481  		pm8001_dbg(pm8001_ha, IO,=
+ "pm8001_task_exec failed[%d]!\n", rc);
+e29c47fe8946cc Damien Le Moal  2022-02-20  482  	}
+e29c47fe8946cc Damien Le Moal  2022-02-20  483  =
 
-:::::: The code at line 1353 was first introduced by commit
-:::::: be71b5cba2e6485e8959da7a9f9a44461a1bb074 fs/ntfs3: Add attrib operat=
-ions
+dbf9bfe615717d jack wang       2009-10-14  484  	spin_unlock_irqrestore(&pm=
+8001_ha->lock, flags);
+e29c47fe8946cc Damien Le Moal  2022-02-20  485  =
 
-:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+dbf9bfe615717d jack wang       2009-10-14  486  	return rc;
+dbf9bfe615717d jack wang       2009-10-14  487  }
+dbf9bfe615717d jack wang       2009-10-14  488  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0227685858819493172==--
+--===============3708273892352649643==--
 
