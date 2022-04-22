@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8664274623484704801=="
+Content-Type: multipart/mixed; boundary="===============8802782575907638490=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/usb/storage/sddr09.c:1156:2: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
-Date: Fri, 22 Apr 2022 13:07:19 +0800
-Message-ID: <202204221201.qJWGkgaL-lkp@intel.com>
+Subject: drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1019:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 22 Apr 2022 08:18:35 +0800
+Message-ID: <202204220854.0PMb5s89-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8664274623484704801==
+--===============8802782575907638490==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,25 +16,22 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   b05a5683eba6e2d40eadd5eeef53c4864149a4fe
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
+head:   59f0c2447e2553b0918b4a9fd38763a5c0587d02
+commit: 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7 media: platform: place NXP=
+ drivers on a separate dir
 date:   6 weeks ago
 :::::: branch date: 5 hours ago
 :::::: commit date: 6 weeks ago
-config: arm-randconfig-c002-20220421 (https://download.01.org/0day-ci/archi=
-ve/20220422/202204221201.qJWGkgaL-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd=
-5bf85669e3376610cfc4c4f9ca015e7b9b)
+config: arm-randconfig-c002-20220418 (https://download.01.org/0day-ci/archi=
+ve/20220422/202204220854.0PMb5s89-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ef9460=
+9d6ebe981767788e6877b0b3b731d425af)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -42,11 +39,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
+t/commit/?id=3D46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git checkout 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -57,551 +54,496 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:933:6: note: Left side of=
+ '||' is false
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:933:18: note: Assuming 'd=
+st_buf' is non-null
+           if (!src_buf || !dst_buf) {
+                           ^~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:933:2: note: Taking false=
+ branch
+           if (!src_buf || !dst_buf) {
            ^
-   drivers/media/cec/core/cec-api.c:653:6: note: Assuming the condition is =
-false
-           if (fh->mode_follower =3D=3D CEC_MODE_MONITOR_PIN)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-api.c:653:2: note: Taking false branch
-           if (fh->mode_follower =3D=3D CEC_MODE_MONITOR_PIN)
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:939:7: note: 'q_data_cap'=
+ is non-null
+           if (!q_data_cap)
+                ^~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:939:2: note: Taking false=
+ branch
+           if (!q_data_cap)
            ^
-   drivers/media/cec/core/cec-api.c:655:6: note: Assuming the condition is =
-false
-           if (fh->mode_follower =3D=3D CEC_MODE_MONITOR_ALL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-api.c:655:2: note: Taking false branch
-           if (fh->mode_follower =3D=3D CEC_MODE_MONITOR_ALL)
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:942:7: note: 'q_data_out'=
+ is non-null
+           if (!q_data_out)
+                ^~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:942:2: note: Taking false=
+ branch
+           if (!q_data_out)
            ^
-   drivers/media/cec/core/cec-api.c:664:6: note: Assuming the condition is =
-false
-           if (cec_is_registered(adap) && list_empty(&devnode->fhs) &&
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-api.c:664:30: note: Left side of '&&' is false
-           if (cec_is_registered(adap) && list_empty(&devnode->fhs) &&
-                                       ^
-   drivers/media/cec/core/cec-api.c:672:2: note: Loop condition is false. E=
-xecution continues on line 680
-           while (!list_empty(&fh->xfer_list)) {
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:950:6: note: Assuming fie=
+ld 'colplanes' is equal to field 'num_planes'
+           if (q_data_cap->fmt->colplanes !=3D dst_buf->vb2_buf.num_planes)=
+ {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:950:2: note: Taking false=
+ branch
+           if (q_data_cap->fmt->colplanes !=3D dst_buf->vb2_buf.num_planes)=
+ {
            ^
-   drivers/media/cec/core/cec-api.c:681:2: note: Loop condition is true.  E=
-ntering loop body
-           while (!list_empty(&fh->msgs)) {
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:956:6: note: Assuming fie=
+ld 'jpeg_parse_error' is false
+           if (jpeg_src_buf->jpeg_parse_error) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:956:2: note: Taking false=
+ branch
+           if (jpeg_src_buf->jpeg_parse_error) {
            ^
-   drivers/media/cec/core/cec-api.c:686:3: note: Memory is released
-                   kfree(entry);
-                   ^~~~~~~~~~~~
-   drivers/media/cec/core/cec-api.c:681:2: note: Loop condition is true.  E=
-ntering loop body
-           while (!list_empty(&fh->msgs)) {
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:971:11: note: Field 'slot=
+' is < MXC_MAX_SLOTS
+           if (ctx->slot >=3D MXC_MAX_SLOTS) {
+                    ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:971:2: note: Taking false=
+ branch
+           if (ctx->slot >=3D MXC_MAX_SLOTS) {
            ^
-   drivers/media/cec/core/cec-api.c:685:3: note: Calling 'list_del'
-                   list_del(&entry->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   63 warnings generated.
-   drivers/usb/storage/sddr09.c:240:2: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(data, ecc, 3);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:240:2: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-           memcpy(data, ecc, 3);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:352:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:352:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:528:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:528:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:717:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:717:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:796:4: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memset(buffer, 0, len);
-                           ^~~~~~
-   drivers/usb/storage/sddr09.c:796:4: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-                           memset(buffer, 0, len);
-                           ^~~~~~
-   drivers/usb/storage/sddr09.c:922:3: warning: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(bptr, xptr, info->pagesize);
-                   ^~~~~~
-   drivers/usb/storage/sddr09.c:922:3: note: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(bptr, xptr, info->pagesize);
-                   ^~~~~~
-   drivers/usb/storage/sddr09.c:1076:2: warning: Call to function 'memset' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:1076:2: note: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11
-           memset(command, 0, 12);
-           ^~~~~~
-   drivers/usb/storage/sddr09.c:1106:3: warning: Value stored to 'wp_fmt' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   wp_fmt =3D " WP";
-                   ^        ~~~~~
-   drivers/usb/storage/sddr09.c:1106:3: note: Value stored to 'wp_fmt' is n=
-ever read
-                   wp_fmt =3D " WP";
-                   ^        ~~~~~
-   drivers/usb/storage/sddr09.c:1108:3: warning: Value stored to 'wp_fmt' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   wp_fmt =3D "";
-                   ^        ~~
-   drivers/usb/storage/sddr09.c:1108:3: note: Value stored to 'wp_fmt' is n=
-ever read
-                   wp_fmt =3D "";
-                   ^        ~~
-   drivers/usb/storage/sddr09.c:1153:2: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(blurbtxt, "sddr09: Found Flash card, ID =3D %4ph", devic=
-eID);
-           ^~~~~~~
-   drivers/usb/storage/sddr09.c:1153:2: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-           sprintf(blurbtxt, "sddr09: Found Flash card, ID =3D %4ph", devic=
-eID);
-           ^~~~~~~
->> drivers/usb/storage/sddr09.c:1156:2: warning: Call to function 'sprintf'=
- is insecure as it does not provide bounding of the memory buffer or securi=
-ty checks introduced in the C11 standard. Replace with analogous functions =
-that support length arguments or provides boundary checks such as 'sprintf_=
-s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
-fferHandling]
-           sprintf(blurbtxt + strlen(blurbtxt),
-           ^~~~~~~
-   drivers/usb/storage/sddr09.c:1156:2: note: Call to function 'sprintf' is=
- insecure as it does not provide bounding of the memory buffer or security =
-checks introduced in the C11 standard. Replace with analogous functions tha=
-t support length arguments or provides boundary checks such as 'sprintf_s' =
-in case of C11
-           sprintf(blurbtxt + strlen(blurbtxt),
-           ^~~~~~~
-   drivers/usb/storage/sddr09.c:1168:3: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1168:3: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1171:3: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1171:3: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1177:3: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1177:3: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1183:3: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1183:3: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1188:3: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1188:3: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(blurbtxt + strlen(blurbtxt),
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1563:3: warning: Call to function 'memset' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(ptr, 0, 18);
-                   ^~~~~~
-   drivers/usb/storage/sddr09.c:1563:3: note: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11
-                   memset(ptr, 0, 18);
-                   ^~~~~~
-   drivers/usb/storage/sddr09.c:1581:3: warning: Call to function 'memcpy' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(ptr, inquiry_response, 8);
-                   ^~~~~~
-   drivers/usb/storage/sddr09.c:1581:3: note: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(ptr, inquiry_response, 8);
-                   ^~~~~~
-   drivers/usb/storage/sddr09.c:1639:4: warning: Call to function 'memcpy' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(ptr, mode_page_01, sizeof(mode_page_01));
-                           ^~~~~~
-   drivers/usb/storage/sddr09.c:1639:4: note: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(ptr, mode_page_01, sizeof(mode_page_01));
-                           ^~~~~~
-   drivers/usb/storage/sddr09.c:1705:3: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(ptr+strlen(ptr), "%02X ", srb->cmnd[i]);
-                   ^~~~~~~
-   drivers/usb/storage/sddr09.c:1705:3: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(ptr+strlen(ptr), "%02X ", srb->cmnd[i]);
-                   ^~~~~~~
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   fs/xfs/xfs_trans_buf.c:575:3: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(bip->bli_formats[i].blf_data_map, 0,
-                   ^~~~~~
-   fs/xfs/xfs_trans_buf.c:575:3: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-                   memset(bip->bli_formats[i].blf_data_map, 0,
-                   ^~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   fs/xfs/xfs_pnfs.c:39:3: warning: Value stored to 'error' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                   error =3D break_layout(inode, true);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_pnfs.c:39:3: note: Value stored to 'error' is never read
-                   error =3D break_layout(inode, true);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_pnfs.c:67:2: warning: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, &mp->m_sb.sb_uuid, sizeof(uuid_t));
-           ^~~~~~
-   fs/xfs/xfs_pnfs.c:67:2: note: Call to function 'memcpy' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memcpy_s' in case of C11
-           memcpy(buf, &mp->m_sb.sb_uuid, sizeof(uuid_t));
-           ^~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (41 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   fs/xfs/scrub/agheader.c:726:2: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&sai, 0, sizeof(sai));
-           ^~~~~~
-   fs/xfs/scrub/agheader.c:726:2: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-           memset(&sai, 0, sizeof(sai));
-           ^~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:975:2: note: Taking false=
+ branch
+           if (!mxc_jpeg_alloc_slot_data(jpeg, ctx->slot)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:983:6: note: Assuming fie=
+ld 'mode' is equal to MXC_JPEG_ENCODE
+           if (jpeg->mode =3D=3D MXC_JPEG_ENCODE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:983:2: note: Taking true =
+branch
+           if (jpeg->mode =3D=3D MXC_JPEG_ENCODE) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:984:3: note: Taking false=
+ branch
+                   dev_dbg(dev, "Encoding on slot %d\n", ctx->slot);
+                   ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:986:3: note: Calling 'mxc=
+_jpeg_config_enc_desc'
+                   mxc_jpeg_config_enc_desc(&dst_buf->vb2_buf, ctx,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:901:12: note: Calling 'mx=
+c_jpeg_fourcc_to_imgfmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:402:2: note: Control jump=
+s to the 'default' case at line 415
+           switch (fourcc) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:416:3: note: Returning th=
+e value -1
+                   return MXC_JPEG_INVALID;
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:901:12: note: Returning f=
+rom 'mxc_jpeg_fourcc_to_imgfmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:901:2: note: The value -1=
+ is assigned to 'img_fmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:902:6: note: 'img_fmt' is=
+ equal to MXC_JPEG_INVALID
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
+               ^~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:902:2: note: Taking true =
+branch
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Loop conditi=
+on is false.  Exiting loop
+                   dev_err(jpeg->dev, "No valid image format detected\n");
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:905:5: note: The result o=
+f the left shift is undefined because the left operand is negative
+                            STM_CTRL_IMAGE_FORMAT(img_fmt);
+                            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h:84:52: note: expanded =
+from macro 'STM_CTRL_IMAGE_FORMAT'
+   #define STM_CTRL_IMAGE_FORMAT(img_fmt)          ((img_fmt) << 3)
+                                                    ~~~~~~~~~ ^
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1019:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1019:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1046:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1046:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D ctx->mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: warning: Branch c=
+ondition evaluates to a garbage value [clang-analyzer-core.uninitialized.Br=
+anch]
+                   if (!q->sizeimage[0])
+                       ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
+c_jpeg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
+ield 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
+ion is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
+f '||' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
+e branch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
+n-null
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
+f '||' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
+q_type' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
+e branch
+           if (!fmt || fmt->flags !=3D q_type) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
+c_jpeg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
+ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
+ion is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
+ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
+ion is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is false. Execution continues on line 1655
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
+c_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
+e condition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
+rom 'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
+c_jpeg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Branch cond=
+ition evaluates to a garbage value
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1522:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1522:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D mxc_jpeg->dev;
+                          ^~~   ~~~~~~~~~~~~~
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1662:22: warning: Assigne=
+d value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   pfmt->bytesperline =3D tmp_q.bytesperline[i];
+                                      ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
+c_jpeg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
+ield 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
+ion is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
+f '||' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
+e branch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
+n-null
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
+f '||' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
+q_type' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
+e branch
+           if (!fmt || fmt->flags !=3D q_type) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
+c_jpeg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
+ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
+ion is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
+ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
+ion is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is < field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is true.  Entering loop body
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is false. Execution continues on line 1655
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
+c_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
+e condition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
+rom 'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
+c_jpeg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Assuming th=
+e condition is false
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:3: note: Taking fals=
+e branch
+                   if (!q->sizeimage[0])
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:7: note: Assuming th=
+e condition is false
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:3: note: Taking fals=
+e branch
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
 
-vim +1156 drivers/usb/storage/sddr09.c
+vim +/dev +1019 drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1092  =
+d8ebe298d008cc drivers/media/platform/imx-jpeg/mxc-jpeg.c Ming Qian      20=
+22-02-22  1013  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1093  static int
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1094  sddr09_get_wp(struct us_da=
-ta *us, struct sddr09_card_info *info) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1095  	int result;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1096  	unsigned char status;
-ef976ea33b4c44 Victor Dodon    2016-02-17  1097  	const char *wp_fmt;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1098  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1014  static int mxc_jpeg_decoder_cmd(struct file *file, void *pr=
+iv,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1015  				struct v4l2_decoder_cmd *cmd)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1016  {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1017  	struct v4l2_fh *fh =3D file->private_data;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1018  	struct mxc_jpeg_ctx *ctx =3D mxc_jpeg_fh_to_ctx(fh);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11 @1019  	struct device *dev =3D ctx->mxc_jpeg->dev;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1020  	int ret;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1021  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1099  	result =3D sddr09_read_st=
-atus(us, &status);
-0dc08a357538de Matthew Dharm   2005-12-04  1100  	if (result) {
-191648d03d2022 Joe Perches     2013-04-19  1101  		usb_stor_dbg(us, "read_s=
-tatus fails\n");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1102  		return result;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1103  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1104  	if ((status & 0x80) =3D=
-=3D 0) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1105  		info->flags |=3D SDDR09_=
-WP;	/* write protected */
-ef976ea33b4c44 Victor Dodon    2016-02-17  1106  		wp_fmt =3D " WP";
-ef976ea33b4c44 Victor Dodon    2016-02-17  1107  	} else {
-ef976ea33b4c44 Victor Dodon    2016-02-17 @1108  		wp_fmt =3D "";
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1109  	}
-ef976ea33b4c44 Victor Dodon    2016-02-17  1110  	usb_stor_dbg(us, "status =
-0x%02X%s%s%s%s\n", status, wp_fmt,
-ef976ea33b4c44 Victor Dodon    2016-02-17  1111  		     status & 0x40 ? " R=
-eady" : "",
-ef976ea33b4c44 Victor Dodon    2016-02-17  1112  		     status & LUNBITS ? =
-" Suspended" : "",
-ef976ea33b4c44 Victor Dodon    2016-02-17  1113  		     status & 0x01 ? " E=
-rror" : "");
-ef976ea33b4c44 Victor Dodon    2016-02-17  1114  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1022  	ret =3D v4l2_m2m_ioctl_try_decoder_cmd(file, fh, cmd);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1023  	if (ret < 0)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1024  		return ret;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1025  =
 
-0dc08a357538de Matthew Dharm   2005-12-04  1115  	return 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1116  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1117  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1026  	if (cmd->cmd =3D=3D V4L2_DEC_CMD_STOP) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1027  		dev_dbg(dev, "Received V4L2_DEC_CMD_STOP");
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1028  		if (v4l2_m2m_num_src_bufs_ready(fh->m2m_ctx) =3D=3D 0) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1029  			/* No more src bufs, notify app EOS */
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1030  			notify_eos(ctx);
+d8ebe298d008cc drivers/media/platform/imx-jpeg/mxc-jpeg.c Ming Qian      20=
+22-02-22  1031  			mxc_jpeg_set_last_buffer_dequeued(ctx);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1032  		} else {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1033  			/* will send EOS later*/
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1034  			ctx->stopping =3D 1;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1035  		}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1036  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1037  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1118  #if 0
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1119  /*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1120   * Reset Command: 12 bytes.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1121   * byte 0: opcode: EB
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1122   */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1123  static int
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1124  sddr09_reset(struct us_dat=
-a *us) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1125  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1126  	unsigned char *command =
-=3D us->iobuf;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1127  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1128  	memset(command, 0, 12);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1129  	command[0] =3D 0xEB;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1130  	command[1] =3D LUNBITS;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1131  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1132  	return sddr09_send_scsi_c=
-ommand(us, command, 12);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1133  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1134  #endif
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1135  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1136  static struct nand_flash_d=
-ev *
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1137  sddr09_get_cardinfo(struct=
- us_data *us, unsigned char flags) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1138  	struct nand_flash_dev *ca=
-rdinfo;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1139  	unsigned char deviceID[4];
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1140  	char blurbtxt[256];
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1141  	int result;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1142  =
-
-191648d03d2022 Joe Perches     2013-04-19  1143  	usb_stor_dbg(us, "Reading=
- capacity...\n");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1144  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1145  	result =3D sddr09_read_de=
-viceID(us, deviceID);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1146  =
-
-0dc08a357538de Matthew Dharm   2005-12-04  1147  	if (result) {
-191648d03d2022 Joe Perches     2013-04-19  1148  		usb_stor_dbg(us, "Result=
- of read_deviceID is %d\n", result);
-6f8aa65b520371 Frank Seidel    2009-02-05  1149  		printk(KERN_WARNING "sdd=
-r09: could not read card info\n");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1150  		return NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1151  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1152  =
-
-7adce46784a099 Andy Shevchenko 2014-09-05  1153  	sprintf(blurbtxt, "sddr09=
-: Found Flash card, ID =3D %4ph", deviceID);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1154  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1155  	/* Byte 0 is the manufact=
-urer */
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @1156  	sprintf(blurbtxt + strlen=
-(blurbtxt),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1157  		": Manuf. %s",
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1158  		nand_flash_manufacturer(=
-deviceID[0]));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1159  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1160  	/* Byte 1 is the device t=
-ype */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1161  	cardinfo =3D nand_find_id=
-(deviceID[1]);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1162  	if (cardinfo) {
-f0183a338e4f90 Felipe Balbi    2016-04-18  1163  		/*
-f0183a338e4f90 Felipe Balbi    2016-04-18  1164  		 * MB or MiB? It is neit=
-her. A 16 MB card has
-f0183a338e4f90 Felipe Balbi    2016-04-18  1165  		 * 17301504 raw bytes, o=
-f which 16384000 are
-f0183a338e4f90 Felipe Balbi    2016-04-18  1166  		 * usable for user data.
-f0183a338e4f90 Felipe Balbi    2016-04-18  1167  		 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1168  		sprintf(blurbtxt + strle=
-n(blurbtxt),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1169  			", %d MB", 1<<(cardinfo=
-->chipshift - 20));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1170  	} else {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1171  		sprintf(blurbtxt + strle=
-n(blurbtxt),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1172  			", type unrecognized");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1173  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1174  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1175  	/* Byte 2 is code to sign=
-al availability of 128-bit ID */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1176  	if (deviceID[2] =3D=3D 0x=
-a5) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1177  		sprintf(blurbtxt + strle=
-n(blurbtxt),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1178  			", 128-bit ID");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1179  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1180  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1181  	/* Byte 3 announces the a=
-vailability of another read ID command */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1182  	if (deviceID[3] =3D=3D 0x=
-c0) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1183  		sprintf(blurbtxt + strle=
-n(blurbtxt),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1184  			", extra cmd");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1185  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1186  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1187  	if (flags & SDDR09_WP)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1188  		sprintf(blurbtxt + strle=
-n(blurbtxt),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1189  			", WP");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1190  =
-
-6f8aa65b520371 Frank Seidel    2009-02-05  1191  	printk(KERN_WARNING "%s\n=
-", blurbtxt);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1192  =
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1193  	return cardinfo;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1194  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1195  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1038  	return 0;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1039  }
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1040  =
 
 
-:::::: The code at line 1156 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 1019 was first introduced by commit
+:::::: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 d=
+river for i.MX8 JPEG Encoder/Decoder
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Mirela Rabulea <mirela.rabulea@nxp.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8664274623484704801==--
+--===============8802782575907638490==--
 
