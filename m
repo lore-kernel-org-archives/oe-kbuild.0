@@ -1,30 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============0322806420684507263=="
+Content-Type: multipart/mixed; boundary="===============2585902835214899305=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.15/linux 336/2399] kernel/locking/test-ww_mutex.c:172 test_aa() error: uninitialized symbol 'ret'.
-Date: Sat, 23 Apr 2022 22:37:09 +0800
-Message-ID: <202204232207.IFJFpWSp-lkp@intel.com>
+Subject: [intel-lts:5.15/linux 4/5] drivers/pci/controller/dwc/pcie-keembay.c:255 thunderbay_pcie_host_rd_other_conf() error: uninitialized symbol 'ret'.
+Date: Sat, 23 Apr 2022 21:15:27 +0800
+Message-ID: <202204232110.SCXHVYG9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0322806420684507263==
+--===============2585902835214899305==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Junxiao Chang <junxiao.chang@intel.com>
+TO: Srikanth Thokala <srikanth.thokala@intel.com>
+CC: nanli2x <nanx.li@intel.com>
 
 tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
 head:   7acd0be121091f12349a4dcefd2e6deee2e73946
-commit: 53956aadc1f3755f43e9a8d6741cb2b1d4c58ac6 [336/2399] kernel/locking:=
- Add context to ww_mutex_trylock()
+commit: 28f72667fffb64d777e6f3f3017995d7d4f9e558 [4/5] PCI: thunderbay: Add=
+ support for Thunderbay Root Port
 :::::: branch date: 4 days ago
 :::::: commit date: 9 weeks ago
 config: xtensa-randconfig-m031-20220422 (https://download.01.org/0day-ci/ar=
-chive/20220423/202204232207.IFJFpWSp-lkp(a)intel.com/config)
+chive/20220423/202204232110.SCXHVYG9-lkp(a)intel.com/config)
 compiler: xtensa-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -32,106 +32,172 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-kernel/locking/test-ww_mutex.c:172 test_aa() error: uninitialized symbol 'r=
-et'.
+drivers/pci/controller/dwc/pcie-keembay.c:255 thunderbay_pcie_host_rd_other=
+_conf() error: uninitialized symbol 'ret'.
+drivers/pci/controller/dwc/pcie-keembay.c:294 thunderbay_pcie_rc_dma_cfg() =
+warn: passing zero to 'PTR_ERR'
 
 Old smatch warnings:
-arch/xtensa/include/asm/thread_info.h:91 current_thread_info() warn: incons=
-istent indenting
+drivers/pci/controller/dwc/pcie-keembay.c:301 thunderbay_pcie_rc_dma_cfg() =
+warn: passing zero to 'PTR_ERR'
 
-vim +/ret +172 kernel/locking/test-ww_mutex.c
+vim +/ret +255 drivers/pci/controller/dwc/pcie-keembay.c
 
-f2a5fec17395f2 Chris Wilson      2016-12-01  120  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  219  =
 
-53956aadc1f375 Maarten Lankhorst 2021-09-09  121  static int test_aa(bool t=
-rylock)
-c22fb3807fd0a3 Chris Wilson      2016-12-01  122  {
-c22fb3807fd0a3 Chris Wilson      2016-12-01  123  	struct ww_mutex mutex;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  124  	struct ww_acquire_ctx ct=
-x;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  125  	int ret;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  126  	const char *from =3D try=
-lock ? "trylock" : "lock";
-c22fb3807fd0a3 Chris Wilson      2016-12-01  127  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  220  static int
+28f72667fffb64 Srikanth Thokala 2021-09-16  221  thunderbay_pcie_host_rd_ot=
+her_conf(struct pci_bus *bus, unsigned int devfn,
+28f72667fffb64 Srikanth Thokala 2021-09-16  222  				   int where, int size=
+, u32 *val)
+28f72667fffb64 Srikanth Thokala 2021-09-16  223  {
+28f72667fffb64 Srikanth Thokala 2021-09-16  224  	struct pcie_port *pp =3D =
+bus->sysdata;
+28f72667fffb64 Srikanth Thokala 2021-09-16  225  	struct keembay_pcie *pcie;
+28f72667fffb64 Srikanth Thokala 2021-09-16  226  	int ret, where_align;
+28f72667fffb64 Srikanth Thokala 2021-09-16  227  	struct dw_pcie *pci;
+28f72667fffb64 Srikanth Thokala 2021-09-16  228  =
 
-c22fb3807fd0a3 Chris Wilson      2016-12-01  128  	ww_mutex_init(&mutex, &w=
-w_class);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  129  	ww_acquire_init(&ctx, &w=
-w_class);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  130  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  229  	pci =3D to_dw_pcie_from_p=
+p(pp);
+28f72667fffb64 Srikanth Thokala 2021-09-16  230  	pcie =3D dev_get_drvdata(=
+pci->dev);
+28f72667fffb64 Srikanth Thokala 2021-09-16  231  =
 
-53956aadc1f375 Maarten Lankhorst 2021-09-09  131  	if (!trylock) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  132  		ret =3D ww_mutex_lock(&=
-mutex, &ctx);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  133  		if (ret) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  134  			pr_err("%s: initial lo=
-ck failed!\n", __func__);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  135  			goto out;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  136  		}
-53956aadc1f375 Maarten Lankhorst 2021-09-09  137  	} else {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  138  		if (!ww_mutex_trylock(&=
-mutex, &ctx)) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  139  			pr_err("%s: initial tr=
-ylock failed!\n", __func__);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  140  			goto out;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  141  		}
-53956aadc1f375 Maarten Lankhorst 2021-09-09  142  	}
-53956aadc1f375 Maarten Lankhorst 2021-09-09  143  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  232  	if (pcie->rc_dma) {
+28f72667fffb64 Srikanth Thokala 2021-09-16  233  		where_align =3D where & =
+~((typeof(where))(4) - 1);
+28f72667fffb64 Srikanth Thokala 2021-09-16  234  		if (thunderbay_pcie_rc_d=
+ma_rd(pp,
+28f72667fffb64 Srikanth Thokala 2021-09-16  235  					      pcie->rd_dma_ch=
+an,
+28f72667fffb64 Srikanth Thokala 2021-09-16  236  					      pcie->rc_dma_me=
+m_pa + where_align,
+28f72667fffb64 Srikanth Thokala 2021-09-16  237  					      pp->cfg0_base +=
+ where_align,
+28f72667fffb64 Srikanth Thokala 2021-09-16  238  					      4))
+28f72667fffb64 Srikanth Thokala 2021-09-16  239  			ret =3D PCIBIOS_BAD_REG=
+ISTER_NUMBER;
+28f72667fffb64 Srikanth Thokala 2021-09-16  240  =
 
-53956aadc1f375 Maarten Lankhorst 2021-09-09  144  	if (ww_mutex_trylock(&mu=
-tex, NULL))  {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  145  		pr_err("%s: trylocked i=
-tself without context from %s!\n", __func__, from);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  146  		ww_mutex_unlock(&mutex);
-53956aadc1f375 Maarten Lankhorst 2021-09-09  147  		ret =3D -EINVAL;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  148  		goto out;
-53956aadc1f375 Maarten Lankhorst 2021-09-09  149  	}
-c22fb3807fd0a3 Chris Wilson      2016-12-01  150  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  241  		*val =3D *((int *)(pcie-=
+>rc_dma_mem_va + where));
+28f72667fffb64 Srikanth Thokala 2021-09-16  242  =
 
-53956aadc1f375 Maarten Lankhorst 2021-09-09  151  	if (ww_mutex_trylock(&mu=
-tex, &ctx))  {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  152  		pr_err("%s: trylocked i=
-tself with context from %s!\n", __func__, from);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  153  		ww_mutex_unlock(&mutex);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  154  		ret =3D -EINVAL;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  155  		goto out;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  156  	}
-c22fb3807fd0a3 Chris Wilson      2016-12-01  157  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  243  		if (size =3D=3D 4)
+28f72667fffb64 Srikanth Thokala 2021-09-16  244  			*val &=3D 0xFFFFFFFF;
+28f72667fffb64 Srikanth Thokala 2021-09-16  245  		else if (size =3D=3D 2)
+28f72667fffb64 Srikanth Thokala 2021-09-16  246  			*val &=3D 0xFFFF;
+28f72667fffb64 Srikanth Thokala 2021-09-16  247  		else if (size =3D=3D 1)
+28f72667fffb64 Srikanth Thokala 2021-09-16  248  			*val &=3D 0xFF;
+28f72667fffb64 Srikanth Thokala 2021-09-16  249  		else
+28f72667fffb64 Srikanth Thokala 2021-09-16  250  			ret =3D PCIBIOS_BAD_REG=
+ISTER_NUMBER;
+28f72667fffb64 Srikanth Thokala 2021-09-16  251  	} else {
+28f72667fffb64 Srikanth Thokala 2021-09-16  252  		ret =3D dw_pcie_read(pp-=
+>va_cfg0_base + where, size, val);
+28f72667fffb64 Srikanth Thokala 2021-09-16  253  	}
+28f72667fffb64 Srikanth Thokala 2021-09-16  254  =
 
-c22fb3807fd0a3 Chris Wilson      2016-12-01  158  	ret =3D ww_mutex_lock(&m=
-utex, &ctx);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  159  	if (ret !=3D -EALREADY) {
-53956aadc1f375 Maarten Lankhorst 2021-09-09  160  		pr_err("%s: missed dead=
-lock for recursing, ret=3D%d from %s\n",
-53956aadc1f375 Maarten Lankhorst 2021-09-09  161  		       __func__, ret, f=
-rom);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  162  		if (!ret)
-c22fb3807fd0a3 Chris Wilson      2016-12-01  163  			ww_mutex_unlock(&mutex=
-);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  164  		ret =3D -EINVAL;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  165  		goto out;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  166  	}
-c22fb3807fd0a3 Chris Wilson      2016-12-01  167  =
+28f72667fffb64 Srikanth Thokala 2021-09-16 @255  	return ret;
+28f72667fffb64 Srikanth Thokala 2021-09-16  256  }
+28f72667fffb64 Srikanth Thokala 2021-09-16  257  =
 
-53956aadc1f375 Maarten Lankhorst 2021-09-09  168  	ww_mutex_unlock(&mutex);
-c22fb3807fd0a3 Chris Wilson      2016-12-01  169  	ret =3D 0;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  170  out:
-c22fb3807fd0a3 Chris Wilson      2016-12-01  171  	ww_acquire_fini(&ctx);
-c22fb3807fd0a3 Chris Wilson      2016-12-01 @172  	return ret;
-c22fb3807fd0a3 Chris Wilson      2016-12-01  173  }
-c22fb3807fd0a3 Chris Wilson      2016-12-01  174  =
+28f72667fffb64 Srikanth Thokala 2021-09-16  258  static struct pci_ops thun=
+derbay_child_pci_ops =3D {
+28f72667fffb64 Srikanth Thokala 2021-09-16  259  	.map_bus =3D thunderbay_p=
+cie_conf_addr_map_bus,
+28f72667fffb64 Srikanth Thokala 2021-09-16  260  	.read =3D thunderbay_pcie=
+_host_rd_other_conf,
+28f72667fffb64 Srikanth Thokala 2021-09-16  261  	.write =3D pci_generic_co=
+nfig_write,
+28f72667fffb64 Srikanth Thokala 2021-09-16  262  };
+28f72667fffb64 Srikanth Thokala 2021-09-16  263  =
 
+28f72667fffb64 Srikanth Thokala 2021-09-16  264  static int thunderbay_pcie=
+_rc_dma_cfg(struct keembay_pcie *pcie,
+28f72667fffb64 Srikanth Thokala 2021-09-16  265  				      struct platform_=
+device *pdev)
+28f72667fffb64 Srikanth Thokala 2021-09-16  266  {
+28f72667fffb64 Srikanth Thokala 2021-09-16  267  	struct dw_pcie *pci =3D &=
+pcie->pci;
+28f72667fffb64 Srikanth Thokala 2021-09-16  268  	struct device *dev =3D &p=
+dev->dev;
+28f72667fffb64 Srikanth Thokala 2021-09-16  269  	struct dma_chan *rd_chan;
+28f72667fffb64 Srikanth Thokala 2021-09-16  270  	dma_addr_t phys;
+28f72667fffb64 Srikanth Thokala 2021-09-16  271  	void *segment;
+28f72667fffb64 Srikanth Thokala 2021-09-16  272  	int ret;
+28f72667fffb64 Srikanth Thokala 2021-09-16  273  =
 
-:::::: The code at line 172 was first introduced by commit
-:::::: c22fb3807fd0a3bdd98c13c4d2190ab064e6c09d locking/ww_mutex: Add kself=
-tests for ww_mutex AA deadlock detection
+28f72667fffb64 Srikanth Thokala 2021-09-16  274  	ret =3D dma_set_mask_and_=
+coherent(dev, DMA_BIT_MASK(64));
+28f72667fffb64 Srikanth Thokala 2021-09-16  275  	if (ret)
+28f72667fffb64 Srikanth Thokala 2021-09-16  276  		dev_warn(dev, "failed to=
+ set dma mask\n");
+28f72667fffb64 Srikanth Thokala 2021-09-16  277  =
 
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+28f72667fffb64 Srikanth Thokala 2021-09-16  278  	rd_chan =3D dma_request_c=
+han(&pdev->dev, "rx");
+28f72667fffb64 Srikanth Thokala 2021-09-16  279  	if (IS_ERR(rd_chan)) {
+28f72667fffb64 Srikanth Thokala 2021-09-16  280  		ret =3D PTR_ERR(rd_chan);
+28f72667fffb64 Srikanth Thokala 2021-09-16  281  		if (ret !=3D -EPROBE_DEF=
+ER)
+28f72667fffb64 Srikanth Thokala 2021-09-16  282  			dev_err(dev, "No RC AXI=
+ DMA Rd channel available\n");
+28f72667fffb64 Srikanth Thokala 2021-09-16  283  		return ret;
+28f72667fffb64 Srikanth Thokala 2021-09-16  284  	}
+28f72667fffb64 Srikanth Thokala 2021-09-16  285  	pcie->rd_dma_chan =3D rd_=
+chan;
+28f72667fffb64 Srikanth Thokala 2021-09-16  286  =
+
+28f72667fffb64 Srikanth Thokala 2021-09-16  287  	pcie->rc_dma_pool =3D dma=
+_pool_create("thb_pcie_rc_dma_pool",
+28f72667fffb64 Srikanth Thokala 2021-09-16  288  					    pci->dev,
+28f72667fffb64 Srikanth Thokala 2021-09-16  289  					    PAGE_SIZE,
+28f72667fffb64 Srikanth Thokala 2021-09-16  290  					    PAGE_SIZE,
+28f72667fffb64 Srikanth Thokala 2021-09-16  291  					    0);
+28f72667fffb64 Srikanth Thokala 2021-09-16  292  	if (!pcie->rc_dma_pool) {
+28f72667fffb64 Srikanth Thokala 2021-09-16  293  		dev_err(dev, "unable to =
+allocate RC AXI DMA pool\n");
+28f72667fffb64 Srikanth Thokala 2021-09-16 @294  		ret =3D PTR_ERR(pcie->rc=
+_dma_pool);
+28f72667fffb64 Srikanth Thokala 2021-09-16  295  		goto free_dma_channel;
+28f72667fffb64 Srikanth Thokala 2021-09-16  296  	}
+28f72667fffb64 Srikanth Thokala 2021-09-16  297  =
+
+28f72667fffb64 Srikanth Thokala 2021-09-16  298  	segment =3D dma_pool_zall=
+oc(pcie->rc_dma_pool, GFP_ATOMIC, &phys);
+28f72667fffb64 Srikanth Thokala 2021-09-16  299  	if (!segment) {
+28f72667fffb64 Srikanth Thokala 2021-09-16  300  		dev_err(dev, "unable to =
+get mem from RC AXI DMA pool\n");
+28f72667fffb64 Srikanth Thokala 2021-09-16  301  		ret =3D PTR_ERR(segment);
+28f72667fffb64 Srikanth Thokala 2021-09-16  302  		goto free_dma_pool;
+28f72667fffb64 Srikanth Thokala 2021-09-16  303  	}
+28f72667fffb64 Srikanth Thokala 2021-09-16  304  	pcie->rc_dma_mem_pa =3D p=
+hys;
+28f72667fffb64 Srikanth Thokala 2021-09-16  305  	pcie->rc_dma_mem_va =3D s=
+egment;
+28f72667fffb64 Srikanth Thokala 2021-09-16  306  =
+
+28f72667fffb64 Srikanth Thokala 2021-09-16  307  	return 0;
+28f72667fffb64 Srikanth Thokala 2021-09-16  308  =
+
+28f72667fffb64 Srikanth Thokala 2021-09-16  309  free_dma_channel:
+28f72667fffb64 Srikanth Thokala 2021-09-16  310  	dma_release_channel(pcie-=
+>rd_dma_chan);
+28f72667fffb64 Srikanth Thokala 2021-09-16  311  free_dma_pool:
+28f72667fffb64 Srikanth Thokala 2021-09-16  312  	dma_pool_destroy(pcie->rc=
+_dma_pool);
+28f72667fffb64 Srikanth Thokala 2021-09-16  313  =
+
+28f72667fffb64 Srikanth Thokala 2021-09-16  314  	return ret;
+28f72667fffb64 Srikanth Thokala 2021-09-16  315  }
+28f72667fffb64 Srikanth Thokala 2021-09-16  316  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0322806420684507263==--
+--===============2585902835214899305==--
 
