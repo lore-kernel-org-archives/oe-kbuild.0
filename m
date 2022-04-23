@@ -1,393 +1,178 @@
-Content-Type: multipart/mixed; boundary="===============3503142536120392175=="
+Content-Type: multipart/mixed; boundary="===============2561072334847265417=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [bvanassche:ufs-for-next 30/30] drivers/ufs/core/ufshcd.c:699:23: warning: Value stored to 'priv' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 24 Apr 2022 00:29:05 +0800
-Message-ID: <202204240001.PHb9Wbua-lkp@intel.com>
+Subject: [hch-misc:btrfs-bio-cleanup-part3 149/174] fs/btrfs/delayed-inode.c:1885:24: warning: Uninitialized variables: delayed_node.inode_id, delayed_node.bytes_reserved, delayed_node.root, delayed_node.n_list, delayed_node.p_list, delayed_node.ins_root, delayed_node.del_root, delayed_node.mutex, delayed_...
+Date: Sun, 24 Apr 2022 00:18:48 +0800
+Message-ID: <202204240018.wqwQfwZK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3503142536120392175==
+--===============2561072334847265417==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
+TO: David Sterba <dsterba@suse.com>
 
-tree:   https://github.com/bvanassche/linux ufs-for-next
-head:   364862347ebdd7a5e122b6ab6892b307759cce2a
-commit: 364862347ebdd7a5e122b6ab6892b307759cce2a [30/30] scsi: ufs: Split s=
-truct ufs_hba
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-c002-20220422 (https://download.01.org/0day-ci/archi=
-ve/20220424/202204240001.PHb9Wbua-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5bd873=
-50a5ae429baf8f373cb226a57b62f87280)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/bvanassche/linux/commit/364862347ebdd7a5e122b6=
-ab6892b307759cce2a
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche ufs-for-next
-        git checkout 364862347ebdd7a5e122b6ab6892b307759cce2a
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   git://git.infradead.org/users/hch/misc.git btrfs-bio-cleanup-part3
+head:   50401c1bd218c77092656710b2fc11b3b246679f
+commit: 7aa9b9c7184d8d2a72aef3ad09ecb628519f44a4 [149/174] btrfs: convert d=
+elayed_nodes_tree into an xarray
+:::::: branch date: 11 hours ago
+:::::: commit date: 19 hours ago
+compiler: microblaze-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 7aa9b9c7184d8d2a72aef3ad09ecb628519f44a4
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~
-   drivers/usb/storage/ene_ub6250.c:2020:13: note: Left side of '&&' is fal=
-se
-           if (result && (btBlk2nd !=3D MS_LB_NOT_USED))
-                      ^
-   drivers/usb/storage/ene_ub6250.c:2023:6: note: 'result' is 0
-           if (result) {
-               ^~~~~~
-   drivers/usb/storage/ene_ub6250.c:2023:2: note: Taking false branch
-           if (result) {
-           ^
-   drivers/usb/storage/ene_ub6250.c:2028:2: note: Loop condition is false. =
-Execution continues on line 2031
-           for (TmpBlock =3D 0; TmpBlock < btBlk1st; TmpBlock++)
-           ^
-   drivers/usb/storage/ene_ub6250.c:2031:36: note: Array access (via field =
-'Phy2LogMap') results in a null pointer dereference
-           info->MS_Lib.Phy2LogMap[btBlk1st] =3D MS_LB_BOOT_BLOCK;
-                        ~~~~~~~~~~           ^
-   drivers/usb/storage/ene_ub6250.c:2088:2: warning: Call to function 'mems=
-et' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memset_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(bcb, 0, sizeof(struct bulk_cb_wrap));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/storage/ene_ub6250.c:2088:2: note: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11
-           memset(bcb, 0, sizeof(struct bulk_cb_wrap));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/storage/ene_ub6250.c:2141:2: warning: Call to function 'mems=
-et' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memset_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(bcb, 0, sizeof(struct bulk_cb_wrap));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/storage/ene_ub6250.c:2141:2: note: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11
-           memset(bcb, 0, sizeof(struct bulk_cb_wrap));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/storage/ene_ub6250.c:2159:2: warning: Call to function 'mems=
-et' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memset_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(bcb, 0, sizeof(struct bulk_cb_wrap));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/storage/ene_ub6250.c:2159:2: note: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11
-           memset(bcb, 0, sizeof(struct bulk_cb_wrap));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 59 warnings (59 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   58 warnings generated.
-   Suppressed 58 warnings (58 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   57 warnings generated.
-   Suppressed 57 warnings (57 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   Suppressed 23 warnings (23 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   124 warnings generated.
->> drivers/ufs/core/ufshcd.c:699:23: warning: Value stored to 'priv' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
-ba);
-                                ^~~~
-   drivers/ufs/core/ufshcd.c:699:23: note: Value stored to 'priv' during it=
-s initialization is never read
-           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
-ba);
-                                ^~~~
-   drivers/ufs/core/ufshcd.c:951:23: warning: Value stored to 'priv' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
-ba);
-                                ^~~~
-   drivers/ufs/core/ufshcd.c:951:23: note: Value stored to 'priv' during it=
-s initialization is never read
-           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
-ba);
-                                ^~~~
-   drivers/ufs/core/ufshcd.c:1199:3: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&new_pwr_info, &priv->clk_scaling.saved_pwr_info.=
-info,
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:1199:3: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(&new_pwr_info, &priv->clk_scaling.saved_pwr_info.=
-info,
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:1202:3: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&new_pwr_info, &hba->pwr_info,
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:1202:3: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(&new_pwr_info, &hba->pwr_info,
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:1208:4: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&priv->clk_scaling.saved_pwr_info.info,
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:1208:4: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&priv->clk_scaling.saved_pwr_info.info,
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:1428:2: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(stat, 0, sizeof(*stat));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/priv +699 drivers/ufs/core/ufshcd.c
+   In file included from fs/btrfs/delayed-inode.c:
+   fs/btrfs/delayed-inode.c:1347:31: warning: Parameter 'disk_key' can be d=
+eclared with const [constParameter]
+          struct btrfs_disk_key *disk_key, u8 type,
+                                 ^
+   fs/btrfs/delayed-inode.c:1577:13: warning: Uninitialized variable: curr-=
+>key [uninitvar]
+     if (curr->key.offset > index)
+               ^
+   fs/btrfs/delayed-inode.c:1613:13: warning: Uninitialized variable: curr-=
+>key [uninitvar]
+     if (curr->key.offset < ctx->pos) {
+               ^
+   fs/btrfs/delayed-inode.c:1602:16: note: Assuming condition is false
+    if (list_empty(ins_list))
+                  ^
+   fs/btrfs/delayed-inode.c:1613:13: note: Uninitialized variable: curr->key
+     if (curr->key.offset < ctx->pos) {
+               ^
+>> fs/btrfs/delayed-inode.c:1885:24: warning: Uninitialized variables: dela=
+yed_node.inode_id, delayed_node.bytes_reserved, delayed_node.root, delayed_=
+node.n_list, delayed_node.p_list, delayed_node.ins_root, delayed_node.del_r=
+oot, delayed_node.mutex, delayed_node.inode_item, delayed_node.index_cnt, d=
+elayed_node.flags, delayed_node.count [uninitvar]
+       delayed_nodes[n] =3D delayed_node;
+                          ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1873:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1885:24: note: Uninitialized variables: delayed=
+_node.inode_id, delayed_node.bytes_reserved, delayed_node.root, delayed_nod=
+e.n_list, delayed_node.p_list, delayed_node.ins_root, delayed_node.del_root=
+, delayed_node.mutex, delayed_node.inode_item, delayed_node.index_cnt, dela=
+yed_node.flags, delayed_node.count
+       delayed_nodes[n] =3D delayed_node;
+                          ^
 
-5a0b0cb9bee767 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2013-07-30  690=
-  =
+vim +1885 fs/btrfs/delayed-inode.c
 
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  691=
-  /**
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  692=
-   * ufshcd_get_intr_mask - Get the interrupt bit mask
-8aa29f192ca675 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2018-03-01  693=
-   * @hba: Pointer to adapter instance
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  694=
-   *
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  695=
-   * Returns interrupt bit mask per version
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  696=
-   */
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  697=
-  static inline u32 ufshcd_get_intr_mask(struct ufs_hba *hba)
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  698=
-  {
-364862347ebdd7 drivers/ufs/core/ufshcd.c Bart Van Assche    2022-03-19 @699=
-  	struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), hba);
-364862347ebdd7 drivers/ufs/core/ufshcd.c Bart Van Assche    2022-03-19  700=
-  =
+16cdcec736cd2143 Miao Xie        2011-04-22  1863  =
 
-5142881801786a drivers/scsi/ufs/ufshcd.c Caleb Connolly     2021-03-10  701=
-  	if (hba->ufs_version =3D=3D ufshci_version(1, 0))
-5142881801786a drivers/scsi/ufs/ufshcd.c Caleb Connolly     2021-03-10  702=
-  		return INTERRUPT_MASK_ALL_VER_10;
-5142881801786a drivers/scsi/ufs/ufshcd.c Caleb Connolly     2021-03-10  703=
-  	if (hba->ufs_version <=3D ufshci_version(2, 0))
-5142881801786a drivers/scsi/ufs/ufshcd.c Caleb Connolly     2021-03-10  704=
-  		return INTERRUPT_MASK_ALL_VER_11;
-c01848c67d48aa drivers/scsi/ufs/ufshcd.c Yaniv Gardi        2016-12-05  705=
-  =
+16cdcec736cd2143 Miao Xie        2011-04-22  1864  void btrfs_kill_all_dela=
+yed_nodes(struct btrfs_root *root)
+16cdcec736cd2143 Miao Xie        2011-04-22  1865  {
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1866  	unsigned long index =3D=
+ 0;
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1867  	struct btrfs_delayed_no=
+de *delayed_node;
+16cdcec736cd2143 Miao Xie        2011-04-22  1868  	struct btrfs_delayed_no=
+de *delayed_nodes[8];
+16cdcec736cd2143 Miao Xie        2011-04-22  1869  	int i, n;
+16cdcec736cd2143 Miao Xie        2011-04-22  1870  =
 
-5142881801786a drivers/scsi/ufs/ufshcd.c Caleb Connolly     2021-03-10  706=
-  	return INTERRUPT_MASK_ALL_VER_21;
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  707=
-  }
-2fbd009b40967f drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  708=
-  =
+16cdcec736cd2143 Miao Xie        2011-04-22  1871  	while (1) {
+16cdcec736cd2143 Miao Xie        2011-04-22  1872  		spin_lock(&root->inode=
+_lock);
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1873  		if (xa_empty(&root->de=
+layed_nodes)) {
+16cdcec736cd2143 Miao Xie        2011-04-22  1874  			spin_unlock(&root->in=
+ode_lock);
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1875  			return;
+16cdcec736cd2143 Miao Xie        2011-04-22  1876  		}
+16cdcec736cd2143 Miao Xie        2011-04-22  1877  =
+
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1878  		n =3D 0;
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1879  		xa_for_each_start(&roo=
+t->delayed_nodes, index, delayed_node, index) {
+baf320b9d531f1cf Josef Bacik     2019-09-26  1880  			/*
+baf320b9d531f1cf Josef Bacik     2019-09-26  1881  			 * Don't increase ref=
+s in case the node is dead and
+baf320b9d531f1cf Josef Bacik     2019-09-26  1882  			 * about to be remove=
+d from the tree in the loop below
+baf320b9d531f1cf Josef Bacik     2019-09-26  1883  			 */
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1884  			if (refcount_inc_not_=
+zero(&delayed_node->refs)) {
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19 @1885  				delayed_nodes[n] =3D=
+ delayed_node;
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1886  				n++;
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1887  			}
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1888  			if (n >=3D ARRAY_SIZE=
+(delayed_nodes))
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1889  				break;
+baf320b9d531f1cf Josef Bacik     2019-09-26  1890  		}
+7aa9b9c7184d8d2a Gabriel Niebler 2022-04-19  1891  		index++;
+16cdcec736cd2143 Miao Xie        2011-04-22  1892  		spin_unlock(&root->ino=
+de_lock);
+16cdcec736cd2143 Miao Xie        2011-04-22  1893  =
+
+16cdcec736cd2143 Miao Xie        2011-04-22  1894  		for (i =3D 0; i < n; i=
+++) {
+baf320b9d531f1cf Josef Bacik     2019-09-26  1895  			if (!delayed_nodes[i])
+baf320b9d531f1cf Josef Bacik     2019-09-26  1896  				continue;
+16cdcec736cd2143 Miao Xie        2011-04-22  1897  			__btrfs_kill_delayed_=
+node(delayed_nodes[i]);
+16cdcec736cd2143 Miao Xie        2011-04-22  1898  			btrfs_release_delayed=
+_node(delayed_nodes[i]);
+16cdcec736cd2143 Miao Xie        2011-04-22  1899  		}
+16cdcec736cd2143 Miao Xie        2011-04-22  1900  	}
+16cdcec736cd2143 Miao Xie        2011-04-22  1901  }
+67cde3448d951b55 Miao Xie        2012-06-14  1902  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3503142536120392175==--
+--===============2561072334847265417==--
 
