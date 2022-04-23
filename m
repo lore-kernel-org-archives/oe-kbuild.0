@@ -1,126 +1,137 @@
-Content-Type: multipart/mixed; boundary="===============6648892380214946461=="
+Content-Type: multipart/mixed; boundary="===============0322806420684507263=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:btrfs-bio-cleanup-part3 150/174] fs/btrfs/extent_io.c:7351:11: warning: Uninitialized variable: eb->start [uninitvar]
-Date: Sat, 23 Apr 2022 22:57:21 +0800
-Message-ID: <202204232243.vHIq5kea-lkp@intel.com>
+Subject: [intel-lts:5.15/linux 336/2399] kernel/locking/test-ww_mutex.c:172 test_aa() error: uninitialized symbol 'ret'.
+Date: Sat, 23 Apr 2022 22:37:09 +0800
+Message-ID: <202204232207.IFJFpWSp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6648892380214946461==
+--===============0322806420684507263==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: David Sterba <dsterba@suse.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Junxiao Chang <junxiao.chang@intel.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git btrfs-bio-cleanup-part3
-head:   50401c1bd218c77092656710b2fc11b3b246679f
-commit: 729304c6cee94973c16115c985ba32a665bfacca [150/174] btrfs: Turn fs_i=
-nfo member buffer_radix into XArray
-:::::: branch date: 9 hours ago
-:::::: commit date: 17 hours ago
-compiler: microblaze-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 729304c6cee94973c16115c985ba32a665bfacca
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   7acd0be121091f12349a4dcefd2e6deee2e73946
+commit: 53956aadc1f3755f43e9a8d6741cb2b1d4c58ac6 [336/2399] kernel/locking:=
+ Add context to ww_mutex_trylock()
+:::::: branch date: 4 days ago
+:::::: commit date: 9 weeks ago
+config: xtensa-randconfig-m031-20220422 (https://download.01.org/0day-ci/ar=
+chive/20220423/202204232207.IFJFpWSp-lkp(a)intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+kernel/locking/test-ww_mutex.c:172 test_aa() error: uninitialized symbol 'r=
+et'.
+
+Old smatch warnings:
+arch/xtensa/include/asm/thread_info.h:91 current_thread_info() warn: incons=
+istent indenting
+
+vim +/ret +172 kernel/locking/test-ww_mutex.c
+
+f2a5fec17395f2 Chris Wilson      2016-12-01  120  =
+
+53956aadc1f375 Maarten Lankhorst 2021-09-09  121  static int test_aa(bool t=
+rylock)
+c22fb3807fd0a3 Chris Wilson      2016-12-01  122  {
+c22fb3807fd0a3 Chris Wilson      2016-12-01  123  	struct ww_mutex mutex;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  124  	struct ww_acquire_ctx ct=
+x;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  125  	int ret;
+53956aadc1f375 Maarten Lankhorst 2021-09-09  126  	const char *from =3D try=
+lock ? "trylock" : "lock";
+c22fb3807fd0a3 Chris Wilson      2016-12-01  127  =
+
+c22fb3807fd0a3 Chris Wilson      2016-12-01  128  	ww_mutex_init(&mutex, &w=
+w_class);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  129  	ww_acquire_init(&ctx, &w=
+w_class);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  130  =
+
+53956aadc1f375 Maarten Lankhorst 2021-09-09  131  	if (!trylock) {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  132  		ret =3D ww_mutex_lock(&=
+mutex, &ctx);
+53956aadc1f375 Maarten Lankhorst 2021-09-09  133  		if (ret) {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  134  			pr_err("%s: initial lo=
+ck failed!\n", __func__);
+53956aadc1f375 Maarten Lankhorst 2021-09-09  135  			goto out;
+53956aadc1f375 Maarten Lankhorst 2021-09-09  136  		}
+53956aadc1f375 Maarten Lankhorst 2021-09-09  137  	} else {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  138  		if (!ww_mutex_trylock(&=
+mutex, &ctx)) {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  139  			pr_err("%s: initial tr=
+ylock failed!\n", __func__);
+53956aadc1f375 Maarten Lankhorst 2021-09-09  140  			goto out;
+53956aadc1f375 Maarten Lankhorst 2021-09-09  141  		}
+53956aadc1f375 Maarten Lankhorst 2021-09-09  142  	}
+53956aadc1f375 Maarten Lankhorst 2021-09-09  143  =
+
+53956aadc1f375 Maarten Lankhorst 2021-09-09  144  	if (ww_mutex_trylock(&mu=
+tex, NULL))  {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  145  		pr_err("%s: trylocked i=
+tself without context from %s!\n", __func__, from);
+53956aadc1f375 Maarten Lankhorst 2021-09-09  146  		ww_mutex_unlock(&mutex);
+53956aadc1f375 Maarten Lankhorst 2021-09-09  147  		ret =3D -EINVAL;
+53956aadc1f375 Maarten Lankhorst 2021-09-09  148  		goto out;
+53956aadc1f375 Maarten Lankhorst 2021-09-09  149  	}
+c22fb3807fd0a3 Chris Wilson      2016-12-01  150  =
+
+53956aadc1f375 Maarten Lankhorst 2021-09-09  151  	if (ww_mutex_trylock(&mu=
+tex, &ctx))  {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  152  		pr_err("%s: trylocked i=
+tself with context from %s!\n", __func__, from);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  153  		ww_mutex_unlock(&mutex);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  154  		ret =3D -EINVAL;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  155  		goto out;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  156  	}
+c22fb3807fd0a3 Chris Wilson      2016-12-01  157  =
+
+c22fb3807fd0a3 Chris Wilson      2016-12-01  158  	ret =3D ww_mutex_lock(&m=
+utex, &ctx);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  159  	if (ret !=3D -EALREADY) {
+53956aadc1f375 Maarten Lankhorst 2021-09-09  160  		pr_err("%s: missed dead=
+lock for recursing, ret=3D%d from %s\n",
+53956aadc1f375 Maarten Lankhorst 2021-09-09  161  		       __func__, ret, f=
+rom);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  162  		if (!ret)
+c22fb3807fd0a3 Chris Wilson      2016-12-01  163  			ww_mutex_unlock(&mutex=
+);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  164  		ret =3D -EINVAL;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  165  		goto out;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  166  	}
+c22fb3807fd0a3 Chris Wilson      2016-12-01  167  =
+
+53956aadc1f375 Maarten Lankhorst 2021-09-09  168  	ww_mutex_unlock(&mutex);
+c22fb3807fd0a3 Chris Wilson      2016-12-01  169  	ret =3D 0;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  170  out:
+c22fb3807fd0a3 Chris Wilson      2016-12-01  171  	ww_acquire_fini(&ctx);
+c22fb3807fd0a3 Chris Wilson      2016-12-01 @172  	return ret;
+c22fb3807fd0a3 Chris Wilson      2016-12-01  173  }
+c22fb3807fd0a3 Chris Wilson      2016-12-01  174  =
 
 
-cppcheck warnings: (new ones prefixed by >>)
-                 ^
-   fs/btrfs/extent_io.c:5984:7: warning: Local variable 'ret' shadows outer=
- variable [shadowVariable]
-     int ret;
-         ^
-   fs/btrfs/extent_io.c:5963:6: note: Shadowed declaration
-    int ret;
-        ^
-   fs/btrfs/extent_io.c:5984:7: note: Shadow variable
-     int ret;
-         ^
+:::::: The code at line 172 was first introduced by commit
+:::::: c22fb3807fd0a3bdd98c13c4d2190ab064e6c09d locking/ww_mutex: Add kself=
+tests for ww_mutex AA deadlock detection
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
-                 ^
-   fs/btrfs/extent_io.c:381:26: warning: Parameter 'p_in' can be declared w=
-ith const [constParameter]
-          struct rb_node ***p_in,
-                            ^
-   fs/btrfs/extent_io.c:382:25: warning: Parameter 'parent_in' can be decla=
-red with const [constParameter]
-          struct rb_node **parent_in)
-                           ^
-   fs/btrfs/extent_io.c:1835:30: warning: Parameter 'mapping' can be declar=
-ed with const [constParameter]
-          struct address_space *mapping,
-                                ^
-   fs/btrfs/extent_io.c:1836:40: warning: Parameter 'locked_page' can be de=
-clared with const [constParameter]
-          struct page *page, struct page *locked_page,
-                                          ^
-   fs/btrfs/extent_io.c:6084:16: warning: Parameter 'accessed' can be decla=
-red with const [constParameter]
-     struct page *accessed)
-                  ^
->> fs/btrfs/extent_io.c:7351:11: warning: Uninitialized variable: eb->start=
- [uninitvar]
-     if (eb->start >=3D page_start + PAGE_SIZE)
-             ^
-
-vim +7351 fs/btrfs/extent_io.c
-
-6af118ce51b52c Chris Mason     2008-07-22  7337  =
-
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7338  static struct extent_buffe=
-r *get_next_extent_buffer(
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7339  		struct btrfs_fs_info *fs=
-_info, struct page *page, u64 bytenr)
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7340  {
-729304c6cee949 Gabriel Niebler 2022-04-21  7341  	struct extent_buffer *eb;
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7342  	struct extent_buffer *fou=
-nd =3D NULL;
-729304c6cee949 Gabriel Niebler 2022-04-21  7343  	unsigned long index;
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7344  	u64 page_start =3D page_o=
-ffset(page);
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7345  =
-
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7346  	ASSERT(in_range(bytenr, p=
-age_start, PAGE_SIZE));
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7347  	lockdep_assert_held(&fs_i=
-nfo->buffer_lock);
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7348  =
-
-729304c6cee949 Gabriel Niebler 2022-04-21  7349  	xa_for_each_start(&fs_inf=
-o->extent_buffers, index, eb,
-729304c6cee949 Gabriel Niebler 2022-04-21  7350  			  page_start >> fs_info=
-->sectorsize_bits) {
-729304c6cee949 Gabriel Niebler 2022-04-21 @7351  		if (eb->start >=3D page_=
-start + PAGE_SIZE)
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7352  		        /* Already beyon=
-d page end */
-729304c6cee949 Gabriel Niebler 2022-04-21  7353  			break;
-729304c6cee949 Gabriel Niebler 2022-04-21  7354  		if (eb->start >=3D byten=
-r) {
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7355  			/* Found one */
-729304c6cee949 Gabriel Niebler 2022-04-21  7356  			found =3D eb;
-729304c6cee949 Gabriel Niebler 2022-04-21  7357  			break;
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7358  		}
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7359  	}
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7360  	return found;
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7361  }
-d1e86e3fc34f24 Qu Wenruo       2021-01-26  7362  =
-
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6648892380214946461==--
+--===============0322806420684507263==--
 
