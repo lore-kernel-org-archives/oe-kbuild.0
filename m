@@ -1,179 +1,395 @@
-Content-Type: multipart/mixed; boundary="===============7703965174989088951=="
+Content-Type: multipart/mixed; boundary="===============0336897650819668612=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-maple 35/44] fs/netfs/buffered_write.c:87:34: warning: Parameter '_target' can be declared with const [constParameter]
-Date: Sat, 23 Apr 2022 17:39:53 +0800
-Message-ID: <202204231751.mBg6xhyn-lkp@intel.com>
+Subject: net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sat, 23 Apr 2022 15:30:13 +0800
+Message-ID: <202204231540.rEC33b4r-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7703965174989088951==
+--===============0336897650819668612==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Matt Johnston <matt@codeconstruct.com.au>
+CC: Jeremy Kerr <jk@codeconstruct.com.au>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
-maple
-head:   931e50676c6598d0eda1954ead465519ff91874d
-commit: f343507aeda88b2f1a528a659b8fadaa9b6b0f79 [35/44] netfs: Implement b=
-uffered writes through netfs_file_write_iter()
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-compiler: arc-elf-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout f343507aeda88b2f1a528a659b8fadaa9b6b0f79
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c00c5e1d157bec0ef0b0b59aa5482eb8dc7e8e49
+commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa mctp: Add SIOCMCTP{ALLOC,D=
+ROP}TAG ioctls for tag control
+date:   2 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 2 months ago
+config: mips-randconfig-c004-20220421 (https://download.01.org/0day-ci/arch=
+ive/20220423/202204231540.rEC33b4r-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5bd873=
+50a5ae429baf8f373cb226a57b62f87280)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dmips clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   5 warnings generated.
+   net/mctp/af_mctp.c:301:17: warning: Assigned value is garbage or undefin=
+ed [clang-analyzer-core.uninitialized.Assign]
+                   msk->addr_ext =3D val;
+                                 ^ ~~~
+   net/mctp/af_mctp.c:291:2: note: 'val' declared without an initial value
+           int val;
+           ^~~~~~~
+   net/mctp/af_mctp.c:293:6: note: Assuming 'level' is equal to SOL_MCTP
+           if (level !=3D SOL_MCTP)
+               ^~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:293:2: note: Taking false branch
+           if (level !=3D SOL_MCTP)
+           ^
+   net/mctp/af_mctp.c:296:6: note: Assuming 'optname' is equal to MCTP_OPT_=
+ADDR_EXT
+           if (optname =3D=3D MCTP_OPT_ADDR_EXT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:296:2: note: Taking true branch
+           if (optname =3D=3D MCTP_OPT_ADDR_EXT) {
+           ^
+   net/mctp/af_mctp.c:297:7: note: Assuming the condition is false
+                   if (optlen !=3D sizeof(int))
+                       ^~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:297:3: note: Taking false branch
+                   if (optlen !=3D sizeof(int))
+                   ^
+   net/mctp/af_mctp.c:299:7: note: Calling 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:6: note: Assuming the condition is true
+           if (!sockptr_is_kernel(src))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:2: note: Taking true branch
+           if (!sockptr_is_kernel(src))
+           ^
+   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
+           return res;
+           ^
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   include/linux/sockptr.h:48:10: note: Returning from 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:48:3: note: Returning without writing to '*dst'
+                   return copy_from_user(dst, src.user + offset, size);
+                   ^
+   include/linux/sockptr.h:55:9: note: Returning from 'copy_from_sockptr_of=
+fset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:2: note: Returning without writing to '*dst'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+           ^
+   net/mctp/af_mctp.c:299:7: note: Returning from 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:299:3: note: Taking false branch
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                   ^
+   net/mctp/af_mctp.c:301:17: note: Assigned value is garbage or undefined
+                   msk->addr_ext =3D val;
+                                 ^ ~~~
+>> net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garba=
+ge value [clang-analyzer-core.uninitialized.Branch]
+           if (ctl.tag)
+               ^
+   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35296:'  at line =
+415
+           switch (cmd) {
+           ^
+   net/mctp/af_mctp.c:416:10: note: Calling 'mctp_ioctl_alloctag'
+                   return mctp_ioctl_alloctag(msk, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:340:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o 'to->tag'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->t=
+ag'
+           return res;
+           ^
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->t=
+ag'
+           return n;
+           ^
+   net/mctp/af_mctp.c:340:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:340:2: note: Taking false branch
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+           ^
+   net/mctp/af_mctp.c:343:6: note: Branch condition evaluates to a garbage =
+value
+           if (ctl.tag)
+               ^~~~~~~
+   net/mctp/af_mctp.c:379:6: warning: Branch condition evaluates to a garba=
+ge value [clang-analyzer-core.uninitialized.Branch]
+           if (ctl.flags)
+               ^
+   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35297:'  at line =
+417
+           switch (cmd) {
+           ^
+   net/mctp/af_mctp.c:418:10: note: Calling 'mctp_ioctl_droptag'
+                   return mctp_ioctl_droptag(msk, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:376:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o 'to->flags'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
 
->> fs/netfs/buffered_write.c:87:34: warning: Parameter '_target' can be dec=
-lared with const [constParameter]
-        struct netfs_dirty_region **_target,
-                                    ^
---
->> lib/maple_tree.c:324:2: warning: Assignment of function parameter has no=
- effect outside the function. Did you forget dereferencing it? [uselessAssi=
-gnmentPtrArg]
-    node =3D (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
-    ^
-   lib/maple_tree.c:329:2: warning: Assignment of function parameter has no=
- effect outside the function. Did you forget dereferencing it? [uselessAssi=
-gnmentPtrArg]
-    node =3D (void *)((unsigned long)node | MAPLE_ENODE_NULL);
-    ^
->> lib/maple_tree.c:1856:21: warning: Array index 'split' is used before li=
-mits check. [arrayIndexThenCheck]
-     while (((bn->pivot[split] - min) < slot_count - 1) &&
-                       ^
->> lib/maple_tree.c:4215:23: warning: Boolean result is used in bitwise ope=
-ration. Clarify expression with parentheses. [clarifyCondition]
-     if (!!wr_mas->entry ^ !!wr_mas->content)
-                         ^
->> lib/maple_tree.c:4179:15: warning: The if condition is the same as the p=
-revious if condition [duplicateCondition]
-     if (new_end < node_pivots)
-                 ^
-   lib/maple_tree.c:4176:15: note: First condition
-     if (new_end < node_pivots)
-                 ^
-   lib/maple_tree.c:4179:15: note: Second condition
-     if (new_end < node_pivots)
-                 ^
->> lib/maple_tree.c:3077:22: warning: Found suspicious operator ',' [constS=
-tatement]
-    void __rcu **l_slots, **slots;
-                        ^
->> lib/maple_tree.c:692:59: warning: Parameter 'pivots' can be declared wit=
-h const [constParameter]
-   mas_safe_pivot(const struct ma_state *mas, unsigned long *pivots,
-                                                             ^
-   lib/maple_tree.c:710:51: warning: Parameter 'pivots' can be declared wit=
-h const [constParameter]
-   mas_safe_min(struct ma_state *mas, unsigned long *pivots, unsigned char =
-offset)
-                                                     ^
-   lib/maple_tree.c:1368:21: warning: Parameter 'pivots' can be declared wi=
-th const [constParameter]
-        unsigned long *pivots,
-                       ^
->> lib/maple_tree.c:1507:52: warning: Parameter 'gaps' can be declared with=
- const [constParameter]
-   ma_max_gap(struct maple_node *node, unsigned long *gaps, enum maple_type=
- mt,
-                                                      ^
-   lib/maple_tree.c:1939:43: warning: Parameter 'pivots' can be declared wi=
-th const [constParameter]
-     struct maple_node *node, unsigned long *pivots,
-                                             ^
->> lib/maple_tree.c:2019:55: warning: Parameter 'mas' can be declared with =
-const [constParameter]
-   static inline void mas_descend_adopt(struct ma_state *mas)
-                                                         ^
->> lib/maple_tree.c:3125:11: warning: Size of pointer 'pivs' used instead o=
-f size of its data. [pointerSize]
-      memset(pivs + tmp, 0,
-             ^
+vim +343 net/mctp/af_mctp.c
 
-vim +/_target +87 fs/netfs/buffered_write.c
+63ed1aab3d40aa Matt Johnston 2022-02-09  286  =
 
-f343507aeda88b David Howells 2021-06-17   79  =
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  287  static int mctp_setsockopt(st=
+ruct socket *sock, int level, int optname,
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  288  			   sockptr_t optval, unsig=
+ned int optlen)
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  289  {
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  290  	struct mctp_sock *msk =3D co=
+ntainer_of(sock->sk, struct mctp_sock, sk);
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  291  	int val;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  292  =
 
-f343507aeda88b David Howells 2021-06-17   80  /*
-f343507aeda88b David Howells 2021-06-17   81   * Subsume the modifications =
-into an existing target region.  Returns true if
-f343507aeda88b David Howells 2021-06-17   82   * we need to update the dirt=
-y_regions tree.
-f343507aeda88b David Howells 2021-06-17   83   */
-f343507aeda88b David Howells 2021-06-17   84  static bool netfs_subsume_int=
-o_existing(struct netfs_i_context *ctx,
-f343507aeda88b David Howells 2021-06-17   85  					struct folio *folio,
-f343507aeda88b David Howells 2021-06-17   86  					struct ma_state *mas,
-f343507aeda88b David Howells 2021-06-17  @87  					struct netfs_dirty_regio=
-n **_target,
-f343507aeda88b David Howells 2021-06-17   88  					struct netfs_dirty_regio=
-n **_to_put,
-f343507aeda88b David Howells 2021-06-17   89  					pgoff_t *_first, pgoff_t=
- *_last,
-f343507aeda88b David Howells 2021-06-17   90  					size_t offset, size_t le=
-n)
-f343507aeda88b David Howells 2021-06-17   91  {
-f343507aeda88b David Howells 2021-06-17   92  	struct netfs_dirty_region *t=
-arget =3D *_target, *prev;
-f343507aeda88b David Howells 2021-06-17   93  =
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  293  	if (level !=3D SOL_MCTP)
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  294  		return -EINVAL;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  295  =
 
-f343507aeda88b David Howells 2021-06-17   94  	target->from  =3D min(target=
-->from, folio_pos(folio) + offset);
-f343507aeda88b David Howells 2021-06-17   95  	target->to    =3D max(target=
-->to,   folio_pos(folio) + offset + len);
-f343507aeda88b David Howells 2021-06-17   96  	trace_netfs_dirty(ctx, targe=
-t, NULL, *_first, *_last,
-f343507aeda88b David Howells 2021-06-17   97  			  netfs_dirty_trace_modifi=
-ed);
-f343507aeda88b David Howells 2021-06-17   98  =
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  296  	if (optname =3D=3D MCTP_OPT_=
+ADDR_EXT) {
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  297  		if (optlen !=3D sizeof(int))
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  298  			return -EINVAL;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26 @299  		if (copy_from_sockptr(&val,=
+ optval, sizeof(int)))
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  300  			return -EFAULT;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  301  		msk->addr_ext =3D val;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  302  		return 0;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  303  	}
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  304  =
 
-f343507aeda88b David Howells 2021-06-17   99  	/* We might have bridged to =
-the previous region also. */
-f343507aeda88b David Howells 2021-06-17  100  	prev =3D mas_prev(mas, *_fir=
-st - 1);
-f343507aeda88b David Howells 2021-06-17  101  	if (!netfs_mas_is_valid(prev=
-))
-f343507aeda88b David Howells 2021-06-17  102  		return false;
-f343507aeda88b David Howells 2021-06-17  103  =
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  305  	return -ENOPROTOOPT;
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  306  }
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  307  =
 
-f343507aeda88b David Howells 2021-06-17  104  	if (prev->to !=3D target->fr=
-om ||
-f343507aeda88b David Howells 2021-06-17  105  	    prev->waiting_on_wb !=3D=
- target->waiting_on_wb)
-f343507aeda88b David Howells 2021-06-17  106  		return false;
-f343507aeda88b David Howells 2021-06-17  107  =
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  308  static int mctp_getsockopt(st=
+ruct socket *sock, int level, int optname,
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  309  			   char __user *optval, in=
+t __user *optlen)
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  310  {
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  311  	struct mctp_sock *msk =3D co=
+ntainer_of(sock->sk, struct mctp_sock, sk);
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  312  	int len, val;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  313  =
 
-f343507aeda88b David Howells 2021-06-17  108  	*_first =3D mas->index;
-f343507aeda88b David Howells 2021-06-17  109  	prev->to =3D target->to;
-f343507aeda88b David Howells 2021-06-17  110  	*_to_put =3D target;
-f343507aeda88b David Howells 2021-06-17  111  	trace_netfs_dirty(ctx, prev,=
- NULL, *_first, *_last,
-f343507aeda88b David Howells 2021-06-17  112  			  netfs_dirty_trace_merged=
-_prev);
-f343507aeda88b David Howells 2021-06-17  113  	return true;
-f343507aeda88b David Howells 2021-06-17  114  }
-f343507aeda88b David Howells 2021-06-17  115  =
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  314  	if (level !=3D SOL_MCTP)
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  315  		return -EINVAL;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  316  =
+
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  317  	if (get_user(len, optlen))
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  318  		return -EFAULT;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  319  =
+
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  320  	if (optname =3D=3D MCTP_OPT_=
+ADDR_EXT) {
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  321  		if (len !=3D sizeof(int))
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  322  			return -EINVAL;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  323  		val =3D !!msk->addr_ext;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  324  		if (copy_to_user(optval, &v=
+al, len))
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  325  			return -EFAULT;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  326  		return 0;
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  327  	}
+99ce45d5e7dbde Jeremy Kerr   2021-10-26  328  =
+
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  329  	return -EINVAL;
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  330  }
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  331  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  332  static int mctp_ioctl_allocta=
+g(struct mctp_sock *msk, unsigned long arg)
+63ed1aab3d40aa Matt Johnston 2022-02-09  333  {
+63ed1aab3d40aa Matt Johnston 2022-02-09  334  	struct net *net =3D sock_net=
+(&msk->sk);
+63ed1aab3d40aa Matt Johnston 2022-02-09  335  	struct mctp_sk_key *key =3D =
+NULL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  336  	struct mctp_ioc_tag_ctl ctl;
+63ed1aab3d40aa Matt Johnston 2022-02-09  337  	unsigned long flags;
+63ed1aab3d40aa Matt Johnston 2022-02-09  338  	u8 tag;
+63ed1aab3d40aa Matt Johnston 2022-02-09  339  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  340  	if (copy_from_user(&ctl, (vo=
+id __user *)arg, sizeof(ctl)))
+63ed1aab3d40aa Matt Johnston 2022-02-09  341  		return -EFAULT;
+63ed1aab3d40aa Matt Johnston 2022-02-09  342  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09 @343  	if (ctl.tag)
+63ed1aab3d40aa Matt Johnston 2022-02-09  344  		return -EINVAL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  345  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  346  	if (ctl.flags)
+63ed1aab3d40aa Matt Johnston 2022-02-09  347  		return -EINVAL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  348  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  349  	key =3D mctp_alloc_local_tag=
+(msk, ctl.peer_addr, MCTP_ADDR_ANY,
+63ed1aab3d40aa Matt Johnston 2022-02-09  350  				   true, &tag);
+63ed1aab3d40aa Matt Johnston 2022-02-09  351  	if (IS_ERR(key))
+63ed1aab3d40aa Matt Johnston 2022-02-09  352  		return PTR_ERR(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  353  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  354  	ctl.tag =3D tag | MCTP_TAG_O=
+WNER | MCTP_TAG_PREALLOC;
+63ed1aab3d40aa Matt Johnston 2022-02-09  355  	if (copy_to_user((void __use=
+r *)arg, &ctl, sizeof(ctl))) {
+63ed1aab3d40aa Matt Johnston 2022-02-09  356  		spin_lock_irqsave(&key->loc=
+k, flags);
+63ed1aab3d40aa Matt Johnston 2022-02-09  357  		__mctp_key_remove(key, net,=
+ flags, MCTP_TRACE_KEY_DROPPED);
+63ed1aab3d40aa Matt Johnston 2022-02-09  358  		mctp_key_unref(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  359  		return -EFAULT;
+63ed1aab3d40aa Matt Johnston 2022-02-09  360  	}
+63ed1aab3d40aa Matt Johnston 2022-02-09  361  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  362  	mctp_key_unref(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  363  	return 0;
+63ed1aab3d40aa Matt Johnston 2022-02-09  364  }
+63ed1aab3d40aa Matt Johnston 2022-02-09  365  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7703965174989088951==--
+--===============0336897650819668612==--
 
