@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4796227416951573650=="
+Content-Type: multipart/mixed; boundary="===============2084168200384289886=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sat, 23 Apr 2022 23:31:17 +0800
-Message-ID: <YmQbxUAEgfnyTLUS@7ad81130ad0c>
+Date: Sat, 23 Apr 2022 23:31:14 +0800
+Message-ID: <YmQbwmYsw5unFuNM@7ad81130ad0c>
 In-Reply-To: <202204232333.3Mi2fbcA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4796227416951573650==
+--===============2084168200384289886==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,14 +18,15 @@ BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Lee Jones <lee.jones@linaro.org>
-CC: patches(a)opensource.cirrus.com
+CC: Support Opensource <support.opensource@diasemi.com>
+CC: Liam Girdwood <lgirdwood@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/mfd/wm8994-irq.c:232:8-28: WARNING: Threaded IRQ with no primary ha=
-ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/regulator/slg51000-regulator.c:480:8-33: WARNING: Threaded IRQ with=
+ no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,20 +51,20 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- drivers/mfd/wm8994-irq.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/regulator/slg51000-regulator.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/drivers/mfd/wm8994-irq.c
-+++ b/drivers/mfd/wm8994-irq.c
-@@ -231,7 +231,7 @@ int wm8994_irq_init(struct wm8994 *wm899
- =
-
- 		ret =3D request_threaded_irq(wm8994->irq,
- 					   NULL, wm8994_edge_irq,
--					   irqflags,
-+					   irqflags | IRQF_ONESHOT,
- 					   "WM8994 edge", wm8994);
- 	} else {
- 		ret =3D regmap_add_irq_chip(wm8994->regmap, wm8994->irq,
---===============4796227416951573650==--
+--- a/drivers/regulator/slg51000-regulator.c
++++ b/drivers/regulator/slg51000-regulator.c
+@@ -479,8 +479,7 @@ static int slg51000_i2c_probe(struct i2c
+ 	if (chip->chip_irq) {
+ 		ret =3D devm_request_threaded_irq(dev, chip->chip_irq, NULL,
+ 						slg51000_irq_handler,
+-						(IRQF_TRIGGER_HIGH |
+-						IRQF_ONESHOT),
++						(IRQF_TRIGGER_HIGH | IRQF_ONESHOT) | IRQF_ONESHOT,
+ 						"slg51000-irq", chip);
+ 		if (ret !=3D 0) {
+ 			dev_err(dev, "Failed to request IRQ: %d\n",
+--===============2084168200384289886==--
 
