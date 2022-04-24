@@ -1,627 +1,299 @@
-Content-Type: multipart/mixed; boundary="===============0974520677148737448=="
+Content-Type: multipart/mixed; boundary="===============0895394186173512872=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-tdx:guest-rebased 44/129] drivers/acpi/tables.c:217:4: warning: Value stored to 'p' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 25 Apr 2022 03:54:23 +0800
-Message-ID: <202204250340.Uyg6aLjT-lkp@intel.com>
+Subject: Re: [PATCH v4 2/5] virtio-crypto: use private buffer for control request
+Date: Sun, 24 Apr 2022 23:51:49 +0800
+Message-ID: <202204242344.JepUMdzP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0974520677148737448==
+--===============0895394186173512872==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220424104140.44841-3-pizhenwei@bytedance.com>
+References: <20220424104140.44841-3-pizhenwei@bytedance.com>
+TO: zhenwei pi <pizhenwei@bytedance.com>
+TO: arei.gonglei(a)huawei.com
+TO: mst(a)redhat.com
+TO: jasowang(a)redhat.com
+CC: herbert(a)gondor.apana.org.au
 CC: linux-kernel(a)vger.kernel.org
-TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.co=
-m>
-CC: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+CC: virtualization(a)lists.linux-foundation.org
+CC: linux-crypto(a)vger.kernel.org
+CC: helei.sig11(a)bytedance.com
+CC: davem(a)davemloft.net
+CC: zhenwei pi <pizhenwei@bytedance.com>
 
-tree:   https://github.com/intel/tdx.git guest-rebased
-head:   4c095660b91dbdd18042456e395af0deeef93485
-commit: 44fa9baac88cba252676a6aa3c72b84ce692adc3 [44/129] ACPI/table: Print=
- MADT Wake table information
-:::::: branch date: 4 weeks ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20425/202204250340.Uyg6aLjT-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/44fa9baac88cba252676a6aa3c72b=
-84ce692adc3
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-rebased
-        git checkout 44fa9baac88cba252676a6aa3c72b84ce692adc3
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+Hi zhenwei,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on linus/master v5.18-rc3 next-20220422]
+[cannot apply to herbert-crypto-2.6/master linux/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/virtio-cr=
+ypto-Improve-performance/20220424-184732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
+.6.git master
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+424/202204242344.JepUMdzP-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:165 virtio_crypto_alg_a=
+kcipher_init_session() error: potentially dereferencing uninitialized 'inpu=
+t'.
+drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:230 virtio_crypto_alg_a=
+kcipher_close_session() error: uninitialized symbol 'vc_ctrl_req'.
+drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:232 virtio_crypto_alg_a=
+kcipher_close_session() error: potentially dereferencing uninitialized 'ctr=
+l_status'.
+drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:232 virtio_crypto_alg_a=
+kcipher_close_session() error: potentially dereferencing uninitialized 'des=
+troy_session'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   net/ipv4/netfilter/nf_reject_ipv4.c:268:2: warning: Value stored to 'nip=
-h' is never read [clang-analyzer-deadcode.DeadStores]
-           niph =3D nf_reject_iphdr_put(nskb, oldskb, IPPROTO_TCP,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/netfilter/nf_reject_ipv4.c:268:2: note: Value stored to 'niph' =
-is never read
-           niph =3D nf_reject_iphdr_put(nskb, oldskb, IPPROTO_TCP,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/netfilter/nf_reject_ipv4.c:274:2: warning: Value stored to 'nip=
-h' is never read [clang-analyzer-deadcode.DeadStores]
-           niph =3D ip_hdr(nskb);
-           ^      ~~~~~~~~~~~~
-   net/ipv4/netfilter/nf_reject_ipv4.c:274:2: note: Value stored to 'niph' =
-is never read
-           niph =3D ip_hdr(nskb);
-           ^      ~~~~~~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   net/ipv4/netfilter/ip_tables.c:986:3: warning: Call to function 'strcpy'=
- is insecure as it does not provide bounding of the memory buffer. Replace =
-unbounded copy functions with analogous functions that support length argum=
-ents such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(info.name, name);
-                   ^~~~~~
-   net/ipv4/netfilter/ip_tables.c:986:3: note: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119
-                   strcpy(info.name, name);
-                   ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   sound/core/timer.c:1260:9: warning: Access to field 'number' results in =
-a dereference of a null pointer (loaded from field 'card') [clang-analyzer-=
-core.NullDereference]
-                                       timer->card->number, timer->tmr_devi=
-ce);
-                                       ^
-   include/sound/info.h:107:54: note: expanded from macro 'snd_iprintf'
-           seq_printf((struct seq_file *)(buf)->buffer, fmt, ##args)
-                                                               ^~~~
-   sound/core/timer.c:1251:2: note: Loop condition is true.  Entering loop =
-body
-           list_for_each_entry(timer, &snd_timer_list, device_list) {
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   sound/core/timer.c:1252:7: note: Assuming field 'card' is null
-                   if (timer->card && timer->card->shutdown)
-                       ^~~~~~~~~~~
-   sound/core/timer.c:1252:19: note: Left side of '&&' is false
-                   if (timer->card && timer->card->shutdown)
-                                   ^
-   sound/core/timer.c:1254:3: note: Control jumps to 'case SNDRV_TIMER_CLAS=
-S_CARD:'  at line 1258
-                   switch (timer->tmr_class) {
-                   ^
-   sound/core/timer.c:1260:9: note: Access to field 'number' results in a d=
-ereference of a null pointer (loaded from field 'card')
-                                       timer->card->number, timer->tmr_devi=
-ce);
-                                       ^
-   include/sound/info.h:107:54: note: expanded from macro 'snd_iprintf'
-           seq_printf((struct seq_file *)(buf)->buffer, fmt, ##args)
-                                                               ^~~~
-   sound/core/timer.c:1263:39: warning: Access to field 'number' results in=
- a dereference of a null pointer (loaded from field 'card') [clang-analyzer=
--core.NullDereference]
-                           snd_iprintf(buffer, "P%i-%i-%i: ", timer->card->=
-number,
-                                                              ^
-   include/sound/info.h:107:54: note: expanded from macro 'snd_iprintf'
-           seq_printf((struct seq_file *)(buf)->buffer, fmt, ##args)
-                                                               ^~~~
-   sound/core/timer.c:1251:2: note: Loop condition is true.  Entering loop =
-body
-           list_for_each_entry(timer, &snd_timer_list, device_list) {
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   sound/core/timer.c:1252:7: note: Assuming field 'card' is null
-                   if (timer->card && timer->card->shutdown)
-                       ^~~~~~~~~~~
-   sound/core/timer.c:1252:19: note: Left side of '&&' is false
-                   if (timer->card && timer->card->shutdown)
-                                   ^
-   sound/core/timer.c:1254:3: note: Control jumps to 'case SNDRV_TIMER_CLAS=
-S_PCM:'  at line 1262
-                   switch (timer->tmr_class) {
-                   ^
-   sound/core/timer.c:1263:39: note: Access to field 'number' results in a =
-dereference of a null pointer (loaded from field 'card')
-                           snd_iprintf(buffer, "P%i-%i-%i: ", timer->card->=
-number,
-                                                              ^
-   include/sound/info.h:107:54: note: expanded from macro 'snd_iprintf'
-           seq_printf((struct seq_file *)(buf)->buffer, fmt, ##args)
-                                                               ^~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/acpi/tables.c:217:4: warning: Value stored to 'p' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                           p =3D (struct acpi_madt_multiproc_wakeup *)heade=
-r;
-                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/tables.c:217:4: note: Value stored to 'p' is never read
-                           p =3D (struct acpi_madt_multiproc_wakeup *)heade=
-r;
-                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/block/aoe/aoecmd.c:153:13: warning: Although the value stored to=
- 'lba' is used in the enclosing expression, the value is never actually rea=
-d from 'lba' [clang-analyzer-deadcode.DeadStores]
-           ah->lba5 =3D lba >>=3D 8;
-                      ^       ~
-   drivers/block/aoe/aoecmd.c:153:13: note: Although the value stored to 'l=
-ba' is used in the enclosing expression, the value is never actually read f=
-rom 'lba'
-           ah->lba5 =3D lba >>=3D 8;
-                      ^       ~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^
-   arch/x86/include/asm/paravirt_types.h:405:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __edi =3D __edi, __esi =3D __esi,             \
-                         ^
-   drivers/usb/host/pci-quirks.c:509:2: note: Calling 'usb_amd_quirk_pll'
-           usb_amd_quirk_pll(0);
-           ^~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/pci-quirks.c:343:12: note: 'disable' is 0
-           u32 bit =3D disable ? 0 : 1;
-                     ^~~~~~~
-   drivers/usb/host/pci-quirks.c:343:12: note: '?' condition is false
-   drivers/usb/host/pci-quirks.c:346:2: note: Loop condition is false.  Exi=
-ting loop
-           spin_lock_irqsave(&amd_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/usb/host/pci-quirks.c:346:2: note: Loop condition is false.  Exi=
-ting loop
-           spin_lock_irqsave(&amd_lock, flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/usb/host/pci-quirks.c:348:6: note: 'disable' is 0
-           if (disable) {
-               ^~~~~~~
-   drivers/usb/host/pci-quirks.c:348:2: note: Taking false branch
-           if (disable) {
-           ^
-   drivers/usb/host/pci-quirks.c:356:7: note: Assuming field 'isoc_reqs' is=
- <=3D 0
-                   if (amd_chipset.isoc_reqs > 0) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/pci-quirks.c:356:3: note: Taking false branch
-                   if (amd_chipset.isoc_reqs > 0) {
-                   ^
-   drivers/usb/host/pci-quirks.c:362:6: note: Assuming field 'gen' is equal=
- to AMD_CHIPSET_SB800
+vim +/input +165 drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
 
-vim +/p +217 drivers/acpi/tables.c
+59ca6c93387d32 zhenwei pi 2022-03-02   98  =
 
-4fc0a7e889e554 Lv Zheng                   2014-05-31   57  =
+59ca6c93387d32 zhenwei pi 2022-03-02   99  static int virtio_crypto_alg_akc=
+ipher_init_session(struct virtio_crypto_akcipher_ctx *ctx,
+59ca6c93387d32 zhenwei pi 2022-03-02  100  		struct virtio_crypto_ctrl_head=
+er *header, void *para,
+59ca6c93387d32 zhenwei pi 2022-03-02  101  		const uint8_t *key, unsigned i=
+nt keylen)
+59ca6c93387d32 zhenwei pi 2022-03-02  102  {
+59ca6c93387d32 zhenwei pi 2022-03-02  103  	struct scatterlist outhdr_sg, k=
+ey_sg, inhdr_sg, *sgs[3];
+59ca6c93387d32 zhenwei pi 2022-03-02  104  	struct virtio_crypto *vcrypto =
+=3D ctx->vcrypto;
+59ca6c93387d32 zhenwei pi 2022-03-02  105  	uint8_t *pkey;
+59ca6c93387d32 zhenwei pi 2022-03-02  106  	unsigned int inlen;
+59ca6c93387d32 zhenwei pi 2022-03-02  107  	int err;
+59ca6c93387d32 zhenwei pi 2022-03-02  108  	unsigned int num_out =3D 0, num=
+_in =3D 0;
+bb26cab9a7c25d zhenwei pi 2022-04-24  109  	struct virtio_crypto_op_ctrl_re=
+q *ctrl;
+bb26cab9a7c25d zhenwei pi 2022-04-24  110  	struct virtio_crypto_session_in=
+put *input;
+286da9ed04239c zhenwei pi 2022-04-24  111  	struct virtio_crypto_ctrl_reque=
+st *vc_ctrl_req;
+59ca6c93387d32 zhenwei pi 2022-03-02  112  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   58  void acpi_table_=
-print_madt_entry(struct acpi_subtable_header *header)
-^1da177e4c3f41 Linus Torvalds             2005-04-16   59  {
-^1da177e4c3f41 Linus Torvalds             2005-04-16   60  	if (!header)
-^1da177e4c3f41 Linus Torvalds             2005-04-16   61  		return;
-^1da177e4c3f41 Linus Torvalds             2005-04-16   62  =
+59ca6c93387d32 zhenwei pi 2022-03-02  113  	pkey =3D kmemdup(key, keylen, G=
+FP_ATOMIC);
+59ca6c93387d32 zhenwei pi 2022-03-02  114  	if (!pkey)
+59ca6c93387d32 zhenwei pi 2022-03-02  115  		return -ENOMEM;
+59ca6c93387d32 zhenwei pi 2022-03-02  116  =
 
-^1da177e4c3f41 Linus Torvalds             2005-04-16   63  	switch (header-=
->type) {
-^1da177e4c3f41 Linus Torvalds             2005-04-16   64  =
+286da9ed04239c zhenwei pi 2022-04-24  117  	vc_ctrl_req =3D kzalloc(sizeof(=
+*vc_ctrl_req), GFP_KERNEL);
+286da9ed04239c zhenwei pi 2022-04-24  118  	if (!vc_ctrl_req) {
+286da9ed04239c zhenwei pi 2022-04-24  119  		err =3D -ENOMEM;
+286da9ed04239c zhenwei pi 2022-04-24  120  		goto out;
+286da9ed04239c zhenwei pi 2022-04-24  121  	}
+286da9ed04239c zhenwei pi 2022-04-24  122  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   65  	case ACPI_MADT_=
-TYPE_LOCAL_APIC:
-^1da177e4c3f41 Linus Torvalds             2005-04-16   66  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   67  			struct acpi_m=
-adt_local_apic *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   68  			    (struct a=
-cpi_madt_local_apic *)header;
-07f438df228864 Hanjun Guo                 2015-03-24   69  			pr_debug("LAP=
-IC (acpi_id[0x%02x] lapic_id[0x%02x] %s)\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   70  				 p->processo=
-r_id, p->id,
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   71  				 (p->lapic_f=
-lags & ACPI_MADT_ENABLED) ? "enabled" : "disabled");
-^1da177e4c3f41 Linus Torvalds             2005-04-16   72  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16   73  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16   74  =
+286da9ed04239c zhenwei pi 2022-04-24  123  	ctrl =3D &vc_ctrl_req->ctrl;
+bb26cab9a7c25d zhenwei pi 2022-04-24  124  	memcpy(&ctrl->header, header, s=
+izeof(ctrl->header));
+bb26cab9a7c25d zhenwei pi 2022-04-24  125  	memcpy(&ctrl->u, para, sizeof(c=
+trl->u));
+286da9ed04239c zhenwei pi 2022-04-24  126  	input =3D &vc_ctrl_req->input;
+bb26cab9a7c25d zhenwei pi 2022-04-24  127  	input->status =3D cpu_to_le32(V=
+IRTIO_CRYPTO_ERR);
+59ca6c93387d32 zhenwei pi 2022-03-02  128  =
 
-7237d3de78ff89 Suresh Siddha              2009-03-30   75  	case ACPI_MADT_=
-TYPE_LOCAL_X2APIC:
-7237d3de78ff89 Suresh Siddha              2009-03-30   76  		{
-7237d3de78ff89 Suresh Siddha              2009-03-30   77  			struct acpi_m=
-adt_local_x2apic *p =3D
-7237d3de78ff89 Suresh Siddha              2009-03-30   78  			    (struct a=
-cpi_madt_local_x2apic *)header;
-07f438df228864 Hanjun Guo                 2015-03-24   79  			pr_debug("X2A=
-PIC (apic_id[0x%02x] uid[0x%02x] %s)\n",
-7237d3de78ff89 Suresh Siddha              2009-03-30   80  				 p->local_ap=
-ic_id, p->uid,
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20   81  				 (p->lapic_f=
-lags & ACPI_MADT_ENABLED) ? "enabled" : "disabled");
-7237d3de78ff89 Suresh Siddha              2009-03-30   82  		}
-7237d3de78ff89 Suresh Siddha              2009-03-30   83  		break;
-7237d3de78ff89 Suresh Siddha              2009-03-30   84  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  129  	sg_init_one(&outhdr_sg, ctrl, s=
+izeof(*ctrl));
+59ca6c93387d32 zhenwei pi 2022-03-02  130  	sgs[num_out++] =3D &outhdr_sg;
+59ca6c93387d32 zhenwei pi 2022-03-02  131  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   85  	case ACPI_MADT_=
-TYPE_IO_APIC:
-^1da177e4c3f41 Linus Torvalds             2005-04-16   86  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   87  			struct acpi_m=
-adt_io_apic *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   88  			    (struct a=
-cpi_madt_io_apic *)header;
-07f438df228864 Hanjun Guo                 2015-03-24   89  			pr_debug("IOA=
-PIC (id[0x%02x] address[0x%08x] gsi_base[%d])\n",
-^1da177e4c3f41 Linus Torvalds             2005-04-16   90  				 p->id, p->a=
-ddress, p->global_irq_base);
-^1da177e4c3f41 Linus Torvalds             2005-04-16   91  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16   92  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16   93  =
+59ca6c93387d32 zhenwei pi 2022-03-02  132  	sg_init_one(&key_sg, pkey, keyl=
+en);
+59ca6c93387d32 zhenwei pi 2022-03-02  133  	sgs[num_out++] =3D &key_sg;
+59ca6c93387d32 zhenwei pi 2022-03-02  134  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   94  	case ACPI_MADT_=
-TYPE_INTERRUPT_OVERRIDE:
-^1da177e4c3f41 Linus Torvalds             2005-04-16   95  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   96  			struct acpi_m=
-adt_interrupt_override *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   97  			    (struct a=
-cpi_madt_interrupt_override *)header;
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20   98  			pr_info("INT_=
-SRC_OVR (bus %d bus_irq %d global_irq %d %s %s)\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02   99  				p->bus, p->s=
-ource_irq, p->global_irq,
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  100  				mps_inti_fla=
-gs_polarity[p->inti_flags & ACPI_MADT_POLARITY_MASK],
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  101  				mps_inti_fla=
-gs_trigger[(p->inti_flags & ACPI_MADT_TRIGGER_MASK) >> 2]);
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  102  			if (p->inti_f=
-lags  &
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  103  			    ~(ACPI_MA=
-DT_POLARITY_MASK | ACPI_MADT_TRIGGER_MASK))
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  104  				pr_info("INT=
-_SRC_OVR unexpected reserved flags: 0x%x\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  105  					p->inti_fla=
-gs  &
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  106  					~(ACPI_MADT=
-_POLARITY_MASK | ACPI_MADT_TRIGGER_MASK));
-^1da177e4c3f41 Linus Torvalds             2005-04-16  107  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  108  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  109  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  135  	sg_init_one(&inhdr_sg, input, s=
+izeof(*input));
+59ca6c93387d32 zhenwei pi 2022-03-02  136  	sgs[num_out + num_in++] =3D &in=
+hdr_sg;
+59ca6c93387d32 zhenwei pi 2022-03-02  137  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  110  	case ACPI_MADT_=
-TYPE_NMI_SOURCE:
-^1da177e4c3f41 Linus Torvalds             2005-04-16  111  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  112  			struct acpi_m=
-adt_nmi_source *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  113  			    (struct a=
-cpi_madt_nmi_source *)header;
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  114  			pr_info("NMI_=
-SRC (%s %s global_irq %d)\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  115  				mps_inti_fla=
-gs_polarity[p->inti_flags & ACPI_MADT_POLARITY_MASK],
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  116  				mps_inti_fla=
-gs_trigger[(p->inti_flags & ACPI_MADT_TRIGGER_MASK) >> 2],
-4be44fcd3bf648 Len Brown                  2005-08-05  117  				p->global_ir=
-q);
-^1da177e4c3f41 Linus Torvalds             2005-04-16  118  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  119  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  120  =
+286da9ed04239c zhenwei pi 2022-04-24  138  	spin_lock(&vcrypto->ctrl_lock);
+59ca6c93387d32 zhenwei pi 2022-03-02  139  	err =3D virtqueue_add_sgs(vcryp=
+to->ctrl_vq, sgs, num_out, num_in, vcrypto, GFP_ATOMIC);
+286da9ed04239c zhenwei pi 2022-04-24  140  	if (err < 0) {
+286da9ed04239c zhenwei pi 2022-04-24  141  		spin_unlock(&vcrypto->ctrl_loc=
+k);
+59ca6c93387d32 zhenwei pi 2022-03-02  142  		goto out;
+286da9ed04239c zhenwei pi 2022-04-24  143  	}
+59ca6c93387d32 zhenwei pi 2022-03-02  144  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  121  	case ACPI_MADT_=
-TYPE_LOCAL_APIC_NMI:
-^1da177e4c3f41 Linus Torvalds             2005-04-16  122  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  123  			struct acpi_m=
-adt_local_apic_nmi *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  124  			    (struct a=
-cpi_madt_local_apic_nmi *)header;
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  125  			pr_info("LAPI=
-C_NMI (acpi_id[0x%02x] %s %s lint[0x%x])\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  126  				p->processor=
-_id,
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  127  				mps_inti_fla=
-gs_polarity[p->inti_flags & ACPI_MADT_POLARITY_MASK	],
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  128  				mps_inti_fla=
-gs_trigger[(p->inti_flags & ACPI_MADT_TRIGGER_MASK) >> 2],
-4be44fcd3bf648 Len Brown                  2005-08-05  129  				p->lint);
-7237d3de78ff89 Suresh Siddha              2009-03-30  130  		}
-7237d3de78ff89 Suresh Siddha              2009-03-30  131  		break;
-7237d3de78ff89 Suresh Siddha              2009-03-30  132  =
+59ca6c93387d32 zhenwei pi 2022-03-02  145  	virtqueue_kick(vcrypto->ctrl_vq=
+);
+59ca6c93387d32 zhenwei pi 2022-03-02  146  	while (!virtqueue_get_buf(vcryp=
+to->ctrl_vq, &inlen) &&
+59ca6c93387d32 zhenwei pi 2022-03-02  147  	       !virtqueue_is_broken(vcr=
+ypto->ctrl_vq))
+59ca6c93387d32 zhenwei pi 2022-03-02  148  		cpu_relax();
+286da9ed04239c zhenwei pi 2022-04-24  149  	spin_unlock(&vcrypto->ctrl_lock=
+);
+59ca6c93387d32 zhenwei pi 2022-03-02  150  =
 
-7237d3de78ff89 Suresh Siddha              2009-03-30  133  	case ACPI_MADT_=
-TYPE_LOCAL_X2APIC_NMI:
-7237d3de78ff89 Suresh Siddha              2009-03-30  134  		{
-7237d3de78ff89 Suresh Siddha              2009-03-30  135  			u16 polarity,=
- trigger;
-7237d3de78ff89 Suresh Siddha              2009-03-30  136  			struct acpi_m=
-adt_local_x2apic_nmi *p =3D
-7237d3de78ff89 Suresh Siddha              2009-03-30  137  			    (struct a=
-cpi_madt_local_x2apic_nmi *)header;
-7237d3de78ff89 Suresh Siddha              2009-03-30  138  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  151  	if (le32_to_cpu(input->status) =
+!=3D VIRTIO_CRYPTO_OK) {
+59ca6c93387d32 zhenwei pi 2022-03-02  152  		err =3D -EINVAL;
+59ca6c93387d32 zhenwei pi 2022-03-02  153  		goto out;
+59ca6c93387d32 zhenwei pi 2022-03-02  154  	}
+59ca6c93387d32 zhenwei pi 2022-03-02  155  =
 
-7237d3de78ff89 Suresh Siddha              2009-03-30  139  			polarity =3D =
-p->inti_flags & ACPI_MADT_POLARITY_MASK;
-7237d3de78ff89 Suresh Siddha              2009-03-30  140  			trigger =3D (=
-p->inti_flags & ACPI_MADT_TRIGGER_MASK) >> 2;
-7237d3de78ff89 Suresh Siddha              2009-03-30  141  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  156  	ctx->session_id =3D le64_to_cpu=
+(input->session_id);
+59ca6c93387d32 zhenwei pi 2022-03-02  157  	ctx->session_valid =3D true;
+59ca6c93387d32 zhenwei pi 2022-03-02  158  	err =3D 0;
+59ca6c93387d32 zhenwei pi 2022-03-02  159  =
 
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  142  			pr_info("X2AP=
-IC_NMI (uid[0x%02x] %s %s lint[0x%x])\n",
-7237d3de78ff89 Suresh Siddha              2009-03-30  143  				p->uid,
-7237d3de78ff89 Suresh Siddha              2009-03-30  144  				mps_inti_fla=
-gs_polarity[polarity],
-7237d3de78ff89 Suresh Siddha              2009-03-30  145  				mps_inti_fla=
-gs_trigger[trigger],
-7237d3de78ff89 Suresh Siddha              2009-03-30  146  				p->lint);
-^1da177e4c3f41 Linus Torvalds             2005-04-16  147  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  148  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  149  =
+59ca6c93387d32 zhenwei pi 2022-03-02  160  out:
+286da9ed04239c zhenwei pi 2022-04-24  161  	kfree(vc_ctrl_req);
+59ca6c93387d32 zhenwei pi 2022-03-02  162  	kfree_sensitive(pkey);
+59ca6c93387d32 zhenwei pi 2022-03-02  163  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  150  	case ACPI_MADT_=
-TYPE_LOCAL_APIC_OVERRIDE:
-^1da177e4c3f41 Linus Torvalds             2005-04-16  151  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  152  			struct acpi_m=
-adt_local_apic_override *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  153  			    (struct a=
-cpi_madt_local_apic_override *)header;
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  154  			pr_info("LAPI=
-C_ADDR_OVR (address[%p])\n",
-^1da177e4c3f41 Linus Torvalds             2005-04-16  155  				(void *)(uns=
-igned long)p->address);
-^1da177e4c3f41 Linus Torvalds             2005-04-16  156  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  157  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  158  =
+59ca6c93387d32 zhenwei pi 2022-03-02  164  	if (err < 0)
+59ca6c93387d32 zhenwei pi 2022-03-02 @165  		pr_err("virtio_crypto: Create =
+session failed status: %u\n",
+bb26cab9a7c25d zhenwei pi 2022-04-24  166  			le32_to_cpu(input->status));
+59ca6c93387d32 zhenwei pi 2022-03-02  167  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  159  	case ACPI_MADT_=
-TYPE_IO_SAPIC:
-^1da177e4c3f41 Linus Torvalds             2005-04-16  160  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  161  			struct acpi_m=
-adt_io_sapic *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  162  			    (struct a=
-cpi_madt_io_sapic *)header;
-07f438df228864 Hanjun Guo                 2015-03-24  163  			pr_debug("IOS=
-APIC (id[0x%x] address[%p] gsi_base[%d])\n",
-4be44fcd3bf648 Len Brown                  2005-08-05  164  				 p->id, (voi=
-d *)(unsigned long)p->address,
-4be44fcd3bf648 Len Brown                  2005-08-05  165  				 p->global_i=
-rq_base);
-^1da177e4c3f41 Linus Torvalds             2005-04-16  166  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  167  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  168  =
+59ca6c93387d32 zhenwei pi 2022-03-02  168  	return err;
+59ca6c93387d32 zhenwei pi 2022-03-02  169  }
+59ca6c93387d32 zhenwei pi 2022-03-02  170  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  169  	case ACPI_MADT_=
-TYPE_LOCAL_SAPIC:
-^1da177e4c3f41 Linus Torvalds             2005-04-16  170  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  171  			struct acpi_m=
-adt_local_sapic *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  172  			    (struct a=
-cpi_madt_local_sapic *)header;
-07f438df228864 Hanjun Guo                 2015-03-24  173  			pr_debug("LSA=
-PIC (acpi_id[0x%02x] lsapic_id[0x%02x] lsapic_eid[0x%02x] %s)\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  174  				 p->processo=
-r_id, p->id, p->eid,
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  175  				 (p->lapic_f=
-lags & ACPI_MADT_ENABLED) ? "enabled" : "disabled");
-^1da177e4c3f41 Linus Torvalds             2005-04-16  176  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  177  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  178  =
+59ca6c93387d32 zhenwei pi 2022-03-02  171  static int virtio_crypto_alg_akc=
+ipher_close_session(struct virtio_crypto_akcipher_ctx *ctx)
+59ca6c93387d32 zhenwei pi 2022-03-02  172  {
+59ca6c93387d32 zhenwei pi 2022-03-02  173  	struct scatterlist outhdr_sg, i=
+nhdr_sg, *sgs[2];
+59ca6c93387d32 zhenwei pi 2022-03-02  174  	struct virtio_crypto_destroy_se=
+ssion_req *destroy_session;
+59ca6c93387d32 zhenwei pi 2022-03-02  175  	struct virtio_crypto *vcrypto =
+=3D ctx->vcrypto;
+59ca6c93387d32 zhenwei pi 2022-03-02  176  	unsigned int num_out =3D 0, num=
+_in =3D 0, inlen;
+59ca6c93387d32 zhenwei pi 2022-03-02  177  	int err;
+bb26cab9a7c25d zhenwei pi 2022-04-24  178  	struct virtio_crypto_op_ctrl_re=
+q *ctrl;
+bb26cab9a7c25d zhenwei pi 2022-04-24  179  	struct virtio_crypto_inhdr *ctr=
+l_status;
+286da9ed04239c zhenwei pi 2022-04-24  180  	struct virtio_crypto_ctrl_reque=
+st *vc_ctrl_req;
+59ca6c93387d32 zhenwei pi 2022-03-02  181  =
 
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  179  	case ACPI_MADT_=
-TYPE_INTERRUPT_SOURCE:
-^1da177e4c3f41 Linus Torvalds             2005-04-16  180  		{
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  181  			struct acpi_m=
-adt_interrupt_source *p =3D
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  182  			    (struct a=
-cpi_madt_interrupt_source *)header;
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  183  			pr_info("PLAT=
-_INT_SRC (%s %s type[0x%x] id[0x%04x] eid[0x%x] iosapic_vector[0x%x] global=
-_irq[0x%x]\n",
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  184  				mps_inti_fla=
-gs_polarity[p->inti_flags & ACPI_MADT_POLARITY_MASK],
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  185  				mps_inti_fla=
-gs_trigger[(p->inti_flags & ACPI_MADT_TRIGGER_MASK) >> 2],
-5f3b1a8b6737b0 Alexey Starikovskiy        2007-02-02  186  				p->type, p->=
-id, p->eid, p->io_sapic_vector,
-4be44fcd3bf648 Len Brown                  2005-08-05  187  				p->global_ir=
-q);
-^1da177e4c3f41 Linus Torvalds             2005-04-16  188  		}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  189  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  190  =
+59ca6c93387d32 zhenwei pi 2022-03-02  182  	if (!ctx->session_valid) {
+59ca6c93387d32 zhenwei pi 2022-03-02  183  		err =3D 0;
+59ca6c93387d32 zhenwei pi 2022-03-02  184  		goto out;
+59ca6c93387d32 zhenwei pi 2022-03-02  185  	}
+286da9ed04239c zhenwei pi 2022-04-24  186  =
 
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  191  	case ACPI_MADT_=
-TYPE_GENERIC_INTERRUPT:
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  192  		{
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  193  			struct acpi_m=
-adt_generic_interrupt *p =3D
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  194  				(struct acpi=
-_madt_generic_interrupt *)header;
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  195  			pr_debug("GIC=
-C (acpi_id[0x%04x] address[%llx] MPIDR[0x%llx] %s)\n",
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  196  				 p->uid, p->=
-base_address,
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  197  				 p->arm_mpid=
-r,
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  198  				 (p->flags &=
- ACPI_MADT_ENABLED) ? "enabled" : "disabled");
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  199  =
+286da9ed04239c zhenwei pi 2022-04-24  187  	vc_ctrl_req =3D kzalloc(sizeof(=
+*vc_ctrl_req), GFP_KERNEL);
+286da9ed04239c zhenwei pi 2022-04-24  188  	if (!vc_ctrl_req) {
+286da9ed04239c zhenwei pi 2022-04-24  189  		err =3D -ENOMEM;
+286da9ed04239c zhenwei pi 2022-04-24  190  		goto out;
+286da9ed04239c zhenwei pi 2022-04-24  191  	}
+286da9ed04239c zhenwei pi 2022-04-24  192  =
 
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  200  		}
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  201  		break;
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  202  =
+286da9ed04239c zhenwei pi 2022-04-24  193  	ctrl_status =3D &vc_ctrl_req->c=
+trl_status;
+bb26cab9a7c25d zhenwei pi 2022-04-24  194  	ctrl_status->status =3D VIRTIO_=
+CRYPTO_ERR;
+286da9ed04239c zhenwei pi 2022-04-24  195  	ctrl =3D &vc_ctrl_req->ctrl;
+bb26cab9a7c25d zhenwei pi 2022-04-24  196  	ctrl->header.opcode =3D cpu_to_=
+le32(VIRTIO_CRYPTO_AKCIPHER_DESTROY_SESSION);
+bb26cab9a7c25d zhenwei pi 2022-04-24  197  	ctrl->header.queue_id =3D 0;
+59ca6c93387d32 zhenwei pi 2022-03-02  198  =
 
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  203  	case ACPI_MADT_=
-TYPE_GENERIC_DISTRIBUTOR:
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  204  		{
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  205  			struct acpi_m=
-adt_generic_distributor *p =3D
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  206  				(struct acpi=
-_madt_generic_distributor *)header;
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  207  			pr_debug("GIC=
- Distributor (gic_id[0x%04x] address[%llx] gsi_base[%d])\n",
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  208  				 p->gic_id, =
-p->base_address,
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  209  				 p->global_i=
-rq_base);
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  210  		}
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  211  		break;
-4c1c8d7a7ebc8b Hanjun Guo                 2015-03-24  212  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  199  	destroy_session =3D &ctrl->u.de=
+stroy_session;
+59ca6c93387d32 zhenwei pi 2022-03-02  200  	destroy_session->session_id =3D=
+ cpu_to_le64(ctx->session_id);
+59ca6c93387d32 zhenwei pi 2022-03-02  201  =
 
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  213  	case ACPI_MADT_=
-TYPE_MULTIPROC_WAKEUP:
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  214  		{
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  215  			struct acpi_m=
-adt_multiproc_wakeup *p;
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  216  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  202  	sg_init_one(&outhdr_sg, ctrl, s=
+izeof(*ctrl));
+59ca6c93387d32 zhenwei pi 2022-03-02  203  	sgs[num_out++] =3D &outhdr_sg;
+59ca6c93387d32 zhenwei pi 2022-03-02  204  =
 
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15 @217  			p =3D (struct=
- acpi_madt_multiproc_wakeup *)header;
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  218  =
+bb26cab9a7c25d zhenwei pi 2022-04-24  205  	sg_init_one(&inhdr_sg, &ctrl_st=
+atus->status, sizeof(ctrl_status->status));
+59ca6c93387d32 zhenwei pi 2022-03-02  206  	sgs[num_out + num_in++] =3D &in=
+hdr_sg;
+59ca6c93387d32 zhenwei pi 2022-03-02  207  =
 
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  219  			pr_debug("MP =
-Wake (Mailbox version[%d] base_address[%llx])\n",
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  220  				 p->mailbox_=
-version, p->base_address);
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  221  		}
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  222  		break;
-44fa9baac88cba Kuppuswamy Sathyanarayanan 2021-04-15  223  =
+286da9ed04239c zhenwei pi 2022-04-24  208  	spin_lock(&vcrypto->ctrl_lock);
+59ca6c93387d32 zhenwei pi 2022-03-02  209  	err =3D virtqueue_add_sgs(vcryp=
+to->ctrl_vq, sgs, num_out, num_in, vcrypto, GFP_ATOMIC);
+286da9ed04239c zhenwei pi 2022-04-24  210  	if (err < 0) {
+286da9ed04239c zhenwei pi 2022-04-24  211  		spin_unlock(&vcrypto->ctrl_loc=
+k);
+59ca6c93387d32 zhenwei pi 2022-03-02  212  		goto out;
+286da9ed04239c zhenwei pi 2022-04-24  213  	}
+59ca6c93387d32 zhenwei pi 2022-03-02  214  =
 
-^1da177e4c3f41 Linus Torvalds             2005-04-16  224  	default:
-730bf5ebb4dfb3 Hanjun Guo                 2014-02-20  225  		pr_warn("Found=
- unsupported MADT entry (type =3D 0x%x)\n",
-^1da177e4c3f41 Linus Torvalds             2005-04-16  226  			header->type);
-^1da177e4c3f41 Linus Torvalds             2005-04-16  227  		break;
-^1da177e4c3f41 Linus Torvalds             2005-04-16  228  	}
-^1da177e4c3f41 Linus Torvalds             2005-04-16  229  }
-^1da177e4c3f41 Linus Torvalds             2005-04-16  230  =
+59ca6c93387d32 zhenwei pi 2022-03-02  215  	virtqueue_kick(vcrypto->ctrl_vq=
+);
+59ca6c93387d32 zhenwei pi 2022-03-02  216  	while (!virtqueue_get_buf(vcryp=
+to->ctrl_vq, &inlen) &&
+59ca6c93387d32 zhenwei pi 2022-03-02  217  	       !virtqueue_is_broken(vcr=
+ypto->ctrl_vq))
+59ca6c93387d32 zhenwei pi 2022-03-02  218  		cpu_relax();
+286da9ed04239c zhenwei pi 2022-04-24  219  	spin_unlock(&vcrypto->ctrl_lock=
+);
+59ca6c93387d32 zhenwei pi 2022-03-02  220  =
+
+bb26cab9a7c25d zhenwei pi 2022-04-24  221  	if (ctrl_status->status !=3D VI=
+RTIO_CRYPTO_OK) {
+59ca6c93387d32 zhenwei pi 2022-03-02  222  		err =3D -EINVAL;
+59ca6c93387d32 zhenwei pi 2022-03-02  223  		goto out;
+59ca6c93387d32 zhenwei pi 2022-03-02  224  	}
+59ca6c93387d32 zhenwei pi 2022-03-02  225  =
+
+59ca6c93387d32 zhenwei pi 2022-03-02  226  	err =3D 0;
+59ca6c93387d32 zhenwei pi 2022-03-02  227  	ctx->session_valid =3D false;
+59ca6c93387d32 zhenwei pi 2022-03-02  228  =
+
+59ca6c93387d32 zhenwei pi 2022-03-02  229  out:
+286da9ed04239c zhenwei pi 2022-04-24 @230  	kfree(vc_ctrl_req);
+59ca6c93387d32 zhenwei pi 2022-03-02  231  	if (err < 0) {
+59ca6c93387d32 zhenwei pi 2022-03-02 @232  		pr_err("virtio_crypto: Close s=
+ession failed status: %u, session_id: 0x%llx\n",
+bb26cab9a7c25d zhenwei pi 2022-04-24  233  			ctrl_status->status, destroy_=
+session->session_id);
+59ca6c93387d32 zhenwei pi 2022-03-02  234  	}
+59ca6c93387d32 zhenwei pi 2022-03-02  235  =
+
+59ca6c93387d32 zhenwei pi 2022-03-02  236  	return err;
+59ca6c93387d32 zhenwei pi 2022-03-02  237  }
+59ca6c93387d32 zhenwei pi 2022-03-02  238  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0974520677148737448==--
+--===============0895394186173512872==--
 
