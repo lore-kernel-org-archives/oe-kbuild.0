@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0802696009031944229=="
+Content-Type: multipart/mixed; boundary="===============5836379846288885498=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/rc/meson-ir-tx.c:159:20: warning: Parameter 'buf' can be declared with const [constParameter]
-Date: Sun, 24 Apr 2022 20:48:53 +0800
-Message-ID: <202204242041.pY5vF1uS-lkp@intel.com>
+Subject: [mchehab-media-next:master 41/123] drivers/media/v4l2-core/v4l2-async.c:293:23-30: ERROR: PTR_ERR applied after initialization to constant on line 281
+Date: Sun, 24 Apr 2022 19:27:29 +0800
+Message-ID: <202204241937.iZNM8j7V-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0802696009031944229==
+--===============5836379846288885498==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,88 +15,72 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+TO: Daniel Scally <djrscally@gmail.com>
 CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: linux-media(a)vger.kernel.org
-CC: Sean Young <sean@mess.org>
+CC: "Jean-Michel Hautbois" <jeanmichel.hautbois@ideasonboard.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   22da5264abf497a10a4ed629f07f4ba28a7ed5eb
-commit: 49be1c78d575eedf862a05aebfd5ab5c24193f61 media: rc: introduce Meson=
- IR TX driver
-date:   9 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 9 months ago
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 49be1c78d575eedf862a05aebfd5ab5c24193f61
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   git://linuxtv.org/mchehab/media-next.git master
+head:   d0c19bed8cd3d005739c0a6374118c553564ef10
+commit: aa4faf6eb27132532d5a133d9241254c16d4bafa [41/123] media: v4l2-async=
+: Create links during v4l2_async_match_notify()
+:::::: branch date: 3 hours ago
+:::::: commit date: 4 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+424/202204241937.iZNM8j7V-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/media/v4l2-core/v4l2-async.c:293:23-30: ERROR: PTR_ERR applied a=
+fter initialization to constant on line 281
 
->> drivers/media/v4l2-core/v4l2-ctrls-defs.c:731:10: warning: Unused variab=
-le value 'qmenu_int_vpx_num_partitions' [constStatement]
-     return __v4l2_qmenu_int_len(qmenu_int_vpx_num_partitions, len);
-            ^
->> drivers/media/v4l2-core/v4l2-ctrls-defs.c:733:10: warning: Unused variab=
-le value 'qmenu_int_vpx_num_ref_frames' [constStatement]
-     return __v4l2_qmenu_int_len(qmenu_int_vpx_num_ref_frames, len);
-            ^
---
->> drivers/media/rc/meson-ir-tx.c:159:20: warning: Parameter 'buf' can be d=
-eclared with const [constParameter]
-        unsigned int *buf, unsigned int len)
-                      ^
+vim +293 drivers/media/v4l2-core/v4l2-async.c
 
-vim +/buf +159 drivers/media/rc/meson-ir-tx.c
+2cab00bb076b9f Sakari Ailus  2017-09-24  277  =
 
-49be1c78d575eed Viktor Prutyanov 2021-07-19  157  =
+aa4faf6eb27132 Daniel Scally 2022-03-02  278  static int v4l2_async_create_=
+ancillary_links(struct v4l2_async_notifier *n,
+aa4faf6eb27132 Daniel Scally 2022-03-02  279  					     struct v4l2_subdev =
+*sd)
+aa4faf6eb27132 Daniel Scally 2022-03-02  280  {
+aa4faf6eb27132 Daniel Scally 2022-03-02 @281  	struct media_link *link =3D =
+NULL;
+aa4faf6eb27132 Daniel Scally 2022-03-02  282  =
 
-49be1c78d575eed Viktor Prutyanov 2021-07-19  158  static bool meson_irtx_ch=
-eck_buf(struct meson_irtx *ir,
-49be1c78d575eed Viktor Prutyanov 2021-07-19 @159  				 unsigned int *buf, u=
-nsigned int len)
-49be1c78d575eed Viktor Prutyanov 2021-07-19  160  {
-49be1c78d575eed Viktor Prutyanov 2021-07-19  161  	unsigned int i;
-49be1c78d575eed Viktor Prutyanov 2021-07-19  162  =
+aa4faf6eb27132 Daniel Scally 2022-03-02  283  #if IS_ENABLED(CONFIG_MEDIA_C=
+ONTROLLER)
+aa4faf6eb27132 Daniel Scally 2022-03-02  284  =
 
-49be1c78d575eed Viktor Prutyanov 2021-07-19  163  	for (i =3D 0; i < len; i=
-++) {
-49be1c78d575eed Viktor Prutyanov 2021-07-19  164  		unsigned int max_tb_us;
-49be1c78d575eed Viktor Prutyanov 2021-07-19  165  		/*
-49be1c78d575eed Viktor Prutyanov 2021-07-19  166  		 * Max space timebase i=
-s 100 us.
-49be1c78d575eed Viktor Prutyanov 2021-07-19  167  		 * Pulse timebase equal=
-s to carrier period.
-49be1c78d575eed Viktor Prutyanov 2021-07-19  168  		 */
-49be1c78d575eed Viktor Prutyanov 2021-07-19  169  		if (i % 2 =3D=3D 0)
-49be1c78d575eed Viktor Prutyanov 2021-07-19  170  			max_tb_us =3D USEC_PER=
-_SEC / ir->carrier;
-49be1c78d575eed Viktor Prutyanov 2021-07-19  171  		else
-49be1c78d575eed Viktor Prutyanov 2021-07-19  172  			max_tb_us =3D 100;
-49be1c78d575eed Viktor Prutyanov 2021-07-19  173  =
+aa4faf6eb27132 Daniel Scally 2022-03-02  285  	if (sd->entity.function !=3D=
+ MEDIA_ENT_F_LENS &&
+aa4faf6eb27132 Daniel Scally 2022-03-02  286  	    sd->entity.function !=3D=
+ MEDIA_ENT_F_FLASH)
+aa4faf6eb27132 Daniel Scally 2022-03-02  287  		return 0;
+aa4faf6eb27132 Daniel Scally 2022-03-02  288  =
 
-49be1c78d575eed Viktor Prutyanov 2021-07-19  174  		if (buf[i] >=3D max_tb_=
-us * IRB_MAX_DELAY)
-49be1c78d575eed Viktor Prutyanov 2021-07-19  175  			return false;
-49be1c78d575eed Viktor Prutyanov 2021-07-19  176  	}
-49be1c78d575eed Viktor Prutyanov 2021-07-19  177  =
+aa4faf6eb27132 Daniel Scally 2022-03-02  289  	link =3D media_create_ancill=
+ary_link(&n->sd->entity, &sd->entity);
+aa4faf6eb27132 Daniel Scally 2022-03-02  290  =
 
-49be1c78d575eed Viktor Prutyanov 2021-07-19  178  	return true;
-49be1c78d575eed Viktor Prutyanov 2021-07-19  179  }
-49be1c78d575eed Viktor Prutyanov 2021-07-19  180  =
+aa4faf6eb27132 Daniel Scally 2022-03-02  291  #endif
+aa4faf6eb27132 Daniel Scally 2022-03-02  292  =
+
+aa4faf6eb27132 Daniel Scally 2022-03-02 @293  	return IS_ERR(link) ? PTR_ER=
+R(link) : 0;
+aa4faf6eb27132 Daniel Scally 2022-03-02  294  }
+aa4faf6eb27132 Daniel Scally 2022-03-02  295  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0802696009031944229==--
+--===============5836379846288885498==--
 
