@@ -1,196 +1,449 @@
-Content-Type: multipart/mixed; boundary="===============7322405166862142124=="
+Content-Type: multipart/mixed; boundary="===============3551387168263376026=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 1/2] printk: stop including cache.h from printk.h
-Date: Thu, 28 Apr 2022 10:00:32 +0800
-Message-ID: <202204280806.pOcl1gU4-lkp@intel.com>
+Subject: drivers/iommu/iova.c:192:14: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 24 Apr 2022 12:10:54 +0800
+Message-ID: <202204241113.7fF1lSjN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7322405166862142124==
+--===============3551387168263376026==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220426203231.2107365-1-pcc@google.com>
-References: <20220426203231.2107365-1-pcc@google.com>
-TO: Peter Collingbourne <pcc@google.com>
-TO: Andrey Konovalov <andreyknvl@gmail.com>
-TO: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-CC: Peter Collingbourne <pcc@google.com>
-CC: Linux ARM <linux-arm-kernel@lists.infradead.org>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-CC: vbabka(a)suse.cz
-CC: penberg(a)kernel.org
-CC: roman.gushchin(a)linux.dev
-CC: iamjoonsoo.kim(a)lge.com
-CC: rientjes(a)google.com
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-CC: Alexander Potapenko <glider@google.com>
-CC: Dmitry Vyukov <dvyukov@google.com>
-CC: "kasan-dev" <kasan-dev@googlegroups.com>
-CC: Eric Biederman <ebiederm@xmission.com>
-CC: Kees Cook <keescook@chromium.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Stefano Garzarella <sgarzare@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
-Hi Peter,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on vbabka-slab/for-next]
-[also build test ERROR on arm64/for-next/core linus/master v5.18-rc4 next-2=
-0220427]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Collingbourne/=
-printk-stop-including-cache-h-from-printk-h/20220427-043357
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-n=
-ext
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
-config: parisc-randconfig-s031-20220425 (https://download.01.org/0day-ci/ar=
-chive/20220428/202204280806.pOcl1gU4-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.3.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   22da5264abf497a10a4ed629f07f4ba28a7ed5eb
+commit: 4080fc1067501707b9693b8003feae7d50d14e35 vdpa_sim: use iova module =
+to allocate IOVA addresses
+date:   12 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-c006-20220418 (https://download.01.org/0day-ci/arc=
+hive/20220424/202204241113.7fF1lSjN-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ef9460=
+9d6ebe981767788e6877b0b3b731d425af)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/edcb0f592304f7849a3=
-9586f9e3fe0d8f6e6c6b9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Peter-Collingbourne/printk-stop-in=
-cluding-cache-h-from-printk-h/20220427-043357
-        git checkout edcb0f592304f7849a39586f9e3fe0d8f6e6c6b9
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D4080fc1067501707b9693b8003feae7d50d14e35
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4080fc1067501707b9693b8003feae7d50d14e35
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-arisc SHELL=3D/bin/bash
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
 
-   In file included from kernel/bpf/bpf_lru_list.c:8:
->> kernel/bpf/bpf_lru_list.h:36:29: error: expected ':', ',', ';', '}' or '=
-__attribute__' before '____cacheline_aligned_in_smp'
-      36 |         raw_spinlock_t lock ____cacheline_aligned_in_smp;
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/bpf/bpf_lru_list.c:5:
-   kernel/bpf/bpf_lru_list.c: In function 'bpf_lru_list_push_free':
->> kernel/bpf/bpf_lru_list.c:313:33: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     313 |         raw_spin_lock_irqsave(&l->lock, flags);
-         |                                 ^~
-   include/linux/spinlock.h:242:48: note: in definition of macro 'raw_spin_=
-lock_irqsave'
-     242 |                 flags =3D _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   kernel/bpf/bpf_lru_list.c:315:38: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     315 |         raw_spin_unlock_irqrestore(&l->lock, flags);
-         |                                      ^~
-   include/linux/spinlock.h:280:45: note: in definition of macro 'raw_spin_=
-unlock_irqrestore'
-     280 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
-         |                                             ^~~~
-   kernel/bpf/bpf_lru_list.c: In function 'bpf_lru_list_pop_free_to_local':
-   kernel/bpf/bpf_lru_list.c:325:25: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     325 |         raw_spin_lock(&l->lock);
-         |                         ^~
-   include/linux/spinlock.h:215:48: note: in definition of macro 'raw_spin_=
-lock'
-     215 | #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-         |                                                ^~~~
-   kernel/bpf/bpf_lru_list.c:344:27: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     344 |         raw_spin_unlock(&l->lock);
-         |                           ^~
-   include/linux/spinlock.h:274:58: note: in definition of macro 'raw_spin_=
-unlock'
-     274 | #define raw_spin_unlock(lock)           _raw_spin_unlock(lock)
-         |                                                          ^~~~
-   kernel/bpf/bpf_lru_list.c: In function 'bpf_percpu_lru_pop_free':
-   kernel/bpf/bpf_lru_list.c:410:33: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     410 |         raw_spin_lock_irqsave(&l->lock, flags);
-         |                                 ^~
-   include/linux/spinlock.h:242:48: note: in definition of macro 'raw_spin_=
-lock_irqsave'
-     242 |                 flags =3D _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   kernel/bpf/bpf_lru_list.c:426:38: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     426 |         raw_spin_unlock_irqrestore(&l->lock, flags);
-         |                                      ^~
-   include/linux/spinlock.h:280:45: note: in definition of macro 'raw_spin_=
-unlock_irqrestore'
-     280 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
-         |                                             ^~~~
-   kernel/bpf/bpf_lru_list.c: In function 'bpf_percpu_lru_push_free':
-   kernel/bpf/bpf_lru_list.c:544:33: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     544 |         raw_spin_lock_irqsave(&l->lock, flags);
-         |                                 ^~
-   include/linux/spinlock.h:242:48: note: in definition of macro 'raw_spin_=
-lock_irqsave'
-     242 |                 flags =3D _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   kernel/bpf/bpf_lru_list.c:548:38: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     548 |         raw_spin_unlock_irqrestore(&l->lock, flags);
-         |                                      ^~
-   include/linux/spinlock.h:280:45: note: in definition of macro 'raw_spin_=
-unlock_irqrestore'
-     280 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
-         |                                             ^~~~
-   kernel/bpf/bpf_lru_list.c: In function 'bpf_lru_list_init':
-   kernel/bpf/bpf_lru_list.c:643:30: error: 'struct bpf_lru_list' has no me=
-mber named 'lock'
-     643 |         raw_spin_lock_init(&l->lock);
-         |                              ^~
-   include/linux/spinlock.h:106:31: note: in definition of macro 'raw_spin_=
-lock_init'
-     106 |         __raw_spin_lock_init((lock), #lock, &__key, LD_WAIT_SPIN=
-);      \
-         |                               ^~~~
+clang-analyzer warnings: (new ones prefixed by >>)
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/target/target_core_configfs.c:1964:5: warning: Value stored to '=
+ret' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:1964:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:1978:5: warning: Value stored to '=
+ret' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:1978:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2042:5: warning: Value stored to '=
+ret' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2042:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   Suppressed 16 warnings (7 in non-user code, 9 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   fs/xfs/xfs_pnfs.c:39:3: warning: Value stored to 'error' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   error =3D break_layout(inode, true);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_pnfs.c:39:3: note: Value stored to 'error' is never read
+                   error =3D break_layout(inode, true);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/input/serio/apbps2.c:114:3: warning: Value stored to 'tmp' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   tmp =3D ioread32be(&priv->regs->data);
+                   ^
+   drivers/input/serio/apbps2.c:114:3: note: Value stored to 'tmp' is never=
+ read
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/iommu/iova.c:192:14: warning: Assigned value is garbage or undef=
+ined [clang-analyzer-core.uninitialized.Assign]
+                   align_mask <<=3D fls_long(size - 1);
+                              ^   ~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iova.c:191:2: note: Assuming 'size_aligned' is true
+           if (size_aligned)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/iommu/iova.c:191:2: note: '?' condition is false
+           if (size_aligned)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/iommu/iova.c:191:6: note: 'size_aligned' is true
+           if (size_aligned)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/iommu/iova.c:191:2: note: '?' condition is true
+           if (size_aligned)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/iommu/iova.c:191:2: note: Taking true branch
+           if (size_aligned)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/iommu/iova.c:192:18: note: Calling 'fls_long'
+                   align_mask <<=3D fls_long(size - 1);
+                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:187:2: note: '?' condition is true
+           if (sizeof(l) =3D=3D 4)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/linux/bitops.h:187:2: note: Taking true branch
+           if (sizeof(l) =3D=3D 4)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/linux/bitops.h:188:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r =3D 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
+o 0
+           if (!x)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/asm-generic/bitops/fls.h:17:2: note: '?' condition is false
+           if (!x)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/asm-generic/bitops/fls.h:17:7: note: 'x' is not equal to 0
+           if (!x)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+
+vim +192 drivers/iommu/iova.c
+
+d751751a9f7f2f drivers/iommu/iova.c Marek Szyprowski      2017-02-24  179  =
+
+ddf02886cbe665 drivers/pci/iova.c   mark gross            2008-03-04  180  =
+static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
+ddf02886cbe665 drivers/pci/iova.c   mark gross            2008-03-04  181  =
+		unsigned long size, unsigned long limit_pfn,
+ddf02886cbe665 drivers/pci/iova.c   mark gross            2008-03-04  182  =
+			struct iova *new, bool size_aligned)
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  183  {
+973f5fbedb0721 drivers/iommu/iova.c Robin Murphy          2017-09-21  184  =
+	struct rb_node *curr, *prev;
+973f5fbedb0721 drivers/iommu/iova.c Robin Murphy          2017-09-21  185  =
+	struct iova *curr_iova;
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  186  =
+	unsigned long flags;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  187  =
+	unsigned long new_pfn, retry_pfn;
+086c83acb70fc6 drivers/iommu/iova.c Zhen Lei              2017-09-21  188  =
+	unsigned long align_mask =3D ~0UL;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  189  =
+	unsigned long high_pfn =3D limit_pfn, low_pfn =3D iovad->start_pfn;
+086c83acb70fc6 drivers/iommu/iova.c Zhen Lei              2017-09-21  190  =
+
+086c83acb70fc6 drivers/iommu/iova.c Zhen Lei              2017-09-21  191  =
+	if (size_aligned)
+086c83acb70fc6 drivers/iommu/iova.c Zhen Lei              2017-09-21 @192  =
+		align_mask <<=3D fls_long(size - 1);
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  193  =
+
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  194  =
+	/* Walk the tree backwards */
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  195  =
+	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  196  =
+	if (limit_pfn <=3D iovad->dma_32bit_pfn &&
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  197  =
+			size >=3D iovad->max32_alloc_size)
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  198  =
+		goto iova32_full;
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  199  =
+
+973f5fbedb0721 drivers/iommu/iova.c Robin Murphy          2017-09-21  200  =
+	curr =3D __get_cached_rbnode(iovad, limit_pfn);
+973f5fbedb0721 drivers/iommu/iova.c Robin Murphy          2017-09-21  201  =
+	curr_iova =3D rb_entry(curr, struct iova, node);
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  202  =
+	retry_pfn =3D curr_iova->pfn_hi + 1;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  203  =
+
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  204  =
+retry:
+973f5fbedb0721 drivers/iommu/iova.c Robin Murphy          2017-09-21  205  =
+	do {
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  206  =
+		high_pfn =3D min(high_pfn, curr_iova->pfn_lo);
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  207  =
+		new_pfn =3D (high_pfn - size) & align_mask;
+ddf02886cbe665 drivers/pci/iova.c   mark gross            2008-03-04  208  =
+		prev =3D curr;
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  209  =
+		curr =3D rb_prev(curr);
+973f5fbedb0721 drivers/iommu/iova.c Robin Murphy          2017-09-21  210  =
+		curr_iova =3D rb_entry(curr, struct iova, node);
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  211  =
+	} while (curr && new_pfn <=3D curr_iova->pfn_hi && new_pfn >=3D low_pfn);
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  212  =
+
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  213  =
+	if (high_pfn < size || new_pfn < low_pfn) {
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  214  =
+		if (low_pfn =3D=3D iovad->start_pfn && retry_pfn < limit_pfn) {
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  215  =
+			high_pfn =3D limit_pfn;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  216  =
+			low_pfn =3D retry_pfn;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  217  =
+			curr =3D &iovad->anchor.node;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  218  =
+			curr_iova =3D rb_entry(curr, struct iova, node);
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  219  =
+			goto retry;
+4e89dce725213d drivers/iommu/iova.c Vijayanand Jitta      2020-09-30  220  =
+		}
+80ef4464d5e274 drivers/iommu/iova.c Robert Richter        2019-03-20  221  =
+		iovad->max32_alloc_size =3D size;
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  222  =
+		goto iova32_full;
+80ef4464d5e274 drivers/iommu/iova.c Robert Richter        2019-03-20  223  =
+	}
+f76aec76ec7f68 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  224  =
+
+f76aec76ec7f68 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  225  =
+	/* pfn_lo will point to size aligned address if size_aligned is set */
+086c83acb70fc6 drivers/iommu/iova.c Zhen Lei              2017-09-21  226  =
+	new->pfn_lo =3D new_pfn;
+f76aec76ec7f68 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  227  =
+	new->pfn_hi =3D new->pfn_lo + size - 1;
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  228  =
+
+d751751a9f7f2f drivers/iommu/iova.c Marek Szyprowski      2017-02-24  229  =
+	/* If we have 'prev', it's a valid place to start the insertion. */
+d751751a9f7f2f drivers/iommu/iova.c Marek Szyprowski      2017-02-24  230  =
+	iova_insert_rbtree(&iovad->rbroot, new, prev);
+e60aa7b53845a2 drivers/iommu/iova.c Robin Murphy          2017-09-21  231  =
+	__cached_rbnode_insert_update(iovad, new);
+ddf02886cbe665 drivers/pci/iova.c   mark gross            2008-03-04  232  =
+
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  233  =
+	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  234  =
+	return 0;
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  235  =
+
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  236  =
+iova32_full:
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  237  =
+	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
+bee60e94a1e20e drivers/iommu/iova.c Ganapatrao Kulkarni   2018-09-05  238  =
+	return -ENOMEM;
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  239  }
+f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  240  =
 
 
-vim +36 kernel/bpf/bpf_lru_list.h
+:::::: The code at line 192 was first introduced by commit
+:::::: 086c83acb70fc6da044c9ca45c1c9780c64545b0 iommu/iova: Optimise the pa=
+dding calculation
 
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  29  =
-
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  30  struct bpf_lru_list {
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  31  	struct list_head lists[NR_=
-BPF_LRU_LIST_T];
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  32  	unsigned int counts[NR_BPF=
-_LRU_LIST_COUNT];
-0ac16296ffc638 Qiujun Huang     2020-04-03  33  	/* The next inactive list =
-rotation starts from here */
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  34  	struct list_head *next_ina=
-ctive_rotation;
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  35  =
-
-3a08c2fd763450 Martin KaFai Lau 2016-11-11 @36  	raw_spinlock_t lock ____ca=
-cheline_aligned_in_smp;
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  37  };
-3a08c2fd763450 Martin KaFai Lau 2016-11-11  38  =
-
+:::::: TO: Zhen Lei <thunder.leizhen@huawei.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7322405166862142124==--
+--===============3551387168263376026==--
 
