@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1357918405153557568=="
+Content-Type: multipart/mixed; boundary="===============3289947273543131540=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:for-linux-next 3/9] drivers/gpu/drm/display/drm_dp_helper.c:551:12-13: WARNING opportunity for min()
-Date: Tue, 26 Apr 2022 06:09:36 +0800
-Message-ID: <202204260623.JIoWbLSv-lkp@intel.com>
+Subject: [drm-misc:for-linux-next 2/9] drivers/gpu/drm/display/drm_dp_cec.c:133:12-13: WARNING opportunity for min()
+Date: Tue, 26 Apr 2022 05:28:51 +0800
+Message-ID: <202204260519.eNL06xce-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1357918405153557568==
+--===============3289947273543131540==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,16 +17,22 @@ BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
 TO: Thomas Zimmermann <tzimmermann@suse.de>
 CC: Lyude Paul <lyude@redhat.com>
+CC: Javier Martinez Canillas <javierm@redhat.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+
+Hi Thomas,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
 head:   644edf52b6305506ba7fd552323c1dfaa9cf6d8d
-commit: 1e0f66420b13fdd45754be0f15220a9185d59aa4 [3/9] drm/display: Introdu=
-ce a DRM display-helper module
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: x86_64-randconfig-c022-20220425 (https://download.01.org/0day-ci/ar=
-chive/20220426/202204260623.JIoWbLSv-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+commit: da68386d9edb1f57abf886febe5c5169ebd4d2c9 [2/9] drm: Rename dp/ to d=
+isplay/
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arm-randconfig-c003-20220425 (https://download.01.org/0day-ci/archi=
+ve/20220426/202204260519.eNL06xce-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -34,84 +40,58 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/display/drm_dp_helper.c:551:12-13: WARNING opportunity f=
-or min()
+>> drivers/gpu/drm/display/drm_dp_cec.c:133:12-13: WARNING opportunity for =
+min()
 
-vim +551 drivers/gpu/drm/display/drm_dp_helper.c
+vim +133 drivers/gpu/drm/display/drm_dp_cec.c
 
-c197db75ff5c1d4 drivers/gpu/drm/drm_dp_helper.c Thierry Reding 2013-11-28  =
-529  =
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  117  =
 
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-530  /**
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-531   * drm_dp_dpcd_probe() - probe a given DPCD address with a 1-byte read=
- access
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-532   * @aux: DisplayPort AUX channel (SST)
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-533   * @offset: address of the register to probe
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-534   *
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-535   * Probe the provided DPCD address by reading 1 byte from it. The func=
-tion can
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-536   * be used to trigger some side-effect the read access has, like wakin=
-g up the
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-537   * sink, without the need for the read-out value.
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-538   *
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-539   * Returns 0 if the read access suceeded, or a negative error code on =
-failure.
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-540   */
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-541  int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset)
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-542  {
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-543  	u8 buffer;
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-544  	int ret;
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-545  =
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  118  s=
+tatic int drm_dp_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  119  	=
+			    u32 signal_free_time, struct cec_msg *msg)
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  120  {
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  121  	=
+struct drm_dp_aux *aux =3D cec_get_drvdata(adap);
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  122  	=
+unsigned int retries =3D min(5, attempts - 1);
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  123  	=
+ssize_t err;
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  124  =
 
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-546  	ret =3D drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ, offset, &buffer, =
-1);
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-547  	WARN_ON(ret =3D=3D 0);
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-548  =
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  125  	=
+err =3D drm_dp_dpcd_write(aux, DP_CEC_TX_MESSAGE_BUFFER,
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  126  	=
+			msg->msg, msg->len);
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  127  	=
+if (err < 0)
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  128  	=
+	return err;
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  129  =
 
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-549  	drm_dp_dump_access(aux, DP_AUX_NATIVE_READ, offset, &buffer, ret);
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-550  =
-
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11 @=
-551  	return ret < 0 ? ret : 0;
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-552  }
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-553  EXPORT_SYMBOL(drm_dp_dpcd_probe);
-d8bb92e70a43458 drivers/gpu/drm/dp/drm_dp.c     Imre Deak      2022-04-11  =
-554  =
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  130  	=
+err =3D drm_dp_dpcd_writeb(aux, DP_CEC_TX_MESSAGE_INFO,
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  131  	=
+			 (msg->len - 1) | (retries << 4) |
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  132  	=
+			 DP_CEC_TX_MESSAGE_SEND);
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11 @133  	=
+return err < 0 ? err : 0;
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  134  }
+2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  135  =
 
 
-:::::: The code@line 551 was first introduced by commit
-:::::: d8bb92e70a434584f5b8a882eb46930cc22fd45a drm/dp: Factor out a functi=
-on to probe a DPCD address
+:::::: The code@line 133 was first introduced by commit
+:::::: 2c6d1fffa1d9b0a5b5ac1a23be9ad64abe60910d drm: add support for Displa=
+yPort CEC-Tunneling-over-AUX
 
-:::::: TO: Imre Deak <imre.deak@intel.com>
-:::::: CC: Imre Deak <imre.deak@intel.com>
+:::::: TO: Hans Verkuil <hans.verkuil@cisco.com>
+:::::: CC: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1357918405153557568==--
+--===============3289947273543131540==--
 
