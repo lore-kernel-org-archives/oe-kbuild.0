@@ -1,206 +1,155 @@
-Content-Type: multipart/mixed; boundary="===============8612335907911066399=="
+Content-Type: multipart/mixed; boundary="===============5261566252787156251=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:for-linux-next 2/9] drivers/gpu/drm/display/drm_dp_mst_topology.c:4498:64-67: ERROR: invalid reference to the index variable of the iterator on line 4486
-Date: Tue, 26 Apr 2022 04:27:35 +0800
-Message-ID: <202204260404.JsTUt7Ee-lkp@intel.com>
+Subject: Re: [PATCH v5 12/17] drm/shmem-helper: Add generic memory shrinker
+Date: Tue, 26 Apr 2022 04:17:19 +0800
+Message-ID: <202204260432.PrSqpr86-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8612335907911066399==
+--===============5261566252787156251==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
+In-Reply-To: <20220424190424.540501-13-dmitry.osipenko@collabora.com>
+References: <20220424190424.540501-13-dmitry.osipenko@collabora.com>
+TO: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+TO: David Airlie <airlied@linux.ie>
+TO: Gerd Hoffmann <kraxel@redhat.com>
+TO: Gurchetan Singh <gurchetansingh@chromium.org>
+TO: "Chia-I Wu" <olvaffe@gmail.com>
+TO: Daniel Vetter <daniel@ffwll.ch>
+TO: Daniel Almeida <daniel.almeida@collabora.com>
+TO: Gert Wollny <gert.wollny@collabora.com>
+TO: Gustavo Padovan <gustavo.padovan@collabora.com>
+TO: Daniel Stone <daniel@fooishbar.org>
+TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
 TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Lyude Paul <lyude@redhat.com>
-CC: Javier Martinez Canillas <javierm@redhat.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Steven Price <steven.price@arm.com>
+TO: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+TO: Rob Clark <robdclark@gmail.com>
+TO: Emil Velikov <emil.l.velikov@gmail.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+TO: Qiang Yu <yuq825@gmail.com>
+TO: Sumit Semwal <sumit.semwal@linaro.org>
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Dmitry Osipenko <digetx@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
+CC: virtualization(a)lists.linux-foundation.org
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   644edf52b6305506ba7fd552323c1dfaa9cf6d8d
-commit: da68386d9edb1f57abf886febe5c5169ebd4d2c9 [2/9] drm: Rename dp/ to d=
-isplay/
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-randconfig-c022-20220425 (https://download.01.org/0day-ci/ar=
-chive/20220426/202204260404.JsTUt7Ee-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+Hi Dmitry,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on next-20220422]
+[cannot apply to v5.18-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-=
+generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220425-030=
+800
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+compiler: powerpc-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 67a24652cf3a7fa84713818079c6d79b3c8edc88
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/display/drm_dp_mst_topology.c:4498:64-67: ERROR: invalid=
- reference to the index variable of the iterator on line 4486
-   drivers/gpu/drm/display/drm_dp_mst_topology.c:5223:13-17: ERROR: invalid=
- reference to the index variable of the iterator on line 5200
-   drivers/gpu/drm/display/drm_dp_mst_topology.c:5387:5-8: ERROR: invalid r=
-eference to the index variable of the iterator on line 5373
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +4498 drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> drivers/gpu/drm/drm_gem_shmem_helper.c:984:29: warning: Boolean result i=
+s used in bitwise operation. Clarify expression with parentheses. [clarifyC=
+ondition]
+    WARN_ON_ONCE(!shmem->pages ^ pages_inactive);
+                               ^
 
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4447  =
+vim +984 drivers/gpu/drm/drm_gem_shmem_helper.c
 
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4448  /**
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4449   * drm_dp_atomic_release_vcpi_slots() - Release allocated=
- vcpi slots
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4450   * @state: global atomic state
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4451   * @mgr: MST topology manager for the port
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4452   * @port: The port to release the VCPI slots from
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4453   *
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4454   * Releases any VCPI slots that have been allocated to a =
-port in the atomic
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4455   * state. Any atomic drivers which support MST must call =
-this function in
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4456   * their &drm_connector_helper_funcs.atomic_check() callb=
-ack when the
-1e55a53a28d3e52 drivers/gpu/drm/drm_dp_mst_topology.c Matt Roper           =
-2019-02-01  4457   * connector will no longer have VCPI allocated (e.g. bec=
-ause its CRTC was
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4458   * removed) when it had VCPI allocated in the previous at=
-omic state.
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4459   *
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4460   * It is OK to call this even if @port has been removed f=
-rom the system.
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4461   * Additionally, it is OK to call this function multiple =
-times on the same
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4462   * @port as needed. It is not OK however, to call this fu=
-nction and
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4463   * drm_dp_atomic_find_vcpi_slots() on the same @port in a=
- single atomic check
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4464   * phase.
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4465   *
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4466   * See also:
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4467   * drm_dp_atomic_find_vcpi_slots()
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4468   * drm_dp_mst_atomic_check()
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4469   *
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4470   * Returns:
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4471   * 0 if all slots for this port were added back to
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4472   * &drm_dp_mst_topology_state.avail_slots or negative err=
-or code
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4473   */
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4474  int drm_dp_atomic_release_vcpi_slots(struct drm_atomic_st=
-ate *state,
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4475  				     struct drm_dp_mst_topology_mgr *mgr,
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4476  				     struct drm_dp_mst_port *port)
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4477  {
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4478  	struct drm_dp_mst_topology_state *topology_state;
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4479  	struct drm_dp_vcpi_allocation *pos;
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4480  	bool found =3D false;
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4481  =
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   965  =
 
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4482  	topology_state =3D drm_atomic_get_mst_topology_state(sta=
-te, mgr);
-56a91c4932bd038 drivers/gpu/drm/drm_dp_mst_topology.c Ville Syrj=C3=A4l=C3=
-=A4        2017-07-12  4483  	if (IS_ERR(topology_state))
-56a91c4932bd038 drivers/gpu/drm/drm_dp_mst_topology.c Ville Syrj=C3=A4l=C3=
-=A4        2017-07-12  4484  		return PTR_ERR(topology_state);
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4485  =
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   966  static vm_fault_t drm=
+_gem_shmem_fault(struct vm_fault *vmf)
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   967  {
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   968  	struct vm_area_struc=
+t *vma =3D vmf->vma;
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   969  	struct drm_gem_objec=
+t *obj =3D vma->vm_private_data;
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   970  	struct drm_gem_shmem=
+_object *shmem =3D to_drm_gem_shmem_obj(obj);
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   971  	loff_t num_pages =3D=
+ obj->size >> PAGE_SHIFT;
+d611b4a0907cec Neil Roberts    2021-02-23   972  	vm_fault_t ret;
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   973  	struct page *page;
+11d5a4745e00e7 Neil Roberts    2021-02-23   974  	pgoff_t page_offset;
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   975  	bool pages_inactive;
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   976  	int err;
+11d5a4745e00e7 Neil Roberts    2021-02-23   977  =
 
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10 @4486  	list_for_each_entry(pos, &topology_state->vcpis, next) {
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4487  		if (pos->port =3D=3D port) {
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4488  			found =3D true;
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4489  			break;
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4490  		}
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4491  	}
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4492  	if (WARN_ON(!found)) {
-3a08f53dcf17e7c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2021-04-23  4493  		drm_err(mgr->dev, "no VCPI for [MST PORT:%p] found in m=
-st state %p\n",
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4494  			port, &topology_state->base);
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4495  		return -EINVAL;
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4496  	}
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4497  =
+11d5a4745e00e7 Neil Roberts    2021-02-23   978  	/* We don't use vmf->pgof=
+f since that has the fake offset */
+11d5a4745e00e7 Neil Roberts    2021-02-23   979  	page_offset =3D (vmf->add=
+ress - vma->vm_start) >> PAGE_SHIFT;
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   980  =
 
-3a08f53dcf17e7c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2021-04-23 @4498  	drm_dbg_atomic(mgr->dev, "[MST PORT:%p] VCPI %d -> 0\n",=
- port, pos->vcpi);
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4499  	if (pos->vcpi) {
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4500  		drm_dp_mst_put_port_malloc(port);
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4501  		pos->vcpi =3D 0;
-7bfc1fec1af3e2f drivers/gpu/drm/drm_dp_mst_topology.c Mikita Lipski        =
-2020-04-07  4502  		pos->pbn =3D 0;
-eceae147246749c drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul           =
-2019-01-10  4503  	}
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4504  =
+37e84948f9e9ba Dmitry Osipenko 2022-04-24   981  	dma_resv_lock(shmem->base=
+.resv, NULL);
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   982  =
 
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4505  	return 0;
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4506  }
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4507  EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
-edb1ed1ab7d314e drivers/gpu/drm/drm_dp_mst_topology.c Pandiyan, Dhinakaran =
-2017-04-20  4508  =
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   983  	pages_inactive =3D (shmem=
+->evicted || shmem->madv < 0 || !shmem->pages_use_count);
+67a24652cf3a7f Dmitry Osipenko 2022-04-24  @984  	WARN_ON_ONCE(!shmem->page=
+s ^ pages_inactive);
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   985  =
 
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   986  	if (page_offset >=3D num_=
+pages || (!shmem->pages && !shmem->evicted)) {
+d611b4a0907cec Neil Roberts    2021-02-23   987  		ret =3D VM_FAULT_SIGBUS;
+d611b4a0907cec Neil Roberts    2021-02-23   988  	} else {
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   989  		err =3D drm_gem_shmem_sw=
+ap_in_locked(shmem);
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   990  		if (err) {
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   991  			ret =3D VM_FAULT_OOM;
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   992  			goto unlock;
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   993  		}
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   994  =
 
-:::::: The code at line 4498 was first introduced by commit
-:::::: 3a08f53dcf17e7cbdc6143e88791b3a10d0fdd48 drm/dp_mst: Convert drm_dp_=
-mst_topology.c to drm_err()/drm_dbg*()
+11d5a4745e00e7 Neil Roberts    2021-02-23   995  		page =3D shmem->pages[pa=
+ge_offset];
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   996  =
 
-:::::: TO: Lyude Paul <lyude@redhat.com>
-:::::: CC: Lyude Paul <lyude@redhat.com>
+8b93d1d7dbd578 Daniel Vetter   2021-08-12   997  		ret =3D vmf_insert_pfn(v=
+ma, vmf->address, page_to_pfn(page));
+d611b4a0907cec Neil Roberts    2021-02-23   998  	}
+67a24652cf3a7f Dmitry Osipenko 2022-04-24   999  unlock:
+37e84948f9e9ba Dmitry Osipenko 2022-04-24  1000  	dma_resv_unlock(shmem->ba=
+se.resv);
+d611b4a0907cec Neil Roberts    2021-02-23  1001  =
+
+d611b4a0907cec Neil Roberts    2021-02-23  1002  	return ret;
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12  1003  }
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12  1004  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8612335907911066399==--
+--===============5261566252787156251==--
 
