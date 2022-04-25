@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5101105257611103503=="
+Content-Type: multipart/mixed; boundary="===============3906271688220964163=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/regulator/bd9576-regulator.c:809:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 25 Apr 2022 09:10:03 +0800
-Message-ID: <202204250912.VBrm0DzE-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-maple 19/44] lib/maple_tree.c:324:2: warning: Value stored to 'node' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 25 Apr 2022 08:49:41 +0800
+Message-ID: <202204250811.BQSVLyZ9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5101105257611103503==
+--===============3906271688220964163==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen =
-<mazziesaccount@gmail.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+CC: David Howells <dhowells@redhat.com>
+CC: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   af2d861d4cd2a4da5137f795ee3509e6f944a25b
-commit: e7bf1fa58c46db9f72220c4472272d6da0a54c91 regulator: bd9576: Support=
- error reporting
-date:   10 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220424 (https://download.01.org/0day-ci/archi=
-ve/20220425/202204250912.VBrm0DzE-lkp(a)intel.com/config)
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
+maple
+head:   931e50676c6598d0eda1954ead465519ff91874d
+commit: 6c45be03ed6456efda93c06956d586eecae0e51a [19/44] Maple Tree: add ne=
+w data structure
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+425/202204250811.BQSVLyZ9-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
 dc3c683b393df1a5c9063252eb60e52818)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De7bf1fa58c46db9f72220c4472272d6da0a54c91
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e7bf1fa58c46db9f72220c4472272d6da0a54c91
+        # https://github.com/ammarfaizi2/linux-block/commit/6c45be03ed6456e=
+fda93c06956d586eecae0e51a
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/netfs-maple
+        git checkout 6c45be03ed6456efda93c06956d586eecae0e51a
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,374 +54,1095 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+                                    ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:300:10: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
+fer or security checks introduced in the C11 standard. Replace with analogo=
+us functions that support length arguments or provides boundary checks such=
+ as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depreca=
+tedOrUnsafeBufferHandling]
+                   return sprintf(buf, "%s\n", ps_attr->text_values[value.i=
+ntval]);
+                          ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:300:10: note: Call to function=
+ 'sprintf' is insecure as it does not provide bounding of the memory buffer=
+ or security checks introduced in the C11 standard. Replace with analogous =
+functions that support length arguments or provides boundary checks such as=
+ 'sprintf_s' in case of C11
+                   return sprintf(buf, "%s\n", ps_attr->text_values[value.i=
+ntval]);
+                          ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:309:9: warning: Call to functi=
+on 'sprintf' is insecure as it does not provide bounding of the memory buff=
+er or security checks introduced in the C11 standard. Replace with analogou=
+s functions that support length arguments or provides boundary checks such =
+as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Deprecat=
+edOrUnsafeBufferHandling]
+                   ret =3D sprintf(buf, "%s\n", value.strval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:309:9: note: Call to function =
+'sprintf' is insecure as it does not provide bounding of the memory buffer =
+or security checks introduced in the C11 standard. Replace with analogous f=
+unctions that support length arguments or provides boundary checks such as =
+'sprintf_s' in case of C11
+                   ret =3D sprintf(buf, "%s\n", value.strval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:312:9: warning: Call to functi=
+on 'sprintf' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'sprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   ret =3D sprintf(buf, "%d\n", value.intval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:312:9: note: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11
+                   ret =3D sprintf(buf, "%d\n", value.intval);
+                         ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:416:4: warning: Call to functi=
+on 'sprintf' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'sprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           sprintf(power_supply_attrs[i].attr_name, "_err_%=
+d", i);
+                           ^~~~~~~
+   drivers/power/supply/power_supply_sysfs.c:416:4: note: Call to function =
+'sprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'sprintf_s' in case of C11
+                           sprintf(power_supply_attrs[i].attr_name, "_err_%=
+d", i);
+                           ^~~~~~~
+   Suppressed 17 warnings (17 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/of/overlay.c:259:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(new_prop->value, target_path);
-           ^~~~~~
-   drivers/of/overlay.c:259:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(new_prop->value, target_path);
-           ^~~~~~
-   drivers/of/overlay.c:260:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(new_prop->value + target_path_len, path_tail);
-           ^~~~~~
-   drivers/of/overlay.c:260:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(new_prop->value + target_path_len, path_tail);
-           ^~~~~~
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/regulator/as3722-regulator.c:46:8: warning: Excessive padding in=
- 'struct as3722_register_mapping' (14 padding bytes, where 2 is optimal). =
-
-   Optimal fields order: =
-
-   name, =
-
-   sname, =
-
-   n_voltages, =
-
-   enable_reg, =
-
-   control_reg, =
-
-   sleep_ctrl_reg, =
-
-   regulator_id, =
-
-   vsel_reg, =
-
-   vsel_mask, =
-
-   enable_mask, =
-
-   mode_mask, =
-
-   sleep_ctrl_mask, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct as3722_register_mapping {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/as3722-regulator.c:46:8: note: Excessive padding in 's=
-truct as3722_register_mapping' (14 padding bytes, where 2 is optimal). Opti=
-mal fields order: name, sname, n_voltages, enable_reg, control_reg, sleep_c=
-trl_reg, regulator_id, vsel_reg, vsel_mask, enable_mask, mode_mask, sleep_c=
-trl_mask, consider reordering the fields or adding explicit padding members
-   struct as3722_register_mapping {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/regulator/bcm590xx-regulator.c:140:8: warning: Excessive padding=
- in 'struct bcm590xx_info' (6 padding bytes, where 2 is optimal). =
-
-   Optimal fields order: =
-
-   name, =
-
-   vin_name, =
-
-   volt_table, =
-
-   linear_ranges, =
-
-   n_voltages, =
-
-   n_linear_ranges, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct bcm590xx_info {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/regulator/bcm590xx-regulator.c:140:8: note: Excessive padding in=
- 'struct bcm590xx_info' (6 padding bytes, where 2 is optimal). Optimal fiel=
-ds order: name, vin_name, volt_table, linear_ranges, n_voltages, n_linear_r=
-anges, consider reordering the fields or adding explicit padding members
-   struct bcm590xx_info {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/regulator/bd9576-regulator.c:809:2: warning: Value stored to 're=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_write(d->regmap, BD957X_REG_INT_UVD_STAT,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:809:2: note: Value stored to 'ret' =
-is never read
-           ret =3D regmap_write(d->regmap, BD957X_REG_INT_UVD_STAT,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:1009:7: warning: Branch condition e=
-valuates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-                   if (may_have_irqs) {
-                       ^~~~~~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:894:27: note: 'may_have_irqs' decla=
-red without an initial value
-           bool vout_mode, ddr_sel, may_have_irqs;
-                                    ^~~~~~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:930:6: note: Assuming 'regmap' is n=
-on-null
-           if (!regmap) {
-               ^~~~~~~
-   drivers/regulator/bd9576-regulator.c:930:2: note: Taking false branch
-           if (!regmap) {
-           ^
-   drivers/regulator/bd9576-regulator.c:936:14: note: Calling 'of_property_=
-read_bool'
-           vout_mode =3D of_property_read_bool(pdev->dev.parent->of_node,
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/of.h:1230:9: note: Assuming 'prop' is null
-           return prop ? true : false;
-                  ^~~~
-   include/linux/of.h:1230:9: note: '?' condition is false
-   include/linux/of.h:1230:2: note: Returning zero, which participates in a=
- condition later
-           return prop ? true : false;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:936:14: note: Returning from 'of_pr=
-operty_read_bool'
-           vout_mode =3D of_property_read_bool(pdev->dev.parent->of_node,
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:938:6: note: 'vout_mode' is false
-           if (vout_mode) {
-               ^~~~~~~~~
-   drivers/regulator/bd9576-regulator.c:938:2: note: Taking false branch
-           if (vout_mode) {
-           ^
-   drivers/regulator/bd9576-regulator.c:985:6: note: 'ddr_sel' is false
-           if (ddr_sel)
-               ^~~~~~~
-   drivers/regulator/bd9576-regulator.c:985:2: note: Taking false branch
-           if (ddr_sel)
-           ^
-   drivers/regulator/bd9576-regulator.c:990:2: note: Control jumps to 'case=
- ROHM_CHIP_TYPE_BD9573:'  at line 995
-           switch (chip) {
-           ^
-   drivers/regulator/bd9576-regulator.c:996:3: note: Taking true branch
-                   dev_dbg(&pdev->dev, "Found BD9573MUF\n");
+   38 warnings generated.
+   drivers/tty/pty.c:405:3: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&tty->termios_locked, 0, sizeof(tty->termios_lock=
+ed));
                    ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/regulator/bd9576-regulator.c:996:3: note: Loop condition is fals=
-e.  Exiting loop
-                   dev_dbg(&pdev->dev, "Found BD9573MUF\n");
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/tty/pty.c:405:3: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                   memset(&tty->termios_locked, 0, sizeof(tty->termios_lock=
+ed));
                    ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/regulator/bd9576-regulator.c:997:3: note:  Execution continues o=
-n line 1003
-                   break;
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/tty/pty.c:407:3: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&o_tty->termios_locked, 0, sizeof(tty->termios_lo=
+cked));
                    ^
-   drivers/regulator/bd9576-regulator.c:1003:2: note: Loop condition is tru=
-e.  Entering loop body
-           for (i =3D 0; i < num_reg_data; i++) {
-           ^
-   drivers/regulator/bd9576-regulator.c:1009:7: note: Branch condition eval=
-uates to a garbage value
-                   if (may_have_irqs) {
-                       ^~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/tty/pty.c:407:3: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                   memset(&o_tty->termios_locked, 0, sizeof(tty->termios_lo=
+cked));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 36 warnings (36 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/jfs/jfs_imap.c:1086:28: warning: Access to field 'data' results in a =
-dereference of a null pointer (loaded from variable 'amp') [clang-analyzer-=
-core.NullDereference]
-                                   ciagp =3D (struct iag *) amp->data;
-                                                          ^~~
-   fs/jfs/jfs_imap.c:873:6: note: Assuming 'iagno' is < field 'in_nextiag'
-           if (iagno >=3D imap->im_nextiag) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_imap.c:873:2: note: Taking false branch
-           if (iagno >=3D imap->im_nextiag) {
+   39 warnings generated.
+   drivers/tty/tty_audit.c:240:3: warning: Call to function 'memcpy' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buf->data + buf->valid, data, run);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/tty/tty_audit.c:240:3: note: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buf->data + buf->valid, data, run);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   71 warnings generated.
+   lib/kobject_uevent.c:296:2: warning: Call to function 'sprintf' is insec=
+ure as it does not provide bounding of the memory buffer or security checks=
+ introduced in the C11 standard. Replace with analogous functions that supp=
+ort length arguments or provides boundary checks such as 'sprintf_s' in cas=
+e of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandl=
+ing]
+           sprintf(scratch, "%s@%s", action_string, devpath);
+           ^~~~~~~
+   lib/kobject_uevent.c:296:2: note: Call to function 'sprintf' is insecure=
+ as it does not provide bounding of the memory buffer or security checks in=
+troduced in the C11 standard. Replace with analogous functions that support=
+ length arguments or provides boundary checks such as 'sprintf_s' in case o=
+f C11
+           sprintf(scratch, "%s@%s", action_string, devpath);
+           ^~~~~~~
+   lib/kobject_uevent.c:435:4: warning: Call to function 'memmove' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memmove_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memmove(env->envp[i], env->envp[i + 1],
+                           ^~~~~~~
+   lib/kobject_uevent.c:435:4: note: Call to function 'memmove' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memmove_s' in case of C11
+                           memmove(env->envp[i], env->envp[i + 1],
+                           ^~~~~~~
+   lib/kobject_uevent.c:665:8: warning: Call to function 'vsnprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           len =3D vsnprintf(&env->buf[env->buflen],
+                 ^~~~~~~~~
+   lib/kobject_uevent.c:665:8: note: Call to function 'vsnprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'vsnprintf_s' in case of C11
+           len =3D vsnprintf(&env->buf[env->buflen],
+                 ^~~~~~~~~
+   lib/kobject_uevent.c:691:8: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret =3D snprintf(buf, sizeof(buf), "SEQNUM=3D%llu", ++uevent_seq=
+num);
+                 ^~~~~~~~
+   lib/kobject_uevent.c:691:8: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+           ret =3D snprintf(buf, sizeof(buf), "SEQNUM=3D%llu", ++uevent_seq=
+num);
+                 ^~~~~~~~
+   Suppressed 67 warnings (67 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   87 warnings generated.
+>> lib/maple_tree.c:324:2: warning: Value stored to 'node' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           node =3D (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:324:2: note: Value stored to 'node' is never read
+           node =3D (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:329:2: warning: Value stored to 'node' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           node =3D (void *)((unsigned long)node | MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:329:2: note: Value stored to 'node' is never read
+           node =3D (void *)((unsigned long)node | MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1172:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(reuse, 0, sizeof(*reuse));
            ^
-   fs/jfs/jfs_imap.c:896:7: note: Assuming 'rc' is 0
-           if ((rc =3D diIAGRead(imap, iagno, &mp))) {
-                ^~
-   fs/jfs/jfs_imap.c:896:2: note: Taking false branch
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1172:2: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+           memset(reuse, 0, sizeof(*reuse));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+>> lib/maple_tree.c:1204:23: warning: Value stored to 'nodep' during its in=
+itialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct maple_alloc **nodep =3D &mas->alloc;
+                                ^~~~~   ~~~~~~~~~~~
+   lib/maple_tree.c:1204:23: note: Value stored to 'nodep' during its initi=
+alization is never read
+           struct maple_alloc **nodep =3D &mas->alloc;
+                                ^~~~~   ~~~~~~~~~~~
+>> lib/maple_tree.c:1688:3: warning: Dereference of null pointer [clang-ana=
+lyzer-core.NullDereference]
+                   rcu_assign_pointer(slots[offset], mas->node);
+                   ^
+   include/linux/rcupdate.h:455:3: note: expanded from macro 'rcu_assign_po=
+inter'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p_=
+_v)); \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/asm-generic/barrier.h:190:2: note: expanded from macro 'smp_stor=
+e_release'
+           WRITE_ONCE(*p, v);                                              \
+           ^~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   lib/maple_tree.c:1668:2: note: 'slots' initialized to a null pointer val=
+ue
+           void __rcu **slots =3D NULL;
+           ^~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1670:2: note: '?' condition is false
+           if (ma_is_root(mn)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   lib/maple_tree.c:1670:2: note: Assuming the condition is true
+           if (ma_is_root(mn)) {
+           ^
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   lib/maple_tree.c:1670:2: note: '?' condition is true
+           if (ma_is_root(mn)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   lib/maple_tree.c:1670:2: note: Taking true branch
+           if (ma_is_root(mn)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   lib/maple_tree.c:1679:6: note: Assuming 'advanced' is true
+           if (!advanced && !mte_is_leaf(mas->node))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   lib/maple_tree.c:1679:16: note: Left side of '&&' is false
+           if (!advanced && !mte_is_leaf(mas->node))
+                         ^
+   lib/maple_tree.c:1679:2: note: '?' condition is false
+           if (!advanced && !mte_is_leaf(mas->node))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   lib/maple_tree.c:1679:7: note: 'advanced' is true
+           if (!advanced && !mte_is_leaf(mas->node))
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   lib/maple_tree.c:1679:16: note: Left side of '&&' is false
+           if (!advanced && !mte_is_leaf(mas->node))
+                         ^
+   lib/maple_tree.c:1679:2: note: '?' condition is false
+           if (!advanced && !mte_is_leaf(mas->node))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+--
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:332:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   lib/maple_tree.c:1688:3: note: Loop condition is false.  Exiting loop
+                   rcu_assign_pointer(slots[offset], mas->node);
+                   ^
+   include/linux/rcupdate.h:455:3: note: expanded from macro 'rcu_assign_po=
+inter'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p_=
+_v)); \
+                   ^
+   include/asm-generic/barrier.h:190:2: note: expanded from macro 'smp_stor=
+e_release'
+           WRITE_ONCE(*p, v);                                              \
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:324:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   lib/maple_tree.c:1688:3: note: Dereference of null pointer
+                   rcu_assign_pointer(slots[offset], mas->node);
+                   ^
+   include/linux/rcupdate.h:455:3: note: expanded from macro 'rcu_assign_po=
+inter'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p_=
+_v)); \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/asm-generic/barrier.h:190:2: note: expanded from macro 'smp_stor=
+e_release'
+           WRITE_ONCE(*p, v);                                              \
+           ^~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   lib/maple_tree.c:1741:2: warning: Call to function 'memmove' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memmove_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memmove(b_node->pivot + shift, b_node->pivot, size);
+           ^~~~~~~
+   lib/maple_tree.c:1741:2: note: Call to function 'memmove' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memmove_s' in case of C11
+           memmove(b_node->pivot + shift, b_node->pivot, size);
+           ^~~~~~~
+   lib/maple_tree.c:1742:2: warning: Call to function 'memmove' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memmove_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memmove(b_node->slot + shift, b_node->slot, size);
+           ^~~~~~~
+   lib/maple_tree.c:1742:2: note: Call to function 'memmove' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memmove_s' in case of C11
+           memmove(b_node->slot + shift, b_node->slot, size);
+           ^~~~~~~
+   lib/maple_tree.c:1744:3: warning: Call to function 'memmove' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memmove_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memmove(b_node->gap + shift, b_node->gap, size);
+                   ^~~~~~~
+   lib/maple_tree.c:1744:3: note: Call to function 'memmove' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memmove_s' in case of C11
+                   memmove(b_node->gap + shift, b_node->gap, size);
+                   ^~~~~~~
+   lib/maple_tree.c:1912:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(b_node->slot + mab_start, slots + mas_start, sizeof(void =
+*) * j);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1912:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(b_node->slot + mab_start, slots + mas_start, sizeof(void =
+*) * j);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1915:3: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(b_node->gap + mab_start, gaps + mas_start,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1915:3: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+                   memcpy(b_node->gap + mab_start, gaps + mas_start,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1978:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(slots, b_node->slot + mab_start,
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:1978:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(slots, b_node->slot + mab_start,
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+>> lib/maple_tree.c:2800:2: warning: Value stored to 'last' is never read [=
+clang-analyzer-deadcode.DeadStores]
+           last =3D next =3D mas->node;
+           ^      ~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:2800:2: note: Value stored to 'last' is never read
+           last =3D next =3D mas->node;
+           ^      ~~~~~~~~~~~~~~~~
+>> lib/maple_tree.c:2801:2: warning: Value stored to 'prev_min' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           prev_min =3D min =3D mas->min;
+           ^          ~~~~~~~~~~~~~~
+   lib/maple_tree.c:2801:2: note: Value stored to 'prev_min' is never read
+           prev_min =3D min =3D mas->min;
+           ^          ~~~~~~~~~~~~~~
+   lib/maple_tree.c:2926:3: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(mast->bn, 0, sizeof(struct maple_big_node));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:2926:3: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                   memset(mast->bn, 0, sizeof(struct maple_big_node));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3103:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(slots, l_slots + split + 1, sizeof(void *) * tmp);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3103:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(slots, l_slots + split + 1, sizeof(void *) * tmp);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3104:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(pivs, l_pivs + split + 1, sizeof(unsigned long) * tmp);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3104:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(pivs, l_pivs + split + 1, sizeof(unsigned long) * tmp);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3106:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(slots + tmp, ma_slots(node, mt), sizeof(void *) * end);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3106:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(slots + tmp, ma_slots(node, mt), sizeof(void *) * end);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3107:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(pivs + tmp, ma_pivots(node, mt), sizeof(unsigned long) * =
+end);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3107:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(pivs + tmp, ma_pivots(node, mt), sizeof(unsigned long) * =
+end);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3119:4: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memset(pivs + tmp, 0,
+                           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3119:4: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                           memset(pivs + tmp, 0,
+                           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3123:4: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memset(slots + tmp, 0, sizeof(void *) * (max_s -=
+ tmp));
+                           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3123:4: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                           memset(slots + tmp, 0, sizeof(void *) * (max_s -=
+ tmp));
+                           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3125:3: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(node, newnode, sizeof(struct maple_node));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3125:3: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+                   memcpy(node, newnode, sizeof(struct maple_node));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+--
+                           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3924:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&b_node, 0, sizeof(struct maple_big_node));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3924:2: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+           memset(&b_node, 0, sizeof(struct maple_big_node));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4004:3: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&reuse, 0, sizeof(struct maple_node));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4004:3: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+                   memset(&reuse, 0, sizeof(struct maple_node));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4012:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dst_pivots, wr_mas->pivots, sizeof(unsigned long) * (offs=
+et + 1));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4012:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(dst_pivots, wr_mas->pivots, sizeof(unsigned long) * (offs=
+et + 1));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4013:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dst_slots, wr_mas->slots, sizeof(void *) * (offset + 1));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4013:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(dst_slots, wr_mas->slots, sizeof(void *) * (offset + 1));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4035:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dst_slots + dst_offset, wr_mas->slots + wr_mas->offset_en=
+d,
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4035:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(dst_slots + dst_offset, wr_mas->slots + wr_mas->offset_en=
+d,
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4040:3: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dst_pivots + dst_offset, wr_mas->pivots + wr_mas-=
+>offset_end,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4040:3: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+                   memcpy(dst_pivots + dst_offset, wr_mas->pivots + wr_mas-=
+>offset_end,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4053:3: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(wr_mas->node, newnode, sizeof(struct maple_node));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4053:3: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+                   memcpy(wr_mas->node, newnode, sizeof(struct maple_node));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4240:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&b_node, 0, sizeof(struct maple_big_node));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:4240:2: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+           memset(&b_node, 0, sizeof(struct maple_big_node));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+>> lib/maple_tree.c:4882:5: warning: Value stored to 'count' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                                   count =3D mt_slots[type];
+                                   ^       ~~~~~~~~~~~~~~
+   lib/maple_tree.c:4882:5: note: Value stored to 'count' is never read
+                                   count =3D mt_slots[type];
+                                   ^       ~~~~~~~~~~~~~~
+   Suppressed 47 warnings (44 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   mm/shuffle.c:17:9: warning: Call to function 'sprintf' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buffer, "%c\n", shuffle_param ? 'Y' : 'N');
+                  ^~~~~~~
+   mm/shuffle.c:17:9: note: Call to function 'sprintf' is insecure as it do=
+es not provide security checks introduced in the C11 standard. Replace with=
+ analogous functions that support length arguments or provides boundary che=
+cks such as 'sprintf_s' in case of C11
+           return sprintf(buffer, "%c\n", shuffle_param ? 'Y' : 'N');
+                  ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   49 warnings generated.
+   mm/memblock.c:342:2: warning: Call to function 'memmove' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memmove_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memmove(&type->regions[r], &type->regions[r + 1],
+           ^~~~~~~
+   mm/memblock.c:342:2: note: Call to function 'memmove' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memmove_s' in case of C11
+           memmove(&type->regions[r], &type->regions[r + 1],
+           ^~~~~~~
+   mm/memblock.c:470:2: warning: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+           memcpy(new_array, type->regions, old_size);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   mm/memblock.c:470:2: note: Call to function 'memcpy' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memcpy_s' in case of C11
+           memcpy(new_array, type->regions, old_size);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   mm/memblock.c:471:2: warning: Call to function 'memset' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+           memset(new_array + type->max, 0, old_size);
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   mm/memblock.c:471:2: note: Call to function 'memset' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memset_s' in case of C11
+           memset(new_array + type->max, 0, old_size);
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   mm/memblock.c:522:3: warning: Call to function 'memmove' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memmove_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                   memmove(next, next + 1, (type->cnt - (i + 2)) * sizeof(*=
+next));
+                   ^~~~~~~
+   mm/memblock.c:522:3: note: Call to function 'memmove' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memmove_s' in case of C11
+                   memmove(next, next + 1, (type->cnt - (i + 2)) * sizeof(*=
+next));
+                   ^~~~~~~
+   mm/memblock.c:548:2: warning: Call to function 'memmove' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memmove_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memmove(rgn + 1, rgn, (type->cnt - idx) * sizeof(*rgn));
+           ^~~~~~~
+   mm/memblock.c:548:2: note: Call to function 'memmove' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memmove_s' in case of C11
+           memmove(rgn + 1, rgn, (type->cnt - idx) * sizeof(*rgn));
+           ^~~~~~~
+   mm/memblock.c:1191:36: warning: The result of the '<<' expression is und=
+efined [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                                   *idx =3D (u32)idx_a | (u64)idx_b << 32;
+                                                       ~~~~~~~~~~~^~~~~
+   mm/memblock.c:1129:16: note: Assuming the condition is false
+           if (WARN_ONCE(nid =3D=3D MAX_NUMNODES, "Usage of MAX_NUMNODES is=
+ deprecated. Use NUMA_NO_NODE instead\n"))
+                         ^
+   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+                           ^
+   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   bool __ret_do_once =3D !!(condition);                   =
+  \
+                                           ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   mm/memblock.c:1129:6: note: '__ret_do_once' is false
+           if (WARN_ONCE(nid =3D=3D MAX_NUMNODES, "Usage of MAX_NUMNODES is=
+ deprecated. Use NUMA_NO_NODE instead\n"))
+               ^
+   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   if (unlikely(__ret_do_once && !__already_done)) {       \
+                                ^~~~~~~~~~~~~
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
 
-vim +/ret +809 drivers/regulator/bd9576-regulator.c
+vim +/node +324 lib/maple_tree.c
 
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  770  =
+6c45be03ed6456e Liam R. Howlett 2022-04-13  321  =
 
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  771  static int bd9576_uvd_handl=
-er(int irq, struct regulator_irq_data *rid,
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  772  			      unsigned long *dev=
-_mask)
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  773  {
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  774  	int val, ret, i;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  775  	struct bd957x_data *d =3D =
-(struct bd957x_data *)rid->data;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  776  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  777  	ret =3D regmap_read(d->reg=
-map, BD957X_REG_INT_UVD_STAT, &val);
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  778  	if (ret)
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  779  		return REGULATOR_FAILED_R=
-ETRY;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  780  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  781  	*dev_mask =3D 0;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  782  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  783  	rid->opaque =3D val & UVD_=
-IRQ_VALID_MASK;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  784  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  785  	/*
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  786  	 * Go through the set stat=
-us bits and report either error or warning
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  787  	 * to the notifier dependi=
-ng on what was flagged in DT
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  788  	 */
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  789  	*dev_mask =3D val & BD9576=
-_xVD_IRQ_MASK_VOUT1TO4;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  790  	/* There is 1 bit gap in r=
-egister after Vout1 .. Vout4 statuses */
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  791  	*dev_mask |=3D ((val & BD9=
-576_xVD_IRQ_MASK_VOUTL1) >> 1);
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  792  	/*
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  793  	 * We (ab)use the uvd for =
-OCW notification. DT parsing should
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  794  	 * have added correct OCW =
-flag to uvd_notif and uvd_err for S1
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  795  	 */
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  796  	*dev_mask |=3D ((val & BD9=
-576_UVD_IRQ_MASK_VOUTS1_OCW) >> 1);
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  797  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  798  	for_each_set_bit(i, dev_ma=
-sk, 6) {
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  799  		struct bd957x_regulator_d=
-ata *rdata;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  800  		struct regulator_err_stat=
-e *stat;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  801  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  802  		rdata =3D &d->regulator_d=
-ata[i];
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  803  		stat  =3D &rid->states[i];
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  804  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  805  		stat->notifs	=3D rdata->u=
-vd_notif;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  806  		stat->errors	=3D rdata->u=
-vd_err;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  807  	}
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  808  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03 @809  	ret =3D regmap_write(d->re=
-gmap, BD957X_REG_INT_UVD_STAT,
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  810  			   UVD_IRQ_VALID_MASK & =
-val);
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  811  =
-
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  812  	return 0;
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  813  }
-e7bf1fa58c46db Matti Vaittinen 2021-06-03  814  =
+6c45be03ed6456e Liam R. Howlett 2022-04-13  322  static inline void mte_set=
+_full(const struct maple_enode *node)
+6c45be03ed6456e Liam R. Howlett 2022-04-13  323  {
+6c45be03ed6456e Liam R. Howlett 2022-04-13 @324  	node =3D (void *)((unsign=
+ed long)node & ~MAPLE_ENODE_NULL);
+6c45be03ed6456e Liam R. Howlett 2022-04-13  325  }
+6c45be03ed6456e Liam R. Howlett 2022-04-13  326  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5101105257611103503==--
+--===============3906271688220964163==--
 
