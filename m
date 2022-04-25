@@ -1,70 +1,36 @@
-Content-Type: multipart/mixed; boundary="===============5261566252787156251=="
+Content-Type: multipart/mixed; boundary="===============7084309408485083737=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 12/17] drm/shmem-helper: Add generic memory shrinker
-Date: Tue, 26 Apr 2022 04:17:19 +0800
-Message-ID: <202204260432.PrSqpr86-lkp@intel.com>
+Subject: mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size, s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.ctor, s.list [uninitvar]
+Date: Tue, 26 Apr 2022 03:16:35 +0800
+Message-ID: <202204260334.oGF4hjn2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5261566252787156251==
+--===============7084309408485083737==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220424190424.540501-13-dmitry.osipenko@collabora.com>
-References: <20220424190424.540501-13-dmitry.osipenko@collabora.com>
-TO: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-TO: David Airlie <airlied@linux.ie>
-TO: Gerd Hoffmann <kraxel@redhat.com>
-TO: Gurchetan Singh <gurchetansingh@chromium.org>
-TO: "Chia-I Wu" <olvaffe@gmail.com>
-TO: Daniel Vetter <daniel@ffwll.ch>
-TO: Daniel Almeida <daniel.almeida@collabora.com>
-TO: Gert Wollny <gert.wollny@collabora.com>
-TO: Gustavo Padovan <gustavo.padovan@collabora.com>
-TO: Daniel Stone <daniel@fooishbar.org>
-TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Steven Price <steven.price@arm.com>
-TO: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-TO: Rob Clark <robdclark@gmail.com>
-TO: Emil Velikov <emil.l.velikov@gmail.com>
-TO: Robin Murphy <robin.murphy@arm.com>
-TO: Qiang Yu <yuq825@gmail.com>
-TO: Sumit Semwal <sumit.semwal@linaro.org>
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Dmitry Osipenko <digetx@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
-CC: dri-devel(a)lists.freedesktop.org
-CC: virtualization(a)lists.linux-foundation.org
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Roman Gushchin <guro@fb.com>
+CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-Hi Dmitry,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on next-20220422]
-[cannot apply to v5.18-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-=
-generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220425-030=
-800
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-compiler: powerpc-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d615b5416f8a1afeb82d13b238f8152c572d59c0
+commit: 401fb12c68c257b9c9116b1475c0ac26b646fcc0 mm/sl*b: Differentiate str=
+uct slab fields by sl*b implementations
+date:   4 months ago
+:::::: branch date: 75 minutes ago
+:::::: commit date: 4 months ago
+compiler: alpha-linux-gcc (GCC) 11.2.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 67a24652cf3a7fa84713818079c6d79b3c8edc88
+        git checkout 401fb12c68c257b9c9116b1475c0ac26b646fcc0
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -74,82 +40,122 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpu/drm/drm_gem_shmem_helper.c:984:29: warning: Boolean result i=
-s used in bitwise operation. Clarify expression with parentheses. [clarifyC=
-ondition]
-    WARN_ON_ONCE(!shmem->pages ^ pages_inactive);
-                               ^
+   mm/slab_common.c:187:48: warning: Parameter 'ctor' can be declared with =
+const [constParameter]
+     slab_flags_t flags, const char *name, void (*ctor)(void *))
+                                                  ^
+>> mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size=
+, s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s=
+.ctor, s.list [uninitvar]
+     debugfs_slab_release(s);
+                          ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:443:24: note: Uninitialized variables: s.object_size, s=
+.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.ct=
+or, s.list
+     debugfs_slab_release(s);
+                          ^
 
-vim +984 drivers/gpu/drm/drm_gem_shmem_helper.c
+vim +443 mm/slab_common.c
 
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   965  =
+3965fc36522446 Vladimir Davydov    2014-01-23  418  =
 
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   966  static vm_fault_t drm=
-_gem_shmem_fault(struct vm_fault *vmf)
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   967  {
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   968  	struct vm_area_struc=
-t *vma =3D vmf->vma;
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   969  	struct drm_gem_objec=
-t *obj =3D vma->vm_private_data;
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   970  	struct drm_gem_shmem=
-_object *shmem =3D to_drm_gem_shmem_obj(obj);
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   971  	loff_t num_pages =3D=
- obj->size >> PAGE_SHIFT;
-d611b4a0907cec Neil Roberts    2021-02-23   972  	vm_fault_t ret;
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   973  	struct page *page;
-11d5a4745e00e7 Neil Roberts    2021-02-23   974  	pgoff_t page_offset;
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   975  	bool pages_inactive;
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   976  	int err;
-11d5a4745e00e7 Neil Roberts    2021-02-23   977  =
+657dc2f9722092 Tejun Heo           2017-02-22  419  static void slab_caches=
+_to_rcu_destroy_workfn(struct work_struct *work)
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  420  {
+657dc2f9722092 Tejun Heo           2017-02-22  421  	LIST_HEAD(to_destroy);
+657dc2f9722092 Tejun Heo           2017-02-22  422  	struct kmem_cache *s, =
+*s2;
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  423  =
 
-11d5a4745e00e7 Neil Roberts    2021-02-23   978  	/* We don't use vmf->pgof=
-f since that has the fake offset */
-11d5a4745e00e7 Neil Roberts    2021-02-23   979  	page_offset =3D (vmf->add=
-ress - vma->vm_start) >> PAGE_SHIFT;
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   980  =
+657dc2f9722092 Tejun Heo           2017-02-22  424  	/*
+5f0d5a3ae7cff0 Paul E. McKenney    2017-01-18  425  	 * On destruction, SLA=
+B_TYPESAFE_BY_RCU kmem_caches are put on the
+657dc2f9722092 Tejun Heo           2017-02-22  426  	 * @slab_caches_to_rcu=
+_destroy list.  The slab pages are freed
+081a06fa299066 Randy Dunlap        2020-08-11  427  	 * through RCU and the=
+ associated kmem_cache are dereferenced
+657dc2f9722092 Tejun Heo           2017-02-22  428  	 * while freeing the p=
+ages, so the kmem_caches should be freed only
+657dc2f9722092 Tejun Heo           2017-02-22  429  	 * after the pending R=
+CU operations are finished.  As rcu_barrier()
+657dc2f9722092 Tejun Heo           2017-02-22  430  	 * is a pretty slow op=
+eration, we batch all pending destructions
+657dc2f9722092 Tejun Heo           2017-02-22  431  	 * asynchronously.
+657dc2f9722092 Tejun Heo           2017-02-22  432  	 */
+657dc2f9722092 Tejun Heo           2017-02-22  433  	mutex_lock(&slab_mutex=
+);
+657dc2f9722092 Tejun Heo           2017-02-22  434  	list_splice_init(&slab=
+_caches_to_rcu_destroy, &to_destroy);
+657dc2f9722092 Tejun Heo           2017-02-22  435  	mutex_unlock(&slab_mut=
+ex);
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  436  =
 
-37e84948f9e9ba Dmitry Osipenko 2022-04-24   981  	dma_resv_lock(shmem->base=
-.resv, NULL);
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   982  =
+657dc2f9722092 Tejun Heo           2017-02-22  437  	if (list_empty(&to_des=
+troy))
+657dc2f9722092 Tejun Heo           2017-02-22  438  		return;
+657dc2f9722092 Tejun Heo           2017-02-22  439  =
 
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   983  	pages_inactive =3D (shmem=
-->evicted || shmem->madv < 0 || !shmem->pages_use_count);
-67a24652cf3a7f Dmitry Osipenko 2022-04-24  @984  	WARN_ON_ONCE(!shmem->page=
-s ^ pages_inactive);
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   985  =
+657dc2f9722092 Tejun Heo           2017-02-22  440  	rcu_barrier();
+657dc2f9722092 Tejun Heo           2017-02-22  441  =
 
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   986  	if (page_offset >=3D num_=
-pages || (!shmem->pages && !shmem->evicted)) {
-d611b4a0907cec Neil Roberts    2021-02-23   987  		ret =3D VM_FAULT_SIGBUS;
-d611b4a0907cec Neil Roberts    2021-02-23   988  	} else {
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   989  		err =3D drm_gem_shmem_sw=
-ap_in_locked(shmem);
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   990  		if (err) {
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   991  			ret =3D VM_FAULT_OOM;
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   992  			goto unlock;
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   993  		}
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   994  =
+657dc2f9722092 Tejun Heo           2017-02-22  442  	list_for_each_entry_sa=
+fe(s, s2, &to_destroy, list) {
+64dd68497be76a Faiyaz Mohammed     2021-06-28 @443  		debugfs_slab_release(=
+s);
+d3fb45f370d927 Alexander Potapenko 2021-02-25  444  		kfence_shutdown_cache=
+(s);
+657dc2f9722092 Tejun Heo           2017-02-22  445  #ifdef SLAB_SUPPORTS_SY=
+SFS
+657dc2f9722092 Tejun Heo           2017-02-22  446  		sysfs_slab_release(s);
+657dc2f9722092 Tejun Heo           2017-02-22  447  #else
+657dc2f9722092 Tejun Heo           2017-02-22  448  		slab_kmem_cache_relea=
+se(s);
+657dc2f9722092 Tejun Heo           2017-02-22  449  #endif
+657dc2f9722092 Tejun Heo           2017-02-22  450  	}
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  451  }
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  452  =
 
-11d5a4745e00e7 Neil Roberts    2021-02-23   995  		page =3D shmem->pages[pa=
-ge_offset];
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12   996  =
 
-8b93d1d7dbd578 Daniel Vetter   2021-08-12   997  		ret =3D vmf_insert_pfn(v=
-ma, vmf->address, page_to_pfn(page));
-d611b4a0907cec Neil Roberts    2021-02-23   998  	}
-67a24652cf3a7f Dmitry Osipenko 2022-04-24   999  unlock:
-37e84948f9e9ba Dmitry Osipenko 2022-04-24  1000  	dma_resv_unlock(shmem->ba=
-se.resv);
-d611b4a0907cec Neil Roberts    2021-02-23  1001  =
+:::::: The code at line 443 was first introduced by commit
+:::::: 64dd68497be76ab4e237cca06f5324e220d0f050 mm: slub: move sysfs slab a=
+lloc/free interfaces to debugfs
 
-d611b4a0907cec Neil Roberts    2021-02-23  1002  	return ret;
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12  1003  }
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12  1004  =
-
+:::::: TO: Faiyaz Mohammed <faiyazm@codeaurora.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5261566252787156251==--
+--===============7084309408485083737==--
 
