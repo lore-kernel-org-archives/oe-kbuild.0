@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3147201312062770661=="
+Content-Type: multipart/mixed; boundary="===============0108874346193871337=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/smc/af_smc.c:1510:27: warning: Uninitialized variables: isk.sk, isk.clcsock, isk.clcsk_state_change, isk.clcsk_data_ready, isk.clcsk_write_space, isk.clcsk_error_report, isk.conn, isk.listen_smc, isk.connect_work, isk.tcp_listen_work, isk.smc_listen_w...
-Date: Wed, 27 Apr 2022 02:35:52 +0800
-Message-ID: <202204270232.UUVQksHt-lkp@intel.com>
+Subject: lib/hexdump.c:50 hex_to_bin() warn: shift has higher precedence than mask
+Date: Wed, 27 Apr 2022 00:43:32 +0800
+Message-ID: <202204270058.nS3U9AEC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3147201312062770661==
+--===============0108874346193871337==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,107 +15,98 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Wen Gu <guwen@linux.alibaba.com>
+TO: Mikulas Patocka <mpatocka@redhat.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d615b5416f8a1afeb82d13b238f8152c572d59c0
-commit: 341adeec9adad0874f29a0a1af35638207352a39 net/smc: Forward wakeup to=
- smc socket waitqueue after fallback
-date:   3 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 3 months ago
+tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20220425-2008=
+06/Mikulas-Patocka/hex2bin-make-the-function-hex_to_bin-constant-time/20220=
+425-045651
+head:   1270242e9a05bb4547ff4c65b0ff2eef25ac9bf3
+commit: 1270242e9a05bb4547ff4c65b0ff2eef25ac9bf3 hex2bin: make the function=
+ hex_to_bin constant-time
+date:   28 hours ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-randconfig-m001-20220425 (https://download.01.org/0day-ci/ar=
+chive/20220427/202204270058.nS3U9AEC-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 341adeec9adad0874f29a0a1af35638207352a39
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+lib/hexdump.c:50 hex_to_bin() warn: shift has higher precedence than mask
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+lib/hexdump.c:51 hex_to_bin() warn: shift has higher precedence than mask
 
-   net/smc/af_smc.c:1770:54: warning: Parameter 'smcd' can be declared with=
- const [constParameter]
-   static bool smc_is_already_selected(struct smcd_dev *smcd,
-                                                        ^
->> net/smc/af_smc.c:1510:27: warning: Uninitialized variables: isk.sk, isk.=
-clcsock, isk.clcsk_state_change, isk.clcsk_data_ready, isk.clcsk_write_spac=
-e, isk.clcsk_error_report, isk.conn, isk.listen_smc, isk.connect_work, isk.=
-tcp_listen_work, isk.smc_listen_work, isk.accept_q, isk.accept_q_lock, isk.=
-use_fallback, isk.fallback_rsn, isk.peer_diagnosis, isk.sockopt_defer_accep=
-t, isk.wait_close_tx_prepared, isk.connect_nonblock, isk.clcsock_release_lo=
-ck [uninitvar]
-     new_sk =3D (struct sock *)isk;
-                             ^
+vim +50 lib/hexdump.c
 
-vim +1510 net/smc/af_smc.c
+3fc957721d18c9 Harvey Harrison 2008-05-14  18  =
 
-a046d57da19f81 Ursula Braun 2017-01-09  1499  =
+903788892ea0fc Andy Shevchenko 2010-05-24  19  /**
+903788892ea0fc Andy Shevchenko 2010-05-24  20   * hex_to_bin - convert a he=
+x digit to its real value
+903788892ea0fc Andy Shevchenko 2010-05-24  21   * @ch: ascii character repr=
+esents hex digit
+903788892ea0fc Andy Shevchenko 2010-05-24  22   *
+903788892ea0fc Andy Shevchenko 2010-05-24  23   * hex_to_bin() converts one=
+ hex digit to its actual value or -1 in case of bad
+903788892ea0fc Andy Shevchenko 2010-05-24  24   * input.
+1270242e9a05bb Mikulas Patocka 2022-04-25  25   *
+1270242e9a05bb Mikulas Patocka 2022-04-25  26   * This function is used to =
+load cryptographic keys, so it is coded in such a
+1270242e9a05bb Mikulas Patocka 2022-04-25  27   * way that there are no con=
+ditions or memory accesses that depend on data.
+1270242e9a05bb Mikulas Patocka 2022-04-25  28   *
+1270242e9a05bb Mikulas Patocka 2022-04-25  29   * Explanation of the logic:
+1270242e9a05bb Mikulas Patocka 2022-04-25  30   * (ch - '9' - 1) is negativ=
+e if ch <=3D '9'
+1270242e9a05bb Mikulas Patocka 2022-04-25  31   * ('0' - 1 - ch) is negativ=
+e if ch >=3D '0'
+1270242e9a05bb Mikulas Patocka 2022-04-25  32   * we "and" these two values=
+, so the result is negative if ch is in the range
+1270242e9a05bb Mikulas Patocka 2022-04-25  33   *	'0' ... '9'
+1270242e9a05bb Mikulas Patocka 2022-04-25  34   * we are only interested in=
+ the sign, so we do a shift ">> 8"; note that right
+1270242e9a05bb Mikulas Patocka 2022-04-25  35   *	shift of a negative value=
+ is implementation-defined, so we cast the
+1270242e9a05bb Mikulas Patocka 2022-04-25  36   *	value to (unsigned) befor=
+e the shift --- we have 0xffffff if ch is in
+1270242e9a05bb Mikulas Patocka 2022-04-25  37   *	the range '0' ... '9', 0 =
+otherwise
+1270242e9a05bb Mikulas Patocka 2022-04-25  38   * we "and" this value with =
+(ch - '0' + 1) --- we have a value 1 ... 10 if ch is
+1270242e9a05bb Mikulas Patocka 2022-04-25  39   *	in the range '0' ... '9',=
+ 0 otherwise
+1270242e9a05bb Mikulas Patocka 2022-04-25  40   * we add this value to -1 -=
+-- we have a value 0 ... 9 if ch is in the range '0'
+1270242e9a05bb Mikulas Patocka 2022-04-25  41   *	... '9', -1 otherwise
+1270242e9a05bb Mikulas Patocka 2022-04-25  42   * the next line is similar =
+to the previous one, but we need to decode both
+1270242e9a05bb Mikulas Patocka 2022-04-25  43   *	uppercase and lowercase l=
+etters, so we use (ch & 0xdf), which converts
+1270242e9a05bb Mikulas Patocka 2022-04-25  44   *	lowercase to uppercase
+903788892ea0fc Andy Shevchenko 2010-05-24  45   */
+1270242e9a05bb Mikulas Patocka 2022-04-25  46  int hex_to_bin(unsigned char=
+ ch)
+903788892ea0fc Andy Shevchenko 2010-05-24  47  {
+1270242e9a05bb Mikulas Patocka 2022-04-25  48  	unsigned char cu =3D ch & 0=
+xdf;
+1270242e9a05bb Mikulas Patocka 2022-04-25  49  	return -1 +
+1270242e9a05bb Mikulas Patocka 2022-04-25 @50  		((ch - '0' +  1) & (unsign=
+ed)((ch - '9' - 1) & ('0' - 1 - ch)) >> 8) +
+1270242e9a05bb Mikulas Patocka 2022-04-25  51  		((cu - 'A' + 11) & (unsign=
+ed)((cu - 'F' - 1) & ('A' - 1 - cu)) >> 8);
+903788892ea0fc Andy Shevchenko 2010-05-24  52  }
+903788892ea0fc Andy Shevchenko 2010-05-24  53  EXPORT_SYMBOL(hex_to_bin);
+903788892ea0fc Andy Shevchenko 2010-05-24  54  =
 
-a046d57da19f81 Ursula Braun 2017-01-09  1500  /* remove a sock from the acc=
-ept queue to bind it to a new socket created
-a046d57da19f81 Ursula Braun 2017-01-09  1501   * for a socket accept call f=
-rom user space
-a046d57da19f81 Ursula Braun 2017-01-09  1502   */
-b38d732477e421 Ursula Braun 2017-01-09  1503  struct sock *smc_accept_deque=
-ue(struct sock *parent,
-a046d57da19f81 Ursula Braun 2017-01-09  1504  				struct socket *new_sock)
-a046d57da19f81 Ursula Braun 2017-01-09  1505  {
-a046d57da19f81 Ursula Braun 2017-01-09  1506  	struct smc_sock *isk, *n;
-a046d57da19f81 Ursula Braun 2017-01-09  1507  	struct sock *new_sk;
-a046d57da19f81 Ursula Braun 2017-01-09  1508  =
-
-a046d57da19f81 Ursula Braun 2017-01-09  1509  	list_for_each_entry_safe(isk=
-, n, &smc_sk(parent)->accept_q, accept_q) {
-a046d57da19f81 Ursula Braun 2017-01-09 @1510  		new_sk =3D (struct sock *)i=
-sk;
-a046d57da19f81 Ursula Braun 2017-01-09  1511  =
-
-a046d57da19f81 Ursula Braun 2017-01-09  1512  		smc_accept_unlink(new_sk);
-a046d57da19f81 Ursula Braun 2017-01-09  1513  		if (new_sk->sk_state =3D=3D=
- SMC_CLOSED) {
-f61bca58f6c36e Ursula Braun 2019-04-11  1514  			new_sk->sk_prot->unhash(ne=
-w_sk);
-127f497058236e Ursula Braun 2018-01-26  1515  			if (isk->clcsock) {
-127f497058236e Ursula Braun 2018-01-26  1516  				sock_release(isk->clcsock=
-);
-127f497058236e Ursula Braun 2018-01-26  1517  				isk->clcsock =3D NULL;
-127f497058236e Ursula Braun 2018-01-26  1518  			}
-51f1de79ad8ed3 Ursula Braun 2018-01-26  1519  			sock_put(new_sk); /* final=
- */
-a046d57da19f81 Ursula Braun 2017-01-09  1520  			continue;
-a046d57da19f81 Ursula Braun 2017-01-09  1521  		}
-07603b230895a7 Ursula Braun 2019-04-11  1522  		if (new_sock) {
-a046d57da19f81 Ursula Braun 2017-01-09  1523  			sock_graft(new_sk, new_soc=
-k);
-07603b230895a7 Ursula Braun 2019-04-11  1524  			if (isk->use_fallback) {
-07603b230895a7 Ursula Braun 2019-04-11  1525  				smc_sk(new_sk)->clcsock->=
-file =3D new_sock->file;
-07603b230895a7 Ursula Braun 2019-04-11  1526  				isk->clcsock->file->priva=
-te_data =3D isk->clcsock;
-07603b230895a7 Ursula Braun 2019-04-11  1527  			}
-07603b230895a7 Ursula Braun 2019-04-11  1528  		}
-a046d57da19f81 Ursula Braun 2017-01-09  1529  		return new_sk;
-a046d57da19f81 Ursula Braun 2017-01-09  1530  	}
-a046d57da19f81 Ursula Braun 2017-01-09  1531  	return NULL;
-a046d57da19f81 Ursula Braun 2017-01-09  1532  }
-a046d57da19f81 Ursula Braun 2017-01-09  1533  =
-
-
-:::::: The code at line 1510 was first introduced by commit
-:::::: a046d57da19f812216f393e7c535f5858f793ac3 smc: CLC handshake (incl. p=
-reparation steps)
-
-:::::: TO: Ursula Braun <ubraun@linux.vnet.ibm.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3147201312062770661==--
+--===============0108874346193871337==--
 
