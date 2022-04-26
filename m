@@ -1,409 +1,203 @@
-Content-Type: multipart/mixed; boundary="===============2383774140975048223=="
+Content-Type: multipart/mixed; boundary="===============7216353065365576650=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3882/5845] drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:851:8: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Tue, 26 Apr 2022 11:24:57 +0800
-Message-ID: <202204261138.XWdwXRmw-lkp@intel.com>
+Subject: mm/slob.c:331:11: warning: Uninitialized variable: sp->units [uninitvar]
+Date: Tue, 26 Apr 2022 11:14:39 +0800
+Message-ID: <202204261146.NmRvo75N-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2383774140975048223==
+--===============7216353065365576650==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jiri Pirko <jiri@nvidia.com>
-CC: Ido Schimmel <idosch@nvidia.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Roman Gushchin <guro@fb.com>
+CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   e7d6987e09a328d4a949701db40ef63fbb970670
-commit: b217127e5e4ee0ecfce7c5f84cfe082238123bda [3882/5845] mlxsw: core_li=
-necards: Add line card objects and implement provisioning
-:::::: branch date: 4 days ago
-:::::: commit date: 8 days ago
-config: riscv-randconfig-c006-20220424 (https://download.01.org/0day-ci/arc=
-hive/20220426/202204261138.XWdwXRmw-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Db217127e5e4ee0ecfce7c5f84cfe082238123bda
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b217127e5e4ee0ecfce7c5f84cfe082238123bda
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d615b5416f8a1afeb82d13b238f8152c572d59c0
+commit: 401fb12c68c257b9c9116b1475c0ac26b646fcc0 mm/sl*b: Differentiate str=
+uct slab fields by sl*b implementations
+date:   4 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 401fb12c68c257b9c9116b1475c0ac26b646fcc0
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/net/wireless/ti/wlcore/main.c:6305:2: warning: Call to function =
-'memcpy' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&wl->bands[NL80211_BAND_2GHZ], &wl1271_band_2ghz,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6305:2: note: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&wl->bands[NL80211_BAND_2GHZ], &wl1271_band_2ghz,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6307:2: warning: Call to function =
-'memcpy' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&wl->bands[NL80211_BAND_2GHZ].ht_cap,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6307:2: note: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&wl->bands[NL80211_BAND_2GHZ].ht_cap,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6310:2: warning: Call to function =
-'memcpy' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&wl->bands[NL80211_BAND_5GHZ], &wl1271_band_5ghz,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6310:2: note: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&wl->bands[NL80211_BAND_5GHZ], &wl1271_band_5ghz,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6312:2: warning: Call to function =
-'memcpy' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&wl->bands[NL80211_BAND_5GHZ].ht_cap,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6312:2: note: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&wl->bands[NL80211_BAND_5GHZ].ht_cap,
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6373:2: warning: Call to function =
-'memset' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(wl, 0, sizeof(*wl));
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6373:2: note: Call to function 'me=
-mset' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memset_s' in case of C11
-           memset(wl, 0, sizeof(*wl));
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6431:2: warning: Call to function =
-'memset' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(wl->tx_frames_map, 0, sizeof(wl->tx_frames_map));
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6431:2: note: Call to function 'me=
-mset' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memset_s' in case of C11
-           memset(wl->tx_frames_map, 0, sizeof(wl->tx_frames_map));
-           ^~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6573:13: warning: Access to field =
-'nvs_name' results in a dereference of a null pointer (loaded from field 'f=
-amily') [clang-analyzer-core.NullDereference]
-           } else if (pdev_data->family->nvs_name) {
-                      ^
-   drivers/net/wireless/ti/wlcore/main.c:6778:6: note: Assuming field 'ops'=
- is non-null
-           if (!wl->ops || !wl->ptable || !pdev_data)
-               ^~~~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6778:6: note: Left side of '||' is=
- false
-   drivers/net/wireless/ti/wlcore/main.c:6778:18: note: Assuming field 'pta=
-ble' is non-null
-           if (!wl->ops || !wl->ptable || !pdev_data)
-                           ^~~~~~~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6778:6: note: Left side of '||' is=
- false
-           if (!wl->ops || !wl->ptable || !pdev_data)
-               ^
-   drivers/net/wireless/ti/wlcore/main.c:6778:33: note: Assuming 'pdev_data=
-' is non-null
-           if (!wl->ops || !wl->ptable || !pdev_data)
-                                          ^~~~~~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6778:2: note: Taking false branch
-           if (!wl->ops || !wl->ptable || !pdev_data)
-           ^
-   drivers/net/wireless/ti/wlcore/main.c:6785:6: note: Assuming field 'fami=
-ly' is null
-           if (pdev_data->family && pdev_data->family->nvs_name) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6785:24: note: Left side of '&&' i=
-s false
-           if (pdev_data->family && pdev_data->family->nvs_name) {
-                                 ^
-   drivers/net/wireless/ti/wlcore/main.c:6796:3: note: Calling 'wlcore_nvs_=
-cb'
-                   wlcore_nvs_cb(NULL, wl);
-                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ti/wlcore/main.c:6566:6: note: 'fw' is null
-           if (fw) {
-               ^~
-   drivers/net/wireless/ti/wlcore/main.c:6566:2: note: Taking false branch
-           if (fw) {
-           ^
-   drivers/net/wireless/ti/wlcore/main.c:6573:13: note: Access to field 'nv=
-s_name' results in a dereference of a null pointer (loaded from field 'fami=
-ly')
-           } else if (pdev_data->family->nvs_name) {
-                      ^          ~~~~~~
-   Suppressed 69 warnings (69 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   228 warnings generated.
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:571:2: warning: Cal=
-l to function 'memcpy' is insecure as it does not provide security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'memcpy_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(event->mddq_pl, mddq_pl, sizeof(event->mddq_pl));
-           ^~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:571:2: note: Call t=
-o function 'memcpy' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'memcpy_s' in case of C=
-11
-           memcpy(event->mddq_pl, mddq_pl, sizeof(event->mddq_pl));
-           ^~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:604:2: warning: Cal=
-l to function 'memcpy' is insecure as it does not provide security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'memcpy_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(event->mbct_pl, mbct_pl, sizeof(event->mbct_pl));
-           ^~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:604:2: note: Call t=
-o function 'memcpy' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'memcpy_s' in case of C=
-11
-           memcpy(event->mbct_pl, mbct_pl, sizeof(event->mbct_pl));
-           ^~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:789:8: warning: Cal=
-l to function 'snprintf' is insecure as it does not provide security checks=
- introduced in the C11 standard. Replace with analogous functions that supp=
-ort length arguments or provides boundary checks such as 'snprintf_s' in ca=
-se of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHand=
-ling]
-           err =3D snprintf(filename, sizeof(filename),
-                 ^~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:789:8: note: Call t=
-o function 'snprintf' is insecure as it does not provide security checks in=
-troduced in the C11 standard. Replace with analogous functions that support=
- length arguments or provides boundary checks such as 'snprintf_s' in case =
-of C11
-           err =3D snprintf(filename, sizeof(filename),
-                 ^~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:816:2: warning: Cal=
-l to function 'memcpy' is insecure as it does not provide security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'memcpy_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(types_info->data, firmware->data, types_info->data_size);
-           ^~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:816:2: note: Call t=
-o function 'memcpy' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'memcpy_s' in case of C=
-11
-           memcpy(types_info->data, firmware->data, types_info->data_size);
-           ^~~~~~
->> drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:851:8: warning: Use=
- of memory after it is freed [clang-analyzer-unix.Malloc]
-           kfree(types_info->ini_files);
-                 ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:867:6: note: Assumi=
-ng 'err' is 0
-           if (err)
-               ^~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:867:2: note: Taking=
- false branch
-           if (err)
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:872:6: note: Assumi=
-ng 'slot_count' is not equal to 0
-           if (!slot_count)
-               ^~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:872:2: note: Taking=
- false branch
-           if (!slot_count)
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:876:6: note: Assumi=
-ng 'linecards' is non-null
-           if (!linecards)
-               ^~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:876:2: note: Taking=
- false branch
-           if (!linecards)
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:882:8: note: Callin=
-g 'mlxsw_linecard_types_init'
-           err =3D mlxsw_linecard_types_init(mlxsw_core, linecards);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:792:10: note: Assum=
-ing the condition is false
-           WARN_ON(err >=3D sizeof(filename));
-                   ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:796:6: note: Assumi=
-ng 'err' is 0
-           if (err) {
-               ^~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:796:2: note: Taking=
- false branch
-           if (err) {
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:803:6: note: Assumi=
-ng 'types_info' is non-null
-           if (!types_info) {
-               ^~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:803:2: note: Taking=
- false branch
-           if (!types_info) {
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:811:6: note: Assumi=
-ng field 'data' is non-null
-           if (!types_info->data) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:811:2: note: Taking=
- false branch
-           if (!types_info->data) {
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:820:6: note: 'err' =
-is -22
-           if (err) {
-               ^~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:820:2: note: Taking=
- true branch
-           if (err) {
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:822:3: note: Contro=
-l jumps to line 839
-                   goto err_type_file_file_validate;
-                   ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:841:2: note: Memory=
- is released
-           kfree(types_info);
-           ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:882:8: note: Return=
-ing; memory was released
-           err =3D mlxsw_linecard_types_init(mlxsw_core, linecards);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:883:6: note: 'err' =
-is 0
-           if (err)
-               ^~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:883:2: note: Taking=
- false branch
-           if (err)
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:889:6: note: Assumi=
-ng 'err' is not equal to 0
-           if (err)
-               ^~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:889:2: note: Taking=
- true branch
-           if (err)
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:890:3: note: Contro=
-l jumps to line 909
-                   goto err_traps_register;
-                   ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:909:2: note: Callin=
-g 'mlxsw_linecard_types_fini'
-           mlxsw_linecard_types_fini(linecards);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:849:7: note: 'types=
-_info' is non-null
-           if (!types_info)
-                ^~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:849:2: note: Taking=
- false branch
-           if (!types_info)
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:851:8: note: Use of=
- memory after it is freed
-           kfree(types_info->ini_files);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   Suppressed 223 warnings (223 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   89 warnings generated.
-   Suppressed 89 warnings (89 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   91 warnings generated.
-   drivers/vdpa/mlx5/core/mr.c:508:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(mr, 0, sizeof(*mr));
-           ^~~~~~
-   drivers/vdpa/mlx5/core/mr.c:508:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(mr, 0, sizeof(*mr));
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +851 drivers/net/ethernet/mellanox/mlxsw/core_linecards.c
+   mm/slob.c:146:57: warning: Parameter 'next' can be declared with const [=
+constParameter]
+   static void set_slob(slob_t *s, slobidx_t size, slob_t *next)
+                                                           ^
+>> mm/slob.c:331:11: warning: Uninitialized variable: sp->units [uninitvar]
+     if (sp->units < SLOB_UNITS(size))
+             ^
 
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  844  =
+vim +331 mm/slob.c
 
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  845  static void mlxsw_linecard_typ=
-es_fini(struct mlxsw_linecards *linecards)
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  846  {
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  847  	struct mlxsw_linecard_types_i=
-nfo *types_info =3D linecards->types_info;
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  848  =
+10cef602950291 Matt Mackall            2006-01-08  297  =
 
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  849  	if (!types_info)
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  850  		return;
-b217127e5e4ee0ec Jiri Pirko 2022-04-18 @851  	kfree(types_info->ini_files);
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  852  	vfree(types_info->data);
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  853  	kfree(types_info);
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  854  }
-b217127e5e4ee0ec Jiri Pirko 2022-04-18  855  =
+95b35127f13661 Nicholas Piggin         2007-07-15  298  /*
+95b35127f13661 Nicholas Piggin         2007-07-15  299   * slob_alloc: entr=
+y point into the slob allocator.
+95b35127f13661 Nicholas Piggin         2007-07-15  300   */
+59bb47985c1db2 Vlastimil Babka         2019-10-06  301  static void *slob_a=
+lloc(size_t size, gfp_t gfp, int align, int node,
+59bb47985c1db2 Vlastimil Babka         2019-10-06  302  							int align_of=
+fset)
+95b35127f13661 Nicholas Piggin         2007-07-15  303  {
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  304) 	struct folio *foli=
+o;
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  305) 	struct slab *sp;
+20cecbae44528d Matt Mackall            2008-02-04  306  	struct list_head *=
+slob_list;
+95b35127f13661 Nicholas Piggin         2007-07-15  307  	slob_t *b =3D NULL;
+95b35127f13661 Nicholas Piggin         2007-07-15  308  	unsigned long flag=
+s;
+130e8e09e2675b Tobin C. Harding        2019-05-13  309  	bool _unused;
+95b35127f13661 Nicholas Piggin         2007-07-15  310  =
 
+20cecbae44528d Matt Mackall            2008-02-04  311  	if (size < SLOB_BR=
+EAK1)
+20cecbae44528d Matt Mackall            2008-02-04  312  		slob_list =3D &fr=
+ee_slob_small;
+20cecbae44528d Matt Mackall            2008-02-04  313  	else if (size < SL=
+OB_BREAK2)
+20cecbae44528d Matt Mackall            2008-02-04  314  		slob_list =3D &fr=
+ee_slob_medium;
+20cecbae44528d Matt Mackall            2008-02-04  315  	else
+20cecbae44528d Matt Mackall            2008-02-04  316  		slob_list =3D &fr=
+ee_slob_large;
+20cecbae44528d Matt Mackall            2008-02-04  317  =
+
+95b35127f13661 Nicholas Piggin         2007-07-15  318  	spin_lock_irqsave(=
+&slob_lock, flags);
+95b35127f13661 Nicholas Piggin         2007-07-15  319  	/* Iterate through=
+ each partially free page, try to find room */
+adab7b68189d14 Tobin C. Harding        2019-05-13  320  	list_for_each_entr=
+y(sp, slob_list, slab_list) {
+130e8e09e2675b Tobin C. Harding        2019-05-13  321  		bool page_removed=
+_from_list =3D false;
+6193a2ff180920 Paul Mundt              2007-07-15  322  #ifdef CONFIG_NUMA
+6193a2ff180920 Paul Mundt              2007-07-15  323  		/*
+6193a2ff180920 Paul Mundt              2007-07-15  324  		 * If there's a n=
+ode specification, search for a partial
+6193a2ff180920 Paul Mundt              2007-07-15  325  		 * page with a ma=
+tching node id in the freelist.
+6193a2ff180920 Paul Mundt              2007-07-15  326  		 */
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  327) 		if (node !=3D NUM=
+A_NO_NODE && slab_nid(sp) !=3D node)
+6193a2ff180920 Paul Mundt              2007-07-15  328  			continue;
+6193a2ff180920 Paul Mundt              2007-07-15  329  #endif
+d6269543ef24aa Matt Mackall            2007-07-21  330  		/* Enough room on=
+ this page? */
+d6269543ef24aa Matt Mackall            2007-07-21 @331  		if (sp->units < S=
+LOB_UNITS(size))
+d6269543ef24aa Matt Mackall            2007-07-21  332  			continue;
+6193a2ff180920 Paul Mundt              2007-07-15  333  =
+
+59bb47985c1db2 Vlastimil Babka         2019-10-06  334  		b =3D slob_page_a=
+lloc(sp, size, align, align_offset, &page_removed_from_list);
+d6269543ef24aa Matt Mackall            2007-07-21  335  		if (!b)
+d6269543ef24aa Matt Mackall            2007-07-21  336  			continue;
+d6269543ef24aa Matt Mackall            2007-07-21  337  =
+
+130e8e09e2675b Tobin C. Harding        2019-05-13  338  		/*
+130e8e09e2675b Tobin C. Harding        2019-05-13  339  		 * If slob_page_a=
+lloc() removed sp from the list then we
+130e8e09e2675b Tobin C. Harding        2019-05-13  340  		 * cannot call li=
+st functions on sp.  If so allocation
+130e8e09e2675b Tobin C. Harding        2019-05-13  341  		 * did not fragme=
+nt the page anyway so optimisation is
+130e8e09e2675b Tobin C. Harding        2019-05-13  342  		 * unnecessary.
+130e8e09e2675b Tobin C. Harding        2019-05-13  343  		 */
+130e8e09e2675b Tobin C. Harding        2019-05-13  344  		if (!page_removed=
+_from_list) {
+130e8e09e2675b Tobin C. Harding        2019-05-13  345  			/*
+130e8e09e2675b Tobin C. Harding        2019-05-13  346  			 * Improve fragm=
+ent distribution and reduce our average
+d6269543ef24aa Matt Mackall            2007-07-21  347  			 * search time b=
+y starting our next search here. (see
+130e8e09e2675b Tobin C. Harding        2019-05-13  348  			 * Knuth vol 1, =
+sec 2.5, pg 449)
+130e8e09e2675b Tobin C. Harding        2019-05-13  349  			 */
+adab7b68189d14 Tobin C. Harding        2019-05-13  350  			if (!list_is_fir=
+st(&sp->slab_list, slob_list))
+adab7b68189d14 Tobin C. Harding        2019-05-13  351  				list_rotate_to_=
+front(&sp->slab_list, slob_list);
+130e8e09e2675b Tobin C. Harding        2019-05-13  352  		}
+95b35127f13661 Nicholas Piggin         2007-07-15  353  		break;
+95b35127f13661 Nicholas Piggin         2007-07-15  354  	}
+95b35127f13661 Nicholas Piggin         2007-07-15  355  	spin_unlock_irqres=
+tore(&slob_lock, flags);
+10cef602950291 Matt Mackall            2006-01-08  356  =
+
+95b35127f13661 Nicholas Piggin         2007-07-15  357  	/* Not enough spac=
+e: must allocate a new page */
+95b35127f13661 Nicholas Piggin         2007-07-15  358  	if (!b) {
+6e9ed0cc4b963f Am=C3=A9rico Wang            2009-01-19  359  		b =3D slob_n=
+ew_pages(gfp & ~__GFP_ZERO, 0, node);
+95b35127f13661 Nicholas Piggin         2007-07-15  360  		if (!b)
+6e9ed0cc4b963f Am=C3=A9rico Wang            2009-01-19  361  			return NULL;
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  362) 		folio =3D virt_to=
+_folio(b);
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  363) 		__folio_set_slab(=
+folio);
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  364) 		sp =3D folio_slab=
+(folio);
+10cef602950291 Matt Mackall            2006-01-08  365  =
+
+10cef602950291 Matt Mackall            2006-01-08  366  		spin_lock_irqsave=
+(&slob_lock, flags);
+95b35127f13661 Nicholas Piggin         2007-07-15  367  		sp->units =3D SLO=
+B_UNITS(PAGE_SIZE);
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  368  		sp->freelist =3D =
+b;
+adab7b68189d14 Tobin C. Harding        2019-05-13  369  		INIT_LIST_HEAD(&s=
+p->slab_list);
+95b35127f13661 Nicholas Piggin         2007-07-15  370  		set_slob(b, SLOB_=
+UNITS(PAGE_SIZE), b + SLOB_UNITS(PAGE_SIZE));
+20cecbae44528d Matt Mackall            2008-02-04  371  		set_slob_page_fre=
+e(sp, slob_list);
+59bb47985c1db2 Vlastimil Babka         2019-10-06  372  		b =3D slob_page_a=
+lloc(sp, size, align, align_offset, &_unused);
+95b35127f13661 Nicholas Piggin         2007-07-15  373  		BUG_ON(!b);
+95b35127f13661 Nicholas Piggin         2007-07-15  374  		spin_unlock_irqre=
+store(&slob_lock, flags);
+10cef602950291 Matt Mackall            2006-01-08  375  	}
+9f88faee3ff7d6 Miles Chen              2017-11-15  376  	if (unlikely(gfp &=
+ __GFP_ZERO))
+d07dbea46405b3 Christoph Lameter       2007-07-17  377  		memset(b, 0, size=
+);
+95b35127f13661 Nicholas Piggin         2007-07-15  378  	return b;
+10cef602950291 Matt Mackall            2006-01-08  379  }
+10cef602950291 Matt Mackall            2006-01-08  380  =
+
+
+:::::: The code at line 331 was first introduced by commit
+:::::: d6269543ef24aa012aa228c27af3adb074f7b36b slob: reduce list scanning
+
+:::::: TO: Matt Mackall <mpm@selenic.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2383774140975048223==--
+--===============7216353065365576650==--
 
