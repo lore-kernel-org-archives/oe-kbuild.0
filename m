@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7209363887540027119=="
+Content-Type: multipart/mixed; boundary="===============8147218731349782266=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tip:x86/fpu 1/1] arch/x86/kernel/fpu/xstate.c:605:7: warning: Redundant initialization for 'size'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Tue, 26 Apr 2022 22:51:43 +0800
-Message-ID: <202204262214.x10mbeG2-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: should '((((1))) << port)' be a 64 bit type?
+Date: Tue, 26 Apr 2022 19:54:33 +0800
+Message-ID: <202204261914.eOrkTEiS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7209363887540027119==
+--===============8147218731349782266==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,132 +15,147 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-CC: x86(a)kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/fpu
-head:   8ad7e8f696951f192c6629a0cbda9ac94c773159
-commit: 8ad7e8f696951f192c6629a0cbda9ac94c773159 [1/1] x86/fpu/xsave: Suppo=
-rt XSAVEC in the kernel
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 8ad7e8f696951f192c6629a0cbda9ac94c773159
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d615b5416f8a1afeb82d13b238f8152c572d59c0
+commit: bef0746cf4cce238b1943df5d5b8f3103da92ead net: dsa: sja1105: make su=
+re untagged packets are dropped on ingress ports with no pvid
+date:   9 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 9 months ago
+config: openrisc-randconfig-m031-20220425 (https://download.01.org/0day-ci/=
+archive/20220426/202204261914.eOrkTEiS-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
+ld '((((1))) << port)' be a 64 bit type?
 
-cppcheck warnings: (new ones prefixed by >>)
-   arch/x86/kernel/fpu/xstate.c:1236:7: warning: Local variable 'mask' shad=
-ows outer variable [shadowVariable]
-     u64 mask =3D ((u64)1 << i);
-         ^
-   arch/x86/kernel/fpu/xstate.c:1205:6: note: Shadowed declaration
-    u64 mask;
-        ^
-   arch/x86/kernel/fpu/xstate.c:1236:7: note: Shadow variable
-     u64 mask =3D ((u64)1 << i);
-         ^
+Old smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
+: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
+d '((((1))) << to)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:248 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:260 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:269 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:278 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:284 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:291 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:518 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:519 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:604 sja1105_init_l2_forwarding_param=
+s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
+g_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:777 sja1105_init_general_params() wa=
+rn: is 'table->entries' large enough for 'struct sja1105_general_params_ent=
+ry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:805 sja1105_init_avb_params() warn: =
+is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:1272 sja1105_find_static_fdb_entry()=
+ warn: should '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1390 sja1105et_fdb_add() warn: shoul=
+d '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1392 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1400 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1486 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1494 sja1105pqrs_fdb_add() warn: sho=
+uld '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1499 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1549 sja1105pqrs_fdb_del() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1618 sja1105_fdb_dump() warn: should=
+ '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1670 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1672 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2165 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2166 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2170 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2479 sja1105_mgmt_xmit() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2797 sja1105_port_mcast_flood() warn=
+: should '(((1))) << to' be a 64 bit type?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +129 drivers/net/dsa/sja1105/sja1105_main.c
 
->> arch/x86/kernel/fpu/xstate.c:605:7: warning: Redundant initialization fo=
-r 'size'. The initialized value is overwritten before it is read. [redundan=
-tInitialization]
-    size =3D xstate_calculate_size(fpu_kernel_cfg.max_features, compacted);
-         ^
-   arch/x86/kernel/fpu/xstate.c:590:20: note: size is initialized
-    unsigned int size =3D FXSAVE_SIZE + XSAVE_HDR_SIZE;
-                      ^
-   arch/x86/kernel/fpu/xstate.c:605:7: note: size is overwritten
-    size =3D xstate_calculate_size(fpu_kernel_cfg.max_features, compacted);
-         ^
->> arch/x86/kernel/fpu/xstate.c:589:7: warning: Local variable 'xsaves' sha=
-dows outer function [shadowFunction]
-    bool xsaves =3D cpu_feature_enabled(X86_FEATURE_XSAVES);
-         ^
-   arch/x86/kernel/fpu/xstate.c:1310:6: note: Shadowed declaration
-   void xsaves(struct xregs_state *xstate, u64 mask)
-        ^
-   arch/x86/kernel/fpu/xstate.c:589:7: note: Shadow variable
-    bool xsaves =3D cpu_feature_enabled(X86_FEATURE_XSAVES);
-         ^
->> arch/x86/kernel/fpu/xstate.c:1708:43: warning: Parameter 'tsk' can be de=
-clared with const [constParameter]
-   long fpu_xstate_prctl(struct task_struct *tsk, int option, unsigned long=
- arg2)
-                                             ^
+cde8078e83e320 Vladimir Oltean 2021-07-29  106  =
 
-vim +/size +605 arch/x86/kernel/fpu/xstate.c
+cde8078e83e320 Vladimir Oltean 2021-07-29  107  static int sja1105_commit_p=
+vid(struct dsa_switch *ds, int port)
+cde8078e83e320 Vladimir Oltean 2021-07-29  108  {
+cde8078e83e320 Vladimir Oltean 2021-07-29  109  	struct dsa_port *dp =3D ds=
+a_to_port(ds, port);
+cde8078e83e320 Vladimir Oltean 2021-07-29  110  	struct sja1105_private *pr=
+iv =3D ds->priv;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  111  	struct sja1105_vlan_lookup=
+_entry *vlan;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  112  	bool drop_untagged =3D fal=
+se;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  113  	int match, rc;
+cde8078e83e320 Vladimir Oltean 2021-07-29  114  	u16 pvid;
+cde8078e83e320 Vladimir Oltean 2021-07-29  115  =
 
-84e4dccc8fce20 Chang S. Bae    2021-10-21  576  =
+cde8078e83e320 Vladimir Oltean 2021-07-29  116  	if (dp->bridge_dev && br_v=
+lan_enabled(dp->bridge_dev))
+cde8078e83e320 Vladimir Oltean 2021-07-29  117  		pvid =3D priv->bridge_pvi=
+d[port];
+cde8078e83e320 Vladimir Oltean 2021-07-29  118  	else
+cde8078e83e320 Vladimir Oltean 2021-07-29  119  		pvid =3D priv->tag_8021q_=
+pvid[port];
+cde8078e83e320 Vladimir Oltean 2021-07-29  120  =
 
-65ac2e9baa7dee Dave Hansen     2015-09-02  577  /*
-65ac2e9baa7dee Dave Hansen     2015-09-02  578   * This essentially double-=
-checks what the cpu told us about
-65ac2e9baa7dee Dave Hansen     2015-09-02  579   * how large the XSAVE buff=
-er needs to be.  We are recalculating
-65ac2e9baa7dee Dave Hansen     2015-09-02  580   * it to be safe.
-76d10256a97a7c Kan Liang       2020-07-20  581   *
-01707b66535872 Andy Lutomirski 2021-06-23  582   * Independent XSAVE featur=
-es allocate their own buffers and are not
-76d10256a97a7c Kan Liang       2020-07-20  583   * covered by these checks.=
- Only the size of the buffer for task->fpu
-76d10256a97a7c Kan Liang       2020-07-20  584   * is checked here.
-65ac2e9baa7dee Dave Hansen     2015-09-02  585   */
-cd9ae761744912 Thomas Gleixner 2021-10-15  586  static bool __init paranoid=
-_xstate_size_valid(unsigned int kernel_size)
-65ac2e9baa7dee Dave Hansen     2015-09-02  587  {
-8ad7e8f696951f Thomas Gleixner 2022-04-04  588  	bool compacted =3D cpu_fea=
-ture_enabled(X86_FEATURE_XCOMPACTED);
-8ad7e8f696951f Thomas Gleixner 2022-04-04 @589  	bool xsaves =3D cpu_featur=
-e_enabled(X86_FEATURE_XSAVES);
-cd9ae761744912 Thomas Gleixner 2021-10-15  590  	unsigned int size =3D FXSA=
-VE_SIZE + XSAVE_HDR_SIZE;
-65ac2e9baa7dee Dave Hansen     2015-09-02  591  	int i;
-65ac2e9baa7dee Dave Hansen     2015-09-02  592  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  121  	rc =3D sja1105_pvid_apply(=
+priv, port, pvid);
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  122  	if (rc)
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  123  		return rc;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  124  =
 
-1c253ff2287fe3 Thomas Gleixner 2021-10-15  593  	for_each_extended_xfeature=
-(i, fpu_kernel_cfg.max_features) {
-cd9ae761744912 Thomas Gleixner 2021-10-15  594  		if (!check_xstate_against=
-_struct(i))
-cd9ae761744912 Thomas Gleixner 2021-10-15  595  			return false;
-65ac2e9baa7dee Dave Hansen     2015-09-02  596  		/*
-65ac2e9baa7dee Dave Hansen     2015-09-02  597  		 * Supervisor state compo=
-nents can be managed only by
-02b93c0b00df22 Thomas Gleixner 2021-06-23  598  		 * XSAVES.
-65ac2e9baa7dee Dave Hansen     2015-09-02  599  		 */
-8ad7e8f696951f Thomas Gleixner 2022-04-04  600  		if (!xsaves && xfeature_i=
-s_supervisor(i)) {
-cd9ae761744912 Thomas Gleixner 2021-10-15  601  			XSTATE_WARN_ON(1);
-cd9ae761744912 Thomas Gleixner 2021-10-15  602  			return false;
-cd9ae761744912 Thomas Gleixner 2021-10-15  603  		}
-65ac2e9baa7dee Dave Hansen     2015-09-02  604  	}
-84e4dccc8fce20 Chang S. Bae    2021-10-21 @605  	size =3D xstate_calculate_=
-size(fpu_kernel_cfg.max_features, compacted);
-cd9ae761744912 Thomas Gleixner 2021-10-15  606  	XSTATE_WARN_ON(size !=3D k=
-ernel_size);
-cd9ae761744912 Thomas Gleixner 2021-10-15  607  	return size =3D=3D kernel_=
-size;
-65ac2e9baa7dee Dave Hansen     2015-09-02  608  }
-65ac2e9baa7dee Dave Hansen     2015-09-02  609  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  125  	vlan =3D priv->static_conf=
+ig.tables[BLK_IDX_VLAN_LOOKUP].entries;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  126  =
 
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  127  	match =3D sja1105_is_vlan_=
+configured(priv, pvid);
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  128  =
 
-:::::: The code at line 605 was first introduced by commit
-:::::: 84e4dccc8fce20b497388d756e12de5c9006eb48 x86/fpu/xstate: Provide xst=
-ate_calculate_size()
+bef0746cf4cce2 Vladimir Oltean 2021-07-29 @129  	if (match < 0 || !(vlan[ma=
+tch].vmemb_port & BIT(port)))
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  130  		drop_untagged =3D true;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  131  =
 
-:::::: TO: Chang S. Bae <chang.seok.bae@intel.com>
-:::::: CC: Borislav Petkov <bp@suse.de>
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  132  	return sja1105_drop_untagg=
+ed(ds, port, drop_untagged);
+cde8078e83e320 Vladimir Oltean 2021-07-29  133  }
+cde8078e83e320 Vladimir Oltean 2021-07-29  134  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7209363887540027119==--
+--===============8147218731349782266==--
 
