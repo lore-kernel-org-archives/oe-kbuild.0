@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8559714684390560065=="
+Content-Type: multipart/mixed; boundary="===============6855705025249833718=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rt-devel:linux-5.18.y-rt-rebase 17/78] kernel/printk/printk.c:3211:4: warning: Value stored to 'any_usable' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 29 Apr 2022 05:42:18 +0800
-Message-ID: <202204290515.UOPQrJ9w-lkp@intel.com>
+Subject: drivers/net/ethernet/asix/ax88796c_main.c:548:21: warning: Value stored to 'ndev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 29 Apr 2022 02:58:47 +0800
+Message-ID: <202204290236.qMtDvWen-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8559714684390560065==
+--===============6855705025249833718==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,32 +16,33 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: John Ogness <john.ogness@linutronix.de>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+TO: "=C5=81ukasz Stelmach" <l.stelmach@samsung.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.g=
-it linux-5.18.y-rt-rebase
-head:   32db7abd98134c688b08d269ff72b7720423eb45
-commit: 63a3c2fa9545cff5419ff2ec2458cbb41d838d97 [17/78] serial: 8250: impl=
-ement write_atomic
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: riscv-randconfig-c006-20220428 (https://download.01.org/0day-ci/arc=
-hive/20220429/202204290515.UOPQrJ9w-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
-aacce38cd7dd77eebceaf3c98c5707ab3b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   8f4dd16603ce834d1c5c4da67803ea82dd282511
+commit: a97c69ba4f30e46abb9cc7be8b98227cb468fdf9 net: ax88796c: ASIX AX8879=
+6C SPI Ethernet Adapter Driver
+date:   6 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-c006-20220427 (https://download.01.org/0day-ci/arc=
+hive/20220429/202204290236.qMtDvWen-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
+dc3c683b393df1a5c9063252eb60e52818)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel=
-.git/commit/?id=3D63a3c2fa9545cff5419ff2ec2458cbb41d838d97
-        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel=
-/git/rt/linux-rt-devel.git
-        git fetch --no-tags rt-devel linux-5.18.y-rt-rebase
-        git checkout 63a3c2fa9545cff5419ff2ec2458cbb41d838d97
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da97c69ba4f30e46abb9cc7be8b98227cb468fdf9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a97c69ba4f30e46abb9cc7be8b98227cb468fdf9
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -52,396 +53,351 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                 ^~~~~~~~
-   kernel/printk/printk.c:2050:17: note: Call to function 'snprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'snprintf_s' in case of C11
-                   dropped_len =3D snprintf(dropped_text, DROPPED_TEXT_MAX,
-                                 ^~~~~~~~
-   kernel/printk/printk.c:2224:4: warning: Call to function 'memmove' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memmove_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memmove(text, text + prefix_len, text_len);
-                           ^
-   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
-e'
-   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
-lying_memmove'
-   #define __underlying_memmove    __builtin_memmove
-                                   ^~~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2224:4: note: Call to function 'memmove' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memmove_s' in case of C11
-                           memmove(text, text + prefix_len, text_len);
-                           ^
-   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
-e'
-   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
-lying_memmove'
-   #define __underlying_memmove    __builtin_memmove
-                                   ^~~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2270:17: warning: Call to function 'vsnprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           reserve_size =3D vsnprintf(&prefix_buf[0], sizeof(prefix_buf), f=
-mt, args2) + 1;
-                          ^~~~~~~~~
-   kernel/printk/printk.c:2270:17: note: Call to function 'vsnprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'vsnprintf_s' in case of C11
-           reserve_size =3D vsnprintf(&prefix_buf[0], sizeof(prefix_buf), f=
-mt, args2) + 1;
-                          ^~~~~~~~~
-   kernel/printk/printk.c:2323:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&r.text_buf[text_len], trunc_msg, trunc_msg_len);
+   drivers/usb/gadget/udc/dummy_hcd.c:2837:8: warning: Access to field 'hs_=
+hcd' results in a dereference of a null pointer [clang-analyzer-core.NullDe=
+reference]
+                   if (!dum[i]->hs_hcd ||
+                        ^~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2772:2: note: Initializing to a null =
+pointer value
+           struct  dummy *dum[MAX_NUM_UDC] =3D {};
+           ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2774:6: note: Assuming the condition =
+is false
+           if (usb_disabled())
+               ^~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2774:2: note: Taking false branch
+           if (usb_disabled())
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2777:6: note: Assuming field 'is_high=
+_speed' is true
+           if (!mod_data.is_high_speed && mod_data.is_super_speed)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2777:30: note: Left side of '&&' is f=
+alse
+           if (!mod_data.is_high_speed && mod_data.is_super_speed)
+                                       ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2780:6: note: Assuming field 'num' is=
+ >=3D 1
+           if (mod_data.num < 1 || mod_data.num > MAX_NUM_UDC) {
+               ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2780:6: note: Left side of '||' is fa=
+lse
+   drivers/usb/gadget/udc/dummy_hcd.c:2780:26: note: Assuming field 'num' i=
+s <=3D MAX_NUM_UDC
+           if (mod_data.num < 1 || mod_data.num > MAX_NUM_UDC) {
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2780:2: note: Taking false branch
+           if (mod_data.num < 1 || mod_data.num > MAX_NUM_UDC) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2786:14: note: 'i' is < field 'num'
+           for (i =3D 0; i < mod_data.num; i++) {
+                       ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2786:2: note: Loop condition is true.=
+  Entering loop body
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2788:7: note: Assuming the condition =
+is false
+                   if (!the_hcd_pdev[i]) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2788:3: note: Taking false branch
+                   if (!the_hcd_pdev[i]) {
                    ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2323:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(&r.text_buf[text_len], trunc_msg, trunc_msg_len);
+   drivers/usb/gadget/udc/dummy_hcd.c:2786:14: note: Assuming 'i' is >=3D f=
+ield 'num'
+           for (i =3D 0; i < mod_data.num; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2786:2: note: Loop condition is false=
+. Execution continues on line 2795
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2795:14: note: Assuming 'i' is >=3D f=
+ield 'num'
+           for (i =3D 0; i < mod_data.num; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2795:2: note: Loop condition is false=
+. Execution continues on line 2804
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2804:2: note: Loop condition is false=
+. Execution continues on line 2820
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2821:6: note: Assuming 'retval' is >=
+=3D 0
+           if (retval < 0)
+               ^~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2821:2: note: Taking false branch
+           if (retval < 0)
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2824:6: note: Assuming 'retval' is >=
+=3D 0
+           if (retval < 0)
+               ^~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2824:2: note: Taking false branch
+           if (retval < 0)
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2827:14: note: Assuming 'i' is < fiel=
+d 'num'
+           for (i =3D 0; i < mod_data.num; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2827:2: note: Loop condition is true.=
+  Entering loop body
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2829:7: note: Assuming 'retval' is >=
+=3D 0
+                   if (retval < 0) {
+                       ^~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2829:3: note: Taking false branch
+                   if (retval < 0) {
                    ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2331:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&r.info->dev_info, dev_info, sizeof(r.info->dev_i=
-nfo));
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2331:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(&r.info->dev_info, dev_info, sizeof(r.info->dev_i=
-nfo));
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2633:3: warning: Call to function 'strncpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   strncpy(buf + 4, str, sizeof(buf) - 5);
-                   ^~~~~~~
-   kernel/printk/printk.c:2633:3: note: Call to function 'strncpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'strncpy_s' in case of C11
-                   strncpy(buf + 4, str, sizeof(buf) - 5);
-                   ^~~~~~~
-   kernel/printk/printk.c:2635:3: warning: Call to function 'strncpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   strncpy(buf, str, sizeof(buf) - 1);
-                   ^~~~~~~
-   kernel/printk/printk.c:2635:3: note: Call to function 'strncpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'strncpy_s' in case of C11
-                   strncpy(buf, str, sizeof(buf) - 1);
-                   ^~~~~~~
->> kernel/printk/printk.c:3211:4: warning: Value stored to 'any_usable' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                           any_usable =3D true;
-                           ^            ~~~~
-   kernel/printk/printk.c:3211:4: note: Value stored to 'any_usable' is nev=
-er read
-                           any_usable =3D true;
-                           ^            ~~~~
-   Suppressed 54 warnings (46 in non-user code, 8 with check filters).
+   drivers/usb/gadget/udc/dummy_hcd.c:2827:14: note: Assuming 'i' is >=3D f=
+ield 'num'
+           for (i =3D 0; i < mod_data.num; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2827:2: note: Loop condition is false=
+. Execution continues on line 2836
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2836:7: note: The value 0 is assigned=
+ to 'i'
+           for (i =3D 0; i < mod_data.num; i++) {
+                ^~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2836:14: note: Assuming 'i' is < fiel=
+d 'num'
+           for (i =3D 0; i < mod_data.num; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/dummy_hcd.c:2836:2: note: Loop condition is true.=
+  Entering loop body
+           for (i =3D 0; i < mod_data.num; i++) {
+           ^
+   drivers/usb/gadget/udc/dummy_hcd.c:2837:8: note: Access to field 'hs_hcd=
+' results in a dereference of a null pointer
+                   if (!dum[i]->hs_hcd ||
+                        ^~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   88 warnings generated.
-   drivers/nfc/st-nci/spi.c:102:3: warning: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(skb_rx->data, buf, skb->len);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nfc/st-nci/spi.c:102:3: note: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(skb_rx->data, buf, skb->len);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nfc/st-nci/spi.c:146:2: warning: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy((*skb)->data, buf, ST_NCI_SPI_MIN_SIZE);
+   7 warnings generated.
+>> drivers/net/ethernet/asix/ax88796c_main.c:548:21: warning: Value stored =
+to 'ndev' during its initialization is never read [clang-analyzer-deadcode.=
+DeadStores]
+           struct net_device *ndev =3D ax_local->ndev;
+                              ^~~~   ~~~~~~~~~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:548:21: note: Value stored to =
+'ndev' during its initialization is never read
+           struct net_device *ndev =3D ax_local->ndev;
+                              ^~~~   ~~~~~~~~~~~~~~
+   include/asm-generic/bitops/non-atomic.h:118:16: warning: Array access (f=
+rom variable 'addr') results in a null pointer dereference [clang-analyzer-=
+core.NullDereference]
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^
+   drivers/net/ethernet/asix/ax88796c_main.c:801:6: note: Assuming 'ret' is=
+ 0
+           if (ret) {
+               ^~~
+   drivers/net/ethernet/asix/ax88796c_main.c:801:2: note: Taking false bran=
+ch
+           if (ret) {
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nfc/st-nci/spi.c:146:2: note: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11
-           memcpy((*skb)->data, buf, ST_NCI_SPI_MIN_SIZE);
+   drivers/net/ethernet/asix/ax88796c_main.c:810:6: note: Assuming 'ret' is=
+ >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:810:2: note: Taking false bran=
+ch
+           if (ret < 0) {
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nfc/st-nci/spi.c:159:2: warning: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy((*skb)->data + ST_NCI_SPI_MIN_SIZE, buf, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nfc/st-nci/spi.c:159:2: note: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11
-           memcpy((*skb)->data + ST_NCI_SPI_MIN_SIZE, buf, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 85 warnings (78 in non-user code, 7 with check filters).
+   drivers/net/ethernet/asix/ax88796c_main.c:851:6: note: Assuming the cond=
+ition is false
+           if (ax_local->phydev->advertising &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:851:36: note: Left side of '&&=
+' is false
+           if (ax_local->phydev->advertising &&
+                                             ^
+   drivers/net/ethernet/asix/ax88796c_main.c:859:5: note: Passing null poin=
+ter value via 2nd parameter 'addr'
+                                   ax_local->phydev->advertising) ? AX_FC_R=
+X : 0;
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:858:8: note: Calling 'linkmode=
+_test_bit'
+           fc |=3D linkmode_test_bit(ETHTOOL_LINK_MODE_Pause_BIT,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/linkmode.h:76:22: note: Passing null pointer value via 2nd=
+ parameter 'addr'
+           return test_bit(nr, addr);
+                               ^~~~
+   include/linux/linkmode.h:76:9: note: Calling 'arch_test_bit'
+           return test_bit(nr, addr);
+                  ^
+   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
+o 'test_bit'
+   #define test_bit arch_test_bit
+                    ^
+   include/asm-generic/bitops/non-atomic.h:118:16: note: Array access (from=
+ variable 'addr') results in a null pointer dereference
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^~~~
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   Suppressed 19 warnings (19 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   93 warnings generated.
-   Suppressed 93 warnings (86 in non-user code, 7 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   97 warnings generated.
-   drivers/net/wan/hdlc_raw_eth.c:37:3: warning: Call to function 'memset' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(skb->data + len, 0, pad);
+   10 warnings generated.
+   drivers/net/ethernet/cadence/macb_main.c:1507:13: warning: Access to fie=
+ld 'addr' results in a dereference of a null pointer (loaded from variable =
+'desc') [clang-analyzer-core.NullDereference]
+           desc->addr |=3D MACB_BIT(RX_WRAP);
+                      ^
+   drivers/net/ethernet/cadence/macb_main.c:2438:2: note: Calling 'macb_ini=
+t_rx_ring'
+           macb_init_rx_ring(&bp->queues[0]);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:1497:2: note: 'desc' initialize=
+d to a null pointer value
+           struct macb_dma_desc *desc =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:1501:14: note: Assuming 'i' is =
+>=3D field 'rx_ring_size'
+           for (i =3D 0; i < bp->rx_ring_size; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:1501:2: note: Loop condition is=
+ false. Execution continues on line 1507
+           for (i =3D 0; i < bp->rx_ring_size; i++) {
+           ^
+   drivers/net/ethernet/cadence/macb_main.c:1507:13: note: Access to field =
+'addr' results in a dereference of a null pointer (loaded from variable 'de=
+sc')
+           desc->addr |=3D MACB_BIT(RX_WRAP);
+           ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2421:14: warning: Access to fie=
+ld 'ctrl' results in a dereference of a null pointer (loaded from variable =
+'desc') [clang-analyzer-core.NullDereference]
+                   desc->ctrl |=3D MACB_BIT(TX_WRAP);
+                   ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2411:2: note: 'desc' initialize=
+d to a null pointer value
+           struct macb_dma_desc *desc =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2415:34: note: Assuming 'q' is =
+< field 'num_queues'
+           for (q =3D 0, queue =3D bp->queues; q < bp->num_queues; ++q, ++q=
+ueue) {
+                                           ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2415:2: note: Loop condition is=
+ true.  Entering loop body
+           for (q =3D 0, queue =3D bp->queues; q < bp->num_queues; ++q, ++q=
+ueue) {
+           ^
+   drivers/net/ethernet/cadence/macb_main.c:2416:15: note: Assuming 'i' is =
+>=3D field 'tx_ring_size'
+                   for (i =3D 0; i < bp->tx_ring_size; i++) {
+                               ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2416:3: note: Loop condition is=
+ false. Execution continues on line 2421
+                   for (i =3D 0; i < bp->tx_ring_size; i++) {
                    ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+   drivers/net/ethernet/cadence/macb_main.c:2421:14: note: Access to field =
+'ctrl' results in a dereference of a null pointer (loaded from variable 'de=
+sc')
+                   desc->ctrl |=3D MACB_BIT(TX_WRAP);
+                   ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2447:13: warning: Access to fie=
+ld 'ctrl' results in a dereference of a null pointer (loaded from variable =
+'desc') [clang-analyzer-core.NullDereference]
+           desc->ctrl |=3D MACB_BIT(TX_WRAP);
+           ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2436:2: note: 'desc' initialize=
+d to a null pointer value
+           struct macb_dma_desc *desc =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2440:14: note: Assuming 'i' is =
+>=3D field 'tx_ring_size'
+           for (i =3D 0; i < bp->tx_ring_size; i++) {
 
-vim +/any_usable +3211 kernel/printk/printk.c
+vim +/ndev +548 drivers/net/ethernet/asix/ax88796c_main.c
 
-38fad3f014835f John Ogness 2022-02-04  3200  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  545  =
 
-38fad3f014835f John Ogness 2022-02-04  3201  	printk_cpu_sync_get_irqsave(f=
-lags);
-38fad3f014835f John Ogness 2022-02-04  3202  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  546  static int ax88796c_p=
+rocess_isr(struct ax88796c_device *ax_local)
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  547  {
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20 @548  	struct net_device *n=
+dev =3D ax_local->ndev;
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  549  	int todo =3D 0;
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  550  	u16 isr;
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  551  =
 
-38fad3f014835f John Ogness 2022-02-04  3203  	do {
-38fad3f014835f John Ogness 2022-02-04  3204  		any_progress =3D false;
-38fad3f014835f John Ogness 2022-02-04  3205  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  552  	lockdep_assert_held(=
+&ax_local->spi_lock);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  553  =
 
-38fad3f014835f John Ogness 2022-02-04  3206  		for_each_console(con) {
-38fad3f014835f John Ogness 2022-02-04  3207  			bool progress;
-38fad3f014835f John Ogness 2022-02-04  3208  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  554  	isr =3D AX_READ(&ax_=
+local->ax_spi, P0_ISR);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  555  	AX_WRITE(&ax_local->=
+ax_spi, isr, P0_ISR);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  556  =
 
-38fad3f014835f John Ogness 2022-02-04  3209  			if (!console_is_usable(con,=
- true))
-38fad3f014835f John Ogness 2022-02-04  3210  				continue;
-38fad3f014835f John Ogness 2022-02-04 @3211  			any_usable =3D true;
-38fad3f014835f John Ogness 2022-02-04  3212  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  557  	netif_dbg(ax_local, =
+intr, ndev, "  ISR 0x%04x\n", isr);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  558  =
 
-38fad3f014835f John Ogness 2022-02-04  3213  			if (con->flags & CON_EXTEND=
-ED) {
-38fad3f014835f John Ogness 2022-02-04  3214  				/* Extended consoles do no=
-t print "dropped messages". */
-38fad3f014835f John Ogness 2022-02-04  3215  				progress =3D console_emit_=
-next_record(con,
-38fad3f014835f John Ogness 2022-02-04  3216  							&con->atomic_data->text=
-[index],
-38fad3f014835f John Ogness 2022-02-04  3217  							&con->atomic_data->ext_=
-text[index],
-38fad3f014835f John Ogness 2022-02-04  3218  							NULL,
-38fad3f014835f John Ogness 2022-02-04  3219  							true);
-38fad3f014835f John Ogness 2022-02-04  3220  			} else {
-38fad3f014835f John Ogness 2022-02-04  3221  				progress =3D console_emit_=
-next_record(con,
-38fad3f014835f John Ogness 2022-02-04  3222  							&con->atomic_data->text=
-[index],
-38fad3f014835f John Ogness 2022-02-04  3223  							NULL,
-38fad3f014835f John Ogness 2022-02-04  3224  							&con->atomic_data->drop=
-ped_text[index],
-38fad3f014835f John Ogness 2022-02-04  3225  							true);
-38fad3f014835f John Ogness 2022-02-04  3226  			}
-38fad3f014835f John Ogness 2022-02-04  3227  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  559  	if (isr & ISR_TXERR)=
+ {
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  560  		netif_dbg(ax_local,=
+ intr, ndev, "  TXERR interrupt\n");
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  561  		AX_WRITE(&ax_local-=
+>ax_spi, TXNR_TXB_REINIT, P0_TSNR);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  562  		ax_local->seq_num =
+=3D 0x1f;
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  563  	}
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  564  =
 
-38fad3f014835f John Ogness 2022-02-04  3228  			if (!progress)
-38fad3f014835f John Ogness 2022-02-04  3229  				continue;
-38fad3f014835f John Ogness 2022-02-04  3230  			any_progress =3D true;
-38fad3f014835f John Ogness 2022-02-04  3231  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  565  	if (isr & ISR_TXPAGE=
+S) {
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  566  		netif_dbg(ax_local,=
+ intr, ndev, "  TXPAGES interrupt\n");
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  567  		set_bit(EVENT_TX, &=
+ax_local->flags);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  568  	}
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  569  =
 
-38fad3f014835f John Ogness 2022-02-04  3232  			touch_softlockup_watchdog_s=
-ync();
-38fad3f014835f John Ogness 2022-02-04  3233  			clocksource_touch_watchdog(=
-);
-38fad3f014835f John Ogness 2022-02-04  3234  			rcu_cpu_stall_reset();
-38fad3f014835f John Ogness 2022-02-04  3235  			touch_nmi_watchdog();
-38fad3f014835f John Ogness 2022-02-04  3236  		}
-38fad3f014835f John Ogness 2022-02-04  3237  	} while (any_progress);
-38fad3f014835f John Ogness 2022-02-04  3238  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  570  	if (isr & ISR_LINK) {
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  571  		netif_dbg(ax_local,=
+ intr, ndev, "  Link change interrupt\n");
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  572  		phy_mac_interrupt(a=
+x_local->ndev->phydev);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  573  	}
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  574  =
 
-38fad3f014835f John Ogness 2022-02-04  3239  	printk_cpu_sync_put_irqrestor=
-e(flags);
-38fad3f014835f John Ogness 2022-02-04  3240  }
-38fad3f014835f John Ogness 2022-02-04  3241  #else /* CONFIG_HAVE_ATOMIC_CO=
-NSOLE */
-38fad3f014835f John Ogness 2022-02-04  3242  #define atomic_console_flush_a=
-ll()
-38fad3f014835f John Ogness 2022-02-04  3243  #endif
-38fad3f014835f John Ogness 2022-02-04  3244  =
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  575  	if (isr & ISR_RXPKT)=
+ {
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  576  		netif_dbg(ax_local,=
+ intr, ndev, "  RX interrupt\n");
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  577  		todo =3D ax88796c_r=
+eceive(ax_local->ndev);
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  578  	}
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  579  =
 
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  580  	return todo;
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  581  }
+a97c69ba4f30e46 =C5=81ukasz Stelmach 2021-10-20  582  =
 
-:::::: The code at line 3211 was first introduced by commit
-:::::: 38fad3f014835febe177b238e83a9bf29bb26d30 printk: add infrastucture f=
-or atomic consoles
-
-:::::: TO: John Ogness <john.ogness@linutronix.de>
-:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8559714684390560065==--
+--===============6855705025249833718==--
 
