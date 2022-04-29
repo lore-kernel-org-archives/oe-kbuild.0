@@ -1,148 +1,165 @@
-Content-Type: multipart/mixed; boundary="===============5758454434048194764=="
+Content-Type: multipart/mixed; boundary="===============1537817090213649358=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/ksmbd/oplock.c:988 find_same_lease_key() warn: missing error code 'err'
-Date: Sat, 30 Apr 2022 07:05:09 +0800
-Message-ID: <202204300628.lxnNtMag-lkp@intel.com>
+Subject: [linux-next:master 1683/7959] drivers/net/ethernet/mediatek/mtk_wed.c:813:2-8: ERROR: missing put_device; call of_find_device_by_node on line 806, but without a corresponding object release within this function.
+Date: Fri, 29 Apr 2022 22:38:12 +0800
+Message-ID: <202204292241.RP7yyzWn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5758454434048194764==
+--===============1537817090213649358==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Namjae Jeon <namjae.jeon@samsung.com>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Steve French <stfrench@microsoft.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Felix Fietkau <nbd@nbd.name>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2d0de93ca2515958e717138e5ee07ec3b6bf0226
-commit: 1a93084b9a89818aec0ac7b59a5a51f2112bf203 ksmbd: move fs/cifsd to fs=
-/ksmbd
-date:   10 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: nios2-randconfig-m031-20220428 (https://download.01.org/0day-ci/arc=
-hive/20220430/202204300628.lxnNtMag-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   5469f0c06732a077c70a759a81f2a1f00b277694
+commit: 804775dfc2885e93a0a4b35db1914c2cc25172b5 [1683/7959] net: ethernet:=
+ mtk_eth_soc: add support for Wireless Ethernet Dispatch (WED)
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-c004-20220428 (https://download.01.org/0day-ci/arc=
+hive/20220429/202204292241.RP7yyzWn-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-fs/ksmbd/oplock.c:988 find_same_lease_key() warn: missing error code 'err'
-
-vim +/err +988 fs/ksmbd/oplock.c
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   955  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   956  int find_sa=
-me_lease_key(struct ksmbd_session *sess, struct ksmbd_inode *ci,
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   957  			struct l=
-ease_ctx_info *lctx)
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   958  {
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   959  	struct opl=
-ock_info *opinfo;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   960  	int err =
-=3D 0;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   961  	struct lea=
-se_table *lb;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   962  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   963  	if (!lctx)
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   964  		return er=
-r;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   965  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   966  	read_lock(=
-&lease_list_lock);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   967  	if (list_e=
-mpty(&lease_table_list)) {
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   968  		read_unlo=
-ck(&lease_list_lock);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   969  		return 0;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   970  	}
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   971  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   972  	list_for_e=
-ach_entry(lb, &lease_table_list, l_entry) {
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   973  		if (!memc=
-mp(lb->client_guid, sess->conn->ClientGUID,
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   974  			    SMB2=
-_CLIENT_GUID_SIZE))
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   975  			goto fou=
-nd;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   976  	}
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   977  	read_unloc=
-k(&lease_list_lock);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   978  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   979  	return 0;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   980  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   981  found:
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   982  	rcu_read_l=
-ock();
-070fb21e5912b6a fs/cifsd/oplock.c Namjae Jeon 2021-05-26   983  	list_for_e=
-ach_entry_rcu(opinfo, &lb->lease_list, lease_entry) {
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   984  		if (!atom=
-ic_inc_not_zero(&opinfo->refcount))
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   985  			continue;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   986  		rcu_read_=
-unlock();
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   987  		if (opinf=
-o->o_fp->f_ci =3D=3D ci)
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  @988  			goto op_=
-next;
-070fb21e5912b6a fs/cifsd/oplock.c Namjae Jeon 2021-05-26   989  		err =3D c=
-ompare_guid_key(opinfo, sess->conn->ClientGUID,
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   990  				       =
-lctx->lease_key);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   991  		if (err) {
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   992  			err =3D =
--EINVAL;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   993  			ksmbd_de=
-bug(OPLOCK,
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   994  				    "fo=
-und same lease key is already used in other files\n");
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   995  			opinfo_p=
-ut(opinfo);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   996  			goto out;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   997  		}
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   998  op_next:
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16   999  		opinfo_pu=
-t(opinfo);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1000  		rcu_read_=
-lock();
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1001  	}
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1002  	rcu_read_u=
-nlock();
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1003  =
-
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1004  out:
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1005  	read_unloc=
-k(&lease_list_lock);
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1006  	return err;
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1007  }
-e2f34481b24db2f fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1008  =
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-:::::: The code at line 988 was first introduced by commit
-:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side proc=
-edures for SMB3
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/mediatek/mtk_wed.c:813:2-8: ERROR: missing put_devi=
+ce; call of_find_device_by_node on line 806, but without a corresponding ob=
+ject release within this function.
+   drivers/net/ethernet/mediatek/mtk_wed.c:817:2-8: ERROR: missing put_devi=
+ce; call of_find_device_by_node on line 806, but without a corresponding ob=
+ject release within this function.
+   drivers/net/ethernet/mediatek/mtk_wed.c:853:0-1: ERROR: missing put_devi=
+ce; call of_find_device_by_node on line 806, but without a corresponding ob=
+ject release within this function.
 
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+vim +813 drivers/net/ethernet/mediatek/mtk_wed.c
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  780  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  781  void mtk_wed_add_hw(struct d=
+evice_node *np, struct mtk_eth *eth,
+804775dfc2885e9 Felix Fietkau 2022-04-05  782  		    void __iomem *wdma, in=
+t index)
+804775dfc2885e9 Felix Fietkau 2022-04-05  783  {
+804775dfc2885e9 Felix Fietkau 2022-04-05  784  	static const struct mtk_wed=
+_ops wed_ops =3D {
+804775dfc2885e9 Felix Fietkau 2022-04-05  785  		.attach =3D mtk_wed_attach,
+804775dfc2885e9 Felix Fietkau 2022-04-05  786  		.tx_ring_setup =3D mtk_wed=
+_tx_ring_setup,
+804775dfc2885e9 Felix Fietkau 2022-04-05  787  		.txfree_ring_setup =3D mtk=
+_wed_txfree_ring_setup,
+804775dfc2885e9 Felix Fietkau 2022-04-05  788  		.start =3D mtk_wed_start,
+804775dfc2885e9 Felix Fietkau 2022-04-05  789  		.stop =3D mtk_wed_stop,
+804775dfc2885e9 Felix Fietkau 2022-04-05  790  		.reset_dma =3D mtk_wed_res=
+et_dma,
+804775dfc2885e9 Felix Fietkau 2022-04-05  791  		.reg_read =3D wed_r32,
+804775dfc2885e9 Felix Fietkau 2022-04-05  792  		.reg_write =3D wed_w32,
+804775dfc2885e9 Felix Fietkau 2022-04-05  793  		.irq_get =3D mtk_wed_irq_g=
+et,
+804775dfc2885e9 Felix Fietkau 2022-04-05  794  		.irq_set_mask =3D mtk_wed_=
+irq_set_mask,
+804775dfc2885e9 Felix Fietkau 2022-04-05  795  		.detach =3D mtk_wed_detach,
+804775dfc2885e9 Felix Fietkau 2022-04-05  796  	};
+804775dfc2885e9 Felix Fietkau 2022-04-05  797  	struct device_node *eth_np =
+=3D eth->dev->of_node;
+804775dfc2885e9 Felix Fietkau 2022-04-05  798  	struct platform_device *pde=
+v;
+804775dfc2885e9 Felix Fietkau 2022-04-05  799  	struct mtk_wed_hw *hw;
+804775dfc2885e9 Felix Fietkau 2022-04-05  800  	struct regmap *regs;
+804775dfc2885e9 Felix Fietkau 2022-04-05  801  	int irq;
+804775dfc2885e9 Felix Fietkau 2022-04-05  802  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  803  	if (!np)
+804775dfc2885e9 Felix Fietkau 2022-04-05  804  		return;
+804775dfc2885e9 Felix Fietkau 2022-04-05  805  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05 @806  	pdev =3D of_find_device_by_=
+node(np);
+804775dfc2885e9 Felix Fietkau 2022-04-05  807  	if (!pdev)
+804775dfc2885e9 Felix Fietkau 2022-04-05  808  		return;
+804775dfc2885e9 Felix Fietkau 2022-04-05  809  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  810  	get_device(&pdev->dev);
+804775dfc2885e9 Felix Fietkau 2022-04-05  811  	irq =3D platform_get_irq(pd=
+ev, 0);
+804775dfc2885e9 Felix Fietkau 2022-04-05  812  	if (irq < 0)
+804775dfc2885e9 Felix Fietkau 2022-04-05 @813  		return;
+804775dfc2885e9 Felix Fietkau 2022-04-05  814  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  815  	regs =3D syscon_regmap_look=
+up_by_phandle(np, NULL);
+804775dfc2885e9 Felix Fietkau 2022-04-05  816  	if (!regs)
+804775dfc2885e9 Felix Fietkau 2022-04-05  817  		return;
+804775dfc2885e9 Felix Fietkau 2022-04-05  818  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  819  	rcu_assign_pointer(mtk_soc_=
+wed_ops, &wed_ops);
+804775dfc2885e9 Felix Fietkau 2022-04-05  820  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  821  	mutex_lock(&hw_lock);
+804775dfc2885e9 Felix Fietkau 2022-04-05  822  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  823  	if (WARN_ON(hw_list[index]))
+804775dfc2885e9 Felix Fietkau 2022-04-05  824  		goto unlock;
+804775dfc2885e9 Felix Fietkau 2022-04-05  825  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  826  	hw =3D kzalloc(sizeof(*hw),=
+ GFP_KERNEL);
+804775dfc2885e9 Felix Fietkau 2022-04-05  827  	hw->node =3D np;
+804775dfc2885e9 Felix Fietkau 2022-04-05  828  	hw->regs =3D regs;
+804775dfc2885e9 Felix Fietkau 2022-04-05  829  	hw->eth =3D eth;
+804775dfc2885e9 Felix Fietkau 2022-04-05  830  	hw->dev =3D &pdev->dev;
+804775dfc2885e9 Felix Fietkau 2022-04-05  831  	hw->wdma =3D wdma;
+804775dfc2885e9 Felix Fietkau 2022-04-05  832  	hw->index =3D index;
+804775dfc2885e9 Felix Fietkau 2022-04-05  833  	hw->irq =3D irq;
+804775dfc2885e9 Felix Fietkau 2022-04-05  834  	hw->mirror =3D syscon_regma=
+p_lookup_by_phandle(eth_np,
+804775dfc2885e9 Felix Fietkau 2022-04-05  835  						     "mediatek,pcie-mi=
+rror");
+804775dfc2885e9 Felix Fietkau 2022-04-05  836  	hw->hifsys =3D syscon_regma=
+p_lookup_by_phandle(eth_np,
+804775dfc2885e9 Felix Fietkau 2022-04-05  837  						     "mediatek,hifsys"=
+);
+804775dfc2885e9 Felix Fietkau 2022-04-05  838  	if (IS_ERR(hw->mirror) || I=
+S_ERR(hw->hifsys)) {
+804775dfc2885e9 Felix Fietkau 2022-04-05  839  		kfree(hw);
+804775dfc2885e9 Felix Fietkau 2022-04-05  840  		goto unlock;
+804775dfc2885e9 Felix Fietkau 2022-04-05  841  	}
+804775dfc2885e9 Felix Fietkau 2022-04-05  842  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  843  	if (!index) {
+804775dfc2885e9 Felix Fietkau 2022-04-05  844  		regmap_write(hw->mirror, 0=
+, 0);
+804775dfc2885e9 Felix Fietkau 2022-04-05  845  		regmap_write(hw->mirror, 4=
+, 0);
+804775dfc2885e9 Felix Fietkau 2022-04-05  846  	}
+804775dfc2885e9 Felix Fietkau 2022-04-05  847  	mtk_wed_hw_add_debugfs(hw);
+804775dfc2885e9 Felix Fietkau 2022-04-05  848  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  849  	hw_list[index] =3D hw;
+804775dfc2885e9 Felix Fietkau 2022-04-05  850  =
+
+804775dfc2885e9 Felix Fietkau 2022-04-05  851  unlock:
+804775dfc2885e9 Felix Fietkau 2022-04-05  852  	mutex_unlock(&hw_lock);
+804775dfc2885e9 Felix Fietkau 2022-04-05  853  }
+804775dfc2885e9 Felix Fietkau 2022-04-05  854  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5758454434048194764==--
+--===============1537817090213649358==--
 
