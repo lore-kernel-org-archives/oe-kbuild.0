@@ -1,100 +1,107 @@
-Content-Type: multipart/mixed; boundary="===============3653032278852738401=="
+Content-Type: multipart/mixed; boundary="===============5565736101483040511=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declared with const [constParameter]
-Date: Fri, 29 Apr 2022 13:08:52 +0800
-Message-ID: <202204291357.PTUVIbQ4-lkp@intel.com>
+Subject: Re: [PATCH 2/3] fs: introduce lock_rename_child() helper
+Date: Fri, 29 Apr 2022 09:46:21 +0800
+Message-ID: <202204290929.1ZsztOY6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3653032278852738401==
+--===============5565736101483040511==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+In-Reply-To: <20220427023245.7327-2-linkinjeon@kernel.org>
+References: <20220427023245.7327-2-linkinjeon@kernel.org>
+TO: Namjae Jeon <linkinjeon@kernel.org>
+TO: linux-cifs(a)vger.kernel.org
+TO: linux-fsdevel(a)vger.kernel.org
+CC: smfrench(a)gmail.com
+CC: hyc.lee(a)gmail.com
+CC: senozhatsky(a)chromium.org
+CC: Al Viro <viro@zeniv.linux.org.uk>
+CC: Namjae Jeon <linkinjeon@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   38d741cb70b30741c0e802cbed7bd9cf4fd15fa4
-commit: 4faf31b43468c58e2c8c91cc5fa26f08a6b733be cxl/mbox: Move mailbox and=
- other non-PCI specific infrastructure to the core
-date:   7 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 7 months ago
-compiler: powerpc-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 4faf31b43468c58e2c8c91cc5fa26f08a6b733be
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Namjae,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.18-rc4 next-20220428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Namjae-Jeon/ksmbd-re=
+move-internal-h-include/20220427-103452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+46cf2c613f4b10eb12f749207b0fd2c1bfae3088
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-m001-20220425 (https://download.01.org/0day-ci/ar=
+chive/20220429/202204290929.1ZsztOY6-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/namei.c:3011 lock_rename_child() warn: inconsistent returns '&c1->d_sb->=
+s_vfs_rename_mutex'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+fs/namei.c:1577 lookup_dcache() warn: passing zero to 'ERR_PTR'
+fs/namei.c:1674 lookup_fast() warn: passing zero to 'ERR_PTR'
+fs/namei.c:2202 hash_name() error: uninitialized symbol 'bdata'.
+fs/namei.c:3447 open_last_lookups() error: uninitialized symbol 'inode'.
+fs/namei.c:3447 open_last_lookups() error: uninitialized symbol 'seq'.
 
->> drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declare=
-d with const [constParameter]
-   static int cxl_xfer_log(struct cxl_mem *cxlm, uuid_t *uuid, u32 size, u8=
- *out)
-                                                         ^
+vim +3011 fs/namei.c
 
-vim +/uuid +478 drivers/cxl/core/mbox.c
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2994  =
 
-4faf31b43468c5 Dan Williams 2021-09-08  477  =
+ff7e30da72593b Al Viro        2022-04-27  2995  struct dentry *lock_rename_=
+child(struct dentry *c1, struct dentry *p2)
+ff7e30da72593b Al Viro        2022-04-27  2996  {
+ff7e30da72593b Al Viro        2022-04-27  2997  	if (READ_ONCE(c1->d_parent=
+) =3D=3D p2) {
+ff7e30da72593b Al Viro        2022-04-27  2998  		inode_lock_nested(p2->d_i=
+node, I_MUTEX_PARENT);
+ff7e30da72593b Al Viro        2022-04-27  2999  		if (likely(c1->d_parent =
+=3D=3D p2))
+ff7e30da72593b Al Viro        2022-04-27  3000  			return NULL;
+ff7e30da72593b Al Viro        2022-04-27  3001  =
 
-4faf31b43468c5 Dan Williams 2021-09-08 @478  static int cxl_xfer_log(struct=
- cxl_mem *cxlm, uuid_t *uuid, u32 size, u8 *out)
-4faf31b43468c5 Dan Williams 2021-09-08  479  {
-4faf31b43468c5 Dan Williams 2021-09-08  480  	u32 remaining =3D size;
-4faf31b43468c5 Dan Williams 2021-09-08  481  	u32 offset =3D 0;
-4faf31b43468c5 Dan Williams 2021-09-08  482  =
+ff7e30da72593b Al Viro        2022-04-27  3002  		inode_unlock(p2->d_inode);
+ff7e30da72593b Al Viro        2022-04-27  3003  	}
+ff7e30da72593b Al Viro        2022-04-27  3004  =
 
-4faf31b43468c5 Dan Williams 2021-09-08  483  	while (remaining) {
-4faf31b43468c5 Dan Williams 2021-09-08  484  		u32 xfer_size =3D min_t(u32,=
- remaining, cxlm->payload_size);
-4faf31b43468c5 Dan Williams 2021-09-08  485  		struct cxl_mbox_get_log {
-4faf31b43468c5 Dan Williams 2021-09-08  486  			uuid_t uuid;
-4faf31b43468c5 Dan Williams 2021-09-08  487  			__le32 offset;
-4faf31b43468c5 Dan Williams 2021-09-08  488  			__le32 length;
-4faf31b43468c5 Dan Williams 2021-09-08  489  		} __packed log =3D {
-4faf31b43468c5 Dan Williams 2021-09-08  490  			.uuid =3D *uuid,
-4faf31b43468c5 Dan Williams 2021-09-08  491  			.offset =3D cpu_to_le32(off=
-set),
-4faf31b43468c5 Dan Williams 2021-09-08  492  			.length =3D cpu_to_le32(xfe=
-r_size)
-4faf31b43468c5 Dan Williams 2021-09-08  493  		};
-4faf31b43468c5 Dan Williams 2021-09-08  494  		int rc;
-4faf31b43468c5 Dan Williams 2021-09-08  495  =
+ff7e30da72593b Al Viro        2022-04-27  3005  	mutex_lock(&c1->d_sb->s_vf=
+s_rename_mutex);
+ff7e30da72593b Al Viro        2022-04-27  3006  	if (likely(c1->d_parent !=
+=3D p2))
+ff7e30da72593b Al Viro        2022-04-27  3007  		return lock_two_directori=
+es(c1->d_parent, p2);
+ff7e30da72593b Al Viro        2022-04-27  3008  =
 
-4faf31b43468c5 Dan Williams 2021-09-08  496  		rc =3D cxl_mem_mbox_send_cmd=
-(cxlm, CXL_MBOX_OP_GET_LOG, &log,
-4faf31b43468c5 Dan Williams 2021-09-08  497  					   sizeof(log), out, xfer=
-_size);
-4faf31b43468c5 Dan Williams 2021-09-08  498  		if (rc < 0)
-4faf31b43468c5 Dan Williams 2021-09-08  499  			return rc;
-4faf31b43468c5 Dan Williams 2021-09-08  500  =
-
-4faf31b43468c5 Dan Williams 2021-09-08  501  		out +=3D xfer_size;
-4faf31b43468c5 Dan Williams 2021-09-08  502  		remaining -=3D xfer_size;
-4faf31b43468c5 Dan Williams 2021-09-08  503  		offset +=3D xfer_size;
-4faf31b43468c5 Dan Williams 2021-09-08  504  	}
-4faf31b43468c5 Dan Williams 2021-09-08  505  =
-
-4faf31b43468c5 Dan Williams 2021-09-08  506  	return 0;
-4faf31b43468c5 Dan Williams 2021-09-08  507  }
-4faf31b43468c5 Dan Williams 2021-09-08  508  =
+ff7e30da72593b Al Viro        2022-04-27  3009  	inode_lock_nested(p2->d_in=
+ode, I_MUTEX_PARENT);
+ff7e30da72593b Al Viro        2022-04-27  3010  	mutex_unlock(&c1->d_sb->s_=
+vfs_rename_mutex);
+ff7e30da72593b Al Viro        2022-04-27 @3011  	return NULL;
+ff7e30da72593b Al Viro        2022-04-27  3012  }
+ff7e30da72593b Al Viro        2022-04-27  3013  EXPORT_SYMBOL(lock_rename_c=
+hild);
+ff7e30da72593b Al Viro        2022-04-27  3014  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3653032278852738401==--
+--===============5565736101483040511==--
 
