@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8607585394816798626=="
+Content-Type: multipart/mixed; boundary="===============3653032278852738401=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntaxError]
-Date: Fri, 29 Apr 2022 14:09:36 +0800
-Message-ID: <202204291433.Ntqq9IwA-lkp@intel.com>
+Subject: drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declared with const [constParameter]
+Date: Fri, 29 Apr 2022 13:08:52 +0800
+Message-ID: <202204291357.PTUVIbQ4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8607585394816798626==
+--===============3653032278852738401==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   38d741cb70b30741c0e802cbed7bd9cf4fd15fa4
-commit: 8940de2e48902e95b588b6244d5a1b61a4d75c4a iio: adc: at91-sama5d2_adc=
-: convert to platform specific data structures
-date:   8 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+commit: 4faf31b43468c58e2c8c91cc5fa26f08a6b733be cxl/mbox: Move mailbox and=
+ other non-PCI specific infrastructure to the core
+date:   7 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 7 months ago
+compiler: powerpc-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 8940de2e48902e95b588b6244d5a1b61a4d75c4a
+        git checkout 4faf31b43468c58e2c8c91cc5fa26f08a6b733be
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -39,64 +39,62 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/staging/iio/impedance-analyzer/ad5933.c:251:15: warning: Variabl=
-e 'normalized_3v3' can be declared with const [constVariable]
-    unsigned int normalized_3v3[4] =3D {1980, 198, 383, 970};
-                 ^
---
->> drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntax=
-Error]
-    .nr_channels =3D AT91_SAMA5D2_SINGLE_CHAN_CNT +
-                                                ^
+>> drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declare=
+d with const [constParameter]
+   static int cxl_xfer_log(struct cxl_mem *cxlm, uuid_t *uuid, u32 size, u8=
+ *out)
+                                                         ^
 
-vim +530 drivers/iio/adc/at91-sama5d2_adc.c
+vim +/uuid +478 drivers/cxl/core/mbox.c
 
-8940de2e48902e9 Eugen Hristev 2021-09-01  524  =
+4faf31b43468c5 Dan Williams 2021-09-08  477  =
 
-8940de2e48902e9 Eugen Hristev 2021-09-01  525  static const struct at91_adc=
-_platform sama5d2_platform =3D {
-8940de2e48902e9 Eugen Hristev 2021-09-01  526  	.layout =3D &sama5d2_layout,
-8940de2e48902e9 Eugen Hristev 2021-09-01  527  	.adc_channels =3D &at91_sam=
-a5d2_adc_channels,
-8940de2e48902e9 Eugen Hristev 2021-09-01  528  #define AT91_SAMA5D2_SINGLE_=
-CHAN_CNT 12
-8940de2e48902e9 Eugen Hristev 2021-09-01  529  #define AT91_SAMA5D2_DIFF_CH=
-AN_CNT 6
-8940de2e48902e9 Eugen Hristev 2021-09-01 @530  	.nr_channels =3D AT91_SAMA5=
-D2_SINGLE_CHAN_CNT +
-8940de2e48902e9 Eugen Hristev 2021-09-01  531  		       AT91_SAMA5D2_DIFF_C=
-HAN_CNT,
-8940de2e48902e9 Eugen Hristev 2021-09-01  532  #define AT91_SAMA5D2_TOUCH_X=
-_CHAN_IDX	(AT91_SAMA5D2_SINGLE_CHAN_CNT + \
-8940de2e48902e9 Eugen Hristev 2021-09-01  533  					AT91_SAMA5D2_DIFF_CHAN_=
-CNT * 2)
-8940de2e48902e9 Eugen Hristev 2021-09-01  534  	.touch_chan_x =3D AT91_SAMA=
-5D2_TOUCH_X_CHAN_IDX,
-8940de2e48902e9 Eugen Hristev 2021-09-01  535  #define AT91_SAMA5D2_TOUCH_Y=
-_CHAN_IDX	(AT91_SAMA5D2_TOUCH_X_CHAN_IDX + 1)
-8940de2e48902e9 Eugen Hristev 2021-09-01  536  	.touch_chan_y =3D AT91_SAMA=
-5D2_TOUCH_Y_CHAN_IDX,
-8940de2e48902e9 Eugen Hristev 2021-09-01  537  #define AT91_SAMA5D2_TOUCH_P=
-_CHAN_IDX	(AT91_SAMA5D2_TOUCH_Y_CHAN_IDX + 1)
-8940de2e48902e9 Eugen Hristev 2021-09-01  538  	.touch_chan_p =3D AT91_SAMA=
-5D2_TOUCH_P_CHAN_IDX,
-8940de2e48902e9 Eugen Hristev 2021-09-01  539  #define AT91_SAMA5D2_MAX_CHA=
-N_IDX	AT91_SAMA5D2_TOUCH_P_CHAN_IDX
-8940de2e48902e9 Eugen Hristev 2021-09-01  540  	.max_channels =3D ARRAY_SIZ=
-E(at91_sama5d2_adc_channels),
-8940de2e48902e9 Eugen Hristev 2021-09-01  541  	.max_index =3D AT91_SAMA5D2=
-_MAX_CHAN_IDX,
-8940de2e48902e9 Eugen Hristev 2021-09-01  542  #define AT91_SAMA5D2_HW_TRIG=
-_CNT	3
-8940de2e48902e9 Eugen Hristev 2021-09-01  543  	.hw_trig_cnt =3D AT91_SAMA5=
-D2_HW_TRIG_CNT,
-5e1a1da0f8c9142 Eugen Hristev 2017-06-15  544  };
-5e1a1da0f8c9142 Eugen Hristev 2017-06-15  545  =
+4faf31b43468c5 Dan Williams 2021-09-08 @478  static int cxl_xfer_log(struct=
+ cxl_mem *cxlm, uuid_t *uuid, u32 size, u8 *out)
+4faf31b43468c5 Dan Williams 2021-09-08  479  {
+4faf31b43468c5 Dan Williams 2021-09-08  480  	u32 remaining =3D size;
+4faf31b43468c5 Dan Williams 2021-09-08  481  	u32 offset =3D 0;
+4faf31b43468c5 Dan Williams 2021-09-08  482  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  483  	while (remaining) {
+4faf31b43468c5 Dan Williams 2021-09-08  484  		u32 xfer_size =3D min_t(u32,=
+ remaining, cxlm->payload_size);
+4faf31b43468c5 Dan Williams 2021-09-08  485  		struct cxl_mbox_get_log {
+4faf31b43468c5 Dan Williams 2021-09-08  486  			uuid_t uuid;
+4faf31b43468c5 Dan Williams 2021-09-08  487  			__le32 offset;
+4faf31b43468c5 Dan Williams 2021-09-08  488  			__le32 length;
+4faf31b43468c5 Dan Williams 2021-09-08  489  		} __packed log =3D {
+4faf31b43468c5 Dan Williams 2021-09-08  490  			.uuid =3D *uuid,
+4faf31b43468c5 Dan Williams 2021-09-08  491  			.offset =3D cpu_to_le32(off=
+set),
+4faf31b43468c5 Dan Williams 2021-09-08  492  			.length =3D cpu_to_le32(xfe=
+r_size)
+4faf31b43468c5 Dan Williams 2021-09-08  493  		};
+4faf31b43468c5 Dan Williams 2021-09-08  494  		int rc;
+4faf31b43468c5 Dan Williams 2021-09-08  495  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  496  		rc =3D cxl_mem_mbox_send_cmd=
+(cxlm, CXL_MBOX_OP_GET_LOG, &log,
+4faf31b43468c5 Dan Williams 2021-09-08  497  					   sizeof(log), out, xfer=
+_size);
+4faf31b43468c5 Dan Williams 2021-09-08  498  		if (rc < 0)
+4faf31b43468c5 Dan Williams 2021-09-08  499  			return rc;
+4faf31b43468c5 Dan Williams 2021-09-08  500  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  501  		out +=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  502  		remaining -=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  503  		offset +=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  504  	}
+4faf31b43468c5 Dan Williams 2021-09-08  505  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  506  	return 0;
+4faf31b43468c5 Dan Williams 2021-09-08  507  }
+4faf31b43468c5 Dan Williams 2021-09-08  508  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8607585394816798626==--
+--===============3653032278852738401==--
 
