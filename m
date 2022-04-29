@@ -1,73 +1,35 @@
-Content-Type: multipart/mixed; boundary="===============7278884400690489257=="
+Content-Type: multipart/mixed; boundary="===============8607585394816798626=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 02/10] block: Add copy offload support infrastructure
-Date: Fri, 29 Apr 2022 14:19:43 +0800
-Message-ID: <202204291444.zrsLaPvc-lkp@intel.com>
+Subject: drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntaxError]
+Date: Fri, 29 Apr 2022 14:09:36 +0800
+Message-ID: <202204291433.Ntqq9IwA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7278884400690489257==
+--===============8607585394816798626==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220426101241.30100-3-nj.shetty@samsung.com>
-References: <20220426101241.30100-3-nj.shetty@samsung.com>
-TO: Nitesh Shetty <nj.shetty@samsung.com>
-CC: chaitanyak(a)nvidia.com
-CC: linux-block(a)vger.kernel.org
-CC: linux-scsi(a)vger.kernel.org
-CC: dm-devel(a)redhat.com
-CC: linux-nvme(a)lists.infradead.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: axboe(a)kernel.dk
-CC: msnitzer(a)redhat.com
-CC: bvanassche(a)acm.org
-CC: martin.petersen(a)oracle.com
-CC: hare(a)suse.de
-CC: kbusch(a)kernel.org
-CC: hch(a)lst.de
-CC: Frederick.Knight(a)netapp.com
-CC: osandov(a)fb.com
-CC: lsf-pc(a)lists.linux-foundation.org
-CC: djwong(a)kernel.org
-CC: josef(a)toxicpanda.com
-CC: clm(a)fb.com
-CC: dsterba(a)suse.com
-CC: tytso(a)mit.edu
-CC: jack(a)suse.com
-CC: nitheshshetty(a)gmail.com
-CC: gost.dev(a)samsung.com
-CC: Nitesh Shetty <nj.shetty@samsung.com>
-CC: Arnav Dawn <arnav.dawn@samsung.com>
-CC: Alasdair Kergon <agk@redhat.com>
-CC: Mike Snitzer <snitzer@kernel.org>
-CC: Sagi Grimberg <sagi@grimberg.me>
-CC: James Smart <james.smart@broadcom.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Eugen Hristev <eugen.hristev@microchip.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Hi Nitesh,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on next-20220422]
-[cannot apply to axboe-block/for-next device-mapper-dm/for-next linus/maste=
-r v5.18-rc4 v5.18-rc3 v5.18-rc2 v5.18-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-=
-Introduce-queue-limits-for-copy-offload-support/20220426-201825
-base:    e7d6987e09a328d4a949701db40ef63fbb970670
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   38d741cb70b30741c0e802cbed7bd9cf4fd15fa4
+commit: 8940de2e48902e95b588b6244d5a1b61a4d75c4a iio: adc: at91-sama5d2_adc=
+: convert to platform specific data structures
+date:   8 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 months ago
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 3e91cba65ef73ba116953031d5548da7fd33a150
+        git checkout 8940de2e48902e95b588b6244d5a1b61a4d75c4a
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -77,94 +39,64 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> block/blk-lib.c:341:6: warning: Redundant initialization for 'ret'. The =
-initialized value is overwritten before it is read. [redundantInitializatio=
-n]
-    ret =3D blk_copy_sanity_check(src_bdev, dest_bdev, rlist, nr);
-        ^
-   block/blk-lib.c:327:10: note: ret is initialized
-    int ret =3D -EINVAL;
-            ^
-   block/blk-lib.c:341:6: note: ret is overwritten
-    ret =3D blk_copy_sanity_check(src_bdev, dest_bdev, rlist, nr);
-        ^
+>> drivers/staging/iio/impedance-analyzer/ad5933.c:251:15: warning: Variabl=
+e 'normalized_3v3' can be declared with const [constVariable]
+    unsigned int normalized_3v3[4] =3D {1980, 198, 383, 970};
+                 ^
+--
+>> drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntax=
+Error]
+    .nr_channels =3D AT91_SAMA5D2_SINGLE_CHAN_CNT +
+                                                ^
 
-vim +/ret +341 block/blk-lib.c
+vim +530 drivers/iio/adc/at91-sama5d2_adc.c
 
-3e91cba65ef73b Nitesh Shetty 2022-04-26  309  =
+8940de2e48902e9 Eugen Hristev 2021-09-01  524  =
 
-3e91cba65ef73b Nitesh Shetty 2022-04-26  310  /*
-3e91cba65ef73b Nitesh Shetty 2022-04-26  311   * blkdev_issue_copy - queue =
-a copy
-3e91cba65ef73b Nitesh Shetty 2022-04-26  312   * @src_bdev:	source block de=
-vice
-3e91cba65ef73b Nitesh Shetty 2022-04-26  313   * @nr_srcs:	number of source=
- ranges to copy
-3e91cba65ef73b Nitesh Shetty 2022-04-26  314   * @rlist:	array of source/de=
-st/len
-3e91cba65ef73b Nitesh Shetty 2022-04-26  315   * @dest_bdev:	destination bl=
-ock device
-3e91cba65ef73b Nitesh Shetty 2022-04-26  316   * @gfp_mask:   memory alloca=
-tion flags (for bio_alloc)
-3e91cba65ef73b Nitesh Shetty 2022-04-26  317   *
-3e91cba65ef73b Nitesh Shetty 2022-04-26  318   * Description:
-3e91cba65ef73b Nitesh Shetty 2022-04-26  319   *	Copy source ranges from so=
-urce block device to destination block device.
-3e91cba65ef73b Nitesh Shetty 2022-04-26  320   *	length of a source range c=
-annot be zero.
-3e91cba65ef73b Nitesh Shetty 2022-04-26  321   */
-3e91cba65ef73b Nitesh Shetty 2022-04-26  322  int blkdev_issue_copy(struct =
-block_device *src_bdev, int nr,
-3e91cba65ef73b Nitesh Shetty 2022-04-26  323  		struct range_entry *rlist, =
-struct block_device *dest_bdev, gfp_t gfp_mask)
-3e91cba65ef73b Nitesh Shetty 2022-04-26  324  {
-3e91cba65ef73b Nitesh Shetty 2022-04-26  325  	struct request_queue *src_q =
-=3D bdev_get_queue(src_bdev);
-3e91cba65ef73b Nitesh Shetty 2022-04-26  326  	struct request_queue *dest_q=
- =3D bdev_get_queue(dest_bdev);
-3e91cba65ef73b Nitesh Shetty 2022-04-26  327  	int ret =3D -EINVAL;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  328  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26  329  	if (!src_q || !dest_q)
-3e91cba65ef73b Nitesh Shetty 2022-04-26  330  		return -ENXIO;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  331  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26  332  	if (!nr)
-3e91cba65ef73b Nitesh Shetty 2022-04-26  333  		return -EINVAL;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  334  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26  335  	if (nr >=3D MAX_COPY_NR_RANG=
-E)
-3e91cba65ef73b Nitesh Shetty 2022-04-26  336  		return -EINVAL;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  337  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26  338  	if (bdev_read_only(dest_bdev=
-))
-3e91cba65ef73b Nitesh Shetty 2022-04-26  339  		return -EPERM;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  340  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26 @341  	ret =3D blk_copy_sanity_chec=
-k(src_bdev, dest_bdev, rlist, nr);
-3e91cba65ef73b Nitesh Shetty 2022-04-26  342  	if (ret)
-3e91cba65ef73b Nitesh Shetty 2022-04-26  343  		return ret;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  344  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26  345  	if (blk_check_copy_offload(s=
-rc_q, dest_q))
-3e91cba65ef73b Nitesh Shetty 2022-04-26  346  		ret =3D blk_copy_offload(sr=
-c_bdev, nr, rlist, dest_bdev, gfp_mask);
-3e91cba65ef73b Nitesh Shetty 2022-04-26  347  =
-
-3e91cba65ef73b Nitesh Shetty 2022-04-26  348  	return ret;
-3e91cba65ef73b Nitesh Shetty 2022-04-26  349  }
-3e91cba65ef73b Nitesh Shetty 2022-04-26  350  EXPORT_SYMBOL_GPL(blkdev_issu=
-e_copy);
-3e91cba65ef73b Nitesh Shetty 2022-04-26  351  =
+8940de2e48902e9 Eugen Hristev 2021-09-01  525  static const struct at91_adc=
+_platform sama5d2_platform =3D {
+8940de2e48902e9 Eugen Hristev 2021-09-01  526  	.layout =3D &sama5d2_layout,
+8940de2e48902e9 Eugen Hristev 2021-09-01  527  	.adc_channels =3D &at91_sam=
+a5d2_adc_channels,
+8940de2e48902e9 Eugen Hristev 2021-09-01  528  #define AT91_SAMA5D2_SINGLE_=
+CHAN_CNT 12
+8940de2e48902e9 Eugen Hristev 2021-09-01  529  #define AT91_SAMA5D2_DIFF_CH=
+AN_CNT 6
+8940de2e48902e9 Eugen Hristev 2021-09-01 @530  	.nr_channels =3D AT91_SAMA5=
+D2_SINGLE_CHAN_CNT +
+8940de2e48902e9 Eugen Hristev 2021-09-01  531  		       AT91_SAMA5D2_DIFF_C=
+HAN_CNT,
+8940de2e48902e9 Eugen Hristev 2021-09-01  532  #define AT91_SAMA5D2_TOUCH_X=
+_CHAN_IDX	(AT91_SAMA5D2_SINGLE_CHAN_CNT + \
+8940de2e48902e9 Eugen Hristev 2021-09-01  533  					AT91_SAMA5D2_DIFF_CHAN_=
+CNT * 2)
+8940de2e48902e9 Eugen Hristev 2021-09-01  534  	.touch_chan_x =3D AT91_SAMA=
+5D2_TOUCH_X_CHAN_IDX,
+8940de2e48902e9 Eugen Hristev 2021-09-01  535  #define AT91_SAMA5D2_TOUCH_Y=
+_CHAN_IDX	(AT91_SAMA5D2_TOUCH_X_CHAN_IDX + 1)
+8940de2e48902e9 Eugen Hristev 2021-09-01  536  	.touch_chan_y =3D AT91_SAMA=
+5D2_TOUCH_Y_CHAN_IDX,
+8940de2e48902e9 Eugen Hristev 2021-09-01  537  #define AT91_SAMA5D2_TOUCH_P=
+_CHAN_IDX	(AT91_SAMA5D2_TOUCH_Y_CHAN_IDX + 1)
+8940de2e48902e9 Eugen Hristev 2021-09-01  538  	.touch_chan_p =3D AT91_SAMA=
+5D2_TOUCH_P_CHAN_IDX,
+8940de2e48902e9 Eugen Hristev 2021-09-01  539  #define AT91_SAMA5D2_MAX_CHA=
+N_IDX	AT91_SAMA5D2_TOUCH_P_CHAN_IDX
+8940de2e48902e9 Eugen Hristev 2021-09-01  540  	.max_channels =3D ARRAY_SIZ=
+E(at91_sama5d2_adc_channels),
+8940de2e48902e9 Eugen Hristev 2021-09-01  541  	.max_index =3D AT91_SAMA5D2=
+_MAX_CHAN_IDX,
+8940de2e48902e9 Eugen Hristev 2021-09-01  542  #define AT91_SAMA5D2_HW_TRIG=
+_CNT	3
+8940de2e48902e9 Eugen Hristev 2021-09-01  543  	.hw_trig_cnt =3D AT91_SAMA5=
+D2_HW_TRIG_CNT,
+5e1a1da0f8c9142 Eugen Hristev 2017-06-15  544  };
+5e1a1da0f8c9142 Eugen Hristev 2017-06-15  545  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7278884400690489257==--
+--===============8607585394816798626==--
 
