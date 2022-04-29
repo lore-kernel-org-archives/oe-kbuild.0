@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5636727509899964204=="
+Content-Type: multipart/mixed; boundary="===============4134614616969696393=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [bvanassche:ufs-for-next 6/6] drivers/ufs/core/ufshcd.c:5430 ufshcd_uic_cmd_compl() error: we previously assumed 'priv->active_uic_cmd' could be null (see line 5418)
-Date: Fri, 29 Apr 2022 21:57:38 +0800
-Message-ID: <202204292110.C5vOQk2e-lkp@intel.com>
+Subject: arch/sh/math-emu/sfp-util.h:71:9: sparse: this was the original definition
+Date: Fri, 29 Apr 2022 19:35:06 +0800
+Message-ID: <202204291956.5sbbX5o0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5636727509899964204==
+--===============4134614616969696393==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,125 +15,140 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Rich Felker <dalias@libc.org>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://github.com/bvanassche/linux ufs-for-next
-head:   d34bcd2acd8e932a32bf1aac6296ee8ea8d230d3
-commit: d34bcd2acd8e932a32bf1aac6296ee8ea8d230d3 [6/6] scsi: ufs: Split str=
-uct ufs_hba
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: nios2-randconfig-m031-20220428 (https://download.01.org/0day-ci/arc=
-hive/20220429/202204292110.C5vOQk2e-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   38d741cb70b30741c0e802cbed7bd9cf4fd15fa4
+commit: b929926f01f2d14635345d22eafcf60feed1085e sh: define __BIG_ENDIAN fo=
+r math-emu
+date:   6 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 months ago
+config: sh-randconfig-s031-20220429 (https://download.01.org/0day-ci/archiv=
+e/20220429/202204291956.5sbbX5o0-lkp(a)intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db929926f01f2d14635345d22eafcf60feed1085e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b929926f01f2d14635345d22eafcf60feed1085e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Ds=
+h SHELL=3D/bin/bash arch/sh/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/ufs/core/ufshcd.c:5430 ufshcd_uic_cmd_compl() error: we previously =
-assumed 'priv->active_uic_cmd' could be null (see line 5418)
 
-vim +5430 drivers/ufs/core/ufshcd.c
+sparse warnings: (new ones prefixed by >>)
+   arch/sh/math-emu/math.c: note: in included file (through include/math-em=
+u/soft-fp.h):
+   arch/sh/include/asm/sfp-machine.h:17:9: sparse: sparse: preprocessor tok=
+en __BYTE_ORDER redefined
+   arch/sh/math-emu/math.c: note: in included file:
+>> arch/sh/math-emu/sfp-util.h:71:9: sparse: this was the original definiti=
+on
+   arch/sh/math-emu/math.c:54:9: sparse: sparse: preprocessor token WRITE r=
+edefined
+   arch/sh/math-emu/math.c: note: in included file:
+   include/linux/kernel.h:38:9: sparse: this was the original definition
+   arch/sh/math-emu/math.c:55:9: sparse: sparse: preprocessor token READ re=
+defined
+   include/linux/kernel.h:37:9: sparse: this was the original definition
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:145:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:145:9: sparse: sparse: asm output is not an lval=
+ue
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (1)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (1)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (1)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (1)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:122:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:129:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:145:9: sparse: sparse: generating address of non=
+-lvalue (11)
+   arch/sh/math-emu/math.c:145:9: sparse: sparse: generating address of non=
+-lvalue (11)
 
-a45f937110fa6b0 drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24 =
- 5399  =
+vim +71 arch/sh/math-emu/sfp-util.h
 
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5400  /**
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5401   * ufshcd_uic_cmd_compl - handle completion of uic command
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5402   * @hba: per adapter instance
-53b3d9c3fdda94d drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-08-31 =
- 5403   * @intr_status: interrupt status generated by the controller
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5404   *
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5405   * Returns
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5406   *  IRQ_HANDLED - If interrupt is valid
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5407   *  IRQ_NONE    - If invalid interrupt
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5408   */
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5409  static irqreturn_t ufshcd_uic_cmd_compl(struct ufs_hba *hba, u32 int=
-r_status)
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5410  {
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5411  	struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), hba);
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5412  	irqreturn_t retval =3D IRQ_NONE;
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5413  =
+13da9e200fe474 Linus Torvalds 2010-05-26  70  =
 
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5414  	spin_lock(priv->host->host_lock);
-a45f937110fa6b0 drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24 =
- 5415  	if (ufshcd_is_auto_hibern8_error(hba, intr_status))
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5416  		priv->errors |=3D (UFSHCD_UIC_HIBERN8_MASK & intr_status);
-a45f937110fa6b0 drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24 =
- 5417  =
+13da9e200fe474 Linus Torvalds 2010-05-26 @71  #define __BYTE_ORDER __LITTLE=
+_ENDIAN
 
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
-@5418  	if ((intr_status & UIC_COMMAND_COMPL) && priv->active_uic_cmd) {
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5419  		priv->active_uic_cmd->argument2 |=3D
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5420  			ufshcd_get_uic_cmd_result(hba);
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5421  		priv->active_uic_cmd->argument3 =3D
-12b4fdb4f6bccb5 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-08-31 =
- 5422  			ufshcd_get_dme_attr_val(hba);
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5423  		if (!priv->uic_async_done)
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5424  			priv->active_uic_cmd->cmd_active =3D 0;
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5425  		complete(&priv->active_uic_cmd->done);
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5426  		retval =3D IRQ_HANDLED;
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5427  	}
-53b3d9c3fdda94d drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-08-31 =
- 5428  =
+:::::: The code at line 71 was first introduced by commit
+:::::: 13da9e200fe4740b02cd51e07ab454627e228920 Revert "endian: #define __B=
+YTE_ORDER"
 
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5429  	if ((intr_status & UFSHCD_UIC_PWR_MASK) && priv->uic_async_done) {
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
-@5430  		priv->active_uic_cmd->cmd_active =3D 0;
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5431  		complete(priv->uic_async_done);
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5432  		retval =3D IRQ_HANDLED;
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5433  	}
-aa5c697988b4c7e drivers/scsi/ufs/ufshcd.c Stanley Chu           2020-06-15 =
- 5434  =
-
-aa5c697988b4c7e drivers/scsi/ufs/ufshcd.c Stanley Chu           2020-06-15 =
- 5435  	if (retval =3D=3D IRQ_HANDLED)
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5436  		ufshcd_add_uic_command_trace(hba, priv->active_uic_cmd,
-28fa68fc557a7eb drivers/scsi/ufs/ufshcd.c Bean Huo              2021-01-05 =
- 5437  					     UFS_CMD_COMP);
-d34bcd2acd8e932 drivers/ufs/core/ufshcd.c Bart Van Assche       2022-03-19 =
- 5438  	spin_unlock(priv->host->host_lock);
-9333d77573485c8 drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14 =
- 5439  	return retval;
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5440  }
-6ccf44fe4cd7c45 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26 =
- 5441  =
-
+:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5636727509899964204==--
+--===============4134614616969696393==--
 
