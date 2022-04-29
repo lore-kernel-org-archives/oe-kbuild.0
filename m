@@ -1,34 +1,73 @@
-Content-Type: multipart/mixed; boundary="===============0259651729451803575=="
+Content-Type: multipart/mixed; boundary="===============7278884400690489257=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1142/7483] fs/gfs2/quota.c:457:26: warning: Uninitialized variables: iter.qd_hlist, iter.qd_list, iter.qd_id, iter.qd_sbd, iter.qd_lockref, iter.qd_lru, iter.qd_hash, iter.qd_flags, iter.qd_change, iter.qd_change_sync, iter.qd_slot, iter.qd_slot_count, iter.qd_bh, i...
-Date: Fri, 29 Apr 2022 15:20:51 +0800
-Message-ID: <202204291510.XcZmMqNC-lkp@intel.com>
+Subject: Re: [PATCH v4 02/10] block: Add copy offload support infrastructure
+Date: Fri, 29 Apr 2022 14:19:43 +0800
+Message-ID: <202204291444.zrsLaPvc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0259651729451803575==
+--===============7278884400690489257==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jakob Koschel <jakobkoschel@gmail.com>
-CC: Andreas Gruenbacher <agruenba@redhat.com>
+In-Reply-To: <20220426101241.30100-3-nj.shetty@samsung.com>
+References: <20220426101241.30100-3-nj.shetty@samsung.com>
+TO: Nitesh Shetty <nj.shetty@samsung.com>
+CC: chaitanyak(a)nvidia.com
+CC: linux-block(a)vger.kernel.org
+CC: linux-scsi(a)vger.kernel.org
+CC: dm-devel(a)redhat.com
+CC: linux-nvme(a)lists.infradead.org
+CC: linux-fsdevel(a)vger.kernel.org
+CC: axboe(a)kernel.dk
+CC: msnitzer(a)redhat.com
+CC: bvanassche(a)acm.org
+CC: martin.petersen(a)oracle.com
+CC: hare(a)suse.de
+CC: kbusch(a)kernel.org
+CC: hch(a)lst.de
+CC: Frederick.Knight(a)netapp.com
+CC: osandov(a)fb.com
+CC: lsf-pc(a)lists.linux-foundation.org
+CC: djwong(a)kernel.org
+CC: josef(a)toxicpanda.com
+CC: clm(a)fb.com
+CC: dsterba(a)suse.com
+CC: tytso(a)mit.edu
+CC: jack(a)suse.com
+CC: nitheshshetty(a)gmail.com
+CC: gost.dev(a)samsung.com
+CC: Nitesh Shetty <nj.shetty@samsung.com>
+CC: Arnav Dawn <arnav.dawn@samsung.com>
+CC: Alasdair Kergon <agk@redhat.com>
+CC: Mike Snitzer <snitzer@kernel.org>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: James Smart <james.smart@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   bdc61aad77faf67187525028f1f355eff3849f22
-commit: 21b19dccc8bf398eb990267d81f5ced3e69fd0a7 [1142/7483] gfs2: replace =
-'found' with dedicated list iterator variable
-:::::: branch date: 24 hours ago
-:::::: commit date: 4 weeks ago
-compiler: mips64-linux-gcc (GCC) 11.3.0
+Hi Nitesh,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20220422]
+[cannot apply to axboe-block/for-next device-mapper-dm/for-next linus/maste=
+r v5.18-rc4 v5.18-rc3 v5.18-rc2 v5.18-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-=
+Introduce-queue-limits-for-copy-offload-support/20220426-201825
+base:    e7d6987e09a328d4a949701db40ef63fbb970670
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 21b19dccc8bf398eb990267d81f5ced3e69fd0a7
+        git checkout 3e91cba65ef73ba116953031d5548da7fd33a150
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -38,175 +77,94 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   fs/gfs2/quota.c:1085:6: warning: Local variable 'do_sync' shadows outer =
-function [shadowFunction]
-    int do_sync =3D 1;
+>> block/blk-lib.c:341:6: warning: Redundant initialization for 'ret'. The =
+initialized value is overwritten before it is read. [redundantInitializatio=
+n]
+    ret =3D blk_copy_sanity_check(src_bdev, dest_bdev, rlist, nr);
         ^
-   fs/gfs2/quota.c:869:12: note: Shadowed declaration
-   static int do_sync(unsigned int num_qd, struct gfs2_quota_data **qda)
-              ^
-   fs/gfs2/quota.c:1085:6: note: Shadow variable
-    int do_sync =3D 1;
-        ^
-   fs/gfs2/util.h:183:23: warning: Parameter 'p' can be declared with const=
- [constParameter]
-           unsigned int *p)
-                         ^
-   fs/gfs2/glock.h:330:68: warning: Parameter 'object' can be declared with=
- const [constParameter]
-   static inline void glock_clear_object(struct gfs2_glock *gl, void *objec=
-t)
-                                                                      ^
-   fs/gfs2/quota.c:427:10: warning: Parameter 'sync_gen' can be declared wi=
-th const [constParameter]
-       u64 *sync_gen)
+   block/blk-lib.c:327:10: note: ret is initialized
+    int ret =3D -EINVAL;
             ^
-   fs/gfs2/quota.c:250:11: warning: Uninitialized variable: qd->qd_sbd [uni=
-nitvar]
-     if (qd->qd_sbd !=3D sdp)
-             ^
-   fs/gfs2/quota.c:248:7: note: Assuming condition is false
-     if (!qid_eq(qd->qd_id, qid))
-         ^
-   fs/gfs2/quota.c:250:11: note: Uninitialized variable: qd->qd_sbd
-     if (qd->qd_sbd !=3D sdp)
-             ^
->> fs/gfs2/quota.c:457:26: warning: Uninitialized variables: iter.qd_hlist,=
- iter.qd_list, iter.qd_id, iter.qd_sbd, iter.qd_lockref, iter.qd_lru, iter.=
-qd_hash, iter.qd_flags, iter.qd_change, iter.qd_change_sync, iter.qd_slot, =
-iter.qd_slot_count, iter.qd_bh, iter.qd_bh_qc, iter.qd_bh_count, iter.qd_gl=
-, iter.qd_qb, iter.qd_sync_gen, iter.qd_last_warn, iter.qd_rcu [uninitvar]
-     if (qd_check_sync(sdp, iter, &sdp->sd_quota_sync_gen)) {
-                            ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:451:15: note: Assuming condition is false
-    if (sb_rdonly(sdp->sd_vfs))
-                 ^
-   fs/gfs2/quota.c:457:26: note: Uninitialized variables: iter.qd_hlist, it=
-er.qd_list, iter.qd_id, iter.qd_sbd, iter.qd_lockref, iter.qd_lru, iter.qd_=
-hash, iter.qd_flags, iter.qd_change, iter.qd_change_sync, iter.qd_slot, ite=
-r.qd_slot_count, iter.qd_bh, iter.qd_bh_qc, iter.qd_bh_count, iter.qd_gl, i=
-ter.qd_qb, iter.qd_sync_gen, iter.qd_last_warn, iter.qd_rcu
-     if (qd_check_sync(sdp, iter, &sdp->sd_quota_sync_gen)) {
-                            ^
+   block/blk-lib.c:341:6: note: ret is overwritten
+    ret =3D blk_copy_sanity_check(src_bdev, dest_bdev, rlist, nr);
+        ^
 
-vim +457 fs/gfs2/quota.c
+vim +/ret +341 block/blk-lib.c
 
-1bf59bf6ded8411 Steven Whitehouse 2013-10-04  443  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  309  =
 
-b3b94faa5fe5968 David Teigland    2006-01-16  444  static int qd_fish(struc=
-t gfs2_sbd *sdp, struct gfs2_quota_data **qdp)
-b3b94faa5fe5968 David Teigland    2006-01-16  445  {
-21b19dccc8bf398 Jakob Koschel     2022-04-01  446  	struct gfs2_quota_data =
-*qd =3D NULL, *iter;
-b3b94faa5fe5968 David Teigland    2006-01-16  447  	int error;
-b3b94faa5fe5968 David Teigland    2006-01-16  448  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  310  /*
+3e91cba65ef73b Nitesh Shetty 2022-04-26  311   * blkdev_issue_copy - queue =
+a copy
+3e91cba65ef73b Nitesh Shetty 2022-04-26  312   * @src_bdev:	source block de=
+vice
+3e91cba65ef73b Nitesh Shetty 2022-04-26  313   * @nr_srcs:	number of source=
+ ranges to copy
+3e91cba65ef73b Nitesh Shetty 2022-04-26  314   * @rlist:	array of source/de=
+st/len
+3e91cba65ef73b Nitesh Shetty 2022-04-26  315   * @dest_bdev:	destination bl=
+ock device
+3e91cba65ef73b Nitesh Shetty 2022-04-26  316   * @gfp_mask:   memory alloca=
+tion flags (for bio_alloc)
+3e91cba65ef73b Nitesh Shetty 2022-04-26  317   *
+3e91cba65ef73b Nitesh Shetty 2022-04-26  318   * Description:
+3e91cba65ef73b Nitesh Shetty 2022-04-26  319   *	Copy source ranges from so=
+urce block device to destination block device.
+3e91cba65ef73b Nitesh Shetty 2022-04-26  320   *	length of a source range c=
+annot be zero.
+3e91cba65ef73b Nitesh Shetty 2022-04-26  321   */
+3e91cba65ef73b Nitesh Shetty 2022-04-26  322  int blkdev_issue_copy(struct =
+block_device *src_bdev, int nr,
+3e91cba65ef73b Nitesh Shetty 2022-04-26  323  		struct range_entry *rlist, =
+struct block_device *dest_bdev, gfp_t gfp_mask)
+3e91cba65ef73b Nitesh Shetty 2022-04-26  324  {
+3e91cba65ef73b Nitesh Shetty 2022-04-26  325  	struct request_queue *src_q =
+=3D bdev_get_queue(src_bdev);
+3e91cba65ef73b Nitesh Shetty 2022-04-26  326  	struct request_queue *dest_q=
+ =3D bdev_get_queue(dest_bdev);
+3e91cba65ef73b Nitesh Shetty 2022-04-26  327  	int ret =3D -EINVAL;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  328  =
 
-b3b94faa5fe5968 David Teigland    2006-01-16  449  	*qdp =3D NULL;
-b3b94faa5fe5968 David Teigland    2006-01-16  450  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  329  	if (!src_q || !dest_q)
+3e91cba65ef73b Nitesh Shetty 2022-04-26  330  		return -ENXIO;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  331  =
 
-bc98a42c1f7d0f8 David Howells     2017-07-17  451  	if (sb_rdonly(sdp->sd_v=
-fs))
-b3b94faa5fe5968 David Teigland    2006-01-16  452  		return 0;
-b3b94faa5fe5968 David Teigland    2006-01-16  453  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  332  	if (!nr)
+3e91cba65ef73b Nitesh Shetty 2022-04-26  333  		return -EINVAL;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  334  =
 
-7d80823e1d83e35 Steven Whitehouse 2013-11-01  454  	spin_lock(&qd_lock);
-b3b94faa5fe5968 David Teigland    2006-01-16  455  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  335  	if (nr >=3D MAX_COPY_NR_RANG=
+E)
+3e91cba65ef73b Nitesh Shetty 2022-04-26  336  		return -EINVAL;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  337  =
 
-21b19dccc8bf398 Jakob Koschel     2022-04-01  456  	list_for_each_entry(ite=
-r, &sdp->sd_quota_list, qd_list) {
-21b19dccc8bf398 Jakob Koschel     2022-04-01 @457  		if (qd_check_sync(sdp,=
- iter, &sdp->sd_quota_sync_gen)) {
-21b19dccc8bf398 Jakob Koschel     2022-04-01  458  			qd =3D iter;
-b3b94faa5fe5968 David Teigland    2006-01-16  459  			break;
-b3b94faa5fe5968 David Teigland    2006-01-16  460  		}
-21b19dccc8bf398 Jakob Koschel     2022-04-01  461  	}
-b3b94faa5fe5968 David Teigland    2006-01-16  462  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  338  	if (bdev_read_only(dest_bdev=
+))
+3e91cba65ef73b Nitesh Shetty 2022-04-26  339  		return -EPERM;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  340  =
 
-7d80823e1d83e35 Steven Whitehouse 2013-11-01  463  	spin_unlock(&qd_lock);
-b3b94faa5fe5968 David Teigland    2006-01-16  464  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26 @341  	ret =3D blk_copy_sanity_chec=
+k(src_bdev, dest_bdev, rlist, nr);
+3e91cba65ef73b Nitesh Shetty 2022-04-26  342  	if (ret)
+3e91cba65ef73b Nitesh Shetty 2022-04-26  343  		return ret;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  344  =
 
-b3b94faa5fe5968 David Teigland    2006-01-16  465  	if (qd) {
-b3b94faa5fe5968 David Teigland    2006-01-16  466  		gfs2_assert_warn(sdp, =
-qd->qd_change_sync);
-b3b94faa5fe5968 David Teigland    2006-01-16  467  		error =3D bh_get(qd);
-b3b94faa5fe5968 David Teigland    2006-01-16  468  		if (error) {
-b3b94faa5fe5968 David Teigland    2006-01-16  469  			clear_bit(QDF_LOCKED,=
- &qd->qd_flags);
-b3b94faa5fe5968 David Teigland    2006-01-16  470  			slot_put(qd);
-b3b94faa5fe5968 David Teigland    2006-01-16  471  			qd_put(qd);
-b3b94faa5fe5968 David Teigland    2006-01-16  472  			return error;
-b3b94faa5fe5968 David Teigland    2006-01-16  473  		}
-b3b94faa5fe5968 David Teigland    2006-01-16  474  	}
-b3b94faa5fe5968 David Teigland    2006-01-16  475  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  345  	if (blk_check_copy_offload(s=
+rc_q, dest_q))
+3e91cba65ef73b Nitesh Shetty 2022-04-26  346  		ret =3D blk_copy_offload(sr=
+c_bdev, nr, rlist, dest_bdev, gfp_mask);
+3e91cba65ef73b Nitesh Shetty 2022-04-26  347  =
 
-b3b94faa5fe5968 David Teigland    2006-01-16  476  	*qdp =3D qd;
-b3b94faa5fe5968 David Teigland    2006-01-16  477  =
-
-b3b94faa5fe5968 David Teigland    2006-01-16  478  	return 0;
-b3b94faa5fe5968 David Teigland    2006-01-16  479  }
-b3b94faa5fe5968 David Teigland    2006-01-16  480  =
+3e91cba65ef73b Nitesh Shetty 2022-04-26  348  	return ret;
+3e91cba65ef73b Nitesh Shetty 2022-04-26  349  }
+3e91cba65ef73b Nitesh Shetty 2022-04-26  350  EXPORT_SYMBOL_GPL(blkdev_issu=
+e_copy);
+3e91cba65ef73b Nitesh Shetty 2022-04-26  351  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0259651729451803575==--
+--===============7278884400690489257==--
 
