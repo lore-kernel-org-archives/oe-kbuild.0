@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3312054666342632030=="
+Content-Type: multipart/mixed; boundary="===============8736155727123387000=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7267/7959] drivers/firmware/arm_scmi/driver.c:1214 scmi_iterator_run() warn: variable dereferenced before check 'i' (see line 1210)
-Date: Sat, 30 Apr 2022 07:56:11 +0800
-Message-ID: <202204300741.1Vg3IhCp-lkp@intel.com>
+Subject: [linux-next:master 7270/7959] drivers/firmware/arm_scmi/clock.c:242:40: warning: Variable 'msg' is not assigned a value. [unassignedVariable]
+Date: Sat, 30 Apr 2022 07:25:43 +0800
+Message-ID: <202204300700.V0ngqW5s-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3312054666342632030==
+--===============8736155727123387000==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -21,111 +21,113 @@ CC: Sudeep Holla <sudeep.holla@arm.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   5469f0c06732a077c70a759a81f2a1f00b277694
-commit: 36b6ea0fc6bcbc618fe20d33a3b529a6d0653d99 [7267/7959] firmware: arm_=
-scmi: Add iterators for multi-part commands
+commit: 7bc7caafe6b1e5b882255a42bc1bf112fa87b69b [7270/7959] firmware: arm_=
+scmi: Use common iterators in the clock protocol
 :::::: branch date: 16 hours ago
 :::::: commit date: 30 hours ago
-config: arm64-randconfig-m031-20220429 (https://download.01.org/0day-ci/arc=
-hive/20220430/202204300741.1Vg3IhCp-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
+compiler: mips64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 7bc7caafe6b1e5b882255a42bc1bf112fa87b69b
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/firmware/arm_scmi/driver.c:1214 scmi_iterator_run() warn: variable =
-dereferenced before check 'i' (see line 1210)
 
-vim +/i +1214 drivers/firmware/arm_scmi/driver.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1204  =
+>> drivers/firmware/arm_scmi/clock.c:242:40: warning: Variable 'msg' is not=
+ assigned a value. [unassignedVariable]
+    struct scmi_msg_clock_describe_rates *msg;
+                                          ^
+--
+>> drivers/firmware/arm_scmi/sensors.c:341:48: warning: Variable 'msg' is n=
+ot assigned a value. [unassignedVariable]
+    struct scmi_msg_sensor_list_update_intervals *msg;
+                                                  ^
+   drivers/firmware/arm_scmi/sensors.c:462:47: warning: Variable 'msg' is n=
+ot assigned a value. [unassignedVariable]
+    struct scmi_msg_sensor_axis_description_get *msg;
+                                                 ^
+   drivers/firmware/arm_scmi/sensors.c:484:47: warning: Variable 'msg' is n=
+ot assigned a value. [unassignedVariable]
+    struct scmi_msg_sensor_axis_description_get *msg;
+                                                 ^
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1205  static int scmi_iterator_=
-run(void *iter)
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1206  {
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1207  	int ret =3D -EINVAL;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1208  	struct scmi_iterator *i =
-=3D iter;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1209  	struct scmi_iterator_sta=
-te *st =3D &i->state;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30 @1210  	struct scmi_iterator_ops=
- *iops =3D i->ops;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1211  	const struct scmi_protoc=
-ol_handle *ph =3D i->ph;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1212  	const struct scmi_xfer_o=
-ps *xops =3D ph->xops;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1213  =
+vim +/msg +242 drivers/firmware/arm_scmi/clock.c
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30 @1214  	if (!i)
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1215  		return ret;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1216  =
+9724722fde8f9bb Sudeep Holla     2020-10-12  234  =
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1217  	do {
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1218  		iops->prepare_message(i=
-->msg, st->desc_index, i->priv);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1219  		ret =3D xops->do_xfer(p=
-h, i->t);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1220  		if (ret)
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1221  			break;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1222  =
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  235  static int
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  236  scmi_clock_describe_rates=
+_get(const struct scmi_protocol_handle *ph, u32 clk_id,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  237  			      struct scmi_cloc=
+k_info *clk)
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  238  {
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  239  	int ret;
+5f6c6430e904d21 Sudeep Holla     2017-06-06  240  =
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1223  		ret =3D iops->update_st=
-ate(st, i->resp, i->priv);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1224  		if (ret)
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1225  			break;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1226  =
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  241  	void *iter;
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30 @242  	struct scmi_msg_clock_de=
+scribe_rates *msg;
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  243  	struct scmi_iterator_ops=
+ ops =3D {
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  244  		.prepare_message =3D it=
+er_clk_describe_prepare_message,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  245  		.update_state =3D iter_=
+clk_describe_update_state,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  246  		.process_response =3D i=
+ter_clk_describe_process_response,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  247  	};
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  248  	struct scmi_clk_ipriv cp=
+riv =3D {
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  249  		.clk_id =3D clk_id,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  250  		.clk =3D clk,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  251  	};
+5f6c6430e904d21 Sudeep Holla     2017-06-06  252  =
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1227  		if (st->num_returned > =
-st->max_resources - st->desc_index) {
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1228  			dev_err(ph->dev,
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1229  				"No. of resources can=
-'t exceed %d\n",
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1230  				st->max_resources);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1231  			ret =3D -EINVAL;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1232  			break;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1233  		}
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1234  =
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  253  	iter =3D ph->hops->iter_=
+response_init(ph, &ops, SCMI_MAX_NUM_RATES,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  254  					    CLOCK_DESCRIBE_R=
+ATES,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  255  					    sizeof(*msg), &c=
+priv);
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  256  	if (IS_ERR(iter))
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  257  		return PTR_ERR(iter);
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  258  =
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1235  		for (st->loop_idx =3D 0=
-; st->loop_idx < st->num_returned;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1236  		     st->loop_idx++) {
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1237  			ret =3D iops->process_=
-response(ph, i->resp, st, i->priv);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1238  			if (ret)
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1239  				goto out;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1240  		}
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1241  =
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  259  	ret =3D ph->hops->iter_r=
+esponse_run(iter);
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  260  	if (ret)
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  261  		return ret;
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  262  =
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1242  		st->desc_index +=3D st-=
->num_returned;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1243  		xops->reset_rx_to_maxsz=
-(ph, i->t);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1244  		/*
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1245  		 * check for both retur=
-ned and remaining to avoid infinite
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1246  		 * loop due to buggy fi=
-rmware
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1247  		 */
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1248  	} while (st->num_returne=
-d && st->num_remaining);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1249  =
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  263  	if (!clk->rate_discrete)=
+ {
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  264  		dev_dbg(ph->dev, "Min %=
+llu Max %llu Step %llu Hz\n",
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  265  			clk->range.min_rate, c=
+lk->range.max_rate,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  266  			clk->range.step_size);
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  267  	} else if (clk->list.num=
+_rates) {
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  268  		sort(clk->list.rates, c=
+lk->list.num_rates,
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  269  		     sizeof(clk->list.r=
+ates[0]), rate_cmp_func, NULL);
+7bc7caafe6b1e5b Cristian Marussi 2022-03-30  270  	}
+c0759b9b5d411ab Peng Fan         2019-05-22  271  =
 
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1250  out:
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1251  	/* Finalize and destroy =
-iterator */
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1252  	xops->xfer_put(ph, i->t);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1253  	devm_kfree(ph->dev, i);
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1254  =
-
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1255  	return ret;
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1256  }
-36b6ea0fc6bcbc Cristian Marussi 2022-03-30  1257  =
+5f6c6430e904d21 Sudeep Holla     2017-06-06  272  	return ret;
+5f6c6430e904d21 Sudeep Holla     2017-06-06  273  }
+5f6c6430e904d21 Sudeep Holla     2017-06-06  274  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3312054666342632030==--
+--===============8736155727123387000==--
 
