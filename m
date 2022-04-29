@@ -1,252 +1,384 @@
-Content-Type: multipart/mixed; boundary="===============5750570137646374466=="
+Content-Type: multipart/mixed; boundary="===============0172576578185379786=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/vhost/vdpa.c:677 vhost_vdpa_pa_map() warn: should '(last_pfn - map_pfn + 1) << 12' be a 64 bit type?
-Date: Fri, 29 Apr 2022 17:12:48 +0800
-Message-ID: <202204291704.EcUyyLFw-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-linked-list 41/45] fs/netfs/buffered_flush.c:639:16: warning: Value stored to 'nr_to_write' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 29 Apr 2022 17:02:27 +0800
+Message-ID: <202204291701.Quo9jvkp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5750570137646374466==
+--===============0172576578185379786==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Xie Yongji <xieyongji@bytedance.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   38d741cb70b30741c0e802cbed7bd9cf4fd15fa4
-commit: 22af48cf91aae5f2fd32fe811d9be1c52d7a801b vdpa: factor out vhost_vdp=
-a_pa_map() and vhost_vdpa_pa_unmap()
-date:   8 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 months ago
-config: m68k-randconfig-m031-20220428 (https://download.01.org/0day-ci/arch=
-ive/20220429/202204291704.EcUyyLFw-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
+linked-list
+head:   a20ca5707a9b524115f5ded439fed1f8e552dd6b
+commit: c55ea1834885d2b3da3a8c642f4b52e065a378e5 [41/45] netfs: Generate a =
+write request from ->writepages()
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
+ve/20220429/202204291701.Quo9jvkp-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
+aacce38cd7dd77eebceaf3c98c5707ab3b)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/ammarfaizi2/linux-block/commit/c55ea1834885d2b=
+3da3a8c642f4b52e065a378e5
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/netfs-linke=
+d-list
+        git checkout c55ea1834885d2b3da3a8c642f4b52e065a378e5
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/vhost/vdpa.c:677 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
-pfn + 1) << 12' be a 64 bit type?
-drivers/vhost/vdpa.c:679 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
-e a 64 bit type?
-
-Old smatch warnings:
-drivers/vhost/vdpa.c:708 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
-pfn + 1) << 12' be a 64 bit type?
-drivers/vhost/vdpa.c:709 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
-e a 64 bit type?
-
-vim +677 drivers/vhost/vdpa.c
-
-4c8cf31885f69e Tiwei Bie          2020-03-26  613  =
-
-22af48cf91aae5 Xie Yongji         2021-08-31  614  static int vhost_vdpa_pa=
-_map(struct vhost_vdpa *v,
-22af48cf91aae5 Xie Yongji         2021-08-31  615  			     u64 iova, u64 si=
-ze, u64 uaddr, u32 perm)
-4c8cf31885f69e Tiwei Bie          2020-03-26  616  {
-4c8cf31885f69e Tiwei Bie          2020-03-26  617  	struct vhost_dev *dev =
-=3D &v->vdev;
-4c8cf31885f69e Tiwei Bie          2020-03-26  618  	struct page **page_list;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  619  	unsigned long list_size=
- =3D PAGE_SIZE / sizeof(struct page *);
-4c8cf31885f69e Tiwei Bie          2020-03-26  620  	unsigned int gup_flags =
-=3D FOLL_LONGTERM;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  621  	unsigned long npages, c=
-ur_base, map_pfn, last_pfn =3D 0;
-ad89653f79f188 Si-Wei Liu         2020-11-05  622  	unsigned long lock_limi=
-t, sz2pin, nchunks, i;
-22af48cf91aae5 Xie Yongji         2021-08-31  623  	u64 start =3D iova;
-ad89653f79f188 Si-Wei Liu         2020-11-05  624  	long pinned;
-4c8cf31885f69e Tiwei Bie          2020-03-26  625  	int ret =3D 0;
-4c8cf31885f69e Tiwei Bie          2020-03-26  626  =
-
-ad89653f79f188 Si-Wei Liu         2020-11-05  627  	/* Limit the use of mem=
-ory for bookkeeping */
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  628  	page_list =3D (struct p=
-age **) __get_free_page(GFP_KERNEL);
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  629  	if (!page_list)
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  630  		return -ENOMEM;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  631  =
-
-22af48cf91aae5 Xie Yongji         2021-08-31  632  	if (perm & VHOST_ACCESS=
-_WO)
-4c8cf31885f69e Tiwei Bie          2020-03-26  633  		gup_flags |=3D FOLL_WR=
-ITE;
-4c8cf31885f69e Tiwei Bie          2020-03-26  634  =
-
-22af48cf91aae5 Xie Yongji         2021-08-31  635  	npages =3D PFN_UP(size =
-+ (iova & ~PAGE_MASK));
-ad89653f79f188 Si-Wei Liu         2020-11-05  636  	if (!npages) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  637  		ret =3D -EINVAL;
-ad89653f79f188 Si-Wei Liu         2020-11-05  638  		goto free;
-ad89653f79f188 Si-Wei Liu         2020-11-05  639  	}
-4c8cf31885f69e Tiwei Bie          2020-03-26  640  =
-
-d8ed45c5dcd455 Michel Lespinasse  2020-06-08  641  	mmap_read_lock(dev->mm);
-4c8cf31885f69e Tiwei Bie          2020-03-26  642  =
-
-729ce5a5bd6fda Cai Huoqing        2021-08-02  643  	lock_limit =3D PFN_DOWN=
-(rlimit(RLIMIT_MEMLOCK));
-ad89653f79f188 Si-Wei Liu         2020-11-05  644  	if (npages + atomic64_r=
-ead(&dev->mm->pinned_vm) > lock_limit) {
-4c8cf31885f69e Tiwei Bie          2020-03-26  645  		ret =3D -ENOMEM;
-ad89653f79f188 Si-Wei Liu         2020-11-05  646  		goto unlock;
-4c8cf31885f69e Tiwei Bie          2020-03-26  647  	}
-4c8cf31885f69e Tiwei Bie          2020-03-26  648  =
-
-22af48cf91aae5 Xie Yongji         2021-08-31  649  	cur_base =3D uaddr & PA=
-GE_MASK;
-4c8cf31885f69e Tiwei Bie          2020-03-26  650  	iova &=3D PAGE_MASK;
-ad89653f79f188 Si-Wei Liu         2020-11-05  651  	nchunks =3D 0;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  652  =
-
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  653  	while (npages) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  654  		sz2pin =3D min_t(unsig=
-ned long, npages, list_size);
-ad89653f79f188 Si-Wei Liu         2020-11-05  655  		pinned =3D pin_user_pa=
-ges(cur_base, sz2pin,
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  656  					gup_flags, page_lis=
-t, NULL);
-ad89653f79f188 Si-Wei Liu         2020-11-05  657  		if (sz2pin !=3D pinned=
-) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  658  			if (pinned < 0) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  659  				ret =3D pinned;
-ad89653f79f188 Si-Wei Liu         2020-11-05  660  			} else {
-ad89653f79f188 Si-Wei Liu         2020-11-05  661  				unpin_user_pages(pag=
-e_list, pinned);
-ad89653f79f188 Si-Wei Liu         2020-11-05  662  				ret =3D -ENOMEM;
-ad89653f79f188 Si-Wei Liu         2020-11-05  663  			}
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  664  			goto out;
-ad89653f79f188 Si-Wei Liu         2020-11-05  665  		}
-ad89653f79f188 Si-Wei Liu         2020-11-05  666  		nchunks++;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  667  =
-
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  668  		if (!last_pfn)
-4c8cf31885f69e Tiwei Bie          2020-03-26  669  			map_pfn =3D page_to_p=
-fn(page_list[0]);
-4c8cf31885f69e Tiwei Bie          2020-03-26  670  =
-
-ad89653f79f188 Si-Wei Liu         2020-11-05  671  		for (i =3D 0; i < pinn=
-ed; i++) {
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  672  			unsigned long this_pf=
-n =3D page_to_pfn(page_list[i]);
-4c8cf31885f69e Tiwei Bie          2020-03-26  673  			u64 csize;
-4c8cf31885f69e Tiwei Bie          2020-03-26  674  =
-
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  675  			if (last_pfn && (this=
-_pfn !=3D last_pfn + 1)) {
-4c8cf31885f69e Tiwei Bie          2020-03-26  676  				/* Pin a contiguous =
-chunk of memory */
-729ce5a5bd6fda Cai Huoqing        2021-08-02 @677  				csize =3D PFN_PHYS(l=
-ast_pfn - map_pfn + 1);
-ad89653f79f188 Si-Wei Liu         2020-11-05  678  				ret =3D vhost_vdpa_m=
-ap(v, iova, csize,
-729ce5a5bd6fda Cai Huoqing        2021-08-02 @679  						     PFN_PHYS(map_=
-pfn),
-22af48cf91aae5 Xie Yongji         2021-08-31  680  						     perm);
-ad89653f79f188 Si-Wei Liu         2020-11-05  681  				if (ret) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  682  					/*
-ad89653f79f188 Si-Wei Liu         2020-11-05  683  					 * Unpin the pages =
-that are left unmapped
-ad89653f79f188 Si-Wei Liu         2020-11-05  684  					 * from this point =
-on in the current
-ad89653f79f188 Si-Wei Liu         2020-11-05  685  					 * page_list. The r=
-emaining outstanding
-ad89653f79f188 Si-Wei Liu         2020-11-05  686  					 * ones which may s=
-tride across several
-ad89653f79f188 Si-Wei Liu         2020-11-05  687  					 * chunks will be c=
-overed in the common
-ad89653f79f188 Si-Wei Liu         2020-11-05  688  					 * error path subse=
-quently.
-ad89653f79f188 Si-Wei Liu         2020-11-05  689  					 */
-ad89653f79f188 Si-Wei Liu         2020-11-05  690  					unpin_user_pages(&p=
-age_list[i],
-ad89653f79f188 Si-Wei Liu         2020-11-05  691  							 pinned - i);
-4c8cf31885f69e Tiwei Bie          2020-03-26  692  					goto out;
-ad89653f79f188 Si-Wei Liu         2020-11-05  693  				}
-ad89653f79f188 Si-Wei Liu         2020-11-05  694  =
-
-4c8cf31885f69e Tiwei Bie          2020-03-26  695  				map_pfn =3D this_pfn;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  696  				iova +=3D csize;
-ad89653f79f188 Si-Wei Liu         2020-11-05  697  				nchunks =3D 0;
-4c8cf31885f69e Tiwei Bie          2020-03-26  698  			}
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  699  =
-
-4c8cf31885f69e Tiwei Bie          2020-03-26  700  			last_pfn =3D this_pfn;
-4c8cf31885f69e Tiwei Bie          2020-03-26  701  		}
-4c8cf31885f69e Tiwei Bie          2020-03-26  702  =
-
-729ce5a5bd6fda Cai Huoqing        2021-08-02  703  		cur_base +=3D PFN_PHYS=
-(pinned);
-ad89653f79f188 Si-Wei Liu         2020-11-05  704  		npages -=3D pinned;
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  705  	}
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  706  =
-
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  707  	/* Pin the rest chunk */
-729ce5a5bd6fda Cai Huoqing        2021-08-02  708  	ret =3D vhost_vdpa_map(=
-v, iova, PFN_PHYS(last_pfn - map_pfn + 1),
-22af48cf91aae5 Xie Yongji         2021-08-31  709  			     PFN_PHYS(map_pfn=
-), perm);
-4c8cf31885f69e Tiwei Bie          2020-03-26  710  out:
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  711  	if (ret) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  712  		if (nchunks) {
-ad89653f79f188 Si-Wei Liu         2020-11-05  713  			unsigned long pfn;
-ad89653f79f188 Si-Wei Liu         2020-11-05  714  =
-
-ad89653f79f188 Si-Wei Liu         2020-11-05  715  			/*
-ad89653f79f188 Si-Wei Liu         2020-11-05  716  			 * Unpin the outstand=
-ing pages which are yet to be
-ad89653f79f188 Si-Wei Liu         2020-11-05  717  			 * mapped but haven't=
- due to vdpa_map() or
-ad89653f79f188 Si-Wei Liu         2020-11-05  718  			 * pin_user_pages() f=
-ailure.
-ad89653f79f188 Si-Wei Liu         2020-11-05  719  			 *
-ad89653f79f188 Si-Wei Liu         2020-11-05  720  			 * Mapped pages are a=
-ccounted in vdpa_map(), hence
-ad89653f79f188 Si-Wei Liu         2020-11-05  721  			 * the corresponding =
-unpinning will be handled by
-ad89653f79f188 Si-Wei Liu         2020-11-05  722  			 * vdpa_unmap().
-ad89653f79f188 Si-Wei Liu         2020-11-05  723  			 */
-ad89653f79f188 Si-Wei Liu         2020-11-05  724  			WARN_ON(!last_pfn);
-ad89653f79f188 Si-Wei Liu         2020-11-05  725  			for (pfn =3D map_pfn;=
- pfn <=3D last_pfn; pfn++)
-ad89653f79f188 Si-Wei Liu         2020-11-05  726  				unpin_user_page(pfn_=
-to_page(pfn));
-ad89653f79f188 Si-Wei Liu         2020-11-05  727  		}
-22af48cf91aae5 Xie Yongji         2021-08-31  728  		vhost_vdpa_unmap(v, st=
-art, size);
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  729  	}
-ad89653f79f188 Si-Wei Liu         2020-11-05  730  unlock:
-d8ed45c5dcd455 Michel Lespinasse  2020-06-08  731  	mmap_read_unlock(dev->m=
-m);
-ad89653f79f188 Si-Wei Liu         2020-11-05  732  free:
-5e1a3149eec867 Michael S. Tsirkin 2020-10-29  733  	free_page((unsigned lon=
-g)page_list);
-4c8cf31885f69e Tiwei Bie          2020-03-26  734  	return ret;
-22af48cf91aae5 Xie Yongji         2021-08-31  735  =
 
 
-:::::: The code at line 677 was first introduced by commit
-:::::: 729ce5a5bd6fda5eb2322a39db2287f1f26f92f3 vdpa: Make use of PFN_PHYS/=
-PFN_UP/PFN_DOWN helper macro
+clang-analyzer warnings: (new ones prefixed by >>)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/tests/extent-io-tests.c:353:2: note: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11
+           memset(bitmap, 0, len);
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 59 warnings (59 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   61 warnings generated.
+   fs/btrfs/tests/inode-tests.c:27:2: warning: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&path, 0, sizeof(path));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/tests/inode-tests.c:27:2: note: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11
+           memset(&path, 0, sizeof(path));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/tests/inode-tests.c:57:2: warning: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&path, 0, sizeof(path));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/tests/inode-tests.c:57:2: note: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11
+           memset(&path, 0, sizeof(path));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 59 warnings (59 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   fs/configfs/item.c:60:9: warning: Call to function 'vsnprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           need =3D vsnprintf(item->ci_namebuf, limit, fmt, args);
+                  ^~~~~~~~~
+   fs/configfs/item.c:60:9: note: Call to function 'vsnprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'vsnprintf_s' in case of C11
+           need =3D vsnprintf(item->ci_namebuf, limit, fmt, args);
+                  ^~~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   49 warnings generated.
+   fs/devpts/inode.c:584:2: warning: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(s, "%d", index);
+           ^~~~~~~
+   fs/devpts/inode.c:584:2: note: Call to function 'sprintf' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'sprintf_s' in case of C11
+           sprintf(s, "%d", index);
+           ^~~~~~~
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+   fs/netfs/buffered_read.c:497:2: warning: Value stored to 'ret' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           ret =3D -ENOMEM;
+           ^     ~~~~~~~
+   fs/netfs/buffered_read.c:497:2: note: Value stored to 'ret' is never read
+           ret =3D -ENOMEM;
+           ^     ~~~~~~~
+   Suppressed 57 warnings (57 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+>> fs/netfs/buffered_flush.c:639:16: warning: Value stored to 'nr_to_write'=
+ during its initialization is never read [clang-analyzer-deadcode.DeadStore=
+s]
+           unsigned long nr_to_write =3D wbc->nr_to_write;
+                         ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~
+   fs/netfs/buffered_flush.c:639:16: note: Value stored to 'nr_to_write' du=
+ring its initialization is never read
+           unsigned long nr_to_write =3D wbc->nr_to_write;
+                         ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~
+   Suppressed 57 warnings (57 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   60 warnings generated.
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   fs/netfs/buffered_write.c:913:2: note: Loop condition is false. Executio=
+n continues on line 921
+           list_for_each_entry_safe(subreq, p, &rreq->subrequests, rreq_lin=
+k) {
+           ^
+   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+           ^
+   fs/netfs/buffered_write.c:921:2: note: Loop condition is true.  Entering=
+ loop body
+           list_for_each_entry(subreq, &rreq->subrequests, rreq_link) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   fs/netfs/buffered_write.c:926:3: note: Loop condition is false. Executio=
+n continues on line 936
+                   while (!list_is_last(&subreq->rreq_link, &rreq->subreque=
+sts)) {
+                   ^
+   fs/netfs/buffered_write.c:921:2: note: Loop condition is false. Executio=
+n continues on line 939
+           list_for_each_entry(subreq, &rreq->subrequests, rreq_link) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   fs/netfs/buffered_write.c:940:2: note: Calling 'netfs_unpreallocate_regi=
+ons'
+           netfs_unpreallocate_regions(&spare_regions);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/buffered_write.c:531:14: note: Left side of '||' is false
+           while ((p =3D list_first_entry_or_null(spare_regions,
+                       ^
+   include/linux/list.h:554:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   fs/netfs/buffered_write.c:531:14: note: Left side of '||' is false
+           while ((p =3D list_first_entry_or_null(spare_regions,
+                       ^
+   include/linux/list.h:554:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   fs/netfs/buffered_write.c:531:14: note: Left side of '||' is true
+           while ((p =3D list_first_entry_or_null(spare_regions,
+                       ^
+   include/linux/list.h:554:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:320:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   fs/netfs/buffered_write.c:531:14: note: Taking false branch
+           while ((p =3D list_first_entry_or_null(spare_regions,
+                       ^
+   include/linux/list.h:554:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:332:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
 
-:::::: TO: Cai Huoqing <caihuoqing@baidu.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+vim +/nr_to_write +639 fs/netfs/buffered_flush.c
+
+c55ea1834885d2 David Howells 2021-06-29  622  =
+
+c55ea1834885d2 David Howells 2021-06-29  623  /**
+c55ea1834885d2 David Howells 2021-06-29  624   * netfs_writepages - Initiat=
+e writeback to the server and cache
+c55ea1834885d2 David Howells 2021-06-29  625   * @mapping: The pagecache to=
+ write from
+c55ea1834885d2 David Howells 2021-06-29  626   * @wbc: Hints from the VM as=
+ to what to write
+c55ea1834885d2 David Howells 2021-06-29  627   *
+c55ea1834885d2 David Howells 2021-06-29  628   * This is a helper intended =
+to be called directly from a network filesystem's
+c55ea1834885d2 David Howells 2021-06-29  629   * address space operations t=
+able to perform writeback to the server and the
+c55ea1834885d2 David Howells 2021-06-29  630   * cache.
+c55ea1834885d2 David Howells 2021-06-29  631   *
+c55ea1834885d2 David Howells 2021-06-29  632   * We have to be careful as w=
+e can end up racing with setattr() truncating the
+c55ea1834885d2 David Howells 2021-06-29  633   * pagecache since the caller=
+ doesn't take a lock here to prevent it.
+c55ea1834885d2 David Howells 2021-06-29  634   */
+c55ea1834885d2 David Howells 2021-06-29  635  int netfs_writepages(struct a=
+ddress_space *mapping,
+c55ea1834885d2 David Howells 2021-06-29  636  		     struct writeback_contr=
+ol *wbc)
+c55ea1834885d2 David Howells 2021-06-29  637  {
+c55ea1834885d2 David Howells 2021-06-29  638  	struct netfs_i_context *ctx =
+=3D netfs_i_context(mapping->host);
+c55ea1834885d2 David Howells 2021-06-29 @639  	unsigned long nr_to_write =
+=3D wbc->nr_to_write;
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5750570137646374466==--
+--===============0172576578185379786==--
 
