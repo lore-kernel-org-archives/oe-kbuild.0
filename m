@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5239673163405148662=="
+Content-Type: multipart/mixed; boundary="===============3839450234531379118=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: security/lockdown/lockdown.c:103:15: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
-Date: Fri, 06 May 2022 09:54:35 +0800
-Message-ID: <202205060918.Wd1VwGQc-lkp@intel.com>
+Subject: [thierryreding:for-5.19/work 141/141] drivers/iommu/of_iommu.c:237:5: warning: Value stored to 'end' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 29 Apr 2022 19:24:51 +0800
+Message-ID: <202204291911.7pvsSTui-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5239673163405148662==
+--===============3839450234531379118==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,37 +16,28 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Thierry Reding <treding@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0f5d752b1395e777ef81e28886945e5e939b7c8a
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
-date:   8 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 weeks ago
-config: arm-randconfig-c002-20220505 (https://download.01.org/0day-ci/archi=
-ve/20220506/202205060918.Wd1VwGQc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
-b787698440a387750db7f8028e7cb14cfc)
+tree:   https://github.com/thierryreding/linux for-5.19/work
+head:   a39ec325554470289e8384e30d06a22960d1dd7b
+commit: a39ec325554470289e8384e30d06a22960d1dd7b [141/141] WIP
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
+ve/20220429/202204291911.7pvsSTui-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
+aacce38cd7dd77eebceaf3c98c5707ab3b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # https://github.com/thierryreding/linux/commit/a39ec325554470289e8=
+384e30d06a22960d1dd7b
+        git remote add thierryreding https://github.com/thierryreding/linux
+        git fetch --no-tags thierryreding for-5.19/work
+        git checkout a39ec325554470289e8384e30d06a22960d1dd7b
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -57,437 +48,392 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:7652:2: warning: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(attr, 0, sizeof(*attr));
-           ^~~~~~
-   kernel/sched/core.c:7652:2: note: Call to function 'memset' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memset_s' in case of C11
-           memset(attr, 0, sizeof(*attr));
-           ^~~~~~
-   kernel/sched/core.c:9330:3: warning: Value stored to 'ptr' is never read=
- [clang-analyzer-deadcode.DeadStores]
-                   ptr +=3D nr_cpu_ids * sizeof(void **);
-                   ^
-   kernel/sched/core.c:9330:3: note: Value stored to 'ptr' is never read
-   kernel/sched/core.c:10760:6: warning: Call to function 'sscanf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           if (sscanf(buf, "%20s %llu", tok, periodp) < 1)
-               ^~~~~~
-   kernel/sched/core.c:10760:6: note: Call to function 'sscanf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'sscanf_s' in case of C11
-           if (sscanf(buf, "%20s %llu", tok, periodp) < 1)
-               ^~~~~~
-   kernel/sched/core.c:10765:6: warning: Call to function 'sscanf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           if (sscanf(tok, "%llu", quotap))
-               ^~~~~~
-   kernel/sched/core.c:10765:6: note: Call to function 'sscanf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'sscanf_s' in case of C11
-           if (sscanf(tok, "%llu", quotap))
-               ^~~~~~
-   Suppressed 66 warnings (60 in non-user code, 6 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   61 warnings generated.
-   Suppressed 61 warnings (61 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   61 warnings generated.
-   Suppressed 61 warnings (61 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   crypto/dh.c:28:2: warning: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI=
-.DeprecatedOrUnsafeBufferHandling]
-           memset(ctx, 0, sizeof(*ctx));
-           ^~~~~~
-   crypto/dh.c:28:2: note: Call to function 'memset' is insecure as it does=
- not provide security checks introduced in the C11 standard. Replace with a=
-nalogous functions that support length arguments or provides boundary check=
-s such as 'memset_s' in case of C11
-           memset(ctx, 0, sizeof(*ctx));
-           ^~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   crypto/dh_helper.c:19:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(dst, src, size);
-           ^~~~~~
-   crypto/dh_helper.c:19:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, size);
-           ^~~~~~
-   crypto/dh_helper.c:25:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(dst, src, size);
-           ^~~~~~
-   crypto/dh_helper.c:25:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, size);
-           ^~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   36 warnings generated.
-   crypto/rsa-pkcs1pad.c:411:2: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(req_ctx->in_buf + 1, 0xff, ps_end - 1);
-           ^~~~~~
-   crypto/rsa-pkcs1pad.c:411:2: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-           memset(req_ctx->in_buf + 1, 0xff, ps_end - 1);
-           ^~~~~~
-   crypto/rsa-pkcs1pad.c:415:3: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(req_ctx->in_buf + ps_end + 1, digest_info->data,
-                   ^~~~~~
-   crypto/rsa-pkcs1pad.c:415:3: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-                   memcpy(req_ctx->in_buf + ps_end + 1, digest_info->data,
-                   ^~~~~~
-   crypto/rsa-pkcs1pad.c:627:7: warning: Call to function 'snprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   if (snprintf(inst->alg.base.cra_name,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:627:7: note: Call to function 'snprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'snprintf_s' in case of C11
-                   if (snprintf(inst->alg.base.cra_name,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:632:7: warning: Call to function 'snprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   if (snprintf(inst->alg.base.cra_driver_name,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:632:7: note: Call to function 'snprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'snprintf_s' in case of C11
-                   if (snprintf(inst->alg.base.cra_driver_name,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:644:7: warning: Call to function 'snprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   if (snprintf(inst->alg.base.cra_name, CRYPTO_MAX_ALG_NAM=
-E,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:644:7: note: Call to function 'snprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'snprintf_s' in case of C11
-                   if (snprintf(inst->alg.base.cra_name, CRYPTO_MAX_ALG_NAM=
-E,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:649:7: warning: Call to function 'snprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   if (snprintf(inst->alg.base.cra_driver_name,
-                       ^~~~~~~~
-   crypto/rsa-pkcs1pad.c:649:7: note: Call to function 'snprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'snprintf_s' in case of C11
-                   if (snprintf(inst->alg.base.cra_driver_name,
-                       ^~~~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
->> security/lockdown/lockdown.c:103:15: warning: Call to function 'sprintf'=
- is insecure as it does not provide bounding of the memory buffer or securi=
-ty checks introduced in the C11 standard. Replace with analogous functions =
-that support length arguments or provides boundary checks such as 'sprintf_=
-s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
-fferHandling]
-                                   offset +=3D sprintf(temp+offset, "[%s] "=
-, label);
-                                             ^~~~~~~
-   security/lockdown/lockdown.c:103:15: note: Call to function 'sprintf' is=
- insecure as it does not provide bounding of the memory buffer or security =
-checks introduced in the C11 standard. Replace with analogous functions tha=
-t support length arguments or provides boundary checks such as 'sprintf_s' =
-in case of C11
-                                   offset +=3D sprintf(temp+offset, "[%s] "=
-, label);
-                                             ^~~~~~~
-   security/lockdown/lockdown.c:105:15: warning: Call to function 'sprintf'=
- is insecure as it does not provide bounding of the memory buffer or securi=
-ty checks introduced in the C11 standard. Replace with analogous functions =
-that support length arguments or provides boundary checks such as 'sprintf_=
-s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
-fferHandling]
-                                   offset +=3D sprintf(temp+offset, "%s ", =
-label);
-                                             ^~~~~~~
-   security/lockdown/lockdown.c:105:15: note: Call to function 'sprintf' is=
- insecure as it does not provide bounding of the memory buffer or security =
-checks introduced in the C11 standard. Replace with analogous functions tha=
-t support length arguments or provides boundary checks such as 'sprintf_s' =
-in case of C11
-                                   offset +=3D sprintf(temp+offset, "%s ", =
-label);
-                                             ^~~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   security/device_cgroup.c:242:2: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(acc, 0, ACCLEN);
-           ^~~~~~
-   security/device_cgroup.c:242:2: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-           memset(acc, 0, ACCLEN);
-           ^~~~~~
-   security/device_cgroup.c:265:3: warning: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(str, "*");
-                   ^~~~~~
-   security/device_cgroup.c:265:3: note: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119
-                   strcpy(str, "*");
-                   ^~~~~~
-   security/device_cgroup.c:267:3: warning: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(str, "%u", m);
-                   ^~~~~~~
-   security/device_cgroup.c:267:3: note: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(str, "%u", m);
-                   ^~~~~~~
-   security/device_cgroup.c:611:2: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&ex, 0, sizeof(ex));
-           ^~~~~~
-   security/device_cgroup.c:611:2: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-           memset(&ex, 0, sizeof(ex));
-           ^~~~~~
-   security/device_cgroup.c:661:3: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(temp, 0, sizeof(temp));
-                   ^~~~~~
-   security/device_cgroup.c:661:3: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-                   memset(temp, 0, sizeof(temp));
-                   ^~~~~~
-   security/device_cgroup.c:683:3: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(temp, 0, sizeof(temp));
-                   ^~~~~~
-   security/device_cgroup.c:683:3: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-                   memset(temp, 0, sizeof(temp));
-                   ^~~~~~
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   fs/ramfs/file-nommu.c:101:2: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(data, 0, newsize);
-           ^~~~~~
-   fs/ramfs/file-nommu.c:101:2: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-           memset(data, 0, newsize);
-           ^~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   fs/fat/cache.c:138:20: warning: The left operand of '=3D=3D' is a garbag=
-e value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (new->fcluster =3D=3D -1) /* dummy cache */
-                             ^
-   fs/fat/cache.c:366:6: note: Left side of '&&' is true
-           if (!is_fat32(sbi) && (inode->i_ino =3D=3D MSDOS_ROOT_INO)) {
-               ^
-   fs/fat/cache.c:366:25: note: Assuming field 'i_ino' is not equal to MSDO=
-S_ROOT_INO
-           if (!is_fat32(sbi) && (inode->i_ino =3D=3D MSDOS_ROOT_INO)) {
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fat/cache.c:366:2: note: Taking false branch
-           if (!is_fat32(sbi) && (inode->i_ino =3D=3D MSDOS_ROOT_INO)) {
            ^
-   fs/fat/cache.c:374:6: note: Assuming 'from_bmap' is true
-           if (!from_bmap) {
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   fs/btrfs/ctree.c:409:6: note: Assuming 'level' is not equal to 0
+           if (level =3D=3D 0)
                ^~~~~~~~~~
-   fs/fat/cache.c:374:2: note: Taking false branch
-           if (!from_bmap) {
+   fs/btrfs/ctree.c:409:2: note: Taking false branch
+           if (level =3D=3D 0)
            ^
-   fs/fat/cache.c:380:7: note: Assuming 'sector' is < 'last_block'
-                   if (sector >=3D last_block)
-                       ^~~~~~~~~~~~~~~~~~~~
-   fs/fat/cache.c:380:3: note: Taking false branch
-                   if (sector >=3D last_block)
+   fs/btrfs/ctree.c:414:7: note: Assuming the condition is true
+           if ((root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID) &=
+& parent)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ctree.c:414:6: note: Left side of '&&' is true
+           if ((root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID) &=
+& parent)
+               ^
+   fs/btrfs/ctree.c:414:6: note: Assuming pointer value is null
+           if ((root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID) &=
+& parent)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/btrfs/ctree.c:414:64: note: Assuming 'parent' is null
+           if ((root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID) &=
+& parent)
+                                                                         ^~=
+~~~~
+   fs/btrfs/ctree.c:414:2: note: Taking false branch
+           if ((root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID) &=
+& parent)
+           ^
+   fs/btrfs/ctree.c:420:2: note: Taking false branch
+           if (IS_ERR(cow))
+           ^
+   fs/btrfs/ctree.c:431:6: note: Assuming the condition is false
+           if (root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ctree.c:431:2: note: Taking false branch
+           if (root->root_key.objectid =3D=3D BTRFS_TREE_RELOC_OBJECTID)
+           ^
+   fs/btrfs/ctree.c:439:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   fs/btrfs/ctree.c:439:2: note: Taking false branch
+           if (ret) {
+           ^
+   fs/btrfs/ctree.c:446:6: note: Assuming the condition is false
+           if (test_bit(BTRFS_ROOT_SHAREABLE, &root->state)) {
+               ^
+   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
+o 'test_bit'
+   #define test_bit arch_test_bit
+                    ^
+   fs/btrfs/ctree.c:446:2: note: Taking false branch
+           if (test_bit(BTRFS_ROOT_SHAREABLE, &root->state)) {
+           ^
+   fs/btrfs/ctree.c:456:6: note: Assuming 'buf' is not equal to field 'node'
+           if (buf =3D=3D root->node) {
+               ^~~~~~~~~~~~~~~~~
+   fs/btrfs/ctree.c:456:2: note: Taking false branch
+           if (buf =3D=3D root->node) {
+           ^
+   fs/btrfs/ctree.c:472:53: note: Passing null pointer value via 1st parame=
+ter 'eb'
+                   WARN_ON(trans->transid !=3D btrfs_header_generation(pare=
+nt));
+                                                                     ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   fs/btrfs/ctree.c:472:29: note: Calling 'btrfs_header_generation'
+                   WARN_ON(trans->transid !=3D btrfs_header_generation(pare=
+nt));
+                                             ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   fs/btrfs/ctree.h:2215:1: note: Array access (via field 'pages') results =
+in a null pointer dereference
+   BTRFS_SETGET_HEADER_FUNCS(header_generation, struct btrfs_header,
+   ^
+   fs/btrfs/ctree.h:1667:31: note: expanded from macro 'BTRFS_SETGET_HEADER=
+_FUNCS'
+           const type *p =3D page_address(eb->pages[0]) +                  =
+  \
+                                        ^   ~~~~~
+   Suppressed 59 warnings (59 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   drivers/iommu/of_iommu.c:202:3: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&res, 0, sizeof(res));
                    ^
-   fs/fat/cache.c:384:9: note: Calling 'fat_get_mapped_cluster'
-           return fat_get_mapped_cluster(inode, sector, last_block, mapped_=
-blocks,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   fs/fat/cache.c:320:12: note: Calling 'fat_bmap_cluster'
-           cluster =3D fat_bmap_cluster(inode, cluster);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fat/cache.c:296:6: note: Assuming field 'i_start' is not equal to 0
-           if (MSDOS_I(inode)->i_start =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fat/cache.c:296:2: note: Taking false branch
-           if (MSDOS_I(inode)->i_start =3D=3D 0)
-           ^
-   fs/fat/cache.c:299:8: note: Calling 'fat_get_cluster'
-           ret =3D fat_get_cluster(inode, cluster, &fclus, &dclus);
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/iommu/of_iommu.c:202:3: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+                   memset(&res, 0, sizeof(res));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> drivers/iommu/of_iommu.c:237:5: warning: Value stored to 'end' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                                   end =3D start + length - 1;
+                                   ^     ~~~~~~~~~~~~~~~~~~
+   drivers/iommu/of_iommu.c:237:5: note: Value stored to 'end' is never read
+                                   end =3D start + length - 1;
+                                   ^     ~~~~~~~~~~~~~~~~~~
+   Suppressed 50 warnings (48 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   55 warnings generated.
+   Suppressed 55 warnings (55 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   62 warnings generated.
+   drivers/char/virtio_console.c:682:3: warning: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy((__force char *)out_buf, buf->buf + buf->offset,
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/char/virtio_console.c:682:3: note: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy((__force char *)out_buf, buf->buf + buf->offset,
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/char/virtio_console.c:897:3: warning: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(page_address(page) + offset, src + buf->offset, l=
+en);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/char/virtio_console.c:897:3: note: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(page_address(page) + offset, src + buf->offset, l=
+en);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/char/virtio_console.c:1283:9: warning: Call to function 'sprintf=
+' is insecure as it does not provide bounding of the memory buffer or secur=
+ity checks introduced in the C11 standard. Replace with analogous functions=
+ that support length arguments or provides boundary checks such as 'sprintf=
+_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeB=
+ufferHandling]
+           return sprintf(buffer, "%s\n", port->name);
+                  ^~~~~~~
+   drivers/char/virtio_console.c:1283:9: note: Call to function 'sprintf' i=
+s insecure as it does not provide bounding of the memory buffer or security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'sprintf_s'=
+ in case of C11
+           return sprintf(buffer, "%s\n", port->name);
+                  ^~~~~~~
+   drivers/char/virtio_console.c:1464:2: warning: Call to function 'snprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'snprintf_s' in case of C11 [clang-analy=
+zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(debugfs_name, sizeof(debugfs_name), "vport%up%u",
+           ^~~~~~~~
+   drivers/char/virtio_console.c:1464:2: note: Call to function 'snprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(debugfs_name, sizeof(debugfs_name), "vport%up%u",
+           ^~~~~~~~
+   drivers/char/virtio_console.c:1625:3: warning: Call to function 'memcpy'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&size, buf->buf + buf->offset + sizeof(*cpkt),
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/char/virtio_console.c:1625:3: note: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&size, buf->buf + buf->offset + sizeof(*cpkt),
+                   ^
 
-vim +103 security/lockdown/lockdown.c
+vim +/end +237 drivers/iommu/of_iommu.c
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19   89  =
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  178  =
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19   90  static ssize_t lockdown_re=
-ad(struct file *filp, char __user *buf, size_t count,
-000d388ed3bbed7 Matthew Garrett 2019-08-19   91  			     loff_t *ppos)
-000d388ed3bbed7 Matthew Garrett 2019-08-19   92  {
-000d388ed3bbed7 Matthew Garrett 2019-08-19   93  	char temp[80];
-000d388ed3bbed7 Matthew Garrett 2019-08-19   94  	int i, offset =3D 0;
-000d388ed3bbed7 Matthew Garrett 2019-08-19   95  =
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  179  /**
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  180   * of_iommu_get_resv_regions=
+ - reserved region driver helper for device tree
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  181   * @dev: device for which to=
+ get reserved regions
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  182   * @list: reserved region li=
+st
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  183   *
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  184   * IOMMU drivers can use thi=
+s to implement their .get_resv_regions() callback
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  185   * for memory regions attach=
+ed to a device tree node. See the reserved-memory
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  186   * device tree bindings on h=
+ow to use these:
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  187   *
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  188   *   Documentation/devicetre=
+e/bindings/reserved-memory/reserved-memory.txt
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  189   */
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  190  void of_iommu_get_resv_regio=
+ns(struct device *dev, struct list_head *list)
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  191  {
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  192  #if IS_ENABLED(CONFIG_OF_ADD=
+RESS)
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  193  	struct of_phandle_iterator =
+it;
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  194  	int err;
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  195  =
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19   96  	for (i =3D 0; i < ARRAY_S=
-IZE(lockdown_levels); i++) {
-000d388ed3bbed7 Matthew Garrett 2019-08-19   97  		enum lockdown_reason lev=
-el =3D lockdown_levels[i];
-000d388ed3bbed7 Matthew Garrett 2019-08-19   98  =
+a39ec325554470 Thierry Reding 2022-04-25  196  	of_for_each_phandle(&it, er=
+r, dev->of_node, "memory-region", NULL, 0) {
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  197  		struct iommu_resv_region *=
+region;
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  198  		struct resource res;
+a39ec325554470 Thierry Reding 2022-04-25  199  		const __be32 *maps;
+a39ec325554470 Thierry Reding 2022-04-25  200  		int size;
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  201  =
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19   99  		if (lockdown_reasons[lev=
-el]) {
-000d388ed3bbed7 Matthew Garrett 2019-08-19  100  			const char *label =3D l=
-ockdown_reasons[level];
-000d388ed3bbed7 Matthew Garrett 2019-08-19  101  =
+a39ec325554470 Thierry Reding 2022-04-25  202  		memset(&res, 0, sizeof(res=
+));
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  203  =
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19  102  			if (kernel_locked_down =
-=3D=3D level)
-000d388ed3bbed7 Matthew Garrett 2019-08-19 @103  				offset +=3D sprintf(te=
-mp+offset, "[%s] ", label);
-000d388ed3bbed7 Matthew Garrett 2019-08-19  104  			else
-000d388ed3bbed7 Matthew Garrett 2019-08-19  105  				offset +=3D sprintf(te=
-mp+offset, "%s ", label);
-000d388ed3bbed7 Matthew Garrett 2019-08-19  106  		}
-000d388ed3bbed7 Matthew Garrett 2019-08-19  107  	}
-000d388ed3bbed7 Matthew Garrett 2019-08-19  108  =
+a39ec325554470 Thierry Reding 2022-04-25  204  		/*
+a39ec325554470 Thierry Reding 2022-04-25  205  		 * The "reg" property is o=
+ptional and can be omitted by reserved-memory regions
+a39ec325554470 Thierry Reding 2022-04-25  206  		 * that represent reservat=
+ions in the IOVA space, which are regions that should
+a39ec325554470 Thierry Reding 2022-04-25  207  		 * not be mapped.
+a39ec325554470 Thierry Reding 2022-04-25  208  		 */
+a39ec325554470 Thierry Reding 2022-04-25  209  		if (of_find_property(it.no=
+de, "reg", NULL)) {
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  210  			err =3D of_address_to_res=
+ource(it.node, 0, &res);
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  211  			if (err < 0) {
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  212  				dev_err(dev, "failed to =
+parse memory region %pOF: %d\n",
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  213  					it.node, err);
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  214  				continue;
+66e3b4ba9a4d92 Thierry Reding 2019-08-20  215  			}
+a39ec325554470 Thierry Reding 2022-04-25  216  		}
+a39ec325554470 Thierry Reding 2022-04-25  217  =
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19  109  	/* Convert the last space=
- to a newline if needed. */
-000d388ed3bbed7 Matthew Garrett 2019-08-19  110  	if (offset > 0)
-000d388ed3bbed7 Matthew Garrett 2019-08-19  111  		temp[offset-1] =3D '\n';
-000d388ed3bbed7 Matthew Garrett 2019-08-19  112  =
+a39ec325554470 Thierry Reding 2022-04-25  218  		maps =3D of_get_property(i=
+t.node, "iommu-addresses", &size);
+a39ec325554470 Thierry Reding 2022-04-25  219  		if (maps) {
+a39ec325554470 Thierry Reding 2022-04-25  220  			const __be32 *end =3D map=
+s + size / sizeof(__be32);
+a39ec325554470 Thierry Reding 2022-04-25  221  			struct device_node *np;
+a39ec325554470 Thierry Reding 2022-04-25  222  			unsigned int index =3D 0;
+a39ec325554470 Thierry Reding 2022-04-25  223  			u32 phandle;
+a39ec325554470 Thierry Reding 2022-04-25  224  			int na, ns;
+a39ec325554470 Thierry Reding 2022-04-25  225  =
 
-000d388ed3bbed7 Matthew Garrett 2019-08-19  113  	return simple_read_from_b=
-uffer(buf, count, ppos, temp, strlen(temp));
-000d388ed3bbed7 Matthew Garrett 2019-08-19  114  }
-000d388ed3bbed7 Matthew Garrett 2019-08-19  115  =
+a39ec325554470 Thierry Reding 2022-04-25  226  			while (maps < end) {
+a39ec325554470 Thierry Reding 2022-04-25  227  				phys_addr_t start, end;
+a39ec325554470 Thierry Reding 2022-04-25  228  				size_t length;
+a39ec325554470 Thierry Reding 2022-04-25  229  =
 
+a39ec325554470 Thierry Reding 2022-04-25  230  				phandle =3D be32_to_cpup=
+(maps++);
+a39ec325554470 Thierry Reding 2022-04-25  231  				np =3D of_find_node_by_p=
+handle(phandle);
+a39ec325554470 Thierry Reding 2022-04-25  232  				na =3D of_n_addr_cells(n=
+p);
+a39ec325554470 Thierry Reding 2022-04-25  233  				ns =3D of_n_size_cells(n=
+p);
+a39ec325554470 Thierry Reding 2022-04-25  234  =
 
-:::::: The code at line 103 was first introduced by commit
-:::::: 000d388ed3bbed745f366ce71b2bb7c2ee70f449 security: Add a static lock=
-down policy LSM
-
-:::::: TO: Matthew Garrett <matthewgarrett@google.com>
-:::::: CC: James Morris <jmorris@namei.org>
+a39ec325554470 Thierry Reding 2022-04-25  235  				start =3D of_translate_d=
+ma_address(np, maps);
+a39ec325554470 Thierry Reding 2022-04-25  236  				length =3D of_read_numbe=
+r(maps + na, ns);
+a39ec325554470 Thierry Reding 2022-04-25 @237  				end =3D start + length -=
+ 1;
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5239673163405148662==--
+--===============3839450234531379118==--
 
