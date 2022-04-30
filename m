@@ -1,80 +1,80 @@
-Content-Type: multipart/mixed; boundary="===============3390462514630372441=="
+Content-Type: multipart/mixed; boundary="===============6706118897361481702=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/irq/msi.c:555 msi_handle_pci_fail() warn: ignoring unreachable code.
-Date: Sat, 30 Apr 2022 18:16:01 +0800
-Message-ID: <202204301857.7soRGY44-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 309/399] fs/xfs/libxfs/xfs_rmap.c:2558:20: warning: Parameter 'pag' can be declared with const [constParameter]
+Date: Sat, 30 Apr 2022 18:15:59 +0800
+Message-ID: <202204301807.CUScBHEg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3390462514630372441==
+--===============6706118897361481702==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   8013d1d3d2e33236dee13a133fba49ad55045e79
-commit: 890337624e1fa2da079fc1c036a62d178c985280 genirq/msi: Handle PCI/MSI=
- allocation fail in core code
-date:   5 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   afeb4fa123e9a46cb653baab2baa3259c051f7d7
+commit: 0c235943d6a275a48ce6fbe16f6b43ad60058869 [309/399] xfs: wire up rma=
+p map and unmap to the realtime rmapbt
 :::::: branch date: 11 hours ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-m031-20220427 (https://download.01.org/0day-ci/arc=
-hive/20220430/202204301857.7soRGY44-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
+:::::: commit date: 11 hours ago
+compiler: mips64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 0c235943d6a275a48ce6fbe16f6b43ad60058869
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/irq/msi.c:555 msi_handle_pci_fail() warn: ignoring unreachable code.
 
-vim +555 kernel/irq/msi.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-da5dd9e854d2ed Thomas Gleixner 2017-12-29  540  =
+>> fs/xfs/libxfs/xfs_rmap.c:2558:20: warning: Parameter 'pag' can be declar=
+ed with const [constParameter]
+    struct xfs_perag *pag)
+                      ^
+   fs/xfs/libxfs/xfs_rmap.c:2679:25: warning: Parameter 'bmap' can be decla=
+red with const [constParameter]
+    struct xfs_bmbt_irec  *bmap)
+                           ^
 
-890337624e1fa2 Thomas Gleixner 2021-12-06  541  static int msi_handle_pci_f=
-ail(struct irq_domain *domain, struct msi_desc *desc,
-890337624e1fa2 Thomas Gleixner 2021-12-06  542  			       int allocated)
-890337624e1fa2 Thomas Gleixner 2021-12-06  543  {
-890337624e1fa2 Thomas Gleixner 2021-12-06  544  	switch(domain->bus_token) {
-890337624e1fa2 Thomas Gleixner 2021-12-06  545  	case DOMAIN_BUS_PCI_MSI:
-890337624e1fa2 Thomas Gleixner 2021-12-06  546  	case DOMAIN_BUS_VMD_MSI:
-890337624e1fa2 Thomas Gleixner 2021-12-06  547  		if (IS_ENABLED(CONFIG_PCI=
-_MSI))
-890337624e1fa2 Thomas Gleixner 2021-12-06  548  			break;
-890337624e1fa2 Thomas Gleixner 2021-12-06  549  		fallthrough;
-890337624e1fa2 Thomas Gleixner 2021-12-06  550  	default:
-890337624e1fa2 Thomas Gleixner 2021-12-06  551  		return -ENOSPC;
-890337624e1fa2 Thomas Gleixner 2021-12-06  552  	}
-890337624e1fa2 Thomas Gleixner 2021-12-06  553  =
+vim +/pag +2558 fs/xfs/libxfs/xfs_rmap.c
 
-890337624e1fa2 Thomas Gleixner 2021-12-06  554  	/* Let a failed PCI multi =
-MSI allocation retry */
-890337624e1fa2 Thomas Gleixner 2021-12-06 @555  	if (desc->nvec_used > 1)
-890337624e1fa2 Thomas Gleixner 2021-12-06  556  		return 1;
-890337624e1fa2 Thomas Gleixner 2021-12-06  557  =
+0d82b5c4a91112 Darrick J. Wong 2022-01-06  2553  =
 
-890337624e1fa2 Thomas Gleixner 2021-12-06  558  	/* If there was a successf=
-ul allocation let the caller know */
-890337624e1fa2 Thomas Gleixner 2021-12-06  559  	return allocated ? allocat=
-ed : -ENOSPC;
-890337624e1fa2 Thomas Gleixner 2021-12-06  560  }
-890337624e1fa2 Thomas Gleixner 2021-12-06  561  =
+0c235943d6a275 Darrick J. Wong 2022-01-06  2554  /* Does this btree cursor =
+match the given AG? */
+0c235943d6a275 Darrick J. Wong 2022-01-06  2555  static inline bool
+0c235943d6a275 Darrick J. Wong 2022-01-06  2556  xfs_rmap_is_wrong_cursor(
+0c235943d6a275 Darrick J. Wong 2022-01-06  2557  	struct xfs_btree_cur	*cur,
+0c235943d6a275 Darrick J. Wong 2022-01-06 @2558  	struct xfs_perag	*pag)
+0c235943d6a275 Darrick J. Wong 2022-01-06  2559  {
+0c235943d6a275 Darrick J. Wong 2022-01-06  2560  	if (!pag) {
+0c235943d6a275 Darrick J. Wong 2022-01-06  2561  		/* finishing a realtime =
+rmap */
+0c235943d6a275 Darrick J. Wong 2022-01-06  2562  		return cur->bc_btnum !=
+=3D XFS_BTNUM_RTRMAP;
+0c235943d6a275 Darrick J. Wong 2022-01-06  2563  	}
+0c235943d6a275 Darrick J. Wong 2022-01-06  2564  =
+
+0c235943d6a275 Darrick J. Wong 2022-01-06  2565  	return cur->bc_ag.pag !=
+=3D pag;
+0c235943d6a275 Darrick J. Wong 2022-01-06  2566  }
+0c235943d6a275 Darrick J. Wong 2022-01-06  2567  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3390462514630372441==--
+--===============6706118897361481702==--
 
