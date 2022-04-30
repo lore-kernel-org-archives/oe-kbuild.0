@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6117751164919193981=="
+Content-Type: multipart/mixed; boundary="===============1943333382808355894=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 30 Apr 2022 11:50:07 +0800
-Message-ID: <202204301105.B7JN1INB-lkp@intel.com>
+Subject: drivers/net/ethernet/asix/ax88796c_main.c:548:21: warning: Value stored to 'ndev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 30 Apr 2022 11:29:38 +0800
+Message-ID: <202204301152.40fCAFqi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6117751164919193981==
+--===============1943333382808355894==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,39 +16,36 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Jacopo Mondi <jacopo+renesas@jmondi.org>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: "=C5=81ukasz Stelmach" <l.stelmach@samsung.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   8013d1d3d2e33236dee13a133fba49ad55045e79
-commit: 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0 media: atmel: atmel-isc: s=
-plit the clock code into separate source file
-date:   3 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220427 (https://download.01.org/0day-ci/archi=
-ve/20220430/202204301105.B7JN1INB-lkp(a)intel.com/config)
+head:   3e71713c9e75c34fc03f55ea86b381856ca952ee
+commit: a97c69ba4f30e46abb9cc7be8b98227cb468fdf9 net: ax88796c: ASIX AX8879=
+6C SPI Ethernet Adapter Driver
+date:   6 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-c006-20220427 (https://download.01.org/0day-ci/arc=
+hive/20220430/202204301152.40fCAFqi-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
 dc3c683b393df1a5c9063252eb60e52818)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
+t/commit/?id=3Da97c69ba4f30e46abb9cc7be8b98227cb468fdf9
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
+        git checkout a97c69ba4f30e46abb9cc7be8b98227cb468fdf9
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -56,378 +53,345 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           if (lpuart_is_32(sport))
+   include/linux/kconfig.h:26:65: note: expanded from macro '____or'
+   #define ____or(arg1_or_junk, y)         __take_second_arg(arg1_or_junk 1=
+, y)
+                                                                          ^
+   drivers/clocksource/sh_cmt.c:997:31: note: Assuming field 'of_node' is n=
+ull
+           if (IS_ENABLED(CONFIG_OF) && pdev->dev.of_node) {
+                                        ^~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:997:2: note: Taking false branch
+           if (IS_ENABLED(CONFIG_OF) && pdev->dev.of_node) {
            ^
-   drivers/tty/serial/fsl_lpuart.c:2876:6: note: Assuming field 'lpuart_dma=
-_rx_use' is true
-           if (sport->lpuart_dma_rx_use) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2876:2: note: Taking true branch
-           if (sport->lpuart_dma_rx_use) {
+   drivers/clocksource/sh_cmt.c:1000:13: note: Assuming field 'platform_dat=
+a' is non-null
+           } else if (pdev->dev.platform_data) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1000:9: note: Taking true branch
+           } else if (pdev->dev.platform_data) {
+                  ^
+   drivers/clocksource/sh_cmt.c:1013:2: note: Taking false branch
+           if (IS_ERR(cmt->clk)) {
            ^
-   drivers/tty/serial/fsl_lpuart.c:2877:7: note: Assuming 'irq_wake' is true
-                   if (irq_wake) {
-                       ^~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2877:3: note: Taking true branch
-                   if (irq_wake) {
+   drivers/clocksource/sh_cmt.c:1019:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/clocksource/sh_cmt.c:1019:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/clocksource/sh_cmt.c:1024:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/clocksource/sh_cmt.c:1024:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/clocksource/sh_cmt.c:1027:6: note: Assuming field 'width' is not=
+ equal to 16
+           if (cmt->info->width =3D=3D 16)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1027:2: note: Taking false branch
+           if (cmt->info->width =3D=3D 16)
+           ^
+   drivers/clocksource/sh_cmt.c:1034:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   drivers/clocksource/sh_cmt.c:1034:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/clocksource/sh_cmt.c:1038:22: note: '?' condition is false
+           cmt->num_channels =3D hweight8(cmt->hw_channels);
+                               ^
+   include/asm-generic/bitops/const_hweight.h:26:23: note: expanded from ma=
+cro 'hweight8'
+   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
+_arch_hweight8(w))
+                         ^
+   drivers/clocksource/sh_cmt.c:1041:6: note: Assuming field 'channels' is =
+not equal to NULL
+           if (cmt->channels =3D=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1041:2: note: Taking false branch
+           if (cmt->channels =3D=3D NULL) {
+           ^
+   drivers/clocksource/sh_cmt.c:1050:39: note: Assuming 'i' is < field 'num=
+_channels'
+           for (i =3D 0, mask =3D cmt->hw_channels; i < cmt->num_channels; =
+++i) {
+                                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1050:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0, mask =3D cmt->hw_channels; i < cmt->num_channels; =
+++i) {
+           ^
+   drivers/clocksource/sh_cmt.c:1052:22: note: 'i' is not equal to 1
+                   bool clocksource =3D i =3D=3D 1 || cmt->num_channels =3D=
+=3D 1;
+                                      ^
+   drivers/clocksource/sh_cmt.c:1052:22: note: Left side of '||' is false
+   drivers/clocksource/sh_cmt.c:1052:32: note: Assuming field 'num_channels=
+' is not equal to 1
+                   bool clocksource =3D i =3D=3D 1 || cmt->num_channels =3D=
+=3D 1;
+                                                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1057:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/clocksource/sh_cmt.c:1057:3: note: Taking false branch
+                   if (ret < 0)
                    ^
-   drivers/tty/serial/fsl_lpuart.c:2878:9: note: Calling 'lpuart_start_rx_d=
-ma'
-                           if (!lpuart_start_rx_dma(sport))
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:1274:9: note: Assuming the condition is =
-false
-           bits =3D (termios->c_cflag & CSIZE) =3D=3D CS7 ? 9 : 10;
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:1274:9: note: '?' condition is false
-   drivers/tty/serial/fsl_lpuart.c:1275:6: note: Assuming the condition is =
-false
-           if (termios->c_cflag & PARENB)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:1275:2: note: Taking false branch
-           if (termios->c_cflag & PARENB)
+   drivers/clocksource/sh_cmt.c:1050:39: note: Assuming 'i' is < field 'num=
+_channels'
+           for (i =3D 0, mask =3D cmt->hw_channels; i < cmt->num_channels; =
+++i) {
+                                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1050:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0, mask =3D cmt->hw_channels; i < cmt->num_channels; =
+++i) {
            ^
-   drivers/tty/serial/fsl_lpuart.c:1283:33: note: The result of the left sh=
-ift is undefined because the right operand is negative
-           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
-en) - 1));
-                                          ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:479:2: warning: Valu=
-e stored to 'cif_id' is never read [clang-analyzer-deadcode.DeadStores]
-           cif_id =3D rkisp1_read(rkisp1, RKISP1_CIF_VI_ID);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:479:2: note: Value s=
-tored to 'cif_id' is never read
-           cif_id =3D rkisp1_read(rkisp1, RKISP1_CIF_VI_ID);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:910:24: warning: Val=
-ue stored to 'rkisp1' during its initialization is never read [clang-analyz=
-er-deadcode.DeadStores]
-           struct rkisp1_device *rkisp1 =3D
-                                 ^~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:910:24: note: Value =
-stored to 'rkisp1' during its initialization is never read
-           struct rkisp1_device *rkisp1 =3D
-                                 ^~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   drivers/media/platform/am437x/am437x-vpfe.c:819:2: warning: Value stored=
- to 'vpfe_int_status' is never read [clang-analyzer-deadcode.DeadStores]
-           vpfe_int_status =3D vpfe_reg_read(ccdc, VPFE_IRQ_STS);
-           ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/am437x/am437x-vpfe.c:819:2: note: Value stored to=
- 'vpfe_int_status' is never read
-           vpfe_int_status =3D vpfe_reg_read(ccdc, VPFE_IRQ_STS);
-           ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/am437x/am437x-vpfe.c:1411:2: warning: Value store=
-d to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D 0;
-           ^     ~
-   drivers/media/platform/am437x/am437x-vpfe.c:1411:2: note: Value stored t=
-o 'ret' is never read
-           ret =3D 0;
-           ^     ~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
->> drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stor=
-ed to 'isc_clk' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           struct isc_clk *isc_clk =3D to_isc_clk(hw);
-                           ^~~~~~~
-   drivers/media/platform/atmel/atmel-isc-clk.c:125:18: note: Value stored =
-to 'isc_clk' during its initialization is never read
-           struct isc_clk *isc_clk =3D to_isc_clk(hw);
-                           ^~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   drivers/clocksource/sh_cmt.c:1051:3: note: 'hwidx' initialized to 429496=
+7295
+                   unsigned int hwidx =3D ffs(mask) - 1;
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:1052:22: note: 'i' is equal to 1
+                   bool clocksource =3D i =3D=3D 1 || cmt->num_channels =3D=
+=3D 1;
+                                      ^
+   drivers/clocksource/sh_cmt.c:1052:29: note: Left side of '||' is true
+                   bool clocksource =3D i =3D=3D 1 || cmt->num_channels =3D=
+=3D 1;
+                                             ^
+   drivers/clocksource/sh_cmt.c:1057:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/clocksource/sh_cmt.c:1057:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   drivers/clocksource/sh_cmt.c:1060:15: note: The result of the left shift=
+ is undefined due to shifting by '4294967295', which is greater or equal to=
+ the width of type 'int'
+                   mask &=3D ~(1 << hwidx);
+                               ^  ~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
-   Suppressed 7 warnings (7 with check filters).
-   1 warning generated.
-   drivers/mmc/core/core.c:1940:19: warning: Value stored to 'host' during =
-its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct mmc_host *host =3D card->host;
-                            ^~~~   ~~~~~~~~~~
-   drivers/mmc/core/core.c:1940:19: note: Value stored to 'host' during its=
- initialization is never read
-           struct mmc_host *host =3D card->host;
-                            ^~~~   ~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+>> drivers/net/ethernet/asix/ax88796c_main.c:548:21: warning: Value stored =
+to 'ndev' during its initialization is never read [clang-analyzer-deadcode.=
+DeadStores]
+           struct net_device *ndev =3D ax_local->ndev;
+                              ^~~~   ~~~~~~~~~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:548:21: note: Value stored to =
+'ndev' during its initialization is never read
+           struct net_device *ndev =3D ax_local->ndev;
+                              ^~~~   ~~~~~~~~~~~~~~
+   include/asm-generic/bitops/non-atomic.h:118:16: warning: Array access (f=
+rom variable 'addr') results in a null pointer dereference [clang-analyzer-=
+core.NullDereference]
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^
+   drivers/net/ethernet/asix/ax88796c_main.c:801:6: note: Assuming 'ret' is=
+ 0
+           if (ret) {
+               ^~~
+   drivers/net/ethernet/asix/ax88796c_main.c:801:2: note: Taking false bran=
+ch
+           if (ret) {
+           ^
+   drivers/net/ethernet/asix/ax88796c_main.c:810:6: note: Assuming 'ret' is=
+ >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:810:2: note: Taking false bran=
+ch
+           if (ret < 0) {
+           ^
+   drivers/net/ethernet/asix/ax88796c_main.c:851:6: note: Assuming the cond=
+ition is false
+           if (ax_local->phydev->advertising &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:851:36: note: Left side of '&&=
+' is false
+           if (ax_local->phydev->advertising &&
+                                             ^
+   drivers/net/ethernet/asix/ax88796c_main.c:859:5: note: Passing null poin=
+ter value via 2nd parameter 'addr'
+                                   ax_local->phydev->advertising) ? AX_FC_R=
+X : 0;
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/asix/ax88796c_main.c:858:8: note: Calling 'linkmode=
+_test_bit'
+           fc |=3D linkmode_test_bit(ETHTOOL_LINK_MODE_Pause_BIT,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/linkmode.h:76:22: note: Passing null pointer value via 2nd=
+ parameter 'addr'
+           return test_bit(nr, addr);
+                               ^~~~
+   include/linux/linkmode.h:76:9: note: Calling 'arch_test_bit'
+           return test_bit(nr, addr);
+                  ^
+   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
+o 'test_bit'
+   #define test_bit arch_test_bit
+                    ^
+   include/asm-generic/bitops/non-atomic.h:118:16: note: Array access (from=
+ variable 'addr') results in a null pointer dereference
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^~~~
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/iio/addac/ad74413r.c:51:8: warning: Excessive padding in 'struct=
- ad74413r_state' (32 padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   adc_samples_buf, =
-
-   num_gpo_gpios, =
-
-   num_comparator_gpios, =
-
-   sense_resistor_ohms, =
-
-   chip_info, =
-
-   spi, =
-
-   refin_reg, =
-
-   regmap, =
-
-   dev, =
-
-   trig, =
-
-   adc_active_channels, =
-
-   adc_data_completion, =
-
-   lock, =
-
-   gpo_gpio_offsets, =
-
-   comp_gpio_offsets, =
-
-   channel_configs, =
-
-   adc_samples_msg, =
-
-   gpo_gpiochip, =
-
-   comp_gpiochip, =
-
-   adc_samples_xfer, =
-
-   reg_tx_buf, =
-
-   reg_rx_buf, =
-
-   adc_samples_tx_buf, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad74413r_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/iio/addac/ad74413r.c:51:8: note: Excessive padding in 'struct ad=
-74413r_state' (32 padding bytes, where 0 is optimal). Optimal fields order:=
- adc_samples_buf, num_gpo_gpios, num_comparator_gpios, sense_resistor_ohms,=
- chip_info, spi, refin_reg, regmap, dev, trig, adc_active_channels, adc_dat=
-a_completion, lock, gpo_gpio_offsets, comp_gpio_offsets, channel_configs, a=
-dc_samples_msg, gpo_gpiochip, comp_gpiochip, adc_samples_xfer, reg_tx_buf, =
-reg_rx_buf, adc_samples_tx_buf, consider reordering the fields or adding ex=
-plicit padding members
-   struct ad74413r_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   1 warning generated.
-   drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c:74:17: warning: Value s=
-tored to 'dev' during its initialization is never read [clang-analyzer-dead=
-code.DeadStores]
-           struct device *dev =3D ctx->dev;
-                          ^~~   ~~~~~~~~
-   drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c:74:17: note: Value stor=
-ed to 'dev' during its initialization is never read
-           struct device *dev =3D ctx->dev;
-                          ^~~   ~~~~~~~~
-   1 warning generated.
-   drivers/input/rmi4/rmi_f11.c:1129:2: warning: Value stored to 'query_off=
-set' is never read [clang-analyzer-deadcode.DeadStores]
-           query_offset +=3D rc;
-           ^               ~~
-   drivers/input/rmi4/rmi_f11.c:1129:2: note: Value stored to 'query_offset=
-' is never read
-           query_offset +=3D rc;
-           ^               ~~
-   3 warnings generated.
-   drivers/input/rmi4/rmi_f12.c:133:3: warning: Value stored to 'offset' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   offset +=3D 1;
-                   ^         ~
-   drivers/input/rmi4/rmi_f12.c:133:3: note: Value stored to 'offset' is ne=
-ver read
-                   offset +=3D 1;
-                   ^         ~
-   drivers/input/rmi4/rmi_f12.c:401:2: warning: Value stored to 'query_addr=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           query_addr +=3D 3;
-           ^             ~
-   drivers/input/rmi4/rmi_f12.c:401:2: note: Value stored to 'query_addr' i=
-s never read
-           query_addr +=3D 3;
-           ^             ~
-   drivers/input/rmi4/rmi_f12.c:520:3: warning: Value stored to 'data_offse=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-                   data_offset +=3D item->reg_size;
-                   ^              ~~~~~~~~~~~~~~
-   drivers/input/rmi4/rmi_f12.c:520:3: note: Value stored to 'data_offset' =
-is never read
-                   data_offset +=3D item->reg_size;
-                   ^              ~~~~~~~~~~~~~~
    4 warnings generated.
-   drivers/greybus/svc.c:1144:2: warning: Value stored to 'reset' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           reset =3D request->payload;
-           ^       ~~~~~~~~~~~~~~~~
-   drivers/greybus/svc.c:1144:2: note: Value stored to 'reset' is never read
-           reset =3D request->payload;
-           ^       ~~~~~~~~~~~~~~~~
-   drivers/greybus/svc.c:1162:2: warning: Value stored to 'request' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           request =3D op->request->payload;
-           ^         ~~~~~~~~~~~~~~~~~~~~
-   drivers/greybus/svc.c:1162:2: note: Value stored to 'request' is never r=
-ead
-           request =3D op->request->payload;
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/net/ethernet/cadence/macb_main.c:1507:13: warning: Access to fie=
+ld 'addr' results in a dereference of a null pointer (loaded from variable =
+'desc') [clang-analyzer-core.NullDereference]
+           desc->addr |=3D MACB_BIT(RX_WRAP);
+                      ^
+   drivers/net/ethernet/cadence/macb_main.c:2438:2: note: Calling 'macb_ini=
+t_rx_ring'
+           macb_init_rx_ring(&bp->queues[0]);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:1497:2: note: 'desc' initialize=
+d to a null pointer value
+           struct macb_dma_desc *desc =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:1501:14: note: Assuming 'i' is =
+>=3D field 'rx_ring_size'
+           for (i =3D 0; i < bp->rx_ring_size; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:1501:2: note: Loop condition is=
+ false. Execution continues on line 1507
+           for (i =3D 0; i < bp->rx_ring_size; i++) {
+           ^
+   drivers/net/ethernet/cadence/macb_main.c:1507:13: note: Access to field =
+'addr' results in a dereference of a null pointer (loaded from variable 'de=
+sc')
+           desc->addr |=3D MACB_BIT(RX_WRAP);
+           ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2421:14: warning: Access to fie=
+ld 'ctrl' results in a dereference of a null pointer (loaded from variable =
+'desc') [clang-analyzer-core.NullDereference]
+                   desc->ctrl |=3D MACB_BIT(TX_WRAP);
+                   ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2411:2: note: 'desc' initialize=
+d to a null pointer value
+           struct macb_dma_desc *desc =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2415:34: note: Assuming 'q' is =
+< field 'num_queues'
+           for (q =3D 0, queue =3D bp->queues; q < bp->num_queues; ++q, ++q=
+ueue) {
+                                           ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2415:2: note: Loop condition is=
+ true.  Entering loop body
+           for (q =3D 0, queue =3D bp->queues; q < bp->num_queues; ++q, ++q=
+ueue) {
+           ^
+   drivers/net/ethernet/cadence/macb_main.c:2416:15: note: Assuming 'i' is =
+>=3D field 'tx_ring_size'
+                   for (i =3D 0; i < bp->tx_ring_size; i++) {
+                               ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2416:3: note: Loop condition is=
+ false. Execution continues on line 2421
+                   for (i =3D 0; i < bp->tx_ring_size; i++) {
+                   ^
+   drivers/net/ethernet/cadence/macb_main.c:2421:14: note: Access to field =
+'ctrl' results in a dereference of a null pointer (loaded from variable 'de=
+sc')
+                   desc->ctrl |=3D MACB_BIT(TX_WRAP);
+                   ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2447:13: warning: Access to fie=
+ld 'ctrl' results in a dereference of a null pointer (loaded from variable =
+'desc') [clang-analyzer-core.NullDereference]
+           desc->ctrl |=3D MACB_BIT(TX_WRAP);
+           ~~~~       ^
+   drivers/net/ethernet/cadence/macb_main.c:2436:2: note: 'desc' initialize=
+d to a null pointer value
+           struct macb_dma_desc *desc =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/cadence/macb_main.c:2440:14: note: Assuming 'i' is =
+>=3D field 'tx_ring_size'
+           for (i =3D 0; i < bp->tx_ring_size; i++) {
 
-vim +/isc_clk +125 drivers/media/platform/atmel/atmel-isc-clk.c
+vim +/ndev +548 drivers/net/ethernet/asix/ax88796c_main.c
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  121  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  545  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  122  static int isc_clk_determine=
-_rate(struct clk_hw *hw,
-118bf76a35bc2ed Eugen Hristev 2021-12-13  123  				  struct clk_rate_reques=
-t *req)
-118bf76a35bc2ed Eugen Hristev 2021-12-13  124  {
-118bf76a35bc2ed Eugen Hristev 2021-12-13 @125  	struct isc_clk *isc_clk =3D=
- to_isc_clk(hw);
-118bf76a35bc2ed Eugen Hristev 2021-12-13  126  	long best_rate =3D -EINVAL;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  127  	int best_diff =3D -1;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  128  	unsigned int i, div;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  129  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  546  static int ax88796c_pr=
+ocess_isr(struct ax88796c_device *ax_local)
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  547  {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20 @548  	struct net_device *nd=
+ev =3D ax_local->ndev;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  549  	int todo =3D 0;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  550  	u16 isr;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  551  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  130  	for (i =3D 0; i < clk_hw_ge=
-t_num_parents(hw); i++) {
-118bf76a35bc2ed Eugen Hristev 2021-12-13  131  		struct clk_hw *parent;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  132  		unsigned long parent_rate;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  133  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  552  	lockdep_assert_held(&=
+ax_local->spi_lock);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  553  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  134  		parent =3D clk_hw_get_pare=
-nt_by_index(hw, i);
-118bf76a35bc2ed Eugen Hristev 2021-12-13  135  		if (!parent)
-118bf76a35bc2ed Eugen Hristev 2021-12-13  136  			continue;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  137  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  554  	isr =3D AX_READ(&ax_l=
+ocal->ax_spi, P0_ISR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  555  	AX_WRITE(&ax_local->a=
+x_spi, isr, P0_ISR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  556  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  138  		parent_rate =3D clk_hw_get=
-_rate(parent);
-118bf76a35bc2ed Eugen Hristev 2021-12-13  139  		if (!parent_rate)
-118bf76a35bc2ed Eugen Hristev 2021-12-13  140  			continue;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  141  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  557  	netif_dbg(ax_local, i=
+ntr, ndev, "  ISR 0x%04x\n", isr);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  558  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  142  		for (div =3D 1; div < ISC_=
-CLK_MAX_DIV + 2; div++) {
-118bf76a35bc2ed Eugen Hristev 2021-12-13  143  			unsigned long rate;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  144  			int diff;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  145  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  559  	if (isr & ISR_TXERR) {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  560  		netif_dbg(ax_local, =
+intr, ndev, "  TXERR interrupt\n");
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  561  		AX_WRITE(&ax_local->=
+ax_spi, TXNR_TXB_REINIT, P0_TSNR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  562  		ax_local->seq_num =
+=3D 0x1f;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  563  	}
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  564  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  146  			rate =3D DIV_ROUND_CLOSES=
-T(parent_rate, div);
-118bf76a35bc2ed Eugen Hristev 2021-12-13  147  			diff =3D abs(req->rate - =
-rate);
-118bf76a35bc2ed Eugen Hristev 2021-12-13  148  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  565  	if (isr & ISR_TXPAGES=
+) {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  566  		netif_dbg(ax_local, =
+intr, ndev, "  TXPAGES interrupt\n");
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  567  		set_bit(EVENT_TX, &a=
+x_local->flags);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  568  	}
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  569  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  149  			if (best_diff < 0 || best=
-_diff > diff) {
-118bf76a35bc2ed Eugen Hristev 2021-12-13  150  				best_rate =3D rate;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  151  				best_diff =3D diff;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  152  				req->best_parent_rate =
-=3D parent_rate;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  153  				req->best_parent_hw =3D =
-parent;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  154  			}
-118bf76a35bc2ed Eugen Hristev 2021-12-13  155  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  570  	if (isr & ISR_LINK) {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  571  		netif_dbg(ax_local, =
+intr, ndev, "  Link change interrupt\n");
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  572  		phy_mac_interrupt(ax=
+_local->ndev->phydev);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  573  	}
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  574  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  156  			if (!best_diff || rate < =
-req->rate)
-118bf76a35bc2ed Eugen Hristev 2021-12-13  157  				break;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  158  		}
-118bf76a35bc2ed Eugen Hristev 2021-12-13  159  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  575  	if (isr & ISR_RXPKT) {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  576  		netif_dbg(ax_local, =
+intr, ndev, "  RX interrupt\n");
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  577  		todo =3D ax88796c_re=
+ceive(ax_local->ndev);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  578  	}
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  579  =
 
-118bf76a35bc2ed Eugen Hristev 2021-12-13  160  		if (!best_diff)
-118bf76a35bc2ed Eugen Hristev 2021-12-13  161  			break;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  162  	}
-118bf76a35bc2ed Eugen Hristev 2021-12-13  163  =
-
-118bf76a35bc2ed Eugen Hristev 2021-12-13  164  	dev_dbg(isc_clk->dev,
-118bf76a35bc2ed Eugen Hristev 2021-12-13  165  		"ISC CLK: %s, best_rate =
-=3D %ld, parent clk: %s @ %ld\n",
-118bf76a35bc2ed Eugen Hristev 2021-12-13  166  		__func__, best_rate,
-118bf76a35bc2ed Eugen Hristev 2021-12-13  167  		__clk_get_name((req->best_=
-parent_hw)->clk),
-118bf76a35bc2ed Eugen Hristev 2021-12-13  168  		req->best_parent_rate);
-118bf76a35bc2ed Eugen Hristev 2021-12-13  169  =
-
-118bf76a35bc2ed Eugen Hristev 2021-12-13  170  	if (best_rate < 0)
-118bf76a35bc2ed Eugen Hristev 2021-12-13  171  		return best_rate;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  172  =
-
-118bf76a35bc2ed Eugen Hristev 2021-12-13  173  	req->rate =3D best_rate;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  174  =
-
-118bf76a35bc2ed Eugen Hristev 2021-12-13  175  	return 0;
-118bf76a35bc2ed Eugen Hristev 2021-12-13  176  }
-118bf76a35bc2ed Eugen Hristev 2021-12-13  177  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  580  	return todo;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  581  }
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  582  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6117751164919193981==--
+--===============1943333382808355894==--
 
