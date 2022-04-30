@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6706118897361481702=="
+Content-Type: multipart/mixed; boundary="===============0613422371710106198=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 309/399] fs/xfs/libxfs/xfs_rmap.c:2558:20: warning: Parameter 'pag' can be declared with const [constParameter]
-Date: Sat, 30 Apr 2022 18:15:59 +0800
-Message-ID: <202204301807.CUScBHEg-lkp@intel.com>
+Subject: [djwong-xfs:report-refcounts 400/400] fs/xfs/libxfs/xfs_refcount.c:1960:28: warning: Parameter 'low_rec' can be declared with const [constParameter]
+Date: Sat, 30 Apr 2022 17:25:23 +0800
+Message-ID: <202204301743.1CbXM5DL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6706118897361481702==
+--===============0613422371710106198==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,16 +19,16 @@ CC: linux-kernel(a)vger.kernel.org
 TO: "Darrick J. Wong" <djwong@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t vectorized-scrub
-head:   afeb4fa123e9a46cb653baab2baa3259c051f7d7
-commit: 0c235943d6a275a48ce6fbe16f6b43ad60058869 [309/399] xfs: wire up rma=
-p map and unmap to the realtime rmapbt
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-compiler: mips64-linux-gcc (GCC) 11.3.0
+t report-refcounts
+head:   0ba96363d9c626afec1bcac75f71e5914adae2a9
+commit: 0ba96363d9c626afec1bcac75f71e5914adae2a9 [400/400] xfs: export refe=
+rence count information to userspace
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 0c235943d6a275a48ce6fbe16f6b43ad60058869
+        git checkout 0ba96363d9c626afec1bcac75f71e5914adae2a9
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -36,45 +36,45 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
+cppcheck warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_qm_syscalls.c:412:2: warning: Redundant assignment of 'dqp' t=
+o itself. [selfAssignment]
+    xfs_qm_dqrele(dqp);
+    ^
+
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> fs/xfs/libxfs/xfs_rmap.c:2558:20: warning: Parameter 'pag' can be declar=
-ed with const [constParameter]
+>> fs/xfs/libxfs/xfs_refcount.c:1960:28: warning: Parameter 'low_rec' can b=
+e declared with const [constParameter]
+    struct xfs_refcount_irec *low_rec,
+                              ^
+>> fs/xfs/libxfs/xfs_refcount.c:1961:28: warning: Parameter 'high_rec' can =
+be declared with const [constParameter]
+    struct xfs_refcount_irec *high_rec,
+                              ^
+>> fs/xfs/libxfs/xfs_refcount.c:1216:20: warning: Parameter 'pag' can be de=
+clared with const [constParameter]
     struct xfs_perag *pag)
                       ^
-   fs/xfs/libxfs/xfs_rmap.c:2679:25: warning: Parameter 'bmap' can be decla=
-red with const [constParameter]
-    struct xfs_bmbt_irec  *bmap)
-                           ^
 
-vim +/pag +2558 fs/xfs/libxfs/xfs_rmap.c
+vim +/low_rec +1960 fs/xfs/libxfs/xfs_refcount.c
 
-0d82b5c4a91112 Darrick J. Wong 2022-01-06  2553  =
+0ba96363d9c626 Darrick J. Wong 2022-01-06  1955  =
 
-0c235943d6a275 Darrick J. Wong 2022-01-06  2554  /* Does this btree cursor =
-match the given AG? */
-0c235943d6a275 Darrick J. Wong 2022-01-06  2555  static inline bool
-0c235943d6a275 Darrick J. Wong 2022-01-06  2556  xfs_rmap_is_wrong_cursor(
-0c235943d6a275 Darrick J. Wong 2022-01-06  2557  	struct xfs_btree_cur	*cur,
-0c235943d6a275 Darrick J. Wong 2022-01-06 @2558  	struct xfs_perag	*pag)
-0c235943d6a275 Darrick J. Wong 2022-01-06  2559  {
-0c235943d6a275 Darrick J. Wong 2022-01-06  2560  	if (!pag) {
-0c235943d6a275 Darrick J. Wong 2022-01-06  2561  		/* finishing a realtime =
-rmap */
-0c235943d6a275 Darrick J. Wong 2022-01-06  2562  		return cur->bc_btnum !=
-=3D XFS_BTNUM_RTRMAP;
-0c235943d6a275 Darrick J. Wong 2022-01-06  2563  	}
-0c235943d6a275 Darrick J. Wong 2022-01-06  2564  =
-
-0c235943d6a275 Darrick J. Wong 2022-01-06  2565  	return cur->bc_ag.pag !=
-=3D pag;
-0c235943d6a275 Darrick J. Wong 2022-01-06  2566  }
-0c235943d6a275 Darrick J. Wong 2022-01-06  2567  =
-
+0ba96363d9c626 Darrick J. Wong 2022-01-06  1956  /* Find all refcount recor=
+ds between two keys. */
+0ba96363d9c626 Darrick J. Wong 2022-01-06  1957  int
+0ba96363d9c626 Darrick J. Wong 2022-01-06  1958  xfs_refcount_query_range(
+0ba96363d9c626 Darrick J. Wong 2022-01-06  1959  	struct xfs_btree_cur		*cu=
+r,
+0ba96363d9c626 Darrick J. Wong 2022-01-06 @1960  	struct xfs_refcount_irec	=
+*low_rec,
+0ba96363d9c626 Darrick J. Wong 2022-01-06 @1961  	struct xfs_refcount_irec	=
+*high_rec,
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6706118897361481702==--
+--===============0613422371710106198==--
 
