@@ -1,276 +1,358 @@
-Content-Type: multipart/mixed; boundary="===============1038740379660267319=="
+Content-Type: multipart/mixed; boundary="===============4127338837747924145=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/can/ti_hecc.c:936:6: warning: Redundant initialization for 'err'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Sat, 30 Apr 2022 15:03:31 +0800
-Message-ID: <202204301409.ZZdyXuf2-lkp@intel.com>
+Subject: drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: warning: Value stored to 'gen' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 30 Apr 2022 14:53:16 +0800
+Message-ID: <202204301419.9fO2Gnds-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1038740379660267319==
+--===============4127338837747924145==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
+TO: Robert Foss <robert.foss@linaro.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   8013d1d3d2e33236dee13a133fba49ad55045e79
-commit: eff104cf3cf328ade52469b269c1b9b81f78a3f5 can: ti_hecc: ti_hecc_prob=
-e(): use platform_get_irq() to get the interrupt
-date:   4 months ago
+commit: 2fa698e3da84edc6b7a2d670f8bd5035891a744e media: camss: vfe: Decreas=
+e priority of of VFE HW version to 'dbg'
+date:   7 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 4 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout eff104cf3cf328ade52469b269c1b9b81f78a3f5
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20220427 (https://download.01.org/0day-ci/archi=
+ve/20220430/202204301419.9fO2Gnds-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
+dc3c683b393df1a5c9063252eb60e52818)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D2fa698e3da84edc6b7a2d670f8bd5035891a744e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2fa698e3da84edc6b7a2d670f8bd5035891a744e
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/btrfs/volumes.c:6702:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   fs/btrfs/volumes.c:6702:2: note: Taking false branch
+           if (ret) {
+           ^
+   fs/btrfs/volumes.c:6714:7: note: Assuming the condition is false
+           if ((bbio->map_type & BTRFS_BLOCK_GROUP_RAID56_MASK) &&
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6714:55: note: Left side of '&&' is false
+           if ((bbio->map_type & BTRFS_BLOCK_GROUP_RAID56_MASK) &&
+                                                                ^
+   fs/btrfs/volumes.c:6730:6: note: Assuming 'map_length' is >=3D 'length'
+           if (map_length < length) {
+               ^~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6730:2: note: Taking false branch
+           if (map_length < length) {
+           ^
+   fs/btrfs/volumes.c:6737:19: note: Assuming 'dev_nr' is < 'total_devs'
+           for (dev_nr =3D 0; dev_nr < total_devs; dev_nr++) {
+                            ^~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6737:2: note: Loop condition is true.  Entering loop =
+body
+           for (dev_nr =3D 0; dev_nr < total_devs; dev_nr++) {
+           ^
+   fs/btrfs/volumes.c:6739:7: note: Assuming 'dev' is null
+                   if (!dev || !dev->bdev || test_bit(BTRFS_DEV_STATE_MISSI=
+NG,
+                       ^~~~
+   fs/btrfs/volumes.c:6739:12: note: Left side of '||' is true
+                   if (!dev || !dev->bdev || test_bit(BTRFS_DEV_STATE_MISSI=
+NG,
+                            ^
+   fs/btrfs/volumes.c:6743:4: note: Calling 'bbio_error'
+                           bbio_error(bbio, first_bio, logical);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6669:2: note: Taking true branch
+           if (atomic_dec_and_test(&bbio->stripes_pending)) {
+           ^
+   fs/btrfs/volumes.c:6671:11: note: Assuming 'bio' is equal to field 'orig=
+_bio'
+                   WARN_ON(bio !=3D bbio->orig_bio);
+                           ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   fs/btrfs/volumes.c:6671:3: note: Taking false branch
+                   WARN_ON(bio !=3D bbio->orig_bio);
+                   ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   fs/btrfs/volumes.c:6675:7: note: Assuming the condition is false
+                   if (atomic_read(&bbio->error) > bbio->max_errors)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6675:3: note: Taking false branch
+                   if (atomic_read(&bbio->error) > bbio->max_errors)
+                   ^
+   fs/btrfs/volumes.c:6679:3: note: Calling 'btrfs_end_bbio'
+                   btrfs_end_bbio(bbio, bio);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6573:2: note: Calling 'btrfs_put_bbio'
+           btrfs_put_bbio(bbio);
+           ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:5849:7: note: 'bbio' is non-null
+           if (!bbio)
+                ^~~~
+   fs/btrfs/volumes.c:5849:2: note: Taking false branch
+           if (!bbio)
+           ^
+   fs/btrfs/volumes.c:5851:2: note: Taking true branch
+           if (refcount_dec_and_test(&bbio->refs))
+           ^
+   fs/btrfs/volumes.c:5852:3: note: Memory is released
+                   kfree(bbio);
+                   ^~~~~~~~~~~
+   fs/btrfs/volumes.c:6573:2: note: Returning; memory was released via 1st =
+parameter
+           btrfs_put_bbio(bbio);
+           ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6679:3: note: Returning; memory was released via 1st =
+parameter
+                   btrfs_end_bbio(bbio, bio);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6743:4: note: Returning; memory was released via 1st =
+parameter
+                           bbio_error(bbio, first_bio, logical);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6744:4: note:  Execution continues on line 6737
+                           continue;
+                           ^
+   fs/btrfs/volumes.c:6737:19: note: Assuming 'dev_nr' is < 'total_devs'
+           for (dev_nr =3D 0; dev_nr < total_devs; dev_nr++) {
+                            ^~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:6737:2: note: Loop condition is true.  Entering loop =
+body
+           for (dev_nr =3D 0; dev_nr < total_devs; dev_nr++) {
+           ^
+   fs/btrfs/volumes.c:6738:9: note: Use of memory after it is freed
+                   dev =3D bbio->stripes[dev_nr].dev;
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/volumes.c:8130:4: warning: Value stored to 'ret' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                           ret =3D 0;
+                           ^     ~
+   fs/btrfs/volumes.c:8130:4: note: Value stored to 'ret' is never read
+                           ret =3D 0;
+                           ^     ~
+   5 warnings generated.
+>> drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: warning: Value =
+stored to 'gen' during its initialization is never read [clang-analyzer-dea=
+dcode.DeadStores]
+           u32 gen =3D (hw_version >> 28) & 0xF;
+               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: note: Value sto=
+red to 'gen' during its initialization is never read
+           u32 gen =3D (hw_version >> 28) & 0xF;
+               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: warning: Value =
+stored to 'rev' during its initialization is never read [clang-analyzer-dea=
+dcode.DeadStores]
+           u32 rev =3D (hw_version >> 16) & 0xFFF;
+               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: note: Value sto=
+red to 'rev' during its initialization is never read
+           u32 rev =3D (hw_version >> 16) & 0xFFF;
+               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: warning: Value =
+stored to 'step' during its initialization is never read [clang-analyzer-de=
+adcode.DeadStores]
+           u32 step =3D hw_version & 0xFFFF;
+               ^~~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: note: Value sto=
+red to 'step' during its initialization is never read
+           u32 step =3D hw_version & 0xFFFF;
+               ^~~~   ~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 with check filters).
+   3 warnings generated.
+   drivers/w1/slaves/w1_therm.c:1252:5: warning: Value stored to 'ret' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EIO;
+                                   ^     ~~~~
+   drivers/w1/slaves/w1_therm.c:1252:5: note: Value stored to 'ret' is neve=
+r read
+                                   ret =3D -EIO;
+                                   ^     ~~~~
+   drivers/w1/slaves/w1_therm.c:1799:2: warning: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(p_args, buf);
+           ^~~~~~
+   drivers/w1/slaves/w1_therm.c:1799:2: note: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119
+           strcpy(p_args, buf);
+           ^~~~~~
+   drivers/w1/slaves/w1_therm.c:2090:22: warning: The right operand of '=3D=
+=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if (sl->reg_num.id =3D=3D reg_num->id)
+                                      ^  ~~~~~~~~~~~
+   drivers/w1/slaves/w1_therm.c:2067:6: note: Assuming the condition is fal=
+se
+           if (w1_reset_bus(sl->master))
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/w1/slaves/w1_therm.c:2067:2: note: Taking false branch
+           if (w1_reset_bus(sl->master))
+           ^
+   drivers/w1/slaves/w1_therm.c:2077:6: note: Assuming 'ack' is equal to W1=
+_42_SUCCESS_CONFIRM_BYTE
+           if (ack !=3D W1_42_SUCCESS_CONFIRM_BYTE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/w1/slaves/w1_therm.c:2077:2: note: Taking false branch
+           if (ack !=3D W1_42_SUCCESS_CONFIRM_BYTE)
+           ^
+   drivers/w1/slaves/w1_therm.c:2081:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0; i <=3D 64; i++) {
+           ^
+   drivers/w1/slaves/w1_therm.c:2082:7: note: Assuming the condition is fal=
+se
+                   if (w1_reset_bus(sl->master))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/w1/slaves/w1_therm.c:2082:3: note: Taking false branch
+                   if (w1_reset_bus(sl->master))
+                   ^
+   drivers/w1/slaves/w1_therm.c:2088:7: note: Assuming field 'family' is no=
+t equal to W1_42_FINISHED_BYTE
+                   if (reg_num->family =3D=3D W1_42_FINISHED_BYTE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/w1/slaves/w1_therm.c:2088:3: note: Taking false branch
+                   if (reg_num->family =3D=3D W1_42_FINISHED_BYTE)
+                   ^
+   drivers/w1/slaves/w1_therm.c:2090:22: note: The right operand of '=3D=3D=
+' is a garbage value
+                   if (sl->reg_num.id =3D=3D reg_num->id)
+                                      ^  ~~~~~~~~~~~
+   1 warning generated.
+   drivers/w1/slaves/w1_ds2438.c:69:3: warning: Value stored to 'crc' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   crc =3D 0;
+                   ^     ~
+   drivers/w1/slaves/w1_ds2438.c:69:3: note: Value stored to 'crc' is never=
+ read
+                   crc =3D 0;
+                   ^     ~
+   1 warning generated.
+   drivers/comedi/drivers/pcmmio.c:578:2: warning: Value stored to 'val' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           val |=3D inb(iobase + PCMMIO_AI_MSB_REG) << 8;
+           ^
+   drivers/comedi/drivers/pcmmio.c:578:2: note: Value stored to 'val' is ne=
+ver read
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/media/test-drivers/vicodec/codec-fwht.c:638:2: warning: Value st=
+ored to 'deltablock' is never read [clang-analyzer-deadcode.DeadStores]
+           deltablock -=3D 64;
+           ^             ~~
+   drivers/media/test-drivers/vicodec/codec-fwht.c:638:2: note: Value store=
+d to 'deltablock' is never read
+           deltablock -=3D 64;
+           ^             ~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   4 warnings generated.
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:123:6: warning: Value st=
+ored to 'mux_buf_sz' during its initialization is never read [clang-analyze=
+r-deadcode.DeadStores]
+           u32 mux_buf_sz =3D mux_buf_sz_pkts * TS_PACKET_LEN;
+               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:123:6: note: Value store=
+d to 'mux_buf_sz' during its initialization is never read
+           u32 mux_buf_sz =3D mux_buf_sz_pkts * TS_PACKET_LEN;
+               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:206:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D &dvb->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:206:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D &dvb->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 with check filters).
+   1 warning generated.
+   drivers/media/test-drivers/vidtv/vidtv_s302m.c:383:3: warning: Value sto=
+red to 'nbytes_per_unit' is never read [clang-analyzer-deadcode.DeadStores]
+                   nbytes_per_unit =3D 0;
+                   ^                 ~
+   drivers/media/test-drivers/vidtv/vidtv_s302m.c:383:3: note: Value stored=
+ to 'nbytes_per_unit' is never read
 
->> drivers/net/can/ti_hecc.c:936:6: warning: Redundant initialization for '=
-err'. The initialized value is overwritten before it is read. [redundantIni=
-tialization]
-    err =3D clk_prepare_enable(priv->clk);
-        ^
-   drivers/net/can/ti_hecc.c:863:10: note: err is initialized
-    int err =3D -ENODEV;
-            ^
-   drivers/net/can/ti_hecc.c:936:6: note: err is overwritten
-    err =3D clk_prepare_enable(priv->clk);
-        ^
+vim +/gen +184 drivers/media/platform/qcom/camss/camss-vfe-170.c
 
-vim +/err +936 drivers/net/can/ti_hecc.c
+7319cdf189bb64 Robert Foss 2021-03-16  179  =
 
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  856  =
+7319cdf189bb64 Robert Foss 2021-03-16  180  static void vfe_hw_version_read=
+(struct vfe_device *vfe, struct device *dev)
+7319cdf189bb64 Robert Foss 2021-03-16  181  {
+7319cdf189bb64 Robert Foss 2021-03-16  182  	u32 hw_version =3D readl_relax=
+ed(vfe->base + VFE_HW_VERSION);
+7319cdf189bb64 Robert Foss 2021-03-16  183  =
 
-3758bf25db8cae Anant Gole          2009-10-07  857  static int ti_hecc_prob=
-e(struct platform_device *pdev)
-3758bf25db8cae Anant Gole          2009-10-07  858  {
-3758bf25db8cae Anant Gole          2009-10-07  859  	struct net_device *nde=
-v =3D (struct net_device *)0;
-3758bf25db8cae Anant Gole          2009-10-07  860  	struct ti_hecc_priv *p=
-riv;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  861  	struct device_node *np=
- =3D pdev->dev.of_node;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  862  	struct regulator *reg_=
-xceiver;
-3758bf25db8cae Anant Gole          2009-10-07  863  	int err =3D -ENODEV;
-3758bf25db8cae Anant Gole          2009-10-07  864  =
+7319cdf189bb64 Robert Foss 2021-03-16 @184  	u32 gen =3D (hw_version >> 28)=
+ & 0xF;
+7319cdf189bb64 Robert Foss 2021-03-16 @185  	u32 rev =3D (hw_version >> 16)=
+ & 0xFFF;
+7319cdf189bb64 Robert Foss 2021-03-16 @186  	u32 step =3D hw_version & 0xFF=
+FF;
+7319cdf189bb64 Robert Foss 2021-03-16  187  =
 
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  865  	if (!IS_ENABLED(CONFIG=
-_OF) || !np)
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  866  		return -EINVAL;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  867  =
-
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  868  	reg_xceiver =3D devm_r=
-egulator_get(&pdev->dev, "xceiver");
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  869  	if (PTR_ERR(reg_xceive=
-r) =3D=3D -EPROBE_DEFER)
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  870  		return -EPROBE_DEFER;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  871  	else if (IS_ERR(reg_xc=
-eiver))
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  872  		reg_xceiver =3D NULL;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  873  =
-
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  874  	ndev =3D alloc_candev(=
-sizeof(struct ti_hecc_priv), HECC_MAX_TX_MBOX);
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  875  	if (!ndev) {
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  876  		dev_err(&pdev->dev, "=
-alloc_candev failed\n");
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  877  		return -ENOMEM;
-3758bf25db8cae Anant Gole          2009-10-07  878  	}
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  879  	priv =3D netdev_priv(n=
-dev);
-3758bf25db8cae Anant Gole          2009-10-07  880  =
-
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  881  	/* handle hecc memory =
-*/
-0cf38586c2162a Dejin Zheng         2020-04-20  882  	priv->base =3D devm_pl=
-atform_ioremap_resource_byname(pdev, "hecc");
-b655f0e96d4061 Wei Yongjun         2017-04-25  883  	if (IS_ERR(priv->base)=
-) {
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  884  		dev_err(&pdev->dev, "=
-hecc ioremap failed\n");
-7968c7c79d3be8 Zhang Qilong        2020-11-14  885  		err =3D PTR_ERR(priv-=
->base);
-7968c7c79d3be8 Zhang Qilong        2020-11-14  886  		goto probe_exit_cande=
-v;
-3758bf25db8cae Anant Gole          2009-10-07  887  	}
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  888  =
-
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  889  	/* handle hecc-ram mem=
-ory */
-0cf38586c2162a Dejin Zheng         2020-04-20  890  	priv->hecc_ram =3D dev=
-m_platform_ioremap_resource_byname(pdev,
-0cf38586c2162a Dejin Zheng         2020-04-20  891  							       "hecc-ram=
-");
-b655f0e96d4061 Wei Yongjun         2017-04-25  892  	if (IS_ERR(priv->hecc_=
-ram)) {
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  893  		dev_err(&pdev->dev, "=
-hecc-ram ioremap failed\n");
-7968c7c79d3be8 Zhang Qilong        2020-11-14  894  		err =3D PTR_ERR(priv-=
->hecc_ram);
-7968c7c79d3be8 Zhang Qilong        2020-11-14  895  		goto probe_exit_cande=
-v;
-3758bf25db8cae Anant Gole          2009-10-07  896  	}
-3758bf25db8cae Anant Gole          2009-10-07  897  =
-
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  898  	/* handle mbx memory */
-0cf38586c2162a Dejin Zheng         2020-04-20  899  	priv->mbx =3D devm_pla=
-tform_ioremap_resource_byname(pdev, "mbx");
-b655f0e96d4061 Wei Yongjun         2017-04-25  900  	if (IS_ERR(priv->mbx))=
- {
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  901  		dev_err(&pdev->dev, "=
-mbx ioremap failed\n");
-7968c7c79d3be8 Zhang Qilong        2020-11-14  902  		err =3D PTR_ERR(priv-=
->mbx);
-7968c7c79d3be8 Zhang Qilong        2020-11-14  903  		goto probe_exit_cande=
-v;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  904  	}
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  905  =
-
-eff104cf3cf328 Lad Prabhakar       2021-12-21  906  	ndev->irq =3D platform=
-_get_irq(pdev, 0);
-eff104cf3cf328 Lad Prabhakar       2021-12-21  907  	if (ndev->irq < 0) {
-eff104cf3cf328 Lad Prabhakar       2021-12-21  908  		err =3D ndev->irq;
-7968c7c79d3be8 Zhang Qilong        2020-11-14  909  		goto probe_exit_cande=
-v;
-3758bf25db8cae Anant Gole          2009-10-07  910  	}
-3758bf25db8cae Anant Gole          2009-10-07  911  =
-
-3758bf25db8cae Anant Gole          2009-10-07  912  	priv->ndev =3D ndev;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  913  	priv->reg_xceiver =3D =
-reg_xceiver;
-dabf54dd1c6369 Yegor Yefremov      2017-02-17  914  	priv->use_hecc1int =3D=
- of_property_read_bool(np, "ti,use-hecc1int");
-3758bf25db8cae Anant Gole          2009-10-07  915  =
-
-3758bf25db8cae Anant Gole          2009-10-07  916  	priv->can.bittiming_co=
-nst =3D &ti_hecc_bittiming_const;
-3758bf25db8cae Anant Gole          2009-10-07  917  	priv->can.do_set_mode =
-=3D ti_hecc_do_set_mode;
-79d0d8a7d5edca Wolfgang Grandegger 2012-02-01  918  	priv->can.do_get_berr_=
-counter =3D ti_hecc_get_berr_counter;
-ad72c347e56bf3 Christian Pellegrin 2010-01-14  919  	priv->can.ctrlmode_sup=
-ported =3D CAN_CTRLMODE_3_SAMPLES;
-3758bf25db8cae Anant Gole          2009-10-07  920  =
-
-86ad47fff97a9e Abhilash K V        2011-08-23  921  	spin_lock_init(&priv->=
-mbx_lock);
-3758bf25db8cae Anant Gole          2009-10-07  922  	ndev->flags |=3D IFF_E=
-CHO;
-3758bf25db8cae Anant Gole          2009-10-07  923  	platform_set_drvdata(p=
-dev, ndev);
-3758bf25db8cae Anant Gole          2009-10-07  924  	SET_NETDEV_DEV(ndev, &=
-pdev->dev);
-3758bf25db8cae Anant Gole          2009-10-07  925  	ndev->netdev_ops =3D &=
-ti_hecc_netdev_ops;
-3758bf25db8cae Anant Gole          2009-10-07  926  =
-
-3758bf25db8cae Anant Gole          2009-10-07  927  	priv->clk =3D clk_get(=
-&pdev->dev, "hecc_ck");
-3758bf25db8cae Anant Gole          2009-10-07  928  	if (IS_ERR(priv->clk))=
- {
-3758bf25db8cae Anant Gole          2009-10-07  929  		dev_err(&pdev->dev, "=
-No clock available\n");
-3758bf25db8cae Anant Gole          2009-10-07  930  		err =3D PTR_ERR(priv-=
->clk);
-3758bf25db8cae Anant Gole          2009-10-07  931  		priv->clk =3D NULL;
-3758bf25db8cae Anant Gole          2009-10-07  932  		goto probe_exit_cande=
-v;
-3758bf25db8cae Anant Gole          2009-10-07  933  	}
-3758bf25db8cae Anant Gole          2009-10-07  934  	priv->can.clock.freq =
-=3D clk_get_rate(priv->clk);
-3758bf25db8cae Anant Gole          2009-10-07  935  =
-
-befa60113ce7ea Yegor Yefremov      2017-01-18 @936  	err =3D clk_prepare_en=
-able(priv->clk);
-befa60113ce7ea Yegor Yefremov      2017-01-18  937  	if (err) {
-befa60113ce7ea Yegor Yefremov      2017-01-18  938  		dev_err(&pdev->dev, "=
-clk_prepare_enable() failed\n");
-e002103b36a695 Zhang Changzhong    2020-07-17  939  		goto probe_exit_relea=
-se_clk;
-befa60113ce7ea Yegor Yefremov      2017-01-18  940  	}
-befa60113ce7ea Yegor Yefremov      2017-01-18  941  =
-
-4c7f715485159a Jeroen Hofstee      2019-04-29  942  	priv->offload.mailbox_=
-read =3D ti_hecc_mailbox_read;
-4c7f715485159a Jeroen Hofstee      2019-04-29  943  	priv->offload.mb_first=
- =3D HECC_RX_FIRST_MBOX;
-678d85ed8554e1 Jeroen Hofstee      2019-09-24  944  	priv->offload.mb_last =
-=3D HECC_RX_LAST_MBOX;
-4c7f715485159a Jeroen Hofstee      2019-04-29  945  	err =3D can_rx_offload=
-_add_timestamp(ndev, &priv->offload);
-4c7f715485159a Jeroen Hofstee      2019-04-29  946  	if (err) {
-4c7f715485159a Jeroen Hofstee      2019-04-29  947  		dev_err(&pdev->dev, "=
-can_rx_offload_add_timestamp() failed\n");
-e002103b36a695 Zhang Changzhong    2020-07-17  948  		goto probe_exit_disab=
-le_clk;
-4c7f715485159a Jeroen Hofstee      2019-04-29  949  	}
-4c7f715485159a Jeroen Hofstee      2019-04-29  950  =
-
-3758bf25db8cae Anant Gole          2009-10-07  951  	err =3D register_cande=
-v(ndev);
-3758bf25db8cae Anant Gole          2009-10-07  952  	if (err) {
-3758bf25db8cae Anant Gole          2009-10-07  953  		dev_err(&pdev->dev, "=
-register_candev() failed\n");
-4c7f715485159a Jeroen Hofstee      2019-04-29  954  		goto probe_exit_offlo=
-ad;
-3758bf25db8cae Anant Gole          2009-10-07  955  	}
-d7ff5aae6ce367 Fabio Baltieri      2012-12-18  956  =
-
-d7ff5aae6ce367 Fabio Baltieri      2012-12-18  957  	devm_can_led_init(ndev=
-);
-d7ff5aae6ce367 Fabio Baltieri      2012-12-18  958  =
-
-3758bf25db8cae Anant Gole          2009-10-07  959  	dev_info(&pdev->dev, "=
-device registered (reg_base=3D%p, irq=3D%u)\n",
-3758bf25db8cae Anant Gole          2009-10-07  960  		 priv->base, (u32)nde=
-v->irq);
-3758bf25db8cae Anant Gole          2009-10-07  961  =
-
-3758bf25db8cae Anant Gole          2009-10-07  962  	return 0;
-3758bf25db8cae Anant Gole          2009-10-07  963  =
-
-4c7f715485159a Jeroen Hofstee      2019-04-29  964  probe_exit_offload:
-4c7f715485159a Jeroen Hofstee      2019-04-29  965  	can_rx_offload_del(&pr=
-iv->offload);
-e002103b36a695 Zhang Changzhong    2020-07-17  966  probe_exit_disable_clk:
-e002103b36a695 Zhang Changzhong    2020-07-17  967  	clk_disable_unprepare(=
-priv->clk);
-e002103b36a695 Zhang Changzhong    2020-07-17  968  probe_exit_release_clk:
-3758bf25db8cae Anant Gole          2009-10-07  969  	clk_put(priv->clk);
-3758bf25db8cae Anant Gole          2009-10-07  970  probe_exit_candev:
-3758bf25db8cae Anant Gole          2009-10-07  971  	free_candev(ndev);
-7968c7c79d3be8 Zhang Qilong        2020-11-14  972  =
-
-3758bf25db8cae Anant Gole          2009-10-07  973  	return err;
-3758bf25db8cae Anant Gole          2009-10-07  974  }
-3758bf25db8cae Anant Gole          2009-10-07  975  =
+2fa698e3da84ed Robert Foss 2021-07-26  188  	dev_dbg(dev, "VFE HW Version =
+=3D %u.%u.%u\n", gen, rev, step);
+7319cdf189bb64 Robert Foss 2021-03-16  189  }
+7319cdf189bb64 Robert Foss 2021-03-16  190  =
 
 
-:::::: The code at line 936 was first introduced by commit
-:::::: befa60113ce7ea270cb51eada28443ca2756f480 can: ti_hecc: add missing p=
-repare and unprepare of the clock
+:::::: The code at line 184 was first introduced by commit
+:::::: 7319cdf189bb643c6d56e5898ef89ad7c3ef6c31 media: camss: Add support f=
+or VFE hardware version Titan 170
 
-:::::: TO: Yegor Yefremov <yegorslists@googlemail.com>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+:::::: TO: Robert Foss <robert.foss@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1038740379660267319==--
+--===============4127338837747924145==--
 
