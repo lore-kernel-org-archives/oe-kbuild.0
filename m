@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6106417328808592317=="
+Content-Type: multipart/mixed; boundary="===============8734265684813049417=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [agd5f:drm-next-5.19 250/267] drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:410:2: warning: Value stored to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 01 May 2022 02:12:12 +0800
-Message-ID: <202205010224.x0oB4ZZo-lkp@intel.com>
+Subject: drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sun, 01 May 2022 01:41:36 +0800
+Message-ID: <202205010156.eMTNAlU0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6106417328808592317==
+--===============8734265684813049417==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,27 +16,33 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Alex Deucher <alexander.deucher@amd.com>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-5.19
-head:   3da2c38231a4c62dafdbd762a199cfacaccd0533
-commit: f716113aacea122e44e7a28aa521318da65adc84 [250/267] drm/amdgpu/disco=
-very: add additional validation
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   8013d1d3d2e33236dee13a133fba49ad55045e79
+commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
+ndexing support
+date:   10 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 10 months ago
 config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
-ve/20220501/202205010224.x0oB4ZZo-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
-649969b9baf3bc2a510266e7912bb16ae9)
+ve/20220501/202205010156.eMTNAlU0-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
+aacce38cd7dd77eebceaf3c98c5707ab3b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
-        git fetch --no-tags agd5f drm-next-5.19
-        git checkout f716113aacea122e44e7a28aa521318da65adc84
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 337015573718b161891a3473d25f59273f2e626b
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -47,544 +53,398 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                        ^
-   kernel/cred.c:361:22: note: Left side of '&&' is false
-                   inc_rlimit_ucounts(task_ucounts(p), UCOUNT_RLIMIT_NPROC,=
- 1);
-                                      ^
-   include/linux/cred.h:374:29: note: expanded from macro 'task_ucounts'
-   #define task_ucounts(task)      (task_cred_xxx((task), ucounts))
-                                    ^
-   include/linux/cred.h:367:11: note: expanded from macro 'task_cred_xxx'
-           ___val =3D __task_cred((task))->xxx;              \
-                    ^
-   include/linux/cred.h:321:2: note: expanded from macro '__task_cred'
-           rcu_dereference((task)->real_cred)
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/rcupdate.h:531:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   include/linux/rcupdate.h:392:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:319:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   kernel/cred.c:361:22: note: Loop condition is false.  Exiting loop
-                   inc_rlimit_ucounts(task_ucounts(p), UCOUNT_RLIMIT_NPROC,=
- 1);
-                                      ^
-   include/linux/cred.h:374:29: note: expanded from macro 'task_ucounts'
-   #define task_ucounts(task)      (task_cred_xxx((task), ucounts))
-                                    ^
-   include/linux/cred.h:367:11: note: expanded from macro 'task_cred_xxx'
-           ___val =3D __task_cred((task))->xxx;              \
-                    ^
-   include/linux/cred.h:321:2: note: expanded from macro '__task_cred'
-           rcu_dereference((task)->real_cred)
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/rcupdate.h:531:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   include/linux/rcupdate.h:392:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:317:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
-           ^
-   kernel/cred.c:361:22: note: Access to field 'ucounts' results in a deref=
-erence of a null pointer
-                   inc_rlimit_ucounts(task_ucounts(p), UCOUNT_RLIMIT_NPROC,=
- 1);
-                                      ^
-   include/linux/cred.h:374:29: note: expanded from macro 'task_ucounts'
-   #define task_ucounts(task)      (task_cred_xxx((task), ucounts))
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cred.h:367:11: note: expanded from macro 'task_cred_xxx'
-           ___val =3D __task_cred((task))->xxx;              \
-                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cred.h:321:2: note: expanded from macro '__task_cred'
-           rcu_dereference((task)->real_cred)
-           ^
-   include/linux/rcupdate.h:603:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:531:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   include/linux/rcupdate.h:388:53: note: expanded from macro '__rcu_derefe=
-rence_check'
-   #define __rcu_dereference_check(p, local, c, space) \
-                                                       ^
-   Suppressed 15 warnings (15 in non-user code).
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   kernel/resource.c:91:2: warning: The expression is an uninitialized valu=
-e. The computed value will also be garbage [clang-analyzer-core.uninitializ=
-ed.Assign]
-           (*pos)++;
-           ^
-   kernel/resource.c:1679:2: note: 'l' declared without an initial value
-           loff_t l;
-           ^~~~~~~~
-   kernel/resource.c:1682:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (p =3D p->child; p ; p =3D r_next(NULL, p, &l)) {
-           ^
-   kernel/resource.c:1687:7: note: Assuming the condition is true
-                   if (p->start >=3D addr + size)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/resource.c:1687:3: note: Taking true branch
-                   if (p->start >=3D addr + size)
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   lib/rbtree_test.c:309:3: warning: Value stored to 'node' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   node =3D rb_first(&root.rb_root);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~
+   lib/rbtree_test.c:309:3: note: Value stored to 'node' is never read
+                   node =3D rb_first(&root.rb_root);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~
+   lib/rbtree_test.c:321:3: warning: Value stored to 'node' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   node =3D rb_first_cached(&root);
                    ^
-   kernel/resource.c:1688:4: note:  Execution continues on line 1682
-                           continue;
+   lib/rbtree_test.c:321:3: note: Value stored to 'node' is never read
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/gpu/drm/radeon/radeon_drv.c:467:2: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D radeon_resume_kms(drm_dev, false, false);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:467:2: note: Value stored to 'ret' i=
+s never read
+           ret =3D radeon_resume_kms(drm_dev, false, false);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+>> drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: warning: Dereference of=
+ null pointer [clang-analyzer-core.NullDereference]
+                           rdev->pm.power_state[rdev->pm.default_power_stat=
+e_index].clock_info[0].voltage.voltage;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2765:6: note: Assuming the cond=
+ition is true
+           if (atom_parse_data_header(mode_info->atom_context, index, NULL,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2765:2: note: Taking true branch
+           if (atom_parse_data_header(mode_info->atom_context, index, NULL,
+           ^
+   drivers/gpu/drm/radeon/radeon_atombios.c:2767:3: note: Control jumps to =
+'case 5:'  at line 2774
+                   switch (frev) {
+                   ^
+   drivers/gpu/drm/radeon/radeon_atombios.c:2776:4: note:  Execution contin=
+ues on line 2785
+                           break;
                            ^
-   kernel/resource.c:1682:29: note: Calling 'r_next'
-           for (p =3D p->child; p ; p =3D r_next(NULL, p, &l)) {
-                                      ^~~~~~~~~~~~~~~~~~~
-   kernel/resource.c:91:2: note: The expression is an uninitialized value. =
-The computed value will also be garbage
-           (*pos)++;
-           ^~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
->> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:410:2: warning: Value stor=
-ed to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-           offset =3D le16_to_cpu(info->offset);
+   drivers/gpu/drm/radeon/radeon_atombios.c:2785:6: note: 'state_index' is =
+equal to 0
+           if (state_index =3D=3D 0) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2785:2: note: Taking true branch
+           if (state_index =3D=3D 0) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:410:2: note: Value stored =
-to 'offset' is never read
->> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:411:2: warning: Value stor=
-ed to 'checksum' is never read [clang-analyzer-deadcode.DeadStores]
-           checksum =3D le16_to_cpu(info->checksum);
+   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Calling 'kzalloc'
+                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
+wer_state), GFP_KERNEL);
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:579:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:411:2: note: Value stored =
-to 'checksum' is never read
-   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:887:4: warning: Value stor=
-ed to 'res' is never read [clang-analyzer-deadcode.DeadStores]
-                           res =3D kobject_add(&ip_hw_instance->kobj, NULL,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:887:4: note: Value stored =
-to 'res' is never read
-                           res =3D kobject_add(&ip_hw_instance->kobj, NULL,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   fs/fuse/cuse.c:359:2: warning: Value stored to 'rc' is never read [clang=
--analyzer-deadcode.DeadStores]
-           rc =3D -ENOMEM;
-           ^    ~~~~~~~
-   fs/fuse/cuse.c:359:2: note: Value stored to 'rc' is never read
-           rc =3D -ENOMEM;
-           ^    ~~~~~~~
-   fs/fuse/cuse.c:386:2: warning: Value stored to 'rc' is never read [clang=
--analyzer-deadcode.DeadStores]
-           rc =3D -ENOMEM;
-           ^    ~~~~~~~
-   fs/fuse/cuse.c:386:2: note: Value stored to 'rc' is never read
-           rc =3D -ENOMEM;
-           ^    ~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (16 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   fs/ext4/extents.c:3127:12: warning: Assigned value is garbage or undefin=
-ed [clang-analyzer-core.uninitialized.Assign]
-           ee_block  =3D le32_to_cpu(ex->ee_block);
-                     ^
-   fs/ext4/extents.c:3429:2: note: Taking false branch
-           ext_debug(inode, "logical block %llu, max_blocks %u\n",
+   include/linux/slab.h:596:2: note: Returning pointer
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:2: note: Returning pointer
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Returning from '=
+kzalloc'
+                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
+wer_state), GFP_KERNEL);
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2786:3: note: Value assigned to=
+ field 'power_state'
+                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
+wer_state), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2787:7: note: Assuming field 'p=
+ower_state' is null
+                   if (rdev->pm.power_state) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2787:3: note: Taking false bran=
+ch
+                   if (rdev->pm.power_state) {
+                   ^
+   drivers/gpu/drm/radeon/radeon_atombios.c:2814:6: note: Assuming field 'd=
+efault_power_state_index' is >=3D 0
+           if (rdev->pm.default_power_state_index >=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2814:2: note: Taking true branch
+           if (rdev->pm.default_power_state_index >=3D 0)
            ^
-   fs/ext4/ext4.h:94:2: note: expanded from macro 'ext_debug'
-           pr_debug("[%s/%d] EXT4-fs (%s): ino %lu: (%s, %d): %s:" fmt,    \
-           ^
-   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   fs/ext4/extents.c:3435:6: note: Assuming the condition is false
-           if (eof_block < map->m_lblk + map_len)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/extents.c:3435:2: note: Taking false branch
-           if (eof_block < map->m_lblk + map_len)
-           ^
-   fs/ext4/extents.c:3449:2: note: Taking false branch
+   drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: note: Dereference of nu=
+ll pointer
+                           rdev->pm.power_state[rdev->pm.default_power_stat=
+e_index].clock_info[0].voltage.voltage;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+   Suppressed 57 warnings (8 in non-user code, 49 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   kernel/sched/core.c:5206:16: warning: Value stored to 'preempt_disable_i=
+p' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           unsigned long preempt_disable_ip =3D get_preempt_disable_ip(curr=
+ent);
+                         ^~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   kernel/sched/core.c:5206:16: note: Value stored to 'preempt_disable_ip' =
+during its initialization is never read
+           unsigned long preempt_disable_ip =3D get_preempt_disable_ip(curr=
+ent);
+                         ^~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   kernel/sched/core.c:5940:3: warning: Value stored to 'rq' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   rq =3D context_switch(rq, prev, next, &rf);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5940:3: note: Value stored to 'rq' is never read
+                   rq =3D context_switch(rq, prev, next, &rf);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:8938:3: warning: Value stored to 'ptr' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   ptr +=3D nr_cpu_ids * sizeof(void **);
+                   ^
+   kernel/sched/core.c:8938:3: note: Value stored to 'ptr' is never read
+   Suppressed 18 warnings (12 in non-user code, 6 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   kernel/sched/cputime.c:570:3: warning: Value stored to 'utime' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   utime =3D rtime;
+                   ^       ~~~~~
+   kernel/sched/cputime.c:570:3: note: Value stored to 'utime' is never read
+                   utime =3D rtime;
+                   ^       ~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
 
-vim +/offset +410 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+vim +2816 drivers/gpu/drm/radeon/radeon_atombios.c
 
-03f6fb84bd0e98 Guchun Chen   2022-01-14  269  =
+b0e664140a1703 Alex Deucher     2010-11-22  2754  =
 
-dffa11b4f74b15 Monk Liu      2020-03-04  270  static int amdgpu_discovery_i=
-nit(struct amdgpu_device *adev)
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  271  {
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  272  	struct table_info *info;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  273  	struct binary_header *bhdr;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  274  	uint16_t offset;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  275  	uint16_t size;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  276  	uint16_t checksum;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  277  	int r;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  278  =
+560154e9a27f2f Alex Deucher     2010-11-22  2755  void radeon_atombios_get_=
+power_modes(struct radeon_device *rdev)
+560154e9a27f2f Alex Deucher     2010-11-22  2756  {
+560154e9a27f2f Alex Deucher     2010-11-22  2757  	struct radeon_mode_info =
+*mode_info =3D &rdev->mode_info;
+560154e9a27f2f Alex Deucher     2010-11-22  2758  	int index =3D GetIndexIn=
+toMasterTable(DATA, PowerPlayInfo);
+560154e9a27f2f Alex Deucher     2010-11-22  2759  	u16 data_offset;
+560154e9a27f2f Alex Deucher     2010-11-22  2760  	u8 frev, crev;
+560154e9a27f2f Alex Deucher     2010-11-22  2761  	int state_index =3D 0;
+560154e9a27f2f Alex Deucher     2010-11-22  2762  =
 
-72de33f8f7ba0f Alex Deucher  2020-07-29  279  	adev->mman.discovery_tmr_siz=
-e =3D DISCOVERY_TMR_SIZE;
-72de33f8f7ba0f Alex Deucher  2020-07-29  280  	adev->mman.discovery_bin =3D=
- kzalloc(adev->mman.discovery_tmr_size, GFP_KERNEL);
-72de33f8f7ba0f Alex Deucher  2020-07-29  281  	if (!adev->mman.discovery_bi=
-n)
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  282  		return -ENOMEM;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  283  =
+560154e9a27f2f Alex Deucher     2010-11-22  2763  	rdev->pm.default_power_s=
+tate_index =3D -1;
+560154e9a27f2f Alex Deucher     2010-11-22  2764  =
 
-f6dcaf0c07480f Hawking Zhang 2021-11-22  284  	r =3D amdgpu_discovery_read_=
-binary_from_vram(adev, adev->mman.discovery_bin);
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  285  	if (r) {
-2cb6577a303425 Hawking Zhang 2021-11-22  286  		dev_err(adev->dev, "failed =
-to read ip discovery binary from vram\n");
-2cb6577a303425 Hawking Zhang 2021-11-22  287  		r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  288  		goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  289  	}
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  290  =
+560154e9a27f2f Alex Deucher     2010-11-22  2765  	if (atom_parse_data_head=
+er(mode_info->atom_context, index, NULL,
+560154e9a27f2f Alex Deucher     2010-11-22  2766  				   &frev, &crev, &dat=
+a_offset)) {
+560154e9a27f2f Alex Deucher     2010-11-22  2767  		switch (frev) {
+560154e9a27f2f Alex Deucher     2010-11-22  2768  		case 1:
+560154e9a27f2f Alex Deucher     2010-11-22  2769  		case 2:
+560154e9a27f2f Alex Deucher     2010-11-22  2770  		case 3:
+560154e9a27f2f Alex Deucher     2010-11-22  2771  			state_index =3D radeon=
+_atombios_parse_power_table_1_3(rdev);
+560154e9a27f2f Alex Deucher     2010-11-22  2772  			break;
+560154e9a27f2f Alex Deucher     2010-11-22  2773  		case 4:
+560154e9a27f2f Alex Deucher     2010-11-22  2774  		case 5:
+560154e9a27f2f Alex Deucher     2010-11-22  2775  			state_index =3D radeon=
+_atombios_parse_power_table_4_5(rdev);
+560154e9a27f2f Alex Deucher     2010-11-22  2776  			break;
+b0e664140a1703 Alex Deucher     2010-11-22  2777  		case 6:
+b0e664140a1703 Alex Deucher     2010-11-22  2778  			state_index =3D radeon=
+_atombios_parse_power_table_6(rdev);
+b0e664140a1703 Alex Deucher     2010-11-22  2779  			break;
+560154e9a27f2f Alex Deucher     2010-11-22  2780  		default:
+560154e9a27f2f Alex Deucher     2010-11-22  2781  			break;
+56278a8edacee9 Alex Deucher     2009-12-28  2782  		}
+f8e6bfc2ce1628 Alex Deucher     2013-04-25  2783  	}
+f8e6bfc2ce1628 Alex Deucher     2013-04-25  2784  =
 
-2cb6577a303425 Hawking Zhang 2021-11-22  291  	if (!amdgpu_discovery_verify=
-_binary_signature(adev->mman.discovery_bin)) {
-2cb6577a303425 Hawking Zhang 2021-11-22  292  		dev_warn(adev->dev, "get in=
-valid ip discovery binary signature from vram\n");
-2cb6577a303425 Hawking Zhang 2021-11-22  293  		/* retry read ip discovery =
-binary from file */
-2cb6577a303425 Hawking Zhang 2021-11-22  294  		r =3D amdgpu_discovery_read=
-_binary_from_file(adev, adev->mman.discovery_bin);
-2cb6577a303425 Hawking Zhang 2021-11-22  295  		if (r) {
-2cb6577a303425 Hawking Zhang 2021-11-22  296  			dev_err(adev->dev, "failed=
- to read ip discovery binary from file\n");
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  297  			r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  298  			goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  299  		}
-2cb6577a303425 Hawking Zhang 2021-11-22  300  		/* check the ip discovery b=
-inary signature */
-2cb6577a303425 Hawking Zhang 2021-11-22  301  		if(!amdgpu_discovery_verify=
-_binary_signature(adev->mman.discovery_bin)) {
-2cb6577a303425 Hawking Zhang 2021-11-22  302  			dev_warn(adev->dev, "get i=
-nvalid ip discovery binary signature from file\n");
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  303  			r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  304  			goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  305  		}
-2cb6577a303425 Hawking Zhang 2021-11-22  306  	}
-2cb6577a303425 Hawking Zhang 2021-11-22  307  =
+f8e6bfc2ce1628 Alex Deucher     2013-04-25  2785  	if (state_index =3D=3D 0=
+) {
+0975b16274bad1 Alex Deucher     2011-02-02  2786  		rdev->pm.power_state =
+=3D kzalloc(sizeof(struct radeon_power_state), GFP_KERNEL);
+0975b16274bad1 Alex Deucher     2011-02-02  2787  		if (rdev->pm.power_stat=
+e) {
+8f3f1c9a22a642 Alex Deucher     2011-11-04  2788  			rdev->pm.power_state[0=
+].clock_info =3D
+6396bb221514d2 Kees Cook        2018-06-12  2789  				kcalloc(1,
+6396bb221514d2 Kees Cook        2018-06-12  2790  				        sizeof(struct=
+ radeon_pm_clock_info),
+6396bb221514d2 Kees Cook        2018-06-12  2791  				        GFP_KERNEL);
+8f3f1c9a22a642 Alex Deucher     2011-11-04  2792  			if (rdev->pm.power_sta=
+te[0].clock_info) {
+56278a8edacee9 Alex Deucher     2009-12-28  2793  				/* add the default mo=
+de */
+0ec0e74f784ca0 Alex Deucher     2009-12-23  2794  				rdev->pm.power_state[=
+state_index].type =3D
+0ec0e74f784ca0 Alex Deucher     2009-12-23  2795  					POWER_STATE_TYPE_DEF=
+AULT;
+56278a8edacee9 Alex Deucher     2009-12-28  2796  				rdev->pm.power_state[=
+state_index].num_clock_modes =3D 1;
+56278a8edacee9 Alex Deucher     2009-12-28  2797  				rdev->pm.power_state[=
+state_index].clock_info[0].mclk =3D rdev->clock.default_mclk;
+56278a8edacee9 Alex Deucher     2009-12-28  2798  				rdev->pm.power_state[=
+state_index].clock_info[0].sclk =3D rdev->clock.default_sclk;
+56278a8edacee9 Alex Deucher     2009-12-28  2799  				rdev->pm.power_state[=
+state_index].default_clock_mode =3D
+56278a8edacee9 Alex Deucher     2009-12-28  2800  					&rdev->pm.power_stat=
+e[state_index].clock_info[0];
+56278a8edacee9 Alex Deucher     2009-12-28  2801  				rdev->pm.power_state[=
+state_index].clock_info[0].voltage.type =3D VOLTAGE_NONE;
+79daedc942813c Alex Deucher     2010-04-22  2802  				rdev->pm.power_state[=
+state_index].pcie_lanes =3D 16;
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2803  				rdev->pm.default_powe=
+r_state_index =3D state_index;
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2804  				rdev->pm.power_state[=
+state_index].flags =3D 0;
+56278a8edacee9 Alex Deucher     2009-12-28  2805  				state_index++;
+56278a8edacee9 Alex Deucher     2009-12-28  2806  			}
+0975b16274bad1 Alex Deucher     2011-02-02  2807  		}
+8f3f1c9a22a642 Alex Deucher     2011-11-04  2808  	}
+02b17cc05372ab Alex Deucher     2010-04-22  2809  =
 
-2cb6577a303425 Hawking Zhang 2021-11-22  308  	bhdr =3D (struct binary_head=
-er *)adev->mman.discovery_bin;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  309  =
+56278a8edacee9 Alex Deucher     2009-12-28  2810  	rdev->pm.num_power_state=
+s =3D state_index;
+771fe6b912fca5 Jerome Glisse    2009-06-05  2811  =
 
-8e84aa1bf2af81 Xiaojie Yuan  2019-03-27  310  	offset =3D offsetof(struct b=
-inary_header, binary_checksum) +
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  311  		sizeof(bhdr->binary_checksu=
-m);
-fd08953b2de911 Yang Wang     2021-11-24  312  	size =3D le16_to_cpu(bhdr->b=
-inary_size) - offset;
-fd08953b2de911 Yang Wang     2021-11-24  313  	checksum =3D le16_to_cpu(bhd=
-r->binary_checksum);
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  314  =
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2812  	rdev->pm.current_power_s=
+tate_index =3D rdev->pm.default_power_state_index;
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2813  	rdev->pm.current_clock_m=
+ode_index =3D 0;
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2814  	if (rdev->pm.defaul=
+t_power_state_index >=3D 0)
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2815  		rdev->pm.current_v=
+ddc =3D
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30 @2816  			rdev->pm.power_st=
+ate[rdev->pm.default_power_state_index].clock_info[0].voltage.voltage;
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2817  	else
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2818  		rdev->pm.current_v=
+ddc =3D 0;
+56278a8edacee9 Alex Deucher     2009-12-28  2819  }
+56278a8edacee9 Alex Deucher     2009-12-28  2820  =
 
-72de33f8f7ba0f Alex Deucher  2020-07-29  315  	if (!amdgpu_discovery_verify=
-_checksum(adev->mman.discovery_bin + offset,
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  316  					      size, checksum)) {
-2cb6577a303425 Hawking Zhang 2021-11-22  317  		dev_err(adev->dev, "invalid=
- ip discovery binary checksum\n");
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  318  		r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  319  		goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  320  	}
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  321  =
 
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  322  	info =3D &bhdr->table_list[I=
-P_DISCOVERY];
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  323  	offset =3D le16_to_cpu(info-=
->offset);
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  324  	checksum =3D le16_to_cpu(inf=
-o->checksum);
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  325  =
+:::::: The code at line 2816 was first introduced by commit
+:::::: 4376eee92e5a8332b470040e672ea99cd44c826a drm/radeon/kms/atom: fix po=
+ssible segfault in pm setup
 
-f716113aacea12 Alex Deucher  2022-03-30  326  	if (offset) {
-f716113aacea12 Alex Deucher  2022-03-30  327  		struct ip_discovery_header =
-*ihdr =3D
-f716113aacea12 Alex Deucher  2022-03-30  328  			(struct ip_discovery_heade=
-r *)(adev->mman.discovery_bin + offset);
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  329  		if (le32_to_cpu(ihdr->signa=
-ture) !=3D DISCOVERY_TABLE_SIGNATURE) {
-2cb6577a303425 Hawking Zhang 2021-11-22  330  			dev_err(adev->dev, "invali=
-d ip discovery data table signature\n");
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  331  			r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  332  			goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  333  		}
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  334  =
-
-72de33f8f7ba0f Alex Deucher  2020-07-29  335  		if (!amdgpu_discovery_verif=
-y_checksum(adev->mman.discovery_bin + offset,
-fd08953b2de911 Yang Wang     2021-11-24  336  						      le16_to_cpu(ihdr-=
->size), checksum)) {
-2cb6577a303425 Hawking Zhang 2021-11-22  337  			dev_err(adev->dev, "invali=
-d ip discovery data table checksum\n");
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  338  			r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  339  			goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  340  		}
-f716113aacea12 Alex Deucher  2022-03-30  341  	}
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  342  =
-
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  343  	info =3D &bhdr->table_list[G=
-C];
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  344  	offset =3D le16_to_cpu(info-=
->offset);
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  345  	checksum =3D le16_to_cpu(inf=
-o->checksum);
-f716113aacea12 Alex Deucher  2022-03-30  346  =
-
-f716113aacea12 Alex Deucher  2022-03-30  347  	if (offset) {
-f716113aacea12 Alex Deucher  2022-03-30  348  		struct gpu_info_header *ghd=
-r =3D
-f716113aacea12 Alex Deucher  2022-03-30  349  			(struct gpu_info_header *)=
-(adev->mman.discovery_bin + offset);
-f716113aacea12 Alex Deucher  2022-03-30  350  =
-
-f716113aacea12 Alex Deucher  2022-03-30  351  		if (le32_to_cpu(ghdr->table=
-_id) !=3D GC_TABLE_ID) {
-f716113aacea12 Alex Deucher  2022-03-30  352  			dev_err(adev->dev, "invali=
-d ip discovery gc table id\n");
-f716113aacea12 Alex Deucher  2022-03-30  353  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  354  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  355  		}
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  356  =
-
-72de33f8f7ba0f Alex Deucher  2020-07-29  357  		if (!amdgpu_discovery_verif=
-y_checksum(adev->mman.discovery_bin + offset,
-fd08953b2de911 Yang Wang     2021-11-24  358  						      le32_to_cpu(ghdr-=
->size), checksum)) {
-2cb6577a303425 Hawking Zhang 2021-11-22  359  			dev_err(adev->dev, "invali=
-d gc data table checksum\n");
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  360  			r =3D -EINVAL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  361  			goto out;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  362  		}
-f716113aacea12 Alex Deucher  2022-03-30  363  	}
-f716113aacea12 Alex Deucher  2022-03-30  364  =
-
-f716113aacea12 Alex Deucher  2022-03-30  365  	info =3D &bhdr->table_list[H=
-ARVEST_INFO];
-f716113aacea12 Alex Deucher  2022-03-30  366  	offset =3D le16_to_cpu(info-=
->offset);
-f716113aacea12 Alex Deucher  2022-03-30  367  	checksum =3D le16_to_cpu(inf=
-o->checksum);
-f716113aacea12 Alex Deucher  2022-03-30  368  =
-
-f716113aacea12 Alex Deucher  2022-03-30  369  	if (offset) {
-f716113aacea12 Alex Deucher  2022-03-30  370  		struct harvest_info_header =
-*hhdr =3D
-f716113aacea12 Alex Deucher  2022-03-30  371  			(struct harvest_info_heade=
-r *)(adev->mman.discovery_bin + offset);
-f716113aacea12 Alex Deucher  2022-03-30  372  =
-
-f716113aacea12 Alex Deucher  2022-03-30  373  		if (le32_to_cpu(hhdr->signa=
-ture) !=3D HARVEST_TABLE_SIGNATURE) {
-f716113aacea12 Alex Deucher  2022-03-30  374  			dev_err(adev->dev, "invali=
-d ip discovery harvest table signature\n");
-f716113aacea12 Alex Deucher  2022-03-30  375  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  376  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  377  		}
-f716113aacea12 Alex Deucher  2022-03-30  378  =
-
-f716113aacea12 Alex Deucher  2022-03-30  379  		if (!amdgpu_discovery_verif=
-y_checksum(adev->mman.discovery_bin + offset,
-f716113aacea12 Alex Deucher  2022-03-30  380  						      sizeof(struct har=
-vest_table), checksum)) {
-f716113aacea12 Alex Deucher  2022-03-30  381  			dev_err(adev->dev, "invali=
-d harvest data table checksum\n");
-f716113aacea12 Alex Deucher  2022-03-30  382  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  383  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  384  		}
-f716113aacea12 Alex Deucher  2022-03-30  385  	}
-f716113aacea12 Alex Deucher  2022-03-30  386  =
-
-f716113aacea12 Alex Deucher  2022-03-30  387  	info =3D &bhdr->table_list[V=
-CN_INFO];
-f716113aacea12 Alex Deucher  2022-03-30  388  	offset =3D le16_to_cpu(info-=
->offset);
-f716113aacea12 Alex Deucher  2022-03-30  389  	checksum =3D le16_to_cpu(inf=
-o->checksum);
-f716113aacea12 Alex Deucher  2022-03-30  390  =
-
-f716113aacea12 Alex Deucher  2022-03-30  391  	if (offset) {
-f716113aacea12 Alex Deucher  2022-03-30  392  		struct vcn_info_header *vhd=
-r =3D
-f716113aacea12 Alex Deucher  2022-03-30  393  			(struct vcn_info_header *)=
-(adev->mman.discovery_bin + offset);
-f716113aacea12 Alex Deucher  2022-03-30  394  =
-
-f716113aacea12 Alex Deucher  2022-03-30  395  		if (le32_to_cpu(vhdr->table=
-_id) !=3D VCN_INFO_TABLE_ID) {
-f716113aacea12 Alex Deucher  2022-03-30  396  			dev_err(adev->dev, "invali=
-d ip discovery vcn table id\n");
-f716113aacea12 Alex Deucher  2022-03-30  397  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  398  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  399  		}
-f716113aacea12 Alex Deucher  2022-03-30  400  =
-
-f716113aacea12 Alex Deucher  2022-03-30  401  		if (!amdgpu_discovery_verif=
-y_checksum(adev->mman.discovery_bin + offset,
-f716113aacea12 Alex Deucher  2022-03-30  402  						      le32_to_cpu(vhdr-=
->size_bytes), checksum)) {
-f716113aacea12 Alex Deucher  2022-03-30  403  			dev_err(adev->dev, "invali=
-d vcn data table checksum\n");
-f716113aacea12 Alex Deucher  2022-03-30  404  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  405  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  406  		}
-f716113aacea12 Alex Deucher  2022-03-30  407  	}
-f716113aacea12 Alex Deucher  2022-03-30  408  =
-
-f716113aacea12 Alex Deucher  2022-03-30  409  	info =3D &bhdr->table_list[M=
-ALL_INFO];
-f716113aacea12 Alex Deucher  2022-03-30 @410  	offset =3D le16_to_cpu(info-=
->offset);
-f716113aacea12 Alex Deucher  2022-03-30 @411  	checksum =3D le16_to_cpu(inf=
-o->checksum);
-f716113aacea12 Alex Deucher  2022-03-30  412  =
-
-f716113aacea12 Alex Deucher  2022-03-30  413  	if (0 && offset) {
-f716113aacea12 Alex Deucher  2022-03-30  414  		struct mall_info_header *mh=
-dr =3D
-f716113aacea12 Alex Deucher  2022-03-30  415  			(struct mall_info_header *=
-)(adev->mman.discovery_bin + offset);
-f716113aacea12 Alex Deucher  2022-03-30  416  =
-
-f716113aacea12 Alex Deucher  2022-03-30  417  		if (le32_to_cpu(mhdr->table=
-_id) !=3D MALL_INFO_TABLE_ID) {
-f716113aacea12 Alex Deucher  2022-03-30  418  			dev_err(adev->dev, "invali=
-d ip discovery mall table id\n");
-f716113aacea12 Alex Deucher  2022-03-30  419  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  420  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  421  		}
-f716113aacea12 Alex Deucher  2022-03-30  422  =
-
-f716113aacea12 Alex Deucher  2022-03-30  423  		if (!amdgpu_discovery_verif=
-y_checksum(adev->mman.discovery_bin + offset,
-f716113aacea12 Alex Deucher  2022-03-30  424  						      le32_to_cpu(mhdr-=
->size_bytes), checksum)) {
-f716113aacea12 Alex Deucher  2022-03-30  425  			dev_err(adev->dev, "invali=
-d mall data table checksum\n");
-f716113aacea12 Alex Deucher  2022-03-30  426  			r =3D -EINVAL;
-f716113aacea12 Alex Deucher  2022-03-30  427  			goto out;
-f716113aacea12 Alex Deucher  2022-03-30  428  		}
-f716113aacea12 Alex Deucher  2022-03-30  429  	}
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  430  =
-
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  431  	return 0;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  432  =
-
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  433  out:
-72de33f8f7ba0f Alex Deucher  2020-07-29  434  	kfree(adev->mman.discovery_b=
-in);
-72de33f8f7ba0f Alex Deucher  2020-07-29  435  	adev->mman.discovery_bin =3D=
- NULL;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  436  =
-
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  437  	return r;
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  438  }
-f39f5bb1c9d68d Xiaojie Yuan  2019-06-20  439  =
-
+:::::: TO: Alexander M=C3=BCller <serveralex@gmail.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6106417328808592317==--
+--===============8734265684813049417==--
 
