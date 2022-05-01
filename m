@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0309706281160760089=="
+Content-Type: multipart/mixed; boundary="===============6605549381374893186=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 132/399] fs/xfs/libxfs/xfs_bmap_btree.c:674:9: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 01 May 2022 09:47:41 +0800
-Message-ID: <202205010934.Hulk27CT-lkp@intel.com>
+Subject: drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:163:2: warning: Value stored to 'hw_version' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 01 May 2022 09:27:20 +0800
+Message-ID: <202205010925.AOu36ijx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0309706281160760089==
+--===============6605549381374893186==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,33 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+TO: Jonathan Marek <jonathan@marek.ca>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Robert Foss <robert.foss@linaro.org>
+CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t vectorized-scrub
-head:   afeb4fa123e9a46cb653baab2baa3259c051f7d7
-commit: a6f406ba1589679d5d44ce883a3ff26c0635decd [132/399] xfs: repair inod=
-e block maps
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
-ve/20220501/202205010934.Hulk27CT-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
-649969b9baf3bc2a510266e7912bb16ae9)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   57ae8a492116910bad2b3497ffe555b3a4b4180f
+commit: dd89115a7c1cf31223cbeab2430d03bf202c8b22 media: camss: csiphy-3ph: =
+don't print HW version as an error
+date:   3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220427 (https://download.01.org/0day-ci/archi=
+ve/20220501/202205010925.AOu36ijx-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
+dc3c683b393df1a5c9063252eb60e52818)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3Da6f406ba1589679d5d44ce883a3ff26c0635decd
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
-el/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout a6f406ba1589679d5d44ce883a3ff26c0635decd
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Ddd89115a7c1cf31223cbeab2430d03bf202c8b22
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout dd89115a7c1cf31223cbeab2430d03bf202c8b22
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -52,344 +57,343 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2776:4: note:  Execution contin=
-ues on line 2785
-                           break;
-                           ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2785:6: note: 'state_index' is =
-equal to 0
-           if (state_index =3D=3D 0) {
-               ^~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2785:2: note: Taking true branch
-           if (state_index =3D=3D 0) {
-           ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Calling 'kzalloc'
-                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
-wer_state), GFP_KERNEL);
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:714:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:569:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:586:2: note: Returning pointer
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:714:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:714:2: note: Returning pointer
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Returning from '=
-kzalloc'
-                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
-wer_state), GFP_KERNEL);
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2786:3: note: Value assigned to=
- field 'power_state'
-                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
-wer_state), GFP_KERNEL);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2787:7: note: Assuming field 'p=
-ower_state' is null
-                   if (rdev->pm.power_state) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2787:3: note: Taking false bran=
-ch
-                   if (rdev->pm.power_state) {
-                   ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2814:6: note: Assuming field 'd=
-efault_power_state_index' is >=3D 0
-           if (rdev->pm.default_power_state_index >=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2814:2: note: Taking true branch
-           if (rdev->pm.default_power_state_index >=3D 0)
-           ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: note: Dereference of nu=
-ll pointer
-                           rdev->pm.power_state[rdev->pm.default_power_stat=
-e_index].clock_info[0].voltage.voltage;
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/xfs/libxfs/xfs_attr.c:1243:2: warning: Value stored to 'error' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           error =3D xfs_attr_node_removename(args, state);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_attr.c:1243:2: note: Value stored to 'error' is never =
-read
-           error =3D xfs_attr_node_removename(args, state);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   fs/xfs/libxfs/xfs_attr_leaf.c:2253:29: warning: Value stored to 'drop_le=
-af' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2096:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2218:17: warning: Value stored to =
+'hba' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2218:17: note: Value stored to 'hb=
+a' during its initialization is never read
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2258:17: warning: Value stored to =
+'hba' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2258:17: note: Value stored to 'hb=
+a' during its initialization is never read
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2340:17: warning: Value stored to =
+'hba' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2340:17: note: Value stored to 'hb=
+a' during its initialization is never read
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2395:3: warning: Value stored to '=
+move' is never read [clang-analyzer-deadcode.DeadStores]
+                   move =3D 1;
+                   ^      ~
+   drivers/target/target_core_configfs.c:2395:3: note: Value stored to 'mov=
+e' is never read
+                   move =3D 1;
+                   ^      ~
+   drivers/target/target_core_configfs.c:2636:23: warning: Value stored to =
+'alua_lu_gp_cg' during its initialization is never read [clang-analyzer-dea=
+dcode.DeadStores]
+           struct config_group *alua_lu_gp_cg =3D &lu_gp->lu_gp_group;
+                                ^~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2636:23: note: Value stored to 'al=
+ua_lu_gp_cg' during its initialization is never read
+           struct config_group *alua_lu_gp_cg =3D &lu_gp->lu_gp_group;
+                                ^~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2740:2: warning: Value stored to '=
+alua_lu_gp_ci' is never read [clang-analyzer-deadcode.DeadStores]
+           alua_lu_gp_ci =3D &alua_lu_gp_cg->cg_item;
+           ^               ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2740:2: note: Value stored to 'alu=
+a_lu_gp_ci' is never read
+           alua_lu_gp_ci =3D &alua_lu_gp_cg->cg_item;
+           ^               ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2757:25: warning: Value stored to =
+'lu_gp' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct t10_alua_lu_gp *lu_gp =3D container_of(to_config_group(it=
+em),
+                                  ^~~~~
+   drivers/target/target_core_configfs.c:2757:25: note: Value stored to 'lu=
+_gp' during its initialization is never read
+           struct t10_alua_lu_gp *lu_gp =3D container_of(to_config_group(it=
+em),
+                                  ^~~~~
+   drivers/target/target_core_configfs.c:3035:23: warning: Value stored to =
+'alua_tg_pt_gp_cg' during its initialization is never read [clang-analyzer-=
+deadcode.DeadStores]
+           struct config_group *alua_tg_pt_gp_cg =3D &tg_pt_gp->tg_pt_gp_gr=
+oup;
+                                ^~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:3035:23: note: Value stored to 'al=
+ua_tg_pt_gp_cg' during its initialization is never read
+           struct config_group *alua_tg_pt_gp_cg =3D &tg_pt_gp->tg_pt_gp_gr=
+oup;
+                                ^~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:3172:2: warning: Value stored to '=
+alua_tg_pt_gp_ci' is never read [clang-analyzer-deadcode.DeadStores]
+           alua_tg_pt_gp_ci =3D &alua_tg_pt_gp_cg->cg_item;
+           ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:3172:2: note: Value stored to 'alu=
+a_tg_pt_gp_ci' is never read
+           alua_tg_pt_gp_ci =3D &alua_tg_pt_gp_cg->cg_item;
+           ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:3188:28: warning: Value stored to =
+'tg_pt_gp' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct t10_alua_tg_pt_gp *tg_pt_gp =3D container_of(to_config_gr=
+oup(item),
+                                     ^~~~~~~~
+   drivers/target/target_core_configfs.c:3188:28: note: Value stored to 'tg=
+_pt_gp' during its initialization is never read
+           struct t10_alua_tg_pt_gp *tg_pt_gp =3D container_of(to_config_gr=
+oup(item),
+                                     ^~~~~~~~
+   5 warnings generated.
+   drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: warning: Value=
+ stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
+                   val =3D 0;
+                   ^     ~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: note: Value st=
+ored to 'val' is never read
+                   val =3D 0;
+                   ^     ~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: warning: Value=
+ stored to 'hw_gen' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: note: Value st=
+ored to 'hw_gen' is never read
+           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: warning: Value=
+ stored to 'hw_rev' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: note: Value st=
+ored to 'hw_rev' is never read
+           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: warning: Value=
+ stored to 'hw_step' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: note: Value st=
+ored to 'hw_step' is never read
+           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: warning: =
+Value stored to 'hw_version' during its initialization is never read [clang=
+-analyzer-deadcode.DeadStores]
+           u8 hw_version =3D readl_relaxed(csiphy->base +
+              ^~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: note: Val=
+ue stored to 'hw_version' during its initialization is never read
+           u8 hw_version =3D readl_relaxed(csiphy->base +
+              ^~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+>> drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:163:2: warning:=
+ Value stored to 'hw_version' is never read [clang-analyzer-deadcode.DeadSt=
 ores]
-           struct xfs_attr_leafblock *drop_leaf =3D drop_blk->bp->b_addr;
-                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_attr_leaf.c:2253:29: note: Value stored to 'drop_leaf'=
- during its initialization is never read
-           struct xfs_attr_leafblock *drop_leaf =3D drop_blk->bp->b_addr;
-                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_attr_leaf.c:2254:29: warning: Value stored to 'save_le=
-af' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           struct xfs_attr_leafblock *save_leaf =3D save_blk->bp->b_addr;
-                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_attr_leaf.c:2254:29: note: Value stored to 'save_leaf'=
- during its initialization is never read
-           struct xfs_attr_leafblock *save_leaf =3D save_blk->bp->b_addr;
-                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   fs/xfs/libxfs/xfs_bmap.c:800:2: warning: Value stored to 'error' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           error =3D 0;
-           ^       ~
-   fs/xfs/libxfs/xfs_bmap.c:800:2: note: Value stored to 'error' is never r=
-ead
-           error =3D 0;
-           ^       ~
-   fs/xfs/libxfs/xfs_bmap.c:5032:2: warning: Value stored to 'qfield' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           qfield =3D 0;
-           ^        ~
-   fs/xfs/libxfs/xfs_bmap.c:5032:2: note: Value stored to 'qfield' is never=
- read
-           qfield =3D 0;
-           ^        ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> fs/xfs/libxfs/xfs_bmap_btree.c:674:9: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-                   flags |=3D extflag[whichfork];
-                         ^  ~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:660:2: note: Assuming the condition is fa=
-lse
-           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
+           hw_version |=3D readl_relaxed(csiphy->base +
            ^
-   fs/xfs/xfs_linux.h:213:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
+   drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:163:2: note: Va=
+lue stored to 'hw_version' is never read
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   include/media/v4l2-subdev.h:1000:10: warning: Access to field 'pads' res=
+ults in a dereference of a null pointer (loaded from variable 'state') [cla=
+ng-analyzer-core.NullDereference]
+           return &state->pads[pad].try_fmt;
+                   ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:781:8: note: Calling 'c=
+siphy_init_formats'
+           ret =3D csiphy_init_formats(sd, NULL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:545:12: note: 'fh' is n=
+ull
+                   .which =3D fh ? V4L2_SUBDEV_FORMAT_TRY :
+                            ^~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:545:12: note: '?' condi=
+tion is false
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:31: note: 'fh' is n=
+ull
+           return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
+                                        ^~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:31: note: '?' condi=
+tion is false
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:31: note: Passing n=
+ull pointer value via 2nd parameter 'sd_state'
+           return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
+                                        ^~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:9: note: Calling 'c=
+siphy_set_format'
+           return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:509:6: note: 'format' i=
+s not equal to NULL
+           if (format =3D=3D NULL)
+               ^~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:509:2: note: Taking fal=
+se branch
+           if (format =3D=3D NULL)
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:517:6: note: Assuming f=
+ield 'pad' is equal to MSM_CSIPHY_PAD_SINK
+           if (fmt->pad =3D=3D MSM_CSIPHY_PAD_SINK) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:517:2: note: Taking tru=
+e branch
+           if (fmt->pad =3D=3D MSM_CSIPHY_PAD_SINK) {
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:518:40: note: Passing n=
+ull pointer value via 2nd parameter 'sd_state'
+                   format =3D __csiphy_get_format(csiphy, sd_state,
+                                                        ^~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:518:12: note: Calling '=
+__csiphy_get_format'
+                   format =3D __csiphy_get_format(csiphy, sd_state,
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:345:6: note: Assuming '=
+which' is equal to V4L2_SUBDEV_FORMAT_TRY
+           if (which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:345:2: note: Taking tru=
+e branch
+           if (which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:346:54: note: Passing n=
+ull pointer value via 2nd parameter 'state'
+                   return v4l2_subdev_get_try_format(&csiphy->subdev, sd_st=
+ate,
+                                                                      ^~~~~=
+~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:346:10: note: Calling '=
+v4l2_subdev_get_try_format'
+                   return v4l2_subdev_get_try_format(&csiphy->subdev, sd_st=
+ate,
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/media/v4l2-subdev.h:998:14: note: Assuming 'pad' is < field 'num=
+_pads'
+           if (WARN_ON(pad >=3D sd->entity.num_pads))
+                       ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   include/media/v4l2-subdev.h:998:6: note: Taking false branch
+           if (WARN_ON(pad >=3D sd->entity.num_pads))
+               ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   include/media/v4l2-subdev.h:998:2: note: Taking false branch
+           if (WARN_ON(pad >=3D sd->entity.num_pads))
+           ^
+   include/media/v4l2-subdev.h:1000:10: note: Access to field 'pads' result=
+s in a dereference of a null pointer (loaded from variable 'state')
+           return &state->pads[pad].try_fmt;
+                   ^~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   drivers/tty/vt/vt.c:586:21: warning: Value stored to 'uniscr' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct uni_screen *uniscr =3D get_vc_uniscr(vc);
+                              ^~~~~~
+   drivers/tty/vt/vt.c:586:21: note: Value stored to 'uniscr' during its in=
+itialization is never read
+           struct uni_screen *uniscr =3D get_vc_uniscr(vc);
+                              ^~~~~~
+   17 warnings generated.
+   drivers/tty/serial/serial_core.c:160:17: warning: Access to field 'rs485=
+_config' results in a dereference of a null pointer (loaded from variable '=
+uport') [clang-analyzer-core.NullDereference]
+           int rs485_on =3D uport->rs485_config &&
+                          ^
+   drivers/tty/serial/serial_core.c:2232:2: note: Value assigned to field '=
+uart_port'
+           mutex_lock(&port->mutex);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/serial_core.c:2235:6: note: Assuming field 'suspended=
+' is not equal to 0
+           if (!uport->suspended && device_may_wakeup(tty_dev)) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/tty/serial/serial_core.c:2235:24: note: Left side of '&&' is fal=
+se
+           if (!uport->suspended && device_may_wakeup(tty_dev)) {
+                                 ^
+   drivers/tty/serial/serial_core.c:2248:6: note: Assuming field 'cons' is =
+null
+           if (uart_console(uport)) {
+               ^
+   include/linux/serial_core.h:24:3: note: expanded from macro 'uart_consol=
+e'
+           ((port)->cons && (port)->cons->index =3D=3D (port)->line)
             ^~~~~~~~~~~~
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:660:2: note: '?' condition is true
-           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
-           ^
-   fs/xfs/xfs_linux.h:213:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                           ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:661:9: note: Assuming 'whichfork' is equa=
-l to 2
-           ASSERT(whichfork !=3D XFS_COW_FORK);
-                  ^
-   fs/xfs/xfs_linux.h:213:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ~~~~~~~^~~~~
-   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:661:2: note: '?' condition is false
-           ASSERT(whichfork !=3D XFS_COW_FORK);
-           ^
-   fs/xfs/xfs_linux.h:213:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                           ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:668:8: note: 'whichfork' is not equal to 0
-           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
-                 ^
-   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
-K_PTR'
-           ((w) =3D=3D XFS_DATA_FORK ? \
-            ^~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:668:8: note: '?' condition is false
-           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
-                 ^
-   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
-K_PTR'
-           ((w) =3D=3D XFS_DATA_FORK ? \
-            ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:668:8: note: 'whichfork' is not equal to 1
-           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
-                 ^
-   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
-RK_PTR'
-                   ((w) =3D=3D XFS_ATTR_FORK ? \
-                    ^~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:668:8: note: '?' condition is false
-           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
-                 ^
-   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
-RK_PTR'
-                   ((w) =3D=3D XFS_ATTR_FORK ? \
-                    ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:672:2: note: Control jumps to 'case XFS_D=
-INODE_FMT_EXTENTS:'  at line 673
-           switch (ifp->if_format) {
-           ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:674:9: note: Assigned value is garbage or=
- undefined
-                   flags |=3D extflag[whichfork];
-                         ^  ~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:677:9: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-                   flags |=3D brootflag[whichfork];
-                         ^  ~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:660:2: note: Assuming the condition is fa=
-lse
-           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
-           ^
-   fs/xfs/xfs_linux.h:213:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^~~~~~~~~~~~
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
-   fs/xfs/libxfs/xfs_bmap_btree.c:660:2: note: '?' condition is true
-           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
-           ^
-   fs/xfs/xfs_linux.h:213:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                           ^
-   fs/xfs/libxfs/xfs_bmap_btree.c:661:9: note: Assuming 'whichfork' is equa=
-l to 2
-           ASSERT(whichfork !=3D XFS_COW_FORK);
 
-vim +674 fs/xfs/libxfs/xfs_bmap_btree.c
+vim +/hw_version +163 drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-=
+0.c
 
-a6f406ba1589679 Darrick J. Wong 2022-01-06  641  =
+2f8b67195e4839 Robert Foss    2021-03-16  148  =
 
-a6f406ba1589679 Darrick J. Wong 2022-01-06  642  /*
-a6f406ba1589679 Darrick J. Wong 2022-01-06  643   * Swap in the new inode f=
-ork root.  Once we pass this point the newly rebuilt
-a6f406ba1589679 Darrick J. Wong 2022-01-06  644   * mappings are in place a=
-nd we have to kill off any old btree blocks.
-a6f406ba1589679 Darrick J. Wong 2022-01-06  645   */
-a6f406ba1589679 Darrick J. Wong 2022-01-06  646  void
-a6f406ba1589679 Darrick J. Wong 2022-01-06  647  xfs_bmbt_commit_staged_btr=
-ee(
-a6f406ba1589679 Darrick J. Wong 2022-01-06  648  	struct xfs_btree_cur	*cur,
-a6f406ba1589679 Darrick J. Wong 2022-01-06  649  	struct xfs_trans	*tp,
-a6f406ba1589679 Darrick J. Wong 2022-01-06  650  	int			whichfork)
-a6f406ba1589679 Darrick J. Wong 2022-01-06  651  {
-a6f406ba1589679 Darrick J. Wong 2022-01-06  652  	struct xbtree_ifakeroot	*=
-ifake =3D cur->bc_ino.ifake;
-a6f406ba1589679 Darrick J. Wong 2022-01-06  653  	struct xfs_ifork	*ifp;
-a6f406ba1589679 Darrick J. Wong 2022-01-06  654  	static const short	brootf=
-lag[2] =3D
-a6f406ba1589679 Darrick J. Wong 2022-01-06  655  		{ XFS_ILOG_DBROOT, XFS_I=
-LOG_ABROOT };
-a6f406ba1589679 Darrick J. Wong 2022-01-06  656  	static const short	extfla=
-g[2] =3D
-a6f406ba1589679 Darrick J. Wong 2022-01-06  657  		{ XFS_ILOG_DEXT, XFS_ILO=
-G_AEXT };
-a6f406ba1589679 Darrick J. Wong 2022-01-06  658  	int			flags =3D XFS_ILOG_=
-CORE;
-a6f406ba1589679 Darrick J. Wong 2022-01-06  659  =
+4138a88b6093e1 Todor Tomov    2018-07-25  149  static void csiphy_hw_versio=
+n_read(struct csiphy_device *csiphy,
+4138a88b6093e1 Todor Tomov    2018-07-25  150  				   struct device *dev)
+4138a88b6093e1 Todor Tomov    2018-07-25  151  {
+4138a88b6093e1 Todor Tomov    2018-07-25  152  	u32 hw_version;
+4138a88b6093e1 Todor Tomov    2018-07-25  153  =
 
-a6f406ba1589679 Darrick J. Wong 2022-01-06  660  	ASSERT(cur->bc_flags & XF=
-S_BTREE_STAGING);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  661  	ASSERT(whichfork !=3D XFS=
-_COW_FORK);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  662  =
+4138a88b6093e1 Todor Tomov    2018-07-25  154  	writel(CSIPHY_3PH_CMN_CSI_C=
+OMMON_CTRL6_SHOW_REV_ID,
+4138a88b6093e1 Todor Tomov    2018-07-25  155  	       csiphy->base + CSIPH=
+Y_3PH_CMN_CSI_COMMON_CTRLn(6));
+4138a88b6093e1 Todor Tomov    2018-07-25  156  =
 
-a6f406ba1589679 Darrick J. Wong 2022-01-06  663  	/*
-a6f406ba1589679 Darrick J. Wong 2022-01-06  664  	 * Free any resources han=
-ging off the real fork, then shallow-copy the
-a6f406ba1589679 Darrick J. Wong 2022-01-06  665  	 * staging fork's content=
-s into the real fork to transfer everything
-a6f406ba1589679 Darrick J. Wong 2022-01-06  666  	 * we just built.
-a6f406ba1589679 Darrick J. Wong 2022-01-06  667  	 */
-a6f406ba1589679 Darrick J. Wong 2022-01-06  668  	ifp =3D XFS_IFORK_PTR(cur=
-->bc_ino.ip, whichfork);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  669  	xfs_idestroy_fork(ifp);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  670  	memcpy(ifp, ifake->if_for=
-k, sizeof(struct xfs_ifork));
-a6f406ba1589679 Darrick J. Wong 2022-01-06  671  =
+4138a88b6093e1 Todor Tomov    2018-07-25  157  	hw_version =3D readl_relaxe=
+d(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  158  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(12));
+4138a88b6093e1 Todor Tomov    2018-07-25  159  	hw_version |=3D readl_relax=
+ed(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  160  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(13)) << 8;
+4138a88b6093e1 Todor Tomov    2018-07-25  161  	hw_version |=3D readl_relax=
+ed(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  162  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(14)) << 16;
+4138a88b6093e1 Todor Tomov    2018-07-25 @163  	hw_version |=3D readl_relax=
+ed(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  164  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(15)) << 24;
+4138a88b6093e1 Todor Tomov    2018-07-25  165  =
 
-a6f406ba1589679 Darrick J. Wong 2022-01-06  672  	switch (ifp->if_format) {
-a6f406ba1589679 Darrick J. Wong 2022-01-06  673  	case XFS_DINODE_FMT_EXTEN=
-TS:
-a6f406ba1589679 Darrick J. Wong 2022-01-06 @674  		flags |=3D extflag[which=
-fork];
-a6f406ba1589679 Darrick J. Wong 2022-01-06  675  		break;
-a6f406ba1589679 Darrick J. Wong 2022-01-06  676  	case XFS_DINODE_FMT_BTREE:
-a6f406ba1589679 Darrick J. Wong 2022-01-06  677  		flags |=3D brootflag[whi=
-chfork];
-a6f406ba1589679 Darrick J. Wong 2022-01-06  678  		break;
-a6f406ba1589679 Darrick J. Wong 2022-01-06  679  	default:
-a6f406ba1589679 Darrick J. Wong 2022-01-06  680  		ASSERT(0);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  681  		break;
-a6f406ba1589679 Darrick J. Wong 2022-01-06  682  	}
-a6f406ba1589679 Darrick J. Wong 2022-01-06  683  	xfs_trans_log_inode(tp, c=
-ur->bc_ino.ip, flags);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  684  	xfs_btree_commit_ifakeroo=
-t(cur, tp, whichfork, &xfs_bmbt_ops);
-a6f406ba1589679 Darrick J. Wong 2022-01-06  685  }
-a6f406ba1589679 Darrick J. Wong 2022-01-06  686  =
+dd89115a7c1cf3 Jonathan Marek 2021-12-22  166  	dev_dbg(dev, "CSIPHY 3PH HW=
+ Version =3D 0x%08x\n", hw_version);
+4138a88b6093e1 Todor Tomov    2018-07-25  167  }
+4138a88b6093e1 Todor Tomov    2018-07-25  168  =
 
+
+:::::: The code@line 163 was first introduced by commit
+:::::: 4138a88b6093e1f8bf1b8a95c653bec6c854f119 media: camss: csiphy: Add s=
+upport for 8x96
+
+:::::: TO: Todor Tomov <todor.tomov@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0309706281160760089==--
+--===============6605549381374893186==--
 
