@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5442485541099360249=="
+Content-Type: multipart/mixed; boundary="===============1534460988942384440=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/bonding/bond_main.c:2800:21: warning: Value stored to 'slave_dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 01 May 2022 16:02:22 +0800
-Message-ID: <202205011521.Q9a3oxjA-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless 11/24] net/rxrpc/call_event.c:258:14: warning: Value stored to 'hard_ack' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 01 May 2022 16:02:20 +0800
+Message-ID: <202205011555.lu9BTCHW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5442485541099360249==
+--===============1534460988942384440==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Hangbin Liu <liuhangbin@gmail.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   57ae8a492116910bad2b3497ffe555b3a4b4180f
-commit: 1fcd5d448c59ca2703504806eb8131ce8e411a70 Bonding: split bond_handle=
-_vlan from bond_arp_send
-date:   10 weeks ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 10 weeks ago
-config: riscv-randconfig-c006-20220427 (https://download.01.org/0day-ci/arc=
-hive/20220501/202205011521.Q9a3oxjA-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-=
+ringless
+head:   14d1ef9d0da567ca88d30b4c79706079cc997e9f
+commit: 87c13f9a6f1a63f389778a34c67060e7dd5c7209 [11/24] rxrpc: Don't use a=
+ ring buffer for call Tx queue
+:::::: branch date: 2 days ago
+:::::: commit date: 9 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20501/202205011555.lu9BTCHW-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
+649969b9baf3bc2a510266e7912bb16ae9)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D1fcd5d448c59ca2703504806eb8131ce8e411a70
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 1fcd5d448c59ca2703504806eb8131ce8e411a70
+        # https://github.com/ammarfaizi2/linux-block/commit/87c13f9a6f1a63f=
+389778a34c67060e7dd5c7209
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/rxrpc-ringl=
+ess
+        git checkout 87c13f9a6f1a63f389778a34c67060e7dd5c7209
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,340 +51,368 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           status =3D 0;
-                           ^        ~
-   drivers/i2c/busses/i2c-npcm7xx.c:1709:4: note: Value stored to 'status' =
-is never read
-                           status =3D 0;
-                           ^        ~
-   drivers/i2c/busses/i2c-npcm7xx.c:1719:3: warning: Value stored to 'statu=
-s' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D readx_poll_timeout(npcm_i2c_get_SCL, _adap, v=
-al, !val,
-                   ^
-   drivers/i2c/busses/i2c-npcm7xx.c:1719:3: note: Value stored to 'status' =
-is never read
-   drivers/i2c/busses/i2c-npcm7xx.c:2160:2: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D bus->cmd_err;
-           ^     ~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-npcm7xx.c:2160:2: note: Value stored to 'ret' is =
-never read
-           ret =3D bus->cmd_err;
-           ^     ~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-npcm7xx.c:2164:3: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D i2c_recover_bus(adap);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-npcm7xx.c:2164:3: note: Value stored to 'ret' is =
-never read
-                   ret =3D i2c_recover_bus(adap);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2inode.c:491:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(dst, src, (size_t)(&src->CurrentByteOffset) - (size_t)src=
+);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2inode.c:605:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(data, smb2_data, sizeof(struct smb311_posix_qinfo));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2inode.c:605:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(data, smb2_data, sizeof(struct smb311_posix_qinfo));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2inode.c:634:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&data, 0, sizeof(data));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2inode.c:634:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(&data, 0, sizeof(data));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 76 warnings (76 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/tty/serial/fsl_lpuart.c:1283:33: warning: The result of the left=
- shift is undefined because the right operand is negative [clang-analyzer-c=
-ore.UndefinedBinaryOperatorResult]
-           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
-en) - 1));
-                                          ^
-   drivers/tty/serial/fsl_lpuart.c:2868:6: note: Assuming field 'suspended'=
- is 0
-           if (sport->port.suspended && !irq_wake)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2868:28: note: Left side of '&&' is false
-           if (sport->port.suspended && !irq_wake)
-                                     ^
-   drivers/tty/serial/fsl_lpuart.c:2871:2: note: Taking false branch
-           if (lpuart_is_32(sport))
-           ^
-   drivers/tty/serial/fsl_lpuart.c:2876:6: note: Assuming field 'lpuart_dma=
-_rx_use' is true
-           if (sport->lpuart_dma_rx_use) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2876:2: note: Taking true branch
-           if (sport->lpuart_dma_rx_use) {
-           ^
-   drivers/tty/serial/fsl_lpuart.c:2877:7: note: Assuming 'irq_wake' is true
-                   if (irq_wake) {
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   46 warnings generated.
+   fs/reiserfs/tail_conversion.c:157:3: warning: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(kaddr + pgoff, 0, blk_size - total_tail);
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/reiserfs/tail_conversion.c:157:3: note: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11
+                   memset(kaddr + pgoff, 0, blk_size - total_tail);
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   90 warnings generated.
+   Suppressed 90 warnings (90 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   91 warnings generated.
+>> net/rxrpc/call_event.c:258:14: warning: Value stored to 'hard_ack' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           rxrpc_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
                        ^~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2877:3: note: Taking true branch
-                   if (irq_wake) {
+   net/rxrpc/call_event.c:258:14: note: Value stored to 'hard_ack' during i=
+ts initialization is never read
+           rxrpc_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
+                       ^~~~~~~~
+   Suppressed 90 warnings (90 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   93 warnings generated.
+   net/rxrpc/call_object.c:170:2: warning: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&call->sock_node, 0xed, sizeof(call->sock_node));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/rxrpc/call_object.c:170:2: note: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11
+           memset(&call->sock_node, 0xed, sizeof(call->sock_node));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/rxrpc/call_object.c:569:3: warning: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&call->sock_node, 0xdd, sizeof(call->sock_node));
                    ^
-   drivers/tty/serial/fsl_lpuart.c:2878:9: note: Calling 'lpuart_start_rx_d=
-ma'
-                           if (!lpuart_start_rx_dma(sport))
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:1274:9: note: Assuming the condition is =
-false
-           bits =3D (termios->c_cflag & CSIZE) =3D=3D CS7 ? 9 : 10;
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:1274:9: note: '?' condition is false
-   drivers/tty/serial/fsl_lpuart.c:1275:6: note: Assuming the condition is =
-false
-           if (termios->c_cflag & PARENB)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:1275:2: note: Taking false branch
-           if (termios->c_cflag & PARENB)
-           ^
-   drivers/tty/serial/fsl_lpuart.c:1283:33: note: The result of the left sh=
-ift is undefined because the right operand is negative
-           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
-en) - 1));
-                                          ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/net/bonding/bond_main.c:1698:2: warning: Call to function 'strcp=
-y' is insecure as it does not provide bounding of the memory buffer. Replac=
-e unbounded copy functions with analogous functions that support length arg=
-uments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strc=
-py]
-           strcpy(info->slave_name, slave->dev->name);
-           ^~~~~~
-   drivers/net/bonding/bond_main.c:1698:2: note: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119
-           strcpy(info->slave_name, slave->dev->name);
-           ^~~~~~
-   drivers/net/bonding/bond_main.c:2799:21: warning: Value stored to 'bond_=
-dev' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct net_device *bond_dev =3D slave->bond->dev;
-                              ^~~~~~~~   ~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_main.c:2799:21: note: Value stored to 'bond_dev=
-' during its initialization is never read
-           struct net_device *bond_dev =3D slave->bond->dev;
-                              ^~~~~~~~   ~~~~~~~~~~~~~~~~
->> drivers/net/bonding/bond_main.c:2800:21: warning: Value stored to 'slave=
-_dev' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           struct net_device *slave_dev =3D slave->dev;
-                              ^~~~~~~~~   ~~~~~~~~~~
-   drivers/net/bonding/bond_main.c:2800:21: note: Value stored to 'slave_de=
-v' during its initialization is never read
-           struct net_device *slave_dev =3D slave->dev;
-                              ^~~~~~~~~   ~~~~~~~~~~
-   drivers/net/bonding/bond_main.c:2844:21: warning: Value stored to 'bond_=
-dev' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct net_device *bond_dev =3D slave->bond->dev;
-                              ^~~~~~~~   ~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_main.c:2844:21: note: Value stored to 'bond_dev=
-' during its initialization is never read
-           struct net_device *bond_dev =3D slave->bond->dev;
-                              ^~~~~~~~   ~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/net/bonding/bond_3ad.c:671:14: warning: Access to field 'lag_por=
-ts' results in a dereference of a null pointer (loaded from variable 'aggre=
-gator') [clang-analyzer-core.NullDereference]
-           for (port =3D aggregator->lag_ports; port;
-                       ^
-   drivers/net/bonding/bond_3ad.c:2335:6: note: Assuming the condition is f=
-alse
-           if (!bond_has_slaves(bond))
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:2335:2: note: Taking false branch
-           if (!bond_has_slaves(bond))
-           ^
-   drivers/net/bonding/bond_3ad.c:2338:2: note: Taking false branch
-           if (bond_agg_timer_advance(bond)) {
-           ^
-   drivers/net/bonding/bond_3ad.c:2357:2: note: Loop condition is true.  En=
-tering loop body
-           bond_for_each_slave_rcu(bond, slave, iter) {
-           ^
-   include/net/bonding.h:87:2: note: expanded from macro 'bond_for_each_sla=
-ve_rcu'
-           netdev_for_each_lower_private_rcu((bond)->dev, pos, iter)
-           ^
-   include/linux/netdevice.h:4576:2: note: expanded from macro 'netdev_for_=
-each_lower_private_rcu'
-           for (iter =3D &(dev)->adj_list.lower, \
-           ^
-   drivers/net/bonding/bond_3ad.c:2359:7: note: Assuming field 'slave' is n=
-on-null
-                   if (!port->slave) {
-                       ^~~~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:2359:3: note: Taking false branch
-                   if (!port->slave) {
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/rxrpc/call_object.c:569:3: note: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11
+                   memset(&call->sock_node, 0xdd, sizeof(call->sock_node));
                    ^
-   drivers/net/bonding/bond_3ad.c:2365:3: note: Calling 'ad_rx_machine'
-                   ad_rx_machine(NULL, port);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:1098:6: note: 'lacpdu' is null
-           if (lacpdu) {
-               ^~~~~~
-   drivers/net/bonding/bond_3ad.c:1098:2: note: Taking false branch
-           if (lacpdu) {
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/rxrpc/call_object.c:688:2: warning: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&call->sock_node, 0xcd, sizeof(call->sock_node));
            ^
-   drivers/net/bonding/bond_3ad.c:1105:6: note: Assuming the condition is f=
-alse
-           if (port->sm_vars & AD_PORT_BEGIN) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:1105:2: note: Taking false branch
-           if (port->sm_vars & AD_PORT_BEGIN) {
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/rxrpc/call_object.c:688:2: note: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11
+           memset(&call->sock_node, 0xcd, sizeof(call->sock_node));
            ^
-   drivers/net/bonding/bond_3ad.c:1109:13: note: Left side of '&&' is true
-           } else if (!(port->sm_vars & AD_PORT_BEGIN) && !port->is_enabled)
-                      ^
-   drivers/net/bonding/bond_3ad.c:1109:49: note: Assuming field 'is_enabled=
-' is true
-           } else if (!(port->sm_vars & AD_PORT_BEGIN) && !port->is_enabled)
-                                                          ^~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:1109:9: note: Taking false branch
-           } else if (!(port->sm_vars & AD_PORT_BEGIN) && !port->is_enabled)
-                  ^
-   drivers/net/bonding/bond_3ad.c:1112:11: note: 'lacpdu' is null
-           else if (lacpdu && ((port->sm_rx_state =3D=3D AD_RX_EXPIRED) ||
-                    ^~~~~~
-   drivers/net/bonding/bond_3ad.c:1112:18: note: Left side of '&&' is false
-           else if (lacpdu && ((port->sm_rx_state =3D=3D AD_RX_EXPIRED) ||
-                           ^
-   drivers/net/bonding/bond_3ad.c:1121:7: note: Assuming field 'sm_rx_timer=
-_counter' is 0
-                   if (port->sm_rx_timer_counter &&
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:1121:33: note: Left side of '&&' is false
-                   if (port->sm_rx_timer_counter &&
-                                                 ^
-   drivers/net/bonding/bond_3ad.c:1135:4: note: Control jumps to the 'defau=
-lt' case at line 1145
-                           switch (port->sm_rx_state) {
-                           ^
-   drivers/net/bonding/bond_3ad.c:1146:5: note:  Execution continues on lin=
-e 1153
-                                   break;
-                                   ^
-   drivers/net/bonding/bond_3ad.c:1153:28: note: 'last_state' is equal to f=
-ield 'sm_rx_state'
-           if ((port->sm_rx_state !=3D last_state) || (lacpdu)) {
-                                     ^~~~~~~~~~
-   drivers/net/bonding/bond_3ad.c:1153:6: note: Left side of '||' is false
-           if ((port->sm_rx_state !=3D last_state) || (lacpdu)) {
-               ^
-   drivers/net/bonding/bond_3ad.c:1153:44: note: 'lacpdu' is null
-           if ((port->sm_rx_state !=3D last_state) || (lacpdu)) {
-                                                     ^~~~~~
-   drivers/net/bonding/bond_3ad.c:1153:2: note: Taking false branch
-           if ((port->sm_rx_state !=3D last_state) || (lacpdu)) {
-           ^
-   drivers/net/bonding/bond_3ad.c:1220:1: note: Returning without writing t=
-o 'port->aggregator'
-   }
-   ^
-   drivers/net/bonding/bond_3ad.c:2365:3: note: Returning from 'ad_rx_machi=
-ne'
-                   ad_rx_machine(NULL, port);
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 90 warnings (90 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   76 warnings generated.
+   Suppressed 76 warnings (76 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   76 warnings generated.
+   Suppressed 76 warnings (76 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   78 warnings generated.
+   drivers/net/wireless/st/cw1200/cw1200_sdio.c:297:2: warning: Value store=
+d to 'status' is never read [clang-analyzer-deadcode.DeadStores]
+           status =3D cw1200_sdio_irq_subscribe(self);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/st/cw1200/cw1200_sdio.c:297:2: note: Value stored t=
+o 'status' is never read
+           status =3D cw1200_sdio_irq_subscribe(self);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 77 warnings (77 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   119 warnings generated.
+   drivers/net/wireless/ti/wlcore/main.c:729:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(data, 0, sizeof(*data));
 
-vim +/slave_dev +2800 drivers/net/bonding/bond_main.c
+vim +/hard_ack +258 net/rxrpc/call_event.c
 
-f5b2b966f032f2 Jay Vosburgh     2006-09-22  2795  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  251  =
 
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2796  static bool bond_handle_v=
-lan(struct slave *slave, struct bond_vlan_tag *tags,
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2797  			     struct sk_buff *s=
-kb)
-c3ade5cad07f4d Jay Vosburgh     2005-06-26  2798  {
-e2a7420df2e013 Jarod Wilson     2019-06-07  2799  	struct net_device *bond_=
-dev =3D slave->bond->dev;
-1fcd5d448c59ca Hangbin Liu      2022-02-21 @2800  	struct net_device *slave=
-_dev =3D slave->dev;
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2801  	struct bond_vlan_tag *ou=
-ter_tag =3D tags;
-44a4085538c844 Vlad Yasevich    2014-05-16  2802  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  252  /*
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  253   * Shr=
+ink the transmit queue.
+2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  254   */
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  255  void r=
+xrpc_shrink_call_tx_queue(struct rxrpc_call *call)
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  256  {
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  257  	struc=
+t rxrpc_txbuf *txb;
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31 @258  	rxrpc=
+_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
+2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  259  =
 
-3e403a77779faf Veaceslav Falico 2014-07-17  2803  	if (!tags || tags->vlan_=
-proto =3D=3D VLAN_N_VID)
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2804  		return true;
-3e403a77779faf Veaceslav Falico 2014-07-17  2805  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  260  	_ente=
+r("%x/%x/%x", call->tx_bottom, call->acks_hard_ack, call->tx_top);
+2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  261  =
 
-3e403a77779faf Veaceslav Falico 2014-07-17  2806  	tags++;
-3e403a77779faf Veaceslav Falico 2014-07-17  2807  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  262  	for (=
+;;) {
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  263  		spin=
+_lock(&call->tx_lock);
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  264  		txb =
+=3D list_first_entry_or_null(&call->tx_queue,
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  265  					 =
+      struct rxrpc_txbuf, call_link);
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  266  		if (=
+!txb)
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  267  			bre=
+ak;
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  268  		hard=
+_ack =3D smp_load_acquire(&call->acks_hard_ack);
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  269  		if (=
+before(hard_ack, txb->seq))
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  270  			bre=
+ak;
+17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  271  =
 
-44a4085538c844 Vlad Yasevich    2014-05-16  2808  	/* Go through all the ta=
-gs backwards and add them to the packet */
-3e403a77779faf Veaceslav Falico 2014-07-17  2809  	while (tags->vlan_proto =
-!=3D VLAN_N_VID) {
-3e403a77779faf Veaceslav Falico 2014-07-17  2810  		if (!tags->vlan_id) {
-3e403a77779faf Veaceslav Falico 2014-07-17  2811  			tags++;
-44a4085538c844 Vlad Yasevich    2014-05-16  2812  			continue;
-3e403a77779faf Veaceslav Falico 2014-07-17  2813  		}
-44a4085538c844 Vlad Yasevich    2014-05-16  2814  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  272  		ASSE=
+RTCMP(txb->seq, =3D=3D, call->tx_bottom + 1);
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  273  		call=
+->tx_bottom++;
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  274  		list=
+_del_rcu(&txb->call_link);
+224711df5c00f7 net/rxrpc/ar-ack.c     David Howells 2007-05-04  275  =
 
-e2a7420df2e013 Jarod Wilson     2019-06-07  2815  		slave_dbg(bond_dev, sla=
-ve_dev, "inner tag: proto %X vid %X\n",
-3e403a77779faf Veaceslav Falico 2014-07-17  2816  			  ntohs(outer_tag->vla=
-n_proto), tags->vlan_id);
-62749e2cb3c4a7 Jiri Pirko       2014-11-19  2817  		skb =3D vlan_insert_tag=
-_set_proto(skb, tags->vlan_proto,
-3e403a77779faf Veaceslav Falico 2014-07-17  2818  						tags->vlan_id);
-c3ade5cad07f4d Jay Vosburgh     2005-06-26  2819  		if (!skb) {
-4873ac3c8ed3b0 dingtianhong     2014-03-25  2820  			net_err_ratelimited("f=
-ailed to insert inner VLAN tag\n");
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2821  			return false;
-fbd929f2dce460 dingtianhong     2014-03-25  2822  		}
-3e403a77779faf Veaceslav Falico 2014-07-17  2823  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  276  		trac=
+e_rxrpc_txqueue(call, rxrpc_txqueue_dequeue);
+17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  277  =
 
-3e403a77779faf Veaceslav Falico 2014-07-17  2824  		tags++;
-fbd929f2dce460 dingtianhong     2014-03-25  2825  	}
-44a4085538c844 Vlad Yasevich    2014-05-16  2826  	/* Set the outer tag */
-3e403a77779faf Veaceslav Falico 2014-07-17  2827  	if (outer_tag->vlan_id) {
-e2a7420df2e013 Jarod Wilson     2019-06-07  2828  		slave_dbg(bond_dev, sla=
-ve_dev, "outer tag: proto %X vid %X\n",
-3e403a77779faf Veaceslav Falico 2014-07-17  2829  			  ntohs(outer_tag->vla=
-n_proto), outer_tag->vlan_id);
-b4bef1b57544b1 Jiri Pirko       2014-11-19  2830  		__vlan_hwaccel_put_tag(=
-skb, outer_tag->vlan_proto,
-3e403a77779faf Veaceslav Falico 2014-07-17  2831  				       outer_tag->vla=
-n_id);
-c3ade5cad07f4d Jay Vosburgh     2005-06-26  2832  	}
-3e403a77779faf Veaceslav Falico 2014-07-17  2833  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  278  		spin=
+_unlock(&call->tx_lock);
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  279  =
 
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2834  	return true;
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2835  }
-1fcd5d448c59ca Hangbin Liu      2022-02-21  2836  =
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  280  		rxrp=
+c_put_txbuf(txb, rxrpc_txbuf_put_rotated);
+dfa7d9204054b0 net/rxrpc/call_event.c David Howells 2016-09-17  281  	}
+17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  282  =
+
+87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  283  	spin_=
+unlock(&call->tx_lock);
+17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  284  }
+17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  285  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5442485541099360249==--
+--===============1534460988942384440==--
 
