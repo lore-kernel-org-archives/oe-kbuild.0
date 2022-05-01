@@ -1,59 +1,35 @@
-Content-Type: multipart/mixed; boundary="===============8223706994055058753=="
+Content-Type: multipart/mixed; boundary="===============6167398101671281528=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 2/2] thermal: qcom: tsens-v1: Add support for MSM8992/4 TSENS
-Date: Mon, 02 May 2022 07:10:16 +0800
-Message-ID: <202205020707.5QHHFhuD-lkp@intel.com>
+Subject: drivers/net/dsa/mv88e6xxx/chip.c:1852:12: warning: Uninitialized variable: mst->stu [uninitvar]
+Date: Mon, 02 May 2022 06:49:54 +0800
+Message-ID: <202205020601.GdJApX9p-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8223706994055058753==
+--===============6167398101671281528==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220501202025.211567-2-konrad.dybcio@somainline.org>
-References: <20220501202025.211567-2-konrad.dybcio@somainline.org>
-TO: Konrad Dybcio <konrad.dybcio@somainline.org>
-TO: ~postmarketos/upstreaming(a)lists.sr.ht
-CC: martin.botka(a)somainline.org
-CC: angelogioacchino.delregno(a)somainline.org
-CC: marijn.suijten(a)somainline.org
-CC: jamipkettunen(a)somainline.org
-CC: Konrad Dybcio <konrad.dybcio@somainline.org>
-CC: Amit Kucheria <amitk@kernel.org>
-CC: Thara Gopinath <thara.gopinath@linaro.org>
-CC: Andy Gross <agross@kernel.org>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>
-CC: Zhang Rui <rui.zhang@intel.com>
-CC: linux-pm(a)vger.kernel.org
-CC: linux-arm-msm(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Tobias Waldekranz <tobias@waldekranz.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-Hi Konrad,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on robh/for-next v5.18-rc5 next-20220429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bin=
-dings-thermal-tsens-Add-msm8992-4-compatibles/20220502-042413
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- thermal
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   672c0c5173427e6b3e2a9bbb7be51ceeec78093a
+commit: acaf4d2e36b3466334af4d3ee6ac254c3316165c net: dsa: mv88e6xxx: MST O=
+ffloading
+date:   6 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 weeks ago
+compiler: arc-elf-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout db030f5538c8beb36e6cde82bead3c57131c58b5
+        git checkout acaf4d2e36b3466334af4d3ee6ac254c3316165c
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -63,281 +39,178 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/thermal/qcom/tsens-v1.c:465:5: warning: Mismatching assignment a=
-nd comparison, comparison 'calib_redun_sel=3D=3D0x3' is always false. [assi=
-gnIfError]
-    if (calib_redun_sel =3D=3D BKP_SEL) {
-       ^
-   drivers/thermal/qcom/tsens-v1.c:462:18: note: Mismatching assignment and=
- comparison, comparison 'calib_redun_sel=3D=3D0x3' is always false.
-    calib_redun_sel =3D  calib_rsel[0] & MSM8994_CAL_SEL_REDUN_MASK;
+>> net/ipv4/icmp.c:402:13: warning: Using argument icmp_param that points a=
+t uninitialized variable icmp_param [ctuuninitvar]
+    int type =3D icmp_param->data.icmph.type;
+               ^
+   net/ipv4/icmp.c:1006:12: note: Calling function icmp_reply, 1st argument=
+ is uninitialized
+    icmp_reply(&icmp_param, skb);
+              ^
+   net/ipv4/icmp.c:402:13: note: Using argument icmp_param
+    int type =3D icmp_param->data.icmph.type;
+               ^
+--
+>> net/ipv4/igmp.c:2073:60: warning: Parameter 'pmca' can be declared with =
+const [constParameter]
+   static int ip_mc_add_src(struct in_device *in_dev, __be32 *pmca, int sfm=
+ode,
+                                                              ^
+>> net/ipv4/igmp.c:1853:10: warning: Parameter 'psfsrc' can be declared wit=
+h const [constParameter]
+    __be32 *psfsrc)
+            ^
+   net/ipv4/igmp.c:1901:60: warning: Parameter 'pmca' can be declared with =
+const [constParameter]
+   static int ip_mc_del_src(struct in_device *in_dev, __be32 *pmca, int sfm=
+ode,
+                                                              ^
+   net/ipv4/igmp.c:1968:10: warning: Parameter 'psfsrc' can be declared wit=
+h const [constParameter]
+    __be32 *psfsrc)
+            ^
+>> net/ipv4/igmp.c:858:73: warning: Parameter 'srcs' can be declared with c=
+onst [constParameter]
+   static int igmp_xmarksources(struct ip_mc_list *pmc, int nsrcs, __be32 *=
+srcs)
+                                                                           ^
+--
+>> drivers/net/dsa/mv88e6xxx/chip.c:1852:12: warning: Uninitialized variabl=
+e: mst->stu [uninitvar]
+     if (mst->stu.sid !=3D sid)
+              ^
+   drivers/net/dsa/mv88e6xxx/chip.c:1848:6: note: Assuming condition is fal=
+se
+    if (!sid)
+        ^
+   drivers/net/dsa/mv88e6xxx/chip.c:1852:12: note: Uninitialized variable: =
+mst->stu
+     if (mst->stu.sid !=3D sid)
+              ^
+   drivers/net/dsa/mv88e6xxx/chip.c:3940:18: warning: Uninitialized variabl=
+e: mdio_bus->external [uninitvar]
+     if (!mdio_bus->external)
                     ^
-   drivers/thermal/qcom/tsens-v1.c:465:5: note: Mismatching assignment and =
-comparison, comparison 'calib_redun_sel=3D=3D0x3' is always false.
-    if (calib_redun_sel =3D=3D BKP_SEL) {
-       ^
-   drivers/thermal/qcom/tsens-v1.c:239:15: warning: Parameter 'p1' can be d=
-eclared with const [constParameter]
-            u32 *p1, u32 *p2, u32 mode)
-                 ^
->> drivers/thermal/qcom/tsens-v1.c:264:37: warning: Parameter 'p' can be de=
-clared with const [constParameter]
-            u32 base0, u32 base1, u32 *p, u32 mode)
+   drivers/net/dsa/mv88e6xxx/chip.c:3941:37: warning: Uninitialized variabl=
+e: bus [uninitvar]
+      mv88e6xxx_g2_irq_mdio_free(chip, bus);
                                        ^
+   drivers/net/dsa/mv88e6xxx/chip.c:3938:17: note: Assignment 'bus=3Dmdio_b=
+us->bus', assigned value is <Uninit>
+     bus =3D mdio_bus->bus;
+                   ^
+   drivers/net/dsa/mv88e6xxx/chip.c:3941:37: note: Uninitialized variable: =
+bus
+      mv88e6xxx_g2_irq_mdio_free(chip, bus);
+                                       ^
+>> net/ipv4/fib_trie.c:996:11: warning: Uninitialized variable: fa->fa_slen=
+ [uninitvar]
+     if (fa->fa_slen < slen)
+             ^
+   net/ipv4/fib_trie.c:988:6: note: Assuming condition is false
+    if (!fah)
+        ^
+   net/ipv4/fib_trie.c:996:11: note: Uninitialized variable: fa->fa_slen
+     if (fa->fa_slen < slen)
+             ^
+>> net/ipv4/fib_trie.c:1169:29: warning: Uninitialized variable: last->fa_s=
+len [uninitvar]
+      if (new->fa_slen < last->fa_slen)
+                               ^
+>> net/ipv4/fib_trie.c:2179:8: warning: Uninitialized variable: fi [uninitv=
+ar]
+     if (!fi)
+          ^
+   net/ipv4/fib_trie.c:2177:27: note: Assignment 'fi=3Dfa->fa_info', assign=
+ed value is <Uninit>
+     struct fib_info *fi =3D fa->fa_info;
+                             ^
+   net/ipv4/fib_trie.c:2179:8: note: Uninitialized variable: fi
+     if (!fi)
+          ^
+>> net/ipv4/fib_trie.c:2185:24: warning: Uninitialized variable: fa->tb_id =
+[uninitvar]
+     if (tb->tb_id !=3D fa->tb_id)
+                          ^
+   net/ipv4/fib_trie.c:2179:7: note: Assuming condition is false
+     if (!fi)
+         ^
+   net/ipv4/fib_trie.c:2185:24: note: Uninitialized variable: fa->tb_id
+     if (tb->tb_id !=3D fa->tb_id)
+                          ^
+>> net/ipv4/fib_trie.c:2905:61: warning: Parameter 'v' can be declared with=
+ const [constParameter]
+   static void *fib_route_seq_next(struct seq_file *seq, void *v, loff_t *p=
+os)
+                                                               ^
+   net/ipv4/fib_trie.c:2815:24: warning: Uninitialized variable: fa->fa_sle=
+n [uninitvar]
+          KEYLENGTH - fa->fa_slen,
+                          ^
+   net/ipv4/fib_trie.c:2976:48: warning: Uninitialized variable: fa->fa_sle=
+n [uninitvar]
+     __be32 mask =3D inet_make_mask(KEYLENGTH - fa->fa_slen);
+                                                  ^
+   net/ipv4/fib_trie.c:2965:8: note: Assuming condition is false
+    if (v =3D=3D SEQ_START_TOKEN) {
+          ^
+   net/ipv4/fib_trie.c:2976:48: note: Uninitialized variable: fa->fa_slen
+     __be32 mask =3D inet_make_mask(KEYLENGTH - fa->fa_slen);
+                                                  ^
 
-vim +465 drivers/thermal/qcom/tsens-v1.c
+vim +1852 drivers/net/dsa/mv88e6xxx/chip.c
 
-0e580290170dfb AngeloGioacchino Del Regno 2019-10-05  415  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1842  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  416  static int calib=
-rate_8994(struct tsens_priv *priv)
-db030f5538c8be Konrad Dybcio              2022-05-01  417  {
-db030f5538c8be Konrad Dybcio              2022-05-01  418  	int base0 =3D 0=
-, base1 =3D 0;
-db030f5538c8be Konrad Dybcio              2022-05-01  419  	u32 p[16] =3D {=
- [0 ... 15] =3D 532 }; /* HW-specific, undocumented magic value */
-db030f5538c8be Konrad Dybcio              2022-05-01  420  	int mode =3D 0;
-db030f5538c8be Konrad Dybcio              2022-05-01  421  	u32 *calib0, *c=
-alib1, *calib2, *calib_mode, *calib_rsel;
-db030f5538c8be Konrad Dybcio              2022-05-01  422  	u32 calib_redun=
-_sel;
-db030f5538c8be Konrad Dybcio              2022-05-01  423  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1843  static int mv88e6xxx_mst=
+_put(struct mv88e6xxx_chip *chip, u8 sid)
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1844  {
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1845  	struct mv88e6xxx_mst *m=
+st, *tmp;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1846  	int err;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1847  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  424  	/* 0x40d0-0x40d=
-c */
-db030f5538c8be Konrad Dybcio              2022-05-01  425  	calib0 =3D (u32=
- *)qfprom_read(priv->dev, "calib");
-db030f5538c8be Konrad Dybcio              2022-05-01  426  	if (IS_ERR(cali=
-b0))
-db030f5538c8be Konrad Dybcio              2022-05-01  427  		return PTR_ERR=
-(calib0);
-db030f5538c8be Konrad Dybcio              2022-05-01  428  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1848  	if (!sid)
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1849  		return 0;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1850  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  429  	dev_dbg(priv->d=
-ev, "%s: calib0: [0] =3D %u, [1] =3D %u, [2] =3D %u\n",
-db030f5538c8be Konrad Dybcio              2022-05-01  430  		__func__, cali=
-b0[0], calib0[1], calib0[2]);
-db030f5538c8be Konrad Dybcio              2022-05-01  431  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1851  	list_for_each_entry_saf=
+e(mst, tmp, &chip->msts, node) {
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16 @1852  		if (mst->stu.sid !=3D =
+sid)
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1853  			continue;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1854  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  432  	/* 0x41c0-0x41c=
-8 */
-db030f5538c8be Konrad Dybcio              2022-05-01  433  	calib1 =3D (u32=
- *)qfprom_read(priv->dev, "calib_redun1_2");
-db030f5538c8be Konrad Dybcio              2022-05-01  434  	if (IS_ERR(cali=
-b1))
-db030f5538c8be Konrad Dybcio              2022-05-01  435  		return PTR_ERR=
-(calib1);
-db030f5538c8be Konrad Dybcio              2022-05-01  436  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1855  		if (!refcount_dec_and_=
+test(&mst->refcnt))
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1856  			return 0;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1857  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  437  	dev_dbg(priv->d=
-ev, "%s: calib1: [0] =3D %u, [1] =3D %u\n",
-db030f5538c8be Konrad Dybcio              2022-05-01  438  		__func__, cali=
-b1[0], calib1[1]);
-db030f5538c8be Konrad Dybcio              2022-05-01  439  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1858  		mst->stu.valid =3D fal=
+se;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1859  		err =3D mv88e6xxx_stu_=
+loadpurge(chip, &mst->stu);
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1860  		if (err) {
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1861  			refcount_set(&mst->re=
+fcnt, 1);
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1862  			return err;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1863  		}
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1864  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  440  	/* 0x41cc-0x41d=
-0 */
-db030f5538c8be Konrad Dybcio              2022-05-01  441  	calib2 =3D (u32=
- *)qfprom_read(priv->dev, "calib_redun3");
-db030f5538c8be Konrad Dybcio              2022-05-01  442  	if (IS_ERR(cali=
-b2))
-db030f5538c8be Konrad Dybcio              2022-05-01  443  		return PTR_ERR=
-(calib2);
-db030f5538c8be Konrad Dybcio              2022-05-01  444  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1865  		list_del(&mst->node);
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1866  		kfree(mst);
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1867  		return 0;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1868  	}
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1869  =
 
-db030f5538c8be Konrad Dybcio              2022-05-01  445  	dev_dbg(priv->d=
-ev, "%s: calib2: [0] =3D %u\n", __func__, calib2[0]);
-db030f5538c8be Konrad Dybcio              2022-05-01  446  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  447  	/* 0x4440-0x444=
-8 */
-db030f5538c8be Konrad Dybcio              2022-05-01  448  	calib_mode =3D =
-(u32 *)qfprom_read(priv->dev, "calib_redun4_5");
-db030f5538c8be Konrad Dybcio              2022-05-01  449  	if (IS_ERR(cali=
-b_mode))
-db030f5538c8be Konrad Dybcio              2022-05-01  450  		return PTR_ERR=
-(calib_mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  451  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  452  	dev_dbg(priv->d=
-ev, "%s: calib_mode: [0] =3D %u, [1] =3D %u\n",
-db030f5538c8be Konrad Dybcio              2022-05-01  453  		__func__, cali=
-b1[0], calib1[1]);
-db030f5538c8be Konrad Dybcio              2022-05-01  454  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  455  	/* 0x4464-0x446=
-8 */
-db030f5538c8be Konrad Dybcio              2022-05-01  456  	calib_rsel =3D =
-(u32 *)qfprom_read(priv->dev, "calib_rsel");
-db030f5538c8be Konrad Dybcio              2022-05-01  457  	if (IS_ERR(cali=
-b_mode))
-db030f5538c8be Konrad Dybcio              2022-05-01  458  		return PTR_ERR=
-(calib_mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  459  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  460  	dev_dbg(priv->d=
-ev, "%s: calib_rsel: [0] =3D %u\n", __func__, calib_rsel[0]);
-db030f5538c8be Konrad Dybcio              2022-05-01  461  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  462  	calib_redun_sel=
- =3D  calib_rsel[0] & MSM8994_CAL_SEL_REDUN_MASK;
-db030f5538c8be Konrad Dybcio              2022-05-01  463  	calib_redun_sel=
- >>=3D MSM8994_CAL_SEL_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  464  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01 @465  	if (calib_redun=
-_sel =3D=3D BKP_SEL) {
-db030f5538c8be Konrad Dybcio              2022-05-01  466  		dev_dbg(priv->=
-dev, "%s: Calibrating in REDUN mode, calib_redun_sel =3D %u",
-db030f5538c8be Konrad Dybcio              2022-05-01  467  			__func__, cal=
-ib_redun_sel);
-db030f5538c8be Konrad Dybcio              2022-05-01  468  		mode =3D calib=
-_mode[1] & MSM8994_REDUN_SEL_MASK;
-db030f5538c8be Konrad Dybcio              2022-05-01  469  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  470  		if (mode =3D=
-=3D TWO_PT_CALIB) {
-db030f5538c8be Konrad Dybcio              2022-05-01  471  			dev_dbg(priv-=
->dev, "%s: REDUN TWO_PT mode, mode =3D %u", __func__, mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  472  			base0 =3D (ca=
-lib1[0] & MSM8994_BASE0_REDUN_MASK) >> MSM8994_BASE0_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  473  			base1 =3D (ca=
-lib1[0] & MSM8994_BASE1_BIT0_REDUN_MASK) >> MSM8994_BASE1_BIT0_REDUN_SHIFT_=
-COMPUTE;
-db030f5538c8be Konrad Dybcio              2022-05-01  474  			base1 |=3D ca=
-lib1[1] & MSM8994_BASE1_BIT1_9_REDUN_MASK;
-db030f5538c8be Konrad Dybcio              2022-05-01  475  			p[0] =3D (cal=
-ib1[1] & MSM8994_S0_REDUN_MASK) >> MSM8994_S0_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  476  			p[1] =3D (cal=
-ib1[1] & MSM8994_S1_REDUN_MASK) >> MSM8994_S1_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  477  			p[2] =3D (cal=
-ib1[1] & MSM8994_S2_REDUN_MASK) >> MSM8994_S2_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  478  			p[3] =3D (cal=
-ib1[1] & MSM8994_S3_REDUN_MASK) >> MSM8994_S3_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  479  			p[4] =3D (cal=
-ib1[1] & MSM8994_S4_REDUN_MASK) >> MSM8994_S4_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  480  			p[5] =3D (cal=
-ib1[1] & MSM8994_S5_REDUN_MASK_BIT0_2) >> MSM8994_S5_REDUN_SHIFT_BIT0_2;
-db030f5538c8be Konrad Dybcio              2022-05-01  481  			p[5] |=3D (ca=
-lib2[0] & MSM8994_S5_REDUN_MASK_BIT3) >> MSM8994_S5_REDUN_SHIFT_BIT3;
-db030f5538c8be Konrad Dybcio              2022-05-01  482  			p[6] =3D (cal=
-ib2[0] & MSM8994_S6_REDUN_MASK) >> MSM8994_S6_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  483  			p[7] =3D (cal=
-ib2[0] & MSM8994_S7_REDUN_MASK) >> MSM8994_S7_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  484  			p[8] =3D (cal=
-ib2[0] & MSM8994_S8_REDUN_MASK) >> MSM8994_S8_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  485  			p[9] =3D (cal=
-ib2[0] & MSM8994_S9_REDUN_MASK) >> MSM8994_S9_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  486  			p[10] =3D (ca=
-lib2[0] & MSM8994_S10_REDUN_MASK) >> MSM8994_S10_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  487  			p[11] =3D (ca=
-lib2[0] & MSM8994_S11_REDUN_MASK) >> MSM8994_S11_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  488  			p[12] =3D (ca=
-lib2[0] & MSM8994_S12_REDUN_MASK) >> MSM8994_S12_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  489  			p[13] =3D (ca=
-lib2[0] & MSM8994_S13_REDUN_MASK) >> MSM8994_S13_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  490  			p[14] =3D (ca=
-lib2[0] & MSM8994_S14_REDUN_MASK) >> MSM8994_S14_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  491  			p[15] =3D (ca=
-lib2[0] & MSM8994_S15_REDUN_MASK) >> MSM8994_S15_REDUN_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  492  		} else {
-db030f5538c8be Konrad Dybcio              2022-05-01  493  			dev_dbg(priv-=
->dev, "%s: REDUN NON-TWO_PT mode, mode =3D %u", __func__, mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  494  		}
-db030f5538c8be Konrad Dybcio              2022-05-01  495  	} else {
-db030f5538c8be Konrad Dybcio              2022-05-01  496  		dev_dbg(priv->=
-dev, "%s: Calibrating in NOT-REDUN mode, calib_redun_sel =3D %u",
-db030f5538c8be Konrad Dybcio              2022-05-01  497  			__func__, cal=
-ib_redun_sel);
-db030f5538c8be Konrad Dybcio              2022-05-01  498  		mode =3D (cali=
-b0[2] & MSM8994_CAL_SEL_MASK) >> MSM8994_CAL_SEL_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  499  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  500  		if (mode =3D=
-=3D TWO_PT_CALIB) {
-db030f5538c8be Konrad Dybcio              2022-05-01  501  			dev_dbg(priv-=
->dev, "%s: NOT-REDUN TWO_PT mode, mode =3D %u", __func__, mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  502  			base0 =3D (ca=
-lib0[0] & MSM8994_BASE0_MASK) >> MSM8994_BASE0_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  503  			base1 =3D (ca=
-lib0[0] & MSM8994_BASE1_MASK) >> MSM8994_BASE1_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  504  			p[0] =3D (cal=
-ib0[0] & MSM8994_S0_MASK) >> MSM8994_S0_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  505  			p[1] =3D (cal=
-ib0[0] & MSM8994_S1_MASK) >> MSM8994_S1_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  506  			p[2] =3D (cal=
-ib0[1] & MSM8994_S2_MASK) >> MSM8994_S2_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  507  			p[3] =3D (cal=
-ib0[1] & MSM8994_S3_MASK) >> MSM8994_S3_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  508  			p[4] =3D (cal=
-ib0[1] & MSM8994_S4_MASK) >> MSM8994_S4_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  509  			p[5] =3D (cal=
-ib0[1] & MSM8994_S5_MASK) >> MSM8994_S5_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  510  			p[6] =3D (cal=
-ib0[1] & MSM8994_S6_MASK) >> MSM8994_S6_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  511  			p[7] =3D (cal=
-ib0[1] & MSM8994_S7_MASK) >> MSM8994_S7_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  512  			p[8] =3D (cal=
-ib0[1] & MSM8994_S8_MASK) >> MSM8994_S8_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  513  			p[9] =3D (cal=
-ib0[1] & MSM8994_S9_MASK) >> MSM8994_S9_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  514  			p[10] =3D (ca=
-lib0[1] & MSM8994_S10_MASK) >> MSM8994_S10_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  515  			p[11] =3D (ca=
-lib0[2] & MSM8994_S11_MASK) >> MSM8994_S11_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  516  			p[12] =3D (ca=
-lib0[2] & MSM8994_S12_MASK) >> MSM8994_S12_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  517  			p[13] =3D (ca=
-lib0[2] & MSM8994_S13_MASK) >> MSM8994_S13_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  518  			p[14] =3D (ca=
-lib0[2] & MSM8994_S14_MASK) >> MSM8994_S14_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  519  			p[15] =3D (ca=
-lib0[2] & MSM8994_S15_MASK) >> MSM8994_S15_SHIFT;
-db030f5538c8be Konrad Dybcio              2022-05-01  520  		} else {
-db030f5538c8be Konrad Dybcio              2022-05-01  521  			dev_dbg(priv-=
->dev, "%s: NOT-REDUN NON-TWO_PT mode, mode =3D %u", __func__, mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  522  			/* Keep the i=
-nit-time 532 value */
-db030f5538c8be Konrad Dybcio              2022-05-01  523  		}
-db030f5538c8be Konrad Dybcio              2022-05-01  524  	}
-db030f5538c8be Konrad Dybcio              2022-05-01  525  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  526  	/* 8992 feature=
-s less sensors and remaps some */
-db030f5538c8be Konrad Dybcio              2022-05-01  527  	if (priv->num_s=
-ensors =3D=3D 13) {
-db030f5538c8be Konrad Dybcio              2022-05-01  528  		p[6] =3D p[7];
-db030f5538c8be Konrad Dybcio              2022-05-01  529  		p[7] =3D p[9];
-db030f5538c8be Konrad Dybcio              2022-05-01  530  		p[8] =3D p[10];
-db030f5538c8be Konrad Dybcio              2022-05-01  531  		p[9] =3D p[11];
-db030f5538c8be Konrad Dybcio              2022-05-01  532  		p[10] =3D p[12=
-];
-db030f5538c8be Konrad Dybcio              2022-05-01  533  		p[11] =3D p[13=
-];
-db030f5538c8be Konrad Dybcio              2022-05-01  534  		p[12] =3D p[14=
-];
-db030f5538c8be Konrad Dybcio              2022-05-01  535  	}
-db030f5538c8be Konrad Dybcio              2022-05-01  536  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  537  	compute_interce=
-pt_slope_8994(priv, base0, base1, p, mode);
-db030f5538c8be Konrad Dybcio              2022-05-01  538  	kfree(calib0);
-db030f5538c8be Konrad Dybcio              2022-05-01  539  	kfree(calib1);
-db030f5538c8be Konrad Dybcio              2022-05-01  540  	kfree(calib2);
-db030f5538c8be Konrad Dybcio              2022-05-01  541  	kfree(calib_mod=
-e);
-db030f5538c8be Konrad Dybcio              2022-05-01  542  	kfree(calib_rse=
-l);
-db030f5538c8be Konrad Dybcio              2022-05-01  543  =
-
-db030f5538c8be Konrad Dybcio              2022-05-01  544  	return 0;
-db030f5538c8be Konrad Dybcio              2022-05-01  545  }
-db030f5538c8be Konrad Dybcio              2022-05-01  546  =
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1870  	return -ENOENT;
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1871  }
+acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1872  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8223706994055058753==--
+--===============6167398101671281528==--
 
