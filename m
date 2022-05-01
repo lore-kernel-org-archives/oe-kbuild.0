@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6167398101671281528=="
+Content-Type: multipart/mixed; boundary="===============4452224708049840102=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/mv88e6xxx/chip.c:1852:12: warning: Uninitialized variable: mst->stu [uninitvar]
-Date: Mon, 02 May 2022 06:49:54 +0800
-Message-ID: <202205020601.GdJApX9p-lkp@intel.com>
+Subject: drivers/staging/iio/cdc/ad7746.c:244:24: warning: The statement 'if (chip->capdac_set!=chan->channel) chip->capdac_set=chan->channel' is logically equivalent to 'chip->capdac_set=chan->channel'. [duplicateConditionalAssign]
+Date: Mon, 02 May 2022 06:29:41 +0800
+Message-ID: <202205020654.2NsUk8eO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6167398101671281528==
+--===============4452224708049840102==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,22 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Tobias Waldekranz <tobias@waldekranz.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: Lucas Stankus <lucas.p.stankus@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Alexandru Ardelean <ardeleanalex@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   672c0c5173427e6b3e2a9bbb7be51ceeec78093a
-commit: acaf4d2e36b3466334af4d3ee6ac254c3316165c net: dsa: mv88e6xxx: MST O=
-ffloading
-date:   6 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 weeks ago
-compiler: arc-elf-gcc (GCC) 11.3.0
+commit: 6a7e4b04df3f4fb91a1516671a2610a0ac9f0c69 staging: iio: cdc: ad7746:=
+ extract capac setup to own function
+date:   11 months ago
+:::::: branch date: 86 minutes ago
+:::::: commit date: 11 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout acaf4d2e36b3466334af4d3ee6ac254c3316165c
+        git checkout 6a7e4b04df3f4fb91a1516671a2610a0ac9f0c69
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -39,178 +40,158 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> net/ipv4/icmp.c:402:13: warning: Using argument icmp_param that points a=
-t uninitialized variable icmp_param [ctuuninitvar]
-    int type =3D icmp_param->data.icmph.type;
-               ^
-   net/ipv4/icmp.c:1006:12: note: Calling function icmp_reply, 1st argument=
- is uninitialized
-    icmp_reply(&icmp_param, skb);
-              ^
-   net/ipv4/icmp.c:402:13: note: Using argument icmp_param
-    int type =3D icmp_param->data.icmph.type;
-               ^
---
->> net/ipv4/igmp.c:2073:60: warning: Parameter 'pmca' can be declared with =
-const [constParameter]
-   static int ip_mc_add_src(struct in_device *in_dev, __be32 *pmca, int sfm=
-ode,
-                                                              ^
->> net/ipv4/igmp.c:1853:10: warning: Parameter 'psfsrc' can be declared wit=
-h const [constParameter]
-    __be32 *psfsrc)
-            ^
-   net/ipv4/igmp.c:1901:60: warning: Parameter 'pmca' can be declared with =
-const [constParameter]
-   static int ip_mc_del_src(struct in_device *in_dev, __be32 *pmca, int sfm=
-ode,
-                                                              ^
-   net/ipv4/igmp.c:1968:10: warning: Parameter 'psfsrc' can be declared wit=
-h const [constParameter]
-    __be32 *psfsrc)
-            ^
->> net/ipv4/igmp.c:858:73: warning: Parameter 'srcs' can be declared with c=
-onst [constParameter]
-   static int igmp_xmarksources(struct ip_mc_list *pmc, int nsrcs, __be32 *=
-srcs)
-                                                                           ^
---
->> drivers/net/dsa/mv88e6xxx/chip.c:1852:12: warning: Uninitialized variabl=
-e: mst->stu [uninitvar]
-     if (mst->stu.sid !=3D sid)
-              ^
-   drivers/net/dsa/mv88e6xxx/chip.c:1848:6: note: Assuming condition is fal=
-se
-    if (!sid)
-        ^
-   drivers/net/dsa/mv88e6xxx/chip.c:1852:12: note: Uninitialized variable: =
-mst->stu
-     if (mst->stu.sid !=3D sid)
-              ^
-   drivers/net/dsa/mv88e6xxx/chip.c:3940:18: warning: Uninitialized variabl=
-e: mdio_bus->external [uninitvar]
-     if (!mdio_bus->external)
-                    ^
-   drivers/net/dsa/mv88e6xxx/chip.c:3941:37: warning: Uninitialized variabl=
-e: bus [uninitvar]
-      mv88e6xxx_g2_irq_mdio_free(chip, bus);
-                                       ^
-   drivers/net/dsa/mv88e6xxx/chip.c:3938:17: note: Assignment 'bus=3Dmdio_b=
-us->bus', assigned value is <Uninit>
-     bus =3D mdio_bus->bus;
-                   ^
-   drivers/net/dsa/mv88e6xxx/chip.c:3941:37: note: Uninitialized variable: =
-bus
-      mv88e6xxx_g2_irq_mdio_free(chip, bus);
-                                       ^
->> net/ipv4/fib_trie.c:996:11: warning: Uninitialized variable: fa->fa_slen=
- [uninitvar]
-     if (fa->fa_slen < slen)
-             ^
-   net/ipv4/fib_trie.c:988:6: note: Assuming condition is false
-    if (!fah)
-        ^
-   net/ipv4/fib_trie.c:996:11: note: Uninitialized variable: fa->fa_slen
-     if (fa->fa_slen < slen)
-             ^
->> net/ipv4/fib_trie.c:1169:29: warning: Uninitialized variable: last->fa_s=
-len [uninitvar]
-      if (new->fa_slen < last->fa_slen)
-                               ^
->> net/ipv4/fib_trie.c:2179:8: warning: Uninitialized variable: fi [uninitv=
-ar]
-     if (!fi)
-          ^
-   net/ipv4/fib_trie.c:2177:27: note: Assignment 'fi=3Dfa->fa_info', assign=
-ed value is <Uninit>
-     struct fib_info *fi =3D fa->fa_info;
-                             ^
-   net/ipv4/fib_trie.c:2179:8: note: Uninitialized variable: fi
-     if (!fi)
-          ^
->> net/ipv4/fib_trie.c:2185:24: warning: Uninitialized variable: fa->tb_id =
-[uninitvar]
-     if (tb->tb_id !=3D fa->tb_id)
+>> drivers/staging/iio/cdc/ad7746.c:244:24: warning: The statement 'if (chi=
+p->capdac_set!=3Dchan->channel) chip->capdac_set=3Dchan->channel' is logica=
+lly equivalent to 'chip->capdac_set=3Dchan->channel'. [duplicateConditional=
+Assign]
+     if (chip->capdac_set !=3D chan->channel) {
                           ^
-   net/ipv4/fib_trie.c:2179:7: note: Assuming condition is false
-     if (!fi)
-         ^
-   net/ipv4/fib_trie.c:2185:24: note: Uninitialized variable: fa->tb_id
-     if (tb->tb_id !=3D fa->tb_id)
+   drivers/staging/iio/cdc/ad7746.c:246:21: note: Assignment 'chip->capdac_=
+set=3Dchan->channel'
+      chip->capdac_set =3D chan->channel;
+                       ^
+   drivers/staging/iio/cdc/ad7746.c:244:24: note: Condition 'chip->capdac_s=
+et!=3Dchan->channel' is redundant
+     if (chip->capdac_set !=3D chan->channel) {
                           ^
->> net/ipv4/fib_trie.c:2905:61: warning: Parameter 'v' can be declared with=
- const [constParameter]
-   static void *fib_route_seq_next(struct seq_file *seq, void *v, loff_t *p=
-os)
-                                                               ^
-   net/ipv4/fib_trie.c:2815:24: warning: Uninitialized variable: fa->fa_sle=
-n [uninitvar]
-          KEYLENGTH - fa->fa_slen,
-                          ^
-   net/ipv4/fib_trie.c:2976:48: warning: Uninitialized variable: fa->fa_sle=
-n [uninitvar]
-     __be32 mask =3D inet_make_mask(KEYLENGTH - fa->fa_slen);
-                                                  ^
-   net/ipv4/fib_trie.c:2965:8: note: Assuming condition is false
-    if (v =3D=3D SEQ_START_TOKEN) {
-          ^
-   net/ipv4/fib_trie.c:2976:48: note: Uninitialized variable: fa->fa_slen
-     __be32 mask =3D inet_make_mask(KEYLENGTH - fa->fa_slen);
-                                                  ^
 
-vim +1852 drivers/net/dsa/mv88e6xxx/chip.c
+vim +244 drivers/staging/iio/cdc/ad7746.c
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1842  =
+6a7e4b04df3f4f drivers/staging/iio/cdc/ad7746.c Lucas Stankus     2021-05-2=
+3  224  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1843  static int mv88e6xxx_mst=
-_put(struct mv88e6xxx_chip *chip, u8 sid)
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1844  {
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1845  	struct mv88e6xxx_mst *m=
-st, *tmp;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1846  	int err;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1847  =
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  225  static int ad7746_select_channel(struct iio_dev *indio_dev,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  226  				 struct iio_chan_spec const *chan)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  227  {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  228  	struct ad7746_chip_info *chip =3D iio_priv(indio_dev);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  229  	u8 vt_setup, cap_setup;
+afcd0b22e35e0b drivers/staging/iio/cdc/ad7746.c Hern=C3=A1n Gonzalez   2018=
+-04-13  230  	int ret, delay, idx;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  231  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1848  	if (!sid)
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1849  		return 0;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1850  =
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  232  	switch (chan->type) {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  233  	case IIO_CAPACITANCE:
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  234  		cap_setup =3D (chan->address & 0xFF) | AD7746_CAPSETUP_CAPEN;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  235  		vt_setup =3D chip->vt_setup & ~AD7746_VTSETUP_VTEN;
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-2=
+8  236  		idx =3D (chip->config & AD7746_CONF_CAPFS_MASK) >>
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-2=
+8  237  			AD7746_CONF_CAPFS_SHIFT;
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-2=
+8  238  		delay =3D ad7746_cap_filter_rate_table[idx][1];
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  239  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1851  	list_for_each_entry_saf=
-e(mst, tmp, &chip->msts, node) {
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16 @1852  		if (mst->stu.sid !=3D =
-sid)
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1853  			continue;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1854  =
+6a7e4b04df3f4f drivers/staging/iio/cdc/ad7746.c Lucas Stankus     2021-05-2=
+3  240  		ret =3D ad7746_set_capdac(chip, chan->channel);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  241  		if (ret < 0)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  242  			return ret;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  243  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1855  		if (!refcount_dec_and_=
-test(&mst->refcnt))
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1856  			return 0;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1857  =
+6a7e4b04df3f4f drivers/staging/iio/cdc/ad7746.c Lucas Stankus     2021-05-2=
+3 @244  		if (chip->capdac_set !=3D chan->channel) {
+6a7e4b04df3f4f drivers/staging/iio/cdc/ad7746.c Lucas Stankus     2021-05-2=
+3  245  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1858  		mst->stu.valid =3D fal=
-se;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1859  		err =3D mv88e6xxx_stu_=
-loadpurge(chip, &mst->stu);
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1860  		if (err) {
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1861  			refcount_set(&mst->re=
-fcnt, 1);
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1862  			return err;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1863  		}
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1864  =
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  246  			chip->capdac_set =3D chan->channel;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  247  		}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  248  		break;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  249  	case IIO_VOLTAGE:
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  250  	case IIO_TEMP:
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  251  		vt_setup =3D (chan->address & 0xFF) | AD7746_VTSETUP_VTEN;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  252  		cap_setup =3D chip->cap_setup & ~AD7746_CAPSETUP_CAPEN;
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-2=
+8  253  		idx =3D (chip->config & AD7746_CONF_VTFS_MASK) >>
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-2=
+8  254  			AD7746_CONF_VTFS_SHIFT;
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-2=
+8  255  		delay =3D ad7746_cap_filter_rate_table[idx][1];
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  256  		break;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  257  	default:
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  258  		return -EINVAL;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  259  	}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  260  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1865  		list_del(&mst->node);
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1866  		kfree(mst);
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1867  		return 0;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1868  	}
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1869  =
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  261  	if (chip->cap_setup !=3D cap_setup) {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  262  		ret =3D i2c_smbus_write_byte_data(chip->client,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  263  						AD7746_REG_CAP_SETUP,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  264  						cap_setup);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  265  		if (ret < 0)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  266  			return ret;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  267  =
 
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1870  	return -ENOENT;
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1871  }
-acaf4d2e36b346 Tobias Waldekranz 2022-03-16  1872  =
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  268  		chip->cap_setup =3D cap_setup;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  269  	}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  270  =
+
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  271  	if (chip->vt_setup !=3D vt_setup) {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  272  		ret =3D i2c_smbus_write_byte_data(chip->client,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  273  						AD7746_REG_VT_SETUP,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  274  						vt_setup);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  275  		if (ret < 0)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  276  			return ret;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  277  =
+
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  278  		chip->vt_setup =3D vt_setup;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  279  	}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  280  =
+
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  281  	return delay;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  282  }
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-2=
+1  283  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6167398101671281528==--
+--===============4452224708049840102==--
 
