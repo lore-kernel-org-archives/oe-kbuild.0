@@ -1,418 +1,159 @@
-Content-Type: multipart/mixed; boundary="===============1534460988942384440=="
+Content-Type: multipart/mixed; boundary="===============1745044639799363063=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless 11/24] net/rxrpc/call_event.c:258:14: warning: Value stored to 'hard_ack' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 01 May 2022 16:02:20 +0800
-Message-ID: <202205011555.lu9BTCHW-lkp@intel.com>
+Subject: [leon-rdma:testing/rdma-rc 1/3] drivers/infiniband/core/cma.c:4434 rdma_accept() error: we previously assumed 'conn_param' could be null (see line 4426)
+Date: Sun, 01 May 2022 12:29:51 +0800
+Message-ID: <202205011249.duCEt6Ob-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1534460988942384440==
+--===============1745044639799363063==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Mark Zhang <markzhang@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-=
-ringless
-head:   14d1ef9d0da567ca88d30b4c79706079cc997e9f
-commit: 87c13f9a6f1a63f389778a34c67060e7dd5c7209 [11/24] rxrpc: Don't use a=
- ring buffer for call Tx queue
-:::::: branch date: 2 days ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20501/202205011555.lu9BTCHW-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
-649969b9baf3bc2a510266e7912bb16ae9)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/87c13f9a6f1a63f=
-389778a34c67060e7dd5c7209
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/rxrpc-ringl=
-ess
-        git checkout 87c13f9a6f1a63f389778a34c67060e7dd5c7209
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git=
+ testing/rdma-rc
+head:   9d9a7437011f4bc4678581562ed9941f702277fe
+commit: 98466723510491a832171031f591c77e5691979a [1/3] RDMA/cma: Limit join=
+ multicast to UD QP type only
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: nios2-randconfig-m031-20220428 (https://download.01.org/0day-ci/arc=
+hive/20220501/202205011249.duCEt6Ob-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/infiniband/core/cma.c:4434 rdma_accept() error: we previously assum=
+ed 'conn_param' could be null (see line 4426)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2inode.c:491:2: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, (size_t)(&src->CurrentByteOffset) - (size_t)src=
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninit=
+ialized symbol 'sp'.
+
+vim +/conn_param +4434 drivers/infiniband/core/cma.c
+
+628e5f6d39d5a6 Sean Hefty      2006-11-30  4396  =
+
+b09c4d70122091 Leon Romanovsky 2020-09-22  4397  /**
+b09c4d70122091 Leon Romanovsky 2020-09-22  4398   * rdma_accept - Called to=
+ accept a connection request or response.
+b09c4d70122091 Leon Romanovsky 2020-09-22  4399   * @id: Connection identif=
+ier associated with the request.
+b09c4d70122091 Leon Romanovsky 2020-09-22  4400   * @conn_param: Informatio=
+n needed to establish the connection.  This must be
+b09c4d70122091 Leon Romanovsky 2020-09-22  4401   *   provided if accepting=
+ a connection request.  If accepting a connection
+b09c4d70122091 Leon Romanovsky 2020-09-22  4402   *   response, this parame=
+ter must be NULL.
+b09c4d70122091 Leon Romanovsky 2020-09-22  4403   *
+b09c4d70122091 Leon Romanovsky 2020-09-22  4404   * Typically, this routine=
+ is only called by the listener to accept a connection
+b09c4d70122091 Leon Romanovsky 2020-09-22  4405   * request.  It must also =
+be called on the active side of a connection if the
+b09c4d70122091 Leon Romanovsky 2020-09-22  4406   * user is performing thei=
+r own QP transitions.
+b09c4d70122091 Leon Romanovsky 2020-09-22  4407   *
+b09c4d70122091 Leon Romanovsky 2020-09-22  4408   * In the case of error, a=
+ reject message is sent to the remote side and the
+b09c4d70122091 Leon Romanovsky 2020-09-22  4409   * state of the qp associa=
+ted with the id is modified to error, such that any
+b09c4d70122091 Leon Romanovsky 2020-09-22  4410   * previously posted recei=
+ve buffers would be flushed.
+b09c4d70122091 Leon Romanovsky 2020-09-22  4411   *
+b09c4d70122091 Leon Romanovsky 2020-09-22  4412   * This function is for us=
+e by kernel ULPs and must be called from under the
+b09c4d70122091 Leon Romanovsky 2020-09-22  4413   * handler callback.
+b09c4d70122091 Leon Romanovsky 2020-09-22  4414   */
+b09c4d70122091 Leon Romanovsky 2020-09-22  4415  int rdma_accept(struct rdm=
+a_cm_id *id, struct rdma_conn_param *conn_param)
+e51060f08a6196 Sean Hefty      2006-06-17  4416  {
+d114c6feedfe06 Jason Gunthorpe 2020-08-18  4417  	struct rdma_id_private *i=
+d_priv =3D
+d114c6feedfe06 Jason Gunthorpe 2020-08-18  4418  		container_of(id, struct =
+rdma_id_private, id);
+e51060f08a6196 Sean Hefty      2006-06-17  4419  	int ret;
+e51060f08a6196 Sean Hefty      2006-06-17  4420  =
+
+d114c6feedfe06 Jason Gunthorpe 2020-08-18  4421  	lockdep_assert_held(&id_p=
+riv->handler_mutex);
+83e9502d8db142 Nir Muchtar     2011-01-13  4422  =
+
+d114c6feedfe06 Jason Gunthorpe 2020-08-18  4423  	if (READ_ONCE(id_priv->st=
+ate) !=3D RDMA_CM_CONNECT)
+e51060f08a6196 Sean Hefty      2006-06-17  4424  		return -EINVAL;
+e51060f08a6196 Sean Hefty      2006-06-17  4425  =
+
+e51060f08a6196 Sean Hefty      2006-06-17 @4426  	if (!id->qp && conn_param=
+) {
+e51060f08a6196 Sean Hefty      2006-06-17  4427  		id_priv->qp_num =3D conn=
+_param->qp_num;
+e51060f08a6196 Sean Hefty      2006-06-17  4428  		id_priv->srq =3D conn_pa=
+ram->srq;
+e51060f08a6196 Sean Hefty      2006-06-17  4429  	}
+e51060f08a6196 Sean Hefty      2006-06-17  4430  =
+
+72219cea8e246a Michael Wang    2015-05-05  4431  	if (rdma_cap_ib_cm(id->de=
+vice, id->port_num)) {
+f45ee80eb0dda1 Hefty, Sean     2011-10-06  4432  		if (id->qp_type =3D=3D I=
+B_QPT_UD) {
+628e5f6d39d5a6 Sean Hefty      2006-11-30  4433  			ret =3D cma_send_sidr_r=
+ep(id_priv, IB_SIDR_SUCCESS,
+5c438135adf90b Sean Hefty      2013-05-29 @4434  						conn_param->qkey,
+628e5f6d39d5a6 Sean Hefty      2006-11-30  4435  						conn_param->private_=
+data,
+628e5f6d39d5a6 Sean Hefty      2006-11-30  4436  						conn_param->private_=
+data_len);
+f45ee80eb0dda1 Hefty, Sean     2011-10-06  4437  		} else {
+f45ee80eb0dda1 Hefty, Sean     2011-10-06  4438  			if (conn_param)
+e51060f08a6196 Sean Hefty      2006-06-17  4439  				ret =3D cma_accept_ib(=
+id_priv, conn_param);
+e51060f08a6196 Sean Hefty      2006-06-17  4440  			else
+e51060f08a6196 Sean Hefty      2006-06-17  4441  				ret =3D cma_rep_recv(i=
+d_priv);
+f45ee80eb0dda1 Hefty, Sean     2011-10-06  4442  		}
+b6eb7011f561a2 Wenpeng Liang   2021-04-07  4443  	} else if (rdma_cap_iw_cm=
+(id->device, id->port_num)) {
+07ebafbaaa72aa Tom Tucker      2006-08-03  4444  		ret =3D cma_accept_iw(id=
+_priv, conn_param);
+b6eb7011f561a2 Wenpeng Liang   2021-04-07  4445  	} else {
+e51060f08a6196 Sean Hefty      2006-06-17  4446  		ret =3D -ENOSYS;
+b6eb7011f561a2 Wenpeng Liang   2021-04-07  4447  	}
+e51060f08a6196 Sean Hefty      2006-06-17  4448  	if (ret)
+e51060f08a6196 Sean Hefty      2006-06-17  4449  		goto reject;
+e51060f08a6196 Sean Hefty      2006-06-17  4450  =
+
+e51060f08a6196 Sean Hefty      2006-06-17  4451  	return 0;
+e51060f08a6196 Sean Hefty      2006-06-17  4452  reject:
+c5483388bb4d77 Sean Hefty      2007-09-24  4453  	cma_modify_qp_err(id_priv=
 );
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2inode.c:605:2: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(data, smb2_data, sizeof(struct smb311_posix_qinfo));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2inode.c:605:2: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-           memcpy(data, smb2_data, sizeof(struct smb311_posix_qinfo));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2inode.c:634:2: warning: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&data, 0, sizeof(data));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2inode.c:634:2: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-           memset(&data, 0, sizeof(data));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 76 warnings (76 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   fs/reiserfs/tail_conversion.c:157:3: warning: Call to function 'memset' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(kaddr + pgoff, 0, blk_size - total_tail);
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   fs/reiserfs/tail_conversion.c:157:3: note: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11
-                   memset(kaddr + pgoff, 0, blk_size - total_tail);
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   91 warnings generated.
->> net/rxrpc/call_event.c:258:14: warning: Value stored to 'hard_ack' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           rxrpc_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
-                       ^~~~~~~~
-   net/rxrpc/call_event.c:258:14: note: Value stored to 'hard_ack' during i=
-ts initialization is never read
-           rxrpc_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
-                       ^~~~~~~~
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   93 warnings generated.
-   net/rxrpc/call_object.c:170:2: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&call->sock_node, 0xed, sizeof(call->sock_node));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/rxrpc/call_object.c:170:2: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-           memset(&call->sock_node, 0xed, sizeof(call->sock_node));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/rxrpc/call_object.c:569:3: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&call->sock_node, 0xdd, sizeof(call->sock_node));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/rxrpc/call_object.c:569:3: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-                   memset(&call->sock_node, 0xdd, sizeof(call->sock_node));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/rxrpc/call_object.c:688:2: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&call->sock_node, 0xcd, sizeof(call->sock_node));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/rxrpc/call_object.c:688:2: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-           memset(&call->sock_node, 0xcd, sizeof(call->sock_node));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   76 warnings generated.
-   Suppressed 76 warnings (76 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   76 warnings generated.
-   Suppressed 76 warnings (76 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   78 warnings generated.
-   drivers/net/wireless/st/cw1200/cw1200_sdio.c:297:2: warning: Value store=
-d to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-           status =3D cw1200_sdio_irq_subscribe(self);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/st/cw1200/cw1200_sdio.c:297:2: note: Value stored t=
-o 'status' is never read
-           status =3D cw1200_sdio_irq_subscribe(self);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 77 warnings (77 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   119 warnings generated.
-   drivers/net/wireless/ti/wlcore/main.c:729:2: warning: Call to function '=
-memset' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(data, 0, sizeof(*data));
+8094ba0ace7f6c Leon Romanovsky 2020-05-26  4454  	rdma_reject(id, NULL, 0, =
+IB_CM_REJ_CONSUMER_DEFINED);
+e51060f08a6196 Sean Hefty      2006-06-17  4455  	return ret;
+e51060f08a6196 Sean Hefty      2006-06-17  4456  }
+b09c4d70122091 Leon Romanovsky 2020-09-22  4457  EXPORT_SYMBOL(rdma_accept);
+e51060f08a6196 Sean Hefty      2006-06-17  4458  =
 
-vim +/hard_ack +258 net/rxrpc/call_event.c
 
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  251  =
+:::::: The code at line 4434 was first introduced by commit
+:::::: 5c438135adf90b33cb00e5351becf1e557bbdd9d RDMA/cma: Set qkey for AF_IB
 
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  252  /*
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  253   * Shr=
-ink the transmit queue.
-2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  254   */
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  255  void r=
-xrpc_shrink_call_tx_queue(struct rxrpc_call *call)
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  256  {
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  257  	struc=
-t rxrpc_txbuf *txb;
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31 @258  	rxrpc=
-_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
-2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  259  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  260  	_ente=
-r("%x/%x/%x", call->tx_bottom, call->acks_hard_ack, call->tx_top);
-2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  261  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  262  	for (=
-;;) {
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  263  		spin=
-_lock(&call->tx_lock);
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  264  		txb =
-=3D list_first_entry_or_null(&call->tx_queue,
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  265  					 =
-      struct rxrpc_txbuf, call_link);
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  266  		if (=
-!txb)
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  267  			bre=
-ak;
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  268  		hard=
-_ack =3D smp_load_acquire(&call->acks_hard_ack);
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  269  		if (=
-before(hard_ack, txb->seq))
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  270  			bre=
-ak;
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  271  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  272  		ASSE=
-RTCMP(txb->seq, =3D=3D, call->tx_bottom + 1);
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  273  		call=
-->tx_bottom++;
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  274  		list=
-_del_rcu(&txb->call_link);
-224711df5c00f7 net/rxrpc/ar-ack.c     David Howells 2007-05-04  275  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  276  		trac=
-e_rxrpc_txqueue(call, rxrpc_txqueue_dequeue);
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  277  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  278  		spin=
-_unlock(&call->tx_lock);
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  279  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  280  		rxrp=
-c_put_txbuf(txb, rxrpc_txbuf_put_rotated);
-dfa7d9204054b0 net/rxrpc/call_event.c David Howells 2016-09-17  281  	}
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  282  =
-
-87c13f9a6f1a63 net/rxrpc/call_event.c David Howells 2022-03-31  283  	spin_=
-unlock(&call->tx_lock);
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  284  }
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  285  =
-
+:::::: TO: Sean Hefty <sean.hefty@intel.com>
+:::::: CC: Roland Dreier <roland@purestorage.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1534460988942384440==--
+--===============1745044639799363063==--
 
