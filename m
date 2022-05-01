@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8251365155964445404=="
+Content-Type: multipart/mixed; boundary="===============6094581564845673514=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/amphion/vpu_msgs.c:138:11: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 01 May 2022 12:29:49 +0800
-Message-ID: <202205011201.ePEvrkWw-lkp@intel.com>
+Subject: drivers/gpu/drm/tegra/fb.c:126:14: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 01 May 2022 12:19:30 +0800
+Message-ID: <202205011237.q3yv0vew-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8251365155964445404==
+--===============6094581564845673514==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,21 +16,21 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Ming Qian <ming.qian@nxp.com>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Kees Cook <keescook@chromium.org>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   57ae8a492116910bad2b3497ffe555b3a4b4180f
-commit: 42356ecbdb69e49cffd0c1df791280965f9f90e1 media: amphion: add amphio=
-n vpu entry in Kconfig and Makefile
-date:   8 weeks ago
+commit: f611b1e7624ccdbd495c19e9805629e22265aa16 drm: Avoid circular depend=
+encies for CONFIG_FB
+date:   11 months ago
 :::::: branch date: 11 hours ago
-:::::: commit date: 8 weeks ago
-config: arm-randconfig-c002-20220427 (https://download.01.org/0day-ci/archi=
-ve/20220501/202205011201.ePEvrkWw-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220501 (https://download.01.org/0day-ci/archi=
+ve/20220501/202205011237.q3yv0vew-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
+649969b9baf3bc2a510266e7912bb16ae9)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -38,11 +38,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D42356ecbdb69e49cffd0c1df791280965f9f90e1
+t/commit/?id=3Df611b1e7624ccdbd495c19e9805629e22265aa16
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 42356ecbdb69e49cffd0c1df791280965f9f90e1
+        git checkout f611b1e7624ccdbd495c19e9805629e22265aa16
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -53,322 +53,357 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:426:2: warning: 4th =
+function call argument is an uninitialized value [clang-analyzer-core.CallA=
+ndMessage]
+           dev_err(mhdp->dev, "HDCP authentication failed (%d tries/%d)\n",
+           ^
+   include/linux/dev_printk.h:112:2: note: expanded from macro 'dev_err'
+           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:535:8: note: Calling=
+ '_cdns_mhdp_hdcp_enable'
+           ret =3D _cdns_mhdp_hdcp_enable(mhdp, content_type);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:406:6: note: 'ret' d=
+eclared without an initial value
+           int ret, tries =3D 3;
+               ^~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is true.  Entering loop body
+           for (i =3D 0; i < tries; i++) {
+           ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Assumin=
+g 'content_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Left si=
+de of '||' is false
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:411:7: note: Assumin=
+g 'content_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE1
+                       content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE1) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   drivers/media/platform/amphion/vpu_msgs.c:38:2: note: Loop condition is =
-false.  Exiting loop
-           vpu_trace(inst->dev, "[%d] %d:%d %d:%d %d:%d\n",
-           ^
-   drivers/media/platform/amphion/vpu.h:359:4: note: expanded from macro 'v=
-pu_trace'
-                           dev_info(dev, "%s: " fmt, __func__, ## arg);    \
-                           ^
-   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
-           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
-#__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is true.  Entering loop body
+           for (i =3D 0; i < tries; i++) {
            ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   drivers/media/platform/amphion/vpu_msgs.c:38:2: note: 5th function call =
-argument is an uninitialized value
-           vpu_trace(inst->dev, "[%d] %d:%d %d:%d %d:%d\n",
-           ^
-   drivers/media/platform/amphion/vpu.h:359:4: note: expanded from macro 'v=
-pu_trace'
-                           dev_info(dev, "%s: " fmt, __func__, ## arg);    \
-                           ^                                      ~~~
-   include/linux/dev_printk.h:150:24: note: expanded from macro 'dev_info'
-           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
-#__VA_ARGS__)
-                                 ^                                         =
- ~~~~~~~~~~~
-   include/linux/dev_printk.h:110:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                   ^                   ~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:46:2: warning: 2nd function ca=
-ll argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-           call_void_vop(inst, mem_request,
-           ^
-   drivers/media/platform/amphion/vpu.h:286:4: note: expanded from macro 'c=
-all_void_vop'
-                           (inst)->ops->op(inst, ##args);                  =
-        \
-                           ^                       ~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:37:2: note: Calling 'vpu_iface=
-_unpack_msg_data'
-           vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&req_data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_rpc.h:305:6: note: Assuming 'ops' is =
-null
-           if (!ops || !ops->unpack_msg_data)
-               ^~~~
-   drivers/media/platform/amphion/vpu_rpc.h:305:11: note: Left side of '||'=
- is true
-           if (!ops || !ops->unpack_msg_data)
-                    ^
-   drivers/media/platform/amphion/vpu_rpc.h:306:3: note: Returning without =
-writing to 'data->enc_frame_size'
-                   return -EINVAL;
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Left si=
+de of '||' is false
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:411:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE1
+                       content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE1) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
                    ^
-   drivers/media/platform/amphion/vpu_msgs.c:37:2: note: Returning from 'vp=
-u_iface_unpack_msg_data'
-           vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&req_data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:38:2: note: Assuming 'debug' i=
-s false
-           vpu_trace(inst->dev, "[%d] %d:%d %d:%d %d:%d\n",
-           ^
-   drivers/media/platform/amphion/vpu.h:358:7: note: expanded from macro 'v=
-pu_trace'
-                   if (debug)                                              \
-                       ^~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:38:2: note: Taking false branch
-           vpu_trace(inst->dev, "[%d] %d:%d %d:%d %d:%d\n",
-           ^
-   drivers/media/platform/amphion/vpu.h:358:3: note: expanded from macro 'v=
-pu_trace'
-                   if (debug)                                              \
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
                    ^
-   drivers/media/platform/amphion/vpu_msgs.c:38:2: note: Loop condition is =
-false.  Exiting loop
-           vpu_trace(inst->dev, "[%d] %d:%d %d:%d %d:%d\n",
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is true.  Entering loop body
+           for (i =3D 0; i < tries; i++) {
            ^
-   drivers/media/platform/amphion/vpu.h:357:2: note: expanded from macro 'v=
-pu_trace'
-           do {                                                            \
-           ^
-   drivers/media/platform/amphion/vpu_msgs.c:46:2: note: Assuming field 'me=
-m_request' is non-null
-           call_void_vop(inst, mem_request,
-           ^
-   drivers/media/platform/amphion/vpu.h:285:7: note: expanded from macro 'c=
-all_void_vop'
-                   if ((inst)->ops->op)                                    \
-                       ^~~~~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:46:2: note: Taking true branch
-           call_void_vop(inst, mem_request,
-           ^
-   drivers/media/platform/amphion/vpu.h:285:3: note: expanded from macro 'c=
-all_void_vop'
-                   if ((inst)->ops->op)                                    \
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Left si=
+de of '||' is false
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:411:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE1
+                       content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE1) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
                    ^
-   drivers/media/platform/amphion/vpu_msgs.c:46:2: note: 2nd function call =
-argument is an uninitialized value
-           call_void_vop(inst, mem_request,
-           ^
-   drivers/media/platform/amphion/vpu.h:286:4: note: expanded from macro 'c=
-all_void_vop'
-                           (inst)->ops->op(inst, ##args);                  =
-        \
-                           ^                       ~~~~
->> drivers/media/platform/amphion/vpu_msgs.c:138:11: warning: Assigned valu=
-e is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           frame.id =3D info.id;
-                    ^ ~~~~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:135:2: note: Calling 'vpu_ifac=
-e_unpack_msg_data'
-           vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&info);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_rpc.h:305:6: note: Assuming 'ops' is =
-null
-           if (!ops || !ops->unpack_msg_data)
-               ^~~~
-   drivers/media/platform/amphion/vpu_rpc.h:305:11: note: Left side of '||'=
- is true
-           if (!ops || !ops->unpack_msg_data)
-                    ^
-   drivers/media/platform/amphion/vpu_rpc.h:306:3: note: Returning without =
-writing to 'data->id'
-                   return -EINVAL;
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
                    ^
-   drivers/media/platform/amphion/vpu_msgs.c:135:2: note: Returning from 'v=
-pu_iface_unpack_msg_data'
-           vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&info);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:136:6: note: Assuming field 't=
-ype' is not equal to VPU_CORE_TYPE_DEC
-           if (inst->core->type =3D=3D VPU_CORE_TYPE_DEC)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/amphion/vpu_msgs.c:136:2: note: Taking false bran=
-ch
-           if (inst->core->type =3D=3D VPU_CORE_TYPE_DEC)
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is false. Execution continues on line 426
+           for (i =3D 0; i < tries; i++) {
            ^
-   drivers/media/platform/amphion/vpu_msgs.c:138:11: note: Assigned value i=
-s garbage or undefined
-           frame.id =3D info.id;
-                    ^ ~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   4 warnings generated.
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: warning: Value =
-stored to 'gen' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: note: Value sto=
-red to 'gen' during its initialization is never read
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: warning: Value =
-stored to 'rev' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: note: Value sto=
-red to 'rev' during its initialization is never read
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: warning: Value =
-stored to 'step' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: note: Value sto=
-red to 'step' during its initialization is never read
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   4 warnings generated.
-   drivers/media/platform/qcom/camss/camss-vfe-480.c:101:6: warning: Value =
-stored to 'gen' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-480.c:101:6: note: Value sto=
-red to 'gen' during its initialization is never read
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-480.c:102:6: warning: Value =
-stored to 'rev' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-480.c:102:6: note: Value sto=
-red to 'rev' during its initialization is never read
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-480.c:103:6: warning: Value =
-stored to 'step' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-480.c:103:6: note: Value sto=
-red to 'step' during its initialization is never read
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:426:2: note: 4th fun=
+ction call argument is an uninitialized value
+           dev_err(mhdp->dev, "HDCP authentication failed (%d tries/%d)\n",
+           ^
+   include/linux/dev_printk.h:112:2: note: expanded from macro 'dev_err'
+           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^                             ~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+>> drivers/gpu/drm/tegra/fb.c:126:14: warning: Assigned value is garbage or=
+ undefined [clang-analyzer-core.uninitialized.Assign]
+                   fb->obj[i] =3D &planes[i]->gem;
+                              ^
+   drivers/gpu/drm/tegra/fb.c:150:14: note: Assuming 'i' is >=3D field 'num=
+_planes'
+           for (i =3D 0; i < info->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/fb.c:150:2: note: Loop condition is false. Executi=
+on continues on line 174
+           for (i =3D 0; i < info->num_planes; i++) {
+           ^
+   drivers/gpu/drm/tegra/fb.c:174:7: note: Calling 'tegra_fb_alloc'
+           fb =3D tegra_fb_alloc(drm, cmd, planes, i);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/fb.c:119:7: note: Calling 'kzalloc'
+           fb =3D kzalloc(sizeof(*fb), GFP_KERNEL);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:544:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:561:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/fb.c:119:7: note: Returning from 'kzalloc'
+           fb =3D kzalloc(sizeof(*fb), GFP_KERNEL);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/fb.c:120:6: note: Assuming 'fb' is non-null
+           if (!fb)
+               ^~~
+   drivers/gpu/drm/tegra/fb.c:120:2: note: Taking false branch
+           if (!fb)
+           ^
+   drivers/gpu/drm/tegra/fb.c:125:7: note: The value 0 is assigned to 'i'
+           for (i =3D 0; i < fb->format->num_planes; i++)
+                ^~~~~
+   drivers/gpu/drm/tegra/fb.c:125:14: note: Assuming 'i' is < field 'num_pl=
+anes'
+           for (i =3D 0; i < fb->format->num_planes; i++)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/fb.c:125:2: note: Loop condition is true.  Enterin=
+g loop body
+           for (i =3D 0; i < fb->format->num_planes; i++)
+           ^
+   drivers/gpu/drm/tegra/fb.c:126:14: note: Assigned value is garbage or un=
+defined
+                   fb->obj[i] =3D &planes[i]->gem;
+                              ^ ~~~~~~~~~~~~~~~
+   3 warnings generated.
+   kernel/kallsyms.c:420:3: warning: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(buffer, name);
+                   ^~~~~~
+   kernel/kallsyms.c:420:3: note: Call to function 'strcpy' is insecure as =
+it does not provide bounding of the memory buffer. Replace unbounded copy f=
+unctions with analogous functions that support length arguments such as 'st=
+rlcpy'. CWE-119
+                   strcpy(buffer, name);
+                   ^~~~~~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:1426:2: warning: Value stored to 'id'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+           id =3D sun4i_tcon_of_get_id_from_port(port);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:1426:2: note: Value stored to 'id' is=
+ never read
+           id =3D sun4i_tcon_of_get_id_from_port(port);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+   drivers/gpu/drm/sun4i/sun4i_tv.c:491:3: warning: Call to function 'strcp=
+y' is insecure as it does not provide bounding of the memory buffer. Replac=
+e unbounded copy functions with analogous functions that support length arg=
+uments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strc=
+py]
+                   strcpy(mode->name, tv_mode->name);
+                   ^~~~~~
+   drivers/gpu/drm/sun4i/sun4i_tv.c:491:3: note: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119
+                   strcpy(mode->name, tv_mode->name);
+                   ^~~~~~
    Suppressed 1 warnings (1 with check filters).
    1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
+   drivers/iio/pressure/dlhl60d.c:45:8: warning: Excessive padding in 'stru=
+ct dlh_state' (32 padding bytes, where 0 is optimal). =
+
+   Optimal fields order: =
+
+   rx_buf, =
+
+   use_interrupt, =
+
+   client, =
+
+   info, =
+
+   completion, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct dlh_state {
+   ~~~~~~~^~~~~~~~~~~
+   drivers/iio/pressure/dlhl60d.c:45:8: note: Excessive padding in 'struct =
+dlh_state' (32 padding bytes, where 0 is optimal). Optimal fields order: rx=
+_buf, use_interrupt, client, info, completion, consider reordering the fiel=
+ds or adding explicit padding members
+   struct dlh_state {
+   ~~~~~~~^~~~~~~~~~~
    2 warnings generated.
-   include/media/v4l2-subdev.h:987:10: warning: Access to field 'pads' resu=
-lts in a dereference of a null pointer (loaded from variable 'state') [clan=
-g-analyzer-core.NullDereference]
-           return &state->pads[pad].try_fmt;
-                   ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1533:14: note: Assuming 'i=
-' is < field 'line_num'
-           for (i =3D 0; i < vfe->line_num; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1533:2: note: Loop conditi=
-on is true.  Entering loop body
-           for (i =3D 0; i < vfe->line_num; i++) {
-           ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1543:7: note: 'i' is not e=
-qual to VFE_LINE_PIX
-                   if (i =3D=3D VFE_LINE_PIX)
-                       ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1543:3: note: Taking false=
- branch
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1552:9: note: Calling 'vfe=
-_init_formats'
-                   ret =3D vfe_init_formats(sd, NULL);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1260:12: note: 'fh' is null
-                   .which =3D fh ? V4L2_SUBDEV_FORMAT_TRY :
-                            ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1260:12: note: '?' conditi=
-on is false
-   drivers/media/platform/qcom/camss/camss-vfe.c:1269:28: note: 'fh' is null
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                                     ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1269:28: note: '?' conditi=
-on is false
-   drivers/media/platform/qcom/camss/camss-vfe.c:1269:28: note: Passing nul=
-l pointer value via 2nd parameter 'sd_state'
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                                     ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1269:9: note: Calling 'vfe=
-_set_format'
+   drivers/pinctrl/pinctrl-rockchip.c:159:8: warning: Excessive padding in =
+'struct rockchip_pin_bank' (9 padding bytes, where 1 is optimal). =
 
-vim +138 drivers/media/platform/amphion/vpu_msgs.c
-
-61cbf1c1fa6d74 Ming Qian 2022-02-24  128  =
-
-61cbf1c1fa6d74 Ming Qian 2022-02-24  129  static void vpu_session_handle_pi=
-c_done(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
-61cbf1c1fa6d74 Ming Qian 2022-02-24  130  {
-61cbf1c1fa6d74 Ming Qian 2022-02-24  131  	struct vpu_dec_pic_info info;
-61cbf1c1fa6d74 Ming Qian 2022-02-24  132  	struct vpu_frame_info frame;
-61cbf1c1fa6d74 Ming Qian 2022-02-24  133  =
-
-61cbf1c1fa6d74 Ming Qian 2022-02-24  134  	memset(&frame, 0, sizeof(frame));
-61cbf1c1fa6d74 Ming Qian 2022-02-24  135  	vpu_iface_unpack_msg_data(inst->=
-core, pkt, (void *)&info);
-61cbf1c1fa6d74 Ming Qian 2022-02-24  136  	if (inst->core->type =3D=3D VPU_=
-CORE_TYPE_DEC)
-61cbf1c1fa6d74 Ming Qian 2022-02-24  137  		frame.type =3D inst->cap_format=
-.type;
-61cbf1c1fa6d74 Ming Qian 2022-02-24 @138  	frame.id =3D info.id;
-61cbf1c1fa6d74 Ming Qian 2022-02-24  139  	frame.luma =3D info.luma;
-61cbf1c1fa6d74 Ming Qian 2022-02-24  140  	frame.skipped =3D info.skipped;
-61cbf1c1fa6d74 Ming Qian 2022-02-24  141  	frame.timestamp =3D info.timesta=
-mp;
-61cbf1c1fa6d74 Ming Qian 2022-02-24  142  =
-
-61cbf1c1fa6d74 Ming Qian 2022-02-24  143  	call_void_vop(inst, buf_done, &f=
-rame);
-61cbf1c1fa6d74 Ming Qian 2022-02-24  144  }
-61cbf1c1fa6d74 Ming Qian 2022-02-24  145  =
+   Optimal fields order: =
 
 
-:::::: The code at line 138 was first introduced by commit
-:::::: 61cbf1c1fa6d74a6a232a365e0aeddcab11036e4 media: amphion: implement v=
-pu core communication based on mailbox
+vim +126 drivers/gpu/drm/tegra/fb.c
 
-:::::: TO: Ming Qian <ming.qian@nxp.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  109  =
+
+dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  110 =
+ static struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
+1eb83451ba55d7 drivers/gpu/drm/tegra/fb.c  Ville Syrj=C3=A4l=C3=A4   2015-1=
+1-11  111  					      const struct drm_mode_fb_cmd2 *mode_cmd,
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  112 =
+ 					      struct tegra_bo **planes,
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  113 =
+ 					      unsigned int num_planes)
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  114 =
+ {
+dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  115 =
+ 	struct drm_framebuffer *fb;
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  116 =
+ 	unsigned int i;
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  117 =
+ 	int err;
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  118  =
+
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  119 =
+ 	fb =3D kzalloc(sizeof(*fb), GFP_KERNEL);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  120 =
+ 	if (!fb)
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  121 =
+ 		return ERR_PTR(-ENOMEM);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  122  =
+
+dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  123 =
+ 	drm_helper_mode_fill_fb_struct(drm, fb, mode_cmd);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  124  =
+
+dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  125 =
+ 	for (i =3D 0; i < fb->format->num_planes; i++)
+dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30 @126 =
+ 		fb->obj[i] =3D &planes[i]->gem;
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  127  =
+
+dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  128 =
+ 	err =3D drm_framebuffer_init(drm, fb, &tegra_fb_funcs);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  129 =
+ 	if (err < 0) {
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  130 =
+ 		dev_err(drm->dev, "failed to initialize framebuffer: %d\n",
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  131 =
+ 			err);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  132 =
+ 		kfree(fb);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  133 =
+ 		return ERR_PTR(err);
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  134 =
+ 	}
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  135  =
+
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  136 =
+ 	return fb;
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  137 =
+ }
+de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  138  =
+
+
+:::::: The code at line 126 was first introduced by commit
+:::::: dbc33c7d65536bce447057dc6f882decc515047d drm/tegra: tegra_fb -> drm_=
+framebuffer
+
+:::::: TO: Daniel Stone <daniels@collabora.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8251365155964445404==--
+--===============6094581564845673514==--
 
