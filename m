@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6159296214868142618=="
+Content-Type: multipart/mixed; boundary="===============7697391538622192896=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/misc/habanalabs/common/command_submission.c:899:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Sun, 01 May 2022 20:06:01 +0800
-Message-ID: <202205011955.pCLxikdY-lkp@intel.com>
+Subject: [ammarfaizi2-block:netdev/net-next/master 2/4] drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 01 May 2022 19:45:40 +0800
+Message-ID: <202205011920.EFDWrVUv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6159296214868142618==
+--===============7697391538622192896==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,40 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Michael Walle <michael@walle.cc>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   57ae8a492116910bad2b3497ffe555b3a4b4180f
-commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
-ch to static_assert
-date:   6 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
-ve/20220501/202205011955.pCLxikdY-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
-aacce38cd7dd77eebceaf3c98c5707ab3b)
+tree:   https://github.com/ammarfaizi2/linux-block netdev/net-next/master
+head:   48cec73a891cca087fbc7791c4753784180991a9
+commit: 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8 [2/4] net: phy: micrel: mo=
+ve the PHY timestamping check
+:::::: branch date: 21 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20501/202205011920.EFDWrVUv-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
+649969b9baf3bc2a510266e7912bb16ae9)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
+        # https://github.com/ammarfaizi2/linux-block/commit/31d00ca4ce0e1ab=
+f5342854606bbe7d20e38c3f8
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block netdev/net-next/master
+        git checkout 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -56,318 +50,499 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 8 warnings (8 in non-user code).
+   73 warnings generated.
+   drivers/net/phy/icplus.c:107:3: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   err =3D mdiobus_read(phydev->mdio.bus, 30, 0);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/icplus.c:107:3: note: Value stored to 'err' is never read
+                   err =3D mdiobus_read(phydev->mdio.bus, 30, 0);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/icplus.c:131:4: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                           err =3D mdiobus_read(phydev->mdio.bus, i, MII_BM=
+CR);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/icplus.c:131:4: note: Value stored to 'err' is never read
+                           err =3D mdiobus_read(phydev->mdio.bus, i, MII_BM=
+CR);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 71 warnings (71 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   71 warnings generated.
+   Suppressed 71 warnings (71 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/rtc/rtc-rx8025.c:197:3: warning: Value stored to 'status' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                   status &=3D RX8025_BIT_CTRL2_DAFG;
+   69 warnings generated.
+   Suppressed 69 warnings (69 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   76 warnings generated.
+   drivers/net/phy/micrel.c:1280:2: warning: Value stored to 'regval' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:1280:2: note: Value stored to 'regval' is never=
+ read
+           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2222:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
                    ^
-   drivers/rtc/rtc-rx8025.c:197:3: note: Value stored to 'status' is never =
-read
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (8 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (9 in non-user code, 21 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   Suppressed 22 warnings (9 in non-user code, 13 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/atom.c:960:2: warning: Value stored to 'dst' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:960:2: note: Value stored to 'dst' is =
-never read
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:979:2: warning: Value stored to 'dst' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:979:2: note: Value stored to 'dst' is =
-never read
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1386:2: warning: Value stored to 'str_=
-off' is never read [clang-analyzer-deadcode.DeadStores]
-           str_off =3D 0;
-           ^         ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1386:2: note: Value stored to 'str_off=
-' is never read
-           str_off =3D 0;
-           ^         ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1409:2: warning: Value stored to 'off_=
-to_vbios_str' is never read [clang-analyzer-deadcode.DeadStores]
-           off_to_vbios_str =3D 0;
-           ^                  ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1409:2: note: Value stored to 'off_to_=
-vbios_str' is never read
-           off_to_vbios_str =3D 0;
-           ^                  ~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/misc/habanalabs/common/command_submission.c:899:2: warning: Use =
-of memory after it is freed [clang-analyzer-unix.Malloc]
-           list_for_each_entry_safe(job, tmp, &cs->job_list, cs_node)
-           ^
-   include/linux/list.h:717:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:524:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^
-   drivers/misc/habanalabs/common/command_submission.c:1965:6: note: 'rc' i=
-s 0
-           if (rc)
-               ^~
-   drivers/misc/habanalabs/common/command_submission.c:1965:2: note: Taking=
- false branch
-           if (rc)
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:1971:6: note: Assumi=
-ng field 'queue_index' is < field 'max_queues'
-           if (chunk->queue_index >=3D hdev->asic_prop.max_queues) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:1971:2: note: Taking=
- false branch
-           if (chunk->queue_index >=3D hdev->asic_prop.max_queues) {
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:1984:6: note: Assumi=
-ng field 'supports_sync_stream' is not equal to 0
-           if (!hw_queue_prop->supports_sync_stream) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:1984:2: note: Taking=
- false branch
-           if (!hw_queue_prop->supports_sync_stream) {
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:1994:6: note: Assumi=
-ng 'cs_type' is not equal to CS_TYPE_COLLECTIVE_WAIT
-           if (cs_type =3D=3D CS_TYPE_COLLECTIVE_WAIT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:1994:2: note: Taking=
- false branch
-           if (cs_type =3D=3D CS_TYPE_COLLECTIVE_WAIT) {
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:2016:18: note: Assum=
-ing 'cs_type' is not equal to CS_TYPE_WAIT
-           is_wait_cs =3D !!(cs_type =3D=3D CS_TYPE_WAIT ||
-                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:2016:18: note: Left =
-side of '||' is false
-   drivers/misc/habanalabs/common/command_submission.c:2017:4: note: 'cs_ty=
-pe' is not equal to CS_TYPE_COLLECTIVE_WAIT
-                           cs_type =3D=3D CS_TYPE_COLLECTIVE_WAIT);
-                           ^~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:2019:23: note: Assum=
-ing the condition is false
-           cs_encaps_signals =3D !!(flags & HL_CS_FLAGS_ENCAP_SIGNALS);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:2021:6: note: 'is_wa=
-it_cs' is false
-           if (is_wait_cs) {
-               ^~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:2021:2: note: Taking=
- false branch
-           if (is_wait_cs) {
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:2113:7: note: Callin=
-g 'allocate_cs'
-           rc =3D allocate_cs(hdev, ctx, cs_type, ULLONG_MAX, &cs, flags, t=
-imeout);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:778:6: note: Assumin=
-g 'cs' is non-null
-           if (!cs)
-               ^~~
-   drivers/misc/habanalabs/common/command_submission.c:778:2: note: Taking =
-false branch
-           if (!cs)
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:781:7: note: 'cs' is=
- non-null
-           if (!cs) {
-                ^~
-   drivers/misc/habanalabs/common/command_submission.c:781:2: note: Taking =
-false branch
-           if (!cs) {
-           ^
-   drivers/misc/habanalabs/common/command_submission.c:794:19: note: Assumi=
-ng the condition is false
-           cs->timestamp =3D !!(flags & HL_CS_FLAGS_TIMESTAMP);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:798:3: note: Assumin=
-g field 'skip_reset_on_timeout' is 0
-                   hdev->skip_reset_on_timeout ||
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:798:3: note: Left si=
-de of '||' is false
-   drivers/misc/habanalabs/common/command_submission.c:799:4: note: Assumin=
-g the condition is false
-                   !!(flags & HL_CS_FLAGS_SKIP_RESET_ON_TIMEOUT);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/command_submission.c:802:2: note: Loop co=
-ndition is false.  Exiting loop
-           INIT_DELAYED_WORK(&cs->work_tdr, cs_timedout);
-           ^
-   include/linux/workqueue.h:267:2: note: expanded from macro 'INIT_DELAYED=
-_WORK'
-           __INIT_DELAYED_WORK(_work, _func, 0)
-           ^
-   include/linux/workqueue.h:252:3: note: expanded from macro '__INIT_DELAY=
-ED_WORK'
-                   INIT_WORK(&(_work)->work, (_func));                     \
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2222:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
                    ^
-   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
-           __INIT_WORK((_work), (_func), 0)
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2530:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2530:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2576:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2576:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
+                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2729:26: note: Value stored to 'ptp_priv' durin=
+g its initialization is never read
+           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
+                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
+>> drivers/net/phy/micrel.c:2772:30: warning: Value stored to 'shared' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
+                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2772:30: note: Value stored to 'shared' during =
+its initialization is never read
+           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
+                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2782:2: warning: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
+e);
+           ^~~~~~~~
+   drivers/net/phy/micrel.c:2782:2: note: Call to function 'snprintf' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'snprintf_s' in case of C11
+           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
+e);
+           ^~~~~~~~
+   Suppressed 69 warnings (69 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   78 warnings generated.
+   drivers/net/wireless/ath/ath10k/htt.c:295:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&conn_req, 0, sizeof(conn_req));
            ^
-   include/linux/workqueue.h:225:2: note: expanded from macro '__INIT_WORK'
-           do {                                                            \
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/htt.c:295:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(&conn_req, 0, sizeof(conn_req));
            ^
-   drivers/misc/habanalabs/common/command_submission.c:802:2: note: Loop co=
-ndition is false.  Exiting loop
-           INIT_DELAYED_WORK(&cs->work_tdr, cs_timedout);
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/htt.c:296:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&conn_resp, 0, sizeof(conn_resp));
            ^
-   include/linux/workqueue.h:267:2: note: expanded from macro 'INIT_DELAYED=
-_WORK'
-           __INIT_DELAYED_WORK(_work, _func, 0)
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/htt.c:296:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(&conn_resp, 0, sizeof(conn_resp));
            ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 76 warnings (76 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   79 warnings generated.
+   net/tipc/eth_media.c:47:2: warning: Call to function 'sprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(strbuf, "%pM", addr->value);
+           ^~~~~~~
+   net/tipc/eth_media.c:47:2: note: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11
+           sprintf(strbuf, "%pM", addr->value);
+           ^~~~~~~
+   net/tipc/eth_media.c:54:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(msg, 0, TIPC_MEDIA_INFO_SIZE);
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/tipc/eth_media.c:54:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(msg, 0, TIPC_MEDIA_INFO_SIZE);
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/tipc/eth_media.c:56:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(msg + TIPC_MEDIA_ADDR_OFFSET, addr->value, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
 
-vim +899 drivers/misc/habanalabs/common/command_submission.c
+vim +/ptp_priv +2729 drivers/net/phy/micrel.c
 
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  892  =
+b3ec7248f1f4b9 Divya Koppera 2021-12-21  2725  =
 
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  893  static void cs_rollback(struct hl_device *hdev, struct=
- hl_cs *cs)
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  894  {
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  895  	struct hl_cs_job *job, *tmp;
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  896  =
+ece19502834d84 Divya Koppera 2022-03-04  2726  static void lan8814_ptp_init=
+(struct phy_device *phydev)
+ece19502834d84 Divya Koppera 2022-03-04  2727  {
+ece19502834d84 Divya Koppera 2022-03-04  2728  	struct kszphy_priv *priv =
+=3D phydev->priv;
+ece19502834d84 Divya Koppera 2022-03-04 @2729  	struct kszphy_ptp_priv *ptp=
+_priv =3D &priv->ptp_priv;
+ece19502834d84 Divya Koppera 2022-03-04  2730  	u32 temp;
+ece19502834d84 Divya Koppera 2022-03-04  2731  =
 
-2795c8891577c4 drivers/misc/habanalabs/common/command_submission.c Ofir Bit=
-ton 2020-12-08  897  	staged_cs_put(hdev, cs);
-2795c8891577c4 drivers/misc/habanalabs/common/command_submission.c Ofir Bit=
-ton 2020-12-08  898  =
+31d00ca4ce0e1a Michael Walle 2022-04-27  2732  	if (!IS_ENABLED(CONFIG_PTP_=
+1588_CLOCK) ||
+31d00ca4ce0e1a Michael Walle 2022-04-27  2733  	    !IS_ENABLED(CONFIG_NETW=
+ORK_PHY_TIMESTAMPING))
+31d00ca4ce0e1a Michael Walle 2022-04-27  2734  		return;
+31d00ca4ce0e1a Michael Walle 2022-04-27  2735  =
 
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16 @899  	list_for_each_entry_safe(job, tmp, &cs->job_list, cs_=
-node)
-649c4592124b0c drivers/misc/habanalabs/common/command_submission.c Tomer Ta=
-yar 2020-08-10  900  		complete_job(hdev, job);
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  901  }
-eff6f4a0e70b7b drivers/misc/habanalabs/command_submission.c        Oded Gab=
-bay 2019-02-16  902  =
+ece19502834d84 Divya Koppera 2022-03-04  2736  	lanphy_write_page_reg(phyde=
+v, 5, TSU_HARD_RESET, TSU_HARD_RESET_);
+ece19502834d84 Divya Koppera 2022-03-04  2737  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2738  	temp =3D lanphy_read_page_r=
+eg(phydev, 5, PTP_TX_MOD);
+ece19502834d84 Divya Koppera 2022-03-04  2739  	temp |=3D PTP_TX_MOD_BAD_UD=
+PV4_CHKSUM_FORCE_FCS_DIS_;
+ece19502834d84 Divya Koppera 2022-03-04  2740  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_MOD, temp);
+ece19502834d84 Divya Koppera 2022-03-04  2741  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2742  	temp =3D lanphy_read_page_r=
+eg(phydev, 5, PTP_RX_MOD);
+ece19502834d84 Divya Koppera 2022-03-04  2743  	temp |=3D PTP_RX_MOD_BAD_UD=
+PV4_CHKSUM_FORCE_FCS_DIS_;
+ece19502834d84 Divya Koppera 2022-03-04  2744  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_MOD, temp);
+ece19502834d84 Divya Koppera 2022-03-04  2745  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2746  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_PARSE_CONFIG, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2747  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_PARSE_CONFIG, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2748  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2749  	/* Removing default registe=
+rs configs related to L2 and IP */
+ece19502834d84 Divya Koppera 2022-03-04  2750  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_PARSE_L2_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2751  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_PARSE_L2_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2752  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_PARSE_IP_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2753  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_PARSE_IP_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2754  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2755  	skb_queue_head_init(&ptp_pr=
+iv->tx_queue);
+ece19502834d84 Divya Koppera 2022-03-04  2756  	skb_queue_head_init(&ptp_pr=
+iv->rx_queue);
+ece19502834d84 Divya Koppera 2022-03-04  2757  	INIT_LIST_HEAD(&ptp_priv->r=
+x_ts_list);
+ece19502834d84 Divya Koppera 2022-03-04  2758  	spin_lock_init(&ptp_priv->r=
+x_ts_lock);
+ece19502834d84 Divya Koppera 2022-03-04  2759  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2760  	ptp_priv->phydev =3D phydev;
+ece19502834d84 Divya Koppera 2022-03-04  2761  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2762  	ptp_priv->mii_ts.rxtstamp =
+=3D lan8814_rxtstamp;
+ece19502834d84 Divya Koppera 2022-03-04  2763  	ptp_priv->mii_ts.txtstamp =
+=3D lan8814_txtstamp;
+ece19502834d84 Divya Koppera 2022-03-04  2764  	ptp_priv->mii_ts.hwtstamp =
+=3D lan8814_hwtstamp;
+ece19502834d84 Divya Koppera 2022-03-04  2765  	ptp_priv->mii_ts.ts_info  =
+=3D lan8814_ts_info;
+ece19502834d84 Divya Koppera 2022-03-04  2766  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2767  	phydev->mii_ts =3D &ptp_pri=
+v->mii_ts;
+ece19502834d84 Divya Koppera 2022-03-04  2768  }
+ece19502834d84 Divya Koppera 2022-03-04  2769  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2770  static int lan8814_ptp_probe=
+_once(struct phy_device *phydev)
+ece19502834d84 Divya Koppera 2022-03-04  2771  {
+ece19502834d84 Divya Koppera 2022-03-04 @2772  	struct lan8814_shared_priv =
+*shared =3D phydev->shared->priv;
+ece19502834d84 Divya Koppera 2022-03-04  2773  =
+
+31d00ca4ce0e1a Michael Walle 2022-04-27  2774  	if (!IS_ENABLED(CONFIG_PTP_=
+1588_CLOCK) ||
+31d00ca4ce0e1a Michael Walle 2022-04-27  2775  	    !IS_ENABLED(CONFIG_NETW=
+ORK_PHY_TIMESTAMPING))
+31d00ca4ce0e1a Michael Walle 2022-04-27  2776  		return 0;
+31d00ca4ce0e1a Michael Walle 2022-04-27  2777  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2778  	/* Initialise shared lock f=
+or clock*/
+ece19502834d84 Divya Koppera 2022-03-04  2779  	mutex_init(&shared->shared_=
+lock);
+ece19502834d84 Divya Koppera 2022-03-04  2780  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2781  	shared->ptp_clock_info.owne=
+r =3D THIS_MODULE;
+ece19502834d84 Divya Koppera 2022-03-04  2782  	snprintf(shared->ptp_clock_=
+info.name, 30, "%s", phydev->drv->name);
+ece19502834d84 Divya Koppera 2022-03-04  2783  	shared->ptp_clock_info.max_=
+adj =3D 31249999;
+ece19502834d84 Divya Koppera 2022-03-04  2784  	shared->ptp_clock_info.n_al=
+arm =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2785  	shared->ptp_clock_info.n_ex=
+t_ts =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2786  	shared->ptp_clock_info.n_pi=
+ns =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2787  	shared->ptp_clock_info.pps =
+=3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2788  	shared->ptp_clock_info.pin_=
+config =3D NULL;
+ece19502834d84 Divya Koppera 2022-03-04  2789  	shared->ptp_clock_info.adjf=
+ine =3D lan8814_ptpci_adjfine;
+ece19502834d84 Divya Koppera 2022-03-04  2790  	shared->ptp_clock_info.adjt=
+ime =3D lan8814_ptpci_adjtime;
+ece19502834d84 Divya Koppera 2022-03-04  2791  	shared->ptp_clock_info.gett=
+ime64 =3D lan8814_ptpci_gettime64;
+ece19502834d84 Divya Koppera 2022-03-04  2792  	shared->ptp_clock_info.sett=
+ime64 =3D lan8814_ptpci_settime64;
+ece19502834d84 Divya Koppera 2022-03-04  2793  	shared->ptp_clock_info.getc=
+rosststamp =3D NULL;
+ece19502834d84 Divya Koppera 2022-03-04  2794  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2795  	shared->ptp_clock =3D ptp_c=
+lock_register(&shared->ptp_clock_info,
+ece19502834d84 Divya Koppera 2022-03-04  2796  					       &phydev->mdio.de=
+v);
+ece19502834d84 Divya Koppera 2022-03-04  2797  	if (IS_ERR_OR_NULL(shared->=
+ptp_clock)) {
+ece19502834d84 Divya Koppera 2022-03-04  2798  		phydev_err(phydev, "ptp_cl=
+ock_register failed %lu\n",
+ece19502834d84 Divya Koppera 2022-03-04  2799  			   PTR_ERR(shared->ptp_cl=
+ock));
+ece19502834d84 Divya Koppera 2022-03-04  2800  		return -EINVAL;
+ece19502834d84 Divya Koppera 2022-03-04  2801  	}
+ece19502834d84 Divya Koppera 2022-03-04  2802  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2803  	phydev_dbg(phydev, "success=
+fully registered ptp clock\n");
+ece19502834d84 Divya Koppera 2022-03-04  2804  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2805  	shared->phydev =3D phydev;
+ece19502834d84 Divya Koppera 2022-03-04  2806  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2807  	/* The EP.4 is shared betwe=
+en all the PHYs in the package and also it
+ece19502834d84 Divya Koppera 2022-03-04  2808  	 * can be accessed by any o=
+f the PHYs
+ece19502834d84 Divya Koppera 2022-03-04  2809  	 */
+ece19502834d84 Divya Koppera 2022-03-04  2810  	lanphy_write_page_reg(phyde=
+v, 4, LTC_HARD_RESET, LTC_HARD_RESET_);
+ece19502834d84 Divya Koppera 2022-03-04  2811  	lanphy_write_page_reg(phyde=
+v, 4, PTP_OPERATING_MODE,
+ece19502834d84 Divya Koppera 2022-03-04  2812  			      PTP_OPERATING_MODE_=
+STANDALONE_);
+ece19502834d84 Divya Koppera 2022-03-04  2813  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2814  	return 0;
+ece19502834d84 Divya Koppera 2022-03-04  2815  }
+ece19502834d84 Divya Koppera 2022-03-04  2816  =
 
 
-:::::: The code at line 899 was first introduced by commit
-:::::: eff6f4a0e70b7bcf4674f471a768860a74e638a6 habanalabs: add command sub=
-mission module
+:::::: The code at line 2729 was first introduced by commit
+:::::: ece19502834d84ece2e056db28257ca2aa6e4d48 net: phy: micrel: 1588 supp=
+ort for LAN8814 phy
 
-:::::: TO: Oded Gabbay <oded.gabbay@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Divya Koppera <Divya.Koppera@microchip.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6159296214868142618==--
+--===============7697391538622192896==--
 
