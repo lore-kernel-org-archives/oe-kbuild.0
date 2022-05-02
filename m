@@ -1,220 +1,389 @@
-Content-Type: multipart/mixed; boundary="===============6580709814911200127=="
+Content-Type: multipart/mixed; boundary="===============3404901417296848465=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:dyn-drm-trc 11/28] lib/dynamic_debug.c:661:33: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Mon, 02 May 2022 08:52:06 +0800
-Message-ID: <202205020811.Qt9WJBaX-lkp@intel.com>
+Subject: Re: [PATCH] clocksource/drivers: remove unnecessary return in switch statement
+Date: Mon, 02 May 2022 08:01:06 +0800
+Message-ID: <202205020700.vsW8b2Yn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6580709814911200127==
+--===============3404901417296848465==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Jim Cromie <jim.cromie@gmail.com>
+In-Reply-To: <20220425084644.3495153-1-chi.minghao@zte.com.cn>
+References: <20220425084644.3495153-1-chi.minghao@zte.com.cn>
+TO: cgel.zte(a)gmail.com
+TO: daniel(a)thingy.jp
+CC: romain.perier(a)gmail.com
+CC: daniel.lezcano(a)linaro.org
+CC: tglx(a)linutronix.de
+CC: linux-arm-kernel(a)lists.infradead.org
+CC: linux-kernel(a)vger.kernel.org
+CC: Minghao Chi <chi.minghao@zte.com.cn>
+CC: Zeal Robot <zealci@zte.com.cn>
 
-tree:   https://github.com/jimc/linux.git dyn-drm-trc
-head:   801130a0306cf592b0ef268d7b68bbb1bfcce2f9
-commit: b482f3f01a316465458b09cf963ce5c652ccb976 [11/28] dyndbg: support sy=
-mbolic class-names in bitmap
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-compiler: ia64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout b482f3f01a316465458b09cf963ce5c652ccb976
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tip/timers/core]
+[also build test WARNING on v5.18-rc4 next-20220429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cgel-zte-gmail-com/c=
+locksource-drivers-remove-unnecessary-return-in-switch-statement/20220425-1=
+70540
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ce8abf3=
+40e40e1126bfcb9e7679b3d6b524ae3e0
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: riscv-randconfig-c006-20220501 (https://download.01.org/0day-ci/arc=
+hive/20220502/202205020700.vsW8b2Yn-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 09325d=
+36061e42b495d1f4c7e933e260eac260ed)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/f185e49aea517bee5df=
+b706df47fa5f70bfac370
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review cgel-zte-gmail-com/clocksource-dri=
+vers-remove-unnecessary-return-in-switch-statement/20220425-170540
+        git checkout f185e49aea517bee5dfb706df47fa5f70bfac370
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> lib/dynamic_debug.c:661:33: warning: Boolean result is used in bitwise o=
-peration. Clarify expression with parentheses. [clarifyCondition]
-     if (test_bit(idx_rc, &inbits) ^ !!negate) {
-                                   ^
-   lib/dynamic_debug.c:171:14: warning: Redundant initialization for 'query=
-_class'. The initialized value is overwritten before it is read. [redundant=
-Initialization]
-    query_class =3D idx + dt->classes->base;
-                ^
-   lib/dynamic_debug.c:152:18: note: query_class is initialized
-    int query_class =3D -ENOENT;
-                    ^
-   lib/dynamic_debug.c:171:14: note: query_class is overwritten
-    query_class =3D idx + dt->classes->base;
-                ^
->> lib/dynamic_debug.c:1065:15: warning: Local variable 'p' shadows outer a=
-rgument [shadowArgument]
-     char const* p =3D ddebug_class_name(iter, dp);
-                 ^
-   lib/dynamic_debug.c:1045:55: note: Shadowed declaration
-   static int ddebug_proc_show(struct seq_file *m, void *p)
-                                                         ^
-   lib/dynamic_debug.c:1065:15: note: Shadow variable
-     char const* p =3D ddebug_class_name(iter, dp);
-                 ^
->> lib/dynamic_debug.c:1321:14: warning: Comparing pointers that point to d=
-ifferent objects [comparePointers]
-    for (; iter < __stop___dyndbg; iter++) {
-                ^
-   lib/dynamic_debug.c:42:23: note: Variable declared here.
-   extern struct _ddebug __start___dyndbg[];
-                         ^
-   lib/dynamic_debug.c:1318:9: note: Array decayed to pointer here.
-    iter =3D __start___dyndbg;
+clang-analyzer warnings: (new ones prefixed by >>)
+           if (!edmac->edma->m2m && dir !=3D ep93xx_dma_chan_direction(chan=
+)) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/dma/ep93xx_dma.c:1125:24: note: Left side of '&&' is false
+           if (!edmac->edma->m2m && dir !=3D ep93xx_dma_chan_direction(chan=
+)) {
+                                 ^
+   drivers/dma/ep93xx_dma.c:1131:6: note: Assuming the condition is false
+           if (test_and_set_bit(EP93XX_DMA_IS_CYCLIC, &edmac->flags)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/ep93xx_dma.c:1131:2: note: Taking false branch
+           if (test_and_set_bit(EP93XX_DMA_IS_CYCLIC, &edmac->flags)) {
            ^
-   lib/dynamic_debug.c:43:23: note: Variable declared here.
-   extern struct _ddebug __stop___dyndbg[];
-                         ^
-   lib/dynamic_debug.c:1321:16: note: Array decayed to pointer here.
-    for (; iter < __stop___dyndbg; iter++) {
-                  ^
-   lib/dynamic_debug.c:1321:14: note: Comparing pointers that point to diff=
-erent objects
-    for (; iter < __stop___dyndbg; iter++) {
-                ^
->> lib/dynamic_debug.c:996:60: warning: Parameter 'pos' can be declared wit=
-h const [constParameter]
-   static void *ddebug_proc_start(struct seq_file *m, loff_t *pos)
-                                                              ^
->> lib/dynamic_debug.c:1019:57: warning: Parameter 'p' can be declared with=
- const [constParameter]
-   static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
-                                                           ^
-   lib/dynamic_debug.c:202:36: warning: Uninitialized variables: dt.link, d=
-t.classes, dt.num_ddebugs, dt.ddebugs [uninitvar]
-     query_class =3D validate_classname(dt, query->class_string);
-                                      ^
-   lib/dynamic_debug.c:197:21: note: Assuming condition is false
-     if (query->module &&
-                       ^
-   lib/dynamic_debug.c:197:21: note: Assuming condition is false
-     if (query->module &&
-                       ^
-   lib/dynamic_debug.c:197:21: note: Assuming condition is false
-     if (query->module &&
-                       ^
-   lib/dynamic_debug.c:197:21: note: Assuming condition is false
-     if (query->module &&
-                       ^
-   lib/dynamic_debug.c:202:36: note: Uninitialized variables: dt.link, dt.c=
-lasses, dt.num_ddebugs, dt.ddebugs
-     query_class =3D validate_classname(dt, query->class_string);
-                                      ^
->> lib/dynamic_debug.c:1141:20: warning: Uninitialized variable: dt->mod_na=
-me [uninitvar]
-      if (!strcmp(dt->mod_name, map->mod_name)) {
-                      ^
-   lib/dynamic_debug.c:1252:11: warning: Uninitialized variable: dt->mod_na=
-me [uninitvar]
-     if (dt->mod_name =3D=3D mod_name) {
-             ^
-   lib/dynamic_debug.c:1130:12: warning: Uninitialized variable: dt->mod_na=
-me [uninitvar]
-      if (dt->mod_name =3D=3D map->mod->name) {
-              ^
->> lib/dynamic_debug.c:105:12: warning: Using argument fb that points at un=
-initialized variable flags [ctuuninitvar]
-    char *p =3D fb->buf;
-              ^
-   lib/dynamic_debug.c:1060:27: note: Calling function ddebug_describe_flag=
-s, 2nd argument is uninitialized
-        ddebug_describe_flags(dp->flags, &flags));
-                             ^
-   lib/dynamic_debug.c:105:12: note: Using argument fb
-    char *p =3D fb->buf;
-              ^
+   drivers/dma/ep93xx_dma.c:1137:6: note: Assuming 'period_len' is <=3D DMA=
+_MAX_CHAN_BYTES
+           if (period_len > DMA_MAX_CHAN_BYTES) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/ep93xx_dma.c:1137:2: note: Taking false branch
+           if (period_len > DMA_MAX_CHAN_BYTES) {
+           ^
+   drivers/dma/ep93xx_dma.c:1146:2: note: Null pointer value stored to 'fir=
+st'
+           first =3D NULL;
+           ^~~~~~~~~~~~
+   drivers/dma/ep93xx_dma.c:1147:19: note: Assuming 'offset' is >=3D 'buf_l=
+en'
+           for (offset =3D 0; offset < buf_len; offset +=3D period_len) {
+                            ^~~~~~~~~~~~~~~~
+   drivers/dma/ep93xx_dma.c:1147:2: note: Loop condition is false. Executio=
+n continues on line 1170
+           for (offset =3D 0; offset < buf_len; offset +=3D period_len) {
+           ^
+   drivers/dma/ep93xx_dma.c:1170:20: note: Dereference of null pointer
+           first->txd.cookie =3D -EBUSY;
+           ~~~~~~~~~~~~~~~~~~^~~~~~~~
+   drivers/dma/ep93xx_dma.c:1237:2: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&edmac->slave_config, config, sizeof(*config));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/dma/ep93xx_dma.c:1237:2: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&edmac->slave_config, config, sizeof(*config));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   53 warnings generated.
+   fs/nilfs2/ioctl.c:802:3: warning: Value stored to 'msg' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   msg =3D "cannot delete checkpoints";
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nilfs2/ioctl.c:802:3: note: Value stored to 'msg' is never read
+                   msg =3D "cannot delete checkpoints";
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nilfs2/ioctl.c:811:3: warning: Value stored to 'msg' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   msg =3D "cannot delete virtual blocks from DAT file";
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nilfs2/ioctl.c:811:3: note: Value stored to 'msg' is never read
+                   msg =3D "cannot delete virtual blocks from DAT file";
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nilfs2/ioctl.c:819:3: warning: Value stored to 'msg' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   msg =3D "cannot mark copying blocks dirty";
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nilfs2/ioctl.c:819:3: note: Value stored to 'msg' is never read
+                   msg =3D "cannot mark copying blocks dirty";
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+>> drivers/clocksource/timer-msc313e.c:235:3: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D msc313e_clksrc_init(np);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/timer-msc313e.c:235:3: note: Value stored to 'ret' i=
+s never read
+                   ret =3D msc313e_clksrc_init(np);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/timer-msc313e.c:239:3: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D msc313e_clkevt_init(np);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/timer-msc313e.c:239:3: note: Value stored to 'ret' i=
+s never read
+                   ret =3D msc313e_clkevt_init(np);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 40 warnings (39 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   drivers/of/base.c:1296:2: warning: Call to function 'memset' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memset_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(it, 0, sizeof(*it));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/of/base.c:1296:2: note: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11
+           memset(it, 0, sizeof(*it));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/of/base.c:1886:2: warning: Call to function 'strncpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(ap->stem, stem, stem_len);
+           ^~~~~~~
+   drivers/of/base.c:1886:2: note: Call to function 'strncpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'strncpy_s' in case of C11
+           strncpy(ap->stem, stem, stem_len);
+           ^~~~~~~
+   drivers/of/base.c:1957:3: warning: Call to function 'memset' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memset_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(ap, 0, sizeof(*ap) + len + 1);
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/of/base.c:1957:3: note: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11
+                   memset(ap, 0, sizeof(*ap) + len + 1);
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 34 warnings (34 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   51 warnings generated.
+   drivers/regulator/pfuze100-regulator.c:763:2: warning: Call to function =
+'memcpy' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(pfuze_chip->regulator_descs, pfuze_chip->pfuze_regulators,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/regulator/pfuze100-regulator.c:763:2: note: Call to function 'me=
+mcpy' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(pfuze_chip->regulator_descs, pfuze_chip->pfuze_regulators,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   51 warnings generated.
 
-vim +661 lib/dynamic_debug.c
+vim +/ret +235 drivers/clocksource/timer-msc313e.c
 
-3faa991cff50e3 Jim Cromie 2022-04-01  620  =
+5fc1f93f69989e Romain Perier 2021-12-17  227  =
 
-b482f3f01a3164 Jim Cromie 2022-04-06  621  /* support for [+-] symbolic-nam=
-e boolean list */
-b482f3f01a3164 Jim Cromie 2022-04-06  622  static int param_set_dyndbg_clas=
-s_strings(const char *instr, const struct kernel_param *kp)
-b482f3f01a3164 Jim Cromie 2022-04-06  623  {
-b482f3f01a3164 Jim Cromie 2022-04-06  624  	const struct ddebug_classes_bit=
-map_param *dcp =3D kp->arg;
-b482f3f01a3164 Jim Cromie 2022-04-06  625  	unsigned long inbits;
-b482f3f01a3164 Jim Cromie 2022-04-06  626  	int idx_rc, totct =3D 0;
-b482f3f01a3164 Jim Cromie 2022-04-06  627  	bool negate;
-b482f3f01a3164 Jim Cromie 2022-04-06  628  	char *cls, *p;
-b482f3f01a3164 Jim Cromie 2022-04-06  629  =
+5fc1f93f69989e Romain Perier 2021-12-17  228  static int __init msc313e_tim=
+er_init(struct device_node *np)
+5fc1f93f69989e Romain Perier 2021-12-17  229  {
+5fc1f93f69989e Romain Perier 2021-12-17  230  	int ret =3D 0;
+5fc1f93f69989e Romain Perier 2021-12-17  231  	static int num_called;
+5fc1f93f69989e Romain Perier 2021-12-17  232  =
 
-b482f3f01a3164 Jim Cromie 2022-04-06  630  	if (!dcp || !dcp->map) {
-b482f3f01a3164 Jim Cromie 2022-04-06  631  		pr_err("set_dyndbg_classes: no=
- bits=3D>queries map\n");
-b482f3f01a3164 Jim Cromie 2022-04-06  632  		return -EINVAL;
-b482f3f01a3164 Jim Cromie 2022-04-06  633  	}
-b482f3f01a3164 Jim Cromie 2022-04-06  634  =
+5fc1f93f69989e Romain Perier 2021-12-17  233  	switch (num_called) {
+5fc1f93f69989e Romain Perier 2021-12-17  234  	case 0:
+5fc1f93f69989e Romain Perier 2021-12-17 @235  		ret =3D msc313e_clksrc_init=
+(np);
+5fc1f93f69989e Romain Perier 2021-12-17  236  		break;
+5fc1f93f69989e Romain Perier 2021-12-17  237  =
 
-b482f3f01a3164 Jim Cromie 2022-04-06  635  	cls =3D kstrdup(instr, GFP_KERN=
-EL);
-b482f3f01a3164 Jim Cromie 2022-04-06  636  	p =3D strchr(cls, '\n');
-b482f3f01a3164 Jim Cromie 2022-04-06  637  	if (p)
-b482f3f01a3164 Jim Cromie 2022-04-06  638  		*p =3D '\0';
-b482f3f01a3164 Jim Cromie 2022-04-06  639  =
+5fc1f93f69989e Romain Perier 2021-12-17  238  	default:
+5fc1f93f69989e Romain Perier 2021-12-17  239  		ret =3D msc313e_clkevt_init=
+(np);
+5fc1f93f69989e Romain Perier 2021-12-17  240  		break;
+5fc1f93f69989e Romain Perier 2021-12-17  241  	}
+5fc1f93f69989e Romain Perier 2021-12-17  242  =
 
-b482f3f01a3164 Jim Cromie 2022-04-06  640  	inbits =3D *dcp->bits;
-b482f3f01a3164 Jim Cromie 2022-04-06  641  	vpr_info("set_dyndbg_class_stri=
-ngs: %s on 0x%lx\n", cls, inbits);
-b482f3f01a3164 Jim Cromie 2022-04-06  642  =
+5fc1f93f69989e Romain Perier 2021-12-17  243  	num_called++;
+5fc1f93f69989e Romain Perier 2021-12-17  244  =
 
-b482f3f01a3164 Jim Cromie 2022-04-06  643  	for (; cls; cls =3D p) {
-b482f3f01a3164 Jim Cromie 2022-04-06  644  		p =3D strchr(cls, ',');
-b482f3f01a3164 Jim Cromie 2022-04-06  645  		if (p)
-b482f3f01a3164 Jim Cromie 2022-04-06  646  			*p++ =3D '\0';
-b482f3f01a3164 Jim Cromie 2022-04-06  647  =
-
-b482f3f01a3164 Jim Cromie 2022-04-06  648  		if (*cls =3D=3D '-') {
-b482f3f01a3164 Jim Cromie 2022-04-06  649  			negate =3D true;
-b482f3f01a3164 Jim Cromie 2022-04-06  650  			cls++;
-b482f3f01a3164 Jim Cromie 2022-04-06  651  		} else {
-b482f3f01a3164 Jim Cromie 2022-04-06  652  			negate =3D false;
-b482f3f01a3164 Jim Cromie 2022-04-06  653  			if (*cls =3D=3D '+')
-b482f3f01a3164 Jim Cromie 2022-04-06  654  				cls++;
-b482f3f01a3164 Jim Cromie 2022-04-06  655  		}
-b482f3f01a3164 Jim Cromie 2022-04-06  656  		idx_rc =3D match_string(dcp->m=
-ap->classes, -1, cls);
-b482f3f01a3164 Jim Cromie 2022-04-06  657  		if (idx_rc < 0) {
-b482f3f01a3164 Jim Cromie 2022-04-06  658  			pr_err("%s not found for modu=
-le: %s\n", cls, dcp->map->mod_name);
-b482f3f01a3164 Jim Cromie 2022-04-06  659  			continue;
-b482f3f01a3164 Jim Cromie 2022-04-06  660  		}
-b482f3f01a3164 Jim Cromie 2022-04-06 @661  		if (test_bit(idx_rc, &inbits) =
-^ !!negate) {
-b482f3f01a3164 Jim Cromie 2022-04-06  662  			v3pr_info("no change on %s\n"=
-, cls);
-b482f3f01a3164 Jim Cromie 2022-04-06  663  			continue;
-b482f3f01a3164 Jim Cromie 2022-04-06  664  		}
-b482f3f01a3164 Jim Cromie 2022-04-06  665  =
-
-b482f3f01a3164 Jim Cromie 2022-04-06  666  		totct +=3D do_callback_changes=
-(dcp, idx_rc, &inbits);
-b482f3f01a3164 Jim Cromie 2022-04-06  667  =
-
-b482f3f01a3164 Jim Cromie 2022-04-06  668  		inbits ^=3D BIT(idx_rc);
-b482f3f01a3164 Jim Cromie 2022-04-06  669  	}
-b482f3f01a3164 Jim Cromie 2022-04-06  670  	kfree(cls);
-b482f3f01a3164 Jim Cromie 2022-04-06  671  	*dcp->bits =3D inbits;
-b482f3f01a3164 Jim Cromie 2022-04-06  672  	vpr_info("total matches: %d\n",=
- totct);
-b482f3f01a3164 Jim Cromie 2022-04-06  673  	return 0;
-b482f3f01a3164 Jim Cromie 2022-04-06  674  }
-b482f3f01a3164 Jim Cromie 2022-04-06  675  =
+5fc1f93f69989e Romain Perier 2021-12-17  245  	return 0;
+5fc1f93f69989e Romain Perier 2021-12-17  246  }
+5fc1f93f69989e Romain Perier 2021-12-17  247  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6580709814911200127==--
+--===============3404901417296848465==--
 
