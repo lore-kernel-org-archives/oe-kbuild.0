@@ -1,794 +1,688 @@
-Content-Type: multipart/mixed; boundary="===============3199623843273859111=="
+Content-Type: multipart/mixed; boundary="===============0381101347981668124=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15 5484/5636] fs/proc/task_mmu.c:964:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Mon, 02 May 2022 15:22:18 +0800
-Message-ID: <202205021551.jRAj9fbi-lkp@intel.com>
+Subject: drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse: sparse: invalid assignment: |=
+Date: Mon, 02 May 2022 13:50:22 +0800
+Message-ID: <202205021335.c9ZV3Vqo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3199623843273859111==
+--===============0381101347981668124==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: James Smart <jsmart2021@gmail.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Justin Tee <justin.tee@broadcom.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android13-5.15
-head:   754bb029c85fb4b18d198216540f75e635dde8d4
-commit: 67cc8ce9a649a8407c8e815d03b88761c4ddfe67 [5484/5636] FROMLIST: mm: =
-rcu safe vma freeing
-:::::: branch date: 4 weeks ago
-:::::: commit date: 6 weeks ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20502/202205021551.jRAj9fbi-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775=
-649969b9baf3bc2a510266e7912bb16ae9)
-reproduce (this is a W=3D1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   672c0c5173427e6b3e2a9bbb7be51ceeec78093a
+commit: 6831ce129f1948f50f2d2a57995d2ebd7a6fa0b4 scsi: lpfc: SLI path split=
+: Refactor base ELS paths and the FLOGI path
+date:   7 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 weeks ago
+config: arm-randconfig-s031-20220502 (https://download.01.org/0day-ci/archi=
+ve/20220502/202205021335.c9ZV3Vqo-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/67cc8ce9a649a84=
-07c8e815d03b88761c4ddfe67
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
-android13-5.15
-        git checkout 67cc8ce9a649a8407c8e815d03b88761c4ddfe67
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6831ce129f1948f50f2d2a57995d2ebd7a6fa0b4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6831ce129f1948f50f2d2a57995d2ebd7a6fa0b4
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash drivers/scsi/lpfc/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   lib/list_sort.c:243:28: warning: Access to field 'prev' results in a der=
-eference of a null pointer (loaded from variable 'pending') [clang-analyzer=
--core.NullDereference]
-                   struct list_head *next =3D pending->prev;
-                                            ^~~~~~~
-   lib/list_sort.c:187:40: note: 'pending' initialized to a null pointer va=
-lue
-           struct list_head *list =3D head->next, *pending =3D NULL;
-                                                 ^~~~~~~
-   lib/list_sort.c:190:6: note: Assuming 'list' is not equal to field 'prev'
-           if (list =3D=3D head->prev) /* Zero or one elements */
-               ^~~~~~~~~~~~~~~~~~
-   lib/list_sort.c:190:2: note: Taking false branch
-           if (list =3D=3D head->prev) /* Zero or one elements */
-           ^
-   lib/list_sort.c:219:3: note: Loop condition is false. Execution continue=
-s on line 222
-                   for (bits =3D count; bits & 1; bits >>=3D 1)
-                   ^
-   lib/list_sort.c:222:3: note: Taking false branch
-                   if (likely(bits)) {
-                   ^
-   lib/list_sort.c:232:3: note: Null pointer value stored to field 'prev'
-                   list->prev =3D pending;
-                   ^~~~~~~~~~~~~~~~~~~~
-   lib/list_sort.c:214:2: note: Loop condition is false.  Exiting loop
-           do {
-           ^
-   lib/list_sort.c:241:2: note: Null pointer value stored to 'pending'
-           pending =3D pending->prev;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/list_sort.c:242:2: note: Loop condition is true.  Entering loop body
-           for (;;) {
-           ^
-   lib/list_sort.c:243:28: note: Access to field 'prev' results in a derefe=
-rence of a null pointer (loaded from variable 'pending')
-                   struct list_head *next =3D pending->prev;
-                                            ^~~~~~~
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   lib/rhashtable.c:792:21: warning: Value stored to 'p' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]
-           struct rhash_head *p =3D iter->p;
-                              ^   ~~~~~~~
-   lib/rhashtable.c:792:21: note: Value stored to 'p' during its initializa=
-tion is never read
-           struct rhash_head *p =3D iter->p;
-                              ^   ~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> fs/proc/task_mmu.c:964:28: warning: Dereference of null pointer [clang-a=
-nalyzer-core.NullDereference]
-           show_vma_header_prefix(m, priv->mm->mmap->vm_start,
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/proc/task_mmu.c:878:6: note: Assuming field 'task' is non-null
-           if (!priv->task)
-               ^~~~~~~~~~~
-   fs/proc/task_mmu.c:878:2: note: Taking false branch
-           if (!priv->task)
-           ^
-   fs/proc/task_mmu.c:882:6: note: Assuming 'mm' is non-null
-           if (!mm || !mmget_not_zero(mm)) {
-               ^~~
-   fs/proc/task_mmu.c:882:6: note: Left side of '||' is false
-   fs/proc/task_mmu.c:882:2: note: Taking false branch
-           if (!mm || !mmget_not_zero(mm)) {
-           ^
-   fs/proc/task_mmu.c:889:8: note: Calling 'mmap_read_lock_killable'
-           ret =3D mmap_read_lock_killable(mm);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:179:2: note: Calling '__mmap_lock_trace_start_=
-locking'
-           __mmap_lock_trace_start_locking(mm, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:36:2: note: Taking false branch
-           if (tracepoint_enabled(mmap_lock_start_locking))
-           ^
-   include/linux/mmap_lock.h:38:1: note: Returning without writing to 'mm->=
-.mmap', which participates in a condition later
-   }
-   ^
-   include/linux/mmap_lock.h:38:1: note: Returning without writing to 'mm->=
-.mmap'
-   include/linux/mmap_lock.h:179:2: note: Returning from '__mmap_lock_trace=
-_start_locking'
-           __mmap_lock_trace_start_locking(mm, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:180:10: note: Value assigned to field 'mmap', =
-which participates in a condition later
-           error =3D down_read_killable(&mm->mmap_lock);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:180:10: note: Value assigned to field 'mmap'
-           error =3D down_read_killable(&mm->mmap_lock);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:181:48: note: Assuming 'error' is 0, which par=
-ticipates in a condition later
-           __mmap_lock_trace_acquire_returned(mm, false, !error);
-                                                         ^~~~~~
-   include/linux/mmap_lock.h:181:2: note: Calling '__mmap_lock_trace_acquir=
-e_returned'
-           __mmap_lock_trace_acquire_returned(mm, false, !error);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:43:2: note: Taking false branch
-           if (tracepoint_enabled(mmap_lock_acquire_returned))
-           ^
-   include/linux/mmap_lock.h:45:1: note: Returning without writing to 'mm->=
-.mmap', which participates in a condition later
-   }
-   ^
-   include/linux/mmap_lock.h:45:1: note: Returning without writing to 'mm->=
-.mmap'
-   include/linux/mmap_lock.h:181:2: note: Returning from '__mmap_lock_trace=
-_acquire_returned'
-           __mmap_lock_trace_acquire_returned(mm, false, !error);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmap_lock.h:182:2: note: Returning zero (loaded from 'erro=
-r'), which participates in a condition later
-           return error;
-           ^~~~~~~~~~~~
-   fs/proc/task_mmu.c:889:8: note: Returning from 'mmap_read_lock_killable'
-           ret =3D mmap_read_lock_killable(mm);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/proc/task_mmu.c:890:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   fs/proc/task_mmu.c:890:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/proc/task_mmu.c:895:29: note: Assuming pointer value is null
-           for (vma =3D priv->mm->mmap; vma;) {
-                                      ^~~
-   fs/proc/task_mmu.c:895:2: note: Loop condition is false. Execution conti=
-nues on line 964
-           for (vma =3D priv->mm->mmap; vma;) {
-           ^
-   fs/proc/task_mmu.c:964:28: note: Dereference of null pointer
-           show_vma_header_prefix(m, priv->mm->mmap->vm_start,
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-           ^     ~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:227:2: note: Value stored to 'tpg' is ne=
-ver read
-           tpg =3D sess->se_tpg;
-           ^     ~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:1022:26: warning: Value stored to 'se_tp=
-g' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
-res]
-           struct se_portal_group *se_tpg =3D nacl->se_tpg;
-                                   ^~~~~~   ~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:1022:26: note: Value stored to 'se_tpg' =
-during its initialization is never read
-           struct se_portal_group *se_tpg =3D nacl->se_tpg;
-                                   ^~~~~~   ~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:1279:39: warning: Value stored to 'tfo' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const struct target_core_fabric_ops *tfo =3D
-                                                ^~~
-   drivers/target/target_core_pr.c:1279:39: note: Value stored to 'tfo' dur=
-ing its initialization is never read
-           const struct target_core_fabric_ops *tfo =3D
-                                                ^~~
-   drivers/target/target_core_pr.c:1796:3: warning: Value stored to 'dest_s=
-e_deve' is never read [clang-analyzer-deadcode.DeadStores]
-                   dest_se_deve =3D tidh->dest_se_deve;
-                   ^              ~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:1796:3: note: Value stored to 'dest_se_d=
-eve' is never read
-                   dest_se_deve =3D tidh->dest_se_deve;
-                   ^              ~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:1954:3: warning: Value stored to 'len' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   len +=3D sprintf(buf+len, "No Registrations or Reservati=
-ons");
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/target/target_core_pr.c:1954:3: note: Value stored to 'len' is n=
-ever read
-                   len +=3D sprintf(buf+len, "No Registrations or Reservati=
-ons");
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/target/target_core_pr.c:2450:39: warning: Value stored to 'tfo' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const struct target_core_fabric_ops *tfo =3D se_nacl->se_tpg->se=
-_tpg_tfo;
-                                                ^~~   ~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/target/target_core_pr.c:2450:39: note: Value stored to 'tfo' dur=
-ing its initialization is never read
-           const struct target_core_fabric_ops *tfo =3D se_nacl->se_tpg->se=
-_tpg_tfo;
-                                                ^~~   ~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/target/target_core_pr.c:2760:39: warning: Value stored to 'tfo' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const struct target_core_fabric_ops *tfo =3D nacl->se_tpg->se_tp=
-g_tfo;
-                                                ^~~   ~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/target/target_core_pr.c:2760:39: note: Value stored to 'tfo' dur=
-ing its initialization is never read
-           const struct target_core_fabric_ops *tfo =3D nacl->se_tpg->se_tp=
-g_tfo;
-                                                ^~~   ~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/target/target_core_pr.c:3163:2: warning: Value stored to 'tf_ops=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           tf_ops =3D se_tpg->se_tpg_tfo;
-           ^        ~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:3163:2: note: Value stored to 'tf_ops' i=
-s never read
-           tf_ops =3D se_tpg->se_tpg_tfo;
-           ^        ~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pr.c:3924:3: warning: Value stored to 'add_de=
-sc_len' is never read [clang-analyzer-deadcode.DeadStores]
-                   add_desc_len =3D 0;
-                   ^              ~
-   drivers/target/target_core_pr.c:3924:3: note: Value stored to 'add_desc_=
-len' is never read
-                   add_desc_len =3D 0;
-                   ^              ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/acpi/acpica/dbutils.c:298:3: warning: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(buffer, "0");
-                   ^~~~~~
-   drivers/acpi/acpica/dbutils.c:298:3: note: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119
-                   strcpy(buffer, "0");
-                   ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/acpi/button.c:511:3: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(name, ACPI_BUTTON_DEVICE_NAME_POWER);
-                   ^~~~~~
-   drivers/acpi/button.c:511:3: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-                   strcpy(name, ACPI_BUTTON_DEVICE_NAME_POWER);
-                   ^~~~~~
-   drivers/acpi/button.c:517:3: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(name, ACPI_BUTTON_DEVICE_NAME_SLEEP);
-                   ^~~~~~
-   drivers/acpi/button.c:517:3: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-                   strcpy(name, ACPI_BUTTON_DEVICE_NAME_SLEEP);
-                   ^~~~~~
-   drivers/acpi/button.c:522:3: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(name, ACPI_BUTTON_DEVICE_NAME_LID);
-                   ^~~~~~
-   drivers/acpi/button.c:522:3: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-                   strcpy(name, ACPI_BUTTON_DEVICE_NAME_LID);
-                   ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> arch/x86/mm/pat/memtype.c:1098:24: warning: Dereference of null pointer =
-[clang-analyzer-core.NullDereference]
-                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
-                                        ^~~~~~~~~~~~~
-   arch/x86/mm/pat/memtype.c:1092:6: note: Assuming 'vma' is null
-           if (vma && !(vma->vm_flags & VM_PAT))
-               ^~~
-   arch/x86/mm/pat/memtype.c:1092:10: note: Left side of '&&' is false
-           if (vma && !(vma->vm_flags & VM_PAT))
-                   ^
-   arch/x86/mm/pat/memtype.c:1097:6: note: Assuming 'paddr' is 0
-           if (!paddr && !size) {
-               ^~~~~~
-   arch/x86/mm/pat/memtype.c:1097:6: note: Left side of '&&' is true
-   arch/x86/mm/pat/memtype.c:1097:16: note: Assuming 'size' is 0
-           if (!paddr && !size) {
-                         ^~~~~
-   arch/x86/mm/pat/memtype.c:1097:2: note: Taking true branch
-           if (!paddr && !size) {
-           ^
-   arch/x86/mm/pat/memtype.c:1098:24: note: Dereference of null pointer
-                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
-                                        ^~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/acpi/acpica/dbcmds.c:1115:3: warning: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(acpi_db_trace_method_name, method_arg);
-                   ^~~~~~
-   drivers/acpi/acpica/dbcmds.c:1115:3: note: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119
-                   strcpy(acpi_db_trace_method_name, method_arg);
-                   ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   include/linux/list.h:135:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   sound/core/control.c:121:2: note: Loop condition is false.  Exiting loop
-           write_lock_irqsave(&card->ctl_files_rwlock, flags);
-           ^
-   include/linux/rwlock.h:81:2: note: expanded from macro 'write_lock_irqsa=
-ve'
-           do {                                            \
-           ^
-   sound/core/control.c:123:2: note: Loop condition is false.  Exiting loop
-           write_unlock_irqrestore(&card->ctl_files_rwlock, flags);
-           ^
-   include/linux/rwlock.h:118:2: note: expanded from macro 'write_unlock_ir=
-qrestore'
-           do {                                            \
-           ^
-   sound/core/control.c:125:2: note: Left side of '&&' is false
-           list_for_each_entry(control, &card->controls, list)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   sound/core/control.c:125:2: note: Taking false branch
-           list_for_each_entry(control, &card->controls, list)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+sparse warnings: (new ones prefixed by >>)
+   drivers/scsi/lpfc/lpfc_els.c:6521:39: sparse:     expected unsigned int =
+[usertype] function_flags
+   drivers/scsi/lpfc/lpfc_els.c:6521:39: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6522:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6522:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6522:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6533:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6533:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6533:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6550:39: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] f=
+unction_flags @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6550:39: sparse:     expected unsigned int =
+[usertype] function_flags
+   drivers/scsi/lpfc/lpfc_els.c:6550:39: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6551:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6551:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6551:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6562:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6562:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6562:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6579:39: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] f=
+unction_flags @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6579:39: sparse:     expected unsigned int =
+[usertype] function_flags
+   drivers/scsi/lpfc/lpfc_els.c:6579:39: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6580:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6580:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6580:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6592:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6592:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6592:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6609:39: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] f=
+unction_flags @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6609:39: sparse:     expected unsigned int =
+[usertype] function_flags
+   drivers/scsi/lpfc/lpfc_els.c:6609:39: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6610:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6610:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6610:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6618:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6618:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6618:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6624:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6624:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6624:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6633:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6633:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6633:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6635:36: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] C=
+orrectedBlocks @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6635:36: sparse:     expected unsigned int =
+[usertype] CorrectedBlocks
+   drivers/scsi/lpfc/lpfc_els.c:6635:36: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6637:40: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] U=
+ncorrectableBlocks @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6637:40: sparse:     expected unsigned int =
+[usertype] UncorrectableBlocks
+   drivers/scsi/lpfc/lpfc_els.c:6637:40: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6640:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6640:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6640:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6651:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6651:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6651:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6689:37: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned short [usertype]=
+ speed @@     got restricted __be16 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6689:37: sparse:     expected unsigned shor=
+t [usertype] speed
+   drivers/scsi/lpfc/lpfc_els.c:6689:37: sparse:     got restricted __be16 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6717:44: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned short [usertype]=
+ capabilities @@     got restricted __be16 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6717:44: sparse:     expected unsigned shor=
+t [usertype] capabilities
+   drivers/scsi/lpfc/lpfc_els.c:6717:44: sparse:     got restricted __be16 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6718:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6718:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6718:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6727:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6727:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6727:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6735:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6735:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6735:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6744:19: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] t=
+ag @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6744:19: sparse:     expected unsigned int =
+[usertype] tag
+   drivers/scsi/lpfc/lpfc_els.c:6744:19: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6759:22: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6759:22: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6759:22: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6850:25: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+ength @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:6850:25: sparse:     expected unsigned int =
+[usertype] length
+   drivers/scsi/lpfc/lpfc_els.c:6850:25: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:6858:22: sparse: sparse: cast to restricted=
+ __le32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
+__be32
+   drivers/scsi/lpfc/lpfc_els.c:7002:25: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7004:36: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7007:25: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7212:17: sparse: sparse: cast to restricted=
+ __be16
+   drivers/scsi/lpfc/lpfc_els.c:7217:21: sparse: sparse: cast to restricted=
+ __be16
+   drivers/scsi/lpfc/lpfc_els.c:7227:17: sparse: sparse: cast to restricted=
+ __be16
+   drivers/scsi/lpfc/lpfc_els.c:7272:9: sparse: sparse: cast to restricted =
+__be16
+   drivers/scsi/lpfc/lpfc_els.c:7272:9: sparse: sparse: cast to restricted =
+__be16
+   drivers/scsi/lpfc/lpfc_els.c:7416:31: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7419:44: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7516:23: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7577:23: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7630:37: sparse: sparse: cast to restricted=
+ __be32
+   drivers/scsi/lpfc/lpfc_els.c:7691:42: sparse: sparse: cast to restricted=
+ __be32
+>> drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse: sparse: invalid assignment=
+: |=3D
+>> drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse:    left side has type unsi=
+gned int
+>> drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse:    right side has type res=
+tricted __be32
+>> drivers/scsi/lpfc/lpfc_els.c:8207:33: sparse: sparse: incorrect type in =
+assignment (different base types) @@     expected unsigned int [usertype] l=
+inkFailureCnt @@     got restricted __be32 [usertype] @@
+   drivers/scsi/lpfc/lpfc_els.c:8207:33: sparse:     expected unsigned int =
+[usertype] linkFailureCnt
+   drivers/scsi/lpfc/lpfc_els.c:8207:33: sparse:     got restricted __be32 =
+[usertype]
+   drivers/scsi/lpfc/lpfc_els.c:8208:30: sparse: sparse: too many warnings
 
-vim +964 fs/proc/task_mmu.c
+vim +7696 drivers/scsi/lpfc/lpfc_els.c
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  867  =
+ddcc50f0f3538e James Smart        2008-12-04  7538  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  868  static int show_smaps=
-_rollup(struct seq_file *m, void *v)
-258f669e7e88c1 Vlastimil Babka       2018-08-21  869  {
-258f669e7e88c1 Vlastimil Babka       2018-08-21  870  	struct proc_maps_pri=
-vate *priv =3D m->private;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  871  	struct mem_size_stat=
-s mss;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  872  	struct mm_struct *mm;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  873  	struct vm_area_struc=
-t *vma;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  874  	unsigned long last_v=
-ma_end =3D 0;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  875  	int ret =3D 0;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  876  =
+e59058c44025d7 James Smart        2008-08-24  7539  /**
+3621a710a7dbb2 James Smart        2009-04-06  7540   * lpfc_els_rcv_rscn - =
+Process an unsolicited rscn iocb
+e59058c44025d7 James Smart        2008-08-24  7541   * @vport: pointer to a=
+ host virtual N_Port data structure.
+e59058c44025d7 James Smart        2008-08-24  7542   * @cmdiocb: pointer to=
+ lpfc command iocb data structure.
+e59058c44025d7 James Smart        2008-08-24  7543   * @ndlp: pointer to a =
+node-list data structure.
+e59058c44025d7 James Smart        2008-08-24  7544   *
+e59058c44025d7 James Smart        2008-08-24  7545   * This routine process=
+es an unsolicited RSCN (Registration State Change
+e59058c44025d7 James Smart        2008-08-24  7546   * Notification) IOCB. =
+First, the payload of the unsolicited RSCN is walked
+e59058c44025d7 James Smart        2008-08-24  7547   * to invoke fc_host_po=
+st_event() routine to the FC transport layer. If the
+e59058c44025d7 James Smart        2008-08-24  7548   * discover state machi=
+ne is about to begin discovery, it just accepts the
+e59058c44025d7 James Smart        2008-08-24  7549   * RSCN and the discove=
+ry process will satisfy the RSCN. If this RSCN only
+e59058c44025d7 James Smart        2008-08-24  7550   * contains N_Port IDs =
+for other vports on this HBA, it just accepts the
+e59058c44025d7 James Smart        2008-08-24  7551   * RSCN and ignore proc=
+essing it. If the state machine is in the recovery
+e59058c44025d7 James Smart        2008-08-24  7552   * state, the fc_rscn_i=
+d_list of this @vport is walked and the
+e59058c44025d7 James Smart        2008-08-24  7553   * lpfc_rscn_recovery_c=
+heck() routine is invoked to send recovery event for
+e59058c44025d7 James Smart        2008-08-24  7554   * all nodes that match=
+ RSCN payload. Otherwise, the lpfc_els_handle_rscn()
+e59058c44025d7 James Smart        2008-08-24  7555   * routine is invoked t=
+o handle the RSCN event.
+e59058c44025d7 James Smart        2008-08-24  7556   *
+e59058c44025d7 James Smart        2008-08-24  7557   * Return code
+e59058c44025d7 James Smart        2008-08-24  7558   *   0 - Just sent the =
+acc response
+e59058c44025d7 James Smart        2008-08-24  7559   *   1 - Sent the acc r=
+esponse and waited for name server completion
+e59058c44025d7 James Smart        2008-08-24  7560   **/
+dea3101e0a5c89 James Bottomley    2005-04-17  7561  static int
+2e0fef85e098f6 James Smart        2007-06-17  7562  lpfc_els_rcv_rscn(struc=
+t lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+51ef4c26891a73 James Smart        2007-08-02  7563  		  struct lpfc_nodelis=
+t *ndlp)
+dea3101e0a5c89 James Bottomley    2005-04-17  7564  {
+2e0fef85e098f6 James Smart        2007-06-17  7565  	struct Scsi_Host *shos=
+t =3D lpfc_shost_from_vport(vport);
+2e0fef85e098f6 James Smart        2007-06-17  7566  	struct lpfc_hba  *phba=
+ =3D vport->phba;
+dea3101e0a5c89 James Bottomley    2005-04-17  7567  	struct lpfc_dmabuf *pc=
+md;
+92d7f7b0cde3ad James Smart        2007-06-17  7568  	uint32_t *lp, *datap;
+92d7f7b0cde3ad James Smart        2007-06-17  7569  	uint32_t payload_len, =
+length, nportid, *cmd;
+7f5f3d0d02aa2f James Smart        2008-02-08  7570  	int rscn_cnt;
+92d7f7b0cde3ad James Smart        2007-06-17  7571  	int rscn_id =3D 0, hba=
+_id =3D 0;
+2332e6e475b016 James Smart        2019-11-04  7572  	int i, tmo;
+dea3101e0a5c89 James Bottomley    2005-04-17  7573  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  877  	priv->task =3D get_p=
-roc_task(priv->inode);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  878  	if (!priv->task)
-258f669e7e88c1 Vlastimil Babka       2018-08-21  879  		return -ESRCH;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  880  =
+dea3101e0a5c89 James Bottomley    2005-04-17  7574  	pcmd =3D (struct lpfc_=
+dmabuf *) cmdiocb->context2;
+dea3101e0a5c89 James Bottomley    2005-04-17  7575  	lp =3D (uint32_t *) pc=
+md->virt;
+dea3101e0a5c89 James Bottomley    2005-04-17  7576  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  881  	mm =3D priv->mm;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  882  	if (!mm || !mmget_no=
-t_zero(mm)) {
-258f669e7e88c1 Vlastimil Babka       2018-08-21  883  		ret =3D -ESRCH;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  884  		goto out_put_task;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  885  	}
-258f669e7e88c1 Vlastimil Babka       2018-08-21  886  =
+92d7f7b0cde3ad James Smart        2007-06-17  7577  	payload_len =3D be32_t=
+o_cpu(*lp++ & ~ELS_CMD_MASK);
+dea3101e0a5c89 James Bottomley    2005-04-17  7578  	payload_len -=3D sizeo=
+f(uint32_t);	/* take off word 0 */
+dea3101e0a5c89 James Bottomley    2005-04-17  7579  	/* RSCN received */
+e8b62011d88d6f James Smart        2007-08-02  7580  	lpfc_printf_vlog(vport=
+, KERN_INFO, LOG_DISCOVERY,
+e8b62011d88d6f James Smart        2007-08-02  7581  			 "0214 RSCN received=
+ Data: x%x x%x x%x x%x\n",
+7f5f3d0d02aa2f James Smart        2008-02-08  7582  			 vport->fc_flag, pay=
+load_len, *lp,
+7f5f3d0d02aa2f James Smart        2008-02-08  7583  			 vport->fc_rscn_id_c=
+nt);
+ddcc50f0f3538e James Smart        2008-12-04  7584  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  887  	memset(&mss, 0, size=
-of(mss));
-258f669e7e88c1 Vlastimil Babka       2018-08-21  888  =
+ddcc50f0f3538e James Smart        2008-12-04  7585  	/* Send an RSCN event =
+to the management application */
+ddcc50f0f3538e James Smart        2008-12-04  7586  	lpfc_send_rscn_event(v=
+port, cmdiocb);
+ddcc50f0f3538e James Smart        2008-12-04  7587  =
 
-d8ed45c5dcd455 Michel Lespinasse     2020-06-08  889  	ret =3D mmap_read_lo=
-ck_killable(mm);
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  890  	if (ret)
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  891  		goto out_put_mm;
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  892  =
+d2873e4c1ef293 James Smart        2006-08-18  7588  	for (i =3D 0; i < payl=
+oad_len/sizeof(uint32_t); i++)
+2e0fef85e098f6 James Smart        2007-06-17  7589  		fc_host_post_event(sh=
+ost, fc_get_event_number(),
+d2873e4c1ef293 James Smart        2006-08-18  7590  			FCH_EVT_RSCN, lp[i]);
+d2873e4c1ef293 James Smart        2006-08-18  7591  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  893  	hold_task_mempolicy(=
-priv);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  894  =
+f60cb93bbfecf1 James Smart        2019-05-14  7592  	/* Check if RSCN is co=
+ming from a direct-connected remote NPort */
+f60cb93bbfecf1 James Smart        2019-05-14  7593  	if (vport->fc_flag & F=
+C_PT2PT) {
+f60cb93bbfecf1 James Smart        2019-05-14  7594  		/* If so, just ACC it=
+, no other action needed for now */
+f60cb93bbfecf1 James Smart        2019-05-14  7595  		lpfc_printf_vlog(vpor=
+t, KERN_INFO, LOG_ELS,
+f60cb93bbfecf1 James Smart        2019-05-14  7596  				 "2024 pt2pt RSCN %=
+08x Data: x%x x%x\n",
+f60cb93bbfecf1 James Smart        2019-05-14  7597  				 *lp, vport->fc_fla=
+g, payload_len);
+f60cb93bbfecf1 James Smart        2019-05-14  7598  		lpfc_els_rsp_acc(vpor=
+t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
+6f2589f478795c James Smart        2019-05-14  7599  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  895  	for (vma =3D priv->m=
-m->mmap; vma;) {
-03b4b1149308b0 Chinwen Chang         2020-10-13  896  		smap_gather_stats(v=
-ma, &mss, 0);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  897  		last_vma_end =3D vm=
-a->vm_end;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  898  =
+a6d10f24a04d65 James Smart        2019-08-14  7600  		/* Check to see if we=
+ need to NVME rescan this target
+a6d10f24a04d65 James Smart        2019-08-14  7601  		 * remoteport.
+a6d10f24a04d65 James Smart        2019-08-14  7602  		 */
+a6d10f24a04d65 James Smart        2019-08-14  7603  		if (ndlp->nlp_fc4_typ=
+e & NLP_FC4_NVME &&
+a6d10f24a04d65 James Smart        2019-08-14  7604  		    ndlp->nlp_type & =
+(NLP_NVME_TARGET | NLP_NVME_DISCOVERY))
+6f2589f478795c James Smart        2019-05-14  7605  			lpfc_nvme_rescan_por=
+t(vport, ndlp);
+f60cb93bbfecf1 James Smart        2019-05-14  7606  		return 0;
+f60cb93bbfecf1 James Smart        2019-05-14  7607  	}
+f60cb93bbfecf1 James Smart        2019-05-14  7608  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  899  		/*
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  900  		 * Release mmap_loc=
-k temporarily if someone wants to
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  901  		 * access it for wr=
-ite request.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  902  		 */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  903  		if (mmap_lock_is_co=
-ntended(mm)) {
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  904  			mmap_read_unlock(m=
-m);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  905  			ret =3D mmap_read_=
-lock_killable(mm);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  906  			if (ret) {
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  907  				release_task_memp=
-olicy(priv);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  908  				goto out_put_mm;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  909  			}
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  910  =
+dea3101e0a5c89 James Bottomley    2005-04-17  7609  	/* If we are about to =
+begin discovery, just ACC the RSCN.
+dea3101e0a5c89 James Bottomley    2005-04-17  7610  	 * Discovery processin=
+g will satisfy it.
+dea3101e0a5c89 James Bottomley    2005-04-17  7611  	 */
+2e0fef85e098f6 James Smart        2007-06-17  7612  	if (vport->port_state =
+<=3D LPFC_NS_QRY) {
+858c9f6c19c6f9 James Smart        2007-06-17  7613  		lpfc_debugfs_disc_trc=
+(vport, LPFC_DISC_TRC_ELS_UNSOL,
+858c9f6c19c6f9 James Smart        2007-06-17  7614  			"RCV RSCN ignore: di=
+d:x%x/ste:x%x flg:x%x",
+858c9f6c19c6f9 James Smart        2007-06-17  7615  			ndlp->nlp_DID, vport=
+->port_state, ndlp->nlp_flag);
+858c9f6c19c6f9 James Smart        2007-06-17  7616  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  911  			/*
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  912  			 * After dropping =
-the lock, there are four cases to
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  913  			 * consider. See t=
-he following example for explanation.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  914  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  915  			 *   +------+-----=
--+-----------+
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  916  			 *   | VMA1 | VMA2=
- | VMA3      |
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  917  			 *   +------+-----=
--+-----------+
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  918  			 *   |      |     =
- |           |
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  919  			 *  4k     8k     =
-16k         400k
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  920  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  921  			 * Suppose we drop=
- the lock after reading VMA2 due to
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  922  			 * contention, the=
-n we get:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  923  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  924  			 *	last_vma_end =
-=3D 16k
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  925  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  926  			 * 1) VMA2 is free=
-d, but VMA3 exists:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  927  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  928  			 *    find_vma(mm,=
- 16k - 1) will return VMA3.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  929  			 *    In this case=
-, just continue from VMA3.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  930  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  931  			 * 2) VMA2 still e=
-xists:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  932  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  933  			 *    find_vma(mm,=
- 16k - 1) will return VMA2.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  934  			 *    Iterate the =
-loop like the original one.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  935  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  936  			 * 3) No more VMAs=
- can be found:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  937  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  938  			 *    find_vma(mm,=
- 16k - 1) will return NULL.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  939  			 *    No more thin=
-gs to do, just break.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  940  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  941  			 * 4) (last_vma_en=
-d - 1) is the middle of a vma (VMA'):
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  942  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  943  			 *    find_vma(mm,=
- 16k - 1) will return VMA' whose range
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  944  			 *    contains las=
-t_vma_end.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  945  			 *    Iterate VMA'=
- from last_vma_end.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  946  			 */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  947  			vma =3D find_vma(m=
-m, last_vma_end - 1);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  948  			/* Case 3 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  949  			if (!vma)
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  950  				break;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  951  =
+51ef4c26891a73 James Smart        2007-08-02  7617  		lpfc_els_rsp_acc(vpor=
+t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
+c9f8735beadfba Jamie Wellnitz     2006-02-28  7618  		return 0;
+dea3101e0a5c89 James Bottomley    2005-04-17  7619  	}
+dea3101e0a5c89 James Bottomley    2005-04-17  7620  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  952  			/* Case 1 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  953  			if (vma->vm_start =
->=3D last_vma_end)
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  954  				continue;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  955  =
+92d7f7b0cde3ad James Smart        2007-06-17  7621  	/* If this RSCN just c=
+ontains NPortIDs for other vports on this HBA,
+92d7f7b0cde3ad James Smart        2007-06-17  7622  	 * just ACC and ignore=
+ it.
+92d7f7b0cde3ad James Smart        2007-06-17  7623  	 */
+92d7f7b0cde3ad James Smart        2007-06-17  7624  	if ((phba->sli3_option=
+s & LPFC_SLI3_NPIV_ENABLED) &&
+3de2a653a127c4 James Smart        2007-08-02  7625  		!(vport->cfg_peer_por=
+t_login)) {
+92d7f7b0cde3ad James Smart        2007-06-17  7626  		i =3D payload_len;
+92d7f7b0cde3ad James Smart        2007-06-17  7627  		datap =3D lp;
+92d7f7b0cde3ad James Smart        2007-06-17  7628  		while (i > 0) {
+92d7f7b0cde3ad James Smart        2007-06-17  7629  			nportid =3D *datap++;
+92d7f7b0cde3ad James Smart        2007-06-17  7630  			nportid =3D ((be32_t=
+o_cpu(nportid)) & Mask_DID);
+92d7f7b0cde3ad James Smart        2007-06-17  7631  			i -=3D sizeof(uint32=
+_t);
+92d7f7b0cde3ad James Smart        2007-06-17  7632  			rscn_id++;
+549e55cd2a1b83 James Smart        2007-08-02  7633  			if (lpfc_find_vport_=
+by_did(phba, nportid))
+92d7f7b0cde3ad James Smart        2007-06-17  7634  				hba_id++;
+92d7f7b0cde3ad James Smart        2007-06-17  7635  		}
+92d7f7b0cde3ad James Smart        2007-06-17  7636  		if (rscn_id =3D=3D hb=
+a_id) {
+92d7f7b0cde3ad James Smart        2007-06-17  7637  			/* ALL NPortIDs in R=
+SCN are on HBA */
+e8b62011d88d6f James Smart        2007-08-02  7638  			lpfc_printf_vlog(vpo=
+rt, KERN_INFO, LOG_DISCOVERY,
+d7c255b26d8e3f James Smart        2008-08-24  7639  					 "0219 Ignore RSCN=
+ "
+e8b62011d88d6f James Smart        2007-08-02  7640  					 "Data: x%x x%x x%=
+x x%x\n",
+e8b62011d88d6f James Smart        2007-08-02  7641  					 vport->fc_flag, p=
+ayload_len,
+7f5f3d0d02aa2f James Smart        2008-02-08  7642  					 *lp, vport->fc_rs=
+cn_id_cnt);
+858c9f6c19c6f9 James Smart        2007-06-17  7643  			lpfc_debugfs_disc_tr=
+c(vport, LPFC_DISC_TRC_ELS_UNSOL,
+858c9f6c19c6f9 James Smart        2007-06-17  7644  				"RCV RSCN vport:  d=
+id:x%x/ste:x%x flg:x%x",
+858c9f6c19c6f9 James Smart        2007-06-17  7645  				ndlp->nlp_DID, vpor=
+t->port_state,
+858c9f6c19c6f9 James Smart        2007-06-17  7646  				ndlp->nlp_flag);
+858c9f6c19c6f9 James Smart        2007-06-17  7647  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  956  			/* Case 4 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  957  			if (vma->vm_end > =
-last_vma_end)
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  958  				smap_gather_stats=
-(vma, &mss, last_vma_end);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  959  		}
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  960  		/* Case 2 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  961  		vma =3D vma->vm_nex=
-t;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  962  	}
-258f669e7e88c1 Vlastimil Babka       2018-08-21  963  =
+92d7f7b0cde3ad James Smart        2007-06-17  7648  			lpfc_els_rsp_acc(vpo=
+rt, ELS_CMD_ACC, cmdiocb,
+51ef4c26891a73 James Smart        2007-08-02  7649  				ndlp, NULL);
+92d7f7b0cde3ad James Smart        2007-06-17  7650  			return 0;
+92d7f7b0cde3ad James Smart        2007-06-17  7651  		}
+92d7f7b0cde3ad James Smart        2007-06-17  7652  	}
+92d7f7b0cde3ad James Smart        2007-06-17  7653  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21 @964  	show_vma_header_pref=
-ix(m, priv->mm->mmap->vm_start,
-258f669e7e88c1 Vlastimil Babka       2018-08-21  965  			       last_vma_en=
-d, 0, 0, 0, 0);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  966  	seq_pad(m, ' ');
-258f669e7e88c1 Vlastimil Babka       2018-08-21  967  	seq_puts(m, "[rollup=
-]\n");
-258f669e7e88c1 Vlastimil Babka       2018-08-21  968  =
+7f5f3d0d02aa2f James Smart        2008-02-08  7654  	spin_lock_irq(shost->h=
+ost_lock);
+7f5f3d0d02aa2f James Smart        2008-02-08  7655  	if (vport->fc_rscn_flu=
+sh) {
+7f5f3d0d02aa2f James Smart        2008-02-08  7656  		/* Another thread is =
+walking fc_rscn_id_list on this vport */
+7f5f3d0d02aa2f James Smart        2008-02-08  7657  		vport->fc_flag |=3D F=
+C_RSCN_DISCOVERY;
+97957244768600 James Smart        2009-12-21  7658  		spin_unlock_irq(shost=
+->host_lock);
+58da1ffb2b1234 James Smart        2008-04-07  7659  		/* Send back ACC */
+58da1ffb2b1234 James Smart        2008-04-07  7660  		lpfc_els_rsp_acc(vpor=
+t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
+7f5f3d0d02aa2f James Smart        2008-02-08  7661  		return 0;
+7f5f3d0d02aa2f James Smart        2008-02-08  7662  	}
+7f5f3d0d02aa2f James Smart        2008-02-08  7663  	/* Indicate we are wal=
+king fc_rscn_id_list on this vport */
+7f5f3d0d02aa2f James Smart        2008-02-08  7664  	vport->fc_rscn_flush =
+=3D 1;
+7f5f3d0d02aa2f James Smart        2008-02-08  7665  	spin_unlock_irq(shost-=
+>host_lock);
+af901ca181d92a Andr=C3=A9 Goddard Rosa 2009-11-14  7666  	/* Get the array =
+count after successfully have the token */
+7f5f3d0d02aa2f James Smart        2008-02-08  7667  	rscn_cnt =3D vport->fc=
+_rscn_id_cnt;
+dea3101e0a5c89 James Bottomley    2005-04-17  7668  	/* If we are already p=
+rocessing an RSCN, save the received
+dea3101e0a5c89 James Bottomley    2005-04-17  7669  	 * RSCN payload buffer=
+, cmdiocb->context2 to process later.
+dea3101e0a5c89 James Bottomley    2005-04-17  7670  	 */
+2e0fef85e098f6 James Smart        2007-06-17  7671  	if (vport->fc_flag & (=
+FC_RSCN_MODE | FC_NDISC_ACTIVE)) {
+858c9f6c19c6f9 James Smart        2007-06-17  7672  		lpfc_debugfs_disc_trc=
+(vport, LPFC_DISC_TRC_ELS_UNSOL,
+858c9f6c19c6f9 James Smart        2007-06-17  7673  			"RCV RSCN defer:  di=
+d:x%x/ste:x%x flg:x%x",
+858c9f6c19c6f9 James Smart        2007-06-17  7674  			ndlp->nlp_DID, vport=
+->port_state, ndlp->nlp_flag);
+858c9f6c19c6f9 James Smart        2007-06-17  7675  =
 
-ee2ad71b0756e9 Luigi Semenzato       2019-07-11  969  	__show_smap(m, &mss,=
- true);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  970  =
+0937282036d9ae James Smart        2008-01-11  7676  		spin_lock_irq(shost->=
+host_lock);
+92d7f7b0cde3ad James Smart        2007-06-17  7677  		vport->fc_flag |=3D F=
+C_RSCN_DEFERRED;
+2332e6e475b016 James Smart        2019-11-04  7678  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  971  	release_task_mempoli=
-cy(priv);
-d8ed45c5dcd455 Michel Lespinasse     2020-06-08  972  	mmap_read_unlock(mm);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  973  =
+2332e6e475b016 James Smart        2019-11-04  7679  		/* Restart disctmo if=
+ its already running */
+2332e6e475b016 James Smart        2019-11-04  7680  		if (vport->fc_flag & =
+FC_DISC_TMO) {
+2332e6e475b016 James Smart        2019-11-04  7681  			tmo =3D ((phba->fc_r=
+atov * 3) + 3);
+2332e6e475b016 James Smart        2019-11-04  7682  			mod_timer(&vport->fc=
+_disctmo,
+2332e6e475b016 James Smart        2019-11-04  7683  				  jiffies + msecs_t=
+o_jiffies(1000 * tmo));
+2332e6e475b016 James Smart        2019-11-04  7684  		}
+92d7f7b0cde3ad James Smart        2007-06-17  7685  		if ((rscn_cnt < FC_MA=
+X_HOLD_RSCN) &&
+2e0fef85e098f6 James Smart        2007-06-17  7686  		    !(vport->fc_flag =
+& FC_RSCN_DISCOVERY)) {
+2e0fef85e098f6 James Smart        2007-06-17  7687  			vport->fc_flag |=3D =
+FC_RSCN_MODE;
+2e0fef85e098f6 James Smart        2007-06-17  7688  			spin_unlock_irq(shos=
+t->host_lock);
+92d7f7b0cde3ad James Smart        2007-06-17  7689  			if (rscn_cnt) {
+92d7f7b0cde3ad James Smart        2007-06-17  7690  				cmd =3D vport->fc_r=
+scn_id_list[rscn_cnt-1]->virt;
+92d7f7b0cde3ad James Smart        2007-06-17  7691  				length =3D be32_to_=
+cpu(*cmd & ~ELS_CMD_MASK);
+92d7f7b0cde3ad James Smart        2007-06-17  7692  			}
+92d7f7b0cde3ad James Smart        2007-06-17  7693  			if ((rscn_cnt) &&
+92d7f7b0cde3ad James Smart        2007-06-17  7694  			    (payload_len + l=
+ength <=3D LPFC_BPL_SIZE)) {
+92d7f7b0cde3ad James Smart        2007-06-17  7695  				*cmd &=3D ELS_CMD_M=
+ASK;
+7f5f3d0d02aa2f James Smart        2008-02-08 @7696  				*cmd |=3D cpu_to_be=
+32(payload_len + length);
+92d7f7b0cde3ad James Smart        2007-06-17  7697  				memcpy(((uint8_t *)=
+cmd) + length, lp,
+92d7f7b0cde3ad James Smart        2007-06-17  7698  				       payload_len);
+92d7f7b0cde3ad James Smart        2007-06-17  7699  			} else {
+92d7f7b0cde3ad James Smart        2007-06-17  7700  				vport->fc_rscn_id_l=
+ist[rscn_cnt] =3D pcmd;
+92d7f7b0cde3ad James Smart        2007-06-17  7701  				vport->fc_rscn_id_c=
+nt++;
+dea3101e0a5c89 James Bottomley    2005-04-17  7702  				/* If we zero, cmdi=
+ocb->context2, the calling
+dea3101e0a5c89 James Bottomley    2005-04-17  7703  				 * routine will not=
+ try to free it.
+dea3101e0a5c89 James Bottomley    2005-04-17  7704  				 */
+dea3101e0a5c89 James Bottomley    2005-04-17  7705  				cmdiocb->context2 =
+=3D NULL;
+92d7f7b0cde3ad James Smart        2007-06-17  7706  			}
+dea3101e0a5c89 James Bottomley    2005-04-17  7707  			/* Deferred RSCN */
+e8b62011d88d6f James Smart        2007-08-02  7708  			lpfc_printf_vlog(vpo=
+rt, KERN_INFO, LOG_DISCOVERY,
+e8b62011d88d6f James Smart        2007-08-02  7709  					 "0235 Deferred RS=
+CN "
+dea3101e0a5c89 James Bottomley    2005-04-17  7710  					 "Data: x%x x%x x%=
+x\n",
+92d7f7b0cde3ad James Smart        2007-06-17  7711  					 vport->fc_rscn_id=
+_cnt, vport->fc_flag,
+2e0fef85e098f6 James Smart        2007-06-17  7712  					 vport->port_state=
+);
+dea3101e0a5c89 James Bottomley    2005-04-17  7713  		} else {
+2e0fef85e098f6 James Smart        2007-06-17  7714  			vport->fc_flag |=3D =
+FC_RSCN_DISCOVERY;
+2e0fef85e098f6 James Smart        2007-06-17  7715  			spin_unlock_irq(shos=
+t->host_lock);
+dea3101e0a5c89 James Bottomley    2005-04-17  7716  			/* ReDiscovery RSCN =
+*/
+e8b62011d88d6f James Smart        2007-08-02  7717  			lpfc_printf_vlog(vpo=
+rt, KERN_INFO, LOG_DISCOVERY,
+e8b62011d88d6f James Smart        2007-08-02  7718  					 "0234 ReDiscovery=
+ RSCN "
+dea3101e0a5c89 James Bottomley    2005-04-17  7719  					 "Data: x%x x%x x%=
+x\n",
+92d7f7b0cde3ad James Smart        2007-06-17  7720  					 vport->fc_rscn_id=
+_cnt, vport->fc_flag,
+2e0fef85e098f6 James Smart        2007-06-17  7721  					 vport->port_state=
+);
+dea3101e0a5c89 James Bottomley    2005-04-17  7722  		}
+7f5f3d0d02aa2f James Smart        2008-02-08  7723  		/* Indicate we are do=
+ne walking fc_rscn_id_list on this vport */
+7f5f3d0d02aa2f James Smart        2008-02-08  7724  		vport->fc_rscn_flush =
+=3D 0;
+dea3101e0a5c89 James Bottomley    2005-04-17  7725  		/* Send back ACC */
+51ef4c26891a73 James Smart        2007-08-02  7726  		lpfc_els_rsp_acc(vpor=
+t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
+dea3101e0a5c89 James Bottomley    2005-04-17  7727  		/* send RECOVERY even=
+t for ALL nodes that match RSCN payload */
+2e0fef85e098f6 James Smart        2007-06-17  7728  		lpfc_rscn_recovery_ch=
+eck(vport);
+c9f8735beadfba Jamie Wellnitz     2006-02-28  7729  		return 0;
+dea3101e0a5c89 James Bottomley    2005-04-17  7730  	}
+858c9f6c19c6f9 James Smart        2007-06-17  7731  	lpfc_debugfs_disc_trc(=
+vport, LPFC_DISC_TRC_ELS_UNSOL,
+858c9f6c19c6f9 James Smart        2007-06-17  7732  		"RCV RSCN:        did=
+:x%x/ste:x%x flg:x%x",
+858c9f6c19c6f9 James Smart        2007-06-17  7733  		ndlp->nlp_DID, vport-=
+>port_state, ndlp->nlp_flag);
+858c9f6c19c6f9 James Smart        2007-06-17  7734  =
 
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  974  out_put_mm:
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  975  	mmput(mm);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  976  out_put_task:
-258f669e7e88c1 Vlastimil Babka       2018-08-21  977  	put_task_struct(priv=
-->task);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  978  	priv->task =3D NULL;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  979  =
-
-493b0e9d945fa9 Daniel Colascione     2017-09-06  980  	return ret;
-e070ad49f31155 Mauricio Lin          2005-09-03  981  }
-d1be35cb6f9697 Andrei Vagin          2018-04-10  982  #undef SEQ_PUT_DEC
-e070ad49f31155 Mauricio Lin          2005-09-03  983  =
+2e0fef85e098f6 James Smart        2007-06-17  7735  	spin_lock_irq(shost->h=
+ost_lock);
+2e0fef85e098f6 James Smart        2007-06-17  7736  	vport->fc_flag |=3D FC=
+_RSCN_MODE;
+2e0fef85e098f6 James Smart        2007-06-17  7737  	spin_unlock_irq(shost-=
+>host_lock);
+2e0fef85e098f6 James Smart        2007-06-17  7738  	vport->fc_rscn_id_list=
+[vport->fc_rscn_id_cnt++] =3D pcmd;
+7f5f3d0d02aa2f James Smart        2008-02-08  7739  	/* Indicate we are don=
+e walking fc_rscn_id_list on this vport */
+7f5f3d0d02aa2f James Smart        2008-02-08  7740  	vport->fc_rscn_flush =
+=3D 0;
+dea3101e0a5c89 James Bottomley    2005-04-17  7741  	/*
+dea3101e0a5c89 James Bottomley    2005-04-17  7742  	 * If we zero, cmdiocb=
+->context2, the calling routine will
+dea3101e0a5c89 James Bottomley    2005-04-17  7743  	 * not try to free it.
+dea3101e0a5c89 James Bottomley    2005-04-17  7744  	 */
+dea3101e0a5c89 James Bottomley    2005-04-17  7745  	cmdiocb->context2 =3D =
+NULL;
+2e0fef85e098f6 James Smart        2007-06-17  7746  	lpfc_set_disctmo(vport=
+);
+dea3101e0a5c89 James Bottomley    2005-04-17  7747  	/* Send back ACC */
+51ef4c26891a73 James Smart        2007-08-02  7748  	lpfc_els_rsp_acc(vport=
+, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
+dea3101e0a5c89 James Bottomley    2005-04-17  7749  	/* send RECOVERY event=
+ for ALL nodes that match RSCN payload */
+2e0fef85e098f6 James Smart        2007-06-17  7750  	lpfc_rscn_recovery_che=
+ck(vport);
+2e0fef85e098f6 James Smart        2007-06-17  7751  	return lpfc_els_handle=
+_rscn(vport);
+dea3101e0a5c89 James Bottomley    2005-04-17  7752  }
+dea3101e0a5c89 James Bottomley    2005-04-17  7753  =
 
 
-:::::: The code at line 964 was first introduced by commit
-:::::: 258f669e7e88c18edbc23fe5ce00a476b924551f mm: /proc/pid/smaps_rollup:=
- convert to single value seq_file
+:::::: The code at line 7696 was first introduced by commit
+:::::: 7f5f3d0d02aa2f124e764aee5c775589ce72fd42 [SCSI] lpfc 8.2.5 : Miscell=
+aneous discovery Fixes
 
-:::::: TO: Vlastimil Babka <vbabka@suse.cz>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: James Smart <James.Smart@Emulex.Com>
+:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3199623843273859111==--
+--===============0381101347981668124==--
 
