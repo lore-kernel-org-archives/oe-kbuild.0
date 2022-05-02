@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0381101347981668124=="
+Content-Type: multipart/mixed; boundary="===============5877464154540006609=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse: sparse: invalid assignment: |=
-Date: Mon, 02 May 2022 13:50:22 +0800
-Message-ID: <202205021335.c9ZV3Vqo-lkp@intel.com>
+Subject: kernel/bpf/preload/iterators/iterators.lskel.h:323:9: sparse: sparse: string too long (16658 bytes, 8191 bytes max)
+Date: Mon, 02 May 2022 12:06:27 +0800
+Message-ID: <202205021224.zBBJQY4P-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0381101347981668124==
+--===============5877464154540006609==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,674 +15,667 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: James Smart <jsmart2021@gmail.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Justin Tee <justin.tee@broadcom.com>
+TO: Alexei Starovoitov <ast@kernel.org>
+CC: Daniel Borkmann <daniel@iogearbox.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   672c0c5173427e6b3e2a9bbb7be51ceeec78093a
-commit: 6831ce129f1948f50f2d2a57995d2ebd7a6fa0b4 scsi: lpfc: SLI path split=
-: Refactor base ELS paths and the FLOGI path
-date:   7 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 7 weeks ago
-config: arm-randconfig-s031-20220502 (https://download.01.org/0day-ci/archi=
-ve/20220502/202205021335.c9ZV3Vqo-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+commit: cb80ddc67152e72f28ff6ea8517acdf875d7381d bpf: Convert bpf_preload.k=
+o to use light skeleton.
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-s021-20220502 (https://download.01.org/0day-ci/ar=
+chive/20220502/202205021224.zBBJQY4P-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6831ce129f1948f50f2d2a57995d2ebd7a6fa0b4
+t/commit/?id=3Dcb80ddc67152e72f28ff6ea8517acdf875d7381d
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 6831ce129f1948f50f2d2a57995d2ebd7a6fa0b4
+        git checkout cb80ddc67152e72f28ff6ea8517acdf875d7381d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rm SHELL=3D/bin/bash drivers/scsi/lpfc/
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash kernel/bpf/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/lpfc/lpfc_els.c:6521:39: sparse:     expected unsigned int =
-[usertype] function_flags
-   drivers/scsi/lpfc/lpfc_els.c:6521:39: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6522:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6522:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6522:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6533:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6533:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6533:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6550:39: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] f=
-unction_flags @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6550:39: sparse:     expected unsigned int =
-[usertype] function_flags
-   drivers/scsi/lpfc/lpfc_els.c:6550:39: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6551:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6551:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6551:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6562:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6562:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6562:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6579:39: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] f=
-unction_flags @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6579:39: sparse:     expected unsigned int =
-[usertype] function_flags
-   drivers/scsi/lpfc/lpfc_els.c:6579:39: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6580:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6580:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6580:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6592:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6592:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6592:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6609:39: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] f=
-unction_flags @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6609:39: sparse:     expected unsigned int =
-[usertype] function_flags
-   drivers/scsi/lpfc/lpfc_els.c:6609:39: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6610:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6610:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6610:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6618:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6618:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6618:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6624:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6624:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6624:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6633:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6633:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6633:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6635:36: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] C=
-orrectedBlocks @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6635:36: sparse:     expected unsigned int =
-[usertype] CorrectedBlocks
-   drivers/scsi/lpfc/lpfc_els.c:6635:36: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6637:40: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] U=
-ncorrectableBlocks @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6637:40: sparse:     expected unsigned int =
-[usertype] UncorrectableBlocks
-   drivers/scsi/lpfc/lpfc_els.c:6637:40: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6640:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6640:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6640:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6651:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6651:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6651:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6689:37: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned short [usertype]=
- speed @@     got restricted __be16 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6689:37: sparse:     expected unsigned shor=
-t [usertype] speed
-   drivers/scsi/lpfc/lpfc_els.c:6689:37: sparse:     got restricted __be16 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6717:44: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned short [usertype]=
- capabilities @@     got restricted __be16 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6717:44: sparse:     expected unsigned shor=
-t [usertype] capabilities
-   drivers/scsi/lpfc/lpfc_els.c:6717:44: sparse:     got restricted __be16 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6718:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6718:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6718:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6727:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6727:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6727:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6735:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6735:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6735:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6744:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] t=
-ag @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6744:19: sparse:     expected unsigned int =
-[usertype] tag
-   drivers/scsi/lpfc/lpfc_els.c:6744:19: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6759:22: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6759:22: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6759:22: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6850:25: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-ength @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:6850:25: sparse:     expected unsigned int =
-[usertype] length
-   drivers/scsi/lpfc/lpfc_els.c:6850:25: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:6858:22: sparse: sparse: cast to restricted=
- __le32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:6993:9: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/lpfc/lpfc_els.c:7002:25: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7004:36: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7007:25: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7212:17: sparse: sparse: cast to restricted=
- __be16
-   drivers/scsi/lpfc/lpfc_els.c:7217:21: sparse: sparse: cast to restricted=
- __be16
-   drivers/scsi/lpfc/lpfc_els.c:7227:17: sparse: sparse: cast to restricted=
- __be16
-   drivers/scsi/lpfc/lpfc_els.c:7272:9: sparse: sparse: cast to restricted =
-__be16
-   drivers/scsi/lpfc/lpfc_els.c:7272:9: sparse: sparse: cast to restricted =
-__be16
-   drivers/scsi/lpfc/lpfc_els.c:7416:31: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7419:44: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7516:23: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7577:23: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7630:37: sparse: sparse: cast to restricted=
- __be32
-   drivers/scsi/lpfc/lpfc_els.c:7691:42: sparse: sparse: cast to restricted=
- __be32
->> drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse: sparse: invalid assignment=
-: |=3D
->> drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse:    left side has type unsi=
-gned int
->> drivers/scsi/lpfc/lpfc_els.c:7696:38: sparse:    right side has type res=
-tricted __be32
->> drivers/scsi/lpfc/lpfc_els.c:8207:33: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int [usertype] l=
-inkFailureCnt @@     got restricted __be32 [usertype] @@
-   drivers/scsi/lpfc/lpfc_els.c:8207:33: sparse:     expected unsigned int =
-[usertype] linkFailureCnt
-   drivers/scsi/lpfc/lpfc_els.c:8207:33: sparse:     got restricted __be32 =
-[usertype]
-   drivers/scsi/lpfc/lpfc_els.c:8208:30: sparse: sparse: too many warnings
+   kernel/bpf/preload/bpf_preload_kern.c: note: in included file:
+>> kernel/bpf/preload/iterators/iterators.lskel.h:323:9: sparse: sparse: st=
+ring too long (16658 bytes, 8191 bytes max)
 
-vim +7696 drivers/scsi/lpfc/lpfc_els.c
+vim +323 kernel/bpf/preload/iterators/iterators.lskel.h
 
-ddcc50f0f3538e James Smart        2008-12-04  7538  =
+79b203926d18cb Alexei Starovoitov 2022-01-31   98  =
 
-e59058c44025d7 James Smart        2008-08-24  7539  /**
-3621a710a7dbb2 James Smart        2009-04-06  7540   * lpfc_els_rcv_rscn - =
-Process an unsolicited rscn iocb
-e59058c44025d7 James Smart        2008-08-24  7541   * @vport: pointer to a=
- host virtual N_Port data structure.
-e59058c44025d7 James Smart        2008-08-24  7542   * @cmdiocb: pointer to=
- lpfc command iocb data structure.
-e59058c44025d7 James Smart        2008-08-24  7543   * @ndlp: pointer to a =
-node-list data structure.
-e59058c44025d7 James Smart        2008-08-24  7544   *
-e59058c44025d7 James Smart        2008-08-24  7545   * This routine process=
-es an unsolicited RSCN (Registration State Change
-e59058c44025d7 James Smart        2008-08-24  7546   * Notification) IOCB. =
-First, the payload of the unsolicited RSCN is walked
-e59058c44025d7 James Smart        2008-08-24  7547   * to invoke fc_host_po=
-st_event() routine to the FC transport layer. If the
-e59058c44025d7 James Smart        2008-08-24  7548   * discover state machi=
-ne is about to begin discovery, it just accepts the
-e59058c44025d7 James Smart        2008-08-24  7549   * RSCN and the discove=
-ry process will satisfy the RSCN. If this RSCN only
-e59058c44025d7 James Smart        2008-08-24  7550   * contains N_Port IDs =
-for other vports on this HBA, it just accepts the
-e59058c44025d7 James Smart        2008-08-24  7551   * RSCN and ignore proc=
-essing it. If the state machine is in the recovery
-e59058c44025d7 James Smart        2008-08-24  7552   * state, the fc_rscn_i=
-d_list of this @vport is walked and the
-e59058c44025d7 James Smart        2008-08-24  7553   * lpfc_rscn_recovery_c=
-heck() routine is invoked to send recovery event for
-e59058c44025d7 James Smart        2008-08-24  7554   * all nodes that match=
- RSCN payload. Otherwise, the lpfc_els_handle_rscn()
-e59058c44025d7 James Smart        2008-08-24  7555   * routine is invoked t=
-o handle the RSCN event.
-e59058c44025d7 James Smart        2008-08-24  7556   *
-e59058c44025d7 James Smart        2008-08-24  7557   * Return code
-e59058c44025d7 James Smart        2008-08-24  7558   *   0 - Just sent the =
-acc response
-e59058c44025d7 James Smart        2008-08-24  7559   *   1 - Sent the acc r=
-esponse and waited for name server completion
-e59058c44025d7 James Smart        2008-08-24  7560   **/
-dea3101e0a5c89 James Bottomley    2005-04-17  7561  static int
-2e0fef85e098f6 James Smart        2007-06-17  7562  lpfc_els_rcv_rscn(struc=
-t lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
-51ef4c26891a73 James Smart        2007-08-02  7563  		  struct lpfc_nodelis=
-t *ndlp)
-dea3101e0a5c89 James Bottomley    2005-04-17  7564  {
-2e0fef85e098f6 James Smart        2007-06-17  7565  	struct Scsi_Host *shos=
-t =3D lpfc_shost_from_vport(vport);
-2e0fef85e098f6 James Smart        2007-06-17  7566  	struct lpfc_hba  *phba=
- =3D vport->phba;
-dea3101e0a5c89 James Bottomley    2005-04-17  7567  	struct lpfc_dmabuf *pc=
-md;
-92d7f7b0cde3ad James Smart        2007-06-17  7568  	uint32_t *lp, *datap;
-92d7f7b0cde3ad James Smart        2007-06-17  7569  	uint32_t payload_len, =
-length, nportid, *cmd;
-7f5f3d0d02aa2f James Smart        2008-02-08  7570  	int rscn_cnt;
-92d7f7b0cde3ad James Smart        2007-06-17  7571  	int rscn_id =3D 0, hba=
-_id =3D 0;
-2332e6e475b016 James Smart        2019-11-04  7572  	int i, tmo;
-dea3101e0a5c89 James Bottomley    2005-04-17  7573  =
+79b203926d18cb Alexei Starovoitov 2022-01-31   99  static inline int
+79b203926d18cb Alexei Starovoitov 2022-01-31  100  iterators_bpf__load(stru=
+ct iterators_bpf *skel)
+79b203926d18cb Alexei Starovoitov 2022-01-31  101  {
+79b203926d18cb Alexei Starovoitov 2022-01-31  102  	struct bpf_load_and_run=
+_opts opts =3D {};
+79b203926d18cb Alexei Starovoitov 2022-01-31  103  	int err;
+79b203926d18cb Alexei Starovoitov 2022-01-31  104  =
 
-dea3101e0a5c89 James Bottomley    2005-04-17  7574  	pcmd =3D (struct lpfc_=
-dmabuf *) cmdiocb->context2;
-dea3101e0a5c89 James Bottomley    2005-04-17  7575  	lp =3D (uint32_t *) pc=
-md->virt;
-dea3101e0a5c89 James Bottomley    2005-04-17  7576  =
-
-92d7f7b0cde3ad James Smart        2007-06-17  7577  	payload_len =3D be32_t=
-o_cpu(*lp++ & ~ELS_CMD_MASK);
-dea3101e0a5c89 James Bottomley    2005-04-17  7578  	payload_len -=3D sizeo=
-f(uint32_t);	/* take off word 0 */
-dea3101e0a5c89 James Bottomley    2005-04-17  7579  	/* RSCN received */
-e8b62011d88d6f James Smart        2007-08-02  7580  	lpfc_printf_vlog(vport=
-, KERN_INFO, LOG_DISCOVERY,
-e8b62011d88d6f James Smart        2007-08-02  7581  			 "0214 RSCN received=
- Data: x%x x%x x%x x%x\n",
-7f5f3d0d02aa2f James Smart        2008-02-08  7582  			 vport->fc_flag, pay=
-load_len, *lp,
-7f5f3d0d02aa2f James Smart        2008-02-08  7583  			 vport->fc_rscn_id_c=
-nt);
-ddcc50f0f3538e James Smart        2008-12-04  7584  =
-
-ddcc50f0f3538e James Smart        2008-12-04  7585  	/* Send an RSCN event =
-to the management application */
-ddcc50f0f3538e James Smart        2008-12-04  7586  	lpfc_send_rscn_event(v=
-port, cmdiocb);
-ddcc50f0f3538e James Smart        2008-12-04  7587  =
-
-d2873e4c1ef293 James Smart        2006-08-18  7588  	for (i =3D 0; i < payl=
-oad_len/sizeof(uint32_t); i++)
-2e0fef85e098f6 James Smart        2007-06-17  7589  		fc_host_post_event(sh=
-ost, fc_get_event_number(),
-d2873e4c1ef293 James Smart        2006-08-18  7590  			FCH_EVT_RSCN, lp[i]);
-d2873e4c1ef293 James Smart        2006-08-18  7591  =
-
-f60cb93bbfecf1 James Smart        2019-05-14  7592  	/* Check if RSCN is co=
-ming from a direct-connected remote NPort */
-f60cb93bbfecf1 James Smart        2019-05-14  7593  	if (vport->fc_flag & F=
-C_PT2PT) {
-f60cb93bbfecf1 James Smart        2019-05-14  7594  		/* If so, just ACC it=
-, no other action needed for now */
-f60cb93bbfecf1 James Smart        2019-05-14  7595  		lpfc_printf_vlog(vpor=
-t, KERN_INFO, LOG_ELS,
-f60cb93bbfecf1 James Smart        2019-05-14  7596  				 "2024 pt2pt RSCN %=
-08x Data: x%x x%x\n",
-f60cb93bbfecf1 James Smart        2019-05-14  7597  				 *lp, vport->fc_fla=
-g, payload_len);
-f60cb93bbfecf1 James Smart        2019-05-14  7598  		lpfc_els_rsp_acc(vpor=
-t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-6f2589f478795c James Smart        2019-05-14  7599  =
-
-a6d10f24a04d65 James Smart        2019-08-14  7600  		/* Check to see if we=
- need to NVME rescan this target
-a6d10f24a04d65 James Smart        2019-08-14  7601  		 * remoteport.
-a6d10f24a04d65 James Smart        2019-08-14  7602  		 */
-a6d10f24a04d65 James Smart        2019-08-14  7603  		if (ndlp->nlp_fc4_typ=
-e & NLP_FC4_NVME &&
-a6d10f24a04d65 James Smart        2019-08-14  7604  		    ndlp->nlp_type & =
-(NLP_NVME_TARGET | NLP_NVME_DISCOVERY))
-6f2589f478795c James Smart        2019-05-14  7605  			lpfc_nvme_rescan_por=
-t(vport, ndlp);
-f60cb93bbfecf1 James Smart        2019-05-14  7606  		return 0;
-f60cb93bbfecf1 James Smart        2019-05-14  7607  	}
-f60cb93bbfecf1 James Smart        2019-05-14  7608  =
-
-dea3101e0a5c89 James Bottomley    2005-04-17  7609  	/* If we are about to =
-begin discovery, just ACC the RSCN.
-dea3101e0a5c89 James Bottomley    2005-04-17  7610  	 * Discovery processin=
-g will satisfy it.
-dea3101e0a5c89 James Bottomley    2005-04-17  7611  	 */
-2e0fef85e098f6 James Smart        2007-06-17  7612  	if (vport->port_state =
-<=3D LPFC_NS_QRY) {
-858c9f6c19c6f9 James Smart        2007-06-17  7613  		lpfc_debugfs_disc_trc=
-(vport, LPFC_DISC_TRC_ELS_UNSOL,
-858c9f6c19c6f9 James Smart        2007-06-17  7614  			"RCV RSCN ignore: di=
-d:x%x/ste:x%x flg:x%x",
-858c9f6c19c6f9 James Smart        2007-06-17  7615  			ndlp->nlp_DID, vport=
-->port_state, ndlp->nlp_flag);
-858c9f6c19c6f9 James Smart        2007-06-17  7616  =
-
-51ef4c26891a73 James Smart        2007-08-02  7617  		lpfc_els_rsp_acc(vpor=
-t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-c9f8735beadfba Jamie Wellnitz     2006-02-28  7618  		return 0;
-dea3101e0a5c89 James Bottomley    2005-04-17  7619  	}
-dea3101e0a5c89 James Bottomley    2005-04-17  7620  =
-
-92d7f7b0cde3ad James Smart        2007-06-17  7621  	/* If this RSCN just c=
-ontains NPortIDs for other vports on this HBA,
-92d7f7b0cde3ad James Smart        2007-06-17  7622  	 * just ACC and ignore=
- it.
-92d7f7b0cde3ad James Smart        2007-06-17  7623  	 */
-92d7f7b0cde3ad James Smart        2007-06-17  7624  	if ((phba->sli3_option=
-s & LPFC_SLI3_NPIV_ENABLED) &&
-3de2a653a127c4 James Smart        2007-08-02  7625  		!(vport->cfg_peer_por=
-t_login)) {
-92d7f7b0cde3ad James Smart        2007-06-17  7626  		i =3D payload_len;
-92d7f7b0cde3ad James Smart        2007-06-17  7627  		datap =3D lp;
-92d7f7b0cde3ad James Smart        2007-06-17  7628  		while (i > 0) {
-92d7f7b0cde3ad James Smart        2007-06-17  7629  			nportid =3D *datap++;
-92d7f7b0cde3ad James Smart        2007-06-17  7630  			nportid =3D ((be32_t=
-o_cpu(nportid)) & Mask_DID);
-92d7f7b0cde3ad James Smart        2007-06-17  7631  			i -=3D sizeof(uint32=
-_t);
-92d7f7b0cde3ad James Smart        2007-06-17  7632  			rscn_id++;
-549e55cd2a1b83 James Smart        2007-08-02  7633  			if (lpfc_find_vport_=
-by_did(phba, nportid))
-92d7f7b0cde3ad James Smart        2007-06-17  7634  				hba_id++;
-92d7f7b0cde3ad James Smart        2007-06-17  7635  		}
-92d7f7b0cde3ad James Smart        2007-06-17  7636  		if (rscn_id =3D=3D hb=
-a_id) {
-92d7f7b0cde3ad James Smart        2007-06-17  7637  			/* ALL NPortIDs in R=
-SCN are on HBA */
-e8b62011d88d6f James Smart        2007-08-02  7638  			lpfc_printf_vlog(vpo=
-rt, KERN_INFO, LOG_DISCOVERY,
-d7c255b26d8e3f James Smart        2008-08-24  7639  					 "0219 Ignore RSCN=
- "
-e8b62011d88d6f James Smart        2007-08-02  7640  					 "Data: x%x x%x x%=
-x x%x\n",
-e8b62011d88d6f James Smart        2007-08-02  7641  					 vport->fc_flag, p=
-ayload_len,
-7f5f3d0d02aa2f James Smart        2008-02-08  7642  					 *lp, vport->fc_rs=
-cn_id_cnt);
-858c9f6c19c6f9 James Smart        2007-06-17  7643  			lpfc_debugfs_disc_tr=
-c(vport, LPFC_DISC_TRC_ELS_UNSOL,
-858c9f6c19c6f9 James Smart        2007-06-17  7644  				"RCV RSCN vport:  d=
-id:x%x/ste:x%x flg:x%x",
-858c9f6c19c6f9 James Smart        2007-06-17  7645  				ndlp->nlp_DID, vpor=
-t->port_state,
-858c9f6c19c6f9 James Smart        2007-06-17  7646  				ndlp->nlp_flag);
-858c9f6c19c6f9 James Smart        2007-06-17  7647  =
-
-92d7f7b0cde3ad James Smart        2007-06-17  7648  			lpfc_els_rsp_acc(vpo=
-rt, ELS_CMD_ACC, cmdiocb,
-51ef4c26891a73 James Smart        2007-08-02  7649  				ndlp, NULL);
-92d7f7b0cde3ad James Smart        2007-06-17  7650  			return 0;
-92d7f7b0cde3ad James Smart        2007-06-17  7651  		}
-92d7f7b0cde3ad James Smart        2007-06-17  7652  	}
-92d7f7b0cde3ad James Smart        2007-06-17  7653  =
-
-7f5f3d0d02aa2f James Smart        2008-02-08  7654  	spin_lock_irq(shost->h=
-ost_lock);
-7f5f3d0d02aa2f James Smart        2008-02-08  7655  	if (vport->fc_rscn_flu=
-sh) {
-7f5f3d0d02aa2f James Smart        2008-02-08  7656  		/* Another thread is =
-walking fc_rscn_id_list on this vport */
-7f5f3d0d02aa2f James Smart        2008-02-08  7657  		vport->fc_flag |=3D F=
-C_RSCN_DISCOVERY;
-97957244768600 James Smart        2009-12-21  7658  		spin_unlock_irq(shost=
-->host_lock);
-58da1ffb2b1234 James Smart        2008-04-07  7659  		/* Send back ACC */
-58da1ffb2b1234 James Smart        2008-04-07  7660  		lpfc_els_rsp_acc(vpor=
-t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-7f5f3d0d02aa2f James Smart        2008-02-08  7661  		return 0;
-7f5f3d0d02aa2f James Smart        2008-02-08  7662  	}
-7f5f3d0d02aa2f James Smart        2008-02-08  7663  	/* Indicate we are wal=
-king fc_rscn_id_list on this vport */
-7f5f3d0d02aa2f James Smart        2008-02-08  7664  	vport->fc_rscn_flush =
-=3D 1;
-7f5f3d0d02aa2f James Smart        2008-02-08  7665  	spin_unlock_irq(shost-=
->host_lock);
-af901ca181d92a Andr=C3=A9 Goddard Rosa 2009-11-14  7666  	/* Get the array =
-count after successfully have the token */
-7f5f3d0d02aa2f James Smart        2008-02-08  7667  	rscn_cnt =3D vport->fc=
-_rscn_id_cnt;
-dea3101e0a5c89 James Bottomley    2005-04-17  7668  	/* If we are already p=
-rocessing an RSCN, save the received
-dea3101e0a5c89 James Bottomley    2005-04-17  7669  	 * RSCN payload buffer=
-, cmdiocb->context2 to process later.
-dea3101e0a5c89 James Bottomley    2005-04-17  7670  	 */
-2e0fef85e098f6 James Smart        2007-06-17  7671  	if (vport->fc_flag & (=
-FC_RSCN_MODE | FC_NDISC_ACTIVE)) {
-858c9f6c19c6f9 James Smart        2007-06-17  7672  		lpfc_debugfs_disc_trc=
-(vport, LPFC_DISC_TRC_ELS_UNSOL,
-858c9f6c19c6f9 James Smart        2007-06-17  7673  			"RCV RSCN defer:  di=
-d:x%x/ste:x%x flg:x%x",
-858c9f6c19c6f9 James Smart        2007-06-17  7674  			ndlp->nlp_DID, vport=
-->port_state, ndlp->nlp_flag);
-858c9f6c19c6f9 James Smart        2007-06-17  7675  =
-
-0937282036d9ae James Smart        2008-01-11  7676  		spin_lock_irq(shost->=
-host_lock);
-92d7f7b0cde3ad James Smart        2007-06-17  7677  		vport->fc_flag |=3D F=
-C_RSCN_DEFERRED;
-2332e6e475b016 James Smart        2019-11-04  7678  =
-
-2332e6e475b016 James Smart        2019-11-04  7679  		/* Restart disctmo if=
- its already running */
-2332e6e475b016 James Smart        2019-11-04  7680  		if (vport->fc_flag & =
-FC_DISC_TMO) {
-2332e6e475b016 James Smart        2019-11-04  7681  			tmo =3D ((phba->fc_r=
-atov * 3) + 3);
-2332e6e475b016 James Smart        2019-11-04  7682  			mod_timer(&vport->fc=
-_disctmo,
-2332e6e475b016 James Smart        2019-11-04  7683  				  jiffies + msecs_t=
-o_jiffies(1000 * tmo));
-2332e6e475b016 James Smart        2019-11-04  7684  		}
-92d7f7b0cde3ad James Smart        2007-06-17  7685  		if ((rscn_cnt < FC_MA=
-X_HOLD_RSCN) &&
-2e0fef85e098f6 James Smart        2007-06-17  7686  		    !(vport->fc_flag =
-& FC_RSCN_DISCOVERY)) {
-2e0fef85e098f6 James Smart        2007-06-17  7687  			vport->fc_flag |=3D =
-FC_RSCN_MODE;
-2e0fef85e098f6 James Smart        2007-06-17  7688  			spin_unlock_irq(shos=
-t->host_lock);
-92d7f7b0cde3ad James Smart        2007-06-17  7689  			if (rscn_cnt) {
-92d7f7b0cde3ad James Smart        2007-06-17  7690  				cmd =3D vport->fc_r=
-scn_id_list[rscn_cnt-1]->virt;
-92d7f7b0cde3ad James Smart        2007-06-17  7691  				length =3D be32_to_=
-cpu(*cmd & ~ELS_CMD_MASK);
-92d7f7b0cde3ad James Smart        2007-06-17  7692  			}
-92d7f7b0cde3ad James Smart        2007-06-17  7693  			if ((rscn_cnt) &&
-92d7f7b0cde3ad James Smart        2007-06-17  7694  			    (payload_len + l=
-ength <=3D LPFC_BPL_SIZE)) {
-92d7f7b0cde3ad James Smart        2007-06-17  7695  				*cmd &=3D ELS_CMD_M=
-ASK;
-7f5f3d0d02aa2f James Smart        2008-02-08 @7696  				*cmd |=3D cpu_to_be=
-32(payload_len + length);
-92d7f7b0cde3ad James Smart        2007-06-17  7697  				memcpy(((uint8_t *)=
-cmd) + length, lp,
-92d7f7b0cde3ad James Smart        2007-06-17  7698  				       payload_len);
-92d7f7b0cde3ad James Smart        2007-06-17  7699  			} else {
-92d7f7b0cde3ad James Smart        2007-06-17  7700  				vport->fc_rscn_id_l=
-ist[rscn_cnt] =3D pcmd;
-92d7f7b0cde3ad James Smart        2007-06-17  7701  				vport->fc_rscn_id_c=
-nt++;
-dea3101e0a5c89 James Bottomley    2005-04-17  7702  				/* If we zero, cmdi=
-ocb->context2, the calling
-dea3101e0a5c89 James Bottomley    2005-04-17  7703  				 * routine will not=
- try to free it.
-dea3101e0a5c89 James Bottomley    2005-04-17  7704  				 */
-dea3101e0a5c89 James Bottomley    2005-04-17  7705  				cmdiocb->context2 =
-=3D NULL;
-92d7f7b0cde3ad James Smart        2007-06-17  7706  			}
-dea3101e0a5c89 James Bottomley    2005-04-17  7707  			/* Deferred RSCN */
-e8b62011d88d6f James Smart        2007-08-02  7708  			lpfc_printf_vlog(vpo=
-rt, KERN_INFO, LOG_DISCOVERY,
-e8b62011d88d6f James Smart        2007-08-02  7709  					 "0235 Deferred RS=
-CN "
-dea3101e0a5c89 James Bottomley    2005-04-17  7710  					 "Data: x%x x%x x%=
-x\n",
-92d7f7b0cde3ad James Smart        2007-06-17  7711  					 vport->fc_rscn_id=
-_cnt, vport->fc_flag,
-2e0fef85e098f6 James Smart        2007-06-17  7712  					 vport->port_state=
-);
-dea3101e0a5c89 James Bottomley    2005-04-17  7713  		} else {
-2e0fef85e098f6 James Smart        2007-06-17  7714  			vport->fc_flag |=3D =
-FC_RSCN_DISCOVERY;
-2e0fef85e098f6 James Smart        2007-06-17  7715  			spin_unlock_irq(shos=
-t->host_lock);
-dea3101e0a5c89 James Bottomley    2005-04-17  7716  			/* ReDiscovery RSCN =
-*/
-e8b62011d88d6f James Smart        2007-08-02  7717  			lpfc_printf_vlog(vpo=
-rt, KERN_INFO, LOG_DISCOVERY,
-e8b62011d88d6f James Smart        2007-08-02  7718  					 "0234 ReDiscovery=
- RSCN "
-dea3101e0a5c89 James Bottomley    2005-04-17  7719  					 "Data: x%x x%x x%=
-x\n",
-92d7f7b0cde3ad James Smart        2007-06-17  7720  					 vport->fc_rscn_id=
-_cnt, vport->fc_flag,
-2e0fef85e098f6 James Smart        2007-06-17  7721  					 vport->port_state=
-);
-dea3101e0a5c89 James Bottomley    2005-04-17  7722  		}
-7f5f3d0d02aa2f James Smart        2008-02-08  7723  		/* Indicate we are do=
-ne walking fc_rscn_id_list on this vport */
-7f5f3d0d02aa2f James Smart        2008-02-08  7724  		vport->fc_rscn_flush =
-=3D 0;
-dea3101e0a5c89 James Bottomley    2005-04-17  7725  		/* Send back ACC */
-51ef4c26891a73 James Smart        2007-08-02  7726  		lpfc_els_rsp_acc(vpor=
-t, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-dea3101e0a5c89 James Bottomley    2005-04-17  7727  		/* send RECOVERY even=
-t for ALL nodes that match RSCN payload */
-2e0fef85e098f6 James Smart        2007-06-17  7728  		lpfc_rscn_recovery_ch=
-eck(vport);
-c9f8735beadfba Jamie Wellnitz     2006-02-28  7729  		return 0;
-dea3101e0a5c89 James Bottomley    2005-04-17  7730  	}
-858c9f6c19c6f9 James Smart        2007-06-17  7731  	lpfc_debugfs_disc_trc(=
-vport, LPFC_DISC_TRC_ELS_UNSOL,
-858c9f6c19c6f9 James Smart        2007-06-17  7732  		"RCV RSCN:        did=
-:x%x/ste:x%x flg:x%x",
-858c9f6c19c6f9 James Smart        2007-06-17  7733  		ndlp->nlp_DID, vport-=
->port_state, ndlp->nlp_flag);
-858c9f6c19c6f9 James Smart        2007-06-17  7734  =
-
-2e0fef85e098f6 James Smart        2007-06-17  7735  	spin_lock_irq(shost->h=
-ost_lock);
-2e0fef85e098f6 James Smart        2007-06-17  7736  	vport->fc_flag |=3D FC=
-_RSCN_MODE;
-2e0fef85e098f6 James Smart        2007-06-17  7737  	spin_unlock_irq(shost-=
->host_lock);
-2e0fef85e098f6 James Smart        2007-06-17  7738  	vport->fc_rscn_id_list=
-[vport->fc_rscn_id_cnt++] =3D pcmd;
-7f5f3d0d02aa2f James Smart        2008-02-08  7739  	/* Indicate we are don=
-e walking fc_rscn_id_list on this vport */
-7f5f3d0d02aa2f James Smart        2008-02-08  7740  	vport->fc_rscn_flush =
-=3D 0;
-dea3101e0a5c89 James Bottomley    2005-04-17  7741  	/*
-dea3101e0a5c89 James Bottomley    2005-04-17  7742  	 * If we zero, cmdiocb=
-->context2, the calling routine will
-dea3101e0a5c89 James Bottomley    2005-04-17  7743  	 * not try to free it.
-dea3101e0a5c89 James Bottomley    2005-04-17  7744  	 */
-dea3101e0a5c89 James Bottomley    2005-04-17  7745  	cmdiocb->context2 =3D =
-NULL;
-2e0fef85e098f6 James Smart        2007-06-17  7746  	lpfc_set_disctmo(vport=
-);
-dea3101e0a5c89 James Bottomley    2005-04-17  7747  	/* Send back ACC */
-51ef4c26891a73 James Smart        2007-08-02  7748  	lpfc_els_rsp_acc(vport=
-, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-dea3101e0a5c89 James Bottomley    2005-04-17  7749  	/* send RECOVERY event=
- for ALL nodes that match RSCN payload */
-2e0fef85e098f6 James Smart        2007-06-17  7750  	lpfc_rscn_recovery_che=
-ck(vport);
-2e0fef85e098f6 James Smart        2007-06-17  7751  	return lpfc_els_handle=
-_rscn(vport);
-dea3101e0a5c89 James Bottomley    2005-04-17  7752  }
-dea3101e0a5c89 James Bottomley    2005-04-17  7753  =
+79b203926d18cb Alexei Starovoitov 2022-01-31  105  	opts.ctx =3D (struct bp=
+f_loader_ctx *)skel;
+79b203926d18cb Alexei Starovoitov 2022-01-31  106  	opts.data_sz =3D 6056;
+79b203926d18cb Alexei Starovoitov 2022-01-31  107  	opts.data =3D (void *)"\
+79b203926d18cb Alexei Starovoitov 2022-01-31  108  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  109  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  110  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  111  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  112  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  113  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  114  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  115  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  116  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  117  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  118  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  119  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  120  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  121  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  122  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  123  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  124  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  125  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  126  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  127  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  128  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  129  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  130  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  131  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  132  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  133  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  134  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  135  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  136  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  137  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  138  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  139  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  140  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x9f\xeb\x01\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  141  \x18\0\0\0\0\0\0\0\x1c\x=
+04\0\0\x1c\x04\0\0\xf9\x04\0\0\0\0\0\0\0\0\0\x02\x02\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  142  \0\0\x01\0\0\0\x02\0\0\x=
+04\x10\0\0\0\x13\0\0\0\x03\0\0\0\0\0\0\0\x18\0\0\0\x04\
+79b203926d18cb Alexei Starovoitov 2022-01-31  143  \0\0\0\x40\0\0\0\0\0\0\0=
+\0\0\0\x02\x08\0\0\0\0\0\0\0\0\0\0\x02\x0d\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  144  \0\x01\0\0\x0d\x06\0\0\0=
+\x1c\0\0\0\x01\0\0\0\x20\0\0\0\0\0\0\x01\x04\0\0\0\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  145  \0\0\x01\x24\0\0\0\x01\0=
+\0\x0c\x05\0\0\0\xa3\0\0\0\x03\0\0\x04\x18\0\0\0\xb1\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  146  \0\0\x09\0\0\0\0\0\0\0\x=
+b5\0\0\0\x0b\0\0\0\x40\0\0\0\xc0\0\0\0\x0b\0\0\0\x80\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  147  \0\0\0\0\0\0\0\0\0\x02\x=
+0a\0\0\0\xc8\0\0\0\0\0\0\x07\0\0\0\0\xd1\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  148  \x08\x0c\0\0\0\xd7\0\0\0=
+\0\0\0\x01\x08\0\0\0\x40\0\0\0\x94\x01\0\0\x03\0\0\x04\
+79b203926d18cb Alexei Starovoitov 2022-01-31  149  \x18\0\0\0\x9c\x01\0\0\x=
+0e\0\0\0\0\0\0\0\x9f\x01\0\0\x11\0\0\0\x20\0\0\0\xa4\
+79b203926d18cb Alexei Starovoitov 2022-01-31  150  \x01\0\0\x0e\0\0\0\xa0\0=
+\0\0\xb0\x01\0\0\0\0\0\x08\x0f\0\0\0\xb6\x01\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  151  \x01\x04\0\0\0\x20\0\0\0=
+\xc3\x01\0\0\0\0\0\x01\x01\0\0\0\x08\0\0\x01\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  152  \0\0\x03\0\0\0\0\x10\0\0=
+\0\x12\0\0\0\x10\0\0\0\xc8\x01\0\0\0\0\0\x01\x04\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  153  \x20\0\0\0\0\0\0\0\0\0\0=
+\x02\x14\0\0\0\x2c\x02\0\0\x02\0\0\x04\x10\0\0\0\x13\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  154  \0\0\x03\0\0\0\0\0\0\0\x=
+3f\x02\0\0\x15\0\0\0\x40\0\0\0\0\0\0\0\0\0\0\x02\x18\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  155  \0\0\0\0\0\0\x01\0\0\x0d=
+\x06\0\0\0\x1c\0\0\0\x13\0\0\0\x44\x02\0\0\x01\0\0\x0c\
+79b203926d18cb Alexei Starovoitov 2022-01-31  156  \x16\0\0\0\x90\x02\0\0\x=
+01\0\0\x04\x08\0\0\0\x99\x02\0\0\x19\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  157  \0\0\0\0\0\x02\x1a\0\0\0=
+\xea\x02\0\0\x06\0\0\x04\x38\0\0\0\x9c\x01\0\0\x0e\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  158  \0\0\0\0\0\x9f\x01\0\0\x=
+11\0\0\0\x20\0\0\0\xf7\x02\0\0\x1b\0\0\0\xc0\0\0\0\x08\
+79b203926d18cb Alexei Starovoitov 2022-01-31  159  \x03\0\0\x15\0\0\0\0\x01=
+\0\0\x11\x03\0\0\x1d\0\0\0\x40\x01\0\0\x1b\x03\0\0\x1e\
+79b203926d18cb Alexei Starovoitov 2022-01-31  160  \0\0\0\x80\x01\0\0\0\0\0=
+\0\0\0\0\x02\x1c\0\0\0\0\0\0\0\0\0\0\x0a\x10\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  161  \0\0\0\0\0\x02\x1f\0\0\0=
+\0\0\0\0\0\0\0\x02\x20\0\0\0\x65\x03\0\0\x02\0\0\x04\
+79b203926d18cb Alexei Starovoitov 2022-01-31  162  \x08\0\0\0\x73\x03\0\0\x=
+0e\0\0\0\0\0\0\0\x7c\x03\0\0\x0e\0\0\0\x20\0\0\0\x1b\
+79b203926d18cb Alexei Starovoitov 2022-01-31  163  \x03\0\0\x03\0\0\x04\x18=
+\0\0\0\x86\x03\0\0\x1b\0\0\0\0\0\0\0\x8e\x03\0\0\x21\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  164  \0\0\x40\0\0\0\x94\x03\0=
+\0\x23\0\0\0\x80\0\0\0\0\0\0\0\0\0\0\x02\x22\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  165  \0\0\0\0\0\x02\x24\0\0\0=
+\x98\x03\0\0\x01\0\0\x04\x04\0\0\0\xa3\x03\0\0\x0e\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  166  \0\0\0\0\0\x0c\x04\0\0\x=
+01\0\0\x04\x04\0\0\0\x15\x04\0\0\x0e\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  167  \0\0\0\0\0\x03\0\0\0\0\x=
+1c\0\0\0\x12\0\0\0\x23\0\0\0\x8b\x04\0\0\0\0\0\x0e\x25\
+79b203926d18cb Alexei Starovoitov 2022-01-31  168  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\x03\0\0\0\0\x1c\0\0\0\x12\0\0\0\x0e\0\0\0\x9f\x04\
+79b203926d18cb Alexei Starovoitov 2022-01-31  169  \0\0\0\0\0\x0e\x27\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\x03\0\0\0\0\x1c\0\0\0\x12\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  170  \x20\0\0\0\xb5\x04\0\0\0=
+\0\0\x0e\x29\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  171  \x1c\0\0\0\x12\0\0\0\x11=
+\0\0\0\xca\x04\0\0\0\0\0\x0e\x2b\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  172  \0\0\0\x03\0\0\0\0\x10\0=
+\0\0\x12\0\0\0\x04\0\0\0\xe1\x04\0\0\0\0\0\x0e\x2d\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  173  \0\x01\0\0\0\xe9\x04\0\0=
+\x04\0\0\x0f\x62\0\0\0\x26\0\0\0\0\0\0\0\x23\0\0\0\x28\
+79b203926d18cb Alexei Starovoitov 2022-01-31  174  \0\0\0\x23\0\0\0\x0e\0\0=
+\0\x2a\0\0\0\x31\0\0\0\x20\0\0\0\x2c\0\0\0\x51\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  175  \x11\0\0\0\xf1\x04\0\0\x=
+01\0\0\x0f\x04\0\0\0\x2e\0\0\0\0\0\0\0\x04\0\0\0\0\x62\
+79b203926d18cb Alexei Starovoitov 2022-01-31  176  \x70\x66\x5f\x69\x74\x65=
+\x72\x5f\x5f\x62\x70\x66\x5f\x6d\x61\x70\0\x6d\x65\x74\
+79b203926d18cb Alexei Starovoitov 2022-01-31  177  \x61\0\x6d\x61\x70\0\x63=
+\x74\x78\0\x69\x6e\x74\0\x64\x75\x6d\x70\x5f\x62\x70\
+79b203926d18cb Alexei Starovoitov 2022-01-31  178  \x66\x5f\x6d\x61\x70\0\x=
+69\x74\x65\x72\x2f\x62\x70\x66\x5f\x6d\x61\x70\0\x30\
+79b203926d18cb Alexei Starovoitov 2022-01-31  179  \x3a\x30\0\x2f\x77\x2f\x=
+6e\x65\x74\x2d\x6e\x65\x78\x74\x2f\x6b\x65\x72\x6e\x65\
+79b203926d18cb Alexei Starovoitov 2022-01-31  180  \x6c\x2f\x62\x70\x66\x2f=
+\x70\x72\x65\x6c\x6f\x61\x64\x2f\x69\x74\x65\x72\x61\
+79b203926d18cb Alexei Starovoitov 2022-01-31  181  \x74\x6f\x72\x73\x2f\x69=
+\x74\x65\x72\x61\x74\x6f\x72\x73\x2e\x62\x70\x66\x2e\
+79b203926d18cb Alexei Starovoitov 2022-01-31  182  \x63\0\x09\x73\x74\x72\x=
+75\x63\x74\x20\x73\x65\x71\x5f\x66\x69\x6c\x65\x20\x2a\
+79b203926d18cb Alexei Starovoitov 2022-01-31  183  \x73\x65\x71\x20\x3d\x20=
+\x63\x74\x78\x2d\x3e\x6d\x65\x74\x61\x2d\x3e\x73\x65\
+79b203926d18cb Alexei Starovoitov 2022-01-31  184  \x71\x3b\0\x62\x70\x66\x=
+5f\x69\x74\x65\x72\x5f\x6d\x65\x74\x61\0\x73\x65\x71\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  185  \x73\x65\x73\x73\x69\x6f=
+\x6e\x5f\x69\x64\0\x73\x65\x71\x5f\x6e\x75\x6d\0\x73\
+79b203926d18cb Alexei Starovoitov 2022-01-31  186  \x65\x71\x5f\x66\x69\x6c=
+\x65\0\x5f\x5f\x75\x36\x34\0\x75\x6e\x73\x69\x67\x6e\
+79b203926d18cb Alexei Starovoitov 2022-01-31  187  \x65\x64\x20\x6c\x6f\x6e=
+\x67\x20\x6c\x6f\x6e\x67\0\x30\x3a\x31\0\x09\x73\x74\
+79b203926d18cb Alexei Starovoitov 2022-01-31  188  \x72\x75\x63\x74\x20\x62=
+\x70\x66\x5f\x6d\x61\x70\x20\x2a\x6d\x61\x70\x20\x3d\
+79b203926d18cb Alexei Starovoitov 2022-01-31  189  \x20\x63\x74\x78\x2d\x3e=
+\x6d\x61\x70\x3b\0\x09\x69\x66\x20\x28\x21\x6d\x61\x70\
+79b203926d18cb Alexei Starovoitov 2022-01-31  190  \x29\0\x09\x5f\x5f\x75\x=
+36\x34\x20\x73\x65\x71\x5f\x6e\x75\x6d\x20\x3d\x20\x63\
+79b203926d18cb Alexei Starovoitov 2022-01-31  191  \x74\x78\x2d\x3e\x6d\x65=
+\x74\x61\x2d\x3e\x73\x65\x71\x5f\x6e\x75\x6d\x3b\0\x30\
+79b203926d18cb Alexei Starovoitov 2022-01-31  192  \x3a\x32\0\x09\x69\x66\x=
+20\x28\x73\x65\x71\x5f\x6e\x75\x6d\x20\x3d\x3d\x20\x30\
+79b203926d18cb Alexei Starovoitov 2022-01-31  193  \x29\0\x09\x09\x42\x50\x=
+46\x5f\x53\x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\x73\
+79b203926d18cb Alexei Starovoitov 2022-01-31  194  \x65\x71\x2c\x20\x22\x20=
+\x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  195  \x20\x20\x20\x20\x20\x20=
+\x20\x20\x6d\x61\x78\x5f\x65\x6e\x74\x72\x69\x65\x73\
+79b203926d18cb Alexei Starovoitov 2022-01-31  196  \x5c\x6e\x22\x29\x3b\0\x=
+62\x70\x66\x5f\x6d\x61\x70\0\x69\x64\0\x6e\x61\x6d\x65\
+79b203926d18cb Alexei Starovoitov 2022-01-31  197  \0\x6d\x61\x78\x5f\x65\x=
+6e\x74\x72\x69\x65\x73\0\x5f\x5f\x75\x33\x32\0\x75\x6e\
+79b203926d18cb Alexei Starovoitov 2022-01-31  198  \x73\x69\x67\x6e\x65\x64=
+\x20\x69\x6e\x74\0\x63\x68\x61\x72\0\x5f\x5f\x41\x52\
+79b203926d18cb Alexei Starovoitov 2022-01-31  199  \x52\x41\x59\x5f\x53\x49=
+\x5a\x45\x5f\x54\x59\x50\x45\x5f\x5f\0\x09\x42\x50\x46\
+79b203926d18cb Alexei Starovoitov 2022-01-31  200  \x5f\x53\x45\x51\x5f\x50=
+\x52\x49\x4e\x54\x46\x28\x73\x65\x71\x2c\x20\x22\x25\
+79b203926d18cb Alexei Starovoitov 2022-01-31  201  \x34\x75\x20\x25\x2d\x31=
+\x36\x73\x25\x36\x64\x5c\x6e\x22\x2c\x20\x6d\x61\x70\
+79b203926d18cb Alexei Starovoitov 2022-01-31  202  \x2d\x3e\x69\x64\x2c\x20=
+\x6d\x61\x70\x2d\x3e\x6e\x61\x6d\x65\x2c\x20\x6d\x61\
+79b203926d18cb Alexei Starovoitov 2022-01-31  203  \x70\x2d\x3e\x6d\x61\x78=
+\x5f\x65\x6e\x74\x72\x69\x65\x73\x29\x3b\0\x7d\0\x62\
+79b203926d18cb Alexei Starovoitov 2022-01-31  204  \x70\x66\x5f\x69\x74\x65=
+\x72\x5f\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\x70\x72\
+79b203926d18cb Alexei Starovoitov 2022-01-31  205  \x6f\x67\0\x64\x75\x6d\x=
+70\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\x69\x74\x65\
+79b203926d18cb Alexei Starovoitov 2022-01-31  206  \x72\x2f\x62\x70\x66\x5f=
+\x70\x72\x6f\x67\0\x09\x73\x74\x72\x75\x63\x74\x20\x62\
+79b203926d18cb Alexei Starovoitov 2022-01-31  207  \x70\x66\x5f\x70\x72\x6f=
+\x67\x20\x2a\x70\x72\x6f\x67\x20\x3d\x20\x63\x74\x78\
+79b203926d18cb Alexei Starovoitov 2022-01-31  208  \x2d\x3e\x70\x72\x6f\x67=
+\x3b\0\x09\x69\x66\x20\x28\x21\x70\x72\x6f\x67\x29\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  209  \x62\x70\x66\x5f\x70\x72=
+\x6f\x67\0\x61\x75\x78\0\x09\x61\x75\x78\x20\x3d\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  210  \x70\x72\x6f\x67\x2d\x3e=
+\x61\x75\x78\x3b\0\x09\x09\x42\x50\x46\x5f\x53\x45\x51\
+79b203926d18cb Alexei Starovoitov 2022-01-31  211  \x5f\x50\x52\x49\x4e\x54=
+\x46\x28\x73\x65\x71\x2c\x20\x22\x20\x20\x69\x64\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  212  \x6e\x61\x6d\x65\x20\x20=
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x61\x74\
+79b203926d18cb Alexei Starovoitov 2022-01-31  213  \x74\x61\x63\x68\x65\x64=
+\x5c\x6e\x22\x29\x3b\0\x62\x70\x66\x5f\x70\x72\x6f\x67\
+79b203926d18cb Alexei Starovoitov 2022-01-31  214  \x5f\x61\x75\x78\0\x61\x=
+74\x74\x61\x63\x68\x5f\x66\x75\x6e\x63\x5f\x6e\x61\x6d\
+79b203926d18cb Alexei Starovoitov 2022-01-31  215  \x65\0\x64\x73\x74\x5f\x=
+70\x72\x6f\x67\0\x66\x75\x6e\x63\x5f\x69\x6e\x66\x6f\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  216  \x62\x74\x66\0\x09\x42\x=
+50\x46\x5f\x53\x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\
+79b203926d18cb Alexei Starovoitov 2022-01-31  217  \x73\x65\x71\x2c\x20\x22=
+\x25\x34\x75\x20\x25\x2d\x31\x36\x73\x20\x25\x73\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  218  \x25\x73\x5c\x6e\x22\x2c=
+\x20\x61\x75\x78\x2d\x3e\x69\x64\x2c\0\x30\x3a\x34\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  219  \x30\x3a\x35\0\x09\x69\x=
+66\x20\x28\x21\x62\x74\x66\x29\0\x62\x70\x66\x5f\x66\
+79b203926d18cb Alexei Starovoitov 2022-01-31  220  \x75\x6e\x63\x5f\x69\x6e=
+\x66\x6f\0\x69\x6e\x73\x6e\x5f\x6f\x66\x66\0\x74\x79\
+79b203926d18cb Alexei Starovoitov 2022-01-31  221  \x70\x65\x5f\x69\x64\0\x=
+30\0\x73\x74\x72\x69\x6e\x67\x73\0\x74\x79\x70\x65\x73\
+79b203926d18cb Alexei Starovoitov 2022-01-31  222  \0\x68\x64\x72\0\x62\x74=
+\x66\x5f\x68\x65\x61\x64\x65\x72\0\x73\x74\x72\x5f\x6c\
+79b203926d18cb Alexei Starovoitov 2022-01-31  223  \x65\x6e\0\x09\x74\x79\x=
+70\x65\x73\x20\x3d\x20\x62\x74\x66\x2d\x3e\x74\x79\x70\
+79b203926d18cb Alexei Starovoitov 2022-01-31  224  \x65\x73\x3b\0\x09\x62\x=
+70\x66\x5f\x70\x72\x6f\x62\x65\x5f\x72\x65\x61\x64\x5f\
+79b203926d18cb Alexei Starovoitov 2022-01-31  225  \x6b\x65\x72\x6e\x65\x6c=
+\x28\x26\x74\x2c\x20\x73\x69\x7a\x65\x6f\x66\x28\x74\
+79b203926d18cb Alexei Starovoitov 2022-01-31  226  \x29\x2c\x20\x74\x79\x70=
+\x65\x73\x20\x2b\x20\x62\x74\x66\x5f\x69\x64\x29\x3b\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  227  \x09\x73\x74\x72\x20\x3d=
+\x20\x62\x74\x66\x2d\x3e\x73\x74\x72\x69\x6e\x67\x73\
+79b203926d18cb Alexei Starovoitov 2022-01-31  228  \x3b\0\x62\x74\x66\x5f\x=
+74\x79\x70\x65\0\x6e\x61\x6d\x65\x5f\x6f\x66\x66\0\x09\
+79b203926d18cb Alexei Starovoitov 2022-01-31  229  \x6e\x61\x6d\x65\x5f\x6f=
+\x66\x66\x20\x3d\x20\x42\x50\x46\x5f\x43\x4f\x52\x45\
+79b203926d18cb Alexei Starovoitov 2022-01-31  230  \x5f\x52\x45\x41\x44\x28=
+\x74\x2c\x20\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x29\x3b\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  231  \x30\x3a\x32\x3a\x30\0\x=
+09\x69\x66\x20\x28\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  232  \x3e\x3d\x20\x62\x74\x66=
+\x2d\x3e\x68\x64\x72\x2e\x73\x74\x72\x5f\x6c\x65\x6e\
+79b203926d18cb Alexei Starovoitov 2022-01-31  233  \x29\0\x09\x72\x65\x74\x=
+75\x72\x6e\x20\x73\x74\x72\x20\x2b\x20\x6e\x61\x6d\x65\
+79b203926d18cb Alexei Starovoitov 2022-01-31  234  \x5f\x6f\x66\x66\x3b\0\x=
+30\x3a\x33\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\
+79b203926d18cb Alexei Starovoitov 2022-01-31  235  \x61\x70\x2e\x5f\x5f\x5f=
+\x66\x6d\x74\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\
+79b203926d18cb Alexei Starovoitov 2022-01-31  236  \x61\x70\x2e\x5f\x5f\x5f=
+\x66\x6d\x74\x2e\x31\0\x64\x75\x6d\x70\x5f\x62\x70\x66\
+79b203926d18cb Alexei Starovoitov 2022-01-31  237  \x5f\x70\x72\x6f\x67\x2e=
+\x5f\x5f\x5f\x66\x6d\x74\0\x64\x75\x6d\x70\x5f\x62\x70\
+79b203926d18cb Alexei Starovoitov 2022-01-31  238  \x66\x5f\x70\x72\x6f\x67=
+\x2e\x5f\x5f\x5f\x66\x6d\x74\x2e\x32\0\x4c\x49\x43\x45\
+79b203926d18cb Alexei Starovoitov 2022-01-31  239  \x4e\x53\x45\0\x2e\x72\x=
+6f\x64\x61\x74\x61\0\x6c\x69\x63\x65\x6e\x73\x65\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  240  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\x2d\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  241  \0\x04\0\0\0\x62\0\0\0\x=
+01\0\0\0\x80\x04\0\0\0\0\0\0\0\0\0\0\x69\x74\x65\x72\
+79b203926d18cb Alexei Starovoitov 2022-01-31  242  \x61\x74\x6f\x72\x2e\x72=
+\x6f\x64\x61\x74\x61\0\0\0\0\0\0\0\0\0\0\0\0\0\x2f\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  243  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\x20\x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  244  \x20\x20\x20\x20\x20\x20=
+\x20\x20\x20\x6d\x61\x78\x5f\x65\x6e\x74\x72\x69\x65\
+79b203926d18cb Alexei Starovoitov 2022-01-31  245  \x73\x0a\0\x25\x34\x75\x=
+20\x25\x2d\x31\x36\x73\x25\x36\x64\x0a\0\x20\x20\x69\
+79b203926d18cb Alexei Starovoitov 2022-01-31  246  \x64\x20\x6e\x61\x6d\x65=
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  247  \x61\x74\x74\x61\x63\x68=
+\x65\x64\x0a\0\x25\x34\x75\x20\x25\x2d\x31\x36\x73\x20\
+79b203926d18cb Alexei Starovoitov 2022-01-31  248  \x25\x73\x20\x25\x73\x0a=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  249  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x47\x50\x4c\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  250  \x79\x12\0\0\0\0\0\0\x79=
+\x26\0\0\0\0\0\0\x79\x17\x08\0\0\0\0\0\x15\x07\x1b\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  251  \0\0\0\x79\x11\0\0\0\0\0=
+\0\x79\x11\x10\0\0\0\0\0\x55\x01\x08\0\0\0\0\0\xbf\xa4\
+79b203926d18cb Alexei Starovoitov 2022-01-31  252  \0\0\0\0\0\0\x07\x04\0\0=
+\xe8\xff\xff\xff\xbf\x61\0\0\0\0\0\0\x18\x62\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  253  \0\0\0\0\0\0\0\0\0\xb7\x=
+03\0\0\x23\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x7e\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  254  \0\x61\x71\0\0\0\0\0\0\x=
+7b\x1a\xe8\xff\0\0\0\0\xb7\x01\0\0\x04\0\0\0\xbf\x72\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  255  \0\0\0\0\0\x0f\x12\0\0\0=
+\0\0\0\x7b\x2a\xf0\xff\0\0\0\0\x61\x71\x14\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  256  \x7b\x1a\xf8\xff\0\0\0\0=
+\xbf\xa4\0\0\0\0\0\0\x07\x04\0\0\xe8\xff\xff\xff\xbf\
+79b203926d18cb Alexei Starovoitov 2022-01-31  257  \x61\0\0\0\0\0\0\x18\x62=
+\0\0\0\0\0\0\0\0\0\0\x23\0\0\0\xb7\x03\0\0\x0e\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  258  \xb7\x05\0\0\x18\0\0\0\x=
+85\0\0\0\x7e\0\0\0\xb7\0\0\0\0\0\0\0\x95\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  259  \0\0\0\0\x07\0\0\0\0\0\0=
+\0\x42\0\0\0\x7b\0\0\0\x1e\x3c\x01\0\x01\0\0\0\x42\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  260  \0\x7b\0\0\0\x24\x3c\x01=
+\0\x02\0\0\0\x42\0\0\0\xee\0\0\0\x1d\x44\x01\0\x03\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  261  \0\x42\0\0\0\x0f\x01\0\0=
+\x06\x4c\x01\0\x04\0\0\0\x42\0\0\0\x1a\x01\0\0\x17\x40\
+79b203926d18cb Alexei Starovoitov 2022-01-31  262  \x01\0\x05\0\0\0\x42\0\0=
+\0\x1a\x01\0\0\x1d\x40\x01\0\x06\0\0\0\x42\0\0\0\x43\
+79b203926d18cb Alexei Starovoitov 2022-01-31  263  \x01\0\0\x06\x58\x01\0\x=
+08\0\0\0\x42\0\0\0\x56\x01\0\0\x03\x5c\x01\0\x0f\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  264  \x42\0\0\0\xdc\x01\0\0\x=
+02\x64\x01\0\x1f\0\0\0\x42\0\0\0\x2a\x02\0\0\x01\x6c\
+79b203926d18cb Alexei Starovoitov 2022-01-31  265  \x01\0\0\0\0\0\x02\0\0\0=
+\x3e\0\0\0\0\0\0\0\x08\0\0\0\x08\0\0\0\x3e\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  266  \0\x10\0\0\0\x02\0\0\0\x=
+ea\0\0\0\0\0\0\0\x20\0\0\0\x02\0\0\0\x3e\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  267  \x28\0\0\0\x08\0\0\0\x3f=
+\x01\0\0\0\0\0\0\x78\0\0\0\x0d\0\0\0\x3e\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  268  \x88\0\0\0\x0d\0\0\0\xea=
+\0\0\0\0\0\0\0\xa8\0\0\0\x0d\0\0\0\x3f\x01\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  269  \x1a\0\0\0\x21\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  270  \0\0\0\0\0\0\0\0\0\0\0\x=
+64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\x61\x70\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  271  \0\0\0\0\x1c\0\0\0\0\0\0=
+\0\x08\0\0\0\0\0\0\0\0\0\0\0\x01\0\0\0\x10\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  272  \0\0\0\0\0\x0a\0\0\0\x01=
+\0\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  273  \0\x10\0\0\0\0\0\0\0\x62=
+\x70\x66\x5f\x69\x74\x65\x72\x5f\x62\x70\x66\x5f\x6d\
+79b203926d18cb Alexei Starovoitov 2022-01-31  274  \x61\x70\0\0\0\0\0\0\0\0=
+\x47\x50\x4c\0\0\0\0\0\x79\x12\0\0\0\0\0\0\x79\x26\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  275  \0\0\0\0\x79\x12\x08\0\0=
+\0\0\0\x15\x02\x3c\0\0\0\0\0\x79\x11\0\0\0\0\0\0\x79\
+79b203926d18cb Alexei Starovoitov 2022-01-31  276  \x27\0\0\0\0\0\0\x79\x11=
+\x10\0\0\0\0\0\x55\x01\x08\0\0\0\0\0\xbf\xa4\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  277  \0\x07\x04\0\0\xd0\xff\x=
+ff\xff\xbf\x61\0\0\0\0\0\0\x18\x62\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  278  \x31\0\0\0\xb7\x03\0\0\x=
+20\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x7e\0\0\0\x7b\
+79b203926d18cb Alexei Starovoitov 2022-01-31  279  \x6a\xc8\xff\0\0\0\0\x61=
+\x71\0\0\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xb7\x03\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  280  \x04\0\0\0\xbf\x79\0\0\0=
+\0\0\0\x0f\x39\0\0\0\0\0\0\x79\x71\x28\0\0\0\0\0\x79\
+79b203926d18cb Alexei Starovoitov 2022-01-31  281  \x78\x30\0\0\0\0\0\x15\x=
+08\x18\0\0\0\0\0\xb7\x02\0\0\0\0\0\0\x0f\x21\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  282  \0\x61\x11\x04\0\0\0\0\0=
+\x79\x83\x08\0\0\0\0\0\x67\x01\0\0\x03\0\0\0\x0f\x13\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  283  \0\0\0\0\0\x79\x86\0\0\0=
+\0\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\xf8\xff\xff\xff\
+79b203926d18cb Alexei Starovoitov 2022-01-31  284  \xb7\x02\0\0\x08\0\0\0\x=
+85\0\0\0\x71\0\0\0\xb7\x01\0\0\0\0\0\0\x79\xa3\xf8\xff\
+79b203926d18cb Alexei Starovoitov 2022-01-31  285  \0\0\0\0\x0f\x13\0\0\0\0=
+\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\xf4\xff\xff\xff\
+79b203926d18cb Alexei Starovoitov 2022-01-31  286  \xb7\x02\0\0\x04\0\0\0\x=
+85\0\0\0\x71\0\0\0\xb7\x03\0\0\x04\0\0\0\x61\xa1\xf4\
+79b203926d18cb Alexei Starovoitov 2022-01-31  287  \xff\0\0\0\0\x61\x82\x10=
+\0\0\0\0\0\x3d\x21\x02\0\0\0\0\0\x0f\x16\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  288  \xbf\x69\0\0\0\0\0\0\x7b=
+\x9a\xd8\xff\0\0\0\0\x79\x71\x18\0\0\0\0\0\x7b\x1a\xe0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  289  \xff\0\0\0\0\x79\x71\x20=
+\0\0\0\0\0\x79\x11\0\0\0\0\0\0\x0f\x31\0\0\0\0\0\0\x7b\
+79b203926d18cb Alexei Starovoitov 2022-01-31  290  \x1a\xe8\xff\0\0\0\0\xbf=
+\xa4\0\0\0\0\0\0\x07\x04\0\0\xd0\xff\xff\xff\x79\xa1\
+79b203926d18cb Alexei Starovoitov 2022-01-31  291  \xc8\xff\0\0\0\0\x18\x62=
+\0\0\0\0\0\0\0\0\0\0\x51\0\0\0\xb7\x03\0\0\x11\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  292  \xb7\x05\0\0\x20\0\0\0\x=
+85\0\0\0\x7e\0\0\0\xb7\0\0\0\0\0\0\0\x95\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  293  \0\0\0\0\x17\0\0\0\0\0\0=
+\0\x42\0\0\0\x7b\0\0\0\x1e\x80\x01\0\x01\0\0\0\x42\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  294  \0\x7b\0\0\0\x24\x80\x01=
+\0\x02\0\0\0\x42\0\0\0\x60\x02\0\0\x1f\x88\x01\0\x03\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  295  \0\0\x42\0\0\0\x84\x02\0=
+\0\x06\x94\x01\0\x04\0\0\0\x42\0\0\0\x1a\x01\0\0\x17\
+79b203926d18cb Alexei Starovoitov 2022-01-31  296  \x84\x01\0\x05\0\0\0\x42=
+\0\0\0\x9d\x02\0\0\x0e\xa0\x01\0\x06\0\0\0\x42\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  297  \x1a\x01\0\0\x1d\x84\x01=
+\0\x07\0\0\0\x42\0\0\0\x43\x01\0\0\x06\xa4\x01\0\x09\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  298  \0\0\x42\0\0\0\xaf\x02\0=
+\0\x03\xa8\x01\0\x11\0\0\0\x42\0\0\0\x1f\x03\0\0\x02\
+79b203926d18cb Alexei Starovoitov 2022-01-31  299  \xb0\x01\0\x18\0\0\0\x42=
+\0\0\0\x5a\x03\0\0\x06\x04\x01\0\x1b\0\0\0\x42\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  300  \0\0\0\0\0\0\0\x1c\0\0\0=
+\x42\0\0\0\xab\x03\0\0\x0f\x10\x01\0\x1d\0\0\0\x42\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  301  \0\xc0\x03\0\0\x2d\x14\x=
+01\0\x1f\0\0\0\x42\0\0\0\xf7\x03\0\0\x0d\x0c\x01\0\x21\
+79b203926d18cb Alexei Starovoitov 2022-01-31  302  \0\0\0\x42\0\0\0\0\0\0\0=
+\0\0\0\0\x22\0\0\0\x42\0\0\0\xc0\x03\0\0\x02\x14\x01\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  303  \x25\0\0\0\x42\0\0\0\x1e=
+\x04\0\0\x0d\x18\x01\0\x28\0\0\0\x42\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  304  \0\0\x29\0\0\0\x42\0\0\0=
+\x1e\x04\0\0\x0d\x18\x01\0\x2c\0\0\0\x42\0\0\0\x1e\x04\
+79b203926d18cb Alexei Starovoitov 2022-01-31  305  \0\0\x0d\x18\x01\0\x2d\0=
+\0\0\x42\0\0\0\x4c\x04\0\0\x1b\x1c\x01\0\x2e\0\0\0\x42\
+79b203926d18cb Alexei Starovoitov 2022-01-31  306  \0\0\0\x4c\x04\0\0\x06\x=
+1c\x01\0\x2f\0\0\0\x42\0\0\0\x6f\x04\0\0\x0d\x24\x01\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  307  \x31\0\0\0\x42\0\0\0\x1f=
+\x03\0\0\x02\xb0\x01\0\x40\0\0\0\x42\0\0\0\x2a\x02\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  308  \x01\xc0\x01\0\0\0\0\0\x=
+14\0\0\0\x3e\0\0\0\0\0\0\0\x08\0\0\0\x08\0\0\0\x3e\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  309  \0\0\0\0\0\x10\0\0\0\x14=
+\0\0\0\xea\0\0\0\0\0\0\0\x20\0\0\0\x14\0\0\0\x3e\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  310  \0\0\0\0\x28\0\0\0\x18\0=
+\0\0\x3e\0\0\0\0\0\0\0\x30\0\0\0\x08\0\0\0\x3f\x01\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  311  \0\0\0\0\x88\0\0\0\x1a\0=
+\0\0\x3e\0\0\0\0\0\0\0\x98\0\0\0\x1a\0\0\0\xea\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  312  \0\0\0\xb0\0\0\0\x1a\0\0=
+\0\x52\x03\0\0\0\0\0\0\xb8\0\0\0\x1a\0\0\0\x56\x03\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  313  \0\0\0\0\xc8\0\0\0\x1f\0=
+\0\0\x84\x03\0\0\0\0\0\0\xe0\0\0\0\x20\0\0\0\xea\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  314  \0\0\0\0\xf8\0\0\0\x20\0=
+\0\0\x3e\0\0\0\0\0\0\0\x20\x01\0\0\x24\0\0\0\x3e\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  315  \0\0\0\0\x58\x01\0\0\x1a=
+\0\0\0\xea\0\0\0\0\0\0\0\x68\x01\0\0\x20\0\0\0\x46\x04\
+79b203926d18cb Alexei Starovoitov 2022-01-31  316  \0\0\0\0\0\0\x90\x01\0\0=
+\x1a\0\0\0\x3f\x01\0\0\0\0\0\0\xa0\x01\0\0\x1a\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  317  \x87\x04\0\0\0\0\0\0\xa8=
+\x01\0\0\x18\0\0\0\x3e\0\0\0\0\0\0\0\x1a\0\0\0\x42\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  318  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  319  \0\0\x64\x75\x6d\x70\x5f=
+\x62\x70\x66\x5f\x70\x72\x6f\x67\0\0\0\0\0\0\0\x1c\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  320  \0\0\0\0\0\x08\0\0\0\0\0=
+\0\0\0\0\0\0\x01\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\x1a\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  321  \0\0\x01\0\0\0\0\0\0\0\x=
+13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  322  \0\0\x62\x70\x66\x5f\x69=
+\x74\x65\x72\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31 @323  \0\0\0\0";
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  324  	opts.insns_sz =3D 2216;
+79b203926d18cb Alexei Starovoitov 2022-01-31  325  	opts.insns =3D (void *)=
+"\
+79b203926d18cb Alexei Starovoitov 2022-01-31  326  \xbf\x16\0\0\0\0\0\0\xbf=
+\xa1\0\0\0\0\0\0\x07\x01\0\0\x78\xff\xff\xff\xb7\x02\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  327  \0\x88\0\0\0\xb7\x03\0\0=
+\0\0\0\0\x85\0\0\0\x71\0\0\0\x05\0\x14\0\0\0\0\0\x61\
+79b203926d18cb Alexei Starovoitov 2022-01-31  328  \xa1\x78\xff\0\0\0\0\xd5=
+\x01\x01\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\x61\xa1\x7c\xff\
+79b203926d18cb Alexei Starovoitov 2022-01-31  329  \0\0\0\0\xd5\x01\x01\0\0=
+\0\0\0\x85\0\0\0\xa8\0\0\0\x61\xa1\x80\xff\0\0\0\0\xd5\
+79b203926d18cb Alexei Starovoitov 2022-01-31  330  \x01\x01\0\0\0\0\0\x85\0=
+\0\0\xa8\0\0\0\x61\xa1\x84\xff\0\0\0\0\xd5\x01\x01\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  331  \0\0\0\x85\0\0\0\xa8\0\0=
+\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x61\x01\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  332  \0\0\xd5\x01\x02\0\0\0\0=
+\0\xbf\x19\0\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\xbf\x70\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  333  \0\0\0\0\x95\0\0\0\0\0\0=
+\0\x61\x60\x08\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  334  \x48\x0e\0\0\x63\x01\0\0=
+\0\0\0\0\x61\x60\x0c\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  335  \0\0\x44\x0e\0\0\x63\x01=
+\0\0\0\0\0\0\x79\x60\x10\0\0\0\0\0\x18\x61\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  336  \0\0\0\0\x38\x0e\0\0\x7b=
+\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\x05\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  337  \x18\x61\0\0\0\0\0\0\0\0=
+\0\0\x30\x0e\0\0\x7b\x01\0\0\0\0\0\0\xb7\x01\0\0\x12\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  338  \0\0\x18\x62\0\0\0\0\0\0=
+\0\0\0\0\x30\x0e\0\0\xb7\x03\0\0\x1c\0\0\0\x85\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  339  \xa6\0\0\0\xbf\x07\0\0\0=
+\0\0\0\xc5\x07\xd4\xff\0\0\0\0\x63\x7a\x78\xff\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  340  \x61\xa0\x78\xff\0\0\0\0=
+\x18\x61\0\0\0\0\0\0\0\0\0\0\x80\x0e\0\0\x63\x01\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  341  \0\0\0\x61\x60\x1c\0\0\0=
+\0\0\x15\0\x03\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  342  \x5c\x0e\0\0\x63\x01\0\0=
+\0\0\0\0\xb7\x01\0\0\0\0\0\0\x18\x62\0\0\0\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  343  \0\x50\x0e\0\0\xb7\x03\0=
+\0\x48\0\0\0\x85\0\0\0\xa6\0\0\0\xbf\x07\0\0\0\0\0\0\
+79b203926d18cb Alexei Starovoitov 2022-01-31  344  \xc5\x07\xc3\xff\0\0\0\0=
+\x18\x61\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x63\x71\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  345  \0\x79\x63\x20\0\0\0\0\0=
+\x15\x03\x08\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x98\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  346  \x0e\0\0\xb7\x02\0\0\x62=
+\0\0\0\x61\x60\x04\0\0\0\0\0\x45\0\x02\0\x01\0\0\0\x85\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  347  \0\0\0\x94\0\0\0\x05\0\x=
+01\0\0\0\0\0\x85\0\0\0\x71\0\0\0\x18\x62\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  348  \0\0\0\0\0\0\0\x61\x20\0=
+\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x08\x0f\0\0\x63\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  349  \x01\0\0\0\0\0\0\x18\x60=
+\0\0\0\0\0\0\0\0\0\0\0\x0f\0\0\x18\x61\0\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  350  \0\0\x10\x0f\0\0\x7b\x01=
+\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x98\x0e\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  351  \x18\x61\0\0\0\0\0\0\0\0=
+\0\0\x18\x0f\0\0\x7b\x01\0\0\0\0\0\0\xb7\x01\0\0\x02\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  352  \0\0\x18\x62\0\0\0\0\0\0=
+\0\0\0\0\x08\x0f\0\0\xb7\x03\0\0\x20\0\0\0\x85\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  353  \xa6\0\0\0\xbf\x07\0\0\0=
+\0\0\0\xc5\x07\x9f\xff\0\0\0\0\x18\x62\0\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  354  \0\0\0\0\0\0\x61\x20\0\0=
+\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x28\x0f\0\0\x63\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  355  \x01\0\0\0\0\0\0\xb7\x01=
+\0\0\x16\0\0\0\x18\x62\0\0\0\0\0\0\0\0\0\0\x28\x0f\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  356  \xb7\x03\0\0\x04\0\0\0\x=
+85\0\0\0\xa6\0\0\0\xbf\x07\0\0\0\0\0\0\xc5\x07\x92\xff\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  357  \0\0\0\0\x18\x60\0\0\0\0=
+\0\0\0\0\0\0\x30\x0f\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  358  \x78\x11\0\0\x7b\x01\0\0=
+\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x38\x0f\0\0\x18\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  359  \x61\0\0\0\0\0\0\0\0\0\0=
+\x70\x11\0\0\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  360  \0\0\0\x40\x10\0\0\x18\x=
+61\0\0\0\0\0\0\0\0\0\0\xb8\x11\0\0\x7b\x01\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  361  \x18\x60\0\0\0\0\0\0\0\0=
+\0\0\x48\x10\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\xc8\x11\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  362  \0\x7b\x01\0\0\0\0\0\0\x=
+18\x60\0\0\0\0\0\0\0\0\0\0\xe8\x10\0\0\x18\x61\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  363  \0\0\0\0\0\0\xe8\x11\0\0=
+\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  364  \0\x18\x61\0\0\0\0\0\0\0=
+\0\0\0\xe0\x11\0\0\x7b\x01\0\0\0\0\0\0\x61\x60\x08\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  365  \0\0\0\x18\x61\0\0\0\0\0=
+\0\0\0\0\0\x80\x11\0\0\x63\x01\0\0\0\0\0\0\x61\x60\x0c\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  366  \0\0\0\0\0\x18\x61\0\0\0=
+\0\0\0\0\0\0\0\x84\x11\0\0\x63\x01\0\0\0\0\0\0\x79\x60\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  367  \x10\0\0\0\0\0\x18\x61\0=
+\0\0\0\0\0\0\0\0\0\x88\x11\0\0\x7b\x01\0\0\0\0\0\0\x61\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  368  \xa0\x78\xff\0\0\0\0\x18=
+\x61\0\0\0\0\0\0\0\0\0\0\xb0\x11\0\0\x63\x01\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  369  \0\x18\x61\0\0\0\0\0\0\0=
+\0\0\0\xf8\x11\0\0\xb7\x02\0\0\x11\0\0\0\xb7\x03\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  370  \x0c\0\0\0\xb7\x04\0\0\0=
+\0\0\0\x85\0\0\0\xa7\0\0\0\xbf\x07\0\0\0\0\0\0\xc5\x07\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  371  \x5c\xff\0\0\0\0\x18\x60=
+\0\0\0\0\0\0\0\0\0\0\x68\x11\0\0\x63\x70\x6c\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  372  \x77\x07\0\0\x20\0\0\0\x=
+63\x70\x70\0\0\0\0\0\xb7\x01\0\0\x05\0\0\0\x18\x62\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  373  \0\0\0\0\0\0\0\0\x68\x11=
+\0\0\xb7\x03\0\0\x8c\0\0\0\x85\0\0\0\xa6\0\0\0\xbf\x07\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  374  \0\0\0\0\0\0\x18\x60\0\0=
+\0\0\0\0\0\0\0\0\xd8\x11\0\0\x61\x01\0\0\0\0\0\0\xd5\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  375  \x01\x02\0\0\0\0\0\xbf\x=
+19\0\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\xc5\x07\x4a\xff\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  376  \0\0\x63\x7a\x80\xff\0\0=
+\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x10\x12\0\0\x18\x61\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  377  \0\0\0\0\0\0\0\0\0\x10\x=
+17\0\0\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  378  \x18\x12\0\0\x18\x61\0\0=
+\0\0\0\0\0\0\0\0\x08\x17\0\0\x7b\x01\0\0\0\0\0\0\x18\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  379  \x60\0\0\0\0\0\0\0\0\0\0=
+\x28\x14\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x50\x17\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  380  \x7b\x01\0\0\0\0\0\0\x18=
+\x60\0\0\0\0\0\0\0\0\0\0\x30\x14\0\0\x18\x61\0\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  381  \0\0\0\0\0\x60\x17\0\0\x=
+7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\xd0\x15\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  382  \0\0\x18\x61\0\0\0\0\0\0=
+\0\0\0\0\x80\x17\0\0\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  383  \0\0\0\0\0\0\0\0\0\0\0\x=
+18\x61\0\0\0\0\0\0\0\0\0\0\x78\x17\0\0\x7b\x01\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  384  \0\0\x61\x60\x08\0\0\0\0=
+\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x18\x17\0\0\x63\x01\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  385  \0\0\0\0\x61\x60\x0c\0\0=
+\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x1c\x17\0\0\x63\x01\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  386  \0\0\0\0\0\0\x79\x60\x10=
+\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x20\x17\0\0\x7b\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  387  \x01\0\0\0\0\0\0\x61\xa0=
+\x78\xff\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x48\x17\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  388  \0\x63\x01\0\0\0\0\0\0\x=
+18\x61\0\0\0\0\0\0\0\0\0\0\x90\x17\0\0\xb7\x02\0\0\x12\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  389  \0\0\0\xb7\x03\0\0\x0c\0=
+\0\0\xb7\x04\0\0\0\0\0\0\x85\0\0\0\xa7\0\0\0\xbf\x07\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  390  \0\0\0\0\0\xc5\x07\x13\x=
+ff\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\x17\0\0\x63\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  391  \x70\x6c\0\0\0\0\0\x77\x=
+07\0\0\x20\0\0\0\x63\x70\x70\0\0\0\0\0\xb7\x01\0\0\x05\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  392  \0\0\0\x18\x62\0\0\0\0\0=
+\0\0\0\0\0\0\x17\0\0\xb7\x03\0\0\x8c\0\0\0\x85\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  393  \xa6\0\0\0\xbf\x07\0\0\0=
+\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x70\x17\0\0\x61\x01\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  394  \0\0\0\0\0\0\xd5\x01\x02=
+\0\0\0\0\0\xbf\x19\0\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\xc5\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  395  \x07\x01\xff\0\0\0\0\x63=
+\x7a\x84\xff\0\0\0\0\x61\xa1\x78\xff\0\0\0\0\xd5\x01\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  396  \x02\0\0\0\0\0\xbf\x19\0=
+\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\x61\xa0\x80\xff\0\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  397  \x63\x06\x28\0\0\0\0\0\x=
+61\xa0\x84\xff\0\0\0\0\x63\x06\x2c\0\0\0\0\0\x18\x61\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  398  \0\0\0\0\0\0\0\0\0\0\0\0=
+\0\x61\x10\0\0\0\0\0\0\x63\x06\x18\0\0\0\0\0\xb7\0\0\0\
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  399  \0\0\0\0\x95\0\0\0\0\0\0=
+\0";
+79b203926d18cb Alexei Starovoitov 2022-01-31  400  	err =3D bpf_load_and_ru=
+n(&opts);
+79b203926d18cb Alexei Starovoitov 2022-01-31  401  	if (err < 0)
+79b203926d18cb Alexei Starovoitov 2022-01-31  402  		return err;
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  403  	skel->rodata =3D skel_f=
+inalize_map_data(&skel->maps.rodata.initial_value,
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  404  					4096, PROT_READ, sk=
+el->maps.rodata.map_fd);
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  405  	if (!skel->rodata)
+d7beb3d6aba394 Alexei Starovoitov 2022-02-09  406  		return -ENOMEM;
+79b203926d18cb Alexei Starovoitov 2022-01-31  407  	return 0;
+79b203926d18cb Alexei Starovoitov 2022-01-31  408  }
+79b203926d18cb Alexei Starovoitov 2022-01-31  409  =
 
 
-:::::: The code at line 7696 was first introduced by commit
-:::::: 7f5f3d0d02aa2f124e764aee5c775589ce72fd42 [SCSI] lpfc 8.2.5 : Miscell=
-aneous discovery Fixes
+:::::: The code at line 323 was first introduced by commit
+:::::: 79b203926d18cb8c110564d8a09ff646691de9e7 bpf: Convert bpf preload to=
+ light skeleton.
 
-:::::: TO: James Smart <James.Smart@Emulex.Com>
-:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
+:::::: TO: Alexei Starovoitov <ast@kernel.org>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0381101347981668124==--
+--===============5877464154540006609==--
 
