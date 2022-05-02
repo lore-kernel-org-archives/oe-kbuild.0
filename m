@@ -1,34 +1,35 @@
-Content-Type: multipart/mixed; boundary="===============5218411564827057278=="
+Content-Type: multipart/mixed; boundary="===============0892497188495351817=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4136/8035] drivers/phy/allwinner/phy-sun6i-mipi-dphy.c:260:8: warning: Signed integer overflow for expression '(255&0xff)<<24'. [integerOverflow]
-Date: Tue, 03 May 2022 00:00:51 +0800
-Message-ID: <202205022321.xZkOIj91-lkp@intel.com>
+Subject: net/ipv4/route.c:670:24: warning: The statement 'if (fnhe->fnhe_genid!=genid) fnhe->fnhe_genid=genid' is logically equivalent to 'fnhe->fnhe_genid=genid'. [duplicateConditionalAssign]
+Date: Mon, 02 May 2022 20:06:57 +0800
+Message-ID: <202205021935.b0teAqtP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5218411564827057278==
+--===============0892497188495351817==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-CC: Vinod Koul <vkoul@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+CC: David Ahern <dsahern@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   9f9b9a2972eb8dcaad09d826c5c6d7488eaca3e6
-commit: 74d0cd478622c87c1665e19ea9217f298648581d [4136/8035] phy: allwinner=
-: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI CSI-2
-:::::: branch date: 4 hours ago
-:::::: commit date: 12 days ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   672c0c5173427e6b3e2a9bbb7be51ceeec78093a
+commit: 67d6d681e15b578c1725bad8ad079e05d1c48a8e ipv4: make exception cache=
+ less predictible
+date:   8 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 8 months ago
+compiler: ia64-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 74d0cd478622c87c1665e19ea9217f298648581d
+        git checkout 67d6d681e15b578c1725bad8ad079e05d1c48a8e
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -38,249 +39,296 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/phy/allwinner/phy-sun6i-mipi-dphy.c:260:8: warning: Signed integ=
-er overflow for expression '(255&0xff)<<24'. [integerOverflow]
-          SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(255) |
-          ^
+>> net/ipv4/tcp_bpf.c:476:22: warning: Parameter 'base' can be declared wit=
+h const [constParameter]
+          struct proto *base)
+                        ^
+--
+>> net/ipv4/route.c:670:24: warning: The statement 'if (fnhe->fnhe_genid!=
+=3Dgenid) fnhe->fnhe_genid=3Dgenid' is logically equivalent to 'fnhe->fnhe_=
+genid=3Dgenid'. [duplicateConditionalAssign]
+     if (fnhe->fnhe_genid !=3D genid)
+                          ^
+   net/ipv4/route.c:671:21: note: Assignment 'fnhe->fnhe_genid=3Dgenid'
+      fnhe->fnhe_genid =3D genid;
+                       ^
+   net/ipv4/route.c:670:24: note: Condition 'fnhe->fnhe_genid!=3Dgenid' is =
+redundant
+     if (fnhe->fnhe_genid !=3D genid)
+                          ^
+>> net/ipv4/route.c:592:40: warning: Found suspicious operator ',' [constSt=
+atement]
+    struct fib_nh_exception __rcu **fnhe_p, **oldest_p;
+                                          ^
+>> net/ipv4/route.c:3399:13: warning: Uninitialized variable: fa->fa_slen [=
+uninitvar]
+       if (fa->fa_slen =3D=3D slen &&
+               ^
+>> net/ipv4/route.c:221:58: warning: Parameter 'v' can be declared with con=
+st [constParameter]
+   static int rt_cache_seq_show(struct seq_file *seq, void *v)
+                                                            ^
 
-vim +260 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+vim +670 net/ipv4/route.c
 
-133add5b5ad42b drivers/gpu/drm/sun4i/sun6i_mipi_dphy.c     Maxime Ripard   =
-  2018-04-04  244  =
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  589  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  245  static int sun6i_dphy_rx_power_on(struct sun6i_dphy *dph=
-y)
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  246  {
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  247  	/* Physical clock rate is actually half of symbol rate =
-with DDR. */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  248  	unsigned long mipi_symbol_rate =3D dphy->config.hs_clk_=
-rate;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  249  	unsigned long dphy_clk_rate;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  250  	unsigned int rx_dly;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  251  	unsigned int lprst_dly;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  252  	u32 value;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  253  =
+67d6d681e15b57 Eric Dumazet           2021-08-29  590  static void fnhe_rem=
+ove_oldest(struct fnhe_hash_bucket *hash)
+4895c771c7f006 David S. Miller        2012-07-17  591  {
+67d6d681e15b57 Eric Dumazet           2021-08-29 @592  	struct fib_nh_excep=
+tion __rcu **fnhe_p, **oldest_p;
+67d6d681e15b57 Eric Dumazet           2021-08-29  593  	struct fib_nh_excep=
+tion *fnhe, *oldest =3D NULL;
+4895c771c7f006 David S. Miller        2012-07-17  594  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  254  	dphy_clk_rate =3D clk_get_rate(dphy->mod_clk);
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  255  	if (!dphy_clk_rate)
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  256  		return -EINVAL;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  257  =
+67d6d681e15b57 Eric Dumazet           2021-08-29  595  	for (fnhe_p =3D &ha=
+sh->chain; ; fnhe_p =3D &fnhe->fnhe_next) {
+67d6d681e15b57 Eric Dumazet           2021-08-29  596  		fnhe =3D rcu_deref=
+erence_protected(*fnhe_p,
+67d6d681e15b57 Eric Dumazet           2021-08-29  597  						 lockdep_is_he=
+ld(&fnhe_lock));
+67d6d681e15b57 Eric Dumazet           2021-08-29  598  		if (!fnhe)
+67d6d681e15b57 Eric Dumazet           2021-08-29  599  			break;
+67d6d681e15b57 Eric Dumazet           2021-08-29  600  		if (!oldest ||
+67d6d681e15b57 Eric Dumazet           2021-08-29  601  		    time_before(fn=
+he->fnhe_stamp, oldest->fnhe_stamp)) {
+4895c771c7f006 David S. Miller        2012-07-17  602  			oldest =3D fnhe;
+67d6d681e15b57 Eric Dumazet           2021-08-29  603  			oldest_p =3D fnhe=
+_p;
+67d6d681e15b57 Eric Dumazet           2021-08-29  604  		}
+4895c771c7f006 David S. Miller        2012-07-17  605  	}
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  606  	fnhe_flush_rou=
+tes(oldest);
+67d6d681e15b57 Eric Dumazet           2021-08-29  607  	*oldest_p =3D oldes=
+t->fnhe_next;
+67d6d681e15b57 Eric Dumazet           2021-08-29  608  	kfree_rcu(oldest, r=
+cu);
+4895c771c7f006 David S. Miller        2012-07-17  609  }
+4895c771c7f006 David S. Miller        2012-07-17  610  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  258  	/* Hardcoded timing parameters from the Allwinner BSP. =
-*/
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  259  	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME0_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15 @260  		     SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(255) |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  261  		     SUN6I_DPHY_RX_TIME0_HS_RX_CLK_MISS(255) |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  262  		     SUN6I_DPHY_RX_TIME0_LP_RX(255));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  263  =
+6457378fe79681 Eric Dumazet           2021-08-25  611  static u32 fnhe_hash=
+fun(__be32 daddr)
+d3a25c980fc231 David S. Miller        2012-07-17  612  {
+6457378fe79681 Eric Dumazet           2021-08-25  613  	static siphash_key_=
+t fnhe_hash_key __read_mostly;
+6457378fe79681 Eric Dumazet           2021-08-25  614  	u64 hval;
+d3a25c980fc231 David S. Miller        2012-07-17  615  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  264  	/*
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  265  	 * Formula from the Allwinner BSP, with hardcoded coeff=
-icients
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  266  	 * (probably internal divider/multiplier).
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  267  	 */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  268  	rx_dly =3D 8 * (unsigned int)(dphy_clk_rate / (mipi_sym=
-bol_rate / 8));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  269  =
+6457378fe79681 Eric Dumazet           2021-08-25  616  	net_get_random_once=
+(&fnhe_hash_key, sizeof(fnhe_hash_key));
+6457378fe79681 Eric Dumazet           2021-08-25  617  	hval =3D siphash_1u=
+32((__force u32)daddr, &fnhe_hash_key);
+6457378fe79681 Eric Dumazet           2021-08-25  618  	return hash_64(hval=
+, FNHE_HASH_SHIFT);
+d3a25c980fc231 David S. Miller        2012-07-17  619  }
+d3a25c980fc231 David S. Miller        2012-07-17  620  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  270  	/*
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  271  	 * The Allwinner BSP has an alternative formula for LP_=
-RX_ULPS_WP:
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  272  	 * lp_ulps_wp_cnt =3D lp_ulps_wp_ms * lp_clk / 1000
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  273  	 * but does not use it and hardcodes 255 instead.
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  274  	 */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  275  	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME1_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  276  		     SUN6I_DPHY_RX_TIME1_RX_DLY(rx_dly) |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  277  		     SUN6I_DPHY_RX_TIME1_LP_RX_ULPS_WP(255));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  278  =
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  621  static void fil=
+l_route_from_fnhe(struct rtable *rt, struct fib_nh_exception *fnhe)
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  622  {
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  623  	rt->rt_pmtu =
+=3D fnhe->fnhe_pmtu;
+d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  624  	rt->rt_mtu_locked =
+=3D fnhe->fnhe_mtu_locked;
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  625  	rt->dst.expire=
+s =3D fnhe->fnhe_expires;
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  626  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  279  	/* HS_RX_ANA0 value is hardcoded in the Allwinner BSP. =
-*/
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  280  	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME2_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  281  		     SUN6I_DPHY_RX_TIME2_HS_RX_ANA0(4));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  282  =
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  627  	if (fnhe->fnhe=
+_gw) {
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  628  		rt->rt_flags =
+|=3D RTCF_REDIRECTED;
+77d5bc7e6a6cf8 David Ahern            2019-09-17  629  		rt->rt_uses_gatewa=
+y =3D 1;
+1550c171935d26 David Ahern            2019-04-05  630  		rt->rt_gw_family =
+=3D AF_INET;
+1550c171935d26 David Ahern            2019-04-05  631  		rt->rt_gw4 =3D fnh=
+e->fnhe_gw;
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  632  	}
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  633  }
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  634  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  283  	/*
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  284  	 * Formula from the Allwinner BSP, with hardcoded coeff=
-icients
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  285  	 * (probably internal divider/multiplier).
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  286  	 */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  287  	lprst_dly =3D 4 * (unsigned int)(dphy_clk_rate / (mipi_=
-symbol_rate / 2));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  288  =
+a5995e7107eb3d David Ahern            2019-04-30  635  static void update_o=
+r_create_fnhe(struct fib_nh_common *nhc, __be32 daddr,
+a5995e7107eb3d David Ahern            2019-04-30  636  				  __be32 gw, u32=
+ pmtu, bool lock,
+a5995e7107eb3d David Ahern            2019-04-30  637  				  unsigned long =
+expires)
+4895c771c7f006 David S. Miller        2012-07-17  638  {
+aee06da6726d49 Julian Anastasov       2012-07-18  639  	struct fnhe_hash_bu=
+cket *hash;
+4895c771c7f006 David S. Miller        2012-07-17  640  	struct fib_nh_excep=
+tion *fnhe;
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  641  	struct rtable =
+*rt;
+cebe84c6190d74 Xin Long               2017-11-17  642  	u32 genid, hval;
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  643  	unsigned int i;
+4895c771c7f006 David S. Miller        2012-07-17  644  	int depth;
+cebe84c6190d74 Xin Long               2017-11-17  645  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  289  	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME3_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  290  		     SUN6I_DPHY_RX_TIME3_LPRST_DLY(lprst_dly));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  291  =
+a5995e7107eb3d David Ahern            2019-04-30  646  	genid =3D fnhe_geni=
+d(dev_net(nhc->nhc_dev));
+cebe84c6190d74 Xin Long               2017-11-17  647  	hval =3D fnhe_hashf=
+un(daddr);
+4895c771c7f006 David S. Miller        2012-07-17  648  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  292  	/* Analog parameters are hardcoded in the Allwinner BSP=
-. */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  293  	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  294  		     SUN6I_DPHY_ANA0_REG_PWS |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  295  		     SUN6I_DPHY_ANA0_REG_SLV(7) |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  296  		     SUN6I_DPHY_ANA0_REG_SFB(2));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  297  =
+c5038a8327b980 David S. Miller        2012-07-31  649  	spin_lock_bh(&fnhe_=
+lock);
+aee06da6726d49 Julian Anastasov       2012-07-18  650  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  298  	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  299  		     SUN6I_DPHY_ANA1_REG_SVTT(4));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  300  =
+a5995e7107eb3d David Ahern            2019-04-30  651  	hash =3D rcu_derefe=
+rence(nhc->nhc_exceptions);
+4895c771c7f006 David S. Miller        2012-07-17  652  	if (!hash) {
+6396bb221514d2 Kees Cook              2018-06-12  653  		hash =3D kcalloc(F=
+NHE_HASH_SIZE, sizeof(*hash), GFP_ATOMIC);
+4895c771c7f006 David S. Miller        2012-07-17  654  		if (!hash)
+aee06da6726d49 Julian Anastasov       2012-07-18  655  			goto out_unlock;
+a5995e7107eb3d David Ahern            2019-04-30  656  		rcu_assign_pointer=
+(nhc->nhc_exceptions, hash);
+4895c771c7f006 David S. Miller        2012-07-17  657  	}
+4895c771c7f006 David S. Miller        2012-07-17  658  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  301  	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  302  		     SUN6I_DPHY_ANA4_REG_DMPLVC |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  303  		     SUN6I_DPHY_ANA4_REG_DMPLVD(1));
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  304  =
+4895c771c7f006 David S. Miller        2012-07-17  659  	hash +=3D hval;
+4895c771c7f006 David S. Miller        2012-07-17  660  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  305  	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  306  		     SUN6I_DPHY_ANA2_REG_ENIB);
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  307  =
+4895c771c7f006 David S. Miller        2012-07-17  661  	depth =3D 0;
+4895c771c7f006 David S. Miller        2012-07-17  662  	for (fnhe =3D rcu_d=
+ereference(hash->chain); fnhe;
+4895c771c7f006 David S. Miller        2012-07-17  663  	     fnhe =3D rcu_d=
+ereference(fnhe->fnhe_next)) {
+4895c771c7f006 David S. Miller        2012-07-17  664  		if (fnhe->fnhe_dad=
+dr =3D=3D daddr)
+aee06da6726d49 Julian Anastasov       2012-07-18  665  			break;
+4895c771c7f006 David S. Miller        2012-07-17  666  		depth++;
+4895c771c7f006 David S. Miller        2012-07-17  667  	}
+4895c771c7f006 David S. Miller        2012-07-17  668  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  308  	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  309  		     SUN6I_DPHY_ANA3_EN_LDOR |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  310  		     SUN6I_DPHY_ANA3_EN_LDOC |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  311  		     SUN6I_DPHY_ANA3_EN_LDOD);
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  312  =
+aee06da6726d49 Julian Anastasov       2012-07-18  669  	if (fnhe) {
+cebe84c6190d74 Xin Long               2017-11-17 @670  		if (fnhe->fnhe_gen=
+id !=3D genid)
+cebe84c6190d74 Xin Long               2017-11-17  671  			fnhe->fnhe_genid =
+=3D genid;
+aee06da6726d49 Julian Anastasov       2012-07-18  672  		if (gw)
+aee06da6726d49 Julian Anastasov       2012-07-18  673  			fnhe->fnhe_gw =3D=
+ gw;
+d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  674  		if (pmtu) {
+aee06da6726d49 Julian Anastasov       2012-07-18  675  			fnhe->fnhe_pmtu =
+=3D pmtu;
+d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  676  			fnhe->fnhe_mtu_lo=
+cked =3D lock;
+d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  677  		}
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  678  		fnhe->fnhe_ex=
+pires =3D max(1UL, expires);
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  679  		/* Update all=
+ cached dsts too */
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  680  		rt =3D rcu_de=
+reference(fnhe->fnhe_rth_input);
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  681  		if (rt)
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  682  			fill_route_f=
+rom_fnhe(rt, fnhe);
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  683  		rt =3D rcu_de=
+reference(fnhe->fnhe_rth_output);
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  684  		if (rt)
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  685  			fill_route_f=
+rom_fnhe(rt, fnhe);
+aee06da6726d49 Julian Anastasov       2012-07-18  686  	} else {
+67d6d681e15b57 Eric Dumazet           2021-08-29  687  		/* Randomize max d=
+epth to avoid some side channels attacks. */
+67d6d681e15b57 Eric Dumazet           2021-08-29  688  		int max_depth =3D =
+FNHE_RECLAIM_DEPTH +
+67d6d681e15b57 Eric Dumazet           2021-08-29  689  				prandom_u32_max(=
+FNHE_RECLAIM_DEPTH);
+67d6d681e15b57 Eric Dumazet           2021-08-29  690  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  313  	/*
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  314  	 * Delay comes from the Allwinner BSP, likely for inter=
-nal regulator
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  315  	 * ramp-up.
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  316  	 */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  317  	udelay(3);
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  318  =
+67d6d681e15b57 Eric Dumazet           2021-08-29  691  		while (depth > max=
+_depth) {
+67d6d681e15b57 Eric Dumazet           2021-08-29  692  			fnhe_remove_oldes=
+t(hash);
+67d6d681e15b57 Eric Dumazet           2021-08-29  693  			depth--;
+67d6d681e15b57 Eric Dumazet           2021-08-29  694  		}
+67d6d681e15b57 Eric Dumazet           2021-08-29  695  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  319  	value =3D SUN6I_DPHY_RX_CTL_EN_DBC | SUN6I_DPHY_RX_CTL_=
-RX_CLK_FORCE;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  320  =
+4895c771c7f006 David S. Miller        2012-07-17  696  		fnhe =3D kzalloc(s=
+izeof(*fnhe), GFP_ATOMIC);
+4895c771c7f006 David S. Miller        2012-07-17  697  		if (!fnhe)
+aee06da6726d49 Julian Anastasov       2012-07-18  698  			goto out_unlock;
+4895c771c7f006 David S. Miller        2012-07-17  699  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  321  	/*
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  322  	 * Rx data lane force-enable bits are used as regular R=
-X enable by the
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  323  	 * Allwinner BSP.
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  324  	 */
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  325  	if (dphy->config.lanes >=3D 1)
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  326  		value |=3D SUN6I_DPHY_RX_CTL_RX_D0_FORCE;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  327  	if (dphy->config.lanes >=3D 2)
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  328  		value |=3D SUN6I_DPHY_RX_CTL_RX_D1_FORCE;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  329  	if (dphy->config.lanes >=3D 3)
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  330  		value |=3D SUN6I_DPHY_RX_CTL_RX_D2_FORCE;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  331  	if (dphy->config.lanes =3D=3D 4)
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  332  		value |=3D SUN6I_DPHY_RX_CTL_RX_D3_FORCE;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  333  =
+4895c771c7f006 David S. Miller        2012-07-17  700  		fnhe->fnhe_next =
+=3D hash->chain;
+67d6d681e15b57 Eric Dumazet           2021-08-29  701  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  334  	regmap_write(dphy->regs, SUN6I_DPHY_RX_CTL_REG, value);
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  335  =
+cebe84c6190d74 Xin Long               2017-11-17  702  		fnhe->fnhe_genid =
+=3D genid;
+4895c771c7f006 David S. Miller        2012-07-17  703  		fnhe->fnhe_daddr =
+=3D daddr;
+aee06da6726d49 Julian Anastasov       2012-07-18  704  		fnhe->fnhe_gw =3D =
+gw;
+aee06da6726d49 Julian Anastasov       2012-07-18  705  		fnhe->fnhe_pmtu =
+=3D pmtu;
+d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  706  		fnhe->fnhe_mtu_loc=
+ked =3D lock;
+94720e3aee6884 Julian Anastasov       2018-05-02  707  		fnhe->fnhe_expires=
+ =3D max(1UL, expires);
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  708  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  336  	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  337  		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  338  		     SUN6I_DPHY_GCTL_EN);
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  339  =
+67d6d681e15b57 Eric Dumazet           2021-08-29  709  		rcu_assign_pointer=
+(hash->chain, fnhe);
+67d6d681e15b57 Eric Dumazet           2021-08-29  710  =
 
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  340  	return 0;
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  341  }
-74d0cd478622c8 drivers/phy/allwinner/phy-sun6i-mipi-dphy.c Paul Kocialkowsk=
-i 2022-04-15  342  =
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  711  		/* Exception =
+created; mark the cached routes for the nexthop
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  712  		 * stale, so =
+anyone caching it rechecks if this exception
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  713  		 * applies to=
+ them.
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  714  		 */
+0f457a36626fa9 David Ahern            2019-04-30  715  		rt =3D rcu_derefer=
+ence(nhc->nhc_rth_input);
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  716  		if (rt)
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  717  			rt->dst.obso=
+lete =3D DST_OBSOLETE_KILL;
+2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  718  =
 
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  719  		for_each_poss=
+ible_cpu(i) {
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  720  			struct rtabl=
+e __rcu **prt;
+6ad086009f87f6 Shubhankar Kuranagatti 2021-03-12  721  =
+
+0f457a36626fa9 David Ahern            2019-04-30  722  			prt =3D per_cpu_p=
+tr(nhc->nhc_pcpu_rth_output, i);
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  723  			rt =3D rcu_d=
+ereference(*prt);
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  724  			if (rt)
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  725  				rt->dst.obs=
+olete =3D DST_OBSOLETE_KILL;
+387aa65a89434a Timo Ter=C3=A4s             2013-05-27  726  		}
+aee06da6726d49 Julian Anastasov       2012-07-18  727  	}
+aee06da6726d49 Julian Anastasov       2012-07-18  728  =
+
+4895c771c7f006 David S. Miller        2012-07-17  729  	fnhe->fnhe_stamp =
+=3D jiffies;
+aee06da6726d49 Julian Anastasov       2012-07-18  730  =
+
+aee06da6726d49 Julian Anastasov       2012-07-18  731  out_unlock:
+c5038a8327b980 David S. Miller        2012-07-31  732  	spin_unlock_bh(&fnh=
+e_lock);
+4895c771c7f006 David S. Miller        2012-07-17  733  }
+4895c771c7f006 David S. Miller        2012-07-17  734  =
+
+
+:::::: The code at line 670 was first introduced by commit
+:::::: cebe84c6190d741045a322f5343f717139993c08 route: also update fnhe_gen=
+id when updating a route cache
+
+:::::: TO: Xin Long <lucien.xin@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5218411564827057278==--
+--===============0892497188495351817==--
 
