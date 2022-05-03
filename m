@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1451371384692046224=="
+Content-Type: multipart/mixed; boundary="===============8810625839093731671=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/alpha/lib/csum_partial_copy.c:96:15: warning: Uninitialized variable: word [uninitvar]
-Date: Wed, 04 May 2022 01:12:30 +0800
-Message-ID: <202205040137.Qo9HuNjE-lkp@intel.com>
+Subject: drivers/vfio/vfio.c:1127:45: warning: Uninitialized variables: driver.ops, driver.vfio_next [uninitvar]
+Date: Tue, 03 May 2022 23:58:12 +0800
+Message-ID: <202205032347.cDgBXbpa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1451371384692046224==
+--===============8810625839093731671==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,22 +15,23 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Randy Dunlap <rdunlap@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Kevin Tian <kevin.tian@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9050ba3a61a4b5bd84c2cde092a100404f814f31
-commit: 0214967a376d0726baf35cc2845a59ac17ef4db1 alpha: csum_partial_copy.c=
-: add function prototypes from <net/checksum.h>
-date:   12 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 12 months ago
-compiler: alpha-linux-gcc (GCC) 11.3.0
+commit: b00621603d050f77a6af9e81e32daeccfd246d6a vfio: factor out a vfio_io=
+mmu_driver_allowed helper
+date:   7 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 7 months ago
+compiler: arc-elf-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 0214967a376d0726baf35cc2845a59ac17ef4db1
+        git checkout b00621603d050f77a6af9e81e32daeccfd246d6a
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -40,87 +41,173 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> arch/alpha/lib/csum_partial_copy.c:96:15: warning: Uninitialized variabl=
-e: word [uninitvar]
-     checksum +=3D word;
+   drivers/vfio/vfio.c:542:66: warning: Parameter 'iommu_group' can be decl=
+ared with const [constParameter]
+   struct vfio_group *vfio_group_get_from_iommu(struct iommu_group *iommu_g=
+roup)
+                                                                    ^
+   drivers/vfio/vfio.c:607:23: warning: Parameter 'dev' can be declared wit=
+h const [constParameter]
+          struct device *dev)
+                         ^
+   drivers/vfio/vfio.c:1808:56: warning: Parameter 'test_group' can be decl=
+ared with const [constParameter]
+   bool vfio_external_group_match_file(struct vfio_group *test_group,
+                                                          ^
+   drivers/vfio/vfio.c:295:12: warning: Uninitialized variable: tmp->ops [u=
+ninitvar]
+     if (tmp->ops =3D=3D ops) {
+              ^
+   drivers/vfio/vfio.c:286:6: note: Assuming condition is false
+    if (!driver)
+        ^
+   drivers/vfio/vfio.c:295:12: note: Uninitialized variable: tmp->ops
+     if (tmp->ops =3D=3D ops) {
+              ^
+   drivers/vfio/vfio.c:316:15: warning: Uninitialized variable: driver->ops=
+ [uninitvar]
+     if (driver->ops =3D=3D ops) {
                  ^
->> arch/alpha/lib/csum_partial_copy.c:96:15: warning: Uninitialized variabl=
-e: word [uninitvar]
-     checksum +=3D word;
-                 ^
-   arch/alpha/lib/csum_partial_copy.c:92:7: note: Assuming condition is fal=
-se
-     if (__get_word(ldq, word, src))
-         ^
-   arch/alpha/lib/csum_partial_copy.c:96:15: note: Uninitialized variable: =
-word
-     checksum +=3D word;
-                 ^
+   drivers/vfio/vfio.c:548:14: warning: Uninitialized variable: group->iomm=
+u_group [uninitvar]
+     if (group->iommu_group =3D=3D iommu_group) {
+                ^
+   drivers/vfio/vfio.c:678:23: warning: Uninitialized variable: unbound->de=
+v [uninitvar]
+     if (dev =3D=3D unbound->dev) {
+                         ^
+>> drivers/vfio/vfio.c:1127:45: warning: Uninitialized variables: driver.op=
+s, driver.vfio_next [uninitvar]
+     if (!vfio_iommu_driver_allowed(container, driver))
+                                               ^
+   drivers/vfio/vfio.c:1118:41: note: Assuming condition is false
+    if (list_empty(&container->group_list) || container->iommu_driver) {
+                                           ^
+   drivers/vfio/vfio.c:1118:41: note: Assuming condition is false
+    if (list_empty(&container->group_list) || container->iommu_driver) {
+                                           ^
+   drivers/vfio/vfio.c:1127:45: note: Uninitialized variables: driver.ops, =
+driver.vfio_next
+     if (!vfio_iommu_driver_allowed(container, driver))
+                                               ^
 
-vim +96 arch/alpha/lib/csum_partial_copy.c
+vim +1127 drivers/vfio/vfio.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16   77  =
+cba3345cc494ad Alex Williamson   2012-07-31  1101  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16   78  =
+cba3345cc494ad Alex Williamson   2012-07-31  1102  static long vfio_ioctl_s=
+et_iommu(struct vfio_container *container,
+cba3345cc494ad Alex Williamson   2012-07-31  1103  				 unsigned long arg)
+cba3345cc494ad Alex Williamson   2012-07-31  1104  {
+cba3345cc494ad Alex Williamson   2012-07-31  1105  	struct vfio_iommu_drive=
+r *driver;
+cba3345cc494ad Alex Williamson   2012-07-31  1106  	long ret =3D -ENODEV;
+cba3345cc494ad Alex Williamson   2012-07-31  1107  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16   79  =
+9587f44aa69a4c Alex Williamson   2013-04-25  1108  	down_write(&container->=
+group_lock);
+cba3345cc494ad Alex Williamson   2012-07-31  1109  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16   80  /*
-^1da177e4c3f41 Linus Torvalds 2005-04-16   81   * Ok. This isn't fun, but t=
-his is the EASY case.
-^1da177e4c3f41 Linus Torvalds 2005-04-16   82   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16   83  static inline unsigned long
-^1da177e4c3f41 Linus Torvalds 2005-04-16   84  csum_partial_cfu_aligned(con=
-st unsigned long __user *src, unsigned long *dst,
-b712139543af98 Al Viro        2020-07-12   85  			 long len)
-^1da177e4c3f41 Linus Torvalds 2005-04-16   86  {
-b712139543af98 Al Viro        2020-07-12   87  	unsigned long checksum =3D =
-~0U;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   88  	unsigned long carry =3D 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   89  =
+cba3345cc494ad Alex Williamson   2012-07-31  1110  	/*
+cba3345cc494ad Alex Williamson   2012-07-31  1111  	 * The container is des=
+igned to be an unprivileged interface while
+cba3345cc494ad Alex Williamson   2012-07-31  1112  	 * the group can be ass=
+igned to specific users.  Therefore, only by
+cba3345cc494ad Alex Williamson   2012-07-31  1113  	 * adding a group to a =
+container does the user get the privilege of
+cba3345cc494ad Alex Williamson   2012-07-31  1114  	 * enabling the iommu, =
+which may allocate finite resources.  There
+cba3345cc494ad Alex Williamson   2012-07-31  1115  	 * is no unset_iommu, b=
+ut by removing all the groups from a container,
+cba3345cc494ad Alex Williamson   2012-07-31  1116  	 * the container is dep=
+rivileged and returns to an unset state.
+cba3345cc494ad Alex Williamson   2012-07-31  1117  	 */
+cba3345cc494ad Alex Williamson   2012-07-31  1118  	if (list_empty(&contain=
+er->group_list) || container->iommu_driver) {
+9587f44aa69a4c Alex Williamson   2013-04-25  1119  		up_write(&container->g=
+roup_lock);
+cba3345cc494ad Alex Williamson   2012-07-31  1120  		return -EINVAL;
+cba3345cc494ad Alex Williamson   2012-07-31  1121  	}
+cba3345cc494ad Alex Williamson   2012-07-31  1122  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16   90  	while (len >=3D 0) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16   91  		unsigned long word;
-b712139543af98 Al Viro        2020-07-12   92  		if (__get_word(ldq, word, =
-src))
-b712139543af98 Al Viro        2020-07-12   93  			return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   94  		checksum +=3D carry;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   95  		src++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  @96  		checksum +=3D word;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   97  		len -=3D 8;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   98  		carry =3D checksum < word;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   99  		*dst =3D word;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  100  		dst++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  101  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  102  	len +=3D 8;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  103  	checksum +=3D carry;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  104  	if (len) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  105  		unsigned long word, tmp;
-b712139543af98 Al Viro        2020-07-12  106  		if (__get_word(ldq, word, =
-src))
-b712139543af98 Al Viro        2020-07-12  107  			return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  108  		tmp =3D *dst;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  109  		mskql(word, len, word);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  110  		checksum +=3D word;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  111  		mskqh(tmp, len, tmp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  112  		carry =3D checksum < word;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  113  		*dst =3D word | tmp;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  114  		checksum +=3D carry;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  115  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  116  	return checksum;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  117  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  118  =
+cba3345cc494ad Alex Williamson   2012-07-31  1123  	mutex_lock(&vfio.iommu_=
+drivers_lock);
+ae5515d66362b9 Alex Williamson   2015-12-04  1124  	list_for_each_entry(dri=
+ver, &vfio.iommu_drivers_list, vfio_next) {
+cba3345cc494ad Alex Williamson   2012-07-31  1125  		void *data;
+cba3345cc494ad Alex Williamson   2012-07-31  1126  =
 
+b00621603d050f Christoph Hellwig 2021-09-24 @1127  		if (!vfio_iommu_driver=
+_allowed(container, driver))
+03a76b60f8ba27 Alex Williamson   2015-12-21  1128  			continue;
+cba3345cc494ad Alex Williamson   2012-07-31  1129  		if (!try_module_get(dr=
+iver->ops->owner))
+cba3345cc494ad Alex Williamson   2012-07-31  1130  			continue;
+cba3345cc494ad Alex Williamson   2012-07-31  1131  =
 
-:::::: The code@line 96 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+cba3345cc494ad Alex Williamson   2012-07-31  1132  		/*
+cba3345cc494ad Alex Williamson   2012-07-31  1133  		 * The arg magic for S=
+ET_IOMMU is the same as CHECK_EXTENSION,
+cba3345cc494ad Alex Williamson   2012-07-31  1134  		 * so test which iommu=
+ driver reported support for this
+cba3345cc494ad Alex Williamson   2012-07-31  1135  		 * extension and call =
+open on them.  We also pass them the
+cba3345cc494ad Alex Williamson   2012-07-31  1136  		 * magic, allowing a s=
+ingle driver to support multiple
+cba3345cc494ad Alex Williamson   2012-07-31  1137  		 * interfaces if they'=
+d like.
+cba3345cc494ad Alex Williamson   2012-07-31  1138  		 */
+cba3345cc494ad Alex Williamson   2012-07-31  1139  		if (driver->ops->ioctl=
+(NULL, VFIO_CHECK_EXTENSION, arg) <=3D 0) {
+cba3345cc494ad Alex Williamson   2012-07-31  1140  			module_put(driver->op=
+s->owner);
+cba3345cc494ad Alex Williamson   2012-07-31  1141  			continue;
+cba3345cc494ad Alex Williamson   2012-07-31  1142  		}
+cba3345cc494ad Alex Williamson   2012-07-31  1143  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+cba3345cc494ad Alex Williamson   2012-07-31  1144  		data =3D driver->ops->=
+open(arg);
+cba3345cc494ad Alex Williamson   2012-07-31  1145  		if (IS_ERR(data)) {
+cba3345cc494ad Alex Williamson   2012-07-31  1146  			ret =3D PTR_ERR(data);
+cba3345cc494ad Alex Williamson   2012-07-31  1147  			module_put(driver->op=
+s->owner);
+7c435b46c29a02 Alex Williamson   2016-02-22  1148  			continue;
+cba3345cc494ad Alex Williamson   2012-07-31  1149  		}
+cba3345cc494ad Alex Williamson   2012-07-31  1150  =
+
+cba3345cc494ad Alex Williamson   2012-07-31  1151  		ret =3D __vfio_contain=
+er_attach_groups(container, driver, data);
+7c435b46c29a02 Alex Williamson   2016-02-22  1152  		if (ret) {
+cba3345cc494ad Alex Williamson   2012-07-31  1153  			driver->ops->release(=
+data);
+cba3345cc494ad Alex Williamson   2012-07-31  1154  			module_put(driver->op=
+s->owner);
+7c435b46c29a02 Alex Williamson   2016-02-22  1155  			continue;
+cba3345cc494ad Alex Williamson   2012-07-31  1156  		}
+cba3345cc494ad Alex Williamson   2012-07-31  1157  =
+
+7c435b46c29a02 Alex Williamson   2016-02-22  1158  		container->iommu_drive=
+r =3D driver;
+7c435b46c29a02 Alex Williamson   2016-02-22  1159  		container->iommu_data =
+=3D data;
+7c435b46c29a02 Alex Williamson   2016-02-22  1160  		break;
+cba3345cc494ad Alex Williamson   2012-07-31  1161  	}
+cba3345cc494ad Alex Williamson   2012-07-31  1162  =
+
+cba3345cc494ad Alex Williamson   2012-07-31  1163  	mutex_unlock(&vfio.iomm=
+u_drivers_lock);
+9587f44aa69a4c Alex Williamson   2013-04-25  1164  	up_write(&container->gr=
+oup_lock);
+cba3345cc494ad Alex Williamson   2012-07-31  1165  =
+
+cba3345cc494ad Alex Williamson   2012-07-31  1166  	return ret;
+cba3345cc494ad Alex Williamson   2012-07-31  1167  }
+cba3345cc494ad Alex Williamson   2012-07-31  1168  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1451371384692046224==--
+--===============8810625839093731671==--
 
