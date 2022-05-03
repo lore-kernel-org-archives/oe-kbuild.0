@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5844032956165017379=="
+Content-Type: multipart/mixed; boundary="===============1425771239038527303=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/intel/pxa_camera.c:1352:25: warning: Value stored to 'pcdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 04 May 2022 09:08:40 +0800
-Message-ID: <202205040831.z23yP7jj-lkp@intel.com>
+Subject: Re: [PATCH 2/2] btrfs: Use btrfs_try_lock_balance in btrfs_ioctl_balance
+Date: Wed, 04 May 2022 07:47:26 +0800
+Message-ID: <202205040701.S7SA4Dgy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5844032956165017379==
+--===============1425771239038527303==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,48 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
+In-Reply-To: <20220503083637.1051023-3-nborisov@suse.com>
+References: <20220503083637.1051023-3-nborisov@suse.com>
+TO: Nikolay Borisov <nborisov@suse.com>
+TO: linux-btrfs(a)vger.kernel.org
+CC: Nikolay Borisov <nborisov@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ef8e4d3c2ab1f47f63b6c7e578266b7e5cc9cd1b
-commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Int=
-el drivers on a separate dir
-date:   7 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 weeks ago
-config: arm-randconfig-c002-20220427 (https://download.01.org/0day-ci/archi=
-ve/20220504/202205040831.z23yP7jj-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
+Hi Nikolay,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20220503]
+[cannot apply to v5.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolay-Borisov/Refa=
+ctor-btrfs_ioctl_balance/20220503-163837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
+-next
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: riscv-randconfig-c006-20220501 (https://download.01.org/0day-ci/arc=
+hive/20220504/202205040701.S7SA4Dgy-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 363b3a=
+645a1e30011cc8da624f13dac5fd915628)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D95495f2aa9d8df1a7697bab24118544d3568f41d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/c696e46e6ec2b391d6e=
+350b4323ef7e7bafa7bca
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nikolay-Borisov/Refactor-btrfs_ioc=
+tl_balance/20220503-163837
+        git checkout c696e46e6ec2b391d6e350b4323ef7e7bafa7bca
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,327 +64,436 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/of/irq.c:602:4: note: Loop condition is false.  Exiting loop
-                           pr_err("of_irq_init: children remain, but no par=
-ents\n");
-                           ^
-   include/linux/printk.h:489:2: note: expanded from macro 'pr_err'
-           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4333:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(&bargs->stat, &bctl->stat, sizeof(bargs->stat));
            ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4463:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&bctl->data, &bargs->data, sizeof(bctl->data));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4463:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(&bctl->data, &bargs->data, sizeof(bctl->data));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4464:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&bctl->meta, &bargs->meta, sizeof(bctl->meta));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4464:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(&bctl->meta, &bargs->meta, sizeof(bctl->meta));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4465:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&bctl->sys, &bargs->sys, sizeof(bctl->sys));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4465:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(&bctl->sys, &bargs->sys, sizeof(bctl->sys));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+>> fs/btrfs/ioctl.c:4493:2: warning: Attempt to free released memory [clang=
+-analyzer-unix.Malloc]
+           kfree(bargs);
+           ^
+   fs/btrfs/ioctl.c:5426:2: note: Control jumps to 'case 3288372256:'  at l=
+ine 5508
+           switch (cmd) {
+           ^
+   fs/btrfs/ioctl.c:5509:10: note: Calling 'btrfs_ioctl_balance'
+                   return btrfs_ioctl_balance(file, argp);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4412:6: note: Assuming the condition is false
+           if (!capable(CAP_SYS_ADMIN))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4412:2: note: Taking false branch
+           if (!capable(CAP_SYS_ADMIN))
+           ^
+   fs/btrfs/ioctl.c:4416:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   fs/btrfs/ioctl.c:4416:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/btrfs/ioctl.c:4420:2: note: Taking false branch
+           if (IS_ERR(bargs)) {
+           ^
+   fs/btrfs/ioctl.c:4427:6: note: 'ret' is 8
+           if (ret)
+               ^~~
+   fs/btrfs/ioctl.c:4427:2: note: Taking true branch
+           if (ret)
+           ^
+   fs/btrfs/ioctl.c:4428:3: note: Control jumps to line 4491
+                   goto out;
                    ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
+   fs/btrfs/ioctl.c:4491:2: note: Memory is released
+           kfree(bargs);
+           ^~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4493:2: note: Attempt to free released memory
+           kfree(bargs);
+           ^~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4856:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(root_item->received_uuid, sa->uuid, BTRFS_UUID_SIZE);
            ^
-   drivers/of/irq.c:603:4: note:  Execution continues on line 610
-                           break;
-                           ^
-   drivers/of/irq.c:610:27: note: Null pointer value stored to 'desc'
-           list_for_each_entry_safe(desc, temp_desc, &intc_parent_list, lis=
-t) {
-                                    ^
-   include/linux/list.h:725:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/of/irq.c:610:2: note: Dereference of null pointer
-           list_for_each_entry_safe(desc, temp_desc, &intc_parent_list, lis=
-t) {
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4856:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(root_item->received_uuid, sa->uuid, BTRFS_UUID_SIZE);
            ^
-   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   2 warnings generated.
-   drivers/media/i2c/ov9650.c:606:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D ov965x_write(ov965x, REG_COM8, reg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:606:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D ov965x_write(ov965x, REG_COM8, reg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   drivers/media/i2c/rj54n1cb0c.c:687:3: warning: Value stored to 'input_w'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   input_w =3D output_w;
-                   ^         ~~~~~~~~
-   drivers/media/i2c/rj54n1cb0c.c:687:3: note: Value stored to 'input_w' is=
- never read
-                   input_w =3D output_w;
-                   ^         ~~~~~~~~
-   drivers/media/i2c/rj54n1cb0c.c:688:3: warning: Value stored to 'input_h'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   input_h =3D output_h;
-                   ^         ~~~~~~~~
-   drivers/media/i2c/rj54n1cb0c.c:688:3: note: Value stored to 'input_h' is=
- never read
-                   input_h =3D output_h;
-                   ^         ~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/iio/gyro/fxas21002c_core.c:137:8: warning: Excessive padding in =
-'struct fxas21002c_data' (35 padding bytes, where 3 is optimal). =
-
-   Optimal fields order: =
-
-   buffer, =
-
-   timestamp, =
-
-   mode, =
-
-   prev_mode, =
-
-   regmap, =
-
-   dready_trig, =
-
-   irq, =
-
-   vdd, =
-
-   vddio, =
-
-   lock, =
-
-   regmap_fields, =
-
-   chip_id, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct fxas21002c_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/iio/gyro/fxas21002c_core.c:137:8: note: Excessive padding in 'st=
-ruct fxas21002c_data' (35 padding bytes, where 3 is optimal). Optimal field=
-s order: buffer, timestamp, mode, prev_mode, regmap, dready_trig, irq, vdd,=
- vddio, lock, regmap_fields, chip_id, consider reordering the fields or add=
-ing explicit padding members
-   struct fxas21002c_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   drivers/iio/gyro/itg3200_core.c:94:3: warning: Value stored to 'ret' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D itg3200_read_reg_s16(indio_dev, reg, val);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/gyro/itg3200_core.c:94:3: note: Value stored to 'ret' is nev=
-er read
-                   ret =3D itg3200_read_reg_s16(indio_dev, reg, val);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/gyro/itg3200_core.c:370:18: warning: Value stored to 'st' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct itg3200 *st =3D iio_priv(indio_dev);
-                           ^~   ~~~~~~~~~~~~~~~~~~~
-   drivers/iio/gyro/itg3200_core.c:370:18: note: Value stored to 'st' durin=
-g its initialization is never read
-           struct itg3200 *st =3D iio_priv(indio_dev);
-                           ^~   ~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
->> drivers/media/platform/intel/pxa_camera.c:1352:25: warning: Value stored=
- to 'pcdev' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-           struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->vb2_queue);
-                                  ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/intel/pxa_camera.c:1352:25: note: Value stored to=
- 'pcdev' during its initialization is never read
-           struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->vb2_queue);
-                                  ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   4 warnings generated.
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:149:16: warning: The l=
-eft operand of '>' is a garbage value due to array index out of bounds [cla=
-ng-analyzer-core.UndefinedBinaryOperatorResult]
-                   if (brz_w[i] > 3)
-                                ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:181:2: note: Taking fa=
-lse branch
-           if (mtk_jpeg_decide_format(param))
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4970:2: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(label, fs_info->super_copy->label, BTRFS_LABEL_SIZE);
            ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:186:6: note: Calling '=
-mtk_jpeg_calc_dst_size'
-           if (mtk_jpeg_calc_dst_size(param))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:14: note: Assuming=
- 'i' is < field 'comp_num'
-           for (i =3D 0; i < param->comp_num; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:2: note: Loop cond=
-ition is true.  Entering loop body
-           for (i =3D 0; i < param->comp_num; i++) {
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4970:2: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+           memcpy(label, fs_info->super_copy->label, BTRFS_LABEL_SIZE);
            ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:149:3: note: Taking fa=
-lse branch
-                   if (brz_w[i] > 3)
-                   ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:158:26: note: 'i' is 0
-                   param->img_stride[i] =3D i ? round_up(param->comp_w[i], =
-16)
-                                          ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:158:26: note: '?' cond=
-ition is false
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:14: note: Assuming=
- 'i' is < field 'comp_num'
-           for (i =3D 0; i < param->comp_num; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:2: note: Loop cond=
-ition is true.  Entering loop body
-           for (i =3D 0; i < param->comp_num; i++) {
-           ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:149:7: note: Assuming =
-the condition is false
-                   if (brz_w[i] > 3)
-                       ^~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:149:3: note: Taking fa=
-lse branch
-                   if (brz_w[i] > 3)
-                   ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:158:26: note: 'i' is 1
-                   param->img_stride[i] =3D i ? round_up(param->comp_w[i], =
-16)
-                                          ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:158:26: note: '?' cond=
-ition is true
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:14: note: Assuming=
- 'i' is < field 'comp_num'
-           for (i =3D 0; i < param->comp_num; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:2: note: Loop cond=
-ition is true.  Entering loop body
-           for (i =3D 0; i < param->comp_num; i++) {
-           ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:149:3: note: Taking fa=
-lse branch
-                   if (brz_w[i] > 3)
-                   ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:158:26: note: 'i' is 2
-                   param->img_stride[i] =3D i ? round_up(param->comp_w[i], =
-16)
-                                          ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:158:26: note: '?' cond=
-ition is true
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:35: note: The valu=
-e 3 is assigned to 'i'
-           for (i =3D 0; i < param->comp_num; i++) {
-                                            ^~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:14: note: Assuming=
- 'i' is < field 'comp_num'
-           for (i =3D 0; i < param->comp_num; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:2: note: Loop cond=
-ition is true.  Entering loop body
-           for (i =3D 0; i < param->comp_num; i++) {
-           ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:149:16: note: The left=
- operand of '>' is a garbage value due to array index out of bounds
-                   if (brz_w[i] > 3)
-                       ~~~~~~~~ ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:163:29: warning: The l=
-eft operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinaryO=
-peratorResult]
-           param->dec_h =3D ds_row_h[0] * param->mcu_h;
-                                      ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:181:2: note: Taking fa=
-lse branch
-           if (mtk_jpeg_decide_format(param))
-           ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:186:6: note: Calling '=
-mtk_jpeg_calc_dst_size'
-           if (mtk_jpeg_calc_dst_size(param))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:14: note: Assuming=
- 'i' is >=3D field 'comp_num'
-           for (i =3D 0; i < param->comp_num; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:148:2: note: Loop cond=
-ition is false. Execution continues on line 162
-           for (i =3D 0; i < param->comp_num; i++) {
-           ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:163:29: note: The left=
- operand of '*' is a garbage value
-           param->dec_h =3D ds_row_h[0] * param->mcu_h;
-                          ~~~~~~~~~~~ ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:168:46: warning: The r=
-ight operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinary=
-OperatorResult]
-                   param->comp_size[i] =3D param->mem_stride[i] * ds_row_h[=
-i] *
-                                                              ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:181:2: note: Taking fa=
-lse branch
-           if (mtk_jpeg_decide_format(param))
-           ^
-   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c:186:6: note: Calling '=
-mtk_jpeg_calc_dst_size'
-           if (mtk_jpeg_calc_dst_size(param))
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:5020:2: warning: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(super_block->label, label);
+           ^~~~~~
+   fs/btrfs/ioctl.c:5020:2: note: Call to function 'strcpy' is insecure as =
+it does not provide bounding of the memory buffer. Replace unbounded copy f=
+unctions with analogous functions that support length arguments such as 'st=
+rlcpy'. CWE-119
+           strcpy(super_block->label, label);
+           ^~~~~~
+   Suppressed 56 warnings (56 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   38 warnings generated.
+   Suppressed 38 warnings (38 in non-user code).
 
-vim +/pcdev +1352 drivers/media/platform/intel/pxa_camera.c
+vim +4493 fs/btrfs/ioctl.c
 
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1348  =
+d383145190e87f Nikolay Borisov      2022-05-03  4402  =
 
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1349  static void pxac_vb2_cleanup(struct vb2_buffer *vb)
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1350  {
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1351  	struct pxa_buffer *buf =3D vb2_to_pxa_buffer(vb);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06 @1352  	struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->=
-vb2_queue);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1353  =
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4403  static long btrfs_ioc=
+tl_balance(struct file *file, void __user *arg)
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4404  {
+496ad9aa8ef448 Al Viro              2013-01-23  4405  	struct btrfs_root *r=
+oot =3D BTRFS_I(file_inode(file))->root;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4406  	struct btrfs_fs_info=
+ *fs_info =3D root->fs_info;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4407  	struct btrfs_ioctl_b=
+alance_args *bargs;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4408  	struct btrfs_balance=
+_control *bctl;
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4409  	bool need_unlock =3D=
+ true; /* for mut. excl. ops lock */
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4410  	int ret;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4411  =
 
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1354  	dev_dbg(pcdev_to_dev(pcdev),
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1355  		 "%s(vb=3D%p)\n", __func__, vb);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1356  	pxa_buffer_cleanup(buf);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1357  }
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1358  =
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4412  	if (!capable(CAP_SYS=
+_ADMIN))
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4413  		return -EPERM;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4414  =
 
+e54bfa31044d60 Liu Bo               2012-06-29  4415  	ret =3D mnt_want_wri=
+te_file(file);
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4416  	if (ret)
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4417  		return ret;
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4418  =
 
-:::::: The code at line 1352 was first introduced by commit
-:::::: 6f28435d1c157073e4257a5dca7695103f32ba02 [media] media: platform: px=
-a_camera: trivial move of functions
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4419  	bargs =3D memdup_use=
+r(arg, sizeof(*bargs));
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4420  	if (IS_ERR(bargs)) {
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4421  		ret =3D PTR_ERR(bar=
+gs);
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4422  		bargs =3D NULL;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4423  		goto out;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4424  	}
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4425  =
 
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4426  	ret =3D btrfs_try_lo=
+ck_balance(fs_info, &need_unlock);
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4427  	if (ret)
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4428  		goto out;
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4429  =
+
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4430  	lockdep_assert_held(=
+&fs_info->balance_mutex);
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4431  =
+
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4432  	if (bargs->flags & B=
+TRFS_BALANCE_RESUME) {
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4433  		if (!fs_info->balan=
+ce_ctl) {
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4434  			ret =3D -ENOTCONN;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4435  			goto out_unlock;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4436  		}
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4437  =
+
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4438  		bctl =3D fs_info->b=
+alance_ctl;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4439  		spin_lock(&fs_info-=
+>balance_lock);
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4440  		bctl->flags |=3D BT=
+RFS_BALANCE_RESUME;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4441  		spin_unlock(&fs_inf=
+o->balance_lock);
+efc0e69c2feab8 Nikolay Borisov      2021-11-25  4442  		btrfs_exclop_balanc=
+e(fs_info, BTRFS_EXCLOP_BALANCE);
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4443  =
+
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4444  		goto do_balance;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4445  	}
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4446  =
+
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4447  	if (bargs->flags & ~=
+(BTRFS_BALANCE_ARGS_MASK | BTRFS_BALANCE_TYPE_MASK)) {
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4448  		ret =3D -EINVAL;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4449  		goto out_unlock;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4450  	}
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4451  =
+
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4452  	if (fs_info->balance=
+_ctl) {
+837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4453  		ret =3D -EINPROGRES=
+S;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4454  		goto out_unlock;
+837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4455  	}
+837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4456  =
+
+8d2db7855e7b65 David Sterba         2015-11-04  4457  	bctl =3D kzalloc(siz=
+eof(*bctl), GFP_KERNEL);
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4458  	if (!bctl) {
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4459  		ret =3D -ENOMEM;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4460  		goto out_unlock;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4461  	}
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4462  =
+
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4463  	memcpy(&bctl->data, =
+&bargs->data, sizeof(bctl->data));
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4464  	memcpy(&bctl->meta, =
+&bargs->meta, sizeof(bctl->meta));
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4465  	memcpy(&bctl->sys, &=
+bargs->sys, sizeof(bctl->sys));
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4466  =
+
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4467  	bctl->flags =3D barg=
+s->flags;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4468  do_balance:
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4469  	/*
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4470  	 * Ownership of bctl=
+ and exclusive operation goes to btrfs_balance.
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4471  	 * bctl is freed in =
+reset_balance_state, or, if restriper was paused
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4472  	 * all the way until=
+ unmount, in free_fs_info.  The flag should be
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4473  	 * cleared after res=
+et_balance_state.
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4474  	 */
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4475  	need_unlock =3D fals=
+e;
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4476  =
+
+6fcf6e2bffb6cf David Sterba         2018-05-07  4477  	ret =3D btrfs_balanc=
+e(fs_info, bctl, bargs);
+0f89abf56abbd0 Christian Engelmayer 2015-10-21  4478  	bctl =3D NULL;
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4479  =
+
+70430fe3604144 Nikolay Borisov      2022-03-30  4480  	if (ret =3D=3D 0 || =
+ret =3D=3D -ECANCELED) {
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4481  		if (copy_to_user(ar=
+g, bargs, sizeof(*bargs)))
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4482  			ret =3D -EFAULT;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4483  	}
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4484  =
+
+0f89abf56abbd0 Christian Engelmayer 2015-10-21  4485  	kfree(bctl);
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4486  out_unlock:
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4487  	mutex_unlock(&fs_inf=
+o->balance_mutex);
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4488  	if (need_unlock)
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4489  		btrfs_exclop_finish=
+(fs_info);
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4490  out:
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4491  	kfree(bargs);
+e54bfa31044d60 Liu Bo               2012-06-29  4492  	mnt_drop_write_file(=
+file);
+c746db1b6ed99f Nikolay Borisov      2022-03-30 @4493  	kfree(bargs);
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4494  	return ret;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4495  }
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4496  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5844032956165017379==--
+--===============1425771239038527303==--
 
