@@ -1,232 +1,432 @@
-Content-Type: multipart/mixed; boundary="===============6083435672073768384=="
+Content-Type: multipart/mixed; boundary="===============2474366865737217193=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/kernel/unwind.c:451:48: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Tue, 03 May 2022 12:09:09 +0800
-Message-ID: <202205031246.ij3ZU0jB-lkp@intel.com>
+Subject: [drm-msm:msm-next-staging 22/96] drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: warning: Value stored to 'dsc_common_mode' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 03 May 2022 11:28:10 +0800
+Message-ID: <202205031135.LX8fXEgS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6083435672073768384==
+--===============2474366865737217193==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+TO: Vinod Koul <vkoul@kernel.org>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9050ba3a61a4b5bd84c2cde092a100404f814f31
-commit: f6b8e3526feb025d0259c18d6dc6b8c2e2cfedf0 ARM: unwind: only permit s=
-tack switch when unwinding call_with_stack()
-date:   8 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 8 weeks ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout f6b8e3526feb025d0259c18d6dc6b8c2e2cfedf0
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next-staging
+head:   f1fc2b87de4719cfa8e193e0746cc524dd9f7472
+commit: 58dca9810749480737869d02bef4704756372194 [22/96] drm/msm/disp/dpu1:=
+ Add support for DSC in encoder
+:::::: branch date: 28 hours ago
+:::::: commit date: 7 days ago
+config: riscv-randconfig-c006-20220501 (https://download.01.org/0day-ci/arc=
+hive/20220503/202205031135.LX8fXEgS-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 09325d=
+36061e42b495d1f4c7e933e260eac260ed)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add drm-msm https://gitlab.freedesktop.org/drm/msm.git
+        git fetch --no-tags drm-msm msm-next-staging
+        git checkout 58dca9810749480737869d02bef4704756372194
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   Suppressed 34 warnings (34 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   38 warnings generated.
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   38 warnings generated.
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   34 warnings generated.
+   Suppressed 34 warnings (34 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   drivers/input/mousedev.c:280:5: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memset(p, 0, sizeof(struct mousedev_moti=
+on));
+                                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/input/mousedev.c:280:5: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+                                   memset(p, 0, sizeof(struct mousedev_moti=
+on));
+                                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/input/mousedev.c:746:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(data, client->ps2 + client->bufsiz - client->buffer, coun=
+t);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/input/mousedev.c:746:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(data, client->ps2 + client->bufsiz - client->buffer, coun=
+t);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 34 warnings (34 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   63 warnings generated.
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:257:2: warning: Call to func=
+tion 'memcpy' is insecure as it does not provide security checks introduced=
+ in the C11 standard. Replace with analogous functions that support length =
+arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&dither_cfg.matrix, dither_matrix,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:257:2: note: Call to functio=
+n 'memcpy' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&dither_cfg.matrix, dither_matrix,
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:592:2: warning: Value stored=
+ to 'mode' is never read [clang-analyzer-deadcode.DeadStores]
+           mode =3D &crtc_state->mode;
+           ^      ~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:592:2: note: Value stored to=
+ 'mode' is never read
+           mode =3D &crtc_state->mode;
+           ^      ~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: warning: Value store=
+d to 'dsc_common_mode' is never read [clang-analyzer-deadcode.DeadStores]
+           dsc_common_mode =3D 0;
+           ^                 ~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: note: Value stored t=
+o 'dsc_common_mode' is never read
+           dsc_common_mode =3D 0;
+           ^                 ~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1945:2: warning: Call to fun=
+ction 'snprintf' is insecure as it does not provide security checks introdu=
+ced in the C11 standard. Replace with analogous functions that support leng=
+th arguments or provides boundary checks such as 'snprintf_s' in case of C1=
+1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(name, DPU_NAME_SIZE, "encoder%u", drm_enc->base.id);
+           ^~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1945:2: note: Call to functi=
+on 'snprintf' is insecure as it does not provide security checks introduced=
+ in the C11 standard. Replace with analogous functions that support length =
+arguments or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(name, DPU_NAME_SIZE, "encoder%u", drm_enc->base.id);
+           ^~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2058:2: warning: Call to fun=
+ction 'memset' is insecure as it does not provide security checks introduce=
+d in the C11 standard. Replace with analogous functions that support length=
+ arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
+lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&phys_params, 0, sizeof(phys_params));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2058:2: note: Call to functi=
+on 'memset' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memset_s' in case of C11
+           memset(&phys_params, 0, sizeof(phys_params));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2205:2: warning: Call to fun=
+ction 'memset' is insecure as it does not provide security checks introduce=
+d in the C11 standard. Replace with analogous functions that support length=
+ arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
+lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           kthread_init_work(&dpu_enc->vsync_event_work,
+           ^
+   include/linux/kthread.h:173:3: note: expanded from macro 'kthread_init_w=
+ork'
+                   memset((work), 0, sizeof(struct kthread_work));         \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2205:2: note: Call to functi=
+on 'memset' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memset_s' in case of C11
+           kthread_init_work(&dpu_enc->vsync_event_work,
+           ^
+   include/linux/kthread.h:173:3: note: expanded from macro 'kthread_init_w=
+ork'
+                   memset((work), 0, sizeof(struct kthread_work));         \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2208:2: warning: Call to fun=
+ction 'memcpy' is insecure as it does not provide security checks introduce=
+d in the C11 standard. Replace with analogous functions that support length=
+ arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
+lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&dpu_enc->disp_info, disp_info, sizeof(*disp_info));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2208:2: note: Call to functi=
+on 'memcpy' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&dpu_enc->disp_info, disp_info, sizeof(*disp_info));
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 56 warnings (55 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   53 warnings generated.
+   drivers/gpu/drm/vc4/vc4_validate_shaders.c:169:2: warning: Call to funct=
+ion 'memcpy' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'memcpy_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&temp_samples[s],
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->> arch/arm/kernel/unwind.c:451:48: warning: Boolean result is used in bitw=
-ise operation. Clarify expression with parentheses. [clarifyCondition]
-    if (prel31_to_addr(&idx->addr_offset) =3D=3D (u32)&call_with_stack) {
-                                                  ^
+vim +/dsc_common_mode +1782 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 
-vim +451 arch/arm/kernel/unwind.c
+58dca981074948 Vinod Koul 2022-04-06  1757  =
 
-bff595c15c92b9 Catalin Marinas  2009-02-16  377  =
+58dca981074948 Vinod Koul 2022-04-06  1758  static void dpu_encoder_prep_ds=
+c(struct dpu_encoder_virt *dpu_enc,
+58dca981074948 Vinod Koul 2022-04-06  1759  				 struct msm_display_dsc_con=
+fig *dsc)
+58dca981074948 Vinod Koul 2022-04-06  1760  {
+58dca981074948 Vinod Koul 2022-04-06  1761  	/* coding only for 2LM, 2enc, =
+1 dsc config */
+58dca981074948 Vinod Koul 2022-04-06  1762  	struct dpu_encoder_phys *enc_m=
+aster =3D dpu_enc->cur_master;
+58dca981074948 Vinod Koul 2022-04-06  1763  	struct dpu_hw_dsc *hw_dsc[MAX_=
+CHANNELS_PER_ENC];
+58dca981074948 Vinod Koul 2022-04-06  1764  	struct dpu_hw_pingpong *hw_pp[=
+MAX_CHANNELS_PER_ENC];
+58dca981074948 Vinod Koul 2022-04-06  1765  	int this_frame_slices;
+58dca981074948 Vinod Koul 2022-04-06  1766  	int intf_ip_w, enc_ip_w;
+58dca981074948 Vinod Koul 2022-04-06  1767  	int dsc_common_mode;
+58dca981074948 Vinod Koul 2022-04-06  1768  	int pic_width;
+58dca981074948 Vinod Koul 2022-04-06  1769  	u32 initial_lines;
+58dca981074948 Vinod Koul 2022-04-06  1770  	int i;
+58dca981074948 Vinod Koul 2022-04-06  1771  =
 
-bff595c15c92b9 Catalin Marinas  2009-02-16  378  /*
-bff595c15c92b9 Catalin Marinas  2009-02-16  379   * Unwind a single frame s=
-tarting with *sp for the symbol at *pc. It
-bff595c15c92b9 Catalin Marinas  2009-02-16  380   * updates the *pc and *sp=
- with the new values.
-bff595c15c92b9 Catalin Marinas  2009-02-16  381   */
-bff595c15c92b9 Catalin Marinas  2009-02-16  382  int unwind_frame(struct st=
-ackframe *frame)
-bff595c15c92b9 Catalin Marinas  2009-02-16  383  {
-de66a979012dbc Uwe Kleine-K=C3=B6nig 2011-12-05  384  	const struct unwind_=
-idx *idx;
-bff595c15c92b9 Catalin Marinas  2009-02-16  385  	struct unwind_ctrl_block =
-ctrl;
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  386  	unsigned long sp_low;
-bff595c15c92b9 Catalin Marinas  2009-02-16  387  =
-
-a51345770e5195 Anurag Aggarwal  2014-02-24  388  	/* store the highest addr=
-ess on the stack to avoid crossing it*/
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  389  	sp_low =3D frame->sp;
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  390  	ctrl.sp_high =3D ALIGN(sp=
-_low - THREAD_SIZE, THREAD_ALIGN)
-a1c510d0adc604 Ard Biesheuvel   2021-09-23  391  		       + THREAD_SIZE;
-bff595c15c92b9 Catalin Marinas  2009-02-16  392  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  393  	pr_debug("%s(pc =3D %08lx=
- lr =3D %08lx sp =3D %08lx)\n", __func__,
-bff595c15c92b9 Catalin Marinas  2009-02-16  394  		 frame->pc, frame->lr, f=
-rame->sp);
-bff595c15c92b9 Catalin Marinas  2009-02-16  395  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  396  	idx =3D unwind_find_idx(f=
-rame->pc);
-bff595c15c92b9 Catalin Marinas  2009-02-16  397  	if (!idx) {
-81679376470ef4 Ard Biesheuvel   2022-03-02  398  		if (frame->pc && kernel_=
-text_address(frame->pc))
-8b521cb2947d88 Joe Perches      2014-09-16  399  			pr_warn("unwind: Index =
-not found %08lx\n", frame->pc);
-bff595c15c92b9 Catalin Marinas  2009-02-16  400  		return -URC_FAILURE;
-bff595c15c92b9 Catalin Marinas  2009-02-16  401  	}
-bff595c15c92b9 Catalin Marinas  2009-02-16  402  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  403  	ctrl.vrs[FP] =3D frame->f=
-p;
-bff595c15c92b9 Catalin Marinas  2009-02-16  404  	ctrl.vrs[SP] =3D frame->s=
-p;
-bff595c15c92b9 Catalin Marinas  2009-02-16  405  	ctrl.vrs[LR] =3D frame->l=
-r;
-bff595c15c92b9 Catalin Marinas  2009-02-16  406  	ctrl.vrs[PC] =3D 0;
-bff595c15c92b9 Catalin Marinas  2009-02-16  407  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  408  	if (idx->insn =3D=3D 1)
-bff595c15c92b9 Catalin Marinas  2009-02-16  409  		/* can't unwind */
-bff595c15c92b9 Catalin Marinas  2009-02-16  410  		return -URC_FAILURE;
-532319b9c418fc Ard Biesheuvel   2021-10-04  411  	else if (frame->pc =3D=3D=
- prel31_to_addr(&idx->addr_offset)) {
-532319b9c418fc Ard Biesheuvel   2021-10-04  412  		/*
-532319b9c418fc Ard Biesheuvel   2021-10-04  413  		 * Unwinding is tricky w=
-hen we're halfway through the prologue,
-532319b9c418fc Ard Biesheuvel   2021-10-04  414  		 * since the stack frame=
- that the unwinder expects may not be
-532319b9c418fc Ard Biesheuvel   2021-10-04  415  		 * fully set up yet. How=
-ever, one thing we do know for sure is
-532319b9c418fc Ard Biesheuvel   2021-10-04  416  		 * that if we are unwind=
-ing from the very first instruction of
-532319b9c418fc Ard Biesheuvel   2021-10-04  417  		 * a function, we are st=
-ill effectively in the stack frame of
-532319b9c418fc Ard Biesheuvel   2021-10-04  418  		 * the caller, and the u=
-nwind info has no relevance yet.
-532319b9c418fc Ard Biesheuvel   2021-10-04  419  		 */
-532319b9c418fc Ard Biesheuvel   2021-10-04  420  		if (frame->pc =3D=3D fra=
-me->lr)
-532319b9c418fc Ard Biesheuvel   2021-10-04  421  			return -URC_FAILURE;
-532319b9c418fc Ard Biesheuvel   2021-10-04  422  		frame->pc =3D frame->lr;
-532319b9c418fc Ard Biesheuvel   2021-10-04  423  		return URC_OK;
-532319b9c418fc Ard Biesheuvel   2021-10-04  424  	} else if ((idx->insn & 0=
-x80000000) =3D=3D 0)
-bff595c15c92b9 Catalin Marinas  2009-02-16  425  		/* prel31 to the unwind =
-table */
-bff595c15c92b9 Catalin Marinas  2009-02-16  426  		ctrl.insn =3D (unsigned =
-long *)prel31_to_addr(&idx->insn);
-bff595c15c92b9 Catalin Marinas  2009-02-16  427  	else if ((idx->insn & 0xf=
-f000000) =3D=3D 0x80000000)
-bff595c15c92b9 Catalin Marinas  2009-02-16  428  		/* only personality rout=
-ine 0 supported in the index */
-bff595c15c92b9 Catalin Marinas  2009-02-16  429  		ctrl.insn =3D &idx->insn;
-bff595c15c92b9 Catalin Marinas  2009-02-16  430  	else {
-8b521cb2947d88 Joe Perches      2014-09-16  431  		pr_warn("unwind: Unsuppo=
-rted personality routine %08lx in the index at %p\n",
-bff595c15c92b9 Catalin Marinas  2009-02-16  432  			idx->insn, idx);
-bff595c15c92b9 Catalin Marinas  2009-02-16  433  		return -URC_FAILURE;
-bff595c15c92b9 Catalin Marinas  2009-02-16  434  	}
-bff595c15c92b9 Catalin Marinas  2009-02-16  435  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  436  	/* check the personality =
-routine */
-bff595c15c92b9 Catalin Marinas  2009-02-16  437  	if ((*ctrl.insn & 0xff000=
-000) =3D=3D 0x80000000) {
-bff595c15c92b9 Catalin Marinas  2009-02-16  438  		ctrl.byte =3D 2;
-bff595c15c92b9 Catalin Marinas  2009-02-16  439  		ctrl.entries =3D 1;
-bff595c15c92b9 Catalin Marinas  2009-02-16  440  	} else if ((*ctrl.insn & =
-0xff000000) =3D=3D 0x81000000) {
-bff595c15c92b9 Catalin Marinas  2009-02-16  441  		ctrl.byte =3D 1;
-bff595c15c92b9 Catalin Marinas  2009-02-16  442  		ctrl.entries =3D 1 + ((*=
-ctrl.insn & 0x00ff0000) >> 16);
-bff595c15c92b9 Catalin Marinas  2009-02-16  443  	} else {
-8b521cb2947d88 Joe Perches      2014-09-16  444  		pr_warn("unwind: Unsuppo=
-rted personality routine %08lx at %p\n",
-bff595c15c92b9 Catalin Marinas  2009-02-16  445  			*ctrl.insn, ctrl.insn);
-bff595c15c92b9 Catalin Marinas  2009-02-16  446  		return -URC_FAILURE;
-bff595c15c92b9 Catalin Marinas  2009-02-16  447  	}
-bff595c15c92b9 Catalin Marinas  2009-02-16  448  =
-
-a51345770e5195 Anurag Aggarwal  2014-02-24  449  	ctrl.check_each_pop =3D 0;
-a51345770e5195 Anurag Aggarwal  2014-02-24  450  =
-
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11 @451  	if (prel31_to_addr(&idx->=
-addr_offset) =3D=3D (u32)&call_with_stack) {
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  452  		/*
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  453  		 * call_with_stack() is =
-the only place where we permit SP to
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  454  		 * jump from one stack t=
-o another, and since we know it is
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  455  		 * guaranteed to happen,=
- set up the SP bounds accordingly.
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  456  		 */
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  457  		sp_low =3D frame->fp;
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  458  		ctrl.sp_high =3D ALIGN(f=
-rame->fp, THREAD_SIZE);
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  459  	}
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  460  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  461  	while (ctrl.entries > 0) {
-a51345770e5195 Anurag Aggarwal  2014-02-24  462  		int urc;
-a51345770e5195 Anurag Aggarwal  2014-02-24  463  		if ((ctrl.sp_high - ctrl=
-.vrs[SP]) < sizeof(ctrl.vrs))
-a51345770e5195 Anurag Aggarwal  2014-02-24  464  			ctrl.check_each_pop =3D=
- 1;
-a51345770e5195 Anurag Aggarwal  2014-02-24  465  		urc =3D unwind_exec_insn=
-(&ctrl);
-bff595c15c92b9 Catalin Marinas  2009-02-16  466  		if (urc < 0)
-bff595c15c92b9 Catalin Marinas  2009-02-16  467  			return urc;
-f6b8e3526feb02 Ard Biesheuvel   2022-03-11  468  		if (ctrl.vrs[SP] < sp_lo=
-w || ctrl.vrs[SP] > ctrl.sp_high)
-c894ed6956f126 Catalin Marinas  2009-06-19  469  			return -URC_FAILURE;
-bff595c15c92b9 Catalin Marinas  2009-02-16  470  	}
-bff595c15c92b9 Catalin Marinas  2009-02-16  471  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  472  	if (ctrl.vrs[PC] =3D=3D 0)
-bff595c15c92b9 Catalin Marinas  2009-02-16  473  		ctrl.vrs[PC] =3D ctrl.vr=
-s[LR];
-bff595c15c92b9 Catalin Marinas  2009-02-16  474  =
-
-c894ed6956f126 Catalin Marinas  2009-06-19  475  	/* check for infinite loo=
-p */
-8d54a275938968 Russell King     2019-12-22  476  	if (frame->pc =3D=3D ctrl=
-.vrs[PC] && frame->sp =3D=3D ctrl.vrs[SP])
-c894ed6956f126 Catalin Marinas  2009-06-19  477  		return -URC_FAILURE;
-c894ed6956f126 Catalin Marinas  2009-06-19  478  =
-
-bff595c15c92b9 Catalin Marinas  2009-02-16  479  	frame->fp =3D ctrl.vrs[FP=
+58dca981074948 Vinod Koul 2022-04-06  1772  	for (i =3D 0; i < MAX_CHANNELS=
+_PER_ENC; i++) {
+58dca981074948 Vinod Koul 2022-04-06  1773  		hw_pp[i] =3D dpu_enc->hw_pp[i=
 ];
-bff595c15c92b9 Catalin Marinas  2009-02-16  480  	frame->sp =3D ctrl.vrs[SP=
-];
-bff595c15c92b9 Catalin Marinas  2009-02-16  481  	frame->lr =3D ctrl.vrs[LR=
-];
-bff595c15c92b9 Catalin Marinas  2009-02-16  482  	frame->pc =3D ctrl.vrs[PC=
-];
-538b9265c063f0 Ard Biesheuvel   2022-01-24  483  	frame->lr_addr =3D ctrl.l=
-r_addr;
-bff595c15c92b9 Catalin Marinas  2009-02-16  484  =
+58dca981074948 Vinod Koul 2022-04-06  1774  		hw_dsc[i] =3D dpu_enc->hw_dsc=
+[i];
+58dca981074948 Vinod Koul 2022-04-06  1775  =
 
-bff595c15c92b9 Catalin Marinas  2009-02-16  485  	return URC_OK;
-bff595c15c92b9 Catalin Marinas  2009-02-16  486  }
-bff595c15c92b9 Catalin Marinas  2009-02-16  487  =
+58dca981074948 Vinod Koul 2022-04-06  1776  		if (!hw_pp[i] || !hw_dsc[i]) {
+58dca981074948 Vinod Koul 2022-04-06  1777  			DPU_ERROR_ENC(dpu_enc, "inva=
+lid params for DSC\n");
+58dca981074948 Vinod Koul 2022-04-06  1778  			return;
+58dca981074948 Vinod Koul 2022-04-06  1779  		}
+58dca981074948 Vinod Koul 2022-04-06  1780  	}
+58dca981074948 Vinod Koul 2022-04-06  1781  =
+
+58dca981074948 Vinod Koul 2022-04-06 @1782  	dsc_common_mode =3D 0;
+58dca981074948 Vinod Koul 2022-04-06  1783  	pic_width =3D dsc->drm->pic_wi=
+dth;
+58dca981074948 Vinod Koul 2022-04-06  1784  =
+
+58dca981074948 Vinod Koul 2022-04-06  1785  	dsc_common_mode =3D DSC_MODE_M=
+ULTIPLEX | DSC_MODE_SPLIT_PANEL;
+58dca981074948 Vinod Koul 2022-04-06  1786  	if (enc_master->intf_mode =3D=
+=3D INTF_MODE_VIDEO)
+58dca981074948 Vinod Koul 2022-04-06  1787  		dsc_common_mode |=3D DSC_MODE=
+_VIDEO;
+58dca981074948 Vinod Koul 2022-04-06  1788  =
+
+58dca981074948 Vinod Koul 2022-04-06  1789  	this_frame_slices =3D pic_widt=
+h / dsc->drm->slice_width;
+58dca981074948 Vinod Koul 2022-04-06  1790  	intf_ip_w =3D this_frame_slice=
+s * dsc->drm->slice_width;
+58dca981074948 Vinod Koul 2022-04-06  1791  =
+
+58dca981074948 Vinod Koul 2022-04-06  1792  	/*
+58dca981074948 Vinod Koul 2022-04-06  1793  	 * dsc merge case: when using =
+2 encoders for the same stream,
+58dca981074948 Vinod Koul 2022-04-06  1794  	 * no. of slices need to be sa=
+me on both the encoders.
+58dca981074948 Vinod Koul 2022-04-06  1795  	 */
+58dca981074948 Vinod Koul 2022-04-06  1796  	enc_ip_w =3D intf_ip_w / 2;
+58dca981074948 Vinod Koul 2022-04-06  1797  	initial_lines =3D dpu_encoder_=
+dsc_initial_line_calc(dsc, enc_ip_w);
+58dca981074948 Vinod Koul 2022-04-06  1798  =
+
+58dca981074948 Vinod Koul 2022-04-06  1799  	for (i =3D 0; i < MAX_CHANNELS=
+_PER_ENC; i++)
+58dca981074948 Vinod Koul 2022-04-06  1800  		dpu_encoder_dsc_pipe_cfg(hw_d=
+sc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
+58dca981074948 Vinod Koul 2022-04-06  1801  }
+58dca981074948 Vinod Koul 2022-04-06  1802  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6083435672073768384==--
+--===============2474366865737217193==--
 
