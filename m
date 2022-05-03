@@ -1,256 +1,400 @@
-Content-Type: multipart/mixed; boundary="===============6065904129899264981=="
+Content-Type: multipart/mixed; boundary="===============6889505243059405095=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pinctrl/renesas/pfc-r8a779f0.c:34:0: warning: failed to expand 'PINMUX_GPSR', Wrong number of parameters for macro 'F_'. [preprocessorErrorDirective]
-Date: Wed, 04 May 2022 03:37:09 +0800
-Message-ID: <202205040355.qt7ZSvkY-lkp@intel.com>
+Subject: Re: [PATCH] pinctrl: stm32: prevent the use of the secure protected pins
+Date: Wed, 04 May 2022 03:27:02 +0800
+Message-ID: <202205040335.lyMPmxR4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6065904129899264981==
+--===============6889505243059405095==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20220502153114.283618-1-fabien.dessenne@foss.st.com>
+References: <20220502153114.283618-1-fabien.dessenne@foss.st.com>
+TO: Fabien Dessenne <fabien.dessenne@foss.st.com>
+TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
+TO: linux-gpio(a)vger.kernel.org
+TO: linux-stm32(a)st-md-mailman.stormreply.com
+TO: linux-arm-kernel(a)lists.infradead.org
+TO: linux-kernel(a)vger.kernel.org
+CC: Fabien Dessenne <fabien.dessenne@foss.st.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9050ba3a61a4b5bd84c2cde092a100404f814f31
-commit: 030ac6d7eeff81e33acc02aa827bfb3448b53d3a pinctrl: renesas: Initial =
-R8A779F0 PFC support
-date:   10 weeks ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 10 weeks ago
-compiler: powerpc64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 030ac6d7eeff81e33acc02aa827bfb3448b53d3a
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Fabien,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on atorgue-stm32/stm32-next]
+[also build test WARNING on linusw-pinctrl/devel v5.18-rc5 next-20220503]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabien-Dessenne/pinc=
+trl-stm32-prevent-the-use-of-the-secure-protected-pins/20220502-233443
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git s=
+tm32-next
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: riscv-randconfig-c006-20220501 (https://download.01.org/0day-ci/arc=
+hive/20220504/202205040335.lyMPmxR4-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 363b3a=
+645a1e30011cc8da624f13dac5fd915628)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/39534741c9e791ea613=
+038c0cc5a8fbe475430bc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Fabien-Dessenne/pinctrl-stm32-prev=
+ent-the-use-of-the-secure-protected-pins/20220502-233443
+        git checkout 39534741c9e791ea613038c0cc5a8fbe475430bc
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/udf/misc.c:73:4: note: Call to function 'memmove' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memmove_s' in case of C11
+                           memmove(&ad[size], ad, iinfo->i_lenAlloc);
+                           ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/udf/misc.c:107:5: warning: Call to function 'memmove' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memmove_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memmove(&ea[offset - aal + size],
+                                   ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/udf/misc.c:107:5: note: Call to function 'memmove' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memmove_s' in case of C11
+                                   memmove(&ea[offset - aal + size],
+                                   ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/udf/misc.c:117:5: warning: Call to function 'memmove' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memmove_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memmove(&ea[offset - ial + size],
+                                   ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/udf/misc.c:117:5: note: Call to function 'memmove' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memmove_s' in case of C11
+                                   memmove(&ea[offset - ial + size],
+                                   ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/udf/misc.c:128:5: warning: Call to function 'memmove' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memmove_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memmove(&ea[offset - aal + size],
+                                   ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/udf/misc.c:128:5: note: Call to function 'memmove' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memmove_s' in case of C11
+                                   memmove(&ea[offset - aal + size],
+                                   ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   38 warnings generated.
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   39 warnings generated.
+   Suppressed 39 warnings (38 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   40 warnings generated.
+>> drivers/pinctrl/stm32/pinctrl-stm32.c:304:24: warning: Value stored to '=
+pctl' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct stm32_pinctrl *pctl =3D dev_get_drvdata(bank->gpio_chip.p=
+arent);
+                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:304:24: note: Value stored to 'pct=
+l' during its initialization is never read
+           struct stm32_pinctrl *pctl =3D dev_get_drvdata(bank->gpio_chip.p=
+arent);
+                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1419:21: warning: Passed-by-value =
+struct argument contains uninitialized data (e.g., field: 'id_size') [clang=
+-analyzer-core.CallAndMessage]
+                   pctl->irqmux[i] =3D devm_regmap_field_alloc(dev, rm, mux=
+);
+                                     ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1489:6: note: Assuming 'np' is non=
+-null
+           if (!np)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1489:2: note: Taking false branch
+           if (!np)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1493:6: note: Assuming 'match' is =
+non-null
+           if (!match || !match->data)
+               ^~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1493:6: note: Left side of '||' is=
+ false
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1493:16: note: Assuming field 'dat=
+a' is non-null
+           if (!match || !match->data)
+                         ^~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1493:2: note: Taking false branch
+           if (!match || !match->data)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1496:6: note: Assuming the conditi=
+on is false
+           if (!of_find_property(np, "pins-are-numbered", NULL)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1496:2: note: Taking false branch
+           if (!of_find_property(np, "pins-are-numbered", NULL)) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1502:6: note: Assuming 'pctl' is n=
+on-null
+           if (!pctl)
+               ^~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1502:2: note: Taking false branch
+           if (!pctl)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1509:2: note: Taking false branch
+           if (IS_ERR(pctl->domain))
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1514:6: note: 'hwlock_id' is >=3D 0
+           if (hwlock_id < 0) {
+               ^~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1514:2: note: Taking false branch
+           if (hwlock_id < 0) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1521:2: note: Loop condition is fa=
+lse.  Exiting loop
+           spin_lock_init(&pctl->irqmux_lock);
+           ^
+   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1527:2: note: Taking false branch
+           if (!of_property_read_u32(np, "st,package", &pctl->pkg))
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1532:6: note: Assuming field 'pins=
+' is non-null
+           if (!pctl->pins)
+               ^~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1532:2: note: Taking false branch
+           if (!pctl->pins)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1536:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1536:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1540:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1540:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1545:6: note: Assuming field 'doma=
+in' is non-null
+           if (pctl->domain) {
+               ^~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1545:2: note: Taking true branch
+           if (pctl->domain) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1546:9: note: Calling 'stm32_pctrl=
+_dt_setup_irq'
+                   ret =3D stm32_pctrl_dt_setup_irq(pdev, pctl);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1394:2: note: Taking false branch
+           if (IS_ERR(pctl->regmap))
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1400:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1400:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1404:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1404:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1409:2: note: Loop condition is tr=
+ue.  Entering loop body
+           for (i =3D 0; i < STM32_GPIO_PINS_PER_BANK; i++) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1410:3: note: 'mux' initialized he=
+re
 
->> drivers/pinctrl/renesas/pfc-sh7724.c:1972:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSELA", 0xa405014e, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7724.c:1990:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSELB", 0xa4050150, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7724.c:2008:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSELC", 0xa4050152, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7724.c:2026:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSELD", 0xa4050154, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7724.c:2044:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSELE", 0xa4050156, 16, 1, GROUP(
-      ^
---
->> drivers/pinctrl/renesas/pfc-sh7757.c:1949:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL0", 0xffec0070, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:1967:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL1", 0xffec0072, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:1985:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL2", 0xffec0074, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:2003:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL3", 0xffec0076, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:2022:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL4", 0xffec0078, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:2040:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL5", 0xffec007a, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:2058:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL6", 0xffec007c, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:2076:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL7", 0xffec0082, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7757.c:2094:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("PSEL8", 0xffec0084, 16, 1, GROUP(
-      ^
---
->> drivers/pinctrl/renesas/pfc-r8a779f0.c:34:0: warning: failed to expand '=
-PINMUX_GPSR', Wrong number of parameters for macro 'F_'. [preprocessorError=
-Directive]
-   #define GPSR0_20 F_(IRQ3, IP2SR0_19_16)
-   ^
---
->> drivers/pinctrl/renesas/pfc-sh7786.c:720:4: warning: Modulo of one is al=
-ways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("P1MSELR", 0xffcc0080, 16, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7786.c:738:4: warning: Modulo of one is al=
-ways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("P2MSELR", 0xffcc0082, 16, 1, GROUP(
-      ^
---
->> drivers/pinctrl/renesas/pfc-sh7734.c:1638:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("GPSR0", 0xFFFC0004, 32, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:1672:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("GPSR1", 0xFFFC0008, 32, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:1706:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("GPSR2", 0xFFFC000C, 32, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:1740:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("GPSR3", 0xFFFC0010, 32, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:1775:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("GPSR4", 0xFFFC0014, 32, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:1809:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("GPSR5", 0xFFFC0018, 32, 1, GROUP(
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:2396:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("INOUTSEL0", 0xFFC40004, 32, 1, GROUP(GP_INOUTSEL(0)))
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:2398:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("INOUTSEL1", 0xFFC41004, 32, 1, GROUP(GP_INOUTSEL(1)))
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:2400:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("INOUTSEL2", 0xFFC42004, 32, 1, GROUP(GP_INOUTSEL(2)))
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:2402:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("INOUTSEL3", 0xFFC43004, 32, 1, GROUP(GP_INOUTSEL(3)))
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:2404:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("INOUTSEL4", 0xFFC44004, 32, 1, GROUP(GP_INOUTSEL(4)))
-      ^
-   drivers/pinctrl/renesas/pfc-sh7734.c:2406:4: warning: Modulo of one is a=
-lways equal to zero [moduloofone]
-    { PINMUX_CFG_REG("INOUTSEL5", 0xffc45004, 32, 1, GROUP(
-      ^
---
->> drivers/pinctrl/renesas/pinctrl-rzn1.c:183:38: warning: Boolean result i=
-s used in bitwise operation. Clarify expression with parentheses. [clarifyC=
-ondition]
-     u32 val =3D ipctl->lev1_protect_phys | !(value & LOCK_LEVEL1);
-                                        ^
-   drivers/pinctrl/renesas/pinctrl-rzn1.c:189:38: warning: Boolean result i=
-s used in bitwise operation. Clarify expression with parentheses. [clarifyC=
-ondition]
-     u32 val =3D ipctl->lev2_protect_phys | !(value & LOCK_LEVEL2);
-                                        ^
+vim +/pctl +304 drivers/pinctrl/stm32/pinctrl-stm32.c
 
-vim +34 drivers/pinctrl/renesas/pfc-r8a779f0.c
+acaa037970f610 Alexandre TORGUE 2017-05-29  298  =
 
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  17  =
+39534741c9e791 Fabien Dessenne  2022-05-02  299  static int stm32_gpio_init=
+_valid_mask(struct gpio_chip *chip,
+39534741c9e791 Fabien Dessenne  2022-05-02  300  				      unsigned long *v=
+alid_mask,
+39534741c9e791 Fabien Dessenne  2022-05-02  301  				      unsigned int ngp=
+ios)
+39534741c9e791 Fabien Dessenne  2022-05-02  302  {
+39534741c9e791 Fabien Dessenne  2022-05-02  303  	struct stm32_gpio_bank *b=
+ank =3D gpiochip_get_data(chip);
+39534741c9e791 Fabien Dessenne  2022-05-02 @304  	struct stm32_pinctrl *pct=
+l =3D dev_get_drvdata(bank->gpio_chip.parent);
+39534741c9e791 Fabien Dessenne  2022-05-02  305  	unsigned int i;
+39534741c9e791 Fabien Dessenne  2022-05-02  306  	u32 sec;
+39534741c9e791 Fabien Dessenne  2022-05-02  307  =
 
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  18  #define CPU_ALL_GP(fn, sf=
-x)	\
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  19  	PORT_GP_CFG_21(0, fn, sf=
-x, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33),	\
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  20  	PORT_GP_CFG_25(1, fn, sf=
-x, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33),	\
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  21  	PORT_GP_CFG_17(2, fn, sf=
-x, CFG_FLAGS),	\
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  22  	PORT_GP_CFG_19(3, fn, sf=
-x, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  23  =
+39534741c9e791 Fabien Dessenne  2022-05-02  308  	/* All gpio are valid per=
+ default */
+39534741c9e791 Fabien Dessenne  2022-05-02  309  	bitmap_fill(valid_mask, n=
+gpios);
+39534741c9e791 Fabien Dessenne  2022-05-02  310  =
 
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  24  #define CPU_ALL_NOGP(fn)	=
-							\
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  25  	PIN_NOGP_CFG(PRESETOUT0_=
-N, "PRESETOUT0#", fn, SH_PFC_PIN_CFG_PULL_DOWN),	\
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  26  	PIN_NOGP_CFG(EXTALR, "EX=
-TALR", fn, SH_PFC_PIN_CFG_PULL_UP_DOWN)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  27  =
+39534741c9e791 Fabien Dessenne  2022-05-02  311  	if (bank->secure_control)=
+ {
+39534741c9e791 Fabien Dessenne  2022-05-02  312  		/* Tag secured pins as i=
+nvalid */
+39534741c9e791 Fabien Dessenne  2022-05-02  313  		sec =3D readl_relaxed(ba=
+nk->base + STM32_GPIO_SECCFGR);
+39534741c9e791 Fabien Dessenne  2022-05-02  314  =
 
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  28  /*
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  29   * F_() : just information
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  30   * FM() : macro for FN_xx=
-x / xxx_MARK
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  31   */
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  32  =
+39534741c9e791 Fabien Dessenne  2022-05-02  315  		for (i =3D 0; i < ngpios=
+; i++) {
+39534741c9e791 Fabien Dessenne  2022-05-02  316  			if (sec & BIT(i)) {
+39534741c9e791 Fabien Dessenne  2022-05-02  317  				clear_bit(i, valid_mas=
+k);
+39534741c9e791 Fabien Dessenne  2022-05-02  318  				dev_dbg(pctl->dev, "No=
+ access to gpio %d - %d\n", bank->bank_nr, i);
+39534741c9e791 Fabien Dessenne  2022-05-02  319  			}
+39534741c9e791 Fabien Dessenne  2022-05-02  320  		}
+39534741c9e791 Fabien Dessenne  2022-05-02  321  	}
+39534741c9e791 Fabien Dessenne  2022-05-02  322  =
 
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  33  /* GPSR0 */
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21 @34  #define GPSR0_20	F_(IRQ3,=
-	IP2SR0_19_16)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  35  #define GPSR0_19	F_(IRQ2,=
-	IP2SR0_15_12)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  36  #define GPSR0_18	F_(IRQ1,=
-	IP2SR0_11_8)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  37  #define GPSR0_17	F_(IRQ0,=
-	IP2SR0_7_4)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  38  #define GPSR0_16	F_(MSIOF=
-0_SS2,	IP2SR0_3_0)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  39  #define GPSR0_15	F_(MSIOF=
-0_SS1,	IP1SR0_31_28)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  40  #define GPSR0_14	F_(MSIOF=
-0_SCK,	IP1SR0_27_24)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  41  #define GPSR0_13	F_(MSIOF=
-0_TXD,	IP1SR0_23_20)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  42  #define GPSR0_12	F_(MSIOF=
-0_RXD,	IP1SR0_19_16)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  43  #define GPSR0_11	F_(MSIOF=
-0_SYNC,	IP1SR0_15_12)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  44  #define GPSR0_10	F_(CTS0_=
-N,	IP1SR0_11_8)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  45  #define GPSR0_9		F_(RTS0_=
-N,	IP1SR0_7_4)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  46  #define GPSR0_8		F_(SCK0,=
-	IP1SR0_3_0)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  47  #define GPSR0_7		F_(TX0,	=
-	IP0SR0_31_28)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  48  #define GPSR0_6		F_(RX0,	=
-	IP0SR0_27_24)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  49  #define GPSR0_5		F_(HRTS0=
-_N,	IP0SR0_23_20)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  50  #define GPSR0_4		F_(HCTS0=
-_N,	IP0SR0_19_16)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  51  #define GPSR0_3		F_(HTX0,=
-	IP0SR0_15_12)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  52  #define GPSR0_2		F_(HRX0,=
-	IP0SR0_11_8)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  53  #define GPSR0_1		F_(HSCK0=
-,	IP0SR0_7_4)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  54  #define GPSR0_0		F_(SCIF_=
-CLK,	IP0SR0_3_0)
-030ac6d7eeff81 Geert Uytterhoeven 2022-02-21  55  =
+39534741c9e791 Fabien Dessenne  2022-05-02  323  	return 0;
+39534741c9e791 Fabien Dessenne  2022-05-02  324  }
+39534741c9e791 Fabien Dessenne  2022-05-02  325  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6065904129899264981==--
+--===============6889505243059405095==--
 
