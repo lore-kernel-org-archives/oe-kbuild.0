@@ -1,351 +1,339 @@
-Content-Type: multipart/mixed; boundary="===============2540205090127080330=="
+Content-Type: multipart/mixed; boundary="===============5290998426693563797=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/veth.c:1612:68: warning: Parameter 'tb' can be declared with const [constParameter]
-Date: Fri, 06 May 2022 23:30:59 +0800
-Message-ID: <202205062313.yYIbY2QZ-lkp@intel.com>
+Subject: drivers/scsi/qla2xxx/qla_attr.c:2703:13: warning: Value stored to 'fcport' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 05 May 2022 07:50:42 +0800
+Message-ID: <202205050704.wwPseiQQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2540205090127080330==
+--===============5290998426693563797==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Paolo Abeni <pabeni@redhat.com>
+TO: Hannes Reinecke <hare@suse.de>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Himanshu Madhani <himanshu.madhani@oracle.com>
+CC: Daniel Wagner <dwagner@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   fe27d189e3f42e31d3c8223d5daed7285e334c5e
-commit: 9d3684c24a5232c2d7ea8f8a3e60fe235e6a9867 veth: create by default nr=
-_possible_cpus queues
-date:   10 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 months ago
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 9d3684c24a5232c2d7ea8f8a3e60fe235e6a9867
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   a7391ad3572431a354c927cf8896e86e50d7d0bf
+commit: baea0e833f7612483dcb2351240da19f0d0bc011 scsi: qla2xxx: Synchronize=
+ rport dev_loss_tmo setting
+date:   5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-c007-20220502 (https://download.01.org/0day-ci/ar=
+chive/20220505/202205050704.wwPseiQQ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 09325d=
+36061e42b495d1f4c7e933e260eac260ed)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dbaea0e833f7612483dcb2351240da19f0d0bc011
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout baea0e833f7612483dcb2351240da19f0d0bc011
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath11k/mac.c:2253:7: warning: Local variable 'p=
-reamble' shadows outer variable [shadowVariable]
-     u32 preamble;
-         ^
-   drivers/net/wireless/ath/ath11k/mac.c:2112:6: note: Shadowed declaration
-    u32 preamble;
-        ^
-   drivers/net/wireless/ath/ath11k/mac.c:2253:7: note: Shadow variable
-     u32 preamble;
-         ^
-
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> drivers/net/wireless/ath/ath11k/peer.c:18:13: warning: Uninitialized var=
-iable: peer->vdev_id [uninitvar]
-     if (peer->vdev_id !=3D vdev_id)
-               ^
-   drivers/net/wireless/ath/ath11k/peer.c:37:13: warning: Uninitialized var=
-iable: peer->pdev_idx [uninitvar]
-     if (peer->pdev_idx !=3D pdev_idx)
-               ^
-   drivers/net/wireless/ath/ath11k/peer.c:59:10: warning: Uninitialized var=
-iables: peer.list, peer.sta, peer.vdev_id, peer.peer_id, peer.ast_hash, pee=
-r.pdev_idx, peer.hw_peer_id, peer.tfm_mmic, peer.mcast_keyidx, peer.ucast_k=
-eyidx, peer.sec_type, peer.sec_type_grp [uninitvar]
-     return peer;
-            ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:56:7: note: Assuming condition is=
- false
-     if (!ether_addr_equal(peer->addr, addr))
-         ^
-   drivers/net/wireless/ath/ath11k/peer.c:59:10: note: Uninitialized variab=
-les: peer.list, peer.sta, peer.vdev_id, peer.peer_id, peer.ast_hash, peer.p=
-dev_idx, peer.hw_peer_id, peer.tfm_mmic, peer.mcast_keyidx, peer.ucast_keyi=
-dx, peer.sec_type, peer.sec_type_grp
-     return peer;
-            ^
-   drivers/net/wireless/ath/ath11k/peer.c:87:24: warning: Uninitialized var=
-iable: peer->vdev_id [uninitvar]
-     if (vdev_id =3D=3D peer->vdev_id) {
-                          ^
-   drivers/net/wireless/ath/ath11k/peer.c:179:13: warning: Uninitialized va=
-riable: peer->vdev_id [uninitvar]
-     if (peer->vdev_id !=3D vdev_id)
-               ^
---
->> drivers/net/wireless/ath/ath11k/spectral.c:426:8: warning: %d in format =
-string (no. 1) requires 'int' but the argument type is 'unsigned int'. [inv=
-alidPrintfArgType_sint]
-    len =3D sprintf(buf, "%dn", bins);
-          ^
->> drivers/net/wireless/ath/ath11k/spectral.c:535:28: warning: Parameter 'b=
-ins' can be declared with const [constParameter]
-             int bin_len, u8 *bins)
-                              ^
->> drivers/net/wireless/ath/ath11k/spectral.c:558:56: warning: Parameter 'i=
-nbins' can be declared with const [constParameter]
-   static void ath11k_spectral_parse_fft(u8 *outbins, u8 *inbins, int num_b=
-ins, u8 fft_sz)
-                                                          ^
---
-   drivers/net/veth.c:1509:18: warning: Boolean result is used in bitwise o=
-peration. Clarify expression with parentheses. [clarifyCondition]
-    if ((!!old_prog ^ !!prog) && peer)
-                    ^
-   drivers/net/veth.c:146:5: warning: %u in format string (no. 1) requires =
-'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType=
-_uint]
-       snprintf(p, ETH_GSTRING_LEN,
-       ^
-   drivers/net/veth.c:154:5: warning: %u in format string (no. 1) requires =
-'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType=
-_uint]
-       snprintf(p, ETH_GSTRING_LEN,
-       ^
->> drivers/net/veth.c:1612:68: warning: Parameter 'tb' can be declared with=
- const [constParameter]
-   static int veth_init_queues(struct net_device *dev, struct nlattr *tb[])
-                                                                      ^
-   drivers/net/veth.c:1630:40: warning: Parameter 'data' can be declared wi=
-th const [constParameter]
-      struct nlattr *tb[], struct nlattr *data[],
-                                          ^
->> drivers/net/wireless/ath/ath9k/ar9003_paprd.c:249:3: warning: Shifting a=
- negative value is technically undefined behaviour [shiftNegativeLHS]
-     REG_RMW_FIELD(ah, AR_PHY_PAPRD_TRAINER_CNTL3,
-     ^
-   drivers/net/wireless/ath/ath9k/ar9003_paprd.c:252:3: warning: Shifting a=
- negative value is technically undefined behaviour [shiftNegativeLHS]
-     REG_RMW_FIELD(ah, AR_PHY_PAPRD_TRAINER_CNTL3,
-     ^
-   drivers/net/wireless/ath/ath9k/ar9003_paprd.c:260:2: warning: Shifting a=
- negative value is technically undefined behaviour [shiftNegativeLHS]
-    REG_RMW_FIELD(ah, AR_PHY_PAPRD_TRAINER_CNTL3,
-    ^
-   drivers/net/wireless/ath/ath9k/ar9003_paprd.c:909:2: warning: Shifting a=
- negative value is technically undefined behaviour [shiftNegativeLHS]
-    REG_RMW_FIELD(ah, AR_PHY_PAPRD_TRAINER_CNTL3,
-    ^
->> drivers/net/wireless/ath/ath9k/ar9003_paprd.c:419:34: warning: Parameter=
- 'data_L' can be declared with const [constParameter]
-   static bool create_pa_curve(u32 *data_L, u32 *data_U, u32 *pa_table, u16=
- *gain)
-                                    ^
->> drivers/net/wireless/ath/ath9k/ar9003_paprd.c:419:47: warning: Parameter=
- 'data_U' can be declared with const [constParameter]
-   static bool create_pa_curve(u32 *data_L, u32 *data_U, u32 *pa_table, u16=
- *gain)
-                                                 ^
---
->> drivers/net/wireless/ath/ath6kl/htc_mbox.c:1095:9: warning: Parameter 's=
-rvc_pri_order' can be declared with const [constParameter]
-       u16 srvc_pri_order[], int list_len)
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/netdevice.h:5324:2: note: expanded from macro 'netdev_dbg'
+           dynamic_netdev_dbg(__dev, format, ##args);              \
            ^
->> drivers/net/wireless/ath/ath6kl/htc_mbox.c:65:20: warning: Uninitialized=
- variable: cur_ep_dist->endpoint [uninitvar]
-     if (cur_ep_dist->endpoint =3D=3D ENDPOINT_0)
-                      ^
->> drivers/net/wireless/ath/ath6kl/htc_mbox.c:191:17: warning: Uninitialize=
-d variable: cur_list->endpoint [uninitvar]
-     if (cur_list->endpoint =3D=3D ENDPOINT_0)
+   include/linux/dynamic_debug.h:170:2: note: expanded from macro 'dynamic_=
+netdev_dbg'
+           _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   net/can/j1939/transport.c:272:2: note: Loop condition is false.  Exiting=
+ loop
+           netdev_dbg(session->priv->ndev, "%s: 0x%p\n", __func__, session);
+           ^
+   include/linux/netdevice.h:5324:2: note: expanded from macro 'netdev_dbg'
+           dynamic_netdev_dbg(__dev, format, ##args);              \
+           ^
+   include/linux/dynamic_debug.h:170:2: note: expanded from macro 'dynamic_=
+netdev_dbg'
+           _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
+ic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   net/can/j1939/transport.c:272:2: note: Loop condition is false.  Exiting=
+ loop
+           netdev_dbg(session->priv->ndev, "%s: 0x%p\n", __func__, session);
+           ^
+   include/linux/netdevice.h:5322:46: note: expanded from macro 'netdev_dbg'
+   #define netdev_dbg(__dev, format, args...)                      \
+                                                                   ^
+   net/can/j1939/transport.c:274:2: note: Assuming '__ret_warn_on' is 0
+           WARN_ON_ONCE(!list_empty(&session->sk_session_queue_entry));
+           ^
+   include/asm-generic/bug.h:105:6: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   net/can/j1939/transport.c:274:2: note: Taking false branch
+           WARN_ON_ONCE(!list_empty(&session->sk_session_queue_entry));
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   net/can/j1939/transport.c:275:2: note: Assuming '__ret_warn_on' is 0
+           WARN_ON_ONCE(!list_empty(&session->active_session_list_entry));
+           ^
+   include/asm-generic/bug.h:105:6: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   net/can/j1939/transport.c:275:2: note: Taking false branch
+           WARN_ON_ONCE(!list_empty(&session->active_session_list_entry));
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   net/can/j1939/transport.c:280:2: note: Memory is released
+           kfree(session);
+           ^~~~~~~~~~~~~~
+   net/can/j1939/transport.c:288:2: note: Returning; memory was released
+           j1939_session_destroy(session);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:65:3: note: Returning; memory was released
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   net/can/j1939/transport.c:293:2: note: Returning; memory was released
+           kref_put(&session->kref, __j1939_session_release);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/can/j1939/transport.c:2180:5: note: Returning; memory was released
+                                   j1939_session_put(session);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/can/j1939/transport.c:2182:17: note: Use of memory after it is freed
+                           session->err =3D ESHUTDOWN;
+                           ~~~~~~~~~~~~ ^
+   6 warnings generated.
+   drivers/scsi/qla2xxx/qla_attr.c:1105:17: warning: Call to function 'strc=
+at' is insecure as it does not provide bounding of the memory buffer. Repla=
+ce unbounded copy functions with analogous functions that support length ar=
+guments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.str=
+cpy]
+                   return strlen(strcat(buf, "\n"));
+                                 ^~~~~~
+   drivers/scsi/qla2xxx/qla_attr.c:1105:17: note: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119
+                   return strlen(strcat(buf, "\n"));
+                                 ^~~~~~
+   drivers/scsi/qla2xxx/qla_attr.c:1675:3: warning: Value stored to 'rval' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   rval =3D qla2x00_get_firmware_state(vha, state);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_attr.c:1675:3: note: Value stored to 'rval' is =
+never read
+                   rval =3D qla2x00_get_firmware_state(vha, state);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_attr.c:2039:4: warning: Value stored to 'action=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                           action =3D MODE_CHANGE_ACCEPT;
+                           ^        ~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_attr.c:2039:4: note: Value stored to 'action' i=
+s never read
+                           action =3D MODE_CHANGE_ACCEPT;
+                           ^        ~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/qla2xxx/qla_attr.c:2703:13: warning: Value stored to 'fcpor=
+t' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           fc_port_t *fcport =3D *(fc_port_t **)rport->dd_data;
+                      ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_attr.c:2703:13: note: Value stored to 'fcport' =
+during its initialization is never read
+           fc_port_t *fcport =3D *(fc_port_t **)rport->dd_data;
+                      ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/scsi/qla2xxx/qla_dfs.c:215:3: warning: Value stored to 'rc' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D qla24xx_gpdb_wait(vha, &fc_port, 0);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_dfs.c:215:3: note: Value stored to 'rc' is neve=
+r read
+                   rc =3D qla24xx_gpdb_wait(vha, &fc_port, 0);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/scsi/qla2xxx/qla_nx.c:1473:19: warning: The left operand of '>>'=
+ is a garbage value due to array index out of bounds [clang-analyzer-core.U=
+ndefinedBinaryOperatorResult]
+                   start =3D off0[i] >> 2;
+                           ~~~~~~~ ^
+   drivers/scsi/qla2xxx/qla_nx.c:1433:6: note: Assuming 'off' is >=3D QLA82=
+XX_ADDR_QDR_NET
+           if (off >=3D QLA82XX_ADDR_QDR_NET && off <=3D QLA82XX_P3_ADDR_QD=
+R_NET_MAX)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1433:6: note: Left side of '&&' is true
+   drivers/scsi/qla2xxx/qla_nx.c:1433:37: note: Assuming 'off' is <=3D QLA8=
+2XX_P3_ADDR_QDR_NET_MAX
+           if (off >=3D QLA82XX_ADDR_QDR_NET && off <=3D QLA82XX_P3_ADDR_QD=
+R_NET_MAX)
+                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1433:2: note: Taking true branch
+           if (off >=3D QLA82XX_ADDR_QDR_NET && off <=3D QLA82XX_P3_ADDR_QD=
+R_NET_MAX)
+           ^
+   drivers/scsi/qla2xxx/qla_nx.c:1444:11: note: Assuming the condition is t=
+rue
+           sz[0] =3D (size < (16 - off0[0])) ? size : (16 - off0[0]);
+                    ^~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1444:10: note: '?' condition is true
+           sz[0] =3D (size < (16 - off0[0])) ? size : (16 - off0[0]);
                    ^
->> drivers/net/wireless/ath/ath6kl/htc_mbox.c:302:21: warning: Uninitialize=
-d variable: curdist_list->endpoint [uninitvar]
-     if (curdist_list->endpoint =3D=3D ENDPOINT_0)
-                       ^
->> drivers/net/wireless/ath/ath6kl/trace.h:105:3: warning: syntax error: ke=
-yword 'if' is not allowed in global scope [syntaxError]
-     if (flags & HIF_WRITE)
-     ^
---
-        ^
->> drivers/net/wireless/ath/ath10k/sdio.c:1466:12: warning: Uninitialized v=
-ariable: req->address [uninitvar]
-     if (req->address >=3D mbox_info->htc_addr &&
-              ^
->> drivers/net/wireless/ath/ath10k/sdio.c:1984:12: warning: Uninitialized v=
-ariable: req->htc_msg [uninitvar]
-     if (req->htc_msg) {
-              ^
->> drivers/net/wireless/ath/ath10k/sdio.c:2228:9: warning: Uninitialized va=
-riable: ret [uninitvar]
-    return ret;
+   drivers/scsi/qla2xxx/qla_nx.c:1450:14: note: Assuming 'i' is < 'loop'
+           for (i =3D 0; i < loop; i++) {
+                       ^~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1450:2: note: Loop condition is true.  Ent=
+ering loop body
+           for (i =3D 0; i < loop; i++) {
            ^
-   drivers/net/wireless/ath/ath10k/sdio.c:2219:16: note: Assuming condition=
- is false
-    for (i =3D 0; i < buf_len; i +=3D 4) {
-                  ^
-   drivers/net/wireless/ath/ath10k/sdio.c:2228:9: note: Uninitialized varia=
-ble: ret
-    return ret;
-           ^
---
-                          ^
->> drivers/net/wireless/ath/ath9k/ar9003_calib.c:1343:6: warning: Variable =
-'cl_idx' can be declared with const [constVariable]
-    u32 cl_idx[AR9300_MAX_CHAINS] =3D { AR_PHY_CL_TAB_0,
-        ^
->> drivers/net/wireless/ath/ath10k/core.c:3040:28: warning: Shifting signed=
- 64-bit value by 63 bits is implementation-defined behaviour. See condition=
- at line 3037. [shiftTooManyBitsSigned]
-     ar->free_vdev_map =3D (1LL << ar->max_num_vdevs) - 1;
-                              ^
-   drivers/net/wireless/ath/ath10k/core.c:3037:24: note: Assuming that cond=
-ition 'ar->max_num_vdevs>=3D64' is not redundant
-    if (ar->max_num_vdevs >=3D 64)
-                          ^
-   drivers/net/wireless/ath/ath10k/core.c:3040:28: note: Shift
-     ar->free_vdev_map =3D (1LL << ar->max_num_vdevs) - 1;
-                              ^
---
->> drivers/net/wireless/ath/ath9k/xmit.c:997:5: warning: Redundant initiali=
-zation for 'bf'. The initialized value is overwritten before it is read. [r=
-edundantInitialization]
-    bf =3D bf_first;
-       ^
-   drivers/net/wireless/ath/ath9k/xmit.c:988:21: note: bf is initialized
-    struct ath_buf *bf =3D bf_first, *bf_prev =3D NULL;
-                       ^
-   drivers/net/wireless/ath/ath9k/xmit.c:997:5: note: bf is overwritten
-    bf =3D bf_first;
-       ^
->> drivers/net/wireless/ath/ath9k/common-spectral.h:112:46: warning: Parame=
-ter 'bins' can be declared with const [constParameter]
-   static inline u16 spectral_max_magnitude(u8 *bins)
-                                                ^
-   drivers/net/wireless/ath/ath9k/common-spectral.h:120:41: warning: Parame=
-ter 'bins' can be declared with const [constParameter]
-   static inline u8 spectral_max_index(u8 *bins, int num_bins)
-                                           ^
-   drivers/net/wireless/ath/ath9k/common-spectral.h:166:45: warning: Parame=
-ter 'bins' can be declared with const [constParameter]
-   static inline u8 spectral_bitmap_weight(u8 *bins)
-                                               ^
->> drivers/net/wireless/ath/ath9k/xmit.c:431:28: warning: Shifting signed 3=
-2-bit value by 31 bits is implementation-defined behaviour. See condition a=
-t line 431. [shiftTooManyBitsSigned]
-     if (!txok || (isaggr && !ATH_BA_ISSET(ba, ba_index)))
-                              ^
-   drivers/net/wireless/ath/ath9k/xmit.c:431:28: note: Assuming that condit=
-ion '(ba_index)<64' is not redundant
-     if (!txok || (isaggr && !ATH_BA_ISSET(ba, ba_index)))
-                              ^
-   drivers/net/wireless/ath/ath9k/xmit.c:431:28: note: Shift
-     if (!txok || (isaggr && !ATH_BA_ISSET(ba, ba_index)))
-                              ^
->> drivers/net/wireless/ath/ath9k/xmit.c:431:28: warning: Either the condit=
-ion '(ba_index)<64' is redundant or there is signed integer overflow for ex=
-pression '1<<((ba_index)&31)'. [integerOverflowCond]
-     if (!txok || (isaggr && !ATH_BA_ISSET(ba, ba_index)))
-                              ^
-   drivers/net/wireless/ath/ath9k/xmit.c:431:28: note: Assuming that condit=
-ion '(ba_index)<64' is not redundant
-     if (!txok || (isaggr && !ATH_BA_ISSET(ba, ba_index)))
-                              ^
-   drivers/net/wireless/ath/ath9k/xmit.c:431:28: note: Integer overflow
-     if (!txok || (isaggr && !ATH_BA_ISSET(ba, ba_index)))
-                              ^
->> drivers/net/wireless/ath/ath11k/mac.c:6059:33: warning: Parameter 'chann=
-el' can be declared with const [constParameter]
-         struct ieee80211_channel *channel)
+   drivers/scsi/qla2xxx/qla_nx.c:1460:3: note: Loop condition is true.  Ent=
+ering loop body
+                   for (j =3D 0; j < MAX_CTL_CHECK; j++) {
+                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1462:8: note: Assuming the condition is tr=
+ue
+                           if ((temp & MIU_TA_CTL_BUSY) =3D=3D 0)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1462:4: note: Taking true branch
+                           if ((temp & MIU_TA_CTL_BUSY) =3D=3D 0)
+                           ^
+   drivers/scsi/qla2xxx/qla_nx.c:1463:5: note:  Execution continues on line=
+ 1466
+                                   break;
                                    ^
->> drivers/net/wireless/ath/ath11k/mac.c:1941:7: warning: Uninitialized var=
-iable: ret [uninitvar]
-    if (!ret)
-         ^
-   drivers/net/wireless/ath/ath11k/mac.c:708:34: warning: Uninitialized var=
-iables: peer.list, peer.sta, peer.vdev_id, peer.peer_id, peer.ast_hash, pee=
-r.pdev_idx, peer.hw_peer_id, peer.tfm_mmic, peer.mcast_keyidx, peer.ucast_k=
-eyidx, peer.sec_type, peer.sec_type_grp [uninitvar]
-     ath11k_peer_rx_tid_cleanup(ar, peer);
-                                    ^
+   drivers/scsi/qla2xxx/qla_nx.c:1466:7: note: 'j' is < MAX_CTL_CHECK
+                   if (j >=3D MAX_CTL_CHECK) {
+                       ^
+   drivers/scsi/qla2xxx/qla_nx.c:1466:3: note: Taking false branch
+                   if (j >=3D MAX_CTL_CHECK) {
+                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1475:19: note: Assuming 'k' is > 'end'
+                   for (k =3D start; k <=3D end; k++) {
+                                   ^~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1475:3: note: Loop condition is false. Exe=
+cution continues on line 1450
+                   for (k =3D start; k <=3D end; k++) {
+                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1450:14: note: Assuming 'i' is < 'loop'
+           for (i =3D 0; i < loop; i++) {
+                       ^~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1450:2: note: Loop condition is true.  Ent=
+ering loop body
+           for (i =3D 0; i < loop; i++) {
+           ^
+   drivers/scsi/qla2xxx/qla_nx.c:1460:3: note: Loop condition is true.  Ent=
+ering loop body
+                   for (j =3D 0; j < MAX_CTL_CHECK; j++) {
+                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1462:8: note: Assuming the condition is tr=
+ue
+                           if ((temp & MIU_TA_CTL_BUSY) =3D=3D 0)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_nx.c:1462:4: note: Taking true branch
+                           if ((temp & MIU_TA_CTL_BUSY) =3D=3D 0)
+                           ^
+   drivers/scsi/qla2xxx/qla_nx.c:1463:5: note:  Execution continues on line=
+ 1466
+                                   break;
+                                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1466:7: note: 'j' is < MAX_CTL_CHECK
+                   if (j >=3D MAX_CTL_CHECK) {
+                       ^
+   drivers/scsi/qla2xxx/qla_nx.c:1466:3: note: Taking false branch
+                   if (j >=3D MAX_CTL_CHECK) {
+                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1475:3: note: Loop condition is false. Exe=
+cution continues on line 1450
+                   for (k =3D start; k <=3D end; k++) {
+                   ^
+   drivers/scsi/qla2xxx/qla_nx.c:1450:24: note: The value 2 is assigned to =
+'i'
 
-vim +/tb +1612 drivers/net/veth.c
+vim +/fcport +2703 drivers/scsi/qla2xxx/qla_attr.c
 
-d3256efd8e8b23 Paolo Abeni 2021-04-09  1611  =
+8482e118afa0cb Andrew Vasquez  2005-04-17  2699  =
 
-9d3684c24a5232 Paolo Abeni 2021-07-20 @1612  static int veth_init_queues(st=
-ruct net_device *dev, struct nlattr *tb[])
-9d3684c24a5232 Paolo Abeni 2021-07-20  1613  {
-9d3684c24a5232 Paolo Abeni 2021-07-20  1614  	int err;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1615  =
+2a3192a3f3bc4f Joe Carnuccio   2019-03-12  2700  static inline void
+8482e118afa0cb Andrew Vasquez  2005-04-17  2701  qla2x00_set_rport_loss_tmo=
+(struct fc_rport *rport, uint32_t timeout)
+8482e118afa0cb Andrew Vasquez  2005-04-17  2702  {
+baea0e833f7612 Hannes Reinecke 2021-12-14 @2703  	fc_port_t *fcport =3D *(f=
+c_port_t **)rport->dd_data;
+baea0e833f7612 Hannes Reinecke 2021-12-14  2704  =
 
-9d3684c24a5232 Paolo Abeni 2021-07-20  1616  	if (!tb[IFLA_NUM_TX_QUEUES] &=
-& dev->num_tx_queues > 1) {
-9d3684c24a5232 Paolo Abeni 2021-07-20  1617  		err =3D netif_set_real_num_t=
-x_queues(dev, 1);
-9d3684c24a5232 Paolo Abeni 2021-07-20  1618  		if (err)
-9d3684c24a5232 Paolo Abeni 2021-07-20  1619  			return err;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1620  	}
-9d3684c24a5232 Paolo Abeni 2021-07-20  1621  	if (!tb[IFLA_NUM_RX_QUEUES] &=
-& dev->num_rx_queues > 1) {
-9d3684c24a5232 Paolo Abeni 2021-07-20  1622  		err =3D netif_set_real_num_r=
-x_queues(dev, 1);
-9d3684c24a5232 Paolo Abeni 2021-07-20  1623  		if (err)
-9d3684c24a5232 Paolo Abeni 2021-07-20  1624  			return err;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1625  	}
-9d3684c24a5232 Paolo Abeni 2021-07-20  1626  	return 0;
-9d3684c24a5232 Paolo Abeni 2021-07-20  1627  }
-9d3684c24a5232 Paolo Abeni 2021-07-20  1628  =
+2a3192a3f3bc4f Joe Carnuccio   2019-03-12  2705  	rport->dev_loss_tmo =3D t=
+imeout ? timeout : 1;
+baea0e833f7612 Hannes Reinecke 2021-12-14  2706  =
+
+baea0e833f7612 Hannes Reinecke 2021-12-14  2707  	if (IS_ENABLED(CONFIG_NVM=
+E_FC) && fcport && fcport->nvme_remote_port)
+baea0e833f7612 Hannes Reinecke 2021-12-14  2708  		nvme_fc_set_remoteport_d=
+evloss(fcport->nvme_remote_port,
+baea0e833f7612 Hannes Reinecke 2021-12-14  2709  					       rport->dev_los=
+s_tmo);
+8482e118afa0cb Andrew Vasquez  2005-04-17  2710  }
+8482e118afa0cb Andrew Vasquez  2005-04-17  2711  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2540205090127080330==--
+--===============5290998426693563797==--
 
