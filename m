@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0045769231008616204=="
+Content-Type: multipart/mixed; boundary="===============2865564074331259995=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/renesas/sh_vou.c:371:24: warning: Value stored to 'vou_dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 05 May 2022 02:25:15 +0800
-Message-ID: <202205050256.Cjt0rDwS-lkp@intel.com>
+Subject: [lunn:dsa-ci 22/47] drivers/net/phy/mdio_bus.c:710:9: warning: The expression is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
+Date: Wed, 04 May 2022 20:37:50 +0800
+Message-ID: <202205042049.SwDh4zxv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0045769231008616204==
+--===============2865564074331259995==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,37 +16,30 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   107c948d1d3e61d10aee9d0f7c3d81bbee9842af
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Ren=
-esas drivers on a separate dir
-date:   7 weeks ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 7 weeks ago
-config: arm-randconfig-c002-20220427 (https://download.01.org/0day-ci/archi=
-ve/20220505/202205050256.Cjt0rDwS-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
+tree:   https://github.com/lunn/linux.git dsa-ci
+head:   1149273e5c97f04e2255421372a8a30c75c0b842
+commit: e582444c20a13a52eabf1d982d1f7e96344be2a8 [22/47] net: mdiobus: Rewo=
+rk scanning of bus ready for quirks
+:::::: branch date: 11 days ago
+:::::: commit date: 2 weeks ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+504/202205042049.SwDh4zxv-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 09325d=
+36061e42b495d1f4c7e933e260eac260ed)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # https://github.com/lunn/linux/commit/e582444c20a13a52eabf1d982d1f=
+7e96344be2a8
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn dsa-ci
+        git checkout e582444c20a13a52eabf1d982d1f7e96344be2a8
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,803 +47,537 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/nvmem/core.c:1601:8: note: Returning from 'nvmem_cell_read'
-           buf =3D nvmem_cell_read(cell, &len);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1602:2: note: Taking false branch
-           if (IS_ERR(buf)) {
            ^
-   drivers/nvmem/core.c:1606:10: note: The left operand of '!=3D' is a garb=
-age value
-           if (len !=3D count) {
-               ~~~ ^
-   drivers/nvmem/core.c:1703:11: warning: The left operand of '>' is a garb=
-age value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (*len > max_len) {
-                    ^
-   drivers/nvmem/core.c:1754:2: note: 'len' declared without an initial val=
-ue
-           size_t len;
-           ^~~~~~~~~~
-   drivers/nvmem/core.c:1758:8: note: Calling 'nvmem_cell_read_variable_com=
-mon'
-           buf =3D nvmem_cell_read_variable_common(dev, cell_id, sizeof(*va=
-l), &len);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/nvmem/core.c:1687:2: note: Taking false branch
-           if (IS_ERR(cell))
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:120:2: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
            ^
-   drivers/nvmem/core.c:1691:8: note: Calling 'nvmem_cell_read'
-           buf =3D nvmem_cell_read(cell, len);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1477:6: note: Assuming 'nvmem' is non-null
-           if (!nvmem)
-               ^~~~~~
-   drivers/nvmem/core.c:1477:2: note: Taking false branch
-           if (!nvmem)
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:120:2: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
            ^
-   drivers/nvmem/core.c:1481:6: note: Assuming 'buf' is non-null
-           if (!buf)
-               ^~~~
-   drivers/nvmem/core.c:1481:2: note: Taking false branch
-           if (!buf)
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:121:2: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SI=
+ZE);
            ^
-   drivers/nvmem/core.c:1484:7: note: Calling '__nvmem_cell_read'
-           rc =3D __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1441:6: note: Assuming 'rc' is not equal to 0
-           if (rc)
-               ^~
-   drivers/nvmem/core.c:1441:2: note: Taking true branch
-           if (rc)
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:121:2: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SI=
+ZE);
            ^
-   drivers/nvmem/core.c:1484:7: note: Returning from '__nvmem_cell_read'
-           rc =3D __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1485:6: note: 'rc' is not equal to 0
-           if (rc) {
-               ^~
-   drivers/nvmem/core.c:1485:2: note: Taking true branch
-           if (rc) {
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:122:2: warning: Call to function 'strncp=
+y' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
+           ^~~~~~~
+   drivers/nvme/target/discovery.c:122:2: note: Call to function 'strncpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'strncpy_s' in case of C11
+           strncpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
+           ^~~~~~~
+   drivers/nvme/target/discovery.c:141:3: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:141:3: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:269:2: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(id->sn, ctrl->subsys->serial, NVMET_SN_MAX_SIZE);
            ^
-   drivers/nvmem/core.c:1691:8: note: Returning from 'nvmem_cell_read'
-           buf =3D nvmem_cell_read(cell, len);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1693:2: note: Taking false branch
-           if (IS_ERR(buf))
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:269:2: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(id->sn, ctrl->subsys->serial, NVMET_SN_MAX_SIZE);
            ^
-   drivers/nvmem/core.c:1700:6: note: Assuming 'nbits' is 0
-           if (nbits)
-               ^~~~~
-   drivers/nvmem/core.c:1700:2: note: Taking false branch
-           if (nbits)
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:270:2: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(id->fr, ' ', sizeof(id->fr));
            ^
-   drivers/nvmem/core.c:1703:11: note: The left operand of '>' is a garbage=
- value
-           if (*len > max_len) {
-               ~~~~ ^
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/media/platform/qcom/venus/venc.c:877:3: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D hfi_session_set_property(inst, ptype, &en);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/venc.c:877:3: note: Value stored to 'r=
-et' is never read
-                   ret =3D hfi_session_set_property(inst, ptype, &en);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored=
- to 'error' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
-ASK;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_jpu.c:1551:17: note: Value stored to=
- 'error' during its initialization is never read
-                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
-ASK;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   5 warnings generated.
->> drivers/media/platform/renesas/sh_vou.c:371:24: warning: Value stored to=
- 'vou_dev' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct sh_vou_device *vou_dev =3D video_drvdata(file);
-                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:371:24: note: Value stored to 'v=
-ou_dev' during its initialization is never read
-           struct sh_vou_device *vou_dev =3D video_drvdata(file);
-                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:385:24: warning: Value stored to=
- 'vou_dev' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct sh_vou_device *vou_dev =3D video_drvdata(file);
-                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:385:24: note: Value stored to 'v=
-ou_dev' during its initialization is never read
-           struct sh_vou_device *vou_dev =3D video_drvdata(file);
-                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right opera=
-nd of '|' is a garbage value due to array index out of bounds [clang-analyz=
-er-core.UndefinedBinaryOperatorResult]
-                   vouvcr |=3D (1 << 14) | vou_scale_v_fld[h_idx - 1];
-                                       ^
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Assuming 'vou_pdat=
-a' is non-null
-           if (!vou_pdata || !reg_res || irq <=3D 0) {
-               ^~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Left side of '||' =
-is false
-   drivers/media/platform/renesas/sh_vou.c:1234:20: note: Assuming 'reg_res=
-' is non-null
-           if (!vou_pdata || !reg_res || irq <=3D 0) {
-                             ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Left side of '||' =
-is false
-           if (!vou_pdata || !reg_res || irq <=3D 0) {
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/nvme/target/discovery.c:270:2: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+           memset(id->fr, ' ', sizeof(id->fr));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   60 warnings generated.
+   Suppressed 60 warnings (60 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   77 warnings generated.
+   drivers/net/phy/mdio_bus.c:235:9: warning: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%llu\n", val);
+                  ^~~~~~~
+   drivers/net/phy/mdio_bus.c:235:9: note: Call to function 'sprintf' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%llu\n", val);
+                  ^~~~~~~
+   drivers/net/phy/mdio_bus.c:254:9: warning: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%llu\n", val);
+                  ^~~~~~~
+   drivers/net/phy/mdio_bus.c:254:9: note: Call to function 'sprintf' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%llu\n", val);
+                  ^~~~~~~
+   drivers/net/phy/mdio_bus.c:497:2: warning: Call to function 'strncpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(mdiodev->modalias, bi->modalias,
+           ^~~~~~~
+   drivers/net/phy/mdio_bus.c:497:2: note: Call to function 'strncpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'strncpy_s' in case of C11
+           strncpy(mdiodev->modalias, bi->modalias,
+           ^~~~~~~
+   drivers/net/phy/mdio_bus.c:511:21: warning: Value stored to 'phydev' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct phy_device *phydev =3D ERR_PTR(-ENODEV);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~
+   drivers/net/phy/mdio_bus.c:511:21: note: Value stored to 'phydev' during=
+ its initialization is never read
+           struct phy_device *phydev =3D ERR_PTR(-ENODEV);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~
+>> drivers/net/phy/mdio_bus.c:710:9: warning: The expression is an uninitia=
+lized value. The computed value will also be garbage [clang-analyzer-core.u=
+ninitialized.Assign]
+           while (--i >=3D 0) {
+                  ^ ~
+   drivers/net/phy/mdio_bus.c:621:6: note: 'i' declared without an initial =
+value
+           int i, err;
                ^
-   drivers/media/platform/renesas/sh_vou.c:1234:32: note: Assuming 'irq' is=
- > 0
-           if (!vou_pdata || !reg_res || irq <=3D 0) {
-                                         ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:2: note: Taking false branch
-           if (!vou_pdata || !reg_res || irq <=3D 0) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1240:6: note: Assuming 'vou_dev'=
- is non-null
-           if (!vou_dev)
-               ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1240:2: note: Taking false branch
-           if (!vou_dev)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1244:2: note: Loop condition is =
-false.  Exiting loop
-           spin_lock_init(&vou_dev->lock);
-           ^
-   include/linux/spinlock.h:339:34: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(_lock)                  \
-                                                   ^
-   drivers/media/platform/renesas/sh_vou.c:1245:2: note: Loop condition is =
-false.  Exiting loop
-           mutex_init(&vou_dev->fop_lock);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/media/platform/renesas/sh_vou.c:1268:2: note: Taking false branch
-           if (IS_ERR(vou_dev->base))
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1272:6: note: Assuming 'ret' is =
->=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1272:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1276:6: note: Assuming 'ret' is =
->=3D 0
-           if (ret < 0) {
-               ^~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1276:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1283:6: note: Assuming field 'bu=
-s_fmt' is not equal to SH_VOU_BUS_8BIT
-           if (vou_pdata->bus_fmt =3D=3D SH_VOU_BUS_8BIT)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1283:2: note: Taking false branch
-           if (vou_pdata->bus_fmt =3D=3D SH_VOU_BUS_8BIT)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1304:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/platform/renesas/sh_vou.c:1304:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1314:6: note: Assuming 'i2c_adap=
-' is non-null
-           if (!i2c_adap) {
-               ^~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1314:2: note: Taking false branch
-           if (!i2c_adap) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1319:8: note: Calling 'sh_vou_hw=
-_init'
-           ret =3D sh_vou_hw_init(vou_dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1095:9: note: Left side of '&&' =
-is true
-           while (--i && (sh_vou_reg_a_read(vou_dev, VOUSRR) & 0x101))
-                  ^
-   drivers/media/platform/renesas/sh_vou.c:1095:2: note: Loop condition is =
-false. Execution continues on line 1098
-           while (--i && (sh_vou_reg_a_read(vou_dev, VOUSRR) & 0x101))
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1098:7: note: 'i' is 99
-           if (!i)
+   drivers/net/phy/mdio_bus.c:624:6: note: Assuming 'bus' is not equal to n=
+ull
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+               ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
                 ^
-   drivers/media/platform/renesas/sh_vou.c:1098:2: note: Taking false branch
-           if (!i)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1101:2: note: Taking false branch
-           dev_dbg(vou_dev->v4l2_dev.dev, "Reset took %dus\n", 100 - i);
-           ^
-   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
-           if (0)                                                          \
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1103:6: note: Assuming the condi=
-tion is false
-           if (pdata->flags & SH_VOU_PCLK_FALLING)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1103:2: note: Taking false branch
-           if (pdata->flags & SH_VOU_PCLK_FALLING)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1105:6: note: Assuming the condi=
-tion is false
-           if (pdata->flags & SH_VOU_HSYNC_LOW)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1105:2: note: Taking false branch
---
-           ^
-   drivers/media/platform/renesas/sh_vou.c:524:2: note: Loop condition is t=
-rue.  Entering loop body
-           for (i =3D ARRAY_SIZE(vou_scale_h_num) - 1; i >=3D 0; i--) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:529:7: note: Assuming 'found' is=
- <=3D VOU_MAX_IMAGE_WIDTH
-                   if (found > VOU_MAX_IMAGE_WIDTH)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:529:3: note: Taking false branch
-                   if (found > VOU_MAX_IMAGE_WIDTH)
-                   ^
-   drivers/media/platform/renesas/sh_vou.c:533:9: note: '__x' is >=3D 0
-                   err =3D abs(found - geo->in_width);
-                         ^
-   include/linux/math.h:133:3: note: expanded from macro 'abs'
-                   __abs_choose_expr(x, int,                               \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math.h:144:28: note: expanded from macro '__abs_choose_exp=
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
 r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                     ^~~
-   include/linux/math.h:144:54: note: expanded from macro '__abs_choose_exp=
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/net/phy/mdio_bus.c:624:6: note: Left side of '||' is false
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+               ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
+                ^
+   drivers/net/phy/mdio_bus.c:624:21: note: Assuming null is not equal to f=
+ield 'name'
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+                              ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
 r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                                               ^~~~~
-   include/linux/math.h:144:54: note: expanded from macro '__abs_choose_exp=
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/net/phy/mdio_bus.c:624:2: note: '?' condition is false
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
 r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                                               ^~~~~
-   drivers/media/platform/renesas/sh_vou.c:533:9: note: '?' condition is fa=
-lse
-                   err =3D abs(found - geo->in_width);
-                         ^
-   include/linux/math.h:133:3: note: expanded from macro 'abs'
-                   __abs_choose_expr(x, int,                               \
-                   ^
-   include/linux/math.h:144:28: note: expanded from macro '__abs_choose_exp=
-r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                     ^
-   drivers/media/platform/renesas/sh_vou.c:534:7: note: Assuming 'err' is <=
- 'best_err'
-                   if (err < best_err) {
-                       ^~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:534:3: note: Taking true branch
-                   if (err < best_err) {
-                   ^
-   drivers/media/platform/renesas/sh_vou.c:539:7: note: Assuming 'err' is 0
-                   if (!err)
-                       ^~~~
-   drivers/media/platform/renesas/sh_vou.c:539:3: note: Taking true branch
-                   if (!err)
-                   ^
-   drivers/media/platform/renesas/sh_vou.c:540:4: note:  Execution continue=
-s on line 543
-                           break;
-                           ^
-   drivers/media/platform/renesas/sh_vou.c:549:2: note: Loop condition is t=
-rue.  Entering loop body
-           for (i =3D ARRAY_SIZE(vou_scale_v_num) - 1; i >=3D 0; i--) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:554:7: note: Assuming 'found' is=
- > 'img_height_max'
-                   if (found > img_height_max)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:554:3: note: Taking true branch
-                   if (found > img_height_max)
-                   ^
-   drivers/media/platform/renesas/sh_vou.c:556:4: note:  Execution continue=
-s on line 568
-                           break;
-                           ^
-   drivers/media/platform/renesas/sh_vou.c:569:2: note: The value 4 is assi=
-gned to 'geo.scale_idx_v', which participates in a condition later
-           geo->scale_idx_v =3D idx;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:743:3: note: Returning from 'vou=
-_adjust_input'
-                   vou_adjust_input(&geo, vou_dev->std);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:751:2: note: Taking false branch
-           dev_dbg(vou_dev->v4l2_dev.dev, "%s(): %ux%u\n", __func__,
-           ^
-   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
-           if (0)                                                          \
-           ^
-   drivers/media/platform/renesas/sh_vou.c:758:2: note: Calling 'sh_vou_con=
-figure_geometry'
-           sh_vou_configure_geometry(vou_dev, pix_idx,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:427:2: note: Taking false branch
-           if (vou_dev->std & V4L2_STD_525_60) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:464:2: note: Taking false branch
-           dev_dbg(vou_dev->v4l2_dev.dev,
-           ^
-   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
-           if (0)                                                          \
-           ^
-   drivers/media/platform/renesas/sh_vou.c:480:6: note: 'w_idx' is 4
-           if (w_idx)
-               ^~~~~
-   drivers/media/platform/renesas/sh_vou.c:480:2: note: Taking true branch
-           if (w_idx)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:482:6: note: 'h_idx' is 4
-           if (h_idx)
-               ^~~~~
-   drivers/media/platform/renesas/sh_vou.c:482:2: note: Taking true branch
-           if (h_idx)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:483:23: note: The right operand =
-of '|' is a garbage value due to array index out of bounds
-                   vouvcr |=3D (1 << 14) | vou_scale_v_fld[h_idx - 1];
-                                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/renesas/sh_vou.c:1021:6: warning: Value stored to=
- 'vou_status' during its initialization is never read [clang-analyzer-deadc=
-ode.DeadStores]
-           u32 vou_status =3D sh_vou_reg_a_read(vou_dev, VOUSTR);
-               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1021:6: note: Value stored to 'v=
-ou_status' during its initialization is never read
-           u32 vou_status =3D sh_vou_reg_a_read(vou_dev, VOUSTR);
-               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/mmc/host/sdhci.c:924:3: warning: Division by zero [clang-analyze=
-r-core.DivideZero]
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:235:25: note: expanded from macro 'do_div'
-                   __rem =3D (uint32_t)(n) % __base;         \
-                           ~~~~~~~~~~~~~~^~~~~~~~
-   drivers/mmc/host/sdhci.c:917:19: note: Calling 'sdhci_target_timeout'
-           target_timeout =3D sdhci_target_timeout(host, cmd, data);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci.c:883:6: note: Assuming 'data' is non-null, which=
- participates in a condition later
-           if (!data) {
-               ^~~~~
-   drivers/mmc/host/sdhci.c:883:2: note: Taking false branch
-           if (!data) {
-           ^
-   drivers/mmc/host/sdhci.c:887:7: note: Assuming field 'clock' is 0
-                   if (host->clock && data->timeout_clks) {
-                       ^~~~~~~~~~~
-   drivers/mmc/host/sdhci.c:887:19: note: Left side of '&&' is false
-                   if (host->clock && data->timeout_clks) {
-                                   ^
-   drivers/mmc/host/sdhci.c:917:19: note: Returning from 'sdhci_target_time=
-out'
-           target_timeout =3D sdhci_target_timeout(host, cmd, data);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci.c:920:6: note: 'data' is non-null
-           if (data) {
-               ^~~~
-   drivers/mmc/host/sdhci.c:920:2: note: Taking true branch
-           if (data) {
-           ^
-   drivers/mmc/host/sdhci.c:922:10: note: '?' condition is false
-                   freq =3D mmc->actual_clock ? : host->clock;
-                          ^
-   drivers/mmc/host/sdhci.c:922:3: note: The value 0 is assigned to 'freq'
-                   freq =3D mmc->actual_clock ? : host->clock;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci.c:924:3: note: '__base' initialized to 0
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:220:2: note: expanded from macro 'do_div'
-           uint32_t __base =3D (base);                       \
-           ^~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci.c:924:3: note: Left side of '&&' is false
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   drivers/mmc/host/sdhci.c:924:3: note: Left side of '&&' is false
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                                                   ^
-   drivers/mmc/host/sdhci.c:924:3: note: Assuming the condition is true
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:234:20: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                      ~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/mmc/host/sdhci.c:924:3: note: Taking true branch
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   drivers/mmc/host/sdhci.c:924:3: note: Division by zero
-                   do_div(transfer_time, freq);
-                   ^
-   include/asm-generic/div64.h:235:25: note: expanded from macro 'do_div'
-                   __rem =3D (uint32_t)(n) % __base;         \
-                           ~~~~~~~~~~~~~~^~~~~~~~
-   1 warning generated.
-   include/asm-generic/bitops/non-atomic.h:118:16: warning: Array access (f=
-rom variable 'addr') results in a null pointer dereference [clang-analyzer-=
-core.NullDereference]
-           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
-                         ^
-   drivers/perf/arm_pmu.c:727:24: note: Assuming '____ptr' is null
-           struct arm_pmu *pmu =3D hlist_entry_safe(node, struct arm_pmu, n=
-ode);
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
                                  ^
-   include/linux/list.h:993:5: note: expanded from macro 'hlist_entry_safe'
-              ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-              ^~~~~~~
-   drivers/perf/arm_pmu.c:727:24: note: '?' condition is false
-           struct arm_pmu *pmu =3D hlist_entry_safe(node, struct arm_pmu, n=
-ode);
-                                 ^
-   include/linux/list.h:993:5: note: expanded from macro 'hlist_entry_safe'
-              ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-              ^
-   drivers/perf/arm_pmu.c:730:7: note: Calling 'cpumask_test_cpu'
-           if (!cpumask_test_cpu(cpu, &pmu->supported_cpus))
+   drivers/net/phy/mdio_bus.c:624:14: note: 'bus' is not equal to null
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/net/phy/mdio_bus.c:624:6: note: Left side of '||' is false
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+               ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
+                ^
+   drivers/net/phy/mdio_bus.c:624:21: note: Null is not equal to field 'nam=
+e'
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+                              ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
+                ^~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/net/phy/mdio_bus.c:624:2: note: '?' condition is false
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/net/phy/mdio_bus.c:624:2: note: Taking false branch
+           if (NULL =3D=3D bus || NULL =3D=3D bus->name)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/net/phy/mdio_bus.c:627:6: note: Assuming field 'read' is non-null
+           if (!bus->read !=3D !bus->write)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +/vou_dev +371 drivers/media/platform/renesas/sh_vou.c
+vim +710 drivers/net/phy/mdio_bus.c
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  366  =
+4ed8df519849887 Andrew Lunn            2022-04-20  603  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  367  /* Video IOCTLs */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  368  static int sh_vou_querycap(struct file *file, void  *priv,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  369  			   struct v4l2_capability *cap)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  370  {
-d899eddde548b9 drivers/media/platform/sh_vou.c Laurent Pinchart      2013-0=
-1-03 @371  	struct sh_vou_device *vou_dev =3D video_drvdata(file);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  372  =
+b3df0da886ffdb3 Randy Dunlap           2007-03-06  604  /**
+59f069789c98678 Russell King           2015-09-25  605   * __mdiobus_regist=
+er - bring up all the PHYs on a given bus and attach them to bus
+b3df0da886ffdb3 Randy Dunlap           2007-03-06  606   * @bus: target mii=
+_bus
+59f069789c98678 Russell King           2015-09-25  607   * @owner: module c=
+ontaining bus accessor functions
+e13934563db0470 Andy Fleming           2005-08-24  608   *
+b3df0da886ffdb3 Randy Dunlap           2007-03-06  609   * Description: Cal=
+led by a bus driver to bring up all the PHYs
+59f069789c98678 Russell King           2015-09-25  610   *   on a given bus=
+, and attach them to the bus. Drivers should use
+59f069789c98678 Russell King           2015-09-25  611   *   mdiobus_regist=
+er() rather than __mdiobus_register() unless they
+f89df3f381f1e12 Andrew Lunn            2016-01-06  612   *   need to pass a=
+ specific owner module. MDIO devices which are not
+fec76125baf7390 Peng Li                2021-03-30  613   *   PHYs will not =
+be brought up by this function. They are expected
+f89df3f381f1e12 Andrew Lunn            2016-01-06  614   *   to be explicit=
+ly listed in DT and instantiated by of_mdiobus_register().
+b3df0da886ffdb3 Randy Dunlap           2007-03-06  615   *
+b3df0da886ffdb3 Randy Dunlap           2007-03-06  616   * Returns 0 on suc=
+cess or < 0 on error.
+e13934563db0470 Andy Fleming           2005-08-24  617   */
+3e3aaf649416988 Russell King           2015-09-24  618  int __mdiobus_regis=
+ter(struct mii_bus *bus, struct module *owner)
+e13934563db0470 Andy Fleming           2005-08-24  619  {
+711fdba37a3dd7e Andrew Lunn            2016-01-06  620  	struct mdio_device=
+ *mdiodev;
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  621  	int i, err;
+69226896ad636b9 Roger Quadros          2017-04-21  622  	struct gpio_desc *=
+gpiod;
+e13934563db0470 Andy Fleming           2005-08-24  623  =
 
-d899eddde548b9 drivers/media/platform/sh_vou.c Laurent Pinchart      2013-0=
-1-03  373  	dev_dbg(vou_dev->v4l2_dev.dev, "%s()\n", __func__);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  374  =
+effd7e805c90de8 Andrew Lunn            2022-04-02  624  	if (NULL =3D=3D bu=
+s || NULL =3D=3D bus->name)
+effd7e805c90de8 Andrew Lunn            2022-04-02  625  		return -EINVAL;
+effd7e805c90de8 Andrew Lunn            2022-04-02  626  =
 
-c0decac19da390 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2018-0=
-9-10  375  	strscpy(cap->card, "SuperH VOU", sizeof(cap->card));
-c0decac19da390 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2018-0=
-9-10  376  	strscpy(cap->driver, "sh-vou", sizeof(cap->driver));
-c0decac19da390 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2018-0=
-9-10  377  	strscpy(cap->bus_info, "platform:sh-vou", sizeof(cap->bus_info)=
-);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  378  	return 0;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  379  }
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  380  =
+effd7e805c90de8 Andrew Lunn            2022-04-02  627  	if (!bus->read !=
+=3D !bus->write)
+effd7e805c90de8 Andrew Lunn            2022-04-02  628  		return -EINVAL;
+effd7e805c90de8 Andrew Lunn            2022-04-02  629  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  381  /* Enumerate formats, that the device can accept from the user */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  382  static int sh_vou_enum_fmt_vid_out(struct file *file, void  *pri=
-v,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  383  				   struct v4l2_fmtdesc *fmt)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  384  {
-d899eddde548b9 drivers/media/platform/sh_vou.c Laurent Pinchart      2013-0=
-1-03  385  	struct sh_vou_device *vou_dev =3D video_drvdata(file);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  386  =
+effd7e805c90de8 Andrew Lunn            2022-04-02  630  	if (!bus->read_c45=
+ !=3D !bus->write_c45)
+effd7e805c90de8 Andrew Lunn            2022-04-02  631  		return -EINVAL;
+effd7e805c90de8 Andrew Lunn            2022-04-02  632  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  387  	if (fmt->index >=3D ARRAY_SIZE(vou_fmt))
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  388  		return -EINVAL;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  389  =
+effd7e805c90de8 Andrew Lunn            2022-04-02  633  	if (!bus->read && =
+!bus->read_c45)
+e13934563db0470 Andy Fleming           2005-08-24  634  		return -EINVAL;
+e13934563db0470 Andy Fleming           2005-08-24  635  =
 
-d899eddde548b9 drivers/media/platform/sh_vou.c Laurent Pinchart      2013-0=
-1-03  390  	dev_dbg(vou_dev->v4l2_dev.dev, "%s()\n", __func__);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  391  =
+04f41c68f18886a Saravana Kannan        2021-09-15  636  	if (bus->parent &&=
+ bus->parent->of_node)
+04f41c68f18886a Saravana Kannan        2021-09-15  637  		bus->parent->of_n=
+ode->fwnode.flags |=3D
+04f41c68f18886a Saravana Kannan        2021-09-15  638  					FWNODE_FLAG_NE=
+EDS_CHILD_BOUND_ON_ADD;
+04f41c68f18886a Saravana Kannan        2021-09-15  639  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  392  	fmt->pixelformat =3D vou_fmt[fmt->index].pfmt;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  393  =
+867ae8a7993b26f Florian Fainelli       2021-11-17  640  	WARN(bus->state !=
+=3D MDIOBUS_ALLOCATED &&
+867ae8a7993b26f Florian Fainelli       2021-11-17  641  	     bus->state !=
+=3D MDIOBUS_UNREGISTERED,
+867ae8a7993b26f Florian Fainelli       2021-11-17  642  	     "%s: not in A=
+LLOCATED or UNREGISTERED state\n", bus->id);
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  643  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  394  	return 0;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  395  }
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  396  =
+3e3aaf649416988 Russell King           2015-09-24  644  	bus->owner =3D own=
+er;
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  645  	bus->dev.parent =
+=3D bus->parent;
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  646  	bus->dev.class =3D=
+ &mdio_bus_class;
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  647  	bus->dev.groups =
+=3D NULL;
+036b66879addb28 Stephen Hemminger      2009-02-26  648  	dev_set_name(&bus-=
+>dev, "%s", bus->id);
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  649  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  397  static int sh_vou_g_fmt_vid_out(struct file *file, void *priv,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  398  				struct v4l2_format *fmt)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  399  {
-fd51625d6331c8 drivers/media/platform/sh_vou.c Laurent Pinchart      2013-0=
-1-03  400  	struct sh_vou_device *vou_dev =3D video_drvdata(file);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  401  =
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  650  	/* We need to set =
+state to MDIOBUS_UNREGISTERED to correctly release
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  651  	 * the device in m=
+diobus_free()
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  652  	 *
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  653  	 * State will be u=
+pdated later in this function in case of success
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  654  	 */
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  655  	bus->state =3D MDI=
+OBUS_UNREGISTERED;
+ca6e11c337daf79 Pavel Skripkin         2021-09-30  656  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  402  	dev_dbg(vou_dev->v4l2_dev.dev, "%s()\n", __func__);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  403  =
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  657  	err =3D device_reg=
+ister(&bus->dev);
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  658  	if (err) {
+8d242488ce4627d Joe Perches            2012-06-09  659  		pr_err("mii_bus %=
+s failed to register\n", bus->id);
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  660  		return -EINVAL;
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  661  	}
+46abc02175b3c24 Lennert Buytenhek      2008-10-08  662  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  404  	fmt->type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  405  	fmt->fmt.pix =3D vou_dev->pix;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  406  =
+d1e7fe4d92742dd Adrian Bunk            2008-02-20  663  	mutex_init(&bus->m=
+dio_lock);
+6349084746ff4f5 Michael Walle          2020-05-06  664  	mutex_init(&bus->s=
+hared_lock);
+d1e7fe4d92742dd Adrian Bunk            2008-02-20  665  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  407  	return 0;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  408  }
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  409  =
+e0183b974d3008a Mike Looijmans         2021-02-02  666  	/* assert bus leve=
+l PHY GPIO reset */
+e0183b974d3008a Mike Looijmans         2021-02-02  667  	gpiod =3D devm_gpi=
+od_get_optional(&bus->dev, "reset", GPIOD_OUT_HIGH);
+69226896ad636b9 Roger Quadros          2017-04-21  668  	if (IS_ERR(gpiod))=
+ {
+0a12ad592955619 Grygorii Strashko      2020-11-19  669  		err =3D dev_err_p=
+robe(&bus->dev, PTR_ERR(gpiod),
+0a12ad592955619 Grygorii Strashko      2020-11-19  670  				    "mii_bus %s=
+ couldn't get reset GPIO\n",
+69226896ad636b9 Roger Quadros          2017-04-21  671  				    bus->id);
+e40e2a2e78664fa Thomas Petazzoni       2019-01-16  672  		device_del(&bus->=
+dev);
+0a12ad592955619 Grygorii Strashko      2020-11-19  673  		return err;
+fe0e4052fb11d5c Sergei Shtylyov        2017-06-12  674  	} else	if (gpiod) {
+d396e84c56047b3 Sergei Shtylyov        2017-06-12  675  		bus->reset_gpiod =
+=3D gpiod;
+6259e0f5478d7a7 Bruno Thomsen          2020-07-30  676  		fsleep(bus->reset=
+_delay_us);
+69226896ad636b9 Roger Quadros          2017-04-21  677  		gpiod_set_value_c=
+ansleep(gpiod, 0);
+bb3831294cd5075 Bruno Thomsen          2020-07-30  678  		if (bus->reset_po=
+st_delay_us > 0)
+bb3831294cd5075 Bruno Thomsen          2020-07-30  679  			fsleep(bus->rese=
+t_post_delay_us);
+69226896ad636b9 Roger Quadros          2017-04-21  680  	}
+69226896ad636b9 Roger Quadros          2017-04-21  681  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  410  static const unsigned char vou_scale_h_num[] =3D {1, 9, 2, 9, 4};
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  411  static const unsigned char vou_scale_h_den[] =3D {1, 8, 1, 4, 1};
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  412  static const unsigned char vou_scale_h_fld[] =3D {0, 2, 1, 3};
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  413  static const unsigned char vou_scale_v_num[] =3D {1, 2, 4};
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  414  static const unsigned char vou_scale_v_den[] =3D {1, 1, 1};
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  415  static const unsigned char vou_scale_v_fld[] =3D {0, 1};
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  416  =
+c290d1ab12d3385 Florian Fainelli       2020-04-18  682  	if (bus->reset) {
+c290d1ab12d3385 Florian Fainelli       2020-04-18  683  		err =3D bus->rese=
+t(bus);
+c290d1ab12d3385 Florian Fainelli       2020-04-18  684  		if (err)
+c290d1ab12d3385 Florian Fainelli       2020-04-18  685  			goto error_reset=
+_gpiod;
+c290d1ab12d3385 Florian Fainelli       2020-04-18  686  	}
+df0c8d911abf6ba Florian Fainelli       2017-05-11  687  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  417  static void sh_vou_configure_geometry(struct sh_vou_device *vou_=
-dev,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  418  				      int pix_idx, int w_idx, int h_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  419  {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  420  	struct sh_vou_fmt *fmt =3D vou_fmt + pix_idx;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-0=
-1-13  421  	unsigned int black_left, black_top, width_max,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  422  		frame_in_height, frame_out_height, frame_out_top;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  423  	struct v4l2_rect *rect =3D &vou_dev->rect;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  424  	struct v4l2_pix_format *pix =3D &vou_dev->pix;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  425  	u32 vouvcr =3D 0, dsr_h, dsr_v;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  426  =
+e582444c20a13a5 Andrew Lunn            2022-04-20  688  	if (bus->probe_cap=
+abilities =3D=3D MDIOBUS_NO_CAP ||
+e582444c20a13a5 Andrew Lunn            2022-04-20  689  	    bus->probe_cap=
+abilities =3D=3D MDIOBUS_C22 ||
+e582444c20a13a5 Andrew Lunn            2022-04-20  690  	    bus->probe_cap=
+abilities =3D=3D MDIOBUS_C22_C45) {
+e582444c20a13a5 Andrew Lunn            2022-04-20  691  		err =3D mdiobus_s=
+can_bus_c22(bus);
+e582444c20a13a5 Andrew Lunn            2022-04-20  692  		if (err)
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  693  			goto error;
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  694  	}
+e582444c20a13a5 Andrew Lunn            2022-04-20  695  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  427  	if (vou_dev->std & V4L2_STD_525_60) {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  428  		width_max =3D 858;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-0=
-1-13  429  		/* height_max =3D 262; */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  430  	} else {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  431  		width_max =3D 864;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-0=
-1-13  432  		/* height_max =3D 312; */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  433  	}
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  434  =
+e582444c20a13a5 Andrew Lunn            2022-04-20  696  	if (bus->probe_cap=
+abilities =3D=3D MDIOBUS_C45 ||
+e582444c20a13a5 Andrew Lunn            2022-04-20  697  	    bus->probe_cap=
+abilities =3D=3D MDIOBUS_C22_C45) {
+e582444c20a13a5 Andrew Lunn            2022-04-20  698  		err =3D mdiobus_s=
+can_bus_c45(bus);
+e582444c20a13a5 Andrew Lunn            2022-04-20  699  		if (err)
+e582444c20a13a5 Andrew Lunn            2022-04-20  700  			goto error;
+64b1c2b42b555ef Herbert Valerio Riedel 2006-05-10  701  	}
+f896424cbc61225 Matt Porter            2005-11-02  702  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  435  	frame_in_height =3D pix->height / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  436  	frame_out_height =3D rect->height / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  437  	frame_out_top =3D rect->top / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  438  =
+d0281a56b00c63a Florian Fainelli       2017-03-28  703  	mdiobus_setup_mdio=
+dev_from_board_info(bus, mdiobus_create_device);
+648ea0134069cda Florian Fainelli       2017-02-04  704  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  439  	/*
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  440  	 * Cropping scheme: max useful image is 720x480, and the total =
-video
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  441  	 * area is 858x525 (NTSC) or 864x625 (PAL). AK8813 / 8814 starts
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  442  	 * sampling data beginning with fixed 276th (NTSC) / 288th (PAL=
-) clock,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  443  	 * of which the first 33 / 25 clocks HSYNC must be held active.=
- This
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  444  	 * has to be configured in CR[HW]. 1 pixel equals 2 clock perio=
-ds.
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  445  	 * This gives CR[HW] =3D 16 / 12, VPR[HVP] =3D 138 / 144, which=
- gives
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  446  	 * exactly 858 - 138 =3D 864 - 144 =3D 720! We call the out-of-=
-display area,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  447  	 * beyond DSR, specified on the left and top by the VPR registe=
-r "black
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  448  	 * pixels" and out-of-image area (DPR) "background pixels." We =
-fix VPR
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  449  	 * at 138 / 144 : 20, because that's the HSYNC timing, that our=
- first
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  450  	 * client requires, and that's exactly what leaves us 720 pixel=
-s for the
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  451  	 * image; we leave VPR[VVP] at default 20 for now, because the =
-client
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  452  	 * doesn't seem to have any special requirements for it. Otherw=
-ise we
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  453  	 * could also set it to max - 240 =3D 22 / 72. Thus VPR depends=
- only on
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  454  	 * the selected standard, and DPR and DSR are selected accordin=
-g to
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  455  	 * cropping. Q: how does the client detect the first valid line=
-? Does
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  456  	 * HSYNC stay inactive during invalid (black) lines?
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  457  	 */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  458  	black_left =3D width_max - VOU_MAX_IMAGE_WIDTH;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  459  	black_top =3D 20;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  460  =
+e8e5752dc0a56a0 Krzysztof Halasa       2008-12-17  705  	bus->state =3D MDI=
+OBUS_REGISTERED;
+7590fc6f80ac2cb Florian Fainelli       2022-01-03  706  	dev_dbg(&bus->dev,=
+ "probed\n");
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  707  	return 0;
+e13934563db0470 Andy Fleming           2005-08-24  708  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  461  	dsr_h =3D rect->width + rect->left;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  462  	dsr_v =3D frame_out_height + frame_out_top;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  463  =
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  709  error:
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25 @710  	while (--i >=3D 0)=
+ {
+711fdba37a3dd7e Andrew Lunn            2016-01-06  711  		mdiodev =3D bus->=
+mdio_map[i];
+711fdba37a3dd7e Andrew Lunn            2016-01-06  712  		if (!mdiodev)
+711fdba37a3dd7e Andrew Lunn            2016-01-06  713  			continue;
+711fdba37a3dd7e Andrew Lunn            2016-01-06  714  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  464  	dev_dbg(vou_dev->v4l2_dev.dev,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  465  		"image %ux%u, black %u:%u, offset %u:%u, display %ux%u\n",
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  466  		pix->width, frame_in_height, black_left, black_top,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  467  		rect->left, frame_out_top, dsr_h, dsr_v);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  468  =
+711fdba37a3dd7e Andrew Lunn            2016-01-06  715  		mdiodev->device_r=
+emove(mdiodev);
+711fdba37a3dd7e Andrew Lunn            2016-01-06  716  		mdiodev->device_f=
+ree(mdiodev);
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  717  	}
+c290d1ab12d3385 Florian Fainelli       2020-04-18  718  error_reset_gpiod:
+69226896ad636b9 Roger Quadros          2017-04-21  719  	/* Put PHYs in RES=
+ET to save power */
+a010a2f6540ecc3 Florian Fainelli       2017-09-08  720  	if (bus->reset_gpi=
+od)
+d396e84c56047b3 Sergei Shtylyov        2017-06-12  721  		gpiod_set_value_c=
+ansleep(bus->reset_gpiod, 1);
+69226896ad636b9 Roger Quadros          2017-04-21  722  =
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  469  	/* VOUISR height - half of a frame height in frame mode */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  470  	sh_vou_reg_ab_write(vou_dev, VOUISR, (pix->width << 16) | frame=
-_in_height);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  471  	sh_vou_reg_ab_write(vou_dev, VOUVPR, (black_left << 16) | black=
-_top);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  472  	sh_vou_reg_ab_write(vou_dev, VOUDPR, (rect->left << 16) | frame=
-_out_top);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  473  	sh_vou_reg_ab_write(vou_dev, VOUDSR, (dsr_h << 16) | dsr_v);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  474  =
-
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  475  	/*
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  476  	 * if necessary, we could set VOUHIR to
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  477  	 * max(black_left + dsr_h, width_max) here
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  478  	 */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  479  =
-
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  480  	if (w_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  481  		vouvcr |=3D (1 << 15) | (vou_scale_h_fld[w_idx - 1] << 4);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  482  	if (h_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17 @483  		vouvcr |=3D (1 << 14) | vou_scale_v_fld[h_idx - 1];
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  484  =
-
-59fe916c84f891 drivers/media/platform/sh_vou.c Hans Verkuil          2019-0=
-6-11  485  	dev_dbg(vou_dev->v4l2_dev.dev, "0x%08x: scaling 0x%x\n",
-59fe916c84f891 drivers/media/platform/sh_vou.c Hans Verkuil          2019-0=
-6-11  486  		fmt->pfmt, vouvcr);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  487  =
-
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  488  	/* To produce a colour bar for testing set bit 23 of VOUVCR */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  489  	sh_vou_reg_ab_write(vou_dev, VOUVCR, vouvcr);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  490  	sh_vou_reg_ab_write(vou_dev, VOUDFR,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  491  			    fmt->pkf | (fmt->yf << 8) | (fmt->rgb << 16));
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  492  }
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-0=
-3-17  493  =
+161c8d2f50109b4 Krzysztof Halasa       2008-12-25  723  	device_del(&bus->d=
+ev);
+4fd5f812c23c7de Lennert Buytenhek      2008-08-26  724  	return err;
+4fd5f812c23c7de Lennert Buytenhek      2008-08-26  725  }
+3e3aaf649416988 Russell King           2015-09-24  726  EXPORT_SYMBOL(__mdi=
+obus_register);
+4fd5f812c23c7de Lennert Buytenhek      2008-08-26  727  =
 
 
-:::::: The code@line 371 was first introduced by commit
-:::::: d899eddde548b9a6d3a59d0600feaab377efcd3f [media] sh_vou: Use vou_dev=
- instead of vou_file wherever possible
+:::::: The code at line 710 was first introduced by commit
+:::::: 161c8d2f50109b44b664eaf23831ea1587979a61 net: PHYLIB mdio fixes #2
 
-:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: TO: Krzysztof Halasa <khc@pm.waw.pl>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0045769231008616204==--
+--===============2865564074331259995==--
 
