@@ -1,381 +1,210 @@
-Content-Type: multipart/mixed; boundary="===============7935252145088346665=="
+Content-Type: multipart/mixed; boundary="===============4851992602545671777=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:195:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Wed, 04 May 2022 16:13:21 +0800
-Message-ID: <202205041616.xcnyrLdi-lkp@intel.com>
+Subject: Re: [PATCH 2/2] btrfs: Use btrfs_try_lock_balance in btrfs_ioctl_balance
+Date: Wed, 04 May 2022 14:20:48 +0800
+Message-ID: <202205041423.NVVJIHSj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7935252145088346665==
+--===============4851992602545671777==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Wesley Chalmers <Wesley.Chalmers@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Jun Lei <Jun.Lei@amd.com>
+In-Reply-To: <20220503083637.1051023-3-nborisov@suse.com>
+References: <20220503083637.1051023-3-nborisov@suse.com>
+TO: Nikolay Borisov <nborisov@suse.com>
+TO: linux-btrfs(a)vger.kernel.org
+CC: Nikolay Borisov <nborisov@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   107c948d1d3e61d10aee9d0f7c3d81bbee9842af
-commit: 9cf9498f668d4c78616ebd2fe2e5f3850b189c5b drm/amd/display: Partition=
- DPCD address space and break up transactions
-date:   11 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
-ve/20220504/202205041616.xcnyrLdi-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
-aacce38cd7dd77eebceaf3c98c5707ab3b)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9cf9498f668d4c78616ebd2fe2e5f3850b189c5b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9cf9498f668d4c78616ebd2fe2e5f3850b189c5b
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+Hi Nikolay,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20220503]
+[cannot apply to v5.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolay-Borisov/Refa=
+ctor-btrfs_ioctl_balance/20220503-163837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
+-next
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: i386-randconfig-m021-20220502 (https://download.01.org/0day-ci/arch=
+ive/20220504/202205041423.NVVJIHSj-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/btrfs/ioctl.c:4493 btrfs_ioctl_balance() error: double free of 'bargs'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/base/cacheinfo.c:272:3: note: Loop condition is false. Execution=
- continues on line 286
-                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
-                   ^
-   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
-           ^
-   drivers/base/cacheinfo.c:286:3: note: Taking true branch
-                   if (of_have_populated_dt())
-                   ^
-   drivers/base/cacheinfo.c:287:4: note: Value assigned to 'ci_cpu_cacheinf=
-o.info_list'
-                           of_node_put(this_leaf->fw_token);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/cacheinfo.c:270:26: note: Loop condition is false.  Exiting=
- loop
-           for (index =3D 0; index < cache_leaves(cpu); index++) {
-                                   ^
-   drivers/base/cacheinfo.c:26:28: note: expanded from macro 'cache_leaves'
-   #define cache_leaves(cpu)       (ci_cacheinfo(cpu)->num_leaves)
-                                    ^
-   drivers/base/cacheinfo.c:25:29: note: expanded from macro 'ci_cacheinfo'
-   #define ci_cacheinfo(cpu)       (&per_cpu(ci_cpu_cacheinfo, cpu))
-                                     ^
-   include/linux/percpu-defs.h:269:29: note: expanded from macro 'per_cpu'
-   #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-                                     ^
-   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
-tr'
-   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
-})
-                                                   ^
-   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
-CPU_PTR'
-           __verify_pcpu_ptr(__p);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   drivers/base/cacheinfo.c:270:18: note: Assuming 'index' is < field 'num_=
-leaves'
-           for (index =3D 0; index < cache_leaves(cpu); index++) {
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/cacheinfo.c:270:2: note: Loop condition is true.  Entering =
-loop body
-           for (index =3D 0; index < cache_leaves(cpu); index++) {
-           ^
-   drivers/base/cacheinfo.c:271:3: note: Value assigned to 'this_leaf'
-                   this_leaf =3D this_cpu_ci->info_list + index;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/cacheinfo.c:272:3: note: Loop condition is true.  Entering =
-loop body
-                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
-                   ^
-   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
-           ^
-   drivers/base/cacheinfo.c:275:8: note: 'sibling' is not equal to 'cpu'
-                           if (sibling =3D=3D cpu) /* skip itself */
-                               ^~~~~~~
-   drivers/base/cacheinfo.c:275:4: note: Taking false branch
-                           if (sibling =3D=3D cpu) /* skip itself */
-                           ^
-   drivers/base/cacheinfo.c:279:8: note: Assuming field 'info_list' is null
-                           if (!sib_cpu_ci->info_list)
-                               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/cacheinfo.c:279:4: note: Taking true branch
-                           if (!sib_cpu_ci->info_list)
-                           ^
-   drivers/base/cacheinfo.c:280:5: note:  Execution continues on line 272
-                                   continue;
-                                   ^
-   drivers/base/cacheinfo.c:272:3: note: Loop condition is false. Execution=
- continues on line 286
-                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
-                   ^
-   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
-           ^
-   drivers/base/cacheinfo.c:286:3: note: Taking true branch
-                   if (of_have_populated_dt())
-                   ^
-   drivers/base/cacheinfo.c:287:16: note: Access to field 'fw_token' result=
-s in a dereference of a null pointer (loaded from variable 'this_leaf')
-                           of_node_put(this_leaf->fw_token);
-                                       ^~~~~~~~~
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_debug.c:66:32: warning:=
- Value stored to 'plane_state' during its initialization is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-                   const struct dc_plane_state *plane_state =3D plane_state=
-s[i];
-                                                ^~~~~~~~~~~   ~~~~~~~~~~~~~=
-~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_debug.c:66:32: note: Va=
-lue stored to 'plane_state' during its initialization is never read
-                   const struct dc_plane_state *plane_state =3D plane_state=
-s[i];
-                                                ^~~~~~~~~~~   ~~~~~~~~~~~~~=
-~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:199:2: w=
-arning: Value stored to 'eng_id' is never read [clang-analyzer-deadcode.Dea=
-dStores]
-           eng_id =3D ENGINE_ID_UNKNOWN;
-           ^        ~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:199:2: n=
-ote: Value stored to 'eng_id' is never read
-           eng_id =3D ENGINE_ID_UNKNOWN;
-           ^        ~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:195:2: warn=
-ing: Undefined or garbage value returned to caller [clang-analyzer-core.uni=
-nitialized.UndefReturn]
-           return status;
-           ^      ~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:177:2: note=
-: 'status' declared without an initial value
-           enum dc_status status;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:185:2: note=
-: Loop condition is false. Execution continues on line 194
-           while (size_left_to_read) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:195:2: note=
-: Undefined or garbage value returned to caller
-           return status;
-           ^      ~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:217:2: warn=
-ing: Undefined or garbage value returned to caller [clang-analyzer-core.uni=
-nitialized.UndefReturn]
-           return status;
-           ^      ~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:206:2: note=
-: 'status' declared without an initial value
-           enum dc_status status;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:208:2: note=
-: Loop condition is false. Execution continues on line 217
-           while (size) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:217:2: note=
-: Undefined or garbage value returned to caller
-           return status;
-           ^      ~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (7 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   fs/xfs/libxfs/xfs_ialloc.c:1260:23: warning: Assigned value is garbage o=
-r undefined [clang-analyzer-core.uninitialized.Assign]
-                                   pag->pagl_leftrec =3D trec.ir_startino;
-                                                     ^ ~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ialloc.c:1143:2: note: Assuming field 'pagi_init' is n=
-ot equal to 0
-           ASSERT(pag->pagi_init);
-           ^
-   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^~~~~~~~~~~~
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
-   fs/xfs/libxfs/xfs_ialloc.c:1143:2: note: '?' condition is true
-           ASSERT(pag->pagi_init);
-           ^
-   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                           ^
-   fs/xfs/libxfs/xfs_ialloc.c:1144:2: note: Assuming field 'pagi_inodeok' i=
-s not equal to 0
-           ASSERT(pag->pagi_inodeok);
-           ^
-   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^~~~~~~~~~~~
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
-   fs/xfs/libxfs/xfs_ialloc.c:1144:2: note: '?' condition is true
-           ASSERT(pag->pagi_inodeok);
-           ^
-   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                           ^
-   fs/xfs/libxfs/xfs_ialloc.c:1145:9: note: Assuming field 'pagi_freecount'=
- is > 0
-           ASSERT(pag->pagi_freecount > 0);
-                  ^
-   fs/xfs/xfs_linux.h:212:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-                   ^~~~
-   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   fs/xfs/libxfs/xfs_ialloc.c:1145:14: note: Field 'pagi_freecount' is > 0
-           ASSERT(pag->pagi_freecount > 0);
-                       ^
-   fs/xfs/libxfs/xfs_ialloc.c:1145:2: note: '?' condition is true
-           ASSERT(pag->pagi_freecount > 0);
-           ^
-   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
+vim +/bargs +4493 fs/btrfs/ioctl.c
 
-vim +195 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c
+d383145190e87f Nikolay Borisov      2022-05-03  4402  =
 
-30adeee52d1eba Wesley Chalmers 2021-04-01  164  =
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4403  static long btrfs_ioc=
+tl_balance(struct file *file, void __user *arg)
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4404  {
+496ad9aa8ef448 Al Viro              2013-01-23  4405  	struct btrfs_root *r=
+oot =3D BTRFS_I(file_inode(file))->root;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4406  	struct btrfs_fs_info=
+ *fs_info =3D root->fs_info;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4407  	struct btrfs_ioctl_b=
+alance_args *bargs;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4408  	struct btrfs_balance=
+_control *bctl;
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4409  	bool need_unlock =3D=
+ true; /* for mut. excl. ops lock */
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4410  	int ret;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4411  =
 
-30adeee52d1eba Wesley Chalmers 2021-04-01  165  enum dc_status core_link_re=
-ad_dpcd(
-30adeee52d1eba Wesley Chalmers 2021-04-01  166  	struct dc_link *link,
-30adeee52d1eba Wesley Chalmers 2021-04-01  167  	uint32_t address,
-30adeee52d1eba Wesley Chalmers 2021-04-01  168  	uint8_t *data,
-30adeee52d1eba Wesley Chalmers 2021-04-01  169  	uint32_t size)
-30adeee52d1eba Wesley Chalmers 2021-04-01  170  {
-30adeee52d1eba Wesley Chalmers 2021-04-01  171  	uint32_t extended_address;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  172  	uint32_t partitioned_addre=
-ss;
-30adeee52d1eba Wesley Chalmers 2021-04-01  173  	uint8_t *extended_data;
-30adeee52d1eba Wesley Chalmers 2021-04-01  174  	uint32_t extended_size;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  175  	/* size of the remaining p=
-artitioned address space */
-9cf9498f668d4c Wesley Chalmers 2021-04-08  176  	uint32_t size_left_to_read;
-30adeee52d1eba Wesley Chalmers 2021-04-01  177  	enum dc_status status;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  178  	/* size of the next partit=
-ion to be read from */
-9cf9498f668d4c Wesley Chalmers 2021-04-08  179  	uint32_t partition_size;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  180  	uint32_t data_index =3D 0;
-30adeee52d1eba Wesley Chalmers 2021-04-01  181  =
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4412  	if (!capable(CAP_SYS=
+_ADMIN))
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4413  		return -EPERM;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4414  =
 
-30adeee52d1eba Wesley Chalmers 2021-04-01  182  	dpcd_extend_address_range(=
-address, data, size, &extended_address, &extended_data, &extended_size);
-9cf9498f668d4c Wesley Chalmers 2021-04-08  183  	partitioned_address =3D ex=
-tended_address;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  184  	size_left_to_read =3D exte=
-nded_size;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  185  	while (size_left_to_read) {
-9cf9498f668d4c Wesley Chalmers 2021-04-08  186  		partition_size =3D dpcd_g=
-et_next_partition_size(partitioned_address, size_left_to_read);
-9cf9498f668d4c Wesley Chalmers 2021-04-08  187  		status =3D internal_link_=
-read_dpcd(link, partitioned_address, &extended_data[data_index], partition_=
-size);
-9cf9498f668d4c Wesley Chalmers 2021-04-08  188  		if (status !=3D DC_OK)
-9cf9498f668d4c Wesley Chalmers 2021-04-08  189  			break;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  190  		partitioned_address +=3D =
-partition_size;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  191  		data_index +=3D partition=
-_size;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  192  		size_left_to_read -=3D pa=
-rtition_size;
-9cf9498f668d4c Wesley Chalmers 2021-04-08  193  	}
-30adeee52d1eba Wesley Chalmers 2021-04-01  194  	dpcd_reduce_address_range(=
-extended_address, extended_data, extended_size, address, data, size);
-30adeee52d1eba Wesley Chalmers 2021-04-01 @195  	return status;
-30adeee52d1eba Wesley Chalmers 2021-04-01  196  }
-30adeee52d1eba Wesley Chalmers 2021-04-01  197  =
+e54bfa31044d60 Liu Bo               2012-06-29  4415  	ret =3D mnt_want_wri=
+te_file(file);
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4416  	if (ret)
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4417  		return ret;
+9ba1f6e44ed7a1 Liu Bo               2012-05-11  4418  =
 
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4419  	bargs =3D memdup_use=
+r(arg, sizeof(*bargs));
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4420  	if (IS_ERR(bargs)) {
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4421  		ret =3D PTR_ERR(bar=
+gs);
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4422  		bargs =3D NULL;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4423  		goto out;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4424  	}
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4425  =
 
-:::::: The code at line 195 was first introduced by commit
-:::::: 30adeee52d1ebadd8e4e594a54c7cf77250b91db drm/amd/display: Enforce DP=
-CD Address ranges
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4426  	ret =3D btrfs_try_lo=
+ck_balance(fs_info, &need_unlock);
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4427  	if (ret)
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4428  		goto out;
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4429  =
 
-:::::: TO: Wesley Chalmers <Wesley.Chalmers@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4430  	lockdep_assert_held(=
+&fs_info->balance_mutex);
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4431  =
+
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4432  	if (bargs->flags & B=
+TRFS_BALANCE_RESUME) {
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4433  		if (!fs_info->balan=
+ce_ctl) {
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4434  			ret =3D -ENOTCONN;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4435  			goto out_unlock;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4436  		}
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4437  =
+
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4438  		bctl =3D fs_info->b=
+alance_ctl;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4439  		spin_lock(&fs_info-=
+>balance_lock);
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4440  		bctl->flags |=3D BT=
+RFS_BALANCE_RESUME;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4441  		spin_unlock(&fs_inf=
+o->balance_lock);
+efc0e69c2feab8 Nikolay Borisov      2021-11-25  4442  		btrfs_exclop_balanc=
+e(fs_info, BTRFS_EXCLOP_BALANCE);
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4443  =
+
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4444  		goto do_balance;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4445  	}
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4446  =
+
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4447  	if (bargs->flags & ~=
+(BTRFS_BALANCE_ARGS_MASK | BTRFS_BALANCE_TYPE_MASK)) {
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4448  		ret =3D -EINVAL;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4449  		goto out_unlock;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4450  	}
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4451  =
+
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4452  	if (fs_info->balance=
+_ctl) {
+837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4453  		ret =3D -EINPROGRES=
+S;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4454  		goto out_unlock;
+837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4455  	}
+837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4456  =
+
+8d2db7855e7b65 David Sterba         2015-11-04  4457  	bctl =3D kzalloc(siz=
+eof(*bctl), GFP_KERNEL);
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4458  	if (!bctl) {
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4459  		ret =3D -ENOMEM;
+c746db1b6ed99f Nikolay Borisov      2022-03-30  4460  		goto out_unlock;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4461  	}
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4462  =
+
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4463  	memcpy(&bctl->data, =
+&bargs->data, sizeof(bctl->data));
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4464  	memcpy(&bctl->meta, =
+&bargs->meta, sizeof(bctl->meta));
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4465  	memcpy(&bctl->sys, &=
+bargs->sys, sizeof(bctl->sys));
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4466  =
+
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4467  	bctl->flags =3D barg=
+s->flags;
+de322263d3a6d4 Ilya Dryomov         2012-01-16  4468  do_balance:
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4469  	/*
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4470  	 * Ownership of bctl=
+ and exclusive operation goes to btrfs_balance.
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4471  	 * bctl is freed in =
+reset_balance_state, or, if restriper was paused
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4472  	 * all the way until=
+ unmount, in free_fs_info.  The flag should be
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4473  	 * cleared after res=
+et_balance_state.
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4474  	 */
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4475  	need_unlock =3D fals=
+e;
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4476  =
+
+6fcf6e2bffb6cf David Sterba         2018-05-07  4477  	ret =3D btrfs_balanc=
+e(fs_info, bctl, bargs);
+0f89abf56abbd0 Christian Engelmayer 2015-10-21  4478  	bctl =3D NULL;
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4479  =
+
+70430fe3604144 Nikolay Borisov      2022-03-30  4480  	if (ret =3D=3D 0 || =
+ret =3D=3D -ECANCELED) {
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4481  		if (copy_to_user(ar=
+g, bargs, sizeof(*bargs)))
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4482  			ret =3D -EFAULT;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4483  	}
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4484  =
+
+0f89abf56abbd0 Christian Engelmayer 2015-10-21  4485  	kfree(bctl);
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4486  out_unlock:
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4487  	mutex_unlock(&fs_inf=
+o->balance_mutex);
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4488  	if (need_unlock)
+c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4489  		btrfs_exclop_finish=
+(fs_info);
+ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4490  out:
+c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4491  	kfree(bargs);
+e54bfa31044d60 Liu Bo               2012-06-29  4492  	mnt_drop_write_file(=
+file);
+c746db1b6ed99f Nikolay Borisov      2022-03-30 @4493  	kfree(bargs);
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4494  	return ret;
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4495  }
+c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4496  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7935252145088346665==--
+--===============4851992602545671777==--
 
