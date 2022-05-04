@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7090547011701126174=="
+Content-Type: multipart/mixed; boundary="===============7935252145088346665=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/frequency/admv1014.c:119:8: warning: Excessive padding in 'struct admv1014_state' (88 padding bytes, where 24 is optimal).
-Date: Wed, 04 May 2022 17:14:12 +0800
-Message-ID: <202205041724.3Mcr23Sq-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:195:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Wed, 04 May 2022 16:13:21 +0800
+Message-ID: <202205041616.xcnyrLdi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7090547011701126174==
+--===============7935252145088346665==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,36 +16,37 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Wesley Chalmers <Wesley.Chalmers@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Jun Lei <Jun.Lei@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   107c948d1d3e61d10aee9d0f7c3d81bbee9842af
-commit: f4eb9ac7842ff22370e262b8440edada40b1680a iio: frequency: admv1014: =
-add support for ADMV1014
-date:   2 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 months ago
-config: riscv-randconfig-c006-20220427 (https://download.01.org/0day-ci/arc=
-hive/20220504/202205041724.3Mcr23Sq-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
-dc3c683b393df1a5c9063252eb60e52818)
+commit: 9cf9498f668d4c78616ebd2fe2e5f3850b189c5b drm/amd/display: Partition=
+ DPCD address space and break up transactions
+date:   11 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
+ve/20220504/202205041616.xcnyrLdi-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
+aacce38cd7dd77eebceaf3c98c5707ab3b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df4eb9ac7842ff22370e262b8440edada40b1680a
+t/commit/?id=3D9cf9498f668d4c78616ebd2fe2e5f3850b189c5b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout f4eb9ac7842ff22370e262b8440edada40b1680a
+        git checkout 9cf9498f668d4c78616ebd2fe2e5f3850b189c5b
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,359 +54,328 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/base/cacheinfo.c:272:3: note: Loop condition is false. Execution=
+ continues on line 286
+                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
+                   ^
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
+           ^
+   drivers/base/cacheinfo.c:286:3: note: Taking true branch
+                   if (of_have_populated_dt())
+                   ^
+   drivers/base/cacheinfo.c:287:4: note: Value assigned to 'ci_cpu_cacheinf=
+o.info_list'
+                           of_node_put(this_leaf->fw_token);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:270:26: note: Loop condition is false.  Exiting=
+ loop
+           for (index =3D 0; index < cache_leaves(cpu); index++) {
+                                   ^
+   drivers/base/cacheinfo.c:26:28: note: expanded from macro 'cache_leaves'
+   #define cache_leaves(cpu)       (ci_cacheinfo(cpu)->num_leaves)
+                                    ^
+   drivers/base/cacheinfo.c:25:29: note: expanded from macro 'ci_cacheinfo'
+   #define ci_cacheinfo(cpu)       (&per_cpu(ci_cpu_cacheinfo, cpu))
+                                     ^
+   include/linux/percpu-defs.h:269:29: note: expanded from macro 'per_cpu'
+   #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
+                                     ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   drivers/base/cacheinfo.c:270:18: note: Assuming 'index' is < field 'num_=
+leaves'
+           for (index =3D 0; index < cache_leaves(cpu); index++) {
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:270:2: note: Loop condition is true.  Entering =
+loop body
+           for (index =3D 0; index < cache_leaves(cpu); index++) {
+           ^
+   drivers/base/cacheinfo.c:271:3: note: Value assigned to 'this_leaf'
+                   this_leaf =3D this_cpu_ci->info_list + index;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:272:3: note: Loop condition is true.  Entering =
+loop body
+                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
+                   ^
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
+           ^
+   drivers/base/cacheinfo.c:275:8: note: 'sibling' is not equal to 'cpu'
+                           if (sibling =3D=3D cpu) /* skip itself */
+                               ^~~~~~~
+   drivers/base/cacheinfo.c:275:4: note: Taking false branch
+                           if (sibling =3D=3D cpu) /* skip itself */
+                           ^
+   drivers/base/cacheinfo.c:279:8: note: Assuming field 'info_list' is null
+                           if (!sib_cpu_ci->info_list)
+                               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:279:4: note: Taking true branch
+                           if (!sib_cpu_ci->info_list)
+                           ^
+   drivers/base/cacheinfo.c:280:5: note:  Execution continues on line 272
+                                   continue;
+                                   ^
+   drivers/base/cacheinfo.c:272:3: note: Loop condition is false. Execution=
+ continues on line 286
+                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
+                   ^
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
+           ^
+   drivers/base/cacheinfo.c:286:3: note: Taking true branch
+                   if (of_have_populated_dt())
+                   ^
+   drivers/base/cacheinfo.c:287:16: note: Access to field 'fw_token' result=
+s in a dereference of a null pointer (loaded from variable 'this_leaf')
+                           of_node_put(this_leaf->fw_token);
+                                       ^~~~~~~~~
+   10 warnings generated.
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_debug.c:66:32: warning:=
+ Value stored to 'plane_state' during its initialization is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   const struct dc_plane_state *plane_state =3D plane_state=
+s[i];
+                                                ^~~~~~~~~~~   ~~~~~~~~~~~~~=
+~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_debug.c:66:32: note: Va=
+lue stored to 'plane_state' during its initialization is never read
+                   const struct dc_plane_state *plane_state =3D plane_state=
+s[i];
+                                                ^~~~~~~~~~~   ~~~~~~~~~~~~~=
+~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/iio/adc/bcm_iproc_adc.c:120:17: warning: Value stored to 'dev' d=
-uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &indio_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~
-   drivers/iio/adc/bcm_iproc_adc.c:120:17: note: Value stored to 'dev' duri=
-ng its initialization is never read
-           struct device *dev =3D &indio_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:199:2: w=
+arning: Value stored to 'eng_id' is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           eng_id =3D ENGINE_ID_UNKNOWN;
+           ^        ~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:199:2: n=
+ote: Value stored to 'eng_id' is never read
+           eng_id =3D ENGINE_ID_UNKNOWN;
+           ^        ~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:195:2: warn=
+ing: Undefined or garbage value returned to caller [clang-analyzer-core.uni=
+nitialized.UndefReturn]
+           return status;
+           ^      ~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:177:2: note=
+: 'status' declared without an initial value
+           enum dc_status status;
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:185:2: note=
+: Loop condition is false. Execution continues on line 194
+           while (size_left_to_read) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:195:2: note=
+: Undefined or garbage value returned to caller
+           return status;
+           ^      ~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:217:2: warn=
+ing: Undefined or garbage value returned to caller [clang-analyzer-core.uni=
+nitialized.UndefReturn]
+           return status;
+           ^      ~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:206:2: note=
+: 'status' declared without an initial value
+           enum dc_status status;
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:208:2: note=
+: Loop condition is false. Execution continues on line 217
+           while (size) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c:217:2: note=
+: Undefined or garbage value returned to caller
+           return status;
+           ^      ~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (7 in non-user code, 2 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/adc/hi8435.c:43:8: warning: Excessive padding in 'struct hi8=
-435_priv' (65 padding bytes, where 1 is optimal). =
-
-   Optimal fields order: =
-
-   reg_buffer, =
-
-   event_prev_val, =
-
-   spi, =
-
-   event_scan_mask, =
-
-   lock, =
-
-   threshold_lo, =
-
-   threshold_hi, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct hi8435_priv {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/iio/adc/hi8435.c:43:8: note: Excessive padding in 'struct hi8435=
-_priv' (65 padding bytes, where 1 is optimal). Optimal fields order: reg_bu=
-ffer, event_prev_val, spi, event_scan_mask, lock, threshold_lo, threshold_h=
-i, consider reordering the fields or adding explicit padding members
-   struct hi8435_priv {
-   ~~~~~~~^~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/iio/adc/hx711.c:536:2: warning: Value stored to 'ret' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           ret =3D of_property_read_u32(np, "clock-frequency",
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/hx711.c:536:2: note: Value stored to 'ret' is never read
-           ret =3D of_property_read_u32(np, "clock-frequency",
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/frequency/adf4371.c:157:8: warning: Excessive padding in 'st=
-ruct adf4371_state' (86 padding bytes, where 22 is optimal). =
+   11 warnings generated.
+   fs/xfs/libxfs/xfs_ialloc.c:1260:23: warning: Assigned value is garbage o=
+r undefined [clang-analyzer-core.uninitialized.Assign]
+                                   pag->pagl_leftrec =3D trec.ir_startino;
+                                                     ^ ~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ialloc.c:1143:2: note: Assuming field 'pagi_init' is n=
+ot equal to 0
+           ASSERT(pag->pagi_init);
+           ^
+   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^~~~~~~~~~~~
+   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   fs/xfs/libxfs/xfs_ialloc.c:1143:2: note: '?' condition is true
+           ASSERT(pag->pagi_init);
+           ^
+   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                           ^
+   fs/xfs/libxfs/xfs_ialloc.c:1144:2: note: Assuming field 'pagi_inodeok' i=
+s not equal to 0
+           ASSERT(pag->pagi_inodeok);
+           ^
+   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^~~~~~~~~~~~
+   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   fs/xfs/libxfs/xfs_ialloc.c:1144:2: note: '?' condition is true
+           ASSERT(pag->pagi_inodeok);
+           ^
+   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                           ^
+   fs/xfs/libxfs/xfs_ialloc.c:1145:9: note: Assuming field 'pagi_freecount'=
+ is > 0
+           ASSERT(pag->pagi_freecount > 0);
+                  ^
+   fs/xfs/xfs_linux.h:212:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+                   ^~~~
+   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   fs/xfs/libxfs/xfs_ialloc.c:1145:14: note: Field 'pagi_freecount' is > 0
+           ASSERT(pag->pagi_freecount > 0);
+                       ^
+   fs/xfs/libxfs/xfs_ialloc.c:1145:2: note: '?' condition is true
+           ASSERT(pag->pagi_freecount > 0);
+           ^
+   fs/xfs/xfs_linux.h:212:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
 
-   Optimal fields order: =
+vim +195 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpcd.c
 
-   buf, =
+30adeee52d1eba Wesley Chalmers 2021-04-01  164  =
 
-   integer, =
+30adeee52d1eba Wesley Chalmers 2021-04-01  165  enum dc_status core_link_re=
+ad_dpcd(
+30adeee52d1eba Wesley Chalmers 2021-04-01  166  	struct dc_link *link,
+30adeee52d1eba Wesley Chalmers 2021-04-01  167  	uint32_t address,
+30adeee52d1eba Wesley Chalmers 2021-04-01  168  	uint8_t *data,
+30adeee52d1eba Wesley Chalmers 2021-04-01  169  	uint32_t size)
+30adeee52d1eba Wesley Chalmers 2021-04-01  170  {
+30adeee52d1eba Wesley Chalmers 2021-04-01  171  	uint32_t extended_address;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  172  	uint32_t partitioned_addre=
+ss;
+30adeee52d1eba Wesley Chalmers 2021-04-01  173  	uint8_t *extended_data;
+30adeee52d1eba Wesley Chalmers 2021-04-01  174  	uint32_t extended_size;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  175  	/* size of the remaining p=
+artitioned address space */
+9cf9498f668d4c Wesley Chalmers 2021-04-08  176  	uint32_t size_left_to_read;
+30adeee52d1eba Wesley Chalmers 2021-04-01  177  	enum dc_status status;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  178  	/* size of the next partit=
+ion to be read from */
+9cf9498f668d4c Wesley Chalmers 2021-04-08  179  	uint32_t partition_size;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  180  	uint32_t data_index =3D 0;
+30adeee52d1eba Wesley Chalmers 2021-04-01  181  =
 
-   spi, =
+30adeee52d1eba Wesley Chalmers 2021-04-01  182  	dpcd_extend_address_range(=
+address, data, size, &extended_address, &extended_data, &extended_size);
+9cf9498f668d4c Wesley Chalmers 2021-04-08  183  	partitioned_address =3D ex=
+tended_address;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  184  	size_left_to_read =3D exte=
+nded_size;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  185  	while (size_left_to_read) {
+9cf9498f668d4c Wesley Chalmers 2021-04-08  186  		partition_size =3D dpcd_g=
+et_next_partition_size(partitioned_address, size_left_to_read);
+9cf9498f668d4c Wesley Chalmers 2021-04-08  187  		status =3D internal_link_=
+read_dpcd(link, partitioned_address, &extended_data[data_index], partition_=
+size);
+9cf9498f668d4c Wesley Chalmers 2021-04-08  188  		if (status !=3D DC_OK)
+9cf9498f668d4c Wesley Chalmers 2021-04-08  189  			break;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  190  		partitioned_address +=3D =
+partition_size;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  191  		data_index +=3D partition=
+_size;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  192  		size_left_to_read -=3D pa=
+rtition_size;
+9cf9498f668d4c Wesley Chalmers 2021-04-08  193  	}
+30adeee52d1eba Wesley Chalmers 2021-04-01  194  	dpcd_reduce_address_range(=
+extended_address, extended_data, extended_size, address, data, size);
+30adeee52d1eba Wesley Chalmers 2021-04-01 @195  	return status;
+30adeee52d1eba Wesley Chalmers 2021-04-01  196  }
+30adeee52d1eba Wesley Chalmers 2021-04-01  197  =
 
-   regmap, =
 
-   clkin, =
+:::::: The code at line 195 was first introduced by commit
+:::::: 30adeee52d1ebadd8e4e594a54c7cf77250b91db drm/amd/display: Enforce DP=
+CD Address ranges
 
-   chip_info, =
-
-   clkin_freq, =
-
-   fpfd, =
-
-   lock, =
-
-   fract1, =
-
-   fract2, =
-
-   mod2, =
-
-   rf_div_sel, =
-
-   ref_div_factor, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct adf4371_state {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/iio/frequency/adf4371.c:157:8: note: Excessive padding in 'struc=
-t adf4371_state' (86 padding bytes, where 22 is optimal). Optimal fields or=
-der: buf, integer, spi, regmap, clkin, chip_info, clkin_freq, fpfd, lock, f=
-ract1, fract2, mod2, rf_div_sel, ref_div_factor, consider reordering the fi=
-elds or adding explicit padding members
-   struct adf4371_state {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/frequency/admv1013.c:93:8: warning: Excessive padding in 'st=
-ruct admv1013_state' (108 padding bytes, where 44 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   det_en, =
-
-   input_mode, =
-
-   spi, =
-
-   clkin, =
-
-   reg, =
-
-   lock, =
-
-   nb, =
-
-   quad_se_mode, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct admv1013_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/iio/frequency/admv1013.c:93:8: note: Excessive padding in 'struc=
-t admv1013_state' (108 padding bytes, where 44 is optimal). Optimal fields =
-order: data, det_en, input_mode, spi, clkin, reg, lock, nb, quad_se_mode, c=
-onsider reordering the fields or adding explicit padding members
-   struct admv1013_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/iio/frequency/admv1014.c:119:8: warning: Excessive padding in 's=
-truct admv1014_state' (88 padding bytes, where 24 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   det_en, =
-
-   input_mode, =
-
-   spi, =
-
-   clkin, =
-
-   nb, =
-
-   lock, =
-
-   regulators, =
-
-   quad_se_mode, =
-
-   p1db_comp, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct admv1014_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/iio/frequency/admv1014.c:119:8: note: Excessive padding in 'stru=
-ct admv1014_state' (88 padding bytes, where 24 is optimal). Optimal fields =
-order: data, det_en, input_mode, spi, clkin, nb, lock, regulators, quad_se_=
-mode, p1db_comp, consider reordering the fields or adding explicit padding =
-members
-   struct admv1014_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/iio/accel/adxl313_core.c:46:8: warning: Excessive padding in 'st=
-ruct adxl313_data' (94 padding bytes, where 30 is optimal). =
-
-   Optimal fields order: =
-
-   transf_buf, =
-
-   regmap, =
-
-   lock, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct adxl313_data {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/accel/adxl313_core.c:46:8: note: Excessive padding in 'struc=
-t adxl313_data' (94 padding bytes, where 30 is optimal). Optimal fields ord=
-er: transf_buf, regmap, lock, consider reordering the fields or adding expl=
-icit padding members
-   struct adxl313_data {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/temperature/maxim_thermocouple.c:121:8: warning: Excessive p=
-adding in 'struct maxim_thermocouple_data' (95 padding bytes, where 31 is o=
-ptimal). =
-
-   Optimal fields order: =
-
-   buffer, =
-
-   spi, =
-
-   chip, =
-
-   tc_type, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct maxim_thermocouple_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-
-vim +119 drivers/iio/frequency/admv1014.c
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  118  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15 @119  struct admv1014_state {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  120  	struct spi_device		*spi;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  121  	struct clk			*clkin;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  122  	struct notifier_block		nb;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  123  	/* Protect against concurr=
-ent accesses to the device and to data*/
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  124  	struct mutex			lock;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  125  	struct regulator_bulk_data=
-	regulators[ADMV1014_NUM_REGULATORS];
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  126  	unsigned int			input_mode;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  127  	unsigned int			quad_se_mod=
-e;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  128  	unsigned int			p1db_comp;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  129  	bool				det_en;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  130  	u8				data[3] ____cachelin=
-e_aligned;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  131  };
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  132  =
-
+:::::: TO: Wesley Chalmers <Wesley.Chalmers@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7090547011701126174==--
+--===============7935252145088346665==--
 
