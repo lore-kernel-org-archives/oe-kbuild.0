@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2634076654900321830=="
+Content-Type: multipart/mixed; boundary="===============4656874001027434690=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/soc/qcom/apr.c:159:16: warning: Uninitialized variable: adev [uninitvar]
-Date: Thu, 05 May 2022 03:49:45 +0800
-Message-ID: <202205050336.fVmm2tAS-lkp@intel.com>
+Subject: drivers/net/wireless/ath/ath11k/qmi.c:2031 ath11k_qmi_load_file_target_mem() error: uninitialized symbol 'ret'.
+Date: Thu, 05 May 2022 03:28:48 +0800
+Message-ID: <202205050335.jiOxLS8m-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2634076654900321830==
+--===============4656874001027434690==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,164 +15,220 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+TO: Anilkumar Kolli <akolli@codeaurora.org>
+CC: Kalle Valo <kvalo@codeaurora.org>
+CC: Jouni Malinen <jouni@codeaurora.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   a7391ad3572431a354c927cf8896e86e50d7d0bf
-commit: 99139b80c1b3d73026ed8be2de42c52e2976ab64 soc: qcom: apr: make code =
-more reuseable
+head:   107c948d1d3e61d10aee9d0f7c3d81bbee9842af
+commit: 336e7b53c82fc74d261024773a0fab43623a94fb ath11k: clean up BDF downl=
+oad functions
 date:   7 months ago
-:::::: branch date: 2 hours ago
+:::::: branch date: 21 hours ago
 :::::: commit date: 7 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 99139b80c1b3d73026ed8be2de42c52e2976ab64
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+config: i386-randconfig-m021-20220502 (https://download.01.org/0day-ci/arch=
+ive/20220505/202205050335.jiOxLS8m-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/net/wireless/ath/ath11k/qmi.c:2031 ath11k_qmi_load_file_target_mem(=
+) error: uninitialized symbol 'ret'.
+
+vim +/ret +2031 drivers/net/wireless/ath/ath11k/qmi.c
+
+d5c65159f289537 Kalle Valo      2019-11-23  1919  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1920  static int ath11k_qmi_loa=
+d_file_target_mem(struct ath11k_base *ab,
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1921  					   const u8 *data, u=
+32 len, u8 type)
+d5c65159f289537 Kalle Valo      2019-11-23  1922  {
+d5c65159f289537 Kalle Valo      2019-11-23  1923  	struct qmi_wlanfw_bdf_do=
+wnload_req_msg_v01 *req;
+d5c65159f289537 Kalle Valo      2019-11-23  1924  	struct qmi_wlanfw_bdf_do=
+wnload_resp_msg_v01 resp;
+d5c65159f289537 Kalle Valo      2019-11-23  1925  	struct qmi_txn txn =3D {=
+};
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1926  	const u8 *temp =3D data;
+d5c65159f289537 Kalle Valo      2019-11-23  1927  	void __iomem *bdf_addr =
+=3D NULL;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1928  	int ret;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1929  	u32 remaining =3D len;
+d5c65159f289537 Kalle Valo      2019-11-23  1930  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1931  	req =3D kzalloc(sizeof(*=
+req), GFP_KERNEL);
+d5c65159f289537 Kalle Valo      2019-11-23  1932  	if (!req)
+d5c65159f289537 Kalle Valo      2019-11-23  1933  		return -ENOMEM;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1934  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1935  	memset(&resp, 0, sizeof(=
+resp));
+d5c65159f289537 Kalle Valo      2019-11-23  1936  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1937  	if (ab->bus_params.fixed=
+_bdf_addr) {
+c72aa32d6d1c04f Anilkumar Kolli 2021-09-28  1938  		bdf_addr =3D ioremap(ab=
+->hw_params.bdf_addr, ab->hw_params.fw.board_size);
+d5c65159f289537 Kalle Valo      2019-11-23  1939  		if (!bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1940  			ath11k_warn(ab, "qmi i=
+oremap error for bdf_addr\n");
+d5c65159f289537 Kalle Valo      2019-11-23  1941  			ret =3D -EIO;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1942  			goto err_free_req;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1943  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1944  	}
+d5c65159f289537 Kalle Valo      2019-11-23  1945  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1946  	while (remaining) {
+d5c65159f289537 Kalle Valo      2019-11-23  1947  		req->valid =3D 1;
+d5c65159f289537 Kalle Valo      2019-11-23  1948  		req->file_id_valid =3D =
+1;
+d5c65159f289537 Kalle Valo      2019-11-23  1949  		req->file_id =3D ab->qm=
+i.target.board_id;
+d5c65159f289537 Kalle Valo      2019-11-23  1950  		req->total_size_valid =
+=3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1951  		req->total_size =3D rem=
+aining;
+d5c65159f289537 Kalle Valo      2019-11-23  1952  		req->seg_id_valid =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1953  		req->data_valid =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1954  		req->bdf_type =3D type;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1955  		req->bdf_type_valid =3D=
+ 1;
+d5c65159f289537 Kalle Valo      2019-11-23  1956  		req->end_valid =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1957  		req->end =3D 0;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1958  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1959  		if (remaining > QMI_WLA=
+NFW_MAX_DATA_SIZE_V01) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1960  			req->data_len =3D QMI_=
+WLANFW_MAX_DATA_SIZE_V01;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1961  		} else {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1962  			req->data_len =3D rema=
+ining;
+d5c65159f289537 Kalle Valo      2019-11-23  1963  			req->end =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1964  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1965  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1966  		if (ab->bus_params.fixe=
+d_bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1967  			req->data_valid =3D 0;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1968  			req->end =3D 1;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1969  			req->data_len =3D ATH1=
+1K_QMI_MAX_BDF_FILE_NAME_SIZE;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1970  		} else {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1971  			memcpy(req->data, temp=
+, req->data_len);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1972  		}
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1973  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1974  		if (ab->bus_params.fixe=
+d_bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1975  			if (type =3D=3D ATH11K=
+_QMI_FILE_TYPE_CALDATA)
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1976  				bdf_addr +=3D ab->hw_=
+params.fw.cal_offset;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1977  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1978  			memcpy_toio(bdf_addr, =
+temp, len);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1979  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1980  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1981  		ret =3D qmi_txn_init(&a=
+b->qmi.handle, &txn,
+d5c65159f289537 Kalle Valo      2019-11-23  1982  				   qmi_wlanfw_bdf_dow=
+nload_resp_msg_v01_ei,
+d5c65159f289537 Kalle Valo      2019-11-23  1983  				   &resp);
+d5c65159f289537 Kalle Valo      2019-11-23  1984  		if (ret < 0)
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1985  			goto err_iounmap;
+d5c65159f289537 Kalle Valo      2019-11-23  1986  =
+
+bf458d79cfc46f7 Kalle Valo      2021-02-22  1987  		ath11k_dbg(ab, ATH11K_D=
+BG_QMI, "qmi bdf download req fixed addr type %d\n",
+bf458d79cfc46f7 Kalle Valo      2021-02-22  1988  			   type);
+bf458d79cfc46f7 Kalle Valo      2021-02-22  1989  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1990  		ret =3D qmi_send_reques=
+t(&ab->qmi.handle, NULL, &txn,
+d5c65159f289537 Kalle Valo      2019-11-23  1991  				       QMI_WLANFW_BDF=
+_DOWNLOAD_REQ_V01,
+d5c65159f289537 Kalle Valo      2019-11-23  1992  				       QMI_WLANFW_BDF=
+_DOWNLOAD_REQ_MSG_V01_MAX_LEN,
+d5c65159f289537 Kalle Valo      2019-11-23  1993  				       qmi_wlanfw_bdf=
+_download_req_msg_v01_ei, req);
+d5c65159f289537 Kalle Valo      2019-11-23  1994  		if (ret < 0) {
+d5c65159f289537 Kalle Valo      2019-11-23  1995  			qmi_txn_cancel(&txn);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  1996  			goto err_iounmap;
+d5c65159f289537 Kalle Valo      2019-11-23  1997  		}
+d5c65159f289537 Kalle Valo      2019-11-23  1998  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  1999  		ret =3D qmi_txn_wait(&t=
+xn, msecs_to_jiffies(ATH11K_QMI_WLANFW_TIMEOUT_MS));
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2000  		if (ret < 0) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2001  			ath11k_warn(ab, "faile=
+d to wait board file download request: %d\n",
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2002  				    ret);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2003  			goto err_iounmap;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2004  		}
+d5c65159f289537 Kalle Valo      2019-11-23  2005  =
+
+d5c65159f289537 Kalle Valo      2019-11-23  2006  		if (resp.resp.result !=
+=3D QMI_RESULT_SUCCESS_V01) {
+097e9f0714555e5 Kalle Valo      2021-02-22  2007  			ath11k_warn(ab, "board=
+ file download request failed: %d %d\n",
+d5c65159f289537 Kalle Valo      2019-11-23  2008  				    resp.resp.result,=
+ resp.resp.error);
+d5c65159f289537 Kalle Valo      2019-11-23  2009  			ret =3D -EINVAL;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2010  			goto err_iounmap;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2011  		}
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2012  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2013  		if (ab->bus_params.fixe=
+d_bdf_addr) {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2014  			remaining =3D 0;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2015  		} else {
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2016  			remaining -=3D req->da=
+ta_len;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2017  			temp +=3D req->data_le=
+n;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2018  			req->seg_id++;
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2019  			ath11k_dbg(ab, ATH11K_=
+DBG_QMI, "qmi bdf download request remaining %i\n",
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2020  				   remaining);
+d5c65159f289537 Kalle Valo      2019-11-23  2021  		}
+d5c65159f289537 Kalle Valo      2019-11-23  2022  	}
+d5c65159f289537 Kalle Valo      2019-11-23  2023  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2024  err_iounmap:
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2025  	if (ab->bus_params.fixed=
+_bdf_addr)
+d5c65159f289537 Kalle Valo      2019-11-23  2026  		iounmap(bdf_addr);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2027  =
+
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2028  err_free_req:
+d5c65159f289537 Kalle Valo      2019-11-23  2029  	kfree(req);
+336e7b53c82fc74 Anilkumar Kolli 2021-09-28  2030  =
+
+d5c65159f289537 Kalle Valo      2019-11-23 @2031  	return ret;
+d5c65159f289537 Kalle Valo      2019-11-23  2032  }
+d5c65159f289537 Kalle Valo      2019-11-23  2033  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 2031 was first introduced by commit
+:::::: d5c65159f2895379e11ca13f62feabe93278985d ath11k: driver for Qualcomm=
+ IEEE 802.11ax devices
 
->> drivers/soc/qcom/apr.c:159:16: warning: Uninitialized variable: adev [un=
-initvar]
-    if (!adrv || !adev) {
-                  ^
-
-vim +159 drivers/soc/qcom/apr.c
-
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  107  =
-
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  108  static int apr_do_rx_ca=
-llback(struct packet_router *apr, struct apr_rx_buf *abuf)
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  109  {
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  110  	uint16_t hdr_size, msg=
-_type, ver, svc_id;
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  111  	struct pkt_router_svc =
-*svc;
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  112  	struct apr_device *ade=
-v;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  113  	struct apr_driver *adr=
-v =3D NULL;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  114  	struct apr_resp_pkt re=
-sp;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  115  	struct apr_hdr *hdr;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  116  	unsigned long flags;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  117  	void *buf =3D abuf->bu=
-f;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  118  	int len =3D abuf->len;
-1ac19ad799f880 Srinivas Kandagatla 2019-02-08  119  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  120  	hdr =3D buf;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  121  	ver =3D APR_HDR_FIELD_=
-VER(hdr->hdr_field);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  122  	if (ver > APR_PKT_VER =
-+ 1)
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  123  		return -EINVAL;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  124  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  125  	hdr_size =3D APR_HDR_F=
-IELD_SIZE_BYTES(hdr->hdr_field);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  126  	if (hdr_size < APR_HDR=
-_SIZE) {
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  127  		dev_err(apr->dev, "AP=
-R: Wrong hdr size:%d\n", hdr_size);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  128  		return -EINVAL;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  129  	}
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  130  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  131  	if (hdr->pkt_size < AP=
-R_HDR_SIZE || hdr->pkt_size !=3D len) {
-35aac0ba88d55d Colin Ian King      2018-06-11  132  		dev_err(apr->dev, "AP=
-R: Wrong packet size\n");
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  133  		return -EINVAL;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  134  	}
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  135  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  136  	msg_type =3D APR_HDR_F=
-IELD_MT(hdr->hdr_field);
-e744619d056e6e Srinivas Kandagatla 2018-05-17  137  	if (msg_type >=3D APR_=
-MSG_TYPE_MAX) {
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  138  		dev_err(apr->dev, "AP=
-R: Wrong message type: %d\n", msg_type);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  139  		return -EINVAL;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  140  	}
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  141  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  142  	if (hdr->src_domain >=
-=3D APR_DOMAIN_MAX ||
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  143  			hdr->dest_domain >=
-=3D APR_DOMAIN_MAX ||
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  144  			hdr->src_svc >=3D AP=
-R_SVC_MAX ||
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  145  			hdr->dest_svc >=3D A=
-PR_SVC_MAX) {
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  146  		dev_err(apr->dev, "AP=
-R: Wrong APR header\n");
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  147  		return -EINVAL;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  148  	}
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  149  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  150  	svc_id =3D hdr->dest_s=
-vc;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  151  	spin_lock_irqsave(&apr=
-->svcs_lock, flags);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  152  	svc =3D idr_find(&apr-=
->svcs_idr, svc_id);
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  153  	if (svc && svc->dev->d=
-river) {
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  154  		adev =3D svc_to_apr_d=
-evice(svc);
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  155  		adrv =3D to_apr_drive=
-r(adev->dev.driver);
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  156  	}
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  157  	spin_unlock_irqrestore=
-(&apr->svcs_lock, flags);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  158  =
-
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27 @159  	if (!adrv || !adev) {
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  160  		dev_err(apr->dev, "AP=
-R: service is not registered (%d)\n",
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  161  			svc_id);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  162  		return -EINVAL;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  163  	}
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  164  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  165  	resp.hdr =3D *hdr;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  166  	resp.payload_size =3D =
-hdr->pkt_size - hdr_size;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  167  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  168  	/*
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  169  	 * NOTE: hdr_size is n=
-ot same as APR_HDR_SIZE as remote can include
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  170  	 * optional headers in=
- to apr_hdr which should be ignored
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  171  	 */
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  172  	if (resp.payload_size =
-> 0)
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  173  		resp.payload =3D buf =
-+ hdr_size;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  174  =
-
-99139b80c1b3d7 Srinivas Kandagatla 2021-09-27  175  	adrv->callback(adev, &=
-resp);
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  176  =
-
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  177  	return 0;
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  178  }
-6adba21eb434d8 Srinivas Kandagatla 2018-05-09  179  =
-
+:::::: TO: Kalle Valo <kvalo@codeaurora.org>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2634076654900321830==--
+--===============4656874001027434690==--
 
