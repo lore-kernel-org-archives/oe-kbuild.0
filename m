@@ -1,399 +1,1534 @@
-Content-Type: multipart/mixed; boundary="===============4696811980084653707=="
+Content-Type: multipart/mixed; boundary="===============8460711239964596271=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [broonie-ci:20220430_marex_regmap_add_bulk_read_write_callbacks_into_regmap_config 1/1] drivers/base/regmap/regmap.c:1842 _regmap_raw_write_impl() error: we previously assumed 'map->bus' could be null (see line 1770)
-Date: Fri, 06 May 2022 05:06:24 +0800
-Message-ID: <202205060518.hir67qzc-lkp@intel.com>
+Subject: [daniel-thompson:clang-analyzer/initial_review 7/7] security/apparmor/path.c:60:7: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Fri, 06 May 2022 04:06:22 +0800
+Message-ID: <202205060303.K0fJbaUa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4696811980084653707==
+--===============8460711239964596271==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Marek Vasut <marex@denx.de>
-CC: Mark Brown <broonie@kernel.org>
+TO: Daniel Thompson <daniel.thompson@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 2022=
-0430_marex_regmap_add_bulk_read_write_callbacks_into_regmap_config
-head:   d77e745613680c54708470402e2b623dcd769681
-commit: d77e745613680c54708470402e2b623dcd769681 [1/1] regmap: Add bulk rea=
-d/write callbacks into regmap_config
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: m68k-randconfig-m031-20220505 (https://download.01.org/0day-ci/arch=
-ive/20220506/202205060518.hir67qzc-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.3.0
+tree:   https://git.linaro.org/people/daniel.thompson/linux.git clang-analy=
+zer/initial_review
+head:   ad6525bf355a301ca52b1dc3639fa340409c79b9
+commit: ad6525bf355a301ca52b1dc3639fa340409c79b9 [7/7] [RFC] linux/err.h: R=
+efactor IS_ERR_VALUE(x) to improve clang reasoning
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+506/202205060303.K0fJbaUa-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
+b787698440a387750db7f8028e7cb14cfc)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add daniel-thompson https://git.linaro.org/people/daniel=
+.thompson/linux.git
+        git fetch --no-tags daniel-thompson clang-analyzer/initial_review
+        git checkout ad6525bf355a301ca52b1dc3639fa340409c79b9
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/base/regmap/regmap.c:1842 _regmap_raw_write_impl() error: we previo=
-usly assumed 'map->bus' could be null (see line 1770)
-
-Old smatch warnings:
-drivers/base/regmap/regmap.c:2092 _regmap_raw_write() error: uninitialized =
-symbol 'ret'.
-drivers/base/regmap/regmap.c:2876 regmap_raw_read() error: uninitialized sy=
-mbol 'ret'.
-
-vim +1842 drivers/base/regmap/regmap.c
-
-f50e38c9966076 Tony Lindgren       2016-09-15  1676  =
-
-7ef2c6b8689a08 Charles Keepax      2018-02-22  1677  static int _regmap_raw=
-_write_impl(struct regmap *map, unsigned int reg,
-05669b63170771 Dmitry Baryshkov    2020-09-17  1678  				  const void *val,=
- size_t val_len, bool noinc)
-b83a313bf25201 Mark Brown          2011-05-11  1679  {
-98bc7dfd76407e Mark Brown          2012-10-04  1680  	struct regmap_range_n=
-ode *range;
-0d509f2b112b21 Mark Brown          2013-01-27  1681  	unsigned long flags;
-0d509f2b112b21 Mark Brown          2013-01-27  1682  	void *work_val =3D ma=
-p->work_buf + map->format.reg_bytes +
-0d509f2b112b21 Mark Brown          2013-01-27  1683  		map->format.pad_byte=
-s;
-b83a313bf25201 Mark Brown          2011-05-11  1684  	void *buf;
-b83a313bf25201 Mark Brown          2011-05-11  1685  	int ret =3D -ENOTSUPP;
-b83a313bf25201 Mark Brown          2011-05-11  1686  	size_t len;
-73304781274200 Mark Brown          2011-07-24  1687  	int i;
-73304781274200 Mark Brown          2011-07-24  1688  =
-
-2e31aab08bad0d Ben Whitten         2020-01-18  1689  	/* Check for unwritab=
-le or noinc registers in range
-2e31aab08bad0d Ben Whitten         2020-01-18  1690  	 * before we start
-2e31aab08bad0d Ben Whitten         2020-01-18  1691  	 */
-2e31aab08bad0d Ben Whitten         2020-01-18  1692  	if (!regmap_writeable=
-_noinc(map, reg)) {
-2e31aab08bad0d Ben Whitten         2020-01-18  1693  		for (i =3D 0; i < va=
-l_len / map->format.val_bytes; i++) {
-2e31aab08bad0d Ben Whitten         2020-01-18  1694  			unsigned int elemen=
-t =3D
-2e31aab08bad0d Ben Whitten         2020-01-18  1695  				reg + regmap_get_o=
-ffset(map, i);
-2e31aab08bad0d Ben Whitten         2020-01-18  1696  			if (!regmap_writeab=
-le(map, element) ||
-2e31aab08bad0d Ben Whitten         2020-01-18  1697  				regmap_writeable_n=
-oinc(map, element))
-73304781274200 Mark Brown          2011-07-24  1698  				return -EINVAL;
-2e31aab08bad0d Ben Whitten         2020-01-18  1699  		}
-2e31aab08bad0d Ben Whitten         2020-01-18  1700  	}
-b83a313bf25201 Mark Brown          2011-05-11  1701  =
-
-c9157198417076 Laxman Dewangan     2012-02-10  1702  	if (!map->cache_bypas=
-s && map->format.parse_val) {
-c9157198417076 Laxman Dewangan     2012-02-10  1703  		unsigned int ival;
-c9157198417076 Laxman Dewangan     2012-02-10  1704  		int val_bytes =3D ma=
-p->format.val_bytes;
-c9157198417076 Laxman Dewangan     2012-02-10  1705  		for (i =3D 0; i < va=
-l_len / val_bytes; i++) {
-5a08d15602987b Stephen Warren      2013-03-20  1706  			ival =3D map->forma=
-t.parse_val(val + (i * val_bytes));
-ca747be22fa57b Xiubo Li            2016-01-04  1707  			ret =3D regcache_wr=
-ite(map,
-ca747be22fa57b Xiubo Li            2016-01-04  1708  					     reg + regmap=
-_get_offset(map, i),
-f01ee60fffa4dc Stephen Warren      2012-04-09  1709  					     ival);
-c9157198417076 Laxman Dewangan     2012-02-10  1710  			if (ret) {
-c9157198417076 Laxman Dewangan     2012-02-10  1711  				dev_err(map->dev,
-6d04b8ac575c38 Mark Brown          2012-10-26  1712  					"Error in caching=
- of register: %x ret: %d\n",
-1852f5ed358147 Jeongtae Park       2021-07-01  1713  					reg + regmap_get_=
-offset(map, i), ret);
-c9157198417076 Laxman Dewangan     2012-02-10  1714  				return ret;
-c9157198417076 Laxman Dewangan     2012-02-10  1715  			}
-c9157198417076 Laxman Dewangan     2012-02-10  1716  		}
-c9157198417076 Laxman Dewangan     2012-02-10  1717  		if (map->cache_only)=
- {
-c9157198417076 Laxman Dewangan     2012-02-10  1718  			map->cache_dirty =
-=3D true;
-c9157198417076 Laxman Dewangan     2012-02-10  1719  			return 0;
-c9157198417076 Laxman Dewangan     2012-02-10  1720  		}
-c9157198417076 Laxman Dewangan     2012-02-10  1721  	}
-c9157198417076 Laxman Dewangan     2012-02-10  1722  =
-
-98bc7dfd76407e Mark Brown          2012-10-04  1723  	range =3D _regmap_ran=
-ge_lookup(map, reg);
-98bc7dfd76407e Mark Brown          2012-10-04  1724  	if (range) {
-8a2ceac6617a67 Mark Brown          2012-10-04  1725  		int val_num =3D val_=
-len / map->format.val_bytes;
-8a2ceac6617a67 Mark Brown          2012-10-04  1726  		int win_offset =3D (=
-reg - range->range_min) % range->window_len;
-8a2ceac6617a67 Mark Brown          2012-10-04  1727  		int win_residue =3D =
-range->window_len - win_offset;
-8a2ceac6617a67 Mark Brown          2012-10-04  1728  =
-
-8a2ceac6617a67 Mark Brown          2012-10-04  1729  		/* If the write goes=
- beyond the end of the window split it */
-8a2ceac6617a67 Mark Brown          2012-10-04  1730  		while (val_num > win=
-_residue) {
-1a61cfe3445218 Fabio Estevam       2012-10-25  1731  			dev_dbg(map->dev, "=
-Writing window %d/%zu\n",
-8a2ceac6617a67 Mark Brown          2012-10-04  1732  				win_residue, val_l=
-en / map->format.val_bytes);
-7ef2c6b8689a08 Charles Keepax      2018-02-22  1733  			ret =3D _regmap_raw=
-_write_impl(map, reg, val,
-7ef2c6b8689a08 Charles Keepax      2018-02-22  1734  						     win_residue=
- *
-05669b63170771 Dmitry Baryshkov    2020-09-17  1735  						     map->format=
-.val_bytes, noinc);
-8a2ceac6617a67 Mark Brown          2012-10-04  1736  			if (ret !=3D 0)
-8a2ceac6617a67 Mark Brown          2012-10-04  1737  				return ret;
-8a2ceac6617a67 Mark Brown          2012-10-04  1738  =
-
-8a2ceac6617a67 Mark Brown          2012-10-04  1739  			reg +=3D win_residu=
-e;
-8a2ceac6617a67 Mark Brown          2012-10-04  1740  			val_num -=3D win_re=
-sidue;
-8a2ceac6617a67 Mark Brown          2012-10-04  1741  			val +=3D win_residu=
-e * map->format.val_bytes;
-8a2ceac6617a67 Mark Brown          2012-10-04  1742  			val_len -=3D win_re=
-sidue * map->format.val_bytes;
-8a2ceac6617a67 Mark Brown          2012-10-04  1743  =
-
-8a2ceac6617a67 Mark Brown          2012-10-04  1744  			win_offset =3D (reg=
- - range->range_min) %
-8a2ceac6617a67 Mark Brown          2012-10-04  1745  				range->window_len;
-8a2ceac6617a67 Mark Brown          2012-10-04  1746  			win_residue =3D ran=
-ge->window_len - win_offset;
-8a2ceac6617a67 Mark Brown          2012-10-04  1747  		}
-8a2ceac6617a67 Mark Brown          2012-10-04  1748  =
-
-05669b63170771 Dmitry Baryshkov    2020-09-17  1749  		ret =3D _regmap_sele=
-ct_page(map, &reg, range, noinc ? 1 : val_num);
-0ff3e62ff119f2 Mark Brown          2012-10-04  1750  		if (ret !=3D 0)
-6863ca6227598d Krystian Garbaciak  2012-06-15  1751  			return ret;
-98bc7dfd76407e Mark Brown          2012-10-04  1752  	}
-6863ca6227598d Krystian Garbaciak  2012-06-15  1753  =
-
-0074f3f2b1e43d Colin Foster        2022-03-13  1754  	reg +=3D map->reg_bas=
-e;
-86fc59ef818beb Colin Foster        2022-03-13  1755  	reg >>=3D map->format=
-.reg_downshift;
-d939fb9a78b474 Marc Reilly         2012-03-16  1756  	map->format.format_re=
-g(map->work_buf, reg, map->reg_shift);
-f50e38c9966076 Tony Lindgren       2016-09-15  1757  	regmap_set_work_buf_f=
-lag_mask(map, map->format.reg_bytes,
-f50e38c9966076 Tony Lindgren       2016-09-15  1758  				      map->write_f=
-lag_mask);
-6f306441e97f8f Lars-Peter Clausen  2011-09-05  1759  =
-
-651e013e3ce6c0 Mark Brown          2013-10-08  1760  	/*
-651e013e3ce6c0 Mark Brown          2013-10-08  1761  	 * Essentially all I/=
-O mechanisms will be faster with a single
-651e013e3ce6c0 Mark Brown          2013-10-08  1762  	 * buffer to write.  =
-Since register syncs often generate raw
-651e013e3ce6c0 Mark Brown          2013-10-08  1763  	 * writes of single r=
-egisters optimise that case.
-651e013e3ce6c0 Mark Brown          2013-10-08  1764  	 */
-651e013e3ce6c0 Mark Brown          2013-10-08  1765  	if (val !=3D work_val=
- && val_len =3D=3D map->format.val_bytes) {
-651e013e3ce6c0 Mark Brown          2013-10-08  1766  		memcpy(work_val, val=
-, map->format.val_bytes);
-651e013e3ce6c0 Mark Brown          2013-10-08  1767  		val =3D work_val;
-651e013e3ce6c0 Mark Brown          2013-10-08  1768  	}
-651e013e3ce6c0 Mark Brown          2013-10-08  1769  =
-
-d77e745613680c Marek Vasut         2022-04-30 @1770  	if (map->async && map=
-->bus && map->bus->async_write) {
-7e09a979404ed0 Mark Brown          2013-10-07  1771  		struct regmap_async =
-*async;
-0d509f2b112b21 Mark Brown          2013-01-27  1772  =
-
-c6b570d97c0e77 Philipp Zabel       2015-03-09  1773  		trace_regmap_async_w=
-rite_start(map, reg, val_len);
-fe7d4ccd1d7748 Mark Brown          2013-02-21  1774  =
-
-7e09a979404ed0 Mark Brown          2013-10-07  1775  		spin_lock_irqsave(&m=
-ap->async_lock, flags);
-7e09a979404ed0 Mark Brown          2013-10-07  1776  		async =3D list_first=
-_entry_or_null(&map->async_free,
-7e09a979404ed0 Mark Brown          2013-10-07  1777  						 struct regmap_a=
-sync,
-7e09a979404ed0 Mark Brown          2013-10-07  1778  						 list);
-7e09a979404ed0 Mark Brown          2013-10-07  1779  		if (async)
-7e09a979404ed0 Mark Brown          2013-10-07  1780  			list_del(&async->li=
-st);
-7e09a979404ed0 Mark Brown          2013-10-07  1781  		spin_unlock_irqresto=
-re(&map->async_lock, flags);
-7e09a979404ed0 Mark Brown          2013-10-07  1782  =
-
-7e09a979404ed0 Mark Brown          2013-10-07  1783  		if (!async) {
-7e09a979404ed0 Mark Brown          2013-10-07  1784  			async =3D map->bus-=
->async_alloc();
-7e09a979404ed0 Mark Brown          2013-10-07  1785  			if (!async)
-7e09a979404ed0 Mark Brown          2013-10-07  1786  				return -ENOMEM;
-7e09a979404ed0 Mark Brown          2013-10-07  1787  =
-
-0d509f2b112b21 Mark Brown          2013-01-27  1788  			async->work_buf =3D=
- kzalloc(map->format.buf_size,
-0d509f2b112b21 Mark Brown          2013-01-27  1789  						  GFP_KERNEL | G=
-FP_DMA);
-0d509f2b112b21 Mark Brown          2013-01-27  1790  			if (!async->work_bu=
-f) {
-0d509f2b112b21 Mark Brown          2013-01-27  1791  				kfree(async);
-0d509f2b112b21 Mark Brown          2013-01-27  1792  				return -ENOMEM;
-0d509f2b112b21 Mark Brown          2013-01-27  1793  			}
-7e09a979404ed0 Mark Brown          2013-10-07  1794  		}
-0d509f2b112b21 Mark Brown          2013-01-27  1795  =
-
-0d509f2b112b21 Mark Brown          2013-01-27  1796  		async->map =3D map;
-0d509f2b112b21 Mark Brown          2013-01-27  1797  =
-
-0d509f2b112b21 Mark Brown          2013-01-27  1798  		/* If the caller sup=
-plied the value we can use it safely. */
-0d509f2b112b21 Mark Brown          2013-01-27  1799  		memcpy(async->work_b=
-uf, map->work_buf, map->format.pad_bytes +
-0d509f2b112b21 Mark Brown          2013-01-27  1800  		       map->format.r=
-eg_bytes + map->format.val_bytes);
-0d509f2b112b21 Mark Brown          2013-01-27  1801  =
-
-0d509f2b112b21 Mark Brown          2013-01-27  1802  		spin_lock_irqsave(&m=
-ap->async_lock, flags);
-0d509f2b112b21 Mark Brown          2013-01-27  1803  		list_add_tail(&async=
-->list, &map->async_list);
-0d509f2b112b21 Mark Brown          2013-01-27  1804  		spin_unlock_irqresto=
-re(&map->async_lock, flags);
-0d509f2b112b21 Mark Brown          2013-01-27  1805  =
-
-04c50ccf0dab02 Mark Brown          2013-10-10  1806  		if (val !=3D work_va=
-l)
-04c50ccf0dab02 Mark Brown          2013-10-10  1807  			ret =3D map->bus->a=
-sync_write(map->bus_context,
-04c50ccf0dab02 Mark Brown          2013-10-10  1808  						    async->work_=
-buf,
-0d509f2b112b21 Mark Brown          2013-01-27  1809  						    map->format.=
-reg_bytes +
-0d509f2b112b21 Mark Brown          2013-01-27  1810  						    map->format.=
-pad_bytes,
-0d509f2b112b21 Mark Brown          2013-01-27  1811  						    val, val_len=
-, async);
-04c50ccf0dab02 Mark Brown          2013-10-10  1812  		else
-04c50ccf0dab02 Mark Brown          2013-10-10  1813  			ret =3D map->bus->a=
-sync_write(map->bus_context,
-04c50ccf0dab02 Mark Brown          2013-10-10  1814  						    async->work_=
-buf,
-04c50ccf0dab02 Mark Brown          2013-10-10  1815  						    map->format.=
-reg_bytes +
-04c50ccf0dab02 Mark Brown          2013-10-10  1816  						    map->format.=
-pad_bytes +
-04c50ccf0dab02 Mark Brown          2013-10-10  1817  						    val_len, NUL=
-L, 0, async);
-0d509f2b112b21 Mark Brown          2013-01-27  1818  =
-
-0d509f2b112b21 Mark Brown          2013-01-27  1819  		if (ret !=3D 0) {
-0d509f2b112b21 Mark Brown          2013-01-27  1820  			dev_err(map->dev, "=
-Failed to schedule write: %d\n",
-0d509f2b112b21 Mark Brown          2013-01-27  1821  				ret);
-0d509f2b112b21 Mark Brown          2013-01-27  1822  =
-
-0d509f2b112b21 Mark Brown          2013-01-27  1823  			spin_lock_irqsave(&=
-map->async_lock, flags);
-7e09a979404ed0 Mark Brown          2013-10-07  1824  			list_move(&async->l=
-ist, &map->async_free);
-0d509f2b112b21 Mark Brown          2013-01-27  1825  			spin_unlock_irqrest=
-ore(&map->async_lock, flags);
-0d509f2b112b21 Mark Brown          2013-01-27  1826  		}
-f951b6587b94df Mark Brown          2013-03-27  1827  =
-
-f951b6587b94df Mark Brown          2013-03-27  1828  		return ret;
-0d509f2b112b21 Mark Brown          2013-01-27  1829  	}
-0d509f2b112b21 Mark Brown          2013-01-27  1830  =
-
-c6b570d97c0e77 Philipp Zabel       2015-03-09  1831  	trace_regmap_hw_write=
-_start(map, reg, val_len / map->format.val_bytes);
-fb2736bbaee0e7 Mark Brown          2011-07-24  1832  =
-
-2547e201b3693f Mark Brown          2011-07-20  1833  	/* If we're doing a s=
-ingle register write we can probably just
-2547e201b3693f Mark Brown          2011-07-20  1834  	 * send the work_buf =
-directly, otherwise try to do a gather
-2547e201b3693f Mark Brown          2011-07-20  1835  	 * write.
-2547e201b3693f Mark Brown          2011-07-20  1836  	 */
-0d509f2b112b21 Mark Brown          2013-01-27  1837  	if (val =3D=3D work_v=
-al)
-d77e745613680c Marek Vasut         2022-04-30  1838  		ret =3D map->write(m=
-ap->bus_context, map->work_buf,
-82159ba8e6ef8c Mark Brown          2012-01-18  1839  				 map->format.reg_b=
-ytes +
-82159ba8e6ef8c Mark Brown          2012-01-18  1840  				 map->format.pad_b=
-ytes +
-82159ba8e6ef8c Mark Brown          2012-01-18  1841  				 val_len);
-2547e201b3693f Mark Brown          2011-07-20 @1842  	else if (map->bus->ga=
-ther_write)
-0135bbcc7a0cc0 Stephen Warren      2012-04-04  1843  		ret =3D map->bus->ga=
-ther_write(map->bus_context, map->work_buf,
-82159ba8e6ef8c Mark Brown          2012-01-18  1844  					     map->format.=
-reg_bytes +
-82159ba8e6ef8c Mark Brown          2012-01-18  1845  					     map->format.=
-pad_bytes,
-b83a313bf25201 Mark Brown          2011-05-11  1846  					     val, val_len=
-);
-db057679de3e9e Srinivas Kandagatla 2019-06-12  1847  	else
-db057679de3e9e Srinivas Kandagatla 2019-06-12  1848  		ret =3D -ENOTSUPP;
-b83a313bf25201 Mark Brown          2011-05-11  1849  =
-
-2547e201b3693f Mark Brown          2011-07-20  1850  	/* If that didn't wor=
-k fall back on linearising by hand. */
-b83a313bf25201 Mark Brown          2011-05-11  1851  	if (ret =3D=3D -ENOTS=
-UPP) {
-82159ba8e6ef8c Mark Brown          2012-01-18  1852  		len =3D map->format.=
-reg_bytes + map->format.pad_bytes + val_len;
-82159ba8e6ef8c Mark Brown          2012-01-18  1853  		buf =3D kzalloc(len,=
- GFP_KERNEL);
-b83a313bf25201 Mark Brown          2011-05-11  1854  		if (!buf)
-b83a313bf25201 Mark Brown          2011-05-11  1855  			return -ENOMEM;
-b83a313bf25201 Mark Brown          2011-05-11  1856  =
-
-b83a313bf25201 Mark Brown          2011-05-11  1857  		memcpy(buf, map->wor=
-k_buf, map->format.reg_bytes);
-82159ba8e6ef8c Mark Brown          2012-01-18  1858  		memcpy(buf + map->fo=
-rmat.reg_bytes + map->format.pad_bytes,
-82159ba8e6ef8c Mark Brown          2012-01-18  1859  		       val, val_len);
-d77e745613680c Marek Vasut         2022-04-30  1860  		ret =3D map->write(m=
-ap->bus_context, buf, len);
-b83a313bf25201 Mark Brown          2011-05-11  1861  =
-
-b83a313bf25201 Mark Brown          2011-05-11  1862  		kfree(buf);
-815806e39bf6f7 Elaine Zhang        2016-08-18  1863  	} else if (ret !=3D 0=
- && !map->cache_bypass && map->format.parse_val) {
-f0aa1ce6259eb6 Nikita Yushchenko   2016-09-22  1864  		/* regcache_drop_reg=
-ion() takes lock that we already have,
-f0aa1ce6259eb6 Nikita Yushchenko   2016-09-22  1865  		 * thus call map->ca=
-che_ops->drop() directly
-f0aa1ce6259eb6 Nikita Yushchenko   2016-09-22  1866  		 */
-f0aa1ce6259eb6 Nikita Yushchenko   2016-09-22  1867  		if (map->cache_ops &=
-& map->cache_ops->drop)
-f0aa1ce6259eb6 Nikita Yushchenko   2016-09-22  1868  			map->cache_ops->dro=
-p(map, reg, reg + 1);
-b83a313bf25201 Mark Brown          2011-05-11  1869  	}
-b83a313bf25201 Mark Brown          2011-05-11  1870  =
-
-c6b570d97c0e77 Philipp Zabel       2015-03-09  1871  	trace_regmap_hw_write=
-_done(map, reg, val_len / map->format.val_bytes);
-fb2736bbaee0e7 Mark Brown          2011-07-24  1872  =
-
-b83a313bf25201 Mark Brown          2011-05-11  1873  	return ret;
-b83a313bf25201 Mark Brown          2011-05-11  1874  }
-b83a313bf25201 Mark Brown          2011-05-11  1875  =
 
 
-:::::: The code at line 1842 was first introduced by commit
-:::::: 2547e201b3693f91d643fc0d21ef86171894b59b regmap: Just send the buffe=
-r directly for single register writes
+clang-analyzer warnings: (new ones prefixed by >>)
+   security/apparmor/label.c:204:2: note: Taking true branch
+           AA_BUG(!vec);
+           ^
+   security/apparmor/include/lib.h:37:3: note: expanded from macro 'AA_BUG'
+                   AA_BUG_FMT((X), "" args);                               =
+    \
+                   ^
+   security/apparmor/include/lib.h:44:37: note: expanded from macro 'AA_BUG=
+_FMT'
+   #define AA_BUG_FMT(X, fmt, args...) no_printk(fmt, ##args)
+                                       ^
+   include/linux/printk.h:132:3: note: expanded from macro 'no_printk'
+                   printk(fmt, ##__VA_ARGS__);             \
+                   ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   security/apparmor/label.c:204:2: note: Loop condition is false.  Exiting=
+ loop
+           AA_BUG(!vec);
+           ^
+   security/apparmor/include/lib.h:37:3: note: expanded from macro 'AA_BUG'
+                   AA_BUG_FMT((X), "" args);                               =
+    \
+                   ^
+   security/apparmor/include/lib.h:44:37: note: expanded from macro 'AA_BUG=
+_FMT'
+   #define AA_BUG_FMT(X, fmt, args...) no_printk(fmt, ##args)
+                                       ^
+   include/linux/printk.h:132:3: note: expanded from macro 'no_printk'
+                   printk(fmt, ##__VA_ARGS__);             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
+emit'
+           do {                                                            \
+           ^
+   security/apparmor/label.c:204:2: note: Loop condition is false.  Exiting=
+ loop
+           AA_BUG(!vec);
+           ^
+   security/apparmor/include/lib.h:35:2: note: expanded from macro 'AA_BUG'
+           do {                                                            =
+    \
+           ^
+   security/apparmor/label.c:206:2: note: Loop condition is false. Executio=
+n continues on line 211
+           for (i =3D 0; i < n; i++) {
+           ^
+   security/apparmor/label.c:1100:6: note: Returning from 'vec_unconfined'
+           if (vec_unconfined(new->vec, new->size))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   security/apparmor/label.c:1100:2: note: '?' condition is true
+           if (vec_unconfined(new->vec, new->size))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   security/apparmor/label.c:1100:2: note: Taking true branch
+           if (vec_unconfined(new->vec, new->size))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   security/apparmor/label.c:1102:7: note: Access to field 'ns' results in =
+a dereference of a null pointer
+           ls =3D labels_set(new);
+                ^
+   security/apparmor/include/label.h:146:25: note: expanded from macro 'lab=
+els_set'
+   #define labels_set(X) (&labels_ns(X)->labels)
+                           ^~~~~~~~~~~~
+   security/apparmor/include/label.h:145:22: note: expanded from macro 'lab=
+els_ns'
+   #define labels_ns(X) (vec_ns(&((X)->vec[0]), (X)->size))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   security/apparmor/lib.c:501:4: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(hname, name);
+                           ^~~~~~
+   security/apparmor/lib.c:501:4: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+                           strcpy(hname, name);
+                           ^~~~~~
+   4 warnings generated.
+>> security/apparmor/path.c:60:7: warning: Dereference of null pointer [cla=
+ng-analyzer-core.NullDereference]
+                   if (**name =3D=3D '/')
+                       ^
+   security/apparmor/path.c:94:15: note: Assuming the condition is false
+           int isdir =3D (flags & PATH_IS_DIR) ? 1 : 0;
+                        ^~~~~~~~~~~~~~~~~~~
+   security/apparmor/path.c:94:14: note: '?' condition is false
+           int isdir =3D (flags & PATH_IS_DIR) ? 1 : 0;
+                       ^
+   security/apparmor/path.c:97:2: note: Assuming the condition is false
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   security/apparmor/path.c:97:2: note: '?' condition is false
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   security/apparmor/path.c:97:2: note: '?' condition is true
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   security/apparmor/path.c:97:2: note: Taking true branch
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   security/apparmor/path.c:99:3: note: Value assigned to 'res'
+                   res =3D dentry_path(path->dentry, buf, buflen);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/apparmor/path.c:100:3: note: Assigning the value of 'res'
+                   *name =3D res;
+                   ^~~~~~~~~~~
+   security/apparmor/path.c:101:7: note: Calling 'IS_ERR'
+                   if (IS_ERR(res)) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/linux/err.h:89:9: note: Assuming '_l' is equal to 0
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:3: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                   ^~~~~~~
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/err.h:89:9: note: Left side of '&&' is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:11: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                           ^
+   include/linux/err.h:89:9: note: '_l' is equal to 0
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:3: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                   ^~
+   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                                                        ^
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   include/linux/err.h:89:9: note: Left side of '&&' is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:11: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                           ^
+   security/apparmor/path.c:101:7: note: Returning from 'IS_ERR'
+                   if (IS_ERR(res)) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+--
+                         ^
+   security/apparmor/path.c:105:7: note: Assuming field 's_magic' is not eq=
+ual to 40864
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   security/apparmor/path.c:105:55: note: Left side of '&&' is false
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                                                                       ^
+   security/apparmor/path.c:105:3: note: '?' condition is false
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   security/apparmor/path.c:105:27: note: Field 's_magic' is not equal to 4=
+0864
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                                           ^
+   security/apparmor/path.c:105:55: note: Left side of '&&' is false
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                                                                       ^
+   security/apparmor/path.c:105:3: note: '?' condition is false
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   security/apparmor/path.c:105:3: note: Taking false branch
+                   if (path->dentry->d_sb->s_magic =3D=3D PROC_SUPER_MAGIC =
+&&
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   security/apparmor/path.c:113:12: note: Calling 'disconnect'
+                           error =3D disconnect(path, buf, name, flags,
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/apparmor/path.c:53:6: note: Assuming the condition is false
+           if (!(flags & PATH_CONNECT_PATH) &&
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   security/apparmor/path.c:53:35: note: Left side of '&&' is false
+           if (!(flags & PATH_CONNECT_PATH) &&
+                                            ^
+   security/apparmor/path.c:53:2: note: '?' condition is false
+           if (!(flags & PATH_CONNECT_PATH) &&
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   security/apparmor/path.c:53:35: note: Left side of '&&' is false
+           if (!(flags & PATH_CONNECT_PATH) &&
+                                            ^
+   security/apparmor/path.c:53:2: note: '?' condition is false
+           if (!(flags & PATH_CONNECT_PATH) &&
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   security/apparmor/path.c:53:2: note: Taking false branch
+           if (!(flags & PATH_CONNECT_PATH) &&
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   security/apparmor/path.c:63:7: note: Dereference of null pointer
+                   if (**name !=3D '/')
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+>> security/apparmor/path.c:106:7: warning: Null pointer passed as 1st argu=
+ment to string comparison function [clang-analyzer-unix.cstring.NullArg]
+                       strncmp(*name, "/sys/", 5) =3D=3D 0) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   security/apparmor/path.c:94:15: note: Assuming the condition is false
+           int isdir =3D (flags & PATH_IS_DIR) ? 1 : 0;
+                        ^~~~~~~~~~~~~~~~~~~
+   security/apparmor/path.c:94:14: note: '?' condition is false
+           int isdir =3D (flags & PATH_IS_DIR) ? 1 : 0;
+                       ^
+   security/apparmor/path.c:97:2: note: Assuming the condition is false
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   security/apparmor/path.c:97:2: note: '?' condition is false
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   security/apparmor/path.c:97:2: note: '?' condition is true
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   security/apparmor/path.c:97:2: note: Taking true branch
+           if (path->mnt->mnt_flags & MNT_INTERNAL) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   security/apparmor/path.c:99:3: note: Value assigned to 'res'
+                   res =3D dentry_path(path->dentry, buf, buflen);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/apparmor/path.c:100:3: note: Assigning the value of 'res'
+                   *name =3D res;
+                   ^~~~~~~~~~~
+   security/apparmor/path.c:101:7: note: Calling 'IS_ERR'
+                   if (IS_ERR(res)) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/linux/err.h:89:9: note: Assuming '_l' is equal to 0
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:3: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                   ^~~~~~~
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/err.h:89:9: note: Left side of '&&' is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:11: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                           ^
+   include/linux/err.h:89:9: note: '_l' is equal to 0
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:3: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+                   ^~
+   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                                                        ^
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   include/linux/err.h:89:9: note: Left side of '&&' is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:58:11: note: expanded from macro 'IS_ERR_VALUE'
+                   _l !=3D 0 && -MAX_ERRNO <=3D _l;                        =
+           \
+--
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvdimm/namespace_devs.c:2275:2: note: Taking false branch
+           if (!nsblk)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvdimm/namespace_devs.c:2285:6: note: Assuming field 'uuid' is n=
+on-null
+           if (!nsblk->uuid)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvdimm/namespace_devs.c:2285:2: note: '?' condition is false
+           if (!nsblk->uuid)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvdimm/namespace_devs.c:2285:14: note: Field 'uuid' is non-null
+           if (!nsblk->uuid)
+                       ^
+   drivers/nvdimm/namespace_devs.c:2285:2: note: '?' condition is false
+           if (!nsblk->uuid)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvdimm/namespace_devs.c:2285:2: note: Taking false branch
+           if (!nsblk->uuid)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvdimm/namespace_devs.c:2288:2: note: Assuming the condition is =
+true
+           if (name[0]) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvdimm/namespace_devs.c:2288:2: note: '?' condition is false
+           if (name[0]) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvdimm/namespace_devs.c:2288:2: note: '?' condition is false
+           if (name[0]) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvdimm/namespace_devs.c:2288:2: note: Taking false branch
+           if (name[0]) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvdimm/namespace_devs.c:2293:8: note: Calling 'nsblk_add_resourc=
+e'
+           res =3D nsblk_add_resource(nd_region, ndd, nsblk,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvdimm/namespace_devs.c:2089:43: note: The left operand of '+' i=
+s a garbage value
+                           sizeof(void *) * (nsblk->num_resources + 1),
+                                             ~~~~~~~~~~~~~~~~~~~~ ^
+   1 warning generated.
+   kernel/trace/trace_printk.c:77:5: warning: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                                   strcpy(fmt, *iter);
+                                   ^~~~~~
+   kernel/trace/trace_printk.c:77:5: note: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119
+                                   strcpy(fmt, *iter);
+                                   ^~~~~~
+   1 warning generated.
+>> fs/autofs/waitq.c:358:14: warning: Null pointer passed as 1st argument t=
+o string length function [clang-analyzer-unix.cstring.NullArg]
+                   qstr.len =3D strlen(p);
+                              ^      ~
+   fs/autofs/waitq.c:315:2: note: Assuming the condition is true
+           if (sbi->flags & AUTOFS_SBI_CATATONIC)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/autofs/waitq.c:315:2: note: '?' condition is false
+           if (sbi->flags & AUTOFS_SBI_CATATONIC)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/autofs/waitq.c:315:2: note: '?' condition is false
+           if (sbi->flags & AUTOFS_SBI_CATATONIC)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/autofs/waitq.c:315:2: note: Taking false branch
+           if (sbi->flags & AUTOFS_SBI_CATATONIC)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/autofs/waitq.c:325:6: note: Assuming 'pid' is not equal to 0
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/autofs/waitq.c:325:6: note: Left side of '||' is false
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+               ^
+   fs/autofs/waitq.c:325:18: note: Assuming 'tgid' is not equal to 0
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+                           ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/autofs/waitq.c:325:2: note: '?' condition is false
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/autofs/waitq.c:325:6: note: 'pid' is not equal to 0
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/autofs/waitq.c:325:6: note: Left side of '||' is false
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+               ^
+   fs/autofs/waitq.c:325:18: note: 'tgid' is not equal to 0
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+                           ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/autofs/waitq.c:325:2: note: '?' condition is false
+           if (pid =3D=3D 0 || tgid =3D=3D 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+--
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                       ^
+   include/linux/hid.h:1036:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/linux/hid.h:1036:3: note: '?' condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
+_emit'
+                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
+fmt) : NULL, \
+                                          ^
+   include/linux/hid.h:1036:3: note: '?' condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
+_emit'
+                                   .level =3D __builtin_constant_p(_level) =
+? (_level) : NULL, \
+                                            ^
+   include/linux/hid.h:1036:3: note: Loop condition is false.  Exiting loop
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
+emit'
+           do {                                                            \
+           ^
+   include/linux/hid.h:1037:9: note: Access to field 'name' results in a de=
+reference of a null pointer (loaded from variable 'input')
+                                       input->name, c, type);
+                                       ^
+   include/linux/printk.h:656:49: note: expanded from macro 'pr_warn_rateli=
+mited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+                                                          ^~~~~~~~~~~
+   include/linux/printk.h:640:17: note: expanded from macro 'printk_ratelim=
+ited'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                                 ^~~~~~~~~~~
+   include/linux/printk.h:446:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                              ^~~~~~~~~~~
+   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
+rap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
+   1 warning generated.
+>> drivers/hid/uhid.c:519:2: warning: Null pointer passed as 1st argument t=
+o string copy function [clang-analyzer-unix.cstring.NullArg]
+           strncpy(hid->name, ev->u.create2.name, len);
+           ^
+   drivers/hid/uhid.c:729:6: note: Assuming the condition is false
+           if (count < sizeof(__u32))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/hid/uhid.c:729:2: note: '?' condition is false
+           if (count < sizeof(__u32))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/hid/uhid.c:729:2: note: '?' condition is false
+           if (count < sizeof(__u32))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/hid/uhid.c:729:2: note: Taking false branch
+           if (count < sizeof(__u32))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/hid/uhid.c:733:2: note: Assuming 'ret' is 0
+           if (ret)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/hid/uhid.c:733:2: note: '?' condition is false
+           if (ret)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/hid/uhid.c:733:6: note: 'ret' is 0
+           if (ret)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/hid/uhid.c:733:2: note: '?' condition is false
+           if (ret)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/hid/uhid.c:733:2: note: Taking false branch
+           if (ret)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/hid/uhid.c:737:8: note: Assuming '__UNIQUE_ID___x231' is >=3D '_=
+_UNIQUE_ID___y232'
+           len =3D min(count, sizeof(uhid->input_buf));
+                 ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+--
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/soc-dapm.c:1655:6: note: 'power_up' is true
+           if (power_up)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/soc/soc-dapm.c:1655:2: note: '?' condition is true
+           if (power_up)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/soc/soc-dapm.c:1655:2: note: Taking true branch
+           if (power_up)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/soc/soc-dapm.c:1660:2: note: Loop condition is false. Execution co=
+ntinues on line 1729
+           list_for_each_entry_safe(w, n, list, power_list) {
+           ^
+   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+           ^
+   sound/soc/soc-dapm.c:1729:6: note: Assuming the condition is false
+           if (!list_empty(&pending))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/soc-dapm.c:1729:2: note: '?' condition is false
+           if (!list_empty(&pending))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/soc-dapm.c:1729:6: note: Assuming the condition is true
+           if (!list_empty(&pending))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/soc/soc-dapm.c:1729:2: note: '?' condition is true
+           if (!list_empty(&pending))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/soc/soc-dapm.c:1729:2: note: Taking true branch
+           if (!list_empty(&pending))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/soc/soc-dapm.c:1730:3: note: Calling 'dapm_seq_run_coalesced'
+                   dapm_seq_run_coalesced(card, &pending);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-dapm.c:1594:6: note: Assigned value is garbage or undefined
+           reg =3D w->reg;
+               ^ ~~~~~~
+   1 warning generated.
+   drivers/nvme/target/core.c:1124:10: warning: Although the value stored t=
+o 'cc_css' is used in the enclosing expression, the value is never actually=
+ read from 'cc_css' [clang-analyzer-deadcode.DeadStores]
+           switch (cc_css <<=3D NVME_CC_CSS_SHIFT) {
+                   ^          ~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/core.c:1124:10: note: Although the value stored to '=
+cc_css' is used in the enclosing expression, the value is never actually re=
+ad from 'cc_css'
+           switch (cc_css <<=3D NVME_CC_CSS_SHIFT) {
+                   ^          ~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+>> include/net/neighbour.h:592:3: warning: Null pointer passed as 2nd argum=
+ent to memory copy function [clang-analyzer-unix.cstring.NullArg]
+                   memcpy(dst, n->ha, dev->addr_len);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^
+   net/sched/sch_teql.c:265:6: note: Left side of '||' is false
+           if (rcu_access_pointer(txq->qdisc) =3D=3D &noop_qdisc)
+               ^
+   include/linux/rcupdate.h:495:31: note: expanded from macro 'rcu_access_p=
+ointer'
+   #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu)=
+, __rcu)
+                                 ^
+   include/linux/rcupdate.h:384:43: note: expanded from macro '__rcu_access=
+_pointer'
+           typeof(*p) *local =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/sched/sch_teql.c:265:6: note: Left side of '||' is false
+           if (rcu_access_pointer(txq->qdisc) =3D=3D &noop_qdisc)
+               ^
+   include/linux/rcupdate.h:495:31: note: expanded from macro 'rcu_access_p=
+ointer'
+   #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu)=
+, __rcu)
+                                 ^
+   include/linux/rcupdate.h:384:43: note: expanded from macro '__rcu_access=
+_pointer'
+           typeof(*p) *local =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/sched/sch_teql.c:265:6: note: Left side of '||' is true
+           if (rcu_access_pointer(txq->qdisc) =3D=3D &noop_qdisc)
+               ^
+   include/linux/rcupdate.h:495:31: note: expanded from macro 'rcu_access_p=
+ointer'
+   #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu)=
+, __rcu)
+                                 ^
+   include/linux/rcupdate.h:384:43: note: expanded from macro '__rcu_access=
+_pointer'
+           typeof(*p) *local =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   net/sched/sch_teql.c:265:6: note: '?' condition is true
+           if (rcu_access_pointer(txq->qdisc) =3D=3D &noop_qdisc)
+               ^
+   include/linux/rcupdate.h:495:31: note: expanded from macro 'rcu_access_p=
+ointer'
+   #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu)=
+, __rcu)
+                                 ^
+   include/linux/rcupdate.h:384:43: note: expanded from macro '__rcu_access=
+_pointer'
+           typeof(*p) *local =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/sched/sch_teql.c:265:6: note: Left side of '||' is false
+           if (rcu_access_pointer(txq->qdisc) =3D=3D &noop_qdisc)
+               ^
+   include/linux/rcupdate.h:495:31: note: expanded from macro 'rcu_access_p=
+ointer'
+   #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu)=
+, __rcu)
+                                 ^
+   include/linux/rcupdate.h:384:43: note: expanded from macro '__rcu_access=
+_pointer'
+           typeof(*p) *local =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/sched/sch_teql.c:265:6: note: Left side of '||' is false
 
-:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+vim +60 security/apparmor/path.c
+
+cdff264264254e John Johansen    2010-07-29   36  =
+
+bd35db8b8ca6e2 John Johansen    2014-07-25   37  /* If the path is not conn=
+ected to the expected root,
+bd35db8b8ca6e2 John Johansen    2014-07-25   38   * check if it is a sysctl=
+ and handle specially else remove any
+bd35db8b8ca6e2 John Johansen    2014-07-25   39   * leading / that __d_path=
+ may have returned.
+bd35db8b8ca6e2 John Johansen    2014-07-25   40   * Unless
+bd35db8b8ca6e2 John Johansen    2014-07-25   41   *     specifically direct=
+ed to connect the path,
+bd35db8b8ca6e2 John Johansen    2014-07-25   42   * OR
+bd35db8b8ca6e2 John Johansen    2014-07-25   43   *     if in a chroot and =
+doing chroot relative paths and the path
+bd35db8b8ca6e2 John Johansen    2014-07-25   44   *     resolves to the nam=
+espace root (would be connected outside
+bd35db8b8ca6e2 John Johansen    2014-07-25   45   *     of chroot) and spec=
+ifically directed to connect paths to
+bd35db8b8ca6e2 John Johansen    2014-07-25   46   *     namespace root.
+bd35db8b8ca6e2 John Johansen    2014-07-25   47   */
+bd35db8b8ca6e2 John Johansen    2014-07-25   48  static int disconnect(cons=
+t struct path *path, char *buf, char **name,
+72c8a768641dc6 John Johansen    2017-05-22   49  		      int flags, const c=
+har *disconnected)
+bd35db8b8ca6e2 John Johansen    2014-07-25   50  {
+bd35db8b8ca6e2 John Johansen    2014-07-25   51  	int error =3D 0;
+bd35db8b8ca6e2 John Johansen    2014-07-25   52  =
+
+bd35db8b8ca6e2 John Johansen    2014-07-25   53  	if (!(flags & PATH_CONNEC=
+T_PATH) &&
+bd35db8b8ca6e2 John Johansen    2014-07-25   54  	    !(((flags & CHROOT_NS=
+CONNECT) =3D=3D CHROOT_NSCONNECT) &&
+bd35db8b8ca6e2 John Johansen    2014-07-25   55  	      our_mnt(path->mnt))=
+) {
+bd35db8b8ca6e2 John Johansen    2014-07-25   56  		/* disconnected path, do=
+n't return pathname starting
+bd35db8b8ca6e2 John Johansen    2014-07-25   57  		 * with '/'
+bd35db8b8ca6e2 John Johansen    2014-07-25   58  		 */
+bd35db8b8ca6e2 John Johansen    2014-07-25   59  		error =3D -EACCES;
+bd35db8b8ca6e2 John Johansen    2014-07-25  @60  		if (**name =3D=3D '/')
+bd35db8b8ca6e2 John Johansen    2014-07-25   61  			*name =3D *name + 1;
+72c8a768641dc6 John Johansen    2017-05-22   62  	} else {
+72c8a768641dc6 John Johansen    2017-05-22   63  		if (**name !=3D '/')
+bd35db8b8ca6e2 John Johansen    2014-07-25   64  			/* CONNECT_PATH with mi=
+ssing root */
+bd35db8b8ca6e2 John Johansen    2014-07-25   65  			error =3D prepend(name,=
+ *name - buf, "/", 1);
+72c8a768641dc6 John Johansen    2017-05-22   66  		if (!error && disconnect=
+ed)
+72c8a768641dc6 John Johansen    2017-05-22   67  			error =3D prepend(name,=
+ *name - buf, disconnected,
+72c8a768641dc6 John Johansen    2017-05-22   68  					strlen(disconnected));
+72c8a768641dc6 John Johansen    2017-05-22   69  	}
+bd35db8b8ca6e2 John Johansen    2014-07-25   70  =
+
+bd35db8b8ca6e2 John Johansen    2014-07-25   71  	return error;
+bd35db8b8ca6e2 John Johansen    2014-07-25   72  }
+bd35db8b8ca6e2 John Johansen    2014-07-25   73  =
+
+cdff264264254e John Johansen    2010-07-29   74  /**
+cdff264264254e John Johansen    2010-07-29   75   * d_namespace_path - look=
+up a name associated with a given path
+cdff264264254e John Johansen    2010-07-29   76   * @path: path to lookup  =
+(NOT NULL)
+cdff264264254e John Johansen    2010-07-29   77   * @buf:  buffer to store =
+path to  (NOT NULL)
+cdff264264254e John Johansen    2010-07-29   78   * @name: Returns - pointe=
+r for start of path name with in @buf (NOT NULL)
+cdff264264254e John Johansen    2010-07-29   79   * @flags: flags controlli=
+ng path lookup
+72c8a768641dc6 John Johansen    2017-05-22   80   * @disconnected: string t=
+o prefix to disconnected paths
+cdff264264254e John Johansen    2010-07-29   81   *
+cdff264264254e John Johansen    2010-07-29   82   * Handle path name lookup.
+cdff264264254e John Johansen    2010-07-29   83   *
+cdff264264254e John Johansen    2010-07-29   84   * Returns: %0 else error =
+code if path lookup fails
+cdff264264254e John Johansen    2010-07-29   85   *          When no error =
+the path name is returned in @name which points to
+4af7c863fc85ad Randy Dunlap     2020-08-07   86   *          a position in =
+@buf
+cdff264264254e John Johansen    2010-07-29   87   */
+4227c333f65cdd John Johansen    2017-05-23   88  static int d_namespace_pat=
+h(const struct path *path, char *buf, char **name,
+4227c333f65cdd John Johansen    2017-05-23   89  			    int flags, const ch=
+ar *disconnected)
+cdff264264254e John Johansen    2010-07-29   90  {
+cdff264264254e John Johansen    2010-07-29   91  	char *res;
+02125a826459a6 Al Viro          2011-12-05   92  	int error =3D 0;
+02125a826459a6 Al Viro          2011-12-05   93  	int connected =3D 1;
+4227c333f65cdd John Johansen    2017-05-23   94  	int isdir =3D (flags & PA=
+TH_IS_DIR) ? 1 : 0;
+4227c333f65cdd John Johansen    2017-05-23   95  	int buflen =3D aa_g_path_=
+max - isdir;
+cdff264264254e John Johansen    2010-07-29   96  =
+
+02125a826459a6 Al Viro          2011-12-05   97  	if (path->mnt->mnt_flags =
+& MNT_INTERNAL) {
+02125a826459a6 Al Viro          2011-12-05   98  		/* it's not mounted anyw=
+here */
+02125a826459a6 Al Viro          2011-12-05   99  		res =3D dentry_path(path=
+->dentry, buf, buflen);
+02125a826459a6 Al Viro          2011-12-05  100  		*name =3D res;
+02125a826459a6 Al Viro          2011-12-05  101  		if (IS_ERR(res)) {
+02125a826459a6 Al Viro          2011-12-05  102  			*name =3D buf;
+02125a826459a6 Al Viro          2011-12-05  103  			return PTR_ERR(res);
+02125a826459a6 Al Viro          2011-12-05  104  		}
+02125a826459a6 Al Viro          2011-12-05  105  		if (path->dentry->d_sb->=
+s_magic =3D=3D PROC_SUPER_MAGIC &&
+02125a826459a6 Al Viro          2011-12-05 @106  		    strncmp(*name, "/sys=
+/", 5) =3D=3D 0) {
+02125a826459a6 Al Viro          2011-12-05  107  			/* TODO: convert over t=
+o using a per namespace
+02125a826459a6 Al Viro          2011-12-05  108  			 * control instead of h=
+ard coded /proc
+02125a826459a6 Al Viro          2011-12-05  109  			 */
+4227c333f65cdd John Johansen    2017-05-23  110  			error =3D prepend(name,=
+ *name - buf, "/proc", 5);
+4227c333f65cdd John Johansen    2017-05-23  111  			goto out;
+bd35db8b8ca6e2 John Johansen    2014-07-25  112  		} else
+4227c333f65cdd John Johansen    2017-05-23  113  			error =3D disconnect(pa=
+th, buf, name, flags,
+72c8a768641dc6 John Johansen    2017-05-22  114  					   disconnected);
+4227c333f65cdd John Johansen    2017-05-23  115  		goto out;
+02125a826459a6 Al Viro          2011-12-05  116  	}
+02125a826459a6 Al Viro          2011-12-05  117  =
+
+02125a826459a6 Al Viro          2011-12-05  118  	/* resolve paths relative=
+ to chroot?*/
+cdff264264254e John Johansen    2010-07-29  119  	if (flags & PATH_CHROOT_R=
+EL) {
+02125a826459a6 Al Viro          2011-12-05  120  		struct path root;
+44672e4fbd40e2 Nicholas Piggin  2010-08-18  121  		get_fs_root(current->fs,=
+ &root);
+02125a826459a6 Al Viro          2011-12-05  122  		res =3D __d_path(path, &=
+root, buf, buflen);
+02125a826459a6 Al Viro          2011-12-05  123  		path_put(&root);
+3372b68a3c9826 John Johansen    2012-02-16  124  	} else {
+02125a826459a6 Al Viro          2011-12-05  125  		res =3D d_absolute_path(=
+path, buf, buflen);
+3372b68a3c9826 John Johansen    2012-02-16  126  		if (!our_mnt(path->mnt))
+3372b68a3c9826 John Johansen    2012-02-16  127  			connected =3D 0;
+3372b68a3c9826 John Johansen    2012-02-16  128  	}
+cdff264264254e John Johansen    2010-07-29  129  =
+
+cdff264264254e John Johansen    2010-07-29  130  	/* handle error condition=
+s - and still allow a partial path to
+cdff264264254e John Johansen    2010-07-29  131  	 * be returned.
+cdff264264254e John Johansen    2010-07-29  132  	 */
+3372b68a3c9826 John Johansen    2012-02-16  133  	if (!res || IS_ERR(res)) {
+4227c333f65cdd John Johansen    2017-05-23  134  		if (PTR_ERR(res) =3D=3D =
+-ENAMETOOLONG) {
+4227c333f65cdd John Johansen    2017-05-23  135  			error =3D -ENAMETOOLONG;
+4227c333f65cdd John Johansen    2017-05-23  136  			*name =3D buf;
+4227c333f65cdd John Johansen    2017-05-23  137  			goto out;
+4227c333f65cdd John Johansen    2017-05-23  138  		}
+3372b68a3c9826 John Johansen    2012-02-16  139  		connected =3D 0;
+fbba8d89acea5d John Johansen    2012-02-16  140  		res =3D dentry_path_raw(=
+path->dentry, buf, buflen);
+cdff264264254e John Johansen    2010-07-29  141  		if (IS_ERR(res)) {
+cdff264264254e John Johansen    2010-07-29  142  			error =3D PTR_ERR(res);
+cdff264264254e John Johansen    2010-07-29  143  			*name =3D buf;
+cdff264264254e John Johansen    2010-07-29  144  			goto out;
+e4f4e6ba5eaadb Vasyl Gomonovych 2019-07-26  145  		}
+fbba8d89acea5d John Johansen    2012-02-16  146  	} else if (!our_mnt(path-=
+>mnt))
+02125a826459a6 Al Viro          2011-12-05  147  		connected =3D 0;
+cdff264264254e John Johansen    2010-07-29  148  =
+
+fbba8d89acea5d John Johansen    2012-02-16  149  	*name =3D res;
+fbba8d89acea5d John Johansen    2012-02-16  150  =
+
+4227c333f65cdd John Johansen    2017-05-23  151  	if (!connected)
+4227c333f65cdd John Johansen    2017-05-23  152  		error =3D disconnect(pat=
+h, buf, name, flags, disconnected);
+4227c333f65cdd John Johansen    2017-05-23  153  =
+
+e819ff519b2d74 John Johansen    2010-08-27  154  	/* Handle two cases:
+e819ff519b2d74 John Johansen    2010-08-27  155  	 * 1. A deleted dentry &&=
+ profile is not allowing mediation of deleted
+e819ff519b2d74 John Johansen    2010-08-27  156  	 * 2. On some filesystems=
+, newly allocated dentries appear to the
+e819ff519b2d74 John Johansen    2010-08-27  157  	 *    security_path hooks=
+ as a deleted dentry except without an inode
+e819ff519b2d74 John Johansen    2010-08-27  158  	 *    allocated.
+e819ff519b2d74 John Johansen    2010-08-27  159  	 */
+729b8a3dee2bc8 David Howells    2015-01-29  160  	if (d_unlinked(path->dent=
+ry) && d_is_positive(path->dentry) &&
+4227c333f65cdd John Johansen    2017-05-23  161  	    !(flags & (PATH_MEDIA=
+TE_DELETED | PATH_DELEGATE_DELETED))) {
+cdff264264254e John Johansen    2010-07-29  162  			error =3D -ENOENT;
+cdff264264254e John Johansen    2010-07-29  163  			goto out;
+cdff264264254e John Johansen    2010-07-29  164  	}
+cdff264264254e John Johansen    2010-07-29  165  =
+
+cdff264264254e John Johansen    2010-07-29  166  out:
+cdff264264254e John Johansen    2010-07-29  167  	/*
+cdff264264254e John Johansen    2010-07-29  168  	 * Append "/" to the path=
+name.  The root directory is a special
+cdff264264254e John Johansen    2010-07-29  169  	 * case; it already ends =
+in slash.
+cdff264264254e John Johansen    2010-07-29  170  	 */
+4227c333f65cdd John Johansen    2017-05-23  171  	if (!error && isdir && ((=
+*name)[1] !=3D '\0' || (*name)[0] !=3D '/'))
+4227c333f65cdd John Johansen    2017-05-23  172  		strcpy(&buf[aa_g_path_ma=
+x - 2], "/");
+57fa1e18091e66 John Johansen    2012-02-16  173  =
+
+cdff264264254e John Johansen    2010-07-29  174  	return error;
+cdff264264254e John Johansen    2010-07-29  175  }
+cdff264264254e John Johansen    2010-07-29  176  =
+
+
+:::::: The code at line 60 was first introduced by commit
+:::::: bd35db8b8ca6e27fc17a9057ef78e1ddfc0de351 apparmor: internal paths sh=
+ould be treated as disconnected
+
+:::::: TO: John Johansen <john.johansen@canonical.com>
+:::::: CC: John Johansen <john.johansen@canonical.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4696811980084653707==--
+--===============8460711239964596271==--
 
