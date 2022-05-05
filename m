@@ -1,307 +1,353 @@
-Content-Type: multipart/mixed; boundary="===============6171753215549668822=="
+Content-Type: multipart/mixed; boundary="===============2354185330173004698=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/fs-writeback.c:2467 __mark_inode_dirty() error: uninitialized symbol 'wb'.
-Date: Thu, 05 May 2022 12:06:24 +0800
-Message-ID: <202205051122.4JKB3mhj-lkp@intel.com>
+Subject: drivers/iio/dac/ltc2688.c:84:8: warning: Excessive padding in 'struct ltc2688_state' (83 padding bytes, where 19 is optimal).
+Date: Thu, 05 May 2022 11:56:08 +0800
+Message-ID: <202205051125.t74wrdnm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6171753215549668822==
+--===============2354185330173004698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Jchao Sun <sunjunchao2870@gmail.com>
-CC: 0day robot <lkp@intel.com>
+TO: "Nuno S=C3=A1" <nuno.sa@analog.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20220505-0237=
-56/Jchao-Sun/Add-assert-for-inode-i_io_list-in-inode_io_list_move_locked/20=
-220503-180501
-head:   af0b042e914fbaf7a7ac9d463c91b8566461c39f
-commit: af0b042e914fbaf7a7ac9d463c91b8566461c39f writeback: Fix inode->i_io=
-_list not be protected by inode->i_lock error
-date:   9 hours ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20505/202205051122.4JKB3mhj-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a7391ad3572431a354c927cf8896e86e50d7d0bf
+commit: 832cb9eeb9312dd2e14133681d3920b773ef1eac iio: dac: add support for =
+ltc2688
+date:   9 weeks ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 9 weeks ago
+config: riscv-randconfig-c006-20220427 (https://download.01.org/0day-ci/arc=
+hive/20220505/202205051125.t74wrdnm-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcf=
+dc3c683b393df1a5c9063252eb60e52818)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D832cb9eeb9312dd2e14133681d3920b773ef1eac
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 832cb9eeb9312dd2e14133681d3920b773ef1eac
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/fs-writeback.c:2467 __mark_inode_dirty() error: uninitialized symbol 'wb=
-'.
 
-vim +/wb +2467 fs/fs-writeback.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1556:3: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D at91_adc_read_pressure(st, chan->channel,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1556:3: note: Value stored to 'ret' i=
+s never read
+                   ret =3D at91_adc_read_pressure(st, chan->channel,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:42:24: warning: Division by zero [clang-analyzer-=
+core.DivideZero]
+           *remainder =3D dividend % divisor;
+                                 ^
+   drivers/iio/adc/at91-sama5d2_adc.c:1343:6: note: Assuming the condition =
+is false
+           if (iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1343:2: note: Taking false branch
+           if (iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
+           ^
+   drivers/iio/adc/at91-sama5d2_adc.c:1346:6: note: Assuming field 'dma_cha=
+n' is non-null
+           if (st->dma_st.dma_chan)
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1346:2: note: Taking true branch
+           if (st->dma_st.dma_chan)
+           ^
+   drivers/iio/adc/at91-sama5d2_adc.c:1347:3: note: Calling 'at91_adc_trigg=
+er_handler_dma'
+                   at91_adc_trigger_handler_dma(indio_dev);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1292:15: note: Loop condition is fals=
+e.  Exiting loop
+           u32 status =3D at91_adc_readl(st, ISR);
+                        ^
+   drivers/iio/adc/at91-sama5d2_adc.c:387:2: note: expanded from macro 'at9=
+1_adc_readl'
+           readl_relaxed((st)->base + (st)->soc_info.platform->layout->reg)
+           ^
+   arch/riscv/include/asm/mmio.h:116:38: note: expanded from macro 'readl_r=
+elaxed'
+   #define readl_relaxed(c)        ({ u32 __v; __io_rbr(); __v =3D readl_cp=
+u(c); __io_rar(); __v; })
+                                               ^
+   arch/riscv/include/asm/mmio.h:109:21: note: expanded from macro '__io_rb=
+r'
+   #define __io_rbr()              do {} while (0)
+                                   ^
+   drivers/iio/adc/at91-sama5d2_adc.c:1292:15: note: Loop condition is fals=
+e.  Exiting loop
+           u32 status =3D at91_adc_readl(st, ISR);
+                        ^
+   drivers/iio/adc/at91-sama5d2_adc.c:387:2: note: expanded from macro 'at9=
+1_adc_readl'
+           readl_relaxed((st)->base + (st)->soc_info.platform->layout->reg)
+           ^
+   arch/riscv/include/asm/mmio.h:116:70: note: expanded from macro 'readl_r=
+elaxed'
+   #define readl_relaxed(c)        ({ u32 __v; __io_rbr(); __v =3D readl_cp=
+u(c); __io_rar(); __v; })
+                                                                           =
+    ^
+   arch/riscv/include/asm/mmio.h:110:21: note: expanded from macro '__io_ra=
+r'
+   #define __io_rar()              do {} while (0)
+                                   ^
+   drivers/iio/adc/at91-sama5d2_adc.c:1294:6: note: Assuming the condition =
+is false
+           if (status & AT91_SAMA5D2_IER_GOVRE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1294:2: note: Taking false branch
+           if (status & AT91_SAMA5D2_IER_GOVRE)
+           ^
+   drivers/iio/adc/at91-sama5d2_adc.c:1300:17: note: Calling 'div_s64'
+           sample_count =3D div_s64(transferred_len, sample_size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:141:9: note: Calling 'div_s64_rem'
+           return div_s64_rem(dividend, divisor, &remainder);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:43:2: note: Returning zero
+           return dividend / divisor;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:141:9: note: Returning from 'div_s64_rem'
+           return div_s64_rem(dividend, divisor, &remainder);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:141:2: note: Returning zero
+           return div_s64_rem(dividend, divisor, &remainder);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1300:17: note: Returning from 'div_s6=
+4'
+           sample_count =3D div_s64(transferred_len, sample_size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1300:2: note: The value 0 is assigned=
+ to 'sample_count'
+           sample_count =3D div_s64(transferred_len, sample_size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1306:47: note: Passing the value 0 vi=
+a 2nd parameter 'divisor'
+           interval =3D div_s64((ns - st->dma_st.dma_ts), sample_count);
+                                                        ^~~~~~~~~~~~
+   drivers/iio/adc/at91-sama5d2_adc.c:1306:13: note: Calling 'div_s64'
+           interval =3D div_s64((ns - st->dma_st.dma_ts), sample_count);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:141:31: note: Passing the value 0 via 2nd paramet=
+er 'divisor'
+           return div_s64_rem(dividend, divisor, &remainder);
+                                        ^~~~~~~
+   include/linux/math64.h:141:9: note: Calling 'div_s64_rem'
+           return div_s64_rem(dividend, divisor, &remainder);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:42:24: note: Division by zero
+           *remainder =3D dividend % divisor;
+                        ~~~~~~~~~^~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/iio/dac/ltc2688.c:84:8: warning: Excessive padding in 'struct lt=
+c2688_state' (83 padding bytes, where 19 is optimal). =
 
-1efff914afac8a9 Theodore Ts'o         2015-03-17  2323  =
+   Optimal fields order: =
 
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2324  /**
-35d14f278e530ec Eric Biggers          2021-01-12  2325   * __mark_inode_dir=
-ty -	internal function to mark an inode dirty
-0117d4272b1acd1 Mauro Carvalho Chehab 2017-05-12  2326   *
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2327   * @inode: inode to=
- mark
-35d14f278e530ec Eric Biggers          2021-01-12  2328   * @flags: what kin=
-d of dirty, e.g. I_DIRTY_SYNC.  This can be a combination of
-35d14f278e530ec Eric Biggers          2021-01-12  2329   *	   multiple I_DI=
-RTY_* flags, except that I_DIRTY_TIME can't be combined
-35d14f278e530ec Eric Biggers          2021-01-12  2330   *	   with I_DIRTY_=
-PAGES.
-0117d4272b1acd1 Mauro Carvalho Chehab 2017-05-12  2331   *
-35d14f278e530ec Eric Biggers          2021-01-12  2332   * Mark an inode as=
- dirty.  We notify the filesystem, then update the inode's
-35d14f278e530ec Eric Biggers          2021-01-12  2333   * dirty flags.  Th=
-en, if needed we add the inode to the appropriate dirty list.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2334   *
-35d14f278e530ec Eric Biggers          2021-01-12  2335   * Most callers sho=
-uld use mark_inode_dirty() or mark_inode_dirty_sync()
-35d14f278e530ec Eric Biggers          2021-01-12  2336   * instead of calli=
-ng this directly.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2337   *
-35d14f278e530ec Eric Biggers          2021-01-12  2338   * CAREFUL!  We onl=
-y add the inode to the dirty list if it is hashed or if it
-35d14f278e530ec Eric Biggers          2021-01-12  2339   * refers to a bloc=
-kdev.  Unhashed inodes will never be added to the dirty list
-35d14f278e530ec Eric Biggers          2021-01-12  2340   * even if they are=
- later hashed, as they will have been marked dirty already.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2341   *
-35d14f278e530ec Eric Biggers          2021-01-12  2342   * In short, ensure=
- you hash any inodes _before_ you start marking them dirty.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2343   *
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2344   * Note that for bl=
-ockdevs, inode->dirtied_when represents the dirtying time of
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2345   * the block-specia=
-l inode (/dev/hda1) itself.  And the ->dirtied_when field of
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2346   * the kernel-inter=
-nal blockdev inode represents the dirtying time of the
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2347   * blockdev's pages=
-.  This is why for I_DIRTY_PAGES we always use
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2348   * page->mapping->h=
-ost, so the page-dirtying time is recorded in the internal
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2349   * blockdev inode.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2350   */
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2351  void __mark_inode_d=
-irty(struct inode *inode, int flags)
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2352  {
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2353  	struct super_block=
- *sb =3D inode->i_sb;
-35d14f278e530ec Eric Biggers          2021-01-12  2354  	int dirtytime =3D =
-0;
-af0b042e914fbaf Jchao Sun             2022-05-04  2355  	struct bdi_writeba=
-ck *wb;
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2356  =
+   tx_data, =
 
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2357  	trace_writeback_ma=
-rk_inode_dirty(inode, flags);
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2358  =
+   rx_data, =
 
-35d14f278e530ec Eric Biggers          2021-01-12  2359  	if (flags & I_DIRT=
-Y_INODE) {
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2360  		/*
-35d14f278e530ec Eric Biggers          2021-01-12  2361  		 * Notify the fil=
-esystem about the inode being dirtied, so that
-35d14f278e530ec Eric Biggers          2021-01-12  2362  		 * (if needed) it=
- can update on-disk fields and journal the
-35d14f278e530ec Eric Biggers          2021-01-12  2363  		 * inode.  This i=
-s only needed when the inode itself is being
-35d14f278e530ec Eric Biggers          2021-01-12  2364  		 * dirtied now.  =
-I.e. it's only needed for I_DIRTY_INODE, not
-35d14f278e530ec Eric Biggers          2021-01-12  2365  		 * for just I_DIR=
-TY_PAGES or I_DIRTY_TIME.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2366  		 */
-9fb0a7da0c528d9 Tejun Heo             2013-01-11  2367  		trace_writeback_d=
-irty_inode_start(inode, flags);
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2368  		if (sb->s_op->dir=
-ty_inode)
-a38ed483a72672e Eric Biggers          2021-01-12  2369  			sb->s_op->dirty_=
-inode(inode, flags & I_DIRTY_INODE);
-9fb0a7da0c528d9 Tejun Heo             2013-01-11  2370  		trace_writeback_d=
-irty_inode(inode, flags);
-e2728c5621fd9c6 Eric Biggers          2021-01-12  2371  =
+   vref, =
 
-35d14f278e530ec Eric Biggers          2021-01-12  2372  		/* I_DIRTY_INODE =
-supersedes I_DIRTY_TIME. */
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2373  		flags &=3D ~I_DIR=
-TY_TIME;
-35d14f278e530ec Eric Biggers          2021-01-12  2374  	} else {
-35d14f278e530ec Eric Biggers          2021-01-12  2375  		/*
-35d14f278e530ec Eric Biggers          2021-01-12  2376  		 * Else it's eith=
-er I_DIRTY_PAGES, I_DIRTY_TIME, or nothing.
-35d14f278e530ec Eric Biggers          2021-01-12  2377  		 * (We don't supp=
-ort setting both I_DIRTY_PAGES and I_DIRTY_TIME
-35d14f278e530ec Eric Biggers          2021-01-12  2378  		 * in one call to=
- __mark_inode_dirty().)
-35d14f278e530ec Eric Biggers          2021-01-12  2379  		 */
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2380  		dirtytime =3D fla=
-gs & I_DIRTY_TIME;
-35d14f278e530ec Eric Biggers          2021-01-12  2381  		WARN_ON_ONCE(dirt=
-ytime && flags !=3D I_DIRTY_TIME);
-35d14f278e530ec Eric Biggers          2021-01-12  2382  	}
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2383  =
+   spi, =
 
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2384  	/*
-9c6ac78eb3521c5 Tejun Heo             2014-10-24  2385  	 * Paired with smp=
-_mb() in __writeback_single_inode() for the
-9c6ac78eb3521c5 Tejun Heo             2014-10-24  2386  	 * following lockl=
-ess i_state test.  See there for details.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2387  	 */
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2388  	smp_mb();
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2389  =
+   regmap, =
 
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2390  	if (((inode->i_sta=
-te & flags) =3D=3D flags) ||
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2391  	    (dirtytime && =
-(inode->i_state & I_DIRTY_INODE)))
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2392  		return;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2393  =
+   iio_chan, =
 
-250df6ed274d767 Dave Chinner          2011-03-22  2394  	spin_lock(&inode->=
-i_lock);
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2395  	if (dirtytime && (=
-inode->i_state & I_DIRTY_INODE))
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2396  		goto out_unlock_i=
-node;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2397  	if ((inode->i_stat=
-e & flags) !=3D flags) {
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2398  		const int was_dir=
-ty =3D inode->i_state & I_DIRTY;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2399  =
+   lock, =
 
-52ebea749aaed19 Tejun Heo             2015-05-22  2400  		inode_attach_wb(i=
-node, NULL);
-52ebea749aaed19 Tejun Heo             2015-05-22  2401  =
+   regulators, =
 
-35d14f278e530ec Eric Biggers          2021-01-12  2402  		/* I_DIRTY_INODE =
-supersedes I_DIRTY_TIME. */
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2403  		if (flags & I_DIR=
-TY_INODE)
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2404  			inode->i_state &=
-=3D ~I_DIRTY_TIME;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2405  		inode->i_state |=
-=3D flags;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2406  =
+   channels, =
 
-af0b042e914fbaf Jchao Sun             2022-05-04  2407  		wb =3D locked_ino=
-de_to_wb_and_lock_list(inode);
-af0b042e914fbaf Jchao Sun             2022-05-04  2408  		spin_lock(&inode-=
->i_lock);
-af0b042e914fbaf Jchao Sun             2022-05-04  2409  =
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ltc2688_state {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:84:8: note: Excessive padding in 'struct ltc26=
+88_state' (83 padding bytes, where 19 is optimal). Optimal fields order: tx=
+_data, rx_data, vref, spi, regmap, iio_chan, lock, regulators, channels, co=
+nsider reordering the fields or adding explicit padding members
+   struct ltc2688_state {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:253:11: warning: The left operand of '&' is a =
+garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   *code =3D FIELD_GET(LTC2688_DITHER_RAW_MASK, *code);
+                           ^
+   include/linux/bitfield.h:126:27: note: expanded from macro 'FIELD_GET'
+                   (typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask)); \
+                                           ^
+   drivers/iio/dac/ltc2688.c:498:2: note: 'val' declared without an initial=
+ value
+           u32 val;
+           ^~~~~~~
+   drivers/iio/dac/ltc2688.c:500:6: note: Assuming 'private' is not equal t=
+o LTC2688_INPUT_B_AVAIL
+           if (private =3D=3D LTC2688_INPUT_B_AVAIL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:500:2: note: Taking false branch
+           if (private =3D=3D LTC2688_INPUT_B_AVAIL)
+           ^
+   drivers/iio/dac/ltc2688.c:505:6: note: Assuming 'private' is not equal t=
+o LTC2688_DITHER_OFF
+           if (private =3D=3D LTC2688_DITHER_OFF)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:505:2: note: Taking false branch
+           if (private =3D=3D LTC2688_DITHER_OFF)
+           ^
+   drivers/iio/dac/ltc2688.c:508:8: note: Calling 'ltc2688_dac_code_read'
+           ret =3D ltc2688_dac_code_read(st, chan->channel, private, &val);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:245:6: note: Assuming 'ret' is not equal to 0
+           if (ret)
+               ^~~
+   drivers/iio/dac/ltc2688.c:245:2: note: Taking true branch
+           if (ret)
+           ^
+   drivers/iio/dac/ltc2688.c:246:3: note: Control jumps to line 250
+                   goto out_unlock;
+                   ^
+   drivers/iio/dac/ltc2688.c:252:6: note: Assuming field 'toggle_chan' is f=
+alse
+           if (!c->toggle_chan && input =3D=3D LTC2688_INPUT_B)
+               ^~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:252:6: note: Left side of '&&' is true
+   drivers/iio/dac/ltc2688.c:252:25: note: Assuming 'input' is equal to LTC=
+2688_INPUT_B
+           if (!c->toggle_chan && input =3D=3D LTC2688_INPUT_B)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ltc2688.c:252:2: note: Taking true branch
+           if (!c->toggle_chan && input =3D=3D LTC2688_INPUT_B)
+           ^
+   drivers/iio/dac/ltc2688.c:253:11: note: Taking false branch
+                   *code =3D FIELD_GET(LTC2688_DITHER_RAW_MASK, *code);
+                           ^
+   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/iio/dac/ltc2688.c:253:11: note: Loop condition is false.  Exitin=
+g loop
+                   *code =3D FIELD_GET(LTC2688_DITHER_RAW_MASK, *code);
+                           ^
+   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
 
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2410  		/*
-5afced3bf28100d Jan Kara              2020-05-29  2411  		 * If the inode i=
-s queued for writeback by flush worker, just
-5afced3bf28100d Jan Kara              2020-05-29  2412  		 * update its dir=
-ty state. Once the flush worker is done with
-5afced3bf28100d Jan Kara              2020-05-29  2413  		 * the inode it w=
-ill place it on the appropriate superblock
-5afced3bf28100d Jan Kara              2020-05-29  2414  		 * list, based up=
-on its state.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2415  		 */
-5afced3bf28100d Jan Kara              2020-05-29  2416  		if (inode->i_stat=
-e & I_SYNC_QUEUED)
-af0b042e914fbaf Jchao Sun             2022-05-04  2417  			goto out_unlock;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2418  =
+vim +84 drivers/iio/dac/ltc2688.c
 
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2419  		/*
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2420  		 * Only add valid=
- (hashed) inodes to the superblock's
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2421  		 * dirty list.  A=
-dd blockdev inodes as well.
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2422  		 */
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2423  		if (!S_ISBLK(inod=
-e->i_mode)) {
-1d3382cbf02986e Al Viro               2010-10-23  2424  			if (inode_unhash=
-ed(inode))
-af0b042e914fbaf Jchao Sun             2022-05-04  2425  				goto out_unlock;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2426  		}
-a4ffdde6e56fdf8 Al Viro               2010-06-02  2427  		if (inode->i_stat=
-e & I_FREEING)
-af0b042e914fbaf Jchao Sun             2022-05-04  2428  			goto out_unlock;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2429  =
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   83  =
 
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2430  		/*
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2431  		 * If the inode w=
-as already on b_dirty/b_io/b_more_io, don't
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2432  		 * reposition it =
-(that would break b_dirty time-ordering).
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2433  		 */
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2434  		if (!was_dirty) {
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2435  			struct list_head=
- *dirty_list;
-a66979abad090b2 Dave Chinner          2011-03-22  2436  			bool wakeup_bdi =
-=3D false;
-500b067c5e6ceea Jens Axboe            2009-09-09  2437  =
-
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2438  			inode->dirtied_w=
-hen =3D jiffies;
-a2f4870697a5bcf Theodore Ts'o         2015-03-17  2439  			if (dirtytime)
-a2f4870697a5bcf Theodore Ts'o         2015-03-17  2440  				inode->dirtied_=
-time_when =3D jiffies;
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2441  =
-
-0e11f6443f522f8 Christoph Hellwig     2018-02-21  2442  			if (inode->i_sta=
-te & I_DIRTY)
-0747259d13febfc Tejun Heo             2015-05-22  2443  				dirty_list =3D =
-&wb->b_dirty;
-a2f4870697a5bcf Theodore Ts'o         2015-03-17  2444  			else
-0747259d13febfc Tejun Heo             2015-05-22  2445  				dirty_list =3D =
-&wb->b_dirty_time;
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2446  =
-
-c7f5408493aeb01 Dave Chinner          2015-03-04  2447  			wakeup_bdi =3D i=
-node_io_list_move_locked(inode, wb,
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2448  							       dirty=
-_list);
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2449  =
-
-0747259d13febfc Tejun Heo             2015-05-22  2450  			spin_unlock(&wb-=
->list_lock);
-af0b042e914fbaf Jchao Sun             2022-05-04  2451  			spin_unlock(&ino=
-de->i_lock);
-0ae45f63d4ef8d8 Theodore Ts'o         2015-02-02  2452  			trace_writeback_=
-dirty_inode_enqueue(inode);
-a66979abad090b2 Dave Chinner          2011-03-22  2453  =
-
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2454  			/*
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2455  			 * If this is th=
-e first dirty inode for this bdi,
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2456  			 * we have to wa=
-ke-up the corresponding bdi thread
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2457  			 * to make sure =
-background write-back happens
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2458  			 * later.
-d6c10f1fc8626dc Tejun Heo             2015-05-22  2459  			 */
-f56753ac2a90810 Christoph Hellwig     2020-09-24  2460  			if (wakeup_bdi &&
-f56753ac2a90810 Christoph Hellwig     2020-09-24  2461  			    (wb->bdi->ca=
-pabilities & BDI_CAP_WRITEBACK))
-0747259d13febfc Tejun Heo             2015-05-22  2462  				wb_wakeup_delay=
-ed(wb);
-a66979abad090b2 Dave Chinner          2011-03-22  2463  			return;
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2464  		}
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2465  	}
-af0b042e914fbaf Jchao Sun             2022-05-04  2466  out_unlock:
-af0b042e914fbaf Jchao Sun             2022-05-04 @2467  	spin_unlock(&wb->l=
-ist_lock);
-250df6ed274d767 Dave Chinner          2011-03-22  2468  out_unlock_inode:
-250df6ed274d767 Dave Chinner          2011-03-22  2469  	spin_unlock(&inode=
-->i_lock);
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2470  }
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2471  EXPORT_SYMBOL(__mar=
-k_inode_dirty);
-03ba3782e8dcc5b Jens Axboe            2009-09-09  2472  =
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25  @84  struct ltc2688_state {
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   85  	struct spi_device *spi;
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   86  	struct regmap *regmap;
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   87  	struct regulator_bulk_data r=
+egulators[2];
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   88  	struct ltc2688_chan channels=
+[LTC2688_DAC_CHANNELS];
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   89  	struct iio_chan_spec *iio_ch=
+an;
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   90  	/* lock to protect against m=
+ultiple access to the device and shared data */
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   91  	struct mutex lock;
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   92  	int vref;
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   93  	/*
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   94  	 * DMA (thus cache coherency=
+ maintenance) requires the
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   95  	 * transfer buffers to live =
+in their own cache lines.
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   96  	 */
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   97  	u8 tx_data[6] ____cacheline_=
+aligned;
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   98  	u8 rx_data[3];
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25   99  };
+832cb9eeb9312dd Nuno S=C3=A1 2022-02-25  100  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6171753215549668822==--
+--===============2354185330173004698==--
 
