@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5994553613718288549=="
+Content-Type: multipart/mixed; boundary="===============2037650517980095536=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/spi-nor/core.c:1512:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Thu, 05 May 2022 11:25:21 +0800
-Message-ID: <202205051125.qgDf9RoF-lkp@intel.com>
+Subject: Re: [PATCH 1/1] platform/x86: Drop the PMC_ATOM Kconfig option
+Date: Thu, 05 May 2022 10:54:55 +0800
+Message-ID: <202205051053.AYrZ7mcv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5994553613718288549==
+--===============2037650517980095536==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,51 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Down <chris@chrisdown.name>
-CC: Petr Mladek <pmladek@suse.com>
+In-Reply-To: <20220503114607.98844-2-hdegoede@redhat.com>
+References: <20220503114607.98844-2-hdegoede@redhat.com>
+TO: Hans de Goede <hdegoede@redhat.com>
+TO: Mark Gross <markgross@kernel.org>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Paul Gortmaker <paul.gortmaker@windriver.com>
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: platform-driver-x86(a)vger.kernel.org
+CC: linux-clk(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a7391ad3572431a354c927cf8896e86e50d7d0bf
-commit: ad7d61f159db73974f1b0352f21afe04b0bbd920 printk: index: Add indexin=
-g support to dev_printk
-date:   10 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220428 (https://download.01.org/0day-ci/archi=
-ve/20220505/202205051125.qgDf9RoF-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473=
-aacce38cd7dd77eebceaf3c98c5707ab3b)
+Hi Hans,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20220503]
+[also build test WARNING on v5.18-rc5]
+[cannot apply to clk/clk-next linus/master v5.18-rc5 v5.18-rc4 v5.18-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/platfo=
+rm-x86-Drop-the-PMC_ATOM-Kconfig-option/20220503-234134
+base:    44a2f39e611ac0bc1f17c288a583d7f2e5684aa7
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+505/202205051053.AYrZ7mcv-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 363b3a=
+645a1e30011cc8da624f13dac5fd915628)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dad7d61f159db73974f1b0352f21afe04b0bbd920
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ad7d61f159db73974f1b0352f21afe04b0bbd920
+        # https://github.com/intel-lab-lkp/linux/commit/074b76210423b4d852e=
+4eda6d80644787d8cfca9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hans-de-Goede/platform-x86-Drop-th=
+e-PMC_ATOM-Kconfig-option/20220503-234134
+        git checkout 074b76210423b4d852e4eda6d80644787d8cfca9
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,318 +67,927 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           tmp =3D RREG32_SOC15(GC, 0, mmCP_MQD_CONTROL);
-                 ^
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/soc15_common.h:49:2: note: expanded=
- from macro 'RREG32_SOC15'
-           __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BAS=
-E_IDX] + reg, \
+   net/core/utils.c:196:2: warning: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(dbuf, 0, sizeof(dbuf));
            ^
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/soc15_common.h:36:26: note: expande=
-d from macro '__RREG32_SOC15_RLC__'
-           ((amdgpu_sriov_vf(adev) && adev->gfx.rlc.funcs && adev->gfx.rlc.=
-funcs->rlcg_rreg) ? \
-                                   ^
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:3531:8: note: Assuming the conditi=
-on is false
-           tmp =3D RREG32_SOC15(GC, 0, mmCP_HQD_PQ_CONTROL);
-                 ^
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/soc15_common.h:49:2: note: expanded=
- from macro 'RREG32_SOC15'
-           __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BAS=
-E_IDX] + reg, \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/soc15_common.h:36:4: note: expanded=
- from macro '__RREG32_SOC15_RLC__'
-           ((amdgpu_sriov_vf(adev) && adev->gfx.rlc.funcs && adev->gfx.rlc.=
-funcs->rlcg_rreg) ? \
-             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_virt.h:251:2: note: expanded=
- from macro 'amdgpu_sriov_vf'
-   ((adev)->virt.caps & AMDGPU_SRIOV_CAPS_IS_VF)
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:3531:8: note: Left side of '&&' is=
- false
-           tmp =3D RREG32_SOC15(GC, 0, mmCP_HQD_PQ_CONTROL);
-                 ^
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/soc15_common.h:49:2: note: expanded=
- from macro 'RREG32_SOC15'
-           __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BAS=
-E_IDX] + reg, \
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/core/utils.c:196:2: note: Call to function 'memset' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memset_s' in case of C11
+           memset(dbuf, 0, sizeof(dbuf));
            ^
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/soc15_common.h:36:26: note: expande=
-d from macro '__RREG32_SOC15_RLC__'
-           ((amdgpu_sriov_vf(adev) && adev->gfx.rlc.funcs && adev->gfx.rlc.=
-funcs->rlcg_rreg) ? \
-                                   ^
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:3533:9: note: '?' condition is fal=
-se
-                               (order_base_2(ring->ring_size / 4) - 1));
-                                ^
-   include/linux/log2.h:219:2: note: expanded from macro 'order_base_2'
-           __builtin_constant_p(n) ? (             \
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/core/utils.c:291:3: warning: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dst, dbuf, sizeof(dbuf));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/core/utils.c:291:3: note: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11
+                   memcpy(dst, dbuf, sizeof(dbuf));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/core/utils.c:341:3: warning: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(scope_id, scope_delim + 1, scope_len);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/core/utils.c:341:3: note: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11
+                   memcpy(scope_id, scope_delim + 1, scope_len);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 80 warnings (80 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   kernel/bpf/tnum.c:177:9: warning: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return snprintf(str, size, "(%#llx; %#llx)", a.value, a.mask);
+                  ^~~~~~~~
+   kernel/bpf/tnum.c:177:9: note: Call to function 'snprintf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'snprintf_s' in case of C11
+           return snprintf(str, size, "(%#llx; %#llx)", a.value, a.mask);
+                  ^~~~~~~~
+   78 warnings generated.
+   kernel/bpf/bpf_iter.c:512:2: warning: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&linfo, 0, sizeof(union bpf_iter_link_info));
            ^
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:3532:8: note: The result of the le=
-ft shift is undefined because the left operand is negative
-           tmp =3D REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, QUEUE_SIZE,
-                 ^
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:1210:46: note: expanded fr=
-om macro 'REG_SET_FIELD'
-            (REG_FIELD_MASK(reg, field) & ((field_val) << REG_FIELD_SHIFT(r=
-eg, field))))
-                                           ~~~~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4126:4: warning: Value stored to '=
-tmp' is never read [clang-analyzer-deadcode.DeadStores]
-                           tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   kernel/bpf/bpf_iter.c:512:2: note: Call to function 'memset' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memset_s' in case of C11
+           memset(&linfo, 0, sizeof(union bpf_iter_link_info));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 77 warnings (77 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   77 warnings generated.
+   Suppressed 77 warnings (77 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   51 warnings generated.
+   drivers/i3c/master/i3c-master-cdns.c:434:3: warning: Call to function 'm=
+emcpy' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&tmp, bytes + (nbytes & ~3), nbytes & 3);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:434:3: note: Call to function 'memc=
+py' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&tmp, bytes + (nbytes & ~3), nbytes & 3);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:447:3: warning: Call to function 'm=
+emcpy' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(bytes + (nbytes & ~3), &tmp, nbytes & 3);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:447:3: note: Call to function 'memc=
+py' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(bytes + (nbytes & ~3), &tmp, nbytes & 3);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:1052:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(info, 0, sizeof(*info));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:1052:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(info, 0, sizeof(*info));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+>> drivers/i3c/master/i3c-master-cdns.c:1196:23: warning: Division by zero =
+[clang-analyzer-core.DivideZero]
+                                       (NSEC_PER_SEC / sysclk_rate));
+                                                     ^
+   include/linux/math.h:37:22: note: expanded from macro 'DIV_ROUND_UP'
+   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+                        ^
+   include/uapi/linux/const.h:34:46: note: expanded from macro '__KERNEL_DI=
+V_ROUND_UP'
+   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                                ^
+   drivers/i3c/master/i3c-master-cdns.c:1194:30: note: Calling 'clk_get_rat=
+e'
+           unsigned long sysclk_rate =3D clk_get_rate(master->sysclk);
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/clk.h:882:2: note: Returning zero
+           return 0;
+           ^~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:1194:30: note: Returning from 'clk_=
+get_rate'
+           unsigned long sysclk_rate =3D clk_get_rate(master->sysclk);
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:1194:2: note: 'sysclk_rate' initial=
+ized to 0
+           unsigned long sysclk_rate =3D clk_get_rate(master->sysclk);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:1196:23: note: Division by zero
+                                       (NSEC_PER_SEC / sysclk_rate));
+                                                     ^
+   include/linux/math.h:37:22: note: expanded from macro 'DIV_ROUND_UP'
+   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+                        ^
+   include/uapi/linux/const.h:34:46: note: expanded from macro '__KERNEL_DI=
+V_ROUND_UP'
+   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                                ^
+   drivers/i3c/master/i3c-master-cdns.c:1245:2: warning: Value stored to 'p=
+rescl1' is never read [clang-analyzer-deadcode.DeadStores]
+           prescl1 =3D PRESCL_CTRL1_OD_LOW(low);
+           ^
+   drivers/i3c/master/i3c-master-cdns.c:1245:2: note: Value stored to 'pres=
+cl1' is never read
+   drivers/i3c/master/i3c-master-cdns.c:1338:3: warning: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buf + (nbytes & ~3), &tmp, nbytes & 3);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/i3c-master-cdns.c:1338:3: note: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buf + (nbytes & ~3), &tmp, nbytes & 3);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   47 warnings generated.
+   drivers/video/backlight/adp5520_bl.c:148:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", reg_val);
+                  ^~~~~~~
+   drivers/video/backlight/adp5520_bl.c:148:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", reg_val);
+                  ^~~~~~~
+   drivers/video/backlight/adp5520_bl.c:304:2: warning: Call to function 'm=
+emset' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'memset_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&props, 0, sizeof(struct backlight_properties));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/video/backlight/adp5520_bl.c:304:2: note: Call to function 'mems=
+et' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memset_s' in case of C11
+           memset(&props, 0, sizeof(struct backlight_properties));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   drivers/video/backlight/adp8860_bl.c:230:2: warning: Value stored to 're=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D adp8860_write(client, ADP8860_ISCFR, pdata->led_fade_law=
+);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/adp8860_bl.c:230:2: note: Value stored to 'ret' =
+is never read
+           ret =3D adp8860_write(client, ADP8860_ISCFR, pdata->led_fade_law=
+);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/adp8860_bl.c:434:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", reg_val);
+                  ^~~~~~~
+   drivers/video/backlight/adp8860_bl.c:434:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", reg_val);
+                  ^~~~~~~
+   drivers/video/backlight/adp8860_bl.c:572:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", ret_val);
+                  ^~~~~~~
+   drivers/video/backlight/adp8860_bl.c:572:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", ret_val);
+                  ^~~~~~~
+   drivers/video/backlight/adp8860_bl.c:591:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n",
+                  ^~~~~~~
+   drivers/video/backlight/adp8860_bl.c:591:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n",
+                  ^~~~~~~
+   drivers/video/backlight/adp8860_bl.c:705:2: warning: Call to function 'm=
+emset' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'memset_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&props, 0, sizeof(props));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/video/backlight/adp8860_bl.c:705:2: note: Call to function 'mems=
+et' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memset_s' in case of C11
+--
+                                 ^
+   sound/isa/sb/sb16_csp.c:382:4: note: '?' condition is false
+                           if (le32_to_cpu(code_h.name) !=3D MAIN_HEADER) {
                            ^
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4126:4: note: Value stored to 'tmp=
-' is never read
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_link_encoder.c:310:2: w=
-arning: Value stored to 'value' is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           value =3D REG_READ(DP_DPHY_INTERNAL_CTRL);
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_link_encoder.c:310:2: n=
-ote: Value stored to 'value' is never read
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_clock_source.c:1264:2: =
-warning: Value stored to 'ss_info_cur' is never read [clang-analyzer-deadco=
-de.DeadStores]
-           ss_info_cur =3D ss_info;
-           ^             ~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_clock_source.c:1264:2: =
-note: Value stored to 'ss_info_cur' is never read
-           ss_info_cur =3D ss_info;
-           ^             ~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/mtd/spi-nor/core.c:1512:2: warning: Use of memory after it is fr=
-eed [clang-analyzer-unix.Malloc]
-           list_for_each_entry_safe(cmd, next, erase_list, list) {
+   sound/isa/sb/sb16_csp.c:382:4: note: Taking false branch
+                           if (le32_to_cpu(code_h.name) !=3D MAIN_HEADER) {
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/isa/sb/sb16_csp.c:389:4: note: Assuming 'err' is 0
+                           if (err)
+                           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/isa/sb/sb16_csp.c:389:4: note: '?' condition is false
+                           if (err)
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/isa/sb/sb16_csp.c:389:8: note: 'err' is 0
+                           if (err)
+                               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/isa/sb/sb16_csp.c:389:4: note: '?' condition is false
+                           if (err)
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/list.h:716:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^
-   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
+   sound/isa/sb/sb16_csp.c:389:4: note: Taking false branch
+                           if (err)
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/isa/sb/sb16_csp.c:395:12: note: Assigned value is garbage or undef=
+ined
+                           p->mode =3D le16_to_cpu(funcdesc_h.flags_play_re=
+c);
+                                   ^
+   sound/isa/sb/sb16_csp.c:1133:2: warning: Call to function 'sprintf' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(name, "cspD%d", device);
+           ^~~~~~~
+   sound/isa/sb/sb16_csp.c:1133:2: note: Call to function 'sprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'sprintf_s' in case of C11
+           sprintf(name, "cspD%d", device);
+           ^~~~~~~
+   Suppressed 39 warnings (39 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   sound/soc/fsl/fsl_sai.c:1053:3: warning: Call to function 'sprintf' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(tmp, "mclk%d", i);
+                   ^~~~~~~
+   sound/soc/fsl/fsl_sai.c:1053:3: note: Call to function 'sprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(tmp, "mclk%d", i);
+                   ^~~~~~~
+   sound/soc/fsl/fsl_sai.c:1078:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&sai->cpu_dai_drv, &fsl_sai_dai_template,
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_sai.c:1078:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&sai->cpu_dai_drv, &fsl_sai_dai_template,
            ^
-   include/linux/kernel.h:494:25: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^
-   drivers/mtd/spi-nor/core.c:1651:2: note: Taking false branch
-           dev_dbg(nor->dev, "at 0x%llx, len %lld\n", (long long)instr->add=
-r,
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+>> sound/soc/fsl/fsl_ssi.c:739:17: warning: Division by zero [clang-analyze=
+r-core.DivideZero]
+                   else if (freq / afreq =3D=3D 1)
+                                 ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/fsl/fsl_ssi.c:678:17: note: Assuming field 'stream' is not equ=
+al to SNDRV_PCM_STREAM_PLAYBACK
+           bool tx2, tx =3D substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYB=
+ACK;
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_ssi.c:692:2: note: Assuming field 'slots' is 0
+           if (ssi->slots)
            ^
-   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
-           if (0)                                                          \
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/fsl/fsl_ssi.c:692:2: note: '?' condition is false
+           if (ssi->slots)
            ^
-   drivers/mtd/spi-nor/core.c:1654:2: note: Taking true branch
-           if (spi_nor_has_uniform_erase(nor)) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/fsl/fsl_ssi.c:692:11: note: Field 'slots' is 0
+           if (ssi->slots)
+                    ^
+   sound/soc/fsl/fsl_ssi.c:692:2: note: '?' condition is false
+           if (ssi->slots)
            ^
-   drivers/mtd/spi-nor/core.c:1656:7: note: Assuming 'rem' is 0
-                   if (rem)
-                       ^~~
-   drivers/mtd/spi-nor/core.c:1656:3: note: Taking false branch
-                   if (rem)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/soc/fsl/fsl_ssi.c:692:2: note: Taking false branch
+           if (ssi->slots)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/soc/fsl/fsl_ssi.c:694:2: note: Assuming field 'slot_width' is 0
+           if (ssi->slot_width)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/fsl/fsl_ssi.c:694:2: note: '?' condition is false
+           if (ssi->slot_width)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/fsl/fsl_ssi.c:694:11: note: Field 'slot_width' is 0
+           if (ssi->slot_width)
+                    ^
+   sound/soc/fsl/fsl_ssi.c:694:2: note: '?' condition is false
+           if (ssi->slot_width)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/soc/fsl/fsl_ssi.c:694:2: note: Taking false branch
+           if (ssi->slot_width)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/soc/fsl/fsl_ssi.c:698:6: note: Assuming 'channels' is not equal to=
+ 2
+           if (channels =3D=3D 2 &&
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/fsl/fsl_ssi.c:698:20: note: Left side of '&&' is false
+           if (channels =3D=3D 2 &&
+--
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/accessibility/speakup/speakup_ltlk.c:142:3: note: '?' condition =
+is false
+                   if (++i >=3D 19)
                    ^
-   drivers/mtd/spi-nor/core.c:1664:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/mtd/spi-nor/core.c:1664:2: note: Taking false branch
-           if (ret)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/mtd/spi-nor/core.c:1668:6: note: Assuming 'len' is not equal to =
-field 'size'
-           if (len =3D=3D mtd->size && !(nor->flags & SNOR_F_NO_OP_CHIP_ERA=
-SE)) {
-               ^~~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/core.c:1668:23: note: Left side of '&&' is false
-           if (len =3D=3D mtd->size && !(nor->flags & SNOR_F_NO_OP_CHIP_ERA=
-SE)) {
-                                ^
-   drivers/mtd/spi-nor/core.c:1698:9: note: Taking false branch
-           } else if (spi_nor_has_uniform_erase(nor)) {
-                  ^
-   drivers/mtd/spi-nor/core.c:1718:9: note: Calling 'spi_nor_erase_multi_se=
-ctors'
-                   ret =3D spi_nor_erase_multi_sectors(nor, addr, len);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/core.c:1605:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/mtd/spi-nor/core.c:1605:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/mtd/spi-nor/core.c:1608:2: note: Left side of '&&' is false
-           list_for_each_entry_safe(cmd, next, &erase_list, list) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/mtd/spi-nor/core.c:1608:2: note: Taking false branch
-           list_for_each_entry_safe(cmd, next, &erase_list, list) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   drivers/accessibility/speakup/speakup_ltlk.c:142:3: note: Taking false b=
+ranch
+                   if (++i >=3D 19)
                    ^
-   drivers/mtd/spi-nor/core.c:1608:2: note: Loop condition is false.  Exiti=
-ng loop
-           list_for_each_entry_safe(cmd, next, &erase_list, list) {
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/accessibility/speakup/speakup_ltlk.c:140:17: note: The left oper=
+and of '!=3D' is a garbage value
+           for (i =3D 0; *t !=3D '\r'; t++) {
+                       ~~ ^
+   Suppressed 39 warnings (39 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   26 warnings generated.
+   Suppressed 26 warnings (26 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (20 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (20 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   46 warnings generated.
+   drivers/leds/leds-lp3952.c:104:2: warning: Call to function 'strncpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(dest, str, LP3952_LABEL_MAX_LEN);
+           ^~~~~~~
+   drivers/leds/leds-lp3952.c:104:2: note: Call to function 'strncpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'strncpy_s' in case of C11
+           strncpy(dest, str, LP3952_LABEL_MAX_LEN);
+           ^~~~~~~
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   63 warnings generated.
+   Suppressed 63 warnings (63 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   85 warnings generated.
+   net/ieee802154/socket.c:728:3: warning: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(saddr, 0, sizeof(*saddr));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ieee802154/socket.c:728:3: note: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11
+                   memset(saddr, 0, sizeof(*saddr));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 84 warnings (84 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   85 warnings generated.
+   Suppressed 85 warnings (85 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   sound/soc/fsl/fsl_spdif.c:813:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&ucontrol->value.iec958.subcode[0],
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_spdif.c:813:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&ucontrol->value.iec958.subcode[0],
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_spdif.c:845:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&ucontrol->value.bytes.data[0],
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_spdif.c:845:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&ucontrol->value.bytes.data[0],
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+>> sound/soc/fsl/fsl_spdif.c:1404:27: warning: Division by zero [clang-anal=
+yzer-core.DivideZero]
+                           } else if (rate[index] / arate =3D=3D 1) {
+                                                  ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/fsl/fsl_spdif.c:1373:17: note: 'is_sysclk' is false
+           sysclk_dfmin =3D is_sysclk ? 2 : 1;
+                          ^~~~~~~~~
+   sound/soc/fsl/fsl_spdif.c:1373:17: note: '?' condition is false
+   sound/soc/fsl/fsl_spdif.c:1374:17: note: 'is_sysclk' is false
+           sysclk_dfmax =3D is_sysclk ? 512 : 1;
+                          ^~~~~~~~~
+   sound/soc/fsl/fsl_spdif.c:1374:17: note: '?' condition is false
+   sound/soc/fsl/fsl_spdif.c:1376:2: note: Loop condition is true.  Enterin=
+g loop body
+           for (sysclk_df =3D sysclk_dfmin; sysclk_df <=3D sysclk_dfmax; sy=
+sclk_df++) {
            ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   sound/soc/fsl/fsl_spdif.c:1377:3: note: Loop condition is true.  Enterin=
+g loop body
+                   for (txclk_df =3D 1; txclk_df <=3D 128; txclk_df++) {
+                   ^
+   sound/soc/fsl/fsl_spdif.c:1379:4: note: Assuming 'round' is false
+                           if (round)
+                           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/fsl/fsl_spdif.c:1379:4: note: '?' condition is false
+                           if (round)
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/fsl/fsl_spdif.c:1379:8: note: 'round' is false
+                           if (round)
+                               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/soc/fsl/fsl_spdif.c:1379:4: note: '?' condition is false
+                           if (round)
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+   sound/soc/fsl/fsl_spdif.c:1379:4: note: Taking false branch
+                           if (round)
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/soc/fsl/fsl_spdif.c:1385:4: note: The value 0 is assigned to 'arat=
+e'
+                           arate /=3D txclk_df * sysclk_df;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_spdif.c:1387:4: note: '?' condition is false
+                           if (arate =3D=3D rate[index]) {
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/fsl/fsl_spdif.c:1387:4: note: Assuming the condition is false
+                           if (arate =3D=3D rate[index]) {
+                           ^
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/soc/fsl/fsl_spdif.c:1387:4: note: '?' condition is false
+                           if (arate =3D=3D rate[index]) {
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
 
-vim +1512 drivers/mtd/spi-nor/core.c
+vim +1196 drivers/i3c/master/i3c-master-cdns.c
 
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1503=
-  =
+603f2bee2c5419 Boris Brezillon 2017-07-19  1191  =
 
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1504=
-  /**
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1505=
-   * spi_nor_destroy_erase_cmd_list() - destroy erase command list
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1506=
-   * @erase_list:	list of erase commands
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1507=
-   */
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1508=
-  static void spi_nor_destroy_erase_cmd_list(struct list_head *erase_list)
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1509=
-  {
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1510=
-  	struct spi_nor_erase_command *cmd, *next;
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1511=
-  =
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1192  static u8 cdns_i3c_master_=
+calculate_thd_delay(struct cdns_i3c_master *master)
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1193  {
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1194  	unsigned long sysclk_rate=
+ =3D clk_get_rate(master->sysclk);
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1195  	u8 thd_delay =3D DIV_ROUN=
+D_UP(master->devdata->thd_delay_ns,
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18 @1196  				    (NSEC_PER_SEC / sy=
+sclk_rate));
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1197  =
 
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11 @1512=
-  	list_for_each_entry_safe(cmd, next, erase_list, list) {
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1513=
-  		list_del(&cmd->list);
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1514=
-  		kfree(cmd);
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1515=
-  	}
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1516=
-  }
-5390a8df769ec9 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus 2018-09-11  1517=
-  =
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1198  	/* Every value greater th=
+an 3 is not valid. */
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1199  	if (thd_delay > THD_DELAY=
+_MAX)
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1200  		thd_delay =3D THD_DELAY_=
+MAX;
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1201  =
 
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1202  	/* CTLR_THD_DEL value is =
+encoded. */
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1203  	return (THD_DELAY_MAX - t=
+hd_delay);
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1204  }
+dbd6654329fcb0 Przemyslaw Gaj  2019-11-18  1205  =
 
-:::::: The code at line 1512 was first introduced by commit
-:::::: 5390a8df769ec9ba9c995191bb0867430f602ebb mtd: spi-nor: add support t=
-o non-uniform SFDP SPI NOR flash memories
-
-:::::: TO: Tudor Ambarus <tudor.ambarus@microchip.com>
-:::::: CC: Boris Brezillon <boris.brezillon@bootlin.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5994553613718288549==--
+--===============2037650517980095536==--
 
