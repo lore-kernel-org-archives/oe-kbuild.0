@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1476688163675031307=="
+Content-Type: multipart/mixed; boundary="===============0652690681368459029=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [net-next:master 2/18] net/mptcp/pm_userspace.c:106:33: warning: Parameter 'skc' can be declared with const [constParameter]
-Date: Thu, 05 May 2022 17:15:43 +0800
-Message-ID: <202205051733.F5hjlcnr-lkp@intel.com>
+Date: Thu, 05 May 2022 15:54:43 +0800
+Message-ID: <202205051501.caEl7hUV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1476688163675031307==
+--===============0652690681368459029==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -23,8 +23,8 @@ master
 head:   4950b6990e3b1efae64a5f6fc5738d25e3b816b3
 commit: 8b20137012d9e521736c040328f8979cf0a144d0 [2/18] mptcp: read attribu=
 tes of addr entries managed by userspace PMs
-:::::: branch date: 6 hours ago
-:::::: commit date: 23 hours ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 22 hours ago
 compiler: aarch64-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
@@ -198,5 +198,5 @@ o *skc)
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1476688163675031307==--
+--===============0652690681368459029==--
 
