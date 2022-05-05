@@ -1,101 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============8799139979955896516=="
+Content-Type: multipart/mixed; boundary="===============0407447629629577213=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: [mcgrof:modules-testing 29/31] kernel/module/tracking.c:27:18: warning: Uninitialized variable: mod_taint->taints [uninitvar]
-Date: Thu, 05 May 2022 14:27:50 +0800
-Message-ID: <202205051421.oANVVpqN-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [linux-next:master 408/8237] drivers/net/wireless/ath/ath11k/wow.c:712 ath11k_wow_op_resume() warn: inconsistent returns '&ar->conf_mutex'.
+Date: Thu, 05 May 2022 08:58:17 +0300
+Message-ID: <20220505055817.GQ4031@kadam>
+In-Reply-To: <fd76aa54-4d05-a4b0-b3b4-11c8a5be799c@quicinc.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8799139979955896516==
+--===============0407447629629577213==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Aaron Tomlin <atomlin@redhat.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>
+On Thu, May 05, 2022 at 09:29:40AM +0800, Carl Huang wrote:
+> Hi Kalle,
+> =
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git mo=
-dules-testing
-head:   8b1abdc9007c0cb7976543dcb0f93441a4f05ab1
-commit: 442b86c2608f0fb58438b178c1372f6080b87189 [29/31] module: Introduce =
-module unload taint tracking
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 442b86c2608f0fb58438b178c1372f6080b87189
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+> Is the below the same fix that you have already applied to ath.git?
+> =
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> [-next] ath11k: fix missing unlock on error in ath11k_wow_op_resume() -
+> Patchwork (kernel.org) <https://patchwork.kernel.org/project/linux-wirele=
+ss/patch/20220408030912.3087293-1-yangyingliang@huawei.com/
+> >
 
+That looks good.  It's sort of annoying for me to send a bug report a
+month after the fix has been applied...  Sorry about that.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+1) These are kbuild warnings.  The zero day bot generates the
+warnings and I look them over and hit send.  I don't know why the kbuild
+bot seems to get confused by -mm.  The subject says 408/8237 which is
+pretty crazy.  Maybe I should just ignore the -mm patches?
 
->> kernel/module/tracking.c:27:18: warning: Uninitialized variable: mod_tai=
-nt->taints [uninitvar]
-         mod_taint->taints & mod->taints) {
-                    ^
-   kernel/module/tracking.c:55:38: warning: Uninitialized variable: mod_tai=
-nt->taints [uninitvar]
-      l =3D module_flags_taint(mod_taint->taints, buf);
-                                        ^
+2) The blamed patch came from a git tree but it had a Link tag to
+lore.kernel.org so we could have used that as an In-Reply-to tag.
+In an ideal world, all the bug reports for a patch would go to a
+standard location.
 
-vim +27 kernel/module/tracking.c
+Link: https://lore.kernel.org/r/1644308006-22784-5-git-send-email-quic_cjhu=
+ang(a)quicinc.com
 
-442b86c2608f0f Aaron Tomlin 2022-05-02  17  =
+3) Another idea is that the kbuild bot could search lore for Fixes to
+the original commit and include links to those threads?
 
-442b86c2608f0f Aaron Tomlin 2022-05-02  18  int try_add_tainted_module(stru=
-ct module *mod)
-442b86c2608f0f Aaron Tomlin 2022-05-02  19  {
-442b86c2608f0f Aaron Tomlin 2022-05-02  20  	struct mod_unload_taint *mod_t=
-aint;
-442b86c2608f0f Aaron Tomlin 2022-05-02  21  =
+regards,
+dan carpenter
 
-442b86c2608f0f Aaron Tomlin 2022-05-02  22  	module_assert_mutex_or_preempt=
-();
-442b86c2608f0f Aaron Tomlin 2022-05-02  23  =
-
-442b86c2608f0f Aaron Tomlin 2022-05-02  24  	list_for_each_entry_rcu(mod_ta=
-int, &unloaded_tainted_modules, list,
-442b86c2608f0f Aaron Tomlin 2022-05-02  25  				lockdep_is_held(&module_mut=
-ex)) {
-442b86c2608f0f Aaron Tomlin 2022-05-02  26  		if (!strcmp(mod_taint->name, =
-mod->name) &&
-442b86c2608f0f Aaron Tomlin 2022-05-02 @27  		    mod_taint->taints & mod->=
-taints) {
-442b86c2608f0f Aaron Tomlin 2022-05-02  28  			mod_taint->count++;
-442b86c2608f0f Aaron Tomlin 2022-05-02  29  			goto out;
-442b86c2608f0f Aaron Tomlin 2022-05-02  30  		}
-442b86c2608f0f Aaron Tomlin 2022-05-02  31  	}
-442b86c2608f0f Aaron Tomlin 2022-05-02  32  =
-
-442b86c2608f0f Aaron Tomlin 2022-05-02  33  	mod_taint =3D kmalloc(sizeof(*=
-mod_taint), GFP_KERNEL);
-442b86c2608f0f Aaron Tomlin 2022-05-02  34  	if (unlikely(!mod_taint))
-442b86c2608f0f Aaron Tomlin 2022-05-02  35  		return -ENOMEM;
-442b86c2608f0f Aaron Tomlin 2022-05-02  36  	strscpy(mod_taint->name, mod->=
-name, MODULE_NAME_LEN);
-442b86c2608f0f Aaron Tomlin 2022-05-02  37  	mod_taint->taints =3D mod->tai=
-nts;
-442b86c2608f0f Aaron Tomlin 2022-05-02  38  	list_add_rcu(&mod_taint->list,=
- &unloaded_tainted_modules);
-442b86c2608f0f Aaron Tomlin 2022-05-02  39  	mod_taint->count =3D 1;
-442b86c2608f0f Aaron Tomlin 2022-05-02  40  out:
-442b86c2608f0f Aaron Tomlin 2022-05-02  41  	return 0;
-442b86c2608f0f Aaron Tomlin 2022-05-02  42  }
-442b86c2608f0f Aaron Tomlin 2022-05-02  43  =
-
-
--- =
-
-0-DAY CI Kernel Test Service
-https://01.org/lkp
---===============8799139979955896516==--
+--===============0407447629629577213==--
 
