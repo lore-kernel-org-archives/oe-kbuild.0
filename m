@@ -1,421 +1,262 @@
-Content-Type: multipart/mixed; boundary="===============8169598688593822960=="
+Content-Type: multipart/mixed; boundary="===============3173222597146010282=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cxl:preview 55/78] drivers/cxl/region.c:104:24: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Fri, 06 May 2022 01:41:44 +0800
-Message-ID: <202205060129.LYyjyw0D-lkp@intel.com>
+Subject: Re: [PATCH net] net/sched: act_pedit: really ensure the skb is writable
+Date: Fri, 06 May 2022 01:31:27 +0800
+Message-ID: <202205060152.sIspNBBq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8169598688593822960==
+--===============3173222597146010282==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: linux-kernel(a)vger.kernel.org
-TO: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
+In-Reply-To: <dfcfe03e01c364599e92715828b24713d955e7c8.1651764848.git.paben=
+i@redhat.com>
+References: <dfcfe03e01c364599e92715828b24713d955e7c8.1651764848.git.pabeni=
+@redhat.com>
+TO: Paolo Abeni <pabeni@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
-head:   9b688fc651b9d2b633e8d959454670aba1c39162
-commit: 786e9e583773745bcd55c225d3a2643454dcca84 [55/78] cxl/region: Introd=
-uce a cxl_region driver
-:::::: branch date: 10 weeks ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20220504 (https://download.01.org/0day-ci/arc=
-hive/20220506/202205060129.LYyjyw0D-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
-b787698440a387750db7f8028e7cb14cfc)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commi=
-t/?id=3D786e9e583773745bcd55c225d3a2643454dcca84
-        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/=
-cxl/cxl.git
-        git fetch --no-tags cxl preview
-        git checkout 786e9e583773745bcd55c225d3a2643454dcca84
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+Hi Paolo,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on net/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/net-sche=
+d-act_pedit-really-ensure-the-skb-is-writable/20220505-235513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net.git 4071b=
+f121d59944d5cd2238de0642f3d7995a997
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+506/202205060152.sIspNBBq-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^      ~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_node.c:1572:3: warning: Value stored to 'ents' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   ents =3D hdr2.ents;
-                   ^      ~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_node.c:1572:3: note: Value stored to 'ents' is ne=
-ver read
-                   ents =3D hdr2.ents;
-                   ^      ~~~~~~~~~
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/clk/clk-max9485.c:199:9: warning: Access to field 'out' results =
-in a dereference of a null pointer (loaded from variable 'prev') [clang-ana=
-lyzer-core.NullDereference]
-           return prev->out;
-                  ^~~~
-   drivers/clk/clk-max9485.c:165:36: note: 'prev' initialized to a null poi=
-nter value
-           const struct max9485_rate *curr, *prev =3D NULL;
-                                             ^~~~
-   drivers/clk/clk-max9485.c:167:29: note: Assuming field 'out' is equal to=
- 0
-           for (curr =3D max9485_rates; curr->out !=3D 0; curr++) {
-                                      ^~~~~~~~~~~~~~
-   drivers/clk/clk-max9485.c:167:2: note: Loop condition is false. Executio=
-n continues on line 199
-           for (curr =3D max9485_rates; curr->out !=3D 0; curr++) {
-           ^
-   drivers/clk/clk-max9485.c:199:9: note: Access to field 'out' results in =
-a dereference of a null pointer (loaded from variable 'prev')
-           return prev->out;
-                  ^~~~
-   drivers/clk/clk-max9485.c:202:8: warning: Excessive padding in 'struct m=
-ax9485_clk' (11 padding bytes, where 3 is optimal). =
+cocci warnings: (new ones prefixed by >>)
+>> net/sched/act_pedit.c:333:2-8: preceding lock on line 326
 
-   Optimal fields order: =
+vim +333 net/sched/act_pedit.c
 
-   name, =
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  318  =
 
-   ops, =
+6a2b401cd17d41 net/sched/act_pedit.c Jamal Hadi Salim  2018-08-12  319  sta=
+tic int tcf_pedit_act(struct sk_buff *skb, const struct tc_action *a,
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  320  			=
+ struct tcf_result *res)
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  321  {
+a85a970af265f1 net/sched/act_pedit.c WANG Cong         2016-07-25  322  	st=
+ruct tcf_pedit *p =3D to_pedit(a);
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  323  	u3=
+2 max_offset;
+4749c3ef854e3a net/sched/act_pedit.c Florian Westphal  2015-04-30  324  	in=
+t i;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  325  =
 
-   parent_index, =
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21 @326  	sp=
+in_lock(&p->tcf_lock);
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  327  =
 
-   enable_bit, =
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  328  	ma=
+x_offset =3D (skb_transport_header_was_set(skb) ?
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  329  		 =
+     skb_transport_offset(skb) :
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  330  		 =
+     skb_network_offset(skb)) +
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  331  		 =
+    p->tcfp_off_max_hint;
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  332  	if=
+ (skb_ensure_writable(skb, min(skb->len, max_offset)))
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05 @333  		r=
+eturn p->tcf_action;
+5453f7744a582e net/sched/act_pedit.c Paolo Abeni       2022-05-05  334  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct max9485_clk {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/clk/clk-max9485.c:202:8: note: Excessive padding in 'struct max9=
-485_clk' (11 padding bytes, where 3 is optimal). Optimal fields order: name=
-, ops, parent_index, enable_bit, consider reordering the fields or adding e=
-xplicit padding members
-   struct max9485_clk {
-   ~~~~~~~^~~~~~~~~~~~~
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   fs/btrfs/free-space-tree.c:1476:3: warning: Value stored to 'total_found=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   total_found +=3D add_new_free_space(block_group, extent_=
-start,
-                   ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/btrfs/free-space-tree.c:1476:3: note: Value stored to 'total_found' i=
-s never read
-                   total_found +=3D add_new_free_space(block_group, extent_=
-start,
-                   ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   fs/btrfs/space-info.c:1565:3: warning: Value stored to 'used' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   used +=3D orig_bytes;
-                   ^       ~~~~~~~~~~
-   fs/btrfs/space-info.c:1565:3: note: Value stored to 'used' is never read
-                   used +=3D orig_bytes;
-                   ^       ~~~~~~~~~~
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   fs/btrfs/block-rsv.c:115:3: warning: Value stored to 'qgroup_to_release'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   qgroup_to_release =3D block_rsv->qgroup_rsv_size;
-                   ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/block-rsv.c:115:3: note: Value stored to 'qgroup_to_release' is=
- never read
-                   qgroup_to_release =3D block_rsv->qgroup_rsv_size;
-                   ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
->> drivers/cxl/region.c:104:24: warning: Division by zero [clang-analyzer-c=
-ore.DivideZero]
-           if (cxlr->config.size % (SZ_256M * iw)) {
-                                 ^
-   drivers/cxl/region.c:289:6: note: Assuming field 'active' is false
-           if (cxlr->active)
-               ^~~~~~~~~~~~
-   drivers/cxl/region.c:289:2: note: Taking false branch
-           if (cxlr->active)
-           ^
-   drivers/cxl/region.c:292:2: note: Taking false branch
-           if (uuid_is_null(&cxlr->config.uuid))
-           ^
-   drivers/cxl/region.c:297:8: note: Calling 'sanitize_region'
-           ret =3D sanitize_region(cxlr);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/region.c:85:32: note: Assuming the condition is false
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-                                         ^
-   include/linux/dev_printk.h:274:12: note: expanded from macro 'dev_WARN_O=
-NCE'
-           WARN_ONCE(condition, "%s %s: " format, \
-                     ^~~~~~~~~
-   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-                           ^~~~~~~~~
-   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   bool __ret_do_once =3D !!(condition);                   =
-  \
-                                           ^~~~~~~~~
-   drivers/cxl/region.c:85:6: note: '__ret_do_once' is false
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-               ^
-   include/linux/dev_printk.h:274:2: note: expanded from macro 'dev_WARN_ON=
-CE'
-           WARN_ONCE(condition, "%s %s: " format, \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                ^~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/cxl/region.c:85:6: note: Left side of '&&' is false
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-               ^
-   include/linux/dev_printk.h:274:2: note: expanded from macro 'dev_WARN_ON=
-CE'
-           WARN_ONCE(condition, "%s %s: " format, \
-           ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:17:30: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                              ^
-   drivers/cxl/region.c:85:6: note: Taking false branch
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-               ^
-   include/linux/dev_printk.h:274:2: note: expanded from macro 'dev_WARN_ON=
-CE'
-           WARN_ONCE(condition, "%s %s: " format, \
-           ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:17:3: note: expanded from macro 'DO_ONCE_LITE_=
-IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                   ^
-   drivers/cxl/region.c:85:2: note: Taking false branch
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-           ^
-   drivers/cxl/region.c:94:2: note: Taking false branch
-           if (!cxl_is_interleave_ways_valid(iw)) {
-           ^
-   drivers/cxl/region.c:99:2: note: Taking false branch
-           if (!cxl_is_interleave_granularity_valid(ig)) {
-           ^
-   drivers/cxl/region.c:104:24: note: Division by zero
-           if (cxlr->config.size % (SZ_256M * iw)) {
-               ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   drivers/base/regmap/regmap-debugfs.c:657:6: note: Assuming field 'debugf=
-s' is non-null
-           if (map->debugfs) {
-               ^~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:657:2: note: Taking true branch
-           if (map->debugfs) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:660:3: note: Calling 'regmap_debugf=
-s_free_dump_cache'
-                   regmap_debugfs_free_dump_cache(map);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:71:2: note: Loop condition is true.=
-  Entering loop body
-           while (!list_empty(&map->debugfs_off_cache)) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:76:3: note: Memory is released
-                   kfree(c);
-                   ^~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:71:2: note: Loop condition is true.=
-  Entering loop body
-           while (!list_empty(&map->debugfs_off_cache)) {
+9c4a4e488bc8f5 net/sched/act_pedit.c Jamal Hadi Salim  2016-06-06  335  	tc=
+f_lastuse_update(&p->tcf_tm);
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  336  =
 
-vim +104 drivers/cxl/region.c
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  337  	if=
+ (p->tcfp_nkeys > 0) {
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  338  		s=
+truct tc_pedit_key *tkey =3D p->tcfp_keys;
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  339  		s=
+truct tcf_pedit_key_ex *tkey_ex =3D p->tcfp_keys_ex;
+80f0f574cc615b net/sched/act_pedit.c Roman Mashak      2018-06-27  340  		e=
+num pedit_header_type htype =3D
+80f0f574cc615b net/sched/act_pedit.c Roman Mashak      2018-06-27  341  			=
+TCA_PEDIT_KEY_EX_HDR_TYPE_NETWORK;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  342  		e=
+num pedit_cmd cmd =3D TCA_PEDIT_KEY_EX_CMD_SET;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  343  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   66  =
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  344  		f=
+or (i =3D p->tcfp_nkeys; i > 0; i--, tkey++) {
+544377cd2545f3 net/sched/act_pedit.c Roman Mashak      2018-06-27  345  			=
+u32 *ptr, hdata;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  346  			=
+int offset =3D tkey->off;
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  347  			=
+int hoffset;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  348  			=
+u32 val;
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  349  			=
+int rc;
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  350  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   67  /**
-786e9e58377374 Ben Widawsky 2022-02-11   68   * sanitize_region() - Check i=
-s region is reasonably configured
-786e9e58377374 Ben Widawsky 2022-02-11   69   * @cxlr: The region to check
-786e9e58377374 Ben Widawsky 2022-02-11   70   *
-786e9e58377374 Ben Widawsky 2022-02-11   71   * Determination as to whether=
- or not a region can possibly be configured is
-786e9e58377374 Ben Widawsky 2022-02-11   72   * described in CXL Memory Dev=
-ice SW Guide. In order to implement the algorithms
-786e9e58377374 Ben Widawsky 2022-02-11   73   * described there, certain mo=
-re basic configuration parameters must first need
-786e9e58377374 Ben Widawsky 2022-02-11   74   * to be validated. That is ac=
-complished by this function.
-786e9e58377374 Ben Widawsky 2022-02-11   75   *
-786e9e58377374 Ben Widawsky 2022-02-11   76   * Returns 0 if the region is =
-reasonably configured, else returns a negative
-786e9e58377374 Ben Widawsky 2022-02-11   77   * error code.
-786e9e58377374 Ben Widawsky 2022-02-11   78   */
-786e9e58377374 Ben Widawsky 2022-02-11   79  static int sanitize_region(con=
-st struct cxl_region *cxlr)
-786e9e58377374 Ben Widawsky 2022-02-11   80  {
-786e9e58377374 Ben Widawsky 2022-02-11   81  	const int ig =3D region_granu=
-larity(cxlr);
-786e9e58377374 Ben Widawsky 2022-02-11   82  	const int iw =3D region_ways(=
-cxlr);
-786e9e58377374 Ben Widawsky 2022-02-11   83  	int i;
-786e9e58377374 Ben Widawsky 2022-02-11   84  =
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  351  			=
+if (tkey_ex) {
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  352  			=
+	htype =3D tkey_ex->htype;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  353  			=
+	cmd =3D tkey_ex->cmd;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  354  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   85  	if (dev_WARN_ONCE(&cxlr->dev,=
- !is_cxl_region_configured(cxlr),
-786e9e58377374 Ben Widawsky 2022-02-11   86  			  "unconfigured regions can=
-'t be probed (race?)\n")) {
-786e9e58377374 Ben Widawsky 2022-02-11   87  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11   88  	}
-786e9e58377374 Ben Widawsky 2022-02-11   89  =
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  355  			=
+	tkey_ex++;
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  356  			}
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  357  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   90  	/*
-786e9e58377374 Ben Widawsky 2022-02-11   91  	 * Interleave attributes shou=
-ld be caught by later math, but it's
-786e9e58377374 Ben Widawsky 2022-02-11   92  	 * easiest to find those issu=
-es here, now.
-786e9e58377374 Ben Widawsky 2022-02-11   93  	 */
-786e9e58377374 Ben Widawsky 2022-02-11   94  	if (!cxl_is_interleave_ways_v=
-alid(iw)) {
-786e9e58377374 Ben Widawsky 2022-02-11   95  		dev_dbg(&cxlr->dev, "Invalid=
- number of ways\n");
-786e9e58377374 Ben Widawsky 2022-02-11   96  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11   97  	}
-786e9e58377374 Ben Widawsky 2022-02-11   98  =
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  358  			=
+rc =3D pedit_skb_hdr_offset(skb, htype, &hoffset);
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  359  			=
+if (rc) {
+95b0d2dc13c7e7 net/sched/act_pedit.c Roman Mashak      2018-06-27  360  			=
+	pr_info("tc action pedit bad header type specified (0x%x)\n",
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  361  			=
+		htype);
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  362  			=
+	goto bad;
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  363  			}
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  364  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   99  	if (!cxl_is_interleave_granul=
-arity_valid(ig)) {
-786e9e58377374 Ben Widawsky 2022-02-11  100  		dev_dbg(&cxlr->dev, "Invalid=
- interleave granularity\n");
-786e9e58377374 Ben Widawsky 2022-02-11  101  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11  102  	}
-786e9e58377374 Ben Widawsky 2022-02-11  103  =
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  365  			=
+if (tkey->offmask) {
+430527415398cf net/sched/act_pedit.c Roman Mashak      2018-06-27  366  			=
+	u8 *d, _d;
+db2c24175d149b net/sched/act_pedit.c Changli Gao       2010-06-02  367  =
 
-786e9e58377374 Ben Widawsky 2022-02-11 @104  	if (cxlr->config.size % (SZ_2=
-56M * iw)) {
-786e9e58377374 Ben Widawsky 2022-02-11  105  		dev_dbg(&cxlr->dev, "Invalid=
- size. Must be multiple of %uM\n",
-786e9e58377374 Ben Widawsky 2022-02-11  106  			256 * iw);
-786e9e58377374 Ben Widawsky 2022-02-11  107  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11  108  	}
-786e9e58377374 Ben Widawsky 2022-02-11  109  =
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  368  			=
+	if (!offset_valid(skb, hoffset + tkey->at)) {
+95b0d2dc13c7e7 net/sched/act_pedit.c Roman Mashak      2018-06-27  369  			=
+		pr_info("tc action pedit 'at' offset %d out of bounds\n",
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  370  			=
+			hoffset + tkey->at);
+95c2027bfeda21 net/sched/act_pedit.c Amir Vadai        2016-11-28  371  			=
+		goto bad;
+95c2027bfeda21 net/sched/act_pedit.c Amir Vadai        2016-11-28  372  			=
+	}
+80f0f574cc615b net/sched/act_pedit.c Roman Mashak      2018-06-27  373  			=
+	d =3D skb_header_pointer(skb, hoffset + tkey->at,
+6ff7586e382cb4 net/sched/act_pedit.c Roman Mashak      2018-06-27  374  			=
+			       sizeof(_d), &_d);
+db2c24175d149b net/sched/act_pedit.c Changli Gao       2010-06-02  375  			=
+	if (!d)
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  376  			=
+		goto bad;
+db2c24175d149b net/sched/act_pedit.c Changli Gao       2010-06-02  377  			=
+	offset +=3D (*d & tkey->offmask) >> tkey->shift;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  378  			}
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  379  =
 
-786e9e58377374 Ben Widawsky 2022-02-11  110  	for (i =3D 0; i < iw; i++) {
-786e9e58377374 Ben Widawsky 2022-02-11  111  		if (!cxlr->config.targets[i]=
-) {
-786e9e58377374 Ben Widawsky 2022-02-11  112  			dev_dbg(&cxlr->dev, "Missin=
-g memory device target%u",
-786e9e58377374 Ben Widawsky 2022-02-11  113  				i);
-786e9e58377374 Ben Widawsky 2022-02-11  114  			return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11  115  		}
-786e9e58377374 Ben Widawsky 2022-02-11  116  		if (!cxlr->config.targets[i]=
-->dev.driver) {
-786e9e58377374 Ben Widawsky 2022-02-11  117  			dev_dbg(&cxlr->dev, "%s isn=
-'t CXL.mem capable\n",
-786e9e58377374 Ben Widawsky 2022-02-11  118  				dev_name(&cxlr->config.tar=
-gets[i]->dev));
-786e9e58377374 Ben Widawsky 2022-02-11  119  			return -ENODEV;
-786e9e58377374 Ben Widawsky 2022-02-11  120  		}
-786e9e58377374 Ben Widawsky 2022-02-11  121  	}
-786e9e58377374 Ben Widawsky 2022-02-11  122  =
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  380  			=
+if (offset % 4) {
+95b0d2dc13c7e7 net/sched/act_pedit.c Roman Mashak      2018-06-27  381  			=
+	pr_info("tc action pedit offset must be on 32 bit boundaries\n");
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  382  			=
+	goto bad;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  383  			}
+95c2027bfeda21 net/sched/act_pedit.c Amir Vadai        2016-11-28  384  =
 
-786e9e58377374 Ben Widawsky 2022-02-11  123  	return 0;
-786e9e58377374 Ben Widawsky 2022-02-11  124  }
-786e9e58377374 Ben Widawsky 2022-02-11  125  =
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  385  			=
+if (!offset_valid(skb, hoffset + offset)) {
+95b0d2dc13c7e7 net/sched/act_pedit.c Roman Mashak      2018-06-27  386  			=
+	pr_info("tc action pedit offset %d out of bounds\n",
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  387  			=
+		hoffset + offset);
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  388  			=
+	goto bad;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  389  			}
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  390  =
+
+80f0f574cc615b net/sched/act_pedit.c Roman Mashak      2018-06-27  391  			=
+ptr =3D skb_header_pointer(skb, hoffset + offset,
+6ff7586e382cb4 net/sched/act_pedit.c Roman Mashak      2018-06-27  392  			=
+			 sizeof(hdata), &hdata);
+db2c24175d149b net/sched/act_pedit.c Changli Gao       2010-06-02  393  			=
+if (!ptr)
+db2c24175d149b net/sched/act_pedit.c Changli Gao       2010-06-02  394  			=
+	goto bad;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  395  			=
+/* just do it, baby */
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  396  			=
+switch (cmd) {
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  397  			=
+case TCA_PEDIT_KEY_EX_CMD_SET:
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  398  			=
+	val =3D tkey->val;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  399  			=
+	break;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  400  			=
+case TCA_PEDIT_KEY_EX_CMD_ADD:
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  401  			=
+	val =3D (*ptr + tkey->val) & ~tkey->mask;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  402  			=
+	break;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  403  			=
+default:
+95b0d2dc13c7e7 net/sched/act_pedit.c Roman Mashak      2018-06-27  404  			=
+	pr_info("tc action pedit bad command (%d)\n",
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  405  			=
+		cmd);
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  406  			=
+	goto bad;
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  407  			}
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  408  =
+
+853a14ba4682f8 net/sched/act_pedit.c Amir Vadai        2017-02-07  409  			=
+*ptr =3D ((*ptr & tkey->mask) ^ val);
+544377cd2545f3 net/sched/act_pedit.c Roman Mashak      2018-06-27  410  			=
+if (ptr =3D=3D &hdata)
+71d0ed7079dffb net/sched/act_pedit.c Amir Vadai        2017-02-07  411  			=
+	skb_store_bits(skb, hoffset + offset, ptr, 4);
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  412  		}
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  413  =
+
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  414  		g=
+oto done;
+80f0f574cc615b net/sched/act_pedit.c Roman Mashak      2018-06-27  415  	} =
+else {
+6ff9c3644e72bf net/sched/act_pedit.c stephen hemminger 2010-05-12  416  		W=
+ARN(1, "pedit BUG: index %d\n", p->tcf_index);
+80f0f574cc615b net/sched/act_pedit.c Roman Mashak      2018-06-27  417  	}
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  418  =
+
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  419  bad:
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  420  	p-=
+>tcf_qstats.overlimits++;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  421  don=
+e:
+bfe0d0298f2a67 net/sched/act_pedit.c Eric Dumazet      2011-01-09  422  	bs=
+tats_update(&p->tcf_bstats, skb);
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  423  	sp=
+in_unlock(&p->tcf_lock);
+e9ce1cd3cf6cf3 net/sched/act_pedit.c David S. Miller   2006-08-21  424  	re=
+turn p->tcf_action;
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  425  }
+^1da177e4c3f41 net/sched/pedit.c     Linus Torvalds    2005-04-16  426  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8169598688593822960==--
+--===============3173222597146010282==--
 
