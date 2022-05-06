@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1425771239038527303=="
+Content-Type: multipart/mixed; boundary="===============4328673266926401669=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/2] btrfs: Use btrfs_try_lock_balance in btrfs_ioctl_balance
-Date: Wed, 04 May 2022 07:47:26 +0800
-Message-ID: <202205040701.S7SA4Dgy-lkp@intel.com>
+Subject: [zohar-integrity:next-integrity.fsverity-v9 6/9] security/integrity/ima/ima_template_lib.c:310:17: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length ...
+Date: Fri, 06 May 2022 23:10:45 +0800
+Message-ID: <202205062329.JzTTLp3Z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1425771239038527303==
+--===============4328673266926401669==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,48 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220503083637.1051023-3-nborisov@suse.com>
-References: <20220503083637.1051023-3-nborisov@suse.com>
-TO: Nikolay Borisov <nborisov@suse.com>
-TO: linux-btrfs(a)vger.kernel.org
-CC: Nikolay Borisov <nborisov@suse.com>
+CC: linux-integrity(a)vger.kernel.org
+TO: Mimi Zohar <zohar@linux.ibm.com>
 
-Hi Nikolay,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on next-20220503]
-[cannot apply to v5.18-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikolay-Borisov/Refa=
-ctor-btrfs_ioctl_balance/20220503-163837
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
--next
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: riscv-randconfig-c006-20220501 (https://download.01.org/0day-ci/arc=
-hive/20220504/202205040701.S7SA4Dgy-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 363b3a=
-645a1e30011cc8da624f13dac5fd915628)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integri=
+ty.git next-integrity.fsverity-v9
+head:   79c13fb366f892e266037bc7ddcd6d51f90d1189
+commit: 989dc72511f7b57b94b42eabfcbe79d9070de6e3 [6/9] ima: define a new te=
+mplate field named 'd-ngv2' and templates
+:::::: branch date: 17 hours ago
+:::::: commit date: 23 hours ago
+config: arm-randconfig-c002-20220505 (https://download.01.org/0day-ci/archi=
+ve/20220506/202205062329.JzTTLp3Z-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
+b787698440a387750db7f8028e7cb14cfc)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c696e46e6ec2b391d6e=
-350b4323ef7e7bafa7bca
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nikolay-Borisov/Refactor-btrfs_ioc=
-tl_balance/20220503-163837
-        git checkout c696e46e6ec2b391d6e350b4323ef7e7bafa7bca
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integ=
+rity.git/commit/?id=3D989dc72511f7b57b94b42eabfcbe79d9070de6e3
+        git remote add zohar-integrity https://git.kernel.org/pub/scm/linux=
+/kernel/git/zohar/linux-integrity.git
+        git fetch --no-tags zohar-integrity next-integrity.fsverity-v9
+        git checkout 989dc72511f7b57b94b42eabfcbe79d9070de6e3
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -64,436 +51,394 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
                                    ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4333:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(&bargs->stat, &bctl->stat, sizeof(bargs->stat));
+   fs/quota/quota_v2.c:287:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(&empty, 0, sizeof(struct v2r1_disk_dqblk));
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
                                    ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4463:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&bctl->data, &bargs->data, sizeof(bctl->data));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4463:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(&bctl->data, &bargs->data, sizeof(bctl->data));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4464:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&bctl->meta, &bargs->meta, sizeof(bctl->meta));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4464:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(&bctl->meta, &bargs->meta, sizeof(bctl->meta));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4465:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&bctl->sys, &bargs->sys, sizeof(bctl->sys));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4465:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(&bctl->sys, &bargs->sys, sizeof(bctl->sys));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
->> fs/btrfs/ioctl.c:4493:2: warning: Attempt to free released memory [clang=
--analyzer-unix.Malloc]
-           kfree(bargs);
-           ^
-   fs/btrfs/ioctl.c:5426:2: note: Control jumps to 'case 3288372256:'  at l=
-ine 5508
-           switch (cmd) {
-           ^
-   fs/btrfs/ioctl.c:5509:10: note: Calling 'btrfs_ioctl_balance'
-                   return btrfs_ioctl_balance(file, argp);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4412:6: note: Assuming the condition is false
-           if (!capable(CAP_SYS_ADMIN))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4412:2: note: Taking false branch
-           if (!capable(CAP_SYS_ADMIN))
-           ^
-   fs/btrfs/ioctl.c:4416:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   fs/btrfs/ioctl.c:4416:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/btrfs/ioctl.c:4420:2: note: Taking false branch
-           if (IS_ERR(bargs)) {
-           ^
-   fs/btrfs/ioctl.c:4427:6: note: 'ret' is 8
-           if (ret)
-               ^~~
-   fs/btrfs/ioctl.c:4427:2: note: Taking true branch
-           if (ret)
-           ^
-   fs/btrfs/ioctl.c:4428:3: note: Control jumps to line 4491
-                   goto out;
-                   ^
-   fs/btrfs/ioctl.c:4491:2: note: Memory is released
-           kfree(bargs);
-           ^~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4493:2: note: Attempt to free released memory
-           kfree(bargs);
-           ^~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4856:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(root_item->received_uuid, sa->uuid, BTRFS_UUID_SIZE);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4856:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(root_item->received_uuid, sa->uuid, BTRFS_UUID_SIZE);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4970:2: warning: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(label, fs_info->super_copy->label, BTRFS_LABEL_SIZE);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4970:2: note: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11
-           memcpy(label, fs_info->super_copy->label, BTRFS_LABEL_SIZE);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:5020:2: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(super_block->label, label);
-           ^~~~~~
-   fs/btrfs/ioctl.c:5020:2: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-           strcpy(super_block->label, label);
-           ^~~~~~
-   Suppressed 56 warnings (56 in non-user code).
+   Suppressed 36 warnings (36 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
+   39 warnings generated.
+   security/keys/user_defined.c:75:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(upayload->data, prep->data, datalen);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   security/keys/user_defined.c:75:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(upayload->data, prep->data, datalen);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   security/keys/user_defined.c:184:3: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buffer, upayload->data, buflen);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   security/keys/user_defined.c:184:3: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buffer, upayload->data, buflen);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 37 warnings (37 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+   security/integrity/ima/ima_template_lib.c:57:2: warning: Call to functio=
+n 'memcpy' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'memcpy_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buf, data, datalen);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_template_lib.c:57:2: note: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(buf, data, datalen);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+>> security/integrity/ima/ima_template_lib.c:310:17: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
+fer or security checks introduced in the C11 standard. Replace with analogo=
+us functions that support length arguments or provides boundary checks such=
+ as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depreca=
+tedOrUnsafeBufferHandling]
+                   offset +=3D 1 + sprintf(buffer, "%s:%s:",
+                                 ^~~~~~~
+   security/integrity/ima/ima_template_lib.c:310:17: note: Call to function=
+ 'sprintf' is insecure as it does not provide bounding of the memory buffer=
+ or security checks introduced in the C11 standard. Replace with analogous =
+functions that support length arguments or provides boundary checks such as=
+ 'sprintf_s' in case of C11
+                   offset +=3D 1 + sprintf(buffer, "%s:%s:",
+                                 ^~~~~~~
+   security/integrity/ima/ima_template_lib.c:315:17: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
+fer or security checks introduced in the C11 standard. Replace with analogo=
+us functions that support length arguments or provides boundary checks such=
+ as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depreca=
+tedOrUnsafeBufferHandling]
+                   offset +=3D 1 + sprintf(buffer, "%s:",
+                                 ^~~~~~~
+   security/integrity/ima/ima_template_lib.c:315:17: note: Call to function=
+ 'sprintf' is insecure as it does not provide bounding of the memory buffer=
+ or security checks introduced in the C11 standard. Replace with analogous =
+functions that support length arguments or provides boundary checks such as=
+ 'sprintf_s' in case of C11
+                   offset +=3D 1 + sprintf(buffer, "%s:",
+                                 ^~~~~~~
+   security/integrity/ima/ima_template_lib.c:320:3: warning: Call to functi=
+on 'memcpy' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memcpy_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buffer + offset, digest, digestsize);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_template_lib.c:320:3: note: Call to function =
+'memcpy' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buffer + offset, digest, digestsize);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_template_lib.c:345:2: warning: Call to functi=
+on 'memset' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memset_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&hash, 0, sizeof(hash));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_template_lib.c:345:2: note: Call to function =
+'memset' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memset_s' in case of C11
+           memset(&hash, 0, sizeof(hash));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_template_lib.c:366:5: warning: Call to functi=
+on 'memset' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memset_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memset(&hash, 0, sizeof(hash));
+                                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_template_lib.c:366:5: note: Call to function =
+'memset' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memset_s' in case of C11
+                                   memset(&hash, 0, sizeof(hash));
+                                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 52 warnings (51 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   69 warnings generated.
+   crypto/aead.c:36:2: warning: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureA=
+PI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(alignbuffer, key, keylen);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
 
-vim +4493 fs/btrfs/ioctl.c
+vim +310 security/integrity/ima/ima_template_lib.c
 
-d383145190e87f Nikolay Borisov      2022-05-03  4402  =
+b17fd9ecf854e8 Roberto Sassu         2017-05-16  286  =
 
-9ba1f6e44ed7a1 Liu Bo               2012-05-11  4403  static long btrfs_ioc=
-tl_balance(struct file *file, void __user *arg)
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4404  {
-496ad9aa8ef448 Al Viro              2013-01-23  4405  	struct btrfs_root *r=
-oot =3D BTRFS_I(file_inode(file))->root;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4406  	struct btrfs_fs_info=
- *fs_info =3D root->fs_info;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4407  	struct btrfs_ioctl_b=
-alance_args *bargs;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4408  	struct btrfs_balance=
-_control *bctl;
-c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4409  	bool need_unlock =3D=
- true; /* for mut. excl. ops lock */
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4410  	int ret;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4411  =
+3878d505aa718b Thiago Jung Bauermann 2019-06-27  287  static int ima_eventd=
+igest_init_common(const u8 *digest, u32 digestsize,
+989dc72511f7b5 Mimi Zohar            2021-12-23  288  				       u8 digest_=
+type, u8 hash_algo,
+dcf4e392867bf9 Roberto Sassu         2013-11-08  289  				       struct ima=
+_field_data *field_data)
+4d7aeee73f5304 Roberto Sassu         2013-06-07  290  {
+3ce1217d6cd5df Roberto Sassu         2013-06-07  291  	/*
+4d7aeee73f5304 Roberto Sassu         2013-06-07  292  	 * digest formats:
+4d7aeee73f5304 Roberto Sassu         2013-06-07  293  	 *  - DATA_FMT_DIGES=
+T: digest
+644664627d2164 Mimi Zohar            2022-04-14  294  	 *  - DATA_FMT_DIGES=
+T_WITH_ALGO: <hash algo> + ':' + '\0' + digest,
+989dc72511f7b5 Mimi Zohar            2021-12-23  295  	 *  - DATA_FMT_DIGES=
+T_WITH_TYPE_AND_ALGO:
+989dc72511f7b5 Mimi Zohar            2021-12-23  296  	 *	<digest type> + '=
+:' + <hash algo> + ':' + '\0' + digest,
+644664627d2164 Mimi Zohar            2022-04-14  297  	 *
+644664627d2164 Mimi Zohar            2022-04-14  298  	 *    where 'DATA_FM=
+T_DIGEST' is the original digest format ('d')
+644664627d2164 Mimi Zohar            2022-04-14  299  	 *      with a hash =
+size limitation of 20 bytes,
+989dc72511f7b5 Mimi Zohar            2021-12-23  300  	 *    where <digest =
+type> is "ima",
+644664627d2164 Mimi Zohar            2022-04-14  301  	 *    where <hash al=
+go> is the hash_algo_name[] string.
+4d7aeee73f5304 Roberto Sassu         2013-06-07  302  	 */
+989dc72511f7b5 Mimi Zohar            2021-12-23  303  	u8 buffer[DIGEST_TYP=
+E_NAME_LEN_MAX + CRYPTO_MAX_ALG_NAME + 2 +
+989dc72511f7b5 Mimi Zohar            2021-12-23  304  		IMA_MAX_DIGEST_SIZE=
+] =3D { 0 };
+4d7aeee73f5304 Roberto Sassu         2013-06-07  305  	enum data_formats fm=
+t =3D DATA_FMT_DIGEST;
+4d7aeee73f5304 Roberto Sassu         2013-06-07  306  	u32 offset =3D 0;
+4d7aeee73f5304 Roberto Sassu         2013-06-07  307  =
 
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4412  	if (!capable(CAP_SYS=
-_ADMIN))
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4413  		return -EPERM;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4414  =
+989dc72511f7b5 Mimi Zohar            2021-12-23  308  	if (digest_type < DI=
+GEST_TYPE__LAST && hash_algo < HASH_ALGO__LAST) {
+989dc72511f7b5 Mimi Zohar            2021-12-23  309  		fmt =3D DATA_FMT_DI=
+GEST_WITH_TYPE_AND_ALGO;
+989dc72511f7b5 Mimi Zohar            2021-12-23 @310  		offset +=3D 1 + spr=
+intf(buffer, "%s:%s:",
+989dc72511f7b5 Mimi Zohar            2021-12-23  311  				      digest_type=
+_name[digest_type],
+989dc72511f7b5 Mimi Zohar            2021-12-23  312  				      hash_algo_n=
+ame[hash_algo]);
+989dc72511f7b5 Mimi Zohar            2021-12-23  313  	} else if (hash_algo=
+ < HASH_ALGO__LAST) {
+4d7aeee73f5304 Roberto Sassu         2013-06-07  314  		fmt =3D DATA_FMT_DI=
+GEST_WITH_ALGO;
+989dc72511f7b5 Mimi Zohar            2021-12-23  315  		offset +=3D 1 + spr=
+intf(buffer, "%s:",
+dcf4e392867bf9 Roberto Sassu         2013-11-08  316  				      hash_algo_n=
+ame[hash_algo]);
+4d7aeee73f5304 Roberto Sassu         2013-06-07  317  	}
+4d7aeee73f5304 Roberto Sassu         2013-06-07  318  =
 
-e54bfa31044d60 Liu Bo               2012-06-29  4415  	ret =3D mnt_want_wri=
-te_file(file);
-9ba1f6e44ed7a1 Liu Bo               2012-05-11  4416  	if (ret)
-9ba1f6e44ed7a1 Liu Bo               2012-05-11  4417  		return ret;
-9ba1f6e44ed7a1 Liu Bo               2012-05-11  4418  =
+4d7aeee73f5304 Roberto Sassu         2013-06-07  319  	if (digest)
+4d7aeee73f5304 Roberto Sassu         2013-06-07  320  		memcpy(buffer + off=
+set, digest, digestsize);
+4d7aeee73f5304 Roberto Sassu         2013-06-07  321  	else
+4d7aeee73f5304 Roberto Sassu         2013-06-07  322  		/*
+4d7aeee73f5304 Roberto Sassu         2013-06-07  323  		 * If digest is NUL=
+L, the event being recorded is a violation.
+4d7aeee73f5304 Roberto Sassu         2013-06-07  324  		 * Make room for th=
+e digest by increasing the offset of
+4d7aeee73f5304 Roberto Sassu         2013-06-07  325  		 * IMA_DIGEST_SIZE.
+4d7aeee73f5304 Roberto Sassu         2013-06-07  326  		 */
+4d7aeee73f5304 Roberto Sassu         2013-06-07  327  		offset +=3D IMA_DIG=
+EST_SIZE;
+4d7aeee73f5304 Roberto Sassu         2013-06-07  328  =
 
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4419  	bargs =3D memdup_use=
-r(arg, sizeof(*bargs));
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4420  	if (IS_ERR(bargs)) {
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4421  		ret =3D PTR_ERR(bar=
-gs);
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4422  		bargs =3D NULL;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4423  		goto out;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4424  	}
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4425  =
-
-c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4426  	ret =3D btrfs_try_lo=
-ck_balance(fs_info, &need_unlock);
-c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4427  	if (ret)
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4428  		goto out;
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4429  =
-
-c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4430  	lockdep_assert_held(=
-&fs_info->balance_mutex);
-c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4431  =
-
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4432  	if (bargs->flags & B=
-TRFS_BALANCE_RESUME) {
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4433  		if (!fs_info->balan=
-ce_ctl) {
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4434  			ret =3D -ENOTCONN;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4435  			goto out_unlock;
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4436  		}
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4437  =
-
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4438  		bctl =3D fs_info->b=
-alance_ctl;
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4439  		spin_lock(&fs_info-=
->balance_lock);
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4440  		bctl->flags |=3D BT=
-RFS_BALANCE_RESUME;
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4441  		spin_unlock(&fs_inf=
-o->balance_lock);
-efc0e69c2feab8 Nikolay Borisov      2021-11-25  4442  		btrfs_exclop_balanc=
-e(fs_info, BTRFS_EXCLOP_BALANCE);
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4443  =
-
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4444  		goto do_balance;
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4445  	}
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4446  =
-
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4447  	if (bargs->flags & ~=
-(BTRFS_BALANCE_ARGS_MASK | BTRFS_BALANCE_TYPE_MASK)) {
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4448  		ret =3D -EINVAL;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4449  		goto out_unlock;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4450  	}
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4451  =
-
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4452  	if (fs_info->balance=
-_ctl) {
-837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4453  		ret =3D -EINPROGRES=
-S;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4454  		goto out_unlock;
-837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4455  	}
-837d5b6e46d1a4 Ilya Dryomov         2012-01-16  4456  =
-
-8d2db7855e7b65 David Sterba         2015-11-04  4457  	bctl =3D kzalloc(siz=
-eof(*bctl), GFP_KERNEL);
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4458  	if (!bctl) {
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4459  		ret =3D -ENOMEM;
-c746db1b6ed99f Nikolay Borisov      2022-03-30  4460  		goto out_unlock;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4461  	}
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4462  =
-
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4463  	memcpy(&bctl->data, =
-&bargs->data, sizeof(bctl->data));
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4464  	memcpy(&bctl->meta, =
-&bargs->meta, sizeof(bctl->meta));
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4465  	memcpy(&bctl->sys, &=
-bargs->sys, sizeof(bctl->sys));
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4466  =
-
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4467  	bctl->flags =3D barg=
-s->flags;
-de322263d3a6d4 Ilya Dryomov         2012-01-16  4468  do_balance:
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4469  	/*
-c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4470  	 * Ownership of bctl=
- and exclusive operation goes to btrfs_balance.
-c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4471  	 * bctl is freed in =
-reset_balance_state, or, if restriper was paused
-c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4472  	 * all the way until=
- unmount, in free_fs_info.  The flag should be
-c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4473  	 * cleared after res=
-et_balance_state.
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4474  	 */
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4475  	need_unlock =3D fals=
-e;
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4476  =
-
-6fcf6e2bffb6cf David Sterba         2018-05-07  4477  	ret =3D btrfs_balanc=
-e(fs_info, bctl, bargs);
-0f89abf56abbd0 Christian Engelmayer 2015-10-21  4478  	bctl =3D NULL;
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4479  =
-
-70430fe3604144 Nikolay Borisov      2022-03-30  4480  	if (ret =3D=3D 0 || =
-ret =3D=3D -ECANCELED) {
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4481  		if (copy_to_user(ar=
-g, bargs, sizeof(*bargs)))
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4482  			ret =3D -EFAULT;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4483  	}
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4484  =
-
-0f89abf56abbd0 Christian Engelmayer 2015-10-21  4485  	kfree(bctl);
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4486  out_unlock:
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4487  	mutex_unlock(&fs_inf=
-o->balance_mutex);
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4488  	if (need_unlock)
-c3e1f96c37d0f8 Goldwyn Rodrigues    2020-08-25  4489  		btrfs_exclop_finish=
-(fs_info);
-ed0fb78fb6aa29 Ilya Dryomov         2013-01-20  4490  out:
-c696e46e6ec2b3 Nikolay Borisov      2022-05-03  4491  	kfree(bargs);
-e54bfa31044d60 Liu Bo               2012-06-29  4492  	mnt_drop_write_file(=
-file);
-c746db1b6ed99f Nikolay Borisov      2022-03-30 @4493  	kfree(bargs);
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4494  	return ret;
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4495  }
-c9e9f97bdfb64d Ilya Dryomov         2012-01-16  4496  =
+4d7aeee73f5304 Roberto Sassu         2013-06-07  329  	return ima_write_tem=
+plate_field_data(buffer, offset + digestsize,
+4d7aeee73f5304 Roberto Sassu         2013-06-07  330  					     fmt, field_=
+data);
+4d7aeee73f5304 Roberto Sassu         2013-06-07  331  }
+4d7aeee73f5304 Roberto Sassu         2013-06-07  332  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1425771239038527303==--
+--===============4328673266926401669==--
 
