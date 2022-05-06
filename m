@@ -1,159 +1,487 @@
-Content-Type: multipart/mixed; boundary="===============1745044639799363063=="
+Content-Type: multipart/mixed; boundary="===============0547510577229825216=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [leon-rdma:testing/rdma-rc 1/3] drivers/infiniband/core/cma.c:4434 rdma_accept() error: we previously assumed 'conn_param' could be null (see line 4426)
-Date: Sun, 01 May 2022 12:29:51 +0800
-Message-ID: <202205011249.duCEt6Ob-lkp@intel.com>
+Subject: Re: [PATCH 4/4] staging: media: zoran: replace dprintk with zrdev_dbg
+Date: Fri, 06 May 2022 13:03:16 +0800
+Message-ID: <202205061205.K5S3Mi42-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1745044639799363063==
+--===============0547510577229825216==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Mark Zhang <markzhang@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+In-Reply-To: <20220423051839.293361-1-ian@linux.cowan.aero>
+References: <20220423051839.293361-1-ian@linux.cowan.aero>
+TO: Ian Cowan <ian@linux.cowan.aero>
+TO: clabbe(a)baylibre.com
+CC: mchehab(a)kernel.org
+CC: gregkh(a)linuxfoundation.org
+CC: dan.carpenter(a)oracle.com
+CC: mjpeg-users(a)lists.sourceforge.net
+CC: linux-media(a)vger.kernel.org
+CC: linux-staging(a)lists.linux.dev
+CC: ian(a)linux.cowan.aero
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git=
- testing/rdma-rc
-head:   9d9a7437011f4bc4678581562ed9941f702277fe
-commit: 98466723510491a832171031f591c77e5691979a [1/3] RDMA/cma: Limit join=
- multicast to UD QP type only
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
-config: nios2-randconfig-m031-20220428 (https://download.01.org/0day-ci/arc=
-hive/20220501/202205011249.duCEt6Ob-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
+Hi Ian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Cowan/staging-me=
+dia-zoran-add-zrdev_dbg-macros/20220425-092814
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
+1efba7ef1d7da5944493728c5375fef5b2130de4
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: riscv-randconfig-c006-20220505 (https://download.01.org/0day-ci/arc=
+hive/20220506/202205061205.K5S3Mi42-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
+b787698440a387750db7f8028e7cb14cfc)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/6febc7a1b1d282fb509=
+0a6a6f6945dce452bce98
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ian-Cowan/staging-media-zoran-add-=
+zrdev_dbg-macros/20220425-092814
+        git checkout 6febc7a1b1d282fb5090a6a6f6945dce452bce98
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/infiniband/core/cma.c:4434 rdma_accept() error: we previously assum=
-ed 'conn_param' could be null (see line 4426)
-
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninit=
-ialized symbol 'sp'.
-
-vim +/conn_param +4434 drivers/infiniband/core/cma.c
-
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4396  =
-
-b09c4d70122091 Leon Romanovsky 2020-09-22  4397  /**
-b09c4d70122091 Leon Romanovsky 2020-09-22  4398   * rdma_accept - Called to=
- accept a connection request or response.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4399   * @id: Connection identif=
-ier associated with the request.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4400   * @conn_param: Informatio=
-n needed to establish the connection.  This must be
-b09c4d70122091 Leon Romanovsky 2020-09-22  4401   *   provided if accepting=
- a connection request.  If accepting a connection
-b09c4d70122091 Leon Romanovsky 2020-09-22  4402   *   response, this parame=
-ter must be NULL.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4403   *
-b09c4d70122091 Leon Romanovsky 2020-09-22  4404   * Typically, this routine=
- is only called by the listener to accept a connection
-b09c4d70122091 Leon Romanovsky 2020-09-22  4405   * request.  It must also =
-be called on the active side of a connection if the
-b09c4d70122091 Leon Romanovsky 2020-09-22  4406   * user is performing thei=
-r own QP transitions.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4407   *
-b09c4d70122091 Leon Romanovsky 2020-09-22  4408   * In the case of error, a=
- reject message is sent to the remote side and the
-b09c4d70122091 Leon Romanovsky 2020-09-22  4409   * state of the qp associa=
-ted with the id is modified to error, such that any
-b09c4d70122091 Leon Romanovsky 2020-09-22  4410   * previously posted recei=
-ve buffers would be flushed.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4411   *
-b09c4d70122091 Leon Romanovsky 2020-09-22  4412   * This function is for us=
-e by kernel ULPs and must be called from under the
-b09c4d70122091 Leon Romanovsky 2020-09-22  4413   * handler callback.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4414   */
-b09c4d70122091 Leon Romanovsky 2020-09-22  4415  int rdma_accept(struct rdm=
-a_cm_id *id, struct rdma_conn_param *conn_param)
-e51060f08a6196 Sean Hefty      2006-06-17  4416  {
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4417  	struct rdma_id_private *i=
-d_priv =3D
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4418  		container_of(id, struct =
-rdma_id_private, id);
-e51060f08a6196 Sean Hefty      2006-06-17  4419  	int ret;
-e51060f08a6196 Sean Hefty      2006-06-17  4420  =
-
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4421  	lockdep_assert_held(&id_p=
-riv->handler_mutex);
-83e9502d8db142 Nir Muchtar     2011-01-13  4422  =
-
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4423  	if (READ_ONCE(id_priv->st=
-ate) !=3D RDMA_CM_CONNECT)
-e51060f08a6196 Sean Hefty      2006-06-17  4424  		return -EINVAL;
-e51060f08a6196 Sean Hefty      2006-06-17  4425  =
-
-e51060f08a6196 Sean Hefty      2006-06-17 @4426  	if (!id->qp && conn_param=
-) {
-e51060f08a6196 Sean Hefty      2006-06-17  4427  		id_priv->qp_num =3D conn=
-_param->qp_num;
-e51060f08a6196 Sean Hefty      2006-06-17  4428  		id_priv->srq =3D conn_pa=
-ram->srq;
-e51060f08a6196 Sean Hefty      2006-06-17  4429  	}
-e51060f08a6196 Sean Hefty      2006-06-17  4430  =
-
-72219cea8e246a Michael Wang    2015-05-05  4431  	if (rdma_cap_ib_cm(id->de=
-vice, id->port_num)) {
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4432  		if (id->qp_type =3D=3D I=
-B_QPT_UD) {
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4433  			ret =3D cma_send_sidr_r=
-ep(id_priv, IB_SIDR_SUCCESS,
-5c438135adf90b Sean Hefty      2013-05-29 @4434  						conn_param->qkey,
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4435  						conn_param->private_=
-data,
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4436  						conn_param->private_=
-data_len);
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4437  		} else {
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4438  			if (conn_param)
-e51060f08a6196 Sean Hefty      2006-06-17  4439  				ret =3D cma_accept_ib(=
-id_priv, conn_param);
-e51060f08a6196 Sean Hefty      2006-06-17  4440  			else
-e51060f08a6196 Sean Hefty      2006-06-17  4441  				ret =3D cma_rep_recv(i=
-d_priv);
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4442  		}
-b6eb7011f561a2 Wenpeng Liang   2021-04-07  4443  	} else if (rdma_cap_iw_cm=
-(id->device, id->port_num)) {
-07ebafbaaa72aa Tom Tucker      2006-08-03  4444  		ret =3D cma_accept_iw(id=
-_priv, conn_param);
-b6eb7011f561a2 Wenpeng Liang   2021-04-07  4445  	} else {
-e51060f08a6196 Sean Hefty      2006-06-17  4446  		ret =3D -ENOSYS;
-b6eb7011f561a2 Wenpeng Liang   2021-04-07  4447  	}
-e51060f08a6196 Sean Hefty      2006-06-17  4448  	if (ret)
-e51060f08a6196 Sean Hefty      2006-06-17  4449  		goto reject;
-e51060f08a6196 Sean Hefty      2006-06-17  4450  =
-
-e51060f08a6196 Sean Hefty      2006-06-17  4451  	return 0;
-e51060f08a6196 Sean Hefty      2006-06-17  4452  reject:
-c5483388bb4d77 Sean Hefty      2007-09-24  4453  	cma_modify_qp_err(id_priv=
-);
-8094ba0ace7f6c Leon Romanovsky 2020-05-26  4454  	rdma_reject(id, NULL, 0, =
-IB_CM_REJ_CONSUMER_DEFINED);
-e51060f08a6196 Sean Hefty      2006-06-17  4455  	return ret;
-e51060f08a6196 Sean Hefty      2006-06-17  4456  }
-b09c4d70122091 Leon Romanovsky 2020-09-22  4457  EXPORT_SYMBOL(rdma_accept);
-e51060f08a6196 Sean Hefty      2006-06-17  4458  =
 
 
-:::::: The code at line 4434 was first introduced by commit
-:::::: 5c438135adf90b33cb00e5351becf1e557bbdd9d RDMA/cma: Set qkey for AF_IB
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^~~~~~
+   net/ethtool/ioctl.c:576:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(&link_ksettings, 0, sizeof(link_ksettings));
+           ^~~~~~
+   net/ethtool/ioctl.c:676:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&link_ksettings, 0, sizeof(link_ksettings));
+           ^~~~~~
+   net/ethtool/ioctl.c:676:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(&link_ksettings, 0, sizeof(link_ksettings));
+           ^~~~~~
+   net/ethtool/ioctl.c:797:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&info, 0, sizeof(info));
+           ^~~~~~
+   net/ethtool/ioctl.c:797:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(&info, 0, sizeof(info));
+           ^~~~~~
+   net/ethtool/ioctl.c:898:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&crxnfc, 0, sizeof(crxnfc));
+           ^~~~~~
+   net/ethtool/ioctl.c:898:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(&crxnfc, 0, sizeof(crxnfc));
+           ^~~~~~
+   net/ethtool/ioctl.c:1064:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buffer, netdev_rss_key, len);
+           ^~~~~~
+   net/ethtool/ioctl.c:1064:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(buffer, netdev_rss_key, len);
+           ^~~~~~
+   net/ethtool/ioctl.c:1439:2: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&wol, 0, sizeof(struct ethtool_wolinfo));
+           ^~~~~~
+   net/ethtool/ioctl.c:1439:2: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+           memset(&wol, 0, sizeof(struct ethtool_wolinfo));
+           ^~~~~~
+   net/ethtool/ioctl.c:1477:2: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&edata, 0, sizeof(struct ethtool_eee));
+           ^~~~~~
+   net/ethtool/ioctl.c:1477:2: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+           memset(&edata, 0, sizeof(struct ethtool_eee));
+           ^~~~~~
+   net/ethtool/ioctl.c:1981:2: warning: Call to function 'vsnprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           vsnprintf(*data, ETH_GSTRING_LEN, fmt, args);
+           ^~~~~~~~~
+   net/ethtool/ioctl.c:1981:2: note: Call to function 'vsnprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'vsnprintf_s' in case of C11
+           vsnprintf(*data, ETH_GSTRING_LEN, fmt, args);
+           ^~~~~~~~~
+   net/ethtool/ioctl.c:2270:2: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&tmp, 0, sizeof(tmp));
+           ^~~~~~
+   net/ethtool/ioctl.c:2270:2: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+           memset(&tmp, 0, sizeof(tmp));
+           ^~~~~~
+   net/ethtool/ioctl.c:3210:4: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(&match->key.ipv6.src, v6_spec->ip6src,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3210:4: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                           memcpy(&match->key.ipv6.src, v6_spec->ip6src,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3212:4: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(&match->mask.ipv6.src, v6_m_spec->ip6src,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3212:4: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                           memcpy(&match->mask.ipv6.src, v6_m_spec->ip6src,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3216:4: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(&match->key.ipv6.dst, v6_spec->ip6dst,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3216:4: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                           memcpy(&match->key.ipv6.dst, v6_spec->ip6dst,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3218:4: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(&match->mask.ipv6.dst, v6_m_spec->ip6dst,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3218:4: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                           memcpy(&match->mask.ipv6.dst, v6_m_spec->ip6dst,
+                           ^~~~~~
+   net/ethtool/ioctl.c:3313:3: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(match->key.eth_addrs.dst, ext_h_spec->h_dest,
+                   ^~~~~~
+   net/ethtool/ioctl.c:3313:3: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                   memcpy(match->key.eth_addrs.dst, ext_h_spec->h_dest,
+                   ^~~~~~
+   net/ethtool/ioctl.c:3315:3: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(match->mask.eth_addrs.dst, ext_m_spec->h_dest,
+                   ^~~~~~
+   net/ethtool/ioctl.c:3315:3: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                   memcpy(match->mask.eth_addrs.dst, ext_m_spec->h_dest,
+                   ^~~~~~
+   Suppressed 88 warnings (81 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   61 warnings generated.
+   drivers/staging/media/zoran/videocodec.c:69:4: warning: Call to function=
+ 'snprintf' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'snprintf_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           snprintf(codec->name + res, sizeof(codec->name) =
+- res, "[%d]", h->attached);
+                           ^~~~~~~~
+   drivers/staging/media/zoran/videocodec.c:69:4: note: Call to function 's=
+nprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'snprintf_s' in case of C11
+                           snprintf(codec->name + res, sizeof(codec->name) =
+- res, "[%d]", h->attached);
+                           ^~~~~~~~
+   Suppressed 60 warnings (53 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   72 warnings generated.
+>> drivers/staging/media/zoran/zr36060.c:97:16: warning: Value stored to 'z=
+r' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:97:16: note: Value stored to 'zr' =
+during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:133:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:133:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:248:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:248:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:277:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:277:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:303:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:303:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(ptr->codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:463:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:463:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:481:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:481:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:641:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:641:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:758:16: warning: Value stored to '=
+zr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:758:16: note: Value stored to 'zr'=
+ during its initialization is never read
+           struct zoran *zr =3D videocodec_to_zoran(codec);
+                         ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:799:2: warning: Call to function '=
+snprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'snprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(ptr->name, sizeof(ptr->name), "zr36060[%d]", zr36060_co=
+decs);
+           ^~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:799:2: note: Call to function 'snp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(ptr->name, sizeof(ptr->name), "zr36060[%d]", zr36060_co=
+decs);
+           ^~~~~~~~
+   drivers/staging/media/zoran/zr36060.c:810:2: warning: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(ptr->h_samp_ratio, zr36060_decimation_h, 8);
+           ^~~~~~
+   drivers/staging/media/zoran/zr36060.c:810:2: note: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(ptr->h_samp_ratio, zr36060_decimation_h, 8);
+           ^~~~~~
+   drivers/staging/media/zoran/zr36060.c:811:2: warning: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(ptr->v_samp_ratio, zr36060_decimation_v, 8);
+           ^~~~~~
+   drivers/staging/media/zoran/zr36060.c:811:2: note: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(ptr->v_samp_ratio, zr36060_decimation_v, 8);
+           ^~~~~~
+   Suppressed 60 warnings (53 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   kernel/bpf/tnum.c:177:9: warning: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return snprintf(str, size, "(%#llx; %#llx)", a.value, a.mask);
+                  ^~~~~~~~
+   kernel/bpf/tnum.c:177:9: note: Call to function 'snprintf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'snprintf_s' in case of C11
+           return snprintf(str, size, "(%#llx; %#llx)", a.value, a.mask);
+                  ^~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   89 warnings generated.
+   kernel/bpf/bpf_iter.c:514:2: warning: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&linfo, 0, sizeof(union bpf_iter_link_info));
+           ^~~~~~
+   kernel/bpf/bpf_iter.c:514:2: note: Call to function 'memset' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memset_s' in case of C11
+           memset(&linfo, 0, sizeof(union bpf_iter_link_info));
+           ^~~~~~
+   Suppressed 88 warnings (81 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   88 warnings generated.
+   Suppressed 88 warnings (81 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   88 warnings generated.
+   Suppressed 88 warnings (81 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   130 warnings generated.
+   net/ipv4/cipso_ipv4.c:134:2: warning: 1st function call argument is an u=
+ninitialized value [clang-analyzer-core.CallAndMessage]
+           if (entry->lsm_data)
 
-:::::: TO: Sean Hefty <sean.hefty@intel.com>
-:::::: CC: Roland Dreier <roland@purestorage.com>
+vim +/zr +97 drivers/staging/media/zoran/zr36060.c
+
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25   93  =
+
+5e195bbddabdd9 Corentin Labbe        2020-09-25   94  /* wait if codec is r=
+eady to proceed (end of processing) or time is over */
+5e195bbddabdd9 Corentin Labbe        2020-09-25   95  static void zr36060_w=
+ait_end(struct zr36060 *ptr)
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25   96  {
+6febc7a1b1d282 Ian Cowan             2022-04-23  @97  	struct zoran *zr =3D=
+ videocodec_to_zoran(ptr->codec);
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25   98  	int i =3D 0;
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25   99  =
+
+c602f29dd17cad Mauro Carvalho Chehab 2020-10-01  100  	while (zr36060_read_=
+status(ptr) & ZR060_CFSR_BUSY) {
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  101  		udelay(1);
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  102  		if (i++ > 200000) {=
+	// 200ms, there is for sure something wrong!!!
+6febc7a1b1d282 Ian Cowan             2022-04-23  103  			zrdev_dbg(zr, "%s:=
+ timeout at wait_end (last status: 0x%02x)\n",
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  104  				  ptr->name, ptr-=
+>status);
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  105  			break;
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  106  		}
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  107  	}
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  108  }
+61c3b19f7b9eb7 Corentin Labbe        2020-09-25  109  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1745044639799363063==--
+--===============0547510577229825216==--
 
