@@ -1,96 +1,124 @@
-Content-Type: multipart/mixed; boundary="===============8858121890200912939=="
+Content-Type: multipart/mixed; boundary="===============5996309681444676771=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [sj:damon/next 33/38] mm/damon/sysfs.c:2214 damon_sysfs_existing_target() warn: ignoring unreachable code.
-Date: Fri, 29 Apr 2022 16:01:26 +0800
-Message-ID: <202204291521.VLq7qci8-lkp@intel.com>
+Subject: [linux-next:master 5904/9357] kernel/bpf/verifier.c:5331 process_kptr_func() warn: passing zero to 'PTR_ERR'
+Date: Fri, 06 May 2022 08:51:42 +0800
+Message-ID: <202205060842.u7DbHcHB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8858121890200912939==
+--===============5996309681444676771==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/=
-next
-head:   11cb7bdc92f22d4cb105e1774fe4f53bdb6fb2b7
-commit: d5d8b1d8bf2e2e4561c0498f5a806159de282a35 [33/38] mm/damon/sysfs: su=
-pport online inputs update
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: nios2-randconfig-m031-20220428 (https://download.01.org/0day-ci/arc=
-hive/20220429/202204291521.VLq7qci8-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   632a8c88e339fe86ae6e420a24dfc641d4dd0ab5
+commit: c0a5a21c25f37c9fd7b36072f9968cdff1e4aa13 [5904/9357] bpf: Allow sto=
+ring referenced kptr in map
+:::::: branch date: 14 hours ago
+:::::: commit date: 10 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+506/202205060842.u7DbHcHB-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-mm/damon/sysfs.c:2214 damon_sysfs_existing_target() warn: ignoring unreacha=
-ble code.
+kernel/bpf/verifier.c:5331 process_kptr_func() warn: passing zero to 'PTR_E=
+RR'
 
-vim +2214 mm/damon/sysfs.c
+vim +/PTR_ERR +5331 kernel/bpf/verifier.c
 
-c747c03e7710319 SeongJae Park 2022-04-28  2199  =
+b00628b1c7d595 Alexei Starovoitov      2021-07-14  5309  =
 
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2200  /*
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2201   * Search a target in a con=
-text that corresponds to the sysfs target input.
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2202   *
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2203   * Return: pointer to the t=
-arget if found, NULL if not found, or negative
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2204   * error code if the search=
- failed.
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2205   */
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2206  static struct damon_target =
-*damon_sysfs_existing_target(
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2207  		struct damon_sysfs_target=
- *sys_target, struct damon_ctx *ctx)
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2208  {
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2209  	struct pid *pid;
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2210  	struct damon_target *t;
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2211  =
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5310  static int process=
+_kptr_func(struct bpf_verifier_env *env, int regno,
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5311  			     struct bpf=
+_call_arg_meta *meta)
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5312  {
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5313  	struct bpf_reg_st=
+ate *regs =3D cur_regs(env), *reg =3D &regs[regno];
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5314  	struct bpf_map_va=
+lue_off_desc *off_desc;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5315  	struct bpf_map *m=
+ap_ptr =3D reg->map_ptr;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5316  	u32 kptr_off;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5317  	int ret;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5318  =
 
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2212  	if (ctx->ops.id =3D=3D DAM=
-ON_OPS_PADDR) {
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2213  		/* Up to only one target =
-for paddr could exist */
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15 @2214  		damon_for_each_target(t, =
-ctx)
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2215  			return t;
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2216  		return NULL;
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2217  	}
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2218  =
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5319  	if (!tnum_is_cons=
+t(reg->var_off)) {
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5320  		verbose(env,
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5321  			"R%d doesn't ha=
+ve constant offset. kptr has to be at the constant offset\n",
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5322  			regno);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5323  		return -EINVAL;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5324  	}
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5325  	if (!map_ptr->btf=
+) {
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5326  		verbose(env, "ma=
+p '%s' has to have BTF in order to use bpf_kptr_xchg\n",
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5327  			map_ptr->name);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5328  		return -EINVAL;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5329  	}
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5330  	if (!map_value_ha=
+s_kptrs(map_ptr)) {
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25 @5331  		ret =3D PTR_ERR(=
+map_ptr->kptr_off_tab);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5332  		if (ret =3D=3D -=
+E2BIG)
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5333  			verbose(env, "m=
+ap '%s' has more than %d kptr\n", map_ptr->name,
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5334  				BPF_MAP_VALUE_=
+OFF_MAX);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5335  		else if (ret =3D=
+=3D -EEXIST)
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5336  			verbose(env, "m=
+ap '%s' has repeating kptr BTF tags\n", map_ptr->name);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5337  		else
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5338  			verbose(env, "m=
+ap '%s' has no valid kptr\n", map_ptr->name);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5339  		return -EINVAL;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5340  	}
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5341  =
 
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2219  	/* ops.id should be DAMON_=
-OPS_VADDR or DAMON_OPS_FVADDR */
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2220  	pid =3D find_get_pid(sys_t=
-arget->pid);
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2221  	if (!pid)
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2222  		return ERR_PTR(-EINVAL);
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2223  	damon_for_each_target(t, c=
-tx) {
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2224  		if (t->pid =3D=3D pid) {
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2225  			put_pid(pid);
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2226  			return t;
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2227  		}
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2228  	}
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2229  	put_pid(pid);
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2230  	return NULL;
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2231  }
-d5d8b1d8bf2e2e4 SeongJae Park 2022-04-15  2232  =
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5342  	meta->map_ptr =3D=
+ map_ptr;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5343  	kptr_off =3D reg-=
+>off + reg->var_off.value;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5344  	off_desc =3D bpf_=
+map_kptr_off_contains(map_ptr, kptr_off);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5345  	if (!off_desc) {
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5346  		verbose(env, "of=
+f=3D%d doesn't point to kptr\n", kptr_off);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5347  		return -EACCES;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5348  	}
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5349  	if (off_desc->typ=
+e !=3D BPF_KPTR_REF) {
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5350  		verbose(env, "of=
+f=3D%d kptr isn't referenced kptr\n", kptr_off);
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5351  		return -EACCES;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5352  	}
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5353  	meta->kptr_off_de=
+sc =3D off_desc;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5354  	return 0;
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5355  }
+c0a5a21c25f37c Kumar Kartikeya Dwivedi 2022-04-25  5356  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8858121890200912939==--
+--===============5996309681444676771==--
 
