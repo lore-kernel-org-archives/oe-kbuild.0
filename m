@@ -1,401 +1,290 @@
-Content-Type: multipart/mixed; boundary="===============7661316276300621890=="
+Content-Type: multipart/mixed; boundary="===============2038458489438483164=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cxl:preview 55/78] drivers/cxl/region.c:104:24: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Sat, 07 May 2022 04:59:00 +0800
-Message-ID: <202205070400.fUPaxENt-lkp@intel.com>
+Subject: [vireshk-pm:cpufreq/arm/linux-next 24/24] drivers/cpufreq/mediatek-cpufreq.c:199:2-8: preceding lock on line 190
+Date: Sat, 07 May 2022 04:58:56 +0800
+Message-ID: <202205070404.vpgtRaCF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7661316276300621890==
+--===============2038458489438483164==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
+TO: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
+CC: Viresh Kumar <viresh.kumar@linaro.org>
+CC: "Andrew-sh.Cheng" <andrew-sh.cheng@mediatek.com>
+CC: "Jia-Wei Chang" <jia-wei.chang@mediatek.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
-head:   9b688fc651b9d2b633e8d959454670aba1c39162
-commit: 786e9e583773745bcd55c225d3a2643454dcca84 [55/78] cxl/region: Introd=
-uce a cxl_region driver
-:::::: branch date: 2 months ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20220504 (https://download.01.org/0day-ci/arc=
-hive/20220507/202205070400.fUPaxENt-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
-b787698440a387750db7f8028e7cb14cfc)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commi=
-t/?id=3D786e9e583773745bcd55c225d3a2643454dcca84
-        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/=
-cxl/cxl.git
-        git fetch --no-tags cxl preview
-        git checkout 786e9e583773745bcd55c225d3a2643454dcca84
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpuf=
+req/arm/linux-next
+head:   c210063b40acab74bb7262d2bfae557171884ff2
+commit: c210063b40acab74bb7262d2bfae557171884ff2 [24/24] cpufreq: mediatek:=
+ Add opp notification support
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/2022050=
+7/202205070404.vpgtRaCF-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/asm-generic/bitops/__ffs.h:35:6: note: Assuming the condition is=
- true
-           if ((word & 0x3) =3D=3D 0) {
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:35:2: note: Taking true branch
-           if ((word & 0x3) =3D=3D 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:36:3: note: The value 62 is assigned =
-to 'num'
-                   num +=3D 2;
-                   ^~~~~~~~
-   include/asm-generic/bitops/__ffs.h:39:6: note: Assuming the condition is=
- false
-           if ((word & 0x1) =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:39:2: note: Taking false branch
-           if ((word & 0x1) =3D=3D 0)
-           ^
-   include/asm-generic/bitops/__ffs.h:41:2: note: Returning the value 62 (l=
-oaded from 'num')
-           return num;
-           ^~~~~~~~~~
-   drivers/mfd/tc3589x.c:189:13: note: Returning from '__ffs'
-                   int bit =3D __ffs(status);
-                             ^~~~~~~~~~~~~
-   drivers/mfd/tc3589x.c:189:3: note: 'bit' initialized to 62
-                   int bit =3D __ffs(status);
-                   ^~~~~~~
-   drivers/mfd/tc3589x.c:193:17: note: The result of the left shift is unde=
-fined due to shifting by '62', which is greater or equal to the width of ty=
-pe 'int'
-                   status &=3D ~(1 << bit);
-                                 ^  ~~~
-   drivers/mfd/tc3589x.c:193:17: warning: The result of the left shift is u=
-ndefined due to shifting by '63', which is greater or equal to the width of=
- type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   status &=3D ~(1 << bit);
-                                 ^  ~~~
-   drivers/mfd/tc3589x.c:185:6: note: Assuming 'status' is >=3D 0
-           if (status < 0)
-               ^~~~~~~~~~
-   drivers/mfd/tc3589x.c:185:2: note: Taking false branch
-           if (status < 0)
-           ^
-   drivers/mfd/tc3589x.c:188:2: note: Loop condition is true.  Entering loo=
-p body
-           while (status) {
-           ^
-   drivers/mfd/tc3589x.c:189:13: note: Calling '__ffs'
-                   int bit =3D __ffs(status);
-                             ^~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:18:6: note: Assuming the condition is=
- true
-           if ((word & 0xffffffff) =3D=3D 0) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:18:2: note: Taking true branch
-           if ((word & 0xffffffff) =3D=3D 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:23:6: note: Assuming the condition is=
- true
-           if ((word & 0xffff) =3D=3D 0) {
-               ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:23:2: note: Taking true branch
-           if ((word & 0xffff) =3D=3D 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:27:6: note: Assuming the condition is=
- true
-           if ((word & 0xff) =3D=3D 0) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:27:2: note: Taking true branch
-           if ((word & 0xff) =3D=3D 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:31:6: note: Assuming the condition is=
- true
-           if ((word & 0xf) =3D=3D 0) {
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:31:2: note: Taking true branch
-           if ((word & 0xf) =3D=3D 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:35:6: note: Assuming the condition is=
- true
-           if ((word & 0x3) =3D=3D 0) {
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:35:2: note: Taking true branch
-           if ((word & 0x3) =3D=3D 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:39:6: note: Assuming the condition is=
- true
-           if ((word & 0x1) =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:39:2: note: Taking true branch
-           if ((word & 0x1) =3D=3D 0)
-           ^
-   include/asm-generic/bitops/__ffs.h:40:3: note: The value 63 is assigned =
-to 'num'
-                   num +=3D 1;
-                   ^~~~~~~~
-   include/asm-generic/bitops/__ffs.h:41:2: note: Returning the value 63 (l=
-oaded from 'num')
-           return num;
-           ^~~~~~~~~~
-   drivers/mfd/tc3589x.c:189:13: note: Returning from '__ffs'
-                   int bit =3D __ffs(status);
-                             ^~~~~~~~~~~~~
-   drivers/mfd/tc3589x.c:189:3: note: 'bit' initialized to 63
-                   int bit =3D __ffs(status);
-                   ^~~~~~~
-   drivers/mfd/tc3589x.c:193:17: note: The result of the left shift is unde=
-fined due to shifting by '63', which is greater or equal to the width of ty=
-pe 'int'
-                   status &=3D ~(1 << bit);
-                                 ^  ~~~
-   Suppressed 14 warnings (6 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (8 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
->> drivers/cxl/region.c:104:24: warning: Division by zero [clang-analyzer-c=
-ore.DivideZero]
-           if (cxlr->config.size % (SZ_256M * iw)) {
-                                 ^
-   drivers/cxl/region.c:289:6: note: Assuming field 'active' is false
-           if (cxlr->active)
-               ^~~~~~~~~~~~
-   drivers/cxl/region.c:289:2: note: Taking false branch
-           if (cxlr->active)
-           ^
-   drivers/cxl/region.c:292:2: note: Taking false branch
-           if (uuid_is_null(&cxlr->config.uuid))
-           ^
-   drivers/cxl/region.c:297:8: note: Calling 'sanitize_region'
-           ret =3D sanitize_region(cxlr);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/region.c:85:32: note: Assuming the condition is false
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-                                         ^
-   include/linux/dev_printk.h:274:12: note: expanded from macro 'dev_WARN_O=
-NCE'
-           WARN_ONCE(condition, "%s %s: " format, \
-                     ^~~~~~~~~
-   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-                           ^~~~~~~~~
-   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   bool __ret_do_once =3D !!(condition);                   =
-  \
-                                           ^~~~~~~~~
-   drivers/cxl/region.c:85:6: note: '__ret_do_once' is false
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-               ^
-   include/linux/dev_printk.h:274:2: note: expanded from macro 'dev_WARN_ON=
-CE'
-           WARN_ONCE(condition, "%s %s: " format, \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                ^~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/cxl/region.c:85:6: note: Left side of '&&' is false
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-               ^
-   include/linux/dev_printk.h:274:2: note: expanded from macro 'dev_WARN_ON=
-CE'
-           WARN_ONCE(condition, "%s %s: " format, \
-           ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:17:30: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                              ^
-   drivers/cxl/region.c:85:6: note: Taking false branch
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-               ^
-   include/linux/dev_printk.h:274:2: note: expanded from macro 'dev_WARN_ON=
-CE'
-           WARN_ONCE(condition, "%s %s: " format, \
-           ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:17:3: note: expanded from macro 'DO_ONCE_LITE_=
-IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                   ^
-   drivers/cxl/region.c:85:2: note: Taking false branch
-           if (dev_WARN_ONCE(&cxlr->dev, !is_cxl_region_configured(cxlr),
-           ^
-   drivers/cxl/region.c:94:2: note: Taking false branch
-           if (!cxl_is_interleave_ways_valid(iw)) {
-           ^
-   drivers/cxl/region.c:99:2: note: Taking false branch
-           if (!cxl_is_interleave_granularity_valid(ig)) {
-           ^
-   drivers/cxl/region.c:104:24: note: Division by zero
-           if (cxlr->config.size % (SZ_256M * iw)) {
-               ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/char/hw_random/ixp4xx-rng.c:44:17: warning: Value stored to 'dev=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct device *dev =3D &pdev->dev;
-                          ^~~   ~~~~~~~~~~
-   drivers/char/hw_random/ixp4xx-rng.c:44:17: note: Value stored to 'dev' d=
-uring its initialization is never read
-           struct device *dev =3D &pdev->dev;
-                          ^~~   ~~~~~~~~~~
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cpufreq/mediatek-cpufreq.c:199:2-8: preceding lock on line 190
+   drivers/cpufreq/mediatek-cpufreq.c:208:2-8: preceding lock on line 190
 
-vim +104 drivers/cxl/region.c
+vim +199 drivers/cpufreq/mediatek-cpufreq.c
 
-786e9e58377374 Ben Widawsky 2022-02-11   66  =
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 173  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   67  /**
-786e9e58377374 Ben Widawsky 2022-02-11   68   * sanitize_region() - Check i=
-s region is reasonably configured
-786e9e58377374 Ben Widawsky 2022-02-11   69   * @cxlr: The region to check
-786e9e58377374 Ben Widawsky 2022-02-11   70   *
-786e9e58377374 Ben Widawsky 2022-02-11   71   * Determination as to whether=
- or not a region can possibly be configured is
-786e9e58377374 Ben Widawsky 2022-02-11   72   * described in CXL Memory Dev=
-ice SW Guide. In order to implement the algorithms
-786e9e58377374 Ben Widawsky 2022-02-11   73   * described there, certain mo=
-re basic configuration parameters must first need
-786e9e58377374 Ben Widawsky 2022-02-11   74   * to be validated. That is ac=
-complished by this function.
-786e9e58377374 Ben Widawsky 2022-02-11   75   *
-786e9e58377374 Ben Widawsky 2022-02-11   76   * Returns 0 if the region is =
-reasonably configured, else returns a negative
-786e9e58377374 Ben Widawsky 2022-02-11   77   * error code.
-786e9e58377374 Ben Widawsky 2022-02-11   78   */
-786e9e58377374 Ben Widawsky 2022-02-11   79  static int sanitize_region(con=
-st struct cxl_region *cxlr)
-786e9e58377374 Ben Widawsky 2022-02-11   80  {
-786e9e58377374 Ben Widawsky 2022-02-11   81  	const int ig =3D region_granu=
-larity(cxlr);
-786e9e58377374 Ben Widawsky 2022-02-11   82  	const int iw =3D region_ways(=
-cxlr);
-786e9e58377374 Ben Widawsky 2022-02-11   83  	int i;
-786e9e58377374 Ben Widawsky 2022-02-11   84  =
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 174  static int mtk_cpufreq_set_target(struct cpufreq_policy *policy,
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 175  				  unsigned int index)
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 176  {
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 177  	struct cpufreq_frequency_table *freq_table =3D policy->freq_table;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 178  	struct clk *cpu_clk =3D policy->clk;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 179  	struct clk *armpll =3D clk_get_parent(cpu_clk);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 180  	struct mtk_cpu_dvfs_info *info =3D policy->driver_data;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 181  	struct device *cpu_dev =3D info->cpu_dev;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 182  	struct dev_pm_opp *opp;
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 183  	long freq_hz, pre_freq_hz;
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 184  	int vproc, pre_vproc, inter_vproc, target_vproc, ret;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 185  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   85  	if (dev_WARN_ONCE(&cxlr->dev,=
- !is_cxl_region_configured(cxlr),
-786e9e58377374 Ben Widawsky 2022-02-11   86  			  "unconfigured regions can=
-'t be probed (race?)\n")) {
-786e9e58377374 Ben Widawsky 2022-02-11   87  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11   88  	}
-786e9e58377374 Ben Widawsky 2022-02-11   89  =
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 186  	inter_vproc =3D info->intermediate_voltage;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 187  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   90  	/*
-786e9e58377374 Ben Widawsky 2022-02-11   91  	 * Interleave attributes shou=
-ld be caught by later math, but it's
-786e9e58377374 Ben Widawsky 2022-02-11   92  	 * easiest to find those issu=
-es here, now.
-786e9e58377374 Ben Widawsky 2022-02-11   93  	 */
-786e9e58377374 Ben Widawsky 2022-02-11   94  	if (!cxl_is_interleave_ways_v=
-alid(iw)) {
-786e9e58377374 Ben Widawsky 2022-02-11   95  		dev_dbg(&cxlr->dev, "Invalid=
- number of ways\n");
-786e9e58377374 Ben Widawsky 2022-02-11   96  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11   97  	}
-786e9e58377374 Ben Widawsky 2022-02-11   98  =
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 188  	pre_freq_hz =3D clk_get_rate(cpu_clk);
+bffcd33313dcfa drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-22 =
+ 189  =
 
-786e9e58377374 Ben Widawsky 2022-02-11   99  	if (!cxl_is_interleave_granul=
-arity_valid(ig)) {
-786e9e58377374 Ben Widawsky 2022-02-11  100  		dev_dbg(&cxlr->dev, "Invalid=
- interleave granularity\n");
-786e9e58377374 Ben Widawsky 2022-02-11  101  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11  102  	}
-786e9e58377374 Ben Widawsky 2022-02-11  103  =
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+@190  	mutex_lock(&info->reg_lock);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 191  =
 
-786e9e58377374 Ben Widawsky 2022-02-11 @104  	if (cxlr->config.size % (SZ_2=
-56M * iw)) {
-786e9e58377374 Ben Widawsky 2022-02-11  105  		dev_dbg(&cxlr->dev, "Invalid=
- size. Must be multiple of %uM\n",
-786e9e58377374 Ben Widawsky 2022-02-11  106  			256 * iw);
-786e9e58377374 Ben Widawsky 2022-02-11  107  		return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11  108  	}
-786e9e58377374 Ben Widawsky 2022-02-11  109  =
+bffcd33313dcfa drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-22 =
+ 192  	if (unlikely(info->pre_vproc <=3D 0))
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 193  		pre_vproc =3D regulator_get_voltage(info->proc_reg);
+bffcd33313dcfa drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-22 =
+ 194  	else
+bffcd33313dcfa drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-22 =
+ 195  		pre_vproc =3D info->pre_vproc;
+bffcd33313dcfa drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-22 =
+ 196  =
 
-786e9e58377374 Ben Widawsky 2022-02-11  110  	for (i =3D 0; i < iw; i++) {
-786e9e58377374 Ben Widawsky 2022-02-11  111  		if (!cxlr->config.targets[i]=
-) {
-786e9e58377374 Ben Widawsky 2022-02-11  112  			dev_dbg(&cxlr->dev, "Missin=
-g memory device target%u",
-786e9e58377374 Ben Widawsky 2022-02-11  113  				i);
-786e9e58377374 Ben Widawsky 2022-02-11  114  			return -ENXIO;
-786e9e58377374 Ben Widawsky 2022-02-11  115  		}
-786e9e58377374 Ben Widawsky 2022-02-11  116  		if (!cxlr->config.targets[i]=
-->dev.driver) {
-786e9e58377374 Ben Widawsky 2022-02-11  117  			dev_dbg(&cxlr->dev, "%s isn=
-'t CXL.mem capable\n",
-786e9e58377374 Ben Widawsky 2022-02-11  118  				dev_name(&cxlr->config.tar=
-gets[i]->dev));
-786e9e58377374 Ben Widawsky 2022-02-11  119  			return -ENODEV;
-786e9e58377374 Ben Widawsky 2022-02-11  120  		}
-786e9e58377374 Ben Widawsky 2022-02-11  121  	}
-786e9e58377374 Ben Widawsky 2022-02-11  122  =
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 197  	if (pre_vproc < 0) {
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 198  		dev_err(cpu_dev, "invalid Vproc value: %d\n", pre_vproc);
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+@199  		return pre_vproc;
+40be4c3ccbf407 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-11-29 =
+ 200  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 201  =
 
-786e9e58377374 Ben Widawsky 2022-02-11  123  	return 0;
-786e9e58377374 Ben Widawsky 2022-02-11  124  }
-786e9e58377374 Ben Widawsky 2022-02-11  125  =
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 202  	freq_hz =3D freq_table[index].frequency * 1000;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 203  =
 
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 204  	opp =3D dev_pm_opp_find_freq_ceil(cpu_dev, &freq_hz);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 205  	if (IS_ERR(opp)) {
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 206  		dev_err(cpu_dev, "cpu%d: failed to find OPP for %ld\n",
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 207  			policy->cpu, freq_hz);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 208  		return PTR_ERR(opp);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 209  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 210  	vproc =3D dev_pm_opp_get_voltage(opp);
+8a31d9d94297b1 drivers/cpufreq/mt8173-cpufreq.c   Viresh Kumar  2017-01-23 =
+ 211  	dev_pm_opp_put(opp);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 212  =
+
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 213  	/*
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 214  	 * If the new voltage or the intermediate voltage is higher than the
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 215  	 * current voltage, scale up voltage first.
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 216  	 */
+6a17b3876bc830 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05 =
+ 217  	target_vproc =3D max(inter_vproc, vproc);
+6a17b3876bc830 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05 =
+ 218  	if (pre_vproc <=3D target_vproc) {
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 219  		ret =3D mtk_cpufreq_set_voltage(info, target_vproc);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 220  		if (ret) {
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 221  			dev_err(cpu_dev,
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 222  				"cpu%d: failed to scale up voltage!\n", policy->cpu);
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 223  			mtk_cpufreq_set_voltage(info, pre_vproc);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 224  			goto out;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 225  		}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 226  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 227  =
+
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 228  	/* Reparent the CPU clock to intermediate clock. */
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 229  	ret =3D clk_set_parent(cpu_clk, info->inter_clk);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 230  	if (ret) {
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 231  		dev_err(cpu_dev,
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 232  			"cpu%d: failed to re-parent cpu clock!\n", policy->cpu);
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 233  		mtk_cpufreq_set_voltage(info, pre_vproc);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 234  		goto out;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 235  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 236  =
+
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 237  	/* Set the original PLL to target rate. */
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 238  	ret =3D clk_set_rate(armpll, freq_hz);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 239  	if (ret) {
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 240  		dev_err(cpu_dev,
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 241  			"cpu%d: failed to scale cpu clock rate!\n", policy->cpu);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 242  		clk_set_parent(cpu_clk, armpll);
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 243  		mtk_cpufreq_set_voltage(info, pre_vproc);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 244  		goto out;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 245  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 246  =
+
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 247  	/* Set parent of CPU clock back to the original PLL. */
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 248  	ret =3D clk_set_parent(cpu_clk, armpll);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 249  	if (ret) {
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 250  		dev_err(cpu_dev,
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 251  			"cpu%d: failed to re-parent cpu clock!\n", policy->cpu);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 252  		mtk_cpufreq_set_voltage(info, inter_vproc);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 253  		goto out;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 254  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 255  =
+
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 256  	/*
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 257  	 * If the new voltage is lower than the intermediate voltage or the
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 258  	 * original voltage, scale down to the new voltage.
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 259  	 */
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 260  	if (vproc < inter_vproc || vproc < pre_vproc) {
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 261  		ret =3D mtk_cpufreq_set_voltage(info, vproc);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 262  		if (ret) {
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 263  			dev_err(cpu_dev,
+9acc0f7a6edd8d drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 264  				"cpu%d: failed to scale down voltage!\n", policy->cpu);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 265  			clk_set_parent(cpu_clk, info->inter_clk);
+4aef4aeaf1dd47 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-04-22 =
+ 266  			clk_set_rate(armpll, pre_freq_hz);
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 267  			clk_set_parent(cpu_clk, armpll);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 268  			goto out;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 269  		}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 270  	}
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 271  =
+
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 272  	info->current_freq =3D freq_hz;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 273  =
+
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 274  out:
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 275  	mutex_unlock(&info->reg_lock);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 276  =
+
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 =
+ 277  	return ret;
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 278  }
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19 =
+ 279  =
+
+
+:::::: The code at line 199 was first introduced by commit
+:::::: 4aef4aeaf1dd47b2242ba78857b2773b7a5b5b05 cpufreq: mediatek: Replace =
+old_* with pre_*
+
+:::::: TO: Rex-BC Chen <rex-bc.chen@mediatek.com>
+:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7661316276300621890==--
+--===============2038458489438483164==--
 
