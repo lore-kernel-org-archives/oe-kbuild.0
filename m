@@ -1,80 +1,100 @@
-Content-Type: multipart/mixed; boundary="===============9166282326419255888=="
+Content-Type: multipart/mixed; boundary="===============5739919994493266173=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/ice/ice_tc_lib.c:853:29: warning: Uninitialized variable: fltr->src_vsi [uninitvar]
-Date: Sat, 07 May 2022 07:57:44 +0800
-Message-ID: <202205070748.dLsOS9IE-lkp@intel.com>
+Subject: [dgc-xfs:xfs-5.19-compose 16/43] fs/xfs/xfs_attr_item.c:401 xfs_attr_create_intent() error: uninitialized symbol 'attrip'.
+Date: Sat, 07 May 2022 07:46:58 +0800
+Message-ID: <202205070730.fb6c7aNL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9166282326419255888==
+--===============5739919994493266173==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Michal Swiatkowski <michal.swiatkowski@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Wojciech Drewek <wojciech.drewek@intel.com>
+TO: Dave Chinner <david@fromorbit.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   4b97bac0756a81cda5afd45417a99b5bccdcff67
-commit: 7fde6d8b445f3af9caa5f3c2be384c2f797e21c5 ice: ndo_setup_tc implemen=
-tation for PR
-date:   7 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 7 months ago
-compiler: sparc-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 7fde6d8b445f3af9caa5f3c2be384c2f797e21c5
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git x=
+fs-5.19-compose
+head:   d8fa98c66946d5b1e01531cf7cb50151817f6894
+commit: bec9742ffc23793ecbc7b2d72bb0a85c314b421a [16/43] xfs: Implement att=
+r logging and replay
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
+archive/20220507/202205070730.fb6c7aNL-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/xfs/xfs_attr_item.c:401 xfs_attr_create_intent() error: uninitialized sy=
+mbol 'attrip'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/attrip +401 fs/xfs/xfs_attr_item.c
 
->> drivers/net/ethernet/intel/ice/ice_tc_lib.c:853:29: warning: Uninitializ=
-ed variable: fltr->src_vsi [uninitvar]
-     ice_add_switch_fltr(fltr->src_vsi, fltr);
-                               ^
+bec9742ffc2379 Allison Henderson 2022-05-04  369  =
 
-vim +853 drivers/net/ethernet/intel/ice/ice_tc_lib.c
+bec9742ffc2379 Allison Henderson 2022-05-04  370  /* Get an ATTRI. */
+bec9742ffc2379 Allison Henderson 2022-05-04  371  static struct xfs_log_ite=
+m *
+bec9742ffc2379 Allison Henderson 2022-05-04  372  xfs_attr_create_intent(
+bec9742ffc2379 Allison Henderson 2022-05-04  373  	struct xfs_trans		*tp,
+bec9742ffc2379 Allison Henderson 2022-05-04  374  	struct list_head		*items,
+bec9742ffc2379 Allison Henderson 2022-05-04  375  	unsigned int			count,
+bec9742ffc2379 Allison Henderson 2022-05-04  376  	bool				sort)
+bec9742ffc2379 Allison Henderson 2022-05-04  377  {
+bec9742ffc2379 Allison Henderson 2022-05-04  378  	struct xfs_mount		*mp =
+=3D tp->t_mountp;
+bec9742ffc2379 Allison Henderson 2022-05-04  379  	struct xfs_attri_log_ite=
+m	*attrip;
+bec9742ffc2379 Allison Henderson 2022-05-04  380  	struct xfs_attr_item		*a=
+ttr;
+bec9742ffc2379 Allison Henderson 2022-05-04  381  =
 
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  839  =
+bec9742ffc2379 Allison Henderson 2022-05-04  382  	ASSERT(count =3D=3D 1);
+bec9742ffc2379 Allison Henderson 2022-05-04  383  =
 
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  840  /**
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  841   * ice_replay_tc_fltrs -=
- replay TC filters
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  842   * @pf: pointer to PF st=
-ruct
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  843   */
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  844  void ice_replay_tc_fltrs=
-(struct ice_pf *pf)
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  845  {
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  846  	struct ice_tc_flower_fl=
-tr *fltr;
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  847  	struct hlist_node *node;
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  848  =
+bec9742ffc2379 Allison Henderson 2022-05-04  384  	if (!xfs_sb_version_hasl=
+ogxattrs(&mp->m_sb))
+bec9742ffc2379 Allison Henderson 2022-05-04  385  		return NULL;
+bec9742ffc2379 Allison Henderson 2022-05-04  386  =
 
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  849  	hlist_for_each_entry_sa=
-fe(fltr, node,
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  850  				  &pf->tc_flower_flt=
-r_list,
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  851  				  tc_flower_node) {
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  852  		fltr->extack =3D NULL;
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06 @853  		ice_add_switch_fltr(fl=
-tr->src_vsi, fltr);
+bec9742ffc2379 Allison Henderson 2022-05-04  387  	/*
+bec9742ffc2379 Allison Henderson 2022-05-04  388  	 * Each attr item only p=
+erforms one attribute operation at a time, so
+bec9742ffc2379 Allison Henderson 2022-05-04  389  	 * this is a list of one
+bec9742ffc2379 Allison Henderson 2022-05-04  390  	 */
+bec9742ffc2379 Allison Henderson 2022-05-04  391  	list_for_each_entry(attr=
+, items, xattri_list) {
+bec9742ffc2379 Allison Henderson 2022-05-04  392  		attrip =3D xfs_attri_in=
+it(mp, attr->xattri_dac.da_args->namelen,
+bec9742ffc2379 Allison Henderson 2022-05-04  393  					attr->xattri_dac.da_=
+args->valuelen);
+bec9742ffc2379 Allison Henderson 2022-05-04  394  		if (attrip =3D=3D NULL)
+bec9742ffc2379 Allison Henderson 2022-05-04  395  			return NULL;
+bec9742ffc2379 Allison Henderson 2022-05-04  396  =
+
+bec9742ffc2379 Allison Henderson 2022-05-04  397  		xfs_trans_add_item(tp, =
+&attrip->attri_item);
+bec9742ffc2379 Allison Henderson 2022-05-04  398  		xfs_attr_log_item(tp, a=
+ttrip, attr);
+bec9742ffc2379 Allison Henderson 2022-05-04  399  	}
+bec9742ffc2379 Allison Henderson 2022-05-04  400  =
+
+bec9742ffc2379 Allison Henderson 2022-05-04 @401  	return &attrip->attri_it=
+em;
+bec9742ffc2379 Allison Henderson 2022-05-04  402  }
+bec9742ffc2379 Allison Henderson 2022-05-04  403  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9166282326419255888==--
+--===============5739919994493266173==--
 
