@@ -1,394 +1,137 @@
-Content-Type: multipart/mixed; boundary="===============7518206533904471581=="
+Content-Type: multipart/mixed; boundary="===============3159472823382162134=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [allisonhenderson-xfs-work:xfs-5.19-compose_pptrs 46/118] fs/xfs/xfs_attr_item.c:401:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sun, 08 May 2022 00:54:43 +0800
-Message-ID: <202205080008.2VcI3RMJ-lkp@intel.com>
+Subject: drivers/ptp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expression '0xffff<<(16-shift)'. [integerOverflow]
+Date: Sat, 07 May 2022 23:02:59 +0800
+Message-ID: <202205072207.WZjLDboz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7518206533904471581==
+--===============3159472823382162134==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Allison Henderson <allison.henderson@oracle.com>
-CC: Dave Chinner <david@fromorbit.com>
-CC: Chandan Babu R <chandanrlinux@gmail.com>
-CC: "Darrick J. Wong" <djwong@kernel.org>
+TO: Jonathan Lemon <jonathan.lemon@gmail.com>
 
-tree:   https://github.com/allisonhenderson/xfs_work.git xfs-5.19-compose_p=
-ptrs
-head:   74ecccf0e89a132c2490f3a63661c535974c6a08
-commit: 7e142753c9aa0ea14acaacbd8b728d26f1b0c951 [46/118] xfs: Implement at=
-tr logging and replay
-:::::: branch date: 2 days ago
-:::::: commit date: 4 weeks ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20508/202205080008.2VcI3RMJ-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
-b787698440a387750db7f8028e7cb14cfc)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/allisonhenderson/xfs_work/commit/7e142753c9aa0=
-ea14acaacbd8b728d26f1b0c951
-        git remote add allisonhenderson-xfs-work https://github.com/allison=
-henderson/xfs_work.git
-        git fetch --no-tags allisonhenderson-xfs-work xfs-5.19-compose_pptrs
-        git checkout 7e142753c9aa0ea14acaacbd8b728d26f1b0c951
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b97bac0756a81cda5afd45417a99b5bccdcff67
+commit: a509a7c61e3b7a16054dafdc5ae804e9a859a0a9 ptp: ocp: Add support for =
+selectable SMA directions.
+date:   8 weeks ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 weeks ago
+compiler: aarch64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout a509a7c61e3b7a16054dafdc5ae804e9a859a0a9
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/fpu/xstate.c:1172:3: note: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(dst, kbuf + offset, size);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 40 warnings (40 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   56 warnings generated.
-   fs/xfs/xfs_attr_item.c:227:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy((char *)dst_attr_fmt, (char *)src_attr_fmt, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:227:2: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-           memcpy((char *)dst_attr_fmt, (char *)src_attr_fmt, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:362:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(attrip->attri_name, attr->xattri_dac.da_args->name,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:362:2: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-           memcpy(attrip->attri_name, attr->xattri_dac.da_args->name,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:364:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(attrip->attri_value, attr->xattri_dac.da_args->value,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:364:2: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-           memcpy(attrip->attri_value, attr->xattri_dac.da_args->value,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
->> fs/xfs/xfs_attr_item.c:401:2: warning: Undefined or garbage value return=
-ed to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return &attrip->attri_item;
-           ^      ~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:379:2: note: 'attrip' declared without an initial=
- value
-           struct xfs_attri_log_item       *attrip;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:382:9: note: Assuming 'count' is equal to 1
-           ASSERT(count =3D=3D 1);
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+   drivers/ptp/ptp_ocp.c:1659:26: warning: Either the condition 'default_id=
+x>=3D0' is redundant or the array 'ptp_ocp_sma_in[8]' is accessed at index =
+8, which is out of bounds. [arrayIndexOutOfBoundsCond]
+              ptp_ocp_sma_in[default_idx].name);
+                            ^
+   drivers/ptp/ptp_ocp.c:1657:26: note: Assuming that condition 'default_id=
+x>=3D0' is not redundant
+    if (!val && default_idx >=3D 0)
+                            ^
+   drivers/ptp/ptp_ocp.c:1659:26: note: Array index out of bounds
+              ptp_ocp_sma_in[default_idx].name);
+                            ^
+   drivers/ptp/ptp_ocp.c:1356:18: warning: Boolean result is used in bitwis=
+e operation. Clarify expression with parentheses. [clarifyCondition]
+     if ((!!old_map ^ !!bp->pps_req_map) =3D=3D 0)
+                    ^
+>> drivers/ptp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expr=
+ession '0xffff<<(16-shift)'. [integerOverflow]
+    mask =3D 0xffff << (16 - shift);
                   ^
-   fs/xfs/xfs_linux.h:206:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
-_))
-                   ^~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   fs/xfs/xfs_attr_item.c:382:2: note: '?' condition is true
-           ASSERT(count =3D=3D 1);
-           ^
-   fs/xfs/xfs_linux.h:206:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^
-   fs/xfs/xfs_attr_item.c:384:6: note: Assuming the condition is false
-           if (!xfs_sb_version_haslogxattrs(&mp->m_sb))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:384:2: note: Taking false branch
-           if (!xfs_sb_version_haslogxattrs(&mp->m_sb))
-           ^
-   fs/xfs/xfs_attr_item.c:391:2: note: Loop condition is false. Execution c=
-ontinues on line 401
-           list_for_each_entry(attr, items, xattri_list) {
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   fs/xfs/xfs_attr_item.c:401:2: note: Undefined or garbage value returned =
-to caller
-           return &attrip->attri_item;
-           ^      ~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:644:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(new_attrip->attri_name, old_attrip->attri_name,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:644:2: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-           memcpy(new_attrip->attri_name, old_attrip->attri_name,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:648:3: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(new_attrip->attri_value, old_attrip->attri_value,
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:648:3: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-                   memcpy(new_attrip->attri_value, old_attrip->attri_value,
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_attr_item.c:690:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(attrip->attri_name, item->ri_buf[region].i_addr,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
+   drivers/ptp/ptp_ocp.c:1778:21: note: Assignment 'shift=3Dsma_nr&1?0:16',=
+ assigned value is 0
+    shift =3D sma_nr & 1 ? 0 : 16;
+                       ^
+   drivers/ptp/ptp_ocp.c:1780:16: note: Integer overflow
+    mask =3D 0xffff << (16 - shift);
+                  ^
+   drivers/ptp/ptp_ocp.c:1804:16: warning: Signed integer overflow for expr=
+ession '0xffff<<(16-shift)'. [integerOverflow]
+    mask =3D 0xffff << (16 - shift);
+                  ^
+   drivers/ptp/ptp_ocp.c:1802:21: note: Assignment 'shift=3Dsma_nr&1?0:16',=
+ assigned value is 0
+    shift =3D sma_nr & 1 ? 0 : 16;
+                       ^
+   drivers/ptp/ptp_ocp.c:1804:16: note: Integer overflow
+    mask =3D 0xffff << (16 - shift);
+                  ^
 
-vim +401 fs/xfs/xfs_attr_item.c
+vim +1780 drivers/ptp/ptp_ocp.c
 
-7e142753c9aa0e Allison Henderson 2022-04-11  369  =
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1769  =
 
-7e142753c9aa0e Allison Henderson 2022-04-11  370  /* Get an ATTRI. */
-7e142753c9aa0e Allison Henderson 2022-04-11  371  static struct xfs_log_ite=
-m *
-7e142753c9aa0e Allison Henderson 2022-04-11  372  xfs_attr_create_intent(
-7e142753c9aa0e Allison Henderson 2022-04-11  373  	struct xfs_trans		*tp,
-7e142753c9aa0e Allison Henderson 2022-04-11  374  	struct list_head		*items,
-7e142753c9aa0e Allison Henderson 2022-04-11  375  	unsigned int			count,
-7e142753c9aa0e Allison Henderson 2022-04-11  376  	bool				sort)
-7e142753c9aa0e Allison Henderson 2022-04-11  377  {
-7e142753c9aa0e Allison Henderson 2022-04-11  378  	struct xfs_mount		*mp =
-=3D tp->t_mountp;
-7e142753c9aa0e Allison Henderson 2022-04-11  379  	struct xfs_attri_log_ite=
-m	*attrip;
-7e142753c9aa0e Allison Henderson 2022-04-11  380  	struct xfs_attr_item		*a=
-ttr;
-7e142753c9aa0e Allison Henderson 2022-04-11  381  =
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1770  static void
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1771  ptp_ocp_sma_store_output(st=
+ruct ptp_ocp *bp, int sma_nr, u32 val)
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1772  {
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1773  	u32 reg, mask, shift;
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1774  	unsigned long flags;
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1775  	u32 __iomem *gpio;
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1776  =
 
-7e142753c9aa0e Allison Henderson 2022-04-11  382  	ASSERT(count =3D=3D 1);
-7e142753c9aa0e Allison Henderson 2022-04-11  383  =
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1777  	gpio =3D sma_nr > 2 ? &bp-=
+>sma_map1->gpio2 : &bp->sma_map2->gpio2;
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1778  	shift =3D sma_nr & 1 ? 0 :=
+ 16;
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1779  =
 
-7e142753c9aa0e Allison Henderson 2022-04-11  384  	if (!xfs_sb_version_hasl=
-ogxattrs(&mp->m_sb))
-7e142753c9aa0e Allison Henderson 2022-04-11  385  		return NULL;
-7e142753c9aa0e Allison Henderson 2022-04-11  386  =
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14 @1780  	mask =3D 0xffff << (16 - s=
+hift);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1781  =
 
-7e142753c9aa0e Allison Henderson 2022-04-11  387  	/*
-7e142753c9aa0e Allison Henderson 2022-04-11  388  	 * Each attr item only p=
-erforms one attribute operation at a time, so
-7e142753c9aa0e Allison Henderson 2022-04-11  389  	 * this is a list of one
-7e142753c9aa0e Allison Henderson 2022-04-11  390  	 */
-7e142753c9aa0e Allison Henderson 2022-04-11  391  	list_for_each_entry(attr=
-, items, xattri_list) {
-7e142753c9aa0e Allison Henderson 2022-04-11  392  		attrip =3D xfs_attri_in=
-it(mp, attr->xattri_dac.da_args->namelen,
-7e142753c9aa0e Allison Henderson 2022-04-11  393  					attr->xattri_dac.da_=
-args->valuelen);
-7e142753c9aa0e Allison Henderson 2022-04-11  394  		if (attrip =3D=3D NULL)
-7e142753c9aa0e Allison Henderson 2022-04-11  395  			return NULL;
-7e142753c9aa0e Allison Henderson 2022-04-11  396  =
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1782  	spin_lock_irqsave(&bp->loc=
+k, flags);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1783  =
 
-7e142753c9aa0e Allison Henderson 2022-04-11  397  		xfs_trans_add_item(tp, =
-&attrip->attri_item);
-7e142753c9aa0e Allison Henderson 2022-04-11  398  		xfs_attr_log_item(tp, a=
-ttrip, attr);
-7e142753c9aa0e Allison Henderson 2022-04-11  399  	}
-7e142753c9aa0e Allison Henderson 2022-04-11  400  =
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1784  	reg =3D ioread32(gpio);
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1785  	reg =3D (reg & mask) | (va=
+l << shift);
+6baf2925424a83 Jonathan Lemon 2021-09-14  1786  =
 
-7e142753c9aa0e Allison Henderson 2022-04-11 @401  	return &attrip->attri_it=
-em;
-7e142753c9aa0e Allison Henderson 2022-04-11  402  }
-7e142753c9aa0e Allison Henderson 2022-04-11  403  =
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1787  	__handle_signal_outputs(bp=
+, reg);
+6baf2925424a83 Jonathan Lemon 2021-09-14  1788  =
 
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1789  	iowrite32(reg, gpio);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1790  =
+
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1791  	spin_unlock_irqrestore(&bp=
+->lock, flags);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1792  }
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1793  =
+
+
+:::::: The code at line 1780 was first introduced by commit
+:::::: e1daf0ec73b2e9170d7df1e5cda409de3535bac2 ptp: ocp: Add SMA selector =
+and controls
+
+:::::: TO: Jonathan Lemon <jonathan.lemon@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7518206533904471581==--
+--===============3159472823382162134==--
 
