@@ -1,53 +1,91 @@
-Content-Type: multipart/mixed; boundary="===============6819373354401178673=="
+Content-Type: multipart/mixed; boundary="===============7509548671284552642=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 9623/11360] drivers/net/wwan/t7xx/t7xx_hif_cldma.c:94:34-44: ERROR: function t7xx_cldma_alloc_and_map_skb called on line 796 inside lock on line 779 but uses GFP_KERNEL
-Date: Fri, 13 May 2022 07:03:07 +0800
-Message-ID: <202205130656.t51kinLm-lkp@intel.com>
+Subject: arch/arm64/kernel/patching.c:74:8: warning: Redundant initialization for 'waddr'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Sat, 07 May 2022 19:59:46 +0800
+Message-ID: <202205071920.0G6qz6xI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6819373354401178673==
+--===============7509548671284552642==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Haijun Liu <haijun.liu@mediatek.com>
-CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
-CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
-CC: Loic Poulain <loic.poulain@linaro.org>
-CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
-CC: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Julien Thierry <jthierry@redhat.com>
+CC: Will Deacon <will@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   187b9ac8c348383f7f36c8413d73ad89e9b1e90a
-commit: 13e920d93e37fcaef4a9309515798a3cae9dcf19 [9623/11360] net: wwan: t7=
-xx: Add core components
-:::::: branch date: 13 hours ago
-:::::: commit date: 4 days ago
-config: csky-randconfig-c023-20220512 (https://download.01.org/0day-ci/arch=
-ive/20220513/202205130656.t51kinLm-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b97bac0756a81cda5afd45417a99b5bccdcff67
+commit: 5f154c4e20d7edd38bddec78f3e0a7628057ef76 arm64: Move patching utili=
+ties out of instruction encoding/decoding
+date:   12 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 12 months ago
+compiler: aarch64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 5f154c4e20d7edd38bddec78f3e0a7628057ef76
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/wwan/t7xx/t7xx_hif_cldma.c:94:34-44: ERROR: function t7xx_cl=
-dma_alloc_and_map_skb called on line 796 inside lock on line 779 but uses G=
-FP_KERNEL
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-Please review and possibly fold the followup patch.
+>> arch/arm64/kernel/patching.c:74:8: warning: Redundant initialization for=
+ 'waddr'. The initialized value is overwritten before it is read. [redundan=
+tInitialization]
+    waddr =3D patch_map(addr, FIX_TEXT_POKE0);
+          ^
+   arch/arm64/kernel/patching.c:69:14: note: waddr is initialized
+    void *waddr =3D addr;
+                ^
+   arch/arm64/kernel/patching.c:74:8: note: waddr is overwritten
+    waddr =3D patch_map(addr, FIX_TEXT_POKE0);
+          ^
+
+vim +/waddr +74 arch/arm64/kernel/patching.c
+
+5f154c4e20d7edd Julien Thierry 2021-03-03  66  =
+
+5f154c4e20d7edd Julien Thierry 2021-03-03  67  static int __kprobes __aarch=
+64_insn_write(void *addr, __le32 insn)
+5f154c4e20d7edd Julien Thierry 2021-03-03  68  {
+5f154c4e20d7edd Julien Thierry 2021-03-03  69  	void *waddr =3D addr;
+5f154c4e20d7edd Julien Thierry 2021-03-03  70  	unsigned long flags =3D 0;
+5f154c4e20d7edd Julien Thierry 2021-03-03  71  	int ret;
+5f154c4e20d7edd Julien Thierry 2021-03-03  72  =
+
+5f154c4e20d7edd Julien Thierry 2021-03-03  73  	raw_spin_lock_irqsave(&patc=
+h_lock, flags);
+5f154c4e20d7edd Julien Thierry 2021-03-03 @74  	waddr =3D patch_map(addr, F=
+IX_TEXT_POKE0);
+5f154c4e20d7edd Julien Thierry 2021-03-03  75  =
+
+5f154c4e20d7edd Julien Thierry 2021-03-03  76  	ret =3D copy_to_kernel_nofa=
+ult(waddr, &insn, AARCH64_INSN_SIZE);
+5f154c4e20d7edd Julien Thierry 2021-03-03  77  =
+
+5f154c4e20d7edd Julien Thierry 2021-03-03  78  	patch_unmap(FIX_TEXT_POKE0);
+5f154c4e20d7edd Julien Thierry 2021-03-03  79  	raw_spin_unlock_irqrestore(=
+&patch_lock, flags);
+5f154c4e20d7edd Julien Thierry 2021-03-03  80  =
+
+5f154c4e20d7edd Julien Thierry 2021-03-03  81  	return ret;
+5f154c4e20d7edd Julien Thierry 2021-03-03  82  }
+5f154c4e20d7edd Julien Thierry 2021-03-03  83  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6819373354401178673==--
+--===============7509548671284552642==--
 
