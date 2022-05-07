@@ -1,483 +1,858 @@
-Content-Type: multipart/mixed; boundary="===============6349880970698809522=="
+Content-Type: multipart/mixed; boundary="===============1080931206087131247=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/vsprintf.c:3615 vsscanf() error: uninitialized symbol 'next'.
-Date: Sat, 07 May 2022 19:39:24 +0800
-Message-ID: <202205071941.vVWoJU45-lkp@intel.com>
+Subject: [daniel-thompson:clang-analyzer/initial_review 7/7] drivers/hwmon/lineage-pem.c:207:10: warning: Array access (from variable 'data') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Sat, 07 May 2022 19:39:21 +0800
+Message-ID: <202205071925.pCYWAVMs-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6349880970698809522==
+--===============1080931206087131247==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Richard Fitzgerald <rf@opensource.cirrus.com>
-CC: Petr Mladek <pmladek@suse.com>
+TO: Daniel Thompson <daniel.thompson@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   4b97bac0756a81cda5afd45417a99b5bccdcff67
-commit: 900fdc4573766dd43b847b4f54bd4a1ee2bc7360 lib: vsprintf: Fix handlin=
-g of number field widths in vsscanf
-date:   12 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 12 months ago
-config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
-archive/20220507/202205071941.vVWoJU45-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+tree:   https://git.linaro.org/people/daniel.thompson/linux.git clang-analy=
+zer/initial_review
+head:   ad6525bf355a301ca52b1dc3639fa340409c79b9
+commit: ad6525bf355a301ca52b1dc3639fa340409c79b9 [7/7] [RFC] linux/err.h: R=
+efactor IS_ERR_VALUE(x) to improve clang reasoning
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-c006-20220505 (https://download.01.org/0day-ci/arc=
+hive/20220507/202205071925.pCYWAVMs-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
+b787698440a387750db7f8028e7cb14cfc)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D900fdc4573766dd43b847b4f54bd4a1ee2bc7360
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 900fdc4573766dd43b847b4f54bd4a1ee2bc7360
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add daniel-thompson https://git.linaro.org/people/daniel=
+.thompson/linux.git
+        git fetch --no-tags daniel-thompson clang-analyzer/initial_review
+        git checkout ad6525bf355a301ca52b1dc3639fa340409c79b9
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- W=3D1 ARCH=3Dopenrisc =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-All errors (new ones prefixed by >>):
-
-   or1k-linux-ld: arch/openrisc/kernel/entry.o: in function `_external_irq_=
-handler':
->> (.text+0x83c): undefined reference to `printk'
-   (.text+0x83c): relocation truncated to fit: R_OR1K_INSN_REL_26 against u=
-ndefined symbol `printk'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LOCKDEP
-   Depends on DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT && (FRAME_POINTER || M=
-IPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86)
-   Selected by
-   - PROVE_LOCKING && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-   - DEBUG_LOCK_ALLOC && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-
-New smatch warnings:
-lib/vsprintf.c:3615 vsscanf() error: uninitialized symbol 'next'.
-
-Old smatch warnings:
-lib/vsprintf.c:1440 ip6_compressed_string() warn: possible spectre second h=
-alf.  '*p'
-lib/vsprintf.c:1443 ip6_compressed_string() warn: possible spectre second h=
-alf.  '*p'
-
-vim +/next +3615 lib/vsprintf.c
-
-4370aa4aa75391 Lai Jiangshan      2009-03-06  3344  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3345  /**
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3346   * vsscanf - Unformat a=
- buffer into a list of arguments
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3347   * @buf:	input buffer
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3348   * @fmt:	format of buff=
-er
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3349   * @args:	arguments
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3350   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3351  int vsscanf(const char =
-*buf, const char *fmt, va_list args)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3352  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3353  	const char *str =3D bu=
-f;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3354  	char *next;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3355  	char digit;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3356  	int num =3D 0;
-ef0658f3de484b Joe Perches        2010-03-06  3357  	u8 qualifier;
-53809751ac230a Jan Beulich        2012-12-17  3358  	unsigned int base;
-53809751ac230a Jan Beulich        2012-12-17  3359  	union {
-53809751ac230a Jan Beulich        2012-12-17  3360  		long long s;
-53809751ac230a Jan Beulich        2012-12-17  3361  		unsigned long long u;
-53809751ac230a Jan Beulich        2012-12-17  3362  	} val;
-ef0658f3de484b Joe Perches        2010-03-06  3363  	s16 field_width;
-d4be151b2180fb Andr=C3=A9 Goddard Rosa 2009-12-14  3364  	bool is_sign;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3365  =
-
-da99075c1d3683 Jan Beulich        2012-10-04  3366  	while (*fmt) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3367  		/* skip any white spa=
-ce in format */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3368  		/* white space in for=
-mat matchs any amount of
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3369  		 * white space, inclu=
-ding none, in the input.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3370  		 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3371  		if (isspace(*fmt)) {
-e7d2860b690d4f Andr=C3=A9 Goddard Rosa 2009-12-14  3372  			fmt =3D skip_sp=
-aces(++fmt);
-e7d2860b690d4f Andr=C3=A9 Goddard Rosa 2009-12-14  3373  			str =3D skip_sp=
-aces(str);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3374  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3375  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3376  		/* anything that is n=
-ot a conversion must match exactly */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3377  		if (*fmt !=3D '%' && =
-*fmt) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3378  			if (*fmt++ !=3D *str=
-++)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3379  				break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3380  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3381  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3382  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3383  		if (!*fmt)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3384  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3385  		++fmt;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3386  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3387  		/* skip this conversi=
-on.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3388  		 * advance both strin=
-gs to next white space
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3389  		 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3390  		if (*fmt =3D=3D '*') {
-da99075c1d3683 Jan Beulich        2012-10-04  3391  			if (!*str)
-da99075c1d3683 Jan Beulich        2012-10-04  3392  				break;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3393  			while (!isspace(*fmt=
-) && *fmt !=3D '%' && *fmt) {
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3394  				/* '%*[' not yet su=
-pported, invalid format */
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3395  				if (*fmt =3D=3D '[')
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3396  					return num;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3397  				fmt++;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3398  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3399  			while (!isspace(*str=
-) && *str)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3400  				str++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3401  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3402  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3403  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3404  		/* get field width */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3405  		field_width =3D -1;
-53809751ac230a Jan Beulich        2012-12-17  3406  		if (isdigit(*fmt)) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3407  			field_width =3D skip=
-_atoi(&fmt);
-53809751ac230a Jan Beulich        2012-12-17  3408  			if (field_width <=3D=
- 0)
-53809751ac230a Jan Beulich        2012-12-17  3409  				break;
-53809751ac230a Jan Beulich        2012-12-17  3410  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3411  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3412  		/* get conversion qua=
-lifier */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3413  		qualifier =3D -1;
-75fb8f269305fc Andy Shevchenko    2011-07-25  3414  		if (*fmt =3D=3D 'h' |=
-| _tolower(*fmt) =3D=3D 'l' ||
-5b5e0928f742cf Alexey Dobriyan    2017-02-27  3415  		    *fmt =3D=3D 'z') {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3416  			qualifier =3D *fmt++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3417  			if (unlikely(qualifi=
-er =3D=3D *fmt)) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3418  				if (qualifier =3D=
-=3D 'h') {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3419  					qualifier =3D 'H';
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3420  					fmt++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3421  				} else if (qualifie=
-r =3D=3D 'l') {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3422  					qualifier =3D 'L';
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3423  					fmt++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3424  				}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3425  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3426  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3427  =
-
-da99075c1d3683 Jan Beulich        2012-10-04  3428  		if (!*fmt)
-da99075c1d3683 Jan Beulich        2012-10-04  3429  			break;
-da99075c1d3683 Jan Beulich        2012-10-04  3430  =
-
-da99075c1d3683 Jan Beulich        2012-10-04  3431  		if (*fmt =3D=3D 'n') {
-da99075c1d3683 Jan Beulich        2012-10-04  3432  			/* return number of =
-characters read so far */
-da99075c1d3683 Jan Beulich        2012-10-04  3433  			*va_arg(args, int *)=
- =3D str - buf;
-da99075c1d3683 Jan Beulich        2012-10-04  3434  			++fmt;
-da99075c1d3683 Jan Beulich        2012-10-04  3435  			continue;
-da99075c1d3683 Jan Beulich        2012-10-04  3436  		}
-da99075c1d3683 Jan Beulich        2012-10-04  3437  =
-
-da99075c1d3683 Jan Beulich        2012-10-04  3438  		if (!*str)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3439  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3440  =
-
-d4be151b2180fb Andr=C3=A9 Goddard Rosa 2009-12-14  3441  		base =3D 10;
-3f623eba2a7fc0 Fabian Frederick   2014-06-04  3442  		is_sign =3D false;
-d4be151b2180fb Andr=C3=A9 Goddard Rosa 2009-12-14  3443  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3444  		switch (*fmt++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3445  		case 'c':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3446  		{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3447  			char *s =3D (char *)=
-va_arg(args, char*);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3448  			if (field_width =3D=
-=3D -1)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3449  				field_width =3D 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3450  			do {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3451  				*s++ =3D *str++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3452  			} while (--field_wid=
-th > 0 && *str);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3453  			num++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3454  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3455  		continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3456  		case 's':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3457  		{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3458  			char *s =3D (char *)=
-va_arg(args, char *);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3459  			if (field_width =3D=
-=3D -1)
-4be929be34f9bd Alexey Dobriyan    2010-05-24  3460  				field_width =3D SHR=
-T_MAX;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3461  			/* first, skip leadi=
-ng white space in buffer */
-e7d2860b690d4f Andr=C3=A9 Goddard Rosa 2009-12-14  3462  			str =3D skip_sp=
-aces(str);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3463  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3464  			/* now copy until ne=
-xt white space */
-7b9186f5eb0b17 Andr=C3=A9 Goddard Rosa 2009-12-14  3465  			while (*str && =
-!isspace(*str) && field_width--)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3466  				*s++ =3D *str++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3467  			*s =3D '\0';
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3468  			num++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3469  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3470  		continue;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3471  		/*
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3472  		 * Warning: This impl=
-ementation of the '[' conversion specifier
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3473  		 * deviates from its =
-glibc counterpart in the following ways:
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3474  		 * (1) It does NOT su=
-pport ranges i.e. '-' is NOT a special
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3475  		 *     character
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3476  		 * (2) It cannot matc=
-h the closing bracket ']' itself
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3477  		 * (3) A field width =
-is required
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3478  		 * (4) '%*[' (discard=
- matching input) is currently not supported
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3479  		 *
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3480  		 * Example usage:
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3481  		 * ret =3D sscanf("00=
-:0a:95","%2[^:]:%2[^:]:%2[^:]",
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3482  		 *		buf1, buf2, buf3);
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3483  		 * if (ret < 3)
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3484  		 *    // etc..
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3485  		 */
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3486  		case '[':
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3487  		{
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3488  			char *s =3D (char *)=
-va_arg(args, char *);
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3489  			DECLARE_BITMAP(set, =
-256) =3D {0};
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3490  			unsigned int len =3D=
- 0;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3491  			bool negate =3D (*fm=
-t =3D=3D '^');
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3492  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3493  			/* field width is re=
-quired */
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3494  			if (field_width =3D=
-=3D -1)
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3495  				return num;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3496  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3497  			if (negate)
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3498  				++fmt;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3499  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3500  			for ( ; *fmt && *fmt=
- !=3D ']'; ++fmt, ++len)
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3501  				set_bit((u8)*fmt, s=
-et);
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3502  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3503  			/* no ']' or no char=
-acter set found */
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3504  			if (!*fmt || !len)
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3505  				return num;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3506  			++fmt;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3507  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3508  			if (negate) {
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3509  				bitmap_complement(s=
-et, set, 256);
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3510  				/* exclude null '\0=
-' byte */
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3511  				clear_bit(0, set);
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3512  			}
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3513  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3514  			/* match must be non=
--empty */
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3515  			if (!test_bit((u8)*s=
-tr, set))
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3516  				return num;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3517  =
-
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3518  			while (test_bit((u8)=
-*str, set) && field_width--)
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3519  				*s++ =3D *str++;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3520  			*s =3D '\0';
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3521  			++num;
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3522  		}
-f9310b2f9a19b7 Jessica Yu         2016-03-17  3523  		continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3524  		case 'o':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3525  			base =3D 8;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3526  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3527  		case 'x':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3528  		case 'X':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3529  			base =3D 16;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3530  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3531  		case 'i':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3532  			base =3D 0;
-4c1ca831adb101 Nick Desaulniers   2020-11-15  3533  			fallthrough;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3534  		case 'd':
-3f623eba2a7fc0 Fabian Frederick   2014-06-04  3535  			is_sign =3D true;
-4c1ca831adb101 Nick Desaulniers   2020-11-15  3536  			fallthrough;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3537  		case 'u':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3538  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3539  		case '%':
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3540  			/* looking for '%' i=
-n str */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3541  			if (*str++ !=3D '%')
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3542  				return num;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3543  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3544  		default:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3545  			/* invalid format; s=
-top here */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3546  			return num;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3547  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3548  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3549  		/* have some sort of =
-integer conversion.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3550  		 * first, skip white =
-space in buffer.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3551  		 */
-e7d2860b690d4f Andr=C3=A9 Goddard Rosa 2009-12-14  3552  		str =3D skip_spa=
-ces(str);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3553  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3554  		digit =3D *str;
-11b3dda5e8b6cd Richard Fitzgerald 2021-05-14  3555  		if (is_sign && digit =
-=3D=3D '-') {
-11b3dda5e8b6cd Richard Fitzgerald 2021-05-14  3556  			if (field_width =3D=
-=3D 1)
-11b3dda5e8b6cd Richard Fitzgerald 2021-05-14  3557  				break;
-11b3dda5e8b6cd Richard Fitzgerald 2021-05-14  3558  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3559  			digit =3D *(str + 1);
-11b3dda5e8b6cd Richard Fitzgerald 2021-05-14  3560  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3561  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3562  		if (!digit
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3563  		    || (base =3D=3D 1=
-6 && !isxdigit(digit))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3564  		    || (base =3D=3D 1=
-0 && !isdigit(digit))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3565  		    || (base =3D=3D 8=
- && (!isdigit(digit) || digit > '7'))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3566  		    || (base =3D=3D 0=
- && !isdigit(digit)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3567  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3568  =
-
-53809751ac230a Jan Beulich        2012-12-17  3569  		if (is_sign)
-900fdc4573766d Richard Fitzgerald 2021-05-14  3570  			val.s =3D simple_str=
-ntoll(str,
-900fdc4573766d Richard Fitzgerald 2021-05-14  3571  						field_width >=3D =
-0 ? field_width : INT_MAX,
-900fdc4573766d Richard Fitzgerald 2021-05-14  3572  						&next, base);
-53809751ac230a Jan Beulich        2012-12-17  3573  		else
-900fdc4573766d Richard Fitzgerald 2021-05-14  3574  			val.u =3D simple_str=
-ntoull(str,
-900fdc4573766d Richard Fitzgerald 2021-05-14  3575  						 field_width >=3D=
- 0 ? field_width : INT_MAX,
-900fdc4573766d Richard Fitzgerald 2021-05-14  3576  						 &next, base);
-53809751ac230a Jan Beulich        2012-12-17  3577  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3578  		switch (qualifier) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3579  		case 'H':	/* that's '=
-hh' in format */
-53809751ac230a Jan Beulich        2012-12-17  3580  			if (is_sign)
-53809751ac230a Jan Beulich        2012-12-17  3581  				*va_arg(args, signe=
-d char *) =3D val.s;
-53809751ac230a Jan Beulich        2012-12-17  3582  			else
-53809751ac230a Jan Beulich        2012-12-17  3583  				*va_arg(args, unsig=
-ned char *) =3D val.u;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3584  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3585  		case 'h':
-53809751ac230a Jan Beulich        2012-12-17  3586  			if (is_sign)
-53809751ac230a Jan Beulich        2012-12-17  3587  				*va_arg(args, short=
- *) =3D val.s;
-53809751ac230a Jan Beulich        2012-12-17  3588  			else
-53809751ac230a Jan Beulich        2012-12-17  3589  				*va_arg(args, unsig=
-ned short *) =3D val.u;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3590  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3591  		case 'l':
-53809751ac230a Jan Beulich        2012-12-17  3592  			if (is_sign)
-53809751ac230a Jan Beulich        2012-12-17  3593  				*va_arg(args, long =
-*) =3D val.s;
-53809751ac230a Jan Beulich        2012-12-17  3594  			else
-53809751ac230a Jan Beulich        2012-12-17  3595  				*va_arg(args, unsig=
-ned long *) =3D val.u;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3596  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3597  		case 'L':
-53809751ac230a Jan Beulich        2012-12-17  3598  			if (is_sign)
-53809751ac230a Jan Beulich        2012-12-17  3599  				*va_arg(args, long =
-long *) =3D val.s;
-53809751ac230a Jan Beulich        2012-12-17  3600  			else
-53809751ac230a Jan Beulich        2012-12-17  3601  				*va_arg(args, unsig=
-ned long long *) =3D val.u;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3602  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3603  		case 'z':
-53809751ac230a Jan Beulich        2012-12-17  3604  			*va_arg(args, size_t=
- *) =3D val.u;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3605  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3606  		default:
-53809751ac230a Jan Beulich        2012-12-17  3607  			if (is_sign)
-53809751ac230a Jan Beulich        2012-12-17  3608  				*va_arg(args, int *=
-) =3D val.s;
-53809751ac230a Jan Beulich        2012-12-17  3609  			else
-53809751ac230a Jan Beulich        2012-12-17  3610  				*va_arg(args, unsig=
-ned int *) =3D val.u;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3611  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3612  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3613  		num++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3614  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @3615  		if (!next)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3616  			break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3617  		str =3D next;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3618  	}
-c6b40d16d1cfa1 Johannes Berg      2007-05-08  3619  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3620  	return num;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3621  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3622  EXPORT_SYMBOL(vsscanf);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  3623  =
 
 
-:::::: The code at line 3615 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   kernel/workqueue.c:4010:4: note: Taking true branch
+                           if (!ctx->pwq_tbl[node])
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/workqueue.c:4011:5: note: Control jumps to line 4028
+                                   goto out_free;
+                                   ^
+   kernel/workqueue.c:4030:2: note: Calling 'apply_wqattrs_cleanup'
+           apply_wqattrs_cleanup(ctx);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/workqueue.c:3950:6: note: 'ctx' is non-null
+           if (ctx) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   kernel/workqueue.c:3950:2: note: '?' condition is false
+           if (ctx) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   kernel/workqueue.c:3950:6: note: 'ctx' is non-null
+           if (ctx) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   kernel/workqueue.c:3950:2: note: '?' condition is true
+           if (ctx) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   kernel/workqueue.c:3950:2: note: Taking true branch
+           if (ctx) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/workqueue.c:3953:3: note: Loop condition is true.  Entering loop =
+body
+                   for_each_node(node)
+                   ^
+   include/linux/nodemask.h:514:32: note: expanded from macro 'for_each_nod=
+e'
+   #define for_each_node(node)        for_each_node_state(node, N_POSSIBLE)
+                                      ^
+   include/linux/nodemask.h:484:2: note: expanded from macro 'for_each_node=
+_state'
+           for ( (node) =3D 0; (node) =3D=3D 0; (node) =3D 1)
+           ^
+   kernel/workqueue.c:3953:3: note: Loop condition is false. Execution cont=
+inues on line 3955
+                   for_each_node(node)
+                   ^
+   include/linux/nodemask.h:514:32: note: expanded from macro 'for_each_nod=
+e'
+   #define for_each_node(node)        for_each_node_state(node, N_POSSIBLE)
+                                      ^
+   include/linux/nodemask.h:484:2: note: expanded from macro 'for_each_node=
+_state'
+           for ( (node) =3D 0; (node) =3D=3D 0; (node) =3D 1)
+           ^
+   kernel/workqueue.c:3957:3: note: 1st function call argument is an uninit=
+ialized value
+                   free_workqueue_attrs(ctx->attrs);
+                   ^                    ~~~~~~~~~~
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/hwmon/ina238.c:346:2: warning: Value stored to 'regval' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+           regval =3D clamp_val(val, 0, LONG_MAX);
+           ^
+   drivers/hwmon/ina238.c:346:2: note: Value stored to 'regval' is never re=
+ad
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> drivers/hwmon/lineage-pem.c:207:10: warning: Array access (from variable=
+ 'data') results in a null pointer dereference [clang-analyzer-core.NullDer=
+eference]
+                   val =3D (data[index] + (data[index+1] << 8)) * 5 / 2;
+                          ^
+   drivers/hwmon/lineage-pem.c:293:2: note: '?' condition is false
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/hwmon/lineage-pem.c:293:2: note: '?' condition is false
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/hwmon/lineage-pem.c:293:2: note: Taking false branch
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/hwmon/lineage-pem.c:296:23: note: Passing null pointer value via=
+ 1st parameter 'data'
+           value =3D pem_get_data(data->data_string, sizeof(data->data_stri=
+ng),
+                                ^~~~~~~~~~~~~~~~~
+   drivers/hwmon/lineage-pem.c:296:10: note: Calling 'pem_get_data'
+           value =3D pem_get_data(data->data_string, sizeof(data->data_stri=
+ng),
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/hwmon/lineage-pem.c:205:2: note: Control jumps to 'case 4:'  at =
+line 206
+           switch (index) {
+           ^
+   drivers/hwmon/lineage-pem.c:207:10: note: Array access (from variable 'd=
+ata') results in a null pointer dereference
+                   val =3D (data[index] + (data[index+1] << 8)) * 5 / 2;
+                          ^~~~
+   drivers/hwmon/lineage-pem.c:210:9: warning: Array access (from variable =
+'data') results in a null pointer dereference [clang-analyzer-core.NullDere=
+ference]
+                   val =3D data[index] * 200;
+                         ^
+   drivers/hwmon/lineage-pem.c:293:2: note: '?' condition is false
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/hwmon/lineage-pem.c:293:2: note: '?' condition is false
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/hwmon/lineage-pem.c:293:2: note: Taking false branch
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/hwmon/lineage-pem.c:296:23: note: Passing null pointer value via=
+ 1st parameter 'data'
+           value =3D pem_get_data(data->data_string, sizeof(data->data_stri=
+ng),
+                                ^~~~~~~~~~~~~~~~~
+   drivers/hwmon/lineage-pem.c:296:10: note: Calling 'pem_get_data'
+           value =3D pem_get_data(data->data_string, sizeof(data->data_stri=
+ng),
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/hwmon/lineage-pem.c:205:2: note: Control jumps to 'case 6:'  at =
+line 209
+           switch (index) {
+           ^
+   drivers/hwmon/lineage-pem.c:210:9: note: Array access (from variable 'da=
+ta') results in a null pointer dereference
+                   val =3D data[index] * 200;
+                         ^~~~
+   drivers/hwmon/lineage-pem.c:213:9: warning: Array access (from variable =
+'data') results in a null pointer dereference [clang-analyzer-core.NullDere=
+ference]
+                   val =3D data[index] * 1000;
+                         ^
+   drivers/hwmon/lineage-pem.c:293:2: note: '?' condition is false
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/hwmon/lineage-pem.c:293:2: note: '?' condition is false
+           if (IS_ERR(data))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+--
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (10 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/of/device.c:59:29: warning: Value stored to 'of_node' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device_node *node, *of_node =3D dev->of_node;
+                                      ^~~~~~~   ~~~~~~~~~~~~
+   drivers/of/device.c:59:29: note: Value stored to 'of_node' during its in=
+itialization is never read
+           struct device_node *node, *of_node =3D dev->of_node;
+                                      ^~~~~~~   ~~~~~~~~~~~~
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/of/property.c:920:19: warning: Access to field 'full_name' resul=
+ts in a dereference of a null pointer [clang-analyzer-core.NullDereference]
+           return kbasename(to_of_node(fwnode)->full_name);
+                            ^
+   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
+           ({                                                              \
+           ^
+   drivers/of/property.c:920:19: note: '?' condition is false
+           return kbasename(to_of_node(fwnode)->full_name);
+                            ^
+   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
+                   is_of_node(__to_of_node_fwnode) ?                       \
+                   ^
+   drivers/of/property.c:920:19: note: Access to field 'full_name' results =
+in a dereference of a null pointer
+           return kbasename(to_of_node(fwnode)->full_name);
+                            ^
+   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
+           ({                                                              \
+           ^
+   drivers/of/property.c:926:7: warning: Access to field 'parent' results i=
+n a dereference of a null pointer [clang-analyzer-core.NullDereference]
+           if (!to_of_node(fwnode)->parent)
+                ^
+   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
+           ({                                                              \
+           ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/of/property.c:926:7: note: '?' condition is false
+           if (!to_of_node(fwnode)->parent)
+                ^
+   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
+                   is_of_node(__to_of_node_fwnode) ?                       \
+                   ^
+   drivers/of/property.c:926:7: note: Access to field 'parent' results in a=
+ dereference of a null pointer
+           if (!to_of_node(fwnode)->parent)
+                ^
+   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
+           ({                                                              \
+           ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+>> include/uapi/linux/swab.h:176:9: warning: Dereference of null pointer (l=
+oaded from variable 'p') [clang-analyzer-core.NullDereference]
+           return __swab16(*p);
+                  ^
+   include/uapi/linux/swab.h:105:31: note: expanded from macro '__swab16'
+           (__builtin_constant_p((__u16)(x)) ?     \
+                                        ^
+   drivers/of/property.c:886:35: note: Assuming the condition is true
+           const struct device_node *node =3D to_of_node(fwnode);
+                                            ^
+   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
+                   is_of_node(__to_of_node_fwnode) ?                       \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/of/property.c:886:35: note: '?' condition is true
+           const struct device_node *node =3D to_of_node(fwnode);
+                                            ^
+   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
+                   is_of_node(__to_of_node_fwnode) ?                       \
+                   ^
+   drivers/of/property.c:888:6: note: Assuming 'val' is non-null
+           if (!val)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/of/property.c:888:2: note: '?' condition is false
+           if (!val)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/of/property.c:888:7: note: 'val' is non-null
+           if (!val)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/of/property.c:888:2: note: '?' condition is false
+           if (!val)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/of/property.c:888:2: note: Taking false branch
+           if (!val)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/of/property.c:892:2: note: Control jumps to 'case 2:'  at line 8=
+95
+           switch (elem_size) {
+           ^
+   drivers/of/property.c:896:10: note: Calling 'of_property_read_u16_array'
+                   return of_property_read_u16_array(node, propname, val, n=
+val);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/linux/of.h:1237:12: note: Calling 'of_property_read_variable_u16=
+_array'
+           int ret =3D of_property_read_variable_u16_array(np, propname, ou=
+t_values,
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/of/property.c:277:2: note: '?' condition is false
+           if (IS_ERR(val))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/of/property.c:277:2: note: '?' condition is false
+           if (IS_ERR(val))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/of/property.c:277:2: note: Taking false branch
+           if (IS_ERR(val))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+--
+                                 ^
+   net/ipv4/igmp.c:2104:7: note: 'err' is 0
+                   if (err)
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/ipv4/igmp.c:2104:3: note: '?' condition is false
+                   if (err)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/ipv4/igmp.c:2104:3: note: Taking false branch
+                   if (err)
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/ipv4/igmp.c:2102:14: note: Assuming 'i' is < 'sfcount'
+           for (i =3D 0; i < sfcount; i++) {
+                       ^~~~~~~~~~~
+   net/ipv4/igmp.c:2102:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < sfcount; i++) {
+           ^
+   net/ipv4/igmp.c:2103:9: note: Calling 'ip_mc_add1_src'
+                   err =3D ip_mc_add1_src(pmc, sfmode, &psfsrc[i]);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/igmp.c:1973:2: note: Loop condition is true.  Entering loop body
+           for (psf =3D pmc->sources; psf; psf =3D psf->sf_next) {
+           ^
+   net/ipv4/igmp.c:1974:7: note: Assuming the condition is false
+                   if (psf->sf_inaddr =3D=3D *psfsrc)
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/ipv4/igmp.c:1974:3: note: '?' condition is false
+                   if (psf->sf_inaddr =3D=3D *psfsrc)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/ipv4/igmp.c:1974:3: note: '?' condition is false
+                   if (psf->sf_inaddr =3D=3D *psfsrc)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/ipv4/igmp.c:1974:3: note: Taking false branch
+                   if (psf->sf_inaddr =3D=3D *psfsrc)
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/ipv4/igmp.c:1973:36: note: Assigned value is garbage or undefined
+           for (psf =3D pmc->sources; psf; psf =3D psf->sf_next) {
+                                             ^ ~~~~~~~~~~~~
+   Suppressed 10 warnings (2 in non-user code, 8 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> net/openvswitch/flow_netlink.c:2366:2: warning: Null pointer passed as 1=
+st argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
+           memcpy(acts->actions, (*sfa)->actions, (*sfa)->actions_len);
+           ^
+   net/openvswitch/flow_netlink.c:2447:2: note: Loop condition is true.  En=
+tering loop body
+           nla_for_each_nested(a, attr, rem) {
+           ^
+   include/net/netlink.h:1932:2: note: expanded from macro 'nla_for_each_ne=
+sted'
+           nla_for_each_attr(pos, nla_data(nla), nla_len(nla), rem)
+           ^
+   include/net/netlink.h:1921:2: note: expanded from macro 'nla_for_each_at=
+tr'
+           for (pos =3D head, rem =3D len; \
+           ^
+   net/openvswitch/flow_netlink.c:2449:7: note: Assuming 'type' is not equa=
+l to 0
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/openvswitch/flow_netlink.c:2449:7: note: Left side of '||' is false
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                       ^
+   net/openvswitch/flow_netlink.c:2449:16: note: Assuming the condition is =
+false
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/openvswitch/flow_netlink.c:2449:7: note: Left side of '||' is false
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                       ^
+   net/openvswitch/flow_netlink.c:2449:3: note: '?' condition is false
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/openvswitch/flow_netlink.c:2449:8: note: 'type' is not equal to 0
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/openvswitch/flow_netlink.c:2449:7: note: Left side of '||' is false
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                       ^
+   net/openvswitch/flow_netlink.c:2449:7: note: Left side of '||' is false
+   net/openvswitch/flow_netlink.c:2449:3: note: Assuming the condition is f=
+alse
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                   ^
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/openvswitch/flow_netlink.c:2449:3: note: '?' condition is false
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/openvswitch/flow_netlink.c:2449:3: note: Taking false branch
+                   if (!type || type > OVS_SAMPLE_ATTR_MAX || attrs[type])
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/openvswitch/flow_netlink.c:2447:2: note: Loop condition is false. Ex=
+ecution continues on line 2453
+           nla_for_each_nested(a, attr, rem) {
+           ^
+   include/net/netlink.h:1932:2: note: expanded from macro 'nla_for_each_ne=
+sted'
+           nla_for_each_attr(pos, nla_data(nla), nla_len(nla), rem)
+           ^
+   include/net/netlink.h:1921:2: note: expanded from macro 'nla_for_each_at=
+tr'
+           for (pos =3D head, rem =3D len; \
+           ^
+   net/openvswitch/flow_netlink.c:2453:2: note: Assuming 'rem' is 0
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+vim +/data +207 drivers/hwmon/lineage-pem.c
+
+502b5a01992090 Guenter Roeck 2010-09-29  200  =
+
+502b5a01992090 Guenter Roeck 2010-09-29  201  static long pem_get_data(u8 *=
+data, int len, int index)
+502b5a01992090 Guenter Roeck 2010-09-29  202  {
+502b5a01992090 Guenter Roeck 2010-09-29  203  	long val;
+502b5a01992090 Guenter Roeck 2010-09-29  204  =
+
+502b5a01992090 Guenter Roeck 2010-09-29  205  	switch (index) {
+502b5a01992090 Guenter Roeck 2010-09-29  206  	case PEM_DATA_VOUT_LSB:
+502b5a01992090 Guenter Roeck 2010-09-29 @207  		val =3D (data[index] + (dat=
+a[index+1] << 8)) * 5 / 2;
+502b5a01992090 Guenter Roeck 2010-09-29  208  		break;
+502b5a01992090 Guenter Roeck 2010-09-29  209  	case PEM_DATA_CURRENT:
+502b5a01992090 Guenter Roeck 2010-09-29  210  		val =3D data[index] * 200;
+502b5a01992090 Guenter Roeck 2010-09-29  211  		break;
+502b5a01992090 Guenter Roeck 2010-09-29  212  	case PEM_DATA_TEMP:
+502b5a01992090 Guenter Roeck 2010-09-29  213  		val =3D data[index] * 1000;
+502b5a01992090 Guenter Roeck 2010-09-29  214  		break;
+502b5a01992090 Guenter Roeck 2010-09-29  215  	case PEM_DATA_TEMP_MAX:
+502b5a01992090 Guenter Roeck 2010-09-29  216  		val =3D 97 * 1000;	/* 97 de=
+grees C per datasheet */
+502b5a01992090 Guenter Roeck 2010-09-29  217  		break;
+502b5a01992090 Guenter Roeck 2010-09-29  218  	case PEM_DATA_TEMP_CRIT:
+502b5a01992090 Guenter Roeck 2010-09-29  219  		val =3D 107 * 1000;	/* 107 =
+degrees C per datasheet */
+502b5a01992090 Guenter Roeck 2010-09-29  220  		break;
+502b5a01992090 Guenter Roeck 2010-09-29  221  	default:
+502b5a01992090 Guenter Roeck 2010-09-29  222  		WARN_ON_ONCE(1);
+502b5a01992090 Guenter Roeck 2010-09-29  223  		val =3D 0;
+502b5a01992090 Guenter Roeck 2010-09-29  224  	}
+502b5a01992090 Guenter Roeck 2010-09-29  225  	return val;
+502b5a01992090 Guenter Roeck 2010-09-29  226  }
+502b5a01992090 Guenter Roeck 2010-09-29  227  =
+
+
+:::::: The code@line 207 was first introduced by commit
+:::::: 502b5a0199209001b34b623132ea313790acbd5d hwmon: Add support for Line=
+age Compact Power Line PEM devices
+
+:::::: TO: Guenter Roeck <guenter.roeck@ericsson.com>
+:::::: CC: Guenter Roeck <guenter.roeck@ericsson.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6349880970698809522==--
+--===============1080931206087131247==--
 
