@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3317017042957177930=="
+Content-Type: multipart/mixed; boundary="===============4931928301649938056=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7422/9759] drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 07 May 2022 13:53:37 +0800
-Message-ID: <202205071319.HiwwB9ql-lkp@intel.com>
+Subject: sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sat, 07 May 2022 13:22:27 +0800
+Message-ID: <202205071323.fqOeSJTn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3317017042957177930==
+--===============4931928301649938056==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Michael Walle <michael@walle.cc>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   38a288f5941ef03752887ad86f2d85442358c99a
-commit: 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8 [7422/9759] net: phy: micr=
-el: move the PHY timestamping check
-:::::: branch date: 21 hours ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20507/202205071319.HiwwB9ql-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b97bac0756a81cda5afd45417a99b5bccdcff67
+commit: b62c4e5fba2f910bc9f23ae152d11627e4c2f00f ASoC: qcom: lpass-sc7280: =
+Add platform driver for lpass audio
+date:   2 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 2 months ago
+config: arm-randconfig-c002-20220506 (https://download.01.org/0day-ci/archi=
+ve/20220507/202205071323.fqOeSJTn-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
 b787698440a387750db7f8028e7cb14cfc)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db62c4e5fba2f910bc9f23ae152d11627e4c2f00f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b62c4e5fba2f910bc9f23ae152d11627e4c2f00f
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,540 +55,336 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   74 warnings generated.
-   drivers/net/phy/icplus.c:107:3: warning: Value stored to 'err' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   err =3D mdiobus_read(phydev->mdio.bus, 30, 0);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/icplus.c:107:3: note: Value stored to 'err' is never read
-                   err =3D mdiobus_read(phydev->mdio.bus, 30, 0);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/icplus.c:131:4: warning: Value stored to 'err' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                           err =3D mdiobus_read(phydev->mdio.bus, i, MII_BM=
-CR);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/icplus.c:131:4: note: Value stored to 'err' is never read
-                           err =3D mdiobus_read(phydev->mdio.bus, i, MII_BM=
-CR);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 72 warnings (72 in non-user code).
+   drivers/dma/xgene-dma.c:932:7: note: 'len' is not equal to 0
+                   if (len) {
+                       ^~~
+   drivers/dma/xgene-dma.c:932:3: note: Taking true branch
+                   if (len) {
+                   ^
+   drivers/dma/xgene-dma.c:933:4: note: Calling 'xgene_dma_prep_xor_desc'
+                           xgene_dma_prep_xor_desc(chan, new, &dst[0], src,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xgene-dma.c:440:14: note: 'i' is < 'src_cnt'
+           for (i =3D 0; i < src_cnt; i++) {
+                       ^
+   drivers/dma/xgene-dma.c:440:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < src_cnt; i++) {
+           ^
+   drivers/dma/xgene-dma.c:442:29: note: 'i' is equal to 0
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                             ^
+   drivers/dma/xgene-dma.c:442:28: note: '?' condition is true
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                            ^
+   drivers/dma/xgene-dma.c:440:14: note: Assuming 'i' is < 'src_cnt'
+           for (i =3D 0; i < src_cnt; i++) {
+                       ^~~~~~~~~~~
+   drivers/dma/xgene-dma.c:440:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < src_cnt; i++) {
+           ^
+   drivers/dma/xgene-dma.c:442:29: note: 'i' is not equal to 0
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                             ^
+   drivers/dma/xgene-dma.c:442:28: note: '?' condition is false
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                            ^
+   drivers/dma/xgene-dma.c:440:14: note: Assuming 'i' is < 'src_cnt'
+           for (i =3D 0; i < src_cnt; i++) {
+                       ^~~~~~~~~~~
+   drivers/dma/xgene-dma.c:440:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < src_cnt; i++) {
+           ^
+   drivers/dma/xgene-dma.c:442:29: note: 'i' is not equal to 0
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                             ^
+   drivers/dma/xgene-dma.c:442:28: note: '?' condition is false
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                            ^
+   drivers/dma/xgene-dma.c:440:14: note: Assuming 'i' is < 'src_cnt'
+           for (i =3D 0; i < src_cnt; i++) {
+                       ^~~~~~~~~~~
+   drivers/dma/xgene-dma.c:440:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < src_cnt; i++) {
+           ^
+   drivers/dma/xgene-dma.c:442:29: note: 'i' is not equal to 0
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                             ^
+   drivers/dma/xgene-dma.c:442:28: note: '?' condition is false
+                   xgene_dma_set_src_buffer((i =3D=3D 0) ? &desc1->m1 :
+                                            ^
+   drivers/dma/xgene-dma.c:445:36: note: The result of the left shift is un=
+defined due to shifting by '32', which is greater or equal to the width of =
+type 'int'
+                   desc1->m2 |=3D cpu_to_le64((scf[i] << ((i + 1) * 8)));
+                                                    ^
+   include/linux/byteorder/generic.h:86:21: note: expanded from macro 'cpu_=
+to_le64'
+   #define cpu_to_le64 __cpu_to_le64
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:32:51: note: expanded from =
+macro '__cpu_to_le64'
+   #define __cpu_to_le64(x) ((__force __le64)(__u64)(x))
+                                                     ^
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   72 warnings generated.
-   Suppressed 72 warnings (72 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   70 warnings generated.
-   Suppressed 70 warnings (70 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   77 warnings generated.
-   drivers/net/phy/micrel.c:1280:2: warning: Value stored to 'regval' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:1280:2: note: Value stored to 'regval' is never=
- read
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2222:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2222:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2530:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2530:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2576:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2576:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
-                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2729:26: note: Value stored to 'ptp_priv' durin=
-g its initialization is never read
-           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
-                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
->> drivers/net/phy/micrel.c:2772:30: warning: Value stored to 'shared' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
-                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2772:30: note: Value stored to 'shared' during =
-its initialization is never read
-           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
-                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2782:2: warning: Call to function 'snprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
-e);
-           ^~~~~~~~
-   drivers/net/phy/micrel.c:2782:2: note: Call to function 'snprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'snprintf_s' in case of C11
-           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
-e);
-           ^~~~~~~~
-   Suppressed 70 warnings (70 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   95 warnings generated.
-   drivers/scsi/scsi_sysfs.c:139:8: warning: Call to function 'sscanf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           res =3D sscanf(str, "%10s %10s %16s %c", s1, s2, s3, &junk);
-                 ^~~~~~
-   drivers/scsi/scsi_sysfs.c:139:8: note: Call to function 'sscanf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sscanf_s' in case of C11
-           res =3D sscanf(str, "%10s %10s %16s %c", s1, s2, s3, &junk);
-                 ^~~~~~
-   drivers/scsi/scsi_sysfs.c:231:9: warning: Call to function 'snprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return snprintf(buf, 20, "%s\n", name);
-                  ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:231:9: note: Call to function 'snprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'snprintf_s' in case of C11
-           return snprintf(buf, 20, "%s\n", name);
-                  ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:244:9: warning: Call to function 'sprintf' is =
-insecure as it does not provide bounding of the memory buffer or security c=
-hecks introduced in the C11 standard. Replace with analogous functions that=
- support length arguments or provides boundary checks such as 'sprintf_s' i=
-n case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuffer=
-Handling]
-                   len =3D sprintf(buf, "%s", "Initiator");
-                         ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:244:9: note: Call to function 'sprintf' is ins=
-ecure as it does not provide bounding of the memory buffer or security chec=
-ks introduced in the C11 standard. Replace with analogous functions that su=
-pport length arguments or provides boundary checks such as 'sprintf_s' in c=
-ase of C11
-                   len =3D sprintf(buf, "%s", "Initiator");
-                         ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:247:10: warning: Call to function 'sprintf' is=
- insecure as it does not provide bounding of the memory buffer or security =
-checks introduced in the C11 standard. Replace with analogous functions tha=
-t support length arguments or provides boundary checks such as 'sprintf_s' =
-in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuffe=
-rHandling]
-                   len +=3D sprintf(buf + len, "%s%s", len ? ", " : "", "Ta=
-rget");
-                          ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:247:10: note: Call to function 'sprintf' is in=
-secure as it does not provide bounding of the memory buffer or security che=
-cks introduced in the C11 standard. Replace with analogous functions that s=
-upport length arguments or provides boundary checks such as 'sprintf_s' in =
-case of C11
-                   len +=3D sprintf(buf + len, "%s%s", len ? ", " : "", "Ta=
-rget");
-                          ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:249:9: warning: Call to function 'sprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len +=3D sprintf(buf + len, "\n");
-                  ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:249:9: note: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11
-           len +=3D sprintf(buf + len, "\n");
-                  ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:277:10: warning: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   return snprintf(buf, 20, "unknown\n");
-                          ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:277:10: note: Call to function 'snprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'snprintf_s' in case of C11
-                   return snprintf(buf, 20, "unknown\n");
-                          ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:327:10: warning: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   return snprintf(buf, strlen("off") + 2, "off\n");
-                          ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:327:10: note: Call to function 'snprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'snprintf_s' in case of C11
-                   return snprintf(buf, strlen("off") + 2, "off\n");
-                          ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:328:9: warning: Call to function 'sprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%u\n", shost->eh_deadline / HZ);
-                  ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:328:9: note: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%u\n", shost->eh_deadline / HZ);
-                  ^~~~~~~
-   drivers/scsi/scsi_sysfs.c:372:1: warning: Call to function 'snprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-   shost_rd_attr(unique_id, "%u\n");
-   ^
-   drivers/scsi/scsi_sysfs.c:177:45: note: expanded from macro 'shost_rd_at=
-tr'
-   #define shost_rd_attr(field, format_string) \
-                                               ^
-   drivers/scsi/scsi_sysfs.c:174:2: note: expanded from macro '\shost_rd_at=
-tr2'
-           shost_show_function(name, field, format_string)                 \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_sysfs.c:166:9: note: expanded from macro 'shost_show_f=
-unction'
-           return snprintf (buf, 20, format_string, shost->field);         \
-                  ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:372:1: note: Call to function 'snprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'snprintf_s' in case of C11
-   shost_rd_attr(unique_id, "%u\n");
-   ^
-   drivers/scsi/scsi_sysfs.c:177:45: note: expanded from macro 'shost_rd_at=
-tr'
-   #define shost_rd_attr(field, format_string) \
-                                               ^
-   drivers/scsi/scsi_sysfs.c:174:2: note: expanded from macro '\shost_rd_at=
-tr2'
-           shost_show_function(name, field, format_string)                 \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_sysfs.c:166:9: note: expanded from macro 'shost_show_f=
-unction'
-           return snprintf (buf, 20, format_string, shost->field);         \
-                  ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:373:1: warning: Call to function 'snprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-   shost_rd_attr(cmd_per_lun, "%hd\n");
-   ^
-   drivers/scsi/scsi_sysfs.c:177:45: note: expanded from macro 'shost_rd_at=
-tr'
-   #define shost_rd_attr(field, format_string) \
-                                               ^
-   drivers/scsi/scsi_sysfs.c:174:2: note: expanded from macro '\shost_rd_at=
-tr2'
-           shost_show_function(name, field, format_string)                 \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_sysfs.c:166:9: note: expanded from macro 'shost_show_f=
-unction'
-           return snprintf (buf, 20, format_string, shost->field);         \
-                  ^~~~~~~~
-   drivers/scsi/scsi_sysfs.c:373:1: note: Call to function 'snprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'snprintf_s' in case of C11
-   shost_rd_attr(cmd_per_lun, "%hd\n");
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   sound/soc/kirkwood/kirkwood-i2s.c:322:2: warning: Value stored to 'value=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           value =3D readl(priv->io + KIRKWOOD_RECCTL);
+           ^
+   sound/soc/kirkwood/kirkwood-i2s.c:322:2: note: Value stored to 'value' i=
+s never read
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluate=
+s to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (!dmactl)
+                       ^~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:261:2: note: 'dmactl' declared without an=
+ initial value
+           struct lpaif_dmactl *dmactl;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:264:2: note: Control jumps to 'case 3:'  =
+at line 272
+           switch (cmd) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Calling '__lpass_get_dmactl_=
+handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:43:2: note: Control jumps to the 'default=
+' case at line 56
+           switch (dai_id) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Left side of '&&' is true
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                       ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Taking true branch
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: '?' condition is true
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
+_emit'
+                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
+fmt) : NULL, \
+                                          ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: '?' condition is true
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
+_emit'
+                                   .level =3D __builtin_constant_p(_level) =
+? (_level) : NULL, \
+                                            ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Loop condition is false.  Exi=
+ting loop
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
 
-vim +/ptp_priv +2729 drivers/net/phy/micrel.c
+vim +274 sound/soc/qcom/lpass-cdc-dma.c
 
-b3ec7248f1f4b9d Divya Koppera 2021-12-21  2725  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  256  =
 
-ece19502834d84e Divya Koppera 2022-03-04  2726  static void lan8814_ptp_ini=
-t(struct phy_device *phydev)
-ece19502834d84e Divya Koppera 2022-03-04  2727  {
-ece19502834d84e Divya Koppera 2022-03-04  2728  	struct kszphy_priv *priv =
-=3D phydev->priv;
-ece19502834d84e Divya Koppera 2022-03-04 @2729  	struct kszphy_ptp_priv *pt=
-p_priv =3D &priv->ptp_priv;
-ece19502834d84e Divya Koppera 2022-03-04  2730  	u32 temp;
-ece19502834d84e Divya Koppera 2022-03-04  2731  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  257  static int lpass_cd=
+c_dma_daiops_trigger(struct snd_pcm_substream *substream,
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  258  				    int cmd, st=
+ruct snd_soc_dai *dai)
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  259  {
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  260  	struct snd_soc_pcm=
+_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  261  	struct lpaif_dmact=
+l *dmactl;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  262  	int ret =3D 0, id;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  263  =
 
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2732  	if (!IS_ENABLED(CONFIG_PTP=
-_1588_CLOCK) ||
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2733  	    !IS_ENABLED(CONFIG_NET=
-WORK_PHY_TIMESTAMPING))
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2734  		return;
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2735  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  264  	switch (cmd) {
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  265  	case SNDRV_PCM_TRI=
+GGER_START:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  266  	case SNDRV_PCM_TRI=
+GGER_RESUME:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  267  	case SNDRV_PCM_TRI=
+GGER_PAUSE_RELEASE:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  268  		__lpass_platform_=
+codec_intf_init(dai, substream);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  269  		break;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  270  	case SNDRV_PCM_TRI=
+GGER_STOP:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  271  	case SNDRV_PCM_TRI=
+GGER_SUSPEND:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  272  	case SNDRV_PCM_TRI=
+GGER_PAUSE_PUSH:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  273  		__lpass_get_dmact=
+l_handle(substream, dai, &dmactl, &id);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24 @274  		if (!dmactl)
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  275  			return -EINVAL;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  276  =
 
-ece19502834d84e Divya Koppera 2022-03-04  2736  	lanphy_write_page_reg(phyd=
-ev, 5, TSU_HARD_RESET, TSU_HARD_RESET_);
-ece19502834d84e Divya Koppera 2022-03-04  2737  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2738  	temp =3D lanphy_read_page_=
-reg(phydev, 5, PTP_TX_MOD);
-ece19502834d84e Divya Koppera 2022-03-04  2739  	temp |=3D PTP_TX_MOD_BAD_U=
-DPV4_CHKSUM_FORCE_FCS_DIS_;
-ece19502834d84e Divya Koppera 2022-03-04  2740  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_TX_MOD, temp);
-ece19502834d84e Divya Koppera 2022-03-04  2741  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2742  	temp =3D lanphy_read_page_=
-reg(phydev, 5, PTP_RX_MOD);
-ece19502834d84e Divya Koppera 2022-03-04  2743  	temp |=3D PTP_RX_MOD_BAD_U=
-DPV4_CHKSUM_FORCE_FCS_DIS_;
-ece19502834d84e Divya Koppera 2022-03-04  2744  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_RX_MOD, temp);
-ece19502834d84e Divya Koppera 2022-03-04  2745  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2746  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_RX_PARSE_CONFIG, 0);
-ece19502834d84e Divya Koppera 2022-03-04  2747  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_TX_PARSE_CONFIG, 0);
-ece19502834d84e Divya Koppera 2022-03-04  2748  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2749  	/* Removing default regist=
-ers configs related to L2 and IP */
-ece19502834d84e Divya Koppera 2022-03-04  2750  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_TX_PARSE_L2_ADDR_EN, 0);
-ece19502834d84e Divya Koppera 2022-03-04  2751  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_RX_PARSE_L2_ADDR_EN, 0);
-ece19502834d84e Divya Koppera 2022-03-04  2752  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_TX_PARSE_IP_ADDR_EN, 0);
-ece19502834d84e Divya Koppera 2022-03-04  2753  	lanphy_write_page_reg(phyd=
-ev, 5, PTP_RX_PARSE_IP_ADDR_EN, 0);
-ece19502834d84e Divya Koppera 2022-03-04  2754  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2755  	skb_queue_head_init(&ptp_p=
-riv->tx_queue);
-ece19502834d84e Divya Koppera 2022-03-04  2756  	skb_queue_head_init(&ptp_p=
-riv->rx_queue);
-ece19502834d84e Divya Koppera 2022-03-04  2757  	INIT_LIST_HEAD(&ptp_priv->=
-rx_ts_list);
-ece19502834d84e Divya Koppera 2022-03-04  2758  	spin_lock_init(&ptp_priv->=
-rx_ts_lock);
-ece19502834d84e Divya Koppera 2022-03-04  2759  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2760  	ptp_priv->phydev =3D phyde=
-v;
-ece19502834d84e Divya Koppera 2022-03-04  2761  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2762  	ptp_priv->mii_ts.rxtstamp =
-=3D lan8814_rxtstamp;
-ece19502834d84e Divya Koppera 2022-03-04  2763  	ptp_priv->mii_ts.txtstamp =
-=3D lan8814_txtstamp;
-ece19502834d84e Divya Koppera 2022-03-04  2764  	ptp_priv->mii_ts.hwtstamp =
-=3D lan8814_hwtstamp;
-ece19502834d84e Divya Koppera 2022-03-04  2765  	ptp_priv->mii_ts.ts_info  =
-=3D lan8814_ts_info;
-ece19502834d84e Divya Koppera 2022-03-04  2766  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2767  	phydev->mii_ts =3D &ptp_pr=
-iv->mii_ts;
-ece19502834d84e Divya Koppera 2022-03-04  2768  }
-ece19502834d84e Divya Koppera 2022-03-04  2769  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2770  static int lan8814_ptp_prob=
-e_once(struct phy_device *phydev)
-ece19502834d84e Divya Koppera 2022-03-04  2771  {
-ece19502834d84e Divya Koppera 2022-03-04 @2772  	struct lan8814_shared_priv=
- *shared =3D phydev->shared->priv;
-ece19502834d84e Divya Koppera 2022-03-04  2773  =
-
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2774  	if (!IS_ENABLED(CONFIG_PTP=
-_1588_CLOCK) ||
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2775  	    !IS_ENABLED(CONFIG_NET=
-WORK_PHY_TIMESTAMPING))
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2776  		return 0;
-31d00ca4ce0e1ab Michael Walle 2022-04-27  2777  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2778  	/* Initialise shared lock =
-for clock*/
-ece19502834d84e Divya Koppera 2022-03-04  2779  	mutex_init(&shared->shared=
-_lock);
-ece19502834d84e Divya Koppera 2022-03-04  2780  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2781  	shared->ptp_clock_info.own=
-er =3D THIS_MODULE;
-ece19502834d84e Divya Koppera 2022-03-04  2782  	snprintf(shared->ptp_clock=
-_info.name, 30, "%s", phydev->drv->name);
-ece19502834d84e Divya Koppera 2022-03-04  2783  	shared->ptp_clock_info.max=
-_adj =3D 31249999;
-ece19502834d84e Divya Koppera 2022-03-04  2784  	shared->ptp_clock_info.n_a=
-larm =3D 0;
-ece19502834d84e Divya Koppera 2022-03-04  2785  	shared->ptp_clock_info.n_e=
-xt_ts =3D 0;
-ece19502834d84e Divya Koppera 2022-03-04  2786  	shared->ptp_clock_info.n_p=
-ins =3D 0;
-ece19502834d84e Divya Koppera 2022-03-04  2787  	shared->ptp_clock_info.pps=
- =3D 0;
-ece19502834d84e Divya Koppera 2022-03-04  2788  	shared->ptp_clock_info.pin=
-_config =3D NULL;
-ece19502834d84e Divya Koppera 2022-03-04  2789  	shared->ptp_clock_info.adj=
-fine =3D lan8814_ptpci_adjfine;
-ece19502834d84e Divya Koppera 2022-03-04  2790  	shared->ptp_clock_info.adj=
-time =3D lan8814_ptpci_adjtime;
-ece19502834d84e Divya Koppera 2022-03-04  2791  	shared->ptp_clock_info.get=
-time64 =3D lan8814_ptpci_gettime64;
-ece19502834d84e Divya Koppera 2022-03-04  2792  	shared->ptp_clock_info.set=
-time64 =3D lan8814_ptpci_settime64;
-ece19502834d84e Divya Koppera 2022-03-04  2793  	shared->ptp_clock_info.get=
-crosststamp =3D NULL;
-ece19502834d84e Divya Koppera 2022-03-04  2794  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2795  	shared->ptp_clock =3D ptp_=
-clock_register(&shared->ptp_clock_info,
-ece19502834d84e Divya Koppera 2022-03-04  2796  					       &phydev->mdio.d=
-ev);
-ece19502834d84e Divya Koppera 2022-03-04  2797  	if (IS_ERR_OR_NULL(shared-=
->ptp_clock)) {
-ece19502834d84e Divya Koppera 2022-03-04  2798  		phydev_err(phydev, "ptp_c=
-lock_register failed %lu\n",
-ece19502834d84e Divya Koppera 2022-03-04  2799  			   PTR_ERR(shared->ptp_c=
-lock));
-ece19502834d84e Divya Koppera 2022-03-04  2800  		return -EINVAL;
-ece19502834d84e Divya Koppera 2022-03-04  2801  	}
-ece19502834d84e Divya Koppera 2022-03-04  2802  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2803  	phydev_dbg(phydev, "succes=
-sfully registered ptp clock\n");
-ece19502834d84e Divya Koppera 2022-03-04  2804  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2805  	shared->phydev =3D phydev;
-ece19502834d84e Divya Koppera 2022-03-04  2806  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2807  	/* The EP.4 is shared betw=
-een all the PHYs in the package and also it
-ece19502834d84e Divya Koppera 2022-03-04  2808  	 * can be accessed by any =
-of the PHYs
-ece19502834d84e Divya Koppera 2022-03-04  2809  	 */
-ece19502834d84e Divya Koppera 2022-03-04  2810  	lanphy_write_page_reg(phyd=
-ev, 4, LTC_HARD_RESET, LTC_HARD_RESET_);
-ece19502834d84e Divya Koppera 2022-03-04  2811  	lanphy_write_page_reg(phyd=
-ev, 4, PTP_OPERATING_MODE,
-ece19502834d84e Divya Koppera 2022-03-04  2812  			      PTP_OPERATING_MODE=
-_STANDALONE_);
-ece19502834d84e Divya Koppera 2022-03-04  2813  =
-
-ece19502834d84e Divya Koppera 2022-03-04  2814  	return 0;
-ece19502834d84e Divya Koppera 2022-03-04  2815  }
-ece19502834d84e Divya Koppera 2022-03-04  2816  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  277  		ret =3D regmap_fi=
+elds_write(dmactl->codec_enable, id, LPAIF_DMACTL_ENABLE_OFF);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  278  		if (ret) {
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  279  			dev_err(soc_runt=
+ime->dev,
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  280  				"error writing =
+to dmactl codec_enable reg: %d\n", ret);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  281  			return ret;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  282  		}
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  283  		break;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  284  	default:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  285  		ret =3D -EINVAL;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  286  		dev_err(soc_runti=
+me->dev, "%s: invalid %d interface\n", __func__, cmd);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  287  		break;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  288  	}
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  289  	return ret;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  290  }
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  291  =
 
 
-:::::: The code at line 2729 was first introduced by commit
-:::::: ece19502834d84ece2e056db28257ca2aa6e4d48 net: phy: micrel: 1588 supp=
-ort for LAN8814 phy
+:::::: The code at line 274 was first introduced by commit
+:::::: b81af585ea54ee9f749391e594ee9cbd44061eae ASoC: qcom: Add lpass CPU d=
+river for codec dma control
 
-:::::: TO: Divya Koppera <Divya.Koppera@microchip.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3317017042957177930==--
+--===============4931928301649938056==--
 
