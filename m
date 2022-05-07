@@ -1,140 +1,209 @@
-Content-Type: multipart/mixed; boundary="===============5741428023593945258=="
+Content-Type: multipart/mixed; boundary="===============0459284007070292372=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [dgc-xfs:xfs-5.19-compose 37/43] fs/xfs/libxfs/xfs_attr.c:1317 xfs_attr_node_remove_attr() warn: variable dereferenced before check 'state' (see line 1299)
-Date: Sat, 07 May 2022 14:20:37 +0800
-Message-ID: <202205071435.Hnr6CAin-lkp@intel.com>
+Subject: arch/s390/kernel/vdso.c:177:30: warning: Subtracting pointers that point to different objects [comparePointers]
+Date: Sat, 07 May 2022 14:20:35 +0800
+Message-ID: <202205071418.iImX13WC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5741428023593945258==
+--===============0459284007070292372==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Dave Chinner <david@fromorbit.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Sven Schnelle <svens@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
+CC: Heiko Carstens <hca@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git x=
-fs-5.19-compose
-head:   d8fa98c66946d5b1e01531cf7cb50151817f6894
-commit: 8fe8ae0a2020818650526263645667f1b437f5fb [37/43] xfs: clean up fina=
-l attr removal in xfs_attr_set_iter
-:::::: branch date: 22 hours ago
-:::::: commit date: 2 days ago
-config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
-archive/20220507/202205071435.Hnr6CAin-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b97bac0756a81cda5afd45417a99b5bccdcff67
+commit: 779df2248739b6308c03b354c99e4c352141e3bc s390/vdso: add minimal com=
+pat vdso
+date:   10 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 months ago
+compiler: s390-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 779df2248739b6308c03b354c99e4c352141e3bc
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-fs/xfs/libxfs/xfs_attr.c:1317 xfs_attr_node_remove_attr() warn: variable de=
-referenced before check 'state' (see line 1299)
-
-vim +/state +1317 fs/xfs/libxfs/xfs_attr.c
-
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1280  =
-
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1281  =
-
-8fe8ae0a202081 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1282 =
- static int
-8fe8ae0a202081 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1283 =
- xfs_attr_node_remove_attr(
-2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1284 =
- 	struct xfs_attr_item		*attr)
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1285 =
- {
-2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1286 =
- 	struct xfs_da_args		*args =3D attr->xattri_da_args;
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1287 =
- 	struct xfs_da_state		*state =3D NULL;
-c2b3b59946c43d fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1288 =
- 	struct xfs_mount		*mp =3D args->dp->i_mount;
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1289 =
- 	int				retval =3D 0;
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1290 =
- 	int				error =3D 0;
-f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1291  =
-
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1292 =
- 	/*
-bf4a5cfffee096 fs/xfs/libxfs/xfs_attr.c Allison Collins   2020-07-20  1293 =
- 	 * Re-find the "old" attribute entry after any split ops. The INCOMPLETE
-bf4a5cfffee096 fs/xfs/libxfs/xfs_attr.c Allison Collins   2020-07-20  1294 =
- 	 * flag means that we will find the "old" attr, not the "new" one.
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1295 =
- 	 */
-c2b3b59946c43d fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1296 =
- 	if (!xfs_has_larp(mp))
-254f800f810415 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  1297 =
- 		args->attr_filter |=3D XFS_ATTR_INCOMPLETE;
-4491a3dd7192fb fs/xfs/libxfs/xfs_attr.c Carlos Maiolino   2020-07-22  1298 =
- 	state =3D xfs_da_state_alloc(args);
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16 @1299 =
- 	state->inleaf =3D 0;
-f5ea110044fa85 fs/xfs/xfs_attr.c        Dave Chinner      2013-04-24  1300 =
- 	error =3D xfs_da3_node_lookup_int(state, &retval);
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1301 =
- 	if (error)
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1302 =
- 		goto out;
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1303  =
-
-816c8e39b7ea08 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-05-28  1304 =
- 	error =3D xfs_attr_node_removename(args, state);
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1305  =
-
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1306 =
- 	/*
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1307 =
- 	 * Check to see if the tree needs to be collapsed.
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1308 =
- 	 */
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1309 =
- 	if (retval && (state->path.active > 1)) {
-f5ea110044fa85 fs/xfs/xfs_attr.c        Dave Chinner      2013-04-24  1310 =
- 		error =3D xfs_da3_join(state);
-8ad7c629b18695 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2017-08-28  1311 =
- 		if (error)
-d5a2e2893da0d6 fs/xfs/libxfs/xfs_attr.c Brian Foster      2018-09-29  1312 =
- 			goto out;
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1313 =
- 	}
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1314 =
- 	retval =3D error =3D 0;
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1315  =
-
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1316 =
- out:
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16 @1317 =
- 	if (state)
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1318 =
- 		xfs_da_state_free(state);
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1319 =
- 	if (error)
-d99831ff393ff2 fs/xfs/xfs_attr.c        Eric Sandeen      2014-06-22  1320 =
- 		return error;
-d99831ff393ff2 fs/xfs/xfs_attr.c        Eric Sandeen      2014-06-22  1321 =
- 	return retval;
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1322 =
- }
-^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1323  =
 
 
-:::::: The code at line 1317 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>> arch/s390/mm/mmap.c:74:51: warning: Parameter 'filp' can be declared wit=
+h const [constParameter]
+   unsigned long arch_get_unmapped_area(struct file *filp, unsigned long ad=
+dr,
+                                                     ^
+   arch/s390/mm/mmap.c:113:59: warning: Parameter 'filp' can be declared wi=
+th const [constParameter]
+   unsigned long arch_get_unmapped_area_topdown(struct file *filp, unsigned=
+ long addr,
+                                                             ^
+--
+>> arch/s390/kernel/vdso.c:177:30: warning: Subtracting pointers that point=
+ to different objects [comparePointers]
+     vdso_text_len =3D vdso32_end - vdso32_start;
+                                ^
+   arch/s390/kernel/vdso.c:23:29: note: Variable declared here.
+   extern char vdso32_start[], vdso32_end[];
+                               ^
+   arch/s390/kernel/vdso.c:177:19: note: Array decayed to pointer here.
+     vdso_text_len =3D vdso32_end - vdso32_start;
+                     ^
+   arch/s390/kernel/vdso.c:23:13: note: Variable declared here.
+   extern char vdso32_start[], vdso32_end[];
+               ^
+   arch/s390/kernel/vdso.c:177:32: note: Array decayed to pointer here.
+     vdso_text_len =3D vdso32_end - vdso32_start;
+                                  ^
+   arch/s390/kernel/vdso.c:177:30: note: Subtracting pointers that point to=
+ different objects
+     vdso_text_len =3D vdso32_end - vdso32_start;
+                                ^
+   arch/s390/kernel/vdso.c:180:30: warning: Subtracting pointers that point=
+ to different objects [comparePointers]
+     vdso_text_len =3D vdso64_end - vdso64_start;
+                                ^
+   arch/s390/kernel/vdso.c:22:29: note: Variable declared here.
+   extern char vdso64_start[], vdso64_end[];
+                               ^
+   arch/s390/kernel/vdso.c:180:19: note: Array decayed to pointer here.
+     vdso_text_len =3D vdso64_end - vdso64_start;
+                     ^
+   arch/s390/kernel/vdso.c:22:13: note: Variable declared here.
+   extern char vdso64_start[], vdso64_end[];
+               ^
+   arch/s390/kernel/vdso.c:180:32: note: Array decayed to pointer here.
+     vdso_text_len =3D vdso64_end - vdso64_start;
+                                  ^
+   arch/s390/kernel/vdso.c:180:30: note: Subtracting pointers that point to=
+ different objects
+     vdso_text_len =3D vdso64_end - vdso64_start;
+                                ^
+>> arch/s390/kernel/vdso.c:213:66: warning: Parameter 'end' can be declared=
+ with const [constParameter]
+   static struct page ** __init vdso_setup_pages(void *start, void *end)
+                                                                    ^
+
+vim +177 arch/s390/kernel/vdso.c
+
+80f06306240e0a Heiko Carstens     2020-11-16  162  =
+
+b020632e40c3ed Martin Schwidefsky 2008-12-25  163  int arch_setup_additiona=
+l_pages(struct linux_binprm *bprm, int uses_interp)
+b020632e40c3ed Martin Schwidefsky 2008-12-25  164  {
+214b3564869cd9 Heiko Carstens     2021-02-05  165  	unsigned long vdso_text=
+_len, vdso_mapping_len;
+214b3564869cd9 Heiko Carstens     2021-02-05  166  	unsigned long vvar_star=
+t, vdso_text_start;
+779df2248739b6 Sven Schnelle      2021-06-25  167  	struct vm_special_mappi=
+ng *vdso_mapping;
+b020632e40c3ed Martin Schwidefsky 2008-12-25  168  	struct mm_struct *mm =
+=3D current->mm;
+35bb092a91b4c4 Martin Schwidefsky 2017-05-15  169  	struct vm_area_struct *=
+vma;
+b020632e40c3ed Martin Schwidefsky 2008-12-25  170  	int rc;
+b020632e40c3ed Martin Schwidefsky 2008-12-25  171  =
+
+eeab78b05d202f Heiko Carstens     2021-02-05  172  	BUILD_BUG_ON(VVAR_NR_PA=
+GES !=3D __VVAR_PAGES);
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  173  	if (mmap_write_lock_kil=
+lable(mm))
+69048176078add Michal Hocko       2016-05-23  174  		return -EINTR;
+779df2248739b6 Sven Schnelle      2021-06-25  175  =
+
+779df2248739b6 Sven Schnelle      2021-06-25  176  	if (is_compat_task()) {
+779df2248739b6 Sven Schnelle      2021-06-25 @177  		vdso_text_len =3D vdso=
+32_end - vdso32_start;
+779df2248739b6 Sven Schnelle      2021-06-25  178  		vdso_mapping =3D &vdso=
+32_mapping;
+779df2248739b6 Sven Schnelle      2021-06-25  179  	} else {
+779df2248739b6 Sven Schnelle      2021-06-25  180  		vdso_text_len =3D vdso=
+64_end - vdso64_start;
+779df2248739b6 Sven Schnelle      2021-06-25  181  		vdso_mapping =3D &vdso=
+64_mapping;
+779df2248739b6 Sven Schnelle      2021-06-25  182  	}
+eeab78b05d202f Heiko Carstens     2021-02-05  183  	vdso_mapping_len =3D vd=
+so_text_len + VVAR_NR_PAGES * PAGE_SIZE;
+214b3564869cd9 Heiko Carstens     2021-02-05  184  	vvar_start =3D get_unma=
+pped_area(NULL, 0, vdso_mapping_len, 0, 0);
+214b3564869cd9 Heiko Carstens     2021-02-05  185  	rc =3D vvar_start;
+214b3564869cd9 Heiko Carstens     2021-02-05  186  	if (IS_ERR_VALUE(vvar_s=
+tart))
+8d4be7f318bc69 Heiko Carstens     2021-01-24  187  		goto out;
+eeab78b05d202f Heiko Carstens     2021-02-05  188  	vma =3D _install_specia=
+l_mapping(mm, vvar_start, VVAR_NR_PAGES*PAGE_SIZE,
+eeab78b05d202f Heiko Carstens     2021-02-05  189  				       VM_READ|VM_MA=
+YREAD|VM_IO|VM_DONTDUMP|
+eeab78b05d202f Heiko Carstens     2021-02-05  190  				       VM_PFNMAP,
+214b3564869cd9 Heiko Carstens     2021-02-05  191  				       &vvar_mapping=
+);
+214b3564869cd9 Heiko Carstens     2021-02-05  192  	rc =3D PTR_ERR(vma);
+214b3564869cd9 Heiko Carstens     2021-02-05  193  	if (IS_ERR(vma))
+214b3564869cd9 Heiko Carstens     2021-02-05  194  		goto out;
+eeab78b05d202f Heiko Carstens     2021-02-05  195  	vdso_text_start =3D vva=
+r_start + VVAR_NR_PAGES * PAGE_SIZE;
+5056c2c53a22a6 Heiko Carstens     2021-01-24  196  	/* VM_MAYWRITE for COW =
+so gdb can set breakpoints */
+214b3564869cd9 Heiko Carstens     2021-02-05  197  	vma =3D _install_specia=
+l_mapping(mm, vdso_text_start, vdso_text_len,
+b020632e40c3ed Martin Schwidefsky 2008-12-25  198  				       VM_READ|VM_EX=
+EC|
+909af768e88867 Jason Baron        2012-03-23  199  				       VM_MAYREAD|VM=
+_MAYWRITE|VM_MAYEXEC,
+779df2248739b6 Sven Schnelle      2021-06-25  200  				       vdso_mapping);
+5056c2c53a22a6 Heiko Carstens     2021-01-24  201  	if (IS_ERR(vma)) {
+214b3564869cd9 Heiko Carstens     2021-02-05  202  		do_munmap(mm, vvar_sta=
+rt, PAGE_SIZE, NULL);
+5056c2c53a22a6 Heiko Carstens     2021-01-24  203  		rc =3D PTR_ERR(vma);
+5056c2c53a22a6 Heiko Carstens     2021-01-24  204  	} else {
+5056c2c53a22a6 Heiko Carstens     2021-01-24  205  		current->mm->context.v=
+dso_base =3D vdso_text_start;
+35bb092a91b4c4 Martin Schwidefsky 2017-05-15  206  		rc =3D 0;
+5056c2c53a22a6 Heiko Carstens     2021-01-24  207  	}
+8d4be7f318bc69 Heiko Carstens     2021-01-24  208  out:
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  209  	mmap_write_unlock(mm);
+b020632e40c3ed Martin Schwidefsky 2008-12-25  210  	return rc;
+b020632e40c3ed Martin Schwidefsky 2008-12-25  211  }
+b020632e40c3ed Martin Schwidefsky 2008-12-25  212  =
+
+779df2248739b6 Sven Schnelle      2021-06-25 @213  static struct page ** __=
+init vdso_setup_pages(void *start, void *end)
+b020632e40c3ed Martin Schwidefsky 2008-12-25  214  {
+779df2248739b6 Sven Schnelle      2021-06-25  215  	int pages =3D (end - st=
+art) >> PAGE_SHIFT;
+779df2248739b6 Sven Schnelle      2021-06-25  216  	struct page **pagelist;
+b020632e40c3ed Martin Schwidefsky 2008-12-25  217  	int i;
+b020632e40c3ed Martin Schwidefsky 2008-12-25  218  =
+
+779df2248739b6 Sven Schnelle      2021-06-25  219  	pagelist =3D kcalloc(pa=
+ges + 1, sizeof(struct page *), GFP_KERNEL);
+779df2248739b6 Sven Schnelle      2021-06-25  220  	if (!pagelist)
+779df2248739b6 Sven Schnelle      2021-06-25  221  		panic("%s: Cannot allo=
+cate page list for VDSO", __func__);
+779df2248739b6 Sven Schnelle      2021-06-25  222  	for (i =3D 0; i < pages=
+; i++)
+779df2248739b6 Sven Schnelle      2021-06-25  223  		pagelist[i] =3D virt_t=
+o_page(start + i * PAGE_SIZE);
+779df2248739b6 Sven Schnelle      2021-06-25  224  	return pagelist;
+779df2248739b6 Sven Schnelle      2021-06-25  225  }
+d57778feb9878a Sven Schnelle      2021-06-23  226  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5741428023593945258==--
+--===============0459284007070292372==--
 
