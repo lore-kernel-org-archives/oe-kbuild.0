@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7841271926889937899=="
+Content-Type: multipart/mixed; boundary="===============0752930636179720207=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/usb/isp1760/isp1760-udc.c:1463:3: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length argument...
-Date: Sun, 08 May 2022 18:08:57 +0800
-Message-ID: <202205081718.LO3dYHl6-lkp@intel.com>
+Subject: drivers/rpmsg/rpmsg_ctrl.c:88:13: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 08 May 2022 17:58:29 +0800
+Message-ID: <202205081701.gRKOwqUq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7841271926889937899==
+--===============0752930636179720207==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,40 +16,36 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Alex Shi <alexs@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   30c8e80f79329617012f07b09b70114592092ea4
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
-11
+commit: 617d32938d1be0d67bad73a914635bf787c319c1 rpmsg: Move the rpmsg cont=
+rol device from rpmsg_char to rpmsg_ctrl
 date:   8 weeks ago
 :::::: branch date: 16 hours ago
 :::::: commit date: 8 weeks ago
-config: riscv-randconfig-c006-20220508 (https://download.01.org/0day-ci/arc=
-hive/20220508/202205081718.LO3dYHl6-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af4cf1=
-c6b8ed0d8102fc5e69acdc2fcbbcdaa9a7)
+config: mips-randconfig-c004-20220508 (https://download.01.org/0day-ci/arch=
+ive/20220508/202205081701.gRKOwqUq-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a38564=
+5b470e2d3a1534aae618ea56b31177639f)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
+t/commit/?id=3D617d32938d1be0d67bad73a914635bf787c319c1
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git checkout 617d32938d1be0d67bad73a914635bf787c319c1
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -57,456 +53,308 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:138:4: warning: Value stored to 'tmp' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                           tmp =3D bcma_read32(dev, 0x524);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:138:4: note: Value stored to 'tmp' is never =
-read
-                           tmp =3D bcma_read32(dev, 0x524);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:142:4: warning: Value stored to 'tmp' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                           tmp =3D bcma_read32(dev, 0x524);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:142:4: note: Value stored to 'tmp' is never =
-read
-                           tmp =3D bcma_read32(dev, 0x524);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:146:4: warning: Value stored to 'tmp' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                           tmp =3D bcma_read32(dev, 0x524);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:146:4: note: Value stored to 'tmp' is never =
-read
-                           tmp =3D bcma_read32(dev, 0x524);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:154:4: warning: Value stored to 'tmp' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                           tmp =3D bcma_read32(dev, 0x314);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:154:4: note: Value stored to 'tmp' is never =
-read
-                           tmp =3D bcma_read32(dev, 0x314);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/bcma-hcd.c:309:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(hci_res, 0, sizeof(hci_res));
-           ^~~~~~
-   drivers/usb/host/bcma-hcd.c:309:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(hci_res, 0, sizeof(hci_res));
-           ^~~~~~
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   drivers/usb/host/max3421-hcd.c:354:2: warning: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:354:2: note: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11
-           memset(&transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:380:2: warning: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:380:2: note: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11
-           memset(&transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:404:2: warning: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:404:2: note: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11
-           memset(transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:430:2: warning: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:430:2: note: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11
-           memset(transfer, 0, sizeof(transfer));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:637:21: warning: Value stored to 'spi' du=
+   8 warnings generated.
+   drivers/media/i2c/ov2659.c:895:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:895:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:986:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:986:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1002:21: warning: Value stored to 'client' du=
 ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct spi_device *spi =3D to_spi_device(hcd->self.controller);
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/max3421-hcd.c:637:21: note: Value stored to 'spi' durin=
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1002:21: note: Value stored to 'client' durin=
 g its initialization is never read
-           struct spi_device *spi =3D to_spi_device(hcd->self.controller);
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/max3421-hcd.c:772:21: warning: Value stored to 'spi' du=
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1028:21: warning: Value stored to 'client' du=
 ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct spi_device *spi =3D to_spi_device(hcd->self.controller);
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/max3421-hcd.c:772:21: note: Value stored to 'spi' durin=
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1028:21: note: Value stored to 'client' durin=
 g its initialization is never read
-           struct spi_device *spi =3D to_spi_device(hcd->self.controller);
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/max3421-hcd.c:852:21: warning: Value stored to 'spi' du=
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1151:21: warning: Value stored to 'client' du=
 ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct spi_device *spi =3D to_spi_device(hcd->self.controller);
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/max3421-hcd.c:852:21: note: Value stored to 'spi' durin=
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1151:21: note: Value stored to 'client' durin=
 g its initialization is never read
-           struct spi_device *spi =3D to_spi_device(hcd->self.controller);
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/max3421-hcd.c:1636:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(desc, 0, sizeof(*desc));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:1636:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(desc, 0, sizeof(*desc));
-           ^~~~~~
-   drivers/usb/host/max3421-hcd.c:1719:4: warning: Value stored to 'retval'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                           retval =3D -EPIPE;
-                           ^        ~~~~~~
-   drivers/usb/host/max3421-hcd.c:1719:4: note: Value stored to 'retval' is=
- never read
-                           retval =3D -EPIPE;
-                           ^        ~~~~~~
-   Suppressed 36 warnings (36 in non-user code).
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1160:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1160:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1312:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1312:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   Suppressed 47 warnings (47 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   37 warnings generated.
-   drivers/usb/isp1760/isp1760-udc.c:1237:22: warning: Value stored to 'udc=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct isp1760_udc *udc =3D gadget_to_udc(gadget);
-                               ^~~   ~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/isp1760/isp1760-udc.c:1237:22: note: Value stored to 'udc' d=
-uring its initialization is never read
-           struct isp1760_udc *udc =3D gadget_to_udc(gadget);
-                               ^~~   ~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/isp1760/isp1760-udc.c:1463:3: warning: Call to function 'spr=
-intf' is insecure as it does not provide bounding of the memory buffer or s=
-ecurity checks introduced in the C11 standard. Replace with analogous funct=
-ions that support length arguments or provides boundary checks such as 'spr=
-intf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUns=
-afeBufferHandling]
-                   sprintf(ep->name, "ep%u%s", ep_num,
-                   ^~~~~~~
-   drivers/usb/isp1760/isp1760-udc.c:1463:3: note: Call to function 'sprint=
-f' is insecure as it does not provide bounding of the memory buffer or secu=
-rity checks introduced in the C11 standard. Replace with analogous function=
-s that support length arguments or provides boundary checks such as 'sprint=
-f_s' in case of C11
-                   sprintf(ep->name, "ep%u%s", ep_num,
-                   ^~~~~~~
-   Suppressed 35 warnings (35 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   Suppressed 35 warnings (35 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   drivers/usb/c67x00/c67x00-ll-hpi.c:288:3: warning: 3rd function call arg=
-ument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   hpi_write_word(dev, COMM_R(i), data->regs[i]);
-                   ^
-   drivers/usb/c67x00/c67x00-ll-hpi.c:324:7: note: Calling 'c67x00_comm_exe=
-c_int'
-           rc =3D c67x00_comm_exec_int(dev, HUSB_RESET_INT, &data);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/c67x00/c67x00-ll-hpi.c:287:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < COMM_REGS; i++)
+   3 warnings generated.
+   drivers/spi/spi-tegra210-quad.c:1167:3: warning: Value stored to 'err' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D tegra_qspi_start_dma_based_transfer(tqspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-tegra210-quad.c:1167:3: note: Value stored to 'err' is n=
+ever read
+                   err =3D tegra_qspi_start_dma_based_transfer(tqspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-tegra210-quad.c:1169:3: warning: Value stored to 'err' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D tegra_qspi_start_cpu_based_transfer(tqspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-tegra210-quad.c:1169:3: note: Value stored to 'err' is n=
+ever read
+                   err =3D tegra_qspi_start_cpu_based_transfer(tqspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/spi/spi-tegra20-slink.c:952:3: warning: Value stored to 'err' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D tegra_slink_start_dma_based_transfer(tspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-tegra20-slink.c:952:3: note: Value stored to 'err' is ne=
+ver read
+                   err =3D tegra_slink_start_dma_based_transfer(tspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-tegra20-slink.c:954:3: warning: Value stored to 'err' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D tegra_slink_start_cpu_based_transfer(tspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-tegra20-slink.c:954:3: note: Value stored to 'err' is ne=
+ver read
+                   err =3D tegra_slink_start_cpu_based_transfer(tspi, t);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+>> drivers/rpmsg/rpmsg_ctrl.c:88:13: warning: Assigned value is garbage or =
+undefined [clang-analyzer-core.uninitialized.Assign]
+           chinfo.src =3D eptinfo.src;
+                      ^ ~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:80:13: note: Left side of '&&' is true
+           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
+                      ^
+   include/uapi/linux/rpmsg.h:29:32: note: expanded from macro 'RPMSG_CREAT=
+E_EPT_IOCTL'
+   #define RPMSG_CREATE_EPT_IOCTL  _IOW(0xb5, 0x1, struct rpmsg_endpoint_in=
+fo)
+                                   ^
+   include/uapi/asm-generic/ioctl.h:87:57: note: expanded from macro '_IOW'
+   #define _IOW(type,nr,size)      _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECH=
+ECK(size)))
+                                                                ^
+   include/asm-generic/ioctl.h:13:4: note: expanded from macro '_IOC_TYPECH=
+ECK'
+           ((sizeof(t) =3D=3D sizeof(t[1]) && \
+             ^
+   drivers/rpmsg/rpmsg_ctrl.c:80:13: note: '?' condition is true
+           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
+                      ^
+   include/uapi/linux/rpmsg.h:29:32: note: expanded from macro 'RPMSG_CREAT=
+E_EPT_IOCTL'
+   #define RPMSG_CREATE_EPT_IOCTL  _IOW(0xb5, 0x1, struct rpmsg_endpoint_in=
+fo)
+                                   ^
+   include/uapi/asm-generic/ioctl.h:87:57: note: expanded from macro '_IOW'
+   #define _IOW(type,nr,size)      _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECH=
+ECK(size)))
+                                                                ^
+   include/asm-generic/ioctl.h:13:3: note: expanded from macro '_IOC_TYPECH=
+ECK'
+           ((sizeof(t) =3D=3D sizeof(t[1]) && \
+            ^
+   drivers/rpmsg/rpmsg_ctrl.c:80:6: note: Assuming the condition is false
+           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:80:2: note: Taking false branch
+           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
            ^
-   drivers/usb/c67x00/c67x00-ll-hpi.c:287:2: note: Loop condition is true. =
- Entering loop body
-   drivers/usb/c67x00/c67x00-ll-hpi.c:287:29: note: The value 2 is assigned=
- to 'i'
-           for (i =3D 0; i < COMM_REGS; i++)
-                                      ^~~
-   drivers/usb/c67x00/c67x00-ll-hpi.c:287:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < COMM_REGS; i++)
+   drivers/rpmsg/rpmsg_ctrl.c:83:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
            ^
-   drivers/usb/c67x00/c67x00-ll-hpi.c:288:3: note: 3rd function call argume=
-nt is an uninitialized value
-                   hpi_write_word(dev, COMM_R(i), data->regs[i]);
-                   ^                              ~~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o 'to->src'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->s=
+rc'
+           return res;
+           ^
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->s=
+rc'
+           return n;
+           ^
+   drivers/rpmsg/rpmsg_ctrl.c:83:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:83:2: note: Taking false branch
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+           ^
+   drivers/rpmsg/rpmsg_ctrl.c:88:13: note: Assigned value is garbage or und=
+efined
+           chinfo.src =3D eptinfo.src;
+                      ^ ~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   49 warnings generated.
-   drivers/usb/c67x00/c67x00-hcd.c:80:3: warning: Value stored to 'len' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   len =3D 4;                /* hub power */
-                   ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:80:3: note: Value stored to 'len' is nev=
-er read
-                   len =3D 4;                /* hub power */
-                   ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:108:3: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   len =3D 4;
-                   ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:108:3: note: Value stored to 'len' is ne=
-ver read
-                   len =3D 4;
-                   ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:116:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:116:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:132:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:132:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:137:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:137:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:142:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:142:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:162:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:162:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:168:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:168:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:174:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:174:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:180:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:180:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:191:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:191:4: note: Value stored to 'len' is ne=
-ver read
-                           len =3D 0;
-                           ^     ~
-   drivers/usb/c67x00/c67x00-hcd.c:197:4: warning: Value stored to 'len' is=
- never read [clang-analyzer-deadcode.DeadStores]
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   kernel/trace/trace.c:361:2: warning: Access to field 'next' results in a=
+ dereference of a null pointer [clang-analyzer-core.NullDereference]
+           rcu_assign_pointer(*p, (*p)->next);
+           ^
+   include/linux/rcupdate.h:449:35: note: expanded from macro 'rcu_assign_p=
+ointer'
+           uintptr_t _r_a_p__v =3D (uintptr_t)(v);                         =
+        \
+                                            ^
+   kernel/trace/trace.c:404:2: note: Value assigned to 'ftrace_exports_list'
+           mutex_lock(&ftrace_export_lock);
 
-vim +1463 drivers/usb/isp1760/isp1760-udc.c
+vim +88 drivers/rpmsg/rpmsg_ctrl.c
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1439  =
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  71  =
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1440  /* ---------------------------------------------------------------=
---------------
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1441   * Registration
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1442   */
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1443  =
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  72  static long rpmsg_ctrldev_=
+ioctl(struct file *fp, unsigned int cmd,
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  73  				unsigned long arg)
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  74  {
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  75  	struct rpmsg_ctrldev *ctr=
+ldev =3D fp->private_data;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  76  	void __user *argp =3D (vo=
+id __user *)arg;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  77  	struct rpmsg_endpoint_inf=
+o eptinfo;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  78  	struct rpmsg_channel_info=
+ chinfo;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  79  =
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1444  static void isp1760_udc_init_eps(struct isp1760_udc *udc)
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1445  {
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1446  	unsigned int i;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1447  =
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  80  	if (cmd !=3D RPMSG_CREATE=
+_EPT_IOCTL)
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  81  		return -EINVAL;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  82  =
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1448  	INIT_LIST_HEAD(&udc->gadget.ep_list);
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1449  =
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  83  	if (copy_from_user(&eptin=
+fo, argp, sizeof(eptinfo)))
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  84  		return -EFAULT;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  85  =
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1450  	for (i =3D 0; i < ARRAY_SIZE(udc->ep); ++i) {
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1451  		struct isp1760_ep *ep =3D &udc->ep[i];
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1452  		unsigned int ep_num =3D (i + 1) / 2;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1453  		bool is_in =3D !(i & 1);
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1454  =
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  86  	memcpy(chinfo.name, eptin=
+fo.name, RPMSG_NAME_SIZE);
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  87  	chinfo.name[RPMSG_NAME_SI=
+ZE - 1] =3D '\0';
+617d32938d1be0d Arnaud Pouliquen 2022-01-24 @88  	chinfo.src =3D eptinfo.sr=
+c;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  89  	chinfo.dst =3D eptinfo.ds=
+t;
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  90  =
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1455  		ep->udc =3D udc;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1456  =
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  91  	return rpmsg_chrdev_eptde=
+v_create(ctrldev->rpdev, &ctrldev->dev, chinfo);
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  92  };
+617d32938d1be0d Arnaud Pouliquen 2022-01-24  93  =
 
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1457  		INIT_LIST_HEAD(&ep->queue);
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1458  =
-
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1459  		ep->addr =3D (ep_num && is_in ? USB_DIR_IN : USB_DIR_OUT)
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1460  			 | ep_num;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1461  		ep->desc =3D NULL;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1462  =
-
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1 @1463  		sprintf(ep->name, "ep%u%s", ep_num,
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1464  			ep_num ? (is_in ? "in" : "out") : "");
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1465  =
-
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1466  		ep->ep.ops =3D &isp1760_ep_ops;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1467  		ep->ep.name =3D ep->name;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1468  =
-
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1469  		/*
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1470  		 * Hardcode the maximum packet sizes for now, to 64 bytes for
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1471  		 * the control endpoint and 512 bytes for all other endpoints.
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1472  		 * This fits in the 8kB FIFO without double-buffering.
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1473  		 */
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1474  		if (ep_num =3D=3D 0) {
-6fd82b69796cc8 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-1=
-3  1475  			usb_ep_set_maxpacket_limit(&ep->ep, 64);
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1476  			ep->ep.caps.type_control =3D true;
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1477  			ep->ep.caps.dir_in =3D true;
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1478  			ep->ep.caps.dir_out =3D true;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1479  			ep->maxpacket =3D 64;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1480  			udc->gadget.ep0 =3D &ep->ep;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1481  		} else {
-6fd82b69796cc8 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-1=
-3  1482  			usb_ep_set_maxpacket_limit(&ep->ep, 512);
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1483  			ep->ep.caps.type_iso =3D true;
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1484  			ep->ep.caps.type_bulk =3D true;
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1485  			ep->ep.caps.type_int =3D true;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1486  			ep->maxpacket =3D 0;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1487  			list_add_tail(&ep->ep.ep_list, &udc->gadget.ep_list);
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1488  		}
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1489  =
-
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1490  		if (is_in)
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1491  			ep->ep.caps.dir_in =3D true;
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1492  		else
-eb4cbc19526d62 drivers/usb/isp1760/isp1760-udc.c Robert Baldyga   2015-07-3=
-1  1493  			ep->ep.caps.dir_out =3D true;
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1494  	}
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1495  }
-0316ca6319b98e drivers/usb/host/isp1760-udc.c    Laurent Pinchart 2015-01-2=
-1  1496  =
-
-
-:::::: The code at line 1463 was first introduced by commit
-:::::: 0316ca6319b98e485325be98a47d08fed07ead43 usb: isp1760: Add device co=
-ntroller support
-
-:::::: TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-:::::: CC: Felipe Balbi <balbi@ti.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7841271926889937899==--
+--===============0752930636179720207==--
 
