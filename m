@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0752930636179720207=="
+Content-Type: multipart/mixed; boundary="===============9014705652725928599=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/rpmsg/rpmsg_ctrl.c:88:13: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 08 May 2022 17:58:29 +0800
-Message-ID: <202205081701.gRKOwqUq-lkp@intel.com>
+Subject: [linux-next:master 9659/9759] drivers/nvme/host/ioctl.c:693:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Sun, 08 May 2022 17:58:28 +0800
+Message-ID: <202205081711.ssgxsL9Z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0752930636179720207==
+--===============9014705652725928599==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kanchan Joshi <joshi.k@samsung.com>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Anuj Gupta <anuj20.g@samsung.com>
+CC: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   30c8e80f79329617012f07b09b70114592092ea4
-commit: 617d32938d1be0d67bad73a914635bf787c319c1 rpmsg: Move the rpmsg cont=
-rol device from rpmsg_char to rpmsg_ctrl
-date:   8 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 8 weeks ago
-config: mips-randconfig-c004-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220508/202205081701.gRKOwqUq-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a38564=
-5b470e2d3a1534aae618ea56b31177639f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   38a288f5941ef03752887ad86f2d85442358c99a
+commit: 86116c2f6fee81a0be72a71cc2f1f7c087df8efa [9659/9759] nvme: wire-up =
+uring-cmd support for io-passthru on char-device.
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+508/202205081711.ssgxsL9Z-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
+b787698440a387750db7f8028e7cb14cfc)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D617d32938d1be0d67bad73a914635bf787c319c1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 617d32938d1be0d67bad73a914635bf787c319c1
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D86116c2f6fee81a0be72a71cc2f1f7c087df8efa
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 86116c2f6fee81a0be72a71cc2f1f7c087df8efa
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,308 +52,303 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   8 warnings generated.
-   drivers/media/i2c/ov2659.c:895:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:895:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:986:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:986:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1002:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1002:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1028:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1028:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1151:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1151:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1160:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1160:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1312:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1312:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/spi/spi-tegra210-quad.c:1167:3: warning: Value stored to 'err' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D tegra_qspi_start_dma_based_transfer(tqspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra210-quad.c:1167:3: note: Value stored to 'err' is n=
-ever read
-                   err =3D tegra_qspi_start_dma_based_transfer(tqspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra210-quad.c:1169:3: warning: Value stored to 'err' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D tegra_qspi_start_cpu_based_transfer(tqspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra210-quad.c:1169:3: note: Value stored to 'err' is n=
-ever read
-                   err =3D tegra_qspi_start_cpu_based_transfer(tqspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/spi/spi-tegra20-slink.c:952:3: warning: Value stored to 'err' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D tegra_slink_start_dma_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra20-slink.c:952:3: note: Value stored to 'err' is ne=
-ver read
-                   err =3D tegra_slink_start_dma_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra20-slink.c:954:3: warning: Value stored to 'err' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D tegra_slink_start_cpu_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra20-slink.c:954:3: note: Value stored to 'err' is ne=
-ver read
-                   err =3D tegra_slink_start_cpu_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> drivers/rpmsg/rpmsg_ctrl.c:88:13: warning: Assigned value is garbage or =
-undefined [clang-analyzer-core.uninitialized.Assign]
-           chinfo.src =3D eptinfo.src;
-                      ^ ~~~~~~~~~~~
-   drivers/rpmsg/rpmsg_ctrl.c:80:13: note: Left side of '&&' is true
-           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
-                      ^
-   include/uapi/linux/rpmsg.h:29:32: note: expanded from macro 'RPMSG_CREAT=
-E_EPT_IOCTL'
-   #define RPMSG_CREATE_EPT_IOCTL  _IOW(0xb5, 0x1, struct rpmsg_endpoint_in=
-fo)
-                                   ^
-   include/uapi/asm-generic/ioctl.h:87:57: note: expanded from macro '_IOW'
-   #define _IOW(type,nr,size)      _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECH=
-ECK(size)))
-                                                                ^
-   include/asm-generic/ioctl.h:13:4: note: expanded from macro '_IOC_TYPECH=
-ECK'
-           ((sizeof(t) =3D=3D sizeof(t[1]) && \
-             ^
-   drivers/rpmsg/rpmsg_ctrl.c:80:13: note: '?' condition is true
-           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
-                      ^
-   include/uapi/linux/rpmsg.h:29:32: note: expanded from macro 'RPMSG_CREAT=
-E_EPT_IOCTL'
-   #define RPMSG_CREATE_EPT_IOCTL  _IOW(0xb5, 0x1, struct rpmsg_endpoint_in=
-fo)
-                                   ^
-   include/uapi/asm-generic/ioctl.h:87:57: note: expanded from macro '_IOW'
-   #define _IOW(type,nr,size)      _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECH=
-ECK(size)))
-                                                                ^
-   include/asm-generic/ioctl.h:13:3: note: expanded from macro '_IOC_TYPECH=
-ECK'
-           ((sizeof(t) =3D=3D sizeof(t[1]) && \
-            ^
-   drivers/rpmsg/rpmsg_ctrl.c:80:6: note: Assuming the condition is false
-           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rpmsg/rpmsg_ctrl.c:80:2: note: Taking false branch
-           if (cmd !=3D RPMSG_CREATE_EPT_IOCTL)
+                                 ^
+   drivers/nvme/host/ioctl.c:243:2: note: '?' condition is true
+           if (IS_ERR(req))
            ^
-   drivers/rpmsg/rpmsg_ctrl.c:83:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+   drivers/nvme/host/ioctl.c:243:2: note: Taking true branch
+           if (IS_ERR(req))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/ioctl.c:244:3: note: Returning without writing to '*re=
+sult'
+                   return PTR_ERR(req);
+                   ^
+   drivers/nvme/host/ioctl.c:360:11: note: Returning from 'nvme_submit_user=
+_cmd'
+           status =3D nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, =
+&c,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/ioctl.c:365:6: note: 'status' is >=3D 0
+           if (status >=3D 0) {
                ^
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/ioctl.c:365:2: note: '?' condition is false
+           if (status >=3D 0) {
            ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
-o 'to->src'
-           return __cu_len_r;
-           ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0
-           if (unlikely(res))
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/ioctl.c:365:6: note: 'status' is >=3D 0
+           if (status >=3D 0) {
                ^
-   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/ioctl.c:365:2: note: '?' condition is true
+           if (status >=3D 0) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/ioctl.c:365:2: note: Taking true branch
+           if (status >=3D 0) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/ioctl.c:366:7: note: Assigned value is garbage or unde=
+fined
+                   if (put_user(result, &ucmd->result))
+                       ^
+   arch/x86/include/asm/uaccess.h:225:44: note: expanded from macro 'put_us=
+er'
+   #define put_user(x, ptr) ({ might_fault(); do_put_user_call(put_user,x,p=
+tr); })
+                                              ^
+   arch/x86/include/asm/uaccess.h:197:11: note: expanded from macro 'do_put=
+_user_call'
+           __val_pu =3D (x);                                               =
   \
-                                                       ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
+                    ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/ioctl.c:390:2: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&c, 0, sizeof(c));
            ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->s=
-rc'
-           return res;
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/nvme/host/ioctl.c:390:2: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+           memset(&c, 0, sizeof(c));
            ^
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->s=
-rc'
-           return n;
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+>> drivers/nvme/host/ioctl.c:693:2: warning: Undefined or garbage value ret=
+urned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/nvme/host/ioctl.c:688:2: note: 'ret' declared without an initial=
+ value
+           int ret;
+           ^~~~~~~
+   drivers/nvme/host/ioctl.c:690:2: note: Assuming 'ns' is null
+           if (ns)
            ^
-   drivers/rpmsg/rpmsg_ctrl.c:83:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rpmsg/rpmsg_ctrl.c:83:2: note: Taking false branch
-           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/ioctl.c:690:2: note: '?' condition is false
+           if (ns)
            ^
-   drivers/rpmsg/rpmsg_ctrl.c:88:13: note: Assigned value is garbage or und=
-efined
-           chinfo.src =3D eptinfo.src;
-                      ^ ~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/ioctl.c:690:6: note: 'ns' is null
+           if (ns)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/ioctl.c:690:2: note: '?' condition is false
+           if (ns)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/ioctl.c:690:2: note: Taking false branch
+           if (ns)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/ioctl.c:693:2: note: Undefined or garbage value return=
+ed to caller
+           return ret;
+           ^      ~~~
+   Suppressed 45 warnings (44 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   kernel/trace/trace.c:361:2: warning: Access to field 'next' results in a=
- dereference of a null pointer [clang-analyzer-core.NullDereference]
-           rcu_assign_pointer(*p, (*p)->next);
+   105 warnings generated.
+   net/ipv4/fib_trie.c:215:14: warning: The result of the left shift is und=
+efined due to shifting by '32', which is greater or equal to the width of t=
+ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return (1ul << tn->bits) & ~(1ul);
+                       ^
+   net/ipv4/fib_trie.c:852:26: note: Assuming the condition is false
+           struct key_vector *tp =3D node_parent(tn);
+                                   ^
+   net/ipv4/fib_trie.c:194:25: note: expanded from macro 'node_parent'
+   #define node_parent(tn) rtnl_dereference(tn_info(tn)->parent)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
+nce'
+           rcu_dereference_protected(p, lockdep_rtnl_is_held())
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:594:2: note: expanded from macro 'rcu_dereferen=
+ce_protected'
+           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/rcupdate.h:319:8: note: expanded from macro 'RCU_LOCKDEP_W=
+ARN'
+                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
+                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/ipv4/fib_trie.c:852:26: note: Left side of '&&' is false
+           struct key_vector *tp =3D node_parent(tn);
+                                   ^
+   net/ipv4/fib_trie.c:194:25: note: expanded from macro 'node_parent'
+   #define node_parent(tn) rtnl_dereference(tn_info(tn)->parent)
+                           ^
+   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
+nce'
+           rcu_dereference_protected(p, lockdep_rtnl_is_held())
            ^
-   include/linux/rcupdate.h:449:35: note: expanded from macro 'rcu_assign_p=
-ointer'
-           uintptr_t _r_a_p__v =3D (uintptr_t)(v);                         =
-        \
-                                            ^
-   kernel/trace/trace.c:404:2: note: Value assigned to 'ftrace_exports_list'
-           mutex_lock(&ftrace_export_lock);
+   include/linux/rcupdate.h:594:2: note: expanded from macro 'rcu_dereferen=
+ce_protected'
+           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:398:2: note: expanded from macro '__rcu_derefer=
+ence_protected'
 
-vim +88 drivers/rpmsg/rpmsg_ctrl.c
+vim +693 drivers/nvme/host/ioctl.c
 
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  71  =
+86116c2f6fee81 Kanchan Joshi     2022-05-05  680  =
 
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  72  static long rpmsg_ctrldev_=
-ioctl(struct file *fp, unsigned int cmd,
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  73  				unsigned long arg)
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  74  {
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  75  	struct rpmsg_ctrldev *ctr=
-ldev =3D fp->private_data;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  76  	void __user *argp =3D (vo=
-id __user *)arg;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  77  	struct rpmsg_endpoint_inf=
-o eptinfo;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  78  	struct rpmsg_channel_info=
- chinfo;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  79  =
+86116c2f6fee81 Kanchan Joshi     2022-05-05  681  int nvme_ns_head_chr_urin=
+g_cmd(struct io_uring_cmd *ioucmd,
+86116c2f6fee81 Kanchan Joshi     2022-05-05  682  		unsigned int issue_flag=
+s)
+86116c2f6fee81 Kanchan Joshi     2022-05-05  683  {
+86116c2f6fee81 Kanchan Joshi     2022-05-05  684  	struct cdev *cdev =3D fi=
+le_inode(ioucmd->file)->i_cdev;
+86116c2f6fee81 Kanchan Joshi     2022-05-05  685  	struct nvme_ns_head *hea=
+d =3D container_of(cdev, struct nvme_ns_head, cdev);
+86116c2f6fee81 Kanchan Joshi     2022-05-05  686  	int srcu_idx =3D srcu_re=
+ad_lock(&head->srcu);
+86116c2f6fee81 Kanchan Joshi     2022-05-05  687  	struct nvme_ns *ns =3D n=
+vme_find_path(head);
+86116c2f6fee81 Kanchan Joshi     2022-05-05  688  	int ret;
+86116c2f6fee81 Kanchan Joshi     2022-05-05  689  =
 
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  80  	if (cmd !=3D RPMSG_CREATE=
-_EPT_IOCTL)
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  81  		return -EINVAL;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  82  =
-
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  83  	if (copy_from_user(&eptin=
-fo, argp, sizeof(eptinfo)))
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  84  		return -EFAULT;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  85  =
-
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  86  	memcpy(chinfo.name, eptin=
-fo.name, RPMSG_NAME_SIZE);
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  87  	chinfo.name[RPMSG_NAME_SI=
-ZE - 1] =3D '\0';
-617d32938d1be0d Arnaud Pouliquen 2022-01-24 @88  	chinfo.src =3D eptinfo.sr=
-c;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  89  	chinfo.dst =3D eptinfo.ds=
-t;
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  90  =
-
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  91  	return rpmsg_chrdev_eptde=
-v_create(ctrldev->rpdev, &ctrldev->dev, chinfo);
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  92  };
-617d32938d1be0d Arnaud Pouliquen 2022-01-24  93  =
+86116c2f6fee81 Kanchan Joshi     2022-05-05  690  	if (ns)
+86116c2f6fee81 Kanchan Joshi     2022-05-05  691  		ret =3D nvme_ns_uring_c=
+md(ns, ioucmd, issue_flags);
+86116c2f6fee81 Kanchan Joshi     2022-05-05  692  	srcu_read_unlock(&head->=
+srcu, srcu_idx);
+86116c2f6fee81 Kanchan Joshi     2022-05-05 @693  	return ret;
+86116c2f6fee81 Kanchan Joshi     2022-05-05  694  }
+2405252a680e21 Christoph Hellwig 2021-04-10  695  #endif /* CONFIG_NVME_MUL=
+TIPATH */
+2405252a680e21 Christoph Hellwig 2021-04-10  696  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0752930636179720207==--
+--===============9014705652725928599==--
 
