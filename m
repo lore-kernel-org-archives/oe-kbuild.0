@@ -1,343 +1,169 @@
-Content-Type: multipart/mixed; boundary="===============7156656023790769487=="
+Content-Type: multipart/mixed; boundary="===============1070730450693412001=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/5] io_uring: let fast poll support multishot
-Date: Sun, 08 May 2022 17:48:10 +0800
-Message-ID: <202205081710.JNZmSYT9-lkp@intel.com>
+Subject: [dgc-xfs:xfs-5.19-compose 38/43] fs/xfs/libxfs/xfs_attr.c:1262 xfs_attr_node_try_addname() warn: variable dereferenced before check 'state' (see line 1230)
+Date: Sun, 08 May 2022 17:37:55 +0800
+Message-ID: <202205081740.gyhNiMHp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7156656023790769487==
+--===============1070730450693412001==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220506070102.26032-4-haoxu.linux@gmail.com>
-References: <20220506070102.26032-4-haoxu.linux@gmail.com>
-TO: Hao Xu <haoxu.linux@gmail.com>
+TO: Dave Chinner <david@fromorbit.com>
 
-Hi Hao,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on f2e030dd7aaea5a937a2547dc980fab418fbc5e7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Xu/fast-poll-mul=
-tishot-mode/20220506-150750
-base:   f2e030dd7aaea5a937a2547dc980fab418fbc5e7
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git x=
+fs-5.19-compose
+head:   d8fa98c66946d5b1e01531cf7cb50151817f6894
+commit: 138c77e4e08cf844f8a2bc4ad6f06add05f77eb5 [38/43] xfs: xfs_attr_set_=
+iter() does not need to return EAGAIN
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20508/202205081710.JNZmSYT9-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
-b787698440a387750db7f8028e7cb14cfc)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6001c3e95550875d432=
-8aa2ca8b342c42b0e644e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hao-Xu/fast-poll-multishot-mode/20=
-220506-150750
-        git checkout 6001c3e95550875d4328aa2ca8b342c42b0e644e
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
+archive/20220508/202205081740.gyhNiMHp-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/xfs/libxfs/xfs_attr.c:1262 xfs_attr_node_try_addname() warn: variable de=
+referenced before check 'state' (see line 1230)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/acpica/nsinit.c:168:4: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-                           memset(info.evaluate_info, 0,
-                           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/acpica/nsinit.c:639:3: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(info, 0, sizeof(struct acpi_evaluate_info));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/acpica/nsinit.c:639:3: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-                   memset(info, 0, sizeof(struct acpi_evaluate_info));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   fs/aio.c:702:4: warning: Call to function 'memcpy' is insecure as it doe=
-s not provide security checks introduced in the C11 standard. Replace with =
-analogous functions that support length arguments or provides boundary chec=
-ks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.D=
-eprecatedOrUnsafeBufferHandling]
-                           memcpy(table->table, old->table,
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/aio.c:702:4: note: Call to function 'memcpy' is insecure as it does n=
-ot provide security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'memcpy_s' in case of C11
-                           memcpy(table->table, old->table,
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 46 warnings (46 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   100 warnings generated.
-   fs/io_uring.c:362:8: warning: Excessive padding in 'struct io_ring_ctx' =
-(220 padding bytes, where 92 is optimal). =
+Old smatch warnings:
+fs/xfs/libxfs/xfs_attr.c:1303 xfs_attr_node_remove_attr() warn: variable de=
+referenced before check 'state' (see line 1285)
 
-   Optimal fields order: =
+vim +/state +1262 fs/xfs/libxfs/xfs_attr.c
 
-   , =
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1211  =
 
-   , =
-
-   , =
-
-   , =
-
-   sq_creds, =
-
-   sq_data, =
-
-   check_cq, =
-
-   locked_free_list, =
-
-   sqd_list, =
-
-   restrictions, =
-
-   sqo_sq_wait, =
-
-   , =
-
-   , =
-
-   locked_free_nr, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct io_ring_ctx {
-   ~~~~~~~^~~~~~~~~~~~~
-   fs/io_uring.c:362:8: note: Excessive padding in 'struct io_ring_ctx' (22=
-0 padding bytes, where 92 is optimal). Optimal fields order: , , , , sq_cre=
-ds, sq_data, check_cq, locked_free_list, sqd_list, restrictions, sqo_sq_wai=
-t, , , locked_free_nr, consider reordering the fields or adding explicit pa=
-dding members
-   struct io_ring_ctx {
-   ~~~~~~~^~~~~~~~~~~~~
->> fs/io_uring.c:1313:7: warning: Dereference of null pointer (loaded from =
-variable 'locked') [clang-analyzer-core.NullDereference]
-           if (!*locked) {
-                ^
-   fs/io_uring.c:6047:34: note: Passing value via 2nd parameter 'locked'
-           ret =3D io_poll_check_events(req, locked);
-                                           ^~~~~~
-   fs/io_uring.c:6047:8: note: Calling 'io_poll_check_events'
-           ret =3D io_poll_check_events(req, locked);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:5961:6: note: Assuming the condition is true
-           if (unlikely(req->task->flags & PF_EXITING))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/io_uring.c:5961:2: note: Taking false branch
-           if (unlikely(req->task->flags & PF_EXITING))
-           ^
-   fs/io_uring.c:5968:20: note: Assuming the condition is false
-                   if (WARN_ON_ONCE(!(v & IO_POLL_REF_MASK)))
-                                    ^
-   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_on =3D !!(condition);                      \
-                                  ^~~~~~~~~
-   fs/io_uring.c:5968:7: note: Taking false branch
-                   if (WARN_ON_ONCE(!(v & IO_POLL_REF_MASK)))
-                       ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   fs/io_uring.c:5968:3: note: Taking false branch
-                   if (WARN_ON_ONCE(!(v & IO_POLL_REF_MASK)))
-                   ^
-   fs/io_uring.c:5970:7: note: Assuming the condition is false
-                   if (v & IO_POLL_CANCEL_FLAG)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:5970:3: note: Taking false branch
-                   if (v & IO_POLL_CANCEL_FLAG)
-                   ^
-   fs/io_uring.c:5973:7: note: Assuming field 'res' is 0
-                   if (!req->cqe.res) {
-                       ^~~~~~~~~~~~~
-   fs/io_uring.c:5973:3: note: Taking true branch
-                   if (!req->cqe.res) {
-                   ^
-   fs/io_uring.c:5975:21: note: Assuming 'locked' is null
-                           unsigned flags =3D locked ? 0 : IO_URING_F_UNLOC=
-KED;
-                                            ^~~~~~
-   fs/io_uring.c:5975:21: note: '?' condition is false
-   fs/io_uring.c:5977:18: note: Calling 'io_assign_file'
-                           if (unlikely(!io_assign_file(req, flags)))
-                                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/io_uring.c:7324:6: note: Assuming field 'file' is non-null
-           if (req->file || !io_op_defs[req->opcode].needs_file)
-               ^~~~~~~~~
-   fs/io_uring.c:7324:16: note: Left side of '||' is true
-           if (req->file || !io_op_defs[req->opcode].needs_file)
-                         ^
-   fs/io_uring.c:7325:3: note: Returning without writing to 'req->cqe.res',=
- which participates in a condition later
-                   return true;
-                   ^
-   fs/io_uring.c:5977:18: note: Returning from 'io_assign_file'
-                           if (unlikely(!io_assign_file(req, flags)))
-                                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/io_uring.c:5977:4: note: Taking false branch
-                           if (unlikely(!io_assign_file(req, flags)))
-                           ^
-   fs/io_uring.c:5983:7: note: Assuming field 'res' is not equal to 0
-                   if (req->cqe.res && !(req->apoll_events & EPOLLONESHOT))=
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1212 =
+ /*
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1213 =
+  * Add a name to a Btree-format attribute list.
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1214 =
+  *
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1215 =
+  * This will involve walking down the Btree, and may involve splitting
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1216 =
+  * leaf nodes and even splitting intermediate nodes up to and including
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1217 =
+  * the root node (a special case of an intermediate node).
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1218 =
+  */
+ef36bf49a4fc8e fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1219 =
+ static int
+ef36bf49a4fc8e fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1220 =
+ xfs_attr_node_try_addname(
+2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1221 =
+ 	struct xfs_attr_item		*attr)
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1222 =
  {
-                       ^~~~~~~~~~~~
-   fs/io_uring.c:5983:7: note: Left side of '&&' is true
-   fs/io_uring.c:5983:23: note: Assuming the condition is true
-                   if (req->cqe.res && !(req->apoll_events & EPOLLONESHOT))=
- {
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:5983:3: note: Taking true branch
-                   if (req->cqe.res && !(req->apoll_events & EPOLLONESHOT))=
- {
-                   ^
-   fs/io_uring.c:5984:8: note: Assuming the condition is true
-                           if (req->flags & REQ_F_APOLL_MULTISHOT) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:5984:4: note: Taking true branch
-                           if (req->flags & REQ_F_APOLL_MULTISHOT) {
-                           ^
-   fs/io_uring.c:5985:26: note: Passing null pointer value via 2nd paramete=
-r 'locked'
-                                   io_tw_lock(req->ctx, locked);
-                                                        ^~~~~~
-   fs/io_uring.c:5985:5: note: Calling 'io_tw_lock'
-                                   io_tw_lock(req->ctx, locked);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:1313:7: note: Dereference of null pointer (loaded from var=
-iable 'locked')
-           if (!*locked) {
-                ^~~~~~~
-   fs/io_uring.c:1353:7: warning: Dereference of null pointer [clang-analyz=
-er-core.NullDereference]
-           if (!wq_list_empty(&ctx->submit_state.compl_reqs))
-                ^
+2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1223 =
+ 	struct xfs_da_args		*args =3D attr->xattri_da_args;
+2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1224 =
+ 	struct xfs_da_state		*state =3D attr->xattri_da_state;
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1225 =
+ 	struct xfs_da_state_blk		*blk;
+5d954cc09f6bae fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-26  1226 =
+ 	int				error;
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1227  =
 
-vim +/locked +1313 fs/io_uring.c
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1228 =
+ 	trace_xfs_attr_node_addname(args);
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1229  =
 
-f8929630514505 Pavel Begunkov 2022-03-25  1310  =
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12 @1230 =
+ 	blk =3D &state->path.blk[state->path.active-1];
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1231 =
+ 	ASSERT(blk->magic =3D=3D XFS_ATTR_LEAF_MAGIC);
+6ca5a4a1f52952 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-12  1232  =
 
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1311  static inline void io_tw_lo=
-ck(struct io_ring_ctx *ctx, bool *locked)
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1312  {
-f237c30a5610d3 Pavel Begunkov 2021-08-18 @1313  	if (!*locked) {
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1314  		mutex_lock(&ctx->uring_lo=
-ck);
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1315  		*locked =3D true;
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1316  	}
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1317  }
-f237c30a5610d3 Pavel Begunkov 2021-08-18  1318  =
+5d954cc09f6bae fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-26  1233 =
+ 	error =3D xfs_attr3_leaf_add(blk->bp, state->args);
+5d954cc09f6bae fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-04-26  1234 =
+ 	if (error =3D=3D -ENOSPC) {
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1235 =
+ 		if (state->path.active =3D=3D 1) {
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1236 =
+ 			/*
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1237 =
+ 			 * Its really a single leaf node, but it had
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1238 =
+ 			 * out-of-line values so it looked like it *might*
+138c77e4e08cf8 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1239 =
+ 			 * have been a b-tree. Let the caller deal with this.
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1240 =
+ 			 */
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1241 =
+ 			xfs_da_state_free(state);
+138c77e4e08cf8 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1242 =
+ 			return -ENOSPC;
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1243 =
+ 		}
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1244  =
 
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1245 =
+ 		/*
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1246 =
+ 		 * Split as many Btree elements as required.
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1247 =
+ 		 * This code tracks the new and old attr's location
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1248 =
+ 		 * in the index/blkno/rmtblkno/rmtblkcnt fields and
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1249 =
+ 		 * in the index2/blkno2/rmtblkno2/rmtblkcnt2 fields.
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1250 =
+ 		 */
+f5ea110044fa85 fs/xfs/xfs_attr.c        Dave Chinner      2013-04-24  1251 =
+ 		error =3D xfs_da3_split(state);
+8ad7c629b18695 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2017-08-28  1252 =
+ 		if (error)
+d5a2e2893da0d6 fs/xfs/libxfs/xfs_attr.c Brian Foster      2018-09-29  1253 =
+ 			goto out;
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1254 =
+ 	} else {
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1255 =
+ 		/*
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1256 =
+ 		 * Addition succeeded, update Btree hashvals.
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1257 =
+ 		 */
+f5ea110044fa85 fs/xfs/xfs_attr.c        Dave Chinner      2013-04-24  1258 =
+ 		xfs_da3_fixhashpath(state, &state->path);
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1259 =
+ 	}
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1260  =
+
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1261 =
+ out:
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18 @1262 =
+ 	if (state)
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1263 =
+ 		xfs_da_state_free(state);
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1264 =
+ 	return error;
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1265 =
+ }
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1266  =
+
+
+:::::: The code at line 1262 was first introduced by commit
+:::::: f0f7c502c728d0c6947219739631bad101f8737b xfs: Separate xfs_attr_node=
+_addname and xfs_attr_node_addname_clear_incomplete
+
+:::::: TO: Allison Henderson <allison.henderson@oracle.com>
+:::::: CC: Allison Henderson <allison.henderson@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7156656023790769487==--
+--===============1070730450693412001==--
 
