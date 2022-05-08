@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1018117635835731999=="
+Content-Type: multipart/mixed; boundary="===============3428974419095638739=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/qcom/sc7180.c:163 sc7180_snd_startup() error: uninitialized symbol 'pll_id'.
-Date: Sun, 08 May 2022 22:34:13 +0800
-Message-ID: <202205082224.48VUvLc2-lkp@intel.com>
+Subject: drivers/gpu/drm/tegra/gem.c:153 tegra_bo_pin() error: 'map->sgt' dereferencing possible ERR_PTR()
+Date: Sun, 08 May 2022 22:34:12 +0800
+Message-ID: <202205082248.gR1POGgm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1018117635835731999==
+--===============3428974419095638739==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,138 +15,257 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Thierry Reding <treding@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   30c8e80f79329617012f07b09b70114592092ea4
-commit: 425c5fce8a03c9da70a4c763cd7db22fbb422dcf ASoC: qcom: Add support fo=
-r ALC5682I-VS codec
+commit: c6aeaf56f468a565f6d2f27325fc07d35cdcd3cb drm/tegra: Implement corre=
+ct DMA-BUF semantics
 date:   5 months ago
-:::::: branch date: 21 hours ago
+:::::: branch date: 20 hours ago
 :::::: commit date: 5 months ago
-config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
-archive/20220508/202205082224.48VUvLc2-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+config: arm-randconfig-m031-20220427 (https://download.01.org/0day-ci/archi=
+ve/20220508/202205082248.gR1POGgm-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-sound/soc/qcom/sc7180.c:163 sc7180_snd_startup() error: uninitialized symbo=
-l 'pll_id'.
-sound/soc/qcom/sc7180.c:163 sc7180_snd_startup() error: uninitialized symbo=
-l 'pll_source'.
-sound/soc/qcom/sc7180.c:164 sc7180_snd_startup() error: uninitialized symbo=
-l 'pll_in'.
-sound/soc/qcom/sc7180.c:164 sc7180_snd_startup() error: uninitialized symbo=
-l 'pll_out'.
-sound/soc/qcom/sc7180.c:171 sc7180_snd_startup() error: uninitialized symbo=
-l 'clk_id'.
+drivers/gpu/drm/tegra/gem.c:153 tegra_bo_pin() error: 'map->sgt' dereferenc=
+ing possible ERR_PTR()
 
-vim +/pll_id +163 sound/soc/qcom/sc7180.c
+vim +153 drivers/gpu/drm/tegra/gem.c
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  124  =
+de2ba664c30fcd drivers/gpu/host1x/drm/gem.c Arto Merilainen 2013-03-22   57=
+  =
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  125  static int sc7180_snd_startup(s=
-truct snd_pcm_substream *substream)
-9e3ecb5b16818a Ajit Pandey 2020-10-27  126  {
-9e3ecb5b16818a Ajit Pandey 2020-10-27  127  	struct snd_soc_pcm_runtime *rt=
-d =3D substream->private_data;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  128  	struct snd_soc_card *card =3D =
-rtd->card;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  129  	struct sc7180_snd_data *data =
-=3D snd_soc_card_get_drvdata(card);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  130  	struct snd_soc_dai *cpu_dai =
-=3D asoc_rtd_to_cpu(rtd, 0);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  131  	struct snd_soc_dai *codec_dai =
-=3D asoc_rtd_to_codec(rtd, 0);
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  132  	int pll_id, pll_source, pll_in=
-, pll_out, clk_id, ret;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  133  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   58=
+  static struct host1x_bo_mapping *tegra_bo_pin(struct device *dev, struct =
+host1x_bo *bo,
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   59=
+  					      enum dma_data_direction direction)
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   60=
+  {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   61=
+  	struct tegra_bo *obj =3D host1x_to_tegra_bo(bo);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   62=
+  	struct drm_gem_object *gem =3D &obj->gem;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   63=
+  	struct host1x_bo_mapping *map;
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   64=
+  	int err;
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   65=
+  =
 
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  134  	if (!(strcmp(card->name, "sc71=
-80-rt5682-max98357a-1mic"))) {
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  135  		pll_source =3D RT5682_PLL1_S_=
-MCLK;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  136  		pll_id =3D 0;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  137  		clk_id =3D RT5682_SCLK_S_PLL1;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  138  		pll_out =3D RT5682_PLL1_FREQ;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  139  		pll_in =3D DEFAULT_MCLK_RATE;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  140  	} else if (!(strcmp(card->name=
-, "sc7180-rt5682s-max98357a-1mic"))) {
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  141  		pll_source =3D RT5682S_PLL_S_=
-MCLK;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  142  		pll_id =3D RT5682S_PLL2;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  143  		clk_id =3D RT5682S_SCLK_S_PLL=
-2;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  144  		pll_out =3D RT5682_PLL1_FREQ;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  145  		pll_in =3D DEFAULT_MCLK_RATE;
-425c5fce8a03c9 lvzhaoxiong 2021-11-23  146  	}
-9e3ecb5b16818a Ajit Pandey 2020-10-27  147  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   66=
+  	map =3D kzalloc(sizeof(*map), GFP_KERNEL);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   67=
+  	if (!map)
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   68=
+  		return ERR_PTR(-ENOMEM);
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   69=
+  =
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  148  	switch (cpu_dai->id) {
-9e3ecb5b16818a Ajit Pandey 2020-10-27  149  	case MI2S_PRIMARY:
-9e3ecb5b16818a Ajit Pandey 2020-10-27  150  		if (++data->pri_mi2s_clk_coun=
-t =3D=3D 1) {
-9e3ecb5b16818a Ajit Pandey 2020-10-27  151  			snd_soc_dai_set_sysclk(cpu_d=
-ai,
-9e3ecb5b16818a Ajit Pandey 2020-10-27  152  					       LPASS_MCLK0,
-9e3ecb5b16818a Ajit Pandey 2020-10-27  153  					       DEFAULT_MCLK_RATE,
-9e3ecb5b16818a Ajit Pandey 2020-10-27  154  					       SNDRV_PCM_STREAM_PL=
-AYBACK);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  155  		}
-9e3ecb5b16818a Ajit Pandey 2020-10-27  156  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   70=
+  	map->bo =3D host1x_bo_get(bo);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   71=
+  	map->direction =3D direction;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   72=
+  	map->dev =3D dev;
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   73=
+  =
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  157  		snd_soc_dai_set_fmt(codec_dai,
-9e3ecb5b16818a Ajit Pandey 2020-10-27  158  				    SND_SOC_DAIFMT_CBS_CFS |
-9e3ecb5b16818a Ajit Pandey 2020-10-27  159  				    SND_SOC_DAIFMT_NB_NF |
-9e3ecb5b16818a Ajit Pandey 2020-10-27  160  				    SND_SOC_DAIFMT_I2S);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  161  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   74=
+  	/*
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   75=
+  	 * Imported buffers need special treatment to satisfy the semantics of D=
+MA-BUF.
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   76=
+  	 */
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   77=
+  	if (gem->import_attach) {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   78=
+  		struct dma_buf *buf =3D gem->import_attach->dmabuf;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   79=
+  =
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  162  		/* Configure PLL1 for codec */
-425c5fce8a03c9 lvzhaoxiong 2021-11-23 @163  		ret =3D snd_soc_dai_set_pll(c=
-odec_dai, pll_id, pll_source,
-425c5fce8a03c9 lvzhaoxiong 2021-11-23 @164  					  pll_in, pll_out);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  165  		if (ret) {
-9e3ecb5b16818a Ajit Pandey 2020-10-27  166  			dev_err(rtd->dev, "can't set=
- codec pll: %d\n", ret);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  167  			return ret;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  168  		}
-9e3ecb5b16818a Ajit Pandey 2020-10-27  169  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   80=
+  		map->attach =3D dma_buf_attach(buf, dev);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   81=
+  		if (IS_ERR(map->attach)) {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   82=
+  			err =3D PTR_ERR(map->attach);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   83=
+  			goto free;
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   84=
+  		}
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   85=
+  =
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  170  		/* Configure sysclk for codec=
- */
-425c5fce8a03c9 lvzhaoxiong 2021-11-23 @171  		ret =3D snd_soc_dai_set_syscl=
-k(codec_dai, clk_id, pll_out,
-9e3ecb5b16818a Ajit Pandey 2020-10-27  172  					     SND_SOC_CLOCK_IN);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  173  		if (ret)
-9e3ecb5b16818a Ajit Pandey 2020-10-27  174  			dev_err(rtd->dev, "snd_soc_d=
-ai_set_sysclk err =3D %d\n",
-9e3ecb5b16818a Ajit Pandey 2020-10-27  175  				ret);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  176  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   86=
+  		map->sgt =3D dma_buf_map_attachment(map->attach, direction);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   87=
+  		if (IS_ERR(map->sgt)) {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   88=
+  			dma_buf_detach(buf, map->attach);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   89=
+  			err =3D PTR_ERR(map->sgt);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   90=
+  			goto free;
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   91=
+  		}
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03   92=
+  =
 
-9e3ecb5b16818a Ajit Pandey 2020-10-27  177  		break;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  178  	case MI2S_SECONDARY:
-9e3ecb5b16818a Ajit Pandey 2020-10-27  179  		break;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  180  	case LPASS_DP_RX:
-9e3ecb5b16818a Ajit Pandey 2020-10-27  181  		break;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  182  	default:
-9e3ecb5b16818a Ajit Pandey 2020-10-27  183  		dev_err(rtd->dev, "%s: invali=
-d dai id 0x%x\n", __func__,
-9e3ecb5b16818a Ajit Pandey 2020-10-27  184  			cpu_dai->id);
-9e3ecb5b16818a Ajit Pandey 2020-10-27  185  		return -EINVAL;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  186  	}
-9e3ecb5b16818a Ajit Pandey 2020-10-27  187  	return 0;
-9e3ecb5b16818a Ajit Pandey 2020-10-27  188  }
-9e3ecb5b16818a Ajit Pandey 2020-10-27  189  =
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   93=
+  		err =3D sgt_dma_count_chunks(map->sgt);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   94=
+  		map->size =3D gem->size;
+de2ba664c30fcd drivers/gpu/host1x/drm/gem.c Arto Merilainen 2013-03-22   95=
+  =
+
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09   96=
+  		goto out;
+af1cbfb9bf0fe0 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28   97=
+  	}
+585ee0f27ef7b8 drivers/gpu/drm/tegra/gem.c  Mikko Perttunen 2016-11-08   98=
+  =
+
+af1cbfb9bf0fe0 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28   99=
+  	/*
+af1cbfb9bf0fe0 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  100=
+  	 * If we don't have a mapping for this buffer yet, return an SG table
+af1cbfb9bf0fe0 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  101=
+  	 * so that host1x can do the mapping for us via the DMA API.
+af1cbfb9bf0fe0 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  102=
+  	 */
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  103=
+  	map->sgt =3D kzalloc(sizeof(*map->sgt), GFP_KERNEL);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  104=
+  	if (!map->sgt) {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  105=
+  		err =3D -ENOMEM;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  106=
+  		goto free;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  107=
+  	}
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  108=
+  =
+
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  109=
+  	if (obj->pages) {
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  110=
+  		/*
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  111=
+  		 * If the buffer object was allocated from the explicit IOMMU
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  112=
+  		 * API code paths, construct an SG table from the pages.
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  113=
+  		 */
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  114=
+  		err =3D sg_alloc_table_from_pages(map->sgt, obj->pages, obj->num_pages,=
+ 0, gem->size,
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  115=
+  						GFP_KERNEL);
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  116=
+  		if (err < 0)
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  117=
+  			goto free;
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  118=
+  	} else {
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  119=
+  		/*
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  120=
+  		 * If the buffer object had no pages allocated and if it was
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  121=
+  		 * not imported, it had to be allocated with the DMA API, so
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  122=
+  		 * the DMA API helper can be used.
+1f16deac766926 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-12-03  123=
+  		 */
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  124=
+  		err =3D dma_get_sgtable(dev, map->sgt, obj->vaddr, obj->iova, gem->size=
+);
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  125=
+  		if (err < 0)
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  126=
+  			goto free;
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  127=
+  	}
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  128=
+  =
+
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  129=
+  	err =3D dma_map_sgtable(dev, map->sgt, direction, 0);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  130=
+  	if (err)
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  131=
+  		goto free_sgt;
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  132=
+  =
+
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  133=
+  out:
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  134=
+  	/*
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  135=
+  	 * If we've manually mapped the buffer object through the IOMMU, make su=
+re to return the
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  136=
+  	 * existing IOVA address of our mapping.
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  137=
+  	 */
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  138=
+  	if (!obj->mm) {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  139=
+  		map->phys =3D sg_dma_address(map->sgt->sgl);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  140=
+  		map->chunks =3D err;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  141=
+  	} else {
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  142=
+  		map->phys =3D obj->iova;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  143=
+  		map->chunks =3D 1;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  144=
+  	}
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  145=
+  =
+
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  146=
+  	map->size =3D gem->size;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  147=
+  =
+
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  148=
+  	return map;
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  149=
+  =
+
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  150=
+  free_sgt:
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  151=
+  	sg_free_table(map->sgt);
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  152=
+  free:
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09 @153=
+  	kfree(map->sgt);
+c6aeaf56f468a5 drivers/gpu/drm/tegra/gem.c  Thierry Reding  2021-09-09  154=
+  	kfree(map);
+80327ce3d4edaa drivers/gpu/drm/tegra/gem.c  Thierry Reding  2019-10-28  155=
+  	return ERR_PTR(err);
+de2ba664c30fcd drivers/gpu/host1x/drm/gem.c Arto Merilainen 2013-03-22  156=
+  }
+de2ba664c30fcd drivers/gpu/host1x/drm/gem.c Arto Merilainen 2013-03-22  157=
+  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1018117635835731999==--
+--===============3428974419095638739==--
 
