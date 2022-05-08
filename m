@@ -1,354 +1,899 @@
-Content-Type: multipart/mixed; boundary="===============5044204038847194862=="
+Content-Type: multipart/mixed; boundary="===============5317056170578554057=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/mempolicy.c:1415:6: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 08 May 2022 11:33:17 +0800
-Message-ID: <202205081115.zPg3YfWR-lkp@intel.com>
+Subject: drivers/clk/ux500/u8500_of_clk.c:548 u8500_clk_init() warn: possible memory leak of 'rstc'
+Date: Sun, 08 May 2022 10:42:38 +0800
+Message-ID: <202205081001.wwUGeBwJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5044204038847194862==
+--===============5317056170578554057==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Linus Walleij <linus.walleij@linaro.org>
+CC: Stephen Boyd <sboyd@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   30c8e80f79329617012f07b09b70114592092ea4
-commit: e130242dc351f1cfa2bbeb6766a1486ce936ef88 mm: simplify compat numa s=
-yscalls
-date:   8 months ago
+commit: b14cbdfd467d1e505ad8e03f94e18b3cffc37043 clk: ux500: Add driver for=
+ the reset portions of PRCC
+date:   6 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 8 months ago
-config: riscv-randconfig-c006-20220507 (https://download.01.org/0day-ci/arc=
-hive/20220508/202205081115.zPg3YfWR-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af4cf1=
-c6b8ed0d8102fc5e69acdc2fcbbcdaa9a7)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De130242dc351f1cfa2bbeb6766a1486ce936ef88
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e130242dc351f1cfa2bbeb6766a1486ce936ef88
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+:::::: commit date: 6 months ago
+config: arm-randconfig-m031-20220427 (https://download.01.org/0day-ci/archi=
+ve/20220508/202205081001.wwUGeBwJ-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/clk/ux500/u8500_of_clk.c:548 u8500_clk_init() warn: possible memory=
+ leak of 'rstc'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   mm/swapfile.c:533:28: warning: Value stored to 'ci' during its initializ=
-ation is never read [clang-analyzer-deadcode.DeadStores]
-           struct swap_cluster_info *ci =3D si->cluster_info + idx;
-                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~
-   mm/swapfile.c:533:28: note: Value stored to 'ci' during its initializati=
-on is never read
-           struct swap_cluster_info *ci =3D si->cluster_info + idx;
-                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~
-   mm/swapfile.c:1322:2: warning: Value stored to 'count' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-           count =3D p->swap_map[offset];
-           ^       ~~~~~~~~~~~~~~~~~~~
-   mm/swapfile.c:1322:2: note: Value stored to 'count' is never read
-           count =3D p->swap_map[offset];
-           ^       ~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   mm/mempolicy.c:246:26: warning: Dereference of null pointer (loaded from=
- variable 'nodes') [clang-analyzer-core.NullDereference]
-                   pol->w.user_nodemask =3D *nodes;
-                                          ^
-   mm/mempolicy.c:2803:36: note: Passing null pointer value via 3rd paramet=
-er 'nodes'
-           do_set_mempolicy(MPOL_DEFAULT, 0, NULL);
-                                             ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                ^~~~~~~~~~~
-   mm/mempolicy.c:2803:2: note: Calling 'do_set_mempolicy'
-           do_set_mempolicy(MPOL_DEFAULT, 0, NULL);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:850:7: note: 'scratch' is non-null
-           if (!scratch)
-                ^~~~~~~
-   mm/mempolicy.c:850:2: note: Taking false branch
-           if (!scratch)
-           ^
-   mm/mempolicy.c:854:2: note: Taking false branch
-           if (IS_ERR(new)) {
-           ^
-   mm/mempolicy.c:859:2: note: Taking false branch
-           if (flags & MPOL_F_NUMA_BALANCING) {
-           ^
-   mm/mempolicy.c:869:31: note: Passing null pointer value via 2nd paramete=
-r 'nodes'
-           ret =3D mpol_set_nodemask(new, nodes, scratch);
-                                        ^~~~~
-   mm/mempolicy.c:869:8: note: Calling 'mpol_set_nodemask'
-           ret =3D mpol_set_nodemask(new, nodes, scratch);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:231:6: note: Assuming 'pol' is non-null
-           if (!pol || pol->mode =3D=3D MPOL_LOCAL)
-               ^~~~
-   mm/mempolicy.c:231:6: note: Left side of '||' is false
-   mm/mempolicy.c:231:14: note: Assuming field 'mode' is not equal to MPOL_=
-LOCAL
-           if (!pol || pol->mode =3D=3D MPOL_LOCAL)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:231:2: note: Taking false branch
-           if (!pol || pol->mode =3D=3D MPOL_LOCAL)
-           ^
-   mm/mempolicy.c:240:6: note: Assuming the condition is false
-           if (pol->flags & MPOL_F_RELATIVE_NODES)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:240:2: note: Taking false branch
-           if (pol->flags & MPOL_F_RELATIVE_NODES)
-           ^
-   mm/mempolicy.c:245:6: note: Assuming the condition is true
-           if (mpol_store_user_nodemask(pol))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:245:2: note: Taking true branch
-           if (mpol_store_user_nodemask(pol))
-           ^
-   mm/mempolicy.c:246:26: note: Dereference of null pointer (loaded from va=
-riable 'nodes')
-                   pol->w.user_nodemask =3D *nodes;
-                                          ^~~~~~
-   mm/mempolicy.c:1236:9: warning: 4th function call argument is an uniniti=
-alized value [clang-analyzer-core.CallAndMessage]
-           return alloc_page_vma(GFP_HIGHUSER_MOVABLE | __GFP_RETRY_MAYFAIL,
-                  ^
-   include/linux/gfp.h:606:2: note: expanded from macro 'alloc_page_vma'
-           alloc_pages_vma(gfp_mask, 0, vma, addr, numa_node_id(), false)
-           ^                                 ~~~~
-   mm/mempolicy.c:1210:2: note: 'address' declared without an initial value
-           unsigned long address;
-           ^~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:1213:2: note: Loop condition is false. Execution continue=
-s on line 1220
-           while (vma) {
-           ^
-   mm/mempolicy.c:1220:2: note: Taking false branch
-           if (PageHuge(page)) {
-           ^
-   mm/mempolicy.c:1223:9: note: Taking false branch
-           } else if (PageTransHuge(page)) {
-                  ^
-   mm/mempolicy.c:1236:9: note: 4th function call argument is an uninitiali=
-zed value
-           return alloc_page_vma(GFP_HIGHUSER_MOVABLE | __GFP_RETRY_MAYFAIL,
-                  ^
-   include/linux/gfp.h:606:2: note: expanded from macro 'alloc_page_vma'
-           alloc_pages_vma(gfp_mask, 0, vma, addr, numa_node_id(), false)
-           ^                                 ~~~~
->> mm/mempolicy.c:1415:6: warning: The left expression of the compound assi=
-gnment is an uninitialized value. The computed value will also be garbage [=
-clang-analyzer-core.uninitialized.Assign]
-                           t &=3D ~((1UL << (MAX_NUMNODES % BITS_PER_LONG))=
- - 1);
-                             ^
-   mm/mempolicy.c:1607:1: note: Calling '__do_sys_migrate_pages'
-   SYSCALL_DEFINE4(migrate_pages, pid_t, pid, unsigned long, maxnode,
-   ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFI=
-NE4'
-   #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:248:14: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
-_));\
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   mm/mempolicy.c:1611:9: note: Calling 'kernel_migrate_pages'
-           return kernel_migrate_pages(pid, maxnode, old_nodes, new_nodes);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:1531:7: note: 'scratch' is non-null
-           if (!scratch)
-                ^~~~~~~
-   mm/mempolicy.c:1531:2: note: Taking false branch
-           if (!scratch)
-           ^
-   mm/mempolicy.c:1537:8: note: Calling 'get_nodes'
-           err =3D get_nodes(old, old_nodes, maxnode);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:1394:6: note: Assuming 'maxnode' is not equal to 0
-           if (maxnode =3D=3D 0 || !nmask)
-               ^~~~~~~~~~~~
-   mm/mempolicy.c:1394:6: note: Left side of '||' is false
-   mm/mempolicy.c:1394:22: note: Assuming 'nmask' is non-null
-           if (maxnode =3D=3D 0 || !nmask)
-                               ^~~~~~
-   mm/mempolicy.c:1394:2: note: Taking false branch
-           if (maxnode =3D=3D 0 || !nmask)
-           ^
-   mm/mempolicy.c:1396:6: note: Assuming the condition is false
-           if (maxnode > PAGE_SIZE*BITS_PER_BYTE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:1396:2: note: Taking false branch
-           if (maxnode > PAGE_SIZE*BITS_PER_BYTE)
-           ^
-   mm/mempolicy.c:1404:9: note: Assuming the condition is true
-           while (maxnode > MAX_NUMNODES) {
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:1404:2: note: Loop condition is true.  Entering loop body
-           while (maxnode > MAX_NUMNODES) {
-           ^
-   mm/mempolicy.c:1405:24: note: Assuming '__UNIQUE_ID___x342' is < '__UNIQ=
-UE_ID___y343'
-                   unsigned long bits =3D min_t(unsigned long, maxnode, BIT=
-S_PER_LONG);
-                                        ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   mm/mempolicy.c:1405:24: note: '?' condition is true
-                   unsigned long bits =3D min_t(unsigned long, maxnode, BIT=
-S_PER_LONG);
-                                        ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   mm/mempolicy.c:1406:3: note: 't' declared without an initial value
-                   unsigned long t;
-                   ^~~~~~~~~~~~~~~
-   mm/mempolicy.c:1408:7: note: Calling 'get_bitmap'
-                   if (get_bitmap(&t, &nmask[maxnode / BITS_PER_LONG], bits=
-))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mempolicy.c:1371:2: note: Taking false branch
-           if (in_compat_syscall())
-           ^
-   mm/mempolicy.c:1376:9: note: Calling 'copy_from_user'
-                   ret =3D copy_from_user(mask, nmask,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:6: note: Assuming the condition is true
-           if (likely(check_copy_size(to, n, false)))
-               ^
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
+vim +/rstc +548 drivers/clk/ux500/u8500_of_clk.c
 
-vim +1415 mm/mempolicy.c
+b4bdc81b5b234be Lee Jones     2013-07-22   48  =
 
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1387  =
+269f1aac1410d27 Arnd Bergmann 2016-06-20   49  static void u8500_clk_init(s=
+truct device_node *np)
+82b0f4b7c576d22 Lee Jones     2013-09-17   50  {
+82b0f4b7c576d22 Lee Jones     2013-09-17   51  	struct prcmu_fw_version *fw=
+_version;
+dec759d8ef01b3e Lee Jones     2013-09-17   52  	struct device_node *child =
+=3D NULL;
+82b0f4b7c576d22 Lee Jones     2013-09-17   53  	const char *sgaclk_parent =
+=3D NULL;
+4e33466095e0455 Lee Jones     2013-09-17   54  	struct clk *clk, *rtc_clk, =
+*twd_clk;
+5dc0fe199b35896 Linus Walleij 2015-07-30   55  	u32 bases[CLKRST_MAX];
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   56  	struct u8500_prcc_reset *rs=
+tc;
+5dc0fe199b35896 Linus Walleij 2015-07-30   57  	int i;
+82b0f4b7c576d22 Lee Jones     2013-09-17   58  =
 
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1388  /* Copy a node mask from=
- user space. */
-39743889aaf767 Christoph Lameter 2006-01-08  1389  static int get_nodes(nod=
-emask_t *nodes, const unsigned long __user *nmask,
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1390  		     unsigned long max=
-node)
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1391  {
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1392  	--maxnode;
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1393  	nodes_clear(*nodes);
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1394  	if (maxnode =3D=3D 0 ||=
- !nmask)
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1395  		return 0;
-a9c930bac163c5 Andi Kleen        2006-02-20  1396  	if (maxnode > PAGE_SIZE=
-*BITS_PER_BYTE)
-636f13c174dd7c Chris Wright      2006-02-17  1397  		return -EINVAL;
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1398  =
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   59  	/*
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   60  	 * We allocate the reset co=
+ntroller here so that we can fill in the
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   61  	 * base addresses properly =
+and pass to the reset controller init
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   62  	 * function later on.
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   63  	 */
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   64  	rstc =3D kzalloc(sizeof(*rs=
+tc), GFP_KERNEL);
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   65  	if (!rstc)
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   66  		return;
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   67  =
 
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1399  	/*
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1400  	 * When the user specif=
-ied more nodes than supported just check
-e130242dc351f1 Arnd Bergmann     2021-09-08  1401  	 * if the non supported=
- part is all zero, one word at a time,
-e130242dc351f1 Arnd Bergmann     2021-09-08  1402  	 * starting at the end.
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1403  	 */
-e130242dc351f1 Arnd Bergmann     2021-09-08  1404  	while (maxnode > MAX_NU=
-MNODES) {
-e130242dc351f1 Arnd Bergmann     2021-09-08  1405  		unsigned long bits =3D=
- min_t(unsigned long, maxnode, BITS_PER_LONG);
-e130242dc351f1 Arnd Bergmann     2021-09-08  1406  		unsigned long t;
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1407  =
+5dc0fe199b35896 Linus Walleij 2015-07-30   68  	for (i =3D 0; i < ARRAY_SIZ=
+E(bases); i++) {
+5dc0fe199b35896 Linus Walleij 2015-07-30   69  		struct resource r;
+5dc0fe199b35896 Linus Walleij 2015-07-30   70  =
 
-e130242dc351f1 Arnd Bergmann     2021-09-08  1408  		if (get_bitmap(&t, &nm=
-ask[maxnode / BITS_PER_LONG], bits))
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1409  			return -EFAULT;
-e130242dc351f1 Arnd Bergmann     2021-09-08  1410  =
+5dc0fe199b35896 Linus Walleij 2015-07-30   71  		if (of_address_to_resource=
+(np, i, &r))
+5dc0fe199b35896 Linus Walleij 2015-07-30   72  			/* Not much choice but to=
+ continue */
+5dc0fe199b35896 Linus Walleij 2015-07-30   73  			pr_err("failed to get CLK=
+RST %d base address\n",
+5dc0fe199b35896 Linus Walleij 2015-07-30   74  			       i + 1);
+5dc0fe199b35896 Linus Walleij 2015-07-30   75  		bases[i] =3D r.start;
+b14cbdfd467d1e5 Linus Walleij 2021-09-21   76  		rstc->phy_base[i] =3D r.st=
+art;
+5dc0fe199b35896 Linus Walleij 2015-07-30   77  	}
+dec759d8ef01b3e Lee Jones     2013-09-17   78  =
 
-e130242dc351f1 Arnd Bergmann     2021-09-08  1411  		if (maxnode - bits >=
-=3D MAX_NUMNODES) {
-e130242dc351f1 Arnd Bergmann     2021-09-08  1412  			maxnode -=3D bits;
-e130242dc351f1 Arnd Bergmann     2021-09-08  1413  		} else {
-e130242dc351f1 Arnd Bergmann     2021-09-08  1414  			maxnode =3D MAX_NUMNO=
-DES;
-e130242dc351f1 Arnd Bergmann     2021-09-08 @1415  			t &=3D ~((1UL << (MAX=
-_NUMNODES % BITS_PER_LONG)) - 1);
-e130242dc351f1 Arnd Bergmann     2021-09-08  1416  		}
-e130242dc351f1 Arnd Bergmann     2021-09-08  1417  		if (t)
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1418  			return -EINVAL;
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1419  	}
-56521e7a02b7b8 Yisheng Xie       2018-01-31  1420  =
+82b0f4b7c576d22 Lee Jones     2013-09-17   79  	/* Clock sources */
+82b0f4b7c576d22 Lee Jones     2013-09-17   80  	clk =3D clk_reg_prcmu_gate(=
+"soc0_pll", NULL, PRCMU_PLLSOC0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01   81  				CLK_IGNORE_UNUSED);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17   82  	prcmu_clk[PRCMU_PLLSOC0] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17   83  =
 
-e130242dc351f1 Arnd Bergmann     2021-09-08  1421  	return get_bitmap(nodes=
-_addr(*nodes), nmask, maxnode);
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1422  }
-8bccd85ffbaf8f Christoph Lameter 2005-10-29  1423  =
+82b0f4b7c576d22 Lee Jones     2013-09-17   84  	clk =3D clk_reg_prcmu_gate(=
+"soc1_pll", NULL, PRCMU_PLLSOC1,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01   85  				CLK_IGNORE_UNUSED);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17   86  	prcmu_clk[PRCMU_PLLSOC1] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17   87  =
 
+82b0f4b7c576d22 Lee Jones     2013-09-17   88  	clk =3D clk_reg_prcmu_gate(=
+"ddr_pll", NULL, PRCMU_PLLDDR,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01   89  				CLK_IGNORE_UNUSED);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17   90  	prcmu_clk[PRCMU_PLLDDR] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17   91  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17   92  	/* FIXME: Add sys, ulp and =
+int clocks here. */
+82b0f4b7c576d22 Lee Jones     2013-09-17   93  =
+
+d625a730675decc Lee Jones     2013-09-17   94  	rtc_clk =3D clk_register_fi=
+xed_rate(NULL, "rtc32k", "NULL",
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01   95  				CLK_IGNORE_UNUSED,
+82b0f4b7c576d22 Lee Jones     2013-09-17   96  				32768);
+82b0f4b7c576d22 Lee Jones     2013-09-17   97  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17   98  	/* PRCMU clocks */
+82b0f4b7c576d22 Lee Jones     2013-09-17   99  	fw_version =3D prcmu_get_fw=
+_version();
+82b0f4b7c576d22 Lee Jones     2013-09-17  100  	if (fw_version !=3D NULL) {
+82b0f4b7c576d22 Lee Jones     2013-09-17  101  		switch (fw_version->projec=
+t) {
+82b0f4b7c576d22 Lee Jones     2013-09-17  102  		case PRCMU_FW_PROJECT_U850=
+0_C2:
+9050ad816f5205c Linus Walleij 2021-08-02  103  		case PRCMU_FW_PROJECT_U850=
+0_SSG1:
+82b0f4b7c576d22 Lee Jones     2013-09-17  104  		case PRCMU_FW_PROJECT_U852=
+0:
+82b0f4b7c576d22 Lee Jones     2013-09-17  105  		case PRCMU_FW_PROJECT_U842=
+0:
+248fdcc77a35dfe Linus Walleij 2019-12-17  106  		case PRCMU_FW_PROJECT_U842=
+0_SYSCLK:
+9050ad816f5205c Linus Walleij 2021-08-02  107  		case PRCMU_FW_PROJECT_U850=
+0_SSG2:
+82b0f4b7c576d22 Lee Jones     2013-09-17  108  			sgaclk_parent =3D "soc0_p=
+ll";
+82b0f4b7c576d22 Lee Jones     2013-09-17  109  			break;
+82b0f4b7c576d22 Lee Jones     2013-09-17  110  		default:
+82b0f4b7c576d22 Lee Jones     2013-09-17  111  			break;
+82b0f4b7c576d22 Lee Jones     2013-09-17  112  		}
+82b0f4b7c576d22 Lee Jones     2013-09-17  113  	}
+82b0f4b7c576d22 Lee Jones     2013-09-17  114  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  115  	if (sgaclk_parent)
+82b0f4b7c576d22 Lee Jones     2013-09-17  116  		clk =3D clk_reg_prcmu_gate=
+("sgclk", sgaclk_parent,
+82b0f4b7c576d22 Lee Jones     2013-09-17  117  					PRCMU_SGACLK, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  118  	else
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  119  		clk =3D clk_reg_prcmu_gate=
+("sgclk", NULL, PRCMU_SGACLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  120  	prcmu_clk[PRCMU_SGACLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  121  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  122  	clk =3D clk_reg_prcmu_gate(=
+"uartclk", NULL, PRCMU_UARTCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  123  	prcmu_clk[PRCMU_UARTCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  124  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  125  	clk =3D clk_reg_prcmu_gate(=
+"msp02clk", NULL, PRCMU_MSP02CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  126  	prcmu_clk[PRCMU_MSP02CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  127  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  128  	clk =3D clk_reg_prcmu_gate(=
+"msp1clk", NULL, PRCMU_MSP1CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  129  	prcmu_clk[PRCMU_MSP1CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  130  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  131  	clk =3D clk_reg_prcmu_gate(=
+"i2cclk", NULL, PRCMU_I2CCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  132  	prcmu_clk[PRCMU_I2CCLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  133  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  134  	clk =3D clk_reg_prcmu_gate(=
+"slimclk", NULL, PRCMU_SLIMCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  135  	prcmu_clk[PRCMU_SLIMCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  136  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  137  	clk =3D clk_reg_prcmu_gate(=
+"per1clk", NULL, PRCMU_PER1CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  138  	prcmu_clk[PRCMU_PER1CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  139  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  140  	clk =3D clk_reg_prcmu_gate(=
+"per2clk", NULL, PRCMU_PER2CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  141  	prcmu_clk[PRCMU_PER2CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  142  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  143  	clk =3D clk_reg_prcmu_gate(=
+"per3clk", NULL, PRCMU_PER3CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  144  	prcmu_clk[PRCMU_PER3CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  145  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  146  	clk =3D clk_reg_prcmu_gate(=
+"per5clk", NULL, PRCMU_PER5CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  147  	prcmu_clk[PRCMU_PER5CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  148  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  149  	clk =3D clk_reg_prcmu_gate(=
+"per6clk", NULL, PRCMU_PER6CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  150  	prcmu_clk[PRCMU_PER6CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  151  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  152  	clk =3D clk_reg_prcmu_gate(=
+"per7clk", NULL, PRCMU_PER7CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  153  	prcmu_clk[PRCMU_PER7CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  154  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  155  	clk =3D clk_reg_prcmu_scala=
+ble("lcdclk", NULL, PRCMU_LCDCLK, 0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  156  				CLK_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  157  	prcmu_clk[PRCMU_LCDCLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  158  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  159  	clk =3D clk_reg_prcmu_opp_g=
+ate("bmlclk", NULL, PRCMU_BMLCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  160  	prcmu_clk[PRCMU_BMLCLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  161  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  162  	clk =3D clk_reg_prcmu_scala=
+ble("hsitxclk", NULL, PRCMU_HSITXCLK, 0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  163  				CLK_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  164  	prcmu_clk[PRCMU_HSITXCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  165  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  166  	clk =3D clk_reg_prcmu_scala=
+ble("hsirxclk", NULL, PRCMU_HSIRXCLK, 0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  167  				CLK_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  168  	prcmu_clk[PRCMU_HSIRXCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  169  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  170  	clk =3D clk_reg_prcmu_scala=
+ble("hdmiclk", NULL, PRCMU_HDMICLK, 0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  171  				CLK_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  172  	prcmu_clk[PRCMU_HDMICLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  173  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  174  	clk =3D clk_reg_prcmu_gate(=
+"apeatclk", NULL, PRCMU_APEATCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  175  	prcmu_clk[PRCMU_APEATCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  176  =
+
+a6ae41b54cb0772 Linus Walleij 2015-04-20  177  	clk =3D clk_reg_prcmu_scala=
+ble("apetraceclk", NULL, PRCMU_APETRACECLK, 0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  178  				CLK_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  179  	prcmu_clk[PRCMU_APETRACECLK=
+] =3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  180  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  181  	clk =3D clk_reg_prcmu_gate(=
+"mcdeclk", NULL, PRCMU_MCDECLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  182  	prcmu_clk[PRCMU_MCDECLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  183  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  184  	clk =3D clk_reg_prcmu_opp_g=
+ate("ipi2cclk", NULL, PRCMU_IPI2CCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  185  	prcmu_clk[PRCMU_IPI2CCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  186  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  187  	clk =3D clk_reg_prcmu_gate(=
+"dsialtclk", NULL, PRCMU_DSIALTCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  188  	prcmu_clk[PRCMU_DSIALTCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  189  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  190  	clk =3D clk_reg_prcmu_gate(=
+"dmaclk", NULL, PRCMU_DMACLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  191  	prcmu_clk[PRCMU_DMACLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  192  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  193  	clk =3D clk_reg_prcmu_gate(=
+"b2r2clk", NULL, PRCMU_B2R2CLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  194  	prcmu_clk[PRCMU_B2R2CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  195  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  196  	clk =3D clk_reg_prcmu_scala=
+ble("tvclk", NULL, PRCMU_TVCLK, 0,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  197  				CLK_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  198  	prcmu_clk[PRCMU_TVCLK] =3D =
+clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  199  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  200  	clk =3D clk_reg_prcmu_gate(=
+"sspclk", NULL, PRCMU_SSPCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  201  	prcmu_clk[PRCMU_SSPCLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  202  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  203  	clk =3D clk_reg_prcmu_gate(=
+"rngclk", NULL, PRCMU_RNGCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  204  	prcmu_clk[PRCMU_RNGCLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  205  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  206  	clk =3D clk_reg_prcmu_gate(=
+"uiccclk", NULL, PRCMU_UICCCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  207  	prcmu_clk[PRCMU_UICCCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  208  =
+
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  209  	clk =3D clk_reg_prcmu_gate(=
+"timclk", NULL, PRCMU_TIMCLK, 0);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  210  	prcmu_clk[PRCMU_TIMCLK] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  211  =
+
+689a318c166774f Linus Walleij 2017-01-13  212  	clk =3D clk_reg_prcmu_gate(=
+"ab8500_sysclk", NULL, PRCMU_SYSCLK, 0);
+689a318c166774f Linus Walleij 2017-01-13  213  	prcmu_clk[PRCMU_SYSCLK] =3D=
+ clk;
+689a318c166774f Linus Walleij 2017-01-13  214  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  215  	clk =3D clk_reg_prcmu_opp_v=
+olt_scalable("sdmmcclk", NULL, PRCMU_SDMMCCLK,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  216  					100000000, CLK_SET_RATE=
+_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  217  	prcmu_clk[PRCMU_SDMMCCLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  218  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  219  	clk =3D clk_reg_prcmu_scala=
+ble("dsi_pll", "hdmiclk",
+82b0f4b7c576d22 Lee Jones     2013-09-17  220  				PRCMU_PLLDSI, 0, CLK_SET=
+_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  221  	prcmu_clk[PRCMU_PLLDSI] =3D=
+ clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  222  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  223  	clk =3D clk_reg_prcmu_scala=
+ble("dsi0clk", "dsi_pll",
+82b0f4b7c576d22 Lee Jones     2013-09-17  224  				PRCMU_DSI0CLK, 0, CLK_SE=
+T_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  225  	prcmu_clk[PRCMU_DSI0CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  226  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  227  	clk =3D clk_reg_prcmu_scala=
+ble("dsi1clk", "dsi_pll",
+82b0f4b7c576d22 Lee Jones     2013-09-17  228  				PRCMU_DSI1CLK, 0, CLK_SE=
+T_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  229  	prcmu_clk[PRCMU_DSI1CLK] =
+=3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  230  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  231  	clk =3D clk_reg_prcmu_scala=
+ble("dsi0escclk", "tvclk",
+82b0f4b7c576d22 Lee Jones     2013-09-17  232  				PRCMU_DSI0ESCCLK, 0, CLK=
+_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  233  	prcmu_clk[PRCMU_DSI0ESCCLK]=
+ =3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  234  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  235  	clk =3D clk_reg_prcmu_scala=
+ble("dsi1escclk", "tvclk",
+82b0f4b7c576d22 Lee Jones     2013-09-17  236  				PRCMU_DSI1ESCCLK, 0, CLK=
+_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  237  	prcmu_clk[PRCMU_DSI1ESCCLK]=
+ =3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  238  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  239  	clk =3D clk_reg_prcmu_scala=
+ble("dsi2escclk", "tvclk",
+82b0f4b7c576d22 Lee Jones     2013-09-17  240  				PRCMU_DSI2ESCCLK, 0, CLK=
+_SET_RATE_GATE);
+f9fcb8e8c8f40c7 Lee Jones     2013-09-17  241  	prcmu_clk[PRCMU_DSI2ESCCLK]=
+ =3D clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  242  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  243  	clk =3D clk_reg_prcmu_scala=
+ble_rate("armss", NULL,
+66f4ae777d0c2c2 Stephen Boyd  2016-03-01  244  				PRCMU_ARMSS, 0, CLK_IGNO=
+RE_UNUSED);
+257015a20c92a41 Lee Jones     2013-09-18  245  	prcmu_clk[PRCMU_ARMSS] =3D =
+clk;
+82b0f4b7c576d22 Lee Jones     2013-09-17  246  =
+
+4e33466095e0455 Lee Jones     2013-09-17  247  	twd_clk =3D clk_register_fi=
+xed_factor(NULL, "smp_twd", "armss",
+82b0f4b7c576d22 Lee Jones     2013-09-17  248  				CLK_IGNORE_UNUSED, 1, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  249  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  250  	/*
+82b0f4b7c576d22 Lee Jones     2013-09-17  251  	 * FIXME: Add special handl=
+ed PRCMU clocks here:
+82b0f4b7c576d22 Lee Jones     2013-09-17  252  	 * 1. clkout0yuv, use PRCMU=
+ as parent + need regulator + pinctrl.
+82b0f4b7c576d22 Lee Jones     2013-09-17  253  	 * 2. ab9540_clkout1yuv, se=
+e clkout0yuv
+82b0f4b7c576d22 Lee Jones     2013-09-17  254  	 */
+82b0f4b7c576d22 Lee Jones     2013-09-17  255  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  256  	/* PRCC P-clocks */
+5dc0fe199b35896 Linus Walleij 2015-07-30  257  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk0", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  258  				BIT(0), 0);
+2d0803001f0736c Lee Jones     2013-09-17  259  	PRCC_PCLK_STORE(clk, 1, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  260  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  261  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk1", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  262  				BIT(1), 0);
+2d0803001f0736c Lee Jones     2013-09-17  263  	PRCC_PCLK_STORE(clk, 1, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  264  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  265  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk2", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  266  				BIT(2), 0);
+2d0803001f0736c Lee Jones     2013-09-17  267  	PRCC_PCLK_STORE(clk, 1, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  268  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  269  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk3", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  270  				BIT(3), 0);
+2d0803001f0736c Lee Jones     2013-09-17  271  	PRCC_PCLK_STORE(clk, 1, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  272  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  273  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk4", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  274  				BIT(4), 0);
+2d0803001f0736c Lee Jones     2013-09-17  275  	PRCC_PCLK_STORE(clk, 1, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  276  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  277  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk5", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  278  				BIT(5), 0);
+2d0803001f0736c Lee Jones     2013-09-17  279  	PRCC_PCLK_STORE(clk, 1, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  280  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  281  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk6", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  282  				BIT(6), 0);
+2d0803001f0736c Lee Jones     2013-09-17  283  	PRCC_PCLK_STORE(clk, 1, 6);
+82b0f4b7c576d22 Lee Jones     2013-09-17  284  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  285  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk7", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  286  				BIT(7), 0);
+2d0803001f0736c Lee Jones     2013-09-17  287  	PRCC_PCLK_STORE(clk, 1, 7);
+82b0f4b7c576d22 Lee Jones     2013-09-17  288  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  289  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk8", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  290  				BIT(8), 0);
+2d0803001f0736c Lee Jones     2013-09-17  291  	PRCC_PCLK_STORE(clk, 1, 8);
+82b0f4b7c576d22 Lee Jones     2013-09-17  292  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  293  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk9", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  294  				BIT(9), 0);
+2d0803001f0736c Lee Jones     2013-09-17  295  	PRCC_PCLK_STORE(clk, 1, 9);
+82b0f4b7c576d22 Lee Jones     2013-09-17  296  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  297  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk10", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  298  				BIT(10), 0);
+2d0803001f0736c Lee Jones     2013-09-17  299  	PRCC_PCLK_STORE(clk, 1, 10);
+82b0f4b7c576d22 Lee Jones     2013-09-17  300  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  301  	clk =3D clk_reg_prcc_pclk("=
+p1_pclk11", "per1clk", bases[CLKRST1_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  302  				BIT(11), 0);
+2d0803001f0736c Lee Jones     2013-09-17  303  	PRCC_PCLK_STORE(clk, 1, 11);
+82b0f4b7c576d22 Lee Jones     2013-09-17  304  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  305  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk0", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  306  				BIT(0), 0);
+2d0803001f0736c Lee Jones     2013-09-17  307  	PRCC_PCLK_STORE(clk, 2, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  308  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  309  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk1", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  310  				BIT(1), 0);
+2d0803001f0736c Lee Jones     2013-09-17  311  	PRCC_PCLK_STORE(clk, 2, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  312  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  313  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk2", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  314  				BIT(2), 0);
+2d0803001f0736c Lee Jones     2013-09-17  315  	PRCC_PCLK_STORE(clk, 2, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  316  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  317  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk3", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  318  				BIT(3), 0);
+2d0803001f0736c Lee Jones     2013-09-17  319  	PRCC_PCLK_STORE(clk, 2, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  320  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  321  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk4", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  322  				BIT(4), 0);
+2d0803001f0736c Lee Jones     2013-09-17  323  	PRCC_PCLK_STORE(clk, 2, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  324  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  325  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk5", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  326  				BIT(5), 0);
+2d0803001f0736c Lee Jones     2013-09-17  327  	PRCC_PCLK_STORE(clk, 2, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  328  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  329  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk6", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  330  				BIT(6), 0);
+2d0803001f0736c Lee Jones     2013-09-17  331  	PRCC_PCLK_STORE(clk, 2, 6);
+82b0f4b7c576d22 Lee Jones     2013-09-17  332  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  333  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk7", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  334  				BIT(7), 0);
+2d0803001f0736c Lee Jones     2013-09-17  335  	PRCC_PCLK_STORE(clk, 2, 7);
+82b0f4b7c576d22 Lee Jones     2013-09-17  336  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  337  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk8", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  338  				BIT(8), 0);
+2d0803001f0736c Lee Jones     2013-09-17  339  	PRCC_PCLK_STORE(clk, 2, 8);
+82b0f4b7c576d22 Lee Jones     2013-09-17  340  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  341  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk9", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  342  				BIT(9), 0);
+2d0803001f0736c Lee Jones     2013-09-17  343  	PRCC_PCLK_STORE(clk, 2, 9);
+82b0f4b7c576d22 Lee Jones     2013-09-17  344  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  345  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk10", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  346  				BIT(10), 0);
+2d0803001f0736c Lee Jones     2013-09-17  347  	PRCC_PCLK_STORE(clk, 2, 10);
+82b0f4b7c576d22 Lee Jones     2013-09-17  348  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  349  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk11", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  350  				BIT(11), 0);
+f5ff9a115ec6338 Linus Walleij 2013-10-18  351  	PRCC_PCLK_STORE(clk, 2, 11);
+82b0f4b7c576d22 Lee Jones     2013-09-17  352  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  353  	clk =3D clk_reg_prcc_pclk("=
+p2_pclk12", "per2clk", bases[CLKRST2_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  354  				BIT(12), 0);
+2d0803001f0736c Lee Jones     2013-09-17  355  	PRCC_PCLK_STORE(clk, 2, 12);
+82b0f4b7c576d22 Lee Jones     2013-09-17  356  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  357  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk0", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  358  				BIT(0), 0);
+2d0803001f0736c Lee Jones     2013-09-17  359  	PRCC_PCLK_STORE(clk, 3, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  360  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  361  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk1", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  362  				BIT(1), 0);
+2d0803001f0736c Lee Jones     2013-09-17  363  	PRCC_PCLK_STORE(clk, 3, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  364  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  365  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk2", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  366  				BIT(2), 0);
+2d0803001f0736c Lee Jones     2013-09-17  367  	PRCC_PCLK_STORE(clk, 3, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  368  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  369  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk3", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  370  				BIT(3), 0);
+2d0803001f0736c Lee Jones     2013-09-17  371  	PRCC_PCLK_STORE(clk, 3, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  372  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  373  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk4", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  374  				BIT(4), 0);
+2d0803001f0736c Lee Jones     2013-09-17  375  	PRCC_PCLK_STORE(clk, 3, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  376  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  377  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk5", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  378  				BIT(5), 0);
+2d0803001f0736c Lee Jones     2013-09-17  379  	PRCC_PCLK_STORE(clk, 3, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  380  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  381  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk6", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  382  				BIT(6), 0);
+2d0803001f0736c Lee Jones     2013-09-17  383  	PRCC_PCLK_STORE(clk, 3, 6);
+82b0f4b7c576d22 Lee Jones     2013-09-17  384  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  385  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk7", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  386  				BIT(7), 0);
+2d0803001f0736c Lee Jones     2013-09-17  387  	PRCC_PCLK_STORE(clk, 3, 7);
+82b0f4b7c576d22 Lee Jones     2013-09-17  388  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  389  	clk =3D clk_reg_prcc_pclk("=
+p3_pclk8", "per3clk", bases[CLKRST3_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  390  				BIT(8), 0);
+2d0803001f0736c Lee Jones     2013-09-17  391  	PRCC_PCLK_STORE(clk, 3, 8);
+82b0f4b7c576d22 Lee Jones     2013-09-17  392  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  393  	clk =3D clk_reg_prcc_pclk("=
+p5_pclk0", "per5clk", bases[CLKRST5_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  394  				BIT(0), 0);
+2d0803001f0736c Lee Jones     2013-09-17  395  	PRCC_PCLK_STORE(clk, 5, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  396  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  397  	clk =3D clk_reg_prcc_pclk("=
+p5_pclk1", "per5clk", bases[CLKRST5_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  398  				BIT(1), 0);
+2d0803001f0736c Lee Jones     2013-09-17  399  	PRCC_PCLK_STORE(clk, 5, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  400  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  401  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk0", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  402  				BIT(0), 0);
+2d0803001f0736c Lee Jones     2013-09-17  403  	PRCC_PCLK_STORE(clk, 6, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  404  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  405  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk1", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  406  				BIT(1), 0);
+2d0803001f0736c Lee Jones     2013-09-17  407  	PRCC_PCLK_STORE(clk, 6, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  408  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  409  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk2", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  410  				BIT(2), 0);
+2d0803001f0736c Lee Jones     2013-09-17  411  	PRCC_PCLK_STORE(clk, 6, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  412  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  413  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk3", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  414  				BIT(3), 0);
+2d0803001f0736c Lee Jones     2013-09-17  415  	PRCC_PCLK_STORE(clk, 6, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  416  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  417  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk4", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  418  				BIT(4), 0);
+2d0803001f0736c Lee Jones     2013-09-17  419  	PRCC_PCLK_STORE(clk, 6, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  420  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  421  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk5", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  422  				BIT(5), 0);
+2d0803001f0736c Lee Jones     2013-09-17  423  	PRCC_PCLK_STORE(clk, 6, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  424  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  425  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk6", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  426  				BIT(6), 0);
+2d0803001f0736c Lee Jones     2013-09-17  427  	PRCC_PCLK_STORE(clk, 6, 6);
+82b0f4b7c576d22 Lee Jones     2013-09-17  428  =
+
+5dc0fe199b35896 Linus Walleij 2015-07-30  429  	clk =3D clk_reg_prcc_pclk("=
+p6_pclk7", "per6clk", bases[CLKRST6_INDEX],
+82b0f4b7c576d22 Lee Jones     2013-09-17  430  				BIT(7), 0);
+2d0803001f0736c Lee Jones     2013-09-17  431  	PRCC_PCLK_STORE(clk, 6, 7);
+82b0f4b7c576d22 Lee Jones     2013-09-17  432  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  433  	/* PRCC K-clocks
+82b0f4b7c576d22 Lee Jones     2013-09-17  434  	 *
+82b0f4b7c576d22 Lee Jones     2013-09-17  435  	 * FIXME: Some drivers requ=
+ires PERPIH[n| to be automatically enabled
+82b0f4b7c576d22 Lee Jones     2013-09-17  436  	 * by enabling just the K-c=
+lock, even if it is not a valid parent to
+82b0f4b7c576d22 Lee Jones     2013-09-17  437  	 * the K-clock. Until drive=
+rs get fixed we might need some kind of
+82b0f4b7c576d22 Lee Jones     2013-09-17  438  	 * "parent muxed join".
+82b0f4b7c576d22 Lee Jones     2013-09-17  439  	 */
+82b0f4b7c576d22 Lee Jones     2013-09-17  440  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  441  	/* Periph1 */
+82b0f4b7c576d22 Lee Jones     2013-09-17  442  	clk =3D clk_reg_prcc_kclk("=
+p1_uart0_kclk", "uartclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  443  			bases[CLKRST1_INDEX], BIT=
+(0), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  444  	PRCC_KCLK_STORE(clk, 1, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  445  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  446  	clk =3D clk_reg_prcc_kclk("=
+p1_uart1_kclk", "uartclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  447  			bases[CLKRST1_INDEX], BIT=
+(1), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  448  	PRCC_KCLK_STORE(clk, 1, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  449  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  450  	clk =3D clk_reg_prcc_kclk("=
+p1_i2c1_kclk", "i2cclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  451  			bases[CLKRST1_INDEX], BIT=
+(2), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  452  	PRCC_KCLK_STORE(clk, 1, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  453  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  454  	clk =3D clk_reg_prcc_kclk("=
+p1_msp0_kclk", "msp02clk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  455  			bases[CLKRST1_INDEX], BIT=
+(3), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  456  	PRCC_KCLK_STORE(clk, 1, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  457  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  458  	clk =3D clk_reg_prcc_kclk("=
+p1_msp1_kclk", "msp1clk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  459  			bases[CLKRST1_INDEX], BIT=
+(4), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  460  	PRCC_KCLK_STORE(clk, 1, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  461  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  462  	clk =3D clk_reg_prcc_kclk("=
+p1_sdi0_kclk", "sdmmcclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  463  			bases[CLKRST1_INDEX], BIT=
+(5), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  464  	PRCC_KCLK_STORE(clk, 1, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  465  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  466  	clk =3D clk_reg_prcc_kclk("=
+p1_i2c2_kclk", "i2cclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  467  			bases[CLKRST1_INDEX], BIT=
+(6), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  468  	PRCC_KCLK_STORE(clk, 1, 6);
+82b0f4b7c576d22 Lee Jones     2013-09-17  469  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  470  	clk =3D clk_reg_prcc_kclk("=
+p1_slimbus0_kclk", "slimclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  471  			bases[CLKRST1_INDEX], BIT=
+(8), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  472  	PRCC_KCLK_STORE(clk, 1, 8);
+82b0f4b7c576d22 Lee Jones     2013-09-17  473  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  474  	clk =3D clk_reg_prcc_kclk("=
+p1_i2c4_kclk", "i2cclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  475  			bases[CLKRST1_INDEX], BIT=
+(9), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  476  	PRCC_KCLK_STORE(clk, 1, 9);
+82b0f4b7c576d22 Lee Jones     2013-09-17  477  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  478  	clk =3D clk_reg_prcc_kclk("=
+p1_msp3_kclk", "msp1clk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  479  			bases[CLKRST1_INDEX], BIT=
+(10), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  480  	PRCC_KCLK_STORE(clk, 1, 10);
+82b0f4b7c576d22 Lee Jones     2013-09-17  481  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  482  	/* Periph2 */
+82b0f4b7c576d22 Lee Jones     2013-09-17  483  	clk =3D clk_reg_prcc_kclk("=
+p2_i2c3_kclk", "i2cclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  484  			bases[CLKRST2_INDEX], BIT=
+(0), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  485  	PRCC_KCLK_STORE(clk, 2, 0);
+82b0f4b7c576d22 Lee Jones     2013-09-17  486  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  487  	clk =3D clk_reg_prcc_kclk("=
+p2_sdi4_kclk", "sdmmcclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  488  			bases[CLKRST2_INDEX], BIT=
+(2), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  489  	PRCC_KCLK_STORE(clk, 2, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  490  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  491  	clk =3D clk_reg_prcc_kclk("=
+p2_msp2_kclk", "msp02clk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  492  			bases[CLKRST2_INDEX], BIT=
+(3), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  493  	PRCC_KCLK_STORE(clk, 2, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  494  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  495  	clk =3D clk_reg_prcc_kclk("=
+p2_sdi1_kclk", "sdmmcclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  496  			bases[CLKRST2_INDEX], BIT=
+(4), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  497  	PRCC_KCLK_STORE(clk, 2, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  498  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  499  	clk =3D clk_reg_prcc_kclk("=
+p2_sdi3_kclk", "sdmmcclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  500  			bases[CLKRST2_INDEX], BIT=
+(5), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  501  	PRCC_KCLK_STORE(clk, 2, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  502  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  503  	/* Note that rate is receiv=
+ed from parent. */
+82b0f4b7c576d22 Lee Jones     2013-09-17  504  	clk =3D clk_reg_prcc_kclk("=
+p2_ssirx_kclk", "hsirxclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  505  			bases[CLKRST2_INDEX], BIT=
+(6),
+82b0f4b7c576d22 Lee Jones     2013-09-17  506  			CLK_SET_RATE_GATE|CLK_SET=
+_RATE_PARENT);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  507  	PRCC_KCLK_STORE(clk, 2, 6);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  508  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  509  	clk =3D clk_reg_prcc_kclk("=
+p2_ssitx_kclk", "hsitxclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  510  			bases[CLKRST2_INDEX], BIT=
+(7),
+82b0f4b7c576d22 Lee Jones     2013-09-17  511  			CLK_SET_RATE_GATE|CLK_SET=
+_RATE_PARENT);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  512  	PRCC_KCLK_STORE(clk, 2, 7);
+82b0f4b7c576d22 Lee Jones     2013-09-17  513  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  514  	/* Periph3 */
+82b0f4b7c576d22 Lee Jones     2013-09-17  515  	clk =3D clk_reg_prcc_kclk("=
+p3_ssp0_kclk", "sspclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  516  			bases[CLKRST3_INDEX], BIT=
+(1), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  517  	PRCC_KCLK_STORE(clk, 3, 1);
+82b0f4b7c576d22 Lee Jones     2013-09-17  518  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  519  	clk =3D clk_reg_prcc_kclk("=
+p3_ssp1_kclk", "sspclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  520  			bases[CLKRST3_INDEX], BIT=
+(2), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  521  	PRCC_KCLK_STORE(clk, 3, 2);
+82b0f4b7c576d22 Lee Jones     2013-09-17  522  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  523  	clk =3D clk_reg_prcc_kclk("=
+p3_i2c0_kclk", "i2cclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  524  			bases[CLKRST3_INDEX], BIT=
+(3), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  525  	PRCC_KCLK_STORE(clk, 3, 3);
+82b0f4b7c576d22 Lee Jones     2013-09-17  526  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  527  	clk =3D clk_reg_prcc_kclk("=
+p3_sdi2_kclk", "sdmmcclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  528  			bases[CLKRST3_INDEX], BIT=
+(4), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  529  	PRCC_KCLK_STORE(clk, 3, 4);
+82b0f4b7c576d22 Lee Jones     2013-09-17  530  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  531  	clk =3D clk_reg_prcc_kclk("=
+p3_ske_kclk", "rtc32k",
+5dc0fe199b35896 Linus Walleij 2015-07-30  532  			bases[CLKRST3_INDEX], BIT=
+(5), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  533  	PRCC_KCLK_STORE(clk, 3, 5);
+82b0f4b7c576d22 Lee Jones     2013-09-17  534  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  535  	clk =3D clk_reg_prcc_kclk("=
+p3_uart2_kclk", "uartclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  536  			bases[CLKRST3_INDEX], BIT=
+(6), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  537  	PRCC_KCLK_STORE(clk, 3, 6);
+82b0f4b7c576d22 Lee Jones     2013-09-17  538  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  539  	clk =3D clk_reg_prcc_kclk("=
+p3_sdi5_kclk", "sdmmcclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  540  			bases[CLKRST3_INDEX], BIT=
+(7), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  541  	PRCC_KCLK_STORE(clk, 3, 7);
+82b0f4b7c576d22 Lee Jones     2013-09-17  542  =
+
+82b0f4b7c576d22 Lee Jones     2013-09-17  543  	/* Periph6 */
+82b0f4b7c576d22 Lee Jones     2013-09-17  544  	clk =3D clk_reg_prcc_kclk("=
+p3_rng_kclk", "rngclk",
+5dc0fe199b35896 Linus Walleij 2015-07-30  545  			bases[CLKRST6_INDEX], BIT=
+(0), CLK_SET_RATE_GATE);
+89da2dfafc9ffc7 Lee Jones     2013-09-17  546  	PRCC_KCLK_STORE(clk, 6, 0);
+dec759d8ef01b3e Lee Jones     2013-09-17  547  =
+
+dec759d8ef01b3e Lee Jones     2013-09-17 @548  	for_each_child_of_node(np, =
+child) {
+
+:::::: The code at line 548 was first introduced by commit
+:::::: dec759d8ef01b3edd5ceb9832ce2338c6c396d11 clk: ux500: Provide u8500_c=
+lk with skeleton Device Tree support
+
+:::::: TO: Lee Jones <lee.jones@linaro.org>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5044204038847194862==--
+--===============5317056170578554057==--
 
