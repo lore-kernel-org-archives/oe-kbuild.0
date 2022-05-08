@@ -1,211 +1,140 @@
-Content-Type: multipart/mixed; boundary="===============6456844352575633993=="
+Content-Type: multipart/mixed; boundary="===============2602652717968390406=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/ice/ice_tc_lib.c:853:29: warning: Uninitialized variable: fltr->src_vsi [uninitvar]
-Date: Sun, 08 May 2022 15:46:36 +0800
-Message-ID: <202205081513.arVeQ0sa-lkp@intel.com>
+Subject: [dgc-xfs:xfs-5.19-compose 37/43] fs/xfs/libxfs/xfs_attr.c:1317 xfs_attr_node_remove_attr() warn: variable dereferenced before check 'state' (see line 1299)
+Date: Sun, 08 May 2022 14:05:32 +0800
+Message-ID: <202205081408.ERrfpTnQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6456844352575633993==
+--===============2602652717968390406==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Michal Swiatkowski <michal.swiatkowski@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Wojciech Drewek <wojciech.drewek@intel.com>
+TO: Dave Chinner <david@fromorbit.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   30c8e80f79329617012f07b09b70114592092ea4
-commit: 7fde6d8b445f3af9caa5f3c2be384c2f797e21c5 ice: ndo_setup_tc implemen=
-tation for PR
-date:   7 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 7 months ago
-compiler: riscv64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 7fde6d8b445f3af9caa5f3c2be384c2f797e21c5
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git x=
+fs-5.19-compose
+head:   d8fa98c66946d5b1e01531cf7cb50151817f6894
+commit: 8fe8ae0a2020818650526263645667f1b437f5fb [37/43] xfs: clean up fina=
+l attr removal in xfs_attr_set_iter
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
+archive/20220508/202205081408.ERrfpTnQ-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+fs/xfs/libxfs/xfs_attr.c:1317 xfs_attr_node_remove_attr() warn: variable de=
+referenced before check 'state' (see line 1299)
+
+vim +/state +1317 fs/xfs/libxfs/xfs_attr.c
+
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1280  =
+
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1281  =
+
+8fe8ae0a202081 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1282 =
+ static int
+8fe8ae0a202081 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2022-05-05  1283 =
+ xfs_attr_node_remove_attr(
+2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1284 =
+ 	struct xfs_attr_item		*attr)
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1285 =
+ {
+2b8e5f1a3c023c fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1286 =
+ 	struct xfs_da_args		*args =3D attr->xattri_da_args;
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1287 =
+ 	struct xfs_da_state		*state =3D NULL;
+c2b3b59946c43d fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1288 =
+ 	struct xfs_mount		*mp =3D args->dp->i_mount;
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1289 =
+ 	int				retval =3D 0;
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1290 =
+ 	int				error =3D 0;
+f0f7c502c728d0 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-02-18  1291  =
+
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1292 =
+ 	/*
+bf4a5cfffee096 fs/xfs/libxfs/xfs_attr.c Allison Collins   2020-07-20  1293 =
+ 	 * Re-find the "old" attribute entry after any split ops. The INCOMPLETE
+bf4a5cfffee096 fs/xfs/libxfs/xfs_attr.c Allison Collins   2020-07-20  1294 =
+ 	 * flag means that we will find the "old" attr, not the "new" one.
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1295 =
+ 	 */
+c2b3b59946c43d fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-05-04  1296 =
+ 	if (!xfs_has_larp(mp))
+254f800f810415 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  1297 =
+ 		args->attr_filter |=3D XFS_ATTR_INCOMPLETE;
+4491a3dd7192fb fs/xfs/libxfs/xfs_attr.c Carlos Maiolino   2020-07-22  1298 =
+ 	state =3D xfs_da_state_alloc(args);
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16 @1299 =
+ 	state->inleaf =3D 0;
+f5ea110044fa85 fs/xfs/xfs_attr.c        Dave Chinner      2013-04-24  1300 =
+ 	error =3D xfs_da3_node_lookup_int(state, &retval);
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1301 =
+ 	if (error)
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1302 =
+ 		goto out;
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1303  =
+
+816c8e39b7ea08 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-05-28  1304 =
+ 	error =3D xfs_attr_node_removename(args, state);
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1305  =
+
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1306 =
+ 	/*
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1307 =
+ 	 * Check to see if the tree needs to be collapsed.
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1308 =
+ 	 */
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1309 =
+ 	if (retval && (state->path.active > 1)) {
+f5ea110044fa85 fs/xfs/xfs_attr.c        Dave Chinner      2013-04-24  1310 =
+ 		error =3D xfs_da3_join(state);
+8ad7c629b18695 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2017-08-28  1311 =
+ 		if (error)
+d5a2e2893da0d6 fs/xfs/libxfs/xfs_attr.c Brian Foster      2018-09-29  1312 =
+ 			goto out;
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1313 =
+ 	}
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1314 =
+ 	retval =3D error =3D 0;
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1315  =
+
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1316 =
+ out:
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16 @1317 =
+ 	if (state)
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1318 =
+ 		xfs_da_state_free(state);
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1319 =
+ 	if (error)
+d99831ff393ff2 fs/xfs/xfs_attr.c        Eric Sandeen      2014-06-22  1320 =
+ 		return error;
+d99831ff393ff2 fs/xfs/xfs_attr.c        Eric Sandeen      2014-06-22  1321 =
+ 	return retval;
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1322 =
+ }
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  1323  =
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/tty/moxa.c:740:10: warning: Local variable 'magic' shadows outer=
- variable [shadowVariable]
-     __le32 magic; /* 0x34303430 */
-            ^
-   drivers/tty/moxa.c:740:10: note: Shadowed declaration
-     __le32 magic; /* 0x34303430 */
-            ^
-   drivers/tty/moxa.c:740:10: note: Shadow variable
-     __le32 magic; /* 0x34303430 */
-            ^
->> drivers/tty/moxa.c:741:6: warning: Local variable 'reserved1' shadows ou=
-ter variable [shadowVariable]
-     u8 reserved1[2];
-        ^
-   drivers/tty/moxa.c:741:6: note: Shadowed declaration
-     u8 reserved1[2];
-        ^
-   drivers/tty/moxa.c:741:6: note: Shadow variable
-     u8 reserved1[2];
-        ^
->> drivers/tty/moxa.c:742:6: warning: Local variable 'type' shadows outer v=
-ariable [shadowVariable]
-     u8 type; /* UNIX =3D 3 */
-        ^
-   drivers/tty/moxa.c:742:6: note: Shadowed declaration
-     u8 type; /* UNIX =3D 3 */
-        ^
-   drivers/tty/moxa.c:742:6: note: Shadow variable
-     u8 type; /* UNIX =3D 3 */
-        ^
->> drivers/tty/moxa.c:743:6: warning: Local variable 'model' shadows outer =
-variable [shadowVariable]
-     u8 model; /* C218T=3D1, C320T=3D2, CP204=3D3 */
-        ^
-   drivers/tty/moxa.c:743:6: note: Shadowed declaration
-     u8 model; /* C218T=3D1, C320T=3D2, CP204=3D3 */
-        ^
-   drivers/tty/moxa.c:743:6: note: Shadow variable
-     u8 model; /* C218T=3D1, C320T=3D2, CP204=3D3 */
-        ^
->> drivers/tty/moxa.c:744:6: warning: Local variable 'reserved2' shadows ou=
-ter variable [shadowVariable]
-     u8 reserved2[8];
-        ^
-   drivers/tty/moxa.c:744:6: note: Shadowed declaration
-     u8 reserved2[8];
-        ^
-   drivers/tty/moxa.c:744:6: note: Shadow variable
-     u8 reserved2[8];
-        ^
->> drivers/tty/moxa.c:745:10: warning: Local variable 'len' shadows outer v=
-ariable [shadowVariable]
-     __le16 len[5];
-            ^
-   drivers/tty/moxa.c:736:9: note: Shadowed declaration
-    size_t len;
-           ^
-   drivers/tty/moxa.c:745:10: note: Shadow variable
-     __le16 len[5];
-            ^
+:::::: The code at line 1317 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> lib/dim/net_dim.c:78:28: warning: Same value in both branches of ternary=
- operator. [duplicateValueTernary]
-      NET_DIM_DEF_PROFILE_CQE : NET_DIM_DEF_PROFILE_EQE;
-                              ^
-   lib/dim/net_dim.c:98:28: warning: Same value in both branches of ternary=
- operator. [duplicateValueTernary]
-      NET_DIM_DEF_PROFILE_CQE : NET_DIM_DEF_PROFILE_EQE;
-                              ^
---
->> drivers/net/ethernet/intel/ice/ice_tc_lib.c:853:29: warning: Uninitializ=
-ed variable: fltr->src_vsi [uninitvar]
-     ice_add_switch_fltr(fltr->src_vsi, fltr);
-                               ^
---
->> drivers/tty/moxa.c:767:2: warning: Using pointer to local variable 'len'=
- that is out of scope. [invalidLifetime]
-    len =3D MOXA_FW_HDRLEN;
-    ^
-   drivers/tty/moxa.c:767:2: note: Array decayed to pointer here.
-    len =3D MOXA_FW_HDRLEN;
-    ^
-   drivers/tty/moxa.c:745:10: note: Variable created here.
-     __le16 len[5];
-            ^
-   drivers/tty/moxa.c:767:2: note: Using pointer to local variable 'len' th=
-at is out of scope.
-    len =3D MOXA_FW_HDRLEN;
-    ^
-   drivers/tty/moxa.c:771:18: warning: Using pointer to local variable 'len=
-' that is out of scope. [invalidLifetime]
-     if (lens[a] && len + lens[a] <=3D fw->size &&
-                    ^
-   drivers/tty/moxa.c:771:18: note: Array decayed to pointer here.
-     if (lens[a] && len + lens[a] <=3D fw->size &&
-                    ^
-   drivers/tty/moxa.c:745:10: note: Variable created here.
-     __le16 len[5];
-            ^
-   drivers/tty/moxa.c:771:18: note: Using pointer to local variable 'len' t=
-hat is out of scope.
-     if (lens[a] && len + lens[a] <=3D fw->size &&
-                    ^
-   drivers/tty/moxa.c:779:3: warning: Using pointer to local variable 'len'=
- that is out of scope. [invalidLifetime]
-     len +=3D lens[a];
-     ^
-   drivers/tty/moxa.c:779:3: note: Array decayed to pointer here.
-     len +=3D lens[a];
-     ^
-   drivers/tty/moxa.c:745:10: note: Variable created here.
-     __le16 len[5];
-            ^
-   drivers/tty/moxa.c:779:3: note: Using pointer to local variable 'len' th=
-at is out of scope.
-     len +=3D lens[a];
-     ^
-   drivers/tty/moxa.c:782:6: warning: Using pointer to local variable 'len'=
- that is out of scope. [invalidLifetime]
-    if (len !=3D fw->size) {
-        ^
-   drivers/tty/moxa.c:782:6: note: Array decayed to pointer here.
-    if (len !=3D fw->size) {
-        ^
-   drivers/tty/moxa.c:745:10: note: Variable created here.
-     __le16 len[5];
-            ^
-   drivers/tty/moxa.c:782:6: note: Using pointer to local variable 'len' th=
-at is out of scope.
-    if (len !=3D fw->size) {
-        ^
->> drivers/tty/moxa.c:736:9: warning: Unused variable: len [unusedVariable]
-    size_t len;
-           ^
-
-vim +853 drivers/net/ethernet/intel/ice/ice_tc_lib.c
-
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  839  =
-
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  840  /**
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  841   * ice_replay_tc_fltrs -=
- replay TC filters
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  842   * @pf: pointer to PF st=
-ruct
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  843   */
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  844  void ice_replay_tc_fltrs=
-(struct ice_pf *pf)
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  845  {
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  846  	struct ice_tc_flower_fl=
-tr *fltr;
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  847  	struct hlist_node *node;
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  848  =
-
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  849  	hlist_for_each_entry_sa=
-fe(fltr, node,
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  850  				  &pf->tc_flower_flt=
-r_list,
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  851  				  tc_flower_node) {
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06  852  		fltr->extack =3D NULL;
-7fde6d8b445f3a Michal Swiatkowski 2021-08-06 @853  		ice_add_switch_fltr(fl=
-tr->src_vsi, fltr);
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6456844352575633993==--
+--===============2602652717968390406==--
 
