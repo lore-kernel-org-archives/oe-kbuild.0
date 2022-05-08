@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3568281233708386139=="
+Content-Type: multipart/mixed; boundary="===============8366113115928643648=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hverkuil-media-tree:fix-cec 1/5] drivers/media/cec/core/cec-pin.c:1291 cec_pin_adap_free() warn: variable dereferenced before check 'pin' (see line 1288)
-Date: Sun, 08 May 2022 18:39:26 +0800
-Message-ID: <202205081847.EPfgN3uq-lkp@intel.com>
+Subject: drivers/gpu/drm/omapdrm/omap_overlay.c:61 omap_hwoverlays_init() warn: passing a valid pointer to 'PTR_ERR'
+Date: Sun, 08 May 2022 18:08:58 +0800
+Message-ID: <202205081844.wXUpHtRC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3568281233708386139==
+--===============8366113115928643648==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,70 +15,85 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Benoit Parrot <bparrot@ti.com>
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: Neil Armstrong <narmstrong@baylibre.com>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git fix-cec
-head:   dd36bee1793249cb2548e9a4b6c10a079a10037d
-commit: bb541e5dcec111915f565b0cf8c3313f38bd72d8 [1/5] cec-pin: disabling t=
-he adapter cannot call kthread_stop
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: openrisc-randconfig-m031-20220506 (https://download.01.org/0day-ci/=
-archive/20220508/202205081847.EPfgN3uq-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   30c8e80f79329617012f07b09b70114592092ea4
+commit: c8fa1e733c597a7b11a22a3e49de5ea1362e9a7a drm/omap: introduce omap_h=
+w_overlay
+date:   5 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-m031-20220427 (https://download.01.org/0day-ci/archi=
+ve/20220508/202205081844.wXUpHtRC-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/media/cec/core/cec-pin.c:1291 cec_pin_adap_free() warn: variable de=
-referenced before check 'pin' (see line 1288)
+drivers/gpu/drm/omapdrm/omap_overlay.c:61 omap_hwoverlays_init() warn: pass=
+ing a valid pointer to 'PTR_ERR'
 
-vim +/pin +1291 drivers/media/cec/core/cec-pin.c
+vim +/PTR_ERR +61 drivers/gpu/drm/omapdrm/omap_overlay.c
 
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-83  =
+c8fa1e733c597a Benoit Parrot 2021-11-17  44  =
 
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-84  static void cec_pin_adap_free(struct cec_adapter *adap)
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-85  {
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-86  	struct cec_pin *pin =3D adap->pin;
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-87  =
+c8fa1e733c597a Benoit Parrot 2021-11-17  45  int omap_hwoverlays_init(struc=
+t omap_drm_private *priv)
+c8fa1e733c597a Benoit Parrot 2021-11-17  46  {
+c8fa1e733c597a Benoit Parrot 2021-11-17  47  	static const enum omap_plane_=
+id hw_plane_ids[] =3D {
+c8fa1e733c597a Benoit Parrot 2021-11-17  48  			OMAP_DSS_GFX, OMAP_DSS_VIDE=
+O1,
+c8fa1e733c597a Benoit Parrot 2021-11-17  49  			OMAP_DSS_VIDEO2, OMAP_DSS_V=
+IDEO3,
+c8fa1e733c597a Benoit Parrot 2021-11-17  50  	};
+c8fa1e733c597a Benoit Parrot 2021-11-17  51  	u32 num_overlays =3D dispc_ge=
+t_num_ovls(priv->dispc);
+c8fa1e733c597a Benoit Parrot 2021-11-17  52  	enum omap_overlay_caps caps;
+c8fa1e733c597a Benoit Parrot 2021-11-17  53  	int i, ret;
+c8fa1e733c597a Benoit Parrot 2021-11-17  54  =
 
-bb541e5dcec111 drivers/media/cec/core/cec-pin.c Hans Verkuil 2022-05-06 @12=
-88  	if (pin->kthread)
-bb541e5dcec111 drivers/media/cec/core/cec-pin.c Hans Verkuil 2022-05-06  12=
-89  		kthread_stop(pin->kthread);
-bb541e5dcec111 drivers/media/cec/core/cec-pin.c Hans Verkuil 2022-05-06  12=
-90  	pin->kthread =3D NULL;
-e2ed5024ac2bc2 drivers/media/cec/core/cec-pin.c Hans Verkuil 2022-03-17 @12=
-91  	if (pin && pin->ops->free)
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-92  		pin->ops->free(adap);
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-93  	adap->pin =3D NULL;
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-94  	kfree(pin);
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-95  }
-ea5c8ef296681b drivers/media/cec/cec-pin.c      Hans Verkuil 2017-07-11  12=
-96  =
+c8fa1e733c597a Benoit Parrot 2021-11-17  55  	for (i =3D 0; i < num_overlay=
+s; i++) {
+c8fa1e733c597a Benoit Parrot 2021-11-17  56  		struct omap_hw_overlay *over=
+lay;
+c8fa1e733c597a Benoit Parrot 2021-11-17  57  =
 
+c8fa1e733c597a Benoit Parrot 2021-11-17  58  		caps =3D dispc_ovl_get_caps(=
+priv->dispc, hw_plane_ids[i]);
+c8fa1e733c597a Benoit Parrot 2021-11-17  59  		overlay =3D omap_overlay_ini=
+t(hw_plane_ids[i], caps);
+c8fa1e733c597a Benoit Parrot 2021-11-17  60  		if (IS_ERR(overlay)) {
+c8fa1e733c597a Benoit Parrot 2021-11-17 @61  			ret =3D PTR_ERR(overlay);
+c8fa1e733c597a Benoit Parrot 2021-11-17  62  			dev_err(priv->dev, "failed =
+to construct overlay for %s (%d)\n",
+c8fa1e733c597a Benoit Parrot 2021-11-17  63  				overlay_id_to_name[i], ret=
+);
+c8fa1e733c597a Benoit Parrot 2021-11-17  64  			omap_hwoverlays_destroy(pri=
+v);
+c8fa1e733c597a Benoit Parrot 2021-11-17  65  			return ret;
+c8fa1e733c597a Benoit Parrot 2021-11-17  66  		}
+c8fa1e733c597a Benoit Parrot 2021-11-17  67  		overlay->idx =3D priv->num_o=
+vls;
+c8fa1e733c597a Benoit Parrot 2021-11-17  68  		priv->overlays[priv->num_ovl=
+s++] =3D overlay;
+c8fa1e733c597a Benoit Parrot 2021-11-17  69  	}
+c8fa1e733c597a Benoit Parrot 2021-11-17  70  =
 
-:::::: The code at line 1291 was first introduced by commit
-:::::: e2ed5024ac2bc27d4bfc99fd58f5ab54de8fa965 media: cec: use call_op and=
- check for !unregistered
+c8fa1e733c597a Benoit Parrot 2021-11-17  71  	return 0;
+c8fa1e733c597a Benoit Parrot 2021-11-17  72  }
+c8fa1e733c597a Benoit Parrot 2021-11-17  73  =
 
-:::::: TO: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3568281233708386139==--
+--===============8366113115928643648==--
 
