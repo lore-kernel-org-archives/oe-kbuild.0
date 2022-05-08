@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7956329496945209531=="
+Content-Type: multipart/mixed; boundary="===============6410402729491472784=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7422/9759] drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 08 May 2022 13:55:15 +0800
-Message-ID: <202205081329.GCICuRze-lkp@intel.com>
+Subject: drivers/scsi/ufs/ufshpb.c:54:17: warning: Access to field 'is_last' results in a dereference of an undefined pointer value (loaded from variable 'srgn') [clang-analyzer-core.NullDereference]
+Date: Sun, 08 May 2022 13:44:57 +0800
+Message-ID: <202205081338.nISwMDHQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7956329496945209531==
+--===============6410402729491472784==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,42 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Michael Walle <michael@walle.cc>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Daejun Park <daejun7.park@samsung.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Bart Van Assche <bvanassche@acm.org>
+CC: Can Guo <cang@codeaurora.org>
+CC: Bean Huo <beanhuo@micron.com>
+CC: Stanley Chu <stanley.chu@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   38a288f5941ef03752887ad86f2d85442358c99a
-commit: 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8 [7422/9759] net: phy: micr=
-el: move the PHY timestamping check
-:::::: branch date: 2 days ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20508/202205081329.GCICuRze-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
-b787698440a387750db7f8028e7cb14cfc)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   30c8e80f79329617012f07b09b70114592092ea4
+commit: f02bc9754a6887bf5e286889265d24ce5e3b1952 scsi: ufs: ufshpb: Introdu=
+ce Host Performance Buffer feature
+date:   9 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20220507 (https://download.01.org/0day-ci/archi=
+ve/20220508/202205081338.nISwMDHQ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af4cf1=
+c6b8ed0d8102fc5e69acdc2fcbbcdaa9a7)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df02bc9754a6887bf5e286889265d24ce5e3b1952
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f02bc9754a6887bf5e286889265d24ce5e3b1952
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,520 +58,471 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~~~~~~
-   include/linux/bitmap.h:552:13: note: The left expression of the compound=
- assignment is an uninitialized value. The computed value will also be garb=
-age
-           map[index] &=3D ~(0xFFUL << offset);
-           ~~~~~~~~~~ ^
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   drivers/gpio/gpio-pcf857x.c:237:23: warning: Value stored to 'np' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-pcf857x.c:237:23: note: Value stored to 'np' during it=
-s initialization is never read
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   70 warnings generated.
-   Suppressed 70 warnings (70 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   77 warnings generated.
-   drivers/net/phy/micrel.c:1280:2: warning: Value stored to 'regval' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:1280:2: note: Value stored to 'regval' is never=
- read
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2222:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2222:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2530:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2530:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2576:3: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2576:3: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
-                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2729:26: note: Value stored to 'ptp_priv' durin=
-g its initialization is never read
-           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
-                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
->> drivers/net/phy/micrel.c:2772:30: warning: Value stored to 'shared' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
-                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2772:30: note: Value stored to 'shared' during =
-its initialization is never read
-           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
-                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:2782:2: warning: Call to function 'snprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
-e);
-           ^~~~~~~~
-   drivers/net/phy/micrel.c:2782:2: note: Call to function 'snprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'snprintf_s' in case of C11
-           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
-e);
-           ^~~~~~~~
-   Suppressed 70 warnings (70 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
-   fs/nilfs2/btnode.c:36:2: warning: Call to function 'memset' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&ii->i_bmap_data, 0, sizeof(struct nilfs_bmap));
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   fs/nilfs2/btnode.c:36:2: note: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11
-           memset(&ii->i_bmap_data, 0, sizeof(struct nilfs_bmap));
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/gpu/drm/drm_file.c:584:8: note: Loop condition is false.  Exitin=
+g loop
+                           e =3D list_first_entry(&file_priv->event_list,
+                               ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   fs/nilfs2/btnode.c:61:2: warning: Call to function 'memset' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(bh->b_data, 0, i_blocksize(inode));
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   fs/nilfs2/btnode.c:61:2: note: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11
-           memset(bh->b_data, 0, i_blocksize(inode));
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 46 warnings (46 in non-user code).
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/gpu/drm/drm_file.c:586:30: note: Use of memory after it is freed
+                           file_priv->event_space +=3D e->event->length;
+                                                     ^~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/virtio/virtio.c:17:9: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "0x%04x\n", dev->id.device);
-                  ^~~~~~~
-   drivers/virtio/virtio.c:17:9: note: Call to function 'sprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "0x%04x\n", dev->id.device);
-                  ^~~~~~~
-   drivers/virtio/virtio.c:25:9: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "0x%04x\n", dev->id.vendor);
-                  ^~~~~~~
-   drivers/virtio/virtio.c:25:9: note: Call to function 'sprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "0x%04x\n", dev->id.vendor);
-                  ^~~~~~~
-   drivers/virtio/virtio.c:33:9: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "0x%08x\n", dev->config->get_status(dev));
-                  ^~~~~~~
-   drivers/virtio/virtio.c:33:9: note: Call to function 'sprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "0x%08x\n", dev->config->get_status(dev));
-                  ^~~~~~~
-   drivers/virtio/virtio.c:41:9: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "virtio:d%08Xv%08X\n",
-                  ^~~~~~~
-   drivers/virtio/virtio.c:41:9: note: Call to function 'sprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "virtio:d%08Xv%08X\n",
-                  ^~~~~~~
-   drivers/virtio/virtio.c:56:10: warning: Call to function 'sprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   len +=3D sprintf(buf+len, "%c",
-                          ^~~~~~~
-   drivers/virtio/virtio.c:56:10: note: Call to function 'sprintf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sprintf_s' in case of C11
-                   len +=3D sprintf(buf+len, "%c",
-                          ^~~~~~~
-   drivers/virtio/virtio.c:58:9: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len +=3D sprintf(buf+len, "\n");
-                  ^~~~~~~
-   drivers/virtio/virtio.c:58:9: note: Call to function 'sprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'sprintf_s' in case of C11
-           len +=3D sprintf(buf+len, "\n");
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+>> drivers/scsi/ufs/ufshpb.c:54:17: warning: Access to field 'is_last' resu=
+lts in a dereference of an undefined pointer value (loaded from variable 's=
+rgn') [clang-analyzer-core.NullDereference]
+                   srgn->is_last =3D true;
+                                 ^
+   drivers/scsi/ufs/ufshpb.c:475:6: note: Assuming 'lun' is < field 'max_lu=
+_supported'
+           if (lun >=3D hba->dev_info.max_lu_supported)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:475:2: note: Taking false branch
+           if (lun >=3D hba->dev_info.max_lu_supported)
+           ^
+   drivers/scsi/ufs/ufshpb.c:479:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/scsi/ufs/ufshpb.c:479:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/scsi/ufs/ufshpb.c:482:8: note: Calling 'ufshpb_alloc_hpb_lu'
+           hpb =3D ufshpb_alloc_hpb_lu(hba, lun, &hba->ufshpb_dev,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:257:6: note: Assuming 'hpb' is non-null
+           if (!hpb)
+               ^~~~
+   drivers/scsi/ufs/ufshpb.c:257:2: note: Taking false branch
+           if (!hpb)
+           ^
+   drivers/scsi/ufs/ufshpb.c:264:8: note: Calling 'ufshpb_lu_hpb_init'
+           ret =3D ufshpb_lu_hpb_init(hba, hpb);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:241:8: note: Calling 'ufshpb_alloc_region_tbl'
+           ret =3D ufshpb_alloc_region_tbl(hba, hpb);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:120:6: note: Assuming 'rgn_table' is non-null
+           if (!rgn_table)
+               ^~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:120:2: note: Taking false branch
+           if (!rgn_table)
+           ^
+   drivers/scsi/ufs/ufshpb.c:125:20: note: Assuming 'rgn_idx' is < field 'r=
+gns_per_lu'
+           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:125:2: note: Loop condition is true.  Entering=
+ loop body
+           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
+           ^
+   drivers/scsi/ufs/ufshpb.c:132:7: note: Assuming the condition is true
+                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:132:3: note: Taking true branch
+                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
+                   ^
+   drivers/scsi/ufs/ufshpb.c:139:7: note: 'ret' is 0
+                   if (ret)
+                       ^~~
+   drivers/scsi/ufs/ufshpb.c:139:3: note: Taking false branch
+                   if (ret)
+                   ^
+   drivers/scsi/ufs/ufshpb.c:141:3: note: Calling 'ufshpb_init_subregion_tb=
+l'
+                   ufshpb_init_subregion_tbl(hpb, rgn, last_srgn);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:43:2: note: 'srgn' declared without an initial=
+ value
+           struct ufshpb_subregion *srgn;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:45:21: note: Assuming 'srgn_idx' is >=3D field=
+ 'srgn_cnt'
+           for (srgn_idx =3D 0; srgn_idx < rgn->srgn_cnt; srgn_idx++) {
+                              ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:45:2: note: Loop condition is false. Execution=
+ continues on line 53
+           for (srgn_idx =3D 0; srgn_idx < rgn->srgn_cnt; srgn_idx++) {
+           ^
+   drivers/scsi/ufs/ufshpb.c:53:15: note: 'last' is true
+           if (unlikely(last && hpb->last_srgn_entries))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/ufs/ufshpb.c:53:15: note: Left side of '&&' is true
+           if (unlikely(last && hpb->last_srgn_entries))
+                        ^
+   drivers/scsi/ufs/ufshpb.c:53:6: note: Assuming the condition is false
+           if (unlikely(last && hpb->last_srgn_entries))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   drivers/scsi/ufs/ufshpb.c:53:2: note: Taking true branch
+           if (unlikely(last && hpb->last_srgn_entries))
+           ^
+   drivers/scsi/ufs/ufshpb.c:54:17: note: Access to field 'is_last' results=
+ in a dereference of an undefined pointer value (loaded from variable 'srgn=
+')
+                   srgn->is_last =3D true;
+                   ~~~~          ^
+>> drivers/scsi/ufs/ufshpb.c:104:22: warning: Division by zero [clang-analy=
+zer-core.DivideZero]
+           hpb->srgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
+                               ^
+   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
+   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+                        ^
+   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
+V_ROUND_UP'
+   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                        ~~~~~~~~~~~~~~~~^~~~~
+   drivers/scsi/ufs/ufshpb.c:78:23: note: Assuming field 'num_pinned' is 0
+           hpb->lu_pinned_end =3D hpb_lu_info->num_pinned ?
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshpb.c:78:23: note: '?' condition is false
+   drivers/scsi/ufs/ufshpb.c:84:2: note: Left side of '&&' is false
+           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+           ^
+   include/asm-generic/div64.h:229:35: note: expanded from macro 'do_div'
+           if (__builtin_constant_p(__base) &&             \
+                                            ^
+   drivers/scsi/ufs/ufshpb.c:84:2: note: 4 is >=3D 4
+           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+           ^
+   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
+           } else if (__div64_const32_is_OK &&             \
+                      ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm/include/asm/div64.h:64:32: note: expanded from macro '__div64_c=
+onst32_is_OK'
+   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
+                                  ^~~~~~~~
+   note: expanded from here
+   drivers/scsi/ufs/ufshpb.c:84:2: note: Left side of '&&' is true
+           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+           ^
+   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
+           } else if (__div64_const32_is_OK &&             \
+                      ^
+   arch/arm/include/asm/div64.h:64:31: note: expanded from macro '__div64_c=
+onst32_is_OK'
+   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
+                                 ^
+   drivers/scsi/ufs/ufshpb.c:84:2: note: Left side of '&&' is false
+           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+           ^
+   include/asm-generic/div64.h:234:35: note: expanded from macro 'do_div'
+                      __builtin_constant_p(__base) &&      \
+                                                   ^
+   drivers/scsi/ufs/ufshpb.c:84:2: note: Assuming the condition is true
+           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+           ^
+   include/asm-generic/div64.h:241:20: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
+                      ~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   drivers/scsi/ufs/ufshpb.c:84:2: note: Taking true branch
+           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
+           ^
+   include/asm-generic/div64.h:241:9: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
+                  ^
+   drivers/scsi/ufs/ufshpb.c:89:2: note: Left side of '&&' is false
+           do_div(tmp, HPB_ENTRY_SIZE);
+           ^
+   include/asm-generic/div64.h:229:35: note: expanded from macro 'do_div'
+           if (__builtin_constant_p(__base) &&             \
+                                            ^
+   drivers/scsi/ufs/ufshpb.c:89:2: note: 4 is >=3D 4
+           do_div(tmp, HPB_ENTRY_SIZE);
+           ^
+   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
+           } else if (__div64_const32_is_OK &&             \
+                      ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm/include/asm/div64.h:64:32: note: expanded from macro '__div64_c=
+onst32_is_OK'
+   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
+                                  ^~~~~~~~
+   note: expanded from here
+   drivers/scsi/ufs/ufshpb.c:89:2: note: Left side of '&&' is true
+           do_div(tmp, HPB_ENTRY_SIZE);
+           ^
+   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
+           } else if (__div64_const32_is_OK &&             \
+                      ^
+   arch/arm/include/asm/div64.h:64:31: note: expanded from macro '__div64_c=
+onst32_is_OK'
+   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
+                                 ^
+   drivers/scsi/ufs/ufshpb.c:89:2: note: Left side of '&&' is false
+           do_div(tmp, HPB_ENTRY_SIZE);
+           ^
+   include/asm-generic/div64.h:234:35: note: expanded from macro 'do_div'
+                      __builtin_constant_p(__base) &&      \
+                                                   ^
+   drivers/scsi/ufs/ufshpb.c:89:2: note: Assuming the condition is true
+           do_div(tmp, HPB_ENTRY_SIZE);
+           ^
+   include/asm-generic/div64.h:241:20: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
+                      ~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   drivers/scsi/ufs/ufshpb.c:89:2: note: Taking true branch
+           do_div(tmp, HPB_ENTRY_SIZE);
 
-vim +/ptp_priv +2729 drivers/net/phy/micrel.c
+vim +54 drivers/scsi/ufs/ufshpb.c
 
-b3ec7248f1f4b9 Divya Koppera 2021-12-21  2725  =
+f02bc9754a6887 Daejun Park 2021-07-12   38  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2726  static void lan8814_ptp_init=
-(struct phy_device *phydev)
-ece19502834d84 Divya Koppera 2022-03-04  2727  {
-ece19502834d84 Divya Koppera 2022-03-04  2728  	struct kszphy_priv *priv =
-=3D phydev->priv;
-ece19502834d84 Divya Koppera 2022-03-04 @2729  	struct kszphy_ptp_priv *ptp=
-_priv =3D &priv->ptp_priv;
-ece19502834d84 Divya Koppera 2022-03-04  2730  	u32 temp;
-ece19502834d84 Divya Koppera 2022-03-04  2731  =
+f02bc9754a6887 Daejun Park 2021-07-12   39  static void ufshpb_init_subregi=
+on_tbl(struct ufshpb_lu *hpb,
+f02bc9754a6887 Daejun Park 2021-07-12   40  				      struct ufshpb_region =
+*rgn, bool last)
+f02bc9754a6887 Daejun Park 2021-07-12   41  {
+f02bc9754a6887 Daejun Park 2021-07-12   42  	int srgn_idx;
+f02bc9754a6887 Daejun Park 2021-07-12   43  	struct ufshpb_subregion *srgn;
+f02bc9754a6887 Daejun Park 2021-07-12   44  =
 
-31d00ca4ce0e1a Michael Walle 2022-04-27  2732  	if (!IS_ENABLED(CONFIG_PTP_=
-1588_CLOCK) ||
-31d00ca4ce0e1a Michael Walle 2022-04-27  2733  	    !IS_ENABLED(CONFIG_NETW=
-ORK_PHY_TIMESTAMPING))
-31d00ca4ce0e1a Michael Walle 2022-04-27  2734  		return;
-31d00ca4ce0e1a Michael Walle 2022-04-27  2735  =
+f02bc9754a6887 Daejun Park 2021-07-12   45  	for (srgn_idx =3D 0; srgn_idx =
+< rgn->srgn_cnt; srgn_idx++) {
+f02bc9754a6887 Daejun Park 2021-07-12   46  		srgn =3D rgn->srgn_tbl + srgn=
+_idx;
+f02bc9754a6887 Daejun Park 2021-07-12   47  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2736  	lanphy_write_page_reg(phyde=
-v, 5, TSU_HARD_RESET, TSU_HARD_RESET_);
-ece19502834d84 Divya Koppera 2022-03-04  2737  =
+f02bc9754a6887 Daejun Park 2021-07-12   48  		srgn->rgn_idx =3D rgn->rgn_id=
+x;
+f02bc9754a6887 Daejun Park 2021-07-12   49  		srgn->srgn_idx =3D srgn_idx;
+f02bc9754a6887 Daejun Park 2021-07-12   50  		srgn->srgn_state =3D HPB_SRGN=
+_UNUSED;
+f02bc9754a6887 Daejun Park 2021-07-12   51  	}
+f02bc9754a6887 Daejun Park 2021-07-12   52  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2738  	temp =3D lanphy_read_page_r=
-eg(phydev, 5, PTP_TX_MOD);
-ece19502834d84 Divya Koppera 2022-03-04  2739  	temp |=3D PTP_TX_MOD_BAD_UD=
-PV4_CHKSUM_FORCE_FCS_DIS_;
-ece19502834d84 Divya Koppera 2022-03-04  2740  	lanphy_write_page_reg(phyde=
-v, 5, PTP_TX_MOD, temp);
-ece19502834d84 Divya Koppera 2022-03-04  2741  =
+f02bc9754a6887 Daejun Park 2021-07-12   53  	if (unlikely(last && hpb->last=
+_srgn_entries))
+f02bc9754a6887 Daejun Park 2021-07-12  @54  		srgn->is_last =3D true;
+f02bc9754a6887 Daejun Park 2021-07-12   55  }
+f02bc9754a6887 Daejun Park 2021-07-12   56  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2742  	temp =3D lanphy_read_page_r=
-eg(phydev, 5, PTP_RX_MOD);
-ece19502834d84 Divya Koppera 2022-03-04  2743  	temp |=3D PTP_RX_MOD_BAD_UD=
-PV4_CHKSUM_FORCE_FCS_DIS_;
-ece19502834d84 Divya Koppera 2022-03-04  2744  	lanphy_write_page_reg(phyde=
-v, 5, PTP_RX_MOD, temp);
-ece19502834d84 Divya Koppera 2022-03-04  2745  =
+f02bc9754a6887 Daejun Park 2021-07-12   57  static int ufshpb_alloc_subregi=
+on_tbl(struct ufshpb_lu *hpb,
+f02bc9754a6887 Daejun Park 2021-07-12   58  				      struct ufshpb_region =
+*rgn, int srgn_cnt)
+f02bc9754a6887 Daejun Park 2021-07-12   59  {
+f02bc9754a6887 Daejun Park 2021-07-12   60  	rgn->srgn_tbl =3D kvcalloc(srg=
+n_cnt, sizeof(struct ufshpb_subregion),
+f02bc9754a6887 Daejun Park 2021-07-12   61  				 GFP_KERNEL);
+f02bc9754a6887 Daejun Park 2021-07-12   62  	if (!rgn->srgn_tbl)
+f02bc9754a6887 Daejun Park 2021-07-12   63  		return -ENOMEM;
+f02bc9754a6887 Daejun Park 2021-07-12   64  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2746  	lanphy_write_page_reg(phyde=
-v, 5, PTP_RX_PARSE_CONFIG, 0);
-ece19502834d84 Divya Koppera 2022-03-04  2747  	lanphy_write_page_reg(phyde=
-v, 5, PTP_TX_PARSE_CONFIG, 0);
-ece19502834d84 Divya Koppera 2022-03-04  2748  =
+f02bc9754a6887 Daejun Park 2021-07-12   65  	rgn->srgn_cnt =3D srgn_cnt;
+f02bc9754a6887 Daejun Park 2021-07-12   66  	return 0;
+f02bc9754a6887 Daejun Park 2021-07-12   67  }
+f02bc9754a6887 Daejun Park 2021-07-12   68  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2749  	/* Removing default registe=
-rs configs related to L2 and IP */
-ece19502834d84 Divya Koppera 2022-03-04  2750  	lanphy_write_page_reg(phyde=
-v, 5, PTP_TX_PARSE_L2_ADDR_EN, 0);
-ece19502834d84 Divya Koppera 2022-03-04  2751  	lanphy_write_page_reg(phyde=
-v, 5, PTP_RX_PARSE_L2_ADDR_EN, 0);
-ece19502834d84 Divya Koppera 2022-03-04  2752  	lanphy_write_page_reg(phyde=
-v, 5, PTP_TX_PARSE_IP_ADDR_EN, 0);
-ece19502834d84 Divya Koppera 2022-03-04  2753  	lanphy_write_page_reg(phyde=
-v, 5, PTP_RX_PARSE_IP_ADDR_EN, 0);
-ece19502834d84 Divya Koppera 2022-03-04  2754  =
+f02bc9754a6887 Daejun Park 2021-07-12   69  static void ufshpb_lu_parameter=
+_init(struct ufs_hba *hba,
+f02bc9754a6887 Daejun Park 2021-07-12   70  				     struct ufshpb_lu *hpb,
+f02bc9754a6887 Daejun Park 2021-07-12   71  				     struct ufshpb_dev_info=
+ *hpb_dev_info,
+f02bc9754a6887 Daejun Park 2021-07-12   72  				     struct ufshpb_lu_info =
+*hpb_lu_info)
+f02bc9754a6887 Daejun Park 2021-07-12   73  {
+f02bc9754a6887 Daejun Park 2021-07-12   74  	u32 entries_per_rgn;
+f02bc9754a6887 Daejun Park 2021-07-12   75  	u64 rgn_mem_size, tmp;
+f02bc9754a6887 Daejun Park 2021-07-12   76  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2755  	skb_queue_head_init(&ptp_pr=
-iv->tx_queue);
-ece19502834d84 Divya Koppera 2022-03-04  2756  	skb_queue_head_init(&ptp_pr=
-iv->rx_queue);
-ece19502834d84 Divya Koppera 2022-03-04  2757  	INIT_LIST_HEAD(&ptp_priv->r=
-x_ts_list);
-ece19502834d84 Divya Koppera 2022-03-04  2758  	spin_lock_init(&ptp_priv->r=
-x_ts_lock);
-ece19502834d84 Divya Koppera 2022-03-04  2759  =
+f02bc9754a6887 Daejun Park 2021-07-12   77  	hpb->lu_pinned_start =3D hpb_l=
+u_info->pinned_start;
+f02bc9754a6887 Daejun Park 2021-07-12   78  	hpb->lu_pinned_end =3D hpb_lu_=
+info->num_pinned ?
+f02bc9754a6887 Daejun Park 2021-07-12   79  		(hpb_lu_info->pinned_start + =
+hpb_lu_info->num_pinned - 1)
+f02bc9754a6887 Daejun Park 2021-07-12   80  		: PINNED_NOT_SET;
+f02bc9754a6887 Daejun Park 2021-07-12   81  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2760  	ptp_priv->phydev =3D phydev;
-ece19502834d84 Divya Koppera 2022-03-04  2761  =
+f02bc9754a6887 Daejun Park 2021-07-12   82  	rgn_mem_size =3D (1ULL << hpb_=
+dev_info->rgn_size) * HPB_RGN_SIZE_UNIT
+f02bc9754a6887 Daejun Park 2021-07-12   83  			* HPB_ENTRY_SIZE;
+f02bc9754a6887 Daejun Park 2021-07-12   84  	do_div(rgn_mem_size, HPB_ENTRY=
+_BLOCK_SIZE);
+f02bc9754a6887 Daejun Park 2021-07-12   85  	hpb->srgn_mem_size =3D (1ULL <=
+< hpb_dev_info->srgn_size)
+f02bc9754a6887 Daejun Park 2021-07-12   86  		* HPB_RGN_SIZE_UNIT / HPB_ENT=
+RY_BLOCK_SIZE * HPB_ENTRY_SIZE;
+f02bc9754a6887 Daejun Park 2021-07-12   87  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2762  	ptp_priv->mii_ts.rxtstamp =
-=3D lan8814_rxtstamp;
-ece19502834d84 Divya Koppera 2022-03-04  2763  	ptp_priv->mii_ts.txtstamp =
-=3D lan8814_txtstamp;
-ece19502834d84 Divya Koppera 2022-03-04  2764  	ptp_priv->mii_ts.hwtstamp =
-=3D lan8814_hwtstamp;
-ece19502834d84 Divya Koppera 2022-03-04  2765  	ptp_priv->mii_ts.ts_info  =
-=3D lan8814_ts_info;
-ece19502834d84 Divya Koppera 2022-03-04  2766  =
+f02bc9754a6887 Daejun Park 2021-07-12   88  	tmp =3D rgn_mem_size;
+f02bc9754a6887 Daejun Park 2021-07-12   89  	do_div(tmp, HPB_ENTRY_SIZE);
+f02bc9754a6887 Daejun Park 2021-07-12   90  	entries_per_rgn =3D (u32)tmp;
+f02bc9754a6887 Daejun Park 2021-07-12   91  	hpb->entries_per_rgn_shift =3D=
+ ilog2(entries_per_rgn);
+f02bc9754a6887 Daejun Park 2021-07-12   92  	hpb->entries_per_rgn_mask =3D =
+entries_per_rgn - 1;
+f02bc9754a6887 Daejun Park 2021-07-12   93  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2767  	phydev->mii_ts =3D &ptp_pri=
-v->mii_ts;
-ece19502834d84 Divya Koppera 2022-03-04  2768  }
-ece19502834d84 Divya Koppera 2022-03-04  2769  =
+f02bc9754a6887 Daejun Park 2021-07-12   94  	hpb->entries_per_srgn =3D hpb-=
+>srgn_mem_size / HPB_ENTRY_SIZE;
+f02bc9754a6887 Daejun Park 2021-07-12   95  	hpb->entries_per_srgn_shift =
+=3D ilog2(hpb->entries_per_srgn);
+f02bc9754a6887 Daejun Park 2021-07-12   96  	hpb->entries_per_srgn_mask =3D=
+ hpb->entries_per_srgn - 1;
+f02bc9754a6887 Daejun Park 2021-07-12   97  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2770  static int lan8814_ptp_probe=
-_once(struct phy_device *phydev)
-ece19502834d84 Divya Koppera 2022-03-04  2771  {
-ece19502834d84 Divya Koppera 2022-03-04 @2772  	struct lan8814_shared_priv =
-*shared =3D phydev->shared->priv;
-ece19502834d84 Divya Koppera 2022-03-04  2773  =
+f02bc9754a6887 Daejun Park 2021-07-12   98  	tmp =3D rgn_mem_size;
+f02bc9754a6887 Daejun Park 2021-07-12   99  	do_div(tmp, hpb->srgn_mem_size=
+);
+f02bc9754a6887 Daejun Park 2021-07-12  100  	hpb->srgns_per_rgn =3D (int)tm=
+p;
+f02bc9754a6887 Daejun Park 2021-07-12  101  =
 
-31d00ca4ce0e1a Michael Walle 2022-04-27  2774  	if (!IS_ENABLED(CONFIG_PTP_=
-1588_CLOCK) ||
-31d00ca4ce0e1a Michael Walle 2022-04-27  2775  	    !IS_ENABLED(CONFIG_NETW=
-ORK_PHY_TIMESTAMPING))
-31d00ca4ce0e1a Michael Walle 2022-04-27  2776  		return 0;
-31d00ca4ce0e1a Michael Walle 2022-04-27  2777  =
+f02bc9754a6887 Daejun Park 2021-07-12  102  	hpb->rgns_per_lu =3D DIV_ROUND=
+_UP(hpb_lu_info->num_blocks,
+f02bc9754a6887 Daejun Park 2021-07-12  103  				entries_per_rgn);
+f02bc9754a6887 Daejun Park 2021-07-12 @104  	hpb->srgns_per_lu =3D DIV_ROUN=
+D_UP(hpb_lu_info->num_blocks,
+f02bc9754a6887 Daejun Park 2021-07-12  105  				(hpb->srgn_mem_size / HPB_E=
+NTRY_SIZE));
+f02bc9754a6887 Daejun Park 2021-07-12  106  	hpb->last_srgn_entries =3D hpb=
+_lu_info->num_blocks
+f02bc9754a6887 Daejun Park 2021-07-12  107  				 % (hpb->srgn_mem_size / HP=
+B_ENTRY_SIZE);
+f02bc9754a6887 Daejun Park 2021-07-12  108  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2778  	/* Initialise shared lock f=
-or clock*/
-ece19502834d84 Divya Koppera 2022-03-04  2779  	mutex_init(&shared->shared_=
-lock);
-ece19502834d84 Divya Koppera 2022-03-04  2780  =
+f02bc9754a6887 Daejun Park 2021-07-12  109  	hpb->pages_per_srgn =3D DIV_RO=
+UND_UP(hpb->srgn_mem_size, PAGE_SIZE);
+f02bc9754a6887 Daejun Park 2021-07-12  110  }
+f02bc9754a6887 Daejun Park 2021-07-12  111  =
 
-ece19502834d84 Divya Koppera 2022-03-04  2781  	shared->ptp_clock_info.owne=
-r =3D THIS_MODULE;
-ece19502834d84 Divya Koppera 2022-03-04  2782  	snprintf(shared->ptp_clock_=
-info.name, 30, "%s", phydev->drv->name);
-ece19502834d84 Divya Koppera 2022-03-04  2783  	shared->ptp_clock_info.max_=
-adj =3D 31249999;
-ece19502834d84 Divya Koppera 2022-03-04  2784  	shared->ptp_clock_info.n_al=
-arm =3D 0;
-ece19502834d84 Divya Koppera 2022-03-04  2785  	shared->ptp_clock_info.n_ex=
-t_ts =3D 0;
-ece19502834d84 Divya Koppera 2022-03-04  2786  	shared->ptp_clock_info.n_pi=
-ns =3D 0;
-ece19502834d84 Divya Koppera 2022-03-04  2787  	shared->ptp_clock_info.pps =
-=3D 0;
-ece19502834d84 Divya Koppera 2022-03-04  2788  	shared->ptp_clock_info.pin_=
-config =3D NULL;
-ece19502834d84 Divya Koppera 2022-03-04  2789  	shared->ptp_clock_info.adjf=
-ine =3D lan8814_ptpci_adjfine;
-ece19502834d84 Divya Koppera 2022-03-04  2790  	shared->ptp_clock_info.adjt=
-ime =3D lan8814_ptpci_adjtime;
-ece19502834d84 Divya Koppera 2022-03-04  2791  	shared->ptp_clock_info.gett=
-ime64 =3D lan8814_ptpci_gettime64;
-ece19502834d84 Divya Koppera 2022-03-04  2792  	shared->ptp_clock_info.sett=
-ime64 =3D lan8814_ptpci_settime64;
-ece19502834d84 Divya Koppera 2022-03-04  2793  	shared->ptp_clock_info.getc=
-rosststamp =3D NULL;
-ece19502834d84 Divya Koppera 2022-03-04  2794  =
-
-ece19502834d84 Divya Koppera 2022-03-04  2795  	shared->ptp_clock =3D ptp_c=
-lock_register(&shared->ptp_clock_info,
-ece19502834d84 Divya Koppera 2022-03-04  2796  					       &phydev->mdio.de=
-v);
-ece19502834d84 Divya Koppera 2022-03-04  2797  	if (IS_ERR_OR_NULL(shared->=
-ptp_clock)) {
-ece19502834d84 Divya Koppera 2022-03-04  2798  		phydev_err(phydev, "ptp_cl=
-ock_register failed %lu\n",
-ece19502834d84 Divya Koppera 2022-03-04  2799  			   PTR_ERR(shared->ptp_cl=
-ock));
-ece19502834d84 Divya Koppera 2022-03-04  2800  		return -EINVAL;
-ece19502834d84 Divya Koppera 2022-03-04  2801  	}
-ece19502834d84 Divya Koppera 2022-03-04  2802  =
-
-ece19502834d84 Divya Koppera 2022-03-04  2803  	phydev_dbg(phydev, "success=
-fully registered ptp clock\n");
-ece19502834d84 Divya Koppera 2022-03-04  2804  =
-
-ece19502834d84 Divya Koppera 2022-03-04  2805  	shared->phydev =3D phydev;
-ece19502834d84 Divya Koppera 2022-03-04  2806  =
-
-ece19502834d84 Divya Koppera 2022-03-04  2807  	/* The EP.4 is shared betwe=
-en all the PHYs in the package and also it
-ece19502834d84 Divya Koppera 2022-03-04  2808  	 * can be accessed by any o=
-f the PHYs
-ece19502834d84 Divya Koppera 2022-03-04  2809  	 */
-ece19502834d84 Divya Koppera 2022-03-04  2810  	lanphy_write_page_reg(phyde=
-v, 4, LTC_HARD_RESET, LTC_HARD_RESET_);
-ece19502834d84 Divya Koppera 2022-03-04  2811  	lanphy_write_page_reg(phyde=
-v, 4, PTP_OPERATING_MODE,
-ece19502834d84 Divya Koppera 2022-03-04  2812  			      PTP_OPERATING_MODE_=
-STANDALONE_);
-ece19502834d84 Divya Koppera 2022-03-04  2813  =
-
-ece19502834d84 Divya Koppera 2022-03-04  2814  	return 0;
-ece19502834d84 Divya Koppera 2022-03-04  2815  }
-ece19502834d84 Divya Koppera 2022-03-04  2816  =
-
-
-:::::: The code at line 2729 was first introduced by commit
-:::::: ece19502834d84ece2e056db28257ca2aa6e4d48 net: phy: micrel: 1588 supp=
-ort for LAN8814 phy
-
-:::::: TO: Divya Koppera <Divya.Koppera@microchip.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7956329496945209531==--
+--===============6410402729491472784==--
 
