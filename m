@@ -1,201 +1,540 @@
-Content-Type: multipart/mixed; boundary="===============8680768613531039777=="
+Content-Type: multipart/mixed; boundary="===============7461401054817134045=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mtd:spi-nor/next 16/18] drivers/mtd/spi-nor/debugfs.c:84 spi_nor_params_show() warn: '%ph' cannot be followed by 'n'
-Date: Wed, 11 May 2022 03:10:40 +0800
-Message-ID: <202205110320.WNi7ZQaB-lkp@intel.com>
+Subject: [linux-next:master 7089/10661] drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 11 May 2022 00:48:24 +0800
+Message-ID: <202205110011.avESLaxB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8680768613531039777==
+--===============7461401054817134045==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
 TO: Michael Walle <michael@walle.cc>
-CC: Pratyush Yadav <p.yadav@ti.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-n=
-or/next
-head:   cdbc44dbb2c73d8bafa1a8ae0d780608be5dbd40
-commit: 0257be79fc4a16a3252ce80aa13b3640f728c425 [16/18] mtd: spi-nor: expo=
-se internal parameters via debugfs
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: x86_64-randconfig-m001-20220509 (https://download.01.org/0day-ci/ar=
-chive/20220511/202205110320.WNi7ZQaB-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   3bf222d317a20170ee17f082626c1e0f83537e13
+commit: 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8 [7089/10661] net: phy: mic=
+rel: move the PHY timestamping check
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20511/202205110011.avESLaxB-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004f=
+b787698440a387750db7f8028e7cb14cfc)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 31d00ca4ce0e1abf5342854606bbe7d20e38c3f8
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/mtd/spi-nor/debugfs.c:84 spi_nor_params_show() warn: '%ph' cannot b=
-e followed by 'n'
 
-vim +84 drivers/mtd/spi-nor/debugfs.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   74 warnings generated.
+   drivers/net/phy/icplus.c:107:3: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   err =3D mdiobus_read(phydev->mdio.bus, 30, 0);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/icplus.c:107:3: note: Value stored to 'err' is never read
+                   err =3D mdiobus_read(phydev->mdio.bus, 30, 0);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/icplus.c:131:4: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                           err =3D mdiobus_read(phydev->mdio.bus, i, MII_BM=
+CR);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/icplus.c:131:4: note: Value stored to 'err' is never read
+                           err =3D mdiobus_read(phydev->mdio.bus, i, MII_BM=
+CR);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 72 warnings (72 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   72 warnings generated.
+   Suppressed 72 warnings (72 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   70 warnings generated.
+   Suppressed 70 warnings (70 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   77 warnings generated.
+   drivers/net/phy/micrel.c:1280:2: warning: Value stored to 'regval' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:1280:2: note: Value stored to 'regval' is never=
+ read
+           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2222:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2222:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2530:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2530:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(&shhwtstamps, 0, sizeof(shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2576:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2576:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> drivers/net/phy/micrel.c:2729:26: warning: Value stored to 'ptp_priv' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
+                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2729:26: note: Value stored to 'ptp_priv' durin=
+g its initialization is never read
+           struct kszphy_ptp_priv *ptp_priv =3D &priv->ptp_priv;
+                                   ^~~~~~~~   ~~~~~~~~~~~~~~~
+>> drivers/net/phy/micrel.c:2772:30: warning: Value stored to 'shared' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
+                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2772:30: note: Value stored to 'shared' during =
+its initialization is never read
+           struct lan8814_shared_priv *shared =3D phydev->shared->priv;
+                                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:2782:2: warning: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
+e);
+           ^~~~~~~~
+   drivers/net/phy/micrel.c:2782:2: note: Call to function 'snprintf' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'snprintf_s' in case of C11
+           snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->nam=
+e);
+           ^~~~~~~~
+   Suppressed 70 warnings (70 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   51 warnings generated.
+   fs/ext4/balloc.c:198:2: warning: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(bh->b_data, 0, sb->s_blocksize);
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/ext4/balloc.c:198:2: note: Call to function 'memset' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memset_s' in case of C11
+           memset(bh->b_data, 0, sb->s_blocksize);
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/ext4/balloc.c:693:2: warning: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&ar, 0, sizeof(ar));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/ext4/balloc.c:693:2: note: Call to function 'memset' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memset_s' in case of C11
+           memset(&ar, 0, sizeof(ar));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 49 warnings (49 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   87 warnings generated.
+   drivers/net/wireless/marvell/libertas_tf/cmd.c:49:2: warning: Call to fu=
+nction 'memcpy' is insecure as it does not provide security checks introduc=
+ed in the C11 standard. Replace with analogous functions that support lengt=
+h arguments or provides boundary checks such as 'memcpy_s' in case of C11 [=
+clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buf, resp, copy_len);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/marvell/libertas_tf/cmd.c:49:2: note: Call to funct=
+ion 'memcpy' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(buf, resp, copy_len);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
 
-0257be79fc4a16 Michael Walle 2022-04-29   72  =
+vim +/ptp_priv +2729 drivers/net/phy/micrel.c
 
-0257be79fc4a16 Michael Walle 2022-04-29   73  static int spi_nor_params_sho=
-w(struct seq_file *s, void *data)
-0257be79fc4a16 Michael Walle 2022-04-29   74  {
-0257be79fc4a16 Michael Walle 2022-04-29   75  	struct spi_nor *nor =3D s->p=
-rivate;
-0257be79fc4a16 Michael Walle 2022-04-29   76  	struct spi_nor_flash_paramet=
-er *params =3D nor->params;
-0257be79fc4a16 Michael Walle 2022-04-29   77  	struct spi_nor_erase_map *er=
-ase_map =3D &params->erase_map;
-0257be79fc4a16 Michael Walle 2022-04-29   78  	struct spi_nor_erase_region =
-*region;
-0257be79fc4a16 Michael Walle 2022-04-29   79  	const struct flash_info *inf=
-o =3D nor->info;
-0257be79fc4a16 Michael Walle 2022-04-29   80  	char buf[16], *str;
-0257be79fc4a16 Michael Walle 2022-04-29   81  	int i;
-0257be79fc4a16 Michael Walle 2022-04-29   82  =
+b3ec7248f1f4b9 Divya Koppera 2021-12-21  2725  =
 
-0257be79fc4a16 Michael Walle 2022-04-29   83  	seq_printf(s, "name\t\t%s\n"=
-, info->name);
-0257be79fc4a16 Michael Walle 2022-04-29  @84  	seq_printf(s, "id\t\t%*phn\n=
-", info->id_len, info->id);
-0257be79fc4a16 Michael Walle 2022-04-29   85  	string_get_size(params->size=
-, 1, STRING_UNITS_2, buf, sizeof(buf));
-0257be79fc4a16 Michael Walle 2022-04-29   86  	seq_printf(s, "size\t\t%s\n"=
-, buf);
-0257be79fc4a16 Michael Walle 2022-04-29   87  	seq_printf(s, "write size\t%=
-u\n", params->writesize);
-0257be79fc4a16 Michael Walle 2022-04-29   88  	seq_printf(s, "page size\t%u=
-\n", params->page_size);
-0257be79fc4a16 Michael Walle 2022-04-29   89  	seq_printf(s, "address width=
-\t%u\n", nor->addr_width);
-0257be79fc4a16 Michael Walle 2022-04-29   90  =
+ece19502834d84 Divya Koppera 2022-03-04  2726  static void lan8814_ptp_init=
+(struct phy_device *phydev)
+ece19502834d84 Divya Koppera 2022-03-04  2727  {
+ece19502834d84 Divya Koppera 2022-03-04  2728  	struct kszphy_priv *priv =
+=3D phydev->priv;
+ece19502834d84 Divya Koppera 2022-03-04 @2729  	struct kszphy_ptp_priv *ptp=
+_priv =3D &priv->ptp_priv;
+ece19502834d84 Divya Koppera 2022-03-04  2730  	u32 temp;
+ece19502834d84 Divya Koppera 2022-03-04  2731  =
 
-0257be79fc4a16 Michael Walle 2022-04-29   91  	seq_puts(s, "flags\t\t");
-0257be79fc4a16 Michael Walle 2022-04-29   92  	spi_nor_print_flags(s, nor->=
-flags, snor_f_names, sizeof(snor_f_names));
-0257be79fc4a16 Michael Walle 2022-04-29   93  	seq_puts(s, "\n");
-0257be79fc4a16 Michael Walle 2022-04-29   94  =
+31d00ca4ce0e1a Michael Walle 2022-04-27  2732  	if (!IS_ENABLED(CONFIG_PTP_=
+1588_CLOCK) ||
+31d00ca4ce0e1a Michael Walle 2022-04-27  2733  	    !IS_ENABLED(CONFIG_NETW=
+ORK_PHY_TIMESTAMPING))
+31d00ca4ce0e1a Michael Walle 2022-04-27  2734  		return;
+31d00ca4ce0e1a Michael Walle 2022-04-27  2735  =
 
-0257be79fc4a16 Michael Walle 2022-04-29   95  	seq_puts(s, "\nopcodes\n");
-0257be79fc4a16 Michael Walle 2022-04-29   96  	seq_printf(s, " read\t\t0x%0=
-2x\n", nor->read_opcode);
-0257be79fc4a16 Michael Walle 2022-04-29   97  	seq_printf(s, "  dummy cycle=
-s\t%u\n", nor->read_dummy);
-0257be79fc4a16 Michael Walle 2022-04-29   98  	seq_printf(s, " erase\t\t0x%=
-02x\n", nor->erase_opcode);
-0257be79fc4a16 Michael Walle 2022-04-29   99  	seq_printf(s, " program\t0x%=
-02x\n", nor->program_opcode);
-0257be79fc4a16 Michael Walle 2022-04-29  100  =
+ece19502834d84 Divya Koppera 2022-03-04  2736  	lanphy_write_page_reg(phyde=
+v, 5, TSU_HARD_RESET, TSU_HARD_RESET_);
+ece19502834d84 Divya Koppera 2022-03-04  2737  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  101  	switch (nor->cmd_ext_type) {
-0257be79fc4a16 Michael Walle 2022-04-29  102  	case SPI_NOR_EXT_NONE:
-0257be79fc4a16 Michael Walle 2022-04-29  103  		str =3D "none";
-0257be79fc4a16 Michael Walle 2022-04-29  104  		break;
-0257be79fc4a16 Michael Walle 2022-04-29  105  	case SPI_NOR_EXT_REPEAT:
-0257be79fc4a16 Michael Walle 2022-04-29  106  		str =3D "repeat";
-0257be79fc4a16 Michael Walle 2022-04-29  107  		break;
-0257be79fc4a16 Michael Walle 2022-04-29  108  	case SPI_NOR_EXT_INVERT:
-0257be79fc4a16 Michael Walle 2022-04-29  109  		str =3D "invert";
-0257be79fc4a16 Michael Walle 2022-04-29  110  		break;
-0257be79fc4a16 Michael Walle 2022-04-29  111  	default:
-0257be79fc4a16 Michael Walle 2022-04-29  112  		str =3D "<unknown>";
-0257be79fc4a16 Michael Walle 2022-04-29  113  		break;
-0257be79fc4a16 Michael Walle 2022-04-29  114  	}
-0257be79fc4a16 Michael Walle 2022-04-29  115  	seq_printf(s, " 8D extension=
-\t%s\n", str);
-0257be79fc4a16 Michael Walle 2022-04-29  116  =
+ece19502834d84 Divya Koppera 2022-03-04  2738  	temp =3D lanphy_read_page_r=
+eg(phydev, 5, PTP_TX_MOD);
+ece19502834d84 Divya Koppera 2022-03-04  2739  	temp |=3D PTP_TX_MOD_BAD_UD=
+PV4_CHKSUM_FORCE_FCS_DIS_;
+ece19502834d84 Divya Koppera 2022-03-04  2740  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_MOD, temp);
+ece19502834d84 Divya Koppera 2022-03-04  2741  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  117  	seq_puts(s, "\nprotocols\n");
-0257be79fc4a16 Michael Walle 2022-04-29  118  	seq_printf(s, " read\t\t%s\n=
-",
-0257be79fc4a16 Michael Walle 2022-04-29  119  		   spi_nor_protocol_name(no=
-r->read_proto));
-0257be79fc4a16 Michael Walle 2022-04-29  120  	seq_printf(s, " write\t\t%s\=
-n",
-0257be79fc4a16 Michael Walle 2022-04-29  121  		   spi_nor_protocol_name(no=
-r->write_proto));
-0257be79fc4a16 Michael Walle 2022-04-29  122  	seq_printf(s, " register\t%s=
-\n",
-0257be79fc4a16 Michael Walle 2022-04-29  123  		   spi_nor_protocol_name(no=
-r->reg_proto));
-0257be79fc4a16 Michael Walle 2022-04-29  124  =
+ece19502834d84 Divya Koppera 2022-03-04  2742  	temp =3D lanphy_read_page_r=
+eg(phydev, 5, PTP_RX_MOD);
+ece19502834d84 Divya Koppera 2022-03-04  2743  	temp |=3D PTP_RX_MOD_BAD_UD=
+PV4_CHKSUM_FORCE_FCS_DIS_;
+ece19502834d84 Divya Koppera 2022-03-04  2744  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_MOD, temp);
+ece19502834d84 Divya Koppera 2022-03-04  2745  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  125  	seq_puts(s, "\nerase command=
-s\n");
-0257be79fc4a16 Michael Walle 2022-04-29  126  	for (i =3D 0; i < SNOR_ERASE=
-_TYPE_MAX; i++) {
-0257be79fc4a16 Michael Walle 2022-04-29  127  		struct spi_nor_erase_type *=
-et =3D &erase_map->erase_type[i];
-0257be79fc4a16 Michael Walle 2022-04-29  128  =
+ece19502834d84 Divya Koppera 2022-03-04  2746  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_PARSE_CONFIG, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2747  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_PARSE_CONFIG, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2748  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  129  		if (et->size) {
-0257be79fc4a16 Michael Walle 2022-04-29  130  			string_get_size(et->size, =
-1, STRING_UNITS_2, buf,
-0257be79fc4a16 Michael Walle 2022-04-29  131  					sizeof(buf));
-0257be79fc4a16 Michael Walle 2022-04-29  132  			seq_printf(s, " %02x (%s) =
-[%d]\n", et->opcode, buf, i);
-0257be79fc4a16 Michael Walle 2022-04-29  133  		}
-0257be79fc4a16 Michael Walle 2022-04-29  134  	}
-0257be79fc4a16 Michael Walle 2022-04-29  135  =
+ece19502834d84 Divya Koppera 2022-03-04  2749  	/* Removing default registe=
+rs configs related to L2 and IP */
+ece19502834d84 Divya Koppera 2022-03-04  2750  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_PARSE_L2_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2751  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_PARSE_L2_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2752  	lanphy_write_page_reg(phyde=
+v, 5, PTP_TX_PARSE_IP_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2753  	lanphy_write_page_reg(phyde=
+v, 5, PTP_RX_PARSE_IP_ADDR_EN, 0);
+ece19502834d84 Divya Koppera 2022-03-04  2754  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  136  	if (!(nor->flags & SNOR_F_NO=
-_OP_CHIP_ERASE)) {
-0257be79fc4a16 Michael Walle 2022-04-29  137  		string_get_size(params->siz=
-e, 1, STRING_UNITS_2, buf, sizeof(buf));
-0257be79fc4a16 Michael Walle 2022-04-29  138  		seq_printf(s, " %02x (%s)\n=
-", SPINOR_OP_CHIP_ERASE, buf);
-0257be79fc4a16 Michael Walle 2022-04-29  139  	}
-0257be79fc4a16 Michael Walle 2022-04-29  140  =
+ece19502834d84 Divya Koppera 2022-03-04  2755  	skb_queue_head_init(&ptp_pr=
+iv->tx_queue);
+ece19502834d84 Divya Koppera 2022-03-04  2756  	skb_queue_head_init(&ptp_pr=
+iv->rx_queue);
+ece19502834d84 Divya Koppera 2022-03-04  2757  	INIT_LIST_HEAD(&ptp_priv->r=
+x_ts_list);
+ece19502834d84 Divya Koppera 2022-03-04  2758  	spin_lock_init(&ptp_priv->r=
+x_ts_lock);
+ece19502834d84 Divya Koppera 2022-03-04  2759  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  141  	seq_puts(s, "\nsector map\n"=
-);
-0257be79fc4a16 Michael Walle 2022-04-29  142  	seq_puts(s, " region (in hex=
-)   | erase mask | flags\n");
-0257be79fc4a16 Michael Walle 2022-04-29  143  	seq_puts(s, " --------------=
-----+------------+----------\n");
-0257be79fc4a16 Michael Walle 2022-04-29  144  	for (region =3D erase_map->r=
-egions;
-0257be79fc4a16 Michael Walle 2022-04-29  145  	     region;
-0257be79fc4a16 Michael Walle 2022-04-29  146  	     region =3D spi_nor_regi=
-on_next(region)) {
-0257be79fc4a16 Michael Walle 2022-04-29  147  		u64 start =3D region->offse=
-t & ~SNOR_ERASE_FLAGS_MASK;
-0257be79fc4a16 Michael Walle 2022-04-29  148  		u64 flags =3D region->offse=
-t & SNOR_ERASE_FLAGS_MASK;
-0257be79fc4a16 Michael Walle 2022-04-29  149  		u64 end =3D start + region-=
->size - 1;
-0257be79fc4a16 Michael Walle 2022-04-29  150  =
+ece19502834d84 Divya Koppera 2022-03-04  2760  	ptp_priv->phydev =3D phydev;
+ece19502834d84 Divya Koppera 2022-03-04  2761  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  151  		seq_printf(s, " %08llx-%08l=
-lx |     [%c%c%c%c] | %s\n",
-0257be79fc4a16 Michael Walle 2022-04-29  152  			   start, end,
-0257be79fc4a16 Michael Walle 2022-04-29  153  			   flags & BIT(0) ? '0' : =
-' ',
-0257be79fc4a16 Michael Walle 2022-04-29  154  			   flags & BIT(1) ? '1' : =
-' ',
-0257be79fc4a16 Michael Walle 2022-04-29  155  			   flags & BIT(2) ? '2' : =
-' ',
-0257be79fc4a16 Michael Walle 2022-04-29  156  			   flags & BIT(3) ? '3' : =
-' ',
-0257be79fc4a16 Michael Walle 2022-04-29  157  			   flags & SNOR_OVERLAID_R=
-EGION ? "overlaid" : "");
-0257be79fc4a16 Michael Walle 2022-04-29  158  	}
-0257be79fc4a16 Michael Walle 2022-04-29  159  =
+ece19502834d84 Divya Koppera 2022-03-04  2762  	ptp_priv->mii_ts.rxtstamp =
+=3D lan8814_rxtstamp;
+ece19502834d84 Divya Koppera 2022-03-04  2763  	ptp_priv->mii_ts.txtstamp =
+=3D lan8814_txtstamp;
+ece19502834d84 Divya Koppera 2022-03-04  2764  	ptp_priv->mii_ts.hwtstamp =
+=3D lan8814_hwtstamp;
+ece19502834d84 Divya Koppera 2022-03-04  2765  	ptp_priv->mii_ts.ts_info  =
+=3D lan8814_ts_info;
+ece19502834d84 Divya Koppera 2022-03-04  2766  =
 
-0257be79fc4a16 Michael Walle 2022-04-29  160  	return 0;
-0257be79fc4a16 Michael Walle 2022-04-29  161  }
-0257be79fc4a16 Michael Walle 2022-04-29  162  DEFINE_SHOW_ATTRIBUTE(spi_nor=
-_params);
-0257be79fc4a16 Michael Walle 2022-04-29  163  =
+ece19502834d84 Divya Koppera 2022-03-04  2767  	phydev->mii_ts =3D &ptp_pri=
+v->mii_ts;
+ece19502834d84 Divya Koppera 2022-03-04  2768  }
+ece19502834d84 Divya Koppera 2022-03-04  2769  =
 
+ece19502834d84 Divya Koppera 2022-03-04  2770  static int lan8814_ptp_probe=
+_once(struct phy_device *phydev)
+ece19502834d84 Divya Koppera 2022-03-04  2771  {
+ece19502834d84 Divya Koppera 2022-03-04 @2772  	struct lan8814_shared_priv =
+*shared =3D phydev->shared->priv;
+ece19502834d84 Divya Koppera 2022-03-04  2773  =
+
+31d00ca4ce0e1a Michael Walle 2022-04-27  2774  	if (!IS_ENABLED(CONFIG_PTP_=
+1588_CLOCK) ||
+31d00ca4ce0e1a Michael Walle 2022-04-27  2775  	    !IS_ENABLED(CONFIG_NETW=
+ORK_PHY_TIMESTAMPING))
+31d00ca4ce0e1a Michael Walle 2022-04-27  2776  		return 0;
+31d00ca4ce0e1a Michael Walle 2022-04-27  2777  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2778  	/* Initialise shared lock f=
+or clock*/
+ece19502834d84 Divya Koppera 2022-03-04  2779  	mutex_init(&shared->shared_=
+lock);
+ece19502834d84 Divya Koppera 2022-03-04  2780  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2781  	shared->ptp_clock_info.owne=
+r =3D THIS_MODULE;
+ece19502834d84 Divya Koppera 2022-03-04  2782  	snprintf(shared->ptp_clock_=
+info.name, 30, "%s", phydev->drv->name);
+ece19502834d84 Divya Koppera 2022-03-04  2783  	shared->ptp_clock_info.max_=
+adj =3D 31249999;
+ece19502834d84 Divya Koppera 2022-03-04  2784  	shared->ptp_clock_info.n_al=
+arm =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2785  	shared->ptp_clock_info.n_ex=
+t_ts =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2786  	shared->ptp_clock_info.n_pi=
+ns =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2787  	shared->ptp_clock_info.pps =
+=3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2788  	shared->ptp_clock_info.pin_=
+config =3D NULL;
+ece19502834d84 Divya Koppera 2022-03-04  2789  	shared->ptp_clock_info.adjf=
+ine =3D lan8814_ptpci_adjfine;
+ece19502834d84 Divya Koppera 2022-03-04  2790  	shared->ptp_clock_info.adjt=
+ime =3D lan8814_ptpci_adjtime;
+ece19502834d84 Divya Koppera 2022-03-04  2791  	shared->ptp_clock_info.gett=
+ime64 =3D lan8814_ptpci_gettime64;
+ece19502834d84 Divya Koppera 2022-03-04  2792  	shared->ptp_clock_info.sett=
+ime64 =3D lan8814_ptpci_settime64;
+ece19502834d84 Divya Koppera 2022-03-04  2793  	shared->ptp_clock_info.getc=
+rosststamp =3D NULL;
+ece19502834d84 Divya Koppera 2022-03-04  2794  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2795  	shared->ptp_clock =3D ptp_c=
+lock_register(&shared->ptp_clock_info,
+ece19502834d84 Divya Koppera 2022-03-04  2796  					       &phydev->mdio.de=
+v);
+ece19502834d84 Divya Koppera 2022-03-04  2797  	if (IS_ERR_OR_NULL(shared->=
+ptp_clock)) {
+ece19502834d84 Divya Koppera 2022-03-04  2798  		phydev_err(phydev, "ptp_cl=
+ock_register failed %lu\n",
+ece19502834d84 Divya Koppera 2022-03-04  2799  			   PTR_ERR(shared->ptp_cl=
+ock));
+ece19502834d84 Divya Koppera 2022-03-04  2800  		return -EINVAL;
+ece19502834d84 Divya Koppera 2022-03-04  2801  	}
+ece19502834d84 Divya Koppera 2022-03-04  2802  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2803  	phydev_dbg(phydev, "success=
+fully registered ptp clock\n");
+ece19502834d84 Divya Koppera 2022-03-04  2804  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2805  	shared->phydev =3D phydev;
+ece19502834d84 Divya Koppera 2022-03-04  2806  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2807  	/* The EP.4 is shared betwe=
+en all the PHYs in the package and also it
+ece19502834d84 Divya Koppera 2022-03-04  2808  	 * can be accessed by any o=
+f the PHYs
+ece19502834d84 Divya Koppera 2022-03-04  2809  	 */
+ece19502834d84 Divya Koppera 2022-03-04  2810  	lanphy_write_page_reg(phyde=
+v, 4, LTC_HARD_RESET, LTC_HARD_RESET_);
+ece19502834d84 Divya Koppera 2022-03-04  2811  	lanphy_write_page_reg(phyde=
+v, 4, PTP_OPERATING_MODE,
+ece19502834d84 Divya Koppera 2022-03-04  2812  			      PTP_OPERATING_MODE_=
+STANDALONE_);
+ece19502834d84 Divya Koppera 2022-03-04  2813  =
+
+ece19502834d84 Divya Koppera 2022-03-04  2814  	return 0;
+ece19502834d84 Divya Koppera 2022-03-04  2815  }
+ece19502834d84 Divya Koppera 2022-03-04  2816  =
+
+
+:::::: The code at line 2729 was first introduced by commit
+:::::: ece19502834d84ece2e056db28257ca2aa6e4d48 net: phy: micrel: 1588 supp=
+ort for LAN8814 phy
+
+:::::: TO: Divya Koppera <Divya.Koppera@microchip.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8680768613531039777==--
+--===============7461401054817134045==--
 
