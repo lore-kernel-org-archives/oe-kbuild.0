@@ -1,161 +1,95 @@
-Content-Type: multipart/mixed; boundary="===============4574191652942685113=="
+Content-Type: multipart/mixed; boundary="===============7700000176302328508=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 8450/10218] drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1031 smu_v13_0_0_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_levels' 16 <= 31
-Date: Tue, 10 May 2022 09:35:58 +0800
-Message-ID: <202205100921.WOj94XCn-lkp@intel.com>
+Subject: [ogabbay:habanalabs-next 47/47] drivers/misc/habanalabs/common/habanalabs_ioctl.c:135 events_info() warn: maybe return -EFAULT instead of the bytes remaining?
+Date: Tue, 10 May 2022 08:01:51 +0800
+Message-ID: <202205100736.Y0Vi5Fcf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4574191652942685113==
+--===============7700000176302328508==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Evan Quan <evan.quan@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Lijo Lazar <lijo.lazar@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Tal Cohen <talcohen@habana.ai>
+CC: Oded Gabbay <ogabbay@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   ab38272e99730375c5db3db1c4cebf691a0550ab
-commit: 276c03a0547068026241decd2c1159df0be5941f [8450/10218] drm/amd/smu: =
-Update SMU13 support for SMU 13.0.0
-:::::: branch date: 14 hours ago
-:::::: commit date: 6 days ago
-config: ia64-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220510/202205100921.WOj94XCn-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git h=
+abanalabs-next
+head:   20c59ac5d71e766235e74f353b74e60facd733c8
+commit: 20c59ac5d71e766235e74f353b74e60facd733c8 [47/47] habanalabs: add su=
+pport for notification via eventfd
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-randconfig-m001-20220509 (https://download.01.org/0day-ci/ar=
+chive/20220510/202205100736.Y0Vi5Fcf-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1031 smu_v13=
-_0_0_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_level=
-s' 16 <=3D 31
+drivers/misc/habanalabs/common/habanalabs_ioctl.c:135 events_info() warn: m=
+aybe return -EFAULT instead of the bytes remaining?
 
-vim +1031 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c
+vim +135 drivers/misc/habanalabs/common/habanalabs_ioctl.c
 
-276c03a0547068 Evan Quan 2022-04-06   968  =
+d8dd7b0a81cc19 drivers/misc/habanalabs/habanalabs_ioctl.c        Oded Gabba=
+y 2019-02-16  118  =
 
-276c03a0547068 Evan Quan 2022-04-06   969  static int smu_v13_0_0_force_clk=
-_levels(struct smu_context *smu,
-276c03a0547068 Evan Quan 2022-04-06   970  					enum smu_clk_type clk_type,
-276c03a0547068 Evan Quan 2022-04-06   971  					uint32_t mask)
-276c03a0547068 Evan Quan 2022-04-06   972  {
-276c03a0547068 Evan Quan 2022-04-06   973  	struct smu_dpm_context *smu_dpm=
- =3D &smu->smu_dpm;
-276c03a0547068 Evan Quan 2022-04-06   974  	struct smu_13_0_dpm_context *dp=
-m_context =3D smu_dpm->dpm_context;
-276c03a0547068 Evan Quan 2022-04-06   975  	struct smu_13_0_dpm_table *sing=
-le_dpm_table;
-276c03a0547068 Evan Quan 2022-04-06   976  	uint32_t soft_min_level, soft_m=
-ax_level;
-276c03a0547068 Evan Quan 2022-04-06   977  	uint32_t min_freq, max_freq;
-276c03a0547068 Evan Quan 2022-04-06   978  	int ret =3D 0;
-276c03a0547068 Evan Quan 2022-04-06   979  =
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  119  static int events_info(struct hl_fpriv *hpriv, struct hl=
+_info_args *args)
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  120  {
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  121  	int rc;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  122  	u32 max_size =3D args->return_size;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  123  	u64 events_mask;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  124  	void __user *out =3D (void __user *) (uintptr_t) args->=
+return_pointer;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  125  =
 
-276c03a0547068 Evan Quan 2022-04-06   980  	soft_min_level =3D mask ? (ffs(=
-mask) - 1) : 0;
-276c03a0547068 Evan Quan 2022-04-06   981  	soft_max_level =3D mask ? (fls(=
-mask) - 1) : 0;
-276c03a0547068 Evan Quan 2022-04-06   982  =
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  126  	if ((max_size < sizeof(u64)) || (!out))
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  127  		return -EINVAL;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  128  =
 
-276c03a0547068 Evan Quan 2022-04-06   983  	switch (clk_type) {
-276c03a0547068 Evan Quan 2022-04-06   984  	case SMU_GFXCLK:
-276c03a0547068 Evan Quan 2022-04-06   985  	case SMU_SCLK:
-276c03a0547068 Evan Quan 2022-04-06   986  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.gfx_table);
-276c03a0547068 Evan Quan 2022-04-06   987  		break;
-276c03a0547068 Evan Quan 2022-04-06   988  	case SMU_MCLK:
-276c03a0547068 Evan Quan 2022-04-06   989  	case SMU_UCLK:
-276c03a0547068 Evan Quan 2022-04-06   990  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.uclk_table);
-276c03a0547068 Evan Quan 2022-04-06   991  		break;
-276c03a0547068 Evan Quan 2022-04-06   992  	case SMU_SOCCLK:
-276c03a0547068 Evan Quan 2022-04-06   993  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.soc_table);
-276c03a0547068 Evan Quan 2022-04-06   994  		break;
-276c03a0547068 Evan Quan 2022-04-06   995  	case SMU_FCLK:
-276c03a0547068 Evan Quan 2022-04-06   996  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.fclk_table);
-276c03a0547068 Evan Quan 2022-04-06   997  		break;
-276c03a0547068 Evan Quan 2022-04-06   998  	case SMU_VCLK:
-276c03a0547068 Evan Quan 2022-04-06   999  	case SMU_VCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1000  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.vclk_table);
-276c03a0547068 Evan Quan 2022-04-06  1001  		break;
-276c03a0547068 Evan Quan 2022-04-06  1002  	case SMU_DCLK:
-276c03a0547068 Evan Quan 2022-04-06  1003  	case SMU_DCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1004  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.dclk_table);
-276c03a0547068 Evan Quan 2022-04-06  1005  		break;
-276c03a0547068 Evan Quan 2022-04-06  1006  	default:
-276c03a0547068 Evan Quan 2022-04-06  1007  		break;
-276c03a0547068 Evan Quan 2022-04-06  1008  	}
-276c03a0547068 Evan Quan 2022-04-06  1009  =
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  129  	mutex_lock(&hpriv->notifier_event.lock);
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  130  	events_mask =3D hpriv->notifier_event.events_mask;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  131  	hpriv->notifier_event.events_mask =3D 0;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  132  	mutex_unlock(&hpriv->notifier_event.lock);
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  133  =
 
-276c03a0547068 Evan Quan 2022-04-06  1010  	switch (clk_type) {
-276c03a0547068 Evan Quan 2022-04-06  1011  	case SMU_GFXCLK:
-276c03a0547068 Evan Quan 2022-04-06  1012  	case SMU_SCLK:
-276c03a0547068 Evan Quan 2022-04-06  1013  	case SMU_MCLK:
-276c03a0547068 Evan Quan 2022-04-06  1014  	case SMU_UCLK:
-276c03a0547068 Evan Quan 2022-04-06  1015  	case SMU_SOCCLK:
-276c03a0547068 Evan Quan 2022-04-06  1016  	case SMU_FCLK:
-276c03a0547068 Evan Quan 2022-04-06  1017  	case SMU_VCLK:
-276c03a0547068 Evan Quan 2022-04-06  1018  	case SMU_VCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1019  	case SMU_DCLK:
-276c03a0547068 Evan Quan 2022-04-06  1020  	case SMU_DCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1021  		if (single_dpm_table->is_fine_=
-grained) {
-276c03a0547068 Evan Quan 2022-04-06  1022  			/* There is only 2 levels for=
- fine grained DPM */
-276c03a0547068 Evan Quan 2022-04-06  1023  			soft_max_level =3D (soft_max_=
-level >=3D 1 ? 1 : 0);
-276c03a0547068 Evan Quan 2022-04-06  1024  			soft_min_level =3D (soft_min_=
-level >=3D 1 ? 1 : 0);
-276c03a0547068 Evan Quan 2022-04-06  1025  		} else {
-276c03a0547068 Evan Quan 2022-04-06  1026  			if ((soft_max_level >=3D sing=
-le_dpm_table->count) ||
-276c03a0547068 Evan Quan 2022-04-06  1027  			    (soft_min_level >=3D sing=
-le_dpm_table->count))
-276c03a0547068 Evan Quan 2022-04-06  1028  				return -EINVAL;
-276c03a0547068 Evan Quan 2022-04-06  1029  		}
-276c03a0547068 Evan Quan 2022-04-06  1030  =
-
-276c03a0547068 Evan Quan 2022-04-06 @1031  		min_freq =3D single_dpm_table-=
->dpm_levels[soft_min_level].value;
-276c03a0547068 Evan Quan 2022-04-06  1032  		max_freq =3D single_dpm_table-=
->dpm_levels[soft_max_level].value;
-276c03a0547068 Evan Quan 2022-04-06  1033  =
-
-276c03a0547068 Evan Quan 2022-04-06  1034  		ret =3D smu_v13_0_set_soft_fre=
-q_limited_range(smu,
-276c03a0547068 Evan Quan 2022-04-06  1035  							    clk_type,
-276c03a0547068 Evan Quan 2022-04-06  1036  							    min_freq,
-276c03a0547068 Evan Quan 2022-04-06  1037  							    max_freq);
-276c03a0547068 Evan Quan 2022-04-06  1038  		break;
-276c03a0547068 Evan Quan 2022-04-06  1039  	case SMU_DCEFCLK:
-276c03a0547068 Evan Quan 2022-04-06  1040  	case SMU_PCIE:
-276c03a0547068 Evan Quan 2022-04-06  1041  	default:
-276c03a0547068 Evan Quan 2022-04-06  1042  		break;
-276c03a0547068 Evan Quan 2022-04-06  1043  	}
-276c03a0547068 Evan Quan 2022-04-06  1044  =
-
-276c03a0547068 Evan Quan 2022-04-06  1045  	return ret;
-276c03a0547068 Evan Quan 2022-04-06  1046  }
-276c03a0547068 Evan Quan 2022-04-06  1047  =
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  134  	rc =3D copy_to_user(out, &events_mask, sizeof(u64));
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28 @135  	return rc;
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  136  }
+20c59ac5d71e76 drivers/misc/habanalabs/common/habanalabs_ioctl.c Tal Cohen =
+  2022-04-28  137  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4574191652942685113==--
+--===============7700000176302328508==--
 
