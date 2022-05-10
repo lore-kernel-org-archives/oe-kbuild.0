@@ -1,231 +1,524 @@
-Content-Type: multipart/mixed; boundary="===============4488288610200678783=="
+Content-Type: multipart/mixed; boundary="===============8562827822212376542=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH -V2 1/3 RESEND] memory tiering: hot page selection with hint page fault latency
-Date: Wed, 11 May 2022 04:11:49 +0800
-Message-ID: <202205110455.qmC7MeuB-lkp@intel.com>
+Subject: [krzk-github:n/qcom-ufs-opp-v3 11/14] drivers/scsi/ufs/ufshcd.c:1512:32: warning: Access to field 'min_freq' results in a dereference of an undefined pointer value (loaded from variable 'clki') [clang-analyzer-core.NullDereference]
+Date: Wed, 11 May 2022 03:10:42 +0800
+Message-ID: <202205110341.VeWii6OQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4488288610200678783==
+--===============8562827822212376542==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220510063958.86985-2-ying.huang@intel.com>
-References: <20220510063958.86985-2-ying.huang@intel.com>
-TO: Huang Ying <ying.huang@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-Hi Huang,
+tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v3
+head:   e2d140aa302e460faba90ed1bf20034addacc1cf
+commit: 82c05426be0071861d3c729bb24fb4aec156ca1a [11/14] ufs: use PM OPP wh=
+en scaling gears
+:::::: branch date: 5 hours ago
+:::::: commit date: 35 hours ago
+config: i386-randconfig-c001-20220509 (https://download.01.org/0day-ci/arch=
+ive/20220511/202205110341.VeWii6OQ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 18dd12=
+3c56754edf62c7042dcf23185c3727610f)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/krzk/linux/commit/82c05426be0071861d3c729bb24f=
+b4aec156ca1a
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/qcom-ufs-opp-v3
+        git checkout 82c05426be0071861d3c729bb24fb4aec156ca1a
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on mcgrof/sysctl-next linus/master v5.18-rc6 next-=
-20220510]
-[cannot apply to hnaz-mm/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huang-Ying/memory-ti=
-ering-hot-page-selection/20220510-144141
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git d70522f=
-c541224b8351ac26f4765f2c6268f8d72
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: i386-randconfig-m021-20220509 (https://download.01.org/0day-ci/arch=
-ive/20220511/202205110455.qmC7MeuB-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/memory.c:4456 do_numa_page() warn: bitwise AND condition is false here
 
-vim +4456 mm/memory.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   109 warnings generated.
+   net/ipv6/ipv6_sockglue.c:701:3: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&fl6, 0, sizeof(fl6));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:701:3: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+                   memset(&fl6, 0, sizeof(fl6));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:720:3: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(opt, 0, sizeof(*opt));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:720:3: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+                   memset(opt, 0, sizeof(*opt));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:1319:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&mtuinfo, 0, sizeof(mtuinfo));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:1319:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(&mtuinfo, 0, sizeof(mtuinfo));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:1417:3: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&freq, 0, sizeof(freq));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   net/ipv6/ipv6_sockglue.c:1417:3: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+                   memset(&freq, 0, sizeof(freq));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 105 warnings (105 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   110 warnings generated.
+   drivers/scsi/ufs/ufshcd.c:1195:3: warning: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&new_pwr_info, &hba->clk_scaling.saved_pwr_info.i=
+nfo,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1195:3: note: Call to function 'memcpy' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&new_pwr_info, &hba->clk_scaling.saved_pwr_info.i=
+nfo,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1198:3: warning: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&new_pwr_info, &hba->pwr_info,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1198:3: note: Call to function 'memcpy' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&new_pwr_info, &hba->pwr_info,
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1204:4: warning: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(&hba->clk_scaling.saved_pwr_info.info,
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1204:4: note: Call to function 'memcpy' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(&hba->clk_scaling.saved_pwr_info.info,
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1442:2: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(stat, 0, sizeof(*stat));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1442:2: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+           memset(stat, 0, sizeof(*stat));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+>> drivers/scsi/ufs/ufshcd.c:1512:32: warning: Access to field 'min_freq' r=
+esults in a dereference of an undefined pointer value (loaded from variable=
+ 'clki') [clang-analyzer-core.NullDereference]
+                           dev_pm_opp_remove(hba->dev, clki->min_freq);
+                                                       ^
+   drivers/scsi/ufs/ufshcd.c:8285:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/scsi/ufs/ufshcd.c:8285:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/scsi/ufs/ufshcd.c:8289:8: note: Calling 'ufshcd_add_lus'
+           ret =3D ufshcd_add_lus(hba);
+                 ^~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:8142:8: note: Calling 'ufshcd_scsi_add_wlus'
+           ret =3D ufshcd_scsi_add_wlus(hba);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:7574:2: note: Taking false branch
+           if (IS_ERR(hba->ufs_device_wlun)) {
+           ^
+   drivers/scsi/ufs/ufshcd.c:7583:2: note: Taking false branch
+           if (IS_ERR(sdev_rpmb)) {
+           ^
+   drivers/scsi/ufs/ufshcd.c:7592:2: note: Taking true branch
+           if (IS_ERR(sdev_boot)) {
+           ^
+   drivers/scsi/ufs/ufshcd.c:7593:3: note: Loop condition is false.  Exitin=
+g loop
+                   dev_err(hba->dev, "%s: BOOT WLUN not found\n", __func__);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:442:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:421:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/scsi/ufs/ufshcd.c:7598:2: note: Control jumps to line 7603
+           goto out;
+           ^
+   drivers/scsi/ufs/ufshcd.c:7603:2: note: Returning without writing to 'hb=
+a->use_pm_opp', which participates in a condition later
+           return ret;
+           ^
+   drivers/scsi/ufs/ufshcd.c:8142:8: note: Returning from 'ufshcd_scsi_add_=
+wlus'
+           ret =3D ufshcd_scsi_add_wlus(hba);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:8143:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/scsi/ufs/ufshcd.c:8143:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/scsi/ufs/ufshcd.c:8147:6: note: Calling 'ufshcd_is_clkscaling_su=
+pported'
+           if (ufshcd_is_clkscaling_supported(hba)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.h:973:2: note: Returning without writing to 'hba=
+->use_pm_opp', which participates in a condition later
+           return hba->caps & UFSHCD_CAP_CLK_SCALING;
+           ^
+   drivers/scsi/ufs/ufshcd.c:8147:6: note: Returning from 'ufshcd_is_clksca=
+ling_supported'
+           if (ufshcd_is_clkscaling_supported(hba)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:8147:6: note: Assuming the condition is true
+           if (ufshcd_is_clkscaling_supported(hba)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:8147:2: note: Taking true branch
+           if (ufshcd_is_clkscaling_supported(hba)) {
+           ^
+   drivers/scsi/ufs/ufshcd.c:8154:9: note: Calling 'ufshcd_devfreq_init'
+                   ret =3D ufshcd_devfreq_init(hba);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1487:2: note: 'clki' declared without an initi=
+al value
+           struct ufs_clk_info *clki;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1492:6: note: Assuming the condition is false
+           if (list_empty(clk_list))
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1492:2: note: Taking false branch
+           if (list_empty(clk_list))
+           ^
+   drivers/scsi/ufs/ufshcd.c:1495:6: note: Assuming field 'use_pm_opp' is t=
+rue
+           if (!hba->use_pm_opp) {
+               ^~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:1495:2: note: Taking false branch
+           if (!hba->use_pm_opp) {
+           ^
+   drivers/scsi/ufs/ufshcd.c:1501:2: note: Calling 'ufshcd_vops_config_scal=
+ing_param'
+           ufshcd_vops_config_scaling_param(hba, &hba->vps->devfreq_profile,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd-priv.h:214:6: note: Assuming field 'vops' is non=
+-null
+           if (hba->vops && hba->vops->config_scaling_param)
+               ^~~~~~~~~
+   drivers/scsi/ufs/ufshcd-priv.h:214:6: note: Left side of '&&' is true
+   drivers/scsi/ufs/ufshcd-priv.h:214:19: note: Assuming field 'config_scal=
+ing_param' is non-null
+           if (hba->vops && hba->vops->config_scaling_param)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd-priv.h:214:2: note: Taking true branch
 
-9532fec118d485 Mel Gorman         2012-11-15  4397  =
+vim +1512 drivers/scsi/ufs/ufshcd.c
 
-2b7403035459c7 Souptick Joarder   2018-08-23  4398  static vm_fault_t do_nu=
-ma_page(struct vm_fault *vmf)
-d10e63f29488b0 Mel Gorman         2012-10-25  4399  {
-82b0f8c39a3869 Jan Kara           2016-12-14  4400  	struct vm_area_struct =
-*vma =3D vmf->vma;
-4daae3b4b9e49b Mel Gorman         2012-11-02  4401  	struct page *page =3D =
-NULL;
-98fa15f34cb379 Anshuman Khandual  2019-03-05  4402  	int page_nid =3D NUMA_=
-NO_NODE;
-90572890d20252 Peter Zijlstra     2013-10-07  4403  	int last_cpupid;
-cbee9f88ec1b8d Peter Zijlstra     2012-10-25  4404  	int target_nid;
-04a8645304500b Aneesh Kumar K.V   2019-03-05  4405  	pte_t pte, old_pte;
-288bc54949fc26 Aneesh Kumar K.V   2017-02-24  4406  	bool was_writable =3D =
-pte_savedwrite(vmf->orig_pte);
-6688cc05473b36 Peter Zijlstra     2013-10-07  4407  	int flags =3D 0;
-d10e63f29488b0 Mel Gorman         2012-10-25  4408  =
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1430  =
 
-d10e63f29488b0 Mel Gorman         2012-10-25  4409  	/*
-d10e63f29488b0 Mel Gorman         2012-10-25  4410  	 * The "pte" at this p=
-oint cannot be used safely without
-d10e63f29488b0 Mel Gorman         2012-10-25  4411  	 * validation through =
-pte_unmap_same(). It's of NUMA type but
-d10e63f29488b0 Mel Gorman         2012-10-25  4412  	 * the pfn may be scre=
-wed if the read is non atomic.
-d10e63f29488b0 Mel Gorman         2012-10-25  4413  	 */
-82b0f8c39a3869 Jan Kara           2016-12-14  4414  	vmf->ptl =3D pte_lockp=
-tr(vma->vm_mm, vmf->pmd);
-82b0f8c39a3869 Jan Kara           2016-12-14  4415  	spin_lock(vmf->ptl);
-cee216a696b200 Aneesh Kumar K.V   2017-02-24  4416  	if (unlikely(!pte_same=
-(*vmf->pte, vmf->orig_pte))) {
-82b0f8c39a3869 Jan Kara           2016-12-14  4417  		pte_unmap_unlock(vmf-=
->pte, vmf->ptl);
-4daae3b4b9e49b Mel Gorman         2012-11-02  4418  		goto out;
-4daae3b4b9e49b Mel Gorman         2012-11-02  4419  	}
-4daae3b4b9e49b Mel Gorman         2012-11-02  4420  =
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1431  static int ufshcd_dev=
+freq_get_dev_status(struct device *dev,
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1432  		struct devfreq_dev_=
+status *stat)
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1433  {
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1434  	struct ufs_hba *hba =
+=3D dev_get_drvdata(dev);
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1435  	struct ufs_clk_scali=
+ng *scaling =3D &hba->clk_scaling;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1436  	unsigned long flags;
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1437  	ktime_t curr_t;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1438  =
 
-b99a342d4f11a5 Huang Ying         2021-04-29  4421  	/* Get the normal PTE =
- */
-b99a342d4f11a5 Huang Ying         2021-04-29  4422  	old_pte =3D ptep_get(v=
-mf->pte);
-04a8645304500b Aneesh Kumar K.V   2019-03-05  4423  	pte =3D pte_modify(old=
-_pte, vma->vm_page_prot);
-d10e63f29488b0 Mel Gorman         2012-10-25  4424  =
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1439  	if (!ufshcd_is_clksc=
+aling_supported(hba))
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1440  		return -EINVAL;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1441  =
 
-82b0f8c39a3869 Jan Kara           2016-12-14  4425  	page =3D vm_normal_pag=
-e(vma, vmf->address, pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4426  	if (!page)
-b99a342d4f11a5 Huang Ying         2021-04-29  4427  		goto out_map;
-d10e63f29488b0 Mel Gorman         2012-10-25  4428  =
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03 @1442  	memset(stat, 0, size=
+of(*stat));
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1443  =
 
-e81c48024f43b4 Kirill A. Shutemov 2016-01-15  4429  	/* TODO: handle PTE-ma=
-pped THP */
-b99a342d4f11a5 Huang Ying         2021-04-29  4430  	if (PageCompound(page))
-b99a342d4f11a5 Huang Ying         2021-04-29  4431  		goto out_map;
-e81c48024f43b4 Kirill A. Shutemov 2016-01-15  4432  =
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1444  	spin_lock_irqsave(hb=
+a->host->host_lock, flags);
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1445  	curr_t =3D ktime_get=
+();
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1446  	if (!scaling->window=
+_start_t)
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1447  		goto start_window;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1448  =
 
-6688cc05473b36 Peter Zijlstra     2013-10-07  4433  	/*
-bea66fbd11af1c Mel Gorman         2015-03-25  4434  	 * Avoid grouping on R=
-O pages in general. RO pages shouldn't hurt as
-bea66fbd11af1c Mel Gorman         2015-03-25  4435  	 * much anyway since t=
-hey can be in shared cache state. This misses
-bea66fbd11af1c Mel Gorman         2015-03-25  4436  	 * the case where a ma=
-pping is writable but the process never writes
-bea66fbd11af1c Mel Gorman         2015-03-25  4437  	 * to it but pte_write=
- gets cleared during protection updates and
-bea66fbd11af1c Mel Gorman         2015-03-25  4438  	 * pte_dirty has unpre=
-dictable behaviour between PTE scan updates,
-bea66fbd11af1c Mel Gorman         2015-03-25  4439  	 * background writebac=
-k, dirty balancing and application behaviour.
-bea66fbd11af1c Mel Gorman         2015-03-25  4440  	 */
-b99a342d4f11a5 Huang Ying         2021-04-29  4441  	if (!was_writable)
-6688cc05473b36 Peter Zijlstra     2013-10-07  4442  		flags |=3D TNF_NO_GRO=
-UP;
-6688cc05473b36 Peter Zijlstra     2013-10-07  4443  =
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1449  	if (hba->use_pm_opp)=
+ {
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1450  		stat->current_frequ=
+ency =3D hba->clk_scaling.target_freq;
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1451  	} else {
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1452  		struct list_head *c=
+lk_list =3D &hba->clk_list_head;
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1453  		struct ufs_clk_info=
+ *clki;
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1454  =
 
-dabe1d992414a6 Rik van Riel       2013-10-07  4444  	/*
-dabe1d992414a6 Rik van Riel       2013-10-07  4445  	 * Flag if the page is=
- shared between multiple address spaces. This
-dabe1d992414a6 Rik van Riel       2013-10-07  4446  	 * is later used when =
-determining whether to group tasks together
-dabe1d992414a6 Rik van Riel       2013-10-07  4447  	 */
-dabe1d992414a6 Rik van Riel       2013-10-07  4448  	if (page_mapcount(page=
-) > 1 && (vma->vm_flags & VM_SHARED))
-dabe1d992414a6 Rik van Riel       2013-10-07  4449  		flags |=3D TNF_SHARED;
-dabe1d992414a6 Rik van Riel       2013-10-07  4450  =
+91831d3336627ff Asutosh Das         2020-03-25  1455  		clki =3D list_first=
+_entry(clk_list, struct ufs_clk_info, list);
+91831d3336627ff Asutosh Das         2020-03-25  1456  		/*
+91831d3336627ff Asutosh Das         2020-03-25  1457  		 * If current frequ=
+ency is 0, then the ondemand governor considers
+91831d3336627ff Asutosh Das         2020-03-25  1458  		 * there's no initi=
+al frequency set. And it always requests to set
+91831d3336627ff Asutosh Das         2020-03-25  1459  		 * to max. frequenc=
+y.
+91831d3336627ff Asutosh Das         2020-03-25  1460  		 */
+91831d3336627ff Asutosh Das         2020-03-25  1461  		stat->current_frequ=
+ency =3D clki->curr_freq;
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1462  	}
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1463  	if (scaling->is_busy=
+_started)
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1464  		scaling->tot_busy_t=
+ +=3D ktime_us_delta(curr_t,
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1465  				scaling->busy_sta=
+rt_t);
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1466  =
 
-8191acbd30c73e Mel Gorman         2013-10-07  4451  	page_nid =3D page_to_n=
-id(page);
-8f54435bb59e21 Huang Ying         2022-05-10  4452  	/*
-8f54435bb59e21 Huang Ying         2022-05-10  4453  	 * For memory tiering =
-mode, cpupid of slow memory page is used
-8f54435bb59e21 Huang Ying         2022-05-10  4454  	 * to record page acce=
-ss time.  So use default value.
-8f54435bb59e21 Huang Ying         2022-05-10  4455  	 */
-8f54435bb59e21 Huang Ying         2022-05-10 @4456  	if ((sysctl_numa_balan=
-cing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
-8f54435bb59e21 Huang Ying         2022-05-10  4457  	    !node_is_toptier(p=
-age_nid))
-8f54435bb59e21 Huang Ying         2022-05-10  4458  		last_cpupid =3D (-1 &=
- LAST_CPUPID_MASK);
-8f54435bb59e21 Huang Ying         2022-05-10  4459  	else
-8f54435bb59e21 Huang Ying         2022-05-10  4460  		last_cpupid =3D page_=
-cpupid_last(page);
-82b0f8c39a3869 Jan Kara           2016-12-14  4461  	target_nid =3D numa_mi=
-grate_prep(page, vma, vmf->address, page_nid,
-bae473a423f65e Kirill A. Shutemov 2016-07-26  4462  			&flags);
-98fa15f34cb379 Anshuman Khandual  2019-03-05  4463  	if (target_nid =3D=3D =
-NUMA_NO_NODE) {
-4daae3b4b9e49b Mel Gorman         2012-11-02  4464  		put_page(page);
-b99a342d4f11a5 Huang Ying         2021-04-29  4465  		goto out_map;
-4daae3b4b9e49b Mel Gorman         2012-11-02  4466  	}
-b99a342d4f11a5 Huang Ying         2021-04-29  4467  	pte_unmap_unlock(vmf->=
-pte, vmf->ptl);
-4daae3b4b9e49b Mel Gorman         2012-11-02  4468  =
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1467  	stat->total_time =3D=
+ ktime_us_delta(curr_t, scaling->window_start_t);
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1468  	stat->busy_time =3D =
+scaling->tot_busy_t;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1469  start_window:
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1470  	scaling->window_star=
+t_t =3D curr_t;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1471  	scaling->tot_busy_t =
+=3D 0;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1472  =
 
-4daae3b4b9e49b Mel Gorman         2012-11-02  4469  	/* Migrate to the requ=
-ested node */
-bf90ac198e30d2 Wang Qing          2021-04-29  4470  	if (migrate_misplaced_=
-page(page, vma, target_nid)) {
-8191acbd30c73e Mel Gorman         2013-10-07  4471  		page_nid =3D target_n=
-id;
-6688cc05473b36 Peter Zijlstra     2013-10-07  4472  		flags |=3D TNF_MIGRAT=
-ED;
-b99a342d4f11a5 Huang Ying         2021-04-29  4473  	} else {
-074c238177a75f Mel Gorman         2015-03-25  4474  		flags |=3D TNF_MIGRAT=
-E_FAIL;
-b99a342d4f11a5 Huang Ying         2021-04-29  4475  		vmf->pte =3D pte_offs=
-et_map(vmf->pmd, vmf->address);
-b99a342d4f11a5 Huang Ying         2021-04-29  4476  		spin_lock(vmf->ptl);
-b99a342d4f11a5 Huang Ying         2021-04-29  4477  		if (unlikely(!pte_sam=
-e(*vmf->pte, vmf->orig_pte))) {
-b99a342d4f11a5 Huang Ying         2021-04-29  4478  			pte_unmap_unlock(vmf=
-->pte, vmf->ptl);
-b99a342d4f11a5 Huang Ying         2021-04-29  4479  			goto out;
-b99a342d4f11a5 Huang Ying         2021-04-29  4480  		}
-b99a342d4f11a5 Huang Ying         2021-04-29  4481  		goto out_map;
-b99a342d4f11a5 Huang Ying         2021-04-29  4482  	}
-4daae3b4b9e49b Mel Gorman         2012-11-02  4483  =
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1473  	if (hba->outstanding=
+_reqs) {
+b1bf66d1d5a8fcb Stanley Chu         2020-06-11  1474  		scaling->busy_start=
+_t =3D curr_t;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1475  		scaling->is_busy_st=
+arted =3D true;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1476  	} else {
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1477  		scaling->busy_start=
+_t =3D 0;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1478  		scaling->is_busy_st=
+arted =3D false;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1479  	}
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1480  	spin_unlock_irqresto=
+re(hba->host->host_lock, flags);
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1481  	return 0;
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1482  }
+a3cd5ec55f6c728 Subhash Jadavani    2017-02-03  1483  =
 
-4daae3b4b9e49b Mel Gorman         2012-11-02  4484  out:
-98fa15f34cb379 Anshuman Khandual  2019-03-05  4485  	if (page_nid !=3D NUMA=
-_NO_NODE)
-6688cc05473b36 Peter Zijlstra     2013-10-07  4486  		task_numa_fault(last_=
-cpupid, page_nid, 1, flags);
-d10e63f29488b0 Mel Gorman         2012-10-25  4487  	return 0;
-b99a342d4f11a5 Huang Ying         2021-04-29  4488  out_map:
-b99a342d4f11a5 Huang Ying         2021-04-29  4489  	/*
-b99a342d4f11a5 Huang Ying         2021-04-29  4490  	 * Make it present aga=
-in, depending on how arch implements
-b99a342d4f11a5 Huang Ying         2021-04-29  4491  	 * non-accessible ptes=
-, some can allow access by kernel mode.
-b99a342d4f11a5 Huang Ying         2021-04-29  4492  	 */
-b99a342d4f11a5 Huang Ying         2021-04-29  4493  	old_pte =3D ptep_modif=
-y_prot_start(vma, vmf->address, vmf->pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4494  	pte =3D pte_modify(old=
-_pte, vma->vm_page_prot);
-b99a342d4f11a5 Huang Ying         2021-04-29  4495  	pte =3D pte_mkyoung(pt=
-e);
-b99a342d4f11a5 Huang Ying         2021-04-29  4496  	if (was_writable)
-b99a342d4f11a5 Huang Ying         2021-04-29  4497  		pte =3D pte_mkwrite(p=
-te);
-b99a342d4f11a5 Huang Ying         2021-04-29  4498  	ptep_modify_prot_commi=
-t(vma, vmf->address, vmf->pte, old_pte, pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4499  	update_mmu_cache(vma, =
-vmf->address, vmf->pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4500  	pte_unmap_unlock(vmf->=
-pte, vmf->ptl);
-b99a342d4f11a5 Huang Ying         2021-04-29  4501  	goto out;
-d10e63f29488b0 Mel Gorman         2012-10-25  4502  }
-d10e63f29488b0 Mel Gorman         2012-10-25  4503  =
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1484  static int ufshcd_dev=
+freq_init(struct ufs_hba *hba)
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1485  {
+092b45583c524ed Bjorn Andersson     2018-05-17  1486  	struct list_head *cl=
+k_list =3D &hba->clk_list_head;
+092b45583c524ed Bjorn Andersson     2018-05-17  1487  	struct ufs_clk_info =
+*clki;
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1488  	struct devfreq *devf=
+req;
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1489  	int ret;
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1490  =
 
+092b45583c524ed Bjorn Andersson     2018-05-17  1491  	/* Skip devfreq if w=
+e don't have any clocks in the list */
+092b45583c524ed Bjorn Andersson     2018-05-17  1492  	if (list_empty(clk_l=
+ist))
+092b45583c524ed Bjorn Andersson     2018-05-17  1493  		return 0;
+092b45583c524ed Bjorn Andersson     2018-05-17  1494  =
+
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1495  	if (!hba->use_pm_opp=
+) {
+092b45583c524ed Bjorn Andersson     2018-05-17  1496  		clki =3D list_first=
+_entry(clk_list, struct ufs_clk_info, list);
+092b45583c524ed Bjorn Andersson     2018-05-17  1497  		dev_pm_opp_add(hba-=
+>dev, clki->min_freq, 0);
+092b45583c524ed Bjorn Andersson     2018-05-17  1498  		dev_pm_opp_add(hba-=
+>dev, clki->max_freq, 0);
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1499  	}
+092b45583c524ed Bjorn Andersson     2018-05-17  1500  =
+
+90b8491c0033915 Stanley Chu         2020-05-09  1501  	ufshcd_vops_config_s=
+caling_param(hba, &hba->vps->devfreq_profile,
+90b8491c0033915 Stanley Chu         2020-05-09  1502  					 &hba->vps->onde=
+mand_data);
+092b45583c524ed Bjorn Andersson     2018-05-17  1503  	devfreq =3D devfreq_=
+add_device(hba->dev,
+90b8491c0033915 Stanley Chu         2020-05-09  1504  			&hba->vps->devfreq=
+_profile,
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1505  			DEVFREQ_GOV_SIMPLE=
+_ONDEMAND,
+90b8491c0033915 Stanley Chu         2020-05-09  1506  			&hba->vps->ondeman=
+d_data);
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1507  	if (IS_ERR(devfreq))=
+ {
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1508  		ret =3D PTR_ERR(dev=
+freq);
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1509  		dev_err(hba->dev, "=
+Unable to register with devfreq %d\n", ret);
+092b45583c524ed Bjorn Andersson     2018-05-17  1510  =
+
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1511  		if (!hba->use_pm_op=
+p) {
+092b45583c524ed Bjorn Andersson     2018-05-17 @1512  			dev_pm_opp_remove(=
+hba->dev, clki->min_freq);
+092b45583c524ed Bjorn Andersson     2018-05-17  1513  			dev_pm_opp_remove(=
+hba->dev, clki->max_freq);
+82c05426be00718 Krzysztof Kozlowski 2022-04-01  1514  		}
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1515  		return ret;
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1516  	}
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1517  =
+
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1518  	hba->devfreq =3D dev=
+freq;
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1519  =
+
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1520  	return 0;
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1521  }
+deac444f4e44c40 Bjorn Andersson     2018-05-17  1522  =
+
+
+:::::: The code at line 1512 was first introduced by commit
+:::::: 092b45583c524edac688f0b6cdc62a70c3081e4a scsi: ufs: Use freq table w=
+ith devfreq
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4488288610200678783==--
+--===============8562827822212376542==--
 
