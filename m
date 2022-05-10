@@ -1,475 +1,218 @@
-Content-Type: multipart/mixed; boundary="===============7670092759206942984=="
+Content-Type: multipart/mixed; boundary="===============8251834689786412260=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH] ubd: add io_uring based userspace block driver
-Date: Tue, 10 May 2022 12:09:36 +0800
-Message-ID: <202205101111.faCcEO63-lkp@intel.com>
+Subject: [krzk-github:n/qcom-ufs-opp-v3 10/13] drivers/opp/core.c:1335 dev_pm_opp_set_rate() error: uninitialized symbol 'ret'.
+Date: Tue, 10 May 2022 10:27:19 +0800
+Message-ID: <202205101034.m9Hf56oV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7670092759206942984==
+--===============8251834689786412260==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220509092312.254354-1-ming.lei@redhat.com>
-References: <20220509092312.254354-1-ming.lei@redhat.com>
-TO: Ming Lei <ming.lei@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-Hi Ming,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20220509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/ubd-add-io_=
-uring-based-userspace-block-driver/20220509-173452
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 18 hours ago
+tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v3
+head:   22a49fd92d5e31234d4174cdf1fdade79f38ae3d
+commit: ff3c34983e1cca80d8c081ea99e0117c5c38c6c3 [10/13] PM: opp: allow con=
+trol of multiple clocks
+:::::: branch date: 16 hours ago
 :::::: commit date: 18 hours ago
-config: x86_64-randconfig-c007-20220509 (https://download.01.org/0day-ci/ar=
-chive/20220510/202205101111.faCcEO63-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a38564=
-5b470e2d3a1534aae618ea56b31177639f)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/898085c9876d078827b=
-a8b3447e5d1ae4626d092
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ming-Lei/ubd-add-io_uring-based-us=
-erspace-block-driver/20220509-173452
-        git checkout 898085c9876d078827ba8b3447e5d1ae4626d092
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+config: x86_64-randconfig-m001-20220509 (https://download.01.org/0day-ci/ar=
+chive/20220510/202205101034.m9Hf56oV-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/opp/core.c:1335 dev_pm_opp_set_rate() error: uninitialized symbol '=
+ret'.
+
+vim +/ret +1335 drivers/opp/core.c
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1263  =
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1264  /**
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1265   * dev_pm_opp_set_rate() - Configure new OPP based on frequency
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1266   * @dev:	 device for which we do this operation
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1267   * @target_freq: frequency to achieve
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1268   *
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1269   * This configures the power-supplies to the levels specified by th=
+e OPP
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1270   * corresponding to the target_freq, and programs the clock to a va=
+lue <=3D
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1271   * target_freq, as rounded by clk_round_rate(). Device wanting to r=
+un@fmax
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1272   * provided by the opp, should have already rounded to the target O=
+PP's
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1273   * frequency.
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1274   */
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1275  int dev_pm_opp_set_rate(struct device *dev, unsigned long target_fr=
+eq)
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1276  {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1277  	struct opp_table *opp_table;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1278  	unsigned long freq =3D 0, temp_freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1279  	struct dev_pm_opp *opp =3D NULL;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1280  	int ret;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1281  =
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1282  	opp_table =3D _find_opp_table(dev);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1283  	if (IS_ERR(opp_table)) {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1284  		dev_err(dev, "%s: device's opp table doesn't exist\n", __func__);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1285  		return PTR_ERR(opp_table);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1286  	}
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1287  =
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1288  	if (target_freq) {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1289  		/*
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1290  		 * For IO devices which require an OPP on some platforms/SoCs
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1291  		 * while just needing to scale the clock on some others
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1292  		 * we look for empty OPP tables with just a clock handle and
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1293  		 * scale only the clk. This makes dev_pm_opp_set_rate()
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1294  		 * equivalent to a clk_set_rate()
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1295  		 */
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1296  		if (!_get_opp_count(opp_table)) {
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1297  			if (opp_table->clks)
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1298  				ret =3D _generic_set_opp_clk_only(dev,
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1299  								opp_table->clks[0],
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1300  								target_freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1301  			goto put_opp_table;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1302  		}
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1303  =
+
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1304  		if (opp_table->clks)
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1305  			freq =3D clk_round_rate(opp_table->clks[0], target_freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1306  		if ((long)freq <=3D 0)
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1307  			freq =3D target_freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1308  =
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1309  		/*
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1310  		 * The clock driver may support finer resolution of the
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1311  		 * frequencies than the OPP table, don't update the frequency we
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1312  		 * pass to clk_set_rate() here.
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1313  		 */
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1314  		temp_freq =3D freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1315  		opp =3D _find_freq_ceil(opp_table, &temp_freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1316  		if (IS_ERR(opp)) {
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1317  			ret =3D PTR_ERR(opp);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1318  			dev_err(dev, "%s: failed to find OPP for freq %lu (%d)\n",
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1319  				__func__, freq, ret);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1320  			goto put_opp_table;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1321  		}
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1322  		/*
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1323  		 * opp->rates are used for scaling clocks, so be sure accurate
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1324  		 * 'freq' is used, instead what was defined via e.g. Devicetree.
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1325  		 */
+ff3c34983e1cca drivers/opp/core.c            Krzysztof Kozlowski 2022-04-05=
+  1326  		opp->rates[0] =3D freq;
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1327  	}
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1328  =
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1329  	ret =3D _set_opp(dev, opp_table, opp, freq);
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1330  =
+
+386ba854d9f316 drivers/opp/core.c            Viresh Kumar        2021-01-21=
+  1331  	if (target_freq)
+8a31d9d94297b1 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+  1332  		dev_pm_opp_put(opp);
+052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+  1333  put_opp_table:
+5b650b388844f2 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+  1334  	dev_pm_opp_put_opp_table(opp_table);
+052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar        2017-01-23=
+ @1335  	return ret;
+6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar        2016-02-09=
+  1336  }
+6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar        2016-02-09=
+  1337  EXPORT_SYMBOL_GPL(dev_pm_opp_set_rate);
+6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar        2016-02-09=
+  1338  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/isp1760/isp1760-hcd.c:2159:2: note: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11
-           memset(&desc->u.hs.DeviceRemovable[temp], 0xff, temp);
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/isp1760/isp1760-hcd.c:2286:3: warning: Call to function 'mem=
-set' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memset_s' in case of C11 [clang-analy=
-zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(buf, 0, 4);
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/usb/isp1760/isp1760-hcd.c:2286:3: note: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11
-                   memset(buf, 0, 4);
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
-   drivers/block/ubd_drv.c:192:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(*bv_addr + bv->bv_offset, pg_addr + *pg_off, len);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/block/ubd_drv.c:192:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(*bv_addr + bv->bv_offset, pg_addr + *pg_off, len);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/block/ubd_drv.c:194:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(pg_addr + *pg_off, *bv_addr + bv->bv_offset, len);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/block/ubd_drv.c:194:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(pg_addr + *pg_off, *bv_addr + bv->bv_offset, len);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
->> drivers/block/ubd_drv.c:256:4: warning: Value stored to 'off' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           off =3D 0;
-                           ^     ~
-   drivers/block/ubd_drv.c:256:4: note: Value stored to 'off' is never read
-                           off =3D 0;
-                           ^     ~
->> drivers/block/ubd_drv.c:680:12: warning: Access to field 'flags' results=
- in a dereference of an undefined pointer value (loaded from variable 'io')=
- [clang-analyzer-core.NullDereference]
-           io->flags &=3D ~UBD_IO_FLAG_ACTIVE;
-           ~~        ^
-   drivers/block/ubd_drv.c:600:2: note: 'io' declared without an initial va=
-lue
-           struct ubd_io *io;
-           ^~~~~~~~~~~~~~~~~
-   drivers/block/ubd_drv.c:605:2: note: Taking false branch
-           pr_devel("%s: receieved: cmd op %d, tag %d, queue %d\n",
-           ^
-   include/linux/printk.h:548:2: note: expanded from macro 'pr_devel'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/block/ubd_drv.c:608:6: note: Assuming the condition is true
-           if (!(issue_flags & IO_URING_F_SQE128))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/ubd_drv.c:608:2: note: Taking true branch
-           if (!(issue_flags & IO_URING_F_SQE128))
-           ^
-   drivers/block/ubd_drv.c:609:3: note: Control jumps to line 680
-                   goto out;
-                   ^
-   drivers/block/ubd_drv.c:680:12: note: Access to field 'flags' results in=
- a dereference of an undefined pointer value (loaded from variable 'io')
-           io->flags &=3D ~UBD_IO_FLAG_ACTIVE;
-           ~~        ^
-   drivers/block/ubd_drv.c:854:2: warning: Call to function 'sprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(disk->disk_name, "ubdb%d", ub->ub_number);
-           ^~~~~~~
-   drivers/block/ubd_drv.c:854:2: note: Call to function 'sprintf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sprintf_s' in case of C11
-           sprintf(disk->disk_name, "ubdb%d", ub->ub_number);
-           ^~~~~~~
-   drivers/block/ubd_drv.c:1104:4: warning: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&ub->dev_info, info, sizeof(*info));
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/block/ubd_drv.c:1104:4: note: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&ub->dev_info, info, sizeof(*info));
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 42 warnings (39 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   drivers/char/lp.c:923:2: warning: Call to function 'memset' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&ppdev_cb, 0, sizeof(ppdev_cb));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/char/lp.c:923:2: note: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11
-           memset(&ppdev_cb, 0, sizeof(ppdev_cb));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   arch/x86/include/asm/paravirt.h:693:9: warning: Assigned value is garbag=
-e or undefined [clang-analyzer-core.uninitialized.Assign]
-           return PVOP_ALT_CALLEE0(unsigned long, irq.save_fl, "pushf; pop =
-%%rax;",
-                  ^
-   arch/x86/include/asm/paravirt_types.h:522:2: note: expanded from macro '=
-PVOP_ALT_CALLEE0'
-           __PVOP_ALT_CALLEESAVE(rettype, op, alt, cond)
-           ^
-   arch/x86/include/asm/paravirt_types.h:486:2: note: expanded from macro '=
-__PVOP_ALT_CALLEESAVE'
-           ____PVOP_ALT_CALL(PVOP_RETVAL(rettype), op.func, alt, cond,     \
-           ^
-   arch/x86/include/asm/paravirt_types.h:460:3: note: expanded from macro '=
-____PVOP_ALT_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^
+:::::: The code at line 1335 was first introduced by commit
+:::::: 052c6f19141dd13f266cc465fde6f38ddc93d5fb PM / OPP: Move away from RC=
+U locking
 
-vim +/off +256 drivers/block/ubd_drv.c
-
-898085c9876d07 Ming Lei 2022-05-09  208  =
-
-898085c9876d07 Ming Lei 2022-05-09  209  /* copy rq pages to ubdsrv vm addr=
-ess pointed by io->addr */
-898085c9876d07 Ming Lei 2022-05-09  210  static int ubd_copy_pages(struct u=
-bd_device *ub, struct request *rq)
-898085c9876d07 Ming Lei 2022-05-09  211  {
-898085c9876d07 Ming Lei 2022-05-09  212  	struct ubd_queue *ubq =3D rq->mq_=
-hctx->driver_data;
-898085c9876d07 Ming Lei 2022-05-09  213  	struct ubd_io *io =3D &ubq->ios[r=
-q->tag];
-898085c9876d07 Ming Lei 2022-05-09  214  	struct page *pgs[UBD_MAX_PIN_PAGE=
-S];
-898085c9876d07 Ming Lei 2022-05-09  215  	const bool to_rq =3D !op_is_write=
-(rq->cmd_flags);
-898085c9876d07 Ming Lei 2022-05-09  216  	struct req_iterator req_iter;
-898085c9876d07 Ming Lei 2022-05-09  217  	struct bio_vec bv;
-898085c9876d07 Ming Lei 2022-05-09  218  	unsigned long start =3D io->addr,=
- left =3D rq->__data_len;
-898085c9876d07 Ming Lei 2022-05-09  219  	unsigned int idx =3D 0, pg_len =
-=3D 0, pg_off =3D 0;
-898085c9876d07 Ming Lei 2022-05-09  220  	int nr_pin =3D 0;
-898085c9876d07 Ming Lei 2022-05-09  221  	void *pg_addr =3D NULL;
-898085c9876d07 Ming Lei 2022-05-09  222  	struct page *curr =3D NULL;
-898085c9876d07 Ming Lei 2022-05-09  223  =
-
-898085c9876d07 Ming Lei 2022-05-09  224  	rq_for_each_segment(bv, rq, req_i=
-ter) {
-898085c9876d07 Ming Lei 2022-05-09  225  		unsigned len, bv_off =3D bv.bv_o=
-ffset, bv_len =3D bv.bv_len;
-898085c9876d07 Ming Lei 2022-05-09  226  		void *bv_addr =3D NULL;
-898085c9876d07 Ming Lei 2022-05-09  227  =
-
-898085c9876d07 Ming Lei 2022-05-09  228  refill:
-898085c9876d07 Ming Lei 2022-05-09  229  		if (pg_len =3D=3D 0) {
-898085c9876d07 Ming Lei 2022-05-09  230  			unsigned int off =3D 0;
-898085c9876d07 Ming Lei 2022-05-09  231  =
-
-898085c9876d07 Ming Lei 2022-05-09  232  			if (pg_addr) {
-898085c9876d07 Ming Lei 2022-05-09  233  				kunmap_local(pg_addr);
-898085c9876d07 Ming Lei 2022-05-09  234  				if (!to_rq)
-898085c9876d07 Ming Lei 2022-05-09  235  					set_page_dirty_lock(curr);
-898085c9876d07 Ming Lei 2022-05-09  236  				pg_addr =3D NULL;
-898085c9876d07 Ming Lei 2022-05-09  237  			}
-898085c9876d07 Ming Lei 2022-05-09  238  =
-
-898085c9876d07 Ming Lei 2022-05-09  239  			/* refill pages */
-898085c9876d07 Ming Lei 2022-05-09  240  			if (idx >=3D nr_pin) {
-898085c9876d07 Ming Lei 2022-05-09  241  				unsigned int max_pages;
-898085c9876d07 Ming Lei 2022-05-09  242  =
-
-898085c9876d07 Ming Lei 2022-05-09  243  				ubd_release_pages(ub, pgs, nr_=
-pin);
-898085c9876d07 Ming Lei 2022-05-09  244  =
-
-898085c9876d07 Ming Lei 2022-05-09  245  				off =3D start & (PAGE_SIZE - 1=
-);
-898085c9876d07 Ming Lei 2022-05-09  246  				max_pages =3D round_up(off + l=
-eft, PAGE_SIZE);
-898085c9876d07 Ming Lei 2022-05-09  247  				nr_pin =3D min_t(unsigned, UBD=
-_MAX_PIN_PAGES, max_pages);
-898085c9876d07 Ming Lei 2022-05-09  248  				nr_pin =3D ubd_pin_user_pages(=
-ub, start, pgs,
-898085c9876d07 Ming Lei 2022-05-09  249  						nr_pin, to_rq);
-898085c9876d07 Ming Lei 2022-05-09  250  				if (nr_pin <=3D 0)
-898085c9876d07 Ming Lei 2022-05-09  251  					return -EINVAL;
-898085c9876d07 Ming Lei 2022-05-09  252  				idx =3D 0;
-898085c9876d07 Ming Lei 2022-05-09  253  			}
-898085c9876d07 Ming Lei 2022-05-09  254  			pg_off =3D off;
-898085c9876d07 Ming Lei 2022-05-09  255  			pg_len =3D min(PAGE_SIZE - off,=
- left);
-898085c9876d07 Ming Lei 2022-05-09 @256  			off =3D 0;
-898085c9876d07 Ming Lei 2022-05-09  257  			curr =3D pgs[idx++];
-898085c9876d07 Ming Lei 2022-05-09  258  			pg_addr =3D kmap_local_page(cur=
-r);
-898085c9876d07 Ming Lei 2022-05-09  259  		}
-898085c9876d07 Ming Lei 2022-05-09  260  =
-
-898085c9876d07 Ming Lei 2022-05-09  261  		len =3D ubd_copy_bv(&bv, &bv_add=
-r, pg_addr, &pg_off, &pg_len,
-898085c9876d07 Ming Lei 2022-05-09  262  				to_rq);
-898085c9876d07 Ming Lei 2022-05-09  263  		/* either one of the two has bee=
-n consumed */
-898085c9876d07 Ming Lei 2022-05-09  264  		WARN_ON_ONCE(bv.bv_len && pg_len=
-);
-898085c9876d07 Ming Lei 2022-05-09  265  		start +=3D len;
-898085c9876d07 Ming Lei 2022-05-09  266  		left -=3D len;
-898085c9876d07 Ming Lei 2022-05-09  267  =
-
-898085c9876d07 Ming Lei 2022-05-09  268  		/* overflow */
-898085c9876d07 Ming Lei 2022-05-09  269  		WARN_ON_ONCE(left > rq->__data_l=
-en);
-898085c9876d07 Ming Lei 2022-05-09  270  		WARN_ON_ONCE(bv.bv_len > bv_len);
-898085c9876d07 Ming Lei 2022-05-09  271  		if (bv.bv_len)
-898085c9876d07 Ming Lei 2022-05-09  272  			goto refill;
-898085c9876d07 Ming Lei 2022-05-09  273  =
-
-898085c9876d07 Ming Lei 2022-05-09  274  		bv.bv_len =3D bv_len;
-898085c9876d07 Ming Lei 2022-05-09  275  		bv.bv_offset =3D bv_off;
-898085c9876d07 Ming Lei 2022-05-09  276  	}
-898085c9876d07 Ming Lei 2022-05-09  277  	if (pg_addr) {
-898085c9876d07 Ming Lei 2022-05-09  278  		kunmap_local(pg_addr);
-898085c9876d07 Ming Lei 2022-05-09  279  		if (!to_rq)
-898085c9876d07 Ming Lei 2022-05-09  280  			set_page_dirty_lock(curr);
-898085c9876d07 Ming Lei 2022-05-09  281  	}
-898085c9876d07 Ming Lei 2022-05-09  282  	ubd_release_pages(ub, pgs, nr_pin=
-);
-898085c9876d07 Ming Lei 2022-05-09  283  =
-
-898085c9876d07 Ming Lei 2022-05-09  284  	WARN_ON_ONCE(left !=3D 0);
-898085c9876d07 Ming Lei 2022-05-09  285  =
-
-898085c9876d07 Ming Lei 2022-05-09  286  	return 0;
-898085c9876d07 Ming Lei 2022-05-09  287  }
-898085c9876d07 Ming Lei 2022-05-09  288  =
-
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7670092759206942984==--
+--===============8251834689786412260==--
 
