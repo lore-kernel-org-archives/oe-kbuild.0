@@ -1,471 +1,545 @@
-Content-Type: multipart/mixed; boundary="===============3558678871631887066=="
+Content-Type: multipart/mixed; boundary="===============7593058949257830684=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 9264/10661] mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/char/hw_random/cn10k-rng.o' being placed in section `.ctors.65436'
-Date: Wed, 11 May 2022 00:17:02 +0800
-Message-ID: <202205110014.XnnvJARa-lkp@intel.com>
+Subject: [krzk-github:n/qcom-ufs-opp-v3 10/13] drivers/opp/core.c:1335:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Tue, 10 May 2022 23:15:53 +0800
+Message-ID: <202205102304.LwSva9Cx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3558678871631887066==
+--===============7593058949257830684==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Herbert Xu <herbert@gondor.apana.org.au>
+CC: linux-kernel(a)vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-Hi Herbert,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   3bf222d317a20170ee17f082626c1e0f83537e13
-commit: 25dfae684031f292034a0f42155090df6309f152 [9264/10661] hwrng: cn10k =
-- Enable compile testing
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 days ago
-config: mips-randconfig-s032-20220509 (https://download.01.org/0day-ci/arch=
-ive/20220511/202205110014.XnnvJARa-lkp(a)intel.com/config)
-compiler: mips64-linux-gcc (GCC) 11.3.0
-reproduce:
+tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v3
+head:   22a49fd92d5e31234d4174cdf1fdade79f38ae3d
+commit: ff3c34983e1cca80d8c081ea99e0117c5c38c6c3 [10/13] PM: opp: allow con=
+trol of multiple clocks
+:::::: branch date: 28 hours ago
+:::::: commit date: 31 hours ago
+config: i386-randconfig-c001-20220509 (https://download.01.org/0day-ci/arch=
+ive/20220510/202205102304.LwSva9Cx-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 18dd12=
+3c56754edf62c7042dcf23185c3727610f)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D25dfae684031f292034a0f42155090df6309f152
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 25dfae684031f292034a0f42155090df6309f152
+        # https://github.com/krzk/linux/commit/ff3c34983e1cca80d8c081ea99e0=
+117c5c38c6c3
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/qcom-ufs-opp-v3
+        git checkout ff3c34983e1cca80d8c081ea99e0117c5c38c6c3
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-ips SHELL=3D/bin/bash
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
 
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/rtq2134-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/rtq6752-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/s2mpa01.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/s5m8767.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/slg51000-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/stm32-vrefbuf.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/stm32-pwr.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/stw481x-vmmc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/sy7636a-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/sy8824x.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/tps65023-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/tps6507x-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/tps68470-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/wm831x-dcdc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/wm831x-isink.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/wm831x-ldo.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/wm8350-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/wm8400-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-gulator/wm8994-regulator.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/core.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/hisilicon/hi6220_reset.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/hisilicon/reset-hi3660.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-ath79.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-bcm6345.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-berlin.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-brcmstb.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-brcmstb-rescal.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-hsdk.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-imx7.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-lantiq.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-microchip-sparx5.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-meson.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-meson-audio-arb.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-qcom-aoss.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-qcom-pdc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-simple.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-socfpga.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-starfive-jh7100.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-sunxi.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-ti-syscon.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/re=
-set/reset-zynq.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_io.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/n_tty.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_ioctl.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_ldisc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_buffer.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_port.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_mutex.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_ldsem.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_baudrate.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/tty_jobctrl.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/n_null.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/hvc/hvc_console.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/serial_core.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/earlycon.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/amba-pl010.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/samsung_tty.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/sh-sci.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/imx.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/icom.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/meson_uart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/atmel_serial.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/uartlite.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/msm_serial.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/qcom_geni_serial.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/altera_uart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/st-asc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/timbuart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/altera_jtaguart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/vt8500_serial.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/pch_uart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/mxs-auart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/serial-tegra.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/tegra-tcu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/arc_uart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/fsl_lpuart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/sprd_serial.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/stm32-usart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/rda-uart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/sunplus-uart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/serial/serial_mctrl_gpio.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/moxa.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/nozomi.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/synclink_gt.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/tt=
-y/rpmsg_tty.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/mem.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/random.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/misc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/virtio_console.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/core.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/ba431-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/exynos-trng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/omap-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/virtio-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/imx-rngc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/nomadik-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/bcm2835-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/iproc-rng200.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/meson-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/xiphera-trng.o' being placed in section `.ctors.65436'
->> mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/hw_random/cn10k-rng.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm-chip.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm-dev-common.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm-dev.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm-interface.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm1-cmd.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm2-cmd.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpmrm-dev.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm2-space.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm-sysfs.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/eventlog/common.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/eventlog/tpm1.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/eventlog/tpm2.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_tis_core.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_tis_synquacer.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_tis_spi_main.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_tis_spi_cr50.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_tis_i2c_cr50.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_i2c_nuvoton.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/tpm_atmel.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/st33zp24/st33zp24.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/st33zp24/i2c.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/tpm/st33zp24/spi.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/xillybus/xillybus_class.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/xillybus/xillybus_core.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/ch=
-ar/xillybus/xillybus_pcie.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/arm/arm-smmu/qcom_iommu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/arm/arm-smmu/arm-smmu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/arm/arm-smmu/arm-smmu-impl.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/arm/arm-smmu/arm-smmu-nvidia.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/iommu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/iommu-traces.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/iommu-sysfs.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/iommu-debugfs.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/io-pgtable.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/io-pgtable-arm-v7s.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/io-pgtable-arm.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/mtk_iommu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/omap-iommu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/rockchip-iommu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/sprd-iommu.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/io=
-mmu/apple-dart.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_nomodeset.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_gem_cma_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_fb_cma_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_gem_shmem_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_buddy.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_gem_ttm_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_bridge_connector.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_crtc_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_dsc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_encoder_slave.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_flip_work.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_hdcp.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_probe_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_plane_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_atomic_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_kms_helper_common.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_simple_kms_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_modeset_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_scdc_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_gem_atomic_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_gem_framebuffer_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_atomic_state_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_damage_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_format_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_self_refresh_helper.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_rect.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/bridge/panel.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_mm.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_modeset_common.o' being placed in section `.ctors.=
-65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_plane_helper.o' being placed in section `.ctors.65=
-436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_format.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_framebuffer.o' being placed in section `.ctors.654=
-36'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_damage_helper.o' being placed in section `.ctors.6=
-5436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_dp_mst_helper.o' being placed in section `.ctors.6=
-5436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_rect.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_cmdline_parser.o' being placed in section `.ctors.=
-65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/selftests/test-drm_buddy.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_aperture.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_auth.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_cache.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_file.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_gem.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_ioctl.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_drv.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_sysfs.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_mm.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_crtc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_fourcc.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_modes.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_edid.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_displayid.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_trace_points.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_prime.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_vma_manager.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_modeset_lock.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_atomic.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_bridge.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_framebuffer.o' being placed in section `.ctors.65436'
-   mips64-linux-ld: warning: orphan section `.ctors.65436' from `drivers/gp=
-u/drm/drm_connector.o' being placed in section `.ctors.65436'
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^~~~~~~~
+   drivers/firmware/efi/efi.c:792:3: warning: Call to function 'snprintf' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(pos, size,
+                   ^~~~~~~~
+   drivers/firmware/efi/efi.c:792:3: note: Call to function 'snprintf' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'snprintf_s' in case of C11
+                   snprintf(pos, size,
+                   ^~~~~~~~
+   Suppressed 41 warnings (40 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   drivers/pinctrl/intel/pinctrl-intel.c:1149:15: warning: Value stored to =
+'pin' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           unsigned int pin =3D intel_gpio_to_pin(pctrl, irqd_to_hwirq(d), =
+NULL, NULL);
+                        ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1149:15: note: Value stored to 'pi=
+n' during its initialization is never read
+           unsigned int pin =3D intel_gpio_to_pin(pctrl, irqd_to_hwirq(d), =
+NULL, NULL);
+                        ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1745:17: warning: Value stored to =
+'dev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1745:17: note: Value stored to 'de=
+v' during its initialization is never read
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1765:17: warning: Value stored to =
+'dev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1765:17: note: Value stored to 'de=
+v' during its initialization is never read
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1777:15: warning: Value stored to =
+'n' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           unsigned int n =3D reg / sizeof(u32);
+                        ^   ~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1777:15: note: Value stored to 'n'=
+ during its initialization is never read
+           unsigned int n =3D reg / sizeof(u32);
+                        ^   ~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1778:17: warning: Value stored to =
+'dev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1778:17: note: Value stored to 'de=
+v' during its initialization is never read
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/i3c/master/mipi-i3c-hci/core.c:145:2: warning: Call to function =
+'memset' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&info, 0, sizeof(info));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/i3c/master/mipi-i3c-hci/core.c:145:2: note: Call to function 'me=
+mset' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memset_s' in case of C11
+           memset(&info, 0, sizeof(info));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/i3c/master/mipi-i3c-hci/ext_caps.c:78:7: warning: Value stored t=
+o 'mode_entry' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+                   u32 mode_entry =3D readl(base);
+                       ^~~~~~~~~~
+   drivers/i3c/master/mipi-i3c-hci/ext_caps.c:78:7: note: Value stored to '=
+mode_entry' during its initialization is never read
+                   u32 mode_entry =3D readl(base);
+                       ^~~~~~~~~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   drivers/opp/core.c:1034:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(data->old_opp.supplies, old_opp->supplies, size);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/opp/core.c:1034:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(data->old_opp.supplies, old_opp->supplies, size);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/opp/core.c:1035:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(data->new_opp.supplies, opp->supplies, size);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/opp/core.c:1035:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(data->new_opp.supplies, opp->supplies, size);
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+>> drivers/opp/core.c:1335:2: warning: Undefined or garbage value returned =
+to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/opp/core.c:1280:2: note: 'ret' declared without an initial value
+           int ret;
+           ^~~~~~~
+   drivers/opp/core.c:1283:2: note: Taking false branch
+           if (IS_ERR(opp_table)) {
+           ^
+   drivers/opp/core.c:1288:6: note: Assuming 'target_freq' is not equal to 0
+           if (target_freq) {
+               ^~~~~~~~~~~
+   drivers/opp/core.c:1288:2: note: Taking true branch
+           if (target_freq) {
+           ^
+   drivers/opp/core.c:1296:7: note: Assuming the condition is true
+                   if (!_get_opp_count(opp_table)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/opp/core.c:1296:3: note: Taking true branch
+                   if (!_get_opp_count(opp_table)) {
+                   ^
+   drivers/opp/core.c:1297:8: note: Assuming field 'clks' is null
+                           if (opp_table->clks)
+                               ^~~~~~~~~~~~~~~
+   drivers/opp/core.c:1297:4: note: Taking false branch
+                           if (opp_table->clks)
+                           ^
+   drivers/opp/core.c:1301:4: note: Control jumps to line 1334
+                           goto put_opp_table;
+                           ^
+   drivers/opp/core.c:1335:2: note: Undefined or garbage value returned to =
+caller
+           return ret;
+           ^      ~~~
+   Suppressed 45 warnings (44 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   drivers/of/address.c:89:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(addr, 0, na * 4);
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:89:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(addr, 0, na * 4);
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:430:3: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(addr, 0, pna * 4);
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:430:3: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+                   memset(addr, 0, pna * 4);
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:449:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(addr, ranges + na, 4 * pna);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:449:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(addr, ranges + na, 4 * pna);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:502:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(addr, in_addr, na * 4);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:502:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(addr, in_addr, na * 4);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:820:2: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(r, 0, sizeof(struct resource));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/of/address.c:820:2: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+           memset(r, 0, sizeof(struct resource));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+
+vim +1335 drivers/opp/core.c
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1263  =
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1264  /**
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1265   * dev_pm_opp_set_rate() - Configure new OPP based on frequency
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1266   * @dev:	 device for which we do this operation
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1267   * @target_freq: frequency to achieve
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1268   *
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1269   * This configures the power-supplies to the levels specified by t=
+he OPP
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1270   * corresponding to the target_freq, and programs the clock to a v=
+alue <=3D
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1271   * target_freq, as rounded by clk_round_rate(). Device wanting to =
+run@fmax
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1272   * provided by the opp, should have already rounded to the target =
+OPP's
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1273   * frequency.
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1274   */
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1275  int dev_pm_opp_set_rate(struct device *dev, unsigned long target_f=
+req)
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1276  {
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1277  	struct opp_table *opp_table;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1278  	unsigned long freq =3D 0, temp_freq;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1279  	struct dev_pm_opp *opp =3D NULL;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1280  	int ret;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1281  =
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1282  	opp_table =3D _find_opp_table(dev);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1283  	if (IS_ERR(opp_table)) {
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1284  		dev_err(dev, "%s: device's opp table doesn't exist\n", __func__);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1285  		return PTR_ERR(opp_table);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1286  	}
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1287  =
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1288  	if (target_freq) {
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1289  		/*
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1290  		 * For IO devices which require an OPP on some platforms/SoCs
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1291  		 * while just needing to scale the clock on some others
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1292  		 * we look for empty OPP tables with just a clock handle and
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1293  		 * scale only the clk. This makes dev_pm_opp_set_rate()
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1294  		 * equivalent to a clk_set_rate()
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1295  		 */
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1296  		if (!_get_opp_count(opp_table)) {
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1297  			if (opp_table->clks)
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1298  				ret =3D _generic_set_opp_clk_only(dev,
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1299  								opp_table->clks[0],
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1300  								target_freq);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1301  			goto put_opp_table;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1302  		}
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1303  =
+
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1304  		if (opp_table->clks)
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1305  			freq =3D clk_round_rate(opp_table->clks[0], target_freq);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1306  		if ((long)freq <=3D 0)
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1307  			freq =3D target_freq;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1308  =
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1309  		/*
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1310  		 * The clock driver may support finer resolution of the
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1311  		 * frequencies than the OPP table, don't update the frequency we
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1312  		 * pass to clk_set_rate() here.
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1313  		 */
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1314  		temp_freq =3D freq;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1315  		opp =3D _find_freq_ceil(opp_table, &temp_freq);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1316  		if (IS_ERR(opp)) {
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1317  			ret =3D PTR_ERR(opp);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1318  			dev_err(dev, "%s: failed to find OPP for freq %lu (%d)\n",
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1319  				__func__, freq, ret);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1320  			goto put_opp_table;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1321  		}
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1322  		/*
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1323  		 * opp->rates are used for scaling clocks, so be sure accurate
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1324  		 * 'freq' is used, instead what was defined via e.g. Devicetree.
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1325  		 */
+ff3c34983e1cca8 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-0=
+5  1326  		opp->rates[0] =3D freq;
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1327  	}
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1328  =
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1329  	ret =3D _set_opp(dev, opp_table, opp, freq);
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1330  =
+
+386ba854d9f3163 drivers/opp/core.c            Viresh Kumar        2021-01-2=
+1  1331  	if (target_freq)
+8a31d9d94297b1e drivers/base/power/opp/core.c Viresh Kumar        2017-01-2=
+3  1332  		dev_pm_opp_put(opp);
+052c6f19141dd13 drivers/base/power/opp/core.c Viresh Kumar        2017-01-2=
+3  1333  put_opp_table:
+5b650b388844f26 drivers/base/power/opp/core.c Viresh Kumar        2017-01-2=
+3  1334  	dev_pm_opp_put_opp_table(opp_table);
+052c6f19141dd13 drivers/base/power/opp/core.c Viresh Kumar        2017-01-2=
+3 @1335  	return ret;
+6a0712f6f199e73 drivers/base/power/opp/core.c Viresh Kumar        2016-02-0=
+9  1336  }
+6a0712f6f199e73 drivers/base/power/opp/core.c Viresh Kumar        2016-02-0=
+9  1337  EXPORT_SYMBOL_GPL(dev_pm_opp_set_rate);
+6a0712f6f199e73 drivers/base/power/opp/core.c Viresh Kumar        2016-02-0=
+9  1338  =
+
+
+:::::: The code at line 1335 was first introduced by commit
+:::::: 052c6f19141dd13f266cc465fde6f38ddc93d5fb PM / OPP: Move away from RC=
+U locking
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3558678871631887066==--
+--===============7593058949257830684==--
 
