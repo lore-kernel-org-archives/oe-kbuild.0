@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3388570678882614628=="
+Content-Type: multipart/mixed; boundary="===============8369423744028384741=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initializer, use C99 syntax
-Date: Wed, 11 May 2022 22:54:46 +0800
-Message-ID: <202205112210.kJwofeFQ-lkp@intel.com>
+Subject: drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: uninitialized symbol 'txt_size_bytes'.
+Date: Wed, 11 May 2022 22:34:20 +0800
+Message-ID: <202205112230.u0jcmh6d-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3388570678882614628==
+--===============8369423744028384741==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,120 +15,191 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Prabhakar Kushwaha <pkushwaha@marvell.com>
+CC: Ariel Elior <aelior@marvell.com>
+CC: Shai Malin <smalin@marvell.com>
+CC: Omkar Kulkarni <okulkarni@marvell.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
-commit: b9d6c47a2be8d273ecc063afda6e9fd66a35116d rockchip/soc/drivers: Add =
-DTPM description for rk3399
-date:   3 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 3 months ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/2022051=
-1/202205112210.kJwofeFQ-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db9d6c47a2be8d273ecc063afda6e9fd66a35116d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b9d6c47a2be8d273ecc063afda6e9fd66a35116d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rm64 SHELL=3D/bin/bash drivers/scsi/hisi_sas/ drivers/soc/rockchip/
+commit: 6c95dd8f0aa1d983e857a755fca7001677d1dcb5 qed: Update debug related =
+changes
+date:   7 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 7 months ago
+config: csky-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
+ive/20220511/202205112230.u0jcmh6d-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: un=
+initialized symbol 'txt_size_bytes'.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:17:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:20:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:23:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:26:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:29:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:32:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:35:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:38:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:41:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
+Old smatch warnings:
+drivers/net/ethernet/qlogic/qed/qed_debug.c:5262 qed_dbg_grc_config() warn:=
+ unsigned 'grc_param' is never less than zero.
+drivers/net/ethernet/qlogic/qed/qed_debug.c:8043 qed_dbg_dump() error: unin=
+itialized symbol 'buf_size_dwords'.
+drivers/net/ethernet/qlogic/qed/qed_debug.c:8637 qed_dbg_feature_size() err=
+or: uninitialized symbol 'buf_size_dwords'.
 
-vim +15 drivers/soc/rockchip/dtpm.c
+vim +/txt_size_bytes +7955 drivers/net/ethernet/qlogic/qed/qed_debug.c
 
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  13  =
+c965db44462919 Tomer Tayar        2016-09-07  7924  =
 
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  14  static struct dtpm_node __ini=
-tdata rk3399_hierarchy[] =3D {
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28 @15  	[0]{ .name =3D "rk3399",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  16  	     .type =3D DTPM_NODE_VIR=
-TUAL },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  17  	[1]{ .name =3D "package",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  18  	     .type =3D DTPM_NODE_VIR=
-TUAL,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  19  	     .parent =3D &rk3399_hie=
-rarchy[0] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  20  	[2]{ .name =3D "/cpus/cpu(a)=
-0",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  21  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  22  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  23  	[3]{ .name =3D "/cpus/cpu(a)=
-1",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  24  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  25  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  26  	[4]{ .name =3D "/cpus/cpu(a)=
-2",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  27  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  28  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  29  	[5]{ .name =3D "/cpus/cpu(a)=
-3",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  30  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  31  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  32  	[6]{ .name =3D "/cpus/cpu(a)=
-100",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  33  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  34  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  35  	[7]{ .name =3D "/cpus/cpu(a)=
-101",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  36  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  37  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  38  	[8]{ .name =3D "/gpu(a)ff9a0=
-000",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  39  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  40  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  41  	[9]{ /* sentinel */ }
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  42  };
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  43  =
+c965db44462919 Tomer Tayar        2016-09-07  7925  #define QED_RESULTS_BUF=
+_MIN_SIZE 16
+c965db44462919 Tomer Tayar        2016-09-07  7926  /* Generic function for=
+ decoding debug feature info */
+8c93beaf5714b9 Yuval Mintz        2016-10-13  7927  static enum dbg_status =
+format_feature(struct qed_hwfn *p_hwfn,
+c965db44462919 Tomer Tayar        2016-09-07  7928  				      enum qed_dbg_=
+features feature_idx)
+c965db44462919 Tomer Tayar        2016-09-07  7929  {
+c965db44462919 Tomer Tayar        2016-09-07  7930  	struct qed_dbg_feature=
+ *feature =3D
+ca352f00756e7b Igor Russkikh      2020-05-14  7931  	    &p_hwfn->cdev->dbg=
+_features[feature_idx];
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7932  	u32 txt_size_bytes, nu=
+ll_char_pos, i;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7933  	u32 *dbuf, dwords;
+c965db44462919 Tomer Tayar        2016-09-07  7934  	enum dbg_status rc;
+c965db44462919 Tomer Tayar        2016-09-07  7935  	char *text_buf;
+c965db44462919 Tomer Tayar        2016-09-07  7936  =
+
+c965db44462919 Tomer Tayar        2016-09-07  7937  	/* Check if feature su=
+pports formatting capability */
+c965db44462919 Tomer Tayar        2016-09-07  7938  	if (!qed_features_look=
+up[feature_idx].results_buf_size)
+c965db44462919 Tomer Tayar        2016-09-07  7939  		return DBG_STATUS_OK;
+c965db44462919 Tomer Tayar        2016-09-07  7940  =
+
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7941  	dbuf =3D (u32 *)featur=
+e->dump_buf;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7942  	dwords =3D feature->du=
+mped_dwords;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7943  =
+
+c965db44462919 Tomer Tayar        2016-09-07  7944  	/* Obtain size of form=
+atted output */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7945  	rc =3D qed_features_lo=
+okup[feature_idx].results_buf_size(p_hwfn,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7946  							       dbuf,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7947  							       dwords,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7948  							       &txt_size=
+_bytes);
+c965db44462919 Tomer Tayar        2016-09-07  7949  	if (rc !=3D DBG_STATUS=
+_OK)
+c965db44462919 Tomer Tayar        2016-09-07  7950  		return rc;
+c965db44462919 Tomer Tayar        2016-09-07  7951  =
+
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7952  	/* Make sure that the =
+allocated size is a multiple of dword
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7953  	 * (4 bytes).
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7954  	 */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04 @7955  	null_char_pos =3D txt_=
+size_bytes - 1;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7956  	txt_size_bytes =3D (tx=
+t_size_bytes + 3) & ~0x3;
+c965db44462919 Tomer Tayar        2016-09-07  7957  =
+
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7958  	if (txt_size_bytes < Q=
+ED_RESULTS_BUF_MIN_SIZE) {
+c965db44462919 Tomer Tayar        2016-09-07  7959  		DP_NOTICE(p_hwfn->cde=
+v,
+c965db44462919 Tomer Tayar        2016-09-07  7960  			  "formatted size of=
+ feature was too small %d. Aborting\n",
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7961  			  txt_size_bytes);
+c965db44462919 Tomer Tayar        2016-09-07  7962  		return DBG_STATUS_INV=
+ALID_ARGS;
+c965db44462919 Tomer Tayar        2016-09-07  7963  	}
+c965db44462919 Tomer Tayar        2016-09-07  7964  =
+
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7965  	/* allocate temp text =
+buf */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7966  	text_buf =3D vzalloc(t=
+xt_size_bytes);
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7967  	if (!text_buf) {
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7968  		DP_NOTICE(p_hwfn->cde=
+v,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7969  			  "failed to allocat=
+e text buffer. Aborting\n");
+c965db44462919 Tomer Tayar        2016-09-07  7970  		return DBG_STATUS_VIR=
+T_MEM_ALLOC_FAILED;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7971  	}
+c965db44462919 Tomer Tayar        2016-09-07  7972  =
+
+c965db44462919 Tomer Tayar        2016-09-07  7973  	/* Decode feature opco=
+des to string on temp buf */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7974  	rc =3D qed_features_lo=
+okup[feature_idx].print_results(p_hwfn,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7975  							    dbuf,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7976  							    dwords,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7977  							    text_buf);
+c965db44462919 Tomer Tayar        2016-09-07  7978  	if (rc !=3D DBG_STATUS=
+_OK) {
+c965db44462919 Tomer Tayar        2016-09-07  7979  		vfree(text_buf);
+c965db44462919 Tomer Tayar        2016-09-07  7980  		return rc;
+c965db44462919 Tomer Tayar        2016-09-07  7981  	}
+c965db44462919 Tomer Tayar        2016-09-07  7982  =
+
+c965db44462919 Tomer Tayar        2016-09-07  7983  	/* Replace the origina=
+l null character with a '\n' character.
+c965db44462919 Tomer Tayar        2016-09-07  7984  	 * The bytes that were=
+ added as a result of the dword alignment are also
+c965db44462919 Tomer Tayar        2016-09-07  7985  	 * padded with '\n' ch=
+aracters.
+c965db44462919 Tomer Tayar        2016-09-07  7986  	 */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7987  	for (i =3D null_char_p=
+os; i < txt_size_bytes; i++)
+c965db44462919 Tomer Tayar        2016-09-07  7988  		text_buf[i] =3D '\n';
+c965db44462919 Tomer Tayar        2016-09-07  7989  =
+
+c965db44462919 Tomer Tayar        2016-09-07  7990  	/* Dump printable feat=
+ure to log */
+ca352f00756e7b Igor Russkikh      2020-05-14  7991  	if (p_hwfn->cdev->prin=
+t_dbg_data)
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7992  		qed_dbg_print_feature=
+(text_buf, txt_size_bytes);
+c965db44462919 Tomer Tayar        2016-09-07  7993  =
+
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7994  	/* Dump binary data as=
+ is to the output file */
+da3287111ab43b Alexander Lobakin  2020-07-06  7995  	if (p_hwfn->cdev->dbg_=
+bin_dump) {
+da3287111ab43b Alexander Lobakin  2020-07-06  7996  		vfree(text_buf);
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7997  		return rc;
+da3287111ab43b Alexander Lobakin  2020-07-06  7998  	}
+da3287111ab43b Alexander Lobakin  2020-07-06  7999  =
+
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8000  	/* Free the old dump_b=
+uf and point the dump_buf to the newly allocated
+c965db44462919 Tomer Tayar        2016-09-07  8001  	 * and formatted text =
+buffer.
+c965db44462919 Tomer Tayar        2016-09-07  8002  	 */
+c965db44462919 Tomer Tayar        2016-09-07  8003  	vfree(feature->dump_bu=
+f);
+c965db44462919 Tomer Tayar        2016-09-07  8004  	feature->dump_buf =3D =
+text_buf;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8005  	feature->buf_size =3D =
+txt_size_bytes;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8006  	feature->dumped_dwords=
+ =3D txt_size_bytes / 4;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8007  =
+
+c965db44462919 Tomer Tayar        2016-09-07  8008  	return rc;
+c965db44462919 Tomer Tayar        2016-09-07  8009  }
+c965db44462919 Tomer Tayar        2016-09-07  8010  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3388570678882614628==--
+--===============8369423744028384741==--
 
