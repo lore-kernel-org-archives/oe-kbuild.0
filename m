@@ -1,205 +1,124 @@
-Content-Type: multipart/mixed; boundary="===============8369423744028384741=="
+Content-Type: multipart/mixed; boundary="===============5857537214167164290=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: uninitialized symbol 'txt_size_bytes'.
-Date: Wed, 11 May 2022 22:34:20 +0800
-Message-ID: <202205112230.u0jcmh6d-lkp@intel.com>
+Subject: Re: [PATCH 3/3] drm/virtio: use the fence for every plane update
+Date: Wed, 11 May 2022 21:28:44 +0800
+Message-ID: <202205112132.FqtvzLWA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8369423744028384741==
+--===============5857537214167164290==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Prabhakar Kushwaha <pkushwaha@marvell.com>
-CC: Ariel Elior <aelior@marvell.com>
-CC: Shai Malin <smalin@marvell.com>
-CC: Omkar Kulkarni <okulkarni@marvell.com>
+In-Reply-To: <20220511000623.12938-3-dongwon.kim@intel.com>
+References: <20220511000623.12938-3-dongwon.kim@intel.com>
+TO: Dongwon Kim <dongwon.kim@intel.com>
+TO: dri-devel(a)lists.freedesktop.org
+CC: Vivek Kasireddy <vivek.kasireddy@intel.com>
+CC: Gerd Hoffmann <kraxel@redhat.com>
+CC: Dongwon Kim <dongwon.kim@intel.com>
+CC: Gurchetan Singh <gurchetansingh@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
-commit: 6c95dd8f0aa1d983e857a755fca7001677d1dcb5 qed: Update debug related =
-changes
-date:   7 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 7 months ago
-config: csky-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220511/202205112230.u0jcmh6d-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.3.0
+Hi Dongwon,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-=
+next drm-tip/drm-tip tegra-drm/drm/tegra/for-next v5.18-rc6 next-20220510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongwon-Kim/drm-virt=
+io-release-ops-for-virtgpu-fence-release/20220511-081226
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: parisc-randconfig-m031-20220509 (https://download.01.org/0day-ci/ar=
+chive/20220511/202205112132.FqtvzLWA-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: un=
-initialized symbol 'txt_size_bytes'.
+smatch warnings:
+drivers/gpu/drm/virtio/virtgpu_plane.c:158 virtio_gpu_resource_flush() erro=
+r: uninitialized symbol 'objs'.
 
-Old smatch warnings:
-drivers/net/ethernet/qlogic/qed/qed_debug.c:5262 qed_dbg_grc_config() warn:=
- unsigned 'grc_param' is never less than zero.
-drivers/net/ethernet/qlogic/qed/qed_debug.c:8043 qed_dbg_dump() error: unin=
-itialized symbol 'buf_size_dwords'.
-drivers/net/ethernet/qlogic/qed/qed_debug.c:8637 qed_dbg_feature_size() err=
-or: uninitialized symbol 'buf_size_dwords'.
+vim +/objs +158 drivers/gpu/drm/virtio/virtgpu_plane.c
 
-vim +/txt_size_bytes +7955 drivers/net/ethernet/qlogic/qed/qed_debug.c
+544c521d4ab8f2 Gerd Hoffmann   2019-10-23  131  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7924  =
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  132  static void virtio_gpu_reso=
+urce_flush(struct drm_plane *plane,
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  133  				      uint32_t x, uint3=
+2_t y,
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  134  				      uint32_t width, u=
+int32_t height)
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  135  {
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  136  	struct drm_device *dev =3D=
+ plane->dev;
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  137  	struct virtio_gpu_device *=
+vgdev =3D dev->dev_private;
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  138  	struct virtio_gpu_framebuf=
+fer *vgfb;
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  139  	struct virtio_gpu_object *=
+bo;
+47558b189c1d34 Dongwon Kim     2022-05-10  140  	struct virtio_gpu_object_a=
+rray *objs;
+47558b189c1d34 Dongwon Kim     2022-05-10  141  	struct virtio_gpu_fence *f=
+ence;
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  142  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7925  #define QED_RESULTS_BUF=
-_MIN_SIZE 16
-c965db44462919 Tomer Tayar        2016-09-07  7926  /* Generic function for=
- decoding debug feature info */
-8c93beaf5714b9 Yuval Mintz        2016-10-13  7927  static enum dbg_status =
-format_feature(struct qed_hwfn *p_hwfn,
-c965db44462919 Tomer Tayar        2016-09-07  7928  				      enum qed_dbg_=
-features feature_idx)
-c965db44462919 Tomer Tayar        2016-09-07  7929  {
-c965db44462919 Tomer Tayar        2016-09-07  7930  	struct qed_dbg_feature=
- *feature =3D
-ca352f00756e7b Igor Russkikh      2020-05-14  7931  	    &p_hwfn->cdev->dbg=
-_features[feature_idx];
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7932  	u32 txt_size_bytes, nu=
-ll_char_pos, i;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7933  	u32 *dbuf, dwords;
-c965db44462919 Tomer Tayar        2016-09-07  7934  	enum dbg_status rc;
-c965db44462919 Tomer Tayar        2016-09-07  7935  	char *text_buf;
-c965db44462919 Tomer Tayar        2016-09-07  7936  =
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  143  	vgfb =3D to_virtio_gpu_fra=
+mebuffer(plane->state->fb);
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  144  	bo =3D gem_to_virtio_gpu_o=
+bj(vgfb->base.obj[0]);
+5c7787de5069b5 Dongwon Kim     2022-05-10  145  	fence =3D virtio_gpu_fence=
+_alloc(vgdev, vgdev->fence_drv.context, 0);
+47558b189c1d34 Dongwon Kim     2022-05-10  146  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7937  	/* Check if feature su=
-pports formatting capability */
-c965db44462919 Tomer Tayar        2016-09-07  7938  	if (!qed_features_look=
-up[feature_idx].results_buf_size)
-c965db44462919 Tomer Tayar        2016-09-07  7939  		return DBG_STATUS_OK;
-c965db44462919 Tomer Tayar        2016-09-07  7940  =
+47558b189c1d34 Dongwon Kim     2022-05-10  147  	if (fence) {
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  148  		objs =3D virtio_gpu_array=
+_alloc(1);
+47558b189c1d34 Dongwon Kim     2022-05-10  149  		if (!objs) {
+47558b189c1d34 Dongwon Kim     2022-05-10  150  			kfree(fence);
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  151  			return;
+47558b189c1d34 Dongwon Kim     2022-05-10  152  		}
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  153  		virtio_gpu_array_add_obj(=
+objs, vgfb->base.obj[0]);
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  154  		virtio_gpu_array_lock_res=
+v(objs);
+47558b189c1d34 Dongwon Kim     2022-05-10  155  	}
+47558b189c1d34 Dongwon Kim     2022-05-10  156  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7941  	dbuf =3D (u32 *)featur=
-e->dump_buf;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7942  	dwords =3D feature->du=
-mped_dwords;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7943  =
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  157  	virtio_gpu_cmd_resource_fl=
+ush(vgdev, bo->hw_res_handle, x, y,
+47558b189c1d34 Dongwon Kim     2022-05-10 @158  				      width, height, ob=
+js, fence);
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  159  	virtio_gpu_notify(vgdev);
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  160  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7944  	/* Obtain size of form=
-atted output */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7945  	rc =3D qed_features_lo=
-okup[feature_idx].results_buf_size(p_hwfn,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7946  							       dbuf,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7947  							       dwords,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7948  							       &txt_size=
-_bytes);
-c965db44462919 Tomer Tayar        2016-09-07  7949  	if (rc !=3D DBG_STATUS=
-_OK)
-c965db44462919 Tomer Tayar        2016-09-07  7950  		return rc;
-c965db44462919 Tomer Tayar        2016-09-07  7951  =
-
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7952  	/* Make sure that the =
-allocated size is a multiple of dword
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7953  	 * (4 bytes).
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7954  	 */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04 @7955  	null_char_pos =3D txt_=
-size_bytes - 1;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7956  	txt_size_bytes =3D (tx=
-t_size_bytes + 3) & ~0x3;
-c965db44462919 Tomer Tayar        2016-09-07  7957  =
-
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7958  	if (txt_size_bytes < Q=
-ED_RESULTS_BUF_MIN_SIZE) {
-c965db44462919 Tomer Tayar        2016-09-07  7959  		DP_NOTICE(p_hwfn->cde=
-v,
-c965db44462919 Tomer Tayar        2016-09-07  7960  			  "formatted size of=
- feature was too small %d. Aborting\n",
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7961  			  txt_size_bytes);
-c965db44462919 Tomer Tayar        2016-09-07  7962  		return DBG_STATUS_INV=
-ALID_ARGS;
-c965db44462919 Tomer Tayar        2016-09-07  7963  	}
-c965db44462919 Tomer Tayar        2016-09-07  7964  =
-
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7965  	/* allocate temp text =
-buf */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7966  	text_buf =3D vzalloc(t=
-xt_size_bytes);
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7967  	if (!text_buf) {
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7968  		DP_NOTICE(p_hwfn->cde=
-v,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7969  			  "failed to allocat=
-e text buffer. Aborting\n");
-c965db44462919 Tomer Tayar        2016-09-07  7970  		return DBG_STATUS_VIR=
-T_MEM_ALLOC_FAILED;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7971  	}
-c965db44462919 Tomer Tayar        2016-09-07  7972  =
-
-c965db44462919 Tomer Tayar        2016-09-07  7973  	/* Decode feature opco=
-des to string on temp buf */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7974  	rc =3D qed_features_lo=
-okup[feature_idx].print_results(p_hwfn,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7975  							    dbuf,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7976  							    dwords,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7977  							    text_buf);
-c965db44462919 Tomer Tayar        2016-09-07  7978  	if (rc !=3D DBG_STATUS=
-_OK) {
-c965db44462919 Tomer Tayar        2016-09-07  7979  		vfree(text_buf);
-c965db44462919 Tomer Tayar        2016-09-07  7980  		return rc;
-c965db44462919 Tomer Tayar        2016-09-07  7981  	}
-c965db44462919 Tomer Tayar        2016-09-07  7982  =
-
-c965db44462919 Tomer Tayar        2016-09-07  7983  	/* Replace the origina=
-l null character with a '\n' character.
-c965db44462919 Tomer Tayar        2016-09-07  7984  	 * The bytes that were=
- added as a result of the dword alignment are also
-c965db44462919 Tomer Tayar        2016-09-07  7985  	 * padded with '\n' ch=
-aracters.
-c965db44462919 Tomer Tayar        2016-09-07  7986  	 */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7987  	for (i =3D null_char_p=
-os; i < txt_size_bytes; i++)
-c965db44462919 Tomer Tayar        2016-09-07  7988  		text_buf[i] =3D '\n';
-c965db44462919 Tomer Tayar        2016-09-07  7989  =
-
-c965db44462919 Tomer Tayar        2016-09-07  7990  	/* Dump printable feat=
-ure to log */
-ca352f00756e7b Igor Russkikh      2020-05-14  7991  	if (p_hwfn->cdev->prin=
-t_dbg_data)
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7992  		qed_dbg_print_feature=
-(text_buf, txt_size_bytes);
-c965db44462919 Tomer Tayar        2016-09-07  7993  =
-
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7994  	/* Dump binary data as=
- is to the output file */
-da3287111ab43b Alexander Lobakin  2020-07-06  7995  	if (p_hwfn->cdev->dbg_=
-bin_dump) {
-da3287111ab43b Alexander Lobakin  2020-07-06  7996  		vfree(text_buf);
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7997  		return rc;
-da3287111ab43b Alexander Lobakin  2020-07-06  7998  	}
-da3287111ab43b Alexander Lobakin  2020-07-06  7999  =
-
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8000  	/* Free the old dump_b=
-uf and point the dump_buf to the newly allocated
-c965db44462919 Tomer Tayar        2016-09-07  8001  	 * and formatted text =
-buffer.
-c965db44462919 Tomer Tayar        2016-09-07  8002  	 */
-c965db44462919 Tomer Tayar        2016-09-07  8003  	vfree(feature->dump_bu=
-f);
-c965db44462919 Tomer Tayar        2016-09-07  8004  	feature->dump_buf =3D =
-text_buf;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8005  	feature->buf_size =3D =
-txt_size_bytes;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8006  	feature->dumped_dwords=
- =3D txt_size_bytes / 4;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8007  =
-
-c965db44462919 Tomer Tayar        2016-09-07  8008  	return rc;
-c965db44462919 Tomer Tayar        2016-09-07  8009  }
-c965db44462919 Tomer Tayar        2016-09-07  8010  =
+47558b189c1d34 Dongwon Kim     2022-05-10  161  	if (fence) {
+47558b189c1d34 Dongwon Kim     2022-05-10  162  		dma_fence_wait_timeout(&f=
+ence->f, true,
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  163  				       msecs_to_jiffies=
+(50));
+47558b189c1d34 Dongwon Kim     2022-05-10  164  		dma_fence_put(&fence->f);
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  165  	}
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  166  }
+5c68ab9276aae4 Vivek Kasireddy 2021-06-10  167  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8369423744028384741==--
+--===============5857537214167164290==--
 
