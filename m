@@ -1,84 +1,382 @@
-Content-Type: multipart/mixed; boundary="===============0506524926036759377=="
+Content-Type: multipart/mixed; boundary="===============6673963477548085346=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/freescale/fec_main.c:3271 fec_enet_select_queue() warn: potential spectre issue 'fec_enet_vlan_pri_to_queue' [w]
-Date: Wed, 11 May 2022 18:05:32 +0800
-Message-ID: <202205111842.rLd6mFpi-lkp@intel.com>
+Subject: arch/x86/xen/mmu_pv.c:1521:3: warning: Value stored to 'pinned' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 11 May 2022 17:24:42 +0800
+Message-ID: <202205111712.vGaziQOj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0506524926036759377==
+--===============6673963477548085346==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Fugang Duan <fugang.duan@nxp.com>
-CC: Joakim Zhang <qiangqing.zhang@nxp.com>
+TO: Juergen Gross <jgross@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
-commit: 52c4a1a85f4b346c39c896c0168f4a843b3385ff net: fec: add ndo_select_q=
-ueue to fix TX bandwidth fluctuations
-date:   11 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 11 months ago
-config: csky-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220511/202205111842.rLd6mFpi-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.3.0
+commit: 36c9b5929b7094ea19a78827c0ede20d2e0e6c9c xen: fix usage of pmd_popu=
+late in mremap for pv guests
+date:   8 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-c007-20220509 (https://download.01.org/0day-ci/ar=
+chive/20220511/202205111712.vGaziQOj-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a38564=
+5b470e2d3a1534aae618ea56b31177639f)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D36c9b5929b7094ea19a78827c0ede20d2e0e6c9c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 36c9b5929b7094ea19a78827c0ede20d2e0e6c9c
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/freescale/fec_main.c:3271 fec_enet_select_queue() warn=
-: potential spectre issue 'fec_enet_vlan_pri_to_queue' [w]
 
-Old smatch warnings:
-drivers/net/ethernet/freescale/fec_main.c:3848 fec_drv_remove() error: Usin=
-g 'fep' after free_{netdev,candev}(ndev);
-drivers/net/ethernet/freescale/fec_main.c:3849 fec_drv_remove() error: Usin=
-g 'fep' after free_{netdev,candev}(ndev);
+clang-analyzer warnings: (new ones prefixed by >>)
+                         ^       ~~~~~
+   arch/x86/include/asm/xen/hypercall.h:261:9: warning: Assigned value is g=
+arbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           return _hypercall4(int, mmu_update, req, count, success_count, d=
+omid);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:191:2: note: expanded from macro '_=
+hypercall4'
+           __HYPERCALL_DECLS;                                              \
+           ^
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^
+   arch/x86/xen/mmu_pv.c:1450:2: note: Calling '__xen_set_pte'
+           __xen_set_pte(ptep, pte);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/mmu_pv.c:269:2: note: Taking true branch
+           if (!xen_batched_set_pte(ptep, pteval)) {
+           ^
+   arch/x86/xen/mmu_pv.c:278:3: note: Calling 'HYPERVISOR_mmu_update'
+                   HYPERVISOR_mmu_update(&u, 1, NULL, DOMID_SELF);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:261:9: note: Assigned value is garb=
+age or undefined
+           return _hypercall4(int, mmu_update, req, count, success_count, d=
+omid);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:191:2: note: expanded from macro '_=
+hypercall4'
+           __HYPERCALL_DECLS;                                              \
+           ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^                                                        ~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:268:9: warning: Assigned value is g=
+arbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           return _hypercall4(int, mmuext_op, op, count, success_count, dom=
+id);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:191:2: note: expanded from macro '_=
+hypercall4'
+           __HYPERCALL_DECLS;                                              \
+           ^
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^
+   arch/x86/xen/mmu_pv.c:1477:2: note: Calling 'pin_pagetable_pfn'
+           pin_pagetable_pfn(MMUEXT_UNPIN_TABLE, pfn);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/mmu_pv.c:993:6: note: Calling 'HYPERVISOR_mmuext_op'
+           if (HYPERVISOR_mmuext_op(&op, 1, NULL, DOMID_SELF))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:268:9: note: Assigned value is garb=
+age or undefined
+           return _hypercall4(int, mmuext_op, op, count, success_count, dom=
+id);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:191:2: note: expanded from macro '_=
+hypercall4'
+           __HYPERCALL_DECLS;                                              \
+           ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^                                                        ~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:334:9: warning: Assigned value is g=
+arbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           return _hypercall2(long, memory_op, cmd, arg);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
+hypercall2'
+           __HYPERCALL_DECLS;                                              \
+           ^
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^
+   arch/x86/xen/mmu_pv.c:1635:6: note: Calling 'HYPERVISOR_memory_op'
+           if (HYPERVISOR_memory_op(XENMEM_machphys_mapping, &mapping) =3D=
+=3D 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:334:9: note: Assigned value is garb=
+age or undefined
+           return _hypercall2(long, memory_op, cmd, arg);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
+hypercall2'
+           __HYPERCALL_DECLS;                                              \
+           ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^                                                        ~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:348:10: warning: Assigned value is =
+garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   return _hypercall3(int, update_va_mapping, va,
+                          ^
+   arch/x86/include/asm/xen/hypercall.h:180:2: note: expanded from macro '_=
+hypercall3'
+           __HYPERCALL_DECLS;                                              \
+           ^
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^
+   arch/x86/xen/mmu_pv.c:1628:9: note: Calling 'set_page_prot_flags'
+           return set_page_prot_flags(addr, prot, UVMF_NONE);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/mmu_pv.c:1623:6: note: Calling 'HYPERVISOR_update_va_mappin=
+g'
+           if (HYPERVISOR_update_va_mapping((unsigned long)addr, pte, flags=
+))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:347:2: note: Taking true branch
+           if (sizeof(new_val) =3D=3D sizeof(long))
+           ^
+   arch/x86/include/asm/xen/hypercall.h:348:10: note: Assigned value is gar=
+bage or undefined
+                   return _hypercall3(int, update_va_mapping, va,
+                          ^
+   arch/x86/include/asm/xen/hypercall.h:180:2: note: expanded from macro '_=
+hypercall3'
+           __HYPERCALL_DECLS;                                              \
+           ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^                                                        ~~~~~~
+>> arch/x86/xen/mmu_pv.c:1521:3: warning: Value stored to 'pinned' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   pinned =3D false;
+                   ^        ~~~~~
+   arch/x86/xen/mmu_pv.c:1521:3: note: Value stored to 'pinned' is never re=
+ad
+                   pinned =3D false;
+                   ^        ~~~~~
+   arch/x86/xen/mmu_pv.c:1523:4: warning: Value stored to 'pinned' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                           pinned =3D PagePinned(page);
+                           ^        ~~~~~~~~~~~~~~~~
+   arch/x86/xen/mmu_pv.c:1523:4: note: Value stored to 'pinned' is never re=
+ad
+                           pinned =3D PagePinned(page);
+                           ^        ~~~~~~~~~~~~~~~~
+   Suppressed 14 warnings (3 in non-user code, 11 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   arch/x86/include/asm/paravirt.h:110:2: warning: Assigned value is garbag=
+e or undefined [clang-analyzer-core.uninitialized.Assign]
+           PVOP_VCALL4(cpu.cpuid, eax, ebx, ecx, edx);
+           ^
+   arch/x86/include/asm/paravirt_types.h:561:2: note: expanded from macro '=
+PVOP_VCALL4'
+           __PVOP_VCALL(op, PVOP_CALL_ARG1(arg1), PVOP_CALL_ARG2(arg2),    \
+           ^
+   arch/x86/include/asm/paravirt_types.h:491:8: note: expanded from macro '=
+__PVOP_VCALL'
+           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
+                 ^
+   arch/x86/include/asm/paravirt_types.h:446:3: note: expanded from macro '=
+____PVOP_CALL'
+                   PVOP_CALL_ARGS;                                         \
+                   ^
+   arch/x86/include/asm/paravirt_types.h:404:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __edi =3D __edi, __esi =3D __esi,             \
+                         ^
+   arch/x86/xen/pmu.c:72:6: note: Assuming field 'x86_vendor' is not equal =
+to X86_VENDOR_AMD
+           if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_AMD) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/pmu.c:72:2: note: Taking false branch
+           if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_AMD) {
+           ^
+   arch/x86/xen/pmu.c:94:13: note: Assuming field 'x86_vendor' is not equal=
+ to X86_VENDOR_HYGON
+           } else if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_HYGON) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/pmu.c:94:9: note: Taking false branch
+           } else if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_HYGON) {
+                  ^
+   arch/x86/xen/pmu.c:103:3: note: Calling 'cpuid'
+                   cpuid(0xa, &eax, &ebx, &ecx, &edx);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/processor.h:603:2: note: Calling '__cpuid'
+           __cpuid(eax, ebx, ecx, edx);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h:110:2: note: Assigned value is garbage o=
+r undefined
+           PVOP_VCALL4(cpu.cpuid, eax, ebx, ecx, edx);
+           ^
+   arch/x86/include/asm/paravirt_types.h:561:2: note: expanded from macro '=
+PVOP_VCALL4'
+           __PVOP_VCALL(op, PVOP_CALL_ARG1(arg1), PVOP_CALL_ARG2(arg2),    \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:491:8: note: expanded from macro '=
+__PVOP_VCALL'
+           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:446:3: note: expanded from macro '=
+____PVOP_CALL'
+                   PVOP_CALL_ARGS;                                         \
+                   ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:404:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __edi =3D __edi, __esi =3D __esi,             \
+                         ^       ~~~~~
+   arch/x86/include/asm/xen/hypercall.h:435:9: warning: Assigned value is g=
+arbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           return _hypercall2(int, xenpmu_op, op, arg);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
+hypercall2'
+           __HYPERCALL_DECLS;                                              \
+           ^
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^
+   arch/x86/xen/pmu.c:570:6: note: Assuming 'xen_domain_type' is not equal =
+to XEN_HVM_DOMAIN
+           if (xen_hvm_domain())
+               ^
+   include/xen/xen.h:25:27: note: expanded from macro 'xen_hvm_domain'
+   #define xen_hvm_domain()        (xen_domain_type =3D=3D XEN_HVM_DOMAIN)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/pmu.c:570:2: note: Taking false branch
+           if (xen_hvm_domain())
+           ^
+   arch/x86/xen/pmu.c:577:8: note: Calling 'HYPERVISOR_xenpmu_op'
+           (void)HYPERVISOR_xenpmu_op(XENPMU_finish, &xp);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:435:9: note: Assigned value is garb=
+age or undefined
+           return _hypercall2(int, xenpmu_op, op, arg);
+                  ^
+   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
+hypercall2'
+           __HYPERCALL_DECLS;                                              \
+           ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
+_HYPERCALL_DECLS'
+           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
+1; \
+           ^                                                        ~~~~~~
+   arch/x86/xen/pmu.c:305:9: warning: 4th function call argument is an unin=
+itialized value [clang-analyzer-core.CallAndMessage]
+                           if (!xen_intel_pmu_emulate(msr, val, type, index=
+, 1))
+                                ^                                     ~~~~~
+   arch/x86/xen/pmu.c:295:6: note: Assuming field 'x86_vendor' is equal to =
+X86_VENDOR_INTEL
+           if (boot_cpu_data.x86_vendor !=3D X86_VENDOR_INTEL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/pmu.c:295:2: note: Taking false branch
+           if (boot_cpu_data.x86_vendor !=3D X86_VENDOR_INTEL) {
 
-vim +/fec_enet_vlan_pri_to_queue +3271 drivers/net/ethernet/freescale/fec_m=
-ain.c
+vim +/pinned +1521 arch/x86/xen/mmu_pv.c
 
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3257  =
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1508  =
 
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3258  static u16 fec_enet_select_que=
-ue(struct net_device *ndev, struct sk_buff *skb,
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3259  				 struct net_device *sb_dev)
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3260  {
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3261  	struct fec_enet_private *fep =
-=3D netdev_priv(ndev);
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3262  	u16 vlan_tag;
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3263  =
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1509  /* This needs to make sur=
+e the new pte page is pinned iff its being
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1510     attached to a pinned p=
+agetable. */
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1511  static inline void xen_al=
+loc_ptpage(struct mm_struct *mm, unsigned long pfn,
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1512  				    unsigned level)
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1513  {
+6f84f8d1587f20 Pavel Tatashin   2018-04-10  1514  	bool pinned =3D xen_page=
+_pinned(mm->pgd);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1515  =
 
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3264  	if (!(fep->quirks & FEC_QUIRK=
-_HAS_AVB))
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3265  		return netdev_pick_tx(ndev, =
-skb, NULL);
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3266  =
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1516  	trace_xen_mmu_alloc_ptpa=
+ge(mm, pfn, level, pinned);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1517  =
 
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3267  	vlan_tag =3D fec_enet_get_raw=
-_vlan_tci(skb);
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3268  	if (!vlan_tag)
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3269  		return vlan_tag;
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3270  =
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1518  	if (pinned) {
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1519  		struct page *page =3D p=
+fn_to_page(pfn);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1520  =
 
-52c4a1a85f4b34 Fugang Duan 2021-06-21 @3271  	return fec_enet_vlan_pri_to_q=
-ueue[vlan_tag >> 13];
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3272  }
-52c4a1a85f4b34 Fugang Duan 2021-06-21  3273  =
+36c9b5929b7094 Juergen Gross    2021-09-08 @1521  		pinned =3D false;
+36c9b5929b7094 Juergen Gross    2021-09-08  1522  		if (static_branch_likel=
+y(&xen_struct_pages_ready)) {
+36c9b5929b7094 Juergen Gross    2021-09-08  1523  			pinned =3D PagePinned(=
+page);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1524  			SetPagePinned(page);
+36c9b5929b7094 Juergen Gross    2021-09-08  1525  		}
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1526  =
+
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1527  		xen_mc_batch();
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1528  =
+
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1529  		__set_pfn_prot(pfn, PAG=
+E_KERNEL_RO);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1530  =
+
+36c9b5929b7094 Juergen Gross    2021-09-08  1531  		if (level =3D=3D PT_PTE=
+ && USE_SPLIT_PTE_PTLOCKS && !pinned)
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1532  			__pin_pagetable_pfn(MM=
+UEXT_PIN_L1_TABLE, pfn);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1533  =
+
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1534  		xen_mc_issue(PARAVIRT_L=
+AZY_MMU);
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1535  	}
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1536  }
+7e0563dea9c4e6 Vitaly Kuznetsov 2017-04-04  1537  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0506524926036759377==--
+--===============6673963477548085346==--
 
