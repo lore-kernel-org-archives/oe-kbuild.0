@@ -1,42 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1730290685225440435=="
+Content-Type: multipart/mixed; boundary="===============6430254537142940820=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 5/8] Bluetooth: Add initial implementation of BIS connections
-Date: Thu, 12 May 2022 15:38:53 +0800
-Message-ID: <202205121532.jtQf7nFA-lkp@intel.com>
+Subject: drivers/net/ethernet/davicom/dm9051.c:610 dm9051_get_eeprom() error: uninitialized symbol 'ret'.
+Date: Thu, 12 May 2022 12:43:45 +0800
+Message-ID: <202205121231.hPQrGSE5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1730290685225440435==
+--===============6430254537142940820==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220506215743.3870212-5-luiz.dentz@gmail.com>
-References: <20220506215743.3870212-5-luiz.dentz@gmail.com>
-TO: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-TO: linux-bluetooth(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Joseph CHAMG <josright123@gmail.com>
 
-Hi Luiz,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on bluetooth/master v5.18-rc6 next-20220511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Den=
-tz/Bluetooth-eir-Add-helpers-for-managing-service-data/20220507-060014
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
--next.git master
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
+commit: 2dc95a4d30eddac9679f295ba4304a7ab0e4ae02 net: Add dm9051 driver
+date:   3 months ago
+:::::: branch date: 34 hours ago
+:::::: commit date: 3 months ago
 config: csky-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220512/202205121532.jtQf7nFA-lkp(a)intel.com/config)
+ive/20220512/202205121231.hPQrGSE5-lkp(a)intel.com/config)
 compiler: csky-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -44,116 +33,85 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-net/bluetooth/hci_sync.c:1110 hci_start_per_adv_sync() warn: passing zero t=
-o 'PTR_ERR'
+drivers/net/ethernet/davicom/dm9051.c:610 dm9051_get_eeprom() error: uninit=
+ialized symbol 'ret'.
+drivers/net/ethernet/davicom/dm9051.c:632 dm9051_set_eeprom() error: uninit=
+ialized symbol 'ret'.
 
 Old smatch warnings:
-net/bluetooth/hci_sync.c:195 __hci_cmd_sync_sk() error: (-2147483647) too l=
-ow for ERR_PTR
-net/bluetooth/hci_sync.c:2027 hci_resume_advertising_sync() error: uninitia=
-lized symbol 'err'.
+drivers/net/ethernet/davicom/dm9051.c:527 dm9051_map_chipid() warn: unsigne=
+d 'ret' is never less than zero.
 
-vim +/PTR_ERR +1110 net/bluetooth/hci_sync.c
+vim +/ret +610 drivers/net/ethernet/davicom/dm9051.c
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1090  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  591  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1091  int hci_start_per_a=
-dv_sync(struct hci_dev *hdev, u8 instance, u8 data_len,
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1092  			   u8 *data, u32=
- flags, u16 min_interval,
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1093  			   u16 max_inter=
-val, u16 sync_interval)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1094  {
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1095  	struct adv_info *a=
-dv =3D NULL;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1096  	int err;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1097  	bool added =3D fal=
-se;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1098  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  592  static int dm9051_get_eeprom(s=
+truct net_device *ndev,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  593  			     struct ethtool_eeprom =
+*ee, u8 *data)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  594  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  595  	struct board_info *db =3D to_=
+dm9051_board(ndev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  596  	int offset =3D ee->offset;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  597  	int len =3D ee->len;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  598  	int i, ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  599  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1099  	hci_disable_per_ad=
-vertising_sync(hdev, instance);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1100  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  600  	if ((len | offset) & 1)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  601  		return -EINVAL;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  602  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1101  	if (instance) {
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1102  		adv =3D hci_find_=
-adv_instance(hdev, instance);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1103  		/* Create an inst=
-ance if that could not be found */
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1104  		if (!adv) {
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1105  			adv =3D hci_add_=
-per_instance(hdev, instance, flags,
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1106  						   data_len, =
-data,
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1107  						   sync_inter=
-val,
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1108  						   sync_inter=
-val);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1109  			if (IS_ERR_OR_NU=
-LL(adv))
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06 @1110  				return PTR_ERR(=
-adv);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1111  			added =3D true;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1112  		}
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1113  	}
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1114  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  603  	ee->magic =3D DM_EEPROM_MAGIC;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  604  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1115  	/* Only start adve=
-rtising if instance 0 or if a dedicated instance has
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1116  	 * been added.
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1117  	 */
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1118  	if (!adv || added)=
- {
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1119  		err =3D hci_start=
-_ext_adv_sync(hdev, instance);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1120  		if (err < 0)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1121  			goto fail;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1122  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  605  	for (i =3D 0; i < len; i +=3D=
+ 2) {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  606  		ret =3D dm9051_eeprom_read(d=
+b, (offset + i) / 2, data + i);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  607  		if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  608  			break;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  609  	}
+2dc95a4d30edda Joseph CHAMG 2022-02-11 @610  	return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  611  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  612  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1123  		err =3D hci_adv_b=
-cast_annoucement(hdev, adv);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1124  		if (err < 0)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1125  			goto fail;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1126  	}
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1127  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  613  static int dm9051_set_eeprom(s=
+truct net_device *ndev,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  614  			     struct ethtool_eeprom =
+*ee, u8 *data)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  615  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  616  	struct board_info *db =3D to_=
+dm9051_board(ndev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  617  	int offset =3D ee->offset;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  618  	int len =3D ee->len;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  619  	int i, ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  620  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1128  	err =3D hci_set_pe=
-r_adv_params_sync(hdev, instance, min_interval,
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1129  					  max_interval=
-);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1130  	if (err < 0)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1131  		goto fail;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1132  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  621  	if ((len | offset) & 1)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  622  		return -EINVAL;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  623  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1133  	err =3D hci_set_pe=
-r_adv_data_sync(hdev, instance);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1134  	if (err < 0)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1135  		goto fail;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1136  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  624  	if (ee->magic !=3D DM_EEPROM_=
+MAGIC)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  625  		return -EINVAL;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  626  =
 
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1137  	err =3D hci_enable=
-_per_advertising_sync(hdev, instance);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1138  	if (err < 0)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1139  		goto fail;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1140  =
-
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1141  	return 0;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1142  =
-
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1143  fail:
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1144  	if (added)
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1145  		hci_remove_adv_in=
-stance(hdev, instance);
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1146  =
-
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1147  	return err;
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1148  }
-2f80269de71810 Luiz Augusto von Dentz 2022-05-06  1149  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  627  	for (i =3D 0; i < len; i +=3D=
+ 2) {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  628  		ret =3D dm9051_eeprom_write(=
+db, (offset + i) / 2, data + i);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  629  		if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  630  			break;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  631  	}
+2dc95a4d30edda Joseph CHAMG 2022-02-11 @632  	return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  633  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  634  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1730290685225440435==--
+--===============6430254537142940820==--
 
