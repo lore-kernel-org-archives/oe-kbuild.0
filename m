@@ -1,342 +1,270 @@
-Content-Type: multipart/mixed; boundary="===============3343082222918769948=="
+Content-Type: multipart/mixed; boundary="===============3995498456333274688=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH net-next 10/10] inet: add READ_ONCE(sk->sk_bound_dev_if) in INET_MATCH()
-Date: Sat, 14 May 2022 05:30:14 +0800
-Message-ID: <202205140547.cDVaemuQ-lkp@intel.com>
+Subject: Re: [PATCH v3 1/2] iommu/io-pgtable-arm-v7s: Add a quirk to allow pgtable PA up to 35bit
+Date: Fri, 13 May 2022 06:42:30 +0800
+Message-ID: <202205130602.WiXLHsWw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3343082222918769948==
+--===============3995498456333274688==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220511233757.2001218-11-eric.dumazet@gmail.com>
-References: <20220511233757.2001218-11-eric.dumazet@gmail.com>
-TO: Eric Dumazet <eric.dumazet@gmail.com>
+In-Reply-To: <20220512144557.18025-2-yf.wang@mediatek.com>
+References: <20220512144557.18025-2-yf.wang@mediatek.com>
+TO: yf.wang(a)mediatek.com
+TO: Will Deacon <will@kernel.org>
+TO: Robin Murphy <robin.murphy@arm.com>
+TO: Joerg Roedel <joro@8bytes.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+TO: Georgi Djakov <quic_c_gdjako@quicinc.com>
+TO: Yunfei Wang <yf.wang@mediatek.com>
+TO: Sven Peter <sven@svenpeter.dev>
+TO: "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.o=
+rg>
+TO: "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>
+TO: open list <linux-kernel@vger.kernel.org>
+TO: "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infra=
+dead.org>
+CC: wsd_upstream(a)mediatek.com
+CC: Libo Kang <Libo.Kang@mediatek.com>
+CC: Yong Wu <Yong.Wu@mediatek.com>
+CC: Ning Li <ning.li@mediatek.com>
 
-Hi Eric,
+Hi,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on net-next/master]
+[auto build test WARNING on arm-perf/for-next/perf]
+[also build test WARNING on linus/master v5.18-rc6 next-20220512]
+[cannot apply to joro-iommu/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-add=
--annotations-for-sk-sk_bound_dev_if/20220512-073914
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-b57c7e8b76c646cf77ce4353a779a8b781592209
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-514/202205140547.cDVaemuQ-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/yf-wang-mediatek-com=
+/iommu-io-pgtable-arm-v7s-Add-a-quirk-to-allow-pgtable-PA-up-to-35bit/20220=
+512-234603
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-=
+next/perf
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: nios2-randconfig-s032-20220512 (https://download.01.org/0day-ci/arc=
+hive/20220513/202205130602.WiXLHsWw-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/916a5fc41cbb8ddfe34=
+3193598f250d06b09e3fa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review yf-wang-mediatek-com/iommu-io-pgta=
+ble-arm-v7s-Add-a-quirk-to-allow-pgtable-PA-up-to-35bit/20220512-234603
+        git checkout 916a5fc41cbb8ddfe343193598f250d06b09e3fa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dn=
+ios2 SHELL=3D/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/ipv4/inet_hashtables.c:413 __inet_lookup_established() error: uninitial=
-ized symbol 'acookie'.
-net/ipv4/inet_hashtables.c:468 __inet_check_established() error: uninitiali=
-zed symbol 'acookie'.
-net/ipv4/inet_hashtables.c:535 inet_ehash_lookup_by_sk() error: uninitializ=
-ed symbol 'acookie'.
-net/ipv4/udp.c:2566 __udp4_lib_demux_lookup() error: uninitialized symbol '=
-acookie'.
 
-Old smatch warnings:
-net/ipv4/udp.c:496 __udp4_lib_lookup() warn: potential spectre issue 'udpta=
-ble->hash2' [r]
-net/ipv4/udp.c:2297 __udp4_lib_mcast_deliver() warn: potential spectre issu=
-e 'udptable->hash2' [r]
-net/ipv4/udp.c:2529 __udp4_lib_mcast_demux_lookup() warn: potential spectre=
- issue 'udp_table.hash' [r]
-net/ipv4/udp.c:2560 __udp4_lib_demux_lookup() warn: potential spectre issue=
- 'udp_table.hash2' [r]
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/io-pgtable-arm-v7s.c:886:25: sparse: sparse: shift too big=
+ (32) for type unsigned long
+>> drivers/iommu/io-pgtable-arm-v7s.c:886:25: sparse: sparse: shift count i=
+s negative (-3)
+>> drivers/iommu/io-pgtable-arm-v7s.c:886:25: sparse: sparse: shift too big=
+ (32) for type unsigned long
 
-vim +/acookie +413 net/ipv4/inet_hashtables.c
+vim +886 drivers/iommu/io-pgtable-arm-v7s.c
 
-2c13270b441054 Eric Dumazet             2015-03-15  391  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  795  =
 
-c67499c0e77206 Pavel Emelyanov          2008-01-31  392  struct sock *__ine=
-t_lookup_established(struct net *net,
-c67499c0e77206 Pavel Emelyanov          2008-01-31  393  				  struct inet_=
-hashinfo *hashinfo,
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  394  				  const __be32=
- saddr, const __be16 sport,
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  395  				  const __be32=
- daddr, const u16 hnum,
-3fa6f616a7a4d0 David Ahern              2017-08-07  396  				  const int di=
-f, const int sdif)
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  397  {
-c7228317441f4d Joe Perches              2014-05-13  398  	INET_ADDR_COOKIE(=
-acookie, saddr, daddr);
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  399  	const __portpair =
-ports =3D INET_COMBINED_PORTS(sport, hnum);
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  400  	struct sock *sk;
-3ab5aee7fe840b Eric Dumazet             2008-11-16  401  	const struct hlis=
-t_nulls_node *node;
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  402  	/* Optimize here =
-for direct hit, only listening connections can
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  403  	 * have wildcards=
- anyways.
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  404  	 */
-9f26b3add3783c Pavel Emelyanov          2008-06-16  405  	unsigned int hash=
- =3D inet_ehashfn(net, daddr, hnum, saddr, sport);
-f373b53b5fe67a Eric Dumazet             2009-10-09  406  	unsigned int slot=
- =3D hash & hashinfo->ehash_mask;
-3ab5aee7fe840b Eric Dumazet             2008-11-16  407  	struct inet_ehash=
-_bucket *head =3D &hashinfo->ehash[slot];
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  408  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  796  static struct io_pgtable=
+ *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+e5fc9753b1a831 Robin Murphy       2016-01-26  797  						void *cookie)
+e5fc9753b1a831 Robin Murphy       2016-01-26  798  {
+916a5fc41cbb8d Yunfei Wang        2022-05-12  799  	slab_flags_t slab_flag =
+=3D ARM_V7S_TABLE_SLAB_FLAGS;
+e5fc9753b1a831 Robin Murphy       2016-01-26  800  	struct arm_v7s_io_pgtab=
+le *data;
+916a5fc41cbb8d Yunfei Wang        2022-05-12  801  	phys_addr_t paddr;
+e5fc9753b1a831 Robin Murphy       2016-01-26  802  =
 
-3ab5aee7fe840b Eric Dumazet             2008-11-16  409  begin:
-3ab5aee7fe840b Eric Dumazet             2008-11-16  410  	sk_nulls_for_each=
-_rcu(sk, node, &head->chain) {
-ce43b03e888947 Eric Dumazet             2012-11-30  411  		if (sk->sk_hash =
-!=3D hash)
-ce43b03e888947 Eric Dumazet             2012-11-30  412  			continue;
-ce43b03e888947 Eric Dumazet             2012-11-30 @413  		if (likely(INET_=
-MATCH(sk, net, acookie,
-3fa6f616a7a4d0 David Ahern              2017-08-07  414  				      saddr, d=
-addr, ports, dif, sdif))) {
-41c6d650f6537e Reshetova, Elena         2017-06-30  415  			if (unlikely(!r=
-efcount_inc_not_zero(&sk->sk_refcnt)))
-05dbc7b59481ca Eric Dumazet             2013-10-03  416  				goto out;
-ce43b03e888947 Eric Dumazet             2012-11-30  417  			if (unlikely(!I=
-NET_MATCH(sk, net, acookie,
-3fa6f616a7a4d0 David Ahern              2017-08-07  418  						 saddr, dadd=
-r, ports,
-3fa6f616a7a4d0 David Ahern              2017-08-07  419  						 dif, sdif))=
-) {
-05dbc7b59481ca Eric Dumazet             2013-10-03  420  				sock_gen_put(s=
-k);
-3ab5aee7fe840b Eric Dumazet             2008-11-16  421  				goto begin;
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  422  			}
-05dbc7b59481ca Eric Dumazet             2013-10-03  423  			goto found;
-3ab5aee7fe840b Eric Dumazet             2008-11-16  424  		}
-3ab5aee7fe840b Eric Dumazet             2008-11-16  425  	}
-3ab5aee7fe840b Eric Dumazet             2008-11-16  426  	/*
-3ab5aee7fe840b Eric Dumazet             2008-11-16  427  	 * if the nulls v=
-alue we got at the end of this lookup is
-3ab5aee7fe840b Eric Dumazet             2008-11-16  428  	 * not the expect=
-ed one, we must restart lookup.
-3ab5aee7fe840b Eric Dumazet             2008-11-16  429  	 * We probably me=
-t an item that was moved to another chain.
-3ab5aee7fe840b Eric Dumazet             2008-11-16  430  	 */
-3ab5aee7fe840b Eric Dumazet             2008-11-16  431  	if (get_nulls_val=
-ue(node) !=3D slot)
-3ab5aee7fe840b Eric Dumazet             2008-11-16  432  		goto begin;
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  433  out:
-05dbc7b59481ca Eric Dumazet             2013-10-03  434  	sk =3D NULL;
-05dbc7b59481ca Eric Dumazet             2013-10-03  435  found:
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  436  	return sk;
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  437  }
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  438  EXPORT_SYMBOL_GPL(=
-__inet_lookup_established);
-77a5ba55dab7b4 Pavel Emelyanov          2007-12-20  439  =
+f3a8a46d714fd6 Yong Wu            2021-01-11  803  	if (cfg->ias > (arm_v7s=
+_is_mtk_enabled(cfg) ? 34 : ARM_V7S_ADDR_BITS))
+4c019de6532376 Yong Wu            2019-08-24  804  		return NULL;
+4c019de6532376 Yong Wu            2019-08-24  805  =
 
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  440  /* called with loc=
-al bh disabled */
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  441  static int __inet_=
-check_established(struct inet_timewait_death_row *death_row,
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  442  				    struct soc=
-k *sk, __u16 lport,
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  443  				    struct ine=
-t_timewait_sock **twp)
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  444  {
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  445  	struct inet_hashi=
-nfo *hinfo =3D death_row->hashinfo;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  446  	struct inet_sock =
-*inet =3D inet_sk(sk);
-c720c7e8383aff Eric Dumazet             2009-10-15  447  	__be32 daddr =3D =
-inet->inet_rcv_saddr;
-c720c7e8383aff Eric Dumazet             2009-10-15  448  	__be32 saddr =3D =
-inet->inet_daddr;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  449  	int dif =3D sk->s=
-k_bound_dev_if;
-3fa6f616a7a4d0 David Ahern              2017-08-07  450  	struct net *net =
-=3D sock_net(sk);
-3fa6f616a7a4d0 David Ahern              2017-08-07  451  	int sdif =3D l3md=
-ev_master_ifindex_by_index(net, dif);
-c7228317441f4d Joe Perches              2014-05-13  452  	INET_ADDR_COOKIE(=
-acookie, saddr, daddr);
-c720c7e8383aff Eric Dumazet             2009-10-15  453  	const __portpair =
-ports =3D INET_COMBINED_PORTS(inet->inet_dport, lport);
-c720c7e8383aff Eric Dumazet             2009-10-15  454  	unsigned int hash=
- =3D inet_ehashfn(net, daddr, lport,
-c720c7e8383aff Eric Dumazet             2009-10-15  455  					 saddr, inet-=
->inet_dport);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  456  	struct inet_ehash=
-_bucket *head =3D inet_ehash_bucket(hinfo, hash);
-9db66bdcc83749 Eric Dumazet             2008-11-20  457  	spinlock_t *lock =
-=3D inet_ehash_lockp(hinfo, hash);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  458  	struct sock *sk2;
-3ab5aee7fe840b Eric Dumazet             2008-11-16  459  	const struct hlis=
-t_nulls_node *node;
-05dbc7b59481ca Eric Dumazet             2013-10-03  460  	struct inet_timew=
-ait_sock *tw =3D NULL;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  461  =
+40596d2f2b6075 Yong Wu            2021-01-11  806  	if (cfg->oas > (arm_v7s=
+_is_mtk_enabled(cfg) ? 35 : ARM_V7S_ADDR_BITS))
+e5fc9753b1a831 Robin Murphy       2016-01-26  807  		return NULL;
+e5fc9753b1a831 Robin Murphy       2016-01-26  808  =
 
-9db66bdcc83749 Eric Dumazet             2008-11-20  462  	spin_lock(lock);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  463  =
+3850db49da8712 Robin Murphy       2016-02-12  809  	if (cfg->quirks & ~(IO_=
+PGTABLE_QUIRK_ARM_NS |
+3850db49da8712 Robin Murphy       2016-02-12  810  			    IO_PGTABLE_QUIRK_=
+NO_PERMS |
+916a5fc41cbb8d Yunfei Wang        2022-05-12  811  			    IO_PGTABLE_QUIRK_=
+ARM_MTK_EXT |
+916a5fc41cbb8d Yunfei Wang        2022-05-12  812  			    IO_PGTABLE_QUIRK_=
+ARM_MTK_TTBR_EXT))
+1afe23194d0580 Yong Wu            2016-03-14  813  		return NULL;
+1afe23194d0580 Yong Wu            2016-03-14  814  =
 
-05dbc7b59481ca Eric Dumazet             2013-10-03  464  	sk_nulls_for_each=
-(sk2, node, &head->chain) {
-ce43b03e888947 Eric Dumazet             2012-11-30  465  		if (sk2->sk_hash=
- !=3D hash)
-ce43b03e888947 Eric Dumazet             2012-11-30  466  			continue;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  467  =
+1afe23194d0580 Yong Wu            2016-03-14  815  	/* If ARM_MTK_4GB is en=
+abled, the NO_PERMS is also expected. */
+73d50811bc91d2 Yong Wu            2019-08-24  816  	if (cfg->quirks & IO_PG=
+TABLE_QUIRK_ARM_MTK_EXT &&
+1afe23194d0580 Yong Wu            2016-03-14  817  	    !(cfg->quirks & IO_=
+PGTABLE_QUIRK_NO_PERMS))
+3850db49da8712 Robin Murphy       2016-02-12  818  			return NULL;
+3850db49da8712 Robin Murphy       2016-02-12  819  =
 
-05dbc7b59481ca Eric Dumazet             2013-10-03 @468  		if (likely(INET_=
-MATCH(sk2, net, acookie,
-3fa6f616a7a4d0 David Ahern              2017-08-07  469  					 saddr, daddr=
-, ports, dif, sdif))) {
-05dbc7b59481ca Eric Dumazet             2013-10-03  470  			if (sk2->sk_sta=
-te =3D=3D TCP_TIME_WAIT) {
-ce43b03e888947 Eric Dumazet             2012-11-30  471  				tw =3D inet_tw=
-sk(sk2);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  472  				if (twsk_uniqu=
-e(sk, sk2, twp))
-05dbc7b59481ca Eric Dumazet             2013-10-03  473  					break;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  474  			}
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  475  			goto not_unique;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  476  		}
-05dbc7b59481ca Eric Dumazet             2013-10-03  477  	}
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  478  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  820  	data =3D kmalloc(sizeof=
+(*data), GFP_KERNEL);
+e5fc9753b1a831 Robin Murphy       2016-01-26  821  	if (!data)
+e5fc9753b1a831 Robin Murphy       2016-01-26  822  		return NULL;
+e5fc9753b1a831 Robin Murphy       2016-01-26  823  =
 
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  479  	/* Must record nu=
-m and sport now. Otherwise we will see
-05dbc7b59481ca Eric Dumazet             2013-10-03  480  	 * in hash table =
-socket with a funny identity.
-05dbc7b59481ca Eric Dumazet             2013-10-03  481  	 */
-c720c7e8383aff Eric Dumazet             2009-10-15  482  	inet->inet_num =
-=3D lport;
-c720c7e8383aff Eric Dumazet             2009-10-15  483  	inet->inet_sport =
-=3D htons(lport);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  484  	sk->sk_hash =3D h=
-ash;
-547b792cac0a03 Ilpo J=C3=A4rvinen            2008-07-25  485  	WARN_ON(!sk_=
-unhashed(sk));
-3ab5aee7fe840b Eric Dumazet             2008-11-16  486  	__sk_nulls_add_no=
-de_rcu(sk, &head->chain);
-13475a30b66cdb Eric Dumazet             2009-12-02  487  	if (tw) {
-fc01538f9fb755 Eric Dumazet             2015-07-08  488  		sk_nulls_del_nod=
-e_init_rcu((struct sock *)tw);
-02a1d6e7a6bb02 Eric Dumazet             2016-04-27  489  		__NET_INC_STATS(=
-net, LINUX_MIB_TIMEWAITRECYCLED);
-13475a30b66cdb Eric Dumazet             2009-12-02  490  	}
-9db66bdcc83749 Eric Dumazet             2008-11-20  491  	spin_unlock(lock);
-c29a0bc4dfc4d8 Pavel Emelyanov          2008-03-31  492  	sock_prot_inuse_a=
-dd(sock_net(sk), sk->sk_prot, 1);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  493  =
+119ff305b02793 Robin Murphy       2017-06-22  824  	spin_lock_init(&data->s=
+plit_lock);
+916a5fc41cbb8d Yunfei Wang        2022-05-12  825  	if (cfg->quirks & IO_PG=
+TABLE_QUIRK_ARM_MTK_TTBR_EXT)
+916a5fc41cbb8d Yunfei Wang        2022-05-12  826  		slab_flag =3D 0;
+e5fc9753b1a831 Robin Murphy       2016-01-26  827  	data->l2_tables =3D kme=
+m_cache_create("io-pgtable_armv7s_l2",
+468ea0bfaecd09 Yong Wu            2021-01-11  828  					    ARM_V7S_TABLE_S=
+IZE(2, cfg),
+468ea0bfaecd09 Yong Wu            2021-01-11  829  					    ARM_V7S_TABLE_S=
+IZE(2, cfg),
+916a5fc41cbb8d Yunfei Wang        2022-05-12  830  					    slab_flag, NULL=
+);
+e5fc9753b1a831 Robin Murphy       2016-01-26  831  	if (!data->l2_tables)
+e5fc9753b1a831 Robin Murphy       2016-01-26  832  		goto out_free_data;
+e5fc9753b1a831 Robin Murphy       2016-01-26  833  =
 
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  494  	if (twp) {
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  495  		*twp =3D tw;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  496  	} else if (tw) {
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  497  		/* Silly. Should=
- hash-dance instead... */
-dbe7faa4045ea8 Eric Dumazet             2015-07-08  498  		inet_twsk_desche=
-dule_put(tw);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  499  	}
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  500  	return 0;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  501  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  834  	data->iop.ops =3D (stru=
+ct io_pgtable_ops) {
+e5fc9753b1a831 Robin Murphy       2016-01-26  835  		.map		=3D arm_v7s_map,
+23c30bed9c3c90 Isaac J. Manjarres 2021-06-16  836  		.map_pages	=3D arm_v7s=
+_map_pages,
+e5fc9753b1a831 Robin Murphy       2016-01-26  837  		.unmap		=3D arm_v7s_un=
+map,
+f13eabcf9dfad9 Isaac J. Manjarres 2021-06-16  838  		.unmap_pages	=3D arm_v=
+7s_unmap_pages,
+e5fc9753b1a831 Robin Murphy       2016-01-26  839  		.iova_to_phys	=3D arm_=
+v7s_iova_to_phys,
+e5fc9753b1a831 Robin Murphy       2016-01-26  840  	};
+e5fc9753b1a831 Robin Murphy       2016-01-26  841  =
 
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  502  not_unique:
-9db66bdcc83749 Eric Dumazet             2008-11-20  503  	spin_unlock(lock);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  504  	return -EADDRNOTA=
-VAIL;
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  505  }
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  506  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  842  	/* We have to do this e=
+arly for __arm_v7s_alloc_table to work... */
+e5fc9753b1a831 Robin Murphy       2016-01-26  843  	data->iop.cfg =3D *cfg;
+e5fc9753b1a831 Robin Murphy       2016-01-26  844  =
 
-b2d057560b8107 Willy Tarreau            2022-05-02  507  static u64 inet_sk=
-_port_offset(const struct sock *sk)
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  508  {
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  509  	const struct inet=
-_sock *inet =3D inet_sk(sk);
-e2baad9e4b153c Eric Dumazet             2015-05-27  510  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  845  	/*
+e5fc9753b1a831 Robin Murphy       2016-01-26  846  	 * Unless the IOMMU dri=
+ver indicates supersection support by
+e5fc9753b1a831 Robin Murphy       2016-01-26  847  	 * having SZ_16M set in=
+ the initial bitmap, they won't be used.
+e5fc9753b1a831 Robin Murphy       2016-01-26  848  	 */
+e5fc9753b1a831 Robin Murphy       2016-01-26  849  	cfg->pgsize_bitmap &=3D=
+ SZ_4K | SZ_64K | SZ_1M | SZ_16M;
+e5fc9753b1a831 Robin Murphy       2016-01-26  850  =
 
-c720c7e8383aff Eric Dumazet             2009-10-15  511  	return secure_ipv=
-4_port_ephemeral(inet->inet_rcv_saddr,
-c720c7e8383aff Eric Dumazet             2009-10-15  512  					  inet->inet_=
-daddr,
-c720c7e8383aff Eric Dumazet             2009-10-15  513  					  inet->inet_=
-dport);
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  514  }
-a7f5e7f164788a Arnaldo Carvalho de Melo 2005-12-13  515  =
+fb485eb18e632f Robin Murphy       2019-10-25  851  	/* TCR: T0SZ=3D0, EAE=
+=3D0 (if applicable) */
+fb485eb18e632f Robin Murphy       2019-10-25  852  	cfg->arm_v7s_cfg.tcr =
+=3D 0;
+e5fc9753b1a831 Robin Murphy       2016-01-26  853  =
 
-01770a16616573 Ricardo Dias             2020-11-20  516  /* Searches for an=
- exsiting socket in the ehash bucket list.
-01770a16616573 Ricardo Dias             2020-11-20  517   * Returns true if=
- found, false otherwise.
-01770a16616573 Ricardo Dias             2020-11-20  518   */
-01770a16616573 Ricardo Dias             2020-11-20  519  static bool inet_e=
-hash_lookup_by_sk(struct sock *sk,
-01770a16616573 Ricardo Dias             2020-11-20  520  				    struct hli=
-st_nulls_head *list)
-01770a16616573 Ricardo Dias             2020-11-20  521  {
-01770a16616573 Ricardo Dias             2020-11-20  522  	const __portpair =
-ports =3D INET_COMBINED_PORTS(sk->sk_dport, sk->sk_num);
-01770a16616573 Ricardo Dias             2020-11-20  523  	const int sdif =
-=3D sk->sk_bound_dev_if;
-01770a16616573 Ricardo Dias             2020-11-20  524  	const int dif =3D=
- sk->sk_bound_dev_if;
-01770a16616573 Ricardo Dias             2020-11-20  525  	const struct hlis=
-t_nulls_node *node;
-01770a16616573 Ricardo Dias             2020-11-20  526  	struct net *net =
-=3D sock_net(sk);
-01770a16616573 Ricardo Dias             2020-11-20  527  	struct sock *esk;
-01770a16616573 Ricardo Dias             2020-11-20  528  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  854  	/*
+e5fc9753b1a831 Robin Murphy       2016-01-26  855  	 * TEX remap: the indic=
+es used map to the closest equivalent types
+e5fc9753b1a831 Robin Murphy       2016-01-26  856  	 * under the non-TEX-re=
+map interpretation of those attribute bits,
+e5fc9753b1a831 Robin Murphy       2016-01-26  857  	 * excepting various im=
+plementation-defined aspects of shareability.
+e5fc9753b1a831 Robin Murphy       2016-01-26  858  	 */
+e5fc9753b1a831 Robin Murphy       2016-01-26  859  	cfg->arm_v7s_cfg.prrr =
+=3D ARM_V7S_PRRR_TR(1, ARM_V7S_PRRR_TYPE_DEVICE) |
+e5fc9753b1a831 Robin Murphy       2016-01-26  860  				ARM_V7S_PRRR_TR(4, A=
+RM_V7S_PRRR_TYPE_NORMAL) |
+e5fc9753b1a831 Robin Murphy       2016-01-26  861  				ARM_V7S_PRRR_TR(7, A=
+RM_V7S_PRRR_TYPE_NORMAL) |
+e5fc9753b1a831 Robin Murphy       2016-01-26  862  				ARM_V7S_PRRR_DS0 | A=
+RM_V7S_PRRR_DS1 |
+e5fc9753b1a831 Robin Murphy       2016-01-26  863  				ARM_V7S_PRRR_NS1 | A=
+RM_V7S_PRRR_NOS(7);
+e5fc9753b1a831 Robin Murphy       2016-01-26  864  	cfg->arm_v7s_cfg.nmrr =
+=3D ARM_V7S_NMRR_IR(7, ARM_V7S_RGN_WBWA) |
+e5fc9753b1a831 Robin Murphy       2016-01-26  865  				ARM_V7S_NMRR_OR(7, A=
+RM_V7S_RGN_WBWA);
+e5fc9753b1a831 Robin Murphy       2016-01-26  866  =
 
-01770a16616573 Ricardo Dias             2020-11-20  529  	INET_ADDR_COOKIE(=
-acookie, sk->sk_daddr, sk->sk_rcv_saddr);
-01770a16616573 Ricardo Dias             2020-11-20  530  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  867  	/* Looking good; alloca=
+te a pgd */
+e5fc9753b1a831 Robin Murphy       2016-01-26  868  	data->pgd =3D __arm_v7s=
+_alloc_table(1, GFP_KERNEL, data);
+e5fc9753b1a831 Robin Murphy       2016-01-26  869  	if (!data->pgd)
+e5fc9753b1a831 Robin Murphy       2016-01-26  870  		goto out_free_data;
+e5fc9753b1a831 Robin Murphy       2016-01-26  871  =
 
-01770a16616573 Ricardo Dias             2020-11-20  531  	sk_nulls_for_each=
-_rcu(esk, node, list) {
-01770a16616573 Ricardo Dias             2020-11-20  532  		if (esk->sk_hash=
- !=3D sk->sk_hash)
-01770a16616573 Ricardo Dias             2020-11-20  533  			continue;
-01770a16616573 Ricardo Dias             2020-11-20  534  		if (sk->sk_famil=
-y =3D=3D AF_INET) {
-01770a16616573 Ricardo Dias             2020-11-20 @535  			if (unlikely(IN=
-ET_MATCH(esk, net, acookie,
-01770a16616573 Ricardo Dias             2020-11-20  536  						sk->sk_daddr,
-01770a16616573 Ricardo Dias             2020-11-20  537  						sk->sk_rcv_s=
-addr,
-01770a16616573 Ricardo Dias             2020-11-20  538  						ports, dif, =
-sdif))) {
-01770a16616573 Ricardo Dias             2020-11-20  539  				return true;
-01770a16616573 Ricardo Dias             2020-11-20  540  			}
-01770a16616573 Ricardo Dias             2020-11-20  541  		}
-01770a16616573 Ricardo Dias             2020-11-20  542  #if IS_ENABLED(CON=
-FIG_IPV6)
-01770a16616573 Ricardo Dias             2020-11-20  543  		else if (sk->sk_=
-family =3D=3D AF_INET6) {
-01770a16616573 Ricardo Dias             2020-11-20  544  			if (unlikely(IN=
-ET6_MATCH(esk, net,
-01770a16616573 Ricardo Dias             2020-11-20  545  						 &sk->sk_v6_=
-daddr,
-01770a16616573 Ricardo Dias             2020-11-20  546  						 &sk->sk_v6_=
-rcv_saddr,
-01770a16616573 Ricardo Dias             2020-11-20  547  						 ports, dif,=
- sdif))) {
-01770a16616573 Ricardo Dias             2020-11-20  548  				return true;
-01770a16616573 Ricardo Dias             2020-11-20  549  			}
-01770a16616573 Ricardo Dias             2020-11-20  550  		}
-01770a16616573 Ricardo Dias             2020-11-20  551  #endif
-01770a16616573 Ricardo Dias             2020-11-20  552  	}
-01770a16616573 Ricardo Dias             2020-11-20  553  	return false;
-01770a16616573 Ricardo Dias             2020-11-20  554  }
-01770a16616573 Ricardo Dias             2020-11-20  555  =
+e5fc9753b1a831 Robin Murphy       2016-01-26  872  	/* Ensure the empty pgd=
+ is visible before any actual TTBR write */
+e5fc9753b1a831 Robin Murphy       2016-01-26  873  	wmb();
+e5fc9753b1a831 Robin Murphy       2016-01-26  874  =
+
+d1e5f26f14272b Robin Murphy       2019-10-25  875  	/* TTBR */
+916a5fc41cbb8d Yunfei Wang        2022-05-12  876  	paddr =3D virt_to_phys(=
+data->pgd);
+916a5fc41cbb8d Yunfei Wang        2022-05-12  877  	cfg->arm_v7s_cfg.ttbr =
+=3D paddr | ARM_V7S_TTBR_S |
+7618e479098226 Robin Murphy       2020-01-10  878  				(cfg->coherent_walk =
+? (ARM_V7S_TTBR_NOS |
+7618e479098226 Robin Murphy       2020-01-10  879  				 ARM_V7S_TTBR_IRGN_A=
+TTR(ARM_V7S_RGN_WBWA) |
+9e6ea59f3ff371 Bjorn Andersson    2019-05-15  880  				 ARM_V7S_TTBR_ORGN_A=
+TTR(ARM_V7S_RGN_WBWA)) :
+9e6ea59f3ff371 Bjorn Andersson    2019-05-15  881  				(ARM_V7S_TTBR_IRGN_A=
+TTR(ARM_V7S_RGN_NC) |
+9e6ea59f3ff371 Bjorn Andersson    2019-05-15  882  				 ARM_V7S_TTBR_ORGN_A=
+TTR(ARM_V7S_RGN_NC)));
+916a5fc41cbb8d Yunfei Wang        2022-05-12  883  =
+
+916a5fc41cbb8d Yunfei Wang        2022-05-12  884  	if (cfg->quirks & IO_PG=
+TABLE_QUIRK_ARM_MTK_TTBR_EXT)
+916a5fc41cbb8d Yunfei Wang        2022-05-12  885  		cfg->arm_v7s_cfg.ttbr =
+=3D
+916a5fc41cbb8d Yunfei Wang        2022-05-12 @886  			ARM_V7S_TTBR_35BIT_PA=
+(cfg->arm_v7s_cfg.ttbr, paddr);
+e5fc9753b1a831 Robin Murphy       2016-01-26  887  	return &data->iop;
+e5fc9753b1a831 Robin Murphy       2016-01-26  888  =
+
+e5fc9753b1a831 Robin Murphy       2016-01-26  889  out_free_data:
+e5fc9753b1a831 Robin Murphy       2016-01-26  890  	kmem_cache_destroy(data=
+->l2_tables);
+e5fc9753b1a831 Robin Murphy       2016-01-26  891  	kfree(data);
+e5fc9753b1a831 Robin Murphy       2016-01-26  892  	return NULL;
+e5fc9753b1a831 Robin Murphy       2016-01-26  893  }
+e5fc9753b1a831 Robin Murphy       2016-01-26  894  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3343082222918769948==--
+--===============3995498456333274688==--
 
