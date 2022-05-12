@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0922873986753638457=="
+Content-Type: multipart/mixed; boundary="===============8349417260449504377=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [allisonhenderson-xfs-work:larp_cleanupv4_pptrs 35/35] fs/xfs/xfs_ioctl.c:1756 xfs_ioc_get_parent_pointer() warn: maybe return -EFAULT instead of the bytes remaining?
-Date: Thu, 12 May 2022 11:22:21 +0800
-Message-ID: <202205121128.R82udPf8-lkp@intel.com>
+Subject: drivers/net/wwan/qcom_bam_dmux.c:507 bam_dmux_cmd_data() warn: potential spectre issue 'dmux->netdevs' [r]
+Date: Thu, 12 May 2022 08:08:13 +0800
+Message-ID: <202205120805.C6uDVWw3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0922873986753638457==
+--===============8349417260449504377==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,162 +15,102 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Allison Henderson <allison.henderson@oracle.com>
+TO: Stephan Gerhold <stephan@gerhold.net>
 
-tree:   https://github.com/allisonhenderson/xfs_work.git larp_cleanupv4_ppt=
-rs
-head:   3d7771d8177638d5d115404cbee0b9a77cf0bb4c
-commit: 3d7771d8177638d5d115404cbee0b9a77cf0bb4c [35/35] xfs: Add parent po=
-inter ioctl
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: i386-randconfig-m031-20220509 (https://download.01.org/0day-ci/arch=
-ive/20220512/202205121128.R82udPf8-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
+commit: 21a0ffd9b38c61d79b5ade54893b0f59f2e8c2c3 net: wwan: Add Qualcomm BA=
+M-DMUX WWAN network driver
+date:   5 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 5 months ago
+config: csky-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
+ive/20220512/202205120805.C6uDVWw3-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/xfs/xfs_ioctl.c:1756 xfs_ioc_get_parent_pointer() warn: maybe return -EF=
-AULT instead of the bytes remaining?
+drivers/net/wwan/qcom_bam_dmux.c:507 bam_dmux_cmd_data() warn: potential sp=
+ectre issue 'dmux->netdevs' [r]
+drivers/net/wwan/qcom_bam_dmux.c:509 bam_dmux_cmd_data() warn: possible spe=
+ctre second half.  'netdev'
 
-vim +1756 fs/xfs/xfs_ioctl.c
+vim +507 drivers/net/wwan/qcom_bam_dmux.c
 
-36fd6e863cb732 Darrick J. Wong   2017-10-17  1677  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  501  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1678  /*
-3d7771d8177638 Allison Henderson 2022-05-10  1679   * IOCTL routine to get =
-the parent pointers of an inode and return it to user
-3d7771d8177638 Allison Henderson 2022-05-10  1680   * space.  Caller must p=
-ass a buffer space containing a struct xfs_pptr_info,
-3d7771d8177638 Allison Henderson 2022-05-10  1681   * followed by a region =
-large enough to contain an array of struct
-3d7771d8177638 Allison Henderson 2022-05-10  1682   * xfs_parent_ptr of a s=
-ize specified in pi_ptrs_size.  If the inode contains
-3d7771d8177638 Allison Henderson 2022-05-10  1683   * more parent pointers =
-than can fit in the buffer space, caller may re-call
-3d7771d8177638 Allison Henderson 2022-05-10  1684   * the function using th=
-e returned pi_cursor to resume iteration.  The
-3d7771d8177638 Allison Henderson 2022-05-10  1685   * number of xfs_parent_=
-ptr returned will be stored in pi_ptrs_used.
-3d7771d8177638 Allison Henderson 2022-05-10  1686   *
-3d7771d8177638 Allison Henderson 2022-05-10  1687   * Returns 0 on success =
-or non-zero on failure
-3d7771d8177638 Allison Henderson 2022-05-10  1688   */
-3d7771d8177638 Allison Henderson 2022-05-10  1689  STATIC int
-3d7771d8177638 Allison Henderson 2022-05-10  1690  xfs_ioc_get_parent_point=
-er(
-3d7771d8177638 Allison Henderson 2022-05-10  1691  	struct file			*filp,
-3d7771d8177638 Allison Henderson 2022-05-10  1692  	void				__user *arg)
-3d7771d8177638 Allison Henderson 2022-05-10  1693  {
-3d7771d8177638 Allison Henderson 2022-05-10  1694  	struct xfs_pptr_info		*=
-ppi =3D NULL;
-3d7771d8177638 Allison Henderson 2022-05-10  1695  	int				error =3D 0;
-3d7771d8177638 Allison Henderson 2022-05-10  1696  	struct xfs_inode		*ip =
-=3D XFS_I(file_inode(filp));
-3d7771d8177638 Allison Henderson 2022-05-10  1697  	struct xfs_mount		*mp =
-=3D ip->i_mount;
-3d7771d8177638 Allison Henderson 2022-05-10  1698  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  502  static void bam_dmux_cmd_d=
+ata(struct bam_dmux_skb_dma *skb_dma)
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  503  {
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  504  	struct bam_dmux *dmux =3D=
+ skb_dma->dmux;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  505  	struct sk_buff *skb =3D s=
+kb_dma->skb;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  506  	struct bam_dmux_hdr *hdr =
+=3D (struct bam_dmux_hdr *)skb->data;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27 @507  	struct net_device *netdev=
+ =3D dmux->netdevs[hdr->ch];
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  508  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1699  	if (!capable(CAP_SYS_AD=
-MIN))
-3d7771d8177638 Allison Henderson 2022-05-10  1700  		return -EPERM;
-3d7771d8177638 Allison Henderson 2022-05-10  1701  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27 @509  	if (!netdev || !netif_run=
+ning(netdev)) {
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  510  		dev_warn(dmux->dev, "Dat=
+a for inactive channel %u\n", hdr->ch);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  511  		return;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  512  	}
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  513  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1702  	/* Allocate an xfs_pptr=
-_info to put the user data */
-3d7771d8177638 Allison Henderson 2022-05-10  1703  	ppi =3D kmem_alloc(size=
-of(struct xfs_pptr_info), 0);
-3d7771d8177638 Allison Henderson 2022-05-10  1704  	if (!ppi)
-3d7771d8177638 Allison Henderson 2022-05-10  1705  		return -ENOMEM;
-3d7771d8177638 Allison Henderson 2022-05-10  1706  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  514  	if (hdr->len > BAM_DMUX_M=
+AX_DATA_SIZE) {
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  515  		dev_err(dmux->dev, "Data=
+ larger than buffer? (%u > %u)\n",
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  516  			hdr->len, (u16)BAM_DMUX=
+_MAX_DATA_SIZE);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  517  		return;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  518  	}
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  519  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1707  	/* Copy the data from t=
-he user */
-3d7771d8177638 Allison Henderson 2022-05-10  1708  	error =3D copy_from_use=
-r(ppi, arg, sizeof(struct xfs_pptr_info));
-3d7771d8177638 Allison Henderson 2022-05-10  1709  	if (error)
-3d7771d8177638 Allison Henderson 2022-05-10  1710  		goto out;
-3d7771d8177638 Allison Henderson 2022-05-10  1711  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  520  	skb_dma->skb =3D NULL; /*=
+ Hand over to network stack */
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  521  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1712  	/* Check size of buffer=
- requested by user */
-3d7771d8177638 Allison Henderson 2022-05-10  1713  	if (XFS_PPTR_INFO_SIZEO=
-F(ppi->pi_ptrs_size) > XFS_XATTR_LIST_MAX) {
-3d7771d8177638 Allison Henderson 2022-05-10  1714  		error =3D -ENOMEM;
-3d7771d8177638 Allison Henderson 2022-05-10  1715  		goto out;
-3d7771d8177638 Allison Henderson 2022-05-10  1716  	}
-3d7771d8177638 Allison Henderson 2022-05-10  1717  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  522  	skb_pull(skb, sizeof(*hdr=
+));
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  523  	skb_trim(skb, hdr->len);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  524  	skb->dev =3D netdev;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  525  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1718  	/*
-3d7771d8177638 Allison Henderson 2022-05-10  1719  	 * Now that we know how=
- big the trailing buffer is, expand
-3d7771d8177638 Allison Henderson 2022-05-10  1720  	 * our kernel xfs_pptr_=
-info to be the same size
-3d7771d8177638 Allison Henderson 2022-05-10  1721  	 */
-3d7771d8177638 Allison Henderson 2022-05-10  1722  	ppi =3D krealloc(ppi, X=
-FS_PPTR_INFO_SIZEOF(ppi->pi_ptrs_size),
-3d7771d8177638 Allison Henderson 2022-05-10  1723  		       GFP_NOFS | __GF=
-P_NOFAIL);
-3d7771d8177638 Allison Henderson 2022-05-10  1724  	if (!ppi)
-3d7771d8177638 Allison Henderson 2022-05-10  1725  		return -ENOMEM;
-3d7771d8177638 Allison Henderson 2022-05-10  1726  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  526  	/* Only Raw-IP/QMAP is su=
+pported by this driver */
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  527  	switch (skb->data[0] & 0x=
+f0) {
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  528  	case 0x40:
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  529  		skb->protocol =3D htons(=
+ETH_P_IP);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  530  		break;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  531  	case 0x60:
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  532  		skb->protocol =3D htons(=
+ETH_P_IPV6);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  533  		break;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  534  	default:
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  535  		skb->protocol =3D htons(=
+ETH_P_MAP);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  536  		break;
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  537  	}
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  538  =
 
-3d7771d8177638 Allison Henderson 2022-05-10  1727  	if (ppi->pi_flags !=3D =
-0 && ppi->pi_flags !=3D XFS_PPTR_IFLAG_HANDLE) {
-3d7771d8177638 Allison Henderson 2022-05-10  1728  		error =3D -EINVAL;
-3d7771d8177638 Allison Henderson 2022-05-10  1729  		goto out;
-3d7771d8177638 Allison Henderson 2022-05-10  1730  	}
-3d7771d8177638 Allison Henderson 2022-05-10  1731  =
-
-3d7771d8177638 Allison Henderson 2022-05-10  1732  	if (ppi->pi_flags =3D=
-=3D XFS_PPTR_IFLAG_HANDLE) {
-3d7771d8177638 Allison Henderson 2022-05-10  1733  		error =3D xfs_iget(mp,=
- NULL, ppi->pi_handle.ha_fid.fid_ino,
-3d7771d8177638 Allison Henderson 2022-05-10  1734  				0, 0, &ip);
-3d7771d8177638 Allison Henderson 2022-05-10  1735  		if (error)
-3d7771d8177638 Allison Henderson 2022-05-10  1736  			goto out;
-3d7771d8177638 Allison Henderson 2022-05-10  1737  	}
-3d7771d8177638 Allison Henderson 2022-05-10  1738  =
-
-3d7771d8177638 Allison Henderson 2022-05-10  1739  	if (ip->i_ino =3D=3D mp=
-->m_sb.sb_rootino)
-3d7771d8177638 Allison Henderson 2022-05-10  1740  		ppi->pi_flags |=3D XFS=
-_PPTR_OFLAG_ROOT;
-3d7771d8177638 Allison Henderson 2022-05-10  1741  =
-
-3d7771d8177638 Allison Henderson 2022-05-10  1742  	/* Get the parent point=
-ers */
-3d7771d8177638 Allison Henderson 2022-05-10  1743  	error =3D xfs_attr_get_=
-parent_pointer(ip, ppi);
-3d7771d8177638 Allison Henderson 2022-05-10  1744  =
-
-3d7771d8177638 Allison Henderson 2022-05-10  1745  	if (error)
-3d7771d8177638 Allison Henderson 2022-05-10  1746  		goto out;
-3d7771d8177638 Allison Henderson 2022-05-10  1747  =
-
-3d7771d8177638 Allison Henderson 2022-05-10  1748  	/* Copy the parent poin=
-ters back to the user */
-3d7771d8177638 Allison Henderson 2022-05-10  1749  	error =3D copy_to_user(=
-arg, ppi,
-3d7771d8177638 Allison Henderson 2022-05-10  1750  			XFS_PPTR_INFO_SIZEOF(=
-ppi->pi_ptrs_size));
-3d7771d8177638 Allison Henderson 2022-05-10  1751  	if (error)
-3d7771d8177638 Allison Henderson 2022-05-10  1752  		goto out;
-3d7771d8177638 Allison Henderson 2022-05-10  1753  =
-
-3d7771d8177638 Allison Henderson 2022-05-10  1754  out:
-3d7771d8177638 Allison Henderson 2022-05-10  1755  	kmem_free(ppi);
-3d7771d8177638 Allison Henderson 2022-05-10 @1756  	return error;
-3d7771d8177638 Allison Henderson 2022-05-10  1757  }
-3d7771d8177638 Allison Henderson 2022-05-10  1758  =
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  539  	netif_receive_skb(skb);
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  540  }
+21a0ffd9b38c61d Stephan Gerhold 2021-11-27  541  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0922873986753638457==--
+--===============8349417260449504377==--
 
