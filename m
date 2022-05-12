@@ -1,313 +1,555 @@
-Content-Type: multipart/mixed; boundary="===============3951757065001993716=="
+Content-Type: multipart/mixed; boundary="===============5319525926876537572=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-tdx:guest-unaccepted-memory 3/15] mm/page_alloc.c:1183 __free_one_page() error: uninitialized symbol 'page_needs_acceptance'.
-Date: Fri, 13 May 2022 01:32:17 +0800
-Message-ID: <202205130113.xDKF4oQn-lkp@intel.com>
+Subject: Re: [PATCH] fs/proc: add mask_secrets to prevent sensitive information leakage.
+Date: Thu, 12 May 2022 21:25:39 +0800
+Message-ID: <202205122111.t1UqbBY0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3951757065001993716==
+--===============5319525926876537572==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+In-Reply-To: <20220509054613.6620-1-zhang.lin16@zte.com.cn>
+References: <20220509054613.6620-1-zhang.lin16@zte.com.cn>
+TO: zhanglin <zhang.lin16@zte.com.cn>
+TO: linux-kernel(a)vger.kernel.org
+CC: linux-fsdevel(a)vger.kernel.org
+CC: brauner(a)kernel.org
+CC: akpm(a)linux-foundation.org
+CC: keescook(a)chromium.org
+CC: adobriyan(a)gmail.com
+CC: sfr(a)canb.auug.org.au
+CC: zhengqi.arch(a)bytedance.com
+CC: ebiederm(a)xmission.com
+CC: kaleshsingh(a)google.com
+CC: stephen.s.brennan(a)oracle.com
+CC: ohoono.kwon(a)samsung.com
+CC: haolee.swjtu(a)gmail.com
+CC: fweimer(a)redhat.com
+CC: xue.zhihong(a)zte.com.cn
+CC: wang.yi59(a)zte.com.cn
+CC: jiang.xuexin(a)zte.com.cn
+CC: zealci(a)zte.com.cn
+CC: zhanglin <zhang.lin16@zte.com.cn>
 
-tree:   https://github.com/intel/tdx.git guest-unaccepted-memory
-head:   83a8442434ff3bbf432df7508f1fefd447ca2c86
-commit: 0845556ccd9555f5245d3bdd6cb646c2ea3fa9c2 [3/15] mm: Add support for=
- unaccepted memory
-:::::: branch date: 2 days ago
-:::::: commit date: 7 days ago
-config: i386-randconfig-m031-20220509 (https://download.01.org/0day-ci/arch=
-ive/20220513/202205130113.xDKF4oQn-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+Hi zhanglin,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linux/master]
+[also build test WARNING on akpm-mm/mm-everything linus/master v5.18-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhanglin/fs-proc-add=
+-mask_secrets-to-prevent-sensitive-information-leakage/20220509-140823
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: h8300-randconfig-s031-20220512 (https://download.01.org/0day-ci/arc=
+hive/20220512/202205122111.t1UqbBY0-lkp(a)intel.com/config)
+compiler: h8300-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f8d1c429178d1ee0c44=
+7ee68f4e7b602c5df911f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review zhanglin/fs-proc-add-mask_secrets-=
+to-prevent-sensitive-information-leakage/20220509-140823
+        git checkout f8d1c429178d1ee0c447ee68f4e7b602c5df911f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dh=
+8300 SHELL=3D/bin/bash fs/proc/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/page_alloc.c:1183 __free_one_page() error: uninitialized symbol 'page_ne=
-eds_acceptance'.
 
-vim +/page_needs_acceptance +1183 mm/page_alloc.c
+sparse warnings: (new ones prefixed by >>)
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:26:57: sparse: sparse: incorrect type in initiali=
+zer (different address spaces) @@     expected int [noderef] __rcu *static =
+[toplevel] mask_secrets_enabled @@     got int * @@
+   fs/proc/mask_secrets.c:26:57: sparse:     expected int [noderef] __rcu *=
+static [toplevel] mask_secrets_enabled
+   fs/proc/mask_secrets.c:26:57: sparse:     got int *
+>> fs/proc/mask_secrets.c:56:29: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:57:31: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:58:22: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:59:26: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:62:32: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:63:30: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:64:44: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:65:25: sparse: sparse: Using plain integer as NUL=
+L pointer
+   fs/proc/mask_secrets.c:67:23: sparse: sparse: Using plain integer as NUL=
+L pointer
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+>> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:271:44: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:305:44: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:308:24: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
+ '__rcu' of expression
+   fs/proc/mask_secrets.c:339:32: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:343:47: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:359:44: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:360:26: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:361:31: sparse: sparse: Using plain integer as NU=
+LL pointer
+   fs/proc/mask_secrets.c:362:24: sparse: sparse: too many warnings
 
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1056  =
+vim +/__rcu +112 fs/proc/mask_secrets.c
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1057  /*
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1058   * Freeing functio=
-n for a buddy system allocator.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1059   *
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1060   * The concept of =
-a buddy system is to maintain direct-mapped table
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1061   * (containing bit=
- values) for memory blocks of various "orders".
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1062   * The bottom leve=
-l table contains the map for the smallest allocatable
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1063   * units of memory=
- (here, pages), and each level above it describes
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1064   * pairs of units =
-from the levels below, hence, "buddies".
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1065   * At a high level=
-, all that happens here is marking the table entry
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1066   * at the bottom l=
-evel available, and propagating the changes upward
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1067   * as necessary, p=
-lus some accounting needed to play nicely with other
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1068   * parts of the VM=
- system.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1069   * At each level, =
-we keep a list of pages, which are heads of continuous
-6e292b9be7f435 Matthew Wilcox          2018-06-07  1070   * free pages of l=
-ength of (1 << order) and marked with PageBuddy.
-6e292b9be7f435 Matthew Wilcox          2018-06-07  1071   * Page's order is=
- recorded in page_private(page) field.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1072   * So when we are =
-allocating or freeing one, we can derive the state of the
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1073   * other.  That is=
-, if we allocate a small block, and both were
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1074   * free, the remai=
-nder of the region must be split into blocks.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1075   * If a block is f=
-reed, and its buddy is also free, then this
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1076   * triggers coales=
-cing into a block of larger size.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1077   *
-6d49e352ae9aed Nadia Yvette Chambers   2012-12-06  1078   * -- nyc
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1079   */
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1080  =
+f8d1c429178d1e zhanglin 2022-05-09   21  =
 
-48db57f8ff10eb Nicholas Piggin         2006-01-08  1081  static inline void=
- __free_one_page(struct page *page,
-dc4b0caff24d9b Mel Gorman              2014-06-04  1082  		unsigned long pf=
-n,
-ed0ae21dc5fe3b Mel Gorman              2009-06-16  1083  		struct zone *zon=
-e, unsigned int order,
-f04a5d5d913fa8 David Hildenbrand       2020-10-15  1084  		int migratetype,=
- fpi_t fpi_flags)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1085  {
-a2129f24798a99 Alexander Duyck         2020-04-06  1086  	struct capture_co=
-ntrol *capc =3D task_capc(zone);
-b3d40a2b6d10c9 David Hildenbrand       2022-03-22  1087  	unsigned int max_=
-order =3D pageblock_order;
-3f649ab728cda8 Kees Cook               2020-06-03  1088  	unsigned long bud=
-dy_pfn;
-a2129f24798a99 Alexander Duyck         2020-04-06  1089  	unsigned long com=
-bined_pfn;
-a2129f24798a99 Alexander Duyck         2020-04-06  1090  	struct page *budd=
-y;
-a2129f24798a99 Alexander Duyck         2020-04-06  1091  	bool to_tail;
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1092  	bool page_needs_a=
-cceptance;
-d9dddbf556674b Vlastimil Babka         2016-03-25  1093  =
+f8d1c429178d1e zhanglin 2022-05-09   22  static const char *SECRET_SEPARATO=
+R =3D ":";
+f8d1c429178d1e zhanglin 2022-05-09   23  static const int MASK_SECRETS_ENAB=
+LED =3D 1;
+f8d1c429178d1e zhanglin 2022-05-09   24  static const int MASK_SECRETS_DISA=
+BLED;
+f8d1c429178d1e zhanglin 2022-05-09   25  static DEFINE_SPINLOCK(mask_secret=
+s_enabled_spinlock);
+f8d1c429178d1e zhanglin 2022-05-09  @26  static int __rcu *mask_secrets_ena=
+bled __read_mostly =3D (int *)&MASK_SECRETS_DISABLED;
+f8d1c429178d1e zhanglin 2022-05-09   27  static DEFINE_SPINLOCK(cmdline_has=
+htab_spinlock);
+f8d1c429178d1e zhanglin 2022-05-09   28  static struct hlist_head __rcu cmd=
+line_hashtab[CMDLINE_HASHTABSIZE] __read_mostly =3D {
+f8d1c429178d1e zhanglin 2022-05-09   29  	[0 ... (CMDLINE_HASHTABSIZE-1)] =
+=3D HLIST_HEAD_INIT };
+f8d1c429178d1e zhanglin 2022-05-09   30  static struct kmem_cache *cmdline_=
+hashtab_item_cachep;
+f8d1c429178d1e zhanglin 2022-05-09   31  =
 
-d29bb9782d2206 Cody P Schafer          2013-02-22  1094  	VM_BUG_ON(!zone_i=
-s_initialized(zone));
-6e9f0d582dde09 Kirill A. Shutemov      2015-02-11  1095  	VM_BUG_ON_PAGE(pa=
-ge->flags & PAGE_FLAGS_CHECK_AT_PREP, page);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1096  =
+f8d1c429178d1e zhanglin 2022-05-09   32  struct cmdline_hashtab_item {
+f8d1c429178d1e zhanglin 2022-05-09   33  	struct hlist_node hlist;
+f8d1c429178d1e zhanglin 2022-05-09   34  	char *cmdline;
+f8d1c429178d1e zhanglin 2022-05-09   35  	char *progname;
+f8d1c429178d1e zhanglin 2022-05-09   36  	char *secrets;
+f8d1c429178d1e zhanglin 2022-05-09   37  };
+f8d1c429178d1e zhanglin 2022-05-09   38  =
 
-ed0ae21dc5fe3b Mel Gorman              2009-06-16  1097  	VM_BUG_ON(migrate=
-type =3D=3D -1);
-d9dddbf556674b Vlastimil Babka         2016-03-25  1098  	if (likely(!is_mi=
-grate_isolate(migratetype)))
-8f82b55dd558a7 Joonsoo Kim             2014-11-13  1099  		__mod_zone_freep=
-age_state(zone, 1 << order, migratetype);
-ed0ae21dc5fe3b Mel Gorman              2009-06-16  1100  =
+f8d1c429178d1e zhanglin 2022-05-09   39  static int is_mask_secrets_enabled=
+(void)
+f8d1c429178d1e zhanglin 2022-05-09   40  {
+f8d1c429178d1e zhanglin 2022-05-09   41  	int ret =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   42  =
 
-76741e776a3797 Vlastimil Babka         2017-02-22  1101  	VM_BUG_ON_PAGE(pf=
-n & ((1 << order) - 1), page);
-309381feaee564 Sasha Levin             2014-01-23  1102  	VM_BUG_ON_PAGE(ba=
-d_range(zone, page), page);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1103  =
+f8d1c429178d1e zhanglin 2022-05-09   43  	rcu_read_lock();
+f8d1c429178d1e zhanglin 2022-05-09   44  	ret =3D *(rcu_dereference(mask_se=
+crets_enabled));
+f8d1c429178d1e zhanglin 2022-05-09   45  	rcu_read_unlock();
+f8d1c429178d1e zhanglin 2022-05-09   46  	return ret;
+f8d1c429178d1e zhanglin 2022-05-09   47  }
+f8d1c429178d1e zhanglin 2022-05-09   48  =
 
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1104  	if (PageUnaccepte=
-d(page)) {
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1105  		page_needs_accep=
-tance =3D true;
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1106  		__ClearPageUnacc=
-epted(page);
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1107  	}
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1108  =
+f8d1c429178d1e zhanglin 2022-05-09   49  size_t mask_secrets(struct mm_stru=
+ct *mm, char __user *buf,
+f8d1c429178d1e zhanglin 2022-05-09   50  			      size_t count, loff_t pos)
+f8d1c429178d1e zhanglin 2022-05-09   51  {
+f8d1c429178d1e zhanglin 2022-05-09   52  	unsigned long arg_start =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   53  	unsigned long arg_end =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   54  	int mask_arg_len =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   55  	size_t remote_vm_copied =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09  @56  	struct file *file =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   57  	struct inode *inode =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   58  	char *kbuf =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   59  	char *progname =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   60  	int proghash =3D -1;
+f8d1c429178d1e zhanglin 2022-05-09   61  	int prog_found =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   62  	char *mask_arg_start =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   63  	char *mask_arg_end =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   64  	struct cmdline_hashtab_item *chi =
+=3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   65  	char *psecret =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   66  	size_t psecret_len =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   67  	char *pmask =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   68  	size_t pmask_len =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   69  	size_t size;
+f8d1c429178d1e zhanglin 2022-05-09   70  	size_t total_copied =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   71  	int err =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09   72  =
 
-d9dddbf556674b Vlastimil Babka         2016-03-25  1109  continue_merging:
-7ad69832f37e3c Muchun Song             2020-12-14  1110  	while (order < ma=
-x_order) {
-5e1f0f098b4649 Mel Gorman              2019-03-05  1111  		if (compaction_c=
-apture(capc, page, order, migratetype)) {
-5e1f0f098b4649 Mel Gorman              2019-03-05  1112  			__mod_zone_free=
-page_state(zone, -(1 << order),
-5e1f0f098b4649 Mel Gorman              2019-03-05  1113  								migratetyp=
-e);
-5e1f0f098b4649 Mel Gorman              2019-03-05  1114  			return;
-5e1f0f098b4649 Mel Gorman              2019-03-05  1115  		}
-76741e776a3797 Vlastimil Babka         2017-02-22  1116  		buddy_pfn =3D __=
-find_buddy_pfn(pfn, order);
-76741e776a3797 Vlastimil Babka         2017-02-22  1117  		buddy =3D page +=
- (buddy_pfn - pfn);
-13ad59df67f197 Vlastimil Babka         2017-02-22  1118  =
+f8d1c429178d1e zhanglin 2022-05-09   73  	if (!is_mask_secrets_enabled()) {
+f8d1c429178d1e zhanglin 2022-05-09   74  		err =3D -EPERM;
+f8d1c429178d1e zhanglin 2022-05-09   75  		goto exit_err;
+f8d1c429178d1e zhanglin 2022-05-09   76  	}
+f8d1c429178d1e zhanglin 2022-05-09   77  =
 
-cb2b95e1c6b56e Andy Whitcroft          2006-06-23  1119  		if (!page_is_bud=
-dy(page, buddy, order))
-d9dddbf556674b Vlastimil Babka         2016-03-25  1120  			goto done_mergi=
-ng;
-c0a32fc5a2e470 Stanislaw Gruszka       2012-01-10  1121  		/*
-c0a32fc5a2e470 Stanislaw Gruszka       2012-01-10  1122  		 * Our buddy is =
-free or it is CONFIG_DEBUG_PAGEALLOC guard page,
-c0a32fc5a2e470 Stanislaw Gruszka       2012-01-10  1123  		 * merge with it=
- and move up one order.
-c0a32fc5a2e470 Stanislaw Gruszka       2012-01-10  1124  		 */
-b03641af680959 Dan Williams            2019-05-14  1125  		if (page_is_guar=
-d(buddy))
-2847cf95c68fa5 Joonsoo Kim             2014-12-12  1126  			clear_page_guar=
-d(zone, buddy, order, migratetype);
-b03641af680959 Dan Williams            2019-05-14  1127  		else
-6ab0136310961e Alexander Duyck         2020-04-06  1128  			del_page_from_f=
-ree_list(buddy, zone, order);
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1129  =
+f8d1c429178d1e zhanglin 2022-05-09   78  	spin_lock(&mm->arg_lock);
+f8d1c429178d1e zhanglin 2022-05-09   79  	arg_start =3D mm->arg_start;
+f8d1c429178d1e zhanglin 2022-05-09   80  	arg_end =3D mm->arg_end;
+f8d1c429178d1e zhanglin 2022-05-09   81  	spin_unlock(&mm->arg_lock);
+f8d1c429178d1e zhanglin 2022-05-09   82  	if (arg_start >=3D arg_end) {
+f8d1c429178d1e zhanglin 2022-05-09   83  		err =3D -ERANGE;
+f8d1c429178d1e zhanglin 2022-05-09   84  		goto exit_err;
+f8d1c429178d1e zhanglin 2022-05-09   85  	}
+f8d1c429178d1e zhanglin 2022-05-09   86  	mask_arg_len =3D arg_end - arg_st=
+art + 1;
+f8d1c429178d1e zhanglin 2022-05-09   87  =
 
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1130  		/* Mark page una=
-ccepted if any of merged pages were unaccepted */
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1131  		if (PageUnaccept=
-ed(buddy)) {
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1132  			page_needs_acce=
-ptance =3D true;
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1133  			__ClearPageUnac=
-cepted(buddy);
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1134  		}
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1135  =
+f8d1c429178d1e zhanglin 2022-05-09   88  	file =3D get_mm_exe_file(mm);
+f8d1c429178d1e zhanglin 2022-05-09   89  	if (!file) {
+f8d1c429178d1e zhanglin 2022-05-09   90  		err =3D -ENOENT;
+f8d1c429178d1e zhanglin 2022-05-09   91  		goto exit_err;
+f8d1c429178d1e zhanglin 2022-05-09   92  	}
+f8d1c429178d1e zhanglin 2022-05-09   93  	inode =3D file_inode(file);
+f8d1c429178d1e zhanglin 2022-05-09   94  	if (!inode) {
+f8d1c429178d1e zhanglin 2022-05-09   95  		err =3D -ENOENT;
+f8d1c429178d1e zhanglin 2022-05-09   96  		goto exit_err;
+f8d1c429178d1e zhanglin 2022-05-09   97  	}
+f8d1c429178d1e zhanglin 2022-05-09   98  	proghash =3D cmdline_hash(inode->=
+i_ino);
+f8d1c429178d1e zhanglin 2022-05-09   99  	kbuf =3D kzalloc(max(PATH_MAX, ma=
+sk_arg_len), GFP_KERNEL);
+f8d1c429178d1e zhanglin 2022-05-09  100  	if (!kbuf) {
+f8d1c429178d1e zhanglin 2022-05-09  101  		err =3D -ENOMEM;
+f8d1c429178d1e zhanglin 2022-05-09  102  		goto exit_err;
+f8d1c429178d1e zhanglin 2022-05-09  103  	}
+f8d1c429178d1e zhanglin 2022-05-09  104  	progname =3D d_path(&file->f_path=
+, kbuf, PATH_MAX);
+f8d1c429178d1e zhanglin 2022-05-09  105  	if (IS_ERR_OR_NULL(progname)) {
+f8d1c429178d1e zhanglin 2022-05-09  106  		err =3D -ENOENT;
+f8d1c429178d1e zhanglin 2022-05-09  107  		goto cleanup_kbuf;
+f8d1c429178d1e zhanglin 2022-05-09  108  	}
+f8d1c429178d1e zhanglin 2022-05-09  109  =
 
-76741e776a3797 Vlastimil Babka         2017-02-22  1136  		combined_pfn =3D=
- buddy_pfn & pfn;
-76741e776a3797 Vlastimil Babka         2017-02-22  1137  		page =3D page + =
-(combined_pfn - pfn);
-76741e776a3797 Vlastimil Babka         2017-02-22  1138  		pfn =3D combined=
-_pfn;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1139  		order++;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1140  	}
-7ad69832f37e3c Muchun Song             2020-12-14  1141  	if (order < MAX_O=
-RDER - 1) {
-d9dddbf556674b Vlastimil Babka         2016-03-25  1142  		/* If we are her=
-e, it means order is >=3D pageblock_order.
-1dd214b8f21ca4 Zi Yan                  2022-03-22  1143  		 * We want to pr=
-event merge between freepages on pageblock
-1dd214b8f21ca4 Zi Yan                  2022-03-22  1144  		 * without fallb=
-acks and normal pageblock. Without this,
-1dd214b8f21ca4 Zi Yan                  2022-03-22  1145  		 * pageblock iso=
-lation could cause incorrect freepage or CMA
-1dd214b8f21ca4 Zi Yan                  2022-03-22  1146  		 * accounting or=
- HIGHATOMIC accounting.
-d9dddbf556674b Vlastimil Babka         2016-03-25  1147  		 *
-d9dddbf556674b Vlastimil Babka         2016-03-25  1148  		 * We don't want=
- to hit this code for the more frequent
-d9dddbf556674b Vlastimil Babka         2016-03-25  1149  		 * low-order mer=
-ging.
-d9dddbf556674b Vlastimil Babka         2016-03-25  1150  		 */
-d9dddbf556674b Vlastimil Babka         2016-03-25  1151  		int buddy_mt;
-d9dddbf556674b Vlastimil Babka         2016-03-25  1152  =
+f8d1c429178d1e zhanglin 2022-05-09  110  	rcu_read_lock();
+f8d1c429178d1e zhanglin 2022-05-09  111  	prog_found =3D 0;
+f8d1c429178d1e zhanglin 2022-05-09 @112  	hash_for_each_possible_rcu(cmdlin=
+e_hashtab, chi, hlist, proghash)
+f8d1c429178d1e zhanglin 2022-05-09  113  		if (strcmp(chi->progname, progna=
+me) =3D=3D 0) {
+f8d1c429178d1e zhanglin 2022-05-09  114  			prog_found =3D 1;
+f8d1c429178d1e zhanglin 2022-05-09  115  			break;
+f8d1c429178d1e zhanglin 2022-05-09  116  		}
+f8d1c429178d1e zhanglin 2022-05-09  117  =
 
-76741e776a3797 Vlastimil Babka         2017-02-22  1153  		buddy_pfn =3D __=
-find_buddy_pfn(pfn, order);
-76741e776a3797 Vlastimil Babka         2017-02-22  1154  		buddy =3D page +=
- (buddy_pfn - pfn);
-787af64d05cd52 Zi Yan                  2022-03-30  1155  =
+f8d1c429178d1e zhanglin 2022-05-09  118  	if (!prog_found) {
+f8d1c429178d1e zhanglin 2022-05-09  119  		rcu_read_unlock();
+f8d1c429178d1e zhanglin 2022-05-09  120  		goto cleanup_kbuf;
+f8d1c429178d1e zhanglin 2022-05-09  121  	}
+f8d1c429178d1e zhanglin 2022-05-09  122  =
 
-787af64d05cd52 Zi Yan                  2022-03-30  1156  		if (!page_is_bud=
-dy(page, buddy, order))
-787af64d05cd52 Zi Yan                  2022-03-30  1157  			goto done_mergi=
-ng;
-d9dddbf556674b Vlastimil Babka         2016-03-25  1158  		buddy_mt =3D get=
-_pageblock_migratetype(buddy);
-d9dddbf556674b Vlastimil Babka         2016-03-25  1159  =
+f8d1c429178d1e zhanglin 2022-05-09  123  	mask_arg_start =3D kbuf;
+f8d1c429178d1e zhanglin 2022-05-09  124  	mask_arg_end =3D mask_arg_start +=
+ (arg_end - arg_start);
+f8d1c429178d1e zhanglin 2022-05-09  125  	remote_vm_copied =3D access_remot=
+e_vm(mm, arg_start, mask_arg_start, mask_arg_len, FOLL_ANON);
+f8d1c429178d1e zhanglin 2022-05-09  126  	if (remote_vm_copied <=3D 0) {
+f8d1c429178d1e zhanglin 2022-05-09  127  		rcu_read_unlock();
+f8d1c429178d1e zhanglin 2022-05-09  128  		err =3D -EIO;
+f8d1c429178d1e zhanglin 2022-05-09  129  		goto cleanup_kbuf;
+f8d1c429178d1e zhanglin 2022-05-09  130  	}
+f8d1c429178d1e zhanglin 2022-05-09  131  	/*skip progname */
+f8d1c429178d1e zhanglin 2022-05-09  132  	for (pmask =3D mask_arg_start; *p=
+mask && (pmask <=3D mask_arg_end); pmask++)
+f8d1c429178d1e zhanglin 2022-05-09  133  		;
+f8d1c429178d1e zhanglin 2022-05-09  134  =
 
-d9dddbf556674b Vlastimil Babka         2016-03-25  1160  		if (migratetype =
-!=3D buddy_mt
-1dd214b8f21ca4 Zi Yan                  2022-03-22  1161  				&& (!migratety=
-pe_is_mergeable(migratetype) ||
-1dd214b8f21ca4 Zi Yan                  2022-03-22  1162  					!migratetype_=
-is_mergeable(buddy_mt)))
-d9dddbf556674b Vlastimil Babka         2016-03-25  1163  			goto done_mergi=
-ng;
-7ad69832f37e3c Muchun Song             2020-12-14  1164  		max_order =3D or=
-der + 1;
-d9dddbf556674b Vlastimil Babka         2016-03-25  1165  		goto continue_me=
-rging;
-d9dddbf556674b Vlastimil Babka         2016-03-25  1166  	}
-d9dddbf556674b Vlastimil Babka         2016-03-25  1167  =
+f8d1c429178d1e zhanglin 2022-05-09  135  	if (!chi->secrets) {
+f8d1c429178d1e zhanglin 2022-05-09  136  		rcu_read_unlock();
+f8d1c429178d1e zhanglin 2022-05-09  137  		/*mask everything, such as: xxxc=
+onnect host port username password.*/
+f8d1c429178d1e zhanglin 2022-05-09  138  		for (pmask =3D pmask + 1; (pmask=
+ <=3D mask_arg_end); pmask++)
+f8d1c429178d1e zhanglin 2022-05-09  139  			for (; (pmask <=3D mask_arg_end=
+) && (*pmask); pmask++)
+f8d1c429178d1e zhanglin 2022-05-09  140  				*pmask =3D 'Z';
+f8d1c429178d1e zhanglin 2022-05-09  141  		goto copydata;
+f8d1c429178d1e zhanglin 2022-05-09  142  	}
+f8d1c429178d1e zhanglin 2022-05-09  143  =
 
-d9dddbf556674b Vlastimil Babka         2016-03-25  1168  done_merging:
-ab130f9108dcf2 Matthew Wilcox (Oracle  2020-10-15  1169) 	set_buddy_order(p=
-age, order);
-6dda9d55bf5450 Corrado Zoccolo         2010-05-24  1170  =
+f8d1c429178d1e zhanglin 2022-05-09  144  	for (pmask =3D pmask + 1; pmask <=
+=3D mask_arg_end; pmask++) {
+f8d1c429178d1e zhanglin 2022-05-09  145  		psecret =3D chi->secrets;
+f8d1c429178d1e zhanglin 2022-05-09  146  		while (*psecret) {
+f8d1c429178d1e zhanglin 2022-05-09  147  			psecret_len =3D strlen(psecret);
+f8d1c429178d1e zhanglin 2022-05-09  148  			if (psecret_len < 2) {
+f8d1c429178d1e zhanglin 2022-05-09  149  				rcu_read_unlock();
+f8d1c429178d1e zhanglin 2022-05-09  150  				err =3D -EINVAL;
+f8d1c429178d1e zhanglin 2022-05-09  151  				goto cleanup_kbuf;
+f8d1c429178d1e zhanglin 2022-05-09  152  			}
+f8d1c429178d1e zhanglin 2022-05-09  153  =
 
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1171  	/*
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1172  	 * The page gets =
-marked as PageUnaccepted() if any of merged-in pages
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1173  	 * is PageUnaccep=
-ted().
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1174  	 *
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1175  	 * New pages, jus=
-t being added to buddy allocator, do not have
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1176  	 * PageUnaccepted=
-() set. FPI_UNACCEPTED_SLOWPATH indicates that the
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1177  	 * page is new an=
-d page_is_unaccepted() check is required to
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1178  	 * determinate if=
- acceptance is required.
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1179  	 *
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1180  	 * Avoid calling =
-page_is_unaccepted() if it is known that the page
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1181  	 * needs acceptan=
-ce. It can be costly.
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1182  	 */
-0845556ccd9555 Kirill A. Shutemov      2021-08-25 @1183  	if (!page_needs_a=
-cceptance && (fpi_flags & FPI_UNACCEPTED_SLOWPATH))
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1184  		page_needs_accep=
-tance =3D page_is_unaccepted(page, order);
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1185  	if (page_needs_ac=
-ceptance)
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1186  		__SetPageUnaccep=
-ted(page);
-0845556ccd9555 Kirill A. Shutemov      2021-08-25  1187  =
+f8d1c429178d1e zhanglin 2022-05-09  154  			if (strcmp(pmask, psecret) =3D=
+=3D 0) {
+f8d1c429178d1e zhanglin 2022-05-09  155  				pmask +=3D psecret_len + 1;
+f8d1c429178d1e zhanglin 2022-05-09  156  				goto mask_secret;
+f8d1c429178d1e zhanglin 2022-05-09  157  			}
+f8d1c429178d1e zhanglin 2022-05-09  158  =
 
-47b6a24a23825a David Hildenbrand       2020-10-15  1188  	if (fpi_flags & F=
-PI_TO_TAIL)
-47b6a24a23825a David Hildenbrand       2020-10-15  1189  		to_tail =3D true;
-47b6a24a23825a David Hildenbrand       2020-10-15  1190  	else if (is_shuff=
-le_order(order))
-a2129f24798a99 Alexander Duyck         2020-04-06  1191  		to_tail =3D shuf=
-fle_pick_tail();
-97500a4a54876d Dan Williams            2019-05-14  1192  	else
-a2129f24798a99 Alexander Duyck         2020-04-06  1193  		to_tail =3D budd=
-y_merge_likely(pfn, buddy_pfn, page, order);
-97500a4a54876d Dan Williams            2019-05-14  1194  =
+f8d1c429178d1e zhanglin 2022-05-09  159  			if (strncmp(pmask, psecret, pse=
+cret_len) =3D=3D 0) {
+f8d1c429178d1e zhanglin 2022-05-09  160  				/*handle case: --password=3Dxx=
+xx */
+f8d1c429178d1e zhanglin 2022-05-09  161  				if ((psecret[0] =3D=3D '-') &&=
+ (psecret[1] =3D=3D '-'))
+f8d1c429178d1e zhanglin 2022-05-09  162  					if (pmask[psecret_len] =3D=3D=
+ '=3D') {
+f8d1c429178d1e zhanglin 2022-05-09  163  						pmask +=3D psecret_len + 1;
+f8d1c429178d1e zhanglin 2022-05-09  164  						goto mask_secret;
+f8d1c429178d1e zhanglin 2022-05-09  165  					}
+f8d1c429178d1e zhanglin 2022-05-09  166  =
 
-a2129f24798a99 Alexander Duyck         2020-04-06  1195  	if (to_tail)
-6ab0136310961e Alexander Duyck         2020-04-06  1196  		add_to_free_list=
-_tail(page, zone, order, migratetype);
-a2129f24798a99 Alexander Duyck         2020-04-06  1197  	else
-6ab0136310961e Alexander Duyck         2020-04-06  1198  		add_to_free_list=
-(page, zone, order, migratetype);
-36e66c554b5c6a Alexander Duyck         2020-04-06  1199  =
+f8d1c429178d1e zhanglin 2022-05-09  167  				if (psecret[0] =3D=3D '-') {
+f8d1c429178d1e zhanglin 2022-05-09  168  					/*handle case: -password=3Dxx=
+xx or -p=3Dxxxx*/
+f8d1c429178d1e zhanglin 2022-05-09  169  					if (pmask[psecret_len] =3D=3D=
+ '=3D') {
+f8d1c429178d1e zhanglin 2022-05-09  170  						pmask +=3D psecret_len + 1;
+f8d1c429178d1e zhanglin 2022-05-09  171  						goto mask_secret;
+f8d1c429178d1e zhanglin 2022-05-09  172  					}
+f8d1c429178d1e zhanglin 2022-05-09  173  =
 
-36e66c554b5c6a Alexander Duyck         2020-04-06  1200  	/* Notify page re=
-porting subsystem of freed page */
-f04a5d5d913fa8 David Hildenbrand       2020-10-15  1201  	if (!(fpi_flags &=
- FPI_SKIP_REPORT_NOTIFY))
-36e66c554b5c6a Alexander Duyck         2020-04-06  1202  		page_reporting_n=
-otify_free(order);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1203  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1204  =
+f8d1c429178d1e zhanglin 2022-05-09  174  					/*handle case: -pxxxx*/
+f8d1c429178d1e zhanglin 2022-05-09  175  					if (psecret_len =3D=3D 2) {
+f8d1c429178d1e zhanglin 2022-05-09  176  						pmask +=3D psecret_len;
+f8d1c429178d1e zhanglin 2022-05-09  177  						goto mask_secret;
+f8d1c429178d1e zhanglin 2022-05-09  178  					}
+f8d1c429178d1e zhanglin 2022-05-09  179  				}
+f8d1c429178d1e zhanglin 2022-05-09  180  			}
+f8d1c429178d1e zhanglin 2022-05-09  181  =
+
+f8d1c429178d1e zhanglin 2022-05-09  182  			if (psecret_len =3D=3D 2) {
+f8d1c429178d1e zhanglin 2022-05-09  183  				pmask_len =3D strlen(pmask);
+f8d1c429178d1e zhanglin 2022-05-09  184  				/*handle case: -yp xxxx, such =
+as: useradd -rp xxxx*/
+f8d1c429178d1e zhanglin 2022-05-09  185  				if ((pmask_len > 2) && (*pmask=
+ =3D=3D '-')
+f8d1c429178d1e zhanglin 2022-05-09  186  				      && (pmask[pmask_len - 1]=
+ =3D=3D psecret[1])) {
+f8d1c429178d1e zhanglin 2022-05-09  187  					pmask +=3D pmask_len + 1;
+f8d1c429178d1e zhanglin 2022-05-09  188  					goto mask_secret;
+f8d1c429178d1e zhanglin 2022-05-09  189  				}
+f8d1c429178d1e zhanglin 2022-05-09  190  			}
+f8d1c429178d1e zhanglin 2022-05-09  191  =
+
+f8d1c429178d1e zhanglin 2022-05-09  192  			psecret +=3D psecret_len + 1;
+f8d1c429178d1e zhanglin 2022-05-09  193  		}
+f8d1c429178d1e zhanglin 2022-05-09  194  =
+
+f8d1c429178d1e zhanglin 2022-05-09  195  		pmask +=3D strlen(pmask);
+f8d1c429178d1e zhanglin 2022-05-09  196  		continue;
+f8d1c429178d1e zhanglin 2022-05-09  197  =
+
+f8d1c429178d1e zhanglin 2022-05-09  198  mask_secret:
+f8d1c429178d1e zhanglin 2022-05-09  199  		for (; (pmask <=3D mask_arg_end)=
+ && (*pmask); pmask++)
+f8d1c429178d1e zhanglin 2022-05-09  200  			*pmask =3D 'Z';
+f8d1c429178d1e zhanglin 2022-05-09  201  	}
+f8d1c429178d1e zhanglin 2022-05-09  202  	rcu_read_unlock();
+f8d1c429178d1e zhanglin 2022-05-09  203  =
+
+f8d1c429178d1e zhanglin 2022-05-09  204  copydata:
+f8d1c429178d1e zhanglin 2022-05-09  205  	size =3D arg_end - pos;
+f8d1c429178d1e zhanglin 2022-05-09  206  	size =3D min_t(size_t, size, coun=
+t);
+f8d1c429178d1e zhanglin 2022-05-09  207  	if (copy_to_user(buf, mask_arg_st=
+art + pos - arg_start, size))
+f8d1c429178d1e zhanglin 2022-05-09  208  		goto cleanup_kbuf;
+f8d1c429178d1e zhanglin 2022-05-09  209  =
+
+f8d1c429178d1e zhanglin 2022-05-09  210  	total_copied =3D size;
+f8d1c429178d1e zhanglin 2022-05-09  211  =
+
+f8d1c429178d1e zhanglin 2022-05-09  212  cleanup_kbuf:
+f8d1c429178d1e zhanglin 2022-05-09  213  	kfree(kbuf);
+f8d1c429178d1e zhanglin 2022-05-09  214  =
+
+f8d1c429178d1e zhanglin 2022-05-09  215  exit_err:
+f8d1c429178d1e zhanglin 2022-05-09  216  	return total_copied;
+f8d1c429178d1e zhanglin 2022-05-09  217  }
+f8d1c429178d1e zhanglin 2022-05-09  218  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3951757065001993716==--
+--===============5319525926876537572==--
 
