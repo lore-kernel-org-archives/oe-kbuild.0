@@ -1,555 +1,299 @@
-Content-Type: multipart/mixed; boundary="===============5319525926876537572=="
+Content-Type: multipart/mixed; boundary="===============3070457564251934628=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] fs/proc: add mask_secrets to prevent sensitive information leakage.
-Date: Thu, 12 May 2022 21:25:39 +0800
-Message-ID: <202205122111.t1UqbBY0-lkp@intel.com>
+Subject: [cxl:preview 63/67] drivers/cxl/region.c:550:5-16: ERROR: invalid reference to the index variable of the iterator on line 543
+Date: Thu, 12 May 2022 20:44:07 +0800
+Message-ID: <202205122051.9Etv0JJR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5319525926876537572==
+--===============3070457564251934628==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220509054613.6620-1-zhang.lin16@zte.com.cn>
-References: <20220509054613.6620-1-zhang.lin16@zte.com.cn>
-TO: zhanglin <zhang.lin16@zte.com.cn>
-TO: linux-kernel(a)vger.kernel.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: brauner(a)kernel.org
-CC: akpm(a)linux-foundation.org
-CC: keescook(a)chromium.org
-CC: adobriyan(a)gmail.com
-CC: sfr(a)canb.auug.org.au
-CC: zhengqi.arch(a)bytedance.com
-CC: ebiederm(a)xmission.com
-CC: kaleshsingh(a)google.com
-CC: stephen.s.brennan(a)oracle.com
-CC: ohoono.kwon(a)samsung.com
-CC: haolee.swjtu(a)gmail.com
-CC: fweimer(a)redhat.com
-CC: xue.zhihong(a)zte.com.cn
-CC: wang.yi59(a)zte.com.cn
-CC: jiang.xuexin(a)zte.com.cn
-CC: zealci(a)zte.com.cn
-CC: zhanglin <zhang.lin16@zte.com.cn>
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
 
-Hi zhanglin,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linux/master]
-[also build test WARNING on akpm-mm/mm-everything linus/master v5.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zhanglin/fs-proc-add=
--mask_secrets-to-prevent-sensitive-information-leakage/20220509-140823
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: h8300-randconfig-s031-20220512 (https://download.01.org/0day-ci/arc=
-hive/20220512/202205122111.t1UqbBY0-lkp(a)intel.com/config)
-compiler: h8300-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/f8d1c429178d1ee0c44=
-7ee68f4e7b602c5df911f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review zhanglin/fs-proc-add-mask_secrets-=
-to-prevent-sensitive-information-leakage/20220509-140823
-        git checkout f8d1c429178d1ee0c447ee68f4e7b602c5df911f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dh=
-8300 SHELL=3D/bin/bash fs/proc/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
+head:   9c642abd8b31d895f34186bd72b7360083b58492
+commit: 50b9ca060c8e4827a3871b94d983040eac80fac8 [63/67] cxl/region: Add su=
+pport for single switch level
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: x86_64-randconfig-c002-20220509 (https://download.01.org/0day-ci/ar=
+chive/20220512/202205122051.9Etv0JJR-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-sparse warnings: (new ones prefixed by >>)
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:417:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:469:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:26:57: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected int [noderef] __rcu *static =
-[toplevel] mask_secrets_enabled @@     got int * @@
-   fs/proc/mask_secrets.c:26:57: sparse:     expected int [noderef] __rcu *=
-static [toplevel] mask_secrets_enabled
-   fs/proc/mask_secrets.c:26:57: sparse:     got int *
->> fs/proc/mask_secrets.c:56:29: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:57:31: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:58:22: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:59:26: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:62:32: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:63:30: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:64:44: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:65:25: sparse: sparse: Using plain integer as NUL=
-L pointer
-   fs/proc/mask_secrets.c:67:23: sparse: sparse: Using plain integer as NUL=
-L pointer
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
->> fs/proc/mask_secrets.c:112:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:271:44: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:282:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:305:44: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:308:24: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:314:9: sparse: sparse: cast removes address space=
- '__rcu' of expression
-   fs/proc/mask_secrets.c:339:32: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:343:47: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:359:44: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:360:26: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:361:31: sparse: sparse: Using plain integer as NU=
-LL pointer
-   fs/proc/mask_secrets.c:362:24: sparse: sparse: too many warnings
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cxl/region.c:550:5-16: ERROR: invalid reference to the index var=
+iable of the iterator on line 543
 
-vim +/__rcu +112 fs/proc/mask_secrets.c
+vim +550 drivers/cxl/region.c
 
-f8d1c429178d1e zhanglin 2022-05-09   21  =
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  413  =
 
-f8d1c429178d1e zhanglin 2022-05-09   22  static const char *SECRET_SEPARATO=
-R =3D ":";
-f8d1c429178d1e zhanglin 2022-05-09   23  static const int MASK_SECRETS_ENAB=
-LED =3D 1;
-f8d1c429178d1e zhanglin 2022-05-09   24  static const int MASK_SECRETS_DISA=
-BLED;
-f8d1c429178d1e zhanglin 2022-05-09   25  static DEFINE_SPINLOCK(mask_secret=
-s_enabled_spinlock);
-f8d1c429178d1e zhanglin 2022-05-09  @26  static int __rcu *mask_secrets_ena=
-bled __read_mostly =3D (int *)&MASK_SECRETS_DISABLED;
-f8d1c429178d1e zhanglin 2022-05-09   27  static DEFINE_SPINLOCK(cmdline_has=
-htab_spinlock);
-f8d1c429178d1e zhanglin 2022-05-09   28  static struct hlist_head __rcu cmd=
-line_hashtab[CMDLINE_HASHTABSIZE] __read_mostly =3D {
-f8d1c429178d1e zhanglin 2022-05-09   29  	[0 ... (CMDLINE_HASHTABSIZE-1)] =
-=3D HLIST_HEAD_INIT };
-f8d1c429178d1e zhanglin 2022-05-09   30  static struct kmem_cache *cmdline_=
-hashtab_item_cachep;
-f8d1c429178d1e zhanglin 2022-05-09   31  =
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  414  /**
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  415   * region_hb_rp_config_valid()=
+ - determine root port ordering is correct
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  416   * @cxlr: Region to validate
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  417   * @rootd: root decoder for th=
+is @cxlr
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  418   * @state_update: Whether or n=
+ot to update port state
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  419   *
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  420   * The algorithm is outlined i=
+n 2.13.15 "Verify HB root port configuration
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  421   * sequence" of the CXL Memory=
+ Device SW Guide (Rev1p0).
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  422   *
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  423   * Returns true if the configu=
+ration is valid.
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  424   */
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  425  static bool region_hb_rp_confi=
+g_valid(struct cxl_region *cxlr,
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  426  				      const struct cxl_dec=
+oder *rootd,
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  427  				      bool state_update)
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  428  {
+50b9ca060c8e48 Ben Widawsky 2022-02-11  429  	const int region_ig =3D cxl_t=
+o_ig(cxlr->config.interleave_granularity);
+50b9ca060c8e48 Ben Widawsky 2022-02-11  430  	const int region_eniw =3D cxl=
+_to_eniw(cxlr->config.interleave_ways);
+00b0519c6f9af5 Ben Widawsky 2022-02-11  431  	const int num_root_ports =3D =
+get_num_root_ports(cxlr);
+00b0519c6f9af5 Ben Widawsky 2022-02-11  432  	struct cxl_port *hbs[CXL_DECO=
+DER_MAX_INTERLEAVE];
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  433  	struct cxl_decoder *cxld, *c;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  434  	int hb_count, i;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  435  =
 
-f8d1c429178d1e zhanglin 2022-05-09   32  struct cmdline_hashtab_item {
-f8d1c429178d1e zhanglin 2022-05-09   33  	struct hlist_node hlist;
-f8d1c429178d1e zhanglin 2022-05-09   34  	char *cmdline;
-f8d1c429178d1e zhanglin 2022-05-09   35  	char *progname;
-f8d1c429178d1e zhanglin 2022-05-09   36  	char *secrets;
-f8d1c429178d1e zhanglin 2022-05-09   37  };
-f8d1c429178d1e zhanglin 2022-05-09   38  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  436  	hb_count =3D get_unique_hostb=
+ridges(cxlr, hbs);
+00b0519c6f9af5 Ben Widawsky 2022-02-11  437  =
 
-f8d1c429178d1e zhanglin 2022-05-09   39  static int is_mask_secrets_enabled=
-(void)
-f8d1c429178d1e zhanglin 2022-05-09   40  {
-f8d1c429178d1e zhanglin 2022-05-09   41  	int ret =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   42  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  438  	/* TODO: support multiple lev=
+els of switches */
+50b9ca060c8e48 Ben Widawsky 2022-02-11  439  	if (has_multi_switch(cxlr))
+50b9ca060c8e48 Ben Widawsky 2022-02-11  440  		return false;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  441  =
 
-f8d1c429178d1e zhanglin 2022-05-09   43  	rcu_read_lock();
-f8d1c429178d1e zhanglin 2022-05-09   44  	ret =3D *(rcu_dereference(mask_se=
-crets_enabled));
-f8d1c429178d1e zhanglin 2022-05-09   45  	rcu_read_unlock();
-f8d1c429178d1e zhanglin 2022-05-09   46  	return ret;
-f8d1c429178d1e zhanglin 2022-05-09   47  }
-f8d1c429178d1e zhanglin 2022-05-09   48  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  442  	/* TODO: x3 interleave for sw=
+itches is hard. */
+50b9ca060c8e48 Ben Widawsky 2022-02-11  443  	if (has_switch(cxlr) && !is_p=
+ower_of_2(region_ways(cxlr)))
+00b0519c6f9af5 Ben Widawsky 2022-02-11  444  		return false;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  445  =
 
-f8d1c429178d1e zhanglin 2022-05-09   49  size_t mask_secrets(struct mm_stru=
-ct *mm, char __user *buf,
-f8d1c429178d1e zhanglin 2022-05-09   50  			      size_t count, loff_t pos)
-f8d1c429178d1e zhanglin 2022-05-09   51  {
-f8d1c429178d1e zhanglin 2022-05-09   52  	unsigned long arg_start =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   53  	unsigned long arg_end =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   54  	int mask_arg_len =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   55  	size_t remote_vm_copied =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09  @56  	struct file *file =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   57  	struct inode *inode =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   58  	char *kbuf =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   59  	char *progname =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   60  	int proghash =3D -1;
-f8d1c429178d1e zhanglin 2022-05-09   61  	int prog_found =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   62  	char *mask_arg_start =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   63  	char *mask_arg_end =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   64  	struct cmdline_hashtab_item *chi =
-=3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   65  	char *psecret =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   66  	size_t psecret_len =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   67  	char *pmask =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   68  	size_t pmask_len =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   69  	size_t size;
-f8d1c429178d1e zhanglin 2022-05-09   70  	size_t total_copied =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   71  	int err =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09   72  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  446  	/*
+00b0519c6f9af5 Ben Widawsky 2022-02-11  447  	 * Are all devices in this re=
+gion on the same CXL Host Bridge
+00b0519c6f9af5 Ben Widawsky 2022-02-11  448  	 * Root Port?
+00b0519c6f9af5 Ben Widawsky 2022-02-11  449  	 */
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  450  	if (num_root_ports =3D=3D 1 &=
+& !has_switch(cxlr) && state_update)
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  451  		return simple_config(cxlr, h=
+bs[0]);
+00b0519c6f9af5 Ben Widawsky 2022-02-11  452  =
 
-f8d1c429178d1e zhanglin 2022-05-09   73  	if (!is_mask_secrets_enabled()) {
-f8d1c429178d1e zhanglin 2022-05-09   74  		err =3D -EPERM;
-f8d1c429178d1e zhanglin 2022-05-09   75  		goto exit_err;
-f8d1c429178d1e zhanglin 2022-05-09   76  	}
-f8d1c429178d1e zhanglin 2022-05-09   77  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  453  	for (i =3D 0; i < hb_count; i=
+++) {
+0184ca5ccb0827 Ben Widawsky 2022-02-11  454  		struct cxl_decoder *cxld;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  455  		int idx, position_mask;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  456  		struct cxl_dport *rp;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  457  		struct cxl_port *hb;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  458  =
 
-f8d1c429178d1e zhanglin 2022-05-09   78  	spin_lock(&mm->arg_lock);
-f8d1c429178d1e zhanglin 2022-05-09   79  	arg_start =3D mm->arg_start;
-f8d1c429178d1e zhanglin 2022-05-09   80  	arg_end =3D mm->arg_end;
-f8d1c429178d1e zhanglin 2022-05-09   81  	spin_unlock(&mm->arg_lock);
-f8d1c429178d1e zhanglin 2022-05-09   82  	if (arg_start >=3D arg_end) {
-f8d1c429178d1e zhanglin 2022-05-09   83  		err =3D -ERANGE;
-f8d1c429178d1e zhanglin 2022-05-09   84  		goto exit_err;
-f8d1c429178d1e zhanglin 2022-05-09   85  	}
-f8d1c429178d1e zhanglin 2022-05-09   86  	mask_arg_len =3D arg_end - arg_st=
-art + 1;
-f8d1c429178d1e zhanglin 2022-05-09   87  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  459  		/* Get next CXL Host Bridge =
+this region spans */
+00b0519c6f9af5 Ben Widawsky 2022-02-11  460  		hb =3D hbs[i];
+00b0519c6f9af5 Ben Widawsky 2022-02-11  461  =
 
-f8d1c429178d1e zhanglin 2022-05-09   88  	file =3D get_mm_exe_file(mm);
-f8d1c429178d1e zhanglin 2022-05-09   89  	if (!file) {
-f8d1c429178d1e zhanglin 2022-05-09   90  		err =3D -ENOENT;
-f8d1c429178d1e zhanglin 2022-05-09   91  		goto exit_err;
-f8d1c429178d1e zhanglin 2022-05-09   92  	}
-f8d1c429178d1e zhanglin 2022-05-09   93  	inode =3D file_inode(file);
-f8d1c429178d1e zhanglin 2022-05-09   94  	if (!inode) {
-f8d1c429178d1e zhanglin 2022-05-09   95  		err =3D -ENOENT;
-f8d1c429178d1e zhanglin 2022-05-09   96  		goto exit_err;
-f8d1c429178d1e zhanglin 2022-05-09   97  	}
-f8d1c429178d1e zhanglin 2022-05-09   98  	proghash =3D cmdline_hash(inode->=
-i_ino);
-f8d1c429178d1e zhanglin 2022-05-09   99  	kbuf =3D kzalloc(max(PATH_MAX, ma=
-sk_arg_len), GFP_KERNEL);
-f8d1c429178d1e zhanglin 2022-05-09  100  	if (!kbuf) {
-f8d1c429178d1e zhanglin 2022-05-09  101  		err =3D -ENOMEM;
-f8d1c429178d1e zhanglin 2022-05-09  102  		goto exit_err;
-f8d1c429178d1e zhanglin 2022-05-09  103  	}
-f8d1c429178d1e zhanglin 2022-05-09  104  	progname =3D d_path(&file->f_path=
-, kbuf, PATH_MAX);
-f8d1c429178d1e zhanglin 2022-05-09  105  	if (IS_ERR_OR_NULL(progname)) {
-f8d1c429178d1e zhanglin 2022-05-09  106  		err =3D -ENOENT;
-f8d1c429178d1e zhanglin 2022-05-09  107  		goto cleanup_kbuf;
-f8d1c429178d1e zhanglin 2022-05-09  108  	}
-f8d1c429178d1e zhanglin 2022-05-09  109  =
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  462  		if (state_update) {
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  463  			cxld =3D get_decoder(cxlr, =
+hb);
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  464  			if (IS_ERR(cxld)) {
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  465  				dev_dbg(&cxlr->dev,
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  466  					"Couldn't get decoder for=
+ %s\n",
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  467  					dev_name(&hb->dev));
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  468  				goto err;
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  469  			}
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  470  			cxld->interleave_ways =3D 0;
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  471  			cxld->interleave_granularit=
+y =3D region_granularity(cxlr);
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  472  		} else {
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  473  			cxld =3D NULL;
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  474  		}
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  475  =
 
-f8d1c429178d1e zhanglin 2022-05-09  110  	rcu_read_lock();
-f8d1c429178d1e zhanglin 2022-05-09  111  	prog_found =3D 0;
-f8d1c429178d1e zhanglin 2022-05-09 @112  	hash_for_each_possible_rcu(cmdlin=
-e_hashtab, chi, hlist, proghash)
-f8d1c429178d1e zhanglin 2022-05-09  113  		if (strcmp(chi->progname, progna=
-me) =3D=3D 0) {
-f8d1c429178d1e zhanglin 2022-05-09  114  			prog_found =3D 1;
-f8d1c429178d1e zhanglin 2022-05-09  115  			break;
-f8d1c429178d1e zhanglin 2022-05-09  116  		}
-f8d1c429178d1e zhanglin 2022-05-09  117  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  476  		/*
+00b0519c6f9af5 Ben Widawsky 2022-02-11  477  		 * Calculate the position ma=
+sk: NumRootPorts =3D 2^PositionMask
+00b0519c6f9af5 Ben Widawsky 2022-02-11  478  		 * for this region.
+00b0519c6f9af5 Ben Widawsky 2022-02-11  479  		 *
+00b0519c6f9af5 Ben Widawsky 2022-02-11  480  		 * XXX: pos_mask is actually=
+ (1 << PositionMask)  - 1
+00b0519c6f9af5 Ben Widawsky 2022-02-11  481  		 */
+00b0519c6f9af5 Ben Widawsky 2022-02-11  482  		position_mask =3D (1 << (ilo=
+g2(num_root_ports))) - 1;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  483  =
 
-f8d1c429178d1e zhanglin 2022-05-09  118  	if (!prog_found) {
-f8d1c429178d1e zhanglin 2022-05-09  119  		rcu_read_unlock();
-f8d1c429178d1e zhanglin 2022-05-09  120  		goto cleanup_kbuf;
-f8d1c429178d1e zhanglin 2022-05-09  121  	}
-f8d1c429178d1e zhanglin 2022-05-09  122  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  484  		/*
+00b0519c6f9af5 Ben Widawsky 2022-02-11  485  		 * Calculate the PortGroupin=
+g for each device on this CXL Host
+00b0519c6f9af5 Ben Widawsky 2022-02-11  486  		 * Bridge Root Port:
+00b0519c6f9af5 Ben Widawsky 2022-02-11  487  		 * PortGrouping =3D RegionLa=
+bel.Position & PositionMask
+00b0519c6f9af5 Ben Widawsky 2022-02-11  488  		 *
+00b0519c6f9af5 Ben Widawsky 2022-02-11  489  		 * The following nest iterat=
+ors effectively iterate over each
+00b0519c6f9af5 Ben Widawsky 2022-02-11  490  		 * root port in the region.
+00b0519c6f9af5 Ben Widawsky 2022-02-11  491  		 *   for_each_unique_rootpor=
+t(rp, cxlr)
+00b0519c6f9af5 Ben Widawsky 2022-02-11  492  		 */
+00b0519c6f9af5 Ben Widawsky 2022-02-11  493  		list_for_each_entry(rp, &hb-=
+>dports, list) {
+00b0519c6f9af5 Ben Widawsky 2022-02-11  494  			struct cxl_memdev *ep;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  495  			int port_grouping =3D -1;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  496  			int target_ndx;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  497  =
 
-f8d1c429178d1e zhanglin 2022-05-09  123  	mask_arg_start =3D kbuf;
-f8d1c429178d1e zhanglin 2022-05-09  124  	mask_arg_end =3D mask_arg_start +=
- (arg_end - arg_start);
-f8d1c429178d1e zhanglin 2022-05-09  125  	remote_vm_copied =3D access_remot=
-e_vm(mm, arg_start, mask_arg_start, mask_arg_len, FOLL_ANON);
-f8d1c429178d1e zhanglin 2022-05-09  126  	if (remote_vm_copied <=3D 0) {
-f8d1c429178d1e zhanglin 2022-05-09  127  		rcu_read_unlock();
-f8d1c429178d1e zhanglin 2022-05-09  128  		err =3D -EIO;
-f8d1c429178d1e zhanglin 2022-05-09  129  		goto cleanup_kbuf;
-f8d1c429178d1e zhanglin 2022-05-09  130  	}
-f8d1c429178d1e zhanglin 2022-05-09  131  	/*skip progname */
-f8d1c429178d1e zhanglin 2022-05-09  132  	for (pmask =3D mask_arg_start; *p=
-mask && (pmask <=3D mask_arg_end); pmask++)
-f8d1c429178d1e zhanglin 2022-05-09  133  		;
-f8d1c429178d1e zhanglin 2022-05-09  134  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  498  			for_each_cxl_endpoint_hb(ep=
+, cxlr, hb, idx) {
+50b9ca060c8e48 Ben Widawsky 2022-02-11  499  				struct cxl_decoder *switch=
+_cxld;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  500  				struct cxl_dport *target;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  501  				struct cxl_port *switch_po=
+rt;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  502  				bool found =3D false;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  503  =
 
-f8d1c429178d1e zhanglin 2022-05-09  135  	if (!chi->secrets) {
-f8d1c429178d1e zhanglin 2022-05-09  136  		rcu_read_unlock();
-f8d1c429178d1e zhanglin 2022-05-09  137  		/*mask everything, such as: xxxc=
-onnect host port username password.*/
-f8d1c429178d1e zhanglin 2022-05-09  138  		for (pmask =3D pmask + 1; (pmask=
- <=3D mask_arg_end); pmask++)
-f8d1c429178d1e zhanglin 2022-05-09  139  			for (; (pmask <=3D mask_arg_end=
-) && (*pmask); pmask++)
-f8d1c429178d1e zhanglin 2022-05-09  140  				*pmask =3D 'Z';
-f8d1c429178d1e zhanglin 2022-05-09  141  		goto copydata;
-f8d1c429178d1e zhanglin 2022-05-09  142  	}
-f8d1c429178d1e zhanglin 2022-05-09  143  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  504  				if (get_rp(ep) !=3D rp)
+00b0519c6f9af5 Ben Widawsky 2022-02-11  505  					continue;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  506  =
 
-f8d1c429178d1e zhanglin 2022-05-09  144  	for (pmask =3D pmask + 1; pmask <=
-=3D mask_arg_end; pmask++) {
-f8d1c429178d1e zhanglin 2022-05-09  145  		psecret =3D chi->secrets;
-f8d1c429178d1e zhanglin 2022-05-09  146  		while (*psecret) {
-f8d1c429178d1e zhanglin 2022-05-09  147  			psecret_len =3D strlen(psecret);
-f8d1c429178d1e zhanglin 2022-05-09  148  			if (psecret_len < 2) {
-f8d1c429178d1e zhanglin 2022-05-09  149  				rcu_read_unlock();
-f8d1c429178d1e zhanglin 2022-05-09  150  				err =3D -EINVAL;
-f8d1c429178d1e zhanglin 2022-05-09  151  				goto cleanup_kbuf;
-f8d1c429178d1e zhanglin 2022-05-09  152  			}
-f8d1c429178d1e zhanglin 2022-05-09  153  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  507  				if (port_grouping =3D=3D -=
+1)
+00b0519c6f9af5 Ben Widawsky 2022-02-11  508  					port_grouping =3D idx & p=
+osition_mask;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  509  =
 
-f8d1c429178d1e zhanglin 2022-05-09  154  			if (strcmp(pmask, psecret) =3D=
-=3D 0) {
-f8d1c429178d1e zhanglin 2022-05-09  155  				pmask +=3D psecret_len + 1;
-f8d1c429178d1e zhanglin 2022-05-09  156  				goto mask_secret;
-f8d1c429178d1e zhanglin 2022-05-09  157  			}
-f8d1c429178d1e zhanglin 2022-05-09  158  =
+00b0519c6f9af5 Ben Widawsky 2022-02-11  510  				/*
+00b0519c6f9af5 Ben Widawsky 2022-02-11  511  				 * Do all devices in the r=
+egion connected to this CXL
+00b0519c6f9af5 Ben Widawsky 2022-02-11  512  				 * Host Bridge Root Port h=
+ave the same PortGrouping?
+00b0519c6f9af5 Ben Widawsky 2022-02-11  513  				 */
+00b0519c6f9af5 Ben Widawsky 2022-02-11  514  				if ((idx & position_mask) =
+!=3D port_grouping) {
+00b0519c6f9af5 Ben Widawsky 2022-02-11  515  					dev_dbg(&cxlr->dev,
+00b0519c6f9af5 Ben Widawsky 2022-02-11  516  						"One or more devices are=
+ not connected to the correct Host Bridge Root Port\n");
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  517  					goto err;
+00b0519c6f9af5 Ben Widawsky 2022-02-11  518  				}
+0184ca5ccb0827 Ben Widawsky 2022-02-11  519  =
 
-f8d1c429178d1e zhanglin 2022-05-09  159  			if (strncmp(pmask, psecret, pse=
-cret_len) =3D=3D 0) {
-f8d1c429178d1e zhanglin 2022-05-09  160  				/*handle case: --password=3Dxx=
-xx */
-f8d1c429178d1e zhanglin 2022-05-09  161  				if ((psecret[0] =3D=3D '-') &&=
- (psecret[1] =3D=3D '-'))
-f8d1c429178d1e zhanglin 2022-05-09  162  					if (pmask[psecret_len] =3D=3D=
- '=3D') {
-f8d1c429178d1e zhanglin 2022-05-09  163  						pmask +=3D psecret_len + 1;
-f8d1c429178d1e zhanglin 2022-05-09  164  						goto mask_secret;
-f8d1c429178d1e zhanglin 2022-05-09  165  					}
-f8d1c429178d1e zhanglin 2022-05-09  166  =
+0184ca5ccb0827 Ben Widawsky 2022-02-11  520  				if (!state_update)
+0184ca5ccb0827 Ben Widawsky 2022-02-11  521  					continue;
+0184ca5ccb0827 Ben Widawsky 2022-02-11  522  =
 
-f8d1c429178d1e zhanglin 2022-05-09  167  				if (psecret[0] =3D=3D '-') {
-f8d1c429178d1e zhanglin 2022-05-09  168  					/*handle case: -password=3Dxx=
-xx or -p=3Dxxxx*/
-f8d1c429178d1e zhanglin 2022-05-09  169  					if (pmask[psecret_len] =3D=3D=
- '=3D') {
-f8d1c429178d1e zhanglin 2022-05-09  170  						pmask +=3D psecret_len + 1;
-f8d1c429178d1e zhanglin 2022-05-09  171  						goto mask_secret;
-f8d1c429178d1e zhanglin 2022-05-09  172  					}
-f8d1c429178d1e zhanglin 2022-05-09  173  =
+0184ca5ccb0827 Ben Widawsky 2022-02-11  523  				if (dev_WARN_ONCE(&cxld->d=
+ev,
+0184ca5ccb0827 Ben Widawsky 2022-02-11  524  						  port_grouping >=3D cxl=
+d->nr_targets,
+0184ca5ccb0827 Ben Widawsky 2022-02-11  525  						  "Invalid port grouping=
+ %d/%d\n",
+0184ca5ccb0827 Ben Widawsky 2022-02-11  526  						  port_grouping, cxld->n=
+r_targets))
+0184ca5ccb0827 Ben Widawsky 2022-02-11  527  					goto err;
+0184ca5ccb0827 Ben Widawsky 2022-02-11  528  =
 
-f8d1c429178d1e zhanglin 2022-05-09  174  					/*handle case: -pxxxx*/
-f8d1c429178d1e zhanglin 2022-05-09  175  					if (psecret_len =3D=3D 2) {
-f8d1c429178d1e zhanglin 2022-05-09  176  						pmask +=3D psecret_len;
-f8d1c429178d1e zhanglin 2022-05-09  177  						goto mask_secret;
-f8d1c429178d1e zhanglin 2022-05-09  178  					}
-f8d1c429178d1e zhanglin 2022-05-09  179  				}
-f8d1c429178d1e zhanglin 2022-05-09  180  			}
-f8d1c429178d1e zhanglin 2022-05-09  181  =
+0184ca5ccb0827 Ben Widawsky 2022-02-11  529  				cxld->interleave_ways++;
+0184ca5ccb0827 Ben Widawsky 2022-02-11  530  				cxld->target[port_grouping=
+] =3D get_rp(ep);
+50b9ca060c8e48 Ben Widawsky 2022-02-11  531  =
 
-f8d1c429178d1e zhanglin 2022-05-09  182  			if (psecret_len =3D=3D 2) {
-f8d1c429178d1e zhanglin 2022-05-09  183  				pmask_len =3D strlen(pmask);
-f8d1c429178d1e zhanglin 2022-05-09  184  				/*handle case: -yp xxxx, such =
-as: useradd -rp xxxx*/
-f8d1c429178d1e zhanglin 2022-05-09  185  				if ((pmask_len > 2) && (*pmask=
- =3D=3D '-')
-f8d1c429178d1e zhanglin 2022-05-09  186  				      && (pmask[pmask_len - 1]=
- =3D=3D psecret[1])) {
-f8d1c429178d1e zhanglin 2022-05-09  187  					pmask +=3D pmask_len + 1;
-f8d1c429178d1e zhanglin 2022-05-09  188  					goto mask_secret;
-f8d1c429178d1e zhanglin 2022-05-09  189  				}
-f8d1c429178d1e zhanglin 2022-05-09  190  			}
-f8d1c429178d1e zhanglin 2022-05-09  191  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  532  				/*
+50b9ca060c8e48 Ben Widawsky 2022-02-11  533  				 * At least one switch is =
+connected here if the endpoint
+50b9ca060c8e48 Ben Widawsky 2022-02-11  534  				 * has a depth > 2
+50b9ca060c8e48 Ben Widawsky 2022-02-11  535  				 */
+50b9ca060c8e48 Ben Widawsky 2022-02-11  536  				if (ep->port->depth =3D=3D=
+ 2)
+50b9ca060c8e48 Ben Widawsky 2022-02-11  537  					continue;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  538  =
 
-f8d1c429178d1e zhanglin 2022-05-09  192  			psecret +=3D psecret_len + 1;
-f8d1c429178d1e zhanglin 2022-05-09  193  		}
-f8d1c429178d1e zhanglin 2022-05-09  194  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  539  				/* Check the staged list t=
+o see if this
+50b9ca060c8e48 Ben Widawsky 2022-02-11  540  				 * port has already been a=
+dded
+50b9ca060c8e48 Ben Widawsky 2022-02-11  541  				 */
+50b9ca060c8e48 Ben Widawsky 2022-02-11  542  				switch_port =3D get_switch=
+(ep);
+50b9ca060c8e48 Ben Widawsky 2022-02-11 @543  				list_for_each_entry(switch=
+_cxld, &cxlr->staged_list, region_link) {
+50b9ca060c8e48 Ben Widawsky 2022-02-11  544  					if (to_cxl_port(switch_cx=
+ld->dev.parent) =3D=3D switch_port)
+50b9ca060c8e48 Ben Widawsky 2022-02-11  545  						found =3D true;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  546  				}
+50b9ca060c8e48 Ben Widawsky 2022-02-11  547  =
 
-f8d1c429178d1e zhanglin 2022-05-09  195  		pmask +=3D strlen(pmask);
-f8d1c429178d1e zhanglin 2022-05-09  196  		continue;
-f8d1c429178d1e zhanglin 2022-05-09  197  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  548  				if (found) {
+50b9ca060c8e48 Ben Widawsky 2022-02-11  549  					target =3D cxl_find_dport=
+_by_dev(switch_port, ep->dev.parent->parent);
+50b9ca060c8e48 Ben Widawsky 2022-02-11 @550  					switch_cxld->target[targe=
+t_ndx++] =3D target;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  551  					continue;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  552  				}
+50b9ca060c8e48 Ben Widawsky 2022-02-11  553  =
 
-f8d1c429178d1e zhanglin 2022-05-09  198  mask_secret:
-f8d1c429178d1e zhanglin 2022-05-09  199  		for (; (pmask <=3D mask_arg_end)=
- && (*pmask); pmask++)
-f8d1c429178d1e zhanglin 2022-05-09  200  			*pmask =3D 'Z';
-f8d1c429178d1e zhanglin 2022-05-09  201  	}
-f8d1c429178d1e zhanglin 2022-05-09  202  	rcu_read_unlock();
-f8d1c429178d1e zhanglin 2022-05-09  203  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  554  				target_ndx =3D 0;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  555  =
 
-f8d1c429178d1e zhanglin 2022-05-09  204  copydata:
-f8d1c429178d1e zhanglin 2022-05-09  205  	size =3D arg_end - pos;
-f8d1c429178d1e zhanglin 2022-05-09  206  	size =3D min_t(size_t, size, coun=
-t);
-f8d1c429178d1e zhanglin 2022-05-09  207  	if (copy_to_user(buf, mask_arg_st=
-art + pos - arg_start, size))
-f8d1c429178d1e zhanglin 2022-05-09  208  		goto cleanup_kbuf;
-f8d1c429178d1e zhanglin 2022-05-09  209  =
+50b9ca060c8e48 Ben Widawsky 2022-02-11  556  				switch_cxld =3D get_decode=
+r(cxlr, switch_port);
+50b9ca060c8e48 Ben Widawsky 2022-02-11  557  				switch_cxld->interleave_wa=
+ys++;
+50b9ca060c8e48 Ben Widawsky 2022-02-11  558  				switch_cxld->interleave_gr=
+anularity =3D cxl_to_ways(region_ig + region_eniw);
+00b0519c6f9af5 Ben Widawsky 2022-02-11  559  			}
+00b0519c6f9af5 Ben Widawsky 2022-02-11  560  		}
+00b0519c6f9af5 Ben Widawsky 2022-02-11  561  	}
+00b0519c6f9af5 Ben Widawsky 2022-02-11  562  =
 
-f8d1c429178d1e zhanglin 2022-05-09  210  	total_copied =3D size;
-f8d1c429178d1e zhanglin 2022-05-09  211  =
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  563  	return true;
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  564  =
 
-f8d1c429178d1e zhanglin 2022-05-09  212  cleanup_kbuf:
-f8d1c429178d1e zhanglin 2022-05-09  213  	kfree(kbuf);
-f8d1c429178d1e zhanglin 2022-05-09  214  =
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  565  err:
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  566  	dev_dbg(&cxlr->dev, "Couldn't=
+ get decoder for region\n");
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  567  	list_for_each_entry_safe(cxld=
+, c, &cxlr->staged_list, region_link)
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  568  		cxl_put_decoder(cxld);
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  569  =
 
-f8d1c429178d1e zhanglin 2022-05-09  215  exit_err:
-f8d1c429178d1e zhanglin 2022-05-09  216  	return total_copied;
-f8d1c429178d1e zhanglin 2022-05-09  217  }
-f8d1c429178d1e zhanglin 2022-05-09  218  =
+5c4ecc7471fee0 Ben Widawsky 2022-02-11  570  	return false;
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  571  }
+e3a336d0e7c1ec Ben Widawsky 2022-02-11  572  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5319525926876537572==--
+--===============3070457564251934628==--
 
