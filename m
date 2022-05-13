@@ -1,141 +1,151 @@
-Content-Type: multipart/mixed; boundary="===============2352098837484777776=="
+Content-Type: multipart/mixed; boundary="===============1921701667883143761=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7596/9759] drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:252 dpu_encoder_phys_wb_atomic_check() error: potentially dereferencing uninitialized 'mode'.
-Date: Mon, 09 May 2022 08:55:42 +0800
-Message-ID: <202205090812.bEl8ciZV-lkp@intel.com>
+Subject: drivers/input/touchscreen/imagis.c:87:34: warning: Signed integer overflow for expression '0x800B<<16'. [integerOverflow]
+Date: Fri, 13 May 2022 14:45:05 +0800
+Message-ID: <202205131417.fPUZnEYv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2352098837484777776==
+--===============1921701667883143761==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Abhinav Kumar <quic_abhinavk@quicinc.com>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Markuss Broks <markuss.broks@gmail.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: Jeff LaBundy <jeff@labundy.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   38a288f5941ef03752887ad86f2d85442358c99a
-commit: d7d0e73f7de33a2b9998b607707a3e944ef3b86d [7596/9759] drm/msm/dpu: i=
-ntroduce the dpu_encoder_phys_* for writeback
-:::::: branch date: 3 days ago
-:::::: commit date: 7 days ago
-config: ia64-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220509/202205090812.bEl8ciZV-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f3f19f939c11925dadd3f4776f99f8c278a7017b
+commit: a23ba3c043db9a2e8c967a3ff66dcedc5725afdf Input: add Imagis touchscr=
+een driver
+date:   8 weeks ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 8 weeks ago
+compiler: m68k-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout a23ba3c043db9a2e8c967a3ff66dcedc5725afdf
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:252 dpu_encoder_phys_wb=
-_atomic_check() error: potentially dereferencing uninitialized 'mode'.
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:261 dpu_encoder_phys_wb=
-_atomic_check() warn: variable dereferenced before check 'conn_state' (see =
-line 255)
 
-vim +/mode +252 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  237  =
+>> drivers/input/touchscreen/imagis.c:87:34: warning: Signed integer overfl=
+ow for expression '0x800B<<16'. [integerOverflow]
+    error =3D imagis_i2c_read_reg(ts, IST3038C_REG_INTR_MESSAGE,
+                                    ^
+   drivers/input/touchscreen/imagis.c:108:10: warning: Signed integer overf=
+low for expression '0x800B<<16'. [integerOverflow]
+            IST3038C_REG_TOUCH_COORD + (i * 4),
+            ^
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  238  /**
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  239   * dpu_encoder_phys_wb_atomic=
-_check - verify and fixup given atomic states
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  240   * @phys_enc:	Pointer to phys=
-ical encoder
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  241   * @crtc_state:	Pointer to CR=
-TC atomic state
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  242   * @conn_state:	Pointer to co=
-nnector atomic state
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  243   */
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  244  static int dpu_encoder_phys_w=
-b_atomic_check(
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  245  		struct dpu_encoder_phys *ph=
-ys_enc,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  246  		struct drm_crtc_state *crtc=
-_state,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  247  		struct drm_connector_state =
-*conn_state)
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  248  {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  249  	struct drm_framebuffer *fb;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  250  	const struct drm_display_mod=
-e *mode;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  251  =
+vim +87 drivers/input/touchscreen/imagis.c
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26 @252  	DPU_DEBUG("[atomic_check:%d,=
- \"%s\",%d,%d]\n",
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  253  			phys_enc->wb_idx, mode->na=
-me, mode->hdisplay, mode->vdisplay);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  254  =
+a23ba3c043db9a Markuss Broks 2022-03-14   78  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26 @255  	if (!conn_state->writeback_j=
-ob || !conn_state->writeback_job->fb)
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  256  		return 0;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  257  =
+a23ba3c043db9a Markuss Broks 2022-03-14   79  static irqreturn_t imagis_int=
+errupt(int irq, void *dev_id)
+a23ba3c043db9a Markuss Broks 2022-03-14   80  {
+a23ba3c043db9a Markuss Broks 2022-03-14   81  	struct imagis_ts *ts =3D dev=
+_id;
+a23ba3c043db9a Markuss Broks 2022-03-14   82  	u32 intr_message, finger_sta=
+tus;
+a23ba3c043db9a Markuss Broks 2022-03-14   83  	unsigned int finger_count, f=
+inger_pressed;
+a23ba3c043db9a Markuss Broks 2022-03-14   84  	int i;
+a23ba3c043db9a Markuss Broks 2022-03-14   85  	int error;
+a23ba3c043db9a Markuss Broks 2022-03-14   86  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  258  	fb =3D conn_state->writeback=
-_job->fb;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  259  	mode =3D &crtc_state->mode;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  260  =
+a23ba3c043db9a Markuss Broks 2022-03-14  @87  	error =3D imagis_i2c_read_re=
+g(ts, IST3038C_REG_INTR_MESSAGE,
+a23ba3c043db9a Markuss Broks 2022-03-14   88  				    &intr_message);
+a23ba3c043db9a Markuss Broks 2022-03-14   89  	if (error) {
+a23ba3c043db9a Markuss Broks 2022-03-14   90  		dev_err(&ts->client->dev,
+a23ba3c043db9a Markuss Broks 2022-03-14   91  			"failed to read the interr=
+upt message: %d\n", error);
+a23ba3c043db9a Markuss Broks 2022-03-14   92  		goto out;
+a23ba3c043db9a Markuss Broks 2022-03-14   93  	}
+a23ba3c043db9a Markuss Broks 2022-03-14   94  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26 @261  	if (!conn_state || !conn_sta=
-te->connector) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  262  		DPU_ERROR("invalid connecto=
-r state\n");
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  263  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  264  	} else if (conn_state->conne=
-ctor->status !=3D
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  265  			connector_status_connected=
-) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  266  		DPU_ERROR("connector not co=
-nnected %d\n",
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  267  				conn_state->connector->st=
-atus);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  268  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  269  	}
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  270  =
+a23ba3c043db9a Markuss Broks 2022-03-14   95  	finger_count =3D (intr_messa=
+ge & IST3038C_FINGER_COUNT_MASK) >>
+a23ba3c043db9a Markuss Broks 2022-03-14   96  				IST3038C_FINGER_COUNT_SHI=
+FT;
+a23ba3c043db9a Markuss Broks 2022-03-14   97  	if (finger_count > IST3038C_=
+MAX_FINGER_NUM) {
+a23ba3c043db9a Markuss Broks 2022-03-14   98  		dev_err(&ts->client->dev,
+a23ba3c043db9a Markuss Broks 2022-03-14   99  			"finger count %d is more t=
+han maximum supported\n",
+a23ba3c043db9a Markuss Broks 2022-03-14  100  			finger_count);
+a23ba3c043db9a Markuss Broks 2022-03-14  101  		goto out;
+a23ba3c043db9a Markuss Broks 2022-03-14  102  	}
+a23ba3c043db9a Markuss Broks 2022-03-14  103  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  271  	DPU_DEBUG("[fb_id:%u][fb:%u,=
-%u]\n", fb->base.id,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  272  			fb->width, fb->height);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  273  =
+a23ba3c043db9a Markuss Broks 2022-03-14  104  	finger_pressed =3D intr_mess=
+age & IST3038C_FINGER_STATUS_MASK;
+a23ba3c043db9a Markuss Broks 2022-03-14  105  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  274  	if (fb->width !=3D mode->hdi=
-splay) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  275  		DPU_ERROR("invalid fb w=3D%=
-d, mode w=3D%d\n", fb->width,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  276  				mode->hdisplay);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  277  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  278  	} else if (fb->height !=3D m=
-ode->vdisplay) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  279  		DPU_ERROR("invalid fb h=3D%=
-d, mode h=3D%d\n", fb->height,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  280  				  mode->vdisplay);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  281  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  282  	} else if (fb->width > DEFAU=
-LT_MAX_WRITEBACK_WIDTH) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  283  		DPU_ERROR("invalid fb w=3D%=
-d, maxlinewidth=3D%u\n",
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  284  				  fb->width, DEFAULT_MAX_=
-WRITEBACK_WIDTH);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  285  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  286  	}
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  287  =
+a23ba3c043db9a Markuss Broks 2022-03-14  106  	for (i =3D 0; i < finger_cou=
+nt; i++) {
+a23ba3c043db9a Markuss Broks 2022-03-14  107  		error =3D imagis_i2c_read_r=
+eg(ts,
+a23ba3c043db9a Markuss Broks 2022-03-14  108  					    IST3038C_REG_TOUCH_C=
+OORD + (i * 4),
+a23ba3c043db9a Markuss Broks 2022-03-14  109  					    &finger_status);
+a23ba3c043db9a Markuss Broks 2022-03-14  110  		if (error) {
+a23ba3c043db9a Markuss Broks 2022-03-14  111  			dev_err(&ts->client->dev,
+a23ba3c043db9a Markuss Broks 2022-03-14  112  				"failed to read coordinat=
+es for finger %d: %d\n",
+a23ba3c043db9a Markuss Broks 2022-03-14  113  				i, error);
+a23ba3c043db9a Markuss Broks 2022-03-14  114  			goto out;
+a23ba3c043db9a Markuss Broks 2022-03-14  115  		}
+a23ba3c043db9a Markuss Broks 2022-03-14  116  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  288  	return 0;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  289  }
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  290  =
+a23ba3c043db9a Markuss Broks 2022-03-14  117  		input_mt_slot(ts->input_dev=
+, i);
+a23ba3c043db9a Markuss Broks 2022-03-14  118  		input_mt_report_slot_state(=
+ts->input_dev, MT_TOOL_FINGER,
+a23ba3c043db9a Markuss Broks 2022-03-14  119  					   finger_pressed & BIT(=
+i));
+a23ba3c043db9a Markuss Broks 2022-03-14  120  		touchscreen_report_pos(ts->=
+input_dev, &ts->prop,
+a23ba3c043db9a Markuss Broks 2022-03-14  121  				       (finger_status & I=
+ST3038C_X_MASK) >>
+a23ba3c043db9a Markuss Broks 2022-03-14  122  						IST3038C_X_SHIFT,
+a23ba3c043db9a Markuss Broks 2022-03-14  123  				       finger_status & IS=
+T3038C_Y_MASK, 1);
+a23ba3c043db9a Markuss Broks 2022-03-14  124  		input_report_abs(ts->input_=
+dev, ABS_MT_TOUCH_MAJOR,
+a23ba3c043db9a Markuss Broks 2022-03-14  125  				 (finger_status & IST3038=
+C_AREA_MASK) >>
+a23ba3c043db9a Markuss Broks 2022-03-14  126  					IST3038C_AREA_SHIFT);
+a23ba3c043db9a Markuss Broks 2022-03-14  127  	}
+a23ba3c043db9a Markuss Broks 2022-03-14  128  =
+
+a23ba3c043db9a Markuss Broks 2022-03-14  129  	input_mt_sync_frame(ts->inpu=
+t_dev);
+a23ba3c043db9a Markuss Broks 2022-03-14  130  	input_sync(ts->input_dev);
+a23ba3c043db9a Markuss Broks 2022-03-14  131  =
+
+a23ba3c043db9a Markuss Broks 2022-03-14  132  out:
+a23ba3c043db9a Markuss Broks 2022-03-14  133  	return IRQ_HANDLED;
+a23ba3c043db9a Markuss Broks 2022-03-14  134  }
+a23ba3c043db9a Markuss Broks 2022-03-14  135  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2352098837484777776==--
+--===============1921701667883143761==--
 
