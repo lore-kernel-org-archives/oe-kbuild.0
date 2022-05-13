@@ -1,528 +1,222 @@
-Content-Type: multipart/mixed; boundary="===============6410402729491472784=="
+Content-Type: multipart/mixed; boundary="===============8438274322699679304=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/ufs/ufshpb.c:54:17: warning: Access to field 'is_last' results in a dereference of an undefined pointer value (loaded from variable 'srgn') [clang-analyzer-core.NullDereference]
-Date: Sun, 08 May 2022 13:44:57 +0800
-Message-ID: <202205081338.nISwMDHQ-lkp@intel.com>
+Subject: Re: [PATCH V12 7/9] regulator: Add a regulator driver for the PM8008 PMIC
+Date: Fri, 13 May 2022 09:41:25 +0800
+Message-ID: <202205130908.O31s3mhc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6410402729491472784==
+--===============8438274322699679304==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <1652275113-10277-8-git-send-email-quic_c_skakit@quicinc.com>
+References: <1652275113-10277-8-git-send-email-quic_c_skakit@quicinc.com>
+TO: Satya Priya <quic_c_skakit@quicinc.com>
+TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+TO: Rob Herring <robh+dt@kernel.org>
+CC: Lee Jones <lee.jones@linaro.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: linux-arm-msm(a)vger.kernel.org
+CC: devicetree(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Daejun Park <daejun7.park@samsung.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Bart Van Assche <bvanassche@acm.org>
-CC: Can Guo <cang@codeaurora.org>
-CC: Bean Huo <beanhuo@micron.com>
-CC: Stanley Chu <stanley.chu@mediatek.com>
+CC: swboyd(a)chromium.org
+CC: quic_collinsd(a)quicinc.com
+CC: quic_subbaram(a)quicinc.com
+CC: quic_jprakash(a)quicinc.com
+CC: Satya Priya <quic_c_skakit@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   30c8e80f79329617012f07b09b70114592092ea4
-commit: f02bc9754a6887bf5e286889265d24ce5e3b1952 scsi: ufs: ufshpb: Introdu=
-ce Host Performance Buffer feature
-date:   9 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220507 (https://download.01.org/0day-ci/archi=
-ve/20220508/202205081338.nISwMDHQ-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af4cf1=
-c6b8ed0d8102fc5e69acdc2fcbbcdaa9a7)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df02bc9754a6887bf5e286889265d24ce5e3b1952
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f02bc9754a6887bf5e286889265d24ce5e3b1952
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+Hi Satya,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on robh/for-next broonie-regulator/for-next v5.18-=
+rc6 next-20220512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Satya-Priya/Add-Qual=
+comm-Technologies-Inc-PM8008-regulator-driver/20220511-212136
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd=
+-next
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: nios2-randconfig-m031-20220512 (https://download.01.org/0day-ci/arc=
+hive/20220513/202205130908.O31s3mhc-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/regulator/qcom-pm8008-regulator.c:174 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/drm/drm_file.c:584:8: note: Loop condition is false.  Exitin=
-g loop
-                           e =3D list_first_entry(&file_priv->event_list,
-                               ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/drm/drm_file.c:586:30: note: Use of memory after it is freed
-                           file_priv->event_space +=3D e->event->length;
-                                                     ^~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (10 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
->> drivers/scsi/ufs/ufshpb.c:54:17: warning: Access to field 'is_last' resu=
-lts in a dereference of an undefined pointer value (loaded from variable 's=
-rgn') [clang-analyzer-core.NullDereference]
-                   srgn->is_last =3D true;
-                                 ^
-   drivers/scsi/ufs/ufshpb.c:475:6: note: Assuming 'lun' is < field 'max_lu=
-_supported'
-           if (lun >=3D hba->dev_info.max_lu_supported)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:475:2: note: Taking false branch
-           if (lun >=3D hba->dev_info.max_lu_supported)
-           ^
-   drivers/scsi/ufs/ufshpb.c:479:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/scsi/ufs/ufshpb.c:479:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/scsi/ufs/ufshpb.c:482:8: note: Calling 'ufshpb_alloc_hpb_lu'
-           hpb =3D ufshpb_alloc_hpb_lu(hba, lun, &hba->ufshpb_dev,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:257:6: note: Assuming 'hpb' is non-null
-           if (!hpb)
-               ^~~~
-   drivers/scsi/ufs/ufshpb.c:257:2: note: Taking false branch
-           if (!hpb)
-           ^
-   drivers/scsi/ufs/ufshpb.c:264:8: note: Calling 'ufshpb_lu_hpb_init'
-           ret =3D ufshpb_lu_hpb_init(hba, hpb);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:241:8: note: Calling 'ufshpb_alloc_region_tbl'
-           ret =3D ufshpb_alloc_region_tbl(hba, hpb);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:120:6: note: Assuming 'rgn_table' is non-null
-           if (!rgn_table)
-               ^~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:120:2: note: Taking false branch
-           if (!rgn_table)
-           ^
-   drivers/scsi/ufs/ufshpb.c:125:20: note: Assuming 'rgn_idx' is < field 'r=
-gns_per_lu'
-           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:125:2: note: Loop condition is true.  Entering=
- loop body
-           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
-           ^
-   drivers/scsi/ufs/ufshpb.c:132:7: note: Assuming the condition is true
-                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:132:3: note: Taking true branch
-                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
-                   ^
-   drivers/scsi/ufs/ufshpb.c:139:7: note: 'ret' is 0
-                   if (ret)
-                       ^~~
-   drivers/scsi/ufs/ufshpb.c:139:3: note: Taking false branch
-                   if (ret)
-                   ^
-   drivers/scsi/ufs/ufshpb.c:141:3: note: Calling 'ufshpb_init_subregion_tb=
-l'
-                   ufshpb_init_subregion_tbl(hpb, rgn, last_srgn);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:43:2: note: 'srgn' declared without an initial=
- value
-           struct ufshpb_subregion *srgn;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:45:21: note: Assuming 'srgn_idx' is >=3D field=
- 'srgn_cnt'
-           for (srgn_idx =3D 0; srgn_idx < rgn->srgn_cnt; srgn_idx++) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:45:2: note: Loop condition is false. Execution=
- continues on line 53
-           for (srgn_idx =3D 0; srgn_idx < rgn->srgn_cnt; srgn_idx++) {
-           ^
-   drivers/scsi/ufs/ufshpb.c:53:15: note: 'last' is true
-           if (unlikely(last && hpb->last_srgn_entries))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/scsi/ufs/ufshpb.c:53:15: note: Left side of '&&' is true
-           if (unlikely(last && hpb->last_srgn_entries))
-                        ^
-   drivers/scsi/ufs/ufshpb.c:53:6: note: Assuming the condition is false
-           if (unlikely(last && hpb->last_srgn_entries))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/scsi/ufs/ufshpb.c:53:2: note: Taking true branch
-           if (unlikely(last && hpb->last_srgn_entries))
-           ^
-   drivers/scsi/ufs/ufshpb.c:54:17: note: Access to field 'is_last' results=
- in a dereference of an undefined pointer value (loaded from variable 'srgn=
-')
-                   srgn->is_last =3D true;
-                   ~~~~          ^
->> drivers/scsi/ufs/ufshpb.c:104:22: warning: Division by zero [clang-analy=
-zer-core.DivideZero]
-           hpb->srgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
-                               ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                        ~~~~~~~~~~~~~~~~^~~~~
-   drivers/scsi/ufs/ufshpb.c:78:23: note: Assuming field 'num_pinned' is 0
-           hpb->lu_pinned_end =3D hpb_lu_info->num_pinned ?
-                                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:78:23: note: '?' condition is false
-   drivers/scsi/ufs/ufshpb.c:84:2: note: Left side of '&&' is false
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:229:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   drivers/scsi/ufs/ufshpb.c:84:2: note: 4 is >=3D 4
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
-           } else if (__div64_const32_is_OK &&             \
-                      ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/div64.h:64:32: note: expanded from macro '__div64_c=
-onst32_is_OK'
-   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
-                                  ^~~~~~~~
-   note: expanded from here
-   drivers/scsi/ufs/ufshpb.c:84:2: note: Left side of '&&' is true
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
-           } else if (__div64_const32_is_OK &&             \
-                      ^
-   arch/arm/include/asm/div64.h:64:31: note: expanded from macro '__div64_c=
-onst32_is_OK'
-   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
-                                 ^
-   drivers/scsi/ufs/ufshpb.c:84:2: note: Left side of '&&' is false
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:234:35: note: expanded from macro 'do_div'
-                      __builtin_constant_p(__base) &&      \
-                                                   ^
-   drivers/scsi/ufs/ufshpb.c:84:2: note: Assuming the condition is true
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:241:20: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                      ~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/scsi/ufs/ufshpb.c:84:2: note: Taking true branch
-           do_div(rgn_mem_size, HPB_ENTRY_BLOCK_SIZE);
-           ^
-   include/asm-generic/div64.h:241:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   drivers/scsi/ufs/ufshpb.c:89:2: note: Left side of '&&' is false
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:229:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   drivers/scsi/ufs/ufshpb.c:89:2: note: 4 is >=3D 4
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
-           } else if (__div64_const32_is_OK &&             \
-                      ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/div64.h:64:32: note: expanded from macro '__div64_c=
-onst32_is_OK'
-   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
-                                  ^~~~~~~~
-   note: expanded from here
-   drivers/scsi/ufs/ufshpb.c:89:2: note: Left side of '&&' is true
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:233:13: note: expanded from macro 'do_div'
-           } else if (__div64_const32_is_OK &&             \
-                      ^
-   arch/arm/include/asm/div64.h:64:31: note: expanded from macro '__div64_c=
-onst32_is_OK'
-   #define __div64_const32_is_OK (__GNUC__ >=3D 4)
-                                 ^
-   drivers/scsi/ufs/ufshpb.c:89:2: note: Left side of '&&' is false
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:234:35: note: expanded from macro 'do_div'
-                      __builtin_constant_p(__base) &&      \
-                                                   ^
-   drivers/scsi/ufs/ufshpb.c:89:2: note: Assuming the condition is true
-           do_div(tmp, HPB_ENTRY_SIZE);
-           ^
-   include/asm-generic/div64.h:241:20: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                      ~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/scsi/ufs/ufshpb.c:89:2: note: Taking true branch
-           do_div(tmp, HPB_ENTRY_SIZE);
+Old smatch warnings:
+drivers/regulator/qcom-pm8008-regulator.c:175 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:176 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:178 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:180 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:180 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:182 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:186 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
+drivers/regulator/qcom-pm8008-regulator.c:196 pm8008_regulator_probe() erro=
+r: buffer overflow 'reg_data' 7 <=3D 7 (assuming for loop doesn't break)
 
-vim +54 drivers/scsi/ufs/ufshpb.c
+vim +174 drivers/regulator/qcom-pm8008-regulator.c
 
-f02bc9754a6887 Daejun Park 2021-07-12   38  =
+3337142527c77d Satya Priya 2022-05-11  121  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   39  static void ufshpb_init_subregi=
-on_tbl(struct ufshpb_lu *hpb,
-f02bc9754a6887 Daejun Park 2021-07-12   40  				      struct ufshpb_region =
-*rgn, bool last)
-f02bc9754a6887 Daejun Park 2021-07-12   41  {
-f02bc9754a6887 Daejun Park 2021-07-12   42  	int srgn_idx;
-f02bc9754a6887 Daejun Park 2021-07-12   43  	struct ufshpb_subregion *srgn;
-f02bc9754a6887 Daejun Park 2021-07-12   44  =
+3337142527c77d Satya Priya 2022-05-11  122  static int pm8008_regulator_pro=
+be(struct platform_device *pdev)
+3337142527c77d Satya Priya 2022-05-11  123  {
+3337142527c77d Satya Priya 2022-05-11  124  	int rc, i;
+3337142527c77d Satya Priya 2022-05-11  125  	u32 base;
+3337142527c77d Satya Priya 2022-05-11  126  	unsigned int reg;
+3337142527c77d Satya Priya 2022-05-11  127  	const char *name;
+3337142527c77d Satya Priya 2022-05-11  128  	struct device *dev =3D &pdev->=
+dev;
+3337142527c77d Satya Priya 2022-05-11  129  	struct regulator_config reg_co=
+nfig =3D {};
+3337142527c77d Satya Priya 2022-05-11  130  	struct regulator_dev    *rdev;
+3337142527c77d Satya Priya 2022-05-11  131  	const struct pm8008_data *chip=
+ =3D dev_get_drvdata(pdev->dev.parent);
+3337142527c77d Satya Priya 2022-05-11  132  	struct pm8008_regulator *pm800=
+8_reg;
+3337142527c77d Satya Priya 2022-05-11  133  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   45  	for (srgn_idx =3D 0; srgn_idx =
-< rgn->srgn_cnt; srgn_idx++) {
-f02bc9754a6887 Daejun Park 2021-07-12   46  		srgn =3D rgn->srgn_tbl + srgn=
-_idx;
-f02bc9754a6887 Daejun Park 2021-07-12   47  =
+3337142527c77d Satya Priya 2022-05-11  134  	pm8008_reg =3D devm_kzalloc(de=
+v, sizeof(*pm8008_reg), GFP_KERNEL);
+3337142527c77d Satya Priya 2022-05-11  135  	if (!pm8008_reg)
+3337142527c77d Satya Priya 2022-05-11  136  		return -ENOMEM;
+3337142527c77d Satya Priya 2022-05-11  137  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   48  		srgn->rgn_idx =3D rgn->rgn_id=
-x;
-f02bc9754a6887 Daejun Park 2021-07-12   49  		srgn->srgn_idx =3D srgn_idx;
-f02bc9754a6887 Daejun Park 2021-07-12   50  		srgn->srgn_state =3D HPB_SRGN=
-_UNUSED;
-f02bc9754a6887 Daejun Park 2021-07-12   51  	}
-f02bc9754a6887 Daejun Park 2021-07-12   52  =
+3337142527c77d Satya Priya 2022-05-11  138  	pm8008_reg->regmap =3D pm8008_=
+get_regmap(chip);
+3337142527c77d Satya Priya 2022-05-11  139  	if (!pm8008_reg->regmap) {
+3337142527c77d Satya Priya 2022-05-11  140  		dev_err(dev, "parent regmap i=
+s missing\n");
+3337142527c77d Satya Priya 2022-05-11  141  		return -EINVAL;
+3337142527c77d Satya Priya 2022-05-11  142  	}
+3337142527c77d Satya Priya 2022-05-11  143  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   53  	if (unlikely(last && hpb->last=
-_srgn_entries))
-f02bc9754a6887 Daejun Park 2021-07-12  @54  		srgn->is_last =3D true;
-f02bc9754a6887 Daejun Park 2021-07-12   55  }
-f02bc9754a6887 Daejun Park 2021-07-12   56  =
+3337142527c77d Satya Priya 2022-05-11  144  	pm8008_reg->dev =3D dev;
+3337142527c77d Satya Priya 2022-05-11  145  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   57  static int ufshpb_alloc_subregi=
-on_tbl(struct ufshpb_lu *hpb,
-f02bc9754a6887 Daejun Park 2021-07-12   58  				      struct ufshpb_region =
-*rgn, int srgn_cnt)
-f02bc9754a6887 Daejun Park 2021-07-12   59  {
-f02bc9754a6887 Daejun Park 2021-07-12   60  	rgn->srgn_tbl =3D kvcalloc(srg=
-n_cnt, sizeof(struct ufshpb_subregion),
-f02bc9754a6887 Daejun Park 2021-07-12   61  				 GFP_KERNEL);
-f02bc9754a6887 Daejun Park 2021-07-12   62  	if (!rgn->srgn_tbl)
-f02bc9754a6887 Daejun Park 2021-07-12   63  		return -ENOMEM;
-f02bc9754a6887 Daejun Park 2021-07-12   64  =
+3337142527c77d Satya Priya 2022-05-11  146  	rc =3D of_property_read_string=
+(dev->of_node, "regulator-name", &name);
+3337142527c77d Satya Priya 2022-05-11  147  	if (rc)
+3337142527c77d Satya Priya 2022-05-11  148  		return rc;
+3337142527c77d Satya Priya 2022-05-11  149  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   65  	rgn->srgn_cnt =3D srgn_cnt;
-f02bc9754a6887 Daejun Park 2021-07-12   66  	return 0;
-f02bc9754a6887 Daejun Park 2021-07-12   67  }
-f02bc9754a6887 Daejun Park 2021-07-12   68  =
+3337142527c77d Satya Priya 2022-05-11  150  	/* get the required regulator =
+data */
+3337142527c77d Satya Priya 2022-05-11  151  	for (i =3D 0; i < ARRAY_SIZE(r=
+eg_data); i++)
+3337142527c77d Satya Priya 2022-05-11  152  		if (strstr(name, reg_data[i].=
+name))
+3337142527c77d Satya Priya 2022-05-11  153  			break;
+3337142527c77d Satya Priya 2022-05-11  154  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   69  static void ufshpb_lu_parameter=
-_init(struct ufs_hba *hba,
-f02bc9754a6887 Daejun Park 2021-07-12   70  				     struct ufshpb_lu *hpb,
-f02bc9754a6887 Daejun Park 2021-07-12   71  				     struct ufshpb_dev_info=
- *hpb_dev_info,
-f02bc9754a6887 Daejun Park 2021-07-12   72  				     struct ufshpb_lu_info =
-*hpb_lu_info)
-f02bc9754a6887 Daejun Park 2021-07-12   73  {
-f02bc9754a6887 Daejun Park 2021-07-12   74  	u32 entries_per_rgn;
-f02bc9754a6887 Daejun Park 2021-07-12   75  	u64 rgn_mem_size, tmp;
-f02bc9754a6887 Daejun Park 2021-07-12   76  =
+3337142527c77d Satya Priya 2022-05-11  155  	rc =3D of_property_read_u32_in=
+dex(dev->of_node, "reg", 1, &base);
+3337142527c77d Satya Priya 2022-05-11  156  	if (rc < 0) {
+3337142527c77d Satya Priya 2022-05-11  157  		dev_err(dev, "%s: failed to g=
+et regulator base rc=3D%d\n", name, rc);
+3337142527c77d Satya Priya 2022-05-11  158  		return rc;
+3337142527c77d Satya Priya 2022-05-11  159  	}
+3337142527c77d Satya Priya 2022-05-11  160  	pm8008_reg->base =3D base;
+3337142527c77d Satya Priya 2022-05-11  161  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   77  	hpb->lu_pinned_start =3D hpb_l=
-u_info->pinned_start;
-f02bc9754a6887 Daejun Park 2021-07-12   78  	hpb->lu_pinned_end =3D hpb_lu_=
-info->num_pinned ?
-f02bc9754a6887 Daejun Park 2021-07-12   79  		(hpb_lu_info->pinned_start + =
-hpb_lu_info->num_pinned - 1)
-f02bc9754a6887 Daejun Park 2021-07-12   80  		: PINNED_NOT_SET;
-f02bc9754a6887 Daejun Park 2021-07-12   81  =
+3337142527c77d Satya Priya 2022-05-11  162  	/* get slew rate */
+3337142527c77d Satya Priya 2022-05-11  163  	rc =3D regmap_bulk_read(pm8008=
+_reg->regmap,
+3337142527c77d Satya Priya 2022-05-11  164  			LDO_STEPPER_CTL_REG(pm8008_r=
+eg->base), &reg, 1);
+3337142527c77d Satya Priya 2022-05-11  165  	if (rc < 0) {
+3337142527c77d Satya Priya 2022-05-11  166  		dev_err(dev, "failed to read =
+step rate configuration rc=3D%d\n", rc);
+3337142527c77d Satya Priya 2022-05-11  167  		return rc;
+3337142527c77d Satya Priya 2022-05-11  168  	}
+3337142527c77d Satya Priya 2022-05-11  169  	reg &=3D STEP_RATE_MASK;
+3337142527c77d Satya Priya 2022-05-11  170  	pm8008_reg->step_rate =3D DEFA=
+ULT_VOLTAGE_STEPPER_RATE >> reg;
+3337142527c77d Satya Priya 2022-05-11  171  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   82  	rgn_mem_size =3D (1ULL << hpb_=
-dev_info->rgn_size) * HPB_RGN_SIZE_UNIT
-f02bc9754a6887 Daejun Park 2021-07-12   83  			* HPB_ENTRY_SIZE;
-f02bc9754a6887 Daejun Park 2021-07-12   84  	do_div(rgn_mem_size, HPB_ENTRY=
-_BLOCK_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12   85  	hpb->srgn_mem_size =3D (1ULL <=
-< hpb_dev_info->srgn_size)
-f02bc9754a6887 Daejun Park 2021-07-12   86  		* HPB_RGN_SIZE_UNIT / HPB_ENT=
-RY_BLOCK_SIZE * HPB_ENTRY_SIZE;
-f02bc9754a6887 Daejun Park 2021-07-12   87  =
+3337142527c77d Satya Priya 2022-05-11  172  	pm8008_reg->rdesc.type =3D REG=
+ULATOR_VOLTAGE;
+3337142527c77d Satya Priya 2022-05-11  173  	pm8008_reg->rdesc.ops =3D &pm8=
+008_regulator_ops;
+3337142527c77d Satya Priya 2022-05-11 @174  	pm8008_reg->rdesc.name =3D reg=
+_data[i].name;
+3337142527c77d Satya Priya 2022-05-11  175  	pm8008_reg->rdesc.supply_name =
+=3D reg_data[i].supply_name;
+3337142527c77d Satya Priya 2022-05-11  176  	pm8008_reg->rdesc.of_match =3D=
+ reg_data[i].name;
+3337142527c77d Satya Priya 2022-05-11  177  	pm8008_reg->rdesc.uV_step =3D =
+VSET_STEP_UV;
+3337142527c77d Satya Priya 2022-05-11  178  	pm8008_reg->rdesc.min_uV =3D r=
+eg_data[i].min_uv;
+3337142527c77d Satya Priya 2022-05-11  179  	pm8008_reg->rdesc.n_voltages
+3337142527c77d Satya Priya 2022-05-11  180  		=3D ((reg_data[i].max_uv - re=
+g_data[i].min_uv)
+3337142527c77d Satya Priya 2022-05-11  181  			/ pm8008_reg->rdesc.uV_step)=
+ + 1;
+3337142527c77d Satya Priya 2022-05-11  182  	pm8008_reg->rdesc.linear_range=
+s =3D reg_data[i].voltage_range;
+3337142527c77d Satya Priya 2022-05-11  183  	pm8008_reg->rdesc.n_linear_ran=
+ges =3D 1;
+3337142527c77d Satya Priya 2022-05-11  184  	pm8008_reg->rdesc.enable_reg =
+=3D LDO_ENABLE_REG(pm8008_reg->base);
+3337142527c77d Satya Priya 2022-05-11  185  	pm8008_reg->rdesc.enable_mask =
+=3D ENABLE_BIT;
+3337142527c77d Satya Priya 2022-05-11  186  	pm8008_reg->rdesc.min_dropout_=
+uV =3D reg_data[i].min_dropout_uv;
+3337142527c77d Satya Priya 2022-05-11  187  	pm8008_reg->voltage_selector =
+=3D -ENOTRECOVERABLE;
+3337142527c77d Satya Priya 2022-05-11  188  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   88  	tmp =3D rgn_mem_size;
-f02bc9754a6887 Daejun Park 2021-07-12   89  	do_div(tmp, HPB_ENTRY_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12   90  	entries_per_rgn =3D (u32)tmp;
-f02bc9754a6887 Daejun Park 2021-07-12   91  	hpb->entries_per_rgn_shift =3D=
- ilog2(entries_per_rgn);
-f02bc9754a6887 Daejun Park 2021-07-12   92  	hpb->entries_per_rgn_mask =3D =
-entries_per_rgn - 1;
-f02bc9754a6887 Daejun Park 2021-07-12   93  =
+3337142527c77d Satya Priya 2022-05-11  189  	reg_config.dev =3D dev->parent;
+3337142527c77d Satya Priya 2022-05-11  190  	reg_config.driver_data =3D pm8=
+008_reg;
+3337142527c77d Satya Priya 2022-05-11  191  	reg_config.regmap =3D pm8008_r=
+eg->regmap;
+3337142527c77d Satya Priya 2022-05-11  192  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   94  	hpb->entries_per_srgn =3D hpb-=
->srgn_mem_size / HPB_ENTRY_SIZE;
-f02bc9754a6887 Daejun Park 2021-07-12   95  	hpb->entries_per_srgn_shift =
-=3D ilog2(hpb->entries_per_srgn);
-f02bc9754a6887 Daejun Park 2021-07-12   96  	hpb->entries_per_srgn_mask =3D=
- hpb->entries_per_srgn - 1;
-f02bc9754a6887 Daejun Park 2021-07-12   97  =
+3337142527c77d Satya Priya 2022-05-11  193  	rdev =3D devm_regulator_regist=
+er(dev, &pm8008_reg->rdesc, &reg_config);
+3337142527c77d Satya Priya 2022-05-11  194  	if (IS_ERR(rdev)) {
+3337142527c77d Satya Priya 2022-05-11  195  		rc =3D PTR_ERR(rdev);
+3337142527c77d Satya Priya 2022-05-11  196  		dev_err(dev, "%s: failed to r=
+egister regulator rc=3D%d\n",
+3337142527c77d Satya Priya 2022-05-11  197  				reg_data[i].name, rc);
+3337142527c77d Satya Priya 2022-05-11  198  		return rc;
+3337142527c77d Satya Priya 2022-05-11  199  	}
+3337142527c77d Satya Priya 2022-05-11  200  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   98  	tmp =3D rgn_mem_size;
-f02bc9754a6887 Daejun Park 2021-07-12   99  	do_div(tmp, hpb->srgn_mem_size=
-);
-f02bc9754a6887 Daejun Park 2021-07-12  100  	hpb->srgns_per_rgn =3D (int)tm=
-p;
-f02bc9754a6887 Daejun Park 2021-07-12  101  =
-
-f02bc9754a6887 Daejun Park 2021-07-12  102  	hpb->rgns_per_lu =3D DIV_ROUND=
-_UP(hpb_lu_info->num_blocks,
-f02bc9754a6887 Daejun Park 2021-07-12  103  				entries_per_rgn);
-f02bc9754a6887 Daejun Park 2021-07-12 @104  	hpb->srgns_per_lu =3D DIV_ROUN=
-D_UP(hpb_lu_info->num_blocks,
-f02bc9754a6887 Daejun Park 2021-07-12  105  				(hpb->srgn_mem_size / HPB_E=
-NTRY_SIZE));
-f02bc9754a6887 Daejun Park 2021-07-12  106  	hpb->last_srgn_entries =3D hpb=
-_lu_info->num_blocks
-f02bc9754a6887 Daejun Park 2021-07-12  107  				 % (hpb->srgn_mem_size / HP=
-B_ENTRY_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12  108  =
-
-f02bc9754a6887 Daejun Park 2021-07-12  109  	hpb->pages_per_srgn =3D DIV_RO=
-UND_UP(hpb->srgn_mem_size, PAGE_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12  110  }
-f02bc9754a6887 Daejun Park 2021-07-12  111  =
+3337142527c77d Satya Priya 2022-05-11  201  	return 0;
+3337142527c77d Satya Priya 2022-05-11  202  }
+3337142527c77d Satya Priya 2022-05-11  203  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6410402729491472784==--
+--===============8438274322699679304==--
 
