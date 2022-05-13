@@ -1,181 +1,428 @@
-Content-Type: multipart/mixed; boundary="===============6337640327118240486=="
+Content-Type: multipart/mixed; boundary="===============7666791392410410641=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4133/9759] drivers/net/ethernet/aquantia/atlantic/aq_ring.c:473 aq_xdp_run_prog() error: (-2147483647) too low for ERR_PTR
-Date: Mon, 09 May 2022 09:36:29 +0800
-Message-ID: <202205090901.gHKTToGt-lkp@intel.com>
+Subject: Re: [PATCH] scsi: ufs: Split the drivers/scsi/ufs directory
+Date: Sat, 14 May 2022 03:59:16 +0800
+Message-ID: <202205140343.2XpZixya-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6337640327118240486==
+--===============7666791392410410641==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Taehee Yoo <ap420073@gmail.com>
+In-Reply-To: <20220511212552.655341-1-bvanassche@acm.org>
+References: <20220511212552.655341-1-bvanassche@acm.org>
+TO: Bart Van Assche <bvanassche@acm.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   38a288f5941ef03752887ad86f2d85442358c99a
-commit: 26efaef759a1bc43e819ee44cfd8a1fc4514e8c9 [4133/9759] net: atlantic:=
- Implement xdp data plane
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: ia64-randconfig-m031-20220508 (https://download.01.org/0day-ci/arch=
-ive/20220509/202205090901.gHKTToGt-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+Hi Bart,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next next-20220513]
+[cannot apply to krzk/for-next linus/master v5.18-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/scsi=
+-ufs-Split-the-drivers-scsi-ufs-directory/20220512-052804
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-ne=
+xt
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-c001-20220509 (https://download.01.org/0day-ci/arch=
+ive/20220514/202205140343.2XpZixya-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 18dd12=
+3c56754edf62c7042dcf23185c3727610f)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/b98a645cfa384db24db=
+a861841b56b9660939aa1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bart-Van-Assche/scsi-ufs-Split-the=
+-drivers-scsi-ufs-directory/20220512-052804
+        git checkout b98a645cfa384db24dba861841b56b9660939aa1
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/aquantia/atlantic/aq_ring.c:473 aq_xdp_run_prog() erro=
-r: (-2147483647) too low for ERR_PTR
 
-vim +473 drivers/net/ethernet/aquantia/atlantic/aq_ring.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:457:4: note: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11
+                           memcpy(dst, pat, 2);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:463:4: warning: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(dst, pat, 3);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:463:4: note: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11
+                           memcpy(dst, pat, 3);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:469:4: warning: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(dst, pat, 4);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:469:4: note: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11
+                           memcpy(dst, pat, 4);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:475:4: warning: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(dst, pat, 8);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   sound/core/pcm_misc.c:475:4: note: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11
+                           memcpy(dst, pat, 8);
+                           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   80 warnings generated.
+   net/ipv6/rpl.c:17:2: warning: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dst, daddr, pfx);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/ipv6/rpl.c:17:2: note: Call to function 'memcpy' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memcpy_s' in case of C11
+           memcpy(dst, daddr, pfx);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/ipv6/rpl.c:18:2: warning: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&dst->s6_addr[pfx], post, IPV6_PFXTAIL_LEN(pfx));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/ipv6/rpl.c:18:2: note: Call to function 'memcpy' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memcpy_s' in case of C11
+           memcpy(&dst->s6_addr[pfx], post, IPV6_PFXTAIL_LEN(pfx));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/ipv6/rpl.c:24:2: warning: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+           memcpy(dst, &addr->s6_addr[pfx], IPV6_PFXTAIL_LEN(pfx));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   net/ipv6/rpl.c:24:2: note: Call to function 'memcpy' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memcpy_s' in case of C11
+           memcpy(dst, &addr->s6_addr[pfx], IPV6_PFXTAIL_LEN(pfx));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 77 warnings (77 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/ufs/host/ufshcd-pci.c:64:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(result, obj->buffer.pointer, len);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/ufs/host/ufshcd-pci.c:64:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(result, obj->buffer.pointer, len);
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+>> drivers/ufs/host/ufshcd-pci.c:84:2: warning: Value stored to 'err' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           err =3D __intel_dsm(intel_host, dev, INTEL_DSM_FNS, &intel_host-=
+>dsm_fns);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/ufs/host/ufshcd-pci.c:84:2: note: Value stored to 'err' is never=
+ read
+           err =3D __intel_dsm(intel_host, dev, INTEL_DSM_FNS, &intel_host-=
+>dsm_fns);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/ufs/host/ufshcd-pci.c:158:3: warning: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dev_req_params, dev_max_params, sizeof(*dev_req_p=
+arams));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/ufs/host/ufshcd-pci.c:158:3: note: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(dev_req_params, dev_max_params, sizeof(*dev_req_p=
+arams));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   74 warnings generated.
+   111 warnings generated.
+   Suppressed 111 warnings (108 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   38 warnings generated.
+   Suppressed 38 warnings (38 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   sound/soc/codecs/wm8580.c:475:2: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&pll_div, 0, sizeof(pll_div));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8580.c:475:2: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+           memset(&pll_div, 0, sizeof(pll_div));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   sound/synth/emux/emux_seq.c:77:2: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&pinfo, 0, sizeof(pinfo));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   sound/synth/emux/emux_seq.c:77:2: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+           memset(&pinfo, 0, sizeof(pinfo));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   sound/synth/emux/emux_seq.c:86:3: warning: Call to function 'sprintf' is=
+ insecure as it does not provide bounding of the memory buffer or security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuffe=
+rHandling]
+                   sprintf(tmpname, "%s Port %d", emu->name, i);
+                   ^~~~~~~
+   sound/synth/emux/emux_seq.c:86:3: note: Call to function 'sprintf' is in=
+secure as it does not provide bounding of the memory buffer or security che=
+cks introduced in the C11 standard. Replace with analogous functions that s=
+upport length arguments or provides boundary checks such as 'sprintf_s' in =
+case of C11
+                   sprintf(tmpname, "%s Port %d", emu->name, i);
+                   ^~~~~~~
+   sound/synth/emux/emux_seq.c:370:3: warning: Call to function 'sprintf' i=
+s insecure as it does not provide bounding of the memory buffer or security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'sprintf_s'=
+ in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuff=
+erHandling]
+                   sprintf(rmidi->name, "%s Synth MIDI", emu->name);
+                   ^~~~~~~
+   sound/synth/emux/emux_seq.c:370:3: note: Call to function 'sprintf' is i=
+nsecure as it does not provide bounding of the memory buffer or security ch=
+ecks introduced in the C11 standard. Replace with analogous functions that =
+support length arguments or provides boundary checks such as 'sprintf_s' in=
+ case of C11
+                   sprintf(rmidi->name, "%s Synth MIDI", emu->name);
+                   ^~~~~~~
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
 
-ad703c2b9127f9 Dmitry Bogdanov 2018-11-09  391  =
+vim +/err +84 drivers/ufs/host/ufshcd-pci.c
 
-26efaef759a1bc Taehee Yoo      2022-04-17  392  static struct sk_buff *aq_x=
-dp_run_prog(struct aq_nic_s *aq_nic,
-26efaef759a1bc Taehee Yoo      2022-04-17  393  				       struct xdp_buff =
-*xdp,
-26efaef759a1bc Taehee Yoo      2022-04-17  394  				       struct aq_ring_s=
- *rx_ring,
-26efaef759a1bc Taehee Yoo      2022-04-17  395  				       struct aq_ring_b=
-uff_s *buff)
-26efaef759a1bc Taehee Yoo      2022-04-17  396  {
-26efaef759a1bc Taehee Yoo      2022-04-17  397  	int result =3D NETDEV_TX_B=
-USY;
-26efaef759a1bc Taehee Yoo      2022-04-17  398  	struct aq_ring_s *tx_ring;
-26efaef759a1bc Taehee Yoo      2022-04-17  399  	struct xdp_frame *xdpf;
-26efaef759a1bc Taehee Yoo      2022-04-17  400  	struct bpf_prog *prog;
-26efaef759a1bc Taehee Yoo      2022-04-17  401  	u32 act =3D XDP_ABORTED;
-26efaef759a1bc Taehee Yoo      2022-04-17  402  	struct sk_buff *skb;
-26efaef759a1bc Taehee Yoo      2022-04-17  403  =
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  79  =
 
-26efaef759a1bc Taehee Yoo      2022-04-17  404  	u64_stats_update_begin(&rx=
-_ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  405  	++rx_ring->stats.rx.packet=
-s;
-26efaef759a1bc Taehee Yoo      2022-04-17  406  	rx_ring->stats.rx.bytes +=
-=3D xdp_get_buff_len(xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  407  	u64_stats_update_end(&rx_r=
-ing->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  408  =
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  80  =
+static void intel_dsm_init(struct intel_host *intel_host, struct device *de=
+v)
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  81  {
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  82  =
+	int err;
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  83  =
 
-26efaef759a1bc Taehee Yoo      2022-04-17  409  	prog =3D READ_ONCE(rx_ring=
-->xdp_prog);
-26efaef759a1bc Taehee Yoo      2022-04-17  410  	if (!prog)
-26efaef759a1bc Taehee Yoo      2022-04-17  411  		goto pass;
-26efaef759a1bc Taehee Yoo      2022-04-17  412  =
-
-26efaef759a1bc Taehee Yoo      2022-04-17  413  	prefetchw(xdp->data_hard_s=
-tart); /* xdp_frame write */
-26efaef759a1bc Taehee Yoo      2022-04-17  414  =
-
-26efaef759a1bc Taehee Yoo      2022-04-17  415  	/* single buffer XDP progr=
-am, but packet is multi buffer, aborted */
-26efaef759a1bc Taehee Yoo      2022-04-17  416  	if (xdp_buff_has_frags(xdp=
-) && !prog->aux->xdp_has_frags)
-26efaef759a1bc Taehee Yoo      2022-04-17  417  		goto out_aborted;
-26efaef759a1bc Taehee Yoo      2022-04-17  418  =
-
-26efaef759a1bc Taehee Yoo      2022-04-17  419  	act =3D bpf_prog_run_xdp(p=
-rog, xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  420  	switch (act) {
-26efaef759a1bc Taehee Yoo      2022-04-17  421  	case XDP_PASS:
-26efaef759a1bc Taehee Yoo      2022-04-17  422  pass:
-26efaef759a1bc Taehee Yoo      2022-04-17  423  		xdpf =3D xdp_convert_buff=
-_to_frame(xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  424  		if (unlikely(!xdpf))
-26efaef759a1bc Taehee Yoo      2022-04-17  425  			goto out_aborted;
-26efaef759a1bc Taehee Yoo      2022-04-17  426  		skb =3D xdp_build_skb_fro=
-m_frame(xdpf, aq_nic->ndev);
-26efaef759a1bc Taehee Yoo      2022-04-17  427  		if (!skb)
-26efaef759a1bc Taehee Yoo      2022-04-17  428  			goto out_aborted;
-26efaef759a1bc Taehee Yoo      2022-04-17  429  		u64_stats_update_begin(&r=
-x_ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  430  		++rx_ring->stats.rx.xdp_p=
-ass;
-26efaef759a1bc Taehee Yoo      2022-04-17  431  		u64_stats_update_end(&rx_=
-ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  432  		aq_get_rxpages_xdp(buff, =
-xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  433  		return skb;
-26efaef759a1bc Taehee Yoo      2022-04-17  434  	case XDP_TX:
-26efaef759a1bc Taehee Yoo      2022-04-17  435  		xdpf =3D xdp_convert_buff=
-_to_frame(xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  436  		if (unlikely(!xdpf))
-26efaef759a1bc Taehee Yoo      2022-04-17  437  			goto out_aborted;
-26efaef759a1bc Taehee Yoo      2022-04-17  438  		tx_ring =3D aq_nic->aq_ri=
-ng_tx[rx_ring->idx];
-26efaef759a1bc Taehee Yoo      2022-04-17  439  		result =3D aq_nic_xmit_xd=
-pf(aq_nic, tx_ring, xdpf);
-26efaef759a1bc Taehee Yoo      2022-04-17  440  		if (result =3D=3D NETDEV_=
-TX_BUSY)
-26efaef759a1bc Taehee Yoo      2022-04-17  441  			goto out_aborted;
-26efaef759a1bc Taehee Yoo      2022-04-17  442  		u64_stats_update_begin(&r=
-x_ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  443  		++rx_ring->stats.rx.xdp_t=
-x;
-26efaef759a1bc Taehee Yoo      2022-04-17  444  		u64_stats_update_end(&rx_=
-ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  445  		aq_get_rxpages_xdp(buff, =
-xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  446  		break;
-26efaef759a1bc Taehee Yoo      2022-04-17  447  	case XDP_REDIRECT:
-26efaef759a1bc Taehee Yoo      2022-04-17  448  		if (xdp_do_redirect(aq_ni=
-c->ndev, xdp, prog) < 0)
-26efaef759a1bc Taehee Yoo      2022-04-17  449  			goto out_aborted;
-26efaef759a1bc Taehee Yoo      2022-04-17  450  		xdp_do_flush();
-26efaef759a1bc Taehee Yoo      2022-04-17  451  		u64_stats_update_begin(&r=
-x_ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  452  		++rx_ring->stats.rx.xdp_r=
-edirect;
-26efaef759a1bc Taehee Yoo      2022-04-17  453  		u64_stats_update_end(&rx_=
-ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  454  		aq_get_rxpages_xdp(buff, =
-xdp);
-26efaef759a1bc Taehee Yoo      2022-04-17  455  		break;
-26efaef759a1bc Taehee Yoo      2022-04-17  456  	default:
-26efaef759a1bc Taehee Yoo      2022-04-17  457  		fallthrough;
-26efaef759a1bc Taehee Yoo      2022-04-17  458  	case XDP_ABORTED:
-26efaef759a1bc Taehee Yoo      2022-04-17  459  out_aborted:
-26efaef759a1bc Taehee Yoo      2022-04-17  460  		u64_stats_update_begin(&r=
-x_ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  461  		++rx_ring->stats.rx.xdp_a=
-borted;
-26efaef759a1bc Taehee Yoo      2022-04-17  462  		u64_stats_update_end(&rx_=
-ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  463  		trace_xdp_exception(aq_ni=
-c->ndev, prog, act);
-26efaef759a1bc Taehee Yoo      2022-04-17  464  		bpf_warn_invalid_xdp_acti=
-on(aq_nic->ndev, prog, act);
-26efaef759a1bc Taehee Yoo      2022-04-17  465  		break;
-26efaef759a1bc Taehee Yoo      2022-04-17  466  	case XDP_DROP:
-26efaef759a1bc Taehee Yoo      2022-04-17  467  		u64_stats_update_begin(&r=
-x_ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  468  		++rx_ring->stats.rx.xdp_d=
-rop;
-26efaef759a1bc Taehee Yoo      2022-04-17  469  		u64_stats_update_end(&rx_=
-ring->stats.rx.syncp);
-26efaef759a1bc Taehee Yoo      2022-04-17  470  		break;
-26efaef759a1bc Taehee Yoo      2022-04-17  471  	}
-26efaef759a1bc Taehee Yoo      2022-04-17  472  =
-
-26efaef759a1bc Taehee Yoo      2022-04-17 @473  	return ERR_PTR(-result);
-26efaef759a1bc Taehee Yoo      2022-04-17  474  }
-26efaef759a1bc Taehee Yoo      2022-04-17  475  =
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12 @84  =
+	err =3D __intel_dsm(intel_host, dev, INTEL_DSM_FNS, &intel_host->dsm_fns);
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  85  =
+	dev_dbg(dev, "DSM fns %#x, error %d\n", intel_host->dsm_fns, err);
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  86  }
+b2c57925df1ffc drivers/scsi/ufs/ufshcd-pci.c Adrian Hunter 2021-03-12  87  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6337640327118240486==--
+--===============7666791392410410641==--
 
