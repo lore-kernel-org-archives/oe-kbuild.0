@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0200738542414098475=="
+Content-Type: multipart/mixed; boundary="===============4418918861435821154=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/coredump.c:399:15: warning: Redundant initialization for 'core_waiters'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Sat, 14 May 2022 10:53:38 +0800
-Message-ID: <202205141015.VPfQIDnt-lkp@intel.com>
+Subject: [mszyprow:v5.18-next-20220511-dsi-rework 14/35] drivers/gpu/drm/bridge/samsung-dsim.c:506:3-9: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+Date: Sat, 14 May 2022 09:31:10 +0800
+Message-ID: <202205140917.9cTJ9GLZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0200738542414098475==
+--===============4418918861435821154==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,99 +15,108 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Eric W. Biederman" <ebiederm@xmission.com>
-CC: Kees Cook <keescook@chromium.org>
+TO: Jagan Teki <jagan@amarulasolutions.com>
+CC: Marek Szyprowski <m.szyprowski@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ec7f49619d8ee13e108740c82f942cd401b989e9
-commit: 0258b5fd7c7124b87e185a1a9322d2c66b1876b7 coredump: Limit coredumps =
-to a single thread group
-date:   7 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 7 months ago
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 0258b5fd7c7124b87e185a1a9322d2c66b1876b7
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/mszyprow/linux.git v5.18-next-20220511-dsi-rework
+head:   65cb4959430021041f1e68ef98a6ec541d5891aa
+commit: 395cab08cbac6e4028dafce068414ea43244a592 [14/35] drm: bridge: Add S=
+amsung DSIM bridge driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-c003-20220512 (https://download.01.org/0day-ci/=
+archive/20220514/202205140917.9cTJ9GLZ-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/samsung-dsim.c:506:3-9: WARNING: do_div() does a =
+64-by-32 division, please consider using div64_ul instead.
 
->> fs/coredump.c:399:15: warning: Redundant initialization for 'core_waiter=
-s'. The initialized value is overwritten before it is read. [redundantIniti=
-alization]
-    core_waiters =3D zap_threads(tsk, core_state, exit_code);
-                 ^
-   fs/coredump.c:393:19: note: core_waiters is initialized
-    int core_waiters =3D -EBUSY;
-                     ^
-   fs/coredump.c:399:15: note: core_waiters is overwritten
-    core_waiters =3D zap_threads(tsk, core_state, exit_code);
-                 ^
+vim +506 drivers/gpu/drm/bridge/samsung-dsim.c
 
-vim +/core_waiters +399 fs/coredump.c
+395cab08cbac6e Jagan Teki 2022-05-04  483  =
 
-10c28d937e2cca Alex Kelly        2012-09-26  389  =
+395cab08cbac6e Jagan Teki 2022-05-04  484  static unsigned long samsung_dsi=
+m_pll_find_pms(struct samsung_dsim *dsi,
+395cab08cbac6e Jagan Teki 2022-05-04  485  					       unsigned long fin,
+395cab08cbac6e Jagan Teki 2022-05-04  486  					       unsigned long fout,
+395cab08cbac6e Jagan Teki 2022-05-04  487  					       u8 *p, u16 *m, u8 *s)
+395cab08cbac6e Jagan Teki 2022-05-04  488  {
+395cab08cbac6e Jagan Teki 2022-05-04  489  	const struct samsung_dsim_drive=
+r_data *driver_data =3D dsi->driver_data;
+395cab08cbac6e Jagan Teki 2022-05-04  490  	unsigned long best_freq =3D 0;
+395cab08cbac6e Jagan Teki 2022-05-04  491  	u32 min_delta =3D 0xffffffff;
+395cab08cbac6e Jagan Teki 2022-05-04  492  	u8 p_min, p_max;
+395cab08cbac6e Jagan Teki 2022-05-04  493  	u8 _p, best_p;
+395cab08cbac6e Jagan Teki 2022-05-04  494  	u16 _m, best_m;
+395cab08cbac6e Jagan Teki 2022-05-04  495  	u8 _s, best_s;
+395cab08cbac6e Jagan Teki 2022-05-04  496  =
 
-10c28d937e2cca Alex Kelly        2012-09-26  390  static int coredump_wait(=
-int exit_code, struct core_state *core_state)
-10c28d937e2cca Alex Kelly        2012-09-26  391  {
-10c28d937e2cca Alex Kelly        2012-09-26  392  	struct task_struct *tsk =
-=3D current;
-10c28d937e2cca Alex Kelly        2012-09-26  393  	int core_waiters =3D -EB=
-USY;
-10c28d937e2cca Alex Kelly        2012-09-26  394  =
+395cab08cbac6e Jagan Teki 2022-05-04  497  	p_min =3D DIV_ROUND_UP(fin, (12=
+ * MHZ));
+395cab08cbac6e Jagan Teki 2022-05-04  498  	p_max =3D fin / (6 * MHZ);
+395cab08cbac6e Jagan Teki 2022-05-04  499  =
 
-10c28d937e2cca Alex Kelly        2012-09-26  395  	init_completion(&core_st=
-ate->startup);
-10c28d937e2cca Alex Kelly        2012-09-26  396  	core_state->dumper.task =
-=3D tsk;
-10c28d937e2cca Alex Kelly        2012-09-26  397  	core_state->dumper.next =
-=3D NULL;
-10c28d937e2cca Alex Kelly        2012-09-26  398  =
+395cab08cbac6e Jagan Teki 2022-05-04  500  	for (_p =3D p_min; _p <=3D p_ma=
+x; ++_p) {
+395cab08cbac6e Jagan Teki 2022-05-04  501  		for (_s =3D 0; _s <=3D 5; ++_s=
+) {
+395cab08cbac6e Jagan Teki 2022-05-04  502  			u64 tmp;
+395cab08cbac6e Jagan Teki 2022-05-04  503  			u32 delta;
+395cab08cbac6e Jagan Teki 2022-05-04  504  =
 
-0258b5fd7c7124 Eric W. Biederman 2021-09-22 @399  	core_waiters =3D zap_thr=
-eads(tsk, core_state, exit_code);
-10c28d937e2cca Alex Kelly        2012-09-26  400  	if (core_waiters > 0) {
-10c28d937e2cca Alex Kelly        2012-09-26  401  		struct core_thread *ptr;
-10c28d937e2cca Alex Kelly        2012-09-26  402  =
+395cab08cbac6e Jagan Teki 2022-05-04  505  			tmp =3D (u64)fout * (_p << _s=
+);
+395cab08cbac6e Jagan Teki 2022-05-04 @506  			do_div(tmp, fin);
+395cab08cbac6e Jagan Teki 2022-05-04  507  			_m =3D tmp;
+395cab08cbac6e Jagan Teki 2022-05-04  508  			if (_m < 41 || _m > 125)
+395cab08cbac6e Jagan Teki 2022-05-04  509  				continue;
+395cab08cbac6e Jagan Teki 2022-05-04  510  =
 
-70d78fe7c8b640 Andrey Ryabinin   2016-11-10  403  		freezer_do_not_count();
-10c28d937e2cca Alex Kelly        2012-09-26  404  		wait_for_completion(&co=
-re_state->startup);
-70d78fe7c8b640 Andrey Ryabinin   2016-11-10  405  		freezer_count();
-10c28d937e2cca Alex Kelly        2012-09-26  406  		/*
-10c28d937e2cca Alex Kelly        2012-09-26  407  		 * Wait for all the thr=
-eads to become inactive, so that
-10c28d937e2cca Alex Kelly        2012-09-26  408  		 * all the thread conte=
-xt (extended register state, like
-10c28d937e2cca Alex Kelly        2012-09-26  409  		 * fpu etc) gets copied=
- to the memory.
-10c28d937e2cca Alex Kelly        2012-09-26  410  		 */
-10c28d937e2cca Alex Kelly        2012-09-26  411  		ptr =3D core_state->dum=
-per.next;
-10c28d937e2cca Alex Kelly        2012-09-26  412  		while (ptr !=3D NULL) {
-10c28d937e2cca Alex Kelly        2012-09-26  413  			wait_task_inactive(ptr=
-->task, 0);
-10c28d937e2cca Alex Kelly        2012-09-26  414  			ptr =3D ptr->next;
-10c28d937e2cca Alex Kelly        2012-09-26  415  		}
-10c28d937e2cca Alex Kelly        2012-09-26  416  	}
-10c28d937e2cca Alex Kelly        2012-09-26  417  =
+395cab08cbac6e Jagan Teki 2022-05-04  511  			tmp =3D (u64)_m * fin;
+395cab08cbac6e Jagan Teki 2022-05-04  512  			do_div(tmp, _p);
+395cab08cbac6e Jagan Teki 2022-05-04  513  			if (tmp < 500 * MHZ ||
+395cab08cbac6e Jagan Teki 2022-05-04  514  					tmp > driver_data->max_freq=
+ * MHZ)
+395cab08cbac6e Jagan Teki 2022-05-04  515  				continue;
+395cab08cbac6e Jagan Teki 2022-05-04  516  =
 
-10c28d937e2cca Alex Kelly        2012-09-26  418  	return core_waiters;
-10c28d937e2cca Alex Kelly        2012-09-26  419  }
-10c28d937e2cca Alex Kelly        2012-09-26  420  =
+395cab08cbac6e Jagan Teki 2022-05-04  517  			tmp =3D (u64)_m * fin;
+395cab08cbac6e Jagan Teki 2022-05-04  518  			do_div(tmp, _p << _s);
+395cab08cbac6e Jagan Teki 2022-05-04  519  =
+
+395cab08cbac6e Jagan Teki 2022-05-04  520  			delta =3D abs(fout - tmp);
+395cab08cbac6e Jagan Teki 2022-05-04  521  			if (delta < min_delta) {
+395cab08cbac6e Jagan Teki 2022-05-04  522  				best_p =3D _p;
+395cab08cbac6e Jagan Teki 2022-05-04  523  				best_m =3D _m;
+395cab08cbac6e Jagan Teki 2022-05-04  524  				best_s =3D _s;
+395cab08cbac6e Jagan Teki 2022-05-04  525  				min_delta =3D delta;
+395cab08cbac6e Jagan Teki 2022-05-04  526  				best_freq =3D tmp;
+395cab08cbac6e Jagan Teki 2022-05-04  527  			}
+395cab08cbac6e Jagan Teki 2022-05-04  528  		}
+395cab08cbac6e Jagan Teki 2022-05-04  529  	}
+395cab08cbac6e Jagan Teki 2022-05-04  530  =
+
+395cab08cbac6e Jagan Teki 2022-05-04  531  	if (best_freq) {
+395cab08cbac6e Jagan Teki 2022-05-04  532  		*p =3D best_p;
+395cab08cbac6e Jagan Teki 2022-05-04  533  		*m =3D best_m;
+395cab08cbac6e Jagan Teki 2022-05-04  534  		*s =3D best_s;
+395cab08cbac6e Jagan Teki 2022-05-04  535  	}
+395cab08cbac6e Jagan Teki 2022-05-04  536  =
+
+395cab08cbac6e Jagan Teki 2022-05-04  537  	return best_freq;
+395cab08cbac6e Jagan Teki 2022-05-04  538  }
+395cab08cbac6e Jagan Teki 2022-05-04  539  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0200738542414098475==--
+--===============4418918861435821154==--
 
