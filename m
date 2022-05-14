@@ -1,364 +1,157 @@
-Content-Type: multipart/mixed; boundary="===============4552237614559945189=="
+Content-Type: multipart/mixed; boundary="===============7858741641831665735=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 8143/14159] drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: warning: Value stored to 'pctl' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 26 May 2022 22:11:32 +0800
-Message-ID: <202205262247.4wz3LUVs-lkp@intel.com>
+Subject: Re: [PATCH v3 1/4] kernfs: make ->attr.open RCU protected.
+Date: Sat, 14 May 2022 17:30:45 +0800
+Message-ID: <202205141708.2SQYmW1K-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4552237614559945189==
+--===============7858741641831665735==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Fabien Dessenne <fabien.dessenne@foss.st.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20220511095157.478522-2-imran.f.khan@oracle.com>
+References: <20220511095157.478522-2-imran.f.khan@oracle.com>
+TO: Imran Khan <imran.f.khan@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   b1d84fc09a961e0a8be3d3dc6ca1b7cddc3ced87
-commit: 3389b09878dddd58ef52bd0bf43cc42ea5a9ea2a [8143/14159] pinctrl: stm3=
-2: prevent the use of the secure protected pins
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-c002-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220526/202205262247.4wz3LUVs-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 3d5461=
-91ad9d7d2ad2c7928204b9de51deafa675)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D3389b09878dddd58ef52bd0bf43cc42ea5a9ea2a
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 3389b09878dddd58ef52bd0bf43cc42ea5a9ea2a
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+Hi Imran,
 
+Thank you for the patch! Perhaps something to improve:
 
-If you fix the issue, kindly add following tag where applicable
+[auto build test WARNING on 3bf222d317a20170ee17f082626c1e0f83537e13]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Imran-Khan/kernfs-ma=
+ke-attr-open-RCU-protected/20220511-175730
+base:   3bf222d317a20170ee17f082626c1e0f83537e13
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+514/202205141708.2SQYmW1K-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+
+If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/kernfs/file.c:282 kernfs_file_read_iter() warn: inconsistent returns '&o=
+f->mutex'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   include/linux/hid.h:1055:3: note: '?' condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   include/linux/hid.h:1055:3: note: '?' condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   include/linux/hid.h:1055:3: note: Loop condition is false.  Exiting loop
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   include/linux/hid.h:1056:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:656:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:640:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   include/linux/printk.h:446:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                              ^~~~~~~~~~~
-   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
-rap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                                   ^~~~~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   drivers/pinctrl/meson/pinctrl-meson8-pmx.c:60:25: warning: Value stored =
-to 'func' during its initialization is never read [clang-analyzer-deadcode.=
-DeadStores]
-           struct meson_pmx_func *func =3D &pc->data->funcs[func_num];
-                                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/meson/pinctrl-meson8-pmx.c:60:25: note: Value stored to =
-'func' during its initialization is never read
-           struct meson_pmx_func *func =3D &pc->data->funcs[func_num];
-                                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
->> drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: warning: Value stored to '=
-pctl' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           struct stm32_pinctrl *pctl =3D dev_get_drvdata(bank->gpio_chip.p=
-arent);
-                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: note: Value stored to 'pct=
-l' during its initialization is never read
-           struct stm32_pinctrl *pctl =3D dev_get_drvdata(bank->gpio_chip.p=
-arent);
-                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1422:21: warning: Passed-by-value =
-struct argument contains uninitialized data (e.g., field: 'id_size') [clang=
--analyzer-core.CallAndMessage]
-                   pctl->irqmux[i] =3D devm_regmap_field_alloc(dev, rm, mux=
+Old smatch warnings:
+fs/kernfs/file.c:255 kernfs_file_read_iter() warn: possible memory leak of =
+'buf'
+fs/kernfs/file.c:282 kernfs_file_read_iter() warn: possible memory leak of =
+'buf'
+
+vim +282 fs/kernfs/file.c
+
+414985ae23c031 Tejun Heo         2013-11-28  219  =
+
+414985ae23c031 Tejun Heo         2013-11-28  220  /*
+414985ae23c031 Tejun Heo         2013-11-28  221   * As reading a bin file =
+can have side-effects, the exact offset and bytes
+414985ae23c031 Tejun Heo         2013-11-28  222   * specified in read(2) c=
+all should be passed to the read callback making
+414985ae23c031 Tejun Heo         2013-11-28  223   * it difficult to use se=
+q_file.  Implement simplistic custom buffering for
+414985ae23c031 Tejun Heo         2013-11-28  224   * bin files.
+414985ae23c031 Tejun Heo         2013-11-28  225   */
+4eaad21a6ac986 Christoph Hellwig 2021-01-20  226  static ssize_t kernfs_fil=
+e_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+414985ae23c031 Tejun Heo         2013-11-28  227  {
+4eaad21a6ac986 Christoph Hellwig 2021-01-20  228  	struct kernfs_open_file =
+*of =3D kernfs_of(iocb->ki_filp);
+4eaad21a6ac986 Christoph Hellwig 2021-01-20  229  	ssize_t len =3D min_t(si=
+ze_t, iov_iter_count(iter), PAGE_SIZE);
+414985ae23c031 Tejun Heo         2013-11-28  230  	const struct kernfs_ops =
+*ops;
+302de586c74f7b Imran Khan        2022-05-11  231  	struct kernfs_open_node =
+*on;
+414985ae23c031 Tejun Heo         2013-11-28  232  	char *buf;
+414985ae23c031 Tejun Heo         2013-11-28  233  =
+
+4ef67a8c95f32e NeilBrown         2014-10-14  234  	buf =3D of->prealloc_buf;
+e4234a1fc343ca Chris Wilson      2016-03-31  235  	if (buf)
+e4234a1fc343ca Chris Wilson      2016-03-31  236  		mutex_lock(&of->preallo=
+c_mutex);
+e4234a1fc343ca Chris Wilson      2016-03-31  237  	else
+414985ae23c031 Tejun Heo         2013-11-28  238  		buf =3D kmalloc(len, GF=
+P_KERNEL);
+414985ae23c031 Tejun Heo         2013-11-28  239  	if (!buf)
+414985ae23c031 Tejun Heo         2013-11-28  240  		return -ENOMEM;
+414985ae23c031 Tejun Heo         2013-11-28  241  =
+
+414985ae23c031 Tejun Heo         2013-11-28  242  	/*
+4ef67a8c95f32e NeilBrown         2014-10-14  243  	 * @of->mutex nests outs=
+ide active ref and is used both to ensure that
+e4234a1fc343ca Chris Wilson      2016-03-31  244  	 * the ops aren't called=
+ concurrently for the same open file.
+414985ae23c031 Tejun Heo         2013-11-28  245  	 */
+414985ae23c031 Tejun Heo         2013-11-28  246  	mutex_lock(&of->mutex);
+c637b8acbe079e Tejun Heo         2013-12-11  247  	if (!kernfs_get_active(o=
+f->kn)) {
+414985ae23c031 Tejun Heo         2013-11-28  248  		len =3D -ENODEV;
+414985ae23c031 Tejun Heo         2013-11-28  249  		mutex_unlock(&of->mutex=
 );
-                                     ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1494:6: note: Assuming 'np' is non=
--null
-           if (!np)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1494:2: note: Taking false branch
-           if (!np)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:6: note: Assuming 'match' is =
-non-null
-           if (!match || !match->data)
-               ^~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:6: note: Left side of '||' is=
- false
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:16: note: Assuming field 'dat=
-a' is non-null
-           if (!match || !match->data)
-                         ^~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:2: note: Taking false branch
-           if (!match || !match->data)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1501:6: note: Assuming the conditi=
-on is false
-           if (!of_find_property(np, "pins-are-numbered", NULL)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1501:2: note: Taking false branch
-           if (!of_find_property(np, "pins-are-numbered", NULL)) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1507:6: note: Assuming 'pctl' is n=
-on-null
-           if (!pctl)
-               ^~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1507:2: note: Taking false branch
-           if (!pctl)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1514:2: note: Taking false branch
-           if (IS_ERR(pctl->domain))
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1519:6: note: 'hwlock_id' is >=3D 0
-           if (hwlock_id < 0) {
-               ^~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1519:2: note: Taking false branch
-           if (hwlock_id < 0) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1526:2: note: Loop condition is fa=
-lse.  Exiting loop
-           spin_lock_init(&pctl->irqmux_lock);
-           ^
-   include/linux/spinlock.h:339:34: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(_lock)                  \
-                                                   ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1532:2: note: Taking false branch
-           if (!of_property_read_u32(np, "st,package", &pctl->pkg))
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1537:6: note: Assuming field 'pins=
-' is non-null
-           if (!pctl->pins)
-               ^~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1537:2: note: Taking false branch
-           if (!pctl->pins)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1541:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1541:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1545:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1545:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1550:6: note: Assuming field 'doma=
-in' is non-null
-           if (pctl->domain) {
-               ^~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1550:2: note: Taking true branch
-           if (pctl->domain) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1551:9: note: Calling 'stm32_pctrl=
-_dt_setup_irq'
-                   ret =3D stm32_pctrl_dt_setup_irq(pdev, pctl);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1397:2: note: Taking false branch
-           if (IS_ERR(pctl->regmap))
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1403:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1403:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1407:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1407:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1412:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (i =3D 0; i < STM32_GPIO_PINS_PER_BANK; i++) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1413:3: note: 'mux' initialized he=
-re
+414985ae23c031 Tejun Heo         2013-11-28  250  		goto out_free;
+414985ae23c031 Tejun Heo         2013-11-28  251  	}
+414985ae23c031 Tejun Heo         2013-11-28  252  =
 
-vim +/pctl +294 drivers/pinctrl/stm32/pinctrl-stm32.c
+302de586c74f7b Imran Khan        2022-05-11  253  	on =3D kernfs_deref_on_r=
+aw(of, of->kn);
+302de586c74f7b Imran Khan        2022-05-11  254  	if (!on)
+302de586c74f7b Imran Khan        2022-05-11  255  		return -EINVAL;
+302de586c74f7b Imran Khan        2022-05-11  256  =
 
-acaa037970f610 Alexandre TORGUE 2017-05-29  288  =
+302de586c74f7b Imran Khan        2022-05-11  257  	of->event =3D atomic_rea=
+d(&unrcu_pointer(on)->event);
+324a56e16e44ba Tejun Heo         2013-12-11  258  	ops =3D kernfs_ops(of->k=
+n);
+414985ae23c031 Tejun Heo         2013-11-28  259  	if (ops->read)
+4eaad21a6ac986 Christoph Hellwig 2021-01-20  260  		len =3D ops->read(of, b=
+uf, len, iocb->ki_pos);
+414985ae23c031 Tejun Heo         2013-11-28  261  	else
+414985ae23c031 Tejun Heo         2013-11-28  262  		len =3D -EINVAL;
+414985ae23c031 Tejun Heo         2013-11-28  263  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  289  static int stm32_gpio_init=
-_valid_mask(struct gpio_chip *chip,
-3389b09878dddd Fabien Dessenne  2022-05-02  290  				      unsigned long *v=
-alid_mask,
-3389b09878dddd Fabien Dessenne  2022-05-02  291  				      unsigned int ngp=
-ios)
-3389b09878dddd Fabien Dessenne  2022-05-02  292  {
-3389b09878dddd Fabien Dessenne  2022-05-02  293  	struct stm32_gpio_bank *b=
-ank =3D gpiochip_get_data(chip);
-3389b09878dddd Fabien Dessenne  2022-05-02 @294  	struct stm32_pinctrl *pct=
-l =3D dev_get_drvdata(bank->gpio_chip.parent);
-3389b09878dddd Fabien Dessenne  2022-05-02  295  	unsigned int i;
-3389b09878dddd Fabien Dessenne  2022-05-02  296  	u32 sec;
-3389b09878dddd Fabien Dessenne  2022-05-02  297  =
+e4234a1fc343ca Chris Wilson      2016-03-31  264  	kernfs_put_active(of->kn=
+);
+e4234a1fc343ca Chris Wilson      2016-03-31  265  	mutex_unlock(&of->mutex);
+e4234a1fc343ca Chris Wilson      2016-03-31  266  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  298  	/* All gpio are valid per=
- default */
-3389b09878dddd Fabien Dessenne  2022-05-02  299  	bitmap_fill(valid_mask, n=
-gpios);
-3389b09878dddd Fabien Dessenne  2022-05-02  300  =
+414985ae23c031 Tejun Heo         2013-11-28  267  	if (len < 0)
+e4234a1fc343ca Chris Wilson      2016-03-31  268  		goto out_free;
+414985ae23c031 Tejun Heo         2013-11-28  269  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  301  	if (bank->secure_control)=
- {
-3389b09878dddd Fabien Dessenne  2022-05-02  302  		/* Tag secured pins as i=
-nvalid */
-3389b09878dddd Fabien Dessenne  2022-05-02  303  		sec =3D readl_relaxed(ba=
-nk->base + STM32_GPIO_SECCFGR);
-3389b09878dddd Fabien Dessenne  2022-05-02  304  =
+4eaad21a6ac986 Christoph Hellwig 2021-01-20  270  	if (copy_to_iter(buf, le=
+n, iter) !=3D len) {
+414985ae23c031 Tejun Heo         2013-11-28  271  		len =3D -EFAULT;
+e4234a1fc343ca Chris Wilson      2016-03-31  272  		goto out_free;
+414985ae23c031 Tejun Heo         2013-11-28  273  	}
+414985ae23c031 Tejun Heo         2013-11-28  274  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  305  		for (i =3D 0; i < ngpios=
-; i++) {
-3389b09878dddd Fabien Dessenne  2022-05-02  306  			if (sec & BIT(i)) {
-3389b09878dddd Fabien Dessenne  2022-05-02  307  				clear_bit(i, valid_mas=
-k);
-3389b09878dddd Fabien Dessenne  2022-05-02  308  				dev_dbg(pctl->dev, "No=
- access to gpio %d - %d\n", bank->bank_nr, i);
-3389b09878dddd Fabien Dessenne  2022-05-02  309  			}
-3389b09878dddd Fabien Dessenne  2022-05-02  310  		}
-3389b09878dddd Fabien Dessenne  2022-05-02  311  	}
-3389b09878dddd Fabien Dessenne  2022-05-02  312  =
+4eaad21a6ac986 Christoph Hellwig 2021-01-20  275  	iocb->ki_pos +=3D len;
+414985ae23c031 Tejun Heo         2013-11-28  276  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  313  	return 0;
-3389b09878dddd Fabien Dessenne  2022-05-02  314  }
-3389b09878dddd Fabien Dessenne  2022-05-02  315  =
+414985ae23c031 Tejun Heo         2013-11-28  277   out_free:
+e4234a1fc343ca Chris Wilson      2016-03-31  278  	if (buf =3D=3D of->preal=
+loc_buf)
+e4234a1fc343ca Chris Wilson      2016-03-31  279  		mutex_unlock(&of->preal=
+loc_mutex);
+e4234a1fc343ca Chris Wilson      2016-03-31  280  	else
+414985ae23c031 Tejun Heo         2013-11-28  281  		kfree(buf);
+414985ae23c031 Tejun Heo         2013-11-28 @282  	return len;
+414985ae23c031 Tejun Heo         2013-11-28  283  }
+414985ae23c031 Tejun Heo         2013-11-28  284  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4552237614559945189==--
+--===============7858741641831665735==--
 
