@@ -1,244 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============3270897835065819954=="
+Content-Type: multipart/mixed; boundary="===============2423543625840502948=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [v2 2/2] kbuild: copy scripts/atomic/atomic-*.h to include/generated/atomic-*.h
-Date: Mon, 16 May 2022 18:42:36 +0800
-Message-ID: <202205161823.mIahKU8w-lkp@intel.com>
+Subject: Re: [PATCH v2 6/7] sched/fair: Add sched group latency support
+Date: Sun, 15 May 2022 16:28:48 +0800
+Message-ID: <202205151601.2cHPPsvk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3270897835065819954==
+--===============2423543625840502948==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220514040207.282910-2-masahiroy@kernel.org>
-References: <20220514040207.282910-2-masahiroy@kernel.org>
-TO: Masahiro Yamada <masahiroy@kernel.org>
-TO: linux-kbuild(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
-CC: Mark Rutland <mark.rutland@arm.com>
-CC: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-CC: Masahiro Yamada <masahiroy@kernel.org>
+In-Reply-To: <20220512163534.2572-7-vincent.guittot@linaro.org>
+References: <20220512163534.2572-7-vincent.guittot@linaro.org>
+TO: Vincent Guittot <vincent.guittot@linaro.org>
 
-Hi Masahiro,
+Hi Vincent,
 
 I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on linux/master linus/master v5.18-rc7 next-202205=
-13]
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on linux/master tip/master linus/master v5.18-rc6 =
+next-20220513]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbui=
-ld-move-scripts-mod-build-to-modules_prepare/20220514-120519
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
-ild.git for-next
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: sparc64-randconfig-s032-20220516 (https://download.01.org/0day-ci/a=
-rchive/20220516/202205161823.mIahKU8w-lkp(a)intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/2317716a72142c0f8ac=
-4bdf728fa666b64164cef
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-move-script=
-s-mod-build-to-modules_prepare/20220514-120519
-        git checkout 2317716a72142c0f8ac4bdf728fa666b64164cef
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Ds=
-parc64 SHELL=3D/bin/bash arch/sparc/vdso/
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/Add-=
+latency_nice-priority/20220513-005836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 734387e=
+c2f9d77b00276042b1fa7c95f48ee879d
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220515/202205151601.2cHPPsvk-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+kernel/sched/fair.c:11785 sched_group_set_latency() error: buffer overflow =
+'sched_latency_to_weight' 40 <=3D 40
+kernel/sched/fair.c:11785 sched_group_set_latency() error: buffer overflow =
+'sched_latency_to_weight' 40 <=3D 40
 
-sparse warnings: (new ones prefixed by >>)
-   arch/sparc/vdso/vdso32/vclock_gettime.c: note: in included file (through=
- arch/sparc/include/asm/atomic.h, include/linux/atomic.h, include/asm-gener=
-ic/bitops/lock.h, ...):
-   arch/sparc/include/asm/atomic_64.h:37:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:37:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:37:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:37:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:37:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:37:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:38:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:38:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:38:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:38:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:38:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:38:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:43:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:43:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:43:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:43:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:44:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:44:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:44:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:44:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:45:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:45:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:45:1: sparse: sparse: Expected ) in f=
-unction declarator
-   arch/sparc/include/asm/atomic_64.h:45:1: sparse: sparse: got *
-   arch/sparc/include/asm/atomic_64.h:63:46: sparse: sparse: Expected ) in =
-function declarator
-   arch/sparc/include/asm/atomic_64.h:63:46: sparse: sparse: got *
-   arch/sparc/vdso/vdso32/vclock_gettime.c: note: in included file (through=
- include/linux/atomic/atomic-arch-fallback.h, include/linux/atomic.h, inclu=
-de/asm-generic/bitops/lock.h, ...):
-   ./include/generated/atomic-arch-fallback.h:1273:45: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1273:45: sparse: sparse: got *
-   ./include/generated/atomic-arch-fallback.h:1277:13: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1277:13: sparse: sparse: got (
-   ./include/generated/atomic-arch-fallback.h:1277:9: sparse: sparse: Tryin=
-g to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got !
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Tryi=
-ng to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ) in nested declarator
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got =
-volatile
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Tryi=
-ng to use reserved word 'const' as identifier
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Tryi=
-ng to use reserved word 'do' as identifier
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ; at end of declaration
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got {
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got !
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Tryi=
-ng to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got *
->> ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Tryi=
-ng to use reserved word 'typeof' as identifier
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1278:23: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1279:9: sparse: sparse: Expec=
-ted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1279:9: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: got !
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: Tryi=
-ng to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: Expe=
-cted ) in nested declarator
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: got =
-volatile
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: Tryi=
-ng to use reserved word 'const' as identifier
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1280:23: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1282:9: sparse: sparse: Expec=
-ted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1282:9: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1285:1: sparse: sparse: Expec=
-ted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1285:1: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got !
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Tryi=
-ng to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Tryi=
-ng to use reserved word 'do' as identifier
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at end of declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got {
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got !
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Tryi=
-ng to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Tryi=
-ng to use reserved word 'do' as identifier
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at end of declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got {
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1294:17: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1295:9: sparse: sparse: Expec=
-ted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1295:9: sparse: sparse: got }
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: Tryi=
-ng to use reserved word 'do' as identifier
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: Expe=
-cted ; at end of declaration
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: got {
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: Expe=
-cted ) in function declarator
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: got !
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: Tryi=
-ng to use reserved word 'if' as identifier
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: Expe=
-cted ; at the end of type declaration
-   ./include/generated/atomic-arch-fallback.h:1297:17: sparse: sparse: too =
-many errors
+vim +/sched_latency_to_weight +11785 kernel/sched/fair.c
+
+304000390f88d0 Josh Don        2021-07-29  11761  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11762  int sched_group_set_laten=
+cy(struct task_group *tg, long latency_prio)
+632b7c939b164d Vincent Guittot 2022-05-12  11763  {
+632b7c939b164d Vincent Guittot 2022-05-12  11764  	int i;
+632b7c939b164d Vincent Guittot 2022-05-12  11765  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11766  	if (tg =3D=3D &root_task=
+_group)
+632b7c939b164d Vincent Guittot 2022-05-12  11767  		return -EINVAL;
+632b7c939b164d Vincent Guittot 2022-05-12  11768  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11769  	if (latency_prio < 0 ||
+632b7c939b164d Vincent Guittot 2022-05-12  11770  	    latency_prio > LATEN=
+CY_NICE_WIDTH)
+632b7c939b164d Vincent Guittot 2022-05-12  11771  		return -EINVAL;
+632b7c939b164d Vincent Guittot 2022-05-12  11772  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11773  	mutex_lock(&shares_mutex=
+);
+632b7c939b164d Vincent Guittot 2022-05-12  11774  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11775  	if (tg->latency_prio =3D=
+=3D latency_prio) {
+632b7c939b164d Vincent Guittot 2022-05-12  11776  		mutex_unlock(&shares_mu=
+tex);
+632b7c939b164d Vincent Guittot 2022-05-12  11777  		return 0;
+632b7c939b164d Vincent Guittot 2022-05-12  11778  	}
+632b7c939b164d Vincent Guittot 2022-05-12  11779  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11780  	tg->latency_prio =3D lat=
+ency_prio;
+632b7c939b164d Vincent Guittot 2022-05-12  11781  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11782  	for_each_possible_cpu(i)=
+ {
+632b7c939b164d Vincent Guittot 2022-05-12  11783  		struct sched_entity *se=
+ =3D tg->se[i];
+632b7c939b164d Vincent Guittot 2022-05-12  11784  =
+
+632b7c939b164d Vincent Guittot 2022-05-12 @11785  		WRITE_ONCE(se->latency_=
+weight, sched_latency_to_weight[latency_prio]);
+632b7c939b164d Vincent Guittot 2022-05-12  11786  	}
+632b7c939b164d Vincent Guittot 2022-05-12  11787  =
+
+632b7c939b164d Vincent Guittot 2022-05-12  11788  	mutex_unlock(&shares_mut=
+ex);
+632b7c939b164d Vincent Guittot 2022-05-12  11789  	return 0;
+632b7c939b164d Vincent Guittot 2022-05-12  11790  }
+632b7c939b164d Vincent Guittot 2022-05-12  11791  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3270897835065819954==--
+--===============2423543625840502948==--
 
