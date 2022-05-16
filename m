@@ -1,43 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============6705953764042314117=="
+Content-Type: multipart/mixed; boundary="===============1377870524478709080=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.10 348/9999] kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
-Date: Mon, 16 May 2022 23:02:30 +0800
-Message-ID: <202205162216.ObaWIaow-lkp@intel.com>
+Subject: [lunn:v5.18-rc4-stacked-bridges 1/2] kismet: WARNING: unmet direct dependencies detected for DS1682 when selected by ZII_RAP
+Date: Mon, 16 May 2022 22:21:29 +0800
+Message-ID: <202205162222.0kfQMXoq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6705953764042314117==
+--===============1377870524478709080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: Paul Gazzillo <paul@pgazz.com>
+CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Andrew Lunn <andrew@lunn.ch>
+CC: Andrey Smirnov <andrew.smirnov@gmail.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android13-5.10
-head:   aadf7ad9db2f7d93ecfb34d0e4f328519460c94e
-commit: 0dc97b664f834a1f25ae5cb3a653e131da1d2798 [348/9999] ANDROID: GKI: e=
-nable hidden configs for DMA
-:::::: branch date: 6 weeks ago
-:::::: commit date: 12 months ago
-config: (https://download.01.org/0day-ci/archive/20220516/202205162216.ObaW=
-Iaow-lkp(a)intel.com/config)
+tree:   https://github.com/lunn/linux.git v5.18-rc4-stacked-bridges
+head:   54c29cf210da59f450762e12946a2dec224c6850
+commit: 104ddfd33f3bd72e3a37262edefff94c0c7d55d4 [1/2] platform/x86: Add Zo=
+diac Radio Access Point platform driver
+:::::: branch date: 12 days ago
+:::::: commit date: 13 days ago
+config: (https://download.01.org/0day-ci/archive/20220516/202205162222.0kfQ=
+MXoq-lkp(a)intel.com/config)
 reproduce:
-        # https://github.com/ammarfaizi2/linux-block/commit/0dc97b664f834a1=
-f25ae5cb3a653e131da1d2798
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
-android13-5.10
-        git checkout 0dc97b664f834a1f25ae5cb3a653e131da1d2798
+        # https://github.com/lunn/linux/commit/104ddfd33f3bd72e3a37262edeff=
+f94c0c7d55d4
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v5.18-rc4-stacked-bridges
+        git checkout 104ddfd33f3bd72e3a37262edefff94c0c7d55d4
         # 1. reproduce by kismet
            # install kmax per https://github.com/paulgazz/kmax/blob/master/=
 README.md
-           kismet --linux-ksrc=3Dlinux --selectees CONFIG_ASYNC_TX_ENABLE_C=
-HANNEL_SWITCH --selectors CONFIG_GKI_HIDDEN_DMA_CONFIGS -a=3Dx86_64
+           kismet --linux-ksrc=3Dlinux --selectees CONFIG_DS1682 --selector=
+s CONFIG_ZII_RAP -a=3Dx86_64
         # 2. reproduce by make
            # save the config file to linux source tree
            cd linux
@@ -48,32 +49,93 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_=
-CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
+>> kismet: WARNING: unmet direct dependencies detected for DS1682 when sele=
+cted by ZII_RAP
    =
 
-   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_=
-SWITCH
-     Depends on [n]: DMADEVICES [=3Dn]
+   WARNING: unmet direct dependencies detected for NET_DSA
+     Depends on [n]: NET [=3Dy] && (BRIDGE [=3Dy] || BRIDGE [=3Dy]=3Dn) && =
+(HSR [=3Dn] || HSR [=3Dn]=3Dn) && INET [=3Dn] && NETDEVICES [=3Dy]
      Selected by [y]:
-     - GKI_HIDDEN_DMA_CONFIGS [=3Dy]
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
    =
 
-   WARNING: unmet direct dependencies detected for USB_PHY
-     Depends on [n]: USB_SUPPORT [=3Dn]
+   WARNING: unmet direct dependencies detected for IGB
+     Depends on [n]: NETDEVICES [=3Dy] && ETHERNET [=3Dn] && NET_VENDOR_INT=
+EL [=3Dn] && PCI [=3Dn] && PTP_1588_CLOCK_OPTIONAL [=3Dy]
      Selected by [y]:
-     - GKI_HIDDEN_USB_CONFIGS [=3Dy]
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
    =
 
-   WARNING: unmet direct dependencies detected for IIO_BUFFER_CB
-     Depends on [n]: IIO [=3Dy] && IIO_BUFFER [=3Dn]
+   WARNING: unmet direct dependencies detected for PINCTRL_SX150X
+     Depends on [n]: PINCTRL [=3Dy] && I2C [=3Dn]=3Dy
      Selected by [y]:
-     - JOYSTICK_ADC [=3Dy] && !UML && INPUT [=3Dy] && INPUT_JOYSTICK [=3Dy]=
- && IIO [=3Dy]
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for EEPROM_AT24
+     Depends on [n]: I2C [=3Dn] && SYSFS [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for MMC_SDHCI_PCI
+     Depends on [n]: MMC [=3Dy] && MMC_SDHCI [=3Dy] && PCI [=3Dn]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for RTC_DRV_DS1307
+     Depends on [n]: RTC_CLASS [=3Dy] && I2C [=3Dn]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for TQMX86_WDT
+     Depends on [n]: WATCHDOG [=3Dn] && X86 [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for USB_SERIAL
+     Depends on [n]: USB_SUPPORT [=3Dn] && USB [=3Dn] && TTY [=3Dn]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for USB_SERIAL_FTDI_SIO
+     Depends on [n]: USB_SUPPORT [=3Dn] && USB [=3Dn] && USB_SERIAL [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for I2C_OCORES
+     Depends on [n]: I2C [=3Dn] && HAS_IOMEM [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for DS1682
+     Depends on [n]: I2C [=3Dn]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
+     Depends on [n]: INPUT [=3Dy] && INPUT_KEYBOARD [=3Dn] && GPIOLIB [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for USB_SERIAL_CONSOLE
+     Depends on [n]: USB_SUPPORT [=3Dn] && USB [=3Dn] && USB_SERIAL [=3Dy]=
+=3Dy
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6705953764042314117==--
+--===============1377870524478709080==--
 
