@@ -1,47 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============6050467166662052817=="
+Content-Type: multipart/mixed; boundary="===============6705953764042314117=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS_2022.1_update 216/1093] kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK when selected by XILINX_AXI_EMAC_HWTSTAMP
-Date: Tue, 17 May 2022 00:31:41 +0800
-Message-ID: <202205170043.xWSaeMmj-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.10 348/9999] kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
+Date: Mon, 16 May 2022 23:02:30 +0800
+Message-ID: <202205162216.ObaWIaow-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6050467166662052817==
+--===============6705953764042314117==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: Paul Gazzillo <paul@pgazz.com>
-CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-CC: Swati Agarwal <swati.agarwal@xilinx.com>
+TO: Ammar Faizi <ammarfaizi2@gnuweeb.org>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS_2022.1_u=
-pdate
-head:   5ead03b6e64b5072737c653bb20ebcd88704e3d1
-commit: bf05571deda79b6b79d0e5cd93dd813a7696fa79 [216/1093] net: axienet: A=
-dd support for 1588
-:::::: branch date: 4 days ago
-:::::: commit date: 4 months ago
-config: (https://download.01.org/0day-ci/archive/20220517/202205170043.xWSa=
-eMmj-lkp(a)intel.com/config)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android13-5.10
+head:   aadf7ad9db2f7d93ecfb34d0e4f328519460c94e
+commit: 0dc97b664f834a1f25ae5cb3a653e131da1d2798 [348/9999] ANDROID: GKI: e=
+nable hidden configs for DMA
+:::::: branch date: 6 weeks ago
+:::::: commit date: 12 months ago
+config: (https://download.01.org/0day-ci/archive/20220516/202205162216.ObaW=
+Iaow-lkp(a)intel.com/config)
 reproduce:
-        # https://github.com/Xilinx/linux-xlnx/commit/bf05571deda79b6b79d0e=
-5cd93dd813a7696fa79
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS_2022.1_update
-        git checkout bf05571deda79b6b79d0e5cd93dd813a7696fa79
+        # https://github.com/ammarfaizi2/linux-block/commit/0dc97b664f834a1=
+f25ae5cb3a653e131da1d2798
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
+android13-5.10
+        git checkout 0dc97b664f834a1f25ae5cb3a653e131da1d2798
         # 1. reproduce by kismet
            # install kmax per https://github.com/paulgazz/kmax/blob/master/=
 README.md
-           kismet --linux-ksrc=3Dlinux --selectees CONFIG_PTP_1588_CLOCK --=
-selectors CONFIG_XILINX_AXI_EMAC_HWTSTAMP -a=3Dx86_64
+           kismet --linux-ksrc=3Dlinux --selectees CONFIG_ASYNC_TX_ENABLE_C=
+HANNEL_SWITCH --selectors CONFIG_GKI_HIDDEN_DMA_CONFIGS -a=3Dx86_64
         # 2. reproduce by make
            # save the config file to linux source tree
            cd linux
@@ -52,19 +48,32 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK w=
-hen selected by XILINX_AXI_EMAC_HWTSTAMP
+>> kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_=
+CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
    =
 
-   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
-     Depends on [n]: NET [=3Dy] && POSIX_TIMERS [=3Dn]
+   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_=
+SWITCH
+     Depends on [n]: DMADEVICES [=3Dn]
      Selected by [y]:
-     - XILINX_AXI_EMAC_HWTSTAMP [=3Dy] && NETDEVICES [=3Dy] && ETHERNET [=
-=3Dy] && NET_VENDOR_XILINX [=3Dy] && XILINX_AXI_EMAC [=3Dy]
+     - GKI_HIDDEN_DMA_CONFIGS [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for USB_PHY
+     Depends on [n]: USB_SUPPORT [=3Dn]
+     Selected by [y]:
+     - GKI_HIDDEN_USB_CONFIGS [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for IIO_BUFFER_CB
+     Depends on [n]: IIO [=3Dy] && IIO_BUFFER [=3Dn]
+     Selected by [y]:
+     - JOYSTICK_ADC [=3Dy] && !UML && INPUT [=3Dy] && INPUT_JOYSTICK [=3Dy]=
+ && IIO [=3Dy]
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6050467166662052817==--
+--===============6705953764042314117==--
 
