@@ -1,75 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============6747562687185573997=="
+Content-Type: multipart/mixed; boundary="===============0745052740256261523=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS_2022.1_update 231/1093] kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK when selected by XILINX_TSN_QBV
-Date: Tue, 17 May 2022 07:59:08 +0800
-Message-ID: <202205170721.sKArO40P-lkp@intel.com>
+Subject: [linux-next:master 427/12195] drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:46 sysfs_gt_attribute_w_func() error: uninitialized symbol 'ret'.
+Date: Tue, 17 May 2022 07:59:06 +0800
+Message-ID: <202205170706.J8P9ivh2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6747562687185573997==
+--===============0745052740256261523==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: Paul Gazzillo <paul@pgazz.com>
-CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Saurabh Sengar <saurabh.singh@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Syed Syed <syed.syed@xilinx.com>
-CC: Priyadarshini Babu <priyadarshini.babu@xilinx.com>
-CC: Ravali Potineni <ravali.potineni@xilinx.com>
-CC: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
-CC: Swati Agarwal <swati.agarwal@xilinx.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Andi Shyti <andi.shyti@linux.intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: Andrzej Hajda <andrzej.hajda@intel.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS_2022.1_u=
-pdate
-head:   5ead03b6e64b5072737c653bb20ebcd88704e3d1
-commit: a7ae7ddafe91c16d0f4bcd4d148c76318f3cfb06 [231/1093] net: xilinx: Ad=
-d support for PL TSN IP features
-:::::: branch date: 5 days ago
-:::::: commit date: 4 months ago
-config: (https://download.01.org/0day-ci/archive/20220517/202205170721.sKAr=
-O40P-lkp(a)intel.com/config)
-reproduce:
-        # https://github.com/Xilinx/linux-xlnx/commit/a7ae7ddafe91c16d0f4bc=
-d4d148c76318f3cfb06
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS_2022.1_update
-        git checkout a7ae7ddafe91c16d0f4bcd4d148c76318f3cfb06
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/=
-README.md
-           kismet --linux-ksrc=3Dlinux --selectees CONFIG_PTP_1588_CLOCK --=
-selectors CONFIG_XILINX_TSN_QBV -a=3Dx86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=3Dx86_64 olddefconfig
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   3f7bdc402fb06f897ff1f492a2d42e1f7c2efedb
+commit: 56a709cf77468e3a422b0ce3d58f8c2257bac2f1 [427/12195] drm/i915/gt: C=
+reate per-tile RPS sysfs interfaces
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 weeks ago
+config: x86_64-randconfig-m001-20220516 (https://download.01.org/0day-ci/ar=
+chive/20220517/202205170706.J8P9ivh2-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:46 sysfs_gt_attribute_w_func() =
+error: uninitialized symbol 'ret'.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK w=
-hen selected by XILINX_TSN_QBV
-   =
+vim +/ret +46 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
 
-   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
-     Depends on [n]: NET [=3Dy] && POSIX_TIMERS [=3Dn]
-     Selected by [y]:
-     - XILINX_TSN_PTP [=3Dy] && NETDEVICES [=3Dy] && ETHERNET [=3Dy] && NET=
-_VENDOR_XILINX [=3Dy] && XILINX_TSN [=3Dy]
-     - XILINX_TSN_QBV [=3Dy] && NETDEVICES [=3Dy] && ETHERNET [=3Dy] && NET=
-_VENDOR_XILINX [=3Dy] && XILINX_TSN_PTP [=3Dy]
+80cf8af17af042c Andi Shyti 2022-03-19  24  =
+
+56a709cf77468e3 Andi Shyti 2022-03-19  25  static int
+56a709cf77468e3 Andi Shyti 2022-03-19  26  sysfs_gt_attribute_w_func(struct=
+ device *dev, struct device_attribute *attr,
+56a709cf77468e3 Andi Shyti 2022-03-19  27  			  int (func)(struct intel_gt =
+*gt, u32 val), u32 val)
+56a709cf77468e3 Andi Shyti 2022-03-19  28  {
+56a709cf77468e3 Andi Shyti 2022-03-19  29  	struct intel_gt *gt;
+56a709cf77468e3 Andi Shyti 2022-03-19  30  	int ret;
+56a709cf77468e3 Andi Shyti 2022-03-19  31  =
+
+56a709cf77468e3 Andi Shyti 2022-03-19  32  	if (!is_object_gt(&dev->kobj)) {
+56a709cf77468e3 Andi Shyti 2022-03-19  33  		int i;
+56a709cf77468e3 Andi Shyti 2022-03-19  34  		struct drm_i915_private *i915 =
+=3D kdev_minor_to_i915(dev);
+56a709cf77468e3 Andi Shyti 2022-03-19  35  =
+
+56a709cf77468e3 Andi Shyti 2022-03-19  36  		for_each_gt(gt, i915, i) {
+56a709cf77468e3 Andi Shyti 2022-03-19  37  			ret =3D func(gt, val);
+56a709cf77468e3 Andi Shyti 2022-03-19  38  			if (ret)
+56a709cf77468e3 Andi Shyti 2022-03-19  39  				break;
+56a709cf77468e3 Andi Shyti 2022-03-19  40  		}
+56a709cf77468e3 Andi Shyti 2022-03-19  41  	} else {
+56a709cf77468e3 Andi Shyti 2022-03-19  42  		gt =3D intel_gt_sysfs_get_drvd=
+ata(dev, attr->attr.name);
+56a709cf77468e3 Andi Shyti 2022-03-19  43  		ret =3D func(gt, val);
+56a709cf77468e3 Andi Shyti 2022-03-19  44  	}
+56a709cf77468e3 Andi Shyti 2022-03-19  45  =
+
+56a709cf77468e3 Andi Shyti 2022-03-19 @46  	return ret;
+56a709cf77468e3 Andi Shyti 2022-03-19  47  }
+56a709cf77468e3 Andi Shyti 2022-03-19  48  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6747562687185573997==--
+--===============0745052740256261523==--
 
