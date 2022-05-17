@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8733971414576524658=="
+Content-Type: multipart/mixed; boundary="===============6148876480873558829=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS_2022.1_update 1018/1093] kismet: WARNING: unmet direct dependencies detected for SERIAL_CORE when selected by SERIAL_UARTLITE_RS485
-Date: Tue, 17 May 2022 11:52:12 +0800
-Message-ID: <202205171107.I0DWAdFz-lkp@intel.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for ARM_CPU_SUSPEND when selected by ARM_TEGRA_CPUIDLE
+Date: Tue, 17 May 2022 10:28:58 +0800
+Message-ID: <202205171011.KEWPLwnA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8733971414576524658==
+--===============6148876480873558829==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,52 +16,65 @@ CC: Paul Gazzillo <paul@pgazz.com>
 CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Pallav Joshi <pallav.joshi@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dmitry Osipenko <digetx@gmail.com>
+CC: Thierry Reding <treding@nvidia.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS_2022.1_u=
-pdate
-head:   5ead03b6e64b5072737c653bb20ebcd88704e3d1
-commit: db2754ae82e1526613a6ab5853d3cceeaed3920b [1018/1093] staging: uartl=
-ite-rs485: Initial commit to add drv
-:::::: branch date: 5 days ago
-:::::: commit date: 8 weeks ago
-config: (https://download.01.org/0day-ci/archive/20220517/202205171107.I0DW=
-AdFz-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   42226c989789d8da4af1de0c31070c96726d990c
+commit: faae6c9f2e68e62687636a7d6e0517b3bf594add cpuidle: tegra: Enable com=
+pile testing
+date:   7 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 7 months ago
+config: (https://download.01.org/0day-ci/archive/20220517/202205171011.KEWP=
+LwnA-lkp(a)intel.com/config)
 reproduce:
-        # https://github.com/Xilinx/linux-xlnx/commit/db2754ae82e1526613a6a=
-b5853d3cceeaed3920b
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS_2022.1_update
-        git checkout db2754ae82e1526613a6ab5853d3cceeaed3920b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dfaae6c9f2e68e62687636a7d6e0517b3bf594add
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout faae6c9f2e68e62687636a7d6e0517b3bf594add
         # 1. reproduce by kismet
            # install kmax per https://github.com/paulgazz/kmax/blob/master/=
 README.md
-           kismet --linux-ksrc=3Dlinux --selectees CONFIG_SERIAL_CORE --sel=
-ectors CONFIG_SERIAL_UARTLITE_RS485 -a=3Dx86_64
+           kismet --linux-ksrc=3Dlinux --selectees CONFIG_ARM_CPU_SUSPEND -=
+-selectors CONFIG_ARM_TEGRA_CPUIDLE -a=3Darm
         # 2. reproduce by make
            # save the config file to linux source tree
            cd linux
-           make ARCH=3Dx86_64 olddefconfig
+           make ARCH=3Darm olddefconfig
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SERIAL_CORE when=
- selected by SERIAL_UARTLITE_RS485
+>> kismet: WARNING: unmet direct dependencies detected for ARM_CPU_SUSPEND =
+when selected by ARM_TEGRA_CPUIDLE
    =
 
-   WARNING: unmet direct dependencies detected for SERIAL_CORE
-     Depends on [n]: TTY [=3Dn] && HAS_IOMEM [=3Dy]
+   WARNING: unmet direct dependencies detected for SND_SOC_MAX98357A
+     Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy] &=
+& GPIOLIB [=3Dn]
      Selected by [y]:
-     - SERIAL_UARTLITE_RS485 [=3Dy] && STAGING [=3Dy] && HAS_IOMEM [=3Dy]
+     - SND_SOC_STORM [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SO=
+C [=3Dy] && SND_SOC_QCOM [=3Dy]
+     - SND_SOC_SC7180 [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] && SND_S=
+OC [=3Dy] && SND_SOC_QCOM [=3Dy] && I2C [=3Dy]
+   =
+
+   WARNING: unmet direct dependencies detected for ARM_CPU_SUSPEND
+     Depends on [n]: ARCH_SUSPEND_POSSIBLE [=3Dn]
+     Selected by [y]:
+     - ARM_TEGRA_CPUIDLE [=3Dy] && CPU_IDLE [=3Dy] && (ARM [=3Dy] || ARM64)=
+ && (ARCH_TEGRA [=3Dn] || COMPILE_TEST [=3Dy]) && !ARM64 && MMU [=3Dy]
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8733971414576524658==--
+--===============6148876480873558829==--
 
