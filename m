@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3582136897550278372=="
+Content-Type: multipart/mixed; boundary="===============1658734340810198073=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [krzk-github:n/qcom-ufs-opp-v3 15/16] drivers/opp/core.c:1852:39: warning: Uninitialized variables: opp.node, opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, opp.pstate, opp.rate, opp.level, opp.supplies, opp.rates, opp.bandwidth, opp.clock_latency_ns, opp.required_...
-Date: Tue, 17 May 2022 08:39:55 +0800
-Message-ID: <202205170827.tyh8MhK5-lkp@intel.com>
+Subject: [drm-misc:drm-misc-next 1/2] drivers/video/fbdev/core/fbmem.c:1610:0-1: preceding lock on line 1598
+Date: Tue, 17 May 2022 08:29:48 +0800
+Message-ID: <202205170855.Q26EPT2e-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3582136897550278372==
+--===============1658734340810198073==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,251 +15,179 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Javier Martinez Canillas <javierm@redhat.com>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v3
-head:   00fbe567c9dc48a8d0c625f3955587a7a21aca8e
-commit: d7df0def3ee070b7c8f309eb1547e22d1ea6c343 [15/16] PM: opp: parse mul=
-tiple frequencies in each OPP
-:::::: branch date: 4 days ago
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   a9ad5822366c5065e6a65fe5ff5090295ba98986
+commit: 3367aa7d74d240261de2543ddb35531ccad9d884 [1/2] fbdev: Restart confl=
+icting fb removal loop when unregistering devices
+:::::: branch date: 10 hours ago
 :::::: commit date: 4 days ago
-compiler: xtensa-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout d7df0def3ee070b7c8f309eb1547e22d1ea6c343
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+config: openrisc-randconfig-c004-20220516 (https://download.01.org/0day-ci/=
+archive/20220517/202205170855.Q26EPT2e-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/core/fbmem.c:1610:0-1: preceding lock on line 1598
 
-   drivers/opp/core.c:2736:27: warning: Parameter 'src_opp' can be declared=
- with const [constParameter]
-          struct dev_pm_opp *src_opp)
-                             ^
-   drivers/opp/core.c:60:26: warning: Uninitialized variables: opp_table.no=
-de, opp_table.lazy, opp_table.head, opp_table.dev_list, opp_table.opp_list,=
- opp_table.kref, opp_table.lock, opp_table.np, opp_table.clock_latency_ns_m=
-ax, opp_table.voltage_tolerance_v1, opp_table.parsed_static_opps, opp_table=
-.shared_opp, opp_table.current_rate, opp_table.current_opp, opp_table.suspe=
-nd_opp, opp_table.genpd_virt_dev_lock, opp_table.genpd_virt_devs, opp_table=
-.required_opp_tables, opp_table.required_opp_count, opp_table.supported_hw,=
- opp_table.supported_hw_count, opp_table.prop_name, opp_table.clks, opp_tab=
-le.clk_count, opp_table.regulators, opp_table.regulator_count, opp_table.pa=
-ths, opp_table.path_count, opp_table.enabled, opp_table.genpd_performance_s=
-tate, opp_table.is_genpd, opp_table.set_opp, opp_table.sod_supplies, opp_ta=
-ble.set_opp_data [uninitvar]
-     if (_find_opp_dev(dev, opp_table)) {
-                            ^
-   drivers/opp/core.c:377:12: warning: Uninitialized variable: opp->availab=
-le [uninitvar]
-     if (opp->available)
-              ^
-   drivers/opp/core.c:454:17: warning: Uninitialized variable: temp_opp->av=
-ailable [uninitvar]
-     if (temp_opp->available =3D=3D available &&
-                   ^
-   drivers/opp/core.c:444:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:454:17: note: Uninitialized variable: temp_opp->avail=
-able
-     if (temp_opp->available =3D=3D available &&
-                   ^
-   drivers/opp/core.c:479:17: warning: Uninitialized variable: temp_opp->av=
-ailable [uninitvar]
-     if (temp_opp->available && temp_opp->rate >=3D *freq) {
-                   ^
-   drivers/opp/core.c:679:17: warning: Uninitialized variable: temp_opp->le=
-vel [uninitvar]
-     if (temp_opp->level =3D=3D level) {
-                   ^
-   drivers/opp/core.c:669:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:679:17: note: Uninitialized variable: temp_opp->level
-     if (temp_opp->level =3D=3D level) {
-                   ^
-   drivers/opp/core.c:727:17: warning: Uninitialized variable: temp_opp->av=
-ailable [uninitvar]
-     if (temp_opp->available && temp_opp->level >=3D *level) {
-                   ^
-   drivers/opp/core.c:717:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:727:17: note: Uninitialized variable: temp_opp->avail=
-able
-     if (temp_opp->available && temp_opp->level >=3D *level) {
-                   ^
-   drivers/opp/core.c:1664:13: warning: Uninitialized variable: iter->rate =
-[uninitvar]
-     if (iter->rate =3D=3D freq) {
-               ^
-   drivers/opp/core.c:1658:12: note: Assuming condition is false
-    if (IS_ERR(opp_table))
-              ^
-   drivers/opp/core.c:1664:13: note: Uninitialized variable: iter->rate
-     if (iter->rate =3D=3D freq) {
-               ^
-   drivers/opp/core.c:1698:14: warning: Uninitialized variable: temp->remov=
-ed [uninitvar]
-     if (!temp->removed && dynamic =3D=3D temp->dynamic) {
-                ^
->> drivers/opp/core.c:1852:39: warning: Uninitialized variables: opp.node, =
-opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, =
-opp.pstate, opp.rate, opp.level, opp.supplies, opp.rates, opp.bandwidth, op=
-p.clock_latency_ns, opp.required_opps, opp.opp_table, opp.np [uninitvar]
-     opp_cmp =3D _opp_compare_key(new_opp, opp);
-                                         ^
-   drivers/opp/core.c:2909:16: warning: Uninitialized variable: tmp_opp->ra=
-te [uninitvar]
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:2899:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:2909:16: note: Uninitialized variable: tmp_opp->rate
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:2980:16: warning: Uninitialized variable: tmp_opp->ra=
-te [uninitvar]
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:2970:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:2980:16: note: Uninitialized variable: tmp_opp->rate
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:60:26: warning: Uninitialized variables: opp_table.no=
-de, opp_table.lazy, opp_table.head, opp_table.dev_list, opp_table.opp_list,=
- opp_table.kref, opp_table.lock, opp_table.np, opp_table.clock_latency_ns_m=
-ax, opp_table.voltage_tolerance_v1, opp_table.parsed_static_opps, opp_table=
-.shared_opp, opp_table.current_rate, opp_table.current_opp, opp_table.suspe=
-nd_opp, opp_table.genpd_virt_dev_lock, opp_table.genpd_virt_devs, opp_table=
-.required_opp_tables, opp_table.required_opp_count, opp_table.supported_hw,=
- opp_table.supported_hw_count, opp_table.prop_name, opp_table.clks, opp_tab=
-le.clk_count, opp_table.regulators, opp_table.regulator_count, opp_table.pa=
-ths, opp_table.path_count, opp_table.enabled, opp_table.genpd_performance_s=
-tate, opp_table.is_genpd, opp_table.set_opp, opp_table.sod_supplies, opp_ta=
-ble.set_opp_data, opp_table.dentry [uninitvar]
-     if (_find_opp_dev(dev, opp_table)) {
-                            ^
-   drivers/opp/core.c:1852:39: warning: Uninitialized variables: opp.node, =
-opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, =
-opp.pstate, opp.rate, opp.level, opp.supplies, opp.rates, opp.bandwidth, op=
-p.clock_latency_ns, opp.required_opps, opp.opp_table, opp.np, opp.dentry, o=
-pp.of_name [uninitvar]
-     opp_cmp =3D _opp_compare_key(new_opp, opp);
-                                         ^
+vim +1610 drivers/video/fbdev/core/fbmem.c
 
-vim +1852 drivers/opp/core.c
+712f3147aee0fb drivers/video/fbmem.c            Linus Torvalds           20=
+11-05-13  1551  =
 
-6c591eec67cbb4 drivers/opp/core.c            Saravana Kannan 2020-05-12  18=
-35  =
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1552  #define VGA_FB_PHYS 0xA0000
+deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
+19-05-28  1553  static void do_remove_conflicting_framebuffers(struct apert=
+ures_struct *a,
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1554  					       const char *name, bool primary)
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1555  {
+deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
+19-05-28  1556  	int i;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1557  =
 
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-36  static int _opp_is_duplicate(struct device *dev, struct dev_pm_opp *new=
-_opp,
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-37  			     struct opp_table *opp_table,
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-38  			     struct list_head **head)
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-39  {
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-40  	struct dev_pm_opp *opp;
-6c591eec67cbb4 drivers/opp/core.c            Saravana Kannan 2020-05-12  18=
-41  	int opp_cmp;
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-42  =
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1558  restart_removal:
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1559  	/* check all firmware fbs and kick off if the base addr ov=
+erlaps */
+10ac86884b4d76 drivers/video/fbdev/core/fbmem.c Yisheng Xie              20=
+18-07-24  1560  	for_each_registered_fb(i) {
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1561  		struct apertures_struct *gen_aper;
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1562  		struct device *device;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1563  =
 
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-43  	/*
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-44  	 * Insert new OPP in order of increasing frequency and discard if
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-45  	 * already present.
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-46  	 *
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar    2016-02-16  18=
-47  	 * Need to use &opp_table->opp_list in the condition part of the 'for'
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-48  	 * loop, don't replace it with head otherwise it will become an infini=
-te
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-49  	 * loop.
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-50  	 */
-052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar    2017-01-23  18=
-51  	list_for_each_entry(opp, &opp_table->opp_list, node) {
-6c591eec67cbb4 drivers/opp/core.c            Saravana Kannan 2020-05-12 @18=
-52  		opp_cmp =3D _opp_compare_key(new_opp, opp);
-6c591eec67cbb4 drivers/opp/core.c            Saravana Kannan 2020-05-12  18=
-53  		if (opp_cmp > 0) {
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-54  			*head =3D &opp->node;
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-55  			continue;
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-56  		}
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-57  =
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1564  		if (!(registered_fb[i]->flags & FBINFO_MISC_FIRMWARE))
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1565  			continue;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1566  =
 
-6c591eec67cbb4 drivers/opp/core.c            Saravana Kannan 2020-05-12  18=
-58  		if (opp_cmp < 0)
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-59  			return 0;
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-60  =
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1567  		gen_aper =3D registered_fb[i]->apertures;
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1568  		device =3D registered_fb[i]->device;
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1569  		if (fb_do_apertures_overlap(gen_aper, a) ||
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1570  			(primary && gen_aper && gen_aper->count &&
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1571  			 gen_aper->ranges[0].base =3D=3D VGA_FB_PHYS)) {
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1572  =
 
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-61  		/* Duplicate OPPs */
-064416586190cb drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-62  		dev_warn(dev, "%s: duplicate OPPs detected. Existing: freq: %lu, volt=
-: %lu, enabled: %d. New: freq: %lu, volt: %lu, enabled: %d\n",
-dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  18=
-63  			 __func__, opp->rate, opp->supplies[0].u_volt,
-dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  18=
-64  			 opp->available, new_opp->rate,
-dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  18=
-65  			 new_opp->supplies[0].u_volt, new_opp->available);
-23dacf6d2e9935 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  18=
-66  =
+fbc42d455a2982 drivers/video/fbdev/core/fbmem.c Micha=C5=82 Miros=C5=82aw  =
+        2018-09-01  1573  			printk(KERN_INFO "fb%d: switching to %s from %=
+s\n",
+fbc42d455a2982 drivers/video/fbdev/core/fbmem.c Micha=C5=82 Miros=C5=82aw  =
+        2018-09-01  1574  			       i, name, registered_fb[i]->fix.id);
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1575  =
 
-dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  18=
-67  		/* Should we compare voltages for all regulators here ? */
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-68  		return opp->available &&
-7f8538ebaefc07 drivers/base/power/opp/core.c Viresh Kumar    2017-01-02  18=
-69  		       new_opp->supplies[0].u_volt =3D=3D opp->supplies[0].u_volt ? -=
-EBUSY : -EEXIST;
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-70  	}
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-71  =
-
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-72  	return 0;
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-73  }
-a1e8c13600bfd9 drivers/opp/core.c            Viresh Kumar    2018-04-06  18=
-74  =
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1576  			/*
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1577  			 * If we kick-out a firmware driver, we also want to rem=
+ove
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1578  			 * the underlying platform device, such as simple-frameb=
+uffer,
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1579  			 * VESA, EFI, etc. A native driver will then be able to
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1580  			 * allocate the memory range.
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1581  			 *
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1582  			 * If it's not a platform device, at least print a warni=
+ng. A
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1583  			 * fix would add code to remove the device from the syst=
+em. For
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1584  			 * framebuffers without any Linux device, print a warnin=
+g as
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1585  			 * well.
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1586  			 */
+0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-04  1587  			if (!device) {
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1588  				pr_warn("fb%d: no device set\n", i);
+0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-04  1589  				do_unregister_framebuffer(registered_fb[i]);
+0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-04  1590  			} else if (dev_is_platform(device)) {
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1591  				/*
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1592  				 * Drop the lock because if the device is unregistered,=
+ its
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1593  				 * driver will call to unregister_framebuffer(), that t=
+akes
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1594  				 * this lock.
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1595  				 */
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1596  				mutex_unlock(&registration_lock);
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1597  				platform_device_unregister(to_platform_device(device));
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11 @1598  				mutex_lock(&registration_lock);
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1599  			} else {
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1600  				pr_warn("fb%d: cannot remove device\n", i);
+deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
+19-05-28  1601  				do_unregister_framebuffer(registered_fb[i]);
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1602  			}
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1603  			/*
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1604  			 * Restart the removal loop now that the device has been
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1605  			 * unregistered and its associated framebuffer gone.
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1606  			 */
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1607  			goto restart_removal;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1608  		}
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1609  	}
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25 @1610  }
+^1da177e4c3f41 drivers/video/fbmem.c            Linus Torvalds           20=
+05-04-16  1611  =
 
 
-:::::: The code at line 1852 was first introduced by commit
-:::::: 6c591eec67cbb4db988ab35b944f5cf9013c0714 OPP: Add helpers for readin=
-g the binding properties
+:::::: The code at line 1610 was first introduced by commit
+:::::: 27599aacbaefcbf2af7b06b0029459bbf682000d fbdev: Hot-unplug firmware =
+fb devices on forced removal
 
-:::::: TO: Saravana Kannan <saravanak@google.com>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
+:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3582136897550278372==--
+--===============1658734340810198073==--
 
