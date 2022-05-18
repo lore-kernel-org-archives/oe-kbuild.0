@@ -1,75 +1,72 @@
-Content-Type: multipart/mixed; boundary="===============9017799592321892688=="
+Content-Type: multipart/mixed; boundary="===============8030485953573881636=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS_2022.1_update 231/1093] kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK when selected by XILINX_TSN_QBV
-Date: Wed, 18 May 2022 15:27:10 +0800
-Message-ID: <202205181533.LMgvNbtT-lkp@intel.com>
+Subject: [linux-next:master 427/12343] drivers/gpu/drm/i915/gt/intel_rps.c:2298 rps_read_mmio() error: uninitialized symbol 'val'.
+Date: Wed, 18 May 2022 14:45:35 +0800
+Message-ID: <202205181451.tqwvLFl6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9017799592321892688==
+--===============8030485953573881636==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: Paul Gazzillo <paul@pgazz.com>
-CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Saurabh Sengar <saurabh.singh@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Syed Syed <syed.syed@xilinx.com>
-CC: Priyadarshini Babu <priyadarshini.babu@xilinx.com>
-CC: Ravali Potineni <ravali.potineni@xilinx.com>
-CC: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
-CC: Swati Agarwal <swati.agarwal@xilinx.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: Andi Shyti <andi.shyti@linux.intel.com>
+CC: Andrzej Hajda <andrzej.hajda@intel.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS_2022.1_u=
-pdate
-head:   5ead03b6e64b5072737c653bb20ebcd88704e3d1
-commit: a7ae7ddafe91c16d0f4bcd4d148c76318f3cfb06 [231/1093] net: xilinx: Ad=
-d support for PL TSN IP features
-:::::: branch date: 6 days ago
-:::::: commit date: 4 months ago
-config: (https://download.01.org/0day-ci/archive/20220518/202205181533.LMgv=
-NbtT-lkp(a)intel.com/config)
-reproduce:
-        # https://github.com/Xilinx/linux-xlnx/commit/a7ae7ddafe91c16d0f4bc=
-d4d148c76318f3cfb06
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS_2022.1_update
-        git checkout a7ae7ddafe91c16d0f4bcd4d148c76318f3cfb06
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/=
-README.md
-           kismet --linux-ksrc=3Dlinux --selectees CONFIG_PTP_1588_CLOCK --=
-selectors CONFIG_XILINX_TSN_QBV -a=3Dx86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=3Dx86_64 olddefconfig
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   47c1c54d1bcd0a69a56b49473bc20f17b70e5242
+commit: fa68bff7cf27d83e0ca83c6388d6bc2ddc599905 [427/12343] drm/i915/gt: A=
+dd sysfs throttle frequency interfaces
+:::::: branch date: 21 hours ago
+:::::: commit date: 8 weeks ago
+config: x86_64-randconfig-m001-20220516 (https://download.01.org/0day-ci/ar=
+chive/20220518/202205181451.tqwvLFl6-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpu/drm/i915/gt/intel_rps.c:2298 rps_read_mmio() error: uninitializ=
+ed symbol 'val'.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK w=
-hen selected by XILINX_TSN_QBV
-   =
+vim +/val +2298 drivers/gpu/drm/i915/gt/intel_rps.c
 
-   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
-     Depends on [n]: NET [=3Dy] && POSIX_TIMERS [=3Dn]
-     Selected by [y]:
-     - XILINX_TSN_PTP [=3Dy] && NETDEVICES [=3Dy] && ETHERNET [=3Dy] && NET=
-_VENDOR_XILINX [=3Dy] && XILINX_TSN [=3Dy]
-     - XILINX_TSN_QBV [=3Dy] && NETDEVICES [=3Dy] && ETHERNET [=3Dy] && NET=
-_VENDOR_XILINX [=3Dy] && XILINX_TSN_PTP [=3Dy]
+1c40d40f6835cd Vinay Belgaumkar     2021-12-16  2288  =
+
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2289  static u32 rps_read_m=
+mio(struct intel_rps *rps, i915_reg_t reg32)
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2290  {
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2291  	struct intel_gt *gt =
+=3D rps_to_gt(rps);
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2292  	intel_wakeref_t wake=
+ref;
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2293  	u32 val;
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2294  =
+
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2295  	with_intel_runtime_p=
+m(gt->uncore->rpm, wakeref)
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2296  		val =3D intel_uncor=
+e_read(gt->uncore, reg32);
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2297  =
+
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19 @2298  	return val;
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2299  }
+fa68bff7cf27d8 Sujaritha Sundaresan 2022-03-19  2300  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9017799592321892688==--
+--===============8030485953573881636==--
 
