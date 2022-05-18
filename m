@@ -1,99 +1,104 @@
-Content-Type: multipart/mixed; boundary="===============7699167806289905112=="
+Content-Type: multipart/mixed; boundary="===============1991596699232504006=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH v3 3/6] [PATCH 3/6] mm: add migration waiting and rmap locking to pagewalk
-Date: Wed, 18 May 2022 13:03:18 +0800
-Message-ID: <202205181348.9FV48Mdu-lkp@intel.com>
+Subject: [lunn:v5.18-rc4-stacked-bridges 1/2] kismet: WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED when selected by ZII_RAP
+Date: Wed, 18 May 2022 13:03:14 +0800
+Message-ID: <202205181212.wkAYWKCS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7699167806289905112==
+--===============1991596699232504006==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: Paul Gazzillo <paul@pgazz.com>
+CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220516125405.1675-4-matenajakub@gmail.com>
-References: <20220516125405.1675-4-matenajakub@gmail.com>
-TO: "Jakub Mat=C4=9Bna" <matenajakub@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Andrew Lunn <andrew@lunn.ch>
+CC: Andrey Smirnov <andrew.smirnov@gmail.com>
 
-Hi "Jakub,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on kees/for-next/execve]
-[also build test WARNING on linux/master linus/master v5.18-rc7]
-[cannot apply to next-20220517]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Mat-na/Removin=
-g-limitations-of-merging-anonymous-VMAs/20220516-205637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-=
-next/execve
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021-20220516 (https://download.01.org/0day-ci/arch=
-ive/20220518/202205181348.9FV48Mdu-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+tree:   https://github.com/lunn/linux.git v5.18-rc4-stacked-bridges
+head:   54c29cf210da59f450762e12946a2dec224c6850
+commit: 104ddfd33f3bd72e3a37262edefff94c0c7d55d4 [1/2] platform/x86: Add Zo=
+diac Radio Access Point platform driver
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: (https://download.01.org/0day-ci/archive/20220518/202205181212.wkAY=
+WKCS-lkp(a)intel.com/config)
+reproduce:
+        # https://github.com/lunn/linux/commit/104ddfd33f3bd72e3a37262edeff=
+f94c0c7d55d4
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v5.18-rc4-stacked-bridges
+        git checkout 104ddfd33f3bd72e3a37262edefff94c0c7d55d4
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/=
+README.md
+           kismet --linux-ksrc=3Dlinux --selectees CONFIG_KEYBOARD_GPIO_POL=
+LED --selectors CONFIG_ZII_RAP -a=3Dx86_64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=3Dx86_64 olddefconfig
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/pagewalk.c:104 walk_pte_range() error: uninitialized symbol 'ptl'.
 
-vim +/ptl +104 mm/pagewalk.c
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_PO=
+LLED when selected by ZII_RAP
+   =
 
-e6473092bd91165 Matt Mackall     2008-02-04   91  =
+   WARNING: unmet direct dependencies detected for IGB
+     Depends on [n]: NETDEVICES [=3Dy] && ETHERNET [=3Dn] && NET_VENDOR_INT=
+EL [=3Dn] && PCI [=3Dn] && PTP_1588_CLOCK_OPTIONAL [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
 
-fbf56346b855872 Steven Price     2020-02-03   92  static int walk_pte_range=
-(pmd_t *pmd, unsigned long addr, unsigned long end,
-fbf56346b855872 Steven Price     2020-02-03   93  			  struct mm_walk *walk)
-fbf56346b855872 Steven Price     2020-02-03   94  {
-fbf56346b855872 Steven Price     2020-02-03   95  	pte_t *pte;
-fbf56346b855872 Steven Price     2020-02-03   96  	int err =3D 0;
-fbf56346b855872 Steven Price     2020-02-03   97  	spinlock_t *ptl;
-fbf56346b855872 Steven Price     2020-02-03   98  =
+   WARNING: unmet direct dependencies detected for MMC_SDHCI_PCI
+     Depends on [n]: MMC [=3Dy] && MMC_SDHCI [=3Dy] && PCI [=3Dn]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
 
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16   99  	if (walk->flags & W=
-ALK_LOCK_RMAP)
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16  100  		take_rmap_locks(wa=
-lk->vma);
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16  101  =
+   WARNING: unmet direct dependencies detected for TQMX86_WDT
+     Depends on [n]: WATCHDOG [=3Dn] && X86 [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
 
-fbf56346b855872 Steven Price     2020-02-03  102  	if (walk->no_vma) {
-fbf56346b855872 Steven Price     2020-02-03  103  		pte =3D pte_offset_map(=
-pmd, addr);
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16 @104  		err =3D walk_pte_r=
-ange_inner(pte, addr, end, walk, ptl, pmd);
-fbf56346b855872 Steven Price     2020-02-03  105  		pte_unmap(pte);
-fbf56346b855872 Steven Price     2020-02-03  106  	} else {
-fbf56346b855872 Steven Price     2020-02-03  107  		pte =3D pte_offset_map_=
-lock(walk->mm, pmd, addr, &ptl);
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16  108  		err =3D walk_pte_r=
-ange_inner(pte, addr, end, walk, ptl, pmd);
-ace88f1018b8816 Thomas Hellstrom 2019-10-04  109  		pte_unmap_unlock(pte, p=
-tl);
-fbf56346b855872 Steven Price     2020-02-03  110  	}
-fbf56346b855872 Steven Price     2020-02-03  111  =
+   WARNING: unmet direct dependencies detected for USB_SERIAL
+     Depends on [n]: USB_SUPPORT [=3Dy] && USB [=3Dn] && TTY [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
 
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16  112  	if (walk->flags & W=
-ALK_LOCK_RMAP)
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16  113  		drop_rmap_locks(wa=
-lk->vma);
-9ba7cddd9f98f45 Jakub Mat=C4=9Bna     2022-05-16  114  =
+   WARNING: unmet direct dependencies detected for USB_SERIAL_FTDI_SIO
+     Depends on [n]: USB_SUPPORT [=3Dy] && USB [=3Dn] && USB_SERIAL [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
 
-e6473092bd91165 Matt Mackall     2008-02-04  115  	return err;
-e6473092bd91165 Matt Mackall     2008-02-04  116  }
-e6473092bd91165 Matt Mackall     2008-02-04  117  =
+   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
+     Depends on [n]: INPUT [=3Dn] && INPUT_KEYBOARD [=3Dn] && GPIOLIB [=3Dy]
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
+   =
 
+   WARNING: unmet direct dependencies detected for USB_SERIAL_CONSOLE
+     Depends on [n]: USB_SUPPORT [=3Dy] && USB [=3Dn] && USB_SERIAL [=3Dy]=
+=3Dy
+     Selected by [y]:
+     - ZII_RAP [=3Dy] && X86 [=3Dy] && X86_PLATFORM_DEVICES [=3Dy]
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7699167806289905112==--
+--===============1991596699232504006==--
 
