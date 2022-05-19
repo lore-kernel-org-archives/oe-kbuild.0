@@ -1,188 +1,174 @@
-Content-Type: multipart/mixed; boundary="===============7953803713574619687=="
+Content-Type: multipart/mixed; boundary="===============3122564787410843443=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/5] clk: mediatek: Switch to clk_hw provider APIs
-Date: Fri, 20 May 2022 01:13:17 +0800
-Message-ID: <202205200127.wVaTo6rL-lkp@intel.com>
+Subject: [linux-next:master 10593/12886] drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y
+Date: Fri, 20 May 2022 00:42:44 +0800
+Message-ID: <202205200035.zRBoW9kd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7953803713574619687==
+--===============3122564787410843443==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220519071610.423372-5-wenst@chromium.org>
-References: <20220519071610.423372-5-wenst@chromium.org>
-TO: "Chen-Yu Tsai" <wenst@chromium.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-CC: "Chen-Yu Tsai" <wenst@chromium.org>
-CC: "Chun-Jie Chen" <chun-jie.chen@mediatek.com>
-CC: Miles Chen <miles.chen@mediatek.com>
-CC: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: linux-clk(a)vger.kernel.org
-CC: linux-mediatek(a)lists.infradead.org
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: linux-kernel(a)vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Wenpeng Liang <liangwenpeng@huawei.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
 
-Hi Chen-Yu,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[cannot apply to v5.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/clk-med=
-iatek-Move-to-struct-clk_hw-provider-APIs/20220519-151909
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
-ext
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: h8300-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 791b14b4387747251f80ea0e712573fa431d655f
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   21498d01d045c5b95b93e0a0625ae965b4330ebe
+commit: 82600b2d3cd57428bdb03c66ae67708d3c8f7281 [10593/12886] RDMA/hns: Us=
+e hr_reg_xxx() instead of remaining roce_set_xxx()
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 days ago
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/2022052=
+0/202205200035.zRBoW9kd-lkp(a)intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D82600b2d3cd57428bdb03c66ae67708d3c8f7281
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 82600b2d3cd57428bdb03c66ae67708d3c8f7281
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Ds=
+parc SHELL=3D/bin/bash drivers/infiniband/hw/hns/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubiou=
+s: x & !y
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubiou=
+s: x & !y
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubiou=
+s: x & !y
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubiou=
+s: x & !y
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubiou=
+s: x & !y
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubiou=
+s: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubiou=
+s: x & !y
 
->> drivers/clk/mediatek/clk-apmixed.c:99:9: warning: Returning pointer to l=
-ocal variable 'init' that will be invalid when returning. [returnDanglingLi=
-fetime]
-    return &tx->hw;
-           ^
-   drivers/clk/mediatek/clk-apmixed.c:85:16: note: Address of variable take=
-n here.
-    tx->hw.init =3D &init;
-                  ^
-   drivers/clk/mediatek/clk-apmixed.c:94:6: note: Assuming condition is fal=
-se
-    if (ret) {
-        ^
-   drivers/clk/mediatek/clk-apmixed.c:99:9: note: Address of variable taken=
- here.
-    return &tx->hw;
-           ^
-   drivers/clk/mediatek/clk-apmixed.c:77:23: note: Variable created here.
-    struct clk_init_data init =3D {};
-                         ^
-   drivers/clk/mediatek/clk-apmixed.c:99:9: note: Returning pointer to loca=
-l variable 'init' that will be invalid when returning.
-    return &tx->hw;
-           ^
---
->> drivers/clk/mediatek/clk-cpumux.c:90:9: warning: Returning pointer to lo=
-cal variable 'init' that will be invalid when returning. [returnDanglingLif=
-etime]
-    return &cpumux->hw;
-           ^
-   drivers/clk/mediatek/clk-cpumux.c:82:20: note: Address of variable taken=
- here.
-    cpumux->hw.init =3D &init;
-                      ^
-   drivers/clk/mediatek/clk-cpumux.c:85:6: note: Assuming condition is false
-    if (ret) {
-        ^
-   drivers/clk/mediatek/clk-cpumux.c:90:9: note: Address of variable taken =
-here.
-    return &cpumux->hw;
-           ^
-   drivers/clk/mediatek/clk-cpumux.c:66:23: note: Variable created here.
-    struct clk_init_data init;
-                         ^
-   drivers/clk/mediatek/clk-cpumux.c:90:9: note: Returning pointer to local=
- variable 'init' that will be invalid when returning.
-    return &cpumux->hw;
-           ^
---
->> drivers/clk/mediatek/clk-gate.c:190:9: warning: Returning pointer to loc=
-al variable 'init' that will be invalid when returning. [returnDanglingLife=
-time]
-    return &cg->hw;
-           ^
-   drivers/clk/mediatek/clk-gate.c:182:16: note: Address of variable taken =
-here.
-    cg->hw.init =3D &init;
-                  ^
-   drivers/clk/mediatek/clk-gate.c:185:6: note: Assuming condition is false
-    if (ret) {
-        ^
-   drivers/clk/mediatek/clk-gate.c:190:9: note: Address of variable taken h=
-ere.
-    return &cg->hw;
-           ^
-   drivers/clk/mediatek/clk-gate.c:164:23: note: Variable created here.
-    struct clk_init_data init =3D {};
-                         ^
-   drivers/clk/mediatek/clk-gate.c:190:9: note: Returning pointer to local =
-variable 'init' that will be invalid when returning.
-    return &cg->hw;
-           ^
+vim +309 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
 
-vim +/init +99 drivers/clk/mediatek/clk-apmixed.c
+30b707886aeb89 Weihang Li    2020-09-10  294  =
 
-cdb2bab78aff97 James Liao   2015-05-20   72  =
+30b707886aeb89 Weihang Li    2020-09-10  295  static int set_rwqe_data_seg(=
+struct ib_qp *ibqp, const struct ib_send_wr *wr,
+30b707886aeb89 Weihang Li    2020-09-10  296  			     struct hns_roce_v2_rc=
+_send_wqe *rc_sq_wqe,
+30b707886aeb89 Weihang Li    2020-09-10  297  			     unsigned int *sge_ind,
+30b707886aeb89 Weihang Li    2020-09-10  298  			     unsigned int valid_nu=
+m_sge)
+30b707886aeb89 Weihang Li    2020-09-10  299  {
+30b707886aeb89 Weihang Li    2020-09-10  300  	struct hns_roce_v2_wqe_data_=
+seg *dseg =3D
+30b707886aeb89 Weihang Li    2020-09-10  301  		(void *)rc_sq_wqe + sizeof(=
+struct hns_roce_v2_rc_send_wqe);
+30b707886aeb89 Weihang Li    2020-09-10  302  	struct hns_roce_qp *qp =3D t=
+o_hr_qp(ibqp);
+30b707886aeb89 Weihang Li    2020-09-10  303  	int j =3D 0;
+30b707886aeb89 Weihang Li    2020-09-10  304  	int i;
+30b707886aeb89 Weihang Li    2020-09-10  305  =
 
-791b14b4387747 Chen-Yu Tsai 2022-05-19   73  struct clk_hw * __init mtk_clk=
-_register_ref2usb_tx(const char *name,
-cdb2bab78aff97 James Liao   2015-05-20   74  			const char *parent_name, vo=
-id __iomem *reg)
-cdb2bab78aff97 James Liao   2015-05-20   75  {
-cdb2bab78aff97 James Liao   2015-05-20   76  	struct mtk_ref2usb_tx *tx;
-cdb2bab78aff97 James Liao   2015-05-20   77  	struct clk_init_data init =3D=
- {};
-791b14b4387747 Chen-Yu Tsai 2022-05-19   78  	int ret;
-cdb2bab78aff97 James Liao   2015-05-20   79  =
+82600b2d3cd574 Wenpeng Liang 2022-05-12  306  	hr_reg_write(rc_sq_wqe, RC_S=
+END_WQE_MSG_START_SGE_IDX,
+30b707886aeb89 Weihang Li    2020-09-10  307  		     (*sge_ind) & (qp->sge.=
+sge_cnt - 1));
+30b707886aeb89 Weihang Li    2020-09-10  308  =
 
-cdb2bab78aff97 James Liao   2015-05-20   80  	tx =3D kzalloc(sizeof(*tx), G=
-FP_KERNEL);
-cdb2bab78aff97 James Liao   2015-05-20   81  	if (!tx)
-cdb2bab78aff97 James Liao   2015-05-20   82  		return ERR_PTR(-ENOMEM);
-cdb2bab78aff97 James Liao   2015-05-20   83  =
+82600b2d3cd574 Wenpeng Liang 2022-05-12 @309  	hr_reg_write(rc_sq_wqe, RC_S=
+END_WQE_INLINE,
+e13026578b727b Lang Cheng    2021-06-18  310  		     !!(wr->send_flags & IB=
+_SEND_INLINE));
+30b707886aeb89 Weihang Li    2020-09-10  311  	if (wr->send_flags & IB_SEND=
+_INLINE)
+30b707886aeb89 Weihang Li    2020-09-10  312  		return set_rc_inl(qp, wr, r=
+c_sq_wqe, sge_ind);
+30b707886aeb89 Weihang Li    2020-09-10  313  =
 
-cdb2bab78aff97 James Liao   2015-05-20   84  	tx->base_addr =3D reg;
-cdb2bab78aff97 James Liao   2015-05-20   85  	tx->hw.init =3D &init;
-cdb2bab78aff97 James Liao   2015-05-20   86  =
+54d6638765b0ed Xi Wang       2020-04-28  314  	if (valid_num_sge <=3D HNS_R=
+OCE_SGE_IN_WQE) {
+7bdee4158b3778 oulijun       2018-01-10  315  		for (i =3D 0; i < wr->num_s=
+ge; i++) {
+7bdee4158b3778 oulijun       2018-01-10  316  			if (likely(wr->sg_list[i].=
+length)) {
+7bdee4158b3778 oulijun       2018-01-10  317  				set_data_seg_v2(dseg, wr-=
+>sg_list + i);
+7bdee4158b3778 oulijun       2018-01-10  318  				dseg++;
+7bdee4158b3778 oulijun       2018-01-10  319  			}
+7bdee4158b3778 oulijun       2018-01-10  320  		}
+7bdee4158b3778 oulijun       2018-01-10  321  	} else {
+30b707886aeb89 Weihang Li    2020-09-10  322  		for (i =3D 0; i < wr->num_s=
+ge && j < HNS_ROCE_SGE_IN_WQE; i++) {
+7bdee4158b3778 oulijun       2018-01-10  323  			if (likely(wr->sg_list[i].=
+length)) {
+7bdee4158b3778 oulijun       2018-01-10  324  				set_data_seg_v2(dseg, wr-=
+>sg_list + i);
+7bdee4158b3778 oulijun       2018-01-10  325  				dseg++;
+468d020e2f0286 Lijun Ou      2020-01-09  326  				j++;
+7bdee4158b3778 oulijun       2018-01-10  327  			}
+7bdee4158b3778 oulijun       2018-01-10  328  		}
+7bdee4158b3778 oulijun       2018-01-10  329  =
 
-cdb2bab78aff97 James Liao   2015-05-20   87  	init.name =3D name;
-cdb2bab78aff97 James Liao   2015-05-20   88  	init.ops =3D &mtk_ref2usb_tx_=
-ops;
-cdb2bab78aff97 James Liao   2015-05-20   89  	init.parent_names =3D &parent=
-_name;
-cdb2bab78aff97 James Liao   2015-05-20   90  	init.num_parents =3D 1;
-cdb2bab78aff97 James Liao   2015-05-20   91  =
+0fd0175e30e487 Lang Cheng    2020-11-28  330  		set_extend_sge(qp, wr->sg_l=
+ist + i, sge_ind,
+0fd0175e30e487 Lang Cheng    2020-11-28  331  			       valid_num_sge - HNS=
+_ROCE_SGE_IN_WQE);
+7bdee4158b3778 oulijun       2018-01-10  332  	}
+7bdee4158b3778 oulijun       2018-01-10  333  =
 
-791b14b4387747 Chen-Yu Tsai 2022-05-19   92  	ret =3D clk_hw_register(NULL,=
- &tx->hw);
-cdb2bab78aff97 James Liao   2015-05-20   93  =
+82600b2d3cd574 Wenpeng Liang 2022-05-12  334  	hr_reg_write(rc_sq_wqe, RC_S=
+END_WQE_SGE_NUM, valid_num_sge);
+7bdee4158b3778 oulijun       2018-01-10  335  =
 
-791b14b4387747 Chen-Yu Tsai 2022-05-19   94  	if (ret) {
-cdb2bab78aff97 James Liao   2015-05-20   95  		kfree(tx);
-791b14b4387747 Chen-Yu Tsai 2022-05-19   96  		return ERR_PTR(ret);
-791b14b4387747 Chen-Yu Tsai 2022-05-19   97  	}
-cdb2bab78aff97 James Liao   2015-05-20   98  =
-
-791b14b4387747 Chen-Yu Tsai 2022-05-19  @99  	return &tx->hw;
-cdb2bab78aff97 James Liao   2015-05-20  100  }
-32b028fb1d09a0 Miles Chen   2021-09-02  101  =
+7bdee4158b3778 oulijun       2018-01-10  336  	return 0;
+7bdee4158b3778 oulijun       2018-01-10  337  }
+7bdee4158b3778 oulijun       2018-01-10  338  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7953803713574619687==--
+--===============3122564787410843443==--
 
