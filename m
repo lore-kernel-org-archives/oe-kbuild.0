@@ -1,114 +1,78 @@
-Content-Type: multipart/mixed; boundary="===============2283560794097819703=="
+Content-Type: multipart/mixed; boundary="===============1623018595133634211=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/codecs/wm_adsp.c:1100:13: warning: Uninitialized variable: tmp->name [uninitvar]
-Date: Thu, 19 May 2022 16:02:22 +0800
-Message-ID: <202205191623.xvy5fDKn-lkp@intel.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER when selected by DRM_SSD130X
+Date: Thu, 19 May 2022 14:41:25 +0800
+Message-ID: <202205191429.JsHCsjpX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2283560794097819703==
+--===============1623018595133634211==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: Paul Gazzillo <paul@pgazz.com>
+CC: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Simon Trimmer <simont@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Charles Keepax <ckeepax@opensource.cirrus.com>
+TO: Javier Martinez Canillas <javierm@redhat.com>
+CC: Maxime Ripard <maxime@cerno.tech>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f993aed406eaf968ba3867a76bb46c95336a33d0
-commit: f6bc909e7673c30abcbdb329e7d0aa2e83c103d7 firmware: cs_dsp: add driv=
-er to support firmware loading on Cirrus Logic DSPs
-date:   8 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 months ago
-compiler: xtensa-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout f6bc909e7673c30abcbdb329e7d0aa2e83c103d7
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+commit: a61732e808672cfa8c8c6028bcf9feacb953ef40 drm: Add driver for Solomo=
+n SSD130x OLED displays
+date:   3 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 months ago
+config: (https://download.01.org/0day-ci/archive/20220519/202205191429.JsHC=
+sjpX-lkp(a)intel.com/config)
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da61732e808672cfa8c8c6028bcf9feacb953ef40
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a61732e808672cfa8c8c6028bcf9feacb953ef40
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/=
+README.md
+           kismet --linux-ksrc=3Dlinux --selectees CONFIG_DRM_GEM_SHMEM_HEL=
+PER --selectors CONFIG_DRM_SSD130X -a=3Darm
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=3Darm olddefconfig
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HE=
+LPER when selected by DRM_SSD130X
+   =
 
->> sound/soc/codecs/wm_adsp.c:1100:13: warning: Uninitialized variable: tmp=
-->name [uninitvar]
-     if (!tmp->name || !strcmp(compr->name, tmp->name)) {
-               ^
-   sound/soc/codecs/wm_adsp.c:1096:16: note: Assuming condition is false
-    if (compr->dsp->fatal_error)
-                  ^
-   sound/soc/codecs/wm_adsp.c:1100:13: note: Uninitialized variable: tmp->n=
-ame
-     if (!tmp->name || !strcmp(compr->name, tmp->name)) {
-               ^
->> sound/soc/codecs/wm_adsp.c:1550:29: warning: Uninitialized variable: buf=
-->compr [uninitvar]
-     wm_adsp_compr_detach(buf->compr);
-                               ^
->> sound/soc/codecs/wm_adsp.c:1930:14: warning: Uninitialized variable: com=
-pr->stream [uninitvar]
-     if (compr->stream)
-                ^
+   WARNING: unmet direct dependencies detected for SND_SOC_DMIC
+     Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy] &=
+& GPIOLIB [=3Dn]
+     Selected by [y]:
+     - SND_SOC_STM32_DFSDM [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] && =
+(ARCH_STM32 [=3Dn] || COMPILE_TEST [=3Dy]) && SND_SOC [=3Dy] && STM32_DFSDM=
+_ADC [=3Dy]
+   =
 
-vim +1100 sound/soc/codecs/wm_adsp.c
-
-edd713509ae46f Charles Keepax   2016-05-04  1091  =
-
-edd713509ae46f Charles Keepax   2016-05-04  1092  static int wm_adsp_compr_=
-attach(struct wm_adsp_compr *compr)
-edd713509ae46f Charles Keepax   2016-05-04  1093  {
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1094  	struct wm_adsp_compr_buf=
- *buf =3D NULL, *tmp;
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1095  =
-
-a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1096  	if (compr->dsp->fatal_er=
-ror)
-a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1097  		return -EINVAL;
-a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1098  =
-
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1099  	list_for_each_entry(tmp,=
- &compr->dsp->buffer_list, list) {
-4f2d4eabf57718 Stuart Henderson 2019-02-22 @1100  		if (!tmp->name || !strc=
-mp(compr->name, tmp->name)) {
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1101  			buf =3D tmp;
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1102  			break;
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1103  		}
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1104  	}
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1105  =
-
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1106  	if (!buf)
-edd713509ae46f Charles Keepax   2016-05-04  1107  		return -EINVAL;
-edd713509ae46f Charles Keepax   2016-05-04  1108  =
-
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1109  	compr->buf =3D buf;
-789b930a8f0de6 Charles Keepax   2019-04-02  1110  	buf->compr =3D compr;
-edd713509ae46f Charles Keepax   2016-05-04  1111  =
-
-edd713509ae46f Charles Keepax   2016-05-04  1112  	return 0;
-edd713509ae46f Charles Keepax   2016-05-04  1113  }
-edd713509ae46f Charles Keepax   2016-05-04  1114  =
-
-
-:::::: The code at line 1100 was first introduced by commit
-:::::: 4f2d4eabf57718875b97363a3bd35de490f354c5 ASoC: wm_adsp: Add support =
-for multiple compressed buffers
-
-:::::: TO: Stuart Henderson <stuarth@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+     Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && MMU [=3Dn]
+     Selected by [y]:
+     - DRM_SSD130X [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy]
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2283560794097819703==--
+--===============1623018595133634211==--
 
