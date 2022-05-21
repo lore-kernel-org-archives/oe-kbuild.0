@@ -1,142 +1,141 @@
-Content-Type: multipart/mixed; boundary="===============7067347453941553029=="
+Content-Type: multipart/mixed; boundary="===============5724562387429124336=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mailbox/qcom-ipcc.c:207:25: warning: Parameter 'controller_dn' can be declared with const [constParameter]
-Date: Sat, 21 May 2022 16:12:51 +0800
-Message-ID: <202205211605.JevP8zud-lkp@intel.com>
+Subject: Re: [PATCH v2] sched/core: add forced idle accounting for cgroups
+Date: Sat, 21 May 2022 15:32:29 +0800
+Message-ID: <202205211525.XlF6P8dM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7067347453941553029==
+--===============5724562387429124336==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220520235138.3140590-1-joshdon@google.com>
+References: <20220520235138.3140590-1-joshdon@google.com>
+TO: Josh Don <joshdon@google.com>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Juri Lelli <juri.lelli@redhat.com>
+TO: Vincent Guittot <vincent.guittot@linaro.org>
+TO: Tejun Heo <tj@kernel.org>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Ben Segall <bsegall@google.com>
+CC: Mel Gorman <mgorman@suse.de>
+CC: Daniel Bristot de Oliveira <bristot@redhat.com>
+CC: Valentin Schneider <vschneid@redhat.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Huang Yiwei <quic_hyiwei@quicinc.com>
-CC: Jassi Brar <jaswinder.singh@linaro.org>
+CC: Cruz Zhao <CruzZhao@linux.alibaba.com>
+CC: Josh Don <joshdon@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6c3f5bec9b40b9437410abb08eccd5cdd1598a3c
-commit: e9d50e4b4d04165097a71e20e0a77e7ad7053dd0 mailbox: qcom-ipcc: Dynami=
-c alloc for channel arrangement
-date:   4 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 months ago
-compiler: xtensa-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout e9d50e4b4d04165097a71e20e0a77e7ad7053dd0
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Josh,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tj-cgroup/for-next]
+[also build test WARNING on tip/sched/core tip/master v5.18-rc7 next-202205=
+20]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Don/sched-core-=
+add-forced-idle-accounting-for-cgroups/20220521-075311
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-n=
+ext
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20521/202205211525.XlF6P8dM-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+kernel/cgroup/rstat.c:489 cgroup_base_stat_cputime_show() error: uninitiali=
+zed symbol 'forceidle_time'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/forceidle_time +489 kernel/cgroup/rstat.c
 
->> drivers/mailbox/qcom-ipcc.c:207:25: warning: Parameter 'controller_dn' c=
-an be declared with const [constParameter]
-       struct device_node *controller_dn)
-                           ^
+936f2a70f2077f kernel/cgroup/rstat.c Boris Burkov 2020-05-27  459  =
 
-vim +/controller_dn +207 drivers/mailbox/qcom-ipcc.c
+d4ff749b5e0f1e kernel/cgroup/rstat.c Tejun Heo    2018-04-26  460  void cgr=
+oup_base_stat_cputime_show(struct seq_file *seq)
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  461  {
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  462  	struct =
+cgroup *cgrp =3D seq_css(seq)->cgroup;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  463  	u64 usa=
+ge, utime, stime;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  464  	struct =
+cgroup_base_stat bstat;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  465  	u64 __m=
+aybe_unused forceidle_time;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  466  =
 
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  205  =
+936f2a70f2077f kernel/cgroup/rstat.c Boris Burkov 2020-05-27  467  	if (cgr=
+oup_parent(cgrp)) {
+6162cef0f741c7 kernel/cgroup/rstat.c Tejun Heo    2018-04-26  468  		cgroup=
+_rstat_flush_hold(cgrp);
+d4ff749b5e0f1e kernel/cgroup/rstat.c Tejun Heo    2018-04-26  469  		usage =
+=3D cgrp->bstat.cputime.sum_exec_runtime;
+936f2a70f2077f kernel/cgroup/rstat.c Boris Burkov 2020-05-27  470  		cputim=
+e_adjust(&cgrp->bstat.cputime, &cgrp->prev_cputime,
+936f2a70f2077f kernel/cgroup/rstat.c Boris Burkov 2020-05-27  471  			     =
+  &utime, &stime);
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  472  #ifdef C=
+ONFIG_SCHED_CORE
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  473  		forcei=
+dle_time =3D cgrp->bstat.forceidle_sum;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  474  #endif
+6162cef0f741c7 kernel/cgroup/rstat.c Tejun Heo    2018-04-26  475  		cgroup=
+_rstat_flush_release();
+936f2a70f2077f kernel/cgroup/rstat.c Boris Burkov 2020-05-27  476  	} else {
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  477  		root_c=
+group_cputime(&bstat);
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  478  		usage =
+=3D bstat.cputime.sum_exec_runtime;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  479  		utime =
+=3D bstat.cputime.utime;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  480  		stime =
+=3D bstat.cputime.stime;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  481  #ifdef C=
+ONFIG_SCHED_CORE
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  482  		forcei=
+dle_time =3D bstat.forceidle_sum;
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  483  #endif
+936f2a70f2077f kernel/cgroup/rstat.c Boris Burkov 2020-05-27  484  	}
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  485  =
 
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  206  static int qcom_ipcc_=
-setup_mbox(struct qcom_ipcc *ipcc,
-e9d50e4b4d0416 Huang Yiwei           2021-11-22 @207  				struct device_nod=
-e *controller_dn)
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  208  {
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  209  	struct of_phandle_ar=
-gs curr_ph;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  210  	struct device_node *=
-client_dn;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  211  	struct mbox_controll=
-er *mbox;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  212  	struct device *dev =
-=3D ipcc->dev;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  213  	int i, j, ret;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  214  =
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  486  	do_div(=
+usage, NSEC_PER_USEC);
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  487  	do_div(=
+utime, NSEC_PER_USEC);
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  488  	do_div(=
+stime, NSEC_PER_USEC);
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20 @489  	do_div(=
+forceidle_time, NSEC_PER_USEC);
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo    2017-09-25  490  =
 
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  215  	/*
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  216  	 * Find out the numb=
-er of clients interested in this mailbox
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  217  	 * and create channe=
-ls accordingly.
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  218  	 */
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  219  	ipcc->num_chans =3D =
-0;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  220  	for_each_node_with_p=
-roperty(client_dn, "mboxes") {
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  221  		if (!of_device_is_a=
-vailable(client_dn))
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  222  			continue;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  223  		i =3D of_count_phan=
-dle_with_args(client_dn,
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  224  						"mboxes", "#mbo=
-x-cells");
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  225  		for (j =3D 0; j < i=
-; j++) {
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  226  			ret =3D of_parse_p=
-handle_with_args(client_dn, "mboxes",
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  227  						"#mbox-cells", =
-j, &curr_ph);
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  228  			of_node_put(curr_p=
-h.np);
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  229  			if (!ret && curr_p=
-h.np =3D=3D controller_dn) {
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  230  				ipcc->num_chans++;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  231  				break;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  232  			}
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  233  		}
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  234  	}
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  235  =
-
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  236  	/* If no clients are=
- found, skip registering as a mbox controller */
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  237  	if (!ipcc->num_chans)
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  238  		return 0;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  239  =
-
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  240  	ipcc->chans =3D devm=
-_kcalloc(dev, ipcc->num_chans,
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  241  					sizeof(struct mb=
-ox_chan), GFP_KERNEL);
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  242  	if (!ipcc->chans)
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  243  		return -ENOMEM;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  244  =
-
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  245  	mbox =3D &ipcc->mbox;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  246  	mbox->dev =3D dev;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  247  	mbox->num_chans =3D =
-ipcc->num_chans;
-e9d50e4b4d0416 Huang Yiwei           2021-11-22  248  	mbox->chans =3D ipcc=
-->chans;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  249  	mbox->ops =3D &ipcc_=
-mbox_chan_ops;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  250  	mbox->of_xlate =3D q=
-com_ipcc_mbox_xlate;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  251  	mbox->txdone_irq =3D=
- false;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  252  	mbox->txdone_poll =
-=3D false;
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  253  =
-
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  254  	return devm_mbox_con=
-troller_register(dev, mbox);
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  255  }
-fa74a0257f45c5 Manivannan Sadhasivam 2020-05-30  256  =
+d41bf8c9deaed1 kernel/cgroup/stat.c  Tejun Heo    2017-10-23  491  	seq_pri=
+ntf(seq, "usage_usec %llu\n"
+d41bf8c9deaed1 kernel/cgroup/stat.c  Tejun Heo    2017-10-23  492  		   "us=
+er_usec %llu\n"
+d41bf8c9deaed1 kernel/cgroup/stat.c  Tejun Heo    2017-10-23  493  		   "sy=
+stem_usec %llu\n",
+d41bf8c9deaed1 kernel/cgroup/stat.c  Tejun Heo    2017-10-23  494  		   usa=
+ge, utime, stime);
+0575a42c9f10cd kernel/cgroup/rstat.c Josh Don     2022-05-20  495  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7067347453941553029==--
+--===============5724562387429124336==--
 
