@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4265567330787705842=="
+Content-Type: multipart/mixed; boundary="===============9109763596590704460=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:4360 rvu_mbox_handler_nix_bandprof_free() error: testing array offset 'idx' after use.
-Date: Sun, 22 May 2022 10:50:42 +0800
-Message-ID: <202205221009.XjbSXonE-lkp@intel.com>
+Subject: drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declared with const [constParameter]
+Date: Sun, 22 May 2022 10:09:40 +0800
+Message-ID: <202205221019.c5Gwo0QB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4265567330787705842==
+--===============9109763596590704460==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,122 +15,86 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Sunil Goutham <sgoutham@marvell.com>
-CC: Subbaraya Sundeep <sbhatta@marvell.com>
+TO: Dan Williams <dan.j.williams@intel.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
-commit: e8e095b3b37004a4048af69de60c9af2d2268a1d octeontx2-af: cn10k: Bandw=
-idth profiles config support
-date:   11 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-m031-20220522 (https://download.01.org/0day-ci/arch=
-ive/20220522/202205221009.XjbSXonE-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
+commit: 4faf31b43468c58e2c8c91cc5fa26f08a6b733be cxl/mbox: Move mailbox and=
+ other non-PCI specific infrastructure to the core
+date:   8 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 8 months ago
+compiler: m68k-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 4faf31b43468c58e2c8c91cc5fa26f08a6b733be
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:4360 rvu_mbox_handler_n=
-ix_bandprof_free() error: testing array offset 'idx' after use.
 
-vim +/idx +4360 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4317  =
+>> drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declare=
+d with const [constParameter]
+   static int cxl_xfer_log(struct cxl_mem *cxlm, uuid_t *uuid, u32 size, u8=
+ *out)
+                                                         ^
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4318  int rvu_mbox_handler_nix_ban=
-dprof_free(struct rvu *rvu,
-e8e095b3b37004 Sunil Goutham 2021-06-15  4319  				       struct nix_bandpr=
-of_free_req *req,
-e8e095b3b37004 Sunil Goutham 2021-06-15  4320  				       struct msg_rsp *r=
-sp)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4321  {
-e8e095b3b37004 Sunil Goutham 2021-06-15  4322  	int blkaddr, layer, prof_id=
-x, idx, err;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4323  	u16 pcifunc =3D req->hdr.pc=
-ifunc;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4324  	struct nix_ipolicer *ipolic=
-er;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4325  	struct nix_hw *nix_hw;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4326  =
+vim +/uuid +478 drivers/cxl/core/mbox.c
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4327  	if (req->free_all)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4328  		return nix_free_all_bandpr=
-of(rvu, pcifunc);
-e8e095b3b37004 Sunil Goutham 2021-06-15  4329  =
+4faf31b43468c5 Dan Williams 2021-09-08  477  =
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4330  	if (!rvu->hw->cap.ipolicer)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4331  		return NIX_AF_ERR_IPOLICER=
-_NOTSUPP;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4332  =
+4faf31b43468c5 Dan Williams 2021-09-08 @478  static int cxl_xfer_log(struct=
+ cxl_mem *cxlm, uuid_t *uuid, u32 size, u8 *out)
+4faf31b43468c5 Dan Williams 2021-09-08  479  {
+4faf31b43468c5 Dan Williams 2021-09-08  480  	u32 remaining =3D size;
+4faf31b43468c5 Dan Williams 2021-09-08  481  	u32 offset =3D 0;
+4faf31b43468c5 Dan Williams 2021-09-08  482  =
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4333  	err =3D nix_get_struct_ptrs=
-(rvu, pcifunc, &nix_hw, &blkaddr);
-e8e095b3b37004 Sunil Goutham 2021-06-15  4334  	if (err)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4335  		return err;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4336  =
+4faf31b43468c5 Dan Williams 2021-09-08  483  	while (remaining) {
+4faf31b43468c5 Dan Williams 2021-09-08  484  		u32 xfer_size =3D min_t(u32,=
+ remaining, cxlm->payload_size);
+4faf31b43468c5 Dan Williams 2021-09-08  485  		struct cxl_mbox_get_log {
+4faf31b43468c5 Dan Williams 2021-09-08  486  			uuid_t uuid;
+4faf31b43468c5 Dan Williams 2021-09-08  487  			__le32 offset;
+4faf31b43468c5 Dan Williams 2021-09-08  488  			__le32 length;
+4faf31b43468c5 Dan Williams 2021-09-08  489  		} __packed log =3D {
+4faf31b43468c5 Dan Williams 2021-09-08  490  			.uuid =3D *uuid,
+4faf31b43468c5 Dan Williams 2021-09-08  491  			.offset =3D cpu_to_le32(off=
+set),
+4faf31b43468c5 Dan Williams 2021-09-08  492  			.length =3D cpu_to_le32(xfe=
+r_size)
+4faf31b43468c5 Dan Williams 2021-09-08  493  		};
+4faf31b43468c5 Dan Williams 2021-09-08  494  		int rc;
+4faf31b43468c5 Dan Williams 2021-09-08  495  =
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4337  	mutex_lock(&rvu->rsrc_lock);
-e8e095b3b37004 Sunil Goutham 2021-06-15  4338  	/* Free the requested profi=
-le indices */
-e8e095b3b37004 Sunil Goutham 2021-06-15  4339  	for (layer =3D 0; layer < B=
-AND_PROF_NUM_LAYERS; layer++) {
-e8e095b3b37004 Sunil Goutham 2021-06-15  4340  		if (layer =3D=3D BAND_PROF=
-_INVAL_LAYER)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4341  			continue;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4342  		if (!req->prof_count[layer=
-])
-e8e095b3b37004 Sunil Goutham 2021-06-15  4343  			continue;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4344  =
+4faf31b43468c5 Dan Williams 2021-09-08  496  		rc =3D cxl_mem_mbox_send_cmd=
+(cxlm, CXL_MBOX_OP_GET_LOG, &log,
+4faf31b43468c5 Dan Williams 2021-09-08  497  					   sizeof(log), out, xfer=
+_size);
+4faf31b43468c5 Dan Williams 2021-09-08  498  		if (rc < 0)
+4faf31b43468c5 Dan Williams 2021-09-08  499  			return rc;
+4faf31b43468c5 Dan Williams 2021-09-08  500  =
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4345  		ipolicer =3D &nix_hw->ipol=
-icer[layer];
-e8e095b3b37004 Sunil Goutham 2021-06-15  4346  		for (idx =3D 0; idx < req-=
->prof_count[layer]; idx++) {
-e8e095b3b37004 Sunil Goutham 2021-06-15  4347  			prof_idx =3D req->prof_id=
-x[layer][idx];
-e8e095b3b37004 Sunil Goutham 2021-06-15  4348  			if (prof_idx >=3D ipolice=
-r->band_prof.max ||
-e8e095b3b37004 Sunil Goutham 2021-06-15  4349  			    ipolicer->pfvf_map[pr=
-of_idx] !=3D pcifunc)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4350  				continue;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4351  =
+4faf31b43468c5 Dan Williams 2021-09-08  501  		out +=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  502  		remaining -=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  503  		offset +=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  504  	}
+4faf31b43468c5 Dan Williams 2021-09-08  505  =
 
-e8e095b3b37004 Sunil Goutham 2021-06-15  4352  			/* Clear ratelimit aggreg=
-ation, if any */
-e8e095b3b37004 Sunil Goutham 2021-06-15  4353  			if (layer =3D=3D BAND_PRO=
-F_LEAF_LAYER &&
-e8e095b3b37004 Sunil Goutham 2021-06-15  4354  			    ipolicer->match_id[pr=
-of_idx])
-e8e095b3b37004 Sunil Goutham 2021-06-15  4355  				nix_clear_ratelimit_aggr=
-(rvu, nix_hw, prof_idx);
-e8e095b3b37004 Sunil Goutham 2021-06-15  4356  =
-
-e8e095b3b37004 Sunil Goutham 2021-06-15  4357  			ipolicer->pfvf_map[prof_i=
-dx] =3D 0x00;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4358  			ipolicer->match_id[prof_i=
-dx] =3D 0;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4359  			rvu_free_rsrc(&ipolicer->=
-band_prof, prof_idx);
-e8e095b3b37004 Sunil Goutham 2021-06-15 @4360  			if (idx =3D=3D MAX_BANDPR=
-OF_PER_PFFUNC)
-e8e095b3b37004 Sunil Goutham 2021-06-15  4361  				break;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4362  		}
-e8e095b3b37004 Sunil Goutham 2021-06-15  4363  	}
-e8e095b3b37004 Sunil Goutham 2021-06-15  4364  	mutex_unlock(&rvu->rsrc_loc=
-k);
-e8e095b3b37004 Sunil Goutham 2021-06-15  4365  	return 0;
-e8e095b3b37004 Sunil Goutham 2021-06-15  4366  }
-e8e095b3b37004 Sunil Goutham 2021-06-15  4367  =
+4faf31b43468c5 Dan Williams 2021-09-08  506  	return 0;
+4faf31b43468c5 Dan Williams 2021-09-08  507  }
+4faf31b43468c5 Dan Williams 2021-09-08  508  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4265567330787705842==--
+--===============9109763596590704460==--
 
