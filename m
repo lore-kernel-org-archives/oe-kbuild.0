@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1825222048475664855=="
+Content-Type: multipart/mixed; boundary="===============4265567330787705842=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1433 amdgpu_discovery_get_vcn_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <= 3
-Date: Fri, 27 May 2022 15:14:09 +0800
-Message-ID: <202205271546.oV14N2r8-lkp@intel.com>
+Subject: drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:4360 rvu_mbox_handler_nix_bandprof_free() error: testing array offset 'idx' after use.
+Date: Sun, 22 May 2022 10:50:42 +0800
+Message-ID: <202205221009.XjbSXonE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1825222048475664855==
+--===============4265567330787705842==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,103 +15,122 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Alex Deucher <alexander.deucher@amd.com>
+TO: Sunil Goutham <sgoutham@marvell.com>
+CC: Subbaraya Sundeep <sbhatta@marvell.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7e284070abe53d448517b80493863595af4ab5f0
-commit: 622469c87fc3e6c90a980be3e2287d82bd55c977 drm/amdgpu/discovery: add =
-a function to parse the vcn info table
-date:   4 weeks ago
+head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
+commit: e8e095b3b37004a4048af69de60c9af2d2268a1d octeontx2-af: cn10k: Bandw=
+idth profiles config support
+date:   11 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 4 weeks ago
-config: arc-randconfig-m031-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220527/202205271546.oV14N2r8-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
+:::::: commit date: 11 months ago
+config: s390-randconfig-m031-20220522 (https://download.01.org/0day-ci/arch=
+ive/20220522/202205221009.XjbSXonE-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1433 amdgpu_discovery_get_vcn=
-_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <=3D 3
+drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:4360 rvu_mbox_handler_n=
+ix_bandprof_free() error: testing array offset 'idx' after use.
 
-vim +1433 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+vim +/idx +4360 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1402  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4317  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1403  int amdgpu_discovery_get_vcn_=
-info(struct amdgpu_device *adev)
-622469c87fc3e6 Alex Deucher 2022-03-30  1404  {
-622469c87fc3e6 Alex Deucher 2022-03-30  1405  	struct binary_header *bhdr;
-622469c87fc3e6 Alex Deucher 2022-03-30  1406  	union vcn_info *vcn_info;
-622469c87fc3e6 Alex Deucher 2022-03-30  1407  	u16 offset;
-622469c87fc3e6 Alex Deucher 2022-03-30  1408  	int v;
-622469c87fc3e6 Alex Deucher 2022-03-30  1409  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4318  int rvu_mbox_handler_nix_ban=
+dprof_free(struct rvu *rvu,
+e8e095b3b37004 Sunil Goutham 2021-06-15  4319  				       struct nix_bandpr=
+of_free_req *req,
+e8e095b3b37004 Sunil Goutham 2021-06-15  4320  				       struct msg_rsp *r=
+sp)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4321  {
+e8e095b3b37004 Sunil Goutham 2021-06-15  4322  	int blkaddr, layer, prof_id=
+x, idx, err;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4323  	u16 pcifunc =3D req->hdr.pc=
+ifunc;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4324  	struct nix_ipolicer *ipolic=
+er;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4325  	struct nix_hw *nix_hw;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4326  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1410  	if (!adev->mman.discovery_bi=
-n) {
-622469c87fc3e6 Alex Deucher 2022-03-30  1411  		DRM_ERROR("ip discovery uni=
-nitialized\n");
-622469c87fc3e6 Alex Deucher 2022-03-30  1412  		return -EINVAL;
-622469c87fc3e6 Alex Deucher 2022-03-30  1413  	}
-622469c87fc3e6 Alex Deucher 2022-03-30  1414  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4327  	if (req->free_all)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4328  		return nix_free_all_bandpr=
+of(rvu, pcifunc);
+e8e095b3b37004 Sunil Goutham 2021-06-15  4329  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1415  	if (adev->vcn.num_vcn_inst >=
- VCN_INFO_TABLE_MAX_NUM_INSTANCES) {
-622469c87fc3e6 Alex Deucher 2022-03-30  1416  		dev_err(adev->dev, "invalid=
- vcn instances\n");
-622469c87fc3e6 Alex Deucher 2022-03-30  1417  		return -EINVAL;
-622469c87fc3e6 Alex Deucher 2022-03-30  1418  	}
-622469c87fc3e6 Alex Deucher 2022-03-30  1419  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4330  	if (!rvu->hw->cap.ipolicer)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4331  		return NIX_AF_ERR_IPOLICER=
+_NOTSUPP;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4332  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1420  	bhdr =3D (struct binary_head=
-er *)adev->mman.discovery_bin;
-622469c87fc3e6 Alex Deucher 2022-03-30  1421  	offset =3D le16_to_cpu(bhdr-=
->table_list[VCN_INFO].offset);
-622469c87fc3e6 Alex Deucher 2022-03-30  1422  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4333  	err =3D nix_get_struct_ptrs=
+(rvu, pcifunc, &nix_hw, &blkaddr);
+e8e095b3b37004 Sunil Goutham 2021-06-15  4334  	if (err)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4335  		return err;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4336  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1423  	if (!offset) {
-622469c87fc3e6 Alex Deucher 2022-03-30  1424  		dev_err(adev->dev, "invalid=
- vcn table offset\n");
-622469c87fc3e6 Alex Deucher 2022-03-30  1425  		return -EINVAL;
-622469c87fc3e6 Alex Deucher 2022-03-30  1426  	}
-622469c87fc3e6 Alex Deucher 2022-03-30  1427  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4337  	mutex_lock(&rvu->rsrc_lock);
+e8e095b3b37004 Sunil Goutham 2021-06-15  4338  	/* Free the requested profi=
+le indices */
+e8e095b3b37004 Sunil Goutham 2021-06-15  4339  	for (layer =3D 0; layer < B=
+AND_PROF_NUM_LAYERS; layer++) {
+e8e095b3b37004 Sunil Goutham 2021-06-15  4340  		if (layer =3D=3D BAND_PROF=
+_INVAL_LAYER)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4341  			continue;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4342  		if (!req->prof_count[layer=
+])
+e8e095b3b37004 Sunil Goutham 2021-06-15  4343  			continue;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4344  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1428  	vcn_info =3D (union vcn_info=
- *)(adev->mman.discovery_bin + offset);
-622469c87fc3e6 Alex Deucher 2022-03-30  1429  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4345  		ipolicer =3D &nix_hw->ipol=
+icer[layer];
+e8e095b3b37004 Sunil Goutham 2021-06-15  4346  		for (idx =3D 0; idx < req-=
+>prof_count[layer]; idx++) {
+e8e095b3b37004 Sunil Goutham 2021-06-15  4347  			prof_idx =3D req->prof_id=
+x[layer][idx];
+e8e095b3b37004 Sunil Goutham 2021-06-15  4348  			if (prof_idx >=3D ipolice=
+r->band_prof.max ||
+e8e095b3b37004 Sunil Goutham 2021-06-15  4349  			    ipolicer->pfvf_map[pr=
+of_idx] !=3D pcifunc)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4350  				continue;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4351  =
 
-622469c87fc3e6 Alex Deucher 2022-03-30  1430  	switch (le16_to_cpu(vcn_info=
-->v1.header.version_major)) {
-622469c87fc3e6 Alex Deucher 2022-03-30  1431  	case 1:
-622469c87fc3e6 Alex Deucher 2022-03-30  1432  		for (v =3D 0; v < adev->vcn=
-.num_vcn_inst; v++) {
-622469c87fc3e6 Alex Deucher 2022-03-30 @1433  			adev->vcn.vcn_codec_disabl=
-e_mask[v] =3D
-622469c87fc3e6 Alex Deucher 2022-03-30  1434  				le32_to_cpu(vcn_info->v1.=
-instance_info[v].fuse_data.all_bits);
-622469c87fc3e6 Alex Deucher 2022-03-30  1435  		}
-622469c87fc3e6 Alex Deucher 2022-03-30  1436  		break;
-622469c87fc3e6 Alex Deucher 2022-03-30  1437  	default:
-622469c87fc3e6 Alex Deucher 2022-03-30  1438  		dev_err(adev->dev,
-622469c87fc3e6 Alex Deucher 2022-03-30  1439  			"Unhandled VCN info table =
-%d.%d\n",
-622469c87fc3e6 Alex Deucher 2022-03-30  1440  			le16_to_cpu(vcn_info->v1.h=
-eader.version_major),
-622469c87fc3e6 Alex Deucher 2022-03-30  1441  			le16_to_cpu(vcn_info->v1.h=
-eader.version_minor));
-622469c87fc3e6 Alex Deucher 2022-03-30  1442  		return -EINVAL;
-622469c87fc3e6 Alex Deucher 2022-03-30  1443  	}
-622469c87fc3e6 Alex Deucher 2022-03-30  1444  	return 0;
-f39f5bb1c9d68d Xiaojie Yuan 2019-06-20  1445  }
-795d08391b8627 Alex Deucher 2021-07-20  1446  =
+e8e095b3b37004 Sunil Goutham 2021-06-15  4352  			/* Clear ratelimit aggreg=
+ation, if any */
+e8e095b3b37004 Sunil Goutham 2021-06-15  4353  			if (layer =3D=3D BAND_PRO=
+F_LEAF_LAYER &&
+e8e095b3b37004 Sunil Goutham 2021-06-15  4354  			    ipolicer->match_id[pr=
+of_idx])
+e8e095b3b37004 Sunil Goutham 2021-06-15  4355  				nix_clear_ratelimit_aggr=
+(rvu, nix_hw, prof_idx);
+e8e095b3b37004 Sunil Goutham 2021-06-15  4356  =
+
+e8e095b3b37004 Sunil Goutham 2021-06-15  4357  			ipolicer->pfvf_map[prof_i=
+dx] =3D 0x00;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4358  			ipolicer->match_id[prof_i=
+dx] =3D 0;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4359  			rvu_free_rsrc(&ipolicer->=
+band_prof, prof_idx);
+e8e095b3b37004 Sunil Goutham 2021-06-15 @4360  			if (idx =3D=3D MAX_BANDPR=
+OF_PER_PFFUNC)
+e8e095b3b37004 Sunil Goutham 2021-06-15  4361  				break;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4362  		}
+e8e095b3b37004 Sunil Goutham 2021-06-15  4363  	}
+e8e095b3b37004 Sunil Goutham 2021-06-15  4364  	mutex_unlock(&rvu->rsrc_loc=
+k);
+e8e095b3b37004 Sunil Goutham 2021-06-15  4365  	return 0;
+e8e095b3b37004 Sunil Goutham 2021-06-15  4366  }
+e8e095b3b37004 Sunil Goutham 2021-06-15  4367  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1825222048475664855==--
+--===============4265567330787705842==--
 
