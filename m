@@ -1,119 +1,142 @@
-Content-Type: multipart/mixed; boundary="===============0344964358046511966=="
+Content-Type: multipart/mixed; boundary="===============3100797029680200039=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 12704/13468] drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter 'ref_table' can be declared with const [constParameter]
-Date: Sun, 22 May 2022 18:07:59 +0800
-Message-ID: <202205221841.meBBEZ9c-lkp@intel.com>
+Subject: drivers/net/ethernet/marvell/octeontx2/af/rvu_switch.c:185 rvu_switch_enable() warn: 'rswitch->start_entry + rswitch->used_entries - 1' 4294967295 can't fit into 65535 'uninstall_req.end'
+Date: Sun, 22 May 2022 16:06:30 +0800
+Message-ID: <202205221628.VdZEHKlx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0344964358046511966==
+--===============3100797029680200039==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Keerthy <j-keerthy@ti.com>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Subbaraya Sundeep <sbhatta@marvell.com>
+CC: Sunil Kovvuri Goutham <sgoutham@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   18ecd30af1a8402c162cca1bd58771c0e5be7815
-commit: ffcb2fc86eb7ebc9f5524525fb57e1cccfbd1fc0 [12704/13468] thermal: k3_=
-j72xx_bandgap: Add the bandgap driver support
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-compiler: m68k-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout ffcb2fc86eb7ebc9f5524525fb57e1cccfbd1fc0
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
+commit: 23109f8dd06d0bd04c9360cf7c501c97b0ab1545 octeontx2-af: Introduce in=
+ternal packet switching
+date:   10 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+config: s390-randconfig-m031-20220522 (https://download.01.org/0day-ci/arch=
+ive/20220522/202205221628.VdZEHKlx-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_switch.c:185 rvu_switch_enabl=
+e() warn: 'rswitch->start_entry + rswitch->used_entries - 1' 4294967295 can=
+'t fit into 65535 'uninstall_req.end'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_switch.c:220 rvu_switch_disab=
+le() error: uninitialized symbol 'numvfs'.
+drivers/net/ethernet/marvell/octeontx2/af/rvu_switch.c:220 rvu_switch_disab=
+le() error: uninitialized symbol 'hwvf'.
 
->> drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter 'ref_table'=
- can be declared with const [constParameter]
-         int *ref_table)
-              ^
+vim +185 drivers/net/ethernet/marvell/octeontx2/af/rvu_switch.c
 
-vim +/ref_table +83 drivers/thermal/k3_j72xx_bandgap.c
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  141  =
 
-ffcb2fc86eb7eb Keerthy 2022-05-17   81  =
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  142  void rvu_switch_enable(st=
+ruct rvu *rvu)
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  143  {
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  144  	struct npc_mcam_alloc_en=
+try_req alloc_req =3D { 0 };
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  145  	struct npc_mcam_alloc_en=
+try_rsp alloc_rsp =3D { 0 };
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  146  	struct npc_delete_flow_r=
+eq uninstall_req =3D { 0 };
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  147  	struct npc_mcam_free_ent=
+ry_req free_req =3D { 0 };
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  148  	struct rvu_switch *rswit=
+ch =3D &rvu->rswitch;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  149  	struct msg_rsp rsp;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  150  	int ret;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  151  =
 
-ffcb2fc86eb7eb Keerthy 2022-05-17   82  static void create_table_segments(s=
-truct err_values *err_vals, int seg,
-ffcb2fc86eb7eb Keerthy 2022-05-17  @83  				  int *ref_table)
-ffcb2fc86eb7eb Keerthy 2022-05-17   84  {
-ffcb2fc86eb7eb Keerthy 2022-05-17   85  	int m =3D 0, c, num, den, i, err, =
-idx1, idx2, err1, err2, ref1, ref2;
-ffcb2fc86eb7eb Keerthy 2022-05-17   86  =
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  152  	alloc_req.contig =3D tru=
+e;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  153  	alloc_req.count =3D rvu-=
+>cgx_mapped_pfs + rvu->cgx_mapped_vfs;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  154  	ret =3D rvu_mbox_handler=
+_npc_mcam_alloc_entry(rvu, &alloc_req,
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  155  						    &alloc_rsp);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  156  	if (ret) {
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  157  		dev_err(rvu->dev,
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  158  			"Unable to allocate MC=
+AM entries\n");
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  159  		goto exit;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  160  	}
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  161  =
 
-ffcb2fc86eb7eb Keerthy 2022-05-17   87  	if (seg =3D=3D 0)
-ffcb2fc86eb7eb Keerthy 2022-05-17   88  		idx1 =3D 0;
-ffcb2fc86eb7eb Keerthy 2022-05-17   89  	else
-ffcb2fc86eb7eb Keerthy 2022-05-17   90  		idx1 =3D err_vals->refs[seg];
-ffcb2fc86eb7eb Keerthy 2022-05-17   91  =
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  162  	if (alloc_rsp.count !=3D=
+ alloc_req.count) {
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  163  		dev_err(rvu->dev,
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  164  			"Unable to allocate %d=
+ MCAM entries, got %d\n",
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  165  			alloc_req.count, alloc=
+_rsp.count);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  166  		goto free_entries;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  167  	}
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  168  =
 
-ffcb2fc86eb7eb Keerthy 2022-05-17   92  	idx2 =3D err_vals->refs[seg + 1];
-ffcb2fc86eb7eb Keerthy 2022-05-17   93  	err1 =3D err_vals->errs[seg];
-ffcb2fc86eb7eb Keerthy 2022-05-17   94  	err2 =3D err_vals->errs[seg + 1];
-ffcb2fc86eb7eb Keerthy 2022-05-17   95  	ref1 =3D err_vals->refs[seg];
-ffcb2fc86eb7eb Keerthy 2022-05-17   96  	ref2 =3D err_vals->refs[seg + 1];
-ffcb2fc86eb7eb Keerthy 2022-05-17   97  =
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  169  	rswitch->entry2pcifunc =
+=3D kcalloc(alloc_req.count, sizeof(u16),
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  170  					 GFP_KERNEL);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  171  	if (!rswitch->entry2pcif=
+unc)
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  172  		goto free_entries;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  173  =
 
-ffcb2fc86eb7eb Keerthy 2022-05-17   98  	/*
-ffcb2fc86eb7eb Keerthy 2022-05-17   99  	 * Calculate the slope with adc va=
-lues read from the register
-ffcb2fc86eb7eb Keerthy 2022-05-17  100  	 * as the y-axis param and err in =
-adc value as x-axis param
-ffcb2fc86eb7eb Keerthy 2022-05-17  101  	 */
-ffcb2fc86eb7eb Keerthy 2022-05-17  102  	num =3D ref2 - ref1;
-ffcb2fc86eb7eb Keerthy 2022-05-17  103  	den =3D err2 - err1;
-ffcb2fc86eb7eb Keerthy 2022-05-17  104  	if (den)
-ffcb2fc86eb7eb Keerthy 2022-05-17  105  		m =3D num / den;
-ffcb2fc86eb7eb Keerthy 2022-05-17  106  	c =3D ref2 - m * err2;
-ffcb2fc86eb7eb Keerthy 2022-05-17  107  =
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  174  	rswitch->used_entries =
+=3D alloc_rsp.count;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  175  	rswitch->start_entry =3D=
+ alloc_rsp.entry;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  176  =
 
-ffcb2fc86eb7eb Keerthy 2022-05-17  108  	/*
-ffcb2fc86eb7eb Keerthy 2022-05-17  109  	 * Take care of divide by zero err=
-or if error values are same
-ffcb2fc86eb7eb Keerthy 2022-05-17  110  	 * Or when the slope is 0
-ffcb2fc86eb7eb Keerthy 2022-05-17  111  	 */
-ffcb2fc86eb7eb Keerthy 2022-05-17  112  	if (den !=3D 0 && m !=3D 0) {
-ffcb2fc86eb7eb Keerthy 2022-05-17  113  		for (i =3D idx1; i <=3D idx2; i++=
-) {
-ffcb2fc86eb7eb Keerthy 2022-05-17  114  			err =3D (i - c) / m;
-ffcb2fc86eb7eb Keerthy 2022-05-17  115  			if (((i + err) < 0) || ((i + err=
-) >=3D TABLE_SIZE))
-ffcb2fc86eb7eb Keerthy 2022-05-17  116  				continue;
-ffcb2fc86eb7eb Keerthy 2022-05-17  117  			derived_table[i] =3D ref_table[i=
- + err];
-ffcb2fc86eb7eb Keerthy 2022-05-17  118  		}
-ffcb2fc86eb7eb Keerthy 2022-05-17  119  	} else { /* Constant error take ca=
-re of divide by zero */
-ffcb2fc86eb7eb Keerthy 2022-05-17  120  		for (i =3D idx1; i <=3D idx2; i++=
-) {
-ffcb2fc86eb7eb Keerthy 2022-05-17  121  			if (((i + err1) < 0) || ((i + er=
-r1) >=3D TABLE_SIZE))
-ffcb2fc86eb7eb Keerthy 2022-05-17  122  				continue;
-ffcb2fc86eb7eb Keerthy 2022-05-17  123  			derived_table[i] =3D ref_table[i=
- + err1];
-ffcb2fc86eb7eb Keerthy 2022-05-17  124  		}
-ffcb2fc86eb7eb Keerthy 2022-05-17  125  	}
-ffcb2fc86eb7eb Keerthy 2022-05-17  126  }
-ffcb2fc86eb7eb Keerthy 2022-05-17  127  =
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  177  	ret =3D rvu_switch_insta=
+ll_rules(rvu);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  178  	if (ret)
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  179  		goto uninstall_rules;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  180  =
+
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  181  	return;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  182  =
+
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  183  uninstall_rules:
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  184  	uninstall_req.start =3D =
+rswitch->start_entry;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19 @185  	uninstall_req.end =3D  r=
+switch->start_entry + rswitch->used_entries - 1;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  186  	rvu_mbox_handler_npc_del=
+ete_flow(rvu, &uninstall_req, &rsp);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  187  	kfree(rswitch->entry2pci=
+func);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  188  free_entries:
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  189  	free_req.all =3D 1;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  190  	rvu_mbox_handler_npc_mca=
+m_free_entry(rvu, &free_req, &rsp);
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  191  exit:
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  192  	return;
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  193  }
+23109f8dd06d0b Subbaraya Sundeep 2021-07-19  194  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0344964358046511966==--
+--===============3100797029680200039==--
 
