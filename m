@@ -1,35 +1,36 @@
-Content-Type: multipart/mixed; boundary="===============2127098582216909011=="
+Content-Type: multipart/mixed; boundary="===============6741986170855075691=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/firmware/arm_scmi/clock.c:242:40: warning: Variable 'msg' is not assigned a value. [unassignedVariable]
-Date: Fri, 27 May 2022 16:35:42 +0800
-Message-ID: <202205271608.aIWtyM7b-lkp@intel.com>
+Subject: [linux-next:master 9447/13468] drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable: entity->id [uninitvar]
+Date: Mon, 23 May 2022 05:50:05 +0800
+Message-ID: <202205230548.ZIc4Y7be-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2127098582216909011==
+--===============6741986170855075691==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Haijun Liu <haijun.liu@mediatek.com>
+CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
+CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
+CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   7e284070abe53d448517b80493863595af4ab5f0
-commit: 7bc7caafe6b1e5b882255a42bc1bf112fa87b69b firmware: arm_scmi: Use co=
-mmon iterators in the clock protocol
-date:   4 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 weeks ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   18ecd30af1a8402c162cca1bd58771c0e5be7815
+commit: 46e8f49ed7b3063f51e28f3ea2084b3da29c1503 [9447/13468] net: wwan: t7=
+xx: Introduce power management
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+compiler: m68k-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 7bc7caafe6b1e5b882255a42bc1bf112fa87b69b
+        git checkout 46e8f49ed7b3063f51e28f3ea2084b3da29c1503
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -39,82 +40,125 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/firmware/arm_scmi/clock.c:242:40: warning: Variable 'msg' is not=
- assigned a value. [unassignedVariable]
-    struct scmi_msg_clock_describe_rates *msg;
-                                          ^
+>> drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable=
+: entity->id [uninitvar]
+     if (entity->id =3D=3D pm_entity->id) {
+                 ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:141:15: warning: Uninitialized variable=
+: entity->id [uninitvar]
+     if (entity->id =3D=3D pm_entity->id) {
+                 ^
+>> drivers/net/wwan/t7xx/t7xx_pci.c:382:15: warning: Uninitialized variable=
+: entity->resume_early [uninitvar]
+     if (entity->resume_early)
+                 ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:309:42: note: Assuming condition is fal=
+se
+    if (atomic_read(&t7xx_dev->md_pm_state) <=3D MTK_PM_INIT) {
+                                            ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:382:15: note: Uninitialized variable: e=
+ntity->resume_early
+     if (entity->resume_early)
+                 ^
+--
+>> kernel/bpf/ringbuf.c:370:38: warning: Parameter 'sample' can be declared=
+ with const [constParameter]
+   static void bpf_ringbuf_commit(void *sample, u64 flags, bool discard)
+                                        ^
+>> drivers/net/wwan/t7xx/t7xx_port_proxy.c:325:33: warning: Uninitialized v=
+ariable: port_conf [uninitvar]
+     if (queue->md_ctrl->hif_id =3D=3D port_conf->path_id &&
+                                   ^
+   drivers/net/wwan/t7xx/t7xx_port_proxy.c:323:48: note: Assignment 'port_c=
+onf=3Dport->port_conf', assigned value is <Uninit>
+     const struct t7xx_port_conf *port_conf =3D port->port_conf;
+                                                  ^
+   drivers/net/wwan/t7xx/t7xx_port_proxy.c:325:33: note: Uninitialized vari=
+able: port_conf
+     if (queue->md_ctrl->hif_id =3D=3D port_conf->path_id &&
+                                   ^
+>> drivers/net/wwan/t7xx/t7xx_port_proxy.c:327:11: warning: Uninitialized v=
+ariables: port.port_conf, port.wwan_port, port.t7xx_dev, port.dev, port.usa=
+ge_cnt, port.entry, port.queue_entry, port.rx_skb_list, port.port_update_lo=
+ck, port.rx_wq, port.rx_length_th, port.chan_enable, port.thread [uninitvar]
+      return port;
+             ^
+--
+>> net/rxrpc/recvmsg.c:65:38: warning: syntax error [syntaxError]
+        enum rxrpc_call_completion compl,
+                                        ^
+--
+>> fs/splice.c:585:13: warning: Parameter 'ppos' can be declared with const=
+ [constParameter]
+       loff_t *ppos, size_t len, unsigned int flags,
+               ^
+>> net/tls/tls_sw.c:119:33: warning: Assignment of function parameter has n=
+o effect outside the function. [uselessAssignmentArg]
+                                   offset +=3D chunk;
+                                   ^
+>> fs/ext4/xattr.h:156:70: warning: Parameter 'save' can be declared with c=
+onst [constParameter]
+   static inline void ext4_write_unlock_xattr(struct inode *inode, int *sav=
+e)
+                                                                        ^
+   fs/ext4/ext4.h:593:2: warning: Shifting signed 32-bit value by 31 bits i=
+s implementation-defined behaviour [shiftTooManyBitsSigned]
+    CHECK_FLAG_VALUE(RESERVED);
+    ^
+   fs/ext4/ext4.h:593:2: warning: Signed integer overflow for expression '1=
+<<EXT4_INODE_RESERVED'. [integerOverflow]
+    CHECK_FLAG_VALUE(RESERVED);
+    ^
+   fs/ext4/ext4_jbd2.h:402:9: warning: Variable '__ensure_end' is not assig=
+ned a value. [unassignedVariable]
+    return ext4_journal_ensure_credits_fn(handle, credits, credits,
+           ^
+>> fs/ext4/inode.c:5530:3: warning: Identical inner 'if' condition is alway=
+s true. [identicalInnerCondition]
+     ext4_std_error(inode->i_sb, error);
+     ^
+   fs/ext4/inode.c:5529:7: note: outer condition: error
+    if  (error)
+         ^
+   fs/ext4/inode.c:5530:3: note: identical inner condition: error
+     ext4_std_error(inode->i_sb, error);
+     ^
 
-vim +/msg +242 drivers/firmware/arm_scmi/clock.c
+vim +124 drivers/net/wwan/t7xx/t7xx_pci.c
 
-9724722fde8f9b Sudeep Holla     2020-10-12  234  =
+46e8f49ed7b306 Haijun Liu 2022-05-06  117  =
 
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  235  static int
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  236  scmi_clock_describe_rates_=
-get(const struct scmi_protocol_handle *ph, u32 clk_id,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  237  			      struct scmi_clock=
-_info *clk)
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  238  {
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  239  	int ret;
-5f6c6430e904d2 Sudeep Holla     2017-06-06  240  =
+46e8f49ed7b306 Haijun Liu 2022-05-06  118  int t7xx_pci_pm_entity_register(=
+struct t7xx_pci_dev *t7xx_dev, struct md_pm_entity *pm_entity)
+46e8f49ed7b306 Haijun Liu 2022-05-06  119  {
+46e8f49ed7b306 Haijun Liu 2022-05-06  120  	struct md_pm_entity *entity;
+46e8f49ed7b306 Haijun Liu 2022-05-06  121  =
 
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  241  	void *iter;
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30 @242  	struct scmi_msg_clock_des=
-cribe_rates *msg;
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  243  	struct scmi_iterator_ops =
-ops =3D {
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  244  		.prepare_message =3D ite=
-r_clk_describe_prepare_message,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  245  		.update_state =3D iter_c=
-lk_describe_update_state,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  246  		.process_response =3D it=
-er_clk_describe_process_response,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  247  	};
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  248  	struct scmi_clk_ipriv cpr=
-iv =3D {
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  249  		.clk_id =3D clk_id,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  250  		.clk =3D clk,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  251  	};
-5f6c6430e904d2 Sudeep Holla     2017-06-06  252  =
+46e8f49ed7b306 Haijun Liu 2022-05-06  122  	mutex_lock(&t7xx_dev->md_pm_ent=
+ity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  123  	list_for_each_entry(entity, &t7=
+xx_dev->md_pm_entities, entity) {
+46e8f49ed7b306 Haijun Liu 2022-05-06 @124  		if (entity->id =3D=3D pm_entit=
+y->id) {
+46e8f49ed7b306 Haijun Liu 2022-05-06  125  			mutex_unlock(&t7xx_dev->md_pm=
+_entity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  126  			return -EEXIST;
+46e8f49ed7b306 Haijun Liu 2022-05-06  127  		}
+46e8f49ed7b306 Haijun Liu 2022-05-06  128  	}
+46e8f49ed7b306 Haijun Liu 2022-05-06  129  =
 
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  253  	iter =3D ph->hops->iter_r=
-esponse_init(ph, &ops, SCMI_MAX_NUM_RATES,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  254  					    CLOCK_DESCRIBE_RA=
-TES,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  255  					    sizeof(*msg), &cp=
-riv);
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  256  	if (IS_ERR(iter))
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  257  		return PTR_ERR(iter);
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  258  =
-
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  259  	ret =3D ph->hops->iter_re=
-sponse_run(iter);
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  260  	if (ret)
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  261  		return ret;
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  262  =
-
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  263  	if (!clk->rate_discrete) {
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  264  		dev_dbg(ph->dev, "Min %l=
-lu Max %llu Step %llu Hz\n",
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  265  			clk->range.min_rate, cl=
-k->range.max_rate,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  266  			clk->range.step_size);
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  267  	} else if (clk->list.num_=
-rates) {
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  268  		sort(clk->list.rates, cl=
-k->list.num_rates,
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  269  		     sizeof(clk->list.ra=
-tes[0]), rate_cmp_func, NULL);
-7bc7caafe6b1e5 Cristian Marussi 2022-03-30  270  	}
-c0759b9b5d411a Peng Fan         2019-05-22  271  =
-
-5f6c6430e904d2 Sudeep Holla     2017-06-06  272  	return ret;
-5f6c6430e904d2 Sudeep Holla     2017-06-06  273  }
-5f6c6430e904d2 Sudeep Holla     2017-06-06  274  =
+46e8f49ed7b306 Haijun Liu 2022-05-06  130  	list_add_tail(&pm_entity->entit=
+y, &t7xx_dev->md_pm_entities);
+46e8f49ed7b306 Haijun Liu 2022-05-06  131  	mutex_unlock(&t7xx_dev->md_pm_e=
+ntity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  132  	return 0;
+46e8f49ed7b306 Haijun Liu 2022-05-06  133  }
+46e8f49ed7b306 Haijun Liu 2022-05-06  134  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2127098582216909011==--
+--===============6741986170855075691==--
 
