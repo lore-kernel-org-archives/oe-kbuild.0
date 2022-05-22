@@ -1,143 +1,119 @@
-Content-Type: multipart/mixed; boundary="===============8858305402260467521=="
+Content-Type: multipart/mixed; boundary="===============0344964358046511966=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:244 cpt_inline_ipsec_cfg_inbound() warn: should '((__builtin_constant_p((1023) + 1)) ?((((1023) + 1) < 2) ?0:63 - __builtin_clzll((1023) + 1)):((8 <= 4)) ?__ilog2_u32((1023) + 1):__ilog2_u64((1023) + 1))...
-Date: Sun, 22 May 2022 18:08:01 +0800
-Message-ID: <202205221819.bH3rDjgZ-lkp@intel.com>
+Subject: [linux-next:master 12704/13468] drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter 'ref_table' can be declared with const [constParameter]
+Date: Sun, 22 May 2022 18:07:59 +0800
+Message-ID: <202205221841.meBBEZ9c-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8858305402260467521==
+--===============0344964358046511966==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Srujana Challa <schalla@marvell.com>
-CC: Subbaraya Sundeep <sbhatta@marvell.com>
-CC: Vidya Sagar Velumuri <vvelumuri@marvell.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Keerthy <j-keerthy@ti.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
-commit: 4b5a3ab17c6c942bd428984b6b37fe3c07f18ab3 octeontx2-af: Hardware con=
-figuration for inline IPsec
-date:   8 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 months ago
-config: s390-randconfig-m031-20220522 (https://download.01.org/0day-ci/arch=
-ive/20220522/202205221819.bH3rDjgZ-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   18ecd30af1a8402c162cca1bd58771c0e5be7815
+commit: ffcb2fc86eb7ebc9f5524525fb57e1cccfbd1fc0 [12704/13468] thermal: k3_=
+j72xx_bandgap: Add the bandgap driver support
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+compiler: m68k-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout ffcb2fc86eb7ebc9f5524525fb57e1cccfbd1fc0
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:244 cpt_inline_ipsec_cf=
-g_inbound() warn: should '((__builtin_constant_p((1023) + 1)) ?((((1023) + =
-1) < 2) ?0:63 - __builtin_clzll((1023) + 1)):((8 <=3D 4)) ?__ilog2_u32((102=
-3) + 1):__ilog2_u64((1023) + 1)) << 16' be a 64 bit type?
 
-vim +244 drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-de2854c87c6478 Srujana Challa 2021-02-02  199  =
+>> drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter 'ref_table'=
+ can be declared with const [constParameter]
+         int *ref_table)
+              ^
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  200  static int cpt_inline_ipsec_=
-cfg_inbound(struct rvu *rvu, int blkaddr, u8 cptlf,
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  201  					struct cpt_inline_ipsec=
-_cfg_msg *req)
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  202  {
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  203  	u16 sso_pf_func =3D req->ss=
-o_pf_func;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  204  	u8 nix_sel;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  205  	u64 val;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  206  =
+vim +/ref_table +83 drivers/thermal/k3_j72xx_bandgap.c
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  207  	val =3D rvu_read64(rvu, blk=
-addr, CPT_AF_LFX_CTL(cptlf));
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  208  	if (req->enable && (val & B=
-IT_ULL(16))) {
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  209  		/* IPSec inline outbound p=
-ath is already enabled for a given
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  210  		 * CPT LF, HRM states that=
- inline inbound & outbound paths
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  211  		 * must not be enabled at =
-the same time for a given CPT LF
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  212  		 */
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  213  		return CPT_AF_ERR_INLINE_I=
-PSEC_INB_ENA;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  214  	}
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  215  	/* Check if requested 'CPTL=
-F <=3D> SSOLF' mapping is valid */
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  216  	if (sso_pf_func && !is_pffu=
-nc_map_valid(rvu, sso_pf_func, BLKTYPE_SSO))
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  217  		return CPT_AF_ERR_SSO_PF_F=
-UNC_INVALID;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  218  =
+ffcb2fc86eb7eb Keerthy 2022-05-17   81  =
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  219  	nix_sel =3D (blkaddr =3D=3D=
- BLKADDR_CPT1) ? 1 : 0;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  220  	/* Enable CPT LF for IPsec =
-inline inbound operations */
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  221  	if (req->enable)
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  222  		val |=3D BIT_ULL(9);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  223  	else
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  224  		val &=3D ~BIT_ULL(9);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  225  =
+ffcb2fc86eb7eb Keerthy 2022-05-17   82  static void create_table_segments(s=
+truct err_values *err_vals, int seg,
+ffcb2fc86eb7eb Keerthy 2022-05-17  @83  				  int *ref_table)
+ffcb2fc86eb7eb Keerthy 2022-05-17   84  {
+ffcb2fc86eb7eb Keerthy 2022-05-17   85  	int m =3D 0, c, num, den, i, err, =
+idx1, idx2, err1, err2, ref1, ref2;
+ffcb2fc86eb7eb Keerthy 2022-05-17   86  =
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  226  	val |=3D (u64)nix_sel << 8;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  227  	rvu_write64(rvu, blkaddr, C=
-PT_AF_LFX_CTL(cptlf), val);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  228  =
+ffcb2fc86eb7eb Keerthy 2022-05-17   87  	if (seg =3D=3D 0)
+ffcb2fc86eb7eb Keerthy 2022-05-17   88  		idx1 =3D 0;
+ffcb2fc86eb7eb Keerthy 2022-05-17   89  	else
+ffcb2fc86eb7eb Keerthy 2022-05-17   90  		idx1 =3D err_vals->refs[seg];
+ffcb2fc86eb7eb Keerthy 2022-05-17   91  =
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  229  	if (sso_pf_func) {
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  230  		/* Set SSO_PF_FUNC */
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  231  		val =3D rvu_read64(rvu, bl=
-kaddr, CPT_AF_LFX_CTL2(cptlf));
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  232  		val |=3D (u64)sso_pf_func =
-<< 32;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  233  		val |=3D (u64)req->nix_pf_=
-func << 48;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  234  		rvu_write64(rvu, blkaddr, =
-CPT_AF_LFX_CTL2(cptlf), val);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  235  	}
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  236  	if (req->sso_pf_func_ovrd)
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  237  		/* Set SSO_PF_FUNC_OVRD fo=
-r inline IPSec */
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  238  		rvu_write64(rvu, blkaddr, =
-CPT_AF_ECO, 0x1);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  239  =
+ffcb2fc86eb7eb Keerthy 2022-05-17   92  	idx2 =3D err_vals->refs[seg + 1];
+ffcb2fc86eb7eb Keerthy 2022-05-17   93  	err1 =3D err_vals->errs[seg];
+ffcb2fc86eb7eb Keerthy 2022-05-17   94  	err2 =3D err_vals->errs[seg + 1];
+ffcb2fc86eb7eb Keerthy 2022-05-17   95  	ref1 =3D err_vals->refs[seg];
+ffcb2fc86eb7eb Keerthy 2022-05-17   96  	ref2 =3D err_vals->refs[seg + 1];
+ffcb2fc86eb7eb Keerthy 2022-05-17   97  =
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  240  	/* Configure the X2P Link r=
-egister with the cpt base channel number and
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  241  	 * range of channels it sho=
-uld propagate to X2P
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  242  	 */
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  243  	if (!is_rvu_otx2(rvu)) {
-4b5a3ab17c6c94 Srujana Challa 2021-09-16 @244  		val =3D (ilog2(NIX_CHAN_CP=
-T_X2P_MASK + 1) << 16);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  245  		val |=3D rvu->hw->cpt_chan=
-_base;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  246  =
+ffcb2fc86eb7eb Keerthy 2022-05-17   98  	/*
+ffcb2fc86eb7eb Keerthy 2022-05-17   99  	 * Calculate the slope with adc va=
+lues read from the register
+ffcb2fc86eb7eb Keerthy 2022-05-17  100  	 * as the y-axis param and err in =
+adc value as x-axis param
+ffcb2fc86eb7eb Keerthy 2022-05-17  101  	 */
+ffcb2fc86eb7eb Keerthy 2022-05-17  102  	num =3D ref2 - ref1;
+ffcb2fc86eb7eb Keerthy 2022-05-17  103  	den =3D err2 - err1;
+ffcb2fc86eb7eb Keerthy 2022-05-17  104  	if (den)
+ffcb2fc86eb7eb Keerthy 2022-05-17  105  		m =3D num / den;
+ffcb2fc86eb7eb Keerthy 2022-05-17  106  	c =3D ref2 - m * err2;
+ffcb2fc86eb7eb Keerthy 2022-05-17  107  =
 
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  247  		rvu_write64(rvu, blkaddr, =
-CPT_AF_X2PX_LINK_CFG(0), val);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  248  		rvu_write64(rvu, blkaddr, =
-CPT_AF_X2PX_LINK_CFG(1), val);
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  249  	}
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  250  =
-
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  251  	return 0;
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  252  }
-4b5a3ab17c6c94 Srujana Challa 2021-09-16  253  =
+ffcb2fc86eb7eb Keerthy 2022-05-17  108  	/*
+ffcb2fc86eb7eb Keerthy 2022-05-17  109  	 * Take care of divide by zero err=
+or if error values are same
+ffcb2fc86eb7eb Keerthy 2022-05-17  110  	 * Or when the slope is 0
+ffcb2fc86eb7eb Keerthy 2022-05-17  111  	 */
+ffcb2fc86eb7eb Keerthy 2022-05-17  112  	if (den !=3D 0 && m !=3D 0) {
+ffcb2fc86eb7eb Keerthy 2022-05-17  113  		for (i =3D idx1; i <=3D idx2; i++=
+) {
+ffcb2fc86eb7eb Keerthy 2022-05-17  114  			err =3D (i - c) / m;
+ffcb2fc86eb7eb Keerthy 2022-05-17  115  			if (((i + err) < 0) || ((i + err=
+) >=3D TABLE_SIZE))
+ffcb2fc86eb7eb Keerthy 2022-05-17  116  				continue;
+ffcb2fc86eb7eb Keerthy 2022-05-17  117  			derived_table[i] =3D ref_table[i=
+ + err];
+ffcb2fc86eb7eb Keerthy 2022-05-17  118  		}
+ffcb2fc86eb7eb Keerthy 2022-05-17  119  	} else { /* Constant error take ca=
+re of divide by zero */
+ffcb2fc86eb7eb Keerthy 2022-05-17  120  		for (i =3D idx1; i <=3D idx2; i++=
+) {
+ffcb2fc86eb7eb Keerthy 2022-05-17  121  			if (((i + err1) < 0) || ((i + er=
+r1) >=3D TABLE_SIZE))
+ffcb2fc86eb7eb Keerthy 2022-05-17  122  				continue;
+ffcb2fc86eb7eb Keerthy 2022-05-17  123  			derived_table[i] =3D ref_table[i=
+ + err1];
+ffcb2fc86eb7eb Keerthy 2022-05-17  124  		}
+ffcb2fc86eb7eb Keerthy 2022-05-17  125  	}
+ffcb2fc86eb7eb Keerthy 2022-05-17  126  }
+ffcb2fc86eb7eb Keerthy 2022-05-17  127  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8858305402260467521==--
+--===============0344964358046511966==--
 
