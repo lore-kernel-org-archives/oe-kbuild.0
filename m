@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0415016216502540320=="
+Content-Type: multipart/mixed; boundary="===============4138104071499301280=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [dhowells-fs:rxrpc-next 2/7] net/rxrpc/peer_object.c:123:26: warning: Uninitialized variables: peer.rcu, peer.ref, peer.hash_key, peer.hash_link, peer.local, peer.error_targets, peer.service_conns, peer.keepalive_link, peer.last_tx_at, peer.service_conn_lock, peer.lock, peer.if_mtu, ...
-Date: Sun, 22 May 2022 20:09:55 +0800
-Message-ID: <202205222008.qCYVyxcC-lkp@intel.com>
+Subject: drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:63 rvu_cpt_af_flt_intr_handler() error: uninitialized symbol 'reg2'.
+Date: Sun, 22 May 2022 20:09:53 +0800
+Message-ID: <202205222021.7RkhYtJt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0415016216502540320==
+--===============4138104071499301280==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,83 +15,88 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Srujana Challa <schalla@marvell.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
-it rxrpc-next
-head:   ff8a9d0bfd1189450a3048de45bcf4e4a2e95108
-commit: 67b29a0a541efec0fa995456abfc142758e59872 [2/7] rxrpc: Use refcount_=
-t rather than atomic_t
-:::::: branch date: 29 hours ago
-:::::: commit date: 3 days ago
-compiler: arc-elf-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 67b29a0a541efec0fa995456abfc142758e59872
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
+commit: 4826090719d4bb525b101f1916c68c3b5594910c octeontx2-af: Enable CPT H=
+W interrupts
+date:   7 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 7 months ago
+config: s390-randconfig-m031-20220522 (https://download.01.org/0day-ci/arch=
+ive/20220522/202205222021.7RkhYtJt-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:63 rvu_cpt_af_flt_intr_=
+handler() error: uninitialized symbol 'reg2'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:474 cpt_inline_ipsec_cf=
+g_inbound() warn: should '((__builtin_constant_p((1023) + 1)) ?((((1023) + =
+1) < 2) ?0:63 - __builtin_clzll((1023) + 1)):((8 <=3D 4)) ?__ilog2_u32((102=
+3) + 1):__ilog2_u64((1023) + 1)) << 16' be a 64 bit type?
 
->> net/rxrpc/peer_object.c:123:26: warning: Uninitialized variables: peer.r=
-cu, peer.ref, peer.hash_key, peer.hash_link, peer.local, peer.error_targets=
-, peer.service_conns, peer.keepalive_link, peer.last_tx_at, peer.service_co=
-nn_lock, peer.lock, peer.if_mtu, peer.mtu, peer.maxdata, peer.hdrsize, peer=
-.debug_id, peer.srx, peer.rtt_input_lock, peer.rtt_last_req, peer.rtt_count=
-, peer.srtt_us, peer.mdev_us, peer.mdev_max_us, peer.rttvar_us, peer.rto_j,=
- peer.backoff, peer.cong_cwnd [uninitvar]
-     if (rxrpc_peer_cmp_key(peer, local, srx, hash_key) =3D=3D 0 &&
-                            ^
+vim +/reg2 +63 drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c
 
-vim +123 net/rxrpc/peer_object.c
+2e2ee4cd0ab546 Srujana Challa 2021-04-21  39  =
 
-be6e6707f6eec2 David Howells 2016-04-04  110  =
+4826090719d4bb Srujana Challa 2021-10-13  40  static irqreturn_t rvu_cpt_af=
+_flt_intr_handler(int irq, void *ptr)
+4826090719d4bb Srujana Challa 2021-10-13  41  {
+4826090719d4bb Srujana Challa 2021-10-13  42  	struct rvu_block *block =3D =
+ptr;
+4826090719d4bb Srujana Challa 2021-10-13  43  	struct rvu *rvu =3D block->r=
+vu;
+4826090719d4bb Srujana Challa 2021-10-13  44  	int blkaddr =3D block->addr;
+4826090719d4bb Srujana Challa 2021-10-13  45  	u64 reg0, reg1, reg2;
+4826090719d4bb Srujana Challa 2021-10-13  46  =
 
-be6e6707f6eec2 David Howells 2016-04-04  111  /*
-be6e6707f6eec2 David Howells 2016-04-04  112   * Look up a remote transport=
- endpoint for the specified address using RCU.
-be6e6707f6eec2 David Howells 2016-04-04  113   */
-be6e6707f6eec2 David Howells 2016-04-04  114  static struct rxrpc_peer *__r=
-xrpc_lookup_peer_rcu(
-be6e6707f6eec2 David Howells 2016-04-04  115  	struct rxrpc_local *local,
-be6e6707f6eec2 David Howells 2016-04-04  116  	const struct sockaddr_rxrpc =
-*srx,
-be6e6707f6eec2 David Howells 2016-04-04  117  	unsigned long hash_key)
-be6e6707f6eec2 David Howells 2016-04-04  118  {
-be6e6707f6eec2 David Howells 2016-04-04  119  	struct rxrpc_peer *peer;
-2baec2c3f854d1 David Howells 2017-05-24  120  	struct rxrpc_net *rxnet =3D =
-local->rxnet;
-be6e6707f6eec2 David Howells 2016-04-04  121  =
+4826090719d4bb Srujana Challa 2021-10-13  47  	reg0 =3D rvu_read64(rvu, blk=
+addr, CPT_AF_FLTX_INT(0));
+4826090719d4bb Srujana Challa 2021-10-13  48  	reg1 =3D rvu_read64(rvu, blk=
+addr, CPT_AF_FLTX_INT(1));
+4826090719d4bb Srujana Challa 2021-10-13  49  	if (!is_rvu_otx2(rvu)) {
+4826090719d4bb Srujana Challa 2021-10-13  50  		reg2 =3D rvu_read64(rvu, bl=
+kaddr, CPT_AF_FLTX_INT(2));
+4826090719d4bb Srujana Challa 2021-10-13  51  		dev_err_ratelimited(rvu->de=
+v,
+4826090719d4bb Srujana Challa 2021-10-13  52  				    "Received CPTAF FLT i=
+rq : 0x%llx, 0x%llx, 0x%llx",
+4826090719d4bb Srujana Challa 2021-10-13  53  				     reg0, reg1, reg2);
+4826090719d4bb Srujana Challa 2021-10-13  54  	} else {
+4826090719d4bb Srujana Challa 2021-10-13  55  		dev_err_ratelimited(rvu->de=
+v,
+4826090719d4bb Srujana Challa 2021-10-13  56  				    "Received CPTAF FLT i=
+rq : 0x%llx, 0x%llx",
+4826090719d4bb Srujana Challa 2021-10-13  57  				     reg0, reg1);
+4826090719d4bb Srujana Challa 2021-10-13  58  	}
+4826090719d4bb Srujana Challa 2021-10-13  59  =
 
-2baec2c3f854d1 David Howells 2017-05-24  122  	hash_for_each_possible_rcu(r=
-xnet->peer_hash, peer, hash_link, hash_key) {
-0099dc589bfa7c David Howells 2018-09-27 @123  		if (rxrpc_peer_cmp_key(peer=
-, local, srx, hash_key) =3D=3D 0 &&
-67b29a0a541efe David Howells 2022-05-11  124  		    refcount_read(&peer->re=
-f) > 0)
-be6e6707f6eec2 David Howells 2016-04-04  125  			return peer;
-be6e6707f6eec2 David Howells 2016-04-04  126  	}
-be6e6707f6eec2 David Howells 2016-04-04  127  =
+4826090719d4bb Srujana Challa 2021-10-13  60  	rvu_write64(rvu, blkaddr, CP=
+T_AF_FLTX_INT(0), reg0);
+4826090719d4bb Srujana Challa 2021-10-13  61  	rvu_write64(rvu, blkaddr, CP=
+T_AF_FLTX_INT(1), reg1);
+4826090719d4bb Srujana Challa 2021-10-13  62  	if (!is_rvu_otx2(rvu))
+4826090719d4bb Srujana Challa 2021-10-13 @63  		rvu_write64(rvu, blkaddr, C=
+PT_AF_FLTX_INT(2), reg2);
+4826090719d4bb Srujana Challa 2021-10-13  64  =
 
-be6e6707f6eec2 David Howells 2016-04-04  128  	return NULL;
-be6e6707f6eec2 David Howells 2016-04-04  129  }
-be6e6707f6eec2 David Howells 2016-04-04  130  =
+4826090719d4bb Srujana Challa 2021-10-13  65  	return IRQ_HANDLED;
+4826090719d4bb Srujana Challa 2021-10-13  66  }
+4826090719d4bb Srujana Challa 2021-10-13  67  =
 
-
-:::::: The code at line 123 was first introduced by commit
-:::::: 0099dc589bfa7caf6f2608c4cbc1181cfee22b0c rxrpc: Make service call ha=
-ndling more robust
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0415016216502540320==--
+--===============4138104071499301280==--
 
