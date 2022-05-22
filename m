@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9109763596590704460=="
+Content-Type: multipart/mixed; boundary="===============5218272871664617445=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declared with const [constParameter]
-Date: Sun, 22 May 2022 10:09:40 +0800
-Message-ID: <202205221019.c5Gwo0QB-lkp@intel.com>
+Subject: drivers/target/iscsi/iscsi_target_configfs.c:1133:9: warning: sprintf format string requires 2 parameters but only 1 is given. [wrongPrintfScanfArgNum]
+Date: Sun, 22 May 2022 09:59:33 +0800
+Message-ID: <202205220958.5ymVBsxw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9109763596590704460==
+--===============5218272871664617445==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,22 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Mingzhe Zou <mingzhe.zou@easystack.cn>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Mike Christie <michael.christie@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
-commit: 4faf31b43468c58e2c8c91cc5fa26f08a6b733be cxl/mbox: Move mailbox and=
- other non-PCI specific infrastructure to the core
-date:   8 months ago
+commit: d72d827f2f2636d8d72f0f3ebe5b661c9a24d343 scsi: target: Add iscsi/cp=
+us_allowed_list in configfs
+date:   10 weeks ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 8 months ago
+:::::: commit date: 10 weeks ago
 compiler: m68k-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 4faf31b43468c58e2c8c91cc5fa26f08a6b733be
+        git checkout d72d827f2f2636d8d72f0f3ebe5b661c9a24d343
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -39,62 +40,32 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declare=
-d with const [constParameter]
-   static int cxl_xfer_log(struct cxl_mem *cxlm, uuid_t *uuid, u32 size, u8=
- *out)
-                                                         ^
+>> drivers/target/iscsi/iscsi_target_configfs.c:1133:9: warning: sprintf fo=
+rmat string requires 2 parameters but only 1 is given. [wrongPrintfScanfArg=
+Num]
+    return sprintf(page, "%*pbln",
+           ^
 
-vim +/uuid +478 drivers/cxl/core/mbox.c
+vim +1133 drivers/target/iscsi/iscsi_target_configfs.c
 
-4faf31b43468c5 Dan Williams 2021-09-08  477  =
+e48354ce078c07 Nicholas Bellinger 2011-07-23  1129  =
 
-4faf31b43468c5 Dan Williams 2021-09-08 @478  static int cxl_xfer_log(struct=
- cxl_mem *cxlm, uuid_t *uuid, u32 size, u8 *out)
-4faf31b43468c5 Dan Williams 2021-09-08  479  {
-4faf31b43468c5 Dan Williams 2021-09-08  480  	u32 remaining =3D size;
-4faf31b43468c5 Dan Williams 2021-09-08  481  	u32 offset =3D 0;
-4faf31b43468c5 Dan Williams 2021-09-08  482  =
-
-4faf31b43468c5 Dan Williams 2021-09-08  483  	while (remaining) {
-4faf31b43468c5 Dan Williams 2021-09-08  484  		u32 xfer_size =3D min_t(u32,=
- remaining, cxlm->payload_size);
-4faf31b43468c5 Dan Williams 2021-09-08  485  		struct cxl_mbox_get_log {
-4faf31b43468c5 Dan Williams 2021-09-08  486  			uuid_t uuid;
-4faf31b43468c5 Dan Williams 2021-09-08  487  			__le32 offset;
-4faf31b43468c5 Dan Williams 2021-09-08  488  			__le32 length;
-4faf31b43468c5 Dan Williams 2021-09-08  489  		} __packed log =3D {
-4faf31b43468c5 Dan Williams 2021-09-08  490  			.uuid =3D *uuid,
-4faf31b43468c5 Dan Williams 2021-09-08  491  			.offset =3D cpu_to_le32(off=
-set),
-4faf31b43468c5 Dan Williams 2021-09-08  492  			.length =3D cpu_to_le32(xfe=
-r_size)
-4faf31b43468c5 Dan Williams 2021-09-08  493  		};
-4faf31b43468c5 Dan Williams 2021-09-08  494  		int rc;
-4faf31b43468c5 Dan Williams 2021-09-08  495  =
-
-4faf31b43468c5 Dan Williams 2021-09-08  496  		rc =3D cxl_mem_mbox_send_cmd=
-(cxlm, CXL_MBOX_OP_GET_LOG, &log,
-4faf31b43468c5 Dan Williams 2021-09-08  497  					   sizeof(log), out, xfer=
-_size);
-4faf31b43468c5 Dan Williams 2021-09-08  498  		if (rc < 0)
-4faf31b43468c5 Dan Williams 2021-09-08  499  			return rc;
-4faf31b43468c5 Dan Williams 2021-09-08  500  =
-
-4faf31b43468c5 Dan Williams 2021-09-08  501  		out +=3D xfer_size;
-4faf31b43468c5 Dan Williams 2021-09-08  502  		remaining -=3D xfer_size;
-4faf31b43468c5 Dan Williams 2021-09-08  503  		offset +=3D xfer_size;
-4faf31b43468c5 Dan Williams 2021-09-08  504  	}
-4faf31b43468c5 Dan Williams 2021-09-08  505  =
-
-4faf31b43468c5 Dan Williams 2021-09-08  506  	return 0;
-4faf31b43468c5 Dan Williams 2021-09-08  507  }
-4faf31b43468c5 Dan Williams 2021-09-08  508  =
+d72d827f2f2636 Mingzhe Zou        2022-03-01  1130  static ssize_t lio_targ=
+et_wwn_cpus_allowed_list_show(
+d72d827f2f2636 Mingzhe Zou        2022-03-01  1131  		struct config_item *i=
+tem, char *page)
+d72d827f2f2636 Mingzhe Zou        2022-03-01  1132  {
+d72d827f2f2636 Mingzhe Zou        2022-03-01 @1133  	return sprintf(page, "=
+%*pbl\n",
+d72d827f2f2636 Mingzhe Zou        2022-03-01  1134  		       cpumask_pr_arg=
+s(iscsit_global->allowed_cpumask));
+d72d827f2f2636 Mingzhe Zou        2022-03-01  1135  }
+d72d827f2f2636 Mingzhe Zou        2022-03-01  1136  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9109763596590704460==--
+--===============5218272871664617445==--
 
