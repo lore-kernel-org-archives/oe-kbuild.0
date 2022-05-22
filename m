@@ -1,430 +1,262 @@
-Content-Type: multipart/mixed; boundary="===============3943599447223049335=="
+Content-Type: multipart/mixed; boundary="===============7798766507397394230=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 11838/13468] drivers/nvdimm/pmem.c:354:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 22 May 2022 13:12:54 +0800
-Message-ID: <202205221313.nmZTDW6e-lkp@intel.com>
+Subject: [linux-next:master 13298/13468] drivers/scsi/libiscsi_tcp.c:563:2-8: preceding lock on line 542
+Date: Sun, 22 May 2022 12:42:24 +0800
+Message-ID: <202205221208.kAbInIPD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3943599447223049335==
+--===============7798766507397394230==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jane Chu <jane.chu@oracle.com>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Lee Duncan <lduncan@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   18ecd30af1a8402c162cca1bd58771c0e5be7815
-commit: f42e8e5088b9e791c8f7ac661f68e29a4996a4e3 [11838/13468] pmem: implem=
-ent pmem_recovery_write()
+commit: a01ff1e161ea32d438d94032dd93cf2e4d9caac3 [13298/13468] scsi: iscsi:=
+ Remove iscsi_get_task back_lock requirement
 :::::: branch date: 2 days ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20522/202205221313.nmZTDW6e-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8=
-ee225edf2d0de94b0dcbd31bea916e825e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Df42e8e5088b9e791c8f7ac661f68e29a4996a4e3
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout f42e8e5088b9e791c8f7ac661f68e29a4996a4e3
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+:::::: commit date: 2 days ago
+config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20220=
+522/202205221208.kAbInIPD-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/efs/symlink.c:32:2: note: Call to function 'memcpy' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memcpy_s' in case of C11
-           memcpy(link, bh->b_data, (size > EFS_BLOCKSIZE) ? EFS_BLOCKSIZE =
-: size);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/efs/symlink.c:38:3: warning: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
-reAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(link + EFS_BLOCKSIZE, bh->b_data, size - EFS_BLOC=
-KSIZE);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/efs/symlink.c:38:3: note: Call to function 'memcpy' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memcpy_s' in case of C11
-                   memcpy(link + EFS_BLOCKSIZE, bh->b_data, size - EFS_BLOC=
-KSIZE);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   drivers/regulator/max8907-regulator.c:296:2: warning: Call to function '=
-memcpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(pmic->desc, max8907_regulators, sizeof(pmic->desc));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/regulator/max8907-regulator.c:296:2: note: Call to function 'mem=
-cpy' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(pmic->desc, max8907_regulators, sizeof(pmic->desc));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   52 warnings generated.
->> drivers/nvdimm/pmem.c:354:17: warning: Value stored to 'dev' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D pmem->bb.dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/pmem.c:354:17: note: Value stored to 'dev' during its ini=
-tialization is never read
-           struct device *dev =3D pmem->bb.dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/pmem.c:401:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", !!dax_write_cache_enabled(pmem->dax_=
-dev));
-                  ^~~~~~~
-   drivers/nvdimm/pmem.c:401:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", !!dax_write_cache_enabled(pmem->dax_=
-dev));
-                  ^~~~~~~
-   Suppressed 50 warnings (50 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   56 warnings generated.
-   drivers/nvdimm/btt.c:226:2: warning: Call to function 'snprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(dirname, 32, "arena%d", idx);
-           ^~~~~~~~
-   drivers/nvdimm/btt.c:226:2: note: Call to function 'snprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'snprintf_s' in case of C11
-           snprintf(dirname, 32, "arena%d", idx);
-           ^~~~~~~~
-   drivers/nvdimm/btt.c:351:3: warning: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(ent, &log.ent[arena->log_index[ret_ent]], LOG_ENT=
-_SIZE);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:351:3: note: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11
-                   memcpy(ent, &log.ent[arena->log_index[ret_ent]], LOG_ENT=
-_SIZE);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:497:2: warning: Undefined or garbage value returned=
- to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^
-   drivers/nvdimm/btt.c:1668:6: note: Assuming field 'uuid' is non-null
-           if (!nd_btt->uuid || !nd_btt->ndns || !nd_btt->lbasize) {
-               ^~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:1668:6: note: Left side of '||' is false
-   drivers/nvdimm/btt.c:1668:23: note: Assuming field 'ndns' is non-null
-           if (!nd_btt->uuid || !nd_btt->ndns || !nd_btt->lbasize) {
-                                ^~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:1668:6: note: Left side of '||' is false
-           if (!nd_btt->uuid || !nd_btt->ndns || !nd_btt->lbasize) {
-               ^
-   drivers/nvdimm/btt.c:1668:40: note: Assuming field 'lbasize' is not equa=
-l to 0
-           if (!nd_btt->uuid || !nd_btt->ndns || !nd_btt->lbasize) {
-                                                 ^~~~~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:1668:2: note: Taking false branch
-           if (!nd_btt->uuid || !nd_btt->ndns || !nd_btt->lbasize) {
-           ^
-   drivers/nvdimm/btt.c:1674:6: note: Assuming 'btt_sb' is non-null
-           if (!btt_sb)
-               ^~~~~~~
-   drivers/nvdimm/btt.c:1674:2: note: Taking false branch
-           if (!btt_sb)
-           ^
-   drivers/nvdimm/btt.c:1679:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/nvdimm/btt.c:1679:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/nvdimm/btt.c:1691:6: note: Assuming the condition is false
-           if (rawsize < ARENA_MIN_SIZE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:1691:2: note: Taking false branch
-           if (rawsize < ARENA_MIN_SIZE) {
-           ^
-   drivers/nvdimm/btt.c:1698:8: note: Calling 'btt_init'
-           btt =3D btt_init(nd_btt, rawsize, nd_btt->lbasize, nd_btt->uuid,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:1588:6: note: Assuming 'btt' is non-null
-           if (!btt)
-               ^~~~
-   drivers/nvdimm/btt.c:1588:2: note: Taking false branch
-           if (!btt)
-           ^
-   drivers/nvdimm/btt.c:1594:23: note: Assuming 'lbasize' is < 4096
-           btt->sector_size =3D ((lbasize >=3D 4096) ? 4096 : 512);
-                                ^~~~~~~~~~~~~~~
-   drivers/nvdimm/btt.c:1594:22: note: '?' condition is false
-           btt->sector_size =3D ((lbasize >=3D 4096) ? 4096 : 512);
-                               ^
-   drivers/nvdimm/btt.c:1596:2: note: Loop condition is false.  Exiting loop
-           mutex_init(&btt->init_lock);
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/libiscsi_tcp.c:563:2-8: preceding lock on line 542
 
-vim +/dev +354 drivers/nvdimm/pmem.c
+vim +563 drivers/scsi/libiscsi_tcp.c
 
-c1d6e828a35df5 Dan Williams 2017-01-24  334  =
+a081c13e39b5c1 Mike Christie     2008-12-02  523  =
 
-f42e8e5088b9e7 Jane Chu     2022-05-13  335  /*
-f42e8e5088b9e7 Jane Chu     2022-05-13  336   * The recovery write thread s=
-tarted out as a normal pwrite thread and
-f42e8e5088b9e7 Jane Chu     2022-05-13  337   * when the filesystem was tol=
-d about potential media error in the
-f42e8e5088b9e7 Jane Chu     2022-05-13  338   * range, filesystem turns the=
- normal pwrite to a dax_recovery_write.
-f42e8e5088b9e7 Jane Chu     2022-05-13  339   *
-f42e8e5088b9e7 Jane Chu     2022-05-13  340   * The recovery write consists=
- of clearing media poison, clearing page
-f42e8e5088b9e7 Jane Chu     2022-05-13  341   * HWPoison bit, reenable page=
--wide read-write permission, flush the
-f42e8e5088b9e7 Jane Chu     2022-05-13  342   * caches and finally write.  =
-A competing pread thread will be held
-f42e8e5088b9e7 Jane Chu     2022-05-13  343   * off during the recovery pro=
-cess since data read back might not be
-f42e8e5088b9e7 Jane Chu     2022-05-13  344   * valid, and this is achieved=
- by clearing the badblock records after
-f42e8e5088b9e7 Jane Chu     2022-05-13  345   * the recovery write is compl=
-ete. Competing recovery write threads
-f42e8e5088b9e7 Jane Chu     2022-05-13  346   * are already serialized by w=
-riter lock held by dax_iomap_rw().
-f42e8e5088b9e7 Jane Chu     2022-05-13  347   */
-047218ec904da1 Jane Chu     2022-04-22  348  static size_t pmem_recovery_wr=
-ite(struct dax_device *dax_dev, pgoff_t pgoff,
-047218ec904da1 Jane Chu     2022-04-22  349  		void *addr, size_t bytes, st=
-ruct iov_iter *i)
-047218ec904da1 Jane Chu     2022-04-22  350  {
-f42e8e5088b9e7 Jane Chu     2022-05-13  351  	struct pmem_device *pmem =3D =
-dax_get_private(dax_dev);
-f42e8e5088b9e7 Jane Chu     2022-05-13  352  	size_t olen, len, off;
-f42e8e5088b9e7 Jane Chu     2022-05-13  353  	phys_addr_t pmem_off;
-f42e8e5088b9e7 Jane Chu     2022-05-13 @354  	struct device *dev =3D pmem->=
-bb.dev;
-f42e8e5088b9e7 Jane Chu     2022-05-13  355  	long cleared;
-f42e8e5088b9e7 Jane Chu     2022-05-13  356  =
+a081c13e39b5c1 Mike Christie     2008-12-02  524  /**
+a081c13e39b5c1 Mike Christie     2008-12-02  525   * iscsi_tcp_r2t_rsp - iS=
+CSI R2T Response processing
+a081c13e39b5c1 Mike Christie     2008-12-02  526   * @conn: iscsi connection
+5923d64b7ab63d Mike Christie     2021-02-06  527   * @hdr: PDU header
+a081c13e39b5c1 Mike Christie     2008-12-02  528   */
+5923d64b7ab63d Mike Christie     2021-02-06  529  static int iscsi_tcp_r2t_=
+rsp(struct iscsi_conn *conn, struct iscsi_hdr *hdr)
+a081c13e39b5c1 Mike Christie     2008-12-02  530  {
+a081c13e39b5c1 Mike Christie     2008-12-02  531  	struct iscsi_session *se=
+ssion =3D conn->session;
+5923d64b7ab63d Mike Christie     2021-02-06  532  	struct iscsi_tcp_task *t=
+cp_task;
+5923d64b7ab63d Mike Christie     2021-02-06  533  	struct iscsi_tcp_conn *t=
+cp_conn;
+5923d64b7ab63d Mike Christie     2021-02-06  534  	struct iscsi_r2t_rsp *rh=
+dr;
+a081c13e39b5c1 Mike Christie     2008-12-02  535  	struct iscsi_r2t_info *r=
+2t;
+5923d64b7ab63d Mike Christie     2021-02-06  536  	struct iscsi_task *task;
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  537  	u32 data_length;
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  538  	u32 data_offset;
+5923d64b7ab63d Mike Christie     2021-02-06  539  	int r2tsn;
+a081c13e39b5c1 Mike Christie     2008-12-02  540  	int rc;
+a081c13e39b5c1 Mike Christie     2008-12-02  541  =
 
-f42e8e5088b9e7 Jane Chu     2022-05-13  357  	off =3D offset_in_page(addr);
-f42e8e5088b9e7 Jane Chu     2022-05-13  358  	len =3D PFN_PHYS(PFN_UP(off +=
- bytes));
-f42e8e5088b9e7 Jane Chu     2022-05-13  359  	if (!is_bad_pmem(&pmem->bb, P=
-FN_PHYS(pgoff) >> SECTOR_SHIFT, len))
-f42e8e5088b9e7 Jane Chu     2022-05-13  360  		return _copy_from_iter_flush=
-cache(addr, bytes, i);
-f42e8e5088b9e7 Jane Chu     2022-05-13  361  =
+5923d64b7ab63d Mike Christie     2021-02-06 @542  	spin_lock(&session->back=
+_lock);
+5923d64b7ab63d Mike Christie     2021-02-06  543  	task =3D iscsi_itt_to_ct=
+ask(conn, hdr->itt);
+5923d64b7ab63d Mike Christie     2021-02-06  544  	if (!task) {
+5923d64b7ab63d Mike Christie     2021-02-06  545  		spin_unlock(&session->b=
+ack_lock);
+5923d64b7ab63d Mike Christie     2021-02-06  546  		return ISCSI_ERR_BAD_IT=
+T;
+5923d64b7ab63d Mike Christie     2021-02-06  547  	} else if (task->sc->sc_=
+data_direction !=3D DMA_TO_DEVICE) {
+5923d64b7ab63d Mike Christie     2021-02-06  548  		spin_unlock(&session->b=
+ack_lock);
+5923d64b7ab63d Mike Christie     2021-02-06  549  		return ISCSI_ERR_PROTO;
+5923d64b7ab63d Mike Christie     2021-02-06  550  	}
+5923d64b7ab63d Mike Christie     2021-02-06  551  	/*
+5923d64b7ab63d Mike Christie     2021-02-06  552  	 * A bad target might co=
+mplete the cmd before we have handled R2Ts
+5923d64b7ab63d Mike Christie     2021-02-06  553  	 * so get a ref to the t=
+ask that will be dropped in the xmit path.
+5923d64b7ab63d Mike Christie     2021-02-06  554  	 */
+5923d64b7ab63d Mike Christie     2021-02-06  555  	if (task->state !=3D ISC=
+SI_TASK_RUNNING) {
+5923d64b7ab63d Mike Christie     2021-02-06  556  		spin_unlock(&session->b=
+ack_lock);
+5923d64b7ab63d Mike Christie     2021-02-06  557  		/* Let the path that go=
+t the early rsp complete it */
+5923d64b7ab63d Mike Christie     2021-02-06  558  		return 0;
+5923d64b7ab63d Mike Christie     2021-02-06  559  	}
+5923d64b7ab63d Mike Christie     2021-02-06  560  	task->last_xfer =3D jiff=
+ies;
+a01ff1e161ea32 Mike Christie     2022-05-18  561  	if (!iscsi_get_task(task=
+)) {
+a01ff1e161ea32 Mike Christie     2022-05-18  562  		/* Let the path that go=
+t the early rsp complete it */
+a01ff1e161ea32 Mike Christie     2022-05-18 @563  		return 0;
+a01ff1e161ea32 Mike Christie     2022-05-18  564  	}
+5923d64b7ab63d Mike Christie     2021-02-06  565  =
 
-f42e8e5088b9e7 Jane Chu     2022-05-13  362  	/*
-f42e8e5088b9e7 Jane Chu     2022-05-13  363  	 * Not page-aligned range can=
-not be recovered. This should not
-f42e8e5088b9e7 Jane Chu     2022-05-13  364  	 * happen unless something el=
-se went wrong.
-f42e8e5088b9e7 Jane Chu     2022-05-13  365  	 */
-f42e8e5088b9e7 Jane Chu     2022-05-13  366  	if (off || !PAGE_ALIGNED(byte=
-s)) {
-f42e8e5088b9e7 Jane Chu     2022-05-13  367  		dev_dbg(dev, "Found poison, =
-but addr(%p) or bytes(%#zx) not page aligned\n",
-f42e8e5088b9e7 Jane Chu     2022-05-13  368  			addr, bytes);
-f42e8e5088b9e7 Jane Chu     2022-05-13  369  		return 0;
-f42e8e5088b9e7 Jane Chu     2022-05-13  370  	}
-f42e8e5088b9e7 Jane Chu     2022-05-13  371  =
+5923d64b7ab63d Mike Christie     2021-02-06  566  	tcp_conn =3D conn->dd_da=
+ta;
+5923d64b7ab63d Mike Christie     2021-02-06  567  	rhdr =3D (struct iscsi_r=
+2t_rsp *)tcp_conn->in.hdr;
+5923d64b7ab63d Mike Christie     2021-02-06  568  	/* fill-in new R2T assoc=
+iated with the task */
+5923d64b7ab63d Mike Christie     2021-02-06  569  	iscsi_update_cmdsn(sessi=
+on, (struct iscsi_nopin *)rhdr);
+5923d64b7ab63d Mike Christie     2021-02-06  570  	spin_unlock(&session->ba=
+ck_lock);
+5923d64b7ab63d Mike Christie     2021-02-06  571  =
 
-f42e8e5088b9e7 Jane Chu     2022-05-13  372  	pmem_off =3D PFN_PHYS(pgoff) =
-+ pmem->data_offset;
-f42e8e5088b9e7 Jane Chu     2022-05-13  373  	cleared =3D __pmem_clear_pois=
-on(pmem, pmem_off, len);
-f42e8e5088b9e7 Jane Chu     2022-05-13  374  	if (cleared > 0 && cleared < =
-len) {
-f42e8e5088b9e7 Jane Chu     2022-05-13  375  		dev_dbg(dev, "poison cleared=
- only %ld out of %zu bytes\n",
-f42e8e5088b9e7 Jane Chu     2022-05-13  376  			cleared, len);
-f42e8e5088b9e7 Jane Chu     2022-05-13  377  		return 0;
-f42e8e5088b9e7 Jane Chu     2022-05-13  378  	}
-f42e8e5088b9e7 Jane Chu     2022-05-13  379  	if (cleared < 0) {
-f42e8e5088b9e7 Jane Chu     2022-05-13  380  		dev_dbg(dev, "poison clear f=
-ailed: %ld\n", cleared);
-047218ec904da1 Jane Chu     2022-04-22  381  		return 0;
-047218ec904da1 Jane Chu     2022-04-22  382  	}
-047218ec904da1 Jane Chu     2022-04-22  383  =
+a081c13e39b5c1 Mike Christie     2008-12-02  572  	if (tcp_conn->in.datalen=
+) {
+a081c13e39b5c1 Mike Christie     2008-12-02  573  		iscsi_conn_printk(KERN_=
+ERR, conn,
+a081c13e39b5c1 Mike Christie     2008-12-02  574  				  "invalid R2t with d=
+atalen %d\n",
+a081c13e39b5c1 Mike Christie     2008-12-02  575  				  tcp_conn->in.datale=
+n);
+5923d64b7ab63d Mike Christie     2021-02-06  576  		rc =3D ISCSI_ERR_DATALE=
+N;
+5923d64b7ab63d Mike Christie     2021-02-06  577  		goto put_task;
+a081c13e39b5c1 Mike Christie     2008-12-02  578  	}
+a081c13e39b5c1 Mike Christie     2008-12-02  579  =
 
-f42e8e5088b9e7 Jane Chu     2022-05-13  384  	olen =3D _copy_from_iter_flus=
-hcache(addr, bytes, i);
-f42e8e5088b9e7 Jane Chu     2022-05-13  385  	pmem_clear_bb(pmem, to_sect(p=
-mem, pmem_off), cleared >> SECTOR_SHIFT);
-f42e8e5088b9e7 Jane Chu     2022-05-13  386  =
+5923d64b7ab63d Mike Christie     2021-02-06  580  	tcp_task =3D task->dd_da=
+ta;
+5923d64b7ab63d Mike Christie     2021-02-06  581  	r2tsn =3D be32_to_cpu(rh=
+dr->r2tsn);
+a081c13e39b5c1 Mike Christie     2008-12-02  582  	if (tcp_task->exp_datasn=
+ !=3D r2tsn){
+0ab1c2529e6a70 Mike Christie     2009-03-05  583  		ISCSI_DBG_TCP(conn, "ta=
+sk->exp_datasn(%d) !=3D rhdr->r2tsn(%d)\n",
+0ab1c2529e6a70 Mike Christie     2009-03-05  584  			      tcp_task->exp_da=
+tasn, r2tsn);
+5923d64b7ab63d Mike Christie     2021-02-06  585  		rc =3D ISCSI_ERR_R2TSN;
+5923d64b7ab63d Mike Christie     2021-02-06  586  		goto put_task;
+a081c13e39b5c1 Mike Christie     2008-12-02  587  	}
+a081c13e39b5c1 Mike Christie     2008-12-02  588  =
 
-f42e8e5088b9e7 Jane Chu     2022-05-13  387  	return olen;
-f42e8e5088b9e7 Jane Chu     2022-05-13  388  }
-f42e8e5088b9e7 Jane Chu     2022-05-13  389  =
+5923d64b7ab63d Mike Christie     2021-02-06  589  	if (session->state !=3D =
+ISCSI_STATE_LOGGED_IN) {
+a081c13e39b5c1 Mike Christie     2008-12-02  590  		iscsi_conn_printk(KERN_=
+INFO, conn,
+a081c13e39b5c1 Mike Christie     2008-12-02  591  				  "dropping R2T itt %=
+d in recovery.\n",
+a081c13e39b5c1 Mike Christie     2008-12-02  592  				  task->itt);
+5923d64b7ab63d Mike Christie     2021-02-06  593  		rc =3D 0;
+5923d64b7ab63d Mike Christie     2021-02-06  594  		goto put_task;
+a081c13e39b5c1 Mike Christie     2008-12-02  595  	}
+a081c13e39b5c1 Mike Christie     2008-12-02  596  =
+
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  597  	data_length =3D be32_to_=
+cpu(rhdr->data_length);
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  598  	if (data_length =3D=3D 0=
+) {
+a081c13e39b5c1 Mike Christie     2008-12-02  599  		iscsi_conn_printk(KERN_=
+ERR, conn,
+a081c13e39b5c1 Mike Christie     2008-12-02  600  				  "invalid R2T with z=
+ero data len\n");
+5923d64b7ab63d Mike Christie     2021-02-06  601  		rc =3D ISCSI_ERR_DATALE=
+N;
+5923d64b7ab63d Mike Christie     2021-02-06  602  		goto put_task;
+a081c13e39b5c1 Mike Christie     2008-12-02  603  	}
+a081c13e39b5c1 Mike Christie     2008-12-02  604  =
+
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  605  	if (data_length > sessio=
+n->max_burst)
+0ab1c2529e6a70 Mike Christie     2009-03-05  606  		ISCSI_DBG_TCP(conn, "in=
+valid R2T with data len %u and max "
+0ab1c2529e6a70 Mike Christie     2009-03-05  607  			      "burst %u. Attem=
+pting to execute request.\n",
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  608  			      data_length, ses=
+sion->max_burst);
+a081c13e39b5c1 Mike Christie     2008-12-02  609  =
+
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  610  	data_offset =3D be32_to_=
+cpu(rhdr->data_offset);
+ae3d56d81507c3 Christoph Hellwig 2019-01-29  611  	if (data_offset + data_l=
+ength > task->sc->sdb.length) {
+a081c13e39b5c1 Mike Christie     2008-12-02  612  		iscsi_conn_printk(KERN_=
+ERR, conn,
+a081c13e39b5c1 Mike Christie     2008-12-02  613  				  "invalid R2T with d=
+ata len %u at offset %u "
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  614  				  "and total length %=
+d\n", data_length,
+ae3d56d81507c3 Christoph Hellwig 2019-01-29  615  				  data_offset, task->=
+sc->sdb.length);
+5923d64b7ab63d Mike Christie     2021-02-06  616  		rc =3D ISCSI_ERR_DATALE=
+N;
+5923d64b7ab63d Mike Christie     2021-02-06  617  		goto put_task;
+a081c13e39b5c1 Mike Christie     2008-12-02  618  	}
+a081c13e39b5c1 Mike Christie     2008-12-02  619  =
+
+659743b02c4110 Shlomo Pongratz   2014-02-07  620  	spin_lock(&tcp_task->poo=
+l2queue);
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  621  	rc =3D kfifo_out(&tcp_ta=
+sk->r2tpool.queue, (void *)&r2t, sizeof(void *));
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  622  	if (!rc) {
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  623  		iscsi_conn_printk(KERN_=
+ERR, conn, "Could not allocate R2T. "
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  624  				  "Target has sent mo=
+re R2Ts than it "
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  625  				  "negotiated for or =
+driver has leaked.\n");
+659743b02c4110 Shlomo Pongratz   2014-02-07  626  		spin_unlock(&tcp_task->=
+pool2queue);
+5923d64b7ab63d Mike Christie     2021-02-06  627  		rc =3D ISCSI_ERR_PROTO;
+5923d64b7ab63d Mike Christie     2021-02-06  628  		goto put_task;
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  629  	}
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  630  =
+
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  631  	r2t->exp_statsn =3D rhdr=
+->statsn;
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  632  	r2t->data_length =3D dat=
+a_length;
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  633  	r2t->data_offset =3D dat=
+a_offset;
+5d0fddd0a72d30 Shlomo Pongratz   2014-02-07  634  =
+
+a081c13e39b5c1 Mike Christie     2008-12-02  635  	r2t->ttt =3D rhdr->ttt; =
+/* no flip */
+a081c13e39b5c1 Mike Christie     2008-12-02  636  	r2t->datasn =3D 0;
+a081c13e39b5c1 Mike Christie     2008-12-02  637  	r2t->sent =3D 0;
+a081c13e39b5c1 Mike Christie     2008-12-02  638  =
+
+a081c13e39b5c1 Mike Christie     2008-12-02  639  	tcp_task->exp_datasn =3D=
+ r2tsn + 1;
+7acd72eb85f1c7 Stefani Seibold   2009-12-21  640  	kfifo_in(&tcp_task->r2tq=
+ueue, (void*)&r2t, sizeof(void*));
+a081c13e39b5c1 Mike Christie     2008-12-02  641  	conn->r2t_pdus_cnt++;
+659743b02c4110 Shlomo Pongratz   2014-02-07  642  	spin_unlock(&tcp_task->p=
+ool2queue);
+a081c13e39b5c1 Mike Christie     2008-12-02  643  =
+
+a081c13e39b5c1 Mike Christie     2008-12-02  644  	iscsi_requeue_task(task);
+a081c13e39b5c1 Mike Christie     2008-12-02  645  	return 0;
+5923d64b7ab63d Mike Christie     2021-02-06  646  =
+
+5923d64b7ab63d Mike Christie     2021-02-06  647  put_task:
+5923d64b7ab63d Mike Christie     2021-02-06  648  	iscsi_put_task(task);
+5923d64b7ab63d Mike Christie     2021-02-06  649  	return rc;
+a081c13e39b5c1 Mike Christie     2008-12-02  650  }
+a081c13e39b5c1 Mike Christie     2008-12-02  651  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3943599447223049335==--
+--===============7798766507397394230==--
 
