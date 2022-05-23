@@ -1,603 +1,605 @@
-Content-Type: multipart/mixed; boundary="===============4601313637347857966=="
+Content-Type: multipart/mixed; boundary="===============6502072515410128302=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/locking/lockdep_proc.c:47:50: warning: Parameter 'pos' can be declared with const [constParameter]
-Date: Mon, 23 May 2022 09:08:17 +0800
-Message-ID: <202205230944.8NElrMrL-lkp@intel.com>
+Subject: include/scsi/scsi_cmnd.h:183:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Mon, 23 May 2022 08:17:38 +0800
+Message-ID: <202205230846.zEDEIEGN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4601313637347857966==
+--===============6502072515410128302==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Waiman Long <longman@redhat.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   4b0986a3613c92f4ec1bdc7f60ec66fea135991f
-commit: fb7275acd6fb988313dddd8d3d19efa70d9015ad locking/lockdep: Iterate l=
-ock_classes directly when reading lockdep files
-date:   3 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout fb7275acd6fb988313dddd8d3d19efa70d9015ad
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
+commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
+ndexing support
+date:   10 months ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-c001-20220516 (https://download.01.org/0day-ci/arch=
+ive/20220523/202205230846.zEDEIEGN-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8=
+ee225edf2d0de94b0dcbd31bea916e825e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 337015573718b161891a3473d25f59273f2e626b
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> kernel/locking/lockdep_proc.c:47:50: warning: Parameter 'pos' can be dec=
-lared with const [constParameter]
-   static void *l_start(struct seq_file *m, loff_t *pos)
-                                                    ^
->> kernel/locking/lockdep_proc.c:196:27: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-    unsigned long long hi1 =3D debug_atomic_read(hardirqs_on_events),
-                             ^
-   kernel/locking/lockdep_proc.c:196:27: note: Address of variable taken he=
-re.
-    unsigned long long hi1 =3D debug_atomic_read(hardirqs_on_events),
-                             ^
-   kernel/locking/lockdep_proc.c:196:27: note: Temporary created here.
-    unsigned long long hi1 =3D debug_atomic_read(hardirqs_on_events),
-                             ^
-   kernel/locking/lockdep_proc.c:196:27: note: Using pointer that is a temp=
-orary.
-    unsigned long long hi1 =3D debug_atomic_read(hardirqs_on_events),
-                             ^
-   kernel/locking/lockdep_proc.c:197:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         hi2 =3D debug_atomic_read(hardirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:197:13: note: Address of variable taken he=
-re.
-         hi2 =3D debug_atomic_read(hardirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:197:13: note: Temporary created here.
-         hi2 =3D debug_atomic_read(hardirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:197:13: note: Using pointer that is a temp=
-orary.
-         hi2 =3D debug_atomic_read(hardirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:198:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         hr1 =3D debug_atomic_read(redundant_hardirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:198:13: note: Address of variable taken he=
-re.
-         hr1 =3D debug_atomic_read(redundant_hardirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:198:13: note: Temporary created here.
-         hr1 =3D debug_atomic_read(redundant_hardirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:198:13: note: Using pointer that is a temp=
-orary.
-         hr1 =3D debug_atomic_read(redundant_hardirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:199:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         hr2 =3D debug_atomic_read(redundant_hardirqs_off),
-               ^
-   kernel/locking/lockdep_proc.c:199:13: note: Address of variable taken he=
-re.
-         hr2 =3D debug_atomic_read(redundant_hardirqs_off),
-               ^
-   kernel/locking/lockdep_proc.c:199:13: note: Temporary created here.
-         hr2 =3D debug_atomic_read(redundant_hardirqs_off),
-               ^
-   kernel/locking/lockdep_proc.c:199:13: note: Using pointer that is a temp=
-orary.
-         hr2 =3D debug_atomic_read(redundant_hardirqs_off),
-               ^
-   kernel/locking/lockdep_proc.c:200:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         si1 =3D debug_atomic_read(softirqs_on_events),
-               ^
-   kernel/locking/lockdep_proc.c:200:13: note: Address of variable taken he=
-re.
-         si1 =3D debug_atomic_read(softirqs_on_events),
-               ^
-   kernel/locking/lockdep_proc.c:200:13: note: Temporary created here.
-         si1 =3D debug_atomic_read(softirqs_on_events),
-               ^
-   kernel/locking/lockdep_proc.c:200:13: note: Using pointer that is a temp=
-orary.
-         si1 =3D debug_atomic_read(softirqs_on_events),
-               ^
-   kernel/locking/lockdep_proc.c:201:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         si2 =3D debug_atomic_read(softirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:201:13: note: Address of variable taken he=
-re.
-         si2 =3D debug_atomic_read(softirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:201:13: note: Temporary created here.
-         si2 =3D debug_atomic_read(softirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:201:13: note: Using pointer that is a temp=
-orary.
-         si2 =3D debug_atomic_read(softirqs_off_events),
-               ^
-   kernel/locking/lockdep_proc.c:202:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         sr1 =3D debug_atomic_read(redundant_softirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:202:13: note: Address of variable taken he=
-re.
-         sr1 =3D debug_atomic_read(redundant_softirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:202:13: note: Temporary created here.
-         sr1 =3D debug_atomic_read(redundant_softirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:202:13: note: Using pointer that is a temp=
-orary.
-         sr1 =3D debug_atomic_read(redundant_softirqs_on),
-               ^
-   kernel/locking/lockdep_proc.c:203:13: warning: Using pointer that is a t=
-emporary. [danglingTemporaryLifetime]
-         sr2 =3D debug_atomic_read(redundant_softirqs_off);
-               ^
-   kernel/locking/lockdep_proc.c:203:13: note: Address of variable taken he=
-re.
-         sr2 =3D debug_atomic_read(redundant_softirqs_off);
-               ^
-   kernel/locking/lockdep_proc.c:203:13: note: Temporary created here.
-         sr2 =3D debug_atomic_read(redundant_softirqs_off);
-               ^
-   kernel/locking/lockdep_proc.c:203:13: note: Using pointer that is a temp=
-orary.
-         sr2 =3D debug_atomic_read(redundant_softirqs_off);
-               ^
-   kernel/locking/lockdep_proc.c:206:3: warning: Using pointer that is a te=
-mporary. [danglingTemporaryLifetime]
-     debug_atomic_read(chain_lookup_misses));
-     ^
-   kernel/locking/lockdep_proc.c:206:3: note: Address of variable taken her=
-e.
-     debug_atomic_read(chain_lookup_misses));
---
->> sound/soc/soc-component.c:276:13: warning: Parameter 'mark' can be decla=
-red with const [constParameter]
-         void *mark, int upon_open, int rollback)
-               ^
->> sound/soc/soc-component.c:1215:14: warning: Parameter 'stream' can be de=
-clared with const [constParameter]
-          void *stream, int rollback)
-                ^
---
->> sound/soc/codecs/wm8994.c:861:17: warning: String literal compared with =
-variable 'NULL'. Did you intend to use strcmp() instead? [literalWithCharPt=
-rCompare]
-      WARN_ON(NULL =3D=3D "Invalid VMID mode");
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/scsi/libsas/sas_expander.c:1794:8: note: Calling 'smp_execute_ta=
+sk'
+           res =3D smp_execute_task(dev, rg_req, RG_REQ_SIZE, rg_resp,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/libsas/sas_expander.c:148:2: note: Returning without writin=
+g to 'resp->result'
+           return smp_execute_task_sg(dev, &req_sg, &resp_sg);
+           ^
+   drivers/scsi/libsas/sas_expander.c:148:2: note: Returning value, which p=
+articipates in a condition later
+           return smp_execute_task_sg(dev, &req_sg, &resp_sg);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/libsas/sas_expander.c:1794:8: note: Returning from 'smp_exe=
+cute_task'
+           res =3D smp_execute_task(dev, rg_req, RG_REQ_SIZE, rg_resp,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/libsas/sas_expander.c:1796:6: note: Assuming 'res' is 0
+           if (res)
+               ^~~
+   drivers/scsi/libsas/sas_expander.c:1796:2: note: Taking false branch
+           if (res)
+           ^
+   drivers/scsi/libsas/sas_expander.c:1798:22: note: The left operand of '!=
+=3D' is a garbage value
+           if (rg_resp->result !=3D SMP_RESP_FUNC_ACC) {
+               ~~~~~~~~~~~~~~~ ^
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   fs/autofs/root.c:562:2: warning: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(cp, symname);
+           ^~~~~~
+   fs/autofs/root.c:562:2: note: Call to function 'strcpy' is insecure as i=
+t does not provide bounding of the memory buffer. Replace unbounded copy fu=
+nctions with analogous functions that support length arguments such as 'str=
+lcpy'. CWE-119
+           strcpy(cp, symname);
+           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/scsi/3w-9xxx.c:718:3: warning: Value stored to 'timeout' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   timeout =3D wait_event_timeout(tw_dev->ioctl_wqueue, tw_=
+dev->chrdev_request_id =3D=3D TW_IOCTL_CHRDEV_FREE, timeout);
                    ^
+   drivers/scsi/3w-9xxx.c:718:3: note: Value stored to 'timeout' is never r=
+ead
+   drivers/scsi/3w-9xxx.c:1825:31: warning: Access to field 'cmnd' results =
+in a dereference of a null pointer (loaded from variable 'srb') [clang-anal=
+yzer-core.NullDereference]
+                   memcpy(command_packet->cdb, srb->cmnd, TW_MAX_CDB_LEN);
+                                               ^~~
+   drivers/scsi/3w-9xxx.c:1806:2: note: 'srb' initialized to a null pointer=
+ value
+           struct scsi_cmnd *srb =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/3w-9xxx.c:1810:6: note: Assuming the condition is false
+           if (tw_dev->srb[request_id])
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/3w-9xxx.c:1810:2: note: Taking false branch
+           if (tw_dev->srb[request_id])
+           ^
+   drivers/scsi/3w-9xxx.c:1824:6: note: Assuming 'cdb' is null
+           if (!cdb)
+               ^~~~
+   drivers/scsi/3w-9xxx.c:1824:2: note: Taking true branch
+           if (!cdb)
+           ^
+   drivers/scsi/3w-9xxx.c:1825:31: note: Access to field 'cmnd' results in =
+a dereference of a null pointer (loaded from variable 'srb')
+                   memcpy(command_packet->cdb, srb->cmnd, TW_MAX_CDB_LEN);
+                                               ^~~
+>> include/scsi/scsi_cmnd.h:183:9: warning: Dereference of null pointer [cl=
+ang-analyzer-core.NullDereference]
+           return cmd->sdb.table.nents;
+                  ^
+   drivers/scsi/3w-9xxx.c:1806:2: note: 'srb' initialized to a null pointer=
+ value
+           struct scsi_cmnd *srb =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/3w-9xxx.c:1810:6: note: Assuming the condition is false
+           if (tw_dev->srb[request_id])
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/3w-9xxx.c:1810:2: note: Taking false branch
+           if (tw_dev->srb[request_id])
+           ^
+   drivers/scsi/3w-9xxx.c:1824:6: note: Assuming 'cdb' is non-null
+           if (!cdb)
+               ^~~~
+   drivers/scsi/3w-9xxx.c:1824:2: note: Taking false branch
+           if (!cdb)
+           ^
+   drivers/scsi/3w-9xxx.c:1829:6: note: 'srb' is null
+           if (srb) {
+               ^~~
+   drivers/scsi/3w-9xxx.c:1829:2: note: Taking false branch
+           if (srb) {
+           ^
+   drivers/scsi/3w-9xxx.c:1841:6: note: Assuming 'sglistarg' is null
+           if (!sglistarg) {
+               ^~~~~~~~~~
+   drivers/scsi/3w-9xxx.c:1841:2: note: Taking true branch
+           if (!sglistarg) {
+           ^
+   drivers/scsi/3w-9xxx.c:1844:21: note: Passing null pointer value via 1st=
+ parameter 'cmd'
+                   if (scsi_sg_count(srb)) {
+                                     ^~~
+   drivers/scsi/3w-9xxx.c:1844:7: note: Calling 'scsi_sg_count'
+                   if (scsi_sg_count(srb)) {
+                       ^~~~~~~~~~~~~~~~~~
+   include/scsi/scsi_cmnd.h:183:9: note: Dereference of null pointer
+           return cmd->sdb.table.nents;
+                  ^~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/scsi/mvsas/mv_init.c:464:13: warning: Access to field 'dev' resu=
+lts in a dereference of a null pointer (loaded from variable 'mvi') [clang-=
+analyzer-core.NullDereference]
+           sha->dev =3D mvi->dev;
+                      ^
+   drivers/scsi/mvsas/mv_init.c:505:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   drivers/scsi/mvsas/mv_init.c:505:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/scsi/mvsas/mv_init.c:511:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   drivers/scsi/mvsas/mv_init.c:511:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/scsi/mvsas/mv_init.c:515:6: note: 'rc' is 0
+           if (rc)
+               ^~
+   drivers/scsi/mvsas/mv_init.c:515:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/scsi/mvsas/mv_init.c:519:6: note: Assuming 'shost' is non-null
+           if (!shost) {
+               ^~~~~~
+   drivers/scsi/mvsas/mv_init.c:519:2: note: Taking false branch
+           if (!shost) {
+           ^
+   drivers/scsi/mvsas/mv_init.c:527:6: note: Assuming the condition is false
+           if (!SHOST_TO_SAS_HA(shost)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mvsas/mv_init.c:527:2: note: Taking false branch
+           if (!SHOST_TO_SAS_HA(shost)) {
+           ^
+   drivers/scsi/mvsas/mv_init.c:534:6: note: 'rc' is 0
+           if (rc) {
+               ^~
+   drivers/scsi/mvsas/mv_init.c:534:2: note: Taking false branch
+           if (rc) {
+           ^
+   drivers/scsi/mvsas/mv_init.c:544:8: note: 'mvi' is non-null
+                   if (!mvi) {
+                        ^~~
+   drivers/scsi/mvsas/mv_init.c:544:3: note: Taking false branch
+                   if (!mvi) {
+                   ^
+   drivers/scsi/mvsas/mv_init.c:556:7: note: Assuming 'rc' is 0
+                   if (rc) {
+                       ^~
+   drivers/scsi/mvsas/mv_init.c:556:3: note: Taking false branch
+                   if (rc) {
+                   ^
+   drivers/scsi/mvsas/mv_init.c:561:11: note: Assuming 'nhost' is >=3D fiel=
+d 'n_host'
+           } while (nhost < chip->n_host);
+                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mvsas/mv_init.c:542:2: note: Loop condition is false.  Exit=
+ing loop
+           do {
+--
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/net/phy/mscc/mscc_ptp.c:1449:2: warning: Value stored to 'val' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
+ION_CODE);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/net/phy/mscc/mscc_ptp.c:1449:2: note: Value stored to 'val' is n=
+ever read
+           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
+ION_CODE);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/net/arcnet/rfc1201.c:348:4: warning: Value stored to 'soft' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                           soft =3D &pkt->soft.rfc1201;
+                           ^      ~~~~~~~~~~~~~~~~~~
+   drivers/net/arcnet/rfc1201.c:348:4: note: Value stored to 'soft' is neve=
+r read
+                           soft =3D &pkt->soft.rfc1201;
+                           ^      ~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:3218:2: warning: Value stor=
+ed to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D ipw_fw_dma_enable(priv);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:3218:2: note: Value stored =
+to 'ret' is never read
+           ret =3D ipw_fw_dma_enable(priv);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/intel/ipw2x00/ipw2200.c:8171:7: warning: Dereferenc=
+e of null pointer (loaded from variable 'last_seq') [clang-analyzer-core.Nu=
+llDereference]
+           if ((*last_seq =3D=3D seq) &&
+                ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8254:6: note: Assuming the =
+condition is false
+           r =3D ipw_read32(priv, IPW_RX_READ_INDEX);
+               ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
+macro 'ipw_read32'
+           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
+_, \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
+m macro 'IPW_DEBUG_IO'
+   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:10: note: expanded fro=
+m macro 'IPW_LL_DEBUG'
+   do { if (ipw_debug_level & (level)) \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8254:6: note: Taking false =
+branch
+           r =3D ipw_read32(priv, IPW_RX_READ_INDEX);
+               ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
+macro 'ipw_read32'
+           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
+_, \
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
+m macro 'IPW_DEBUG_IO'
+   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
+                                 ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:6: note: expanded from=
+ macro 'IPW_LL_DEBUG'
+   do { if (ipw_debug_level & (level)) \
+        ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8254:6: note: Loop conditio=
+n is false.  Exiting loop
+           r =3D ipw_read32(priv, IPW_RX_READ_INDEX);
+               ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
+macro 'ipw_read32'
+           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
+_, \
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
+m macro 'IPW_DEBUG_IO'
+   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
+                                 ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1388:43: note: expanded fro=
+m macro 'IPW_LL_DEBUG'
+   #define IPW_LL_DEBUG(level, fmt, args...) \
+                                             ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8255:2: note: Taking false =
+branch
+           ipw_read32(priv, IPW_RX_WRITE_INDEX);
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
+macro 'ipw_read32'
+           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
+_, \
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
+m macro 'IPW_DEBUG_IO'
+   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
+                                 ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:6: note: expanded from=
+ macro 'IPW_LL_DEBUG'
+   do { if (ipw_debug_level & (level)) \
+        ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8255:2: note: Loop conditio=
+n is false.  Exiting loop
+           ipw_read32(priv, IPW_RX_WRITE_INDEX);
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
+macro 'ipw_read32'
+           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
+_, \
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
+m macro 'IPW_DEBUG_IO'
+   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
+                                 ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1388:43: note: expanded fro=
+m macro 'IPW_LL_DEBUG'
+   #define IPW_LL_DEBUG(level, fmt, args...) \
+                                             ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8258:6: note: Assuming the =
+condition is false
+           if (ipw_rx_queue_space (priv->rxq) > (RX_QUEUE_SIZE / 2))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8258:2: note: Taking false =
+branch
+           if (ipw_rx_queue_space (priv->rxq) > (RX_QUEUE_SIZE / 2))
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8261:9: note: Assuming 'i' =
+is not equal to 'r'
+           while (i !=3D r) {
+                  ^~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8261:2: note: Loop conditio=
+n is true.  Entering loop body
+           while (i !=3D r) {
+           ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8263:16: note: Assuming 'rx=
+b' is not equal to null
+                   if (unlikely(rxb =3D=3D NULL)) {
+                                ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8263:3: note: Taking false =
+branch
+                   if (unlikely(rxb =3D=3D NULL)) {
+                   ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8273:3: note: Assuming the =
+condition is false
+                   IPW_DEBUG_RX("Packet: type=3D%02X seq=3D%02X bits=3D%02X=
+\n",
+                   ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1463:35: note: expanded fro=
+m macro 'IPW_DEBUG_RX'
+   #define IPW_DEBUG_RX(f, a...)     IPW_LL_DEBUG(IPW_DL_RX, f, ## a)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:10: note: expanded fro=
+m macro 'IPW_LL_DEBUG'
+   do { if (ipw_debug_level & (level)) \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8273:3: note: Taking false =
+branch
+                   IPW_DEBUG_RX("Packet: type=3D%02X seq=3D%02X bits=3D%02X=
+\n",
+                   ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1463:35: note: expanded fro=
+m macro 'IPW_DEBUG_RX'
+   #define IPW_DEBUG_RX(f, a...)     IPW_LL_DEBUG(IPW_DL_RX, f, ## a)
+                                     ^
+   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:6: note: expanded from=
+ macro 'IPW_LL_DEBUG'
+   do { if (ipw_debug_level & (level)) \
 
-vim +/pos +47 kernel/locking/lockdep_proc.c
+vim +183 include/scsi/scsi_cmnd.h
 
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   46  =
+824d7b570b4dec FUJITA Tomonori 2007-05-26  180  =
 
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  @47  static void *l_start(struct seq_file *m, loff_t *pos)
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   48  {
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   49  	unsigned long idx =3D *pos;
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   50  =
-
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   51  	if (idx > max_lock_class_idx)
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   52  		return NULL;
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   53  	return lock_classes + idx;
-94c61c0aeffe64 kernel/lockdep_proc.c         Tim Pepper          2007-10-11=
-   54  }
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   55  =
-
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   56  static void l_stop(struct seq_file *m, void *v)
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   57  {
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   58  }
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   59  =
-
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   60  static void print_name(struct seq_file *m, struct lock_class *class)
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   61  {
-99fb4a122e9620 kernel/lockdep_proc.c         Cyrill Gorcunov     2012-10-20=
-   62  	char str[KSYM_NAME_LEN];
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   63  	const char *name =3D class->name;
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   64  =
-
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   65  	if (!name) {
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   66  		name =3D __get_key_name(class->key, str);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   67  		seq_printf(m, "%s", name);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   68  	} else{
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   69  		seq_printf(m, "%s", name);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   70  		if (class->name_version > 1)
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   71  			seq_printf(m, "#%d", class->name_version);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   72  		if (class->subclass)
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   73  			seq_printf(m, "/%d", class->subclass);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   74  	}
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   75  }
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   76  =
-
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   77  static int l_show(struct seq_file *m, void *v)
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   78  {
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   79  	struct lock_class *class =3D v;
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-   80  	struct lock_list *entry;
-f510b233cfc7bf kernel/lockdep_proc.c         Peter Zijlstra      2009-01-22=
-   81  	char usage[LOCK_USAGE_CHARS];
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   82  	int idx =3D class - lock_classes;
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   83  =
-
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   84  	if (v =3D=3D lock_classes)
-94c61c0aeffe64 kernel/lockdep_proc.c         Tim Pepper          2007-10-11=
-   85  		seq_printf(m, "all lock classes:\n");
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   86  =
-
-fb7275acd6fb98 kernel/locking/lockdep_proc.c Waiman Long         2022-02-10=
-   87  	if (!test_bit(idx, lock_classes_in_use))
-94c61c0aeffe64 kernel/lockdep_proc.c         Tim Pepper          2007-10-11=
-   88  		return 0;
-94c61c0aeffe64 kernel/lockdep_proc.c         Tim Pepper          2007-10-11=
-   89  =
-
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   90  	seq_printf(m, "%p", class->key);
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   91  #ifdef CONFIG_DEBUG_LOCKDEP
-8ca2b56cd7da98 kernel/locking/lockdep_proc.c Waiman Long         2018-10-03=
-   92  	seq_printf(m, " OPS:%8ld", debug_class_ops_read(class));
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   93  #endif
-4840ce2267f9d8 kernel/locking/lockdep_proc.c Xiongwei Song       2021-06-29=
-   94  	if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
-df60a844186615 kernel/lockdep_proc.c         Stephen Hemminger   2008-08-15=
-   95  		seq_printf(m, " FD:%5ld", lockdep_count_forward_deps(class));
-df60a844186615 kernel/lockdep_proc.c         Stephen Hemminger   2008-08-15=
-   96  		seq_printf(m, " BD:%5ld", lockdep_count_backward_deps(class));
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-   97  =
-
-f510b233cfc7bf kernel/lockdep_proc.c         Peter Zijlstra      2009-01-22=
-   98  		get_usage_chars(class, usage);
-f510b233cfc7bf kernel/lockdep_proc.c         Peter Zijlstra      2009-01-22=
-   99  		seq_printf(m, " %s", usage);
-4840ce2267f9d8 kernel/locking/lockdep_proc.c Xiongwei Song       2021-06-29=
-  100  	}
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  101  =
-
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  102  	seq_printf(m, ": ");
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  103  	print_name(m, class);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  104  	seq_puts(m, "\n");
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  105  =
-
-4840ce2267f9d8 kernel/locking/lockdep_proc.c Xiongwei Song       2021-06-29=
-  106  	if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  107  		list_for_each_entry(entry, &class->locks_after, entry) {
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  108  			if (entry->distance =3D=3D 1) {
-2429e4ee78e2fa kernel/lockdep_proc.c         Huang, Ying         2008-06-13=
-  109  				seq_printf(m, " -> [%p] ", entry->class->key);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  110  				print_name(m, entry->class);
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  111  				seq_puts(m, "\n");
-068135e6351831 kernel/lockdep_proc.c         Jason Baron         2007-02-10=
-  112  			}
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  113  		}
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  114  		seq_puts(m, "\n");
-4840ce2267f9d8 kernel/locking/lockdep_proc.c Xiongwei Song       2021-06-29=
-  115  	}
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  116  =
-
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  117  	return 0;
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  118  }
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  119  =
-
-15ad7cdcfd7645 kernel/lockdep_proc.c         Helge Deller        2006-12-06=
-  120  static const struct seq_operations lockdep_ops =3D {
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  121  	.start	=3D l_start,
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  122  	.next	=3D l_next,
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  123  	.stop	=3D l_stop,
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  124  	.show	=3D l_show,
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  125  };
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  126  =
-
-cd1a28e8457e6e kernel/lockdep_proc.c         Huang, Ying         2008-06-23=
-  127  #ifdef CONFIG_PROVE_LOCKING
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  128  static void *lc_start(struct seq_file *m, loff_t *pos)
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  129  {
-2212684adff79e kernel/locking/lockdep_proc.c Bart Van Assche     2019-02-14=
-  130  	if (*pos < 0)
-2212684adff79e kernel/locking/lockdep_proc.c Bart Van Assche     2019-02-14=
-  131  		return NULL;
-2212684adff79e kernel/locking/lockdep_proc.c Bart Van Assche     2019-02-14=
-  132  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  133  	if (*pos =3D=3D 0)
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  134  		return SEQ_START_TOKEN;
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  135  =
-
-e9d65725bdf595 kernel/lockdep_proc.c         Li Zefan            2009-08-17=
-  136  	return lock_chains + (*pos - 1);
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  137  }
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  138  =
-
-12aac19d4ba410 kernel/lockdep_proc.c         Li Zefan            2009-08-17=
-  139  static void *lc_next(struct seq_file *m, void *v, loff_t *pos)
-12aac19d4ba410 kernel/lockdep_proc.c         Li Zefan            2009-08-17=
-  140  {
-2212684adff79e kernel/locking/lockdep_proc.c Bart Van Assche     2019-02-14=
-  141  	*pos =3D lockdep_next_lockchain(*pos - 1) + 1;
-12aac19d4ba410 kernel/lockdep_proc.c         Li Zefan            2009-08-17=
-  142  	return lc_start(m, pos);
-12aac19d4ba410 kernel/lockdep_proc.c         Li Zefan            2009-08-17=
-  143  }
-12aac19d4ba410 kernel/lockdep_proc.c         Li Zefan            2009-08-17=
-  144  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  145  static void lc_stop(struct seq_file *m, void *v)
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  146  {
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  147  }
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  148  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  149  static int lc_show(struct seq_file *m, void *v)
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  150  {
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  151  	struct lock_chain *chain =3D v;
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  152  	struct lock_class *class;
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  153  	int i;
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  154  	static const char * const irq_strs[] =3D {
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  155  		[0]			     =3D "0",
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  156  		[LOCK_CHAIN_HARDIRQ_CONTEXT] =3D "hardirq",
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  157  		[LOCK_CHAIN_SOFTIRQ_CONTEXT] =3D "softirq",
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  158  		[LOCK_CHAIN_SOFTIRQ_CONTEXT|
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  159  		 LOCK_CHAIN_HARDIRQ_CONTEXT] =3D "hardirq|softirq",
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  160  	};
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  161  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  162  	if (v =3D=3D SEQ_START_TOKEN) {
-810507fe6fd5ff kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  163  		if (!nr_free_chain_hlocks)
-75dd602a5198a6 kernel/locking/lockdep_proc.c Peter Zijlstra      2016-03-30=
-  164  			seq_printf(m, "(buggered) ");
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  165  		seq_printf(m, "all lock chains:\n");
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  166  		return 0;
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  167  	}
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  168  =
-
-b9875e98822957 kernel/locking/lockdep_proc.c Waiman Long         2020-02-06=
-  169  	seq_printf(m, "irq_context: %s\n", irq_strs[chain->irq_context]);
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  170  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  171  	for (i =3D 0; i < chain->depth; i++) {
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  172  		class =3D lock_chain_get_class(chain, i);
-8bfe0298f7a049 kernel/lockdep_proc.c         Rabin Vincent       2008-08-11=
-  173  		if (!class->key)
-8bfe0298f7a049 kernel/lockdep_proc.c         Rabin Vincent       2008-08-11=
-  174  			continue;
-8bfe0298f7a049 kernel/lockdep_proc.c         Rabin Vincent       2008-08-11=
-  175  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  176  		seq_printf(m, "[%p] ", class->key);
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  177  		print_name(m, class);
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  178  		seq_puts(m, "\n");
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  179  	}
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  180  	seq_puts(m, "\n");
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  181  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  182  	return 0;
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  183  }
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  184  =
-
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  185  static const struct seq_operations lockdep_chains_ops =3D {
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  186  	.start	=3D lc_start,
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  187  	.next	=3D lc_next,
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  188  	.stop	=3D lc_stop,
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  189  	.show	=3D lc_show,
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  190  };
-cd1a28e8457e6e kernel/lockdep_proc.c         Huang, Ying         2008-06-23=
-  191  #endif /* CONFIG_PROVE_LOCKING */
-443cd507ce7f78 kernel/lockdep_proc.c         Huang, Ying         2008-06-20=
-  192  =
-
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  193  static void lockdep_stats_debug_show(struct seq_file *m)
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  194  {
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  195  #ifdef CONFIG_DEBUG_LOCKDEP
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
- @196  	unsigned long long hi1 =3D debug_atomic_read(hardirqs_on_events),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  197  			   hi2 =3D debug_atomic_read(hardirqs_off_events),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  198  			   hr1 =3D debug_atomic_read(redundant_hardirqs_on),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  199  			   hr2 =3D debug_atomic_read(redundant_hardirqs_off),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  200  			   si1 =3D debug_atomic_read(softirqs_on_events),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  201  			   si2 =3D debug_atomic_read(softirqs_off_events),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  202  			   sr1 =3D debug_atomic_read(redundant_softirqs_on),
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  203  			   sr2 =3D debug_atomic_read(redundant_softirqs_off);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  204  =
-
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  205  	seq_printf(m, " chain lookup misses:           %11llu\n",
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  206  		debug_atomic_read(chain_lookup_misses));
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  207  	seq_printf(m, " chain lookup hits:             %11llu\n",
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  208  		debug_atomic_read(chain_lookup_hits));
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  209  	seq_printf(m, " cyclic checks:                 %11llu\n",
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  210  		debug_atomic_read(nr_cyclic_checks));
-ae813308f46306 kernel/locking/lockdep_proc.c Peter Zijlstra      2017-03-03=
-  211  	seq_printf(m, " redundant checks:              %11llu\n",
-ae813308f46306 kernel/locking/lockdep_proc.c Peter Zijlstra      2017-03-03=
-  212  		debug_atomic_read(nr_redundant_checks));
-ae813308f46306 kernel/locking/lockdep_proc.c Peter Zijlstra      2017-03-03=
-  213  	seq_printf(m, " redundant links:               %11llu\n",
-ae813308f46306 kernel/locking/lockdep_proc.c Peter Zijlstra      2017-03-03=
-  214  		debug_atomic_read(nr_redundant));
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  215  	seq_printf(m, " find-mask forwards checks:     %11llu\n",
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  216  		debug_atomic_read(nr_find_usage_forwards_checks));
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  217  	seq_printf(m, " find-mask backwards checks:    %11llu\n",
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  218  		debug_atomic_read(nr_find_usage_backwards_checks));
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  219  =
-
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  220  	seq_printf(m, " hardirq on events:             %11llu\n", hi1);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  221  	seq_printf(m, " hardirq off events:            %11llu\n", hi2);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  222  	seq_printf(m, " redundant hardirq ons:         %11llu\n", hr1);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  223  	seq_printf(m, " redundant hardirq offs:        %11llu\n", hr2);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  224  	seq_printf(m, " softirq on events:             %11llu\n", si1);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  225  	seq_printf(m, " softirq off events:            %11llu\n", si2);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  226  	seq_printf(m, " redundant softirq ons:         %11llu\n", sr1);
-bd6d29c25bb1a2 kernel/lockdep_proc.c         Frederic Weisbecker 2010-04-06=
-  227  	seq_printf(m, " redundant softirq offs:        %11llu\n", sr2);
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  228  #endif
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  229  }
-a8f24a3978c5f8 kernel/lockdep_proc.c         Ingo Molnar         2006-07-03=
-  230  =
+30b0c37b27485a Boaz Harrosh    2007-12-13  181  static inline unsigned scsi=
+_sg_count(struct scsi_cmnd *cmd)
+30b0c37b27485a Boaz Harrosh    2007-12-13  182  {
+30b0c37b27485a Boaz Harrosh    2007-12-13 @183  	return cmd->sdb.table.nent=
+s;
+30b0c37b27485a Boaz Harrosh    2007-12-13  184  }
+30b0c37b27485a Boaz Harrosh    2007-12-13  185  =
 
 
-:::::: The code at line 47 was first introduced by commit
-:::::: a8f24a3978c5f82419e1c90dc90460731204f46f [PATCH] lockdep: procfs
+:::::: The code at line 183 was first introduced by commit
+:::::: 30b0c37b27485a9cb897bfe3824f6f517b8c80d6 [SCSI] implement scsi_data_=
+buffer
 
-:::::: TO: Ingo Molnar <mingo@elte.hu>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+:::::: TO: Boaz Harrosh <bharrosh@panasas.com>
+:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4601313637347857966==--
+--===============6502072515410128302==--
 
