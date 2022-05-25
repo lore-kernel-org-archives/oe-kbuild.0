@@ -1,290 +1,192 @@
-Content-Type: multipart/mixed; boundary="===============8003496904386768885=="
+Content-Type: multipart/mixed; boundary="===============7929737339950516970=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [samba-ksmbd:for-next 28/28] fs/cifs/smb2ops.c:574 parse_server_interfaces() warn: sleeping in atomic context
-Date: Thu, 26 May 2022 07:34:18 +0800
-Message-ID: <202205260707.SqIvcdsE-lkp@intel.com>
+Subject: [linux-next:master 12729/14193] drivers/vhost/vdpa.c:595 vhost_vdpa_unlocked_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
+Date: Thu, 26 May 2022 00:31:04 +0800
+Message-ID: <202205260023.uI6skjJx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8003496904386768885==
+--===============7929737339950516970==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Steve French <stfrench@microsoft.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Gautam Dawar <gautam.dawar@xilinx.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Jason Wang <jasowang@redhat.com>
 
-tree:   git://git.samba.org/ksmbd.git for-next
-head:   57bf5227c68fc4b9f21eb6bf6ff7dd6e15568776
-commit: 57bf5227c68fc4b9f21eb6bf6ff7dd6e15568776 [28/28] smb3: 2 multichann=
-el patches
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-526/202205260707.SqIvcdsE-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   8cb8311e95e3bb58bd84d6350365f14a718faa6d
+commit: 87f4c217413a256cb5f9fb6d1dd6e11fe96506ae [12729/14193] vhost-vdpa: =
+introduce uAPI to get the number of virtqueue groups
+:::::: branch date: 10 hours ago
+:::::: commit date: 6 days ago
+config: microblaze-randconfig-m031-20220524 (https://download.01.org/0day-c=
+i/archive/20220526/202205260023.uI6skjJx-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/cifs/smb2ops.c:574 parse_server_interfaces() warn: sleeping in atomic co=
-ntext
+New smatch warnings:
+drivers/vhost/vdpa.c:595 vhost_vdpa_unlocked_ioctl() warn: maybe return -EF=
+AULT instead of the bytes remaining?
 
-vim +574 fs/cifs/smb2ops.c
+Old smatch warnings:
+drivers/vhost/vdpa.c:837 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
+pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:839 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
+e a 64 bit type?
+drivers/vhost/vdpa.c:868 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
+pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:869 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
+e a 64 bit type?
+drivers/vhost/vdpa.c:1080 vhost_vdpa_open() warn: missing error code 'r'
 
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  511  =
+vim +595 drivers/vhost/vdpa.c
 
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  512  static int
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  513  parse_server_interfaces(str=
-uct network_interface_info_ioctl_rsp *buf,
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  514  			size_t buf_len,
-57bf5227c68fc4b Steve French   2022-05-25  515  			struct cifs_ses *ses)
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  516  {
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  517  	struct network_interface_i=
-nfo_ioctl_rsp *p;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  518  	struct sockaddr_in *addr4;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  519  	struct sockaddr_in6 *addr6;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  520  	struct iface_info_ipv4 *p4;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  521  	struct iface_info_ipv6 *p6;
-57bf5227c68fc4b Steve French   2022-05-25  522  	struct cifs_server_iface *=
-info =3D NULL, *iface =3D NULL, *niface =3D NULL;
-57bf5227c68fc4b Steve French   2022-05-25  523  	struct cifs_server_iface t=
-mp_iface;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  524  	ssize_t bytes_left;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  525  	size_t next =3D 0;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  526  	int nb_iface =3D 0;
-57bf5227c68fc4b Steve French   2022-05-25  527  	int rc =3D 0, ret =3D 0;
-57bf5227c68fc4b Steve French   2022-05-25  528  	bool iface_found =3D false;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  529  =
+4c8cf31885f69e Tiwei Bie     2020-03-26  515  =
 
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  530  	bytes_left =3D buf_len;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  531  	p =3D buf;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  532  =
+4c8cf31885f69e Tiwei Bie     2020-03-26  516  static long vhost_vdpa_unlock=
+ed_ioctl(struct file *filep,
+4c8cf31885f69e Tiwei Bie     2020-03-26  517  				      unsigned int cmd, u=
+nsigned long arg)
+4c8cf31885f69e Tiwei Bie     2020-03-26  518  {
+4c8cf31885f69e Tiwei Bie     2020-03-26  519  	struct vhost_vdpa *v =3D fil=
+ep->private_data;
+4c8cf31885f69e Tiwei Bie     2020-03-26  520  	struct vhost_dev *d =3D &v->=
+vdev;
+4c8cf31885f69e Tiwei Bie     2020-03-26  521  	void __user *argp =3D (void =
+__user *)arg;
+a127c5bbb6a8ee Jason Wang    2020-09-07  522  	u64 __user *featurep =3D arg=
+p;
+a127c5bbb6a8ee Jason Wang    2020-09-07  523  	u64 features;
+7922460e33c81f Dan Carpenter 2020-10-23  524  	long r =3D 0;
+4c8cf31885f69e Tiwei Bie     2020-03-26  525  =
 
-57bf5227c68fc4b Steve French   2022-05-25  533  	spin_lock(&ses->iface_lock=
+a127c5bbb6a8ee Jason Wang    2020-09-07  526  	if (cmd =3D=3D VHOST_SET_BAC=
+KEND_FEATURES) {
+7922460e33c81f Dan Carpenter 2020-10-23  527  		if (copy_from_user(&feature=
+s, featurep, sizeof(features)))
+7922460e33c81f Dan Carpenter 2020-10-23  528  			return -EFAULT;
+a127c5bbb6a8ee Jason Wang    2020-09-07  529  		if (features & ~VHOST_VDPA_=
+BACKEND_FEATURES)
+a127c5bbb6a8ee Jason Wang    2020-09-07  530  			return -EOPNOTSUPP;
+a127c5bbb6a8ee Jason Wang    2020-09-07  531  		vhost_set_backend_features(=
+&v->vdev, features);
+a127c5bbb6a8ee Jason Wang    2020-09-07  532  		return 0;
+a127c5bbb6a8ee Jason Wang    2020-09-07  533  	}
+a127c5bbb6a8ee Jason Wang    2020-09-07  534  =
+
+4c8cf31885f69e Tiwei Bie     2020-03-26  535  	mutex_lock(&d->mutex);
+4c8cf31885f69e Tiwei Bie     2020-03-26  536  =
+
+4c8cf31885f69e Tiwei Bie     2020-03-26  537  	switch (cmd) {
+4c8cf31885f69e Tiwei Bie     2020-03-26  538  	case VHOST_VDPA_GET_DEVICE_I=
+D:
+4c8cf31885f69e Tiwei Bie     2020-03-26  539  		r =3D vhost_vdpa_get_device=
+_id(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  540  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  541  	case VHOST_VDPA_GET_STATUS:
+4c8cf31885f69e Tiwei Bie     2020-03-26  542  		r =3D vhost_vdpa_get_status=
+(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  543  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  544  	case VHOST_VDPA_SET_STATUS:
+4c8cf31885f69e Tiwei Bie     2020-03-26  545  		r =3D vhost_vdpa_set_status=
+(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  546  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  547  	case VHOST_VDPA_GET_CONFIG:
+4c8cf31885f69e Tiwei Bie     2020-03-26  548  		r =3D vhost_vdpa_get_config=
+(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  549  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  550  	case VHOST_VDPA_SET_CONFIG:
+4c8cf31885f69e Tiwei Bie     2020-03-26  551  		r =3D vhost_vdpa_set_config=
+(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  552  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  553  	case VHOST_GET_FEATURES:
+4c8cf31885f69e Tiwei Bie     2020-03-26  554  		r =3D vhost_vdpa_get_featur=
+es(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  555  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  556  	case VHOST_SET_FEATURES:
+4c8cf31885f69e Tiwei Bie     2020-03-26  557  		r =3D vhost_vdpa_set_featur=
+es(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  558  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  559  	case VHOST_VDPA_GET_VRING_NU=
+M:
+4c8cf31885f69e Tiwei Bie     2020-03-26  560  		r =3D vhost_vdpa_get_vring_=
+num(v, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  561  		break;
+87f4c217413a25 Gautam Dawar  2022-03-30  562  	case VHOST_VDPA_GET_GROUP_NU=
+M:
+87f4c217413a25 Gautam Dawar  2022-03-30  563  		r =3D copy_to_user(argp, &v=
+->vdpa->ngroups,
+87f4c217413a25 Gautam Dawar  2022-03-30  564  				 sizeof(v->vdpa->ngroups)=
 );
-57bf5227c68fc4b Steve French   2022-05-25  534  	/*
-57bf5227c68fc4b Steve French   2022-05-25  535  	 * Go through iface_list a=
-nd do kref_put to remove
-57bf5227c68fc4b Steve French   2022-05-25  536  	 * any unused ifaces. ifac=
-es in use will be removed
-57bf5227c68fc4b Steve French   2022-05-25  537  	 * when the last user call=
-s a kref_put on it
-57bf5227c68fc4b Steve French   2022-05-25  538  	 */
-57bf5227c68fc4b Steve French   2022-05-25  539  	list_for_each_entry_safe(i=
-face, niface, &ses->iface_list,
-57bf5227c68fc4b Steve French   2022-05-25  540  				 iface_head) {
-57bf5227c68fc4b Steve French   2022-05-25  541  		iface->is_active =3D 0;
-57bf5227c68fc4b Steve French   2022-05-25  542  		kref_put(&iface->refcount=
-, release_iface);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  543  	}
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  544  =
+87f4c217413a25 Gautam Dawar  2022-03-30  565  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  566  	case VHOST_SET_LOG_BASE:
+4c8cf31885f69e Tiwei Bie     2020-03-26  567  	case VHOST_SET_LOG_FD:
+4c8cf31885f69e Tiwei Bie     2020-03-26  568  		r =3D -ENOIOCTLCMD;
+4c8cf31885f69e Tiwei Bie     2020-03-26  569  		break;
+776f395004d829 Zhu Lingshan  2020-06-05  570  	case VHOST_VDPA_SET_CONFIG_C=
+ALL:
+776f395004d829 Zhu Lingshan  2020-06-05  571  		r =3D vhost_vdpa_set_config=
+_call(v, argp);
+776f395004d829 Zhu Lingshan  2020-06-05  572  		break;
+a127c5bbb6a8ee Jason Wang    2020-09-07  573  	case VHOST_GET_BACKEND_FEATU=
+RES:
+a127c5bbb6a8ee Jason Wang    2020-09-07  574  		features =3D VHOST_VDPA_BAC=
+KEND_FEATURES;
+7922460e33c81f Dan Carpenter 2020-10-23  575  		if (copy_to_user(featurep, =
+&features, sizeof(features)))
+7922460e33c81f Dan Carpenter 2020-10-23  576  			r =3D -EFAULT;
+a127c5bbb6a8ee Jason Wang    2020-09-07  577  		break;
+1b48dc03e575a8 Jason Wang    2020-10-23  578  	case VHOST_VDPA_GET_IOVA_RAN=
+GE:
+1b48dc03e575a8 Jason Wang    2020-10-23  579  		r =3D vhost_vdpa_get_iova_r=
+ange(v, argp);
+1b48dc03e575a8 Jason Wang    2020-10-23  580  		break;
+a61280ddddaa45 Longpeng      2022-03-15  581  	case VHOST_VDPA_GET_CONFIG_S=
+IZE:
+a61280ddddaa45 Longpeng      2022-03-15  582  		r =3D vhost_vdpa_get_config=
+_size(v, argp);
+a61280ddddaa45 Longpeng      2022-03-15  583  		break;
+b04d910af330b5 Longpeng      2022-03-15  584  	case VHOST_VDPA_GET_VQS_COUN=
+T:
+b04d910af330b5 Longpeng      2022-03-15  585  		r =3D vhost_vdpa_get_vqs_co=
+unt(v, argp);
+b04d910af330b5 Longpeng      2022-03-15  586  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  587  	default:
+4c8cf31885f69e Tiwei Bie     2020-03-26  588  		r =3D vhost_dev_ioctl(&v->v=
+dev, cmd, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  589  		if (r =3D=3D -ENOIOCTLCMD)
+4c8cf31885f69e Tiwei Bie     2020-03-26  590  			r =3D vhost_vdpa_vring_ioc=
+tl(v, cmd, argp);
+4c8cf31885f69e Tiwei Bie     2020-03-26  591  		break;
+4c8cf31885f69e Tiwei Bie     2020-03-26  592  	}
+4c8cf31885f69e Tiwei Bie     2020-03-26  593  =
 
-57bf5227c68fc4b Steve French   2022-05-25  545  	while (bytes_left >=3D siz=
-eof(*p)) {
-57bf5227c68fc4b Steve French   2022-05-25  546  		memset(&tmp_iface, 0, siz=
-eof(tmp_iface));
-57bf5227c68fc4b Steve French   2022-05-25  547  		tmp_iface.speed =3D le64_=
-to_cpu(p->LinkSpeed);
-57bf5227c68fc4b Steve French   2022-05-25  548  		tmp_iface.rdma_capable =
-=3D le32_to_cpu(p->Capability & RDMA_CAPABLE) ? 1 : 0;
-57bf5227c68fc4b Steve French   2022-05-25  549  		tmp_iface.rss_capable =3D=
- le32_to_cpu(p->Capability & RSS_CAPABLE) ? 1 : 0;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  550  =
+4c8cf31885f69e Tiwei Bie     2020-03-26  594  	mutex_unlock(&d->mutex);
+4c8cf31885f69e Tiwei Bie     2020-03-26 @595  	return r;
+4c8cf31885f69e Tiwei Bie     2020-03-26  596  }
+4c8cf31885f69e Tiwei Bie     2020-03-26  597  =
 
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  551  		/*
-57bf5227c68fc4b Steve French   2022-05-25  552  		 * The iface_list is assu=
-med to be sorted by speed.
-57bf5227c68fc4b Steve French   2022-05-25  553  		 * Check if the new inter=
-face exists in that list.
-57bf5227c68fc4b Steve French   2022-05-25  554  		 * NEVER change iface. it=
- could be in use.
-57bf5227c68fc4b Steve French   2022-05-25  555  		 * Add a new one instead
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  556  		 */
-57bf5227c68fc4b Steve French   2022-05-25  557  		iface_found =3D false;
-57bf5227c68fc4b Steve French   2022-05-25  558  		list_for_each_entry_safe(=
-iface, niface, &ses->iface_list,
-57bf5227c68fc4b Steve French   2022-05-25  559  					 iface_head) {
-57bf5227c68fc4b Steve French   2022-05-25  560  			ret =3D iface_cmp(iface,=
- &tmp_iface);
-57bf5227c68fc4b Steve French   2022-05-25  561  			if (!ret) {
-57bf5227c68fc4b Steve French   2022-05-25  562  				/* just get a ref so th=
-at it doesn't get picked/freed */
-57bf5227c68fc4b Steve French   2022-05-25  563  				iface->is_active =3D 1;
-57bf5227c68fc4b Steve French   2022-05-25  564  				kref_get(&iface->refcou=
-nt);
-57bf5227c68fc4b Steve French   2022-05-25  565  				goto next_iface;
-57bf5227c68fc4b Steve French   2022-05-25  566  			} else if (ret > 0) {
-57bf5227c68fc4b Steve French   2022-05-25  567  				/* all remaining ifaces=
- are slower */
-57bf5227c68fc4b Steve French   2022-05-25  568  				iface_found =3D true;
-57bf5227c68fc4b Steve French   2022-05-25  569  				break;
-57bf5227c68fc4b Steve French   2022-05-25  570  			}
-57bf5227c68fc4b Steve French   2022-05-25  571  		}
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  572  =
 
-57bf5227c68fc4b Steve French   2022-05-25  573  		/* no match. insert the e=
-ntry in the list */
-57bf5227c68fc4b Steve French   2022-05-25 @574  		info =3D kmalloc(sizeof(s=
-truct cifs_server_iface),
-57bf5227c68fc4b Steve French   2022-05-25  575  			       GFP_KERNEL);
-57bf5227c68fc4b Steve French   2022-05-25  576  		if (!info) {
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  577  			rc =3D -ENOMEM;
-57bf5227c68fc4b Steve French   2022-05-25  578  			spin_unlock(&ses->iface_=
-lock);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  579  			goto out;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  580  		}
-57bf5227c68fc4b Steve French   2022-05-25  581  		memcpy(info, &tmp_iface, =
-sizeof(tmp_iface));
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  582  =
+:::::: The code at line 595 was first introduced by commit
+:::::: 4c8cf31885f69e86be0b5b9e6677a26797365e1d vhost: introduce vDPA-based=
+ backend
 
-57bf5227c68fc4b Steve French   2022-05-25  583  		/* add this new entry to =
-the list */
-57bf5227c68fc4b Steve French   2022-05-25  584  		kref_init(&info->refcount=
-);
-57bf5227c68fc4b Steve French   2022-05-25  585  		info->is_active =3D 1;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  586  =
-
-57bf5227c68fc4b Steve French   2022-05-25  587  		cifs_dbg(FYI, "%s: adding=
- iface %zu\n", __func__, ses->iface_count);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  588  		cifs_dbg(FYI, "%s: speed =
-%zu bps\n", __func__, info->speed);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  589  		cifs_dbg(FYI, "%s: capabi=
-lities 0x%08x\n", __func__,
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  590  			 le32_to_cpu(p->Capabili=
-ty));
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  591  =
-
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  592  		switch (p->Family) {
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  593  		/*
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  594  		 * The kernel and wire so=
-cket structures have the same
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  595  		 * layout and use network=
- byte order but make the
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  596  		 * conversion explicit in=
- case either one changes.
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  597  		 */
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  598  		case INTERNETWORK:
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  599  			addr4 =3D (struct sockad=
-dr_in *)&info->sockaddr;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  600  			p4 =3D (struct iface_inf=
-o_ipv4 *)p->Buffer;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  601  			addr4->sin_family =3D AF=
-_INET;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  602  			memcpy(&addr4->sin_addr,=
- &p4->IPv4Address, 4);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  603  =
-
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  604  			/* [MS-SMB2] 2.2.32.5.1.=
-1 Clients MUST ignore these */
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  605  			addr4->sin_port =3D cpu_=
-to_be16(CIFS_PORT);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  606  =
-
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  607  			cifs_dbg(FYI, "%s: ipv4 =
-%pI4\n", __func__,
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  608  				 &addr4->sin_addr);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  609  			break;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  610  		case INTERNETWORKV6:
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  611  			addr6 =3D	(struct sockad=
-dr_in6 *)&info->sockaddr;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  612  			p6 =3D (struct iface_inf=
-o_ipv6 *)p->Buffer;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  613  			addr6->sin6_family =3D A=
-F_INET6;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  614  			memcpy(&addr6->sin6_addr=
-, &p6->IPv6Address, 16);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  615  =
-
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  616  			/* [MS-SMB2] 2.2.32.5.1.=
-2 Clients MUST ignore these */
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  617  			addr6->sin6_flowinfo =3D=
- 0;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  618  			addr6->sin6_scope_id =3D=
- 0;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  619  			addr6->sin6_port =3D cpu=
-_to_be16(CIFS_PORT);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  620  =
-
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  621  			cifs_dbg(FYI, "%s: ipv6 =
-%pI6\n", __func__,
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  622  				 &addr6->sin6_addr);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  623  			break;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  624  		default:
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  625  			cifs_dbg(VFS,
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  626  				 "%s: skipping unsuppor=
-ted socket family\n",
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  627  				 __func__);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  628  			goto next_iface;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  629  		}
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  630  =
-
-57bf5227c68fc4b Steve French   2022-05-25  631  		if (iface_found)
-57bf5227c68fc4b Steve French   2022-05-25  632  			list_add_tail(&info->ifa=
-ce_head, &iface->iface_head);
-57bf5227c68fc4b Steve French   2022-05-25  633  		else
-57bf5227c68fc4b Steve French   2022-05-25  634  			list_add_tail(&info->ifa=
-ce_head, &ses->iface_list);
-57bf5227c68fc4b Steve French   2022-05-25  635  =
-
-57bf5227c68fc4b Steve French   2022-05-25  636  		ses->iface_count++;
-57bf5227c68fc4b Steve French   2022-05-25  637  		ses->iface_last_update =
-=3D jiffies;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  638  next_iface:
-57bf5227c68fc4b Steve French   2022-05-25  639  		nb_iface++;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  640  		next =3D le32_to_cpu(p->N=
-ext);
-57bf5227c68fc4b Steve French   2022-05-25  641  		if (!next) {
-57bf5227c68fc4b Steve French   2022-05-25  642  			bytes_left -=3D sizeof(*=
-p);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  643  			break;
-57bf5227c68fc4b Steve French   2022-05-25  644  		}
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  645  		p =3D (struct network_int=
-erface_info_ioctl_rsp *)((u8 *)p+next);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  646  		bytes_left -=3D next;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  647  	}
-57bf5227c68fc4b Steve French   2022-05-25  648  	spin_unlock(&ses->iface_lo=
-ck);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  649  =
-
-57bf5227c68fc4b Steve French   2022-05-25  650  	if (!nb_iface) {
-57bf5227c68fc4b Steve French   2022-05-25  651  		cifs_dbg(VFS, "%s: malfor=
-med interface info\n", __func__);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  652  		rc =3D -EINVAL;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  653  		goto out;
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  654  	}
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  655  =
-
-57bf5227c68fc4b Steve French   2022-05-25  656  	/* Azure rounds the buffer=
- size up 8, to a 16 byte boundary */
-57bf5227c68fc4b Steve French   2022-05-25  657  	if ((bytes_left > 8) || p-=
->Next)
-57bf5227c68fc4b Steve French   2022-05-25  658  		cifs_dbg(VFS, "%s: incomp=
-lete interface info\n", __func__);
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  659  =
-
-35adffed079fdcf Aurelien Aptel 2019-09-20  660  =
-
-57bf5227c68fc4b Steve French   2022-05-25  661  	if (!ses->iface_count) {
-57bf5227c68fc4b Steve French   2022-05-25  662  		rc =3D -EINVAL;
-57bf5227c68fc4b Steve French   2022-05-25  663  		goto out;
-57bf5227c68fc4b Steve French   2022-05-25  664  	}
-57bf5227c68fc4b Steve French   2022-05-25  665  =
-
-57bf5227c68fc4b Steve French   2022-05-25  666  out:
-57bf5227c68fc4b Steve French   2022-05-25  667  	return rc;
-35adffed079fdcf Aurelien Aptel 2019-09-20  668  }
-fe856be475f7cf5 Aurelien Aptel 2018-06-14  669  =
-
+:::::: TO: Tiwei Bie <tiwei.bie@intel.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8003496904386768885==--
+--===============7929737339950516970==--
 
