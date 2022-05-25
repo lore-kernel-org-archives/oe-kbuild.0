@@ -1,340 +1,290 @@
-Content-Type: multipart/mixed; boundary="===============7148503666196768511=="
+Content-Type: multipart/mixed; boundary="===============8003496904386768885=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/mmap_lock.c:135:34: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Thu, 26 May 2022 12:07:19 +0800
-Message-ID: <202205261113.dojeQ9du-lkp@intel.com>
+Subject: [samba-ksmbd:for-next 28/28] fs/cifs/smb2ops.c:574 parse_server_interfaces() warn: sleeping in atomic context
+Date: Thu, 26 May 2022 07:34:18 +0800
+Message-ID: <202205260707.SqIvcdsE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7148503666196768511==
+--===============8003496904386768885==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-CC: Axel Rasmussen <axelrasmussen@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Steve French <stfrench@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d7227785e384d4422b3ca189aa5bf19f462337cc
-commit: 832b50725373e8c46781b7d4db104ec9cf564a6b mm: mmap_lock: use local l=
-ocks instead of disabling preemption
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-c005-20220518 (https://download.01.org/0day-ci/arch=
-ive/20220526/202205261113.dojeQ9du-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8=
-ee225edf2d0de94b0dcbd31bea916e825e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D832b50725373e8c46781b7d4db104ec9cf564a6b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 832b50725373e8c46781b7d4db104ec9cf564a6b
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+tree:   git://git.samba.org/ksmbd.git for-next
+head:   57bf5227c68fc4b9f21eb6bf6ff7dd6e15568776
+commit: 57bf5227c68fc4b9f21eb6bf6ff7dd6e15568776 [28/28] smb3: 2 multichann=
+el patches
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+526/202205260707.SqIvcdsE-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/cifs/smb2ops.c:574 parse_server_interfaces() warn: sleeping in atomic co=
+ntext
 
-clang-analyzer warnings: (new ones prefixed by >>)
-            ^~~~
-   drivers/tty/tty_ioctl.c:402:2: note: '?' condition is false
-           if (ld !=3D NULL) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/tty/tty_ioctl.c:402:2: note: Taking false branch
-           if (ld !=3D NULL) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/tty/tty_ioctl.c:408:2: note: Assuming the condition is false
-           if (opt & TERMIOS_WAIT) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/tty/tty_ioctl.c:408:2: note: '?' condition is false
-           if (opt & TERMIOS_WAIT) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/tty/tty_ioctl.c:408:2: note: '?' condition is true
-           if (opt & TERMIOS_WAIT) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/tty/tty_ioctl.c:408:2: note: Taking true branch
-           if (opt & TERMIOS_WAIT) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/tty/tty_ioctl.c:410:22: note: Dereference of null pointer
-                   if (signal_pending(current))
-                                      ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   Suppressed 16 warnings (4 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   arch/s390/include/asm/preempt.h:112:29: warning: Dereference of null poi=
-nter [clang-analyzer-core.NullDereference]
-           S390_lowcore.preempt_count +=3D val;
-                                      ^
-   mm/mmap_lock.c:239:2: note: Calling '__preempt_count_add'
-           TRACE_MMAP_LOCK_EVENT(released, mm, write);
-           ^
-   mm/mmap_lock.c:193:3: note: expanded from macro 'TRACE_MMAP_LOCK_EVENT'
-                   local_lock(&memcg_paths.lock);                          =
-       \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:16:27: note: expanded from macro 'local_lock'
-   #define local_lock(lock)                __local_lock(lock)
-                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:61:3: note: expanded from macro '__l=
-ocal_lock'
-                   preempt_disable();                              \
-                   ^~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:177:2: note: expanded from macro 'preempt_disabl=
-e'
-           preempt_count_inc(); \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:170:29: note: expanded from macro 'preempt_count=
-_inc'
-   #define preempt_count_inc() preempt_count_add(1)
-                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:162:32: note: expanded from macro 'preempt_count=
-_add'
-   #define preempt_count_add(val)  __preempt_count_add(val)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/preempt.h:112:29: note: Dereference of null pointer
-           S390_lowcore.preempt_count +=3D val;
-                                      ^
->> mm/mmap_lock.c:135:34: warning: Dereference of null pointer [clang-analy=
-zer-core.NullDereference]
-           struct memcg_path *memcg_path =3D this_cpu_ptr(&memcg_paths);
-                                           ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^
-   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           arch_raw_cpu_ptr(ptr);                                          \
-           ^
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^
-   include/linux/compiler.h:182:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^
-   mm/mmap_lock.c:173:6: note: Assuming 'memcg' is not equal to null
-           if (memcg =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   mm/mmap_lock.c:173:2: note: '?' condition is false
-           if (memcg =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   mm/mmap_lock.c:173:6: note: 'memcg' is not equal to null
-           if (memcg =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   mm/mmap_lock.c:173:6: note: 'memcg' is not equal to null
-           if (memcg =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   mm/mmap_lock.c:173:2: note: '?' condition is false
-           if (memcg =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   mm/mmap_lock.c:173:2: note: Taking false branch
-           if (memcg =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   mm/mmap_lock.c:175:15: note: Assuming field 'cgroup' is not equal to null
-           if (unlikely(memcg->css.cgroup =3D=3D NULL))
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   mm/mmap_lock.c:175:26: note: Field 'cgroup' is not equal to null
-           if (unlikely(memcg->css.cgroup =3D=3D NULL))
-                                   ^
-   mm/mmap_lock.c:175:2: note: '?' condition is false
-           if (unlikely(memcg->css.cgroup =3D=3D NULL))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+vim +574 fs/cifs/smb2ops.c
 
-vim +135 mm/mmap_lock.c
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  511  =
 
-2b5067a8143e34 Axel Rasmussen         2020-12-14  132  =
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  512  static int
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  513  parse_server_interfaces(str=
+uct network_interface_info_ioctl_rsp *buf,
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  514  			size_t buf_len,
+57bf5227c68fc4b Steve French   2022-05-25  515  			struct cifs_ses *ses)
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  516  {
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  517  	struct network_interface_i=
+nfo_ioctl_rsp *p;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  518  	struct sockaddr_in *addr4;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  519  	struct sockaddr_in6 *addr6;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  520  	struct iface_info_ipv4 *p4;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  521  	struct iface_info_ipv6 *p6;
+57bf5227c68fc4b Steve French   2022-05-25  522  	struct cifs_server_iface *=
+info =3D NULL, *iface =3D NULL, *niface =3D NULL;
+57bf5227c68fc4b Steve French   2022-05-25  523  	struct cifs_server_iface t=
+mp_iface;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  524  	ssize_t bytes_left;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  525  	size_t next =3D 0;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  526  	int nb_iface =3D 0;
+57bf5227c68fc4b Steve French   2022-05-25  527  	int rc =3D 0, ret =3D 0;
+57bf5227c68fc4b Steve French   2022-05-25  528  	bool iface_found =3D false;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  529  =
 
-2b5067a8143e34 Axel Rasmussen         2020-12-14  133  static inline char *=
-get_memcg_path_buf(void)
-2b5067a8143e34 Axel Rasmussen         2020-12-14  134  {
-832b50725373e8 Nicolas Saenz Julienne 2021-06-28 @135  	struct memcg_path *=
-memcg_path =3D this_cpu_ptr(&memcg_paths);
-2b5067a8143e34 Axel Rasmussen         2020-12-14  136  	char *buf;
-2b5067a8143e34 Axel Rasmussen         2020-12-14  137  	int idx;
-2b5067a8143e34 Axel Rasmussen         2020-12-14  138  =
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  530  	bytes_left =3D buf_len;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  531  	p =3D buf;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  532  =
 
-2b5067a8143e34 Axel Rasmussen         2020-12-14  139  	rcu_read_lock();
-832b50725373e8 Nicolas Saenz Julienne 2021-06-28  140  	buf =3D rcu_derefer=
-ence(memcg_path->buf);
-2b5067a8143e34 Axel Rasmussen         2020-12-14  141  	if (buf =3D=3D NULL=
-) {
-2b5067a8143e34 Axel Rasmussen         2020-12-14  142  		rcu_read_unlock();
-2b5067a8143e34 Axel Rasmussen         2020-12-14  143  		return NULL;
-2b5067a8143e34 Axel Rasmussen         2020-12-14  144  	}
-832b50725373e8 Nicolas Saenz Julienne 2021-06-28  145  	idx =3D local_add_r=
-eturn(MEMCG_PATH_BUF_SIZE, &memcg_path->buf_idx) -
-2b5067a8143e34 Axel Rasmussen         2020-12-14  146  	      MEMCG_PATH_BU=
-F_SIZE;
-2b5067a8143e34 Axel Rasmussen         2020-12-14  147  	return &buf[idx];
-2b5067a8143e34 Axel Rasmussen         2020-12-14  148  }
-2b5067a8143e34 Axel Rasmussen         2020-12-14  149  =
+57bf5227c68fc4b Steve French   2022-05-25  533  	spin_lock(&ses->iface_lock=
+);
+57bf5227c68fc4b Steve French   2022-05-25  534  	/*
+57bf5227c68fc4b Steve French   2022-05-25  535  	 * Go through iface_list a=
+nd do kref_put to remove
+57bf5227c68fc4b Steve French   2022-05-25  536  	 * any unused ifaces. ifac=
+es in use will be removed
+57bf5227c68fc4b Steve French   2022-05-25  537  	 * when the last user call=
+s a kref_put on it
+57bf5227c68fc4b Steve French   2022-05-25  538  	 */
+57bf5227c68fc4b Steve French   2022-05-25  539  	list_for_each_entry_safe(i=
+face, niface, &ses->iface_list,
+57bf5227c68fc4b Steve French   2022-05-25  540  				 iface_head) {
+57bf5227c68fc4b Steve French   2022-05-25  541  		iface->is_active =3D 0;
+57bf5227c68fc4b Steve French   2022-05-25  542  		kref_put(&iface->refcount=
+, release_iface);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  543  	}
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  544  =
+
+57bf5227c68fc4b Steve French   2022-05-25  545  	while (bytes_left >=3D siz=
+eof(*p)) {
+57bf5227c68fc4b Steve French   2022-05-25  546  		memset(&tmp_iface, 0, siz=
+eof(tmp_iface));
+57bf5227c68fc4b Steve French   2022-05-25  547  		tmp_iface.speed =3D le64_=
+to_cpu(p->LinkSpeed);
+57bf5227c68fc4b Steve French   2022-05-25  548  		tmp_iface.rdma_capable =
+=3D le32_to_cpu(p->Capability & RDMA_CAPABLE) ? 1 : 0;
+57bf5227c68fc4b Steve French   2022-05-25  549  		tmp_iface.rss_capable =3D=
+ le32_to_cpu(p->Capability & RSS_CAPABLE) ? 1 : 0;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  550  =
+
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  551  		/*
+57bf5227c68fc4b Steve French   2022-05-25  552  		 * The iface_list is assu=
+med to be sorted by speed.
+57bf5227c68fc4b Steve French   2022-05-25  553  		 * Check if the new inter=
+face exists in that list.
+57bf5227c68fc4b Steve French   2022-05-25  554  		 * NEVER change iface. it=
+ could be in use.
+57bf5227c68fc4b Steve French   2022-05-25  555  		 * Add a new one instead
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  556  		 */
+57bf5227c68fc4b Steve French   2022-05-25  557  		iface_found =3D false;
+57bf5227c68fc4b Steve French   2022-05-25  558  		list_for_each_entry_safe(=
+iface, niface, &ses->iface_list,
+57bf5227c68fc4b Steve French   2022-05-25  559  					 iface_head) {
+57bf5227c68fc4b Steve French   2022-05-25  560  			ret =3D iface_cmp(iface,=
+ &tmp_iface);
+57bf5227c68fc4b Steve French   2022-05-25  561  			if (!ret) {
+57bf5227c68fc4b Steve French   2022-05-25  562  				/* just get a ref so th=
+at it doesn't get picked/freed */
+57bf5227c68fc4b Steve French   2022-05-25  563  				iface->is_active =3D 1;
+57bf5227c68fc4b Steve French   2022-05-25  564  				kref_get(&iface->refcou=
+nt);
+57bf5227c68fc4b Steve French   2022-05-25  565  				goto next_iface;
+57bf5227c68fc4b Steve French   2022-05-25  566  			} else if (ret > 0) {
+57bf5227c68fc4b Steve French   2022-05-25  567  				/* all remaining ifaces=
+ are slower */
+57bf5227c68fc4b Steve French   2022-05-25  568  				iface_found =3D true;
+57bf5227c68fc4b Steve French   2022-05-25  569  				break;
+57bf5227c68fc4b Steve French   2022-05-25  570  			}
+57bf5227c68fc4b Steve French   2022-05-25  571  		}
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  572  =
+
+57bf5227c68fc4b Steve French   2022-05-25  573  		/* no match. insert the e=
+ntry in the list */
+57bf5227c68fc4b Steve French   2022-05-25 @574  		info =3D kmalloc(sizeof(s=
+truct cifs_server_iface),
+57bf5227c68fc4b Steve French   2022-05-25  575  			       GFP_KERNEL);
+57bf5227c68fc4b Steve French   2022-05-25  576  		if (!info) {
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  577  			rc =3D -ENOMEM;
+57bf5227c68fc4b Steve French   2022-05-25  578  			spin_unlock(&ses->iface_=
+lock);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  579  			goto out;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  580  		}
+57bf5227c68fc4b Steve French   2022-05-25  581  		memcpy(info, &tmp_iface, =
+sizeof(tmp_iface));
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  582  =
+
+57bf5227c68fc4b Steve French   2022-05-25  583  		/* add this new entry to =
+the list */
+57bf5227c68fc4b Steve French   2022-05-25  584  		kref_init(&info->refcount=
+);
+57bf5227c68fc4b Steve French   2022-05-25  585  		info->is_active =3D 1;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  586  =
+
+57bf5227c68fc4b Steve French   2022-05-25  587  		cifs_dbg(FYI, "%s: adding=
+ iface %zu\n", __func__, ses->iface_count);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  588  		cifs_dbg(FYI, "%s: speed =
+%zu bps\n", __func__, info->speed);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  589  		cifs_dbg(FYI, "%s: capabi=
+lities 0x%08x\n", __func__,
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  590  			 le32_to_cpu(p->Capabili=
+ty));
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  591  =
+
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  592  		switch (p->Family) {
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  593  		/*
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  594  		 * The kernel and wire so=
+cket structures have the same
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  595  		 * layout and use network=
+ byte order but make the
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  596  		 * conversion explicit in=
+ case either one changes.
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  597  		 */
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  598  		case INTERNETWORK:
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  599  			addr4 =3D (struct sockad=
+dr_in *)&info->sockaddr;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  600  			p4 =3D (struct iface_inf=
+o_ipv4 *)p->Buffer;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  601  			addr4->sin_family =3D AF=
+_INET;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  602  			memcpy(&addr4->sin_addr,=
+ &p4->IPv4Address, 4);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  603  =
+
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  604  			/* [MS-SMB2] 2.2.32.5.1.=
+1 Clients MUST ignore these */
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  605  			addr4->sin_port =3D cpu_=
+to_be16(CIFS_PORT);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  606  =
+
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  607  			cifs_dbg(FYI, "%s: ipv4 =
+%pI4\n", __func__,
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  608  				 &addr4->sin_addr);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  609  			break;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  610  		case INTERNETWORKV6:
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  611  			addr6 =3D	(struct sockad=
+dr_in6 *)&info->sockaddr;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  612  			p6 =3D (struct iface_inf=
+o_ipv6 *)p->Buffer;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  613  			addr6->sin6_family =3D A=
+F_INET6;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  614  			memcpy(&addr6->sin6_addr=
+, &p6->IPv6Address, 16);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  615  =
+
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  616  			/* [MS-SMB2] 2.2.32.5.1.=
+2 Clients MUST ignore these */
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  617  			addr6->sin6_flowinfo =3D=
+ 0;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  618  			addr6->sin6_scope_id =3D=
+ 0;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  619  			addr6->sin6_port =3D cpu=
+_to_be16(CIFS_PORT);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  620  =
+
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  621  			cifs_dbg(FYI, "%s: ipv6 =
+%pI6\n", __func__,
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  622  				 &addr6->sin6_addr);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  623  			break;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  624  		default:
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  625  			cifs_dbg(VFS,
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  626  				 "%s: skipping unsuppor=
+ted socket family\n",
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  627  				 __func__);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  628  			goto next_iface;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  629  		}
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  630  =
+
+57bf5227c68fc4b Steve French   2022-05-25  631  		if (iface_found)
+57bf5227c68fc4b Steve French   2022-05-25  632  			list_add_tail(&info->ifa=
+ce_head, &iface->iface_head);
+57bf5227c68fc4b Steve French   2022-05-25  633  		else
+57bf5227c68fc4b Steve French   2022-05-25  634  			list_add_tail(&info->ifa=
+ce_head, &ses->iface_list);
+57bf5227c68fc4b Steve French   2022-05-25  635  =
+
+57bf5227c68fc4b Steve French   2022-05-25  636  		ses->iface_count++;
+57bf5227c68fc4b Steve French   2022-05-25  637  		ses->iface_last_update =
+=3D jiffies;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  638  next_iface:
+57bf5227c68fc4b Steve French   2022-05-25  639  		nb_iface++;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  640  		next =3D le32_to_cpu(p->N=
+ext);
+57bf5227c68fc4b Steve French   2022-05-25  641  		if (!next) {
+57bf5227c68fc4b Steve French   2022-05-25  642  			bytes_left -=3D sizeof(*=
+p);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  643  			break;
+57bf5227c68fc4b Steve French   2022-05-25  644  		}
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  645  		p =3D (struct network_int=
+erface_info_ioctl_rsp *)((u8 *)p+next);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  646  		bytes_left -=3D next;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  647  	}
+57bf5227c68fc4b Steve French   2022-05-25  648  	spin_unlock(&ses->iface_lo=
+ck);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  649  =
+
+57bf5227c68fc4b Steve French   2022-05-25  650  	if (!nb_iface) {
+57bf5227c68fc4b Steve French   2022-05-25  651  		cifs_dbg(VFS, "%s: malfor=
+med interface info\n", __func__);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  652  		rc =3D -EINVAL;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  653  		goto out;
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  654  	}
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  655  =
+
+57bf5227c68fc4b Steve French   2022-05-25  656  	/* Azure rounds the buffer=
+ size up 8, to a 16 byte boundary */
+57bf5227c68fc4b Steve French   2022-05-25  657  	if ((bytes_left > 8) || p-=
+>Next)
+57bf5227c68fc4b Steve French   2022-05-25  658  		cifs_dbg(VFS, "%s: incomp=
+lete interface info\n", __func__);
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  659  =
+
+35adffed079fdcf Aurelien Aptel 2019-09-20  660  =
+
+57bf5227c68fc4b Steve French   2022-05-25  661  	if (!ses->iface_count) {
+57bf5227c68fc4b Steve French   2022-05-25  662  		rc =3D -EINVAL;
+57bf5227c68fc4b Steve French   2022-05-25  663  		goto out;
+57bf5227c68fc4b Steve French   2022-05-25  664  	}
+57bf5227c68fc4b Steve French   2022-05-25  665  =
+
+57bf5227c68fc4b Steve French   2022-05-25  666  out:
+57bf5227c68fc4b Steve French   2022-05-25  667  	return rc;
+35adffed079fdcf Aurelien Aptel 2019-09-20  668  }
+fe856be475f7cf5 Aurelien Aptel 2018-06-14  669  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7148503666196768511==--
+--===============8003496904386768885==--
 
