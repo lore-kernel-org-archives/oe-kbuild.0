@@ -1,192 +1,529 @@
-Content-Type: multipart/mixed; boundary="===============7929737339950516970=="
+Content-Type: multipart/mixed; boundary="===============0959348839520191038=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 12729/14193] drivers/vhost/vdpa.c:595 vhost_vdpa_unlocked_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
-Date: Thu, 26 May 2022 00:31:04 +0800
-Message-ID: <202205260023.uI6skjJx-lkp@intel.com>
+Subject: Re: [PATCH V4 2/2] rtc: zynqmp: Add calibration set and get support
+Date: Wed, 25 May 2022 23:40:08 +0800
+Message-ID: <202205252348.98GUxONj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7929737339950516970==
+--===============0959348839520191038==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Gautam Dawar <gautam.dawar@xilinx.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220524122050.48553-2-srinivas.neeli@xilinx.com>
+References: <20220524122050.48553-2-srinivas.neeli@xilinx.com>
+TO: Srinivas Neeli <srinivas.neeli@xilinx.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   8cb8311e95e3bb58bd84d6350365f14a718faa6d
-commit: 87f4c217413a256cb5f9fb6d1dd6e11fe96506ae [12729/14193] vhost-vdpa: =
-introduce uAPI to get the number of virtqueue groups
-:::::: branch date: 10 hours ago
-:::::: commit date: 6 days ago
-config: microblaze-randconfig-m031-20220524 (https://download.01.org/0day-c=
-i/archive/20220526/202205260023.uI6skjJx-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.3.0
+Hi Srinivas,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on v5.18 next-20220525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Neeli/dt-bi=
+ndings-rtc-zynqmp-Add-clock-information/20220524-202230
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git =
+rtc-next
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: arm-randconfig-c002-20220524 (https://download.01.org/0day-ci/archi=
+ve/20220525/202205252348.98GUxONj-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 10c9ec=
+ce9f6096e18222a331c5e7d085bd813f75)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/6d9b4c8b2b2aa774507=
+d2ef34e62d465698b13db
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Srinivas-Neeli/dt-bindings-rtc-zyn=
+qmp-Add-clock-information/20220524-202230
+        git checkout 6d9b4c8b2b2aa774507d2ef34e62d465698b13db
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/vhost/vdpa.c:595 vhost_vdpa_unlocked_ioctl() warn: maybe return -EF=
-AULT instead of the bytes remaining?
-
-Old smatch warnings:
-drivers/vhost/vdpa.c:837 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
-pfn + 1) << 12' be a 64 bit type?
-drivers/vhost/vdpa.c:839 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
-e a 64 bit type?
-drivers/vhost/vdpa.c:868 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
-pfn + 1) << 12' be a 64 bit type?
-drivers/vhost/vdpa.c:869 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
-e a 64 bit type?
-drivers/vhost/vdpa.c:1080 vhost_vdpa_open() warn: missing error code 'r'
-
-vim +595 drivers/vhost/vdpa.c
-
-4c8cf31885f69e Tiwei Bie     2020-03-26  515  =
-
-4c8cf31885f69e Tiwei Bie     2020-03-26  516  static long vhost_vdpa_unlock=
-ed_ioctl(struct file *filep,
-4c8cf31885f69e Tiwei Bie     2020-03-26  517  				      unsigned int cmd, u=
-nsigned long arg)
-4c8cf31885f69e Tiwei Bie     2020-03-26  518  {
-4c8cf31885f69e Tiwei Bie     2020-03-26  519  	struct vhost_vdpa *v =3D fil=
-ep->private_data;
-4c8cf31885f69e Tiwei Bie     2020-03-26  520  	struct vhost_dev *d =3D &v->=
-vdev;
-4c8cf31885f69e Tiwei Bie     2020-03-26  521  	void __user *argp =3D (void =
-__user *)arg;
-a127c5bbb6a8ee Jason Wang    2020-09-07  522  	u64 __user *featurep =3D arg=
-p;
-a127c5bbb6a8ee Jason Wang    2020-09-07  523  	u64 features;
-7922460e33c81f Dan Carpenter 2020-10-23  524  	long r =3D 0;
-4c8cf31885f69e Tiwei Bie     2020-03-26  525  =
-
-a127c5bbb6a8ee Jason Wang    2020-09-07  526  	if (cmd =3D=3D VHOST_SET_BAC=
-KEND_FEATURES) {
-7922460e33c81f Dan Carpenter 2020-10-23  527  		if (copy_from_user(&feature=
-s, featurep, sizeof(features)))
-7922460e33c81f Dan Carpenter 2020-10-23  528  			return -EFAULT;
-a127c5bbb6a8ee Jason Wang    2020-09-07  529  		if (features & ~VHOST_VDPA_=
-BACKEND_FEATURES)
-a127c5bbb6a8ee Jason Wang    2020-09-07  530  			return -EOPNOTSUPP;
-a127c5bbb6a8ee Jason Wang    2020-09-07  531  		vhost_set_backend_features(=
-&v->vdev, features);
-a127c5bbb6a8ee Jason Wang    2020-09-07  532  		return 0;
-a127c5bbb6a8ee Jason Wang    2020-09-07  533  	}
-a127c5bbb6a8ee Jason Wang    2020-09-07  534  =
-
-4c8cf31885f69e Tiwei Bie     2020-03-26  535  	mutex_lock(&d->mutex);
-4c8cf31885f69e Tiwei Bie     2020-03-26  536  =
-
-4c8cf31885f69e Tiwei Bie     2020-03-26  537  	switch (cmd) {
-4c8cf31885f69e Tiwei Bie     2020-03-26  538  	case VHOST_VDPA_GET_DEVICE_I=
-D:
-4c8cf31885f69e Tiwei Bie     2020-03-26  539  		r =3D vhost_vdpa_get_device=
-_id(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  540  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  541  	case VHOST_VDPA_GET_STATUS:
-4c8cf31885f69e Tiwei Bie     2020-03-26  542  		r =3D vhost_vdpa_get_status=
-(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  543  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  544  	case VHOST_VDPA_SET_STATUS:
-4c8cf31885f69e Tiwei Bie     2020-03-26  545  		r =3D vhost_vdpa_set_status=
-(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  546  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  547  	case VHOST_VDPA_GET_CONFIG:
-4c8cf31885f69e Tiwei Bie     2020-03-26  548  		r =3D vhost_vdpa_get_config=
-(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  549  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  550  	case VHOST_VDPA_SET_CONFIG:
-4c8cf31885f69e Tiwei Bie     2020-03-26  551  		r =3D vhost_vdpa_set_config=
-(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  552  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  553  	case VHOST_GET_FEATURES:
-4c8cf31885f69e Tiwei Bie     2020-03-26  554  		r =3D vhost_vdpa_get_featur=
-es(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  555  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  556  	case VHOST_SET_FEATURES:
-4c8cf31885f69e Tiwei Bie     2020-03-26  557  		r =3D vhost_vdpa_set_featur=
-es(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  558  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  559  	case VHOST_VDPA_GET_VRING_NU=
-M:
-4c8cf31885f69e Tiwei Bie     2020-03-26  560  		r =3D vhost_vdpa_get_vring_=
-num(v, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  561  		break;
-87f4c217413a25 Gautam Dawar  2022-03-30  562  	case VHOST_VDPA_GET_GROUP_NU=
-M:
-87f4c217413a25 Gautam Dawar  2022-03-30  563  		r =3D copy_to_user(argp, &v=
-->vdpa->ngroups,
-87f4c217413a25 Gautam Dawar  2022-03-30  564  				 sizeof(v->vdpa->ngroups)=
-);
-87f4c217413a25 Gautam Dawar  2022-03-30  565  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  566  	case VHOST_SET_LOG_BASE:
-4c8cf31885f69e Tiwei Bie     2020-03-26  567  	case VHOST_SET_LOG_FD:
-4c8cf31885f69e Tiwei Bie     2020-03-26  568  		r =3D -ENOIOCTLCMD;
-4c8cf31885f69e Tiwei Bie     2020-03-26  569  		break;
-776f395004d829 Zhu Lingshan  2020-06-05  570  	case VHOST_VDPA_SET_CONFIG_C=
-ALL:
-776f395004d829 Zhu Lingshan  2020-06-05  571  		r =3D vhost_vdpa_set_config=
-_call(v, argp);
-776f395004d829 Zhu Lingshan  2020-06-05  572  		break;
-a127c5bbb6a8ee Jason Wang    2020-09-07  573  	case VHOST_GET_BACKEND_FEATU=
-RES:
-a127c5bbb6a8ee Jason Wang    2020-09-07  574  		features =3D VHOST_VDPA_BAC=
-KEND_FEATURES;
-7922460e33c81f Dan Carpenter 2020-10-23  575  		if (copy_to_user(featurep, =
-&features, sizeof(features)))
-7922460e33c81f Dan Carpenter 2020-10-23  576  			r =3D -EFAULT;
-a127c5bbb6a8ee Jason Wang    2020-09-07  577  		break;
-1b48dc03e575a8 Jason Wang    2020-10-23  578  	case VHOST_VDPA_GET_IOVA_RAN=
-GE:
-1b48dc03e575a8 Jason Wang    2020-10-23  579  		r =3D vhost_vdpa_get_iova_r=
-ange(v, argp);
-1b48dc03e575a8 Jason Wang    2020-10-23  580  		break;
-a61280ddddaa45 Longpeng      2022-03-15  581  	case VHOST_VDPA_GET_CONFIG_S=
-IZE:
-a61280ddddaa45 Longpeng      2022-03-15  582  		r =3D vhost_vdpa_get_config=
-_size(v, argp);
-a61280ddddaa45 Longpeng      2022-03-15  583  		break;
-b04d910af330b5 Longpeng      2022-03-15  584  	case VHOST_VDPA_GET_VQS_COUN=
-T:
-b04d910af330b5 Longpeng      2022-03-15  585  		r =3D vhost_vdpa_get_vqs_co=
-unt(v, argp);
-b04d910af330b5 Longpeng      2022-03-15  586  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  587  	default:
-4c8cf31885f69e Tiwei Bie     2020-03-26  588  		r =3D vhost_dev_ioctl(&v->v=
-dev, cmd, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  589  		if (r =3D=3D -ENOIOCTLCMD)
-4c8cf31885f69e Tiwei Bie     2020-03-26  590  			r =3D vhost_vdpa_vring_ioc=
-tl(v, cmd, argp);
-4c8cf31885f69e Tiwei Bie     2020-03-26  591  		break;
-4c8cf31885f69e Tiwei Bie     2020-03-26  592  	}
-4c8cf31885f69e Tiwei Bie     2020-03-26  593  =
-
-4c8cf31885f69e Tiwei Bie     2020-03-26  594  	mutex_unlock(&d->mutex);
-4c8cf31885f69e Tiwei Bie     2020-03-26 @595  	return r;
-4c8cf31885f69e Tiwei Bie     2020-03-26  596  }
-4c8cf31885f69e Tiwei Bie     2020-03-26  597  =
 
 
-:::::: The code at line 595 was first introduced by commit
-:::::: 4c8cf31885f69e86be0b5b9e6677a26797365e1d vhost: introduce vDPA-based=
- backend
+clang-analyzer warnings: (new ones prefixed by >>)
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/hwmon/lm77.c:137:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", data->temp[attr->index]);
+                  ^~~~~~~
+   drivers/hwmon/lm77.c:137:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", data->temp[attr->index]);
+                  ^~~~~~~
+   drivers/hwmon/lm77.c:151:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", temp);
+                  ^~~~~~~
+   drivers/hwmon/lm77.c:151:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", temp);
+                  ^~~~~~~
+   drivers/hwmon/lm77.c:208:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", (data->alarms >> bitnr) & 1);
+                  ^~~~~~~
+   drivers/hwmon/lm77.c:208:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", (data->alarms >> bitnr) & 1);
+                  ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   drivers/hwmon/lm78.c:147:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", IN_FROM_REG(data->in[attr->index]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:147:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", IN_FROM_REG(data->in[attr->index]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:155:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", IN_FROM_REG(data->in_min[attr->index=
+]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:155:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", IN_FROM_REG(data->in_min[attr->index=
+]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:163:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", IN_FROM_REG(data->in_max[attr->index=
+]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:163:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", IN_FROM_REG(data->in_max[attr->index=
+]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:233:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", TEMP_FROM_REG(data->temp));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:233:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", TEMP_FROM_REG(data->temp));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:240:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", TEMP_FROM_REG(data->temp_over));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:240:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", TEMP_FROM_REG(data->temp_over));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:266:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", TEMP_FROM_REG(data->temp_hyst));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:266:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", TEMP_FROM_REG(data->temp_hyst));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:299:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", FAN_FROM_REG(data->fan[nr],
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:299:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", FAN_FROM_REG(data->fan[nr],
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:309:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", FAN_FROM_REG(data->fan_min[nr],
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:309:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", FAN_FROM_REG(data->fan_min[nr],
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:338:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", DIV_FROM_REG(data->fan_div[attr->ind=
+ex]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:338:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", DIV_FROM_REG(data->fan_div[attr->ind=
+ex]));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:423:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", vid_from_reg(data->vid, 82));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:423:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", vid_from_reg(data->vid, 82));
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:432:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", data->alarms);
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:432:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", data->alarms);
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:441:9: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", (data->alarms >> nr) & 1);
+                  ^~~~~~~
+   drivers/hwmon/lm78.c:441:9: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", (data->alarms >> nr) & 1);
+                  ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   32 warnings generated.
+>> drivers/rtc/rtc-zynqmp.c:238:6: warning: Branch condition evaluates to a=
+ garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (fract_tick)
+               ^~~~~~~~~~
+   drivers/rtc/rtc-zynqmp.c:205:27: note: Left side of '&&' is false
+           unsigned int tick_mult =3D do_div(rtc_ppb, xrtcdev->freq);
+                                    ^
+   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
+           if (__builtin_constant_p(__base) &&             \
+                                            ^
+   drivers/rtc/rtc-zynqmp.c:205:27: note: Left side of '&&' is false
+           unsigned int tick_mult =3D do_div(rtc_ppb, xrtcdev->freq);
+                                    ^
+   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
+           } else if (__builtin_constant_p(__base) &&      \
+                                                   ^
+   drivers/rtc/rtc-zynqmp.c:205:27: note: Taking true branch
+           unsigned int tick_mult =3D do_div(rtc_ppb, xrtcdev->freq);
+                                    ^
+   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
+                  ^
+   drivers/rtc/rtc-zynqmp.c:206:2: note: 'fract_tick' declared without an i=
+nitial value
+           unsigned char fract_tick;
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-zynqmp.c:211:6: note: Assuming the condition is false
+           if (offset < RTC_MIN_OFFSET || offset > RTC_MAX_OFFSET)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-zynqmp.c:211:6: note: Left side of '||' is false
+   drivers/rtc/rtc-zynqmp.c:211:33: note: Assuming 'offset' is <=3D RTC_MAX=
+_OFFSET
+           if (offset < RTC_MIN_OFFSET || offset > RTC_MAX_OFFSET)
+                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-zynqmp.c:211:2: note: Taking false branch
+           if (offset < RTC_MIN_OFFSET || offset > RTC_MAX_OFFSET)
+           ^
+   drivers/rtc/rtc-zynqmp.c:218:6: note: Assuming 'fract_offset' is 0
+           if (fract_offset) {
+               ^~~~~~~~~~~~
+   drivers/rtc/rtc-zynqmp.c:218:2: note: Taking false branch
+           if (fract_offset) {
+           ^
+   drivers/rtc/rtc-zynqmp.c:238:6: note: Branch condition evaluates to a ga=
+rbage value
+           if (fract_tick)
+               ^~~~~~~~~~
+   Suppressed 31 warnings (29 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   66 warnings generated.
+   drivers/media/i2c/adv7604.c:1467:3: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(stdi, 0, sizeof(struct stdi_readback));
+                   ^~~~~~
+   drivers/media/i2c/adv7604.c:1467:3: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+                   memset(stdi, 0, sizeof(struct stdi_readback));
+                   ^~~~~~
+   drivers/media/i2c/adv7604.c:1571:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(timings, 0, sizeof(struct v4l2_dv_timings));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:1571:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(timings, 0, sizeof(struct v4l2_dv_timings));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:1672:3: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(timings, 0, sizeof(struct v4l2_dv_timings));
+                   ^~~~~~
+   drivers/media/i2c/adv7604.c:1672:3: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+                   memset(timings, 0, sizeof(struct v4l2_dv_timings));
+                   ^~~~~~
+   drivers/media/i2c/adv7604.c:1852:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(format, 0, sizeof(*format));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:1852:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(format, 0, sizeof(*format));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2277:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(edid->reserved, 0, sizeof(edid->reserved));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2277:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(edid->reserved, 0, sizeof(edid->reserved));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2305:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(edid->edid, data + edid->start_block * 128, edid->blocks =
+* 128);
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2305:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(edid->edid, data + edid->start_block * 128, edid->blocks =
+* 128);
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2319:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(edid->reserved, 0, sizeof(edid->reserved));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2319:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(edid->reserved, 0, sizeof(edid->reserved));
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2403:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(state->edid.edid, edid->edid, 128 * edid->blocks);
+           ^~~~~~
+   drivers/media/i2c/adv7604.c:2403:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
 
-:::::: TO: Tiwei Bie <tiwei.bie@intel.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+vim +238 drivers/rtc/rtc-zynqmp.c
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  200  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  201  static int xlnx_rtc_set_off=
+set(struct device *dev, long offset)
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  202  {
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  203  	struct xlnx_rtc_dev *xrtcd=
+ev =3D dev_get_drvdata(dev);
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  204  	unsigned long long rtc_ppb=
+ =3D RTC_PPB;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  205  	unsigned int tick_mult =3D=
+ do_div(rtc_ppb, xrtcdev->freq);
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  206  	unsigned char fract_tick;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  207  	unsigned int calibval;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  208  	short int  max_tick;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  209  	int fract_offset;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  210  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  211  	if (offset < RTC_MIN_OFFSE=
+T || offset > RTC_MAX_OFFSET)
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  212  		return -ERANGE;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  213  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  214  	/* Number ticks for given =
+offset */
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  215  	max_tick =3D div_s64_rem(o=
+ffset, tick_mult, &fract_offset);
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  216  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  217  	/* Number fractional ticks=
+ for given offset */
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  218  	if (fract_offset) {
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  219  		if (fract_offset < 0) {
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  220  			fract_offset =3D fract_o=
+ffset + tick_mult;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  221  			max_tick--;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  222  		}
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  223  		if (fract_offset > (tick_=
+mult / RTC_FR_MAX_TICKS)) {
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  224  			for (fract_tick =3D 1; f=
+ract_tick < 16; fract_tick++) {
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  225  				if (fract_offset <=3D
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  226  				    (fract_tick *
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  227  				     (tick_mult / RTC_F=
+R_MAX_TICKS)))
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  228  					break;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  229  			}
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  230  		}
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  231  	}
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  232  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  233  	/* Zynqmp RTC uses second =
+and fractional tick
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  234  	 * counters for compensati=
+on
+11143c19eb57a8 Suneel Garapati 2015-08-19  235  	 */
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  236  	calibval =3D max_tick + RT=
+C_CALIB_DEF;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  237  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24 @238  	if (fract_tick)
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  239  		calibval |=3D RTC_FR_EN;
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  240  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  241  	calibval |=3D (fract_tick =
+<< RTC_FR_DATSHIFT);
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  242  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  243  	writel(calibval, (xrtcdev-=
+>reg_base + RTC_CALIB_WR));
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  244  =
+
+6d9b4c8b2b2aa7 Srinivas Neeli  2022-05-24  245  	return 0;
+11143c19eb57a8 Suneel Garapati 2015-08-19  246  }
+11143c19eb57a8 Suneel Garapati 2015-08-19  247  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7929737339950516970==--
+--===============0959348839520191038==--
 
