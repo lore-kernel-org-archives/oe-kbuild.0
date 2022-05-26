@@ -1,110 +1,603 @@
-Content-Type: multipart/mixed; boundary="===============9128974207693827772=="
+Content-Type: multipart/mixed; boundary="===============7211585953278329645=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/firmware/arm_scmi/perf.c:331:40: warning: Variable 'msg' is not assigned a value. [unassignedVariable]
-Date: Fri, 27 May 2022 17:48:22 +0800
-Message-ID: <202205271734.Shs6YLGG-lkp@intel.com>
+Subject: drivers/char/tpm/tpm_tis_core.c:422:10: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
+Date: Thu, 26 May 2022 20:49:24 +0800
+Message-ID: <202205262048.bQEvMIZ8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9128974207693827772==
+--===============7211585953278329645==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
+TO: Johannes Holland <johannes.holland@infineon.com>
+CC: Jarkko Sakkinen <jarkko@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7e284070abe53d448517b80493863595af4ab5f0
-commit: 79d2ea9244180bf76537c23406d838db955a57b5 firmware: arm_scmi: Use co=
-mmon iterators in the perf protocol
-date:   4 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 4 weeks ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 79d2ea9244180bf76537c23406d838db955a57b5
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   babf0bb978e3c9fce6c4eba6b744c8754fd43d8e
+commit: 6422cbd3c52deb1d53a0e60c271f34d882ca8a9d tpm: Remove read16/read32/=
+write32 calls from tpm_tis_phy_ops
+date:   3 days ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+526/202205262048.bQEvMIZ8-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d52a6e=
+75b0c402c7f3b42a2b1b2873f151220947)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6422cbd3c52deb1d53a0e60c271f34d882ca8a9d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6422cbd3c52deb1d53a0e60c271f34d882ca8a9d
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/char/tpm/tpm_tis_core.h:160:2: note: '?' condition is false
+           if (!rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.h:160:7: note: 'rc' is not equal to 0
+           if (!rc)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/char/tpm/tpm_tis_core.h:160:2: note: '?' condition is false
+           if (!rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.h:160:2: note: Taking false branch
+           if (!rc)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.h:163:2: note: Returning without writing t=
+o '*result'
+           return rc;
+           ^
+   drivers/char/tpm/tpm_tis_core.c:245:8: note: Returning from 'tpm_tis_rea=
+d32'
+                   rc =3D tpm_tis_read32(priv, TPM_STS(priv->locality), &va=
+lue);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/char/tpm/tpm_tis_core.c:246:7: note: Assuming 'rc' is >=3D 0
+                   if (rc < 0)
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/char/tpm/tpm_tis_core.c:246:3: note: '?' condition is false
+                   if (rc < 0)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.c:246:7: note: 'rc' is >=3D 0
+                   if (rc < 0)
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/char/tpm/tpm_tis_core.c:246:3: note: '?' condition is false
+                   if (rc < 0)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.c:246:3: note: Taking false branch
+                   if (rc < 0)
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.c:249:21: note: The left operand of '>>' i=
+s a garbage value
+                   burstcnt =3D (value >> 8) & 0xFFFF;
+                               ~~~~~ ^
+>> drivers/char/tpm/tpm_tis_core.c:422:10: warning: The left expression of =
+the compound assignment is an uninitialized value. The computed value will =
+also be garbage [clang-analyzer-core.uninitialized.Assign]
+           intmask &=3D ~TPM_GLOBAL_INT_ENABLE;
+                   ^
+   drivers/char/tpm/tpm_tis_core.c:473:6: note: Assuming the condition is f=
+alse
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/char/tpm/tpm_tis_core.c:473:6: note: Left side of '||' is false
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+               ^
+   drivers/char/tpm/tpm_tis_core.c:473:2: note: Assuming the condition is t=
+rue
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/char/tpm/tpm_tis_core.c:473:2: note: '?' condition is false
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.c:473:6: note: Left side of '||' is false
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+               ^
+   drivers/char/tpm/tpm_tis_core.c:473:2: note: '?' condition is false
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.c:473:2: note: Taking false branch
+           if (!(chip->flags & TPM_CHIP_FLAG_IRQ) || priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.c:483:2: note: '?' condition is false
+           if (!priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.c:483:13: note: Field 'irq_tested' is false
+           if (!priv->irq_tested)
+                      ^
+   drivers/char/tpm/tpm_tis_core.c:483:2: note: '?' condition is true
+           if (!priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.c:483:2: note: Taking true branch
+           if (!priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.c:485:2: note: '?' condition is false
+           if (!priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.c:485:13: note: Field 'irq_tested' is false
+           if (!priv->irq_tested)
+                      ^
+   drivers/char/tpm/tpm_tis_core.c:485:2: note: '?' condition is true
+           if (!priv->irq_tested)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+--
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/char/tpm/tpm_tis_core.h:160:2: note: '?' condition is false
+           if (!rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.h:160:7: note: 'rc' is not equal to 0
+           if (!rc)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/char/tpm/tpm_tis_core.h:160:2: note: '?' condition is false
+           if (!rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.h:160:2: note: Taking false branch
+           if (!rc)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.h:163:2: note: Returning without writing t=
+o '*result'
+           return rc;
+           ^
+   drivers/char/tpm/tpm_tis_core.c:841:7: note: Returning from 'tpm_tis_rea=
+d32'
+           rc =3D tpm_tis_read32(priv, reg, &interrupt);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm_tis_core.c:842:6: note: Assuming 'rc' is >=3D 0
+           if (rc < 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/char/tpm/tpm_tis_core.c:842:2: note: '?' condition is false
+           if (rc < 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.c:842:6: note: 'rc' is >=3D 0
+           if (rc < 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/char/tpm/tpm_tis_core.c:842:2: note: '?' condition is false
+           if (rc < 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.c:842:2: note: Taking false branch
+           if (rc < 0)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.c:845:52: note: The right operand of '&' i=
+s a garbage value
+           tpm_tis_write32(priv, reg, ~TPM_GLOBAL_INT_ENABLE & interrupt);
+                                                             ^ ~~~~~~~~~
+>> drivers/char/tpm/tpm_tis_core.c:959:24: warning: Assigned value is garba=
+ge or undefined [clang-analyzer-core.uninitialized.Assign]
+           priv->manufacturer_id =3D vendor;
+                                 ^ ~~~~~~
+   drivers/char/tpm/tpm_tis_core.c:926:2: note: 'vendor' declared without a=
+n initial value
+           u32 vendor;
+           ^~~~~~~~~~
+   drivers/char/tpm/tpm_tis_core.c:935:2: note: '?' condition is false
+           if (IS_ERR(chip))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/char/tpm/tpm_tis_core.c:935:2: note: '?' condition is false
+           if (IS_ERR(chip))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/char/tpm/tpm_tis_core.c:935:2: note: Taking false branch
+           if (IS_ERR(chip))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/tpm/tpm_tis_core.c:945:37: note: TIS_SHORT_TIMEOUT is <=3D =
+TPM2_TIMEOUT_A
+           chip->timeout_a =3D msecs_to_jiffies(TIS_TIMEOUT_A_MAX);
+                                              ^
+   drivers/char/tpm/tpm_tis_core.h:64:27: note: expanded from macro 'TIS_TI=
+MEOUT_A_MAX'
+   #define TIS_TIMEOUT_A_MAX       max_t(int, TIS_SHORT_TIMEOUT, TPM2_TIMEO=
+UT_A)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:37:3: note: expanded from macro '__careful_cmp'
+                   __cmp(x, y, op), \
+                   ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   drivers/char/tpm/tpm_tis_core.c:945:37: note: '?' condition is false
+           chip->timeout_a =3D msecs_to_jiffies(TIS_TIMEOUT_A_MAX);
+                                              ^
+   drivers/char/tpm/tpm_tis_core.h:64:27: note: expanded from macro 'TIS_TI=
+MEOUT_A_MAX'
+   #define TIS_TIMEOUT_A_MAX       max_t(int, TIS_SHORT_TIMEOUT, TPM2_TIMEO=
+UT_A)
+                                   ^
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   include/linux/minmax.h:37:3: note: expanded from macro '__careful_cmp'
+                   __cmp(x, y, op), \
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/char/tpm/tpm_tis_core.c:946:37: note: TIS_LONG_TIMEOUT is <=3D T=
+PM2_TIMEOUT_B
+           chip->timeout_b =3D msecs_to_jiffies(TIS_TIMEOUT_B_MAX);
+                                              ^
+   drivers/char/tpm/tpm_tis_core.h:65:27: note: expanded from macro 'TIS_TI=
+MEOUT_B_MAX'
+   #define TIS_TIMEOUT_B_MAX       max_t(int, TIS_LONG_TIMEOUT, TPM2_TIMEOU=
+T_B)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:37:3: note: expanded from macro '__careful_cmp'
+                   __cmp(x, y, op), \
+                   ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   drivers/char/tpm/tpm_tis_core.c:946:37: note: '?' condition is false
+           chip->timeout_b =3D msecs_to_jiffies(TIS_TIMEOUT_B_MAX);
+                                              ^
+   drivers/char/tpm/tpm_tis_core.h:65:27: note: expanded from macro 'TIS_TI=
+MEOUT_B_MAX'
+   #define TIS_TIMEOUT_B_MAX       max_t(int, TIS_LONG_TIMEOUT, TPM2_TIMEOU=
+T_B)
+                                   ^
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   include/linux/minmax.h:37:3: note: expanded from macro '__careful_cmp'
+                   __cmp(x, y, op), \
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/char/tpm/tpm_tis_core.c:947:37: note: TIS_SHORT_TIMEOUT is > TPM=
+2_TIMEOUT_C
+           chip->timeout_c =3D msecs_to_jiffies(TIS_TIMEOUT_C_MAX);
+                                              ^
+   drivers/char/tpm/tpm_tis_core.h:66:27: note: expanded from macro 'TIS_TI=
+MEOUT_C_MAX'
+   #define TIS_TIMEOUT_C_MAX       max_t(int, TIS_SHORT_TIMEOUT, TPM2_TIMEO=
+UT_C)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
 
->> drivers/firmware/arm_scmi/perf.c:331:40: warning: Variable 'msg' is not =
-assigned a value. [unassignedVariable]
-    struct scmi_msg_perf_describe_levels *msg;
-                                          ^
+vim +422 drivers/char/tpm/tpm_tis_core.c
 
-vim +/msg +331 drivers/firmware/arm_scmi/perf.c
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  408  =
 
-a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  324  =
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  409  static void disable_inte=
+rrupts(struct tpm_chip *chip)
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  410  {
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  411  	struct tpm_tis_data *pr=
+iv =3D dev_get_drvdata(&chip->dev);
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  412  	u32 intmask;
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  413  	int rc;
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  414  =
 
-79d2ea9244180b Cristian Marussi 2022-03-30  325  static int
-79d2ea9244180b Cristian Marussi 2022-03-30  326  scmi_perf_describe_levels_=
-get(const struct scmi_protocol_handle *ph, u32 domain,
-79d2ea9244180b Cristian Marussi 2022-03-30  327  			      struct perf_dom_i=
-nfo *perf_dom)
-79d2ea9244180b Cristian Marussi 2022-03-30  328  {
-79d2ea9244180b Cristian Marussi 2022-03-30  329  	int ret;
-79d2ea9244180b Cristian Marussi 2022-03-30  330  	void *iter;
-79d2ea9244180b Cristian Marussi 2022-03-30 @331  	struct scmi_msg_perf_desc=
-ribe_levels *msg;
-79d2ea9244180b Cristian Marussi 2022-03-30  332  	struct scmi_iterator_ops =
-ops =3D {
-79d2ea9244180b Cristian Marussi 2022-03-30  333  		.prepare_message =3D ite=
-r_perf_levels_prepare_message,
-79d2ea9244180b Cristian Marussi 2022-03-30  334  		.update_state =3D iter_p=
-erf_levels_update_state,
-79d2ea9244180b Cristian Marussi 2022-03-30  335  		.process_response =3D it=
-er_perf_levels_process_response,
-79d2ea9244180b Cristian Marussi 2022-03-30  336  	};
-79d2ea9244180b Cristian Marussi 2022-03-30  337  	struct scmi_perf_ipriv pp=
-riv =3D {
-79d2ea9244180b Cristian Marussi 2022-03-30  338  		.domain =3D domain,
-79d2ea9244180b Cristian Marussi 2022-03-30  339  		.perf_dom =3D perf_dom,
-79d2ea9244180b Cristian Marussi 2022-03-30  340  	};
-9724722fde8f9b Sudeep Holla     2020-10-12  341  =
+b160c94be5d2816 Jarkko Sakkinen   2020-04-12  415  	if (priv->irq =3D=3D 0)
+b160c94be5d2816 Jarkko Sakkinen   2020-04-12  416  		return;
+b160c94be5d2816 Jarkko Sakkinen   2020-04-12  417  =
 
-79d2ea9244180b Cristian Marussi 2022-03-30  342  	iter =3D ph->hops->iter_r=
-esponse_init(ph, &ops, MAX_OPPS,
-79d2ea9244180b Cristian Marussi 2022-03-30  343  					    PERF_DESCRIBE_LEV=
-ELS,
-79d2ea9244180b Cristian Marussi 2022-03-30  344  					    sizeof(*msg), &pp=
-riv);
-79d2ea9244180b Cristian Marussi 2022-03-30  345  	if (IS_ERR(iter))
-79d2ea9244180b Cristian Marussi 2022-03-30  346  		return PTR_ERR(iter);
-a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  347  =
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  418  	rc =3D tpm_tis_read32(p=
+riv, TPM_INT_ENABLE(priv->locality), &intmask);
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  419  	if (rc < 0)
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  420  		intmask =3D 0;
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  421  =
 
-79d2ea9244180b Cristian Marussi 2022-03-30  348  	ret =3D ph->hops->iter_re=
-sponse_run(iter);
-79d2ea9244180b Cristian Marussi 2022-03-30  349  	if (ret)
-79d2ea9244180b Cristian Marussi 2022-03-30  350  		return ret;
-79d2ea9244180b Cristian Marussi 2022-03-30  351  =
+41a5e1cf1fe151e Christophe Ricard 2016-05-19 @422  	intmask &=3D ~TPM_GLOBA=
+L_INT_ENABLE;
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  423  	rc =3D tpm_tis_write32(=
+priv, TPM_INT_ENABLE(priv->locality), intmask);
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  424  =
 
-79d2ea9244180b Cristian Marussi 2022-03-30  352  	if (perf_dom->opp_count)
-79d2ea9244180b Cristian Marussi 2022-03-30  353  		sort(perf_dom->opp, perf=
-_dom->opp_count,
-79d2ea9244180b Cristian Marussi 2022-03-30  354  		     sizeof(struct scmi_=
-opp), opp_cmp_func, NULL);
-a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  355  =
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  425  	devm_free_irq(chip->dev=
+.parent, priv->irq, chip);
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  426  	priv->irq =3D 0;
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  427  	chip->flags &=3D ~TPM_C=
+HIP_FLAG_IRQ;
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  428  }
+41a5e1cf1fe151e Christophe Ricard 2016-05-19  429  =
 
-a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  356  	return ret;
-a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  357  }
-a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  358  =
 
+:::::: The code at line 422 was first introduced by commit
+:::::: 41a5e1cf1fe151ed48b4b3106c748d03a85133ce tpm/tpm_tis: Split tpm_tis =
+driver into a core and TCG TIS compliant phy
+
+:::::: TO: Christophe Ricard <christophe.ricard@gmail.com>
+:::::: CC: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9128974207693827772==--
+--===============7211585953278329645==--
 
