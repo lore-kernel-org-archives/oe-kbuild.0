@@ -1,238 +1,340 @@
-Content-Type: multipart/mixed; boundary="===============4597636645592489373=="
+Content-Type: multipart/mixed; boundary="===============7148503666196768511=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [arnd-playground:virt-to-bus 2/6] drivers/staging/vme_user/vme_tsi148.c:755 tsi148_alloc_resource() warn: passing freed memory 'image->bus_resource.name'
-Date: Thu, 26 May 2022 12:07:20 +0800
-Message-ID: <202205261146.2ZqjnmD0-lkp@intel.com>
+Subject: mm/mmap_lock.c:135:34: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Thu, 26 May 2022 12:07:19 +0800
+Message-ID: <202205261113.dojeQ9du-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4597636645592489373==
+--===============7148503666196768511==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+TO: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+CC: Axel Rasmussen <axelrasmussen@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git=
- virt-to-bus
-head:   cadaf81a0bbef045c78f7c2be40af351f40195f7
-commit: eb74c6738d1dc0332381f53c562ba051c580a32d [2/6] vme: move back to st=
-aging
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-526/202205261146.2ZqjnmD0-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d7227785e384d4422b3ca189aa5bf19f462337cc
+commit: 832b50725373e8c46781b7d4db104ec9cf564a6b mm: mmap_lock: use local l=
+ocks instead of disabling preemption
+date:   11 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-c005-20220518 (https://download.01.org/0day-ci/arch=
+ive/20220526/202205261113.dojeQ9du-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8=
+ee225edf2d0de94b0dcbd31bea916e825e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D832b50725373e8c46781b7d4db104ec9cf564a6b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 832b50725373e8c46781b7d4db104ec9cf564a6b
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/staging/vme_user/vme_tsi148.c:755 tsi148_alloc_resource() warn: pas=
-sing freed memory 'image->bus_resource.name'
-drivers/staging/vme_user/vme_tsi148.c:1771 tsi148_dma_list_add() warn: '&en=
-try->list' not removed from list
-
-vim +755 drivers/staging/vme_user/vme_tsi148.c
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  711  =
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  712  /*
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  713   * Allocate and map PCI Resource
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  714   */
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  715  static int tsi148_alloc_resource(struct vme_master_resourc=
-e *image,
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  716  	unsigned long long size)
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  717  {
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  718  	unsigned long long existing_size;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  719  	int retval =3D 0;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  720  	struct pci_dev *pdev;
-29848ac9f3b33bf drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  721  	struct vme_bridge *tsi148_bridge;
-29848ac9f3b33bf drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  722  =
-
-29848ac9f3b33bf drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  723  	tsi148_bridge =3D image->parent;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  724  =
-
-177581faf2a5aa7 drivers/vme/bridges/vme_tsi148.c         Aaron Sierra      =
-2014-04-03  725  	pdev =3D to_pci_dev(tsi148_bridge->parent);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  726  =
-
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  727  	existing_size =3D (unsigned long long)(image->bus_resourc=
-e.end -
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  728  		image->bus_resource.start);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  729  =
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  730  	/* If the existing size is OK, return */
-59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-10-29  731  	if ((size !=3D 0) && (existing_size =3D=3D (size - 1)))
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  732  		return 0;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  733  =
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  734  	if (existing_size !=3D 0) {
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  735  		iounmap(image->kern_base);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  736  		image->kern_base =3D NULL;
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  737  		kfree(image->bus_resource.name);
-886953e9b70bcb6 drivers/staging/vme/bridges/vme_tsi148.c Emilio G. Cota    =
-2010-11-12  738  		release_resource(&image->bus_resource);
-6d011dd876cb825 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
-2017-08-25  739  		memset(&image->bus_resource, 0, sizeof(image->bus_resour=
-ce));
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  740  	}
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  741  =
-
-59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-10-29  742  	/* Exit here if size is zero */
-7946328faf1dca9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-03-22  743  	if (size =3D=3D 0)
-59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-10-29  744  		return 0;
-59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-10-29  745  =
-
-a75dc630086a6b8 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
-2017-08-25  746  	if (!image->bus_resource.name) {
-0aa3f139cd5123f drivers/staging/vme/bridges/vme_tsi148.c Julia Lawall      =
-2010-05-30  747  		image->bus_resource.name =3D kmalloc(VMENAMSIZ+3, GFP_AT=
-OMIC);
-a75dc630086a6b8 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
-2017-08-25  748  		if (!image->bus_resource.name) {
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  749  			retval =3D -ENOMEM;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  750  			goto err_name;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  751  		}
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  752  	}
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  753  =
-
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  754  	sprintf((char *)image->bus_resource.name, "%s.%d", tsi148=
-_bridge->name,
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31 @755  		image->number);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  756  =
-
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  757  	image->bus_resource.start =3D 0;
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  758  	image->bus_resource.end =3D (unsigned long)size;
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  759  	image->bus_resource.flags =3D IORESOURCE_MEM;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  760  =
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  761  	retval =3D pci_bus_alloc_resource(pdev->bus,
-da5ae8a991d35d7 drivers/vme/bridges/vme_tsi148.c         Dmitry Kalinkin   =
-2015-07-08  762  		&image->bus_resource, size, 0x10000, PCIBIOS_MIN_MEM,
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  763  		0, NULL, NULL);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  764  	if (retval) {
-48d9356e7750d3e drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-03-22  765  		dev_err(tsi148_bridge->parent, "Failed to allocate mem "
-48d9356e7750d3e drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-03-22  766  			"resource for window %d size 0x%lx start 0x%lx\n",
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  767  			image->number, (unsigned long)size,
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  768  			(unsigned long)image->bus_resource.start);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  769  		goto err_resource;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  770  	}
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  771  =
-
-4bdc0d676a64314 drivers/vme/bridges/vme_tsi148.c         Christoph Hellwig =
-2020-01-06  772  	image->kern_base =3D ioremap(
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  773  		image->bus_resource.start, size);
-a75dc630086a6b8 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
-2017-08-25  774  	if (!image->kern_base) {
-48d9356e7750d3e drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-03-22  775  		dev_err(tsi148_bridge->parent, "Failed to remap resource=
-\n");
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  776  		retval =3D -ENOMEM;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  777  		goto err_remap;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  778  	}
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  779  =
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  780  	return 0;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  781  =
-
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  782  err_remap:
-886953e9b70bcb6 drivers/staging/vme/bridges/vme_tsi148.c Emilio G. Cota    =
-2010-11-12  783  	release_resource(&image->bus_resource);
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  784  err_resource:
-8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2010-02-18  785  	kfree(image->bus_resource.name);
-6d011dd876cb825 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
-2017-08-25  786  	memset(&image->bus_resource, 0, sizeof(image->bus_resourc=
-e));
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  787  err_name:
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  788  	return retval;
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  789  }
-d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
-2009-07-31  790  =
 
 
-:::::: The code at line 755 was first introduced by commit
-:::::: d22b8ed9a3b0a157b732580258ec16b729265953 Staging: vme: add Tundra TS=
-I148 VME-PCI Bridge driver
+clang-analyzer warnings: (new ones prefixed by >>)
+            ^~~~
+   drivers/tty/tty_ioctl.c:402:2: note: '?' condition is false
+           if (ld !=3D NULL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/tty/tty_ioctl.c:402:2: note: Taking false branch
+           if (ld !=3D NULL) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/tty/tty_ioctl.c:408:2: note: Assuming the condition is false
+           if (opt & TERMIOS_WAIT) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/tty/tty_ioctl.c:408:2: note: '?' condition is false
+           if (opt & TERMIOS_WAIT) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/tty/tty_ioctl.c:408:2: note: '?' condition is true
+           if (opt & TERMIOS_WAIT) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/tty/tty_ioctl.c:408:2: note: Taking true branch
+           if (opt & TERMIOS_WAIT) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/tty/tty_ioctl.c:410:22: note: Dereference of null pointer
+                   if (signal_pending(current))
+                                      ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   Suppressed 16 warnings (4 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   23 warnings generated.
+   arch/s390/include/asm/preempt.h:112:29: warning: Dereference of null poi=
+nter [clang-analyzer-core.NullDereference]
+           S390_lowcore.preempt_count +=3D val;
+                                      ^
+   mm/mmap_lock.c:239:2: note: Calling '__preempt_count_add'
+           TRACE_MMAP_LOCK_EVENT(released, mm, write);
+           ^
+   mm/mmap_lock.c:193:3: note: expanded from macro 'TRACE_MMAP_LOCK_EVENT'
+                   local_lock(&memcg_paths.lock);                          =
+       \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:16:27: note: expanded from macro 'local_lock'
+   #define local_lock(lock)                __local_lock(lock)
+                                           ^~~~~~~~~~~~~~~~~~
+   include/linux/local_lock_internal.h:61:3: note: expanded from macro '__l=
+ocal_lock'
+                   preempt_disable();                              \
+                   ^~~~~~~~~~~~~~~~~
+   include/linux/preempt.h:177:2: note: expanded from macro 'preempt_disabl=
+e'
+           preempt_count_inc(); \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/preempt.h:170:29: note: expanded from macro 'preempt_count=
+_inc'
+   #define preempt_count_inc() preempt_count_add(1)
+                               ^~~~~~~~~~~~~~~~~~~~
+   include/linux/preempt.h:162:32: note: expanded from macro 'preempt_count=
+_add'
+   #define preempt_count_add(val)  __preempt_count_add(val)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/preempt.h:112:29: note: Dereference of null pointer
+           S390_lowcore.preempt_count +=3D val;
+                                      ^
+>> mm/mmap_lock.c:135:34: warning: Dereference of null pointer [clang-analy=
+zer-core.NullDereference]
+           struct memcg_path *memcg_path =3D this_cpu_ptr(&memcg_paths);
+                                           ^
+   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+                             ^
+   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_pt=
+r'
+           arch_raw_cpu_ptr(ptr);                                          \
+           ^
+   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
+cpu_ptr'
+   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+                                 ^
+   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
+PU_PTR'
+           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+           ^
+   include/linux/compiler.h:182:28: note: expanded from macro 'RELOC_HIDE'
+       (typeof(ptr)) (__ptr + (off)); })
+                              ^
+   mm/mmap_lock.c:173:6: note: Assuming 'memcg' is not equal to null
+           if (memcg =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   mm/mmap_lock.c:173:2: note: '?' condition is false
+           if (memcg =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   mm/mmap_lock.c:173:6: note: 'memcg' is not equal to null
+           if (memcg =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   mm/mmap_lock.c:173:6: note: 'memcg' is not equal to null
+           if (memcg =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   mm/mmap_lock.c:173:2: note: '?' condition is false
+           if (memcg =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   mm/mmap_lock.c:173:2: note: Taking false branch
+           if (memcg =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   mm/mmap_lock.c:175:15: note: Assuming field 'cgroup' is not equal to null
+           if (unlikely(memcg->css.cgroup =3D=3D NULL))
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   mm/mmap_lock.c:175:26: note: Field 'cgroup' is not equal to null
+           if (unlikely(memcg->css.cgroup =3D=3D NULL))
+                                   ^
+   mm/mmap_lock.c:175:2: note: '?' condition is false
+           if (unlikely(memcg->css.cgroup =3D=3D NULL))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-:::::: TO: Martyn Welch <martyn.welch@gefanuc.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+vim +135 mm/mmap_lock.c
+
+2b5067a8143e34 Axel Rasmussen         2020-12-14  132  =
+
+2b5067a8143e34 Axel Rasmussen         2020-12-14  133  static inline char *=
+get_memcg_path_buf(void)
+2b5067a8143e34 Axel Rasmussen         2020-12-14  134  {
+832b50725373e8 Nicolas Saenz Julienne 2021-06-28 @135  	struct memcg_path *=
+memcg_path =3D this_cpu_ptr(&memcg_paths);
+2b5067a8143e34 Axel Rasmussen         2020-12-14  136  	char *buf;
+2b5067a8143e34 Axel Rasmussen         2020-12-14  137  	int idx;
+2b5067a8143e34 Axel Rasmussen         2020-12-14  138  =
+
+2b5067a8143e34 Axel Rasmussen         2020-12-14  139  	rcu_read_lock();
+832b50725373e8 Nicolas Saenz Julienne 2021-06-28  140  	buf =3D rcu_derefer=
+ence(memcg_path->buf);
+2b5067a8143e34 Axel Rasmussen         2020-12-14  141  	if (buf =3D=3D NULL=
+) {
+2b5067a8143e34 Axel Rasmussen         2020-12-14  142  		rcu_read_unlock();
+2b5067a8143e34 Axel Rasmussen         2020-12-14  143  		return NULL;
+2b5067a8143e34 Axel Rasmussen         2020-12-14  144  	}
+832b50725373e8 Nicolas Saenz Julienne 2021-06-28  145  	idx =3D local_add_r=
+eturn(MEMCG_PATH_BUF_SIZE, &memcg_path->buf_idx) -
+2b5067a8143e34 Axel Rasmussen         2020-12-14  146  	      MEMCG_PATH_BU=
+F_SIZE;
+2b5067a8143e34 Axel Rasmussen         2020-12-14  147  	return &buf[idx];
+2b5067a8143e34 Axel Rasmussen         2020-12-14  148  }
+2b5067a8143e34 Axel Rasmussen         2020-12-14  149  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4597636645592489373==--
+--===============7148503666196768511==--
 
