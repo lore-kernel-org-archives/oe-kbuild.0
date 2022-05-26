@@ -1,391 +1,238 @@
-Content-Type: multipart/mixed; boundary="===============6586418169265641377=="
+Content-Type: multipart/mixed; boundary="===============4597636645592489373=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/ice/ice_ptp.c:109:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 26 May 2022 13:18:17 +0800
-Message-ID: <202205261324.92r8ipTC-lkp@intel.com>
+Subject: [arnd-playground:virt-to-bus 2/6] drivers/staging/vme_user/vme_tsi148.c:755 tsi148_alloc_resource() warn: passing freed memory 'image->bus_resource.name'
+Date: Thu, 26 May 2022 12:07:20 +0800
+Message-ID: <202205261146.2ZqjnmD0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6586418169265641377==
+--===============4597636645592489373==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Jacob Keller <jacob.e.keller@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+TO: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d7227785e384d4422b3ca189aa5bf19f462337cc
-commit: 67569a7f940130fcfe9041e07a614a5263a9944d ice: report the PTP clock =
-index in ethtool .get_ts_info
-date:   12 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 12 months ago
-config: s390-randconfig-c005-20220524 (https://download.01.org/0day-ci/arch=
-ive/20220526/202205261324.92r8ipTC-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 10c9ec=
-ce9f6096e18222a331c5e7d085bd813f75)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D67569a7f940130fcfe9041e07a614a5263a9944d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 67569a7f940130fcfe9041e07a614a5263a9944d
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git=
+ virt-to-bus
+head:   cadaf81a0bbef045c78f7c2be40af351f40195f7
+commit: eb74c6738d1dc0332381f53c562ba051c580a32d [2/6] vme: move back to st=
+aging
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+526/202205261146.2ZqjnmD0-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/staging/vme_user/vme_tsi148.c:755 tsi148_alloc_resource() warn: pas=
+sing freed memory 'image->bus_resource.name'
+drivers/staging/vme_user/vme_tsi148.c:1771 tsi148_dma_list_add() warn: '&en=
+try->list' not removed from list
+
+vim +755 drivers/staging/vme_user/vme_tsi148.c
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  711  =
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  712  /*
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  713   * Allocate and map PCI Resource
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  714   */
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  715  static int tsi148_alloc_resource(struct vme_master_resourc=
+e *image,
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  716  	unsigned long long size)
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  717  {
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  718  	unsigned long long existing_size;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  719  	int retval =3D 0;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  720  	struct pci_dev *pdev;
+29848ac9f3b33bf drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  721  	struct vme_bridge *tsi148_bridge;
+29848ac9f3b33bf drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  722  =
+
+29848ac9f3b33bf drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  723  	tsi148_bridge =3D image->parent;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  724  =
+
+177581faf2a5aa7 drivers/vme/bridges/vme_tsi148.c         Aaron Sierra      =
+2014-04-03  725  	pdev =3D to_pci_dev(tsi148_bridge->parent);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  726  =
+
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  727  	existing_size =3D (unsigned long long)(image->bus_resourc=
+e.end -
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  728  		image->bus_resource.start);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  729  =
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  730  	/* If the existing size is OK, return */
+59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-10-29  731  	if ((size !=3D 0) && (existing_size =3D=3D (size - 1)))
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  732  		return 0;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  733  =
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  734  	if (existing_size !=3D 0) {
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  735  		iounmap(image->kern_base);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  736  		image->kern_base =3D NULL;
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  737  		kfree(image->bus_resource.name);
+886953e9b70bcb6 drivers/staging/vme/bridges/vme_tsi148.c Emilio G. Cota    =
+2010-11-12  738  		release_resource(&image->bus_resource);
+6d011dd876cb825 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
+2017-08-25  739  		memset(&image->bus_resource, 0, sizeof(image->bus_resour=
+ce));
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  740  	}
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  741  =
+
+59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-10-29  742  	/* Exit here if size is zero */
+7946328faf1dca9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-03-22  743  	if (size =3D=3D 0)
+59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-10-29  744  		return 0;
+59c2290428dd93a drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-10-29  745  =
+
+a75dc630086a6b8 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
+2017-08-25  746  	if (!image->bus_resource.name) {
+0aa3f139cd5123f drivers/staging/vme/bridges/vme_tsi148.c Julia Lawall      =
+2010-05-30  747  		image->bus_resource.name =3D kmalloc(VMENAMSIZ+3, GFP_AT=
+OMIC);
+a75dc630086a6b8 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
+2017-08-25  748  		if (!image->bus_resource.name) {
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  749  			retval =3D -ENOMEM;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  750  			goto err_name;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  751  		}
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  752  	}
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  753  =
+
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  754  	sprintf((char *)image->bus_resource.name, "%s.%d", tsi148=
+_bridge->name,
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31 @755  		image->number);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  756  =
+
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  757  	image->bus_resource.start =3D 0;
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  758  	image->bus_resource.end =3D (unsigned long)size;
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  759  	image->bus_resource.flags =3D IORESOURCE_MEM;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  760  =
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  761  	retval =3D pci_bus_alloc_resource(pdev->bus,
+da5ae8a991d35d7 drivers/vme/bridges/vme_tsi148.c         Dmitry Kalinkin   =
+2015-07-08  762  		&image->bus_resource, size, 0x10000, PCIBIOS_MIN_MEM,
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  763  		0, NULL, NULL);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  764  	if (retval) {
+48d9356e7750d3e drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-03-22  765  		dev_err(tsi148_bridge->parent, "Failed to allocate mem "
+48d9356e7750d3e drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-03-22  766  			"resource for window %d size 0x%lx start 0x%lx\n",
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  767  			image->number, (unsigned long)size,
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  768  			(unsigned long)image->bus_resource.start);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  769  		goto err_resource;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  770  	}
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  771  =
+
+4bdc0d676a64314 drivers/vme/bridges/vme_tsi148.c         Christoph Hellwig =
+2020-01-06  772  	image->kern_base =3D ioremap(
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  773  		image->bus_resource.start, size);
+a75dc630086a6b8 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
+2017-08-25  774  	if (!image->kern_base) {
+48d9356e7750d3e drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-03-22  775  		dev_err(tsi148_bridge->parent, "Failed to remap resource=
+\n");
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  776  		retval =3D -ENOMEM;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  777  		goto err_remap;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  778  	}
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  779  =
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  780  	return 0;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  781  =
+
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  782  err_remap:
+886953e9b70bcb6 drivers/staging/vme/bridges/vme_tsi148.c Emilio G. Cota    =
+2010-11-12  783  	release_resource(&image->bus_resource);
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  784  err_resource:
+8fafb47638012d9 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2010-02-18  785  	kfree(image->bus_resource.name);
+6d011dd876cb825 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    =
+2017-08-25  786  	memset(&image->bus_resource, 0, sizeof(image->bus_resourc=
+e));
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  787  err_name:
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  788  	return retval;
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  789  }
+d22b8ed9a3b0a15 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      =
+2009-07-31  790  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   arch/s390/include/asm/pci_io.h:76:2: note: Control jumps to 'case 1:'  a=
-t line 77
-           switch (len) {
-           ^
-   arch/s390/include/asm/pci_io.h:79:3: note:  Execution continues on line =
-93
-                   break;
-                   ^
-   arch/s390/include/asm/pci_io.h:93:2: note: Returning value, which partic=
-ipates in a condition later
-           return zpci_store(dst, val, len);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:174:9: note: Returning from 'zpci_write_s=
-ingle'
-                           rc =3D zpci_write_single(dst, src, size);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:175:7: note: Assuming 'rc' is 0
-                   if (rc)
-                       ^~
-   arch/s390/include/asm/pci_io.h:175:3: note: Taking false branch
-                   if (rc)
-                   ^
-   arch/s390/include/asm/pci_io.h:167:2: note: Loop condition is true.  Ent=
-ering loop body
-           while (n > 0) {
-           ^
-   arch/s390/include/asm/pci_io.h:168:10: note: Calling 'zpci_get_max_write=
-_size'
-                   size =3D zpci_get_max_write_size((u64 __force) dst,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:129:14: note: 'len' is <=3D 'max'
-           int count =3D len > max ? max : len, size =3D 1;
-                       ^~~
-   arch/s390/include/asm/pci_io.h:129:14: note: '?' condition is false
-   arch/s390/include/asm/pci_io.h:131:9: note: Assuming the condition is tr=
-ue
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:9: note: Left side of '&&' is true
-   arch/s390/include/asm/pci_io.h:131:25: note: Assuming the condition is t=
-rue
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:9: note: Left side of '&&' is true
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^
-   arch/s390/include/asm/pci_io.h:131:2: note: Loop condition is true.  Ent=
-ering loop body
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-           ^
-   arch/s390/include/asm/pci_io.h:131:9: note: Assuming the condition is tr=
-ue
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:9: note: Left side of '&&' is true
-   arch/s390/include/asm/pci_io.h:131:25: note: Assuming the condition is t=
-rue
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:9: note: Left side of '&&' is true
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^
-   arch/s390/include/asm/pci_io.h:131:2: note: Loop condition is true.  Ent=
-ering loop body
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-           ^
-   arch/s390/include/asm/pci_io.h:131:9: note: Assuming the condition is tr=
-ue
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:9: note: Left side of '&&' is true
-   arch/s390/include/asm/pci_io.h:131:25: note: Assuming the condition is t=
-rue
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:9: note: Left side of '&&' is true
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^
-   arch/s390/include/asm/pci_io.h:131:2: note: Loop condition is true.  Ent=
-ering loop body
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-           ^
-   arch/s390/include/asm/pci_io.h:131:9: note: Assuming the condition is fa=
-lse
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                  ^~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:131:22: note: Left side of '&&' is false
-           while (!(src & 0x1) && !(dst & 0x1) && ((size << 1) <=3D count))=
- {
-                               ^
-   arch/s390/include/asm/pci_io.h:136:2: note: Returning the value 8 (loade=
-d from 'size'), which participates in a condition later
-           return size;
-           ^~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:168:10: note: Returning from 'zpci_get_ma=
-x_write_size'
-                   size =3D zpci_get_max_write_size((u64 __force) dst,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:171:7: note: 'size' is <=3D 8
-                   if (size > 8) /* main path */
-                       ^~~~
-   arch/s390/include/asm/pci_io.h:171:3: note: Taking false branch
-                   if (size > 8) /* main path */
-                   ^
-   arch/s390/include/asm/pci_io.h:174:9: note: Calling 'zpci_write_single'
-                           rc =3D zpci_write_single(dst, src, size);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pci_io.h:76:2: note: Control jumps to 'case 8:'  a=
-t line 86
-           switch (len) {
-           ^
-   arch/s390/include/asm/pci_io.h:87:7: note: Assigned value is garbage or =
-undefined
-                   val =3D (u64) *((u64 *) src);
-                       ^ ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
->> drivers/net/ethernet/intel/ice/ice_ptp.c:109:17: warning: Value stored t=
-o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
-adStores]
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_ptp.c:109:17: note: Value stored to '=
-dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   include/linux/time64.h:67:50: warning: The left operand of '+' is a garb=
-age value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           set_normalized_timespec64(&ts_delta, lhs.tv_sec + rhs.tv_sec,
-                                                           ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:358:22: note: Left side of '&&'=
- is false
-           struct ice_pf *pf =3D ptp_info_to_pf(info);
-                               ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:24:15: note: expanded from macr=
-o 'ptp_info_to_pf'
-           container_of(__ptp_info_to_ptp((i)), struct ice_pf, ptp)
-                        ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:22:2: note: expanded from macro=
- '__ptp_info_to_ptp'
-           container_of((i), struct ice_ptp, info)
-           ^
-   include/linux/kernel.h:716:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:358:22: note: Taking false bran=
-ch
-           struct ice_pf *pf =3D ptp_info_to_pf(info);
-                               ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:24:15: note: expanded from macr=
-o 'ptp_info_to_pf'
-           container_of(__ptp_info_to_ptp((i)), struct ice_pf, ptp)
-                        ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:22:2: note: expanded from macro=
- '__ptp_info_to_ptp'
-           container_of((i), struct ice_ptp, info)
-           ^
-   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:358:22: note: Loop condition is=
- false.  Exiting loop
-           struct ice_pf *pf =3D ptp_info_to_pf(info);
-                               ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:24:15: note: expanded from macr=
-o 'ptp_info_to_pf'
-           container_of(__ptp_info_to_ptp((i)), struct ice_pf, ptp)
-                        ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:22:2: note: expanded from macro=
- '__ptp_info_to_ptp'
-           container_of((i), struct ice_ptp, info)
-           ^
-   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:358:22: note: Left side of '&&'=
- is false
-           struct ice_pf *pf =3D ptp_info_to_pf(info);
-                               ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:24:2: note: expanded from macro=
- 'ptp_info_to_pf'
-           container_of(__ptp_info_to_ptp((i)), struct ice_pf, ptp)
-           ^
-   include/linux/kernel.h:716:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:358:22: note: Taking false bran=
-ch
-           struct ice_pf *pf =3D ptp_info_to_pf(info);
-                               ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:24:2: note: expanded from macro=
- 'ptp_info_to_pf'
-           container_of(__ptp_info_to_ptp((i)), struct ice_pf, ptp)
-           ^
-   include/linux/kernel.h:716:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:358:22: note: Loop condition is=
- false.  Exiting loop
-           struct ice_pf *pf =3D ptp_info_to_pf(info);
-                               ^
-   drivers/net/ethernet/intel/ice/ice_ptp.h:24:2: note: expanded from macro=
- 'ptp_info_to_pf'
-           container_of(__ptp_info_to_ptp((i)), struct ice_pf, ptp)
-           ^
+:::::: The code at line 755 was first introduced by commit
+:::::: d22b8ed9a3b0a157b732580258ec16b729265953 Staging: vme: add Tundra TS=
+I148 VME-PCI Bridge driver
 
-vim +/dev +109 drivers/net/ethernet/intel/ice/ice_ptp.c
-
-67569a7f940130f Jacob Keller 2021-06-09   98  =
-
-67569a7f940130f Jacob Keller 2021-06-09   99  /**
-67569a7f940130f Jacob Keller 2021-06-09  100   * ice_clear_ptp_clock_index =
-- Clear the PTP clock index
-67569a7f940130f Jacob Keller 2021-06-09  101   * @pf: the PF pointer
-67569a7f940130f Jacob Keller 2021-06-09  102   *
-67569a7f940130f Jacob Keller 2021-06-09  103   * Clear the PTP clock index =
-for this device. Must be called when
-67569a7f940130f Jacob Keller 2021-06-09  104   * unregistering the PTP cloc=
-k, in order to ensure other PFs stop reporting
-67569a7f940130f Jacob Keller 2021-06-09  105   * a clock object that no lon=
-ger exists.
-67569a7f940130f Jacob Keller 2021-06-09  106   */
-67569a7f940130f Jacob Keller 2021-06-09  107  static void ice_clear_ptp_clo=
-ck_index(struct ice_pf *pf)
-67569a7f940130f Jacob Keller 2021-06-09  108  {
-67569a7f940130f Jacob Keller 2021-06-09 @109  	struct device *dev =3D ice_p=
-f_to_dev(pf);
-67569a7f940130f Jacob Keller 2021-06-09  110  	enum ice_aqc_driver_params p=
-aram_idx;
-67569a7f940130f Jacob Keller 2021-06-09  111  	struct ice_hw *hw =3D &pf->h=
-w;
-67569a7f940130f Jacob Keller 2021-06-09  112  	u8 tmr_idx;
-67569a7f940130f Jacob Keller 2021-06-09  113  	int err;
-67569a7f940130f Jacob Keller 2021-06-09  114  =
-
-67569a7f940130f Jacob Keller 2021-06-09  115  	/* Do not clear the index if=
- we don't own the timer */
-67569a7f940130f Jacob Keller 2021-06-09  116  	if (!hw->func_caps.ts_func_i=
-nfo.src_tmr_owned)
-67569a7f940130f Jacob Keller 2021-06-09  117  		return;
-67569a7f940130f Jacob Keller 2021-06-09  118  =
-
-67569a7f940130f Jacob Keller 2021-06-09  119  	tmr_idx =3D hw->func_caps.ts=
-_func_info.tmr_index_assoc;
-67569a7f940130f Jacob Keller 2021-06-09  120  	if (!tmr_idx)
-67569a7f940130f Jacob Keller 2021-06-09  121  		param_idx =3D ICE_AQC_DRIVE=
-R_PARAM_CLK_IDX_TMR0;
-67569a7f940130f Jacob Keller 2021-06-09  122  	else
-67569a7f940130f Jacob Keller 2021-06-09  123  		param_idx =3D ICE_AQC_DRIVE=
-R_PARAM_CLK_IDX_TMR1;
-67569a7f940130f Jacob Keller 2021-06-09  124  =
-
-67569a7f940130f Jacob Keller 2021-06-09  125  	err =3D ice_aq_set_driver_pa=
-ram(hw, param_idx, 0, NULL);
-67569a7f940130f Jacob Keller 2021-06-09  126  	if (err) {
-67569a7f940130f Jacob Keller 2021-06-09  127  		dev_dbg(dev, "Failed to cle=
-ar PTP clock index parameter, err %d aq_err %s\n",
-67569a7f940130f Jacob Keller 2021-06-09  128  			err, ice_aq_str(hw->adminq=
-.sq_last_status));
-67569a7f940130f Jacob Keller 2021-06-09  129  	}
-67569a7f940130f Jacob Keller 2021-06-09  130  }
-67569a7f940130f Jacob Keller 2021-06-09  131  =
-
+:::::: TO: Martyn Welch <martyn.welch@gefanuc.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6586418169265641377==--
+--===============4597636645592489373==--
 
