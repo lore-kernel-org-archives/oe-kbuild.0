@@ -1,182 +1,125 @@
-Content-Type: multipart/mixed; boundary="===============7427517542572250512=="
+Content-Type: multipart/mixed; boundary="===============5671669749478931035=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
-Date: Fri, 27 May 2022 22:03:23 +0800
-Message-ID: <202205272155.MxDiru43-lkp@intel.com>
+Subject: [congwang:sch_bpf 4/4] net/sched/sch_api.c:374 ____bpf_skb_tc_classify() error: uninitialized symbol 'tp'.
+Date: Fri, 27 May 2022 21:12:24 +0800
+Message-ID: <202205272139.ach2sccy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7427517542572250512==
+--===============5671669749478931035==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220526235040.678984-18-dmitry.osipenko@collabora.com>
-References: <20220526235040.678984-18-dmitry.osipenko@collabora.com>
-TO: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-TO: David Airlie <airlied@linux.ie>
-TO: Gerd Hoffmann <kraxel@redhat.com>
-TO: Gurchetan Singh <gurchetansingh@chromium.org>
-TO: "Chia-I Wu" <olvaffe@gmail.com>
-TO: Daniel Vetter <daniel@ffwll.ch>
-TO: Daniel Almeida <daniel.almeida@collabora.com>
-TO: Gert Wollny <gert.wollny@collabora.com>
-TO: Gustavo Padovan <gustavo.padovan@collabora.com>
-TO: Daniel Stone <daniel@fooishbar.org>
-TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Steven Price <steven.price@arm.com>
-TO: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-TO: Rob Clark <robdclark@gmail.com>
-TO: Emil Velikov <emil.l.velikov@gmail.com>
-TO: Robin Murphy <robin.murphy@arm.com>
-TO: Qiang Yu <yuq825@gmail.com>
-TO: Sumit Semwal <sumit.semwal@linaro.org>
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-TO: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Tomasz Figa <tfiga@chromium.org>
-TO: Marek Szyprowski <m.szyprowski@samsung.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-TO: Alex Deucher <alexander.deucher@amd.com>
-TO: Jani Nikula <jani.nikula@linux.intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Cong Wang <cong.wang@bytedance.com>
 
-Hi Dmitry,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20220527]
-[cannot apply to drm/drm-next media-tree/master drm-intel/for-linux-next v5=
-.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-=
-generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220527-075=
-717
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-cdeffe87f790dfd1baa193020411ce9a538446d7
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-527/202205272155.MxDiru43-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+tree:   https://github.com/congwang/linux.git sch_bpf
+head:   d7144f4291a2882e698a6d9d83f7e614d97be9c8
+commit: d7144f4291a2882e698a6d9d83f7e614d97be9c8 [4/4] net_sched: introduce=
+ helper bpf_skb_tc_classify()
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: microblaze-randconfig-m031-20220524 (https://download.01.org/0day-c=
+i/archive/20220527/202205272139.ach2sccy-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/drm_gem_shmem_helper.c:226 drm_gem_shmem_set_evictable() wa=
-rn: inconsistent returns 'shmem->base.resv'.
-drivers/gpu/drm/drm_gem_shmem_helper.c:253 drm_gem_shmem_set_purgeable() wa=
-rn: inconsistent returns 'shmem->base.resv'.
-drivers/gpu/drm/drm_gem_shmem_helper.c:703 drm_gem_shmem_fault() error: we =
-previously assumed 'shmem->pages' could be null (see line 694)
+net/sched/sch_api.c:374 ____bpf_skb_tc_classify() error: uninitialized symb=
+ol 'tp'.
 
 Old smatch warnings:
-include/drm/drm_vma_manager.h:225 drm_vma_node_unmap() warn: should 'drm_vm=
-a_node_size(node) << 12' be a 64 bit type?
+arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: u=
+ninitialized symbol 'sp'.
 
-vim +226 drivers/gpu/drm/drm_gem_shmem_helper.c
+vim +/tp +374 net/sched/sch_api.c
 
-2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12  204  =
+3a7d0d07a38671 Vlad Buslov 2018-09-24  334  =
 
-875fd932de880a Dmitry Osipenko 2022-05-27  205  /**
-875fd932de880a Dmitry Osipenko 2022-05-27  206   * drm_gem_shmem_set_evicta=
-ble() - Make GEM evictable by memory shrinker
-875fd932de880a Dmitry Osipenko 2022-05-27  207   * @shmem: shmem GEM object
-875fd932de880a Dmitry Osipenko 2022-05-27  208   *
-875fd932de880a Dmitry Osipenko 2022-05-27  209   * Tell memory shrinker tha=
-t this GEM can be evicted. Initially eviction is
-875fd932de880a Dmitry Osipenko 2022-05-27  210   * disabled for all GEMs. I=
-f GEM was purged, then -ENOMEM is returned.
-875fd932de880a Dmitry Osipenko 2022-05-27  211   *
-875fd932de880a Dmitry Osipenko 2022-05-27  212   * Returns:
-875fd932de880a Dmitry Osipenko 2022-05-27  213   * 0 on success or a negati=
-ve error code on failure.
-875fd932de880a Dmitry Osipenko 2022-05-27  214   */
-875fd932de880a Dmitry Osipenko 2022-05-27  215  int drm_gem_shmem_set_evict=
-able(struct drm_gem_shmem_object *shmem)
-875fd932de880a Dmitry Osipenko 2022-05-27  216  {
-875fd932de880a Dmitry Osipenko 2022-05-27  217  	dma_resv_lock(shmem->base.=
-resv, NULL);
-875fd932de880a Dmitry Osipenko 2022-05-27  218  =
+d7144f4291a288 Cong Wang   2022-05-21  335  BPF_CALL_3(bpf_skb_tc_classify,=
+ struct sk_buff *, skb, int, ifindex, u32, handle)
+d7144f4291a288 Cong Wang   2022-05-21  336  {
+d7144f4291a288 Cong Wang   2022-05-21  337  	struct net *net =3D dev_net(sk=
+b->dev);
+d7144f4291a288 Cong Wang   2022-05-21  338  	const struct Qdisc_class_ops *=
+cops;
+d7144f4291a288 Cong Wang   2022-05-21  339  	struct tcf_result res =3D {};
+d7144f4291a288 Cong Wang   2022-05-21  340  	struct tcf_block *block;
+d7144f4291a288 Cong Wang   2022-05-21  341  	struct tcf_chain *chain;
+d7144f4291a288 Cong Wang   2022-05-21  342  	struct net_device *dev;
+d7144f4291a288 Cong Wang   2022-05-21  343  	unsigned long cl =3D 0;
+d7144f4291a288 Cong Wang   2022-05-21  344  	struct Qdisc *q;
+d7144f4291a288 Cong Wang   2022-05-21  345  	int result;
+d7144f4291a288 Cong Wang   2022-05-21  346  =
 
-875fd932de880a Dmitry Osipenko 2022-05-27  219  	if (shmem->madv < 0)
-875fd932de880a Dmitry Osipenko 2022-05-27  220  		return -ENOMEM;
-875fd932de880a Dmitry Osipenko 2022-05-27  221  =
+d7144f4291a288 Cong Wang   2022-05-21  347  	rcu_read_lock();
+d7144f4291a288 Cong Wang   2022-05-21  348  	dev =3D dev_get_by_index_rcu(n=
+et, ifindex);
+d7144f4291a288 Cong Wang   2022-05-21  349  	if (!dev)
+d7144f4291a288 Cong Wang   2022-05-21  350  		goto out;
+d7144f4291a288 Cong Wang   2022-05-21  351  	q =3D qdisc_lookup_rcu(dev, ha=
+ndle);
+d7144f4291a288 Cong Wang   2022-05-21  352  	if (!q)
+d7144f4291a288 Cong Wang   2022-05-21  353  		goto out;
+d7144f4291a288 Cong Wang   2022-05-21  354  =
 
-875fd932de880a Dmitry Osipenko 2022-05-27  222  	shmem->eviction_enabled =
-=3D true;
-875fd932de880a Dmitry Osipenko 2022-05-27  223  =
+d7144f4291a288 Cong Wang   2022-05-21  355  	cops =3D q->ops->cl_ops;
+d7144f4291a288 Cong Wang   2022-05-21  356  	if (!cops)
+d7144f4291a288 Cong Wang   2022-05-21  357  		goto out;
+d7144f4291a288 Cong Wang   2022-05-21  358  	if (!cops->tcf_block)
+d7144f4291a288 Cong Wang   2022-05-21  359  		goto out;
+d7144f4291a288 Cong Wang   2022-05-21  360  	if (TC_H_MIN(handle)) {
+d7144f4291a288 Cong Wang   2022-05-21  361  		cl =3D cops->find(q, handle);
+d7144f4291a288 Cong Wang   2022-05-21  362  		if (cl =3D=3D 0)
+d7144f4291a288 Cong Wang   2022-05-21  363  			goto out;
+d7144f4291a288 Cong Wang   2022-05-21  364  	}
+d7144f4291a288 Cong Wang   2022-05-21  365  	block =3D cops->tcf_block(q, c=
+l, NULL);
+d7144f4291a288 Cong Wang   2022-05-21  366  	if (!block)
+d7144f4291a288 Cong Wang   2022-05-21  367  		goto out;
+d7144f4291a288 Cong Wang   2022-05-21  368  =
 
-875fd932de880a Dmitry Osipenko 2022-05-27  224  	dma_resv_unlock(shmem->bas=
-e.resv);
-875fd932de880a Dmitry Osipenko 2022-05-27  225  =
+d7144f4291a288 Cong Wang   2022-05-21  369  	for (chain =3D tcf_get_next_ch=
+ain(block, NULL);
+d7144f4291a288 Cong Wang   2022-05-21  370  	     chain;
+d7144f4291a288 Cong Wang   2022-05-21  371  	     chain =3D tcf_get_next_ch=
+ain(block, chain)) {
+d7144f4291a288 Cong Wang   2022-05-21  372  		struct tcf_proto *tp;
+d7144f4291a288 Cong Wang   2022-05-21  373  =
 
-875fd932de880a Dmitry Osipenko 2022-05-27 @226  	return 0;
-875fd932de880a Dmitry Osipenko 2022-05-27  227  }
-875fd932de880a Dmitry Osipenko 2022-05-27  228  EXPORT_SYMBOL_GPL(drm_gem_s=
-hmem_set_evictable);
-875fd932de880a Dmitry Osipenko 2022-05-27  229  =
-
-875fd932de880a Dmitry Osipenko 2022-05-27  230  /**
-875fd932de880a Dmitry Osipenko 2022-05-27  231   * drm_gem_shmem_set_purgea=
-ble() - Make GEM purgeable by memory shrinker
-875fd932de880a Dmitry Osipenko 2022-05-27  232   * @shmem: shmem GEM object
-875fd932de880a Dmitry Osipenko 2022-05-27  233   *
-875fd932de880a Dmitry Osipenko 2022-05-27  234   * Tell memory shrinker tha=
-t this GEM can be purged. Initially purging is
-875fd932de880a Dmitry Osipenko 2022-05-27  235   * disabled for all GEMs. I=
-f GEM was purged, then -ENOMEM is returned.
-875fd932de880a Dmitry Osipenko 2022-05-27  236   *
-875fd932de880a Dmitry Osipenko 2022-05-27  237   * Returns:
-875fd932de880a Dmitry Osipenko 2022-05-27  238   * 0 on success or a negati=
-ve error code on failure.
-875fd932de880a Dmitry Osipenko 2022-05-27  239   */
-875fd932de880a Dmitry Osipenko 2022-05-27  240  int drm_gem_shmem_set_purge=
-able(struct drm_gem_shmem_object *shmem)
-875fd932de880a Dmitry Osipenko 2022-05-27  241  {
-875fd932de880a Dmitry Osipenko 2022-05-27  242  	dma_resv_lock(shmem->base.=
-resv, NULL);
-875fd932de880a Dmitry Osipenko 2022-05-27  243  =
-
-875fd932de880a Dmitry Osipenko 2022-05-27  244  	if (shmem->madv < 0)
-875fd932de880a Dmitry Osipenko 2022-05-27  245  		return -ENOMEM;
-875fd932de880a Dmitry Osipenko 2022-05-27  246  =
-
-875fd932de880a Dmitry Osipenko 2022-05-27  247  	shmem->purge_enabled =3D t=
-rue;
-875fd932de880a Dmitry Osipenko 2022-05-27  248  =
-
-875fd932de880a Dmitry Osipenko 2022-05-27  249  	drm_gem_shmem_update_pages=
-_state(shmem);
-875fd932de880a Dmitry Osipenko 2022-05-27  250  =
-
-875fd932de880a Dmitry Osipenko 2022-05-27  251  	dma_resv_unlock(shmem->bas=
-e.resv);
-875fd932de880a Dmitry Osipenko 2022-05-27  252  =
-
-875fd932de880a Dmitry Osipenko 2022-05-27 @253  	return 0;
-875fd932de880a Dmitry Osipenko 2022-05-27  254  }
-875fd932de880a Dmitry Osipenko 2022-05-27  255  EXPORT_SYMBOL_GPL(drm_gem_s=
-hmem_set_purgeable);
-875fd932de880a Dmitry Osipenko 2022-05-27  256  =
+d7144f4291a288 Cong Wang   2022-05-21 @374  		result =3D tcf_classify(skb, =
+NULL, tp, &res, false);
+d7144f4291a288 Cong Wang   2022-05-21  375  		if (result  >=3D 0) {
+d7144f4291a288 Cong Wang   2022-05-21  376  #ifdef CONFIG_NET_CLS_ACT
+d7144f4291a288 Cong Wang   2022-05-21  377  			switch (result) {
+d7144f4291a288 Cong Wang   2022-05-21  378  			case TC_ACT_QUEUED:
+d7144f4291a288 Cong Wang   2022-05-21  379  			case TC_ACT_STOLEN:
+d7144f4291a288 Cong Wang   2022-05-21  380  			case TC_ACT_TRAP:
+d7144f4291a288 Cong Wang   2022-05-21  381  				fallthrough;
+d7144f4291a288 Cong Wang   2022-05-21  382  			case TC_ACT_SHOT:
+d7144f4291a288 Cong Wang   2022-05-21  383  				rcu_read_unlock();
+d7144f4291a288 Cong Wang   2022-05-21  384  				return 0;
+d7144f4291a288 Cong Wang   2022-05-21  385  			}
+d7144f4291a288 Cong Wang   2022-05-21  386  #endif
+d7144f4291a288 Cong Wang   2022-05-21  387  		}
+d7144f4291a288 Cong Wang   2022-05-21  388  	}
+d7144f4291a288 Cong Wang   2022-05-21  389  out:
+d7144f4291a288 Cong Wang   2022-05-21  390  	rcu_read_unlock();
+d7144f4291a288 Cong Wang   2022-05-21  391  	return res.class;
+d7144f4291a288 Cong Wang   2022-05-21  392  }
+d7144f4291a288 Cong Wang   2022-05-21  393  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7427517542572250512==--
+--===============5671669749478931035==--
 
