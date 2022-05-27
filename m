@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6666907828546602108=="
+Content-Type: multipart/mixed; boundary="===============3200863786588236583=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [congwang:sch_bpf 2/4] net/core/skb_map.c:175:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sat, 28 May 2022 06:59:23 +0800
-Message-ID: <202205280603.5BAjdCkI-lkp@intel.com>
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Date: Sat, 28 May 2022 06:08:07 +0800
+Message-ID: <202205280550.MWGs9cj4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6666907828546602108==
+--===============3200863786588236583==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,31 +15,78 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Cong Wang <xiyou.wangcong@gmail.com>
+In-Reply-To: <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+References: <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+TO: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+TO: David Airlie <airlied@linux.ie>
+TO: Gerd Hoffmann <kraxel@redhat.com>
+TO: Gurchetan Singh <gurchetansingh@chromium.org>
+TO: "Chia-I Wu" <olvaffe@gmail.com>
+TO: Daniel Vetter <daniel@ffwll.ch>
+TO: Daniel Almeida <daniel.almeida@collabora.com>
+TO: Gert Wollny <gert.wollny@collabora.com>
+TO: Gustavo Padovan <gustavo.padovan@collabora.com>
+TO: Daniel Stone <daniel@fooishbar.org>
+TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Steven Price <steven.price@arm.com>
+TO: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+TO: Rob Clark <robdclark@gmail.com>
+TO: Emil Velikov <emil.l.velikov@gmail.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+TO: Qiang Yu <yuq825@gmail.com>
+TO: Sumit Semwal <sumit.semwal@linaro.org>
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Tomasz Figa <tfiga@chromium.org>
+TO: Marek Szyprowski <m.szyprowski@samsung.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+TO: Alex Deucher <alexander.deucher@amd.com>
+TO: Jani Nikula <jani.nikula@linux.intel.com>
 
-tree:   https://github.com/congwang/linux.git sch_bpf
-head:   d7144f4291a2882e698a6d9d83f7e614d97be9c8
-commit: c27f47230e7935f94ef17b29accb49defa7be17e [2/4] bpf: introduce skb m=
-ap
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20528/202205280603.5BAjdCkI-lkp(a)intel.com/config)
+Hi Dmitry,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20220527]
+[cannot apply to drm/drm-next media-tree/master drm-intel/for-linux-next v5=
+.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-=
+generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220527-075=
+717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+cdeffe87f790dfd1baa193020411ce9a538446d7
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: arm-randconfig-c002-20220524 (https://download.01.org/0day-ci/archi=
+ve/20220528/202205280550.MWGs9cj4-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 134d7f=
 9a4b97e9035150d970bd9e376043c4577e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/congwang/linux/commit/c27f47230e7935f94ef17b29=
-accb49defa7be17e
-        git remote add congwang https://github.com/congwang/linux.git
-        git fetch --no-tags congwang sch_bpf
-        git checkout c27f47230e7935f94ef17b29accb49defa7be17e
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/97f090c47ec995a8cf3=
+bced98526ee3eaa25f10f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Add-generic-memory=
+-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220527-075717
+        git checkout 97f090c47ec995a8cf3bced98526ee3eaa25f10f
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -47,315 +94,438 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                   ^~~~~~~~~~~~~~~~
-   net/atm/mpc.c:1347:2: note: Call to function 'memcpy' is insecure as it =
-does not provide security checks introduced in the C11 standard. Replace wi=
-th analogous functions that support length arguments or provides boundary c=
-hecks such as 'memcpy_s' in case of C11
-           memcpy(&tlv[7], mesg->MPS_ctrl, ATM_ESA_LEN); /* MPC ctrl ATM ad=
-dr */
-           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   net/atm/mpc.c:1348:2: warning: Call to function 'memcpy' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecur=
-eAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(mpc->our_ctrl_addr, mesg->MPS_ctrl, ATM_ESA_LEN);
-           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   net/atm/mpc.c:1348:2: note: Call to function 'memcpy' is insecure as it =
-does not provide security checks introduced in the C11 standard. Replace wi=
-th analogous functions that support length arguments or provides boundary c=
-hecks such as 'memcpy_s' in case of C11
-           memcpy(mpc->our_ctrl_addr, mesg->MPS_ctrl, ATM_ESA_LEN);
-           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   net/atm/mpc.c:1515:3: warning: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
-eAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(mpc, 0, sizeof(struct mpoa_client));
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/atm/mpc.c:1515:3: note: Call to function 'memset' is insecure as it =
-does not provide security checks introduced in the C11 standard. Replace wi=
-th analogous functions that support length arguments or provides boundary c=
-hecks such as 'memset_s' in case of C11
-                   memset(mpc, 0, sizeof(struct mpoa_client));
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 76 warnings (76 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   89 warnings generated.
-   net/core/bpf_sk_storage.c:764:4: warning: Value stored to 'b' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           b =3D &smap->buckets[bucket_id++];
-                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/bpf_sk_storage.c:764:4: note: Value stored to 'b' is never read
-                           b =3D &smap->buckets[bucket_id++];
-                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 88 warnings (88 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   83 warnings generated.
-   net/core/skb_map.c:85:2: warning: Call to function 'memset' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(rb, 0, sizeof(*rb));
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/core/skb_map.c:85:2: note: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11
-           memset(rb, 0, sizeof(*rb));
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> net/core/skb_map.c:175:9: warning: Dereference of null pointer [clang-an=
-alyzer-core.NullDereference]
-           rank =3D *(u64 *) key;
-                  ^~~~~~~~~~~~
-   net/core/skb_map.c:170:6: note: Assuming 'key' is null
-           if (!key) {
-               ^~~~
-   net/core/skb_map.c:170:2: note: Taking true branch
-           if (!key) {
-           ^
-   net/core/skb_map.c:171:9: note: Assuming '____ptr' is non-null
-                   skb =3D skb_rb_first(&rb->root);
-                         ^
-   include/linux/skbuff.h:3911:28: note: expanded from macro 'skb_rb_first'
-   #define skb_rb_first(root) rb_to_skb(rb_first(root))
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:3910:23: note: expanded from macro 'rb_to_skb'
-   #define rb_to_skb(rb) rb_entry_safe(rb, struct sk_buff, rbnode)
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rbtree.h:79:5: note: expanded from macro 'rb_entry_safe'
-              ____ptr ? rb_entry(____ptr, type, member) : NULL; \
-              ^~~~~~~
-   net/core/skb_map.c:171:9: note: '?' condition is true
-                   skb =3D skb_rb_first(&rb->root);
-                         ^
-   include/linux/skbuff.h:3911:28: note: expanded from macro 'skb_rb_first'
-   #define skb_rb_first(root) rb_to_skb(rb_first(root))
-                              ^
-   include/linux/skbuff.h:3910:23: note: expanded from macro 'rb_to_skb'
-   #define rb_to_skb(rb) rb_entry_safe(rb, struct sk_buff, rbnode)
-                         ^
-   include/linux/rbtree.h:79:5: note: expanded from macro 'rb_entry_safe'
-              ____ptr ? rb_entry(____ptr, type, member) : NULL; \
-              ^
-   net/core/skb_map.c:172:8: note: 'skb' is non-null
-                   if (!skb)
-                        ^~~
-   net/core/skb_map.c:172:3: note: Taking false branch
-                   if (!skb)
-                   ^
-   net/core/skb_map.c:175:9: note: Dereference of null pointer
-           rank =3D *(u64 *) key;
-                  ^~~~~~~~~~~~
-   Suppressed 81 warnings (81 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   80 warnings generated.
-   fs/cifs/ioctl.c:334:4: warning: Value stored to 'caps' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                           caps =3D le64_to_cpu(tcon->fsUnixInfo.Capability=
+                  ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:602:9: warning: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%ld\n", state);
+                  ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:602:9: note: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%ld\n", state);
+                  ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:613:6: warning: Call to function 'sscanf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           if (sscanf(buf, "%ld\n", &state) !=3D 1)
+               ^~~~~~
+   drivers/thermal/thermal_sysfs.c:613:6: note: Call to function 'sscanf' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'sscanf_s' in case of C11
+           if (sscanf(buf, "%ld\n", &state) !=3D 1)
+               ^~~~~~
+   drivers/thermal/thermal_sysfs.c:702:8: warning: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret =3D sprintf(buf, "%u\n", stats->total_trans);
+                 ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:702:8: note: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11
+           ret =3D sprintf(buf, "%u\n", stats->total_trans);
+                 ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:721:10: warning: Call to function 'sprin=
+tf' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analy=
+zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   len +=3D sprintf(buf + len, "state%u\t%llu\n", i,
+                          ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:721:10: note: Call to function 'sprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'sprintf_s' in case of C11
+                   len +=3D sprintf(buf + len, "state%u\t%llu\n", i,
+                          ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:741:2: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(stats->trans_table, 0,
+           ^~~~~~
+   drivers/thermal/thermal_sysfs.c:741:2: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+           memset(stats->trans_table, 0,
+           ^~~~~~
+   drivers/thermal/thermal_sysfs.c:760:9: warning: Call to function 'snprin=
+tf' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'snprintf_s' in case of C11 [clang-anal=
+yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           len +=3D snprintf(buf + len, PAGE_SIZE - len, " From  :    To\n"=
 );
-                           ^
-   fs/cifs/ioctl.c:334:4: note: Value stored to 'caps' is never read
-   fs/cifs/ioctl.c:445:4: warning: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
-reAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(pkey_inf.auth_key, tcon->ses->auth_key.re=
-sponse,
-                           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/ioctl.c:445:4: note: Call to function 'memcpy' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memcpy_s' in case of C11
-                           memcpy(pkey_inf.auth_key, tcon->ses->auth_key.re=
-sponse,
-                           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/ioctl.c:447:4: warning: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
-reAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(pkey_inf.smb3decryptionkey,
-                           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/ioctl.c:447:4: note: Call to function 'memcpy' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memcpy_s' in case of C11
-                           memcpy(pkey_inf.smb3decryptionkey,
-                           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
+                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:760:9: note: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11
+           len +=3D snprintf(buf + len, PAGE_SIZE - len, " From  :    To\n"=
+);
+                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:761:9: warning: Call to function 'snprin=
+tf' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'snprintf_s' in case of C11 [clang-anal=
+yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           len +=3D snprintf(buf + len, PAGE_SIZE - len, "       : ");
+                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:761:9: note: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11
+           len +=3D snprintf(buf + len, PAGE_SIZE - len, "       : ");
+                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:765:10: warning: Call to function 'snpri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'snprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   len +=3D snprintf(buf + len, PAGE_SIZE - len, "state%2u =
+ ", i);
+                          ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:765:10: note: Call to function 'snprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'snprintf_s' in case of C11
+                   len +=3D snprintf(buf + len, PAGE_SIZE - len, "state%2u =
+ ", i);
+                          ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:770:9: warning: Call to function 'snprin=
+tf' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'snprintf_s' in case of C11 [clang-anal=
+yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           len +=3D snprintf(buf + len, PAGE_SIZE - len, "\n");
+                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:770:9: note: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11
+           len +=3D snprintf(buf + len, PAGE_SIZE - len, "\n");
+                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:776:10: warning: Call to function 'snpri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'snprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   len +=3D snprintf(buf + len, PAGE_SIZE - len, "state%2u:=
+", i);
+                          ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:776:10: note: Call to function 'snprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'snprintf_s' in case of C11
+                   len +=3D snprintf(buf + len, PAGE_SIZE - len, "state%2u:=
+", i);
+                          ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:781:11: warning: Call to function 'snpri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'snprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           len +=3D snprintf(buf + len, PAGE_SIZE - len, "%=
+8u ",
+                                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:781:11: note: Call to function 'snprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'snprintf_s' in case of C11
+                           len +=3D snprintf(buf + len, PAGE_SIZE - len, "%=
+8u ",
+                                  ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:786:10: warning: Call to function 'snpri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'snprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   len +=3D snprintf(buf + len, PAGE_SIZE - len, "\n");
+                          ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:786:10: note: Call to function 'snprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'snprintf_s' in case of C11
+                   len +=3D snprintf(buf + len, PAGE_SIZE - len, "\n");
+                          ^~~~~~~~
+   drivers/thermal/thermal_sysfs.c:881:9: warning: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", instance->trip);
+                  ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:881:9: note: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", instance->trip);
+                  ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:891:9: warning: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", instance->weight);
+                  ^~~~~~~
+   drivers/thermal/thermal_sysfs.c:891:9: note: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", instance->weight);
+                  ^~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   lib/xarray.c:2035:18: warning: Value stored to 'node' during its initial=
+ization is never read [clang-analyzer-deadcode.DeadStores]
+           struct xa_node *node =3D xas->xa_node;
+                           ^~~~   ~~~~~~~~~~~~
+   lib/xarray.c:2035:18: note: Value stored to 'node' during its initializa=
+tion is never read
+           struct xa_node *node =3D xas->xa_node;
+                           ^~~~   ~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+>> drivers/dma-buf/dma-buf.c:1339:3: warning: Undefined or garbage value re=
+turned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+                   return ret;
+                   ^
+   drivers/dma-buf/dma-buf.c:1378:14: note: Assuming 'dmabuf' is non-null
+           if (WARN_ON(!dmabuf))
+                       ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/dma-buf/dma-buf.c:1378:6: note: Taking false branch
+           if (WARN_ON(!dmabuf))
+               ^
+   include/asm-generic/bug.h:123:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   drivers/dma-buf/dma-buf.c:1378:2: note: Taking false branch
+           if (WARN_ON(!dmabuf))
+           ^
+   drivers/dma-buf/dma-buf.c:1381:6: note: Assuming field 'vmap' is non-null
+           if (!dmabuf->ops->vmap)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-buf.c:1381:2: note: Taking false branch
+           if (!dmabuf->ops->vmap)
+           ^
+   drivers/dma-buf/dma-buf.c:1385:8: note: Calling 'dma_buf_vmap_locked'
+           ret =3D dma_buf_vmap_locked(dmabuf, map);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-buf.c:1331:2: note: 'ret' declared without an initia=
+l value
+           int ret;
+           ^~~~~~~
+   drivers/dma-buf/dma-buf.c:1333:2: note: Loop condition is false.  Exitin=
+g loop
+           dma_resv_assert_held(dmabuf->resv);
+           ^
+   include/linux/dma-resv.h:302:35: note: expanded from macro 'dma_resv_ass=
+ert_held'
+   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
+                                     ^
+   include/linux/lockdep.h:411:34: note: expanded from macro 'lockdep_asser=
+t_held'
+   #define lockdep_assert_held(l)                  do { (void)(l); } while =
+(0)
+                                                   ^
+   drivers/dma-buf/dma-buf.c:1335:6: note: Assuming field 'vmapping_counter=
+' is not equal to 0
+           if (dmabuf->vmapping_counter) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-buf.c:1335:2: note: Taking true branch
+           if (dmabuf->vmapping_counter) {
+           ^
+   drivers/dma-buf/dma-buf.c:1337:3: note: Taking false branch
+                   BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
+                   ^
+   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   drivers/dma-buf/dma-buf.c:1337:3: note: Loop condition is false.  Exitin=
+g loop
+                   BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
+                   ^
+   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   drivers/dma-buf/dma-buf.c:1339:3: note: Undefined or garbage value retur=
+ned to caller
+                   return ret;
+                   ^      ~~~
+   Suppressed 35 warnings (34 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   fs/xfs/libxfs/xfs_refcount_btree.c:66:2: warning: Call to function 'mems=
+et' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memset_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&args, 0, sizeof(args));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_refcount_btree.c:66:2: note: Call to function 'memset'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memset_s' in case of C11
+           memset(&args, 0, sizeof(args));
+           ^~~~~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   fs/xfs/libxfs/xfs_sb.c:559:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&to->sb_uuid, &from->sb_uuid, sizeof(to->sb_uuid));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:559:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(&to->sb_uuid, &from->sb_uuid, sizeof(to->sb_uuid));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:573:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&to->sb_fname, &from->sb_fname, sizeof(to->sb_fname));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:573:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(&to->sb_fname, &from->sb_fname, sizeof(to->sb_fname));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:708:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&to->sb_uuid, &from->sb_uuid, sizeof(to->sb_uuid));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:708:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(&to->sb_uuid, &from->sb_uuid, sizeof(to->sb_uuid));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:722:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&to->sb_fname, &from->sb_fname, sizeof(to->sb_fname));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:722:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(&to->sb_fname, &from->sb_fname, sizeof(to->sb_fname));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:1128:2: warning: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(geo, 0, sizeof(struct xfs_fsop_geom));
+           ^~~~~~
+   fs/xfs/libxfs/xfs_sb.c:1128:2: note: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11
+           memset(geo, 0, sizeof(struct xfs_fsop_geom));
 
-vim +175 net/core/skb_map.c
+vim +1339 drivers/dma-buf/dma-buf.c
 
-c27f47230e7935 Cong Wang 2020-11-08  162  =
+4c78513e457f72 drivers/base/dma-buf.c    Daniel Vetter   2012-04-24  1327  =
 
-c27f47230e7935 Cong Wang 2020-11-08  163  /* Called from syscall */
-c27f47230e7935 Cong Wang 2020-11-08  164  static int skb_map_get_next_key(s=
-truct bpf_map *map, void *key, void *next_key)
-c27f47230e7935 Cong Wang 2020-11-08  165  {
-c27f47230e7935 Cong Wang 2020-11-08  166  	struct bpf_skb_map *rb =3D bpf_s=
-kb_map(map);
-c27f47230e7935 Cong Wang 2020-11-08  167  	struct sk_buff *skb;
-c27f47230e7935 Cong Wang 2020-11-08  168  	u64 rank;
-c27f47230e7935 Cong Wang 2020-11-08  169  =
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1328  =
+static int dma_buf_vmap_locked(struct dma_buf *dmabuf, struct iosys_map *ma=
+p)
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1329  {
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1330  =
+	struct iosys_map ptr;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1331  =
+	int ret;
+4c78513e457f72 drivers/base/dma-buf.c    Daniel Vetter   2012-04-24  1332  =
 
-c27f47230e7935 Cong Wang 2020-11-08  170  	if (!key) {
-c27f47230e7935 Cong Wang 2020-11-08  171  		skb =3D skb_rb_first(&rb->root);
-c27f47230e7935 Cong Wang 2020-11-08  172  		if (!skb)
-c27f47230e7935 Cong Wang 2020-11-08  173  			return -ENOENT;
-c27f47230e7935 Cong Wang 2020-11-08  174  	}
-c27f47230e7935 Cong Wang 2020-11-08 @175  	rank =3D *(u64 *) key;
-c27f47230e7935 Cong Wang 2020-11-08  176  	skb =3D skb_rb_find(&rb->root, r=
-ank);
-c27f47230e7935 Cong Wang 2020-11-08  177  	if (!skb)
-c27f47230e7935 Cong Wang 2020-11-08  178  		return -ENOENT;
-c27f47230e7935 Cong Wang 2020-11-08  179  	skb =3D skb_rb_next(skb);
-c27f47230e7935 Cong Wang 2020-11-08  180  	if (!skb)
-c27f47230e7935 Cong Wang 2020-11-08  181  		return 0;
-c27f47230e7935 Cong Wang 2020-11-08  182  	*(u64 *) next_key =3D skb_map_cb=
-(skb)->rank;
-c27f47230e7935 Cong Wang 2020-11-08  183  	return 0;
-c27f47230e7935 Cong Wang 2020-11-08  184  }
-c27f47230e7935 Cong Wang 2020-11-08  185  =
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1333  =
+	dma_resv_assert_held(dmabuf->resv);
+4c78513e457f72 drivers/base/dma-buf.c    Daniel Vetter   2012-04-24  1334  =
+
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1335  =
+	if (dmabuf->vmapping_counter) {
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1336  =
+		dmabuf->vmapping_counter++;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1337  =
+		BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1338  =
+		*map =3D dmabuf->vmap_ptr;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27 @1339  =
+		return ret;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1340  =
+	}
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1341  =
+
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1342  =
+	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1343  =
+
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1344  =
+	ret =3D dmabuf->ops->vmap(dmabuf, &ptr);
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1345  =
+	if (WARN_ON_ONCE(ret))
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1346  =
+		return ret;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1347  =
+
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1348  =
+	dmabuf->vmap_ptr =3D ptr;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1349  =
+	dmabuf->vmapping_counter =3D 1;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1350  =
+
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1351  =
+	*map =3D dmabuf->vmap_ptr;
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1352  =
+
+97f090c47ec995 drivers/dma-buf/dma-buf.c Dmitry Osipenko 2022-05-27  1353  =
+	return 0;
+4c78513e457f72 drivers/base/dma-buf.c    Daniel Vetter   2012-04-24  1354  }
+98f86c9e4ae320 drivers/base/dma-buf.c    Dave Airlie     2012-05-20  1355  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6666907828546602108==--
+--===============3200863786588236583==--
 
