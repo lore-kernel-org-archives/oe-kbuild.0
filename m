@@ -1,274 +1,182 @@
-Content-Type: multipart/mixed; boundary="===============1823704615419014133=="
+Content-Type: multipart/mixed; boundary="===============7427517542572250512=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 13949/14198] drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_base_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
-Date: Sat, 28 May 2022 00:20:09 +0800
-Message-ID: <202205280055.X7671nNw-lkp@intel.com>
+Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
+Date: Fri, 27 May 2022 22:03:23 +0800
+Message-ID: <202205272155.MxDiru43-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1823704615419014133==
+--===============7427517542572250512==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20220526235040.678984-18-dmitry.osipenko@collabora.com>
+References: <20220526235040.678984-18-dmitry.osipenko@collabora.com>
+TO: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+TO: David Airlie <airlied@linux.ie>
+TO: Gerd Hoffmann <kraxel@redhat.com>
+TO: Gurchetan Singh <gurchetansingh@chromium.org>
+TO: "Chia-I Wu" <olvaffe@gmail.com>
+TO: Daniel Vetter <daniel@ffwll.ch>
+TO: Daniel Almeida <daniel.almeida@collabora.com>
+TO: Gert Wollny <gert.wollny@collabora.com>
+TO: Gustavo Padovan <gustavo.padovan@collabora.com>
+TO: Daniel Stone <daniel@fooishbar.org>
+TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Steven Price <steven.price@arm.com>
+TO: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+TO: Rob Clark <robdclark@gmail.com>
+TO: Emil Velikov <emil.l.velikov@gmail.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+TO: Qiang Yu <yuq825@gmail.com>
+TO: Sumit Semwal <sumit.semwal@linaro.org>
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Tomasz Figa <tfiga@chromium.org>
+TO: Marek Szyprowski <m.szyprowski@samsung.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 TO: Alex Deucher <alexander.deucher@amd.com>
-CC: Guchun Chen <guchun.chen@amd.com>
+TO: Jani Nikula <jani.nikula@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   d3fde8ff50ab265749704bd7fbcf70d35235421f
-commit: a0ccc717c4ab3ef572f023fdceffb4b6df496a0d [13949/14198] drm/amdgpu/d=
-iscovery: validate VCN and SDMA instances
-:::::: branch date: 10 hours ago
-:::::: commit date: 21 hours ago
-config: arc-randconfig-m031-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220528/202205280055.X7671nNw-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
+Hi Dmitry,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20220527]
+[cannot apply to drm/drm-next media-tree/master drm-intel/for-linux-next v5=
+.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-=
+generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220527-075=
+717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+cdeffe87f790dfd1baa193020411ce9a538446d7
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+527/202205272155.MxDiru43-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_bas=
-e_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
+drivers/gpu/drm/drm_gem_shmem_helper.c:226 drm_gem_shmem_set_evictable() wa=
+rn: inconsistent returns 'shmem->base.resv'.
+drivers/gpu/drm/drm_gem_shmem_helper.c:253 drm_gem_shmem_set_purgeable() wa=
+rn: inconsistent returns 'shmem->base.resv'.
+drivers/gpu/drm/drm_gem_shmem_helper.c:703 drm_gem_shmem_fault() error: we =
+previously assumed 'shmem->pages' could be null (see line 694)
 
 Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1454 amdgpu_discovery_get_vcn=
-_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <=3D 3
+include/drm/drm_vma_manager.h:225 drm_vma_node_unmap() warn: should 'drm_vm=
+a_node_size(node) << 12' be a 64 bit type?
 
-vim +1133 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+vim +226 drivers/gpu/drm/drm_gem_shmem_helper.c
 
-a6c40b178092f41 Luben Tuikov    2022-02-03  1064  =
+2194a63a818db7 Noralf Tr=C3=B8nnes  2019-03-12  204  =
 
-e24d0e91b336762 Alex Deucher    2022-03-30  1065  static int amdgpu_discove=
-ry_reg_base_init(struct amdgpu_device *adev)
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1066  {
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1067  	struct binary_header *bh=
-dr;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1068  	struct ip_discovery_head=
-er *ihdr;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1069  	struct die_header *dhdr;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1070  	struct ip *ip;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1071  	uint16_t die_offset;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1072  	uint16_t ip_offset;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1073  	uint16_t num_dies;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1074  	uint16_t num_ips;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1075  	uint8_t num_base_address;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1076  	int hw_ip;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1077  	int i, j, k;
-dffa11b4f74b157 Monk Liu        2020-03-04  1078  	int r;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1079  =
+875fd932de880a Dmitry Osipenko 2022-05-27  205  /**
+875fd932de880a Dmitry Osipenko 2022-05-27  206   * drm_gem_shmem_set_evicta=
+ble() - Make GEM evictable by memory shrinker
+875fd932de880a Dmitry Osipenko 2022-05-27  207   * @shmem: shmem GEM object
+875fd932de880a Dmitry Osipenko 2022-05-27  208   *
+875fd932de880a Dmitry Osipenko 2022-05-27  209   * Tell memory shrinker tha=
+t this GEM can be evicted. Initially eviction is
+875fd932de880a Dmitry Osipenko 2022-05-27  210   * disabled for all GEMs. I=
+f GEM was purged, then -ENOMEM is returned.
+875fd932de880a Dmitry Osipenko 2022-05-27  211   *
+875fd932de880a Dmitry Osipenko 2022-05-27  212   * Returns:
+875fd932de880a Dmitry Osipenko 2022-05-27  213   * 0 on success or a negati=
+ve error code on failure.
+875fd932de880a Dmitry Osipenko 2022-05-27  214   */
+875fd932de880a Dmitry Osipenko 2022-05-27  215  int drm_gem_shmem_set_evict=
+able(struct drm_gem_shmem_object *shmem)
+875fd932de880a Dmitry Osipenko 2022-05-27  216  {
+875fd932de880a Dmitry Osipenko 2022-05-27  217  	dma_resv_lock(shmem->base.=
+resv, NULL);
+875fd932de880a Dmitry Osipenko 2022-05-27  218  =
 
-dffa11b4f74b157 Monk Liu        2020-03-04  1080  	r =3D amdgpu_discovery_i=
-nit(adev);
-dffa11b4f74b157 Monk Liu        2020-03-04  1081  	if (r) {
-dffa11b4f74b157 Monk Liu        2020-03-04  1082  		DRM_ERROR("amdgpu_disco=
-very_init failed\n");
-dffa11b4f74b157 Monk Liu        2020-03-04  1083  		return r;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1084  	}
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1085  =
+875fd932de880a Dmitry Osipenko 2022-05-27  219  	if (shmem->madv < 0)
+875fd932de880a Dmitry Osipenko 2022-05-27  220  		return -ENOMEM;
+875fd932de880a Dmitry Osipenko 2022-05-27  221  =
 
-72de33f8f7ba0f4 Alex Deucher    2020-07-29  1086  	bhdr =3D (struct binary_=
-header *)adev->mman.discovery_bin;
-72de33f8f7ba0f4 Alex Deucher    2020-07-29  1087  	ihdr =3D (struct ip_disc=
-overy_header *)(adev->mman.discovery_bin +
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1088  			le16_to_cpu(bhdr->tabl=
-e_list[IP_DISCOVERY].offset));
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1089  	num_dies =3D le16_to_cpu=
-(ihdr->num_dies);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1090  =
+875fd932de880a Dmitry Osipenko 2022-05-27  222  	shmem->eviction_enabled =
+=3D true;
+875fd932de880a Dmitry Osipenko 2022-05-27  223  =
 
-437298b833996de Xiaojie Yuan    2019-03-27  1091  	DRM_DEBUG("number of die=
-s: %d\n", num_dies);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1092  =
+875fd932de880a Dmitry Osipenko 2022-05-27  224  	dma_resv_unlock(shmem->bas=
+e.resv);
+875fd932de880a Dmitry Osipenko 2022-05-27  225  =
 
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1093  	for (i =3D 0; i < num_di=
-es; i++) {
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1094  		die_offset =3D le16_to_=
-cpu(ihdr->die_info[i].die_offset);
-72de33f8f7ba0f4 Alex Deucher    2020-07-29  1095  		dhdr =3D (struct die_he=
-ader *)(adev->mman.discovery_bin + die_offset);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1096  		num_ips =3D le16_to_cpu=
-(dhdr->num_ips);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1097  		ip_offset =3D die_offse=
-t + sizeof(*dhdr);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1098  =
+875fd932de880a Dmitry Osipenko 2022-05-27 @226  	return 0;
+875fd932de880a Dmitry Osipenko 2022-05-27  227  }
+875fd932de880a Dmitry Osipenko 2022-05-27  228  EXPORT_SYMBOL_GPL(drm_gem_s=
+hmem_set_evictable);
+875fd932de880a Dmitry Osipenko 2022-05-27  229  =
 
-437298b833996de Xiaojie Yuan    2019-03-27  1099  		if (le16_to_cpu(dhdr->d=
-ie_id) !=3D i) {
-437298b833996de Xiaojie Yuan    2019-03-27  1100  			DRM_ERROR("invalid die=
- id %d, expected %d\n",
-437298b833996de Xiaojie Yuan    2019-03-27  1101  					le16_to_cpu(dhdr->di=
-e_id), i);
-437298b833996de Xiaojie Yuan    2019-03-27  1102  			return -EINVAL;
-437298b833996de Xiaojie Yuan    2019-03-27  1103  		}
-437298b833996de Xiaojie Yuan    2019-03-27  1104  =
+875fd932de880a Dmitry Osipenko 2022-05-27  230  /**
+875fd932de880a Dmitry Osipenko 2022-05-27  231   * drm_gem_shmem_set_purgea=
+ble() - Make GEM purgeable by memory shrinker
+875fd932de880a Dmitry Osipenko 2022-05-27  232   * @shmem: shmem GEM object
+875fd932de880a Dmitry Osipenko 2022-05-27  233   *
+875fd932de880a Dmitry Osipenko 2022-05-27  234   * Tell memory shrinker tha=
+t this GEM can be purged. Initially purging is
+875fd932de880a Dmitry Osipenko 2022-05-27  235   * disabled for all GEMs. I=
+f GEM was purged, then -ENOMEM is returned.
+875fd932de880a Dmitry Osipenko 2022-05-27  236   *
+875fd932de880a Dmitry Osipenko 2022-05-27  237   * Returns:
+875fd932de880a Dmitry Osipenko 2022-05-27  238   * 0 on success or a negati=
+ve error code on failure.
+875fd932de880a Dmitry Osipenko 2022-05-27  239   */
+875fd932de880a Dmitry Osipenko 2022-05-27  240  int drm_gem_shmem_set_purge=
+able(struct drm_gem_shmem_object *shmem)
+875fd932de880a Dmitry Osipenko 2022-05-27  241  {
+875fd932de880a Dmitry Osipenko 2022-05-27  242  	dma_resv_lock(shmem->base.=
+resv, NULL);
+875fd932de880a Dmitry Osipenko 2022-05-27  243  =
 
-437298b833996de Xiaojie Yuan    2019-03-27  1105  		DRM_DEBUG("number of ha=
-rdware IPs on die%d: %d\n",
-437298b833996de Xiaojie Yuan    2019-03-27  1106  				le16_to_cpu(dhdr->die=
-_id), num_ips);
-437298b833996de Xiaojie Yuan    2019-03-27  1107  =
+875fd932de880a Dmitry Osipenko 2022-05-27  244  	if (shmem->madv < 0)
+875fd932de880a Dmitry Osipenko 2022-05-27  245  		return -ENOMEM;
+875fd932de880a Dmitry Osipenko 2022-05-27  246  =
 
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1108  		for (j =3D 0; j < num_i=
-ps; j++) {
-72de33f8f7ba0f4 Alex Deucher    2020-07-29  1109  			ip =3D (struct ip *)(a=
-dev->mman.discovery_bin + ip_offset);
-5039f5298880f7a Ernst Sj=C3=B6strand 2021-09-26  1110  =
+875fd932de880a Dmitry Osipenko 2022-05-27  247  	shmem->purge_enabled =3D t=
+rue;
+875fd932de880a Dmitry Osipenko 2022-05-27  248  =
 
-5039f5298880f7a Ernst Sj=C3=B6strand 2021-09-26  1111  			if (amdgpu_discov=
-ery_validate_ip(ip))
-5039f5298880f7a Ernst Sj=C3=B6strand 2021-09-26  1112  				goto next_ip;
-5039f5298880f7a Ernst Sj=C3=B6strand 2021-09-26  1113  =
+875fd932de880a Dmitry Osipenko 2022-05-27  249  	drm_gem_shmem_update_pages=
+_state(shmem);
+875fd932de880a Dmitry Osipenko 2022-05-27  250  =
 
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1114  			num_base_address =3D i=
-p->num_base_address;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1115  =
+875fd932de880a Dmitry Osipenko 2022-05-27  251  	dma_resv_unlock(shmem->bas=
+e.resv);
+875fd932de880a Dmitry Osipenko 2022-05-27  252  =
 
-437298b833996de Xiaojie Yuan    2019-03-27  1116  			DRM_DEBUG("%s(%d) #%d =
-v%d.%d.%d:\n",
-437298b833996de Xiaojie Yuan    2019-03-27  1117  				  hw_id_names[le16_to=
-_cpu(ip->hw_id)],
-437298b833996de Xiaojie Yuan    2019-03-27  1118  				  le16_to_cpu(ip->hw_=
-id),
-437298b833996de Xiaojie Yuan    2019-03-27  1119  				  ip->number_instance,
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1120  				  ip->major, ip->mino=
-r,
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1121  				  ip->revision);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1122  =
-
-baf3f8f37406257 Alex Deucher    2021-11-30  1123  			if (le16_to_cpu(ip->hw=
-_id) =3D=3D VCN_HWID) {
-c40bdfb2ffa4cf1 Leslie Shi      2021-12-08  1124  				/* Bit [5:0]: origina=
-l revision value
-baf3f8f37406257 Alex Deucher    2021-11-30  1125  				 * Bit [7:6]: en/deco=
-de capability:
-baf3f8f37406257 Alex Deucher    2021-11-30  1126  				 *     0b00 : VCN fun=
-ction normally
-baf3f8f37406257 Alex Deucher    2021-11-30  1127  				 *     0b10 : encode =
-is disabled
-baf3f8f37406257 Alex Deucher    2021-11-30  1128  				 *     0b01 : decode =
-is disabled
-baf3f8f37406257 Alex Deucher    2021-11-30  1129  				 */
-c40bdfb2ffa4cf1 Leslie Shi      2021-12-08  1130  				adev->vcn.vcn_config[=
-adev->vcn.num_vcn_inst] =3D
-c40bdfb2ffa4cf1 Leslie Shi      2021-12-08  1131  					ip->revision & 0xc0;
-baf3f8f37406257 Alex Deucher    2021-11-30  1132  				ip->revision &=3D ~0x=
-c0;
-a0ccc717c4ab3ef Alex Deucher    2022-05-16 @1133  				if (adev->vcn.num_vcn=
-_inst < AMDGPU_MAX_VCN_INSTANCES)
-7cbe08a930a132d Alex Deucher    2021-08-09  1134  					adev->vcn.num_vcn_in=
-st++;
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1135  				else
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1136  					dev_err(adev->dev, "=
-Too many VCN instances: %d vs %d\n",
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1137  						adev->vcn.num_vcn_i=
-nst + 1,
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1138  						AMDGPU_MAX_VCN_INST=
-ANCES);
-baf3f8f37406257 Alex Deucher    2021-11-30  1139  			}
-5c3720be7d46581 Alex Deucher    2021-08-09  1140  			if (le16_to_cpu(ip->hw=
-_id) =3D=3D SDMA0_HWID ||
-5c3720be7d46581 Alex Deucher    2021-08-09  1141  			    le16_to_cpu(ip->hw=
-_id) =3D=3D SDMA1_HWID ||
-5c3720be7d46581 Alex Deucher    2021-08-09  1142  			    le16_to_cpu(ip->hw=
-_id) =3D=3D SDMA2_HWID ||
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1143  			    le16_to_cpu(ip->hw=
-_id) =3D=3D SDMA3_HWID) {
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1144  				if (adev->sdma.num_in=
-stances < AMDGPU_MAX_SDMA_INSTANCES)
-5c3720be7d46581 Alex Deucher    2021-08-09  1145  					adev->sdma.num_insta=
-nces++;
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1146  				else
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1147  					dev_err(adev->dev, "=
-Too many SDMA instances: %d vs %d\n",
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1148  						adev->sdma.num_inst=
-ances + 1,
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1149  						AMDGPU_MAX_SDMA_INS=
-TANCES);
-a0ccc717c4ab3ef Alex Deucher    2022-05-16  1150  			}
-7cbe08a930a132d Alex Deucher    2021-08-09  1151  =
-
-a2efebf1a4f8b2b Alex Deucher    2022-03-31  1152  			if (le16_to_cpu(ip->hw=
-_id) =3D=3D UMC_HWID)
-a2efebf1a4f8b2b Alex Deucher    2022-03-31  1153  				adev->gmc.num_umc++;
-a2efebf1a4f8b2b Alex Deucher    2022-03-31  1154  =
-
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1155  			for (k =3D 0; k < num_=
-base_address; k++) {
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1156  				/*
-966f1d8fd05fd1e Xiaojie Yuan    2019-03-27  1157  				 * convert the endian=
-ness of base addresses in place,
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1158  				 * so that we don't n=
-eed to convert them when accessing adev->reg_offset.
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1159  				 */
-966f1d8fd05fd1e Xiaojie Yuan    2019-03-27  1160  				ip->base_address[k] =
-=3D le32_to_cpu(ip->base_address[k]);
-966f1d8fd05fd1e Xiaojie Yuan    2019-03-27  1161  				DRM_DEBUG("\t0x%08x\n=
-", ip->base_address[k]);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1162  			}
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1163  =
-
-437298b833996de Xiaojie Yuan    2019-03-27  1164  			for (hw_ip =3D 0; hw_i=
-p < MAX_HWIP; hw_ip++) {
-437298b833996de Xiaojie Yuan    2019-03-27  1165  				if (hw_id_map[hw_ip] =
-=3D=3D le16_to_cpu(ip->hw_id)) {
-91aeda1811665a4 Alex Deucher    2020-02-19  1166  					DRM_DEBUG("set regis=
-ter base offset for %s\n",
-437298b833996de Xiaojie Yuan    2019-03-27  1167  							hw_id_names[le16_t=
-o_cpu(ip->hw_id)]);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1168  					adev->reg_offset[hw_=
-ip][ip->number_instance] =3D
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1169  						ip->base_address;
-1d789535a03679e Alex Deucher    2021-10-04  1170  					/* Instance support =
-is somewhat inconsistent.
-1d789535a03679e Alex Deucher    2021-10-04  1171  					 * SDMA is a good ex=
-ample.  Sienna cichlid has 4 total
-1d789535a03679e Alex Deucher    2021-10-04  1172  					 * SDMA instances, e=
-ach enumerated separately (HWIDs
-1d789535a03679e Alex Deucher    2021-10-04  1173  					 * 42, 43, 68, 69). =
- Arcturus has 8 total SDMA instances,
-1d789535a03679e Alex Deucher    2021-10-04  1174  					 * but they are enum=
-erated as multiple instances of the
-1d789535a03679e Alex Deucher    2021-10-04  1175  					 * same HWIDs (4x HW=
-ID 42, 4x HWID 43).  UMC is another
-1d789535a03679e Alex Deucher    2021-10-04  1176  					 * example.  On most=
- chips there are multiple instances
-1d789535a03679e Alex Deucher    2021-10-04  1177  					 * with the same HWI=
-D.
-1d789535a03679e Alex Deucher    2021-10-04  1178  					 */
-1d789535a03679e Alex Deucher    2021-10-04  1179  					adev->ip_versions[hw=
-_ip][ip->number_instance] =3D
-54d2b1f402b6fef Alex Deucher    2021-07-20  1180  						IP_VERSION(ip->majo=
-r, ip->minor, ip->revision);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1181  				}
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1182  			}
-437298b833996de Xiaojie Yuan    2019-03-27  1183  =
-
-5039f5298880f7a Ernst Sj=C3=B6strand 2021-09-26  1184  next_ip:
-73bce7a423c3bb7 Lijo Lazar      2022-04-08  1185  			ip_offset +=3D struct_=
-size(ip, base_address, ip->num_base_address);
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1186  		}
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1187  	}
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1188  =
-
-a6c40b178092f41 Luben Tuikov    2022-02-03  1189  	amdgpu_discovery_sysfs_i=
-nit(adev);
-a6c40b178092f41 Luben Tuikov    2022-02-03  1190  =
-
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1191  	return 0;
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1192  }
-f39f5bb1c9d68d5 Xiaojie Yuan    2019-06-20  1193  =
+875fd932de880a Dmitry Osipenko 2022-05-27 @253  	return 0;
+875fd932de880a Dmitry Osipenko 2022-05-27  254  }
+875fd932de880a Dmitry Osipenko 2022-05-27  255  EXPORT_SYMBOL_GPL(drm_gem_s=
+hmem_set_purgeable);
+875fd932de880a Dmitry Osipenko 2022-05-27  256  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1823704615419014133==--
+--===============7427517542572250512==--
 
