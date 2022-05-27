@@ -1,239 +1,361 @@
-Content-Type: multipart/mixed; boundary="===============3945165801980843934=="
+Content-Type: multipart/mixed; boundary="===============6666907828546602108=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 1/2] fs/kernel_read_file: Allow to read files up-to ssize_t
-Date: Sat, 28 May 2022 11:06:03 +0800
-Message-ID: <202205281006.650Vdx6y-lkp@intel.com>
+Subject: [congwang:sch_bpf 2/4] net/core/skb_map.c:175:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sat, 28 May 2022 06:59:23 +0800
+Message-ID: <202205280603.5BAjdCkI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3945165801980843934==
+--===============6666907828546602108==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220527025535.3953665-2-pasha.tatashin@soleen.com>
-References: <20220527025535.3953665-2-pasha.tatashin@soleen.com>
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-TO: pasha.tatashin(a)soleen.com
-TO: sashal(a)kernel.org
-TO: ebiederm(a)xmission.com
-TO: rburanyi(a)google.com
-TO: gthelen(a)google.com
-TO: viro(a)zeniv.linux.org.uk
-TO: kexec(a)lists.infradead.org
-TO: linux-fsdevel(a)vger.kernel.org
-TO: linux-kernel(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Cong Wang <xiyou.wangcong@gmail.com>
 
-Hi Pasha,
+tree:   https://github.com/congwang/linux.git sch_bpf
+head:   d7144f4291a2882e698a6d9d83f7e614d97be9c8
+commit: c27f47230e7935f94ef17b29accb49defa7be17e [2/4] bpf: introduce skb m=
+ap
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20528/202205280603.5BAjdCkI-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 134d7f=
+9a4b97e9035150d970bd9e376043c4577e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/congwang/linux/commit/c27f47230e7935f94ef17b29=
+accb49defa7be17e
+        git remote add congwang https://github.com/congwang/linux.git
+        git fetch --no-tags congwang sch_bpf
+        git checkout c27f47230e7935f94ef17b29accb49defa7be17e
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.18 next-20220527]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pasha-Tatashin/Allow=
--to-kexec-with-initramfs-larger-than-2G/20220527-105815
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-7f50d4dfe816dd916a7cbf39039674825c2b388b
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20528/202205281006.650Vdx6y-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/kernel_read_file.c:61 kernel_read_file() warn: impossible condition '(i_=
-size > (((~0) >> 1))) =3D> (s64min-s64max > s64max)'
 
-vim +61 fs/kernel_read_file.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                                   ^~~~~~~~~~~~~~~~
+   net/atm/mpc.c:1347:2: note: Call to function 'memcpy' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memcpy_s' in case of C11
+           memcpy(&tlv[7], mesg->MPS_ctrl, ATM_ESA_LEN); /* MPC ctrl ATM ad=
+dr */
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/atm/mpc.c:1348:2: warning: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(mpc->our_ctrl_addr, mesg->MPS_ctrl, ATM_ESA_LEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/atm/mpc.c:1348:2: note: Call to function 'memcpy' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memcpy_s' in case of C11
+           memcpy(mpc->our_ctrl_addr, mesg->MPS_ctrl, ATM_ESA_LEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/atm/mpc.c:1515:3: warning: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(mpc, 0, sizeof(struct mpoa_client));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/atm/mpc.c:1515:3: note: Call to function 'memset' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memset_s' in case of C11
+                   memset(mpc, 0, sizeof(struct mpoa_client));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 76 warnings (76 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   89 warnings generated.
+   net/core/bpf_sk_storage.c:764:4: warning: Value stored to 'b' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           b =3D &smap->buckets[bucket_id++];
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/bpf_sk_storage.c:764:4: note: Value stored to 'b' is never read
+                           b =3D &smap->buckets[bucket_id++];
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 88 warnings (88 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   83 warnings generated.
+   net/core/skb_map.c:85:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(rb, 0, sizeof(*rb));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/core/skb_map.c:85:2: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+           memset(rb, 0, sizeof(*rb));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> net/core/skb_map.c:175:9: warning: Dereference of null pointer [clang-an=
+alyzer-core.NullDereference]
+           rank =3D *(u64 *) key;
+                  ^~~~~~~~~~~~
+   net/core/skb_map.c:170:6: note: Assuming 'key' is null
+           if (!key) {
+               ^~~~
+   net/core/skb_map.c:170:2: note: Taking true branch
+           if (!key) {
+           ^
+   net/core/skb_map.c:171:9: note: Assuming '____ptr' is non-null
+                   skb =3D skb_rb_first(&rb->root);
+                         ^
+   include/linux/skbuff.h:3911:28: note: expanded from macro 'skb_rb_first'
+   #define skb_rb_first(root) rb_to_skb(rb_first(root))
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/skbuff.h:3910:23: note: expanded from macro 'rb_to_skb'
+   #define rb_to_skb(rb) rb_entry_safe(rb, struct sk_buff, rbnode)
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rbtree.h:79:5: note: expanded from macro 'rb_entry_safe'
+              ____ptr ? rb_entry(____ptr, type, member) : NULL; \
+              ^~~~~~~
+   net/core/skb_map.c:171:9: note: '?' condition is true
+                   skb =3D skb_rb_first(&rb->root);
+                         ^
+   include/linux/skbuff.h:3911:28: note: expanded from macro 'skb_rb_first'
+   #define skb_rb_first(root) rb_to_skb(rb_first(root))
+                              ^
+   include/linux/skbuff.h:3910:23: note: expanded from macro 'rb_to_skb'
+   #define rb_to_skb(rb) rb_entry_safe(rb, struct sk_buff, rbnode)
+                         ^
+   include/linux/rbtree.h:79:5: note: expanded from macro 'rb_entry_safe'
+              ____ptr ? rb_entry(____ptr, type, member) : NULL; \
+              ^
+   net/core/skb_map.c:172:8: note: 'skb' is non-null
+                   if (!skb)
+                        ^~~
+   net/core/skb_map.c:172:3: note: Taking false branch
+                   if (!skb)
+                   ^
+   net/core/skb_map.c:175:9: note: Dereference of null pointer
+           rank =3D *(u64 *) key;
+                  ^~~~~~~~~~~~
+   Suppressed 81 warnings (81 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   80 warnings generated.
+   fs/cifs/ioctl.c:334:4: warning: Value stored to 'caps' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                           caps =3D le64_to_cpu(tcon->fsUnixInfo.Capability=
+);
+                           ^
+   fs/cifs/ioctl.c:334:4: note: Value stored to 'caps' is never read
+   fs/cifs/ioctl.c:445:4: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(pkey_inf.auth_key, tcon->ses->auth_key.re=
+sponse,
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/ioctl.c:445:4: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+                           memcpy(pkey_inf.auth_key, tcon->ses->auth_key.re=
+sponse,
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/ioctl.c:447:4: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(pkey_inf.smb3decryptionkey,
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/ioctl.c:447:4: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+                           memcpy(pkey_inf.smb3decryptionkey,
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
 
-5287b07f6d7cc3 Kees Cook      2020-10-02    7  =
+vim +175 net/core/skb_map.c
 
-113eeb517780ad Kees Cook      2020-10-02    8  /**
-113eeb517780ad Kees Cook      2020-10-02    9   * kernel_read_file() - read=
- file contents into a kernel buffer
-113eeb517780ad Kees Cook      2020-10-02   10   *
-113eeb517780ad Kees Cook      2020-10-02   11   * @file	file to read from
-0fa8e084648779 Kees Cook      2020-10-02   12   * @offset	where to start re=
-ading from (see below).
-113eeb517780ad Kees Cook      2020-10-02   13   * @buf		pointer to a "void =
-*" buffer for reading into (if
-113eeb517780ad Kees Cook      2020-10-02   14   *		*@buf is NULL, a buffer =
-will be allocated, and
-113eeb517780ad Kees Cook      2020-10-02   15   *		@buf_size will be ignore=
-d)
-113eeb517780ad Kees Cook      2020-10-02   16   * @buf_size	size of buf, if=
- already allocated. If @buf not
-113eeb517780ad Kees Cook      2020-10-02   17   *		allocated, this is the l=
-argest size to allocate.
-885352881f11f1 Kees Cook      2020-10-02   18   * @file_size	if non-NULL, t=
-he full size of @file will be
-885352881f11f1 Kees Cook      2020-10-02   19   *		written here.
-113eeb517780ad Kees Cook      2020-10-02   20   * @id		the kernel_read_file=
-_id identifying the type of
-113eeb517780ad Kees Cook      2020-10-02   21   *		file contents being read=
- (for LSMs to examine)
-113eeb517780ad Kees Cook      2020-10-02   22   *
-0fa8e084648779 Kees Cook      2020-10-02   23   * @offset must be 0 unless =
-both @buf and @file_size are non-NULL
-0fa8e084648779 Kees Cook      2020-10-02   24   * (i.e. the caller must be =
-expecting to read partial file contents
-0fa8e084648779 Kees Cook      2020-10-02   25   * via an already-allocated =
-@buf, in at most @buf_size chunks, and
-0fa8e084648779 Kees Cook      2020-10-02   26   * will be able to determine=
- when the entire file was read by
-0fa8e084648779 Kees Cook      2020-10-02   27   * checking @file_size). Thi=
-s isn't a recommended way to read a
-0fa8e084648779 Kees Cook      2020-10-02   28   * file, though, since it is=
- possible that the contents might
-0fa8e084648779 Kees Cook      2020-10-02   29   * change between calls to k=
-ernel_read_file().
-0fa8e084648779 Kees Cook      2020-10-02   30   *
-113eeb517780ad Kees Cook      2020-10-02   31   * Returns number of bytes r=
-ead (no single read will be bigger
-71c48c48184de1 Pasha Tatashin 2022-05-27   32   * than SSIZE_MAX), or negat=
-ive on error.
-113eeb517780ad Kees Cook      2020-10-02   33   *
-113eeb517780ad Kees Cook      2020-10-02   34   */
-71c48c48184de1 Pasha Tatashin 2022-05-27   35  ssize_t kernel_read_file(str=
-uct file *file, loff_t offset, void **buf,
-885352881f11f1 Kees Cook      2020-10-02   36  			 size_t buf_size, size_t =
-*file_size,
-885352881f11f1 Kees Cook      2020-10-02   37  			 enum kernel_read_file_id=
- id)
-5287b07f6d7cc3 Kees Cook      2020-10-02   38  {
-5287b07f6d7cc3 Kees Cook      2020-10-02   39  	loff_t i_size, pos;
-71c48c48184de1 Pasha Tatashin 2022-05-27   40  	ssize_t copied;
-5287b07f6d7cc3 Kees Cook      2020-10-02   41  	void *allocated =3D NULL;
-0fa8e084648779 Kees Cook      2020-10-02   42  	bool whole_file;
-5287b07f6d7cc3 Kees Cook      2020-10-02   43  	int ret;
-5287b07f6d7cc3 Kees Cook      2020-10-02   44  =
+c27f47230e7935 Cong Wang 2020-11-08  162  =
 
-0fa8e084648779 Kees Cook      2020-10-02   45  	if (offset !=3D 0 && (!*buf=
- || !file_size))
-0fa8e084648779 Kees Cook      2020-10-02   46  		return -EINVAL;
-0fa8e084648779 Kees Cook      2020-10-02   47  =
+c27f47230e7935 Cong Wang 2020-11-08  163  /* Called from syscall */
+c27f47230e7935 Cong Wang 2020-11-08  164  static int skb_map_get_next_key(s=
+truct bpf_map *map, void *key, void *next_key)
+c27f47230e7935 Cong Wang 2020-11-08  165  {
+c27f47230e7935 Cong Wang 2020-11-08  166  	struct bpf_skb_map *rb =3D bpf_s=
+kb_map(map);
+c27f47230e7935 Cong Wang 2020-11-08  167  	struct sk_buff *skb;
+c27f47230e7935 Cong Wang 2020-11-08  168  	u64 rank;
+c27f47230e7935 Cong Wang 2020-11-08  169  =
 
-113eeb517780ad Kees Cook      2020-10-02   48  	if (!S_ISREG(file_inode(fil=
-e)->i_mode))
-5287b07f6d7cc3 Kees Cook      2020-10-02   49  		return -EINVAL;
-5287b07f6d7cc3 Kees Cook      2020-10-02   50  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02   51  	ret =3D deny_write_access(f=
-ile);
-5287b07f6d7cc3 Kees Cook      2020-10-02   52  	if (ret)
-5287b07f6d7cc3 Kees Cook      2020-10-02   53  		return ret;
-5287b07f6d7cc3 Kees Cook      2020-10-02   54  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02   55  	i_size =3D i_size_read(file=
-_inode(file));
-5287b07f6d7cc3 Kees Cook      2020-10-02   56  	if (i_size <=3D 0) {
-5287b07f6d7cc3 Kees Cook      2020-10-02   57  		ret =3D -EINVAL;
-5287b07f6d7cc3 Kees Cook      2020-10-02   58  		goto out;
-5287b07f6d7cc3 Kees Cook      2020-10-02   59  	}
-0fa8e084648779 Kees Cook      2020-10-02   60  	/* The file is too big for =
-sane activities. */
-71c48c48184de1 Pasha Tatashin 2022-05-27  @61  	if (i_size > SSIZE_MAX) {
-5287b07f6d7cc3 Kees Cook      2020-10-02   62  		ret =3D -EFBIG;
-5287b07f6d7cc3 Kees Cook      2020-10-02   63  		goto out;
-5287b07f6d7cc3 Kees Cook      2020-10-02   64  	}
-0fa8e084648779 Kees Cook      2020-10-02   65  	/* The entire file cannot b=
-e read in one buffer. */
-0fa8e084648779 Kees Cook      2020-10-02   66  	if (!file_size && offset =
-=3D=3D 0 && i_size > buf_size) {
-0fa8e084648779 Kees Cook      2020-10-02   67  		ret =3D -EFBIG;
-0fa8e084648779 Kees Cook      2020-10-02   68  		goto out;
-0fa8e084648779 Kees Cook      2020-10-02   69  	}
-0fa8e084648779 Kees Cook      2020-10-02   70  =
-
-0fa8e084648779 Kees Cook      2020-10-02   71  	whole_file =3D (offset =3D=
-=3D 0 && i_size <=3D buf_size);
-0fa8e084648779 Kees Cook      2020-10-02   72  	ret =3D security_kernel_rea=
-d_file(file, id, whole_file);
-0fa8e084648779 Kees Cook      2020-10-02   73  	if (ret)
-0fa8e084648779 Kees Cook      2020-10-02   74  		goto out;
-0fa8e084648779 Kees Cook      2020-10-02   75  =
-
-885352881f11f1 Kees Cook      2020-10-02   76  	if (file_size)
-885352881f11f1 Kees Cook      2020-10-02   77  		*file_size =3D i_size;
-5287b07f6d7cc3 Kees Cook      2020-10-02   78  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02   79  	if (!*buf)
-5287b07f6d7cc3 Kees Cook      2020-10-02   80  		*buf =3D allocated =3D vma=
-lloc(i_size);
-5287b07f6d7cc3 Kees Cook      2020-10-02   81  	if (!*buf) {
-5287b07f6d7cc3 Kees Cook      2020-10-02   82  		ret =3D -ENOMEM;
-5287b07f6d7cc3 Kees Cook      2020-10-02   83  		goto out;
-5287b07f6d7cc3 Kees Cook      2020-10-02   84  	}
-5287b07f6d7cc3 Kees Cook      2020-10-02   85  =
-
-0fa8e084648779 Kees Cook      2020-10-02   86  	pos =3D offset;
-0fa8e084648779 Kees Cook      2020-10-02   87  	copied =3D 0;
-0fa8e084648779 Kees Cook      2020-10-02   88  	while (copied < buf_size) {
-0fa8e084648779 Kees Cook      2020-10-02   89  		ssize_t bytes;
-0fa8e084648779 Kees Cook      2020-10-02   90  		size_t wanted =3D min_t(si=
-ze_t, buf_size - copied,
-0fa8e084648779 Kees Cook      2020-10-02   91  					      i_size - pos);
-0fa8e084648779 Kees Cook      2020-10-02   92  =
-
-0fa8e084648779 Kees Cook      2020-10-02   93  		bytes =3D kernel_read(file=
-, *buf + copied, wanted, &pos);
-5287b07f6d7cc3 Kees Cook      2020-10-02   94  		if (bytes < 0) {
-5287b07f6d7cc3 Kees Cook      2020-10-02   95  			ret =3D bytes;
-5287b07f6d7cc3 Kees Cook      2020-10-02   96  			goto out_free;
-5287b07f6d7cc3 Kees Cook      2020-10-02   97  		}
-5287b07f6d7cc3 Kees Cook      2020-10-02   98  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02   99  		if (bytes =3D=3D 0)
-5287b07f6d7cc3 Kees Cook      2020-10-02  100  			break;
-0fa8e084648779 Kees Cook      2020-10-02  101  		copied +=3D bytes;
-5287b07f6d7cc3 Kees Cook      2020-10-02  102  	}
-5287b07f6d7cc3 Kees Cook      2020-10-02  103  =
-
-0fa8e084648779 Kees Cook      2020-10-02  104  	if (whole_file) {
-5287b07f6d7cc3 Kees Cook      2020-10-02  105  		if (pos !=3D i_size) {
-5287b07f6d7cc3 Kees Cook      2020-10-02  106  			ret =3D -EIO;
-5287b07f6d7cc3 Kees Cook      2020-10-02  107  			goto out_free;
-5287b07f6d7cc3 Kees Cook      2020-10-02  108  		}
-5287b07f6d7cc3 Kees Cook      2020-10-02  109  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02  110  		ret =3D security_kernel_po=
-st_read_file(file, *buf, i_size, id);
-0fa8e084648779 Kees Cook      2020-10-02  111  	}
-5287b07f6d7cc3 Kees Cook      2020-10-02  112  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02  113  out_free:
-5287b07f6d7cc3 Kees Cook      2020-10-02  114  	if (ret < 0) {
-5287b07f6d7cc3 Kees Cook      2020-10-02  115  		if (allocated) {
-5287b07f6d7cc3 Kees Cook      2020-10-02  116  			vfree(*buf);
-5287b07f6d7cc3 Kees Cook      2020-10-02  117  			*buf =3D NULL;
-5287b07f6d7cc3 Kees Cook      2020-10-02  118  		}
-5287b07f6d7cc3 Kees Cook      2020-10-02  119  	}
-5287b07f6d7cc3 Kees Cook      2020-10-02  120  =
-
-5287b07f6d7cc3 Kees Cook      2020-10-02  121  out:
-5287b07f6d7cc3 Kees Cook      2020-10-02  122  	allow_write_access(file);
-0fa8e084648779 Kees Cook      2020-10-02  123  	return ret =3D=3D 0 ? copie=
-d : ret;
-5287b07f6d7cc3 Kees Cook      2020-10-02  124  }
-5287b07f6d7cc3 Kees Cook      2020-10-02  125  EXPORT_SYMBOL_GPL(kernel_rea=
-d_file);
-5287b07f6d7cc3 Kees Cook      2020-10-02  126  =
+c27f47230e7935 Cong Wang 2020-11-08  170  	if (!key) {
+c27f47230e7935 Cong Wang 2020-11-08  171  		skb =3D skb_rb_first(&rb->root);
+c27f47230e7935 Cong Wang 2020-11-08  172  		if (!skb)
+c27f47230e7935 Cong Wang 2020-11-08  173  			return -ENOENT;
+c27f47230e7935 Cong Wang 2020-11-08  174  	}
+c27f47230e7935 Cong Wang 2020-11-08 @175  	rank =3D *(u64 *) key;
+c27f47230e7935 Cong Wang 2020-11-08  176  	skb =3D skb_rb_find(&rb->root, r=
+ank);
+c27f47230e7935 Cong Wang 2020-11-08  177  	if (!skb)
+c27f47230e7935 Cong Wang 2020-11-08  178  		return -ENOENT;
+c27f47230e7935 Cong Wang 2020-11-08  179  	skb =3D skb_rb_next(skb);
+c27f47230e7935 Cong Wang 2020-11-08  180  	if (!skb)
+c27f47230e7935 Cong Wang 2020-11-08  181  		return 0;
+c27f47230e7935 Cong Wang 2020-11-08  182  	*(u64 *) next_key =3D skb_map_cb=
+(skb)->rank;
+c27f47230e7935 Cong Wang 2020-11-08  183  	return 0;
+c27f47230e7935 Cong Wang 2020-11-08  184  }
+c27f47230e7935 Cong Wang 2020-11-08  185  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3945165801980843934==--
+--===============6666907828546602108==--
 
