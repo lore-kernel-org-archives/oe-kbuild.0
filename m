@@ -1,605 +1,120 @@
-Content-Type: multipart/mixed; boundary="===============6502072515410128302=="
+Content-Type: multipart/mixed; boundary="===============2127098582216909011=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/scsi/scsi_cmnd.h:183:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Mon, 23 May 2022 08:17:38 +0800
-Message-ID: <202205230846.zEDEIEGN-lkp@intel.com>
+Subject: drivers/firmware/arm_scmi/clock.c:242:40: warning: Variable 'msg' is not assigned a value. [unassignedVariable]
+Date: Fri, 27 May 2022 16:35:42 +0800
+Message-ID: <202205271608.aIWtyM7b-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6502072515410128302==
+--===============2127098582216909011==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Chris Down <chris@chrisdown.name>
-CC: Petr Mladek <pmladek@suse.com>
+TO: Cristian Marussi <cristian.marussi@arm.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   eaea45fc0e7b6ae439526b4a41d91230c8517336
-commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
-ndexing support
-date:   10 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-c001-20220516 (https://download.01.org/0day-ci/arch=
-ive/20220523/202205230846.zEDEIEGN-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8=
-ee225edf2d0de94b0dcbd31bea916e825e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 337015573718b161891a3473d25f59273f2e626b
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+head:   7e284070abe53d448517b80493863595af4ab5f0
+commit: 7bc7caafe6b1e5b882255a42bc1bf112fa87b69b firmware: arm_scmi: Use co=
+mmon iterators in the clock protocol
+date:   4 weeks ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 weeks ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 7bc7caafe6b1e5b882255a42bc1bf112fa87b69b
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/scsi/libsas/sas_expander.c:1794:8: note: Calling 'smp_execute_ta=
-sk'
-           res =3D smp_execute_task(dev, rg_req, RG_REQ_SIZE, rg_resp,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:148:2: note: Returning without writin=
-g to 'resp->result'
-           return smp_execute_task_sg(dev, &req_sg, &resp_sg);
-           ^
-   drivers/scsi/libsas/sas_expander.c:148:2: note: Returning value, which p=
-articipates in a condition later
-           return smp_execute_task_sg(dev, &req_sg, &resp_sg);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1794:8: note: Returning from 'smp_exe=
-cute_task'
-           res =3D smp_execute_task(dev, rg_req, RG_REQ_SIZE, rg_resp,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1796:6: note: Assuming 'res' is 0
-           if (res)
-               ^~~
-   drivers/scsi/libsas/sas_expander.c:1796:2: note: Taking false branch
-           if (res)
-           ^
-   drivers/scsi/libsas/sas_expander.c:1798:22: note: The left operand of '!=
-=3D' is a garbage value
-           if (rg_resp->result !=3D SMP_RESP_FUNC_ACC) {
-               ~~~~~~~~~~~~~~~ ^
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   fs/autofs/root.c:562:2: warning: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(cp, symname);
-           ^~~~~~
-   fs/autofs/root.c:562:2: note: Call to function 'strcpy' is insecure as i=
-t does not provide bounding of the memory buffer. Replace unbounded copy fu=
-nctions with analogous functions that support length arguments such as 'str=
-lcpy'. CWE-119
-           strcpy(cp, symname);
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/scsi/3w-9xxx.c:718:3: warning: Value stored to 'timeout' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   timeout =3D wait_event_timeout(tw_dev->ioctl_wqueue, tw_=
-dev->chrdev_request_id =3D=3D TW_IOCTL_CHRDEV_FREE, timeout);
-                   ^
-   drivers/scsi/3w-9xxx.c:718:3: note: Value stored to 'timeout' is never r=
-ead
-   drivers/scsi/3w-9xxx.c:1825:31: warning: Access to field 'cmnd' results =
-in a dereference of a null pointer (loaded from variable 'srb') [clang-anal=
-yzer-core.NullDereference]
-                   memcpy(command_packet->cdb, srb->cmnd, TW_MAX_CDB_LEN);
-                                               ^~~
-   drivers/scsi/3w-9xxx.c:1806:2: note: 'srb' initialized to a null pointer=
- value
-           struct scsi_cmnd *srb =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/3w-9xxx.c:1810:6: note: Assuming the condition is false
-           if (tw_dev->srb[request_id])
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/3w-9xxx.c:1810:2: note: Taking false branch
-           if (tw_dev->srb[request_id])
-           ^
-   drivers/scsi/3w-9xxx.c:1824:6: note: Assuming 'cdb' is null
-           if (!cdb)
-               ^~~~
-   drivers/scsi/3w-9xxx.c:1824:2: note: Taking true branch
-           if (!cdb)
-           ^
-   drivers/scsi/3w-9xxx.c:1825:31: note: Access to field 'cmnd' results in =
-a dereference of a null pointer (loaded from variable 'srb')
-                   memcpy(command_packet->cdb, srb->cmnd, TW_MAX_CDB_LEN);
-                                               ^~~
->> include/scsi/scsi_cmnd.h:183:9: warning: Dereference of null pointer [cl=
-ang-analyzer-core.NullDereference]
-           return cmd->sdb.table.nents;
-                  ^
-   drivers/scsi/3w-9xxx.c:1806:2: note: 'srb' initialized to a null pointer=
- value
-           struct scsi_cmnd *srb =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/3w-9xxx.c:1810:6: note: Assuming the condition is false
-           if (tw_dev->srb[request_id])
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/3w-9xxx.c:1810:2: note: Taking false branch
-           if (tw_dev->srb[request_id])
-           ^
-   drivers/scsi/3w-9xxx.c:1824:6: note: Assuming 'cdb' is non-null
-           if (!cdb)
-               ^~~~
-   drivers/scsi/3w-9xxx.c:1824:2: note: Taking false branch
-           if (!cdb)
-           ^
-   drivers/scsi/3w-9xxx.c:1829:6: note: 'srb' is null
-           if (srb) {
-               ^~~
-   drivers/scsi/3w-9xxx.c:1829:2: note: Taking false branch
-           if (srb) {
-           ^
-   drivers/scsi/3w-9xxx.c:1841:6: note: Assuming 'sglistarg' is null
-           if (!sglistarg) {
-               ^~~~~~~~~~
-   drivers/scsi/3w-9xxx.c:1841:2: note: Taking true branch
-           if (!sglistarg) {
-           ^
-   drivers/scsi/3w-9xxx.c:1844:21: note: Passing null pointer value via 1st=
- parameter 'cmd'
-                   if (scsi_sg_count(srb)) {
-                                     ^~~
-   drivers/scsi/3w-9xxx.c:1844:7: note: Calling 'scsi_sg_count'
-                   if (scsi_sg_count(srb)) {
-                       ^~~~~~~~~~~~~~~~~~
-   include/scsi/scsi_cmnd.h:183:9: note: Dereference of null pointer
-           return cmd->sdb.table.nents;
-                  ^~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/scsi/mvsas/mv_init.c:464:13: warning: Access to field 'dev' resu=
-lts in a dereference of a null pointer (loaded from variable 'mvi') [clang-=
-analyzer-core.NullDereference]
-           sha->dev =3D mvi->dev;
-                      ^
-   drivers/scsi/mvsas/mv_init.c:505:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/scsi/mvsas/mv_init.c:505:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/scsi/mvsas/mv_init.c:511:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/scsi/mvsas/mv_init.c:511:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/scsi/mvsas/mv_init.c:515:6: note: 'rc' is 0
-           if (rc)
-               ^~
-   drivers/scsi/mvsas/mv_init.c:515:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/scsi/mvsas/mv_init.c:519:6: note: Assuming 'shost' is non-null
-           if (!shost) {
-               ^~~~~~
-   drivers/scsi/mvsas/mv_init.c:519:2: note: Taking false branch
-           if (!shost) {
-           ^
-   drivers/scsi/mvsas/mv_init.c:527:6: note: Assuming the condition is false
-           if (!SHOST_TO_SAS_HA(shost)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/mvsas/mv_init.c:527:2: note: Taking false branch
-           if (!SHOST_TO_SAS_HA(shost)) {
-           ^
-   drivers/scsi/mvsas/mv_init.c:534:6: note: 'rc' is 0
-           if (rc) {
-               ^~
-   drivers/scsi/mvsas/mv_init.c:534:2: note: Taking false branch
-           if (rc) {
-           ^
-   drivers/scsi/mvsas/mv_init.c:544:8: note: 'mvi' is non-null
-                   if (!mvi) {
-                        ^~~
-   drivers/scsi/mvsas/mv_init.c:544:3: note: Taking false branch
-                   if (!mvi) {
-                   ^
-   drivers/scsi/mvsas/mv_init.c:556:7: note: Assuming 'rc' is 0
-                   if (rc) {
-                       ^~
-   drivers/scsi/mvsas/mv_init.c:556:3: note: Taking false branch
-                   if (rc) {
-                   ^
-   drivers/scsi/mvsas/mv_init.c:561:11: note: Assuming 'nhost' is >=3D fiel=
-d 'n_host'
-           } while (nhost < chip->n_host);
-                    ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/mvsas/mv_init.c:542:2: note: Loop condition is false.  Exit=
-ing loop
-           do {
---
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/net/phy/mscc/mscc_ptp.c:1449:2: warning: Value stored to 'val' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
-ION_CODE);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/net/phy/mscc/mscc_ptp.c:1449:2: note: Value stored to 'val' is n=
-ever read
-           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
-ION_CODE);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/net/arcnet/rfc1201.c:348:4: warning: Value stored to 'soft' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                           soft =3D &pkt->soft.rfc1201;
-                           ^      ~~~~~~~~~~~~~~~~~~
-   drivers/net/arcnet/rfc1201.c:348:4: note: Value stored to 'soft' is neve=
-r read
-                           soft =3D &pkt->soft.rfc1201;
-                           ^      ~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:3218:2: warning: Value stor=
-ed to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D ipw_fw_dma_enable(priv);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:3218:2: note: Value stored =
-to 'ret' is never read
-           ret =3D ipw_fw_dma_enable(priv);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intel/ipw2x00/ipw2200.c:8171:7: warning: Dereferenc=
-e of null pointer (loaded from variable 'last_seq') [clang-analyzer-core.Nu=
-llDereference]
-           if ((*last_seq =3D=3D seq) &&
-                ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8254:6: note: Assuming the =
-condition is false
-           r =3D ipw_read32(priv, IPW_RX_READ_INDEX);
-               ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
-macro 'ipw_read32'
-           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
-_, \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
-m macro 'IPW_DEBUG_IO'
-   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:10: note: expanded fro=
-m macro 'IPW_LL_DEBUG'
-   do { if (ipw_debug_level & (level)) \
-            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8254:6: note: Taking false =
-branch
-           r =3D ipw_read32(priv, IPW_RX_READ_INDEX);
-               ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
-macro 'ipw_read32'
-           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
-_, \
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
-m macro 'IPW_DEBUG_IO'
-   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
-                                 ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:6: note: expanded from=
- macro 'IPW_LL_DEBUG'
-   do { if (ipw_debug_level & (level)) \
-        ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8254:6: note: Loop conditio=
-n is false.  Exiting loop
-           r =3D ipw_read32(priv, IPW_RX_READ_INDEX);
-               ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
-macro 'ipw_read32'
-           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
-_, \
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
-m macro 'IPW_DEBUG_IO'
-   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
-                                 ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1388:43: note: expanded fro=
-m macro 'IPW_LL_DEBUG'
-   #define IPW_LL_DEBUG(level, fmt, args...) \
-                                             ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8255:2: note: Taking false =
-branch
-           ipw_read32(priv, IPW_RX_WRITE_INDEX);
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
-macro 'ipw_read32'
-           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
-_, \
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
-m macro 'IPW_DEBUG_IO'
-   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
-                                 ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:6: note: expanded from=
- macro 'IPW_LL_DEBUG'
-   do { if (ipw_debug_level & (level)) \
-        ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8255:2: note: Loop conditio=
-n is false.  Exiting loop
-           ipw_read32(priv, IPW_RX_WRITE_INDEX);
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:401:2: note: expanded from =
-macro 'ipw_read32'
-           IPW_DEBUG_IO("%s %d: read_direct32(0x%08X)\n", __FILE__, __LINE_=
-_, \
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1474:31: note: expanded fro=
-m macro 'IPW_DEBUG_IO'
-   #define IPW_DEBUG_IO(f, a...) IPW_LL_DEBUG(IPW_DL_IO, f, ## a)
-                                 ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1388:43: note: expanded fro=
-m macro 'IPW_LL_DEBUG'
-   #define IPW_LL_DEBUG(level, fmt, args...) \
-                                             ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8258:6: note: Assuming the =
-condition is false
-           if (ipw_rx_queue_space (priv->rxq) > (RX_QUEUE_SIZE / 2))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8258:2: note: Taking false =
-branch
-           if (ipw_rx_queue_space (priv->rxq) > (RX_QUEUE_SIZE / 2))
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8261:9: note: Assuming 'i' =
-is not equal to 'r'
-           while (i !=3D r) {
-                  ^~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8261:2: note: Loop conditio=
-n is true.  Entering loop body
-           while (i !=3D r) {
-           ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8263:16: note: Assuming 'rx=
-b' is not equal to null
-                   if (unlikely(rxb =3D=3D NULL)) {
-                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8263:3: note: Taking false =
-branch
-                   if (unlikely(rxb =3D=3D NULL)) {
-                   ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8273:3: note: Assuming the =
-condition is false
-                   IPW_DEBUG_RX("Packet: type=3D%02X seq=3D%02X bits=3D%02X=
-\n",
-                   ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1463:35: note: expanded fro=
-m macro 'IPW_DEBUG_RX'
-   #define IPW_DEBUG_RX(f, a...)     IPW_LL_DEBUG(IPW_DL_RX, f, ## a)
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:10: note: expanded fro=
-m macro 'IPW_LL_DEBUG'
-   do { if (ipw_debug_level & (level)) \
-            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/ipw2x00/ipw2200.c:8273:3: note: Taking false =
-branch
-                   IPW_DEBUG_RX("Packet: type=3D%02X seq=3D%02X bits=3D%02X=
-\n",
-                   ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1463:35: note: expanded fro=
-m macro 'IPW_DEBUG_RX'
-   #define IPW_DEBUG_RX(f, a...)     IPW_LL_DEBUG(IPW_DL_RX, f, ## a)
-                                     ^
-   drivers/net/wireless/intel/ipw2x00/ipw2200.h:1389:6: note: expanded from=
- macro 'IPW_LL_DEBUG'
-   do { if (ipw_debug_level & (level)) \
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +183 include/scsi/scsi_cmnd.h
+>> drivers/firmware/arm_scmi/clock.c:242:40: warning: Variable 'msg' is not=
+ assigned a value. [unassignedVariable]
+    struct scmi_msg_clock_describe_rates *msg;
+                                          ^
 
-824d7b570b4dec FUJITA Tomonori 2007-05-26  180  =
+vim +/msg +242 drivers/firmware/arm_scmi/clock.c
 
-30b0c37b27485a Boaz Harrosh    2007-12-13  181  static inline unsigned scsi=
-_sg_count(struct scsi_cmnd *cmd)
-30b0c37b27485a Boaz Harrosh    2007-12-13  182  {
-30b0c37b27485a Boaz Harrosh    2007-12-13 @183  	return cmd->sdb.table.nent=
-s;
-30b0c37b27485a Boaz Harrosh    2007-12-13  184  }
-30b0c37b27485a Boaz Harrosh    2007-12-13  185  =
+9724722fde8f9b Sudeep Holla     2020-10-12  234  =
 
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  235  static int
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  236  scmi_clock_describe_rates_=
+get(const struct scmi_protocol_handle *ph, u32 clk_id,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  237  			      struct scmi_clock=
+_info *clk)
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  238  {
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  239  	int ret;
+5f6c6430e904d2 Sudeep Holla     2017-06-06  240  =
 
-:::::: The code at line 183 was first introduced by commit
-:::::: 30b0c37b27485a9cb897bfe3824f6f517b8c80d6 [SCSI] implement scsi_data_=
-buffer
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  241  	void *iter;
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30 @242  	struct scmi_msg_clock_des=
+cribe_rates *msg;
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  243  	struct scmi_iterator_ops =
+ops =3D {
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  244  		.prepare_message =3D ite=
+r_clk_describe_prepare_message,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  245  		.update_state =3D iter_c=
+lk_describe_update_state,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  246  		.process_response =3D it=
+er_clk_describe_process_response,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  247  	};
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  248  	struct scmi_clk_ipriv cpr=
+iv =3D {
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  249  		.clk_id =3D clk_id,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  250  		.clk =3D clk,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  251  	};
+5f6c6430e904d2 Sudeep Holla     2017-06-06  252  =
 
-:::::: TO: Boaz Harrosh <bharrosh@panasas.com>
-:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  253  	iter =3D ph->hops->iter_r=
+esponse_init(ph, &ops, SCMI_MAX_NUM_RATES,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  254  					    CLOCK_DESCRIBE_RA=
+TES,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  255  					    sizeof(*msg), &cp=
+riv);
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  256  	if (IS_ERR(iter))
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  257  		return PTR_ERR(iter);
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  258  =
+
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  259  	ret =3D ph->hops->iter_re=
+sponse_run(iter);
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  260  	if (ret)
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  261  		return ret;
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  262  =
+
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  263  	if (!clk->rate_discrete) {
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  264  		dev_dbg(ph->dev, "Min %l=
+lu Max %llu Step %llu Hz\n",
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  265  			clk->range.min_rate, cl=
+k->range.max_rate,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  266  			clk->range.step_size);
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  267  	} else if (clk->list.num_=
+rates) {
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  268  		sort(clk->list.rates, cl=
+k->list.num_rates,
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  269  		     sizeof(clk->list.ra=
+tes[0]), rate_cmp_func, NULL);
+7bc7caafe6b1e5 Cristian Marussi 2022-03-30  270  	}
+c0759b9b5d411a Peng Fan         2019-05-22  271  =
+
+5f6c6430e904d2 Sudeep Holla     2017-06-06  272  	return ret;
+5f6c6430e904d2 Sudeep Holla     2017-06-06  273  }
+5f6c6430e904d2 Sudeep Holla     2017-06-06  274  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6502072515410128302==--
+--===============2127098582216909011==--
 
