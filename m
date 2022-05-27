@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1301392675572140302=="
+Content-Type: multipart/mixed; boundary="===============8073721207867041594=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rppt:cet/kvm 18/51] arch/x86/mm/mmap.c:271 vm_start_gap() warn: bitwise AND condition is false here
-Date: Fri, 27 May 2022 19:40:54 +0800
-Message-ID: <202205271921.EBBhuC3J-lkp@intel.com>
+Subject: [rppt:cet/kvm 16/51] arch/x86/mm/pgtable.c:617 maybe_mkwrite() warn: bitwise AND condition is false here
+Date: Fri, 27 May 2022 18:41:13 +0800
+Message-ID: <202205271831.Tb2kH9zS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1301392675572140302==
+--===============8073721207867041594==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -24,12 +24,12 @@ CC: Rick Edgecombe <rick.p.edgecombe@intel.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git cet/=
 kvm
 head:   6c13d37e6c4ff3a7f86c5490b3d0f4f12d0a40da
-commit: 280ad6edcdca10e519d23349b18fa3e46330654c [18/51] mm: Add guard page=
-s around a shadow stack.
-:::::: branch date: 25 hours ago
+commit: c4cd555bfd9f80a5d2cdc9993d05f3b5bcb8ccae [16/51] x86/mm: Update may=
+be_mkwrite() for shadow stack
+:::::: branch date: 24 hours ago
 :::::: commit date: 4 months ago
 config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-527/202205271921.EBBhuC3J-lkp(a)intel.com/config)
+527/202205271831.Tb2kH9zS-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -37,61 +37,54 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-arch/x86/mm/mmap.c:271 vm_start_gap() warn: bitwise AND condition is false =
-here
-arch/x86/mm/mmap.c:289 vm_end_gap() warn: bitwise AND condition is false he=
-re
+arch/x86/mm/pgtable.c:617 maybe_mkwrite() warn: bitwise AND condition is fa=
+lse here
+arch/x86/mm/pgtable.c:627 maybe_pmd_mkwrite() warn: bitwise AND condition i=
+s false here
 
 Old smatch warnings:
-arch/x86/mm/mmap.c:168 arch_vma_name() warn: bitwise AND condition is false=
- here
+arch/x86/mm/pgtable.c:281 pgd_mop_up_pmds() warn: we never enter this loop
 
-vim +271 arch/x86/mm/mmap.c
+vim +617 arch/x86/mm/pgtable.c
 
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  263  =
+db3eb96f4e6281 Andrea Arcangeli 2011-01-13  612  =
 
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  264  unsigned long vm_start_gap(stru=
-ct vm_area_struct *vma)
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  265  {
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  266  	unsigned long vm_start =3D vma=
-->vm_start;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  267  	unsigned long gap =3D 0;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  268  =
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  613  pte_t maybe_mkwrite(pte_t =
+pte, struct vm_area_struct *vma)
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  614  {
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  615  	if (vma->vm_flags & VM_WR=
+ITE)
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  616  		pte =3D pte_mkwrite(pte);
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30 @617  	else if (vma->vm_flags & =
+VM_SHADOW_STACK)
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  618  		pte =3D pte_mkwrite_shst=
+k(pte);
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  619  	return pte;
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  620  }
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  621  =
 
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  269  	if (vma->vm_flags & VM_GROWSDO=
-WN)
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  270  		gap =3D stack_guard_gap;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30 @271  	else if (vma->vm_flags & VM_SH=
-ADOW_STACK)
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  272  		gap =3D SHADOW_STACK_GUARD_GA=
-P;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  273  =
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  622  #ifdef CONFIG_TRANSPARENT_=
+HUGEPAGE
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  623  pmd_t maybe_pmd_mkwrite(pm=
+d_t pmd, struct vm_area_struct *vma)
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  624  {
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  625  	if (vma->vm_flags & VM_WR=
+ITE)
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  626  		pmd =3D pmd_mkwrite(pmd);
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30 @627  	else if (vma->vm_flags & =
+VM_SHADOW_STACK)
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  628  		pmd =3D pmd_mkwrite_shst=
+k(pmd);
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  629  	return pmd;
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  630  }
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  631  #endif /* CONFIG_TRANSPARE=
+NT_HUGEPAGE */
+c4cd555bfd9f80 Yu-cheng Yu      2022-01-30  632  =
 
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  274  	if (gap !=3D 0) {
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  275  		vm_start -=3D gap;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  276  		if (vm_start > vma->vm_start)
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  277  			vm_start =3D 0;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  278  	}
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  279  	return vm_start;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  280  }
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  281  =
-
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  282  unsigned long vm_end_gap(struct=
- vm_area_struct *vma)
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  283  {
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  284  	unsigned long vm_end =3D vma->=
-vm_end;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  285  	unsigned long gap =3D 0;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  286  =
-
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  287  	if (vma->vm_flags & VM_GROWSUP)
-280ad6edcdca10 Yu-cheng Yu 2022-01-30  288  		gap =3D stack_guard_gap;
-280ad6edcdca10 Yu-cheng Yu 2022-01-30 @289  	else if (vma->vm_flags & VM_SH=
-ADOW_STACK)
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1301392675572140302==--
+--===============8073721207867041594==--
 
