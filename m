@@ -1,391 +1,157 @@
-Content-Type: multipart/mixed; boundary="===============8327660654167119748=="
+Content-Type: multipart/mixed; boundary="===============5789125304426501569=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: block/blk-mq.c:1302:2: warning: Address of stack memory associated with local variable 'wait' returned to caller [clang-analyzer-core.StackAddressEscape]
-Date: Sun, 29 May 2022 05:18:47 +0800
-Message-ID: <202205290526.Z2BTmGZk-lkp@intel.com>
+Subject: fs/ext4/ioctl.c:53:27: warning: Local variable 'es' shadows outer argument [shadowArgument]
+Date: Sun, 29 May 2022 02:36:53 +0800
+Message-ID: <202205290255.k6DQJcOb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8327660654167119748==
+--===============5789125304426501569==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Ming Lei <ming.lei@redhat.com>
-CC: Jens Axboe <axboe@kernel.dk>
+TO: Lukas Czerner <lczerner@redhat.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9d004b2f4fea97cde123e7f1939b80e77bf2e695
-commit: a327c341dc65e38af7a2398e7313e6f2c4a813db blk-mq: fix passthrough pl=
-ugging
-date:   2 weeks ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 2 weeks ago
-config: arm-randconfig-c002-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220529/202205290526.Z2BTmGZk-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 134d7f=
-9a4b97e9035150d970bd9e376043c4577e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da327c341dc65e38af7a2398e7313e6f2c4a813db
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a327c341dc65e38af7a2398e7313e6f2c4a813db
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: bbc605cdb1e15aafaec899fedc385dc75dddac0e ext4: implement support fo=
+r get/set fs label
+date:   5 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 5 months ago
+compiler: riscv64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout bbc605cdb1e15aafaec899fedc385dc75dddac0e
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:352:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:332:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   block/blk-mq.c:985:3: note: Loop condition is false.  Exiting loop
-                   WRITE_ONCE(rq->state, MQ_RQ_IDLE);
-                   ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:352:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:324:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   block/blk-mq.c:985:3: note: Loop condition is false.  Exiting loop
-                   WRITE_ONCE(rq->state, MQ_RQ_IDLE);
-                   ^
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-           ^
-   include/asm-generic/rwonce.h:53:35: note: expanded from macro '__WRITE_O=
-NCE'
-   #define __WRITE_ONCE(x, val)                                            \
-                                                                           ^
-   block/blk-mq.c:985:3: note: Loop condition is false.  Exiting loop
-                   WRITE_ONCE(rq->state, MQ_RQ_IDLE);
-                   ^
-   include/asm-generic/rwonce.h:58:33: note: expanded from macro 'WRITE_ONC=
-E'
-   #define WRITE_ONCE(x, val)                                              \
-                                                                           ^
-   block/blk-mq.c:986:7: note: Assuming the condition is false
-                   if (!req_ref_put_and_test(rq))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:986:3: note: Taking false branch
-                   if (!req_ref_put_and_test(rq))
-                   ^
-   block/blk-mq.c:992:7: note: 'nr_tags' is not equal to TAG_COMP_BATCH
-                   if (nr_tags =3D=3D TAG_COMP_BATCH || cur_hctx !=3D rq->m=
-q_hctx) {
-                       ^~~~~~~
-   block/blk-mq.c:992:7: note: Left side of '||' is false
-   block/blk-mq.c:992:36: note: Assuming 'cur_hctx' is equal to field 'mq_h=
-ctx'
-                   if (nr_tags =3D=3D TAG_COMP_BATCH || cur_hctx !=3D rq->m=
-q_hctx) {
-                                                    ^~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:992:3: note: Taking false branch
-                   if (nr_tags =3D=3D TAG_COMP_BATCH || cur_hctx !=3D rq->m=
-q_hctx) {
-                   ^
-   block/blk-mq.c:975:15: note: Left side of '&&' is true
-           while ((rq =3D rq_list_pop(&iob->req_list)) !=3D NULL) {
-                        ^
-   include/linux/blk-mq.h:226:6: note: expanded from macro 'rq_list_pop'
-           if ((listptr) && *(listptr))    {               \
-               ^
-   block/blk-mq.c:975:15: note: Assuming the condition is false
-           while ((rq =3D rq_list_pop(&iob->req_list)) !=3D NULL) {
-                        ^
-   include/linux/blk-mq.h:226:19: note: expanded from macro 'rq_list_pop'
-           if ((listptr) && *(listptr))    {               \
-                            ^~~~~~~~~~
-   block/blk-mq.c:975:15: note: Taking false branch
-           while ((rq =3D rq_list_pop(&iob->req_list)) !=3D NULL) {
-                        ^
-   include/linux/blk-mq.h:226:2: note: expanded from macro 'rq_list_pop'
-           if ((listptr) && *(listptr))    {               \
-           ^
-   block/blk-mq.c:975:2: note: Loop condition is false. Execution continues=
- on line 1001
-           while ((rq =3D rq_list_pop(&iob->req_list)) !=3D NULL) {
-           ^
-   block/blk-mq.c:1001:6: note: 'nr_tags' is 1
-           if (nr_tags)
-               ^~~~~~~
-   block/blk-mq.c:1001:2: note: Taking true branch
-           if (nr_tags)
-           ^
-   block/blk-mq.c:1002:26: note: Passing null pointer value via 1st paramet=
-er 'hctx'
-                   blk_mq_flush_tag_batch(cur_hctx, tags, nr_tags);
-                                          ^~~~~~~~
-   block/blk-mq.c:1002:3: note: Calling 'blk_mq_flush_tag_batch'
-                   blk_mq_flush_tag_batch(cur_hctx, tags, nr_tags);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:952:28: note: Access to field 'queue' results in a derefe=
-rence of a null pointer (loaded from variable 'hctx')
-           struct request_queue *q =3D hctx->queue;
-                                     ^~~~
->> block/blk-mq.c:1302:2: warning: Address of stack memory associated with =
-local variable 'wait' returned to caller [clang-analyzer-core.StackAddressE=
-scape]
-           return (blk_status_t)(uintptr_t)rq->end_io_data;
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1293:2: note: Taking false branch
-           if (blk_rq_is_poll(rq))
-           ^
-   block/blk-mq.c:1295:11: note: 'hang_check' is 0
-           else if (hang_check)
-                    ^~~~~~~~~~
-   block/blk-mq.c:1295:7: note: Taking false branch
-           else if (hang_check)
-                ^
-   block/blk-mq.c:1302:2: note: Address of stack memory associated with loc=
-al variable 'wait' returned to caller
-           return (blk_status_t)(uintptr_t)rq->end_io_data;
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1343:2: warning: Assigned value is garbage or undefined [=
-clang-analyzer-core.uninitialized.Assign]
-           list_for_each_entry_safe(rq, next, &rq_list, queuelist) {
-           ^
-   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^              ~~~~~~~~~~~~~
-   block/blk-mq.c:1340:2: note: Calling 'list_splice_init'
-           list_splice_init(&q->requeue_list, &rq_list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:490:6: note: Assuming the condition is false
-           if (!list_empty(list)) {
-               ^~~~~~~~~~~~~~~~~
-   include/linux/list.h:490:2: note: Taking false branch
-           if (!list_empty(list)) {
-           ^
-   block/blk-mq.c:1340:2: note: Returning from 'list_splice_init'
-           list_splice_init(&q->requeue_list, &rq_list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1343:2: note: Assigned value is garbage or undefined
-           list_for_each_entry_safe(rq, next, &rq_list, queuelist) {
-           ^
-   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^              ~~~~~~~~~~~~~
-   block/blk-mq.c:4234:3: warning: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
-reAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(new_tags, set->tags, cur_nr_hw_queues *
-                   ^~~~~~
-   block/blk-mq.c:4234:3: note: Call to function 'memcpy' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memcpy_s' in case of C11
-                   memcpy(new_tags, set->tags, cur_nr_hw_queues *
-                   ^~~~~~
-   block/blk-mq.c:4344:2: warning: Call to function 'memset' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
-reAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(set, 0, sizeof(*set));
-           ^~~~~~
-   block/blk-mq.c:4344:2: note: Call to function 'memset' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memset_s' in case of C11
-           memset(set, 0, sizeof(*set));
-           ^~~~~~
-   include/asm-generic/bitops/non-atomic.h:118:16: warning: Array access (f=
-rom variable 'addr') results in a null pointer dereference [clang-analyzer-=
-core.NullDereference]
-           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
-                         ^
-   block/blk-mq.c:3388:9: note: Assuming '____ptr' is null
-           hctx =3D hlist_entry_safe(node, struct blk_mq_hw_ctx, cpuhp_dead=
-);
-                  ^
-   include/linux/list.h:993:5: note: expanded from macro 'hlist_entry_safe'
-              ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-              ^~~~~~~
-   block/blk-mq.c:3388:9: note: '?' condition is false
-           hctx =3D hlist_entry_safe(node, struct blk_mq_hw_ctx, cpuhp_dead=
-);
-                  ^
-   include/linux/list.h:993:5: note: expanded from macro 'hlist_entry_safe'
-              ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-              ^
-   block/blk-mq.c:3389:7: note: Calling 'cpumask_test_cpu'
-           if (!cpumask_test_cpu(cpu, hctx->cpumask))
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cpumask.h:379:38: note: Passing null pointer value via 2nd=
- parameter 'addr'
-           return test_bit(cpumask_check(cpu), cpumask_bits((cpumask)));
-                                               ^
-   include/linux/cpumask.h:26:29: note: expanded from macro 'cpumask_bits'
-   #define cpumask_bits(maskp) ((maskp)->bits)
-                               ^~~~~~~~~~~~~~~
-   include/linux/cpumask.h:379:9: note: Calling 'arch_test_bit'
-           return test_bit(cpumask_check(cpu), cpumask_bits((cpumask)));
-                  ^
-   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
-o 'test_bit'
-   #define test_bit arch_test_bit
-                    ^
-   include/asm-generic/bitops/non-atomic.h:118:16: note: Array access (from=
- variable 'addr') results in a null pointer dereference
-           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/wait +1302 block/blk-mq.c
+>> fs/ext4/ioctl.c:53:27: warning: Local variable 'es' shadows outer argume=
+nt [shadowArgument]
+    struct ext4_super_block *es =3D sbi->s_es;
+                             ^
+   fs/ext4/ioctl.c:47:0: note: Shadowed declaration
+         ext4_update_sb_callback func,
+   ^
+   fs/ext4/ioctl.c:53:27: note: Shadow variable
+    struct ext4_super_block *es =3D sbi->s_es;
+                             ^
+   fs/ext4/ioctl.c:102:27: warning: Local variable 'es' shadows outer argum=
+ent [shadowArgument]
+    struct ext4_super_block *es;
+                             ^
+   fs/ext4/ioctl.c:96:0: note: Shadowed declaration
+        ext4_update_sb_callback func, const void *arg)
+   ^
+   fs/ext4/ioctl.c:102:27: note: Shadow variable
+    struct ext4_super_block *es;
+                             ^
+   fs/ext4/ext4.h:593:2: warning: Shifting signed 32-bit value by 31 bits i=
+s implementation-defined behaviour [shiftTooManyBitsSigned]
+    CHECK_FLAG_VALUE(RESERVED);
+    ^
+   fs/ext4/ext4.h:593:2: warning: Signed integer overflow for expression '1=
+<<EXT4_INODE_RESERVED'. [integerOverflow]
+    CHECK_FLAG_VALUE(RESERVED);
+    ^
+   fs/ext4/ext4_jbd2.h:402:9: warning: Variable '__ensure_end' is not assig=
+ned a value. [unassignedVariable]
+    return ext4_journal_ensure_credits_fn(handle, credits, credits,
+           ^
+>> fs/jbd2/journal.c:1165:59: warning: Parameter 'v' can be declared with c=
+onst [constParameter]
+   static int jbd2_seq_info_show(struct seq_file *seq, void *v)
+                                                             ^
+>> fs/jbd2/journal.c:894:35: warning: Uninitialized variable: blocknr [unin=
+itvar]
+    ret =3D jbd2_journal_bmap(journal, blocknr, &pblock);
+                                     ^
+   fs/jbd2/journal.c:883:46: note: Assuming condition is false
+    if (journal->j_fc_off + journal->j_fc_first < journal->j_fc_last) {
+                                                ^
+   fs/jbd2/journal.c:894:35: note: Uninitialized variable: blocknr
+    ret =3D jbd2_journal_bmap(journal, blocknr, &pblock);
+                                     ^
 
-4054cff92c3578 Christoph Hellwig 2021-11-17  1266  =
+vim +/es +53 fs/ext4/ioctl.c
 
-4054cff92c3578 Christoph Hellwig 2021-11-17  1267  /**
-4054cff92c3578 Christoph Hellwig 2021-11-17  1268   * blk_execute_rq - inse=
-rt a request into queue for execution
-4054cff92c3578 Christoph Hellwig 2021-11-17  1269   * @rq:		request to inse=
-rt
-4054cff92c3578 Christoph Hellwig 2021-11-17  1270   * @at_head:    insert r=
-equest at head or tail of queue
-4054cff92c3578 Christoph Hellwig 2021-11-17  1271   *
-4054cff92c3578 Christoph Hellwig 2021-11-17  1272   * Description:
-4054cff92c3578 Christoph Hellwig 2021-11-17  1273   *    Insert a fully pre=
-pared request at the back of the I/O scheduler queue
-4054cff92c3578 Christoph Hellwig 2021-11-17  1274   *    for execution and =
-wait for completion.
-4054cff92c3578 Christoph Hellwig 2021-11-17  1275   * Return: The blk_statu=
-s_t result provided to blk_mq_end_request().
-4054cff92c3578 Christoph Hellwig 2021-11-17  1276   */
-b84ba30b6c7a75 Christoph Hellwig 2021-11-26  1277  blk_status_t blk_execute=
-_rq(struct request *rq, bool at_head)
-4054cff92c3578 Christoph Hellwig 2021-11-17  1278  {
-4054cff92c3578 Christoph Hellwig 2021-11-17  1279  	DECLARE_COMPLETION_ONST=
-ACK(wait);
-4054cff92c3578 Christoph Hellwig 2021-11-17  1280  	unsigned long hang_chec=
-k;
-4054cff92c3578 Christoph Hellwig 2021-11-17  1281  =
+bbc605cdb1e15a Lukas Czerner 2021-12-13  44  =
 
-a327c341dc65e3 Ming Lei          2022-05-12  1282  	/*
-a327c341dc65e3 Ming Lei          2022-05-12  1283  	 * iopoll requires requ=
-est to be submitted to driver, so can't
-a327c341dc65e3 Ming Lei          2022-05-12  1284  	 * use plug
-a327c341dc65e3 Ming Lei          2022-05-12  1285  	 */
-4054cff92c3578 Christoph Hellwig 2021-11-17  1286  	rq->end_io_data =3D &wa=
-it;
-a327c341dc65e3 Ming Lei          2022-05-12  1287  	__blk_execute_rq_nowait=
-(rq, at_head, blk_end_sync_rq,
-a327c341dc65e3 Ming Lei          2022-05-12  1288  			!blk_rq_is_poll(rq));
-4054cff92c3578 Christoph Hellwig 2021-11-17  1289  =
+bbc605cdb1e15a Lukas Czerner 2021-12-13  45  static
+bbc605cdb1e15a Lukas Czerner 2021-12-13  46  int ext4_update_primary_sb(str=
+uct super_block *sb, handle_t *handle,
+bbc605cdb1e15a Lukas Czerner 2021-12-13  47  			   ext4_update_sb_callback =
+func,
+bbc605cdb1e15a Lukas Czerner 2021-12-13  48  			   const void *arg)
+bbc605cdb1e15a Lukas Czerner 2021-12-13  49  {
+bbc605cdb1e15a Lukas Czerner 2021-12-13  50  	int err =3D 0;
+bbc605cdb1e15a Lukas Czerner 2021-12-13  51  	struct ext4_sb_info *sbi =3D =
+EXT4_SB(sb);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  52  	struct buffer_head *bh =3D sb=
+i->s_sbh;
+bbc605cdb1e15a Lukas Czerner 2021-12-13 @53  	struct ext4_super_block *es =
+=3D sbi->s_es;
+bbc605cdb1e15a Lukas Czerner 2021-12-13  54  =
 
-4054cff92c3578 Christoph Hellwig 2021-11-17  1290  	/* Prevent hang_check t=
-imer from firing at us during very long I/O */
-4054cff92c3578 Christoph Hellwig 2021-11-17  1291  	hang_check =3D sysctl_h=
-ung_task_timeout_secs;
-4054cff92c3578 Christoph Hellwig 2021-11-17  1292  =
+bbc605cdb1e15a Lukas Czerner 2021-12-13  55  	trace_ext4_update_sb(sb, bh->=
+b_blocknr, 1);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  56  =
 
-4054cff92c3578 Christoph Hellwig 2021-11-17  1293  	if (blk_rq_is_poll(rq))
-4054cff92c3578 Christoph Hellwig 2021-11-17  1294  		blk_rq_poll_completion=
-(rq, &wait);
-4054cff92c3578 Christoph Hellwig 2021-11-17  1295  	else if (hang_check)
-4054cff92c3578 Christoph Hellwig 2021-11-17  1296  		while (!wait_for_compl=
-etion_io_timeout(&wait,
-4054cff92c3578 Christoph Hellwig 2021-11-17  1297  				hang_check * (HZ/2)))
-4054cff92c3578 Christoph Hellwig 2021-11-17  1298  			;
-4054cff92c3578 Christoph Hellwig 2021-11-17  1299  	else
-4054cff92c3578 Christoph Hellwig 2021-11-17  1300  		wait_for_completion_io=
-(&wait);
-4054cff92c3578 Christoph Hellwig 2021-11-17  1301  =
+bbc605cdb1e15a Lukas Czerner 2021-12-13  57  	BUFFER_TRACE(bh, "get_write_a=
+ccess");
+bbc605cdb1e15a Lukas Czerner 2021-12-13  58  	err =3D ext4_journal_get_writ=
+e_access(handle, sb,
+bbc605cdb1e15a Lukas Czerner 2021-12-13  59  					    bh,
+bbc605cdb1e15a Lukas Czerner 2021-12-13  60  					    EXT4_JTR_NONE);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  61  	if (err)
+bbc605cdb1e15a Lukas Czerner 2021-12-13  62  		goto out_err;
+bbc605cdb1e15a Lukas Czerner 2021-12-13  63  =
 
-4054cff92c3578 Christoph Hellwig 2021-11-17 @1302  	return (blk_status_t)(u=
-intptr_t)rq->end_io_data;
-4054cff92c3578 Christoph Hellwig 2021-11-17  1303  }
-4054cff92c3578 Christoph Hellwig 2021-11-17  1304  EXPORT_SYMBOL(blk_execut=
-e_rq);
-4054cff92c3578 Christoph Hellwig 2021-11-17  1305  =
+bbc605cdb1e15a Lukas Czerner 2021-12-13  64  	lock_buffer(bh);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  65  	func(es, arg);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  66  	ext4_superblock_csum_set(sb);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  67  	unlock_buffer(bh);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  68  =
 
+bbc605cdb1e15a Lukas Czerner 2021-12-13  69  	if (buffer_write_io_error(bh)=
+ || !buffer_uptodate(bh)) {
+bbc605cdb1e15a Lukas Czerner 2021-12-13  70  		ext4_msg(sbi->s_sb, KERN_ERR=
+, "previous I/O error to "
+bbc605cdb1e15a Lukas Czerner 2021-12-13  71  			 "superblock detected");
+bbc605cdb1e15a Lukas Czerner 2021-12-13  72  		clear_buffer_write_io_error(=
+bh);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  73  		set_buffer_uptodate(bh);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  74  	}
+bbc605cdb1e15a Lukas Czerner 2021-12-13  75  =
 
-:::::: The code at line 1302 was first introduced by commit
-:::::: 4054cff92c357813b6861b622122b344990f7e31 block: remove blk-exec.c
+bbc605cdb1e15a Lukas Czerner 2021-12-13  76  	err =3D ext4_handle_dirty_met=
+adata(handle, NULL, bh);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  77  	if (err)
+bbc605cdb1e15a Lukas Czerner 2021-12-13  78  		goto out_err;
+bbc605cdb1e15a Lukas Czerner 2021-12-13  79  	err =3D sync_dirty_buffer(bh);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  80  out_err:
+bbc605cdb1e15a Lukas Czerner 2021-12-13  81  	ext4_std_error(sb, err);
+bbc605cdb1e15a Lukas Czerner 2021-12-13  82  	return err;
+bbc605cdb1e15a Lukas Czerner 2021-12-13  83  }
+bbc605cdb1e15a Lukas Czerner 2021-12-13  84  =
 
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8327660654167119748==--
+--===============5789125304426501569==--
 
