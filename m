@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3644133898786267930=="
+Content-Type: multipart/mixed; boundary="===============5702140960324777278=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 8120/14198] drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: warning: Value stored to 'pctl' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 29 May 2022 01:56:20 +0800
-Message-ID: <202205290102.UgR3L6GL-lkp@intel.com>
+Subject: [rostedt-trace:ftrace/core 3/53] kernel/trace/trace_events_hist.c:2155:4: warning: Potential leak of memory pointed to by 'ref_field' [clang-analyzer-unix.Malloc]
+Date: Sun, 29 May 2022 01:35:57 +0800
+Message-ID: <202205290140.WVfzthcG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3644133898786267930==
+--===============5702140960324777278==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Fabien Dessenne <fabien.dessenne@foss.st.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Tom Zanussi <zanussi@kernel.org>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   d3fde8ff50ab265749704bd7fbcf70d35235421f
-commit: 3389b09878dddd58ef52bd0bf43cc42ea5a9ea2a [8120/14198] pinctrl: stm3=
-2: prevent the use of the secure protected pins
-:::::: branch date: 35 hours ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-c002-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220529/202205290102.UgR3L6GL-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
-3f486e01448121f7931a4ca29fac1504ab)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace=
+.git ftrace/core
+head:   b39181f7c6907dc66ff937b74758671fa6ba430c
+commit: b8cc44a4d3c19296dfd1be1a018a8523e09ab919 [3/53] tracing: Remove log=
+ic for registering multiple event triggers at a time
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 weeks ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+529/202205290140.WVfzthcG-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 134d7f=
+9a4b97e9035150d970bd9e376043c4577e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D3389b09878dddd58ef52bd0bf43cc42ea5a9ea2a
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 3389b09878dddd58ef52bd0bf43cc42ea5a9ea2a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-tra=
+ce.git/commit/?id=3Db8cc44a4d3c19296dfd1be1a018a8523e09ab919
+        git remote add rostedt-trace https://git.kernel.org/pub/scm/linux/k=
+ernel/git/rostedt/linux-trace.git
+        git fetch --no-tags rostedt-trace ftrace/core
+        git checkout b8cc44a4d3c19296dfd1be1a018a8523e09ab919
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -52,307 +50,341 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~
-   fs/nilfs2/btree.c:2324:2: note: Taking false branch
-           if (path =3D=3D NULL)
-           ^
-   fs/nilfs2/btree.c:2328:6: note: 'ret' is >=3D 0
-           if (ret < 0) {
-               ^~~
-   fs/nilfs2/btree.c:2328:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   fs/nilfs2/btree.c:2332:8: note: Calling 'nilfs_btree_get_block'
-           ret =3D nilfs_btree_get_block(btree, ptr, &bh);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nilfs2/btree.c:534:9: note: Calling '__nilfs_btree_get_block'
-           return __nilfs_btree_get_block(btree, ptr, bhp, NULL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nilfs2/btree.c:482:6: note: Assuming 'ret' is not equal to 0
-           if (ret) {
-               ^~~
-   fs/nilfs2/btree.c:482:2: note: Taking true branch
-           if (ret) {
-           ^
-   fs/nilfs2/btree.c:483:7: note: Assuming the condition is true
-                   if (ret !=3D -EEXIST)
-                       ^~~~~~~~~~~~~~
-   fs/nilfs2/btree.c:483:3: note: Taking true branch
-                   if (ret !=3D -EEXIST)
                    ^
-   fs/nilfs2/btree.c:484:4: note: Returning without writing to '*bhp'
-                           return ret;
-                           ^
-   fs/nilfs2/btree.c:534:9: note: Returning from '__nilfs_btree_get_block'
-           return __nilfs_btree_get_block(btree, ptr, bhp, NULL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nilfs2/btree.c:534:2: note: Returning without writing to '*bhp'
-           return __nilfs_btree_get_block(btree, ptr, bhp, NULL);
+   kernel/trace/trace_events_hist.c:3950:14: note: Calling 'create_var_ref'
+                           var_ref =3D create_var_ref(hist_data, hist_field,
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2142:14: note: Assuming 'i' is >=3D fie=
+ld 'n_var_refs'
+           for (i =3D 0; i < hist_data->n_var_refs; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2142:2: note: Loop condition is false. =
+Execution continues on line 2151
+           for (i =3D 0; i < hist_data->n_var_refs; i++) {
            ^
-   fs/nilfs2/btree.c:2332:8: note: Returning from 'nilfs_btree_get_block'
-           ret =3D nilfs_btree_get_block(btree, ptr, &bh);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nilfs2/btree.c:2333:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0) {
-               ^~~~~~~
-   fs/nilfs2/btree.c:2333:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   fs/nilfs2/btree.c:2338:7: note: 1st function call argument is an uniniti=
-alized value
-           if (!buffer_dirty(bh))
-                ^            ~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   kernel/kmod.c:142:8: warning: Call to function 'vsnprintf' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret =3D vsnprintf(module_name, MODULE_NAME_LEN, fmt, args);
-                 ^~~~~~~~~
-   kernel/kmod.c:142:8: note: Call to function 'vsnprintf' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'vsnprintf_s' in case of C11
-           ret =3D vsnprintf(module_name, MODULE_NAME_LEN, fmt, args);
-                 ^~~~~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
->> drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: warning: Value stored to '=
-pctl' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           struct stm32_pinctrl *pctl =3D dev_get_drvdata(bank->gpio_chip.p=
-arent);
-                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: note: Value stored to 'pct=
-l' during its initialization is never read
-           struct stm32_pinctrl *pctl =3D dev_get_drvdata(bank->gpio_chip.p=
-arent);
-                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1422:21: warning: Passed-by-value =
-struct argument contains uninitialized data (e.g., field: 'id_size') [clang=
--analyzer-core.CallAndMessage]
-                   pctl->irqmux[i] =3D devm_regmap_field_alloc(dev, rm, mux=
-);
-                                     ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1494:6: note: Assuming 'np' is non=
--null
-           if (!np)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1494:2: note: Taking false branch
-           if (!np)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:6: note: Assuming 'match' is =
-non-null
-           if (!match || !match->data)
-               ^~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:6: note: Left side of '||' is=
- false
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:16: note: Assuming field 'dat=
-a' is non-null
-           if (!match || !match->data)
-                         ^~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1498:2: note: Taking false branch
-           if (!match || !match->data)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1501:6: note: Assuming the conditi=
-on is false
-           if (!of_find_property(np, "pins-are-numbered", NULL)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1501:2: note: Taking false branch
-           if (!of_find_property(np, "pins-are-numbered", NULL)) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1507:6: note: Assuming 'pctl' is n=
-on-null
-           if (!pctl)
+   kernel/trace/trace_events_hist.c:2151:14: note: Calling 'create_hist_fie=
+ld'
+           ref_field =3D create_hist_field(var_field->hist_data, NULL, flag=
+s, NULL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   kernel/trace/trace_events_hist.c:1910:6: note: 'field' is null
+           if (field && is_function_field(field))
                ^~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1507:2: note: Taking false branch
-           if (!pctl)
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1514:2: note: Taking false branch
-           if (IS_ERR(pctl->domain))
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1519:6: note: 'hwlock_id' is >=3D 0
-           if (hwlock_id < 0) {
-               ^~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1519:2: note: Taking false branch
-           if (hwlock_id < 0) {
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1526:2: note: Loop condition is fa=
-lse.  Exiting loop
-           spin_lock_init(&pctl->irqmux_lock);
-           ^
-   include/linux/spinlock.h:339:34: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(_lock)                  \
-                                                   ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1532:2: note: Taking false branch
-           if (!of_property_read_u32(np, "st,package", &pctl->pkg))
-           ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1537:6: note: Assuming field 'pins=
-' is non-null
-           if (!pctl->pins)
+   kernel/trace/trace_events_hist.c:1910:12: note: Left side of '&&' is fal=
+se
+           if (field && is_function_field(field))
+                     ^
+   kernel/trace/trace_events_hist.c:1913:15: note: Calling 'kzalloc'
+           hist_field =3D kzalloc(sizeof(struct hist_field), GFP_KERNEL);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:714:9: note: Uninitialized value stored to field 'n=
+ame'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:714:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:1913:15: note: Returning from 'kzalloc'
+           hist_field =3D kzalloc(sizeof(struct hist_field), GFP_KERNEL);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:1914:6: note: Assuming 'hist_field' is =
+non-null
+           if (!hist_field)
                ^~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1537:2: note: Taking false branch
-           if (!pctl->pins)
+   kernel/trace/trace_events_hist.c:1914:2: note: Taking false branch
+           if (!hist_field)
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1541:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1541:2: note: Taking false branch
-           if (ret)
+   kernel/trace/trace_events_hist.c:1921:6: note: Left side of '||' is false
+           if (flags & HIST_FIELD_FL_EXPR || flags & HIST_FIELD_FL_ALIAS)
+               ^
+   kernel/trace/trace_events_hist.c:1921:2: note: Taking false branch
+           if (flags & HIST_FIELD_FL_EXPR || flags & HIST_FIELD_FL_ALIAS)
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1545:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1545:2: note: Taking false branch
-           if (ret) {
+   kernel/trace/trace_events_hist.c:1924:2: note: Taking true branch
+           if (flags & HIST_FIELD_FL_VAR_REF) {
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1550:6: note: Assuming field 'doma=
-in' is non-null
-           if (pctl->domain) {
-               ^~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1550:2: note: Taking true branch
-           if (pctl->domain) {
+   kernel/trace/trace_events_hist.c:1926:3: note: Control jumps to line 2013
+                   goto out;
+                   ^
+   kernel/trace/trace_events_hist.c:2016:6: note: 'var_name' is null
+           if (var_name) {
+               ^~~~~~~~
+   kernel/trace/trace_events_hist.c:2016:2: note: Taking false branch
+           if (var_name) {
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1551:9: note: Calling 'stm32_pctrl=
-_dt_setup_irq'
-                   ret =3D stm32_pctrl_dt_setup_irq(pdev, pctl);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1397:2: note: Taking false branch
-           if (IS_ERR(pctl->regmap))
+   kernel/trace/trace_events_hist.c:2022:2: note: Returning pointer (loaded=
+ from 'hist_field'), which participates in a condition later
+           return hist_field;
+           ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2151:14: note: Returning from 'create_h=
+ist_field'
+           ref_field =3D create_hist_field(var_field->hist_data, NULL, flag=
+s, NULL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   kernel/trace/trace_events_hist.c:2152:6: note: 'ref_field' is non-null
+           if (ref_field) {
+               ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:2152:2: note: Taking true branch
+           if (ref_field) {
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1403:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1403:2: note: Taking false branch
-           if (ret)
+   kernel/trace/trace_events_hist.c:2153:7: note: Calling 'init_var_ref'
+                   if (init_var_ref(ref_field, var_field, system, event_nam=
+e)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   kernel/trace/trace_events_hist.c:2059:6: note: 'system' is non-null
+           if (system) {
+               ^~~~~~
+   kernel/trace/trace_events_hist.c:2059:2: note: Taking true branch
+           if (system) {
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1407:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1407:2: note: Taking false branch
-           if (ret)
+   kernel/trace/trace_events_hist.c:2061:7: note: Assuming field 'system' i=
+s non-null
+                   if (!ref_field->system)
+                       ^~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2061:3: note: Taking false branch
+                   if (!ref_field->system)
+                   ^
+   kernel/trace/trace_events_hist.c:2065:6: note: 'event_name' is non-null
+           if (event_name) {
+               ^~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2065:2: note: Taking true branch
+           if (event_name) {
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1412:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (i =3D 0; i < STM32_GPIO_PINS_PER_BANK; i++) {
+   kernel/trace/trace_events_hist.c:2067:7: note: Assuming field 'event_nam=
+e' is null
+                   if (!ref_field->event_name) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2067:3: note: Taking true branch
+                   if (!ref_field->event_name) {
+                   ^
+   kernel/trace/trace_events_hist.c:2069:4: note: Control jumps to line 2095
+                           goto free;
+                           ^
+   kernel/trace/trace_events_hist.c:2097:2: note: 1st function call argumen=
+t is an uninitialized value
+           kfree(ref_field->name);
+           ^     ~~~~~~~~~~~~~~~
+>> kernel/trace/trace_events_hist.c:2155:4: warning: Potential leak of memo=
+ry pointed to by 'ref_field' [clang-analyzer-unix.Malloc]
+                           return NULL;
+                           ^
+   kernel/trace/trace_events_hist.c:4646:14: note: Assuming 'i' is < field =
+'n_actions'
+           for (i =3D 0; i < hist_data->attrs->n_actions; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:4646:2: note: Loop condition is true.  =
+Entering loop body
+           for (i =3D 0; i < hist_data->attrs->n_actions; i++) {
            ^
-   drivers/pinctrl/stm32/pinctrl-stm32.c:1413:3: note: 'mux' initialized he=
-re
+   kernel/trace/trace_events_hist.c:4649:7: note: Assuming field 'handler' =
+is equal to HANDLER_ONMATCH
+                   if (data->handler =3D=3D HANDLER_ONMATCH) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:4649:3: note: Taking true branch
+                   if (data->handler =3D=3D HANDLER_ONMATCH) {
+                   ^
+   kernel/trace/trace_events_hist.c:4650:10: note: Calling 'onmatch_create'
+                           ret =3D onmatch_create(hist_data, data);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:4058:9: note: Calling 'action_create'
+           return action_create(hist_data, data);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:4004:6: note: Assuming field 'action' i=
+s equal to ACTION_TRACE
+           if (data->action =3D=3D ACTION_TRACE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:4004:2: note: Taking true branch
+           if (data->action =3D=3D ACTION_TRACE)
+           ^
+   kernel/trace/trace_events_hist.c:4005:10: note: Calling 'trace_action_cr=
+eate'
+                   return trace_action_create(hist_data, data);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3895:2: note: Assuming 'debug_locks' is=
+ 0
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:3895:2: note: Left side of '&&' is false
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   kernel/trace/trace_events_hist.c:3895:2: note: Taking false branch
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   kernel/trace/trace_events_hist.c:3895:2: note: Loop condition is false. =
+ Exiting loop
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   kernel/trace/trace_events_hist.c:3897:6: note: Assuming field 'use_trace=
+_keyword' is false
+           if (data->use_trace_keyword)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3897:2: note: Taking false branch
+           if (data->use_trace_keyword)
+           ^
+   kernel/trace/trace_events_hist.c:3903:6: note: Assuming 'event' is non-n=
+ull
+           if (!event) {
+               ^~~~~~
+   kernel/trace/trace_events_hist.c:3903:2: note: Taking false branch
+           if (!event) {
+           ^
+   kernel/trace/trace_events_hist.c:3910:14: note: Assuming 'i' is < field =
+'n_params'
+           for (i =3D 0; i < data->n_params; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3910:2: note: Loop condition is true.  =
+Entering loop body
+           for (i =3D 0; i < data->n_params; i++) {
+           ^
+   kernel/trace/trace_events_hist.c:3914:7: note: Assuming 'param' is non-n=
+ull
+                   if (!param) {
+                       ^~~~~~
+   kernel/trace/trace_events_hist.c:3914:3: note: Taking false branch
+                   if (!param) {
+                   ^
+   kernel/trace/trace_events_hist.c:3920:7: note: Assuming 'param' is non-n=
+ull
+                   if (!param) {
+                       ^~~~~~
+   kernel/trace/trace_events_hist.c:3920:3: note: Taking false branch
+                   if (!param) {
 
-vim +/pctl +294 drivers/pinctrl/stm32/pinctrl-stm32.c
+vim +/ref_field +2155 kernel/trace/trace_events_hist.c
 
-acaa037970f610 Alexandre TORGUE 2017-05-29  288  =
+d380dcde9a07ca Tom Zanussi             2020-01-29  2117  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  289  static int stm32_gpio_init=
-_valid_mask(struct gpio_chip *chip,
-3389b09878dddd Fabien Dessenne  2022-05-02  290  				      unsigned long *v=
-alid_mask,
-3389b09878dddd Fabien Dessenne  2022-05-02  291  				      unsigned int ngp=
-ios)
-3389b09878dddd Fabien Dessenne  2022-05-02  292  {
-3389b09878dddd Fabien Dessenne  2022-05-02  293  	struct stm32_gpio_bank *b=
-ank =3D gpiochip_get_data(chip);
-3389b09878dddd Fabien Dessenne  2022-05-02 @294  	struct stm32_pinctrl *pct=
-l =3D dev_get_drvdata(bank->gpio_chip.parent);
-3389b09878dddd Fabien Dessenne  2022-05-02  295  	unsigned int i;
-3389b09878dddd Fabien Dessenne  2022-05-02  296  	u32 sec;
-3389b09878dddd Fabien Dessenne  2022-05-02  297  =
+de40f033d4e84e Tom Zanussi             2018-12-18  2118  /**
+de40f033d4e84e Tom Zanussi             2018-12-18  2119   * create_var_ref =
+- Create a variable reference and attach it to trigger
+de40f033d4e84e Tom Zanussi             2018-12-18  2120   * @hist_data: The=
+ trigger that will be referencing the variable
+de40f033d4e84e Tom Zanussi             2018-12-18  2121   * @var_field: The=
+ VAR field to create a reference to
+de40f033d4e84e Tom Zanussi             2018-12-18  2122   * @system: The op=
+tional system string
+de40f033d4e84e Tom Zanussi             2018-12-18  2123   * @event_name: Th=
+e optional event_name string
+de40f033d4e84e Tom Zanussi             2018-12-18  2124   *
+de40f033d4e84e Tom Zanussi             2018-12-18  2125   * Given a variabl=
+e hist_field, create a VAR_REF hist_field that
+de40f033d4e84e Tom Zanussi             2018-12-18  2126   * represents a re=
+ference to it.
+de40f033d4e84e Tom Zanussi             2018-12-18  2127   *
+de40f033d4e84e Tom Zanussi             2018-12-18  2128   * This function a=
+lso adds the reference to the trigger that
+de40f033d4e84e Tom Zanussi             2018-12-18  2129   * now references =
+the variable.
+de40f033d4e84e Tom Zanussi             2018-12-18  2130   *
+de40f033d4e84e Tom Zanussi             2018-12-18  2131   * Return: The VAR=
+_REF field if successful, NULL if not
+de40f033d4e84e Tom Zanussi             2018-12-18  2132   */
+de40f033d4e84e Tom Zanussi             2018-12-18  2133  static struct hist=
+_field *create_var_ref(struct hist_trigger_data *hist_data,
+de40f033d4e84e Tom Zanussi             2018-12-18  2134  					 struct hist_=
+field *var_field,
+067fe038e70f6e Tom Zanussi             2018-01-15  2135  					 char *system=
+, char *event_name)
+067fe038e70f6e Tom Zanussi             2018-01-15  2136  {
+067fe038e70f6e Tom Zanussi             2018-01-15  2137  	unsigned long fla=
+gs =3D HIST_FIELD_FL_VAR_REF;
+067fe038e70f6e Tom Zanussi             2018-01-15  2138  	struct hist_field=
+ *ref_field;
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2139) 	int i;
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2140) =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  298  	/* All gpio are valid per=
- default */
-3389b09878dddd Fabien Dessenne  2022-05-02  299  	bitmap_fill(valid_mask, n=
-gpios);
-3389b09878dddd Fabien Dessenne  2022-05-02  300  =
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2141) 	/* Check if the v=
+ariable already exists */
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2142) 	for (i =3D 0; i <=
+ hist_data->n_var_refs; i++) {
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2143) 		ref_field =3D hi=
+st_data->var_refs[i];
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2144) 		if (ref_field->v=
+ar.idx =3D=3D var_field->var.idx &&
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2145) 		    ref_field->v=
+ar.hist_data =3D=3D var_field->hist_data) {
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2146) 			get_hist_field(=
+ref_field);
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2147) 			return ref_fiel=
+d;
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2148) 		}
+8bcebc77e85f3d Steven Rostedt (VMware  2020-01-20  2149) 	}
+067fe038e70f6e Tom Zanussi             2018-01-15  2150  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  301  	if (bank->secure_control)=
- {
-3389b09878dddd Fabien Dessenne  2022-05-02  302  		/* Tag secured pins as i=
-nvalid */
-3389b09878dddd Fabien Dessenne  2022-05-02  303  		sec =3D readl_relaxed(ba=
-nk->base + STM32_GPIO_SECCFGR);
-3389b09878dddd Fabien Dessenne  2022-05-02  304  =
+067fe038e70f6e Tom Zanussi             2018-01-15  2151  	ref_field =3D cre=
+ate_hist_field(var_field->hist_data, NULL, flags, NULL);
+067fe038e70f6e Tom Zanussi             2018-01-15  2152  	if (ref_field) {
+067fe038e70f6e Tom Zanussi             2018-01-15  2153  		if (init_var_ref=
+(ref_field, var_field, system, event_name)) {
+067fe038e70f6e Tom Zanussi             2018-01-15  2154  			destroy_hist_fi=
+eld(ref_field, 0);
+067fe038e70f6e Tom Zanussi             2018-01-15 @2155  			return NULL;
+067fe038e70f6e Tom Zanussi             2018-01-15  2156  		}
+de40f033d4e84e Tom Zanussi             2018-12-18  2157  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  305  		for (i =3D 0; i < ngpios=
-; i++) {
-3389b09878dddd Fabien Dessenne  2022-05-02  306  			if (sec & BIT(i)) {
-3389b09878dddd Fabien Dessenne  2022-05-02  307  				clear_bit(i, valid_mas=
-k);
-3389b09878dddd Fabien Dessenne  2022-05-02  308  				dev_dbg(pctl->dev, "No=
- access to gpio %d - %d\n", bank->bank_nr, i);
-3389b09878dddd Fabien Dessenne  2022-05-02  309  			}
-3389b09878dddd Fabien Dessenne  2022-05-02  310  		}
-3389b09878dddd Fabien Dessenne  2022-05-02  311  	}
-3389b09878dddd Fabien Dessenne  2022-05-02  312  =
+de40f033d4e84e Tom Zanussi             2018-12-18  2158  		hist_data->var_r=
+efs[hist_data->n_var_refs] =3D ref_field;
+de40f033d4e84e Tom Zanussi             2018-12-18  2159  		ref_field->var_r=
+ef_idx =3D hist_data->n_var_refs++;
+067fe038e70f6e Tom Zanussi             2018-01-15  2160  	}
+067fe038e70f6e Tom Zanussi             2018-01-15  2161  =
 
-3389b09878dddd Fabien Dessenne  2022-05-02  313  	return 0;
-3389b09878dddd Fabien Dessenne  2022-05-02  314  }
-3389b09878dddd Fabien Dessenne  2022-05-02  315  =
+067fe038e70f6e Tom Zanussi             2018-01-15  2162  	return ref_field;
+067fe038e70f6e Tom Zanussi             2018-01-15  2163  }
+067fe038e70f6e Tom Zanussi             2018-01-15  2164  =
 
+
+:::::: The code at line 2155 was first introduced by commit
+:::::: 067fe038e70f6e64960d26a79c4df5f1413d0f13 tracing: Add variable refer=
+ence handling to hist triggers
+
+:::::: TO: Tom Zanussi <tom.zanussi@linux.intel.com>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3644133898786267930==--
+--===============5702140960324777278==--
 
