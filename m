@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1190190903730350113=="
+Content-Type: multipart/mixed; boundary="===============8347949126756920953=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/nouveau/nouveau_ttm.c:119 nv04_gart_manager_new() warn: should '(*res)->num_pages << 14' be a 64 bit type?
-Date: Sat, 28 May 2022 15:52:23 +0800
-Message-ID: <202205281512.oLwEutWh-lkp@intel.com>
+Subject: [jpirko-mlxsw:jiri_devel_components 1/3] net/core/devlink.c:6558 devlink_nl_info_fill() warn: missing error code 'err'
+Date: Sat, 28 May 2022 14:00:44 +0800
+Message-ID: <202205281346.ewkXalBD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1190190903730350113==
+--===============8347949126756920953==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,82 +15,115 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Matthew Auld <matthew.auld@intel.com>
+TO: Jiri Pirko <jiri@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9d004b2f4fea97cde123e7f1939b80e77bf2e695
-commit: cb1c81467af355829a4a9d8fa3f92ffab355d93c drm/ttm: flip the switch f=
-or driver allocated resources v2
-date:   12 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 12 months ago
+tree:   https://github.com/jpirko/linux_mlxsw jiri_devel_components
+head:   9360f04ac2b51764d94b40113ef1b21b95835ae6
+commit: e7261a9db46b29988444322b7b506954c06a7f4d [1/3] net: devlink: introd=
+uce flash components list
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
 config: arc-randconfig-m031-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220528/202205281512.oLwEutWh-lkp(a)intel.com/config)
+ve/20220528/202205281346.ewkXalBD-lkp(a)intel.com/config)
 compiler: arceb-elf-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nouveau_ttm.c:119 nv04_gart_manager_new() warn: sho=
-uld '(*res)->num_pages << 14' be a 64 bit type?
+New smatch warnings:
+net/core/devlink.c:6558 devlink_nl_info_fill() warn: missing error code 'er=
+r'
 
-vim +119 drivers/gpu/drm/nouveau/nouveau_ttm.c
+Old smatch warnings:
+net/core/devlink.c:7154 devlink_fmsg_prepare_skb() error: uninitialized sym=
+bol 'err'.
+arch/arc/include/asm/thread_info.h:62 current_thread_info() error: uninitia=
+lized symbol 'sp'.
 
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  100  =
+vim +/err +6558 net/core/devlink.c
 
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  101  static int
-9de59bc201496f Dave Airlie     2020-08-04  102  nv04_gart_manager_new(struc=
-t ttm_resource_manager *man,
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  103  		      struct ttm_buffer_o=
-bject *bo,
-f1217ed09f827e Christian K=C3=B6nig 2014-08-27  104  		      const struct t=
-tm_place *place,
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30  105  		      struct ttm_res=
-ource **res)
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  106  {
-9ce523cc3bf2ac Ben Skeggs      2017-11-01  107  	struct nouveau_bo *nvbo =
-=3D nouveau_bo(bo);
-0d5a03c3d92548 Ben Skeggs      2018-05-08  108  	struct nouveau_drm *drm =
-=3D nouveau_bdev(bo->bdev);
-9ce523cc3bf2ac Ben Skeggs      2017-11-01  109  	struct nouveau_mem *mem;
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  110  	int ret;
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  111  =
+fc6fae7dd987dc Jakub Kicinski 2019-01-31  6529  =
 
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30  112  	ret =3D nouveau_mem_n=
-ew(&drm->master, nvbo->kind, nvbo->comp, res);
-9ce523cc3bf2ac Ben Skeggs      2017-11-01  113  	if (ret)
-9ce523cc3bf2ac Ben Skeggs      2017-11-01  114  		return ret;
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  115  =
+f9cf22882c606f Jakub Kicinski 2019-01-31  6530  static int
+f9cf22882c606f Jakub Kicinski 2019-01-31  6531  devlink_nl_info_fill(struct=
+ sk_buff *msg, struct devlink *devlink,
+f9cf22882c606f Jakub Kicinski 2019-01-31  6532  		     enum devlink_command=
+ cmd, u32 portid,
+f9cf22882c606f Jakub Kicinski 2019-01-31  6533  		     u32 seq, int flags, =
+struct netlink_ext_ack *extack)
+f9cf22882c606f Jakub Kicinski 2019-01-31  6534  {
+e7261a9db46b29 Jiri Pirko     2022-05-27  6535  	struct devlink_flash_compo=
+nent *component;
+e7261a9db46b29 Jiri Pirko     2022-05-27  6536  	struct nlattr *component_a=
+ttr;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6537  	struct devlink_info_req re=
+q;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6538  	void *hdr;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6539  	int err;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6540  =
 
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30  116  	mem =3D nouveau_mem(*=
-res);
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30  117  	ttm_resource_init(bo,=
- place, *res);
-d7722134b8254b Ben Skeggs      2017-11-01  118  	ret =3D nvif_vmm_get(&mem-=
->cli->vmm.vmm, PTES, false, 12, 0,
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30 @119  			   (long)(*res)->nu=
-m_pages << PAGE_SHIFT, &mem->vma[0]);
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  120  	if (ret) {
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30  121  		nouveau_mem_del(*res=
-);
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  122  		return ret;
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  123  	}
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  124  =
+f9cf22882c606f Jakub Kicinski 2019-01-31  6541  	hdr =3D genlmsg_put(msg, p=
+ortid, seq, &devlink_nl_family, flags, cmd);
+f9cf22882c606f Jakub Kicinski 2019-01-31  6542  	if (!hdr)
+f9cf22882c606f Jakub Kicinski 2019-01-31  6543  		return -EMSGSIZE;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6544  =
 
-cb1c81467af355 Christian K=C3=B6nig 2021-04-30  125  	(*res)->start =3D mem=
-->vma[0].addr >> PAGE_SHIFT;
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  126  	return 0;
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  127  }
-bc9e7b9a61e9e9 Ben Skeggs      2012-07-19  128  =
+f9cf22882c606f Jakub Kicinski 2019-01-31  6545  	err =3D -EMSGSIZE;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6546  	if (devlink_nl_put_handle(=
+msg, devlink))
+f9cf22882c606f Jakub Kicinski 2019-01-31  6547  		goto err_cancel_msg;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6548  =
+
+f9cf22882c606f Jakub Kicinski 2019-01-31  6549  	req.msg =3D msg;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6550  	err =3D devlink->ops->info=
+_get(devlink, &req, extack);
+f9cf22882c606f Jakub Kicinski 2019-01-31  6551  	if (err)
+f9cf22882c606f Jakub Kicinski 2019-01-31  6552  		goto err_cancel_msg;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6553  =
+
+e7261a9db46b29 Jiri Pirko     2022-05-27  6554  	mutex_lock(&devlink->compo=
+nents_lock);
+e7261a9db46b29 Jiri Pirko     2022-05-27  6555  	list_for_each_entry(compon=
+ent, &devlink->component_list, list) {
+e7261a9db46b29 Jiri Pirko     2022-05-27  6556  		component_attr =3D nla_ne=
+st_start(msg, DEVLINK_ATTR_INFO_COMPONENT);
+e7261a9db46b29 Jiri Pirko     2022-05-27  6557  		if (!component_attr)
+e7261a9db46b29 Jiri Pirko     2022-05-27 @6558  			goto err_cancel_msg_unlo=
+ck;
+e7261a9db46b29 Jiri Pirko     2022-05-27  6559  		if (nla_put_string(msg, D=
+EVLINK_ATTR_FLASH_UPDATE_COMPONENT,
+e7261a9db46b29 Jiri Pirko     2022-05-27  6560  				   component->name))
+e7261a9db46b29 Jiri Pirko     2022-05-27  6561  			goto err_cancel_msg_unlo=
+ck;
+e7261a9db46b29 Jiri Pirko     2022-05-27  6562  		err =3D component->info_g=
+et(devlink, &req, component->priv,
+e7261a9db46b29 Jiri Pirko     2022-05-27  6563  					  extack);
+e7261a9db46b29 Jiri Pirko     2022-05-27  6564  		if (err)
+e7261a9db46b29 Jiri Pirko     2022-05-27  6565  			goto err_cancel_msg_unlo=
+ck;
+e7261a9db46b29 Jiri Pirko     2022-05-27  6566  		nla_nest_end(msg, compone=
+nt_attr);
+e7261a9db46b29 Jiri Pirko     2022-05-27  6567  	}
+e7261a9db46b29 Jiri Pirko     2022-05-27  6568  	mutex_unlock(&devlink->com=
+ponents_lock);
+f9cf22882c606f Jakub Kicinski 2019-01-31  6569  	genlmsg_end(msg, hdr);
+f9cf22882c606f Jakub Kicinski 2019-01-31  6570  	return 0;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6571  =
+
+e7261a9db46b29 Jiri Pirko     2022-05-27  6572  err_cancel_msg_unlock:
+e7261a9db46b29 Jiri Pirko     2022-05-27  6573  	mutex_unlock(&devlink->com=
+ponents_lock);
+f9cf22882c606f Jakub Kicinski 2019-01-31  6574  err_cancel_msg:
+f9cf22882c606f Jakub Kicinski 2019-01-31  6575  	genlmsg_cancel(msg, hdr);
+f9cf22882c606f Jakub Kicinski 2019-01-31  6576  	return err;
+f9cf22882c606f Jakub Kicinski 2019-01-31  6577  }
+f9cf22882c606f Jakub Kicinski 2019-01-31  6578  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1190190903730350113==--
+--===============8347949126756920953==--
 
