@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7511398802024244338=="
+Content-Type: multipart/mixed; boundary="===============6563964473693059622=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:737 sja1105_init_topology() warn: should '(((1))) << port' be a 64 bit type?
-Date: Sun, 29 May 2022 08:41:45 +0800
-Message-ID: <202205290837.so6t10WL-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: should '((((1))) << port)' be a 64 bit type?
+Date: Sun, 29 May 2022 05:29:02 +0800
+Message-ID: <202205290518.2uDXG8uf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7511398802024244338==
+--===============6563964473693059622==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,17 +16,18 @@ CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
 TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9d004b2f4fea97cde123e7f1939b80e77bf2e695
-commit: 30a100e60cf36ade9902dc71610f93563d0bd7b0 net: dsa: sja1105: configu=
-re the cascade ports based on topology
+commit: bef0746cf4cce238b1943df5d5b8f3103da92ead net: dsa: sja1105: make su=
+re untagged packets are dropped on ingress ports with no pvid
 date:   10 months ago
-:::::: branch date: 20 hours ago
+:::::: branch date: 17 hours ago
 :::::: commit date: 10 months ago
 config: arc-randconfig-m031-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220529/202205290837.so6t10WL-lkp(a)intel.com/config)
+ve/20220529/202205290518.2uDXG8uf-lkp(a)intel.com/config)
 compiler: arceb-elf-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -34,16 +35,14 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:737 sja1105_init_topology() warn: sh=
-ould '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
+ld '((((1))) << port)' be a 64 bit type?
 
 Old smatch warnings:
 drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
 : should '(((1))) << to' be a 64 bit type?
 drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
 d '((((1))) << to)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
-ld '((((1))) << port)' be a 64 bit type?
 drivers/net/dsa/sja1105/sja1105_main.c:248 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
 drivers/net/dsa/sja1105/sja1105_main.c:260 sja1105_init_mii_settings() warn=
@@ -63,159 +62,100 @@ n: should '(((1))) << upstream' be a 64 bit type?
 drivers/net/dsa/sja1105/sja1105_main.c:604 sja1105_init_l2_forwarding_param=
 s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
 g_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:848 sja1105_init_avb_params() warn: =
+drivers/net/dsa/sja1105/sja1105_main.c:777 sja1105_init_general_params() wa=
+rn: is 'table->entries' large enough for 'struct sja1105_general_params_ent=
+ry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:805 sja1105_init_avb_params() warn: =
 is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:1315 sja1105_find_static_fdb_entry()=
+drivers/net/dsa/sja1105/sja1105_main.c:1272 sja1105_find_static_fdb_entry()=
  warn: should '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1433 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1390 sja1105et_fdb_add() warn: shoul=
 d '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1435 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1392 sja1105et_fdb_add() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1443 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1400 sja1105et_fdb_add() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1529 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1486 sja1105pqrs_fdb_add() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1537 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1494 sja1105pqrs_fdb_add() warn: sho=
 uld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1542 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1499 sja1105pqrs_fdb_add() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1592 sja1105pqrs_fdb_del() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1549 sja1105pqrs_fdb_del() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1661 sja1105_fdb_dump() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:1618 sja1105_fdb_dump() warn: should=
  '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1713 sja1105_manage_flood_domains() =
+drivers/net/dsa/sja1105/sja1105_main.c:1670 sja1105_manage_flood_domains() =
 warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1715 sja1105_manage_flood_domains() =
+drivers/net/dsa/sja1105/sja1105_main.c:1672 sja1105_manage_flood_domains() =
 warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2208 sja1105_vlan_add() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:2165 sja1105_vlan_add() warn: should=
  '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2209 sja1105_vlan_add() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:2166 sja1105_vlan_add() warn: should=
  '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2213 sja1105_vlan_add() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:2170 sja1105_vlan_add() warn: should=
  '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2522 sja1105_mgmt_xmit() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:2479 sja1105_mgmt_xmit() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2840 sja1105_port_mcast_flood() warn=
+drivers/net/dsa/sja1105/sja1105_main.c:2797 sja1105_port_mcast_flood() warn=
 : should '(((1))) << to' be a 64 bit type?
 
-vim +737 drivers/net/dsa/sja1105/sja1105_main.c
+vim +129 drivers/net/dsa/sja1105/sja1105_main.c
 
-ceec8bc0988dca Vladimir Oltean 2021-06-08  690  =
+cde8078e83e320 Vladimir Oltean 2021-07-29  106  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  691  static int sja1105_init_top=
-ology(struct sja1105_private *priv,
-30a100e60cf36a Vladimir Oltean 2021-08-04  692  				 struct sja1105_general=
-_params_entry *general_params)
-30a100e60cf36a Vladimir Oltean 2021-08-04  693  {
-30a100e60cf36a Vladimir Oltean 2021-08-04  694  	struct dsa_switch *ds =3D =
-priv->ds;
-30a100e60cf36a Vladimir Oltean 2021-08-04  695  	int port;
-30a100e60cf36a Vladimir Oltean 2021-08-04  696  =
+cde8078e83e320 Vladimir Oltean 2021-07-29  107  static int sja1105_commit_p=
+vid(struct dsa_switch *ds, int port)
+cde8078e83e320 Vladimir Oltean 2021-07-29  108  {
+cde8078e83e320 Vladimir Oltean 2021-07-29  109  	struct dsa_port *dp =3D ds=
+a_to_port(ds, port);
+cde8078e83e320 Vladimir Oltean 2021-07-29  110  	struct sja1105_private *pr=
+iv =3D ds->priv;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  111  	struct sja1105_vlan_lookup=
+_entry *vlan;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  112  	bool drop_untagged =3D fal=
+se;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  113  	int match, rc;
+cde8078e83e320 Vladimir Oltean 2021-07-29  114  	u16 pvid;
+cde8078e83e320 Vladimir Oltean 2021-07-29  115  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  697  	/* The host port is the de=
-stination for traffic matching mac_fltres1
-30a100e60cf36a Vladimir Oltean 2021-08-04  698  	 * and mac_fltres0 on all =
-ports except itself. Default to an invalid
-30a100e60cf36a Vladimir Oltean 2021-08-04  699  	 * value.
-30a100e60cf36a Vladimir Oltean 2021-08-04  700  	 */
-30a100e60cf36a Vladimir Oltean 2021-08-04  701  	general_params->host_port =
-=3D ds->num_ports;
-30a100e60cf36a Vladimir Oltean 2021-08-04  702  =
+cde8078e83e320 Vladimir Oltean 2021-07-29  116  	if (dp->bridge_dev && br_v=
+lan_enabled(dp->bridge_dev))
+cde8078e83e320 Vladimir Oltean 2021-07-29  117  		pvid =3D priv->bridge_pvi=
+d[port];
+cde8078e83e320 Vladimir Oltean 2021-07-29  118  	else
+cde8078e83e320 Vladimir Oltean 2021-07-29  119  		pvid =3D priv->tag_8021q_=
+pvid[port];
+cde8078e83e320 Vladimir Oltean 2021-07-29  120  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  703  	/* Link-local traffic rece=
-ived on casc_port will be forwarded
-30a100e60cf36a Vladimir Oltean 2021-08-04  704  	 * to host_port without em=
-bedding the source port and device ID
-30a100e60cf36a Vladimir Oltean 2021-08-04  705  	 * info in the destination=
- MAC address, and no RX timestamps will be
-30a100e60cf36a Vladimir Oltean 2021-08-04  706  	 * taken either (presumabl=
-y because it is a cascaded port and a
-30a100e60cf36a Vladimir Oltean 2021-08-04  707  	 * downstream SJA switch a=
-lready did that).
-30a100e60cf36a Vladimir Oltean 2021-08-04  708  	 * To disable the feature,=
- we need to do different things depending on
-30a100e60cf36a Vladimir Oltean 2021-08-04  709  	 * switch generation. On S=
-JA1105 we need to set an invalid port, while
-30a100e60cf36a Vladimir Oltean 2021-08-04  710  	 * on SJA1110 which suppor=
-t multiple cascaded ports, this field is a
-30a100e60cf36a Vladimir Oltean 2021-08-04  711  	 * bitmask so it must be l=
-eft zero.
-30a100e60cf36a Vladimir Oltean 2021-08-04  712  	 */
-30a100e60cf36a Vladimir Oltean 2021-08-04  713  	if (!priv->info->multiple_=
-cascade_ports)
-30a100e60cf36a Vladimir Oltean 2021-08-04  714  		general_params->casc_port=
- =3D ds->num_ports;
-30a100e60cf36a Vladimir Oltean 2021-08-04  715  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  121  	rc =3D sja1105_pvid_apply(=
+priv, port, pvid);
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  122  	if (rc)
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  123  		return rc;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  124  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  716  	for (port =3D 0; port < ds=
-->num_ports; port++) {
-30a100e60cf36a Vladimir Oltean 2021-08-04  717  		bool is_upstream =3D dsa_=
-is_upstream_port(ds, port);
-30a100e60cf36a Vladimir Oltean 2021-08-04  718  		bool is_dsa_link =3D dsa_=
-is_dsa_port(ds, port);
-30a100e60cf36a Vladimir Oltean 2021-08-04  719  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  125  	vlan =3D priv->static_conf=
+ig.tables[BLK_IDX_VLAN_LOOKUP].entries;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  126  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  720  		/* Upstream ports can be =
-dedicated CPU ports or
-30a100e60cf36a Vladimir Oltean 2021-08-04  721  		 * upstream-facing DSA li=
-nks
-30a100e60cf36a Vladimir Oltean 2021-08-04  722  		 */
-30a100e60cf36a Vladimir Oltean 2021-08-04  723  		if (is_upstream) {
-30a100e60cf36a Vladimir Oltean 2021-08-04  724  			if (general_params->host=
-_port =3D=3D ds->num_ports) {
-30a100e60cf36a Vladimir Oltean 2021-08-04  725  				general_params->host_po=
-rt =3D port;
-30a100e60cf36a Vladimir Oltean 2021-08-04  726  			} else {
-30a100e60cf36a Vladimir Oltean 2021-08-04  727  				dev_err(ds->dev,
-30a100e60cf36a Vladimir Oltean 2021-08-04  728  					"Port %llu is already =
-a host port, configuring %d as one too is not supported\n",
-30a100e60cf36a Vladimir Oltean 2021-08-04  729  					general_params->host_p=
-ort, port);
-30a100e60cf36a Vladimir Oltean 2021-08-04  730  				return -EINVAL;
-30a100e60cf36a Vladimir Oltean 2021-08-04  731  			}
-30a100e60cf36a Vladimir Oltean 2021-08-04  732  		}
-30a100e60cf36a Vladimir Oltean 2021-08-04  733  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  127  	match =3D sja1105_is_vlan_=
+configured(priv, pvid);
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  128  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  734  		/* Cascade ports are down=
-stream-facing DSA links */
-30a100e60cf36a Vladimir Oltean 2021-08-04  735  		if (is_dsa_link && !is_up=
-stream) {
-30a100e60cf36a Vladimir Oltean 2021-08-04  736  			if (priv->info->multiple=
-_cascade_ports) {
-30a100e60cf36a Vladimir Oltean 2021-08-04 @737  				general_params->casc_po=
-rt |=3D BIT(port);
-30a100e60cf36a Vladimir Oltean 2021-08-04  738  			} else if (general_param=
-s->casc_port =3D=3D ds->num_ports) {
-30a100e60cf36a Vladimir Oltean 2021-08-04  739  				general_params->casc_po=
-rt =3D port;
-30a100e60cf36a Vladimir Oltean 2021-08-04  740  			} else {
-30a100e60cf36a Vladimir Oltean 2021-08-04  741  				dev_err(ds->dev,
-30a100e60cf36a Vladimir Oltean 2021-08-04  742  					"Port %llu is already =
-a cascade port, configuring %d as one too is not supported\n",
-30a100e60cf36a Vladimir Oltean 2021-08-04  743  					general_params->casc_p=
-ort, port);
-30a100e60cf36a Vladimir Oltean 2021-08-04  744  				return -EINVAL;
-30a100e60cf36a Vladimir Oltean 2021-08-04  745  			}
-30a100e60cf36a Vladimir Oltean 2021-08-04  746  		}
-30a100e60cf36a Vladimir Oltean 2021-08-04  747  	}
-30a100e60cf36a Vladimir Oltean 2021-08-04  748  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29 @129  	if (match < 0 || !(vlan[ma=
+tch].vmemb_port & BIT(port)))
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  130  		drop_untagged =3D true;
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  131  =
 
-30a100e60cf36a Vladimir Oltean 2021-08-04  749  	if (general_params->host_p=
-ort =3D=3D ds->num_ports) {
-30a100e60cf36a Vladimir Oltean 2021-08-04  750  		dev_err(ds->dev, "No host=
- port configured\n");
-30a100e60cf36a Vladimir Oltean 2021-08-04  751  		return -EINVAL;
-30a100e60cf36a Vladimir Oltean 2021-08-04  752  	}
-30a100e60cf36a Vladimir Oltean 2021-08-04  753  =
-
-30a100e60cf36a Vladimir Oltean 2021-08-04  754  	return 0;
-30a100e60cf36a Vladimir Oltean 2021-08-04  755  }
-30a100e60cf36a Vladimir Oltean 2021-08-04  756  =
+bef0746cf4cce2 Vladimir Oltean 2021-07-29  132  	return sja1105_drop_untagg=
+ed(ds, port, drop_untagged);
+cde8078e83e320 Vladimir Oltean 2021-07-29  133  }
+cde8078e83e320 Vladimir Oltean 2021-07-29  134  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7511398802024244338==--
+--===============6563964473693059622==--
 
