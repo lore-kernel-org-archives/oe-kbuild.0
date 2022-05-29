@@ -1,44 +1,54 @@
-Content-Type: multipart/mixed; boundary="===============1615688835533311702=="
+Content-Type: multipart/mixed; boundary="===============2585939247705369995=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.10 25/29] drivers/edac/edac_mc.c:1155:8: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provid...
-Date: Mon, 30 May 2022 02:59:25 +0800
-Message-ID: <202205300258.ctHXLrDa-lkp@intel.com>
+Subject: drivers/scsi/elx/efct/efct_hw.c:1518:3: warning: Value stored to 'ctx' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 30 May 2022 02:18:41 +0800
+Message-ID: <202205300249.0VPxOAZe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1615688835533311702==
+--===============2585939247705369995==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: James Smart <jsmart2021@gmail.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Hannes Reinecke <hare@suse.de>
+CC: Daniel Wagner <dwagner@suse.de>
+CC: Ram Vegesna <ram.vegesna@broadcom.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.10
-head:   13491710253d86e7fa5deb854bd304b1dd06ab9e
-commit: 56f22b8f6853d26be82709a978e89db6856af6b4 [25/29] BACKPORT: Kbuild: =
-move to -std=3Dgnu11
-:::::: branch date: 2 days ago
-:::::: commit date: 12 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-530/202205300258.ctHXLrDa-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
-3f486e01448121f7931a4ca29fac1504ab)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   664a393a2663a0f62fc1b18157ccae33dcdbb8c8
+commit: ebc076b3eddc807729bd81f7bc48e798a3ddc477 scsi: elx: efct: Tie into =
+kernel Kconfig and build process
+date:   12 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 12 months ago
+config: s390-randconfig-c005-20220524 (https://download.01.org/0day-ci/arch=
+ive/20220530/202205300249.0VPxOAZe-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 10c9ec=
+ce9f6096e18222a331c5e7d085bd813f75)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromium=
-os/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.10
-        git checkout 56f22b8f6853d26be82709a978e89db6856af6b4
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Debc076b3eddc807729bd81f7bc48e798a3ddc477
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ebc076b3eddc807729bd81f7bc48e798a3ddc477
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Ds390 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -46,945 +56,1340 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           ^~~~~~
-   drivers/edac/edac_mc.c:1119:4: note: Call to function 'strcpy' is insecu=
+           ^~~~~~~~
+   drivers/atm/fore200e.c:1234:5: note: Taking true branch
+       if (activate) {
+       ^
+   drivers/atm/fore200e.c:1252:9: note: 'activate' is 1
+       if (activate) {
+           ^~~~~~~~
+   drivers/atm/fore200e.c:1252:5: note: Taking true branch
+       if (activate) {
+       ^
+   drivers/atm/fore200e.c:1259:2: note: 1st function call argument is an un=
+initialized value
+           fore200e->bus->write(*(u32*)&vpvc,         (u32 __iomem *)&entry=
+->cp_entry->cmd.activate_block.vpvc);
+           ^                    ~~~~~~~~~~~~
+   drivers/atm/fore200e.c:1263:2: warning: 1st function call argument is an=
+ uninitialized value [clang-analyzer-core.CallAndMessage]
+           fore200e->bus->write(*(u32*)&vpvc,         (u32 __iomem *)&entry=
+->cp_entry->cmd.deactivate_block.vpvc);
+           ^
+   drivers/atm/fore200e.c:1419:5: note: Assuming 'vcc' is non-null
+       ASSERT(vcc);
+       ^
+   drivers/atm/fore200e.c:85:30: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                                ^~~~~~~
+   drivers/atm/fore200e.c:1419:5: note: Taking false branch
+       ASSERT(vcc);
+       ^
+   drivers/atm/fore200e.c:85:26: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                            ^
+   drivers/atm/fore200e.c:1422:13: note: Assuming field 'vpi' is >=3D 0
+       ASSERT((vcc->vpi >=3D 0) && (vcc->vpi < 1<<FORE200E_VPI_BITS));
+               ^
+   drivers/atm/fore200e.c:85:32: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                                  ^~~~
+   drivers/atm/fore200e.c:1422:12: note: Left side of '&&' is true
+       ASSERT((vcc->vpi >=3D 0) && (vcc->vpi < 1<<FORE200E_VPI_BITS));
+              ^
+   drivers/atm/fore200e.c:1422:32: note: Assuming the condition is true
+       ASSERT((vcc->vpi >=3D 0) && (vcc->vpi < 1<<FORE200E_VPI_BITS));
+                                  ^
+   drivers/atm/fore200e.c:85:32: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                                  ^~~~
+   drivers/atm/fore200e.c:1422:5: note: Taking false branch
+       ASSERT((vcc->vpi >=3D 0) && (vcc->vpi < 1<<FORE200E_VPI_BITS));
+       ^
+   drivers/atm/fore200e.c:85:26: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                            ^
+   drivers/atm/fore200e.c:1423:13: note: Assuming field 'vci' is >=3D 0
+       ASSERT((vcc->vci >=3D 0) && (vcc->vci < 1<<FORE200E_VCI_BITS));
+               ^
+   drivers/atm/fore200e.c:85:32: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                                  ^~~~
+   drivers/atm/fore200e.c:1423:12: note: Left side of '&&' is true
+       ASSERT((vcc->vci >=3D 0) && (vcc->vci < 1<<FORE200E_VCI_BITS));
+              ^
+   drivers/atm/fore200e.c:1423:32: note: Assuming the condition is true
+       ASSERT((vcc->vci >=3D 0) && (vcc->vci < 1<<FORE200E_VCI_BITS));
+                                  ^
+   drivers/atm/fore200e.c:85:32: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                                  ^~~~
+   drivers/atm/fore200e.c:1423:5: note: Taking false branch
+       ASSERT((vcc->vci >=3D 0) && (vcc->vci < 1<<FORE200E_VCI_BITS));
+       ^
+   drivers/atm/fore200e.c:85:26: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)     if (!(expr)) { \
+                            ^
+   drivers/atm/fore200e.c:1425:5: note: Loop condition is false.  Exiting l=
+oop
+       DPRINTK(2, "closing %d.%d.%d:%d\n", vcc->itf, vcc->vpi, vcc->vci, fo=
+re200e_atm2fore_aal(vcc->qos.aal));
+       ^
+   drivers/atm/fore200e.c:71:42: note: expanded from macro 'DPRINTK'
+   #define DPRINTK(level, format, args...)  do {} while (0)
+                                            ^
+   drivers/atm/fore200e.c:1429:5: note: Calling 'fore200e_activate_vcin'
+       fore200e_activate_vcin(fore200e, 0, vcc, 0);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/atm/fore200e.c:1234:9: note: 'activate' is 0
+       if (activate) {
+           ^~~~~~~~
+   drivers/atm/fore200e.c:1234:5: note: Taking false branch
+       if (activate) {
+       ^
+   drivers/atm/fore200e.c:1252:9: note: 'activate' is 0
+       if (activate) {
+           ^~~~~~~~
+   drivers/atm/fore200e.c:1252:5: note: Taking false branch
+       if (activate) {
+       ^
+   drivers/atm/fore200e.c:1263:2: note: 1st function call argument is an un=
+initialized value
+           fore200e->bus->write(*(u32*)&vpvc,         (u32 __iomem *)&entry=
+->cp_entry->cmd.deactivate_block.vpvc);
+           ^                    ~~~~~~~~~~~~
+   Suppressed 25 warnings (13 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+>> drivers/scsi/elx/efct/efct_hw.c:1518:3: warning: Value stored to 'ctx' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   ctx =3D list_first_entry(&hw->cmd_head,
+                   ^
+   drivers/scsi/elx/efct/efct_hw.c:1518:3: note: Value stored to 'ctx' is n=
+ever read
+>> drivers/scsi/elx/efct/efct_hw.c:1593:29: warning: Dereference of null po=
+inter [clang-analyzer-core.NullDereference]
+                   io->wq =3D hw->wq_cpu_array[raw_smp_processor_id()];
+                                             ^
+   arch/s390/include/asm/smp.h:15:32: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   drivers/scsi/elx/efct/efct_hw.c:2709:8: note: Calling 'efct_hw_io_alloc'
+           hio =3D efct_hw_io_alloc(hw);
+                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_hw.c:1614:2: note: Loop condition is false.  =
+Exiting loop
+           spin_lock_irqsave(&hw->io_lock, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   drivers/scsi/elx/efct/efct_hw.c:1614:2: note: Loop condition is false.  =
+Exiting loop
+           spin_lock_irqsave(&hw->io_lock, flags);
+           ^
+   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   drivers/scsi/elx/efct/efct_hw.c:1615:7: note: Calling '_efct_hw_io_alloc'
+           io =3D _efct_hw_io_alloc(hw);
+                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_hw.c:1583:6: note: Assuming the condition is =
+true
+           if (!list_empty(&hw->io_free)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_hw.c:1583:2: note: Taking true branch
+           if (!list_empty(&hw->io_free)) {
+           ^
+   drivers/scsi/elx/efct/efct_hw.c:1584:8: note: Left side of '&&' is false
+                   io =3D list_first_entry(&hw->io_free, struct efct_hw_io,
+                        ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/scsi/elx/efct/efct_hw.c:1584:8: note: Taking false branch
+                   io =3D list_first_entry(&hw->io_free, struct efct_hw_io,
+                        ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/scsi/elx/efct/efct_hw.c:1584:8: note: Loop condition is false.  =
+Exiting loop
+                   io =3D list_first_entry(&hw->io_free, struct efct_hw_io,
+                        ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/scsi/elx/efct/efct_hw.c:1588:6: note: 'io' is non-null
+           if (io) {
+               ^~
+   drivers/scsi/elx/efct/efct_hw.c:1588:2: note: Taking true branch
+           if (io) {
+           ^
+   drivers/scsi/elx/efct/efct_hw.c:1593:29: note: Dereference of null point=
+er
+                   io->wq =3D hw->wq_cpu_array[raw_smp_processor_id()];
+                                             ^
+   arch/s390/include/asm/smp.h:15:32: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^~~~~~~~~~~~~~~~~~~~~
+--
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/ata/libata-eh.c:777:2: note: Dereference of null pointer
+           DEFINE_WAIT(wait);
+           ^
+   include/linux/wait.h:1153:27: note: expanded from macro 'DEFINE_WAIT'
+   #define DEFINE_WAIT(name) DEFINE_WAIT_FUNC(name, autoremove_wake_functio=
+n)
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/usb/misc/yurex.c:196:2: warning: Dereference of null pointer [cl=
+ang-analyzer-core.NullDereference]
+           DEFINE_WAIT(wait);
+           ^
+   include/linux/wait.h:1153:27: note: expanded from macro 'DEFINE_WAIT'
+   #define DEFINE_WAIT(name) DEFINE_WAIT_FUNC(name, autoremove_wake_functio=
+n)
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/usb/misc/yurex.c:196:2: note: Dereference of null pointer
+           DEFINE_WAIT(wait);
+           ^
+   include/linux/wait.h:1153:27: note: expanded from macro 'DEFINE_WAIT'
+   #define DEFINE_WAIT(name) DEFINE_WAIT_FUNC(name, autoremove_wake_functio=
+n)
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/usb/misc/yurex.c:435:2: warning: Dereference of null pointer [cl=
+ang-analyzer-core.NullDereference]
+           DEFINE_WAIT(wait);
+           ^
+   include/linux/wait.h:1153:27: note: expanded from macro 'DEFINE_WAIT'
+   #define DEFINE_WAIT(name) DEFINE_WAIT_FUNC(name, autoremove_wake_functio=
+n)
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/usb/misc/yurex.c:435:2: note: Dereference of null pointer
+           DEFINE_WAIT(wait);
+           ^
+   include/linux/wait.h:1153:27: note: expanded from macro 'DEFINE_WAIT'
+   #define DEFINE_WAIT(name) DEFINE_WAIT_FUNC(name, autoremove_wake_functio=
+n)
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   25 warnings generated.
+   drivers/scsi/pm8001/pm8001_init.c:410:3: warning: Value stored to 'rc' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D -ENOMEM;
+                   ^    ~~~~~~~
+   drivers/scsi/pm8001/pm8001_init.c:410:3: note: Value stored to 'rc' is n=
+ever read
+                   rc =3D -ENOMEM;
+                   ^    ~~~~~~~
+   Suppressed 24 warnings (12 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+>> drivers/scsi/elx/efct/efct_hw_queues.c:196:23: warning: Access to field =
+'hw' results in a dereference of an undefined pointer value [clang-analyzer=
+-core.NullDereference]
+           struct efct_hw *hw =3D eqs[0]->hw;
+                                ^
+   drivers/scsi/elx/efct/efct_hw_queues.c:32:14: note: Assuming 'i' is >=3D=
+ field 'n_eq'
+           for (i =3D 0; i < hw->config.n_eq; i++) {
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_hw_queues.c:32:2: note: Loop condition is fal=
+se. Execution continues on line 73
+           for (i =3D 0; i < hw->config.n_eq; i++) {
+           ^
+   drivers/scsi/elx/efct/efct_hw_queues.c:73:6: note: Calling 'efct_hw_new_=
+cq_set'
+           if (efct_hw_new_cq_set(eqs, cqs, i, hw->num_qentries[SLI4_QTYPE_=
+CQ])) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/scsi/elx/efct/efct_hw_queues.c:196:23: note: Access to field 'hw=
+' results in a dereference of an undefined pointer value
+           struct efct_hw *hw =3D eqs[0]->hw;
+                                ^~~~~~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+>> drivers/scsi/elx/efct/efct_lio.c:1156:15: warning: Value stored to 'efct=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct efct *efct =3D nport->efc->base;
+                        ^~~~   ~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1156:15: note: Value stored to 'efct' d=
+uring its initialization is never read
+           struct efct *efct =3D nport->efc->base;
+                        ^~~~   ~~~~~~~~~~~~~~~~
+>> drivers/scsi/elx/efct/efct_lio.c:1366:3: warning: Value stored to 'ddir'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   ddir =3D "FROM_INITIATOR";
+                   ^      ~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1366:3: note: Value stored to 'ddir' is=
+ never read
+                   ddir =3D "FROM_INITIATOR";
+                   ^      ~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1370:3: warning: Value stored to 'ddir'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   ddir =3D "TO_INITIATOR";
+                   ^      ~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1370:3: note: Value stored to 'ddir' is=
+ never read
+                   ddir =3D "TO_INITIATOR";
+                   ^      ~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1374:3: warning: Value stored to 'ddir'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   ddir =3D "BIDIR";
+                   ^      ~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1374:3: note: Value stored to 'ddir' is=
+ never read
+                   ddir =3D "BIDIR";
+                   ^      ~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1378:3: warning: Value stored to 'ddir'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   ddir =3D "NONE";
+                   ^      ~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1378:3: note: Value stored to 'ddir' is=
+ never read
+                   ddir =3D "NONE";
+                   ^      ~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: warning: Access to field 'gener=
+ate_node_acls' results in a dereference of a null pointer (loaded from vari=
+able 'a') [clang-analyzer-core.NullDereference]
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1515:10: note: expanded from macro 'DEF=
+_EFCT_TPG_ATTRIB'
+           a->name =3D val;                                                =
+    \
+           ~       ^
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: Left side of '&&' is false
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1498:29: note: expanded from macro 'DEF=
+_EFCT_TPG_ATTRIB'
+           struct efct_lio_tpg *tpg =3D container_of(se_tpg,               =
+    \
+                                      ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: Taking false branch
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1498:29: note: expanded from macro 'DEF=
+_EFCT_TPG_ATTRIB'
+           struct efct_lio_tpg *tpg =3D container_of(se_tpg,               =
+    \
+                                      ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: Loop condition is false. =
+ Exiting loop
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1498:29: note: expanded from macro 'DEF=
+_EFCT_TPG_ATTRIB'
+           struct efct_lio_tpg *tpg =3D container_of(se_tpg,               =
+    \
+                                      ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: 'tpg' initialized to a nu=
+ll pointer value
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1498:2: note: expanded from macro 'DEF_=
+EFCT_TPG_ATTRIB'
+           struct efct_lio_tpg *tpg =3D container_of(se_tpg,               =
+    \
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: 'a' initialized to a null=
+ pointer value
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1500:2: note: expanded from macro 'DEF_=
+EFCT_TPG_ATTRIB'
+           struct efct_lio_tpg_attrib *a =3D &tpg->tpg_attrib;             =
+    \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: Assuming 'ret' is >=3D 0
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+   ^
+   drivers/scsi/elx/efct/efct_lio.c:1505:6: note: expanded from macro 'DEF_=
+EFCT_TPG_ATTRIB'
+           if (ret < 0) {                                                  =
+  \
+               ^~~~~~~
+   drivers/scsi/elx/efct/efct_lio.c:1521:1: note: Taking false branch
+   DEF_EFCT_TPG_ATTRIB(generate_node_acls);
+--
+   include/scsi/scsi_device.h:451:31: note: expanded from macro 'scsi_execu=
+te'
+           BUILD_BUG_ON((sense) !=3D NULL &&                               =
+  \
+                                        ^
+   include/scsi/scsi_device.h:462:9: note: Taking false branch
+           return scsi_execute(sdev, cmd, data_direction, buffer,
+                  ^
+   include/scsi/scsi_device.h:451:2: note: expanded from macro 'scsi_execut=
+e'
+           BUILD_BUG_ON((sense) !=3D NULL &&                               =
+  \
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/scsi/scsi_device.h:462:9: note: Loop condition is false.  Exitin=
+g loop
+           return scsi_execute(sdev, cmd, data_direction, buffer,
+                  ^
+   include/scsi/scsi_device.h:451:2: note: expanded from macro 'scsi_execut=
+e'
+           BUILD_BUG_ON((sense) !=3D NULL &&                               =
+  \
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/scsi/scsi_device.h:462:9: note: Calling '__scsi_execute'
+           return scsi_execute(sdev, cmd, data_direction, buffer,
+                  ^
+   include/scsi/scsi_device.h:453:2: note: expanded from macro 'scsi_execut=
+e'
+           __scsi_execute(sdev, cmd, data_direction, buffer, bufflen,      \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/scsi_lib.c:217:4: note: 'data_direction' is not equal to DM=
+A_TO_DEVICE
+                           data_direction =3D=3D DMA_TO_DEVICE ?
+                           ^~~~~~~~~~~~~~
+   drivers/scsi/scsi_lib.c:217:4: note: '?' condition is false
+   drivers/scsi/scsi_lib.c:219:4: note: '?' condition is false
+                           rq_flags & RQF_PM ? BLK_MQ_REQ_PM : 0);
+                           ^
+   drivers/scsi/scsi_lib.c:220:2: note: Taking true branch
+           if (IS_ERR(req))
+           ^
+   drivers/scsi/scsi_lib.c:221:3: note: Returning without writing to 'sshdr=
+->response_code'
+                   return PTR_ERR(req);
+                   ^
+   include/scsi/scsi_device.h:462:9: note: Returning from '__scsi_execute'
+           return scsi_execute(sdev, cmd, data_direction, buffer,
+                  ^
+   include/scsi/scsi_device.h:453:2: note: expanded from macro 'scsi_execut=
+e'
+           __scsi_execute(sdev, cmd, data_direction, buffer, bufflen,      \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/scsi/scsi_device.h:462:2: note: Returning without writing to 'ss=
+hdr->response_code'
+           return scsi_execute(sdev, cmd, data_direction, buffer,
+           ^
+   drivers/scsi/scsi_lib.c:2139:11: note: Returning from 'scsi_execute_req'
+           result =3D scsi_execute_req(sdev, cmd, DMA_FROM_DEVICE, buffer, =
+len,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/scsi/scsi_lib.c:2141:6: note: Assuming 'result' is >=3D 0
+           if (result < 0)
+               ^~~~~~~~~~
+   drivers/scsi/scsi_lib.c:2141:2: note: Taking false branch
+           if (result < 0)
+           ^
+   drivers/scsi/scsi_lib.c:2149:2: note: Taking true branch
+           if (!scsi_status_is_good(result)) {
+           ^
+   drivers/scsi/scsi_lib.c:2150:7: note: Calling 'scsi_sense_valid'
+                   if (scsi_sense_valid(sshdr)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~
+   include/scsi/scsi_common.h:63:7: note: 'sshdr' is non-null
+           if (!sshdr)
+                ^~~~~
+   include/scsi/scsi_common.h:63:2: note: Taking false branch
+           if (!sshdr)
+           ^
+   include/scsi/scsi_common.h:66:31: note: The left operand of '&' is a gar=
+bage value
+           return (sshdr->response_code & 0x70) =3D=3D 0x70;
+                   ~~~~~~~~~~~~~~~~~~~~ ^
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+>> drivers/scsi/elx/efct/efct_unsol.c:147:27: warning: Value stored to 'fch=
+dr' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+                   struct fc_frame_header  *fchdr =3D seq->header->dma.virt;
+                                            ^~~~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_unsol.c:147:27: note: Value stored to 'fchdr'=
+ during its initialization is never read
+                   struct fc_frame_header  *fchdr =3D seq->header->dma.virt;
+                                            ^~~~~   ~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/elx/efct/efct_unsol.c:320:15: warning: Value stored to 'efc=
+t' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct efct *efct =3D node->efct;
+                        ^~~~   ~~~~~~~~~~
+   drivers/scsi/elx/efct/efct_unsol.c:320:15: note: Value stored to 'efct' =
+during its initialization is never read
+           struct efct *efct =3D node->efct;
+                        ^~~~   ~~~~~~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+>> drivers/scsi/elx/libefc/efc_cmds.c:36:14: warning: Value stored to 'efc'=
+ during its initialization is never read [clang-analyzer-deadcode.DeadStore=
+s]
+           struct efc *efc =3D nport->efc;
+                       ^~~   ~~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_cmds.c:36:14: note: Value stored to 'efc' du=
+ring its initialization is never read
+           struct efc *efc =3D nport->efc;
+                       ^~~   ~~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_cmds.c:314:14: warning: Value stored to 'efc=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct efc *efc =3D domain->efc;
+                       ^~~   ~~~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_cmds.c:314:14: note: Value stored to 'efc' d=
+uring its initialization is never read
+           struct efc *efc =3D domain->efc;
+                       ^~~   ~~~~~~~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+>> drivers/scsi/elx/libefc/efc_fabric.c:77:14: warning: Value stored to 'ef=
+c' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct efc *efc =3D node->efc;
+                       ^~~   ~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_fabric.c:77:14: note: Value stored to 'efc' =
+during its initialization is never read
+           struct efc *efc =3D node->efc;
+                       ^~~   ~~~~~~~~~
+>> drivers/scsi/elx/libefc/efc_fabric.c:398:19: warning: Value stored to 'n=
+ode' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]
+           struct efc_node *node =3D ctx->app;
+                            ^~~~   ~~~~~~~~
+   drivers/scsi/elx/libefc/efc_fabric.c:398:19: note: Value stored to 'node=
+' during its initialization is never read
+           struct efc_node *node =3D ctx->app;
+                            ^~~~   ~~~~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   drivers/mtd/ubi/block.c:124:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(buf, val);
+           ^~~~~~
+   drivers/mtd/ubi/block.c:124:2: note: Call to function 'strcpy' is insecu=
 re as it does not provide bounding of the memory buffer. Replace unbounded =
 copy functions with analogous functions that support length arguments such =
 as 'strlcpy'. CWE-119
-                           strcpy(p, dimm->label);
+           strcpy(buf, val);
+           ^~~~~~
+   drivers/mtd/ubi/block.c:144:4: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(param->name, tokens[1]);
                            ^~~~~~
-   drivers/edac/edac_mc.c:1152:14: warning: The left operand of '<' is a ga=
-rbage value due to array index out of bounds [clang-analyzer-core.Undefined=
-BinaryOperatorResult]
-                   if (pos[i] < 0)
-                       ~~~~~~ ^
-   drivers/edac/edac_mc.c:1035:2: note: Taking false branch
-           edac_dbg(3, "MC%d\n", mci->mc_idx);
-           ^
-   drivers/edac/edac_mc.h:84:2: note: expanded from macro 'edac_dbg'
-           if (0)                                                          \
-           ^
-   drivers/edac/edac_mc.c:1035:2: note: Loop condition is false.  Exiting l=
-oop
-           edac_dbg(3, "MC%d\n", mci->mc_idx);
-           ^
-   drivers/edac/edac_mc.h:82:39: note: expanded from macro 'edac_dbg'
-   #define edac_dbg(level, fmt, ...)                                       \
-                                                                           ^
-   drivers/edac/edac_mc.c:1048:11: note: '?' condition is true
-           e->msg =3D msg ?: "";
-                    ^
-   drivers/edac/edac_mc.c:1049:20: note: '?' condition is true
-           e->other_detail =3D other_detail ?: "";
-                             ^
-   drivers/edac/edac_mc.c:1056:14: note: Assuming 'i' is >=3D field 'n_laye=
-rs'
-           for (i =3D 0; i < mci->n_layers; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/edac/edac_mc.c:1056:2: note: Loop condition is false. Execution =
-continues on line 1086
-           for (i =3D 0; i < mci->n_layers; i++) {
-           ^
-   drivers/edac/edac_mc.c:1089:2: note: Loop condition is false. Execution =
-continues on line 1141
-           mci_for_each_dimm(mci, dimm) {
-           ^
-   include/linux/edac.h:600:2: note: expanded from macro 'mci_for_each_dimm'
-           for ((dimm) =3D (mci)->dimms[0];                          \
-           ^
-   drivers/edac/edac_mc.c:1141:6: note: 'any_memory' is true
-           if (any_memory)
-               ^~~~~~~~~~
-   drivers/edac/edac_mc.c:1141:2: note: Taking true branch
-           if (any_memory)
-           ^
-   drivers/edac/edac_mc.c:1151:14: note: Assuming 'i' is < field 'n_layers'
-           for (i =3D 0; i < mci->n_layers; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/edac/edac_mc.c:1151:2: note: Loop condition is true.  Entering l=
-oop body
-           for (i =3D 0; i < mci->n_layers; i++) {
-           ^
-   drivers/edac/edac_mc.c:1152:7: note: Assuming the condition is true
-                   if (pos[i] < 0)
-                       ^~~~~~~~~~
-   drivers/edac/edac_mc.c:1152:3: note: Taking true branch
-                   if (pos[i] < 0)
-                   ^
-   drivers/edac/edac_mc.c:1153:4: note:  Execution continues on line 1151
-                           continue;
-                           ^
-   drivers/edac/edac_mc.c:1151:14: note: Assuming 'i' is < field 'n_layers'
-           for (i =3D 0; i < mci->n_layers; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/edac/edac_mc.c:1151:2: note: Loop condition is true.  Entering l=
-oop body
-           for (i =3D 0; i < mci->n_layers; i++) {
-           ^
-   drivers/edac/edac_mc.c:1152:7: note: Assuming the condition is true
-                   if (pos[i] < 0)
-                       ^~~~~~~~~~
-   drivers/edac/edac_mc.c:1152:3: note: Taking true branch
-                   if (pos[i] < 0)
-                   ^
-   drivers/edac/edac_mc.c:1153:4: note:  Execution continues on line 1151
-                           continue;
-                           ^
-   drivers/edac/edac_mc.c:1151:14: note: Assuming 'i' is < field 'n_layers'
-           for (i =3D 0; i < mci->n_layers; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/edac/edac_mc.c:1151:2: note: Loop condition is true.  Entering l=
-oop body
-           for (i =3D 0; i < mci->n_layers; i++) {
-           ^
-   drivers/edac/edac_mc.c:1152:7: note: Assuming the condition is true
-                   if (pos[i] < 0)
-                       ^~~~~~~~~~
-   drivers/edac/edac_mc.c:1152:3: note: Taking true branch
-                   if (pos[i] < 0)
-                   ^
-   drivers/edac/edac_mc.c:1153:4: note:  Execution continues on line 1151
-                           continue;
-                           ^
-   drivers/edac/edac_mc.c:1151:33: note: The value 3 is assigned to 'i'
-           for (i =3D 0; i < mci->n_layers; i++) {
-                                          ^~~
-   drivers/edac/edac_mc.c:1151:14: note: Assuming 'i' is < field 'n_layers'
-           for (i =3D 0; i < mci->n_layers; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/edac/edac_mc.c:1151:2: note: Loop condition is true.  Entering l=
-oop body
-           for (i =3D 0; i < mci->n_layers; i++) {
-           ^
-   drivers/edac/edac_mc.c:1152:14: note: The left operand of '<' is a garba=
-ge value due to array index out of bounds
-                   if (pos[i] < 0)
-                       ~~~~~~ ^
->> drivers/edac/edac_mc.c:1155:8: warning: Call to function 'sprintf' is in=
-secure as it does not provide bounding of the memory buffer or security che=
-cks introduced in the C11 standard. Replace with analogous functions that s=
-upport length arguments or provides boundary checks such as 'sprintf_s' in =
-case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHa=
-ndling]
-                   p +=3D sprintf(p, "%s:%d ",
-                        ^~~~~~~
-   drivers/edac/edac_mc.c:1155:8: note: Call to function 'sprintf' is insec=
-ure as it does not provide bounding of the memory buffer or security checks=
- introduced in the C11 standard. Replace with analogous functions that supp=
-ort length arguments or provides boundary checks such as 'sprintf_s' in cas=
-e of C11
-                   p +=3D sprintf(p, "%s:%d ",
-                        ^~~~~~~
-   Suppressed 52 warnings (52 in non-user code).
+   drivers/mtd/ubi/block.c:144:4: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+                           strcpy(param->name, tokens[1]);
+                           ^~~~~~
+   drivers/mtd/ubi/block.c:149:3: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(param->name, tokens[0]);
+                   ^~~~~~
+   drivers/mtd/ubi/block.c:149:3: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+                   strcpy(param->name, tokens[0]);
+                   ^~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   34 warnings generated.
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   105 warnings generated.
-   drivers/w1/w1_netlink.c:122:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(block->cn, &block->request_cn, sizeof(*block->cn)=
-);
-                   ^~~~~~
-   drivers/w1/w1_netlink.c:122:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(block->cn, &block->request_cn, sizeof(*block->cn)=
-);
-                   ^~~~~~
-   drivers/w1/w1_netlink.c:145:2: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(block->msg, block->cur_msg, sizeof(*block->msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:145:2: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-           memcpy(block->msg, block->cur_msg, sizeof(*block->msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:152:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(block->cmd, cmd, space);
-                   ^~~~~~
-   drivers/w1/w1_netlink.c:152:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(block->cmd, cmd, space);
-                   ^~~~~~
-   drivers/w1/w1_netlink.c:168:2: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(block->msg, req_msg, sizeof(*req_msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:168:2: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-           memcpy(block->msg, req_msg, sizeof(*req_msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:174:3: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(cmd, req_cmd, sizeof(*cmd));
-                   ^~~~~~
-   drivers/w1/w1_netlink.c:174:3: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-                   memcpy(cmd, req_cmd, sizeof(*cmd));
-                   ^~~~~~
-   drivers/w1/w1_netlink.c:199:2: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&packet.cn, cn, sizeof(packet.cn));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:199:2: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-           memcpy(&packet.cn, cn, sizeof(packet.cn));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:200:2: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&packet.msg, msg, sizeof(packet.msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:200:2: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-           memcpy(&packet.msg, msg, sizeof(packet.msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:220:2: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&packet, 0, sizeof(packet));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:220:2: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-           memset(&packet, 0, sizeof(packet));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:228:2: warning: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&packet.msg, msg, sizeof(*msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:228:2: note: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11
-           memcpy(&packet.msg, msg, sizeof(*msg));
-           ^~~~~~
-   drivers/w1/w1_netlink.c:244:18: warning: Access to field 'len' results i=
-n a dereference of a null pointer (loaded from variable 'cache_cmd') [clang=
--analyzer-core.NullDereference]
-                   cache_cmd->len =3D 0;
-                                  ^
-   drivers/w1/w1_netlink.c:261:2: note: Calling 'w1_send_slave'
-           w1_send_slave(dev, rn);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/w1_netlink.c:237:2: note: 'cache_cmd' initialized here
-           struct w1_netlink_cmd *cache_cmd =3D block->cmd;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/w1_netlink.c:240:2: note: Calling 'w1_reply_make_space'
-           w1_reply_make_space(block, sizeof(*data));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/w1_netlink.c:84:12: note: Calling 'w1_reply_len'
-           u16 len =3D w1_reply_len(block);
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/w1/w1_netlink.c:57:6: note: Assuming field 'cn' is null
-           if (!block->cn)
-               ^~~~~~~~~~
-   drivers/w1/w1_netlink.c:57:2: note: Taking true branch
-           if (!block->cn)
-           ^
-   drivers/w1/w1_netlink.c:58:3: note: Returning without writing to 'block-=
->cmd', which participates in a condition later
-                   return 0;
+   25 warnings generated.
+   drivers/mtd/ubi/gluebi.c:323:3: warning: Dereference of null pointer [cl=
+ang-analyzer-core.NullDereference]
+                   err_msg("gluebi MTD device %d form UBI device %d volume =
+%d already exists",
                    ^
-   drivers/w1/w1_netlink.c:84:12: note: Returning from 'w1_reply_len'
-           u16 len =3D w1_reply_len(block);
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/w1/w1_netlink.c:85:6: note: Assuming the condition is false
-           if (len + space >=3D block->maxlen) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/w1_netlink.c:85:2: note: Taking false branch
-           if (len + space >=3D block->maxlen) {
+   drivers/mtd/ubi/gluebi.c:32:9: note: expanded from macro 'err_msg'
+                  current->pid, __func__, ##__VA_ARGS__)
+                  ^
+   drivers/mtd/ubi/gluebi.c:449:2: note: Control jumps to 'case UBI_VOLUME_=
+ADDED:'  at line 450
+           switch (l) {
            ^
-   drivers/w1/w1_netlink.c:92:1: note: Returning without writing to 'block-=
->cmd', which participates in a condition later
-   }
+   drivers/mtd/ubi/gluebi.c:451:3: note: Calling 'gluebi_create'
+                   gluebi_create(&nt->di, &nt->vi);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:284:11: note: Calling 'kzalloc'
+           gluebi =3D kzalloc(sizeof(struct gluebi_device), GFP_KERNEL);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:544:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:561:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:284:11: note: Returning from 'kzalloc'
+           gluebi =3D kzalloc(sizeof(struct gluebi_device), GFP_KERNEL);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:285:6: note: Assuming 'gluebi' is non-null
+           if (!gluebi)
+               ^~~~~~~
+   drivers/mtd/ubi/gluebi.c:285:2: note: Taking false branch
+           if (!gluebi)
+           ^
+   drivers/mtd/ubi/gluebi.c:289:14: note: Calling 'kmemdup'
+           mtd->name =3D kmemdup(vi->name, vi->name_len + 1, GFP_KERNEL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:266:33: note: Left side of '&&' is false
+           if (__builtin_constant_p(size) && p_size < size)
+                                          ^
+   include/linux/fortify-string.h:268:6: note: Assuming 'p_size' is >=3D 's=
+ize'
+           if (p_size < size)
+               ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:268:2: note: Taking false branch
+           if (p_size < size)
+           ^
+   include/linux/fortify-string.h:270:2: note: Returning pointer, which par=
+ticipates in a condition later
+           return __real_kmemdup(p, size, gfp);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:289:14: note: Returning from 'kmemdup'
+           mtd->name =3D kmemdup(vi->name, vi->name_len + 1, GFP_KERNEL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:290:6: note: Assuming field 'name' is non-null
+           if (!mtd->name) {
+               ^~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:290:2: note: Taking false branch
+           if (!mtd->name) {
+           ^
+   drivers/mtd/ubi/gluebi.c:298:6: note: Assuming field 'ro_mode' is not eq=
+ual to 0
+           if (!di->ro_mode)
+               ^~~~~~~~~~~~
+   drivers/mtd/ubi/gluebi.c:298:2: note: Taking false branch
+           if (!di->ro_mode)
+           ^
+   drivers/mtd/ubi/gluebi.c:314:6: note: Assuming field 'vol_type' is not e=
+qual to UBI_DYNAMIC_VOLUME
+           if (vi->vol_type =3D=3D UBI_DYNAMIC_VOLUME)
 --
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
+           ^
+   drivers/usb/gadget/composite.c:1695:2: note: Control jumps to 'case 6:' =
+ at line 1698
+           switch (ctrl->bRequest) {
+           ^
+   drivers/usb/gadget/composite.c:1699:7: note: Assuming field 'bRequestTyp=
+e' is equal to USB_DIR_IN
+                   if (ctrl->bRequestType !=3D USB_DIR_IN)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/composite.c:1699:3: note: Taking false branch
+                   if (ctrl->bRequestType !=3D USB_DIR_IN)
+                   ^
+   drivers/usb/gadget/composite.c:1701:3: note: Control jumps to 'case 2:' =
+ at line 1738
+                   switch (w_value >> 8) {
+                   ^
+   drivers/usb/gadget/composite.c:1739:12: note: Calling 'config_desc'
+                           value =3D config_desc(cdev, w_value);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/composite.c:560:6: note: Assuming field 'speed' is >=
+=3D USB_SPEED_SUPER
+           if (gadget->speed >=3D USB_SPEED_SUPER)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/composite.c:560:2: note: Taking true branch
+           if (gadget->speed >=3D USB_SPEED_SUPER)
+           ^
+   drivers/usb/gadget/composite.c:578:6: note: Assuming 'c' is null
+           if (c)
+               ^
+   drivers/usb/gadget/composite.c:578:2: note: Taking false branch
+           if (c)
+           ^
+   drivers/usb/gadget/composite.c:581:10: note: Value assigned to 'pos'
+           while ((pos =3D pos->next) !=3D  &cdev->configs) {
+                   ^~~~~~~~~~~~~~~
+   drivers/usb/gadget/composite.c:581:2: note: Loop condition is true.  Ent=
+ering loop body
+           while ((pos =3D pos->next) !=3D  &cdev->configs) {
+           ^
+   drivers/usb/gadget/composite.c:582:7: note: Left side of '&&' is false
+                   c =3D list_entry(pos, typeof(*c), list);
+                       ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/usb/gadget/composite.c:582:7: note: Taking false branch
+                   c =3D list_entry(pos, typeof(*c), list);
+                       ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/usb/gadget/composite.c:582:7: note: Loop condition is false.  Ex=
+iting loop
+                   c =3D list_entry(pos, typeof(*c), list);
+                       ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/usb/gadget/composite.c:585:7: note: Assuming 'c' is equal to fie=
+ld 'os_desc_config'
+                   if (c =3D=3D cdev->os_desc_config)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/composite.c:585:3: note: Taking true branch
+                   if (c =3D=3D cdev->os_desc_config)
+                   ^
+   drivers/usb/gadget/composite.c:586:4: note:  Execution continues on line=
+ 581
+                           continue;
+                           ^
+   drivers/usb/gadget/composite.c:581:16: note: Access to field 'next' resu=
+lts in a dereference of a null pointer (loaded from variable 'pos')
+           while ((pos =3D pos->next) !=3D  &cdev->configs) {
+                         ^~~
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
+   21 warnings generated.
+>> drivers/scsi/elx/libefc/efc_node.c:592:14: warning: Value stored to 'efc=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct efc *efc =3D node->efc;
+                       ^~~   ~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_node.c:592:14: note: Value stored to 'efc' d=
+uring its initialization is never read
+           struct efc *efc =3D node->efc;
+                       ^~~   ~~~~~~~~~
+>> drivers/scsi/elx/libefc/efc_node.c:653:2: warning: Value stored to 'efc'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+           efc =3D node->efc;
+           ^     ~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_node.c:653:2: note: Value stored to 'efc' is=
+ never read
+           efc =3D node->efc;
+           ^     ~~~~~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   91 warnings generated.
-   net/x25/x25_route.c:49:2: warning: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(rt->address.x25_addr, address->x25_addr, sigdigits);
-           ^~~~~~
-   net/x25/x25_route.c:49:2: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-           memcpy(rt->address.x25_addr, address->x25_addr, sigdigits);
-           ^~~~~~
-   Suppressed 90 warnings (90 in non-user code).
+   20 warnings generated.
+>> drivers/scsi/elx/libefc/efc_nport.c:442:14: warning: Value stored to 'ef=
+c' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct efc *efc =3D nport->efc;
+                       ^~~   ~~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_nport.c:442:14: note: Value stored to 'efc' =
+during its initialization is never read
+           struct efc *efc =3D nport->efc;
+                       ^~~   ~~~~~~~~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
+   21 warnings generated.
+>> drivers/scsi/elx/libefc/efc_device.c:51:2: warning: Value stored to 'efc=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           efc =3D node->efc;
+           ^     ~~~~~~~~~
+   drivers/scsi/elx/libefc/efc_device.c:51:2: note: Value stored to 'efc' i=
+s never read
+           efc =3D node->efc;
+           ^     ~~~~~~~~~
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   93 warnings generated.
-   net/x25/x25_proc.c:45:20: warning: Value stored to 'rt' during its initi=
-alization is never read [clang-analyzer-deadcode.DeadStores]
-           struct x25_route *rt =3D list_entry(v, struct x25_route, node);
-                             ^~
-   net/x25/x25_proc.c:45:20: note: Value stored to 'rt' during its initiali=
-zation is never read
-           struct x25_route *rt =3D list_entry(v, struct x25_route, node);
-                             ^~
-   net/x25/x25_proc.c:94:26: warning: Although the value stored to 'dev' is=
- used in the enclosing expression, the value is never actually read from 'd=
-ev' [clang-analyzer-deadcode.DeadStores]
-           if (!x25->neighbour || (dev =3D x25->neighbour->dev) =3D=3D NULL)
-                                   ^     ~~~~~~~~~~~~~~~~~~~
-   net/x25/x25_proc.c:94:26: note: Although the value stored to 'dev' is us=
-ed in the enclosing expression, the value is never actually read from 'dev'
-           if (!x25->neighbour || (dev =3D x25->neighbour->dev) =3D=3D NULL)
-                                   ^     ~~~~~~~~~~~~~~~~~~~
-   net/x25/x25_proc.c:133:22: warning: Value stored to 'f' during its initi=
-alization is never read [clang-analyzer-deadcode.DeadStores]
-           struct x25_forward *f =3D list_entry(v, struct x25_forward, node=
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   24 warnings generated.
+   drivers/scsi/bfa/bfad_im.c:223:3: warning: Dereference of null pointer [=
+clang-analyzer-core.NullDereference]
+                   set_current_state(TASK_UNINTERRUPTIBLE);
+                   ^
+   include/linux/sched.h:141:3: note: expanded from macro 'set_current_stat=
+e'
+                   current->task_state_change =3D _THIS_IP_;         \
+                   ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/scsi/bfa/bfad_im.c:201:2: note: Loop condition is false.  Exitin=
+g loop
+           spin_lock_irqsave(&bfad->bfad_lock, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   drivers/scsi/bfa/bfad_im.c:201:2: note: Loop condition is false.  Exitin=
+g loop
+           spin_lock_irqsave(&bfad->bfad_lock, flags);
+           ^
+   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   drivers/scsi/bfa/bfad_im.c:203:6: note: Assuming 'hal_io' is non-null
+           if (!hal_io) {
+               ^~~~~~~
+   drivers/scsi/bfa/bfad_im.c:203:2: note: Taking false branch
+           if (!hal_io) {
+           ^
+   drivers/scsi/bfa/bfad_im.c:208:6: note: Assuming 'cmnd' is equal to fiel=
+d 'dio'
+           if (hal_io->dio !=3D (struct bfad_ioim_s *) cmnd) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/bfa/bfad_im.c:208:2: note: Taking false branch
+           if (hal_io->dio !=3D (struct bfad_ioim_s *) cmnd) {
+           ^
+   drivers/scsi/bfa/bfad_im.c:214:2: note: Assuming 'bfa_log_level' is not =
+equal to 4
+           BFA_LOG(KERN_INFO, bfad, bfa_log_level,
+           ^
+   drivers/scsi/bfa/bfad_drv.h:285:7: note: expanded from macro 'BFA_LOG'
+           if (((mask) =3D=3D 4) || (level[1] <=3D '4'))                   =
+      \
+                ^~~~~~~~~~~
+   drivers/scsi/bfa/bfad_im.c:214:2: note: Left side of '||' is false
+           BFA_LOG(KERN_INFO, bfad, bfa_log_level,
+           ^
+   drivers/scsi/bfa/bfad_drv.h:285:6: note: expanded from macro 'BFA_LOG'
+           if (((mask) =3D=3D 4) || (level[1] <=3D '4'))                   =
+      \
+               ^
+   drivers/scsi/bfa/bfad_im.c:214:2: note: Taking false branch
+           BFA_LOG(KERN_INFO, bfad, bfa_log_level,
+           ^
+   drivers/scsi/bfa/bfad_drv.h:285:2: note: expanded from macro 'BFA_LOG'
+           if (((mask) =3D=3D 4) || (level[1] <=3D '4'))                   =
+      \
+           ^
+   drivers/scsi/bfa/bfad_im.c:214:2: note: Loop condition is false.  Exitin=
+g loop
+           BFA_LOG(KERN_INFO, bfad, bfa_log_level,
+           ^
+   drivers/scsi/bfa/bfad_drv.h:283:52: note: expanded from macro 'BFA_LOG'
+   #define BFA_LOG(level, bfad, mask, fmt, arg...)                         \
+                                                                           ^
+   drivers/scsi/bfa/bfad_im.c:222:2: note: Loop condition is true.  Enterin=
+g loop body
+           while ((struct bfa_ioim_s *) cmnd->host_scribble =3D=3D hal_io) {
+           ^
+   drivers/scsi/bfa/bfad_im.c:223:3: note: Taking false branch
+                   set_current_state(TASK_UNINTERRUPTIBLE);
+                   ^
+   include/linux/sched.h:140:3: note: expanded from macro 'set_current_stat=
+e'
+                   WARN_ON_ONCE(is_special_task_state(state_value));\
+                   ^
+   include/asm-generic/bug.h:103:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   drivers/scsi/bfa/bfad_im.c:223:3: note: Dereference of null pointer
+                   set_current_state(TASK_UNINTERRUPTIBLE);
+
+vim +/ctx +1518 drivers/scsi/elx/efct/efct_hw.c
+
+580c0255e4effe James Smart 2021-06-01  1500  =
+
+580c0255e4effe James Smart 2021-06-01  1501  static int
+580c0255e4effe James Smart 2021-06-01  1502  efct_hw_command_cancel(struct =
+efct_hw *hw)
+580c0255e4effe James Smart 2021-06-01  1503  {
+580c0255e4effe James Smart 2021-06-01  1504  	unsigned long flags =3D 0;
+580c0255e4effe James Smart 2021-06-01  1505  	int rc =3D 0;
+580c0255e4effe James Smart 2021-06-01  1506  =
+
+580c0255e4effe James Smart 2021-06-01  1507  	spin_lock_irqsave(&hw->cmd_lo=
+ck, flags);
+580c0255e4effe James Smart 2021-06-01  1508  =
+
+580c0255e4effe James Smart 2021-06-01  1509  	/*
+580c0255e4effe James Smart 2021-06-01  1510  	 * Manually clean up remainin=
+g commands. Note: since this calls
+580c0255e4effe James Smart 2021-06-01  1511  	 * efct_hw_command_process(),=
+ we'll also process the cmd_pending
+580c0255e4effe James Smart 2021-06-01  1512  	 * list, so no need to manual=
+ly clean that out.
+580c0255e4effe James Smart 2021-06-01  1513  	 */
+580c0255e4effe James Smart 2021-06-01  1514  	while (!list_empty(&hw->cmd_h=
+ead)) {
+580c0255e4effe James Smart 2021-06-01  1515  		u8		mqe[SLI4_BMBX_SIZE] =3D =
+{ 0 };
+580c0255e4effe James Smart 2021-06-01  1516  		struct efct_command_ctx *ctx;
+580c0255e4effe James Smart 2021-06-01  1517  =
+
+580c0255e4effe James Smart 2021-06-01 @1518  		ctx =3D list_first_entry(&hw=
+->cmd_head,
+580c0255e4effe James Smart 2021-06-01  1519  				       struct efct_command=
+_ctx, list_entry);
+580c0255e4effe James Smart 2021-06-01  1520  =
+
+580c0255e4effe James Smart 2021-06-01  1521  		efc_log_debug(hw->os, "hung =
+command %08x\n",
+580c0255e4effe James Smart 2021-06-01  1522  			      !ctx ? U32_MAX :
+580c0255e4effe James Smart 2021-06-01  1523  			      (!ctx->buf ? U32_MAX =
+: *((u32 *)ctx->buf)));
+580c0255e4effe James Smart 2021-06-01  1524  		spin_unlock_irqrestore(&hw->=
+cmd_lock, flags);
+580c0255e4effe James Smart 2021-06-01  1525  		rc =3D efct_hw_command_proce=
+ss(hw, -1, mqe, SLI4_BMBX_SIZE);
+580c0255e4effe James Smart 2021-06-01  1526  		spin_lock_irqsave(&hw->cmd_l=
+ock, flags);
+580c0255e4effe James Smart 2021-06-01  1527  	}
+580c0255e4effe James Smart 2021-06-01  1528  =
+
+580c0255e4effe James Smart 2021-06-01  1529  	spin_unlock_irqrestore(&hw->c=
+md_lock, flags);
+580c0255e4effe James Smart 2021-06-01  1530  =
+
+580c0255e4effe James Smart 2021-06-01  1531  	return rc;
+580c0255e4effe James Smart 2021-06-01  1532  }
+580c0255e4effe James Smart 2021-06-01  1533  =
+
+580c0255e4effe James Smart 2021-06-01  1534  static void
+580c0255e4effe James Smart 2021-06-01  1535  efct_mbox_rsp_cb(struct efct_h=
+w *hw, int status, u8 *mqe, void *arg)
+580c0255e4effe James Smart 2021-06-01  1536  {
+580c0255e4effe James Smart 2021-06-01  1537  	struct efct_mbox_rqst_ctx *ct=
+x =3D arg;
+580c0255e4effe James Smart 2021-06-01  1538  =
+
+580c0255e4effe James Smart 2021-06-01  1539  	if (ctx) {
+580c0255e4effe James Smart 2021-06-01  1540  		if (ctx->callback)
+580c0255e4effe James Smart 2021-06-01  1541  			(*ctx->callback)(hw->os->ef=
+cport, status, mqe,
+580c0255e4effe James Smart 2021-06-01  1542  					 ctx->arg);
+580c0255e4effe James Smart 2021-06-01  1543  =
+
+580c0255e4effe James Smart 2021-06-01  1544  		mempool_free(ctx, hw->mbox_r=
+qst_pool);
+580c0255e4effe James Smart 2021-06-01  1545  	}
+580c0255e4effe James Smart 2021-06-01  1546  }
+580c0255e4effe James Smart 2021-06-01  1547  =
+
+580c0255e4effe James Smart 2021-06-01  1548  int
+580c0255e4effe James Smart 2021-06-01  1549  efct_issue_mbox_rqst(void *bas=
+e, void *cmd, void *cb, void *arg)
+580c0255e4effe James Smart 2021-06-01  1550  {
+580c0255e4effe James Smart 2021-06-01  1551  	struct efct_mbox_rqst_ctx *ct=
+x;
+580c0255e4effe James Smart 2021-06-01  1552  	struct efct *efct =3D base;
+580c0255e4effe James Smart 2021-06-01  1553  	struct efct_hw *hw =3D &efct-=
+>hw;
+580c0255e4effe James Smart 2021-06-01  1554  	int rc;
+580c0255e4effe James Smart 2021-06-01  1555  =
+
+580c0255e4effe James Smart 2021-06-01  1556  	/*
+580c0255e4effe James Smart 2021-06-01  1557  	 * Allocate a callback contex=
+t (which includes the mbox cmd buffer),
+580c0255e4effe James Smart 2021-06-01  1558  	 * we need this to be persist=
+ent as the mbox cmd submission may be
+580c0255e4effe James Smart 2021-06-01  1559  	 * queued and executed later =
+execution.
+580c0255e4effe James Smart 2021-06-01  1560  	 */
+580c0255e4effe James Smart 2021-06-01  1561  	ctx =3D mempool_alloc(hw->mbo=
+x_rqst_pool, GFP_ATOMIC);
+580c0255e4effe James Smart 2021-06-01  1562  	if (!ctx)
+580c0255e4effe James Smart 2021-06-01  1563  		return -EIO;
+580c0255e4effe James Smart 2021-06-01  1564  =
+
+580c0255e4effe James Smart 2021-06-01  1565  	ctx->callback =3D cb;
+580c0255e4effe James Smart 2021-06-01  1566  	ctx->arg =3D arg;
+580c0255e4effe James Smart 2021-06-01  1567  =
+
+580c0255e4effe James Smart 2021-06-01  1568  	rc =3D efct_hw_command(hw, cm=
+d, EFCT_CMD_NOWAIT, efct_mbox_rsp_cb, ctx);
+580c0255e4effe James Smart 2021-06-01  1569  	if (rc) {
+580c0255e4effe James Smart 2021-06-01  1570  		efc_log_err(efct, "issue mbo=
+x rqst failure rc:%d\n", rc);
+580c0255e4effe James Smart 2021-06-01  1571  		mempool_free(ctx, hw->mbox_r=
+qst_pool);
+580c0255e4effe James Smart 2021-06-01  1572  		return -EIO;
+580c0255e4effe James Smart 2021-06-01  1573  	}
+580c0255e4effe James Smart 2021-06-01  1574  =
+
+580c0255e4effe James Smart 2021-06-01  1575  	return 0;
+580c0255e4effe James Smart 2021-06-01  1576  }
+63de51327a64c7 James Smart 2021-06-01  1577  =
+
+63de51327a64c7 James Smart 2021-06-01  1578  static inline struct efct_hw_i=
+o *
+63de51327a64c7 James Smart 2021-06-01  1579  _efct_hw_io_alloc(struct efct_=
+hw *hw)
+63de51327a64c7 James Smart 2021-06-01  1580  {
+63de51327a64c7 James Smart 2021-06-01  1581  	struct efct_hw_io *io =3D NUL=
+L;
+63de51327a64c7 James Smart 2021-06-01  1582  =
+
+63de51327a64c7 James Smart 2021-06-01  1583  	if (!list_empty(&hw->io_free)=
+) {
+63de51327a64c7 James Smart 2021-06-01  1584  		io =3D list_first_entry(&hw-=
+>io_free, struct efct_hw_io,
+63de51327a64c7 James Smart 2021-06-01  1585  				      list_entry);
+63de51327a64c7 James Smart 2021-06-01  1586  		list_del(&io->list_entry);
+63de51327a64c7 James Smart 2021-06-01  1587  	}
+63de51327a64c7 James Smart 2021-06-01  1588  	if (io) {
+63de51327a64c7 James Smart 2021-06-01  1589  		INIT_LIST_HEAD(&io->list_ent=
+ry);
+63de51327a64c7 James Smart 2021-06-01  1590  		list_add_tail(&io->list_entr=
+y, &hw->io_inuse);
+63de51327a64c7 James Smart 2021-06-01  1591  		io->state =3D EFCT_HW_IO_STA=
+TE_INUSE;
+63de51327a64c7 James Smart 2021-06-01  1592  		io->abort_reqtag =3D U32_MAX;
+63de51327a64c7 James Smart 2021-06-01 @1593  		io->wq =3D hw->wq_cpu_array[=
+raw_smp_processor_id()];
+63de51327a64c7 James Smart 2021-06-01  1594  		if (!io->wq) {
+63de51327a64c7 James Smart 2021-06-01  1595  			efc_log_err(hw->os, "WQ not=
+ assigned for cpu:%d\n",
+63de51327a64c7 James Smart 2021-06-01  1596  				    raw_smp_processor_id()=
 );
-                               ^
-   net/x25/x25_proc.c:133:22: note: Value stored to 'f' during its initiali=
-zation is never read
-           struct x25_forward *f =3D list_entry(v, struct x25_forward, node=
-);
-                               ^
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   79 warnings generated.
-   Suppressed 79 warnings (79 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   81 warnings generated.
-   net/sched/act_pedit.c:230:2: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(p->tcfp_keys, parm->keys, ksize);
-           ^~~~~~
-   net/sched/act_pedit.c:230:2: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-           memcpy(p->tcfp_keys, parm->keys, ksize);
-           ^~~~~~
-   net/sched/act_pedit.c:437:2: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(opt->keys, p->tcfp_keys, flex_array_size(opt, keys, p->tc=
-fp_nkeys));
-           ^~~~~~
-   net/sched/act_pedit.c:437:2: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-           memcpy(opt->keys, p->tcfp_keys, flex_array_size(opt, keys, p->tc=
-fp_nkeys));
-           ^~~~~~
-   Suppressed 79 warnings (79 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   94 warnings generated.
-   Suppressed 94 warnings (94 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   95 warnings generated.
-   net/sched/sch_gred.c:800:3: warning: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&opt, 0, sizeof(opt));
-                   ^~~~~~
-   net/sched/sch_gred.c:800:3: note: Call to function 'memset' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memset_s' in case of C11
-                   memset(&opt, 0, sizeof(opt));
-                   ^~~~~~
-   Suppressed 94 warnings (94 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   100 warnings generated.
-   Suppressed 100 warnings (100 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   108 warnings generated.
-   net/ipv4/inet_fragment.c:516:5: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   memset(&fp->rbnode, 0, sizeof(fp->rbnode=
-));
-                                   ^~~~~~
-   net/ipv4/inet_fragment.c:516:5: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-                                   memset(&fp->rbnode, 0, sizeof(fp->rbnode=
-));
-                                   ^~~~~~
-   net/ipv4/inet_fragment.c:560:2: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&head->rbnode, 0, sizeof(head->rbnode));
-           ^~~~~~
-   net/ipv4/inet_fragment.c:560:2: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-           memset(&head->rbnode, 0, sizeof(head->rbnode));
-           ^~~~~~
-   Suppressed 106 warnings (106 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   56 warnings generated.
-   drivers/accessibility/speakup/speakup_soft.c:157:2: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(buf, 0, sizeof(buf));
-           ^~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:157:2: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-           memset(buf, 0, sizeof(buf));
-           ^~~~~~
->> drivers/accessibility/speakup/speakup_soft.c:163:14: warning: Call to fu=
-nction 'sprintf' is insecure as it does not provide bounding of the memory =
-buffer or security checks introduced in the C11 standard. Replace with anal=
-ogous functions that support length arguments or provides boundary checks s=
-uch as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Depr=
-ecatedOrUnsafeBufferHandling]
-                           cp =3D cp + sprintf(cp, var->u.n.synth_fmt,
-                                     ^~~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:163:14: note: Call to funct=
-ion 'sprintf' is insecure as it does not provide bounding of the memory buf=
-fer or security checks introduced in the C11 standard. Replace with analogo=
-us functions that support length arguments or provides boundary checks such=
- as 'sprintf_s' in case of C11
-                           cp =3D cp + sprintf(cp, var->u.n.synth_fmt,
-                                     ^~~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:167:2: warning: Value store=
-d to 'cp' is never read [clang-analyzer-deadcode.DeadStores]
-           cp =3D cp + sprintf(cp, "\n");
-           ^    ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:167:2: note: Value stored t=
-o 'cp' is never read
-           cp =3D cp + sprintf(cp, "\n");
-           ^    ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:167:12: warning: Call to fu=
-nction 'sprintf' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'sprintf_s' in case of C11=
- [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           cp =3D cp + sprintf(cp, "\n");
-                     ^~~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:167:12: note: Call to funct=
-ion 'sprintf' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           cp =3D cp + sprintf(cp, "\n");
-                     ^~~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:379:2: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&synth_device, 0, sizeof(synth_device));
-           ^~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:379:2: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&synth_device, 0, sizeof(synth_device));
-           ^~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:388:2: warning: Call to fun=
-ction 'memset' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memset_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&synthu_device, 0, sizeof(synthu_device));
-           ^~~~~~
-   drivers/accessibility/speakup/speakup_soft.c:388:2: note: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&synthu_device, 0, sizeof(synthu_device));
-           ^~~~~~
-   Suppressed 50 warnings (50 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   98 warnings generated.
-   drivers/block/aoe/aoecmd.c:125:9: warning: Although the value stored to =
-'n' is used in the enclosing expression, the value is never actually read f=
-rom 'n' [clang-analyzer-deadcode.DeadStores]
-           return n |=3D (++d->lasttag & 0x7fff) << 16;
-                  ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/aoe/aoecmd.c:125:9: note: Although the value stored to 'n'=
- is used in the enclosing expression, the value is never actually read from=
- 'n'
-           return n |=3D (++d->lasttag & 0x7fff) << 16;
-                  ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/aoe/aoecmd.c:133:2: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(h->src, t->ifp->nd->dev_addr, sizeof h->src);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:133:2: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-           memcpy(h->src, t->ifp->nd->dev_addr, sizeof h->src);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:134:2: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(h->dst, t->addr, sizeof h->dst);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:134:2: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-           memcpy(h->dst, t->addr, sizeof h->dst);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:153:13: warning: Although the value stored to=
- 'lba' is used in the enclosing expression, the value is never actually rea=
-d from 'lba' [clang-analyzer-deadcode.DeadStores]
-           ah->lba5 =3D lba >>=3D 8;
-                      ^       ~
-   drivers/block/aoe/aoecmd.c:153:13: note: Although the value stored to 'l=
-ba' is used in the enclosing expression, the value is never actually read f=
-rom 'lba'
-           ah->lba5 =3D lba >>=3D 8;
-                      ^       ~
-   drivers/block/aoe/aoecmd.c:199:2: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&f->iter, 0, sizeof(f->iter));
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:199:2: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-           memset(&f->iter, 0, sizeof(f->iter));
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:330:2: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(h, 0, skb->len);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:330:2: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-           memset(h, 0, skb->len);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:435:3: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(h, 0, sizeof *h + sizeof *ch);
-                   ^~~~~~
-   drivers/block/aoe/aoecmd.c:435:3: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-                   memset(h, 0, sizeof *h + sizeof *ch);
-                   ^~~~~~
-   drivers/block/aoe/aoecmd.c:437:3: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(h->dst, 0xff, sizeof h->dst);
-                   ^~~~~~
-   drivers/block/aoe/aoecmd.c:437:3: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-                   memset(h->dst, 0xff, sizeof h->dst);
-                   ^~~~~~
-   drivers/block/aoe/aoecmd.c:438:3: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(h->src, ifp->dev_addr, sizeof h->src);
-                   ^~~~~~
-   drivers/block/aoe/aoecmd.c:438:3: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(h->src, ifp->dev_addr, sizeof h->src);
-                   ^~~~~~
-   drivers/block/aoe/aoecmd.c:473:3: warning: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   snprintf(buf, sizeof(buf),
-                   ^~~~~~~~
-   drivers/block/aoe/aoecmd.c:473:3: note: Call to function 'snprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'snprintf_s' in case of C11
-                   snprintf(buf, sizeof(buf),
-                   ^~~~~~~~
-   drivers/block/aoe/aoecmd.c:484:2: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(h->dst, t->addr, sizeof h->dst);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:484:2: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-           memcpy(h->dst, t->addr, sizeof h->dst);
-           ^~~~~~
-   drivers/block/aoe/aoecmd.c:485:2: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(h->src, t->ifp->nd->dev_addr, sizeof h->src);
+63de51327a64c7 James Smart 2021-06-01  1597  			io->wq =3D hw->hw_wq[0];
+63de51327a64c7 James Smart 2021-06-01  1598  		}
+63de51327a64c7 James Smart 2021-06-01  1599  		kref_init(&io->ref);
+63de51327a64c7 James Smart 2021-06-01  1600  		io->release =3D efct_hw_io_f=
+ree_internal;
+63de51327a64c7 James Smart 2021-06-01  1601  	} else {
+63de51327a64c7 James Smart 2021-06-01  1602  		atomic_add(1, &hw->io_alloc_=
+failed_count);
+63de51327a64c7 James Smart 2021-06-01  1603  	}
+63de51327a64c7 James Smart 2021-06-01  1604  =
 
-vim +1155 drivers/edac/edac_mc.c
+63de51327a64c7 James Smart 2021-06-01  1605  	return io;
+63de51327a64c7 James Smart 2021-06-01  1606  }
+63de51327a64c7 James Smart 2021-06-01  1607  =
 
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1014  =
 
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1015  void edac_mc_handle=
-_error(const enum hw_event_mc_err_type type,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1016  			  struct mem_ctl=
-_info *mci,
-9eb07a7fb8a90ee Mauro Carvalho Chehab 2012-06-04  1017  			  const u16 erro=
-r_count,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1018  			  const unsigned=
- long page_frame_number,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1019  			  const unsigned=
- long offset_in_page,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1020  			  const unsigned=
- long syndrome,
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1021  			  const int top_=
-layer,
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1022  			  const int mid_=
-layer,
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1023  			  const int low_=
-layer,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1024  			  const char *ms=
-g,
-03f7eae80f4b913 Mauro Carvalho Chehab 2012-06-04  1025  			  const char *ot=
-her_detail)
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1026  {
-c498afaf7df87f4 Robert Richter        2019-11-06  1027  	struct dimm_info *=
-dimm;
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1028  	char *p;
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1029  	int row =3D -1, ch=
-an =3D -1;
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1030  	int pos[EDAC_MAX_L=
-AYERS] =3D { top_layer, mid_layer, low_layer };
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1031  	int i, n_labels =
-=3D 0;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1032  	struct edac_raw_er=
-ror_desc *e =3D &mci->error_desc;
-67792cf9583c781 Robert Richter        2020-01-23  1033  	bool any_memory =
-=3D true;
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1034  =
+:::::: The code at line 1518 was first introduced by commit
+:::::: 580c0255e4effe49b9974044e78a03e76d977618 scsi: elx: efct: RQ buffer,=
+ memory pool allocation and deallocation APIs
 
-956b9ba156dbfdb Joe Perches           2012-04-29  1035  	edac_dbg(3, "MC%d\=
-n", mci->mc_idx);
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1036  =
-
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1037  	/* Fills the error=
- report buffer */
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1038  	memset(e, 0, sizeo=
-f (*e));
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1039  	e->error_count =3D=
- error_count;
-672ef0e5684048a Robert Richter        2020-01-23  1040  	e->type =3D type;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1041  	e->top_layer =3D t=
-op_layer;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1042  	e->mid_layer =3D m=
-id_layer;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1043  	e->low_layer =3D l=
-ow_layer;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1044  	e->page_frame_numb=
-er =3D page_frame_number;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1045  	e->offset_in_page =
-=3D offset_in_page;
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1046  	e->syndrome =3D sy=
-ndrome;
-1853ee72997645e Robert Richter        2020-01-23  1047  	/* need valid stri=
-ngs here for both: */
-1853ee72997645e Robert Richter        2020-01-23  1048  	e->msg =3D msg ?: =
-"";
-1853ee72997645e Robert Richter        2020-01-23  1049  	e->other_detail =
-=3D other_detail ?: "";
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1050  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1051  	/*
-67792cf9583c781 Robert Richter        2020-01-23  1052  	 * Check if the ev=
-ent report is consistent and if the memory location is
-4aa92c86463273b Robert Richter        2020-02-17  1053  	 * known. If it is=
-, the DIMM(s) label info will be filled and the DIMM's
-4aa92c86463273b Robert Richter        2020-02-17  1054  	 * error counters =
-will be incremented.
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1055  	 */
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1056  	for (i =3D 0; i < =
-mci->n_layers; i++) {
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1057  		if (pos[i] >=3D (=
-int)mci->layers[i].size) {
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1058  =
-
-537fba28928c01b Dave Peterson         2006-03-26  1059  			edac_mc_printk(m=
-ci, KERN_ERR,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1060  				       "INTERNA=
-L ERROR: %s value is out of range (%d >=3D %d)\n",
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1061  				       edac_lay=
-er_name[mci->layers[i].type],
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1062  				       pos[i], =
-mci->layers[i].size);
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1063  			/*
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1064  			 * Instead of ju=
-st returning it, let's use what's
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1065  			 * known about t=
-he error. The increment routines and
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1066  			 * the DIMM filt=
-er logic will do the right thing by
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1067  			 * pointing the =
-likely damaged DIMMs.
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1068  			 */
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1069  			pos[i] =3D -1;
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1070  		}
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1071  		if (pos[i] >=3D 0)
-67792cf9583c781 Robert Richter        2020-01-23  1072  			any_memory =3D f=
-alse;
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1073  	}
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1074  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1075  	/*
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1076  	 * Get the dimm la=
-bel/grain that applies to the match criteria.
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1077  	 * As the error al=
-gorithm may not be able to point to just one memory
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1078  	 * stick, the logi=
-c here will get all possible labels that could
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1079  	 * pottentially be=
- affected by the error.
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1080  	 * On FB-DIMM memo=
-ry controllers, for uncorrected errors, it is common
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1081  	 * to have only th=
-e MC channel and the MC dimm (also called "branch")
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1082  	 * but the channel=
- is not known, as the memory is arranged in pairs,
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1083  	 * where each memo=
-ry belongs to a separate channel within the same
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1084  	 * branch.
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1085  	 */
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1086  	p =3D e->label;
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1087  	*p =3D '\0';
-4da1b7bfe769988 Borislav Petkov       2012-09-10  1088  =
-
-c498afaf7df87f4 Robert Richter        2019-11-06  1089  	mci_for_each_dimm(=
-mci, dimm) {
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1090  		if (top_layer >=
-=3D 0 && top_layer !=3D dimm->location[0])
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1091  			continue;
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1092  		if (mid_layer >=
-=3D 0 && mid_layer !=3D dimm->location[1])
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1093  			continue;
-53f2d02898755d1 Mauro Carvalho Chehab 2012-02-23  1094  		if (low_layer >=
-=3D 0 && low_layer !=3D dimm->location[2])
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1095  			continue;
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1096  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1097  		/* get the max gr=
-ain, over the error match range */
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1098  		if (dimm->grain >=
- e->grain)
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1099  			e->grain =3D dim=
-m->grain;
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1100  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1101  		/*
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1102  		 * If the error i=
-s memory-controller wide, there's no need to
-67792cf9583c781 Robert Richter        2020-01-23  1103  		 * seek for the a=
-ffected DIMMs because the whole channel/memory
-67792cf9583c781 Robert Richter        2020-01-23  1104  		 * controller/...=
- may be affected. Also, don't show errors for
-67792cf9583c781 Robert Richter        2020-01-23  1105  		 * empty DIMM slo=
-ts.
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1106  		 */
-65bb4d1af92cf00 Robert Richter        2020-01-23  1107  		if (!dimm->nr_pag=
-es)
-0d8292e003efffa Robert Richter        2019-11-06  1108  			continue;
-0d8292e003efffa Robert Richter        2019-11-06  1109  =
-
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1110  		n_labels++;
-65bb4d1af92cf00 Robert Richter        2020-01-23  1111  		if (n_labels > ED=
-AC_MAX_LABELS) {
-65bb4d1af92cf00 Robert Richter        2020-01-23  1112  			p =3D e->label;
-65bb4d1af92cf00 Robert Richter        2020-01-23  1113  			*p =3D '\0';
-65bb4d1af92cf00 Robert Richter        2020-01-23  1114  		} else {
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1115  			if (p !=3D e->la=
-bel) {
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1116  				strcpy(p, OTHER=
-_LABEL);
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1117  				p +=3D strlen(O=
-THER_LABEL);
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1118  			}
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1119  			strcpy(p, dimm->=
-label);
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1120  			p +=3D strlen(p);
-65bb4d1af92cf00 Robert Richter        2020-01-23  1121  		}
-da9bb1d27b21cb2 Alan Cox              2006-01-18  1122  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1123  		/*
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1124  		 * get csrow/chan=
-nel of the DIMM, in order to allow
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1125  		 * incrementing t=
-he compat API counters
-9794f33ddedd878 eric wollesen         2007-02-12  1126  		 */
-956b9ba156dbfdb Joe Perches           2012-04-29  1127  		edac_dbg(4, "%s c=
-srows map: (%d,%d)\n",
-9713faecff3d071 Mauro Carvalho Chehab 2013-03-11  1128  			mci->csbased ? "=
-rank" : "dimm",
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1129  			dimm->csrow, dim=
-m->cschannel);
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1130  		if (row =3D=3D -1)
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1131  			row =3D dimm->cs=
-row;
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1132  		else if (row >=3D=
- 0 && row !=3D dimm->csrow)
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1133  			row =3D -2;
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1134  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1135  		if (chan =3D=3D -=
-1)
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1136  			chan =3D dimm->c=
-schannel;
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1137  		else if (chan >=
-=3D 0 && chan !=3D dimm->cschannel)
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1138  			chan =3D -2;
-9794f33ddedd878 eric wollesen         2007-02-12  1139  	}
-9794f33ddedd878 eric wollesen         2007-02-12  1140  =
-
-67792cf9583c781 Robert Richter        2020-01-23  1141  	if (any_memory)
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1142  		strcpy(e->label, =
-"any memory");
-6334dc4e3ff5303 Robert Richter        2020-02-14  1143  	else if (!*e->labe=
-l)
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1144  		strcpy(e->label, =
-"unknown memory");
-6334dc4e3ff5303 Robert Richter        2020-02-14  1145  =
-
-6334dc4e3ff5303 Robert Richter        2020-02-14  1146  	edac_inc_csrow(e, =
-row, chan);
-9794f33ddedd878 eric wollesen         2007-02-12  1147  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1148  	/* Fill the RAM lo=
-cation data */
-c7ef7645544131b Mauro Carvalho Chehab 2013-02-21  1149  	p =3D e->location;
-4da1b7bfe769988 Borislav Petkov       2012-09-10  1150  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1151  	for (i =3D 0; i < =
-mci->n_layers; i++) {
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1152  		if (pos[i] < 0)
-4275be63559719c Mauro Carvalho Chehab 2012-04-18  1153  			continue;
-9794f33ddedd878 eric wollesen         2007-02-12  1154  =
-
-4275be63559719c Mauro Carvalho Chehab 2012-04-18 @1155  		p +=3D sprintf(p,=
- "%s:%d ",
-
-:::::: The code@line 1155 was first introduced by commit
-:::::: 4275be63559719c3149b19751029f1b0f1b26775 edac: Change internal repre=
-sentation to work with layers
-
-:::::: TO: Mauro Carvalho Chehab <mchehab@redhat.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: TO: James Smart <jsmart2021@gmail.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1615688835533311702==--
+--===============2585939247705369995==--
 
