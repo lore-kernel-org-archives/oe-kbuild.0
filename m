@@ -1,360 +1,221 @@
-Content-Type: multipart/mixed; boundary="===============5575570635660120412=="
+Content-Type: multipart/mixed; boundary="===============7511398802024244338=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/atomic/atomic-long.h:523:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sun, 29 May 2022 09:32:22 +0800
-Message-ID: <202205290940.vckqDc8o-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:737 sja1105_init_topology() warn: should '(((1))) << port' be a 64 bit type?
+Date: Sun, 29 May 2022 08:41:45 +0800
+Message-ID: <202205290837.so6t10WL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5575570635660120412==
+--===============7511398802024244338==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Rutland <mark.rutland@arm.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9d004b2f4fea97cde123e7f1939b80e77bf2e695
-commit: 67d1b0de258ad066e1fc85d0ceaa75e107fb45bb locking/atomic: add arch_a=
-tomic_long*()
-date:   11 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220529 (https://download.01.org/0day-ci/archi=
-ve/20220529/202205290940.vckqDc8o-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
-3f486e01448121f7931a4ca29fac1504ab)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D67d1b0de258ad066e1fc85d0ceaa75e107fb45bb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 67d1b0de258ad066e1fc85d0ceaa75e107fb45bb
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: 30a100e60cf36ade9902dc71610f93563d0bd7b0 net: dsa: sja1105: configu=
+re the cascade ports based on topology
+date:   10 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 10 months ago
+config: arc-randconfig-m031-20220524 (https://download.01.org/0day-ci/archi=
+ve/20220529/202205290837.so6t10WL-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:737 sja1105_init_topology() warn: sh=
+ould '(((1))) << port' be a 64 bit type?
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                                           ^~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stb0899_algo.c:392:3: note: Taking true bran=
-ch
-                   if ((internal->status !=3D CARRIEROK) || (stb0899_check_=
-data(state) !=3D DATAOK)) {
-                   ^
-   drivers/media/dvb-frontends/stb0899_algo.c:395:8: note: Assuming '__x' i=
-s >=3D 0
-                           if (abs(derot_freq) > derot_limit)
-                               ^
-   include/linux/math.h:134:3: note: expanded from macro 'abs'
-                   __abs_choose_expr(x, short,                             \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math.h:144:28: note: expanded from macro '__abs_choose_exp=
-r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                     ^~~~~~~
-   include/linux/math.h:144:54: note: expanded from macro '__abs_choose_exp=
-r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                                               ^~~~~
-   include/linux/math.h:144:54: note: expanded from macro '__abs_choose_exp=
-r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                                               ^~~~~
-   include/linux/math.h:144:54: note: expanded from macro '__abs_choose_exp=
-r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                                               ^~~~~
-   drivers/media/dvb-frontends/stb0899_algo.c:395:8: note: '?' condition is=
- false
-                           if (abs(derot_freq) > derot_limit)
-                               ^
-   include/linux/math.h:134:3: note: expanded from macro 'abs'
-                   __abs_choose_expr(x, short,                             \
-                   ^
-   include/linux/math.h:144:28: note: expanded from macro '__abs_choose_exp=
-r'
-           ({ signed type __x =3D (x); __x < 0 ? -__x : __x; }), other)
-                                     ^
-   drivers/media/dvb-frontends/stb0899_algo.c:395:8: note: Assuming the con=
-dition is false
-                           if (abs(derot_freq) > derot_limit)
-                               ^
-   include/linux/math.h:131:16: note: expanded from macro 'abs'
-   #define abs(x)  __abs_choose_expr(x, long long,                         \
-                   ^
-   include/linux/math.h:141:43: note: expanded from macro '__abs_choose_exp=
-r'
-   #define __abs_choose_expr(x, type, other) __builtin_choose_expr(        \
-                                             ^
-   drivers/media/dvb-frontends/stb0899_algo.c:395:4: note: Taking false bra=
-nch
-                           if (abs(derot_freq) > derot_limit)
-                           ^
-   drivers/media/dvb-frontends/stb0899_algo.c:398:8: note: 'next_loop' is 3
-                           if (next_loop) {
-                               ^~~~~~~~~
-   drivers/media/dvb-frontends/stb0899_algo.c:398:4: note: Taking true bran=
-ch
-                           if (next_loop) {
-                           ^
-   drivers/media/dvb-frontends/stb0899_algo.c:399:5: note: Taking true bran=
-ch
-                                   dprintk(state->verbose, FE_DEBUG, 1, "De=
-rot freq=3D%d, mclk=3D%d", derot_freq, internal->mclk);
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:23:2: note: expanded from mac=
-ro 'dprintk'
-           if (z) {                                                        =
-                \
-           ^
-   drivers/media/dvb-frontends/stb0899_algo.c:399:5: note: Assuming the con=
-dition is true
-                                   dprintk(state->verbose, FE_DEBUG, 1, "De=
-rot freq=3D%d, mclk=3D%d", derot_freq, internal->mclk);
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:24:8: note: expanded from mac=
-ro 'dprintk'
-                   if      ((*x > FE_ERROR) && (*x > y))                   =
-                \
-                             ^~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stb0899_algo.c:399:5: note: Left side of '&&=
-' is true
-                                   dprintk(state->verbose, FE_DEBUG, 1, "De=
-rot freq=3D%d, mclk=3D%d", derot_freq, internal->mclk);
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:24:7: note: expanded from mac=
-ro 'dprintk'
-                   if      ((*x > FE_ERROR) && (*x > y))                   =
-                \
-                            ^
-   drivers/media/dvb-frontends/stb0899_algo.c:399:5: note: Assuming the con=
-dition is true
-                                   dprintk(state->verbose, FE_DEBUG, 1, "De=
-rot freq=3D%d, mclk=3D%d", derot_freq, internal->mclk);
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:24:27: note: expanded from ma=
-cro 'dprintk'
-                   if      ((*x > FE_ERROR) && (*x > y))                   =
-                \
-                                                ^~~~~~
-   drivers/media/dvb-frontends/stb0899_algo.c:399:5: note: Taking true bran=
-ch
-                                   dprintk(state->verbose, FE_DEBUG, 1, "De=
-rot freq=3D%d, mclk=3D%d", derot_freq, internal->mclk);
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:24:3: note: expanded from mac=
-ro 'dprintk'
-                   if      ((*x > FE_ERROR) && (*x > y))                   =
-                \
-                   ^
-   drivers/media/dvb-frontends/stb0899_algo.c:399:5: note: Loop condition i=
-s false.  Exiting loop
-                                   dprintk(state->verbose, FE_DEBUG, 1, "De=
-rot freq=3D%d, mclk=3D%d", derot_freq, internal->mclk);
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:22:42: note: expanded from ma=
-cro 'dprintk'
-   #define dprintk(x, y, z, format, arg...) do {                           =
-                \
-                                            ^
-   drivers/media/dvb-frontends/stb0899_algo.c:404:5: note: The left operand=
- of '&' is a garbage value
-                                   STB0899_SETFIELD_VAL(CFRM, cfr[0], MSB(i=
-nternal->inversion * derot_freq));
-                                   ^
-   drivers/media/dvb-frontends/stb0899_priv.h:61:61: note: expanded from ma=
-cro 'STB0899_SETFIELD_VAL'
-   #define STB0899_SETFIELD_VAL(bitf, mask, val)   (mask =3D (mask & (~(((1=
- << STB0899_WIDTH_##bitf) - 1) <<\
-                                                            ~~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   20 warnings generated.
->> include/linux/atomic/atomic-long.h:523:9: warning: Dereference of null p=
-ointer [clang-analyzer-core.NullDereference]
-           return arch_atomic_read(v);
-                  ^
-   arch/arm/include/asm/atomic.h:25:29: note: expanded from macro 'arch_ato=
-mic_read'
-   #define arch_atomic_read(v)     READ_ONCE((v)->counter)
-                                   ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^
-   mm/memcontrol.c:6182:26: note: Passing null pointer value via 2nd parame=
-ter 'events'
-           __memory_events_show(m, memcg->memory_events_local);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c:6182:2: note: Calling '__memory_events_show'
-           __memory_events_show(m, memcg->memory_events_local);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c:6162:46: note: Passing null pointer value via 1st parame=
-ter 'v'
-           seq_printf(m, "low %lu\n", atomic_long_read(&events[MEMCG_LOW]));
-                                                       ^~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c:6162:29: note: Calling 'atomic_long_read'
-           seq_printf(m, "low %lu\n", atomic_long_read(&events[MEMCG_LOW]));
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:1184:31: note: Passing null p=
-ointer value via 1st parameter 'v'
-           return arch_atomic_long_read(v);
-                                        ^
-   include/linux/atomic/atomic-instrumented.h:1184:9: note: Calling 'arch_a=
-tomic_long_read'
-           return arch_atomic_long_read(v);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-long.h:523:9: note: Left side of '||' is fal=
-se
-           return arch_atomic_read(v);
-                  ^
-   arch/arm/include/asm/atomic.h:25:29: note: expanded from macro 'arch_ato=
-mic_read'
-   #define arch_atomic_read(v)     READ_ONCE((v)->counter)
-                                   ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   include/linux/atomic/atomic-long.h:523:9: note: Left side of '||' is fal=
-se
-           return arch_atomic_read(v);
-                  ^
-   arch/arm/include/asm/atomic.h:25:29: note: expanded from macro 'arch_ato=
-mic_read'
-   #define arch_atomic_read(v)     READ_ONCE((v)->counter)
-                                   ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   include/linux/atomic/atomic-long.h:523:9: note: Left side of '||' is true
-           return arch_atomic_read(v);
-                  ^
-   arch/arm/include/asm/atomic.h:25:29: note: expanded from macro 'arch_ato=
-mic_read'
-   #define arch_atomic_read(v)     READ_ONCE((v)->counter)
-                                   ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   include/linux/atomic/atomic-long.h:523:9: note: Taking false branch
-           return arch_atomic_read(v);
-                  ^
-   arch/arm/include/asm/atomic.h:25:29: note: expanded from macro 'arch_ato=
-mic_read'
-   #define arch_atomic_read(v)     READ_ONCE((v)->counter)
-                                   ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/atomic/atomic-long.h:523:9: note: Loop condition is false.=
-  Exiting loop
-           return arch_atomic_read(v);
-                  ^
-   arch/arm/include/asm/atomic.h:25:29: note: expanded from macro 'arch_ato=
-mic_read'
-   #define arch_atomic_read(v)     READ_ONCE((v)->counter)
+Old smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
+: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
+d '((((1))) << to)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
+ld '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:248 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:260 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:269 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:278 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:284 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:291 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:518 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:519 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:604 sja1105_init_l2_forwarding_param=
+s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
+g_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:848 sja1105_init_avb_params() warn: =
+is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:1315 sja1105_find_static_fdb_entry()=
+ warn: should '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1433 sja1105et_fdb_add() warn: shoul=
+d '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1435 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1443 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1529 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1537 sja1105pqrs_fdb_add() warn: sho=
+uld '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1542 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1592 sja1105pqrs_fdb_del() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1661 sja1105_fdb_dump() warn: should=
+ '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1713 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1715 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2208 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2209 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2213 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2522 sja1105_mgmt_xmit() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2840 sja1105_port_mcast_flood() warn=
+: should '(((1))) << to' be a 64 bit type?
 
-vim +523 include/linux/atomic/atomic-long.h
+vim +737 drivers/net/dsa/sja1105/sja1105_main.c
 
-b5d47ef9ea5c5f include/asm-generic/atomic-long.h  Mark Rutland 2018-09-04  =
-519  =
+ceec8bc0988dca Vladimir Oltean 2021-06-08  690  =
 
-c020395b6634b7 include/asm-generic/atomic-long.h  Marco Elver  2019-11-26  =
-520  static __always_inline long
-67d1b0de258ad0 include/linux/atomic/atomic-long.h Mark Rutland 2021-07-13  =
-521  arch_atomic_long_read(const atomic_long_t *v)
-b5d47ef9ea5c5f include/asm-generic/atomic-long.h  Mark Rutland 2018-09-04  =
-522  {
-67d1b0de258ad0 include/linux/atomic/atomic-long.h Mark Rutland 2021-07-13 @=
-523  	return arch_atomic_read(v);
-b5d47ef9ea5c5f include/asm-generic/atomic-long.h  Mark Rutland 2018-09-04  =
-524  }
-b5d47ef9ea5c5f include/asm-generic/atomic-long.h  Mark Rutland 2018-09-04  =
-525  =
+30a100e60cf36a Vladimir Oltean 2021-08-04  691  static int sja1105_init_top=
+ology(struct sja1105_private *priv,
+30a100e60cf36a Vladimir Oltean 2021-08-04  692  				 struct sja1105_general=
+_params_entry *general_params)
+30a100e60cf36a Vladimir Oltean 2021-08-04  693  {
+30a100e60cf36a Vladimir Oltean 2021-08-04  694  	struct dsa_switch *ds =3D =
+priv->ds;
+30a100e60cf36a Vladimir Oltean 2021-08-04  695  	int port;
+30a100e60cf36a Vladimir Oltean 2021-08-04  696  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  697  	/* The host port is the de=
+stination for traffic matching mac_fltres1
+30a100e60cf36a Vladimir Oltean 2021-08-04  698  	 * and mac_fltres0 on all =
+ports except itself. Default to an invalid
+30a100e60cf36a Vladimir Oltean 2021-08-04  699  	 * value.
+30a100e60cf36a Vladimir Oltean 2021-08-04  700  	 */
+30a100e60cf36a Vladimir Oltean 2021-08-04  701  	general_params->host_port =
+=3D ds->num_ports;
+30a100e60cf36a Vladimir Oltean 2021-08-04  702  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  703  	/* Link-local traffic rece=
+ived on casc_port will be forwarded
+30a100e60cf36a Vladimir Oltean 2021-08-04  704  	 * to host_port without em=
+bedding the source port and device ID
+30a100e60cf36a Vladimir Oltean 2021-08-04  705  	 * info in the destination=
+ MAC address, and no RX timestamps will be
+30a100e60cf36a Vladimir Oltean 2021-08-04  706  	 * taken either (presumabl=
+y because it is a cascaded port and a
+30a100e60cf36a Vladimir Oltean 2021-08-04  707  	 * downstream SJA switch a=
+lready did that).
+30a100e60cf36a Vladimir Oltean 2021-08-04  708  	 * To disable the feature,=
+ we need to do different things depending on
+30a100e60cf36a Vladimir Oltean 2021-08-04  709  	 * switch generation. On S=
+JA1105 we need to set an invalid port, while
+30a100e60cf36a Vladimir Oltean 2021-08-04  710  	 * on SJA1110 which suppor=
+t multiple cascaded ports, this field is a
+30a100e60cf36a Vladimir Oltean 2021-08-04  711  	 * bitmask so it must be l=
+eft zero.
+30a100e60cf36a Vladimir Oltean 2021-08-04  712  	 */
+30a100e60cf36a Vladimir Oltean 2021-08-04  713  	if (!priv->info->multiple_=
+cascade_ports)
+30a100e60cf36a Vladimir Oltean 2021-08-04  714  		general_params->casc_port=
+ =3D ds->num_ports;
+30a100e60cf36a Vladimir Oltean 2021-08-04  715  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  716  	for (port =3D 0; port < ds=
+->num_ports; port++) {
+30a100e60cf36a Vladimir Oltean 2021-08-04  717  		bool is_upstream =3D dsa_=
+is_upstream_port(ds, port);
+30a100e60cf36a Vladimir Oltean 2021-08-04  718  		bool is_dsa_link =3D dsa_=
+is_dsa_port(ds, port);
+30a100e60cf36a Vladimir Oltean 2021-08-04  719  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  720  		/* Upstream ports can be =
+dedicated CPU ports or
+30a100e60cf36a Vladimir Oltean 2021-08-04  721  		 * upstream-facing DSA li=
+nks
+30a100e60cf36a Vladimir Oltean 2021-08-04  722  		 */
+30a100e60cf36a Vladimir Oltean 2021-08-04  723  		if (is_upstream) {
+30a100e60cf36a Vladimir Oltean 2021-08-04  724  			if (general_params->host=
+_port =3D=3D ds->num_ports) {
+30a100e60cf36a Vladimir Oltean 2021-08-04  725  				general_params->host_po=
+rt =3D port;
+30a100e60cf36a Vladimir Oltean 2021-08-04  726  			} else {
+30a100e60cf36a Vladimir Oltean 2021-08-04  727  				dev_err(ds->dev,
+30a100e60cf36a Vladimir Oltean 2021-08-04  728  					"Port %llu is already =
+a host port, configuring %d as one too is not supported\n",
+30a100e60cf36a Vladimir Oltean 2021-08-04  729  					general_params->host_p=
+ort, port);
+30a100e60cf36a Vladimir Oltean 2021-08-04  730  				return -EINVAL;
+30a100e60cf36a Vladimir Oltean 2021-08-04  731  			}
+30a100e60cf36a Vladimir Oltean 2021-08-04  732  		}
+30a100e60cf36a Vladimir Oltean 2021-08-04  733  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  734  		/* Cascade ports are down=
+stream-facing DSA links */
+30a100e60cf36a Vladimir Oltean 2021-08-04  735  		if (is_dsa_link && !is_up=
+stream) {
+30a100e60cf36a Vladimir Oltean 2021-08-04  736  			if (priv->info->multiple=
+_cascade_ports) {
+30a100e60cf36a Vladimir Oltean 2021-08-04 @737  				general_params->casc_po=
+rt |=3D BIT(port);
+30a100e60cf36a Vladimir Oltean 2021-08-04  738  			} else if (general_param=
+s->casc_port =3D=3D ds->num_ports) {
+30a100e60cf36a Vladimir Oltean 2021-08-04  739  				general_params->casc_po=
+rt =3D port;
+30a100e60cf36a Vladimir Oltean 2021-08-04  740  			} else {
+30a100e60cf36a Vladimir Oltean 2021-08-04  741  				dev_err(ds->dev,
+30a100e60cf36a Vladimir Oltean 2021-08-04  742  					"Port %llu is already =
+a cascade port, configuring %d as one too is not supported\n",
+30a100e60cf36a Vladimir Oltean 2021-08-04  743  					general_params->casc_p=
+ort, port);
+30a100e60cf36a Vladimir Oltean 2021-08-04  744  				return -EINVAL;
+30a100e60cf36a Vladimir Oltean 2021-08-04  745  			}
+30a100e60cf36a Vladimir Oltean 2021-08-04  746  		}
+30a100e60cf36a Vladimir Oltean 2021-08-04  747  	}
+30a100e60cf36a Vladimir Oltean 2021-08-04  748  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  749  	if (general_params->host_p=
+ort =3D=3D ds->num_ports) {
+30a100e60cf36a Vladimir Oltean 2021-08-04  750  		dev_err(ds->dev, "No host=
+ port configured\n");
+30a100e60cf36a Vladimir Oltean 2021-08-04  751  		return -EINVAL;
+30a100e60cf36a Vladimir Oltean 2021-08-04  752  	}
+30a100e60cf36a Vladimir Oltean 2021-08-04  753  =
+
+30a100e60cf36a Vladimir Oltean 2021-08-04  754  	return 0;
+30a100e60cf36a Vladimir Oltean 2021-08-04  755  }
+30a100e60cf36a Vladimir Oltean 2021-08-04  756  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5575570635660120412==--
+--===============7511398802024244338==--
 
