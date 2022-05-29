@@ -1,290 +1,833 @@
-Content-Type: multipart/mixed; boundary="===============0883376334685657683=="
+Content-Type: multipart/mixed; boundary="===============8760912275183610675=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:521 sja1105_init_l2_forwarding() warn: should '(((1))) << to' be a 64 bit type?
-Date: Sun, 29 May 2022 11:45:25 +0800
-Message-ID: <202205291142.dQeOKrZs-lkp@intel.com>
+Subject: [intel-lts:5.15/linux 44/62] drivers/media/i2c/kmb-imx327.c:1629:28: warning: Value stored to 'ctrl_hdlr' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 29 May 2022 11:35:05 +0800
+Message-ID: <202205291105.Wf3WI9fZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0883376334685657683==
+--===============8760912275183610675==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+TO: Zhou Furong <furong.zhou@intel.com>
+CC: nanli2x <nanx.li@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9d004b2f4fea97cde123e7f1939b80e77bf2e695
-commit: 3fa212707b8e6026cea6a92faea87f556e0cba9b net: dsa: sja1105: manage =
-the forwarding domain towards DSA ports
-date:   10 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 10 months ago
-config: arc-randconfig-m031-20220524 (https://download.01.org/0day-ci/archi=
-ve/20220529/202205291142.dQeOKrZs-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
+Hi Zhou,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   5308d498714872bc2f9957901da0c5c9569e9a78
+commit: 49fa3e4bf70e3787f53ec225a1f9962598606bb9 [44/62] media: keembay-cam=
+era: sync with API change
+:::::: branch date: 6 days ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20220529 (https://download.01.org/0day-ci/archi=
+ve/20220529/202205291105.Wf3WI9fZ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
+3f486e01448121f7931a4ca29fac1504ab)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel/linux-intel-lts/commit/49fa3e4bf70e3787f=
+53ec225a1f9962598606bb9
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
+it
+        git fetch --no-tags intel-lts 5.15/linux
+        git checkout 49fa3e4bf70e3787f53ec225a1f9962598606bb9
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:521 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << to' be a 64 bit type?
 
-Old smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
-: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
-d '((((1))) << to)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
-ld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:248 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:260 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:269 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:278 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:284 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:291 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:522 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:543 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:544 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:640 sja1105_init_l2_forwarding_param=
-s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
-g_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:773 sja1105_init_topology() warn: sh=
-ould '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:884 sja1105_init_avb_params() warn: =
-is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:1351 sja1105_find_static_fdb_entry()=
- warn: should '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1469 sja1105et_fdb_add() warn: shoul=
-d '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1471 sja1105et_fdb_add() warn: shoul=
-d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1479 sja1105et_fdb_add() warn: shoul=
-d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1565 sja1105pqrs_fdb_add() warn: sho=
-uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1573 sja1105pqrs_fdb_add() warn: sho=
-uld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1578 sja1105pqrs_fdb_add() warn: sho=
-uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1628 sja1105pqrs_fdb_del() warn: sho=
-uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1697 sja1105_fdb_dump() warn: should=
- '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1749 sja1105_manage_flood_domains() =
-warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1751 sja1105_manage_flood_domains() =
-warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2244 sja1105_vlan_add() warn: should=
- '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2245 sja1105_vlan_add() warn: should=
- '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2249 sja1105_vlan_add() warn: should=
- '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2558 sja1105_mgmt_xmit() warn: shoul=
-d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2876 sja1105_port_mcast_flood() warn=
-: should '(((1))) << to' be a 64 bit type?
+clang-analyzer warnings: (new ones prefixed by >>)
+                                   dev_err(bus->dev,
+                                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:417:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:396:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/soundwire/stream.c:820:5: note: Control jumps to line 847
+                                   goto error;
+                                   ^
+   drivers/soundwire/stream.c:847:2: note: Left side of '&&' is false
+           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/soundwire/stream.c:847:2: note: Taking false branch
+           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/soundwire/stream.c:847:2: note: Loop condition is false.  Exitin=
+g loop
+           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/soundwire/stream.c:847:2: note: Loop condition is true.  Enterin=
+g loop body
+           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+           ^
+   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/soundwire/stream.c:849:22: note: Field 'msg' is non-null
+                   if (bus->defer_msg.msg) {
+                                      ^
+   drivers/soundwire/stream.c:849:3: note: Taking true branch
+                   if (bus->defer_msg.msg) {
+                   ^
+   drivers/soundwire/stream.c:850:10: note: Use of memory after it is freed
+                           kfree(bus->defer_msg.msg->buf);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/media/i2c/kmb-imx327.c:1629:28: warning: Value stored to 'ctrl_h=
+dlr' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]
+           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
+r;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/kmb-imx327.c:1629:28: note: Value stored to 'ctrl_hdlr=
+' during its initialization is never read
+           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
+r;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/media/i2c/kmb-flash.c:357:3: warning: Value stored to 'ret' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   drivers/media/i2c/kmb-flash.c:357:3: note: Value stored to 'ret' is neve=
+r read
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> drivers/media/i2c/kmb-lens.c:215:2: warning: Value stored to 'new_pos' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           new_pos =3D kmb_lens->iris_new_pos;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/kmb-lens.c:215:2: note: Value stored to 'new_pos' is n=
+ever read
+           new_pos =3D kmb_lens->iris_new_pos;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/media/tuners/tuner-xc2028.c:1037:3: warning: Value stored to 'rc=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D send_seq(priv, {0x00, 0x00});
+                   ^
+   drivers/media/tuners/tuner-xc2028.c:1037:3: note: Value stored to 'rc' i=
+s never read
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/of/unittest.c:3128:29: warning: Access to field 'properties' res=
+ults in a dereference of an undefined pointer value (loaded from variable '=
+overlay_base_symbols') [clang-analyzer-core.NullDereference]
+                   for_each_property_of_node(overlay_base_symbols, prop) {
+                                             ^
+   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
+of_node'
+           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
+                     ^~
+   drivers/of/unittest.c:3039:2: note: 'overlay_base_symbols' declared with=
+out an initial value
+           struct device_node *overlay_base_symbols;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/of/unittest.c:3044:6: note: Assuming 'overlay_base_root' is non-=
+null
+           if (!overlay_base_root) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/of/unittest.c:3044:2: note: Taking false branch
+           if (!overlay_base_root) {
+           ^
+   drivers/of/unittest.c:3068:2: note: Loop condition is false. Execution c=
+ontinues on line 3077
+           for (np =3D overlay_base_root->child; np; np =3D np->sibling) {
+           ^
+   drivers/of/unittest.c:3078:6: note: Assuming 'of_symbols' is non-null
+           if (of_symbols) {
+               ^~~~~~~~~~
+   drivers/of/unittest.c:3078:2: note: Taking true branch
+           if (of_symbols) {
+           ^
+   drivers/of/unittest.c:3081:3: note: Loop condition is false. Execution c=
+ontinues on line 3091
+                   for (np =3D overlay_base_root->child; np; np =3D np->sib=
+ling) {
+                   ^
+   drivers/of/unittest.c:3091:44: note: Assuming 'np' is equal to null
+           for_each_child_of_node(overlay_base_root, np) {
+                                                     ^
+   include/linux/of.h:1301:48: note: expanded from macro 'for_each_child_of=
+_node'
+           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
+ \
+                                                         ^~~~~~~~~~~~~
+   drivers/of/unittest.c:3091:2: note: Loop condition is false. Execution c=
+ontinues on line 3110
+           for_each_child_of_node(overlay_base_root, np) {
+           ^
+   include/linux/of.h:1301:2: note: expanded from macro 'for_each_child_of_=
+node'
+           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
+ \
+           ^
+   drivers/of/unittest.c:3110:2: note: Loop condition is false. Execution c=
+ontinues on line 3113
+           for (np =3D overlay_base_root->child; np; np =3D np->sibling)
+           ^
+   drivers/of/unittest.c:3115:2: note: Loop condition is false. Execution c=
+ontinues on line 3118
+           for (last_sibling =3D np =3D of_root->child; np; np =3D np->sibl=
+ing)
+           ^
+   drivers/of/unittest.c:3118:6: note: 'last_sibling' is null
+           if (last_sibling)
+               ^~~~~~~~~~~~
+   drivers/of/unittest.c:3118:2: note: Taking false branch
+           if (last_sibling)
+           ^
+   drivers/of/unittest.c:3123:2: note: Loop condition is false. Execution c=
+ontinues on line 3126
+           for_each_of_allnodes_from(overlay_base_root, np)
+           ^
+   include/linux/of.h:265:2: note: expanded from macro 'for_each_of_allnode=
+s_from'
+           for (dn =3D __of_find_all_nodes(from); dn; dn =3D __of_find_all_=
+nodes(dn))
+           ^
+   drivers/of/unittest.c:3126:6: note: 'of_symbols' is non-null
+           if (of_symbols) {
+               ^~~~~~~~~~
+   drivers/of/unittest.c:3126:2: note: Taking true branch
+           if (of_symbols) {
+           ^
+   drivers/of/unittest.c:3128:29: note: Access to field 'properties' result=
+s in a dereference of an undefined pointer value (loaded from variable 'ove=
+rlay_base_symbols')
+                   for_each_property_of_node(overlay_base_symbols, prop) {
+                                             ^
+   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
+of_node'
+           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
+                     ^~
+   Suppressed 8 warnings (8 in non-user code).
+--
+                   ^
+   drivers/media/i2c/ccs/ccs-data.c:548:11: note: Passing null pointer valu=
+e via 2nd parameter 'pdaf_readout'
+                                                              &rules->pdaf_=
+readout,
+                                                              ^~~~~~~~~~~~~=
+~~~~~~~
+   drivers/media/i2c/ccs/ccs-data.c:547:11: note: Calling 'ccs_data_parse_p=
+daf_readout'
+                           rval =3D ccs_data_parse_pdaf_readout(bin,
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs/ccs-data.c:412:6: note: Assuming the condition is =
+false
+           if (!is_contained(__pdaf, endp))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs/ccs-data.c:412:2: note: Taking false branch
+           if (!is_contained(__pdaf, endp))
+           ^
+   drivers/media/i2c/ccs/ccs-data.c:415:12: note: Field 'base' is non-null
+           if (!bin->base) {
+                     ^
+   drivers/media/i2c/ccs/ccs-data.c:415:2: note: Taking false branch
+           if (!bin->base) {
+           ^
+   drivers/media/i2c/ccs/ccs-data.c:418:17: note: Dereference of null point=
+er (loaded from variable 'pdaf_readout')
+                   *pdaf_readout =3D bin_alloc(bin, sizeof(**pdaf_readout));
+                    ~~~~~~~~~~~~ ^
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/of/unittest.c:3128:29: warning: Access to field 'properties' res=
+ults in a dereference of an undefined pointer value (loaded from variable '=
+overlay_base_symbols') [clang-analyzer-core.NullDereference]
+                   for_each_property_of_node(overlay_base_symbols, prop) {
+                                             ^
+   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
+of_node'
+           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
+                     ^~
+   drivers/of/unittest.c:3039:2: note: 'overlay_base_symbols' declared with=
+out an initial value
+           struct device_node *overlay_base_symbols;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/of/unittest.c:3044:6: note: Assuming 'overlay_base_root' is non-=
+null
+           if (!overlay_base_root) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/of/unittest.c:3044:2: note: Taking false branch
+           if (!overlay_base_root) {
+           ^
+   drivers/of/unittest.c:3068:2: note: Loop condition is false. Execution c=
+ontinues on line 3077
+           for (np =3D overlay_base_root->child; np; np =3D np->sibling) {
+           ^
+   drivers/of/unittest.c:3078:6: note: Assuming 'of_symbols' is non-null
+           if (of_symbols) {
+               ^~~~~~~~~~
+   drivers/of/unittest.c:3078:2: note: Taking true branch
+           if (of_symbols) {
+           ^
+   drivers/of/unittest.c:3081:3: note: Loop condition is false. Execution c=
+ontinues on line 3091
+                   for (np =3D overlay_base_root->child; np; np =3D np->sib=
+ling) {
+                   ^
+   drivers/of/unittest.c:3091:44: note: Assuming 'np' is equal to null
+           for_each_child_of_node(overlay_base_root, np) {
+                                                     ^
+   include/linux/of.h:1301:48: note: expanded from macro 'for_each_child_of=
+_node'
+           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
+ \
+                                                         ^~~~~~~~~~~~~
+   drivers/of/unittest.c:3091:2: note: Loop condition is false. Execution c=
+ontinues on line 3110
+           for_each_child_of_node(overlay_base_root, np) {
+           ^
+   include/linux/of.h:1301:2: note: expanded from macro 'for_each_child_of_=
+node'
+           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
+ \
+           ^
+   drivers/of/unittest.c:3110:2: note: Loop condition is false. Execution c=
+ontinues on line 3113
+           for (np =3D overlay_base_root->child; np; np =3D np->sibling)
+           ^
+   drivers/of/unittest.c:3115:2: note: Loop condition is false. Execution c=
+ontinues on line 3118
+           for (last_sibling =3D np =3D of_root->child; np; np =3D np->sibl=
+ing)
+           ^
+   drivers/of/unittest.c:3118:6: note: 'last_sibling' is null
+           if (last_sibling)
+               ^~~~~~~~~~~~
+   drivers/of/unittest.c:3118:2: note: Taking false branch
+           if (last_sibling)
+           ^
+   drivers/of/unittest.c:3123:2: note: Loop condition is false. Execution c=
+ontinues on line 3126
+           for_each_of_allnodes_from(overlay_base_root, np)
+           ^
+   include/linux/of.h:265:2: note: expanded from macro 'for_each_of_allnode=
+s_from'
+           for (dn =3D __of_find_all_nodes(from); dn; dn =3D __of_find_all_=
+nodes(dn))
+           ^
+   drivers/of/unittest.c:3126:6: note: 'of_symbols' is non-null
+           if (of_symbols) {
+               ^~~~~~~~~~
+   drivers/of/unittest.c:3126:2: note: Taking true branch
+           if (of_symbols) {
+           ^
+   drivers/of/unittest.c:3128:29: note: Access to field 'properties' result=
+s in a dereference of an undefined pointer value (loaded from variable 'ove=
+rlay_base_symbols')
+                   for_each_property_of_node(overlay_base_symbols, prop) {
+                                             ^
+   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
+of_node'
+           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
+                     ^~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/media/i2c/kmb-imx327.c:1629:28: warning: Value stored to 'ctrl_h=
+dlr' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]
+           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
+r;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/kmb-imx327.c:1629:28: note: Value stored to 'ctrl_hdlr=
+' during its initialization is never read
+           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
+r;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/media/i2c/kmb-flash.c:357:3: warning: Value stored to 'ret' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   drivers/media/i2c/kmb-flash.c:357:3: note: Value stored to 'ret' is neve=
+r read
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> drivers/media/i2c/kmb-lens.c:215:2: warning: Value stored to 'new_pos' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           new_pos =3D kmb_lens->iris_new_pos;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/kmb-lens.c:215:2: note: Value stored to 'new_pos' is n=
+ever read
+           new_pos =3D kmb_lens->iris_new_pos;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/media/tuners/tuner-xc2028.c:1037:3: warning: Value stored to 'rc=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D send_seq(priv, {0x00, 0x00});
+                   ^
+   drivers/media/tuners/tuner-xc2028.c:1037:3: note: Value stored to 'rc' i=
+s never read
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/hwmon/lm73.c:76:62: warning: The result of the left shift is und=
+efined because the left operand is negative [clang-analyzer-core.UndefinedB=
+inaryOperatorResult]
+           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
+ 5;
+                                                                       ^
+   drivers/hwmon/lm73.c:65:41: note: Left side of '&&' is false
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/hwmon/lm73.c:65:41: note: Taking false branch
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/hwmon/lm73.c:65:41: note: Loop condition is false.  Exiting loop
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/hwmon/lm73.c:72:6: note: Assuming 'status' is >=3D 0
 
-vim +521 drivers/net/dsa/sja1105/sja1105_main.c
+vim +/ctrl_hdlr +1629 drivers/media/i2c/kmb-imx327.c
 
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  472  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1620  =
 
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  473  static int sja1105_init_l2_=
-forwarding(struct sja1105_private *priv)
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  474  {
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  475  	struct sja1105_l2_forwardi=
-ng_entry *l2fwd;
-542043e91df452 Vladimir Oltean 2021-05-24  476  	struct dsa_switch *ds =3D =
-priv->ds;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  477  	struct sja1105_table *tabl=
-e;
-3fa212707b8e60 Vladimir Oltean 2021-08-04  478  	int port, tc;
-3fa212707b8e60 Vladimir Oltean 2021-08-04  479  	int from, to;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  480  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1621  /**
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1622   * kmb_imx327_init_con=
+trols - Initialize sensor subdevice controls
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1623   * @kmb_imx327: pointe=
+r to kmb_imx327 device
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1624   *
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1625   * Return: 0 if succes=
+sful
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1626   */
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1627  static int kmb_imx327_=
+init_controls(struct kmb_imx327 *kmb_imx327)
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1628  {
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26 @1629  	struct v4l2_ctrl_hand=
+ler *ctrl_hdlr =3D &kmb_imx327->ctrl_handler;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1630  	const struct kmb_imx3=
+27_mode *mode =3D kmb_imx327->cur_mode;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1631  	u32 hblank;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1632  	u32 vblank;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1633  	int ret;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1634  =
 
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  481  	table =3D &priv->static_co=
-nfig.tables[BLK_IDX_L2_FORWARDING];
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  482  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1635  	ctrl_hdlr =3D &kmb_im=
+x327->ctrl_handler;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1636  	ret =3D v4l2_ctrl_han=
+dler_init(ctrl_hdlr, 9);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1637  	if (ret)
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1638  		return ret;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1639  =
 
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  483  	if (table->entry_count) {
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  484  		kfree(table->entries);
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  485  		table->entry_count =3D 0;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  486  	}
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  487  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1640  	/* Serialize controls=
+ with sensor device */
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1641  	ctrl_hdlr->lock =3D &=
+kmb_imx327->mutex;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1642  =
 
-fd6f2c257b0bc0 Vladimir Oltean 2021-05-24  488  	table->entries =3D kcalloc=
-(table->ops->max_entry_count,
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  489  				 table->ops->unpacked_e=
-ntry_size, GFP_KERNEL);
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  490  	if (!table->entries)
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  491  		return -ENOMEM;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  492  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1643  	/* Initialize exposur=
+e and gain */
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1644  	kmb_imx327->exp_ctrl =
+=3D v4l2_ctrl_new_std(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1645  						 &kmb_imx327_ctr=
+l_ops,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1646  						 V4L2_CID_EXPOSU=
+RE,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1647  						 KMB_IMX327_EXPO=
+SURE_MIN,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1648  						 mode->lpfr[0],
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1649  						 KMB_IMX327_EXPO=
+SURE_STEP,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1650  						 KMB_IMX327_EXPO=
+SURE_DEFAULT);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1651  =
 
-fd6f2c257b0bc0 Vladimir Oltean 2021-05-24  493  	table->entry_count =3D tab=
-le->ops->max_entry_count;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  494  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1652  	kmb_imx327->again_ctr=
+l =3D v4l2_ctrl_new_std(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1653  						   &kmb_imx327_c=
+trl_ops,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1654  						   V4L2_CID_ANAL=
+OGUE_GAIN,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1655  						   KMB_IMX327_AG=
+AIN_MIN,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1656  						   KMB_IMX327_AG=
+AIN_MAX,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1657  						   KMB_IMX327_AG=
+AIN_STEP,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1658  						   KMB_IMX327_AG=
+AIN_DEFAULT);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1659  	kmb_imx327->exp1_ctrl=
+ =3D v4l2_ctrl_new_custom(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1660  						     &exposure_s=
+hort,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1661  						     NULL);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1662  =
 
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  495  	l2fwd =3D table->entries;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  496  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1663  	kmb_imx327->again1_ct=
+rl =3D v4l2_ctrl_new_custom(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1664  						       &again_sh=
+ort,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1665  						       NULL);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1666  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  497  	/* First 5 entries in the =
-L2 Forwarding Table define the forwarding
-3fa212707b8e60 Vladimir Oltean 2021-08-04  498  	 * rules and the VLAN PCP =
-to ingress queue mapping.
-3fa212707b8e60 Vladimir Oltean 2021-08-04  499  	 * Set up the ingress queu=
-e mapping first.
-3fa212707b8e60 Vladimir Oltean 2021-08-04  500  	 */
-3fa212707b8e60 Vladimir Oltean 2021-08-04  501  	for (port =3D 0; port < ds=
-->num_ports; port++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  502  		if (dsa_is_unused_port(ds=
-, port))
-3fa212707b8e60 Vladimir Oltean 2021-08-04  503  			continue;
-3fa212707b8e60 Vladimir Oltean 2021-08-04  504  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1667  	kmb_imx327->exp2_ctrl=
+ =3D v4l2_ctrl_new_custom(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1668  						     &exposure_v=
+ery_short,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1669  						     NULL);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1670  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  505  		for (tc =3D 0; tc < SJA11=
-05_NUM_TC; tc++)
-3fa212707b8e60 Vladimir Oltean 2021-08-04  506  			l2fwd[port].vlan_pmap[tc=
-] =3D tc;
-3fa212707b8e60 Vladimir Oltean 2021-08-04  507  	}
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  508  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1671  	kmb_imx327->again2_ct=
+rl =3D v4l2_ctrl_new_custom(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1672  						       &again_ve=
+ry_short,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1673  						       NULL);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1674  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  509  	/* Then manage the forward=
-ing domain for user ports. These can forward
-3fa212707b8e60 Vladimir Oltean 2021-08-04  510  	 * only to the always-on d=
-omain (CPU port and DSA links)
-3fa212707b8e60 Vladimir Oltean 2021-08-04  511  	 */
-3fa212707b8e60 Vladimir Oltean 2021-08-04  512  	for (from =3D 0; from < ds=
-->num_ports; from++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  513  		if (!dsa_is_user_port(ds,=
- from))
-f238fef1b3de2f Vladimir Oltean 2021-05-24  514  			continue;
-f238fef1b3de2f Vladimir Oltean 2021-05-24  515  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1675  	v4l2_ctrl_cluster(6, =
+&kmb_imx327->exp_ctrl);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1676  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  516  		for (to =3D 0; to < ds->n=
-um_ports; to++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  517  			if (!dsa_is_cpu_port(ds,=
- to) &&
-3fa212707b8e60 Vladimir Oltean 2021-08-04  518  			    !dsa_is_dsa_port(ds,=
- to))
-3fa212707b8e60 Vladimir Oltean 2021-08-04  519  				continue;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  520  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1677  	/* Read only controls=
+ */
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1678  	kmb_imx327->pclk_ctrl=
+ =3D v4l2_ctrl_new_std(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1679  						  &kmb_imx327_ct=
+rl_ops,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1680  						  V4L2_CID_PIXEL=
+_RATE,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1681  						  mode->pclk, mo=
+de->pclk,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1682  						  1, mode->pclk);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1683  	if (kmb_imx327->pclk_=
+ctrl)
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1684  		kmb_imx327->pclk_ctr=
+l->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1685  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04 @521  			l2fwd[from].bc_domain |=
-=3D BIT(to);
-3fa212707b8e60 Vladimir Oltean 2021-08-04  522  			l2fwd[from].fl_domain |=
-=3D BIT(to);
-3fa212707b8e60 Vladimir Oltean 2021-08-04  523  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1686  	vblank =3D mode->lpfr=
+[0] - mode->height;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1687  	kmb_imx327->vblank_ct=
+rl =3D v4l2_ctrl_new_std(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1688  						    &kmb_imx327_=
+ctrl_ops,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1689  						    V4L2_CID_VBL=
+ANK,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1690  						    KMB_IMX327_R=
+EG_MIN,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1691  						    KMB_IMX327_R=
+EG_MAX,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1692  						    1, vblank);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1693  	if (kmb_imx327->vblan=
+k_ctrl)
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1694  		kmb_imx327->vblank_c=
+trl->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1695  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  524  			sja1105_port_allow_traff=
-ic(l2fwd, from, to, true);
-3fa212707b8e60 Vladimir Oltean 2021-08-04  525  		}
-3fa212707b8e60 Vladimir Oltean 2021-08-04  526  	}
-3fa212707b8e60 Vladimir Oltean 2021-08-04  527  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1696  	hblank =3D mode->ppln=
+ - mode->width;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1697  	kmb_imx327->hblank_ct=
+rl =3D v4l2_ctrl_new_std(ctrl_hdlr,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1698  						    &kmb_imx327_=
+ctrl_ops,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1699  						    V4L2_CID_HBL=
+ANK,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1700  						    KMB_IMX327_R=
+EG_MIN,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1701  						    KMB_IMX327_R=
+EG_MAX,
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1702  						    1, hblank);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1703  	if (kmb_imx327->hblan=
+k_ctrl)
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1704  		kmb_imx327->hblank_c=
+trl->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1705  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  528  	/* Then manage the forward=
-ing domain for DSA links and CPU ports (the
-3fa212707b8e60 Vladimir Oltean 2021-08-04  529  	 * always-on domain). Thes=
-e can send packets to any enabled port except
-3fa212707b8e60 Vladimir Oltean 2021-08-04  530  	 * themselves.
-7f7ccdea8c730f Vladimir Oltean 2021-02-16  531  	 */
-3fa212707b8e60 Vladimir Oltean 2021-08-04  532  	for (from =3D 0; from < ds=
-->num_ports; from++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  533  		if (!dsa_is_cpu_port(ds, =
-from) && !dsa_is_dsa_port(ds, from))
-3fa212707b8e60 Vladimir Oltean 2021-08-04  534  			continue;
-7f7ccdea8c730f Vladimir Oltean 2021-02-16  535  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1706  	if (ctrl_hdlr->error)=
+ {
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1707  		ret =3D ctrl_hdlr->e=
+rror;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1708  		dev_err(kmb_imx327->=
+dev, "control init failed: %d", ret);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1709  		goto error;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1710  	}
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1711  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  536  		for (to =3D 0; to < ds->n=
-um_ports; to++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  537  			if (dsa_is_unused_port(d=
-s, to))
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  538  				continue;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  539  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1712  	kmb_imx327->sd.ctrl_h=
+andler =3D ctrl_hdlr;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1713  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  540  			if (from =3D=3D to)
-3fa212707b8e60 Vladimir Oltean 2021-08-04  541  				continue;
-4d942354950181 Vladimir Oltean 2021-02-12  542  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1714  	return 0;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1715  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  543  			l2fwd[from].bc_domain |=
-=3D BIT(to);
-3fa212707b8e60 Vladimir Oltean 2021-08-04  544  			l2fwd[from].fl_domain |=
-=3D BIT(to);
-4d942354950181 Vladimir Oltean 2021-02-12  545  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1716  error:
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1717  	v4l2_ctrl_handler_fre=
+e(ctrl_hdlr);
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1718  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  546  			sja1105_port_allow_traff=
-ic(l2fwd, from, to, true);
-3fa212707b8e60 Vladimir Oltean 2021-08-04  547  		}
-3fa212707b8e60 Vladimir Oltean 2021-08-04  548  	}
-3fa212707b8e60 Vladimir Oltean 2021-08-04  549  =
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1719  	return ret;
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1720  }
+ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1721  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  550  	/* Finally, manage the egr=
-ess flooding domain. All ports start up with
-3fa212707b8e60 Vladimir Oltean 2021-08-04  551  	 * flooding enabled, inclu=
-ding the CPU port and DSA links.
-3fa212707b8e60 Vladimir Oltean 2021-08-04  552  	 */
-3fa212707b8e60 Vladimir Oltean 2021-08-04  553  	for (port =3D 0; port < ds=
-->num_ports; port++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  554  		if (dsa_is_unused_port(ds=
-, port))
-3fa212707b8e60 Vladimir Oltean 2021-08-04  555  			continue;
-3fa212707b8e60 Vladimir Oltean 2021-08-04  556  =
 
-3fa212707b8e60 Vladimir Oltean 2021-08-04  557  		priv->ucast_egress_floods=
- |=3D BIT(port);
-3fa212707b8e60 Vladimir Oltean 2021-08-04  558  		priv->bcast_egress_floods=
- |=3D BIT(port);
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  559  	}
-f238fef1b3de2f Vladimir Oltean 2021-05-24  560  =
+:::::: The code at line 1629 was first introduced by commit
+:::::: ca29c95cf4cd93d1e33013951d9ab731e49e1bce media: kmb-imx327-sensor: A=
+dd Keem Bay IMX327 sensor
 
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  561  	/* Next 8 entries define V=
-LAN PCP mapping from ingress to egress.
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  562  	 * Create a one-to-one map=
-ping.
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  563  	 */
-3fa212707b8e60 Vladimir Oltean 2021-08-04  564  	for (tc =3D 0; tc < SJA110=
-5_NUM_TC; tc++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  565  		for (port =3D 0; port < d=
-s->num_ports; port++) {
-3fa212707b8e60 Vladimir Oltean 2021-08-04  566  			if (dsa_is_unused_port(d=
-s, port))
-f238fef1b3de2f Vladimir Oltean 2021-05-24  567  				continue;
-f238fef1b3de2f Vladimir Oltean 2021-05-24  568  =
-
-3fa212707b8e60 Vladimir Oltean 2021-08-04  569  			l2fwd[ds->num_ports + tc=
-].vlan_pmap[port] =3D tc;
-f238fef1b3de2f Vladimir Oltean 2021-05-24  570  		}
-3e77e59bf8cf10 Vladimir Oltean 2021-06-08  571  =
-
-3fa212707b8e60 Vladimir Oltean 2021-08-04  572  		l2fwd[ds->num_ports + tc]=
-.type_egrpcp2outputq =3D true;
-3e77e59bf8cf10 Vladimir Oltean 2021-06-08  573  	}
-3e77e59bf8cf10 Vladimir Oltean 2021-06-08  574  =
-
-3e77e59bf8cf10 Vladimir Oltean 2021-06-08  575  	return 0;
-3e77e59bf8cf10 Vladimir Oltean 2021-06-08  576  }
-3e77e59bf8cf10 Vladimir Oltean 2021-06-08  577  =
-
+:::::: TO: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
+:::::: CC: nanli2x <nanx.li@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0883376334685657683==--
+--===============8760912275183610675==--
 
