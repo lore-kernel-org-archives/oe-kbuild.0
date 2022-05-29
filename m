@@ -1,34 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============8760912275183610675=="
+Content-Type: multipart/mixed; boundary="===============7947555913209968939=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.15/linux 44/62] drivers/media/i2c/kmb-imx327.c:1629:28: warning: Value stored to 'ctrl_hdlr' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 29 May 2022 11:35:05 +0800
-Message-ID: <202205291105.Wf3WI9fZ-lkp@intel.com>
+Subject: mm/kfence/kfence_test.c:165:2: warning: Value stored to 'cur' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 29 May 2022 11:35:03 +0800
+Message-ID: <202205291135.ZxmkPB5Y-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8760912275183610675==
+--===============7947555913209968939==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Zhou Furong <furong.zhou@intel.com>
-CC: nanli2x <nanx.li@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Wang Kefeng <wangkefeng.wang@huawei.com>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Hi Zhou,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   5308d498714872bc2f9957901da0c5c9569e9a78
-commit: 49fa3e4bf70e3787f53ec225a1f9962598606bb9 [44/62] media: keembay-cam=
-era: sync with API change
-:::::: branch date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9d004b2f4fea97cde123e7f1939b80e77bf2e695
+commit: 75969686ec0df23157afe24dc818d7bddb087d78 ARM: 9166/1: Support KFENC=
+E for ARM
+date:   5 months ago
+:::::: branch date: 23 hours ago
 :::::: commit date: 5 months ago
-config: arm-randconfig-c002-20220529 (https://download.01.org/0day-ci/archi=
-ve/20220529/202205291105.Wf3WI9fZ-lkp(a)intel.com/config)
+config: arm-randconfig-c002-20220528 (https://download.01.org/0day-ci/archi=
+ve/20220529/202205291135.ZxmkPB5Y-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
 3f486e01448121f7931a4ca29fac1504ab)
 reproduce (this is a W=3D1 build):
@@ -37,12 +37,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel/linux-intel-lts/commit/49fa3e4bf70e3787f=
-53ec225a1f9962598606bb9
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
-it
-        git fetch --no-tags intel-lts 5.15/linux
-        git checkout 49fa3e4bf70e3787f53ec225a1f9962598606bb9
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D75969686ec0df23157afe24dc818d7bddb087d78
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 75969686ec0df23157afe24dc818d7bddb087d78
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -53,781 +53,731 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                   dev_err(bus->dev,
-                                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
+           ^~~~~~
+   init/main.c:643:2: warning: Call to function 'strcpy' is insecure as it =
+does not provide bounding of the memory buffer. Replace unbounded copy func=
+tions with analogous functions that support length arguments such as 'strlc=
+py'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(static_command_line + xlen, command_line);
+           ^~~~~~
+   init/main.c:643:2: note: Call to function 'strcpy' is insecure as it doe=
+s not provide bounding of the memory buffer. Replace unbounded copy functio=
+ns with analogous functions that support length arguments such as 'strlcpy'=
+. CWE-119
+           strcpy(static_command_line + xlen, command_line);
+           ^~~~~~
+   init/main.c:655:4: warning: Call to function 'strcpy' is insecure as it =
+does not provide bounding of the memory buffer. Replace unbounded copy func=
+tions with analogous functions that support length arguments such as 'strlc=
+py'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(saved_command_line + len, extra_init_args=
+);
+                           ^~~~~~
+   init/main.c:655:4: note: Call to function 'strcpy' is insecure as it doe=
+s not provide bounding of the memory buffer. Replace unbounded copy functio=
+ns with analogous functions that support length arguments such as 'strlcpy'=
+. CWE-119
+                           strcpy(saved_command_line + len, extra_init_args=
+);
+                           ^~~~~~
+   init/main.c:657:4: warning: Call to function 'strcpy' is insecure as it =
+does not provide bounding of the memory buffer. Replace unbounded copy func=
+tions with analogous functions that support length arguments such as 'strlc=
+py'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(saved_command_line + len,
+                           ^~~~~~
+   init/main.c:657:4: note: Call to function 'strcpy' is insecure as it doe=
+s not provide bounding of the memory buffer. Replace unbounded copy functio=
+ns with analogous functions that support length arguments such as 'strlcpy'=
+. CWE-119
+                           strcpy(saved_command_line + len,
+                           ^~~~~~
+   init/main.c:661:4: warning: Call to function 'strcpy' is insecure as it =
+does not provide bounding of the memory buffer. Replace unbounded copy func=
+tions with analogous functions that support length arguments such as 'strlc=
+py'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(saved_command_line + len, " -- ");
+                           ^~~~~~
+   init/main.c:661:4: note: Call to function 'strcpy' is insecure as it doe=
+s not provide bounding of the memory buffer. Replace unbounded copy functio=
+ns with analogous functions that support length arguments such as 'strlcpy'=
+. CWE-119
+                           strcpy(saved_command_line + len, " -- ");
+                           ^~~~~~
+   init/main.c:663:4: warning: Call to function 'strcpy' is insecure as it =
+does not provide bounding of the memory buffer. Replace unbounded copy func=
+tions with analogous functions that support length arguments such as 'strlc=
+py'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(saved_command_line + len, extra_init_args=
+);
+                           ^~~~~~
+   init/main.c:663:4: note: Call to function 'strcpy' is insecure as it doe=
+s not provide bounding of the memory buffer. Replace unbounded copy functio=
+ns with analogous functions that support length arguments such as 'strlcpy'=
+. CWE-119
+                           strcpy(saved_command_line + len, extra_init_args=
+);
+                           ^~~~~~
+   init/main.c:1185:4: warning: Call to function 'strcpy' is insecure as it=
+ does not provide bounding of the memory buffer. Replace unbounded copy fun=
+ctions with analogous functions that support length arguments such as 'strl=
+cpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(entry->buf, str_entry);
+                           ^~~~~~
+   init/main.c:1185:4: note: Call to function 'strcpy' is insecure as it do=
+es not provide bounding of the memory buffer. Replace unbounded copy functi=
+ons with analogous functions that support length arguments such as 'strlcpy=
+'. CWE-119
+                           strcpy(entry->buf, str_entry);
+                           ^~~~~~
+   init/main.c:1385:3: warning: Call to function 'strcpy' is insecure as it=
+ does not provide bounding of the memory buffer. Replace unbounded copy fun=
+ctions with analogous functions that support length arguments such as 'strl=
+cpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(command_line, saved_command_line);
+                   ^~~~~~
+   init/main.c:1385:3: note: Call to function 'strcpy' is insecure as it do=
+es not provide bounding of the memory buffer. Replace unbounded copy functi=
+ons with analogous functions that support length arguments such as 'strlcpy=
+'. CWE-119
+                   strcpy(command_line, saved_command_line);
+                   ^~~~~~
+   Suppressed 23 warnings (20 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   fs/jfs/jfs_types.h:67:33: warning: The left operand of '&' is a garbage =
+value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
+                                          ^
+   fs/jfs/namei.c:692:2: note: Assuming 'jfsloglevel' is < 4
+           jfs_info("jfs_free_zero_link: ip =3D 0x%p", ip);
            ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
+   fs/jfs/jfs_debug.h:56:6: note: expanded from macro 'jfs_info'
+           if (jfsloglevel >=3D JFS_LOGLEVEL_INFO)           \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jfs/namei.c:692:2: note: Taking false branch
+           jfs_info("jfs_free_zero_link: ip =3D 0x%p", ip);
+           ^
+   fs/jfs/jfs_debug.h:56:2: note: expanded from macro 'jfs_info'
+           if (jfsloglevel >=3D JFS_LOGLEVEL_INFO)           \
+           ^
+   fs/jfs/namei.c:692:2: note: Loop condition is false.  Exiting loop
+           jfs_info("jfs_free_zero_link: ip =3D 0x%p", ip);
+           ^
+   fs/jfs/jfs_debug.h:55:31: note: expanded from macro 'jfs_info'
+   #define jfs_info(fmt, arg...) do {                      \
+                                 ^
+   fs/jfs/namei.c:699:2: note: Control jumps to 'case 32768:'  at line 700
+           switch (type) {
+           ^
+   fs/jfs/namei.c:701:3: note:  Execution continues on line 714
+                   break;
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
+   fs/jfs/namei.c:714:6: note: Assuming the condition is true
+           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jfs/namei.c:714:2: note: Taking true branch
+           if (JFS_IP(ip)->ea.flag & DXD_EXTENT) {
            ^
-   include/linux/printk.h:417:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+   fs/jfs/namei.c:727:3: note: Calling 'PXDaddress'
+                   PXDaddress(&pxdlock->pxd, xaddr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jfs/jfs_types.h:67:33: note: The left operand of '&' is a garbage val=
+ue
+           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
+                            ~~~~~~~~~~~~~ ^
+   fs/jfs/namei.c:881:16: warning: Value stored to 'ip' during its initiali=
+zation is never read [clang-analyzer-deadcode.DeadStores]
+           struct inode *ip =3D d_inode(dentry);
+                         ^~   ~~~~~~~~~~~~~~~
+   fs/jfs/namei.c:881:16: note: Value stored to 'ip' during its initializat=
+ion is never read
+           struct inode *ip =3D d_inode(dentry);
+                         ^~   ~~~~~~~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   23 warnings generated.
+>> mm/kfence/kfence_test.c:165:2: warning: Value stored to 'cur' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:165:2: note: Value stored to 'cur' is never read
+           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kfence/kfence_test.c:165:9: warning: Use of memory after it is freed =
+[clang-analyzer-unix.Malloc]
+           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+                  ^
+   mm/kfence/kfence_test.c:396:2: note: Calling 'test_free'
+           test_free(expect.addr); /* Double-free. */
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:222:6: note: Assuming 'test_cache' is null
+           if (test_cache)
+               ^~~~~~~~~~
+   mm/kfence/kfence_test.c:222:2: note: Taking false branch
+           if (test_cache)
            ^
-   include/linux/printk.h:396:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/soundwire/stream.c:820:5: note: Control jumps to line 847
-                                   goto error;
+   mm/kfence/kfence_test.c:225:3: note: Memory is released
+                   kfree(ptr);
+                   ^~~~~~~~~~
+   mm/kfence/kfence_test.c:396:2: note: Returning; memory was released via =
+1st parameter
+           test_free(expect.addr); /* Double-free. */
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:397:26: note: Calling 'report_matches'
+           KUNIT_EXPECT_TRUE(test, report_matches(&expect));
                                    ^
-   drivers/soundwire/stream.c:847:2: note: Left side of '&&' is false
-           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+   include/kunit/test.h:1322:48: note: expanded from macro 'KUNIT_EXPECT_TR=
+UE'
+           KUNIT_TRUE_ASSERTION(test, KUNIT_EXPECTATION, condition)
+                                                         ^~~~~~~~~
+   include/kunit/test.h:838:46: note: expanded from macro 'KUNIT_TRUE_ASSER=
+TION'
+           KUNIT_TRUE_MSG_ASSERTION(test, assert_type, condition, NULL)
+                                                       ^~~~~~~~~
+   include/kunit/test.h:832:10: note: expanded from macro 'KUNIT_TRUE_MSG_A=
+SSERTION'
+                                 condition,                                =
+       \
+                                 ^~~~~~~~~
+   include/kunit/test.h:820:7: note: expanded from macro 'KUNIT_UNARY_ASSER=
+TION'
+                           !!(condition) =3D=3D !!expected_true,           =
+           \
+                              ^~~~~~~~~
+   include/kunit/test.h:782:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   mm/kfence/kfence_test.c:105:2: note: Taking false branch
+           if (!report_available())
            ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   mm/kfence/kfence_test.c:113:2: note: Control jumps to 'case KFENCE_ERROR=
+_INVALID_FREE:'  at line 129
+           switch (r->type) {
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/soundwire/stream.c:847:2: note: Taking false branch
-           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   mm/kfence/kfence_test.c:131:3: note:  Execution continues on line 134
+                   break;
                    ^
-   drivers/soundwire/stream.c:847:2: note: Loop condition is false.  Exitin=
-g loop
-           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+   mm/kfence/kfence_test.c:137:6: note: Assuming 'cur' is null
+           if (cur)
+               ^~~
+   mm/kfence/kfence_test.c:137:2: note: Taking false branch
+           if (cur)
            ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   mm/kfence/kfence_test.c:144:2: note: Control jumps to 'case KFENCE_ERROR=
+_INVALID_FREE:'  at line 160
+           switch (r->type) {
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   mm/kfence/kfence_test.c:162:3: note:  Execution continues on line 165
+                   break;
+                   ^
+   mm/kfence/kfence_test.c:165:9: note: Use of memory after it is freed
+           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+                  ^                                  ~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:381:2: warning: Use of memory after it is freed =
+[clang-analyzer-unix.Malloc]
+           READ_ONCE(*expect.addr);
            ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   mm/kfence/kfence_test.c:380:2: note: Calling 'test_free'
+           test_free(expect.addr);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:222:6: note: Assuming 'test_cache' is null
+           if (test_cache)
+               ^~~~~~~~~~
+   mm/kfence/kfence_test.c:222:2: note: Taking false branch
+           if (test_cache)
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   mm/kfence/kfence_test.c:225:3: note: Memory is released
+                   kfree(ptr);
+                   ^~~~~~~~~~
+   mm/kfence/kfence_test.c:380:2: note: Returning; memory was released via =
+1st parameter
+           test_free(expect.addr);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:381:2: note: Left side of '||' is true
+           READ_ONCE(*expect.addr);
            ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   drivers/soundwire/stream.c:847:2: note: Loop condition is true.  Enterin=
-g loop body
-           list_for_each_entry(m_rt, &stream->master_list, stream_node) {
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/soundwire/stream.c:849:22: note: Field 'msg' is non-null
-                   if (bus->defer_msg.msg) {
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:302:29: note: expanded from macro '__nati=
+ve_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
                                       ^
-   drivers/soundwire/stream.c:849:3: note: Taking true branch
-                   if (bus->defer_msg.msg) {
-                   ^
-   drivers/soundwire/stream.c:850:10: note: Use of memory after it is freed
-                           kfree(bus->defer_msg.msg->buf);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/media/i2c/kmb-imx327.c:1629:28: warning: Value stored to 'ctrl_h=
-dlr' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
-r;
-                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/kmb-imx327.c:1629:28: note: Value stored to 'ctrl_hdlr=
-' during its initialization is never read
-           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
-r;
-                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/media/i2c/kmb-flash.c:357:3: warning: Value stored to 'ret' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENOMEM;
-                   ^     ~~~~~~~
-   drivers/media/i2c/kmb-flash.c:357:3: note: Value stored to 'ret' is neve=
-r read
-                   ret =3D -ENOMEM;
-                   ^     ~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/media/i2c/kmb-lens.c:215:2: warning: Value stored to 'new_pos' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           new_pos =3D kmb_lens->iris_new_pos;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/kmb-lens.c:215:2: note: Value stored to 'new_pos' is n=
-ever read
-           new_pos =3D kmb_lens->iris_new_pos;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/media/tuners/tuner-xc2028.c:1037:3: warning: Value stored to 'rc=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D send_seq(priv, {0x00, 0x00});
-                   ^
-   drivers/media/tuners/tuner-xc2028.c:1037:3: note: Value stored to 'rc' i=
-s never read
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/of/unittest.c:3128:29: warning: Access to field 'properties' res=
-ults in a dereference of an undefined pointer value (loaded from variable '=
-overlay_base_symbols') [clang-analyzer-core.NullDereference]
-                   for_each_property_of_node(overlay_base_symbols, prop) {
-                                             ^
-   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
-of_node'
-           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
-                     ^~
-   drivers/of/unittest.c:3039:2: note: 'overlay_base_symbols' declared with=
-out an initial value
-           struct device_node *overlay_base_symbols;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/of/unittest.c:3044:6: note: Assuming 'overlay_base_root' is non-=
-null
-           if (!overlay_base_root) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/of/unittest.c:3044:2: note: Taking false branch
-           if (!overlay_base_root) {
+   mm/kfence/kfence_test.c:381:2: note: Taking false branch
+           READ_ONCE(*expect.addr);
            ^
-   drivers/of/unittest.c:3068:2: note: Loop condition is false. Execution c=
-ontinues on line 3077
-           for (np =3D overlay_base_root->child; np; np =3D np->sibling) {
-           ^
-   drivers/of/unittest.c:3078:6: note: Assuming 'of_symbols' is non-null
-           if (of_symbols) {
-               ^~~~~~~~~~
-   drivers/of/unittest.c:3078:2: note: Taking true branch
-           if (of_symbols) {
-           ^
-   drivers/of/unittest.c:3081:3: note: Loop condition is false. Execution c=
-ontinues on line 3091
-                   for (np =3D overlay_base_root->child; np; np =3D np->sib=
-ling) {
-                   ^
-   drivers/of/unittest.c:3091:44: note: Assuming 'np' is equal to null
-           for_each_child_of_node(overlay_base_root, np) {
-                                                     ^
-   include/linux/of.h:1301:48: note: expanded from macro 'for_each_child_of=
-_node'
-           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
- \
-                                                         ^~~~~~~~~~~~~
-   drivers/of/unittest.c:3091:2: note: Loop condition is false. Execution c=
-ontinues on line 3110
-           for_each_child_of_node(overlay_base_root, np) {
-           ^
-   include/linux/of.h:1301:2: note: expanded from macro 'for_each_child_of_=
-node'
-           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
- \
-           ^
-   drivers/of/unittest.c:3110:2: note: Loop condition is false. Execution c=
-ontinues on line 3113
-           for (np =3D overlay_base_root->child; np; np =3D np->sibling)
-           ^
-   drivers/of/unittest.c:3115:2: note: Loop condition is false. Execution c=
-ontinues on line 3118
-           for (last_sibling =3D np =3D of_root->child; np; np =3D np->sibl=
-ing)
-           ^
-   drivers/of/unittest.c:3118:6: note: 'last_sibling' is null
-           if (last_sibling)
-               ^~~~~~~~~~~~
-   drivers/of/unittest.c:3118:2: note: Taking false branch
-           if (last_sibling)
-           ^
-   drivers/of/unittest.c:3123:2: note: Loop condition is false. Execution c=
-ontinues on line 3126
-           for_each_of_allnodes_from(overlay_base_root, np)
-           ^
-   include/linux/of.h:265:2: note: expanded from macro 'for_each_of_allnode=
-s_from'
-           for (dn =3D __of_find_all_nodes(from); dn; dn =3D __of_find_all_=
-nodes(dn))
-           ^
-   drivers/of/unittest.c:3126:6: note: 'of_symbols' is non-null
-           if (of_symbols) {
-               ^~~~~~~~~~
-   drivers/of/unittest.c:3126:2: note: Taking true branch
-           if (of_symbols) {
-           ^
-   drivers/of/unittest.c:3128:29: note: Access to field 'properties' result=
-s in a dereference of an undefined pointer value (loaded from variable 'ove=
-rlay_base_symbols')
-                   for_each_property_of_node(overlay_base_symbols, prop) {
-                                             ^
-   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
-of_node'
-           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
-                     ^~
-   Suppressed 8 warnings (8 in non-user code).
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
 --
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:548:11: note: Passing null pointer valu=
-e via 2nd parameter 'pdaf_readout'
-                                                              &rules->pdaf_=
-readout,
-                                                              ^~~~~~~~~~~~~=
-~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:547:11: note: Calling 'ccs_data_parse_p=
-daf_readout'
-                           rval =3D ccs_data_parse_pdaf_readout(bin,
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:412:6: note: Assuming the condition is =
-false
-           if (!is_contained(__pdaf, endp))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:412:2: note: Taking false branch
-           if (!is_contained(__pdaf, endp))
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:415:12: note: Field 'base' is non-null
-           if (!bin->base) {
-                     ^
-   drivers/media/i2c/ccs/ccs-data.c:415:2: note: Taking false branch
-           if (!bin->base) {
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:418:17: note: Dereference of null point=
-er (loaded from variable 'pdaf_readout')
-                   *pdaf_readout =3D bin_alloc(bin, sizeof(**pdaf_readout));
-                    ~~~~~~~~~~~~ ^
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/of/unittest.c:3128:29: warning: Access to field 'properties' res=
-ults in a dereference of an undefined pointer value (loaded from variable '=
-overlay_base_symbols') [clang-analyzer-core.NullDereference]
-                   for_each_property_of_node(overlay_base_symbols, prop) {
-                                             ^
-   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
-of_node'
-           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
-                     ^~
-   drivers/of/unittest.c:3039:2: note: 'overlay_base_symbols' declared with=
-out an initial value
-           struct device_node *overlay_base_symbols;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/of/unittest.c:3044:6: note: Assuming 'overlay_base_root' is non-=
-null
-           if (!overlay_base_root) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/of/unittest.c:3044:2: note: Taking false branch
-           if (!overlay_base_root) {
-           ^
-   drivers/of/unittest.c:3068:2: note: Loop condition is false. Execution c=
-ontinues on line 3077
-           for (np =3D overlay_base_root->child; np; np =3D np->sibling) {
-           ^
-   drivers/of/unittest.c:3078:6: note: Assuming 'of_symbols' is non-null
-           if (of_symbols) {
                ^~~~~~~~~~
-   drivers/of/unittest.c:3078:2: note: Taking true branch
-           if (of_symbols) {
+   mm/kfence/kfence_test.c:222:2: note: Taking false branch
+           if (test_cache)
            ^
-   drivers/of/unittest.c:3081:3: note: Loop condition is false. Execution c=
-ontinues on line 3091
-                   for (np =3D overlay_base_root->child; np; np =3D np->sib=
-ling) {
-                   ^
-   drivers/of/unittest.c:3091:44: note: Assuming 'np' is equal to null
-           for_each_child_of_node(overlay_base_root, np) {
-                                                     ^
-   include/linux/of.h:1301:48: note: expanded from macro 'for_each_child_of=
-_node'
-           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
- \
-                                                         ^~~~~~~~~~~~~
-   drivers/of/unittest.c:3091:2: note: Loop condition is false. Execution c=
-ontinues on line 3110
-           for_each_child_of_node(overlay_base_root, np) {
+   mm/kfence/kfence_test.c:225:3: note: Memory is released
+                   kfree(ptr);
+                   ^~~~~~~~~~
+   mm/kfence/kfence_test.c:412:2: note: Returning; memory was released
+           test_free(expect.addr); /* Invalid address free. */
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:413:2: note: Use of memory after it is freed
+           test_free(buf); /* No error. */
+           ^         ~~~
+   mm/kfence/kfence_test.c:671:2: warning: Use of memory after it is freed =
+[clang-analyzer-unix.Malloc]
+           KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
            ^
-   include/linux/of.h:1301:2: note: expanded from macro 'for_each_child_of_=
-node'
-           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
- \
+   include/kunit/test.h:1362:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:999:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
+SSERTION'
+           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:989:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
+SG_ASSERTION'
+           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:900:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
+_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                               =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:875:24: note: expanded from macro 'KUNIT_BASE_BINAR=
+Y_ASSERTION'
+           typeof(left) __left =3D (left);                                 =
+         \
+                                 ^~~~~~
+   mm/kfence/kfence_test.c:664:2: note: Assuming 'test_cache' is null
+           KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
            ^
-   drivers/of/unittest.c:3110:2: note: Loop condition is false. Execution c=
-ontinues on line 3113
-           for (np =3D overlay_base_root->child; np; np =3D np->sibling)
+   include/kunit/test.h:1322:2: note: expanded from macro 'KUNIT_EXPECT_TRU=
+E'
+           KUNIT_TRUE_ASSERTION(test, KUNIT_EXPECTATION, condition)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:838:2: note: expanded from macro 'KUNIT_TRUE_ASSERT=
+ION'
+           KUNIT_TRUE_MSG_ASSERTION(test, assert_type, condition, NULL)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:830:2: note: expanded from macro 'KUNIT_TRUE_MSG_AS=
+SERTION'
+           KUNIT_UNARY_ASSERTION(test,                                     =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:820:5: note: expanded from macro 'KUNIT_UNARY_ASSER=
+TION'
+                           !!(condition) =3D=3D !!expected_true,           =
+           \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:782:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   mm/kfence/kfence_test.c:664:2: note: Loop condition is false.  Exiting l=
+oop
+           KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
            ^
-   drivers/of/unittest.c:3115:2: note: Loop condition is false. Execution c=
-ontinues on line 3118
-           for (last_sibling =3D np =3D of_root->child; np; np =3D np->sibl=
-ing)
+   include/kunit/test.h:1322:2: note: expanded from macro 'KUNIT_EXPECT_TRU=
+E'
+           KUNIT_TRUE_ASSERTION(test, KUNIT_EXPECTATION, condition)
            ^
-   drivers/of/unittest.c:3118:6: note: 'last_sibling' is null
-           if (last_sibling)
-               ^~~~~~~~~~~~
-   drivers/of/unittest.c:3118:2: note: Taking false branch
-           if (last_sibling)
+   include/kunit/test.h:838:2: note: expanded from macro 'KUNIT_TRUE_ASSERT=
+ION'
+           KUNIT_TRUE_MSG_ASSERTION(test, assert_type, condition, NULL)
            ^
-   drivers/of/unittest.c:3123:2: note: Loop condition is false. Execution c=
-ontinues on line 3126
-           for_each_of_allnodes_from(overlay_base_root, np)
+   include/kunit/test.h:830:2: note: expanded from macro 'KUNIT_TRUE_MSG_AS=
+SERTION'
+           KUNIT_UNARY_ASSERTION(test,                                     =
+       \
            ^
-   include/linux/of.h:265:2: note: expanded from macro 'for_each_of_allnode=
-s_from'
-           for (dn =3D __of_find_all_nodes(from); dn; dn =3D __of_find_all_=
-nodes(dn))
+   include/kunit/test.h:819:2: note: expanded from macro 'KUNIT_UNARY_ASSER=
+TION'
+           KUNIT_ASSERTION(test,                                           =
+       \
            ^
-   drivers/of/unittest.c:3126:6: note: 'of_symbols' is non-null
-           if (of_symbols) {
+   include/kunit/test.h:778:74: note: expanded from macro 'KUNIT_ASSERTION'
+   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
+ do {  \
+                                                                           =
+ ^
+   mm/kfence/kfence_test.c:670:2: note: Calling 'test_free'
+           test_free(expect.addr);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:222:6: note: Assuming 'test_cache' is null
+           if (test_cache)
                ^~~~~~~~~~
-   drivers/of/unittest.c:3126:2: note: Taking true branch
-           if (of_symbols) {
+   mm/kfence/kfence_test.c:222:2: note: Taking false branch
+           if (test_cache)
            ^
-   drivers/of/unittest.c:3128:29: note: Access to field 'properties' result=
-s in a dereference of an undefined pointer value (loaded from variable 'ove=
-rlay_base_symbols')
-                   for_each_property_of_node(overlay_base_symbols, prop) {
-                                             ^
-   include/linux/of.h:358:12: note: expanded from macro 'for_each_property_=
-of_node'
-           for (pp =3D dn->properties; pp !=3D NULL; pp =3D pp->next)
-                     ^~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/media/i2c/kmb-imx327.c:1629:28: warning: Value stored to 'ctrl_h=
-dlr' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
-r;
-                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/kmb-imx327.c:1629:28: note: Value stored to 'ctrl_hdlr=
-' during its initialization is never read
-           struct v4l2_ctrl_handler *ctrl_hdlr =3D &kmb_imx327->ctrl_handle=
-r;
-                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/media/i2c/kmb-flash.c:357:3: warning: Value stored to 'ret' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENOMEM;
-                   ^     ~~~~~~~
-   drivers/media/i2c/kmb-flash.c:357:3: note: Value stored to 'ret' is neve=
-r read
-                   ret =3D -ENOMEM;
-                   ^     ~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/media/i2c/kmb-lens.c:215:2: warning: Value stored to 'new_pos' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           new_pos =3D kmb_lens->iris_new_pos;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/kmb-lens.c:215:2: note: Value stored to 'new_pos' is n=
-ever read
-           new_pos =3D kmb_lens->iris_new_pos;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/media/tuners/tuner-xc2028.c:1037:3: warning: Value stored to 'rc=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D send_seq(priv, {0x00, 0x00});
-                   ^
-   drivers/media/tuners/tuner-xc2028.c:1037:3: note: Value stored to 'rc' i=
-s never read
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/hwmon/lm73.c:76:62: warning: The result of the left shift is und=
-efined because the left operand is negative [clang-analyzer-core.UndefinedB=
-inaryOperatorResult]
-           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
- 5;
-                                                                       ^
-   drivers/hwmon/lm73.c:65:41: note: Left side of '&&' is false
-           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);
-                                                  ^
-   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
-ev_attr'
-           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+   mm/kfence/kfence_test.c:225:3: note: Memory is released
+                   kfree(ptr);
+                   ^~~~~~~~~~
+   mm/kfence/kfence_test.c:670:2: note: Returning; memory was released via =
+1st parameter
+           test_free(expect.addr);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:671:2: note: Use of memory after it is freed
+           KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
            ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/hwmon/lm73.c:65:41: note: Taking false branch
-           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);
-                                                  ^
-   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
-ev_attr'
-           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+   include/kunit/test.h:1362:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:999:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
+SSERTION'
+           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:989:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
+SG_ASSERTION'
+           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:900:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
+_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                               =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:875:24: note: expanded from macro 'KUNIT_BASE_BINAR=
+Y_ASSERTION'
+           typeof(left) __left =3D (left);                                 =
+         \
+                                 ^~~~~~
+>> mm/kfence/kfence_test.c:705:10: warning: Array access (from variable 'bu=
+f') results in a null pointer dereference [clang-analyzer-core.NullDerefere=
+nce]
+                   buf[i] =3D i + 1;
+                   ~~~    ^
+   mm/kfence/kfence_test.c:693:2: note: 'expect.addr' initialized to a null=
+ pointer value
+           const struct expect_report expect =3D {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:699:2: note: 'buf' initialized to a null pointer=
+ value
+           char *buf =3D expect.addr;
+           ^~~~~~~~~
+   mm/kfence/kfence_test.c:702:2: note: Assuming 'test_cache' is non-null
+           KUNIT_EXPECT_FALSE(test, test_cache);
            ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   include/kunit/test.h:1341:2: note: expanded from macro 'KUNIT_EXPECT_FAL=
+SE'
+           KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:849:2: note: expanded from macro 'KUNIT_FALSE_ASSER=
+TION'
+           KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:841:2: note: expanded from macro 'KUNIT_FALSE_MSG_A=
+SSERTION'
+           KUNIT_UNARY_ASSERTION(test,                                     =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:820:5: note: expanded from macro 'KUNIT_UNARY_ASSER=
+TION'
+                           !!(condition) =3D=3D !!expected_true,           =
+           \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:782:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   mm/kfence/kfence_test.c:702:2: note: Loop condition is false.  Exiting l=
+oop
+           KUNIT_EXPECT_FALSE(test, test_cache);
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/kunit/test.h:1341:2: note: expanded from macro 'KUNIT_EXPECT_FAL=
+SE'
+           KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   include/kunit/test.h:849:2: note: expanded from macro 'KUNIT_FALSE_ASSER=
+TION'
+           KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
            ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/hwmon/lm73.c:65:41: note: Loop condition is false.  Exiting loop
-           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);
-                                                  ^
-   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
-ev_attr'
-           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+   include/kunit/test.h:841:2: note: expanded from macro 'KUNIT_FALSE_MSG_A=
+SSERTION'
+           KUNIT_UNARY_ASSERTION(test,                                     =
+       \
            ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   include/kunit/test.h:819:2: note: expanded from macro 'KUNIT_UNARY_ASSER=
+TION'
+           KUNIT_ASSERTION(test,                                           =
+       \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/kunit/test.h:778:74: note: expanded from macro 'KUNIT_ASSERTION'
+   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
+ do {  \
+                                                                           =
+ ^
+   mm/kfence/kfence_test.c:703:2: note: Assuming '__left' is not equal to '=
+__right'
+           KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match a=
+fter KFENCE alloc. */
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   include/kunit/test.h:1362:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:999:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
+SSERTION'
+           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:989:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
+SG_ASSERTION'
+           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:900:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
+_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                               =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:879:4: note: expanded from macro 'KUNIT_BASE_BINARY=
+_ASSERTION'
+                           __left op __right,                              =
+       \
+   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:782:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   mm/kfence/kfence_test.c:703:2: note: Loop condition is false.  Exiting l=
+oop
+           KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match a=
+fter KFENCE alloc. */
            ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
+   include/kunit/test.h:1362:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
            ^
-   drivers/hwmon/lm73.c:72:6: note: Assuming 'status' is >=3D 0
+   include/kunit/test.h:999:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
+SSERTION'
+           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
+       \
+           ^
+   include/kunit/test.h:989:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
+SG_ASSERTION'
+           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
+       \
+           ^
+   include/kunit/test.h:900:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
+_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                               =
+       \
+           ^
+   include/kunit/test.h:878:2: note: expanded from macro 'KUNIT_BASE_BINARY=
+_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
+           ^
+   include/kunit/test.h:778:74: note: expanded from macro 'KUNIT_ASSERTION'
+   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
+ do {  \
+                                                                           =
+ ^
+   mm/kfence/kfence_test.c:703:2: note: Loop condition is false.  Exiting l=
+oop
+           KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match a=
+fter KFENCE alloc. */
+           ^
+   include/kunit/test.h:1362:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
+           ^
+   include/kunit/test.h:999:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
+SSERTION'
+           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
+       \
+           ^
+   include/kunit/test.h:989:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
+SG_ASSERTION'
+           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
+       \
+           ^
+   include/kunit/test.h:900:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
+_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                               =
+       \
 
-vim +/ctrl_hdlr +1629 drivers/media/i2c/kmb-imx327.c
+vim +/cur +165 mm/kfence/kfence_test.c
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1620  =
+bc8fbc5f305aec Marco Elver   2021-02-25   93  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1621  /**
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1622   * kmb_imx327_init_con=
-trols - Initialize sensor subdevice controls
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1623   * @kmb_imx327: pointe=
-r to kmb_imx327 device
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1624   *
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1625   * Return: 0 if succes=
-sful
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1626   */
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1627  static int kmb_imx327_=
-init_controls(struct kmb_imx327 *kmb_imx327)
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1628  {
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26 @1629  	struct v4l2_ctrl_hand=
-ler *ctrl_hdlr =3D &kmb_imx327->ctrl_handler;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1630  	const struct kmb_imx3=
-27_mode *mode =3D kmb_imx327->cur_mode;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1631  	u32 hblank;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1632  	u32 vblank;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1633  	int ret;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1634  =
+bc8fbc5f305aec Marco Elver   2021-02-25   94  /* Check observed report matc=
+hes information in @r. */
+bc8fbc5f305aec Marco Elver   2021-02-25   95  static bool report_matches(co=
+nst struct expect_report *r)
+bc8fbc5f305aec Marco Elver   2021-02-25   96  {
+f99e12b21b84fe Sven Schnelle 2021-07-28   97  	unsigned long addr =3D (unsi=
+gned long)r->addr;
+bc8fbc5f305aec Marco Elver   2021-02-25   98  	bool ret =3D false;
+bc8fbc5f305aec Marco Elver   2021-02-25   99  	unsigned long flags;
+bc8fbc5f305aec Marco Elver   2021-02-25  100  	typeof(observed.lines) expec=
+t;
+bc8fbc5f305aec Marco Elver   2021-02-25  101  	const char *end;
+bc8fbc5f305aec Marco Elver   2021-02-25  102  	char *cur;
+bc8fbc5f305aec Marco Elver   2021-02-25  103  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1635  	ctrl_hdlr =3D &kmb_im=
-x327->ctrl_handler;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1636  	ret =3D v4l2_ctrl_han=
-dler_init(ctrl_hdlr, 9);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1637  	if (ret)
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1638  		return ret;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1639  =
+bc8fbc5f305aec Marco Elver   2021-02-25  104  	/* Doubled-checked locking. =
+*/
+bc8fbc5f305aec Marco Elver   2021-02-25  105  	if (!report_available())
+bc8fbc5f305aec Marco Elver   2021-02-25  106  		return false;
+bc8fbc5f305aec Marco Elver   2021-02-25  107  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1640  	/* Serialize controls=
- with sensor device */
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1641  	ctrl_hdlr->lock =3D &=
-kmb_imx327->mutex;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1642  =
+bc8fbc5f305aec Marco Elver   2021-02-25  108  	/* Generate expected report =
+contents. */
+bc8fbc5f305aec Marco Elver   2021-02-25  109  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1643  	/* Initialize exposur=
-e and gain */
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1644  	kmb_imx327->exp_ctrl =
-=3D v4l2_ctrl_new_std(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1645  						 &kmb_imx327_ctr=
-l_ops,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1646  						 V4L2_CID_EXPOSU=
-RE,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1647  						 KMB_IMX327_EXPO=
-SURE_MIN,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1648  						 mode->lpfr[0],
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1649  						 KMB_IMX327_EXPO=
-SURE_STEP,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1650  						 KMB_IMX327_EXPO=
-SURE_DEFAULT);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1651  =
+bc8fbc5f305aec Marco Elver   2021-02-25  110  	/* Title */
+bc8fbc5f305aec Marco Elver   2021-02-25  111  	cur =3D expect[0];
+bc8fbc5f305aec Marco Elver   2021-02-25  112  	end =3D &expect[0][sizeof(ex=
+pect[0]) - 1];
+bc8fbc5f305aec Marco Elver   2021-02-25  113  	switch (r->type) {
+bc8fbc5f305aec Marco Elver   2021-02-25  114  	case KFENCE_ERROR_OOB:
+bc8fbc5f305aec Marco Elver   2021-02-25  115  		cur +=3D scnprintf(cur, end=
+ - cur, "BUG: KFENCE: out-of-bounds %s",
+bc8fbc5f305aec Marco Elver   2021-02-25  116  				 get_access_type(r));
+bc8fbc5f305aec Marco Elver   2021-02-25  117  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  118  	case KFENCE_ERROR_UAF:
+bc8fbc5f305aec Marco Elver   2021-02-25  119  		cur +=3D scnprintf(cur, end=
+ - cur, "BUG: KFENCE: use-after-free %s",
+bc8fbc5f305aec Marco Elver   2021-02-25  120  				 get_access_type(r));
+bc8fbc5f305aec Marco Elver   2021-02-25  121  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  122  	case KFENCE_ERROR_CORRUPTION:
+bc8fbc5f305aec Marco Elver   2021-02-25  123  		cur +=3D scnprintf(cur, end=
+ - cur, "BUG: KFENCE: memory corruption");
+bc8fbc5f305aec Marco Elver   2021-02-25  124  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  125  	case KFENCE_ERROR_INVALID:
+bc8fbc5f305aec Marco Elver   2021-02-25  126  		cur +=3D scnprintf(cur, end=
+ - cur, "BUG: KFENCE: invalid %s",
+bc8fbc5f305aec Marco Elver   2021-02-25  127  				 get_access_type(r));
+bc8fbc5f305aec Marco Elver   2021-02-25  128  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  129  	case KFENCE_ERROR_INVALID_FR=
+EE:
+bc8fbc5f305aec Marco Elver   2021-02-25  130  		cur +=3D scnprintf(cur, end=
+ - cur, "BUG: KFENCE: invalid free");
+bc8fbc5f305aec Marco Elver   2021-02-25  131  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  132  	}
+bc8fbc5f305aec Marco Elver   2021-02-25  133  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1652  	kmb_imx327->again_ctr=
-l =3D v4l2_ctrl_new_std(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1653  						   &kmb_imx327_c=
-trl_ops,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1654  						   V4L2_CID_ANAL=
-OGUE_GAIN,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1655  						   KMB_IMX327_AG=
-AIN_MIN,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1656  						   KMB_IMX327_AG=
-AIN_MAX,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1657  						   KMB_IMX327_AG=
-AIN_STEP,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1658  						   KMB_IMX327_AG=
-AIN_DEFAULT);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1659  	kmb_imx327->exp1_ctrl=
- =3D v4l2_ctrl_new_custom(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1660  						     &exposure_s=
-hort,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1661  						     NULL);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1662  =
+bc8fbc5f305aec Marco Elver   2021-02-25  134  	scnprintf(cur, end - cur, " =
+in %pS", r->fn);
+bc8fbc5f305aec Marco Elver   2021-02-25  135  	/* The exact offset won't ma=
+tch, remove it; also strip module name. */
+bc8fbc5f305aec Marco Elver   2021-02-25  136  	cur =3D strchr(expect[0], '+=
+');
+bc8fbc5f305aec Marco Elver   2021-02-25  137  	if (cur)
+bc8fbc5f305aec Marco Elver   2021-02-25  138  		*cur =3D '\0';
+bc8fbc5f305aec Marco Elver   2021-02-25  139  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1663  	kmb_imx327->again1_ct=
-rl =3D v4l2_ctrl_new_custom(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1664  						       &again_sh=
-ort,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1665  						       NULL);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1666  =
+bc8fbc5f305aec Marco Elver   2021-02-25  140  	/* Access information */
+bc8fbc5f305aec Marco Elver   2021-02-25  141  	cur =3D expect[1];
+bc8fbc5f305aec Marco Elver   2021-02-25  142  	end =3D &expect[1][sizeof(ex=
+pect[1]) - 1];
+bc8fbc5f305aec Marco Elver   2021-02-25  143  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1667  	kmb_imx327->exp2_ctrl=
- =3D v4l2_ctrl_new_custom(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1668  						     &exposure_v=
-ery_short,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1669  						     NULL);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1670  =
+bc8fbc5f305aec Marco Elver   2021-02-25  144  	switch (r->type) {
+bc8fbc5f305aec Marco Elver   2021-02-25  145  	case KFENCE_ERROR_OOB:
+bc8fbc5f305aec Marco Elver   2021-02-25  146  		cur +=3D scnprintf(cur, end=
+ - cur, "Out-of-bounds %s at", get_access_type(r));
+f99e12b21b84fe Sven Schnelle 2021-07-28  147  		addr =3D arch_kfence_test_a=
+ddress(addr);
+bc8fbc5f305aec Marco Elver   2021-02-25  148  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  149  	case KFENCE_ERROR_UAF:
+bc8fbc5f305aec Marco Elver   2021-02-25  150  		cur +=3D scnprintf(cur, end=
+ - cur, "Use-after-free %s at", get_access_type(r));
+f99e12b21b84fe Sven Schnelle 2021-07-28  151  		addr =3D arch_kfence_test_a=
+ddress(addr);
+bc8fbc5f305aec Marco Elver   2021-02-25  152  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  153  	case KFENCE_ERROR_CORRUPTION:
+bc8fbc5f305aec Marco Elver   2021-02-25  154  		cur +=3D scnprintf(cur, end=
+ - cur, "Corrupted memory at");
+bc8fbc5f305aec Marco Elver   2021-02-25  155  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  156  	case KFENCE_ERROR_INVALID:
+bc8fbc5f305aec Marco Elver   2021-02-25  157  		cur +=3D scnprintf(cur, end=
+ - cur, "Invalid %s at", get_access_type(r));
+f99e12b21b84fe Sven Schnelle 2021-07-28  158  		addr =3D arch_kfence_test_a=
+ddress(addr);
+bc8fbc5f305aec Marco Elver   2021-02-25  159  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  160  	case KFENCE_ERROR_INVALID_FR=
+EE:
+bc8fbc5f305aec Marco Elver   2021-02-25  161  		cur +=3D scnprintf(cur, end=
+ - cur, "Invalid free of");
+bc8fbc5f305aec Marco Elver   2021-02-25  162  		break;
+bc8fbc5f305aec Marco Elver   2021-02-25  163  	}
+bc8fbc5f305aec Marco Elver   2021-02-25  164  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1671  	kmb_imx327->again2_ct=
-rl =3D v4l2_ctrl_new_custom(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1672  						       &again_ve=
-ry_short,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1673  						       NULL);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1674  =
+f99e12b21b84fe Sven Schnelle 2021-07-28 @165  	cur +=3D scnprintf(cur, end =
+- cur, " 0x%p", (void *)addr);
+bc8fbc5f305aec Marco Elver   2021-02-25  166  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1675  	v4l2_ctrl_cluster(6, =
-&kmb_imx327->exp_ctrl);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1676  =
+bc8fbc5f305aec Marco Elver   2021-02-25  167  	spin_lock_irqsave(&observed.=
+lock, flags);
+bc8fbc5f305aec Marco Elver   2021-02-25  168  	if (!report_available())
+bc8fbc5f305aec Marco Elver   2021-02-25  169  		goto out; /* A new report i=
+s being captured. */
+bc8fbc5f305aec Marco Elver   2021-02-25  170  =
 
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1677  	/* Read only controls=
- */
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1678  	kmb_imx327->pclk_ctrl=
- =3D v4l2_ctrl_new_std(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1679  						  &kmb_imx327_ct=
-rl_ops,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1680  						  V4L2_CID_PIXEL=
-_RATE,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1681  						  mode->pclk, mo=
-de->pclk,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1682  						  1, mode->pclk);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1683  	if (kmb_imx327->pclk_=
-ctrl)
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1684  		kmb_imx327->pclk_ctr=
-l->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1685  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1686  	vblank =3D mode->lpfr=
-[0] - mode->height;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1687  	kmb_imx327->vblank_ct=
-rl =3D v4l2_ctrl_new_std(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1688  						    &kmb_imx327_=
-ctrl_ops,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1689  						    V4L2_CID_VBL=
-ANK,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1690  						    KMB_IMX327_R=
-EG_MIN,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1691  						    KMB_IMX327_R=
-EG_MAX,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1692  						    1, vblank);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1693  	if (kmb_imx327->vblan=
-k_ctrl)
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1694  		kmb_imx327->vblank_c=
-trl->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1695  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1696  	hblank =3D mode->ppln=
- - mode->width;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1697  	kmb_imx327->hblank_ct=
-rl =3D v4l2_ctrl_new_std(ctrl_hdlr,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1698  						    &kmb_imx327_=
-ctrl_ops,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1699  						    V4L2_CID_HBL=
-ANK,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1700  						    KMB_IMX327_R=
-EG_MIN,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1701  						    KMB_IMX327_R=
-EG_MAX,
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1702  						    1, hblank);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1703  	if (kmb_imx327->hblan=
-k_ctrl)
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1704  		kmb_imx327->hblank_c=
-trl->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1705  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1706  	if (ctrl_hdlr->error)=
- {
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1707  		ret =3D ctrl_hdlr->e=
-rror;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1708  		dev_err(kmb_imx327->=
-dev, "control init failed: %d", ret);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1709  		goto error;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1710  	}
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1711  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1712  	kmb_imx327->sd.ctrl_h=
-andler =3D ctrl_hdlr;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1713  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1714  	return 0;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1715  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1716  error:
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1717  	v4l2_ctrl_handler_fre=
-e(ctrl_hdlr);
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1718  =
-
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1719  	return ret;
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1720  }
-ca29c95cf4cd93 Gjorgji Rosikopulos 2020-06-26  1721  =
+bc8fbc5f305aec Marco Elver   2021-02-25  171  	/* Finally match expected ou=
+tput to what we actually observed. */
+bc8fbc5f305aec Marco Elver   2021-02-25  172  	ret =3D strstr(observed.line=
+s[0], expect[0]) && strstr(observed.lines[1], expect[1]);
+bc8fbc5f305aec Marco Elver   2021-02-25  173  out:
+bc8fbc5f305aec Marco Elver   2021-02-25  174  	spin_unlock_irqrestore(&obse=
+rved.lock, flags);
+bc8fbc5f305aec Marco Elver   2021-02-25  175  	return ret;
+bc8fbc5f305aec Marco Elver   2021-02-25  176  }
+bc8fbc5f305aec Marco Elver   2021-02-25  177  =
 
 
-:::::: The code at line 1629 was first introduced by commit
-:::::: ca29c95cf4cd93d1e33013951d9ab731e49e1bce media: kmb-imx327-sensor: A=
-dd Keem Bay IMX327 sensor
+:::::: The code at line 165 was first introduced by commit
+:::::: f99e12b21b84feb1fd9d845a15096772f1659461 kfence: add function to mas=
+k address bits
 
-:::::: TO: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
-:::::: CC: nanli2x <nanx.li@intel.com>
+:::::: TO: Sven Schnelle <svens@linux.ibm.com>
+:::::: CC: Heiko Carstens <hca@linux.ibm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8760912275183610675==--
+--===============7947555913209968939==--
 
