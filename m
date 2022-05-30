@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7579779634180525181=="
+Content-Type: multipart/mixed; boundary="===============5585939594273141605=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/ingenic-adc.c:657 ingenic_adc_read_chan_info_raw() error: uninitialized symbol 'cmd'.
-Date: Tue, 31 May 2022 07:41:18 +0800
-Message-ID: <202205310732.x3FWXYVl-lkp@intel.com>
+Subject: drivers/i2c/busses/i2c-qcom-geni.c:626 geni_i2c_gpi_xfer() error: uninitialized symbol 'rx_addr'.
+Date: Tue, 31 May 2022 07:20:52 +0800
+Message-ID: <202205310736.Oh37uaNh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7579779634180525181==
+--===============5585939594273141605==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,125 +15,159 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Christophe Branchereau <cbranchereau@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Paul Cercueil <paul@crapouillou.net>
+TO: Vinod Koul <vkoul@kernel.org>
+CC: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-commit: b9e9bdd425a3c99e15f5dfd465bef936130b7491 iio/adc: ingenic: add JZ47=
-60 support to the sadc driver
-date:   10 months ago
+commit: d8703554f4dea9775417525b22b3d65ed1c6b16e i2c: qcom-geni: Add suppor=
+t for GPI DMA
+date:   3 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 10 months ago
-config: nios2-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
-hive/20220531/202205310732.x3FWXYVl-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
+:::::: commit date: 3 months ago
+config: arm64-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
+hive/20220531/202205310736.Oh37uaNh-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/adc/ingenic-adc.c:657 ingenic_adc_read_chan_info_raw() error: u=
-ninitialized symbol 'cmd'.
+New smatch warnings:
+drivers/i2c/busses/i2c-qcom-geni.c:626 geni_i2c_gpi_xfer() error: uninitial=
+ized symbol 'rx_addr'.
+drivers/i2c/busses/i2c-qcom-geni.c:635 geni_i2c_gpi_xfer() error: uninitial=
+ized symbol 'tx_addr'.
 
-vim +/cmd +657 drivers/iio/adc/ingenic-adc.c
+Old smatch warnings:
+drivers/i2c/busses/i2c-qcom-geni.c:635 geni_i2c_gpi_xfer() error: uninitial=
+ized symbol 'rx_addr'.
 
-1a78daea107ddb Artur Rojek            2019-02-04  627  =
+vim +/rx_addr +626 drivers/i2c/busses/i2c-qcom-geni.c
 
-1a99dc467943c0 Artur Rojek            2020-07-19  628  static int ingenic_a=
-dc_read_chan_info_raw(struct iio_dev *iio_dev,
-1a78daea107ddb Artur Rojek            2019-02-04  629  					  struct iio_ch=
-an_spec const *chan,
-a515d648850546 Artur Rojek            2019-07-27  630  					  int *val)
-1a78daea107ddb Artur Rojek            2019-02-04  631  {
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  632  	int cmd, ret, engin=
-e =3D (chan->channel =3D=3D INGENIC_ADC_BATTERY);
-1a99dc467943c0 Artur Rojek            2020-07-19  633  	struct ingenic_adc =
-*adc =3D iio_priv(iio_dev);
-1a99dc467943c0 Artur Rojek            2020-07-19  634  =
+d8703554f4dea9 Vinod Koul 2022-02-21  565  =
 
-1a99dc467943c0 Artur Rojek            2020-07-19  635  	ret =3D clk_enable(=
-adc->clk);
-1a99dc467943c0 Artur Rojek            2020-07-19  636  	if (ret) {
-1a99dc467943c0 Artur Rojek            2020-07-19  637  		dev_err(iio_dev->d=
-ev.parent, "Failed to enable clock: %d\n",
-1a99dc467943c0 Artur Rojek            2020-07-19  638  			ret);
-1a99dc467943c0 Artur Rojek            2020-07-19  639  		return ret;
-1a99dc467943c0 Artur Rojek            2020-07-19  640  	}
-1a78daea107ddb Artur Rojek            2019-02-04  641  =
+d8703554f4dea9 Vinod Koul 2022-02-21  566  static int geni_i2c_gpi_xfer(str=
+uct geni_i2c_dev *gi2c, struct i2c_msg msgs[], int num)
+d8703554f4dea9 Vinod Koul 2022-02-21  567  {
+d8703554f4dea9 Vinod Koul 2022-02-21  568  	struct dma_slave_config config =
+=3D {};
+d8703554f4dea9 Vinod Koul 2022-02-21  569  	struct gpi_i2c_config periphera=
+l =3D {};
+d8703554f4dea9 Vinod Koul 2022-02-21  570  	int i, ret =3D 0, timeout;
+d8703554f4dea9 Vinod Koul 2022-02-21  571  	dma_addr_t tx_addr, rx_addr;
+d8703554f4dea9 Vinod Koul 2022-02-21  572  	void *tx_buf =3D NULL, *rx_buf =
+=3D NULL;
+d8703554f4dea9 Vinod Koul 2022-02-21  573  	const struct geni_i2c_clk_fld *=
+itr =3D gi2c->clk_fld;
+d8703554f4dea9 Vinod Koul 2022-02-21  574  =
 
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  642  	/* We cannot sample=
- the aux channels in parallel. */
-a515d648850546 Artur Rojek            2019-07-27  643  	mutex_lock(&adc->au=
-x_lock);
-9c5eb724f96f8d Christophe Branchereau 2021-07-26  644  	if (adc->soc_data->=
-has_aux_md && engine =3D=3D 0) {
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  645  		switch (chan->chan=
-nel) {
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  646  		case INGENIC_ADC_A=
-UX0:
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  647  			cmd =3D 0;
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  648  			break;
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  649  		case INGENIC_ADC_A=
-UX:
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  650  			cmd =3D 1;
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  651  			break;
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  652  		case INGENIC_ADC_A=
-UX2:
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  653  			cmd =3D 2;
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  654  			break;
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  655  		}
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  656  =
+d8703554f4dea9 Vinod Koul 2022-02-21  575  	config.peripheral_config =3D &p=
+eripheral;
+d8703554f4dea9 Vinod Koul 2022-02-21  576  	config.peripheral_size =3D size=
+of(peripheral);
+d8703554f4dea9 Vinod Koul 2022-02-21  577  =
 
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26 @657  		ingenic_adc_set_co=
-nfig(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
-1a78daea107ddb Artur Rojek            2019-02-04  658  	}
-1a78daea107ddb Artur Rojek            2019-02-04  659  =
+d8703554f4dea9 Vinod Koul 2022-02-21  578  	peripheral.pack_enable =3D I2C_=
+PACK_TX | I2C_PACK_RX;
+d8703554f4dea9 Vinod Koul 2022-02-21  579  	peripheral.cycle_count =3D itr-=
+>t_cycle_cnt;
+d8703554f4dea9 Vinod Koul 2022-02-21  580  	peripheral.high_count =3D itr->=
+t_high_cnt;
+d8703554f4dea9 Vinod Koul 2022-02-21  581  	peripheral.low_count =3D itr->t=
+_low_cnt;
+d8703554f4dea9 Vinod Koul 2022-02-21  582  	peripheral.clk_div =3D itr->clk=
+_div;
+d8703554f4dea9 Vinod Koul 2022-02-21  583  	peripheral.set_config =3D 1;
+d8703554f4dea9 Vinod Koul 2022-02-21  584  	peripheral.multi_msg =3D false;
+d8703554f4dea9 Vinod Koul 2022-02-21  585  =
 
-a515d648850546 Artur Rojek            2019-07-27  660  	ret =3D ingenic_adc=
-_capture(adc, engine);
-a515d648850546 Artur Rojek            2019-07-27  661  	if (ret)
-a515d648850546 Artur Rojek            2019-07-27  662  		goto out;
-a515d648850546 Artur Rojek            2019-07-27  663  =
+d8703554f4dea9 Vinod Koul 2022-02-21  586  	for (i =3D 0; i < num; i++) {
+d8703554f4dea9 Vinod Koul 2022-02-21  587  		gi2c->cur =3D &msgs[i];
+d8703554f4dea9 Vinod Koul 2022-02-21  588  		gi2c->err =3D 0;
+d8703554f4dea9 Vinod Koul 2022-02-21  589  		dev_dbg(gi2c->se.dev, "msg[%d]=
+.len:%d\n", i, gi2c->cur->len);
+d8703554f4dea9 Vinod Koul 2022-02-21  590  =
 
-1a78daea107ddb Artur Rojek            2019-02-04  664  	switch (chan->chann=
-el) {
-b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  665  	case INGENIC_ADC_AU=
-X0:
-1a78daea107ddb Artur Rojek            2019-02-04  666  	case INGENIC_ADC_AU=
-X:
-a515d648850546 Artur Rojek            2019-07-27  667  	case INGENIC_ADC_AU=
-X2:
-1a78daea107ddb Artur Rojek            2019-02-04  668  		*val =3D readw(adc=
-->base + JZ_ADC_REG_ADSDAT);
-1a78daea107ddb Artur Rojek            2019-02-04  669  		break;
-1a78daea107ddb Artur Rojek            2019-02-04  670  	case INGENIC_ADC_BA=
-TTERY:
-1a78daea107ddb Artur Rojek            2019-02-04  671  		*val =3D readw(adc=
-->base + JZ_ADC_REG_ADBDAT);
-1a78daea107ddb Artur Rojek            2019-02-04  672  		break;
-1a78daea107ddb Artur Rojek            2019-02-04  673  	}
-1a78daea107ddb Artur Rojek            2019-02-04  674  =
+d8703554f4dea9 Vinod Koul 2022-02-21  591  		peripheral.stretch =3D 0;
+d8703554f4dea9 Vinod Koul 2022-02-21  592  		if (i < num - 1)
+d8703554f4dea9 Vinod Koul 2022-02-21  593  			peripheral.stretch =3D 1;
+d8703554f4dea9 Vinod Koul 2022-02-21  594  =
 
-a515d648850546 Artur Rojek            2019-07-27  675  	ret =3D IIO_VAL_INT;
-a515d648850546 Artur Rojek            2019-07-27  676  out:
-a515d648850546 Artur Rojek            2019-07-27  677  	mutex_unlock(&adc->=
-aux_lock);
-1a99dc467943c0 Artur Rojek            2020-07-19  678  	clk_disable(adc->cl=
-k);
-1a78daea107ddb Artur Rojek            2019-02-04  679  =
+d8703554f4dea9 Vinod Koul 2022-02-21  595  		peripheral.addr =3D msgs[i].ad=
+dr;
+d8703554f4dea9 Vinod Koul 2022-02-21  596  =
 
-a515d648850546 Artur Rojek            2019-07-27  680  	return ret;
-a515d648850546 Artur Rojek            2019-07-27  681  }
-a515d648850546 Artur Rojek            2019-07-27  682  =
+d8703554f4dea9 Vinod Koul 2022-02-21  597  		if (msgs[i].flags & I2C_M_RD) {
+d8703554f4dea9 Vinod Koul 2022-02-21  598  			ret =3D  geni_i2c_gpi(gi2c, &=
+msgs[i], &config,
+d8703554f4dea9 Vinod Koul 2022-02-21  599  					    &rx_addr, &rx_buf, I2C_=
+READ, gi2c->rx_c);
+d8703554f4dea9 Vinod Koul 2022-02-21  600  			if (ret)
+d8703554f4dea9 Vinod Koul 2022-02-21  601  				goto err;
+d8703554f4dea9 Vinod Koul 2022-02-21  602  		}
+d8703554f4dea9 Vinod Koul 2022-02-21  603  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21  604  		ret =3D  geni_i2c_gpi(gi2c, &m=
+sgs[i], &config,
+d8703554f4dea9 Vinod Koul 2022-02-21  605  				    &tx_addr, &tx_buf, I2C_W=
+RITE, gi2c->tx_c);
+d8703554f4dea9 Vinod Koul 2022-02-21  606  		if (ret)
+d8703554f4dea9 Vinod Koul 2022-02-21  607  			goto err;
+d8703554f4dea9 Vinod Koul 2022-02-21  608  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21  609  		if (msgs[i].flags & I2C_M_RD)
+d8703554f4dea9 Vinod Koul 2022-02-21  610  			dma_async_issue_pending(gi2c-=
+>rx_c);
+d8703554f4dea9 Vinod Koul 2022-02-21  611  		dma_async_issue_pending(gi2c->=
+tx_c);
+d8703554f4dea9 Vinod Koul 2022-02-21  612  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21  613  		timeout =3D wait_for_completio=
+n_timeout(&gi2c->done, XFER_TIMEOUT);
+d8703554f4dea9 Vinod Koul 2022-02-21  614  		if (!timeout) {
+d8703554f4dea9 Vinod Koul 2022-02-21  615  			dev_err(gi2c->se.dev, "I2C ti=
+meout gpi flags:%d addr:0x%x\n",
+d8703554f4dea9 Vinod Koul 2022-02-21  616  				gi2c->cur->flags, gi2c->cur-=
+>addr);
+d8703554f4dea9 Vinod Koul 2022-02-21  617  			gi2c->err =3D -ETIMEDOUT;
+d8703554f4dea9 Vinod Koul 2022-02-21  618  			goto err;
+d8703554f4dea9 Vinod Koul 2022-02-21  619  		}
+d8703554f4dea9 Vinod Koul 2022-02-21  620  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21  621  		if (gi2c->err) {
+d8703554f4dea9 Vinod Koul 2022-02-21  622  			ret =3D gi2c->err;
+d8703554f4dea9 Vinod Koul 2022-02-21  623  			goto err;
+d8703554f4dea9 Vinod Koul 2022-02-21  624  		}
+d8703554f4dea9 Vinod Koul 2022-02-21  625  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21 @626  		geni_i2c_gpi_unmap(gi2c, &msgs=
+[i], tx_buf, tx_addr, rx_buf, rx_addr);
+d8703554f4dea9 Vinod Koul 2022-02-21  627  	}
+d8703554f4dea9 Vinod Koul 2022-02-21  628  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21  629  	return num;
+d8703554f4dea9 Vinod Koul 2022-02-21  630  =
+
+d8703554f4dea9 Vinod Koul 2022-02-21  631  err:
+d8703554f4dea9 Vinod Koul 2022-02-21  632  	dev_err(gi2c->se.dev, "GPI tran=
+sfer failed: %d\n", ret);
+d8703554f4dea9 Vinod Koul 2022-02-21  633  	dmaengine_terminate_sync(gi2c->=
+rx_c);
+d8703554f4dea9 Vinod Koul 2022-02-21  634  	dmaengine_terminate_sync(gi2c->=
+tx_c);
+d8703554f4dea9 Vinod Koul 2022-02-21 @635  	geni_i2c_gpi_unmap(gi2c, &msgs[=
+i], tx_buf, tx_addr, rx_buf, rx_addr);
+d8703554f4dea9 Vinod Koul 2022-02-21  636  	return ret;
+d8703554f4dea9 Vinod Koul 2022-02-21  637  }
+d8703554f4dea9 Vinod Koul 2022-02-21  638  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7579779634180525181==--
+--===============5585939594273141605==--
 
