@@ -1,397 +1,572 @@
-Content-Type: multipart/mixed; boundary="===============3161968225042837722=="
+Content-Type: multipart/mixed; boundary="===============3341935010701863731=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1077 mpi3mr_create_op_reply_q() error: we previously assumed 'op_reply_q->q_segments' could be null (see line 1048)
-Date: Mon, 30 May 2022 10:46:21 +0800
-Message-ID: <202205301009.QQK5A93y-lkp@intel.com>
+Subject: [dhowells-fs:cifs-for-sfrench 5/9] fs/cifs/smb2ops.c:4995:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Mon, 30 May 2022 10:36:00 +0800
+Message-ID: <202205301006.CWMBG5bb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3161968225042837722==
+--===============3341935010701863731==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Kashyap Desai <kashyap.desai@broadcom.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Tomas Henzl <thenzl@redhat.com>
-CC: Himanshu Madhani <himanshu.madhani@oracle.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b00ed48bb0a7c295facf9036135a573a5cdbe7de
-commit: c9566231cfaf448dd281cd7c516012a7e1c7e448 scsi: mpi3mr: Create opera=
-tional request and reply queue pair
-date:   12 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 12 months ago
-config: microblaze-randconfig-m031-20220529 (https://download.01.org/0day-c=
-i/archive/20220530/202205301009.QQK5A93y-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
+it cifs-for-sfrench
+head:   c1da8a43f0f920f86394ca254c99a91622bb3fe4
+commit: 36c9de734b21b4bc60b7ee86228659d416d53470 [5/9] cifs: Change the I/O=
+ paths to use an iterator rather than a page list
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20530/202205301006.CWMBG5bb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
+3f486e01448121f7931a4ca29fac1504ab)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs=
+.git/commit/?id=3D36c9de734b21b4bc60b7ee86228659d416d53470
+        git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/ker=
+nel/git/dhowells/linux-fs.git
+        git fetch --no-tags dhowells-fs cifs-for-sfrench
+        git checkout 36c9de734b21b4bc60b7ee86228659d416d53470
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1077 mpi3mr_create_op_reply_q() error: we p=
-reviously assumed 'op_reply_q->q_segments' could be null (see line 1048)
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1184 mpi3mr_create_op_req_q() error: we pre=
-viously assumed 'op_req_q->q_segments' could be null (see line 1157)
 
-Old smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:2380 mpi3mr_cleanup_ioc() warn: inconsisten=
-t indenting
+clang-analyzer warnings: (new ones prefixed by >>)
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4652:3: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                   memcpy(iv, (char *)tr_hdr->Nonce, SMB3_AES_GCM_NONCE);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4655:3: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(iv + 1, (char *)tr_hdr->Nonce, SMB3_AES_CCM_NONCE=
+);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4655:3: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                   memcpy(iv + 1, (char *)tr_hdr->Nonce, SMB3_AES_CCM_NONCE=
+);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4668:3: warning: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&tr_hdr->Signature, sign, SMB2_SIGNATURE_SIZE);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4668:3: note: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11
+                   memcpy(&tr_hdr->Signature, sign, SMB2_SIGNATURE_SIZE);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4820:2: warning: Call to function 'memmove' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memmove_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memmove(buf, iov[1].iov_base, buf_data_size);
+           ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4820:2: note: Call to function 'memmove' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memmove_s' in case of C11
+           memmove(buf, iov[1].iov_base, buf_data_size);
+           ^
+   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
+e'
+   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
+lying_memmove'
+   #define __underlying_memmove    __builtin_memmove
+                                   ^~~~~~~~~~~~~~~~~
+>> fs/cifs/smb2ops.c:4995:2: warning: Undefined or garbage value returned t=
+o caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return length;
+           ^      ~~~~~~
+   fs/cifs/smb2ops.c:4862:2: note: 'length' declared without an initial val=
+ue
+           int length;
+           ^~~~~~~~~~
+   fs/cifs/smb2ops.c:4865:6: note: Assuming field 'Command' is equal to SMB=
+2_READ
+           if (shdr->Command !=3D SMB2_READ) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4865:2: note: Taking false branch
+           if (shdr->Command !=3D SMB2_READ) {
+           ^
+   fs/cifs/smb2ops.c:4870:6: note: Assuming field 'is_session_expired' is n=
+ull
+           if (server->ops->is_session_expired &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4870:38: note: Left side of '&&' is false
+           if (server->ops->is_session_expired &&
+                                               ^
+   fs/cifs/smb2ops.c:4877:6: note: Assuming field 'is_status_pending' is nu=
+ll
+           if (server->ops->is_status_pending &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4877:37: note: Left side of '&&' is false
+           if (server->ops->is_status_pending &&
+                                              ^
+   fs/cifs/smb2ops.c:4886:3: note: Assuming '__UNIQUE_ID___x1317' is >=3D '=
+__UNIQUE_ID___y1318'
+                   min_t(unsigned int, buf_len, server->vals->read_rsp_size=
+);
+                   ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/cifs/smb2ops.c:4886:3: note: '?' condition is false
+                   min_t(unsigned int, buf_len, server->vals->read_rsp_size=
+);
+                   ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/cifs/smb2ops.c:4887:2: note: Taking false branch
+           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
+           ^
+   fs/cifs/cifs_debug.h:76:2: note: expanded from macro 'cifs_dbg'
+           if ((type) & ONCE)                                              \
+           ^
+   fs/cifs/smb2ops.c:4887:2: note: Left side of '&&' is true
+           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
+           ^
+   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
+                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+                   ^
+   fs/cifs/cifs_debug.h:64:6: note: expanded from macro 'cifs_dbg_func'
+           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
+               ^
+   fs/cifs/smb2ops.c:4887:2: note: Assuming the condition is false
+           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
+           ^
+   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
+                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/cifs_debug.h:64:22: note: expanded from macro 'cifs_dbg_func'
+           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
+                               ^~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2ops.c:4887:2: note: Taking false branch
+           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
+           ^
+   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
+                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+                   ^
+   fs/cifs/cifs_debug.h:64:2: note: expanded from macro 'cifs_dbg_func'
+           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
+           ^
+   fs/cifs/smb2ops.c:4887:2: note: Taking false branch
+           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
+           ^
+   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
+                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+                   ^
+   fs/cifs/cifs_debug.h:67:9: note: expanded from macro 'cifs_dbg_func'
+           } else if ((type) & VFS) {                                      \
+                  ^
+   fs/cifs/smb2ops.c:4887:2: note: Left side of '&&' is false
+           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
+           ^
+   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
+                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
 
-vim +1077 drivers/scsi/mpi3mr/mpi3mr_fw.c
+vim +4995 fs/cifs/smb2ops.c
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1013  =
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4849  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1014  /**
-c9566231cfaf44 Kashyap Desai 2021-05-20  1015   * mpi3mr_create_op_reply_q =
-- create operational reply queue
-c9566231cfaf44 Kashyap Desai 2021-05-20  1016   * @mrioc: Adapter instance =
-reference
-c9566231cfaf44 Kashyap Desai 2021-05-20  1017   * @qidx: operational reply =
-queue index
-c9566231cfaf44 Kashyap Desai 2021-05-20  1018   *
-c9566231cfaf44 Kashyap Desai 2021-05-20  1019   * Create operatinal reply q=
-ueue by issuing MPI request
-c9566231cfaf44 Kashyap Desai 2021-05-20  1020   * through admin queue.
-c9566231cfaf44 Kashyap Desai 2021-05-20  1021   *
-c9566231cfaf44 Kashyap Desai 2021-05-20  1022   * Return:  0 on success, no=
-n-zero on failure.
-c9566231cfaf44 Kashyap Desai 2021-05-20  1023   */
-c9566231cfaf44 Kashyap Desai 2021-05-20  1024  static int mpi3mr_create_op_=
-reply_q(struct mpi3mr_ioc *mrioc, u16 qidx)
-c9566231cfaf44 Kashyap Desai 2021-05-20  1025  {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1026  	struct mpi3_create_reply_qu=
-eue_request create_req;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1027  	struct op_reply_qinfo *op_r=
-eply_q =3D mrioc->op_reply_qinfo + qidx;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1028  	int retval =3D 0;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1029  	u16 reply_qid =3D 0, midx;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1030  =
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4850  static int
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4851  handle_read_data(struct=
+ TCP_Server_Info *server, struct mid_q_entry *mid,
+36c9de734b21b4 David Howells      2022-01-24  4852  		 char *buf, unsigned =
+int buf_len, struct xarray *pages,
+36c9de734b21b4 David Howells      2022-01-24  4853  		 unsigned int pages_l=
+en, bool is_offloaded)
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4854  {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4855  	unsigned int data_offs=
+et;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4856  	unsigned int data_len;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4857  	unsigned int cur_off;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4858  	unsigned int cur_page_=
+idx;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4859  	unsigned int pad_len;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4860  	struct cifs_readdata *=
+rdata =3D mid->callback_data;
+0d35e382e4e96a Ronnie Sahlberg    2021-11-05  4861  	struct smb2_hdr *shdr =
+=3D (struct smb2_hdr *)buf;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4862  	int length;
+74dcf418fe3446 Long Li            2017-11-22  4863  	bool use_rdma_mr =3D f=
+alse;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4864  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1031  	reply_qid =3D op_reply_q->q=
-id;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1032  =
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4865  	if (shdr->Command !=3D=
+ SMB2_READ) {
+3175eb9b577e82 Ronnie Sahlberg    2019-09-04  4866  		cifs_server_dbg(VFS, =
+"only big read responses are supported\n");
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4867  		return -ENOTSUPP;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4868  	}
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4869  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1033  	midx =3D REPLY_QUEUE_IDX_TO=
-_MSIX_IDX(qidx, mrioc->op_reply_q_offset);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1034  =
+511c54a2f69195 Pavel Shilovsky    2017-07-08  4870  	if (server->ops->is_se=
+ssion_expired &&
+511c54a2f69195 Pavel Shilovsky    2017-07-08  4871  	    server->ops->is_se=
+ssion_expired(buf)) {
+de9ac0a6e9efdf Rohith Surabattula 2020-10-28  4872  		if (!is_offloaded)
+183eea2ee5ba96 Shyam Prasad N     2021-07-19  4873  			cifs_reconnect(serve=
+r, true);
+511c54a2f69195 Pavel Shilovsky    2017-07-08  4874  		return -1;
+511c54a2f69195 Pavel Shilovsky    2017-07-08  4875  	}
+511c54a2f69195 Pavel Shilovsky    2017-07-08  4876  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1035  	if (reply_qid) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1036  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1037  		ioc_err(mrioc, "CreateRepQ=
-: called for duplicate qid %d\n",
-c9566231cfaf44 Kashyap Desai 2021-05-20  1038  		    reply_qid);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1039  =
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4877  	if (server->ops->is_st=
+atus_pending &&
+66265f134acfb2 Pavel Shilovsky    2019-01-23  4878  			server->ops->is_stat=
+us_pending(buf, server))
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4879  		return -1;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4880  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1040  		return retval;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1041  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1042  =
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4881  	/* set up first two io=
+v to get credits */
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4882  	rdata->iov[0].iov_base=
+ =3D buf;
+bb1bccb60c2ebd Pavel Shilovsky    2019-01-17  4883  	rdata->iov[0].iov_len =
+=3D 0;
+bb1bccb60c2ebd Pavel Shilovsky    2019-01-17  4884  	rdata->iov[1].iov_base=
+ =3D buf;
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4885  	rdata->iov[1].iov_len =
+=3D
+bb1bccb60c2ebd Pavel Shilovsky    2019-01-17  4886  		min_t(unsigned int, b=
+uf_len, server->vals->read_rsp_size);
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4887  	cifs_dbg(FYI, "0: iov_=
+base=3D%p iov_len=3D%zu\n",
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4888  		 rdata->iov[0].iov_ba=
+se, rdata->iov[0].iov_len);
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4889  	cifs_dbg(FYI, "1: iov_=
+base=3D%p iov_len=3D%zu\n",
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4890  		 rdata->iov[1].iov_ba=
+se, rdata->iov[1].iov_len);
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4891  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1043  	reply_qid =3D qidx + 1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1044  	op_reply_q->num_replies =3D=
- MPI3MR_OP_REP_Q_QD;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1045  	op_reply_q->ci =3D 0;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1046  	op_reply_q->ephase =3D 1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1047  =
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4892  	rdata->result =3D serv=
+er->ops->map_error(buf, true);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4893  	if (rdata->result !=3D=
+ 0) {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4894  		cifs_dbg(FYI, "%s: se=
+rver returned error %d\n",
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4895  			 __func__, rdata->re=
+sult);
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4896  		/* normal error on re=
+ad response */
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4897  		if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4898  			mid->mid_state =3D M=
+ID_RESPONSE_RECEIVED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4899  		else
+ec678eae746dd2 Pavel Shilovsky    2019-01-18  4900  			dequeue_mid(mid, fal=
+se);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4901  		return 0;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4902  	}
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4903  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20 @1048  	if (!op_reply_q->q_segments=
-) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1049  		retval =3D mpi3mr_alloc_op=
-_reply_q_segments(mrioc, qidx);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1050  		if (retval) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1051  			mpi3mr_free_op_reply_q_se=
-gments(mrioc, qidx);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1052  			goto out;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1053  		}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1054  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1055  =
+1fc6ad2f10ad6f Ronnie Sahlberg    2018-06-01  4904  	data_offset =3D server=
+->ops->read_data_offset(buf);
+74dcf418fe3446 Long Li            2017-11-22  4905  #ifdef CONFIG_CIFS_SMB_=
+DIRECT
+74dcf418fe3446 Long Li            2017-11-22  4906  	use_rdma_mr =3D rdata-=
+>mr;
+74dcf418fe3446 Long Li            2017-11-22  4907  #endif
+74dcf418fe3446 Long Li            2017-11-22  4908  	data_len =3D server->o=
+ps->read_data_length(buf, use_rdma_mr);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4909  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1056  	memset(&create_req, 0, size=
-of(create_req));
-c9566231cfaf44 Kashyap Desai 2021-05-20  1057  	mutex_lock(&mrioc->init_cmd=
-s.mutex);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1058  	if (mrioc->init_cmds.state =
-& MPI3MR_CMD_PENDING) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1059  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1060  		ioc_err(mrioc, "CreateRepQ=
-: Init command is in use\n");
-c9566231cfaf44 Kashyap Desai 2021-05-20  1061  		goto out;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1062  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1063  	mrioc->init_cmds.state =3D =
-MPI3MR_CMD_PENDING;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1064  	mrioc->init_cmds.is_waiting=
- =3D 1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1065  	mrioc->init_cmds.callback =
-=3D NULL;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1066  	create_req.host_tag =3D cpu=
-_to_le16(MPI3MR_HOSTTAG_INITCMDS);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1067  	create_req.function =3D MPI=
-3_FUNCTION_CREATE_REPLY_QUEUE;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1068  	create_req.queue_id =3D cpu=
-_to_le16(reply_qid);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1069  	create_req.flags =3D MPI3_C=
-REATE_REPLY_QUEUE_FLAGS_INT_ENABLE_ENABLE;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1070  	create_req.msix_index =3D c=
-pu_to_le16(mrioc->intr_info[midx].msix_index);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1071  	if (mrioc->enable_segqueue)=
- {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1072  		create_req.flags |=3D
-c9566231cfaf44 Kashyap Desai 2021-05-20  1073  		    MPI3_CREATE_REQUEST_QU=
-EUE_FLAGS_SEGMENTED_SEGMENTED;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1074  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf44 Kashyap Desai 2021-05-20  1075  		    op_reply_q->q_segment_=
-list_dma);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1076  	} else
-c9566231cfaf44 Kashyap Desai 2021-05-20 @1077  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf44 Kashyap Desai 2021-05-20  1078  		    op_reply_q->q_segments=
-[0].segment_dma);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1079  =
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4910  	if (data_offset < serv=
+er->vals->read_rsp_size) {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4911  		/*
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4912  		 * win2k8 sometimes s=
+ends an offset of 0 when the read
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4913  		 * is beyond the EOF.=
+ Treat it as if the data starts just after
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4914  		 * the header.
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4915  		 */
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4916  		cifs_dbg(FYI, "%s: da=
+ta offset (%u) inside read response header\n",
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4917  			 __func__, data_offs=
+et);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4918  		data_offset =3D serve=
+r->vals->read_rsp_size;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4919  	} else if (data_offset=
+ > MAX_CIFS_SMALL_BUFFER_SIZE) {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4920  		/* data_offset is bey=
+ond the end of smallbuf */
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4921  		cifs_dbg(FYI, "%s: da=
+ta offset (%u) beyond end of smallbuf\n",
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4922  			 __func__, data_offs=
+et);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4923  		rdata->result =3D -EI=
+O;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4924  		if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4925  			mid->mid_state =3D M=
+ID_RESPONSE_MALFORMED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4926  		else
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4927  			dequeue_mid(mid, rda=
+ta->result);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4928  		return 0;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4929  	}
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4930  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1080  	create_req.size =3D cpu_to_=
-le16(op_reply_q->num_replies);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1081  =
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4931  	pad_len =3D data_offse=
+t - server->vals->read_rsp_size;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4932  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1082  	init_completion(&mrioc->ini=
-t_cmds.done);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1083  	retval =3D mpi3mr_admin_req=
-uest_post(mrioc, &create_req,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1084  	    sizeof(create_req), 1);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1085  	if (retval) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1086  		ioc_err(mrioc, "CreateRepQ=
-: Admin Post failed\n");
-c9566231cfaf44 Kashyap Desai 2021-05-20  1087  		goto out_unlock;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1088  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1089  	wait_for_completion_timeout=
-(&mrioc->init_cmds.done,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1090  	    (MPI3MR_INTADMCMD_TIMEO=
-UT * HZ));
-c9566231cfaf44 Kashyap Desai 2021-05-20  1091  	if (!(mrioc->init_cmds.stat=
-e & MPI3MR_CMD_COMPLETE)) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1092  		ioc_err(mrioc, "CreateRepQ=
-: command timed out\n");
-c9566231cfaf44 Kashyap Desai 2021-05-20  1093  		mpi3mr_set_diagsave(mrioc);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1094  		mpi3mr_issue_reset(mrioc,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1095  		    MPI3_SYSIF_HOST_DIAG_R=
-ESET_ACTION_DIAG_FAULT,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1096  		    MPI3MR_RESET_FROM_CREA=
-TEREPQ_TIMEOUT);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1097  		mrioc->unrecoverable =3D 1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1098  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1099  		goto out_unlock;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1100  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1101  	if ((mrioc->init_cmds.ioc_s=
-tatus & MPI3_IOCSTATUS_STATUS_MASK)
-c9566231cfaf44 Kashyap Desai 2021-05-20  1102  	    !=3D MPI3_IOCSTATUS_SUC=
-CESS) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1103  		ioc_err(mrioc,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1104  		    "CreateRepQ: Failed io=
-c_status(0x%04x) Loginfo(0x%08x)\n",
-c9566231cfaf44 Kashyap Desai 2021-05-20  1105  		    (mrioc->init_cmds.ioc_=
-status & MPI3_IOCSTATUS_STATUS_MASK),
-c9566231cfaf44 Kashyap Desai 2021-05-20  1106  		    mrioc->init_cmds.ioc_l=
-oginfo);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1107  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1108  		goto out_unlock;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1109  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1110  	op_reply_q->qid =3D reply_q=
-id;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1111  	mrioc->intr_info[midx].op_r=
-eply_q =3D op_reply_q;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1112  =
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4933  	if (buf_len <=3D data_=
+offset) {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4934  		/* read response payl=
+oad is in pages */
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4935  		cur_page_idx =3D pad_=
+len / PAGE_SIZE;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4936  		cur_off =3D pad_len %=
+ PAGE_SIZE;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4937  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1113  out_unlock:
-c9566231cfaf44 Kashyap Desai 2021-05-20  1114  	mrioc->init_cmds.state =3D =
-MPI3MR_CMD_NOTUSED;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1115  	mutex_unlock(&mrioc->init_c=
-mds.mutex);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1116  out:
-c9566231cfaf44 Kashyap Desai 2021-05-20  1117  =
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4938  		if (cur_page_idx !=3D=
+ 0) {
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4939  			/* data offset is be=
+yond the 1st page of response */
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4940  			cifs_dbg(FYI, "%s: d=
+ata offset (%u) beyond 1st page of response\n",
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4941  				 __func__, data_off=
+set);
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4942  			rdata->result =3D -E=
+IO;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4943  			if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4944  				mid->mid_state =3D =
+MID_RESPONSE_MALFORMED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4945  			else
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4946  				dequeue_mid(mid, rd=
+ata->result);
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4947  			return 0;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4948  		}
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4949  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1118  	return retval;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1119  }
-c9566231cfaf44 Kashyap Desai 2021-05-20  1120  =
+36c9de734b21b4 David Howells      2022-01-24  4950  		if (data_len > pages_=
+len - pad_len) {
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4951  			/* data_len is corru=
+pt -- discard frame */
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4952  			rdata->result =3D -E=
+IO;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4953  			if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4954  				mid->mid_state =3D =
+MID_RESPONSE_MALFORMED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4955  			else
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4956  				dequeue_mid(mid, rd=
+ata->result);
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4957  			return 0;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4958  		}
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4959  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1121  /**
-c9566231cfaf44 Kashyap Desai 2021-05-20  1122   * mpi3mr_create_op_req_q - =
-create operational request queue
-c9566231cfaf44 Kashyap Desai 2021-05-20  1123   * @mrioc: Adapter instance =
-reference
-c9566231cfaf44 Kashyap Desai 2021-05-20  1124   * @idx: operational request=
- queue index
-c9566231cfaf44 Kashyap Desai 2021-05-20  1125   * @reply_qid: Reply queue ID
-c9566231cfaf44 Kashyap Desai 2021-05-20  1126   *
-c9566231cfaf44 Kashyap Desai 2021-05-20  1127   * Create operatinal request=
- queue by issuing MPI request
-c9566231cfaf44 Kashyap Desai 2021-05-20  1128   * through admin queue.
-c9566231cfaf44 Kashyap Desai 2021-05-20  1129   *
-c9566231cfaf44 Kashyap Desai 2021-05-20  1130   * Return:  0 on success, no=
-n-zero on failure.
-c9566231cfaf44 Kashyap Desai 2021-05-20  1131   */
-c9566231cfaf44 Kashyap Desai 2021-05-20  1132  static int mpi3mr_create_op_=
-req_q(struct mpi3mr_ioc *mrioc, u16 idx,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1133  	u16 reply_qid)
-c9566231cfaf44 Kashyap Desai 2021-05-20  1134  {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1135  	struct mpi3_create_request_=
-queue_request create_req;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1136  	struct op_req_qinfo *op_req=
-_q =3D mrioc->req_qinfo + idx;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1137  	int retval =3D 0;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1138  	u16 req_qid =3D 0;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1139  =
+36c9de734b21b4 David Howells      2022-01-24  4960  		/* Copy the data to t=
+he output I/O iterator. */
+36c9de734b21b4 David Howells      2022-01-24  4961  		rdata->result =3D cif=
+s_copy_pages_to_iter(pages, pages_len,
+36c9de734b21b4 David Howells      2022-01-24  4962  							cur_off, &rdata-=
+>iter);
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4963  		if (rdata->result !=
+=3D 0) {
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4964  			if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4965  				mid->mid_state =3D =
+MID_RESPONSE_MALFORMED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4966  			else
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4967  				dequeue_mid(mid, rd=
+ata->result);
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4968  			return 0;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4969  		}
+36c9de734b21b4 David Howells      2022-01-24  4970  		rdata->got_bytes =3D =
+pages_len;
+c42a6abe301283 Pavel Shilovsky    2016-11-17  4971  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1140  	req_qid =3D op_req_q->qid;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1141  =
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4972  	} else if (buf_len >=
+=3D data_offset + data_len) {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4973  		/* read response payl=
+oad is in buf */
+36c9de734b21b4 David Howells      2022-01-24  4974  		WARN_ONCE(pages && !x=
+a_empty(pages),
+36c9de734b21b4 David Howells      2022-01-24  4975  			  "read data can be =
+either in buf or in pages");
+36c9de734b21b4 David Howells      2022-01-24  4976  		length =3D copy_to_it=
+er(buf + data_offset, data_len, &rdata->iter);
+36c9de734b21b4 David Howells      2022-01-24  4977  		if (length < 0)
+36c9de734b21b4 David Howells      2022-01-24  4978  			return length;
+36c9de734b21b4 David Howells      2022-01-24  4979  		rdata->got_bytes =3D =
+data_len;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4980  	} else {
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4981  		/* read response payl=
+oad cannot be in both buf and pages */
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4982  		WARN_ONCE(1, "buf can=
+ not contain only a part of read data");
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4983  		rdata->result =3D -EI=
+O;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4984  		if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4985  			mid->mid_state =3D M=
+ID_RESPONSE_MALFORMED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4986  		else
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4987  			dequeue_mid(mid, rda=
+ta->result);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4988  		return 0;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4989  	}
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4990  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1142  	if (req_qid) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1143  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1144  		ioc_err(mrioc, "CreateReqQ=
-: called for duplicate qid %d\n",
-c9566231cfaf44 Kashyap Desai 2021-05-20  1145  		    req_qid);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1146  =
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4991  	if (is_offloaded)
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4992  		mid->mid_state =3D MI=
+D_RESPONSE_RECEIVED;
+ac873aa3dc2170 Rohith Surabattula 2020-10-29  4993  	else
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4994  		dequeue_mid(mid, fals=
+e);
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17 @4995  	return length;
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4996  }
+4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4997  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1147  		return retval;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1148  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1149  	req_qid =3D idx + 1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1150  =
 
-c9566231cfaf44 Kashyap Desai 2021-05-20  1151  	op_req_q->num_requests =3D =
-MPI3MR_OP_REQ_Q_QD;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1152  	op_req_q->ci =3D 0;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1153  	op_req_q->pi =3D 0;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1154  	op_req_q->reply_qid =3D rep=
-ly_qid;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1155  	spin_lock_init(&op_req_q->q=
-_lock);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1156  =
+:::::: The code at line 4995 was first introduced by commit
+:::::: 4326ed2f6a16ae9d33e4209b540dc9a371aba840 CIFS: Decrypt and process s=
+mall encrypted packets
 
-c9566231cfaf44 Kashyap Desai 2021-05-20 @1157  	if (!op_req_q->q_segments) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1158  		retval =3D mpi3mr_alloc_op=
-_req_q_segments(mrioc, idx);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1159  		if (retval) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1160  			mpi3mr_free_op_req_q_segm=
-ents(mrioc, idx);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1161  			goto out;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1162  		}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1163  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1164  =
-
-c9566231cfaf44 Kashyap Desai 2021-05-20  1165  	memset(&create_req, 0, size=
-of(create_req));
-c9566231cfaf44 Kashyap Desai 2021-05-20  1166  	mutex_lock(&mrioc->init_cmd=
-s.mutex);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1167  	if (mrioc->init_cmds.state =
-& MPI3MR_CMD_PENDING) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1168  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1169  		ioc_err(mrioc, "CreateReqQ=
-: Init command is in use\n");
-c9566231cfaf44 Kashyap Desai 2021-05-20  1170  		goto out;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1171  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1172  	mrioc->init_cmds.state =3D =
-MPI3MR_CMD_PENDING;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1173  	mrioc->init_cmds.is_waiting=
- =3D 1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1174  	mrioc->init_cmds.callback =
-=3D NULL;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1175  	create_req.host_tag =3D cpu=
-_to_le16(MPI3MR_HOSTTAG_INITCMDS);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1176  	create_req.function =3D MPI=
-3_FUNCTION_CREATE_REQUEST_QUEUE;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1177  	create_req.queue_id =3D cpu=
-_to_le16(req_qid);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1178  	if (mrioc->enable_segqueue)=
- {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1179  		create_req.flags =3D
-c9566231cfaf44 Kashyap Desai 2021-05-20  1180  		    MPI3_CREATE_REQUEST_QU=
-EUE_FLAGS_SEGMENTED_SEGMENTED;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1181  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf44 Kashyap Desai 2021-05-20  1182  		    op_req_q->q_segment_li=
-st_dma);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1183  	} else
-c9566231cfaf44 Kashyap Desai 2021-05-20 @1184  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf44 Kashyap Desai 2021-05-20  1185  		    op_req_q->q_segments[0=
-].segment_dma);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1186  	create_req.reply_queue_id =
-=3D cpu_to_le16(reply_qid);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1187  	create_req.size =3D cpu_to_=
-le16(op_req_q->num_requests);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1188  =
-
-c9566231cfaf44 Kashyap Desai 2021-05-20  1189  	init_completion(&mrioc->ini=
-t_cmds.done);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1190  	retval =3D mpi3mr_admin_req=
-uest_post(mrioc, &create_req,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1191  	    sizeof(create_req), 1);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1192  	if (retval) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1193  		ioc_err(mrioc, "CreateReqQ=
-: Admin Post failed\n");
-c9566231cfaf44 Kashyap Desai 2021-05-20  1194  		goto out_unlock;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1195  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1196  	wait_for_completion_timeout=
-(&mrioc->init_cmds.done,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1197  	    (MPI3MR_INTADMCMD_TIMEO=
-UT * HZ));
-c9566231cfaf44 Kashyap Desai 2021-05-20  1198  	if (!(mrioc->init_cmds.stat=
-e & MPI3MR_CMD_COMPLETE)) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1199  		ioc_err(mrioc, "CreateReqQ=
-: command timed out\n");
-c9566231cfaf44 Kashyap Desai 2021-05-20  1200  		mpi3mr_set_diagsave(mrioc);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1201  		if (mpi3mr_issue_reset(mri=
-oc,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1202  		    MPI3_SYSIF_HOST_DIAG_R=
-ESET_ACTION_DIAG_FAULT,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1203  		    MPI3MR_RESET_FROM_CREA=
-TEREQQ_TIMEOUT))
-c9566231cfaf44 Kashyap Desai 2021-05-20  1204  			mrioc->unrecoverable =3D =
-1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1205  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1206  		goto out_unlock;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1207  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1208  	if ((mrioc->init_cmds.ioc_s=
-tatus & MPI3_IOCSTATUS_STATUS_MASK)
-c9566231cfaf44 Kashyap Desai 2021-05-20  1209  	    !=3D MPI3_IOCSTATUS_SUC=
-CESS) {
-c9566231cfaf44 Kashyap Desai 2021-05-20  1210  		ioc_err(mrioc,
-c9566231cfaf44 Kashyap Desai 2021-05-20  1211  		    "CreateReqQ: Failed io=
-c_status(0x%04x) Loginfo(0x%08x)\n",
-c9566231cfaf44 Kashyap Desai 2021-05-20  1212  		    (mrioc->init_cmds.ioc_=
-status & MPI3_IOCSTATUS_STATUS_MASK),
-c9566231cfaf44 Kashyap Desai 2021-05-20  1213  		    mrioc->init_cmds.ioc_l=
-oginfo);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1214  		retval =3D -1;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1215  		goto out_unlock;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1216  	}
-c9566231cfaf44 Kashyap Desai 2021-05-20  1217  	op_req_q->qid =3D req_qid;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1218  =
-
-c9566231cfaf44 Kashyap Desai 2021-05-20  1219  out_unlock:
-c9566231cfaf44 Kashyap Desai 2021-05-20  1220  	mrioc->init_cmds.state =3D =
-MPI3MR_CMD_NOTUSED;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1221  	mutex_unlock(&mrioc->init_c=
-mds.mutex);
-c9566231cfaf44 Kashyap Desai 2021-05-20  1222  out:
-c9566231cfaf44 Kashyap Desai 2021-05-20  1223  =
-
-c9566231cfaf44 Kashyap Desai 2021-05-20  1224  	return retval;
-c9566231cfaf44 Kashyap Desai 2021-05-20  1225  }
-c9566231cfaf44 Kashyap Desai 2021-05-20  1226  =
-
+:::::: TO: Pavel Shilovsky <pshilov@microsoft.com>
+:::::: CC: Steve French <smfrench@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3161968225042837722==--
+--===============3341935010701863731==--
 
