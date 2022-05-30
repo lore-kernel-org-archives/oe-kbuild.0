@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7836446909414808762=="
+Content-Type: multipart/mixed; boundary="===============7579779634180525181=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/at91-sama5d2_adc.c:1781 at91_adc_set_watermark() warn: 'st->dma_st.rx_buf' double freed
-Date: Tue, 31 May 2022 09:53:41 +0800
-Message-ID: <202205310925.zz2dEYBK-lkp@intel.com>
+Subject: drivers/iio/adc/ingenic-adc.c:657 ingenic_adc_read_chan_info_raw() error: uninitialized symbol 'cmd'.
+Date: Tue, 31 May 2022 07:41:18 +0800
+Message-ID: <202205310732.x3FWXYVl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7836446909414808762==
+--===============7579779634180525181==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,102 +15,125 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Lars-Peter Clausen" <lars@metafoo.de>
+TO: Christophe Branchereau <cbranchereau@gmail.com>
 CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Paul Cercueil <paul@crapouillou.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-commit: 907b2ad8c9acad39ac1f0ccdbbe66c63856055e3 iio: at91-sama5d2: Fix inc=
-orrect cast to platform_device
-date:   6 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 months ago
+commit: b9e9bdd425a3c99e15f5dfd465bef936130b7491 iio/adc: ingenic: add JZ47=
+60 support to the sadc driver
+date:   10 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 months ago
 config: nios2-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
-hive/20220531/202205310925.zz2dEYBK-lkp(a)intel.com/config)
+hive/20220531/202205310732.x3FWXYVl-lkp(a)intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/iio/adc/at91-sama5d2_adc.c:1781 at91_adc_set_watermark() warn: 'st-=
->dma_st.rx_buf' double freed
+smatch warnings:
+drivers/iio/adc/ingenic-adc.c:657 ingenic_adc_read_chan_info_raw() error: u=
+ninitialized symbol 'cmd'.
 
-Old smatch warnings:
-drivers/iio/adc/at91-sama5d2_adc.c:2160 at91_adc_resume() warn: ignoring un=
-reachable code.
+vim +/cmd +657 drivers/iio/adc/ingenic-adc.c
 
-vim +1781 drivers/iio/adc/at91-sama5d2_adc.c
+1a78daea107ddb Artur Rojek            2019-02-04  627  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1747  =
+1a99dc467943c0 Artur Rojek            2020-07-19  628  static int ingenic_a=
+dc_read_chan_info_raw(struct iio_dev *iio_dev,
+1a78daea107ddb Artur Rojek            2019-02-04  629  					  struct iio_ch=
+an_spec const *chan,
+a515d648850546 Artur Rojek            2019-07-27  630  					  int *val)
+1a78daea107ddb Artur Rojek            2019-02-04  631  {
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  632  	int cmd, ret, engin=
+e =3D (chan->channel =3D=3D INGENIC_ADC_BATTERY);
+1a99dc467943c0 Artur Rojek            2020-07-19  633  	struct ingenic_adc =
+*adc =3D iio_priv(iio_dev);
+1a99dc467943c0 Artur Rojek            2020-07-19  634  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1748  static int at91_adc_set=
-_watermark(struct iio_dev *indio_dev, unsigned int val)
-073c662017f2f3 Eugen Hristev      2017-11-15  1749  {
-073c662017f2f3 Eugen Hristev      2017-11-15  1750  	struct at91_adc_state =
-*st =3D iio_priv(indio_dev);
-1a198794451449 Eugen Hristev      2020-09-23  1751  	int ret;
-073c662017f2f3 Eugen Hristev      2017-11-15  1752  =
+1a99dc467943c0 Artur Rojek            2020-07-19  635  	ret =3D clk_enable(=
+adc->clk);
+1a99dc467943c0 Artur Rojek            2020-07-19  636  	if (ret) {
+1a99dc467943c0 Artur Rojek            2020-07-19  637  		dev_err(iio_dev->d=
+ev.parent, "Failed to enable clock: %d\n",
+1a99dc467943c0 Artur Rojek            2020-07-19  638  			ret);
+1a99dc467943c0 Artur Rojek            2020-07-19  639  		return ret;
+1a99dc467943c0 Artur Rojek            2020-07-19  640  	}
+1a78daea107ddb Artur Rojek            2019-02-04  641  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1753  	if (val > AT91_HWFIFO_=
-MAX_SIZE)
-073c662017f2f3 Eugen Hristev      2017-11-15  1754  		return -EINVAL;
-073c662017f2f3 Eugen Hristev      2017-11-15  1755  =
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  642  	/* We cannot sample=
+ the aux channels in parallel. */
+a515d648850546 Artur Rojek            2019-07-27  643  	mutex_lock(&adc->au=
+x_lock);
+9c5eb724f96f8d Christophe Branchereau 2021-07-26  644  	if (adc->soc_data->=
+has_aux_md && engine =3D=3D 0) {
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  645  		switch (chan->chan=
+nel) {
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  646  		case INGENIC_ADC_A=
+UX0:
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  647  			cmd =3D 0;
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  648  			break;
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  649  		case INGENIC_ADC_A=
+UX:
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  650  			cmd =3D 1;
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  651  			break;
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  652  		case INGENIC_ADC_A=
+UX2:
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  653  			cmd =3D 2;
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  654  			break;
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  655  		}
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  656  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1756  	if (!st->selected_trig=
-->hw_trig) {
-073c662017f2f3 Eugen Hristev      2017-11-15  1757  		dev_dbg(&indio_dev->d=
-ev, "we need hw trigger for DMA\n");
-073c662017f2f3 Eugen Hristev      2017-11-15  1758  		return 0;
-073c662017f2f3 Eugen Hristev      2017-11-15  1759  	}
-073c662017f2f3 Eugen Hristev      2017-11-15  1760  =
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26 @657  		ingenic_adc_set_co=
+nfig(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
+1a78daea107ddb Artur Rojek            2019-02-04  658  	}
+1a78daea107ddb Artur Rojek            2019-02-04  659  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1761  	dev_dbg(&indio_dev->de=
-v, "new watermark is %u\n", val);
-073c662017f2f3 Eugen Hristev      2017-11-15  1762  	st->dma_st.watermark =
-=3D val;
-073c662017f2f3 Eugen Hristev      2017-11-15  1763  =
+a515d648850546 Artur Rojek            2019-07-27  660  	ret =3D ingenic_adc=
+_capture(adc, engine);
+a515d648850546 Artur Rojek            2019-07-27  661  	if (ret)
+a515d648850546 Artur Rojek            2019-07-27  662  		goto out;
+a515d648850546 Artur Rojek            2019-07-27  663  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1764  	/*
-073c662017f2f3 Eugen Hristev      2017-11-15  1765  	 * The logic here is: =
-if we have watermark 1, it means we do
-073c662017f2f3 Eugen Hristev      2017-11-15  1766  	 * each conversion wit=
-h it's own IRQ, thus we don't need DMA.
-073c662017f2f3 Eugen Hristev      2017-11-15  1767  	 * If the watermark is=
- higher, we do DMA to do all the transfers in bulk
-073c662017f2f3 Eugen Hristev      2017-11-15  1768  	 */
-073c662017f2f3 Eugen Hristev      2017-11-15  1769  =
+1a78daea107ddb Artur Rojek            2019-02-04  664  	switch (chan->chann=
+el) {
+b9e9bdd425a3c9 Christophe Branchereau 2021-07-26  665  	case INGENIC_ADC_AU=
+X0:
+1a78daea107ddb Artur Rojek            2019-02-04  666  	case INGENIC_ADC_AU=
+X:
+a515d648850546 Artur Rojek            2019-07-27  667  	case INGENIC_ADC_AU=
+X2:
+1a78daea107ddb Artur Rojek            2019-02-04  668  		*val =3D readw(adc=
+->base + JZ_ADC_REG_ADSDAT);
+1a78daea107ddb Artur Rojek            2019-02-04  669  		break;
+1a78daea107ddb Artur Rojek            2019-02-04  670  	case INGENIC_ADC_BA=
+TTERY:
+1a78daea107ddb Artur Rojek            2019-02-04  671  		*val =3D readw(adc=
+->base + JZ_ADC_REG_ADBDAT);
+1a78daea107ddb Artur Rojek            2019-02-04  672  		break;
+1a78daea107ddb Artur Rojek            2019-02-04  673  	}
+1a78daea107ddb Artur Rojek            2019-02-04  674  =
 
-073c662017f2f3 Eugen Hristev      2017-11-15  1770  	if (val =3D=3D 1)
-907b2ad8c9acad Lars-Peter Clausen 2021-10-19  1771  		at91_adc_dma_disable(=
-st);
-073c662017f2f3 Eugen Hristev      2017-11-15  1772  	else if (val > 1)
-907b2ad8c9acad Lars-Peter Clausen 2021-10-19  1773  		at91_adc_dma_init(st);
-073c662017f2f3 Eugen Hristev      2017-11-15  1774  =
+a515d648850546 Artur Rojek            2019-07-27  675  	ret =3D IIO_VAL_INT;
+a515d648850546 Artur Rojek            2019-07-27  676  out:
+a515d648850546 Artur Rojek            2019-07-27  677  	mutex_unlock(&adc->=
+aux_lock);
+1a99dc467943c0 Artur Rojek            2020-07-19  678  	clk_disable(adc->cl=
+k);
+1a78daea107ddb Artur Rojek            2019-02-04  679  =
 
-1a198794451449 Eugen Hristev      2020-09-23  1775  	/*
-1a198794451449 Eugen Hristev      2020-09-23  1776  	 * We can start the DM=
-A only after setting the watermark and
-1a198794451449 Eugen Hristev      2020-09-23  1777  	 * having the DMA init=
-ialization completed
-1a198794451449 Eugen Hristev      2020-09-23  1778  	 */
-1a198794451449 Eugen Hristev      2020-09-23  1779  	ret =3D at91_adc_buffe=
-r_prepare(indio_dev);
-1a198794451449 Eugen Hristev      2020-09-23  1780  	if (ret)
-907b2ad8c9acad Lars-Peter Clausen 2021-10-19 @1781  		at91_adc_dma_disable(=
-st);
-1a198794451449 Eugen Hristev      2020-09-23  1782  =
-
-1a198794451449 Eugen Hristev      2020-09-23  1783  	return ret;
-073c662017f2f3 Eugen Hristev      2017-11-15  1784  }
-073c662017f2f3 Eugen Hristev      2017-11-15  1785  =
+a515d648850546 Artur Rojek            2019-07-27  680  	return ret;
+a515d648850546 Artur Rojek            2019-07-27  681  }
+a515d648850546 Artur Rojek            2019-07-27  682  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7836446909414808762==--
+--===============7579779634180525181==--
 
