@@ -1,44 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============0046363814474821615=="
+Content-Type: multipart/mixed; boundary="===============1554971479009480754=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/adreno/a6xx_gpu.c:689:8: warning: Redundant initialization for 'regs'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Tue, 31 May 2022 05:39:21 +0800
-Message-ID: <202205310503.BsxWeZbs-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/dsi/dsi_host.c:1228:37: warning: Parameter 'buf' can be declared with const [constParameter]
+Date: Tue, 31 May 2022 02:57:09 +0800
+Message-ID: <202205310242.fPEnMQJB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0046363814474821615==
+--===============1554971479009480754==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/msm/adreno/a6xx_gpu.c:689:8: warning: Redundant initialization for '=
-regs'. The initialized value is overwritten before it is read. [redundantIn=
-itialization]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/gpu/drm/msm/dsi/dsi_host.c:1228:37: warning: Parameter 'buf' can b=
+e declared with const [constParameter]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Rob Clark <robdclark@chromium.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Rob Clark <robdclark@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-commit: cca96584b35765bf9eb5f38ca55a144ea2ba0de4 drm/msm/a6xx: Fix missing =
-ARRAY_SIZE() check
-date:   3 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 months ago
+head:   b00ed48bb0a7c295facf9036135a573a5cdbe7de
+commit: b3ed524f84f573ece1aa2f26e9db3c34a593e0d1 drm/msm: allow compile_tes=
+t on !ARM
+date:   8 months ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 8 months ago
 compiler: arc-elf-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout cca96584b35765bf9eb5f38ca55a144ea2ba0de4
+        git checkout b3ed524f84f573ece1aa2f26e9db3c34a593e0d1
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -46,239 +45,555 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1148:7: warning: Local variable 's=
+tatus' shadows outer variable [shadowVariable]
+     u32 status =3D gpu_read(gpu, REG_A5XX_CP_AHB_FAULT);
+         ^
+   drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1112:6: note: Shadowed declaration
+    u32 status =3D gpu_read(gpu, REG_A5XX_CP_INTERRUPT_STATUS);
+        ^
+   drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1148:7: note: Shadow variable
+     u32 status =3D gpu_read(gpu, REG_A5XX_CP_AHB_FAULT);
+         ^
+
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:689:8: warning: Redundant initiali=
-zation for 'regs'. The initialized value is overwritten before it is read. =
-[redundantInitialization]
-     regs =3D a650_protect;
-          ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:685:18: note: regs is initialized
-    const u32 *regs =3D a6xx_protect;
-                    ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:689:8: note: regs is overwritten
-     regs =3D a650_protect;
-          ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:563:2: warning: Shifting signed 32=
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:1228:37: warning: Parameter 'buf' can=
+ be declared with const [constParameter]
+   static int dsi_short_read1_resp(u8 *buf, const struct mipi_dsi_msg *msg)
+                                       ^
+   drivers/gpu/drm/msm/dsi/dsi_host.c:1244:37: warning: Parameter 'buf' can=
+ be declared with const [constParameter]
+   static int dsi_short_read2_resp(u8 *buf, const struct mipi_dsi_msg *msg)
+                                       ^
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:538:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:564:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:539:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00510, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:565:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:540:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00534, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:566:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:541:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00800, 0x0082),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:567:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:542:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:568:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:543:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:570:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:545:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00900, 0x004d),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:571:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:546:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:572:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:547:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:573:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:548:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:574:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:549:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:576:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:551:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:577:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:552:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:578:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:553:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:579:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:554:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:580:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:555:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x09624, 0x01db),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:581:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:556:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x09e70, 0x0001),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:582:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:557:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:583:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:558:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:584:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:559:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:585:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:560:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:586:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:561:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:587:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:562:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:588:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:563:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:589:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:564:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:591:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:566:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x11c00, 0x0000), /* note: infinite range */
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:599:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:574:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:600:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:575:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00510, 0x0000),
     ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:601:2: warning: Shifting signed 32=
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:576:2: warning: Shifting signed 32=
 -bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
 Signed]
     A6XX_PROTECT_NORDWR(0x00534, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:577:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00800, 0x0082),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:578:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:579:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:581:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00900, 0x004d),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:582:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
+--
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:618:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00510, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:619:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00534, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:620:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00800, 0x0082),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:621:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:622:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:624:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00900, 0x004d),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:625:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:626:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:627:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:628:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:630:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:631:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:632:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:633:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:634:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x08e80, 0x027f),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:635:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x09624, 0x01db),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:636:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x09e60, 0x0011),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:637:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:638:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:639:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:640:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0ae50, 0x012f),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:641:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:642:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0b608, 0x0006),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:643:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:644:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0be20, 0x015f),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:645:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0d000, 0x05ff),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:646:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:648:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x18400, 0x1fff),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:649:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x1a400, 0x1fff),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:650:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:652:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x1f860, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:653:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x1f887, 0x001b),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:654:2: warning: Shifting signed 32=
+-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBits=
+Signed]
+    A6XX_PROTECT_NORDWR(0x1f8c0, 0x0000), /* note: infinite range */
+    ^
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:538:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:539:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00510, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:540:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00534, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:541:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00800, 0x0082),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:542:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:543:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:545:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00900, 0x004d),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:546:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:547:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:548:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:549:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:551:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:552:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:553:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:554:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:555:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x09624, 0x01db),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:556:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x09e70, 0x0001),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:557:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:558:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:559:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:560:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:561:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:562:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:563:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:564:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:566:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x11c00, 0x0000), /* note: infinite range */
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:574:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:575:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00510, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:576:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00534, 0x0000),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:577:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00800, 0x0082),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:578:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:579:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:581:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x00900, 0x004d),
+    ^
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:582:2: warning: Signed integer ove=
+rflow for expression '1<<31'. [integerOverflow]
+    A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
+--
+>> drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1157:17: warning: Shifting signed =
+32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBi=
+tsSigned]
+      (status & (1 << 31)), status);
+                   ^
+>> drivers/gpu/drm/msm/adreno/a5xx_gpu.c:760:27: warning: Signed integer ov=
+erflow for expression '0x200<<22'. [integerOverflow]
+        (0x200 << 11 | 0x200 << 22));
+                             ^
+   drivers/gpu/drm/msm/adreno/a5xx_gpu.c:763:27: warning: Signed integer ov=
+erflow for expression '0x300<<22'. [integerOverflow]
+        (0x400 << 11 | 0x300 << 22));
+                             ^
+   drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1157:17: warning: Signed integer o=
+verflow for expression '1<<31'. [integerOverflow]
+      (status & (1 << 31)), status);
+                   ^
 
-vim +/regs +689 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+vim +/buf +1228 drivers/gpu/drm/msm/dsi/dsi_host.c
 
-f6d62d091cfd1c Jonathan Marek 2021-06-08  681  =
+a689554ba6ed81 Hai Li        2015-03-31  1224  =
 
-40843403695869 Jonathan Marek 2021-05-13  682  static void a6xx_set_cp_prot=
-ect(struct msm_gpu *gpu)
-40843403695869 Jonathan Marek 2021-05-13  683  {
-40843403695869 Jonathan Marek 2021-05-13  684  	struct adreno_gpu *adreno_g=
-pu =3D to_adreno_gpu(gpu);
-40843403695869 Jonathan Marek 2021-05-13  685  	const u32 *regs =3D a6xx_pr=
-otect;
-cca96584b35765 Rob Clark      2022-03-05  686  	unsigned i, count, count_ma=
-x;
-40843403695869 Jonathan Marek 2021-05-13  687  =
-
-40843403695869 Jonathan Marek 2021-05-13  688  	if (adreno_is_a650(adreno_g=
-pu)) {
-40843403695869 Jonathan Marek 2021-05-13 @689  		regs =3D a650_protect;
-40843403695869 Jonathan Marek 2021-05-13  690  		count =3D ARRAY_SIZE(a650_=
-protect);
-40843403695869 Jonathan Marek 2021-05-13  691  		count_max =3D 48;
-cca96584b35765 Rob Clark      2022-03-05  692  		BUILD_BUG_ON(ARRAY_SIZE(a6=
-50_protect) > 48);
-192f4ee3e40855 Akhil P Oommen 2021-07-30  693  	} else if (adreno_is_a660_f=
-amily(adreno_gpu)) {
-f6d62d091cfd1c Jonathan Marek 2021-06-08  694  		regs =3D a660_protect;
-f6d62d091cfd1c Jonathan Marek 2021-06-08  695  		count =3D ARRAY_SIZE(a660_=
-protect);
-f6d62d091cfd1c Jonathan Marek 2021-06-08  696  		count_max =3D 48;
-cca96584b35765 Rob Clark      2022-03-05  697  		BUILD_BUG_ON(ARRAY_SIZE(a6=
-60_protect) > 48);
-cca96584b35765 Rob Clark      2022-03-05  698  	} else {
-cca96584b35765 Rob Clark      2022-03-05  699  		regs =3D a6xx_protect;
-cca96584b35765 Rob Clark      2022-03-05  700  		count =3D ARRAY_SIZE(a6xx_=
-protect);
-cca96584b35765 Rob Clark      2022-03-05  701  		count_max =3D 32;
-cca96584b35765 Rob Clark      2022-03-05  702  		BUILD_BUG_ON(ARRAY_SIZE(a6=
-xx_protect) > 32);
-40843403695869 Jonathan Marek 2021-05-13  703  	}
-40843403695869 Jonathan Marek 2021-05-13  704  =
-
-40843403695869 Jonathan Marek 2021-05-13  705  	/*
-40843403695869 Jonathan Marek 2021-05-13  706  	 * Enable access protection=
- to privileged registers, fault on an access
-40843403695869 Jonathan Marek 2021-05-13  707  	 * protect violation and se=
-lect the last span to protect from the start
-40843403695869 Jonathan Marek 2021-05-13  708  	 * address all the way to t=
-he end of the register address space
-40843403695869 Jonathan Marek 2021-05-13  709  	 */
-40843403695869 Jonathan Marek 2021-05-13  710  	gpu_write(gpu, REG_A6XX_CP_=
-PROTECT_CNTL, BIT(0) | BIT(1) | BIT(3));
-40843403695869 Jonathan Marek 2021-05-13  711  =
-
-40843403695869 Jonathan Marek 2021-05-13  712  	for (i =3D 0; i < count - 1=
-; i++)
-40843403695869 Jonathan Marek 2021-05-13  713  		gpu_write(gpu, REG_A6XX_CP=
-_PROTECT(i), regs[i]);
-40843403695869 Jonathan Marek 2021-05-13  714  	/* last CP_PROTECT to have =
-"infinite" length on the last entry */
-40843403695869 Jonathan Marek 2021-05-13  715  	gpu_write(gpu, REG_A6XX_CP_=
-PROTECT(count_max - 1), regs[i]);
-40843403695869 Jonathan Marek 2021-05-13  716  }
-40843403695869 Jonathan Marek 2021-05-13  717  =
+a689554ba6ed81 Hai Li        2015-03-31  1225  /*
+a689554ba6ed81 Hai Li        2015-03-31  1226   * dsi_short_read1_resp: 1 p=
+arameter
+a689554ba6ed81 Hai Li        2015-03-31  1227   */
+a689554ba6ed81 Hai Li        2015-03-31 @1228  static int dsi_short_read1_r=
+esp(u8 *buf, const struct mipi_dsi_msg *msg)
+a689554ba6ed81 Hai Li        2015-03-31  1229  {
+a689554ba6ed81 Hai Li        2015-03-31  1230  	u8 *data =3D msg->rx_buf;
+a689554ba6ed81 Hai Li        2015-03-31  1231  	if (data && (msg->rx_len >=
+=3D 1)) {
+a689554ba6ed81 Hai Li        2015-03-31  1232  		*data =3D buf[1]; /* strip=
+ out dcs type */
+a689554ba6ed81 Hai Li        2015-03-31  1233  		return 1;
+a689554ba6ed81 Hai Li        2015-03-31  1234  	} else {
+981371f326235e Stephane Viau 2015-04-30  1235  		pr_err("%s: read data does=
+ not match with rx_buf len %zu\n",
+a689554ba6ed81 Hai Li        2015-03-31  1236  			__func__, msg->rx_len);
+a689554ba6ed81 Hai Li        2015-03-31  1237  		return -EINVAL;
+a689554ba6ed81 Hai Li        2015-03-31  1238  	}
+a689554ba6ed81 Hai Li        2015-03-31  1239  }
+a689554ba6ed81 Hai Li        2015-03-31  1240  =
 
 
-:::::: The code@line 689 was first introduced by commit
-:::::: 408434036958699a7f50ddec984f7ba33e11a8f5 drm/msm/a6xx: update/fix CP=
-_PROTECT initialization
+:::::: The code at line 1228 was first introduced by commit
+:::::: a689554ba6ed81cf606c16539f6ffc2a1dcdaf8e drm/msm: Initial add DSI co=
+nnector support
 
-:::::: TO: Jonathan Marek <jonathan@marek.ca>
-:::::: CC: Rob Clark <robdclark@chromium.org>
+:::::: TO: Hai Li <hali@codeaurora.org>
+:::::: CC: Rob Clark <robdclark@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0046363814474821615==--
+--===============1554971479009480754==--
 
