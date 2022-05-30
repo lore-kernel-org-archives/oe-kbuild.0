@@ -1,108 +1,170 @@
-Content-Type: multipart/mixed; boundary="===============2327364356820406100=="
+Content-Type: multipart/mixed; boundary="===============3540530074765576872=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/xen/xenbus/xenbus_probe.c:755 xenbus_probe() warn: should 'xen_store_gfn << 12' be a 64 bit type?
-Date: Mon, 30 May 2022 14:49:36 +0800
-Message-ID: <202205301452.1z1n4SBS-lkp@intel.com>
+Subject: [linux-next:pending-fixes 9902/9954] drivers/net/amt.c:2752 amt_rcv() error: we previously assumed 'amt' could be null (see line 2680)
+Date: Mon, 30 May 2022 13:18:35 +0800
+Message-ID: <202205301318.0mXnZUDh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2327364356820406100==
+--===============3540530074765576872==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Luca Miccio <lucmiccio@gmail.com>
-CC: Juergen Gross <jgross@suse.com>
-CC: Stefano Stabellini <stefano.stabellini@xilinx.com>
-CC: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Taehee Yoo <ap420073@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b00ed48bb0a7c295facf9036135a573a5cdbe7de
-commit: 5b3353949e89d48b4faf54a9cc241ee5d70df615 xen: add support for initi=
-alizing xenstore later as HVM domain
-date:   11 days ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 11 days ago
-config: i386-randconfig-m021-20220530 (https://download.01.org/0day-ci/arch=
-ive/20220530/202205301452.1z1n4SBS-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ pending-fixes
+head:   9e21d180a10050c7cb41863b054fc0d62ca59677
+commit: 1a1a0e80e005cbdc2c250fc858e1d8570f4e4acb [9902/9954] amt: fix possi=
+ble memory leak in amt_rcv()
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220530/202205301318.0mXnZUDh-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/xen/xenbus/xenbus_probe.c:755 xenbus_probe() warn: should 'xen_stor=
-e_gfn << 12' be a 64 bit type?
-drivers/xen/xenbus/xenbus_probe.c:1064 xenbus_init() warn: 'xen_store_inter=
-face' from ioremap() not released on lines: 1025.
+smatch warnings:
+drivers/net/amt.c:2752 amt_rcv() error: we previously assumed 'amt' could b=
+e null (see line 2680)
 
-Old smatch warnings:
-drivers/xen/xenbus/xenbus_probe.c:1012 xenbus_init() warn: should 'xen_stor=
-e_gfn << 12' be a 64 bit type?
+vim +/amt +2752 drivers/net/amt.c
 
-vim +755 drivers/xen/xenbus/xenbus_probe.c
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2670  =
 
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  749  =
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2671  static int amt_rcv(struct sock =
+*sk, struct sk_buff *skb)
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2672  {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2673  	struct amt_dev *amt;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2674  	struct iphdr *iph;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2675  	int type;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2676  	bool err;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2677  =
 
-c4295ab0b485b8 Julien Grall        2021-02-10  750  static void xenbus_prob=
-e(void)
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  751  {
-a947f0f8f7012a Stefano Stabellini  2010-10-04  752  	xenstored_ready =3D 1;
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  753  =
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2678  	rcu_read_lock_bh();
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2679  	amt =3D rcu_dereference_sk_use=
+r_data(sk);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31 @2680  	if (!amt) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2681  		err =3D true;
+1a1a0e80e005cb Taehee Yoo 2022-05-23  2682  		goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2683  	}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2684  =
 
-5b3353949e89d4 Luca Miccio         2022-05-13  754  	if (!xen_store_interfa=
-ce) {
-5b3353949e89d4 Luca Miccio         2022-05-13 @755  		xen_store_interface =
-=3D xen_remap(xen_store_gfn << XEN_PAGE_SHIFT,
-5b3353949e89d4 Luca Miccio         2022-05-13  756  						XEN_PAGE_SIZE);
-5b3353949e89d4 Luca Miccio         2022-05-13  757  		/*
-5b3353949e89d4 Luca Miccio         2022-05-13  758  		 * Now it is safe to =
-free the IRQ used for xenstore late
-5b3353949e89d4 Luca Miccio         2022-05-13  759  		 * initialization. No=
- need to unbind: it is about to be
-5b3353949e89d4 Luca Miccio         2022-05-13  760  		 * bound again from x=
-b_init_comms. Note that calling
-5b3353949e89d4 Luca Miccio         2022-05-13  761  		 * unbind_from_irqhan=
-dler now would result in xen_evtchn_close()
-5b3353949e89d4 Luca Miccio         2022-05-13  762  		 * being called and t=
-he event channel not being enabled again
-5b3353949e89d4 Luca Miccio         2022-05-13  763  		 * afterwards, result=
-ing in missed event notifications.
-5b3353949e89d4 Luca Miccio         2022-05-13  764  		 */
-5b3353949e89d4 Luca Miccio         2022-05-13  765  		free_irq(xs_init_irq,=
- &xb_waitq);
-5b3353949e89d4 Luca Miccio         2022-05-13  766  	}
-5b3353949e89d4 Luca Miccio         2022-05-13  767  =
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2685  	skb->dev =3D amt->dev;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2686  	iph =3D ip_hdr(skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2687  	type =3D amt_parse_type(skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2688  	if (type =3D=3D -1) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2689  		err =3D true;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2690  		goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2691  	}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2692  =
 
-3499ba8198cad4 David Woodhouse     2021-01-13  768  	/*
-3499ba8198cad4 David Woodhouse     2021-01-13  769  	 * In the HVM case, xe=
-nbus_init() deferred its call to
-3499ba8198cad4 David Woodhouse     2021-01-13  770  	 * xs_init() in case c=
-allbacks were not operational yet.
-3499ba8198cad4 David Woodhouse     2021-01-13  771  	 * So do it now.
-3499ba8198cad4 David Woodhouse     2021-01-13  772  	 */
-3499ba8198cad4 David Woodhouse     2021-01-13  773  	if (xen_store_domain_t=
-ype =3D=3D XS_HVM)
-3499ba8198cad4 David Woodhouse     2021-01-13  774  		xs_init();
-3499ba8198cad4 David Woodhouse     2021-01-13  775  =
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2693  	if (amt->mode =3D=3D AMT_MODE_=
+GATEWAY) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2694  		switch (type) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2695  		case AMT_MSG_ADVERTISEMENT:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2696  			if (iph->saddr !=3D amt->dis=
+covery_ip) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2697  				netdev_dbg(amt->dev, "Inval=
+id Relay IP\n");
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2698  				err =3D true;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2699  				goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2700  			}
+fe29794c3585d0 Taehee Yoo 2022-05-19  2701  			err =3D amt_advertisement_ha=
+ndler(amt, skb);
+fe29794c3585d0 Taehee Yoo 2022-05-19  2702  			break;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2703  		case AMT_MSG_MULTICAST_DATA:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2704  			if (iph->saddr !=3D amt->rem=
+ote_ip) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2705  				netdev_dbg(amt->dev, "Inval=
+id Relay IP\n");
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2706  				err =3D true;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2707  				goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2708  			}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2709  			err =3D amt_multicast_data_h=
+andler(amt, skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2710  			if (err)
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2711  				goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2712  			else
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2713  				goto out;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2714  		case AMT_MSG_MEMBERSHIP_QUERY:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2715  			if (iph->saddr !=3D amt->rem=
+ote_ip) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2716  				netdev_dbg(amt->dev, "Inval=
+id Relay IP\n");
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2717  				err =3D true;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2718  				goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2719  			}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2720  			err =3D amt_membership_query=
+_handler(amt, skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2721  			if (err)
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2722  				goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2723  			else
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2724  				goto out;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2725  		default:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2726  			err =3D true;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2727  			netdev_dbg(amt->dev, "Invali=
+d type of Gateway\n");
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2728  			break;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2729  		}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2730  	} else {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2731  		switch (type) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2732  		case AMT_MSG_DISCOVERY:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2733  			err =3D amt_discovery_handle=
+r(amt, skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2734  			break;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2735  		case AMT_MSG_REQUEST:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2736  			err =3D amt_request_handler(=
+amt, skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2737  			break;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2738  		case AMT_MSG_MEMBERSHIP_UPDAT=
+E:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2739  			err =3D amt_update_handler(a=
+mt, skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2740  			if (err)
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2741  				goto drop;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2742  			else
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2743  				goto out;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2744  		default:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2745  			err =3D true;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2746  			netdev_dbg(amt->dev, "Invali=
+d type of relay\n");
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2747  			break;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2748  		}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2749  	}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2750  drop:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2751  	if (err) {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31 @2752  		amt->dev->stats.rx_dropped++;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2753  		kfree_skb(skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2754  	} else {
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2755  		consume_skb(skb);
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2756  	}
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2757  out:
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2758  	rcu_read_unlock_bh();
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2759  	return 0;
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2760  }
+cbc21dc1cfe949 Taehee Yoo 2021-10-31  2761  =
 
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  776  	/* Notify others that =
-xenstore is up */
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  777  	blocking_notifier_call=
-_chain(&xenstore_chain, 0, NULL);
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  778  }
-4bac07c993d034 Jeremy Fitzhardinge 2007-07-17  779  =
 
+:::::: The code at line 2752 was first introduced by commit
+:::::: cbc21dc1cfe949e37b2a54c71511579f1899e8d4 amt: add data plane of amt =
+interface
+
+:::::: TO: Taehee Yoo <ap420073@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2327364356820406100==--
+--===============3540530074765576872==--
 
