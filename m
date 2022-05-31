@@ -1,222 +1,141 @@
-Content-Type: multipart/mixed; boundary="===============1949496265281386307=="
+Content-Type: multipart/mixed; boundary="===============6387978006673366031=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized symbol 'off'.
-Date: Wed, 01 Jun 2022 04:14:22 +0800
-Message-ID: <202206010439.LRgjym7t-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/cifs-netfs 21/41] fs/netfs/buffered_read.c:262:12-13: WARNING opportunity for min()
+Date: Wed, 01 Jun 2022 00:46:43 +0800
+Message-ID: <202206010053.m39d9soU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1949496265281386307==
+--===============6387978006673366031==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Hector Martin <marcan@marcan.st>
-CC: Marc Zyngier <maz@kernel.org>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-commit: dc97fd6fec009957e81026055fc99a03877ff3b8 irqchip/apple-aic: Dynamic=
-ally compute register offsets
-date:   3 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
-hive/20220601/202206010439.LRgjym7t-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/cifs-n=
+etfs
+head:   1fc71b6b30f6d2a981c163b77c9aee0aecaecb29
+commit: 7dda728e404354bcb6e11492413a1e92fe16b35d [21/41] netfs: Implement s=
+upport for DIO read
+:::::: branch date: 2 days ago
+:::::: commit date: 4 days ago
+config: openrisc-randconfig-c003-20220531 (https://download.01.org/0day-ci/=
+archive/20220601/202206010053.m39d9soU-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized s=
-ymbol 'off'.
 
-Old smatch warnings:
-drivers/irqchip/irq-apple-aic.c:920 aic_of_ic_init() warn: possible memory =
-leak of 'irqc'
-drivers/irqchip/irq-apple-aic.c:998 aic_of_ic_init() warn: 'regs' from of_i=
-omap() not released on lines: 914,920.
+cocci warnings: (new ones prefixed by >>)
+>> fs/netfs/buffered_read.c:262:12-13: WARNING opportunity for min()
 
-vim +/off +941 drivers/irqchip/irq-apple-aic.c
+vim +262 fs/netfs/buffered_read.c
 
-b6ca556c352979 Marc Zyngier  2021-02-28   899  =
+16211268fcb366 David Howells 2022-03-01  214  =
 
-76cde26394114f Hector Martin 2021-01-21   900  static int __init aic_of_ic_=
-init(struct device_node *node, struct device_node *parent)
-76cde26394114f Hector Martin 2021-01-21   901  {
-76cde26394114f Hector Martin 2021-01-21   902  	int i;
-dc97fd6fec0099 Hector Martin 2022-03-10   903  	u32 off;
-76cde26394114f Hector Martin 2021-01-21   904  	void __iomem *regs;
-76cde26394114f Hector Martin 2021-01-21   905  	struct aic_irq_chip *irqc;
-2cf68211664acd Hector Martin 2022-03-10   906  	const struct of_device_id *=
-match;
-76cde26394114f Hector Martin 2021-01-21   907  =
+16211268fcb366 David Howells 2022-03-01  215  /**
+16211268fcb366 David Howells 2022-03-01  216   * netfs_readpage - Helper to=
+ manage a readpage request
+16211268fcb366 David Howells 2022-03-01  217   * @file: The file to read fr=
+om
+16211268fcb366 David Howells 2022-03-01  218   * @subpage: A subpage of the=
+ folio to read
+16211268fcb366 David Howells 2022-03-01  219   *
+16211268fcb366 David Howells 2022-03-01  220   * Fulfil a readpage request =
+by drawing data from the cache if possible, or the
+16211268fcb366 David Howells 2022-03-01  221   * netfs if not.  Space beyon=
+d the EOF is zero-filled.  Multiple I/O requests
+16211268fcb366 David Howells 2022-03-01  222   * from different sources wil=
+l get munged together.
+16211268fcb366 David Howells 2022-03-01  223   *
+16211268fcb366 David Howells 2022-03-01  224   * The calling netfs must ini=
+tialise a netfs context contiguous to the vfs
+16211268fcb366 David Howells 2022-03-01  225   * inode before calling this.
+16211268fcb366 David Howells 2022-03-01  226   *
+16211268fcb366 David Howells 2022-03-01  227   * This is usable whether or =
+not caching is enabled.
+16211268fcb366 David Howells 2022-03-01  228   */
+16211268fcb366 David Howells 2022-03-01  229  int netfs_readpage(struct fil=
+e *file, struct page *subpage)
+16211268fcb366 David Howells 2022-03-01  230  {
+16211268fcb366 David Howells 2022-03-01  231  	struct folio *folio =3D page=
+_folio(subpage);
+16211268fcb366 David Howells 2022-03-01  232  	struct address_space *mappin=
+g =3D folio_file_mapping(folio);
+16211268fcb366 David Howells 2022-03-01  233  	struct netfs_io_request *rre=
+q;
+16211268fcb366 David Howells 2022-03-01  234  	struct netfs_i_context *ctx =
+=3D netfs_i_context(mapping->host);
+7dda728e404354 David Howells 2022-01-14  235  	ssize_t ret;
+16211268fcb366 David Howells 2022-03-01  236  =
 
-76cde26394114f Hector Martin 2021-01-21   908  	regs =3D of_iomap(node, 0);
-76cde26394114f Hector Martin 2021-01-21   909  	if (WARN_ON(!regs))
-76cde26394114f Hector Martin 2021-01-21   910  		return -EIO;
-76cde26394114f Hector Martin 2021-01-21   911  =
+16211268fcb366 David Howells 2022-03-01  237  	_enter("%lx", folio_index(fo=
+lio));
+16211268fcb366 David Howells 2022-03-01  238  =
 
-76cde26394114f Hector Martin 2021-01-21   912  	irqc =3D kzalloc(sizeof(*ir=
-qc), GFP_KERNEL);
-76cde26394114f Hector Martin 2021-01-21   913  	if (!irqc)
-76cde26394114f Hector Martin 2021-01-21   914  		return -ENOMEM;
-76cde26394114f Hector Martin 2021-01-21   915  =
+16211268fcb366 David Howells 2022-03-01  239  	rreq =3D netfs_alloc_request=
+(mapping, file,
+16211268fcb366 David Howells 2022-03-01  240  				   folio_file_pos(folio),=
+ folio_size(folio),
+16211268fcb366 David Howells 2022-03-01  241  				   NETFS_READPAGE);
+16211268fcb366 David Howells 2022-03-01  242  	if (IS_ERR(rreq)) {
+16211268fcb366 David Howells 2022-03-01  243  		ret =3D PTR_ERR(rreq);
+16211268fcb366 David Howells 2022-03-01  244  		goto alloc_error;
+16211268fcb366 David Howells 2022-03-01  245  	}
+16211268fcb366 David Howells 2022-03-01  246  =
 
-76cde26394114f Hector Martin 2021-01-21   916  	irqc->base =3D regs;
-76cde26394114f Hector Martin 2021-01-21   917  =
+81b451668a2656 David Howells 2021-08-10  247  	ret =3D netfs_begin_cache_op=
+eration(rreq, ctx);
+16211268fcb366 David Howells 2022-03-01  248  	if (ret =3D=3D -ENOMEM || re=
+t =3D=3D -EINTR || ret =3D=3D -ERESTARTSYS)
+16211268fcb366 David Howells 2022-03-01  249  		goto discard;
+16211268fcb366 David Howells 2022-03-01  250  =
 
-2cf68211664acd Hector Martin 2022-03-10   918  	match =3D of_match_node(aic=
-_info_match, node);
-2cf68211664acd Hector Martin 2022-03-10   919  	if (!match)
-2cf68211664acd Hector Martin 2022-03-10   920  		return -ENODEV;
-2cf68211664acd Hector Martin 2022-03-10   921  =
+16211268fcb366 David Howells 2022-03-01  251  	netfs_stat(&netfs_n_rh_readp=
+age);
+16211268fcb366 David Howells 2022-03-01  252  	trace_netfs_read(rreq, rreq-=
+>start, rreq->len, netfs_read_trace_readpage);
+c1e70ea1e5b0be David Howells 2021-07-09  253  =
 
-2cf68211664acd Hector Martin 2022-03-10   922  	irqc->info =3D *(struct aic=
-_info *)match->data;
-2cf68211664acd Hector Martin 2022-03-10   923  =
+c1e70ea1e5b0be David Howells 2021-07-09  254  	/* Set up the output buffer =
+*/
+c1e70ea1e5b0be David Howells 2021-07-09  255  	rreq->buffering =3D NETFS_BU=
+FFER;
+c1e70ea1e5b0be David Howells 2021-07-09  256  	ret =3D netfs_set_up_buffer(=
+&rreq->buffer, rreq->mapping, NULL, folio,
+c1e70ea1e5b0be David Howells 2021-07-09  257  				  folio_index(folio), fol=
+io_nr_pages(folio));
+c1e70ea1e5b0be David Howells 2021-07-09  258  	if (ret < 0)
+c1e70ea1e5b0be David Howells 2021-07-09  259  		goto discard;
+c1e70ea1e5b0be David Howells 2021-07-09  260  =
 
-2cf68211664acd Hector Martin 2022-03-10   924  	aic_irqc =3D irqc;
-2cf68211664acd Hector Martin 2022-03-10   925  =
+7dda728e404354 David Howells 2022-01-14  261  	ret =3D netfs_begin_read(rre=
+q, true);
+7dda728e404354 David Howells 2022-01-14 @262  	return ret < 0 ? ret : 0;
+16211268fcb366 David Howells 2022-03-01  263  =
 
-dc97fd6fec0099 Hector Martin 2022-03-10   926  	switch (irqc->info.version)=
- {
-dc97fd6fec0099 Hector Martin 2022-03-10   927  	case 1: {
-dc97fd6fec0099 Hector Martin 2022-03-10   928  		u32 info;
-dc97fd6fec0099 Hector Martin 2022-03-10   929  =
-
-76cde26394114f Hector Martin 2021-01-21   930  		info =3D aic_ic_read(irqc,=
- AIC_INFO);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   931  		irqc->nr_irq =3D FIELD_GET=
-(AIC_INFO_NR_IRQ, info);
-dc97fd6fec0099 Hector Martin 2022-03-10   932  		irqc->max_irq =3D AIC_MAX_=
-IRQ;
-dc97fd6fec0099 Hector Martin 2022-03-10   933  =
-
-dc97fd6fec0099 Hector Martin 2022-03-10   934  		off =3D irqc->info.target_=
-cpu;
-dc97fd6fec0099 Hector Martin 2022-03-10   935  		off +=3D sizeof(u32) * irq=
-c->max_irq; /* TARGET_CPU */
-dc97fd6fec0099 Hector Martin 2022-03-10   936  =
-
-dc97fd6fec0099 Hector Martin 2022-03-10   937  		break;
-dc97fd6fec0099 Hector Martin 2022-03-10   938  	}
-dc97fd6fec0099 Hector Martin 2022-03-10   939  	}
-dc97fd6fec0099 Hector Martin 2022-03-10   940  =
-
-dc97fd6fec0099 Hector Martin 2022-03-10  @941  	irqc->info.sw_set =3D off;
-dc97fd6fec0099 Hector Martin 2022-03-10   942  	off +=3D sizeof(u32) * (irq=
-c->max_irq >> 5); /* SW_SET */
-dc97fd6fec0099 Hector Martin 2022-03-10   943  	irqc->info.sw_clr =3D off;
-dc97fd6fec0099 Hector Martin 2022-03-10   944  	off +=3D sizeof(u32) * (irq=
-c->max_irq >> 5); /* SW_CLR */
-dc97fd6fec0099 Hector Martin 2022-03-10   945  	irqc->info.mask_set =3D off;
-dc97fd6fec0099 Hector Martin 2022-03-10   946  	off +=3D sizeof(u32) * (irq=
-c->max_irq >> 5); /* MASK_SET */
-dc97fd6fec0099 Hector Martin 2022-03-10   947  	irqc->info.mask_clr =3D off;
-dc97fd6fec0099 Hector Martin 2022-03-10   948  	off +=3D sizeof(u32) * (irq=
-c->max_irq >> 5); /* MASK_CLR */
-dc97fd6fec0099 Hector Martin 2022-03-10   949  	off +=3D sizeof(u32) * (irq=
-c->max_irq >> 5); /* HW_STATE */
-76cde26394114f Hector Martin 2021-01-21   950  =
-
-2cf68211664acd Hector Martin 2022-03-10   951  	if (irqc->info.fast_ipi)
-2cf68211664acd Hector Martin 2022-03-10   952  		static_branch_enable(&use_=
-fast_ipi);
-2cf68211664acd Hector Martin 2022-03-10   953  	else
-2cf68211664acd Hector Martin 2022-03-10   954  		static_branch_disable(&use=
-_fast_ipi);
-2cf68211664acd Hector Martin 2022-03-10   955  =
-
-7c841f5f6fa3f9 Hector Martin 2022-03-10   956  	irqc->hw_domain =3D irq_dom=
-ain_create_tree(of_node_to_fwnode(node),
-76cde26394114f Hector Martin 2021-01-21   957  						 &aic_irq_domain_ops, =
-irqc);
-76cde26394114f Hector Martin 2021-01-21   958  	if (WARN_ON(!irqc->hw_domai=
-n)) {
-76cde26394114f Hector Martin 2021-01-21   959  		iounmap(irqc->base);
-76cde26394114f Hector Martin 2021-01-21   960  		kfree(irqc);
-76cde26394114f Hector Martin 2021-01-21   961  		return -ENODEV;
-76cde26394114f Hector Martin 2021-01-21   962  	}
-76cde26394114f Hector Martin 2021-01-21   963  =
-
-76cde26394114f Hector Martin 2021-01-21   964  	irq_domain_update_bus_token=
-(irqc->hw_domain, DOMAIN_BUS_WIRED);
-76cde26394114f Hector Martin 2021-01-21   965  =
-
-76cde26394114f Hector Martin 2021-01-21   966  	if (aic_init_smp(irqc, node=
-)) {
-76cde26394114f Hector Martin 2021-01-21   967  		irq_domain_remove(irqc->hw=
-_domain);
-76cde26394114f Hector Martin 2021-01-21   968  		iounmap(irqc->base);
-76cde26394114f Hector Martin 2021-01-21   969  		kfree(irqc);
-76cde26394114f Hector Martin 2021-01-21   970  		return -ENODEV;
-76cde26394114f Hector Martin 2021-01-21   971  	}
-76cde26394114f Hector Martin 2021-01-21   972  =
-
-76cde26394114f Hector Martin 2021-01-21   973  	set_handle_irq(aic_handle_i=
-rq);
-76cde26394114f Hector Martin 2021-01-21   974  	set_handle_fiq(aic_handle_f=
-iq);
-76cde26394114f Hector Martin 2021-01-21   975  =
-
-7c841f5f6fa3f9 Hector Martin 2022-03-10   976  	for (i =3D 0; i < BITS_TO_U=
-32(irqc->nr_irq); i++)
-dc97fd6fec0099 Hector Martin 2022-03-10   977  		aic_ic_write(irqc, irqc->i=
-nfo.mask_set + i * 4, U32_MAX);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   978  	for (i =3D 0; i < BITS_TO_U=
-32(irqc->nr_irq); i++)
-dc97fd6fec0099 Hector Martin 2022-03-10   979  		aic_ic_write(irqc, irqc->i=
-nfo.sw_clr + i * 4, U32_MAX);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   980  	for (i =3D 0; i < irqc->nr_=
-irq; i++)
-dc97fd6fec0099 Hector Martin 2022-03-10   981  		aic_ic_write(irqc, irqc->i=
-nfo.target_cpu + i * 4, 1);
-76cde26394114f Hector Martin 2021-01-21   982  =
-
-76cde26394114f Hector Martin 2021-01-21   983  	if (!is_kernel_in_hyp_mode(=
-))
-76cde26394114f Hector Martin 2021-01-21   984  		pr_info("Kernel running in=
- EL1, mapping interrupts");
-76cde26394114f Hector Martin 2021-01-21   985  =
-
-2cf68211664acd Hector Martin 2022-03-10   986  	if (static_branch_likely(&u=
-se_fast_ipi))
-2cf68211664acd Hector Martin 2022-03-10   987  		pr_info("Using Fast IPIs");
-2cf68211664acd Hector Martin 2022-03-10   988  =
-
-76cde26394114f Hector Martin 2021-01-21   989  	cpuhp_setup_state(CPUHP_AP_=
-IRQ_APPLE_AIC_STARTING,
-76cde26394114f Hector Martin 2021-01-21   990  			  "irqchip/apple-aic/ipi:=
-starting",
-76cde26394114f Hector Martin 2021-01-21   991  			  aic_init_cpu, NULL);
-76cde26394114f Hector Martin 2021-01-21   992  =
-
-b6ca556c352979 Marc Zyngier  2021-02-28   993  	vgic_set_kvm_info(&vgic_inf=
-o);
-b6ca556c352979 Marc Zyngier  2021-02-28   994  =
-
-dc97fd6fec0099 Hector Martin 2022-03-10   995  	pr_info("Initialized with %=
-d/%d IRQs, %d FIQs, %d vIPIs",
-dc97fd6fec0099 Hector Martin 2022-03-10   996  		irqc->nr_irq, irqc->max_ir=
-q, AIC_NR_FIQ, AIC_NR_SWIPI);
-76cde26394114f Hector Martin 2021-01-21   997  =
-
-76cde26394114f Hector Martin 2021-01-21   998  	return 0;
-76cde26394114f Hector Martin 2021-01-21   999  }
-76cde26394114f Hector Martin 2021-01-21  1000  =
+16211268fcb366 David Howells 2022-03-01  264  discard:
+16211268fcb366 David Howells 2022-03-01  265  	netfs_put_request(rreq, fals=
+e, netfs_rreq_trace_put_discard);
+16211268fcb366 David Howells 2022-03-01  266  alloc_error:
+16211268fcb366 David Howells 2022-03-01  267  	folio_unlock(folio);
+16211268fcb366 David Howells 2022-03-01  268  	return ret;
+16211268fcb366 David Howells 2022-03-01  269  }
+16211268fcb366 David Howells 2022-03-01  270  EXPORT_SYMBOL(netfs_readpage);
+16211268fcb366 David Howells 2022-03-01  271  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1949496265281386307==--
+--===============6387978006673366031==--
 
