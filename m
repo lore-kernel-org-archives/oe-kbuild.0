@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5056978283335974083=="
+Content-Type: multipart/mixed; boundary="===============7836446909414808762=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ipv4/tcp_fastopen.c:97 tcp_fastopen_reset_cipher() warn: possible memory leak of 'ctx'
-Date: Tue, 31 May 2022 17:49:32 +0800
-Message-ID: <202205311732.UCAiYskK-lkp@intel.com>
+Subject: drivers/iio/adc/at91-sama5d2_adc.c:1781 at91_adc_set_watermark() warn: 'st->dma_st.rx_buf' double freed
+Date: Tue, 31 May 2022 09:53:41 +0800
+Message-ID: <202205310925.zz2dEYBK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5056978283335974083==
+--===============7836446909414808762==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,97 +15,102 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-commit: e93abb840a2c356ed2809c31fcedb058601ac2e4 net/tcp_fastopen: remove t=
-cp_fastopen_ctx_lock
-date:   11 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 11 months ago
-config: ia64-randconfig-m031-20220530 (https://download.01.org/0day-ci/arch=
-ive/20220531/202205311732.UCAiYskK-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+commit: 907b2ad8c9acad39ac1f0ccdbbe66c63856055e3 iio: at91-sama5d2: Fix inc=
+orrect cast to platform_device
+date:   6 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 months ago
+config: nios2-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
+hive/20220531/202205310925.zz2dEYBK-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/ipv4/tcp_fastopen.c:97 tcp_fastopen_reset_cipher() warn: possible memor=
-y leak of 'ctx'
+New smatch warnings:
+drivers/iio/adc/at91-sama5d2_adc.c:1781 at91_adc_set_watermark() warn: 'st-=
+>dma_st.rx_buf' double freed
 
-vim +/ctx +97 net/ipv4/tcp_fastopen.c
+Old smatch warnings:
+drivers/iio/adc/at91-sama5d2_adc.c:2160 at91_adc_resume() warn: ignoring un=
+reachable code.
 
-437138485656c4 Haishuang Yan  2017-09-27  63  =
+vim +1781 drivers/iio/adc/at91-sama5d2_adc.c
 
-9092a76d3cf863 Jason Baron    2019-05-29  64  int tcp_fastopen_reset_cipher=
-(struct net *net, struct sock *sk,
-438ac88009bcb1 Ard Biesheuvel 2019-06-19  65  			      void *primary_key, v=
-oid *backup_key)
-9092a76d3cf863 Jason Baron    2019-05-29  66  {
-9092a76d3cf863 Jason Baron    2019-05-29  67  	struct tcp_fastopen_context =
-*ctx, *octx;
-9092a76d3cf863 Jason Baron    2019-05-29  68  	struct fastopen_queue *q;
-9092a76d3cf863 Jason Baron    2019-05-29  69  	int err =3D 0;
-1046716368979d Jerry Chu      2012-08-31  70  =
+073c662017f2f3 Eugen Hristev      2017-11-15  1747  =
 
-c681edae33e86f Ard Biesheuvel 2019-06-17  71  	ctx =3D kmalloc(sizeof(*ctx)=
-, GFP_KERNEL);
-c681edae33e86f Ard Biesheuvel 2019-06-17  72  	if (!ctx) {
-c681edae33e86f Ard Biesheuvel 2019-06-17  73  		err =3D -ENOMEM;
-9092a76d3cf863 Jason Baron    2019-05-29  74  		goto out;
-9092a76d3cf863 Jason Baron    2019-05-29  75  	}
-c681edae33e86f Ard Biesheuvel 2019-06-17  76  =
+073c662017f2f3 Eugen Hristev      2017-11-15  1748  static int at91_adc_set=
+_watermark(struct iio_dev *indio_dev, unsigned int val)
+073c662017f2f3 Eugen Hristev      2017-11-15  1749  {
+073c662017f2f3 Eugen Hristev      2017-11-15  1750  	struct at91_adc_state =
+*st =3D iio_priv(indio_dev);
+1a198794451449 Eugen Hristev      2020-09-23  1751  	int ret;
+073c662017f2f3 Eugen Hristev      2017-11-15  1752  =
 
-438ac88009bcb1 Ard Biesheuvel 2019-06-19  77  	ctx->key[0].key[0] =3D get_u=
-naligned_le64(primary_key);
-438ac88009bcb1 Ard Biesheuvel 2019-06-19  78  	ctx->key[0].key[1] =3D get_u=
-naligned_le64(primary_key + 8);
-c681edae33e86f Ard Biesheuvel 2019-06-17  79  	if (backup_key) {
-438ac88009bcb1 Ard Biesheuvel 2019-06-19  80  		ctx->key[1].key[0] =3D get_=
-unaligned_le64(backup_key);
-438ac88009bcb1 Ard Biesheuvel 2019-06-19  81  		ctx->key[1].key[1] =3D get_=
-unaligned_le64(backup_key + 8);
-c681edae33e86f Ard Biesheuvel 2019-06-17  82  		ctx->num =3D 2;
-c681edae33e86f Ard Biesheuvel 2019-06-17  83  	} else {
-c681edae33e86f Ard Biesheuvel 2019-06-17  84  		ctx->num =3D 1;
-c681edae33e86f Ard Biesheuvel 2019-06-17  85  	}
-c681edae33e86f Ard Biesheuvel 2019-06-17  86  =
+073c662017f2f3 Eugen Hristev      2017-11-15  1753  	if (val > AT91_HWFIFO_=
+MAX_SIZE)
+073c662017f2f3 Eugen Hristev      2017-11-15  1754  		return -EINVAL;
+073c662017f2f3 Eugen Hristev      2017-11-15  1755  =
 
-1fba70e5b6bed5 Yuchung Cheng  2017-10-18  87  	if (sk) {
-1fba70e5b6bed5 Yuchung Cheng  2017-10-18  88  		q =3D &inet_csk(sk)->icsk_a=
-ccept_queue.fastopenq;
-e93abb840a2c35 Eric Dumazet   2021-07-19  89  		octx =3D xchg((__force stru=
-ct tcp_fastopen_context **)&q->ctx, ctx);
-1fba70e5b6bed5 Yuchung Cheng  2017-10-18  90  	} else {
-e93abb840a2c35 Eric Dumazet   2021-07-19  91  		octx =3D xchg((__force stru=
-ct tcp_fastopen_context **)&net->ipv4.tcp_fastopen_ctx, ctx);
-1fba70e5b6bed5 Yuchung Cheng  2017-10-18  92  	}
-1046716368979d Jerry Chu      2012-08-31  93  =
+073c662017f2f3 Eugen Hristev      2017-11-15  1756  	if (!st->selected_trig=
+->hw_trig) {
+073c662017f2f3 Eugen Hristev      2017-11-15  1757  		dev_dbg(&indio_dev->d=
+ev, "we need hw trigger for DMA\n");
+073c662017f2f3 Eugen Hristev      2017-11-15  1758  		return 0;
+073c662017f2f3 Eugen Hristev      2017-11-15  1759  	}
+073c662017f2f3 Eugen Hristev      2017-11-15  1760  =
 
-1046716368979d Jerry Chu      2012-08-31  94  	if (octx)
-1046716368979d Jerry Chu      2012-08-31  95  		call_rcu(&octx->rcu, tcp_fa=
-stopen_ctx_free);
-9092a76d3cf863 Jason Baron    2019-05-29  96  out:
-1046716368979d Jerry Chu      2012-08-31 @97  	return err;
-1046716368979d Jerry Chu      2012-08-31  98  }
-1046716368979d Jerry Chu      2012-08-31  99  =
+073c662017f2f3 Eugen Hristev      2017-11-15  1761  	dev_dbg(&indio_dev->de=
+v, "new watermark is %u\n", val);
+073c662017f2f3 Eugen Hristev      2017-11-15  1762  	st->dma_st.watermark =
+=3D val;
+073c662017f2f3 Eugen Hristev      2017-11-15  1763  =
 
+073c662017f2f3 Eugen Hristev      2017-11-15  1764  	/*
+073c662017f2f3 Eugen Hristev      2017-11-15  1765  	 * The logic here is: =
+if we have watermark 1, it means we do
+073c662017f2f3 Eugen Hristev      2017-11-15  1766  	 * each conversion wit=
+h it's own IRQ, thus we don't need DMA.
+073c662017f2f3 Eugen Hristev      2017-11-15  1767  	 * If the watermark is=
+ higher, we do DMA to do all the transfers in bulk
+073c662017f2f3 Eugen Hristev      2017-11-15  1768  	 */
+073c662017f2f3 Eugen Hristev      2017-11-15  1769  =
 
-:::::: The code at line 97 was first introduced by commit
-:::::: 1046716368979dee857a2b8a91c4a8833f21b9cb tcp: TCP Fast Open Server -=
- header & support functions
+073c662017f2f3 Eugen Hristev      2017-11-15  1770  	if (val =3D=3D 1)
+907b2ad8c9acad Lars-Peter Clausen 2021-10-19  1771  		at91_adc_dma_disable(=
+st);
+073c662017f2f3 Eugen Hristev      2017-11-15  1772  	else if (val > 1)
+907b2ad8c9acad Lars-Peter Clausen 2021-10-19  1773  		at91_adc_dma_init(st);
+073c662017f2f3 Eugen Hristev      2017-11-15  1774  =
 
-:::::: TO: Jerry Chu <hkchu@google.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+1a198794451449 Eugen Hristev      2020-09-23  1775  	/*
+1a198794451449 Eugen Hristev      2020-09-23  1776  	 * We can start the DM=
+A only after setting the watermark and
+1a198794451449 Eugen Hristev      2020-09-23  1777  	 * having the DMA init=
+ialization completed
+1a198794451449 Eugen Hristev      2020-09-23  1778  	 */
+1a198794451449 Eugen Hristev      2020-09-23  1779  	ret =3D at91_adc_buffe=
+r_prepare(indio_dev);
+1a198794451449 Eugen Hristev      2020-09-23  1780  	if (ret)
+907b2ad8c9acad Lars-Peter Clausen 2021-10-19 @1781  		at91_adc_dma_disable(=
+st);
+1a198794451449 Eugen Hristev      2020-09-23  1782  =
+
+1a198794451449 Eugen Hristev      2020-09-23  1783  	return ret;
+073c662017f2f3 Eugen Hristev      2017-11-15  1784  }
+073c662017f2f3 Eugen Hristev      2017-11-15  1785  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5056978283335974083==--
+--===============7836446909414808762==--
 
