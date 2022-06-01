@@ -1,508 +1,247 @@
-Content-Type: multipart/mixed; boundary="===============7102468878701760114=="
+Content-Type: multipart/mixed; boundary="===============6632063194983465300=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/renesas/rcar_drif.c:585:31: warning: Access to field 'addr' results in a dereference of an undefined pointer value [clang-analyzer-core.NullDereference]
-Date: Thu, 02 Jun 2022 03:05:23 +0800
-Message-ID: <202206020308.16xg6mSC-lkp@intel.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1209 mpi3mr_issue_reset() error: uninitialized symbol 'host_diagnostic'.
+Date: Wed, 01 Jun 2022 21:27:14 +0800
+Message-ID: <202206012127.c8MQO8d8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7102468878701760114==
+--===============6632063194983465300==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/platform/renesas/rcar_drif.c:585:31: warning: Access to field 'addr' r=
-esults in a dereference of an undefined pointer value [clang-analyzer-core.=
-NullDereference]"
-:::::: =
-
-
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   700170bf6b4d773e328fa54ebb70ba444007c702
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Ren=
-esas drivers on a separate dir
-date:   3 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220531 (https://download.01.org/0day-ci/archi=
-ve/20220602/202206020308.16xg6mSC-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c825ab=
-d6b0198fb088d9752f556a70705bc99dfd)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: b64845a7d4039ab9667bafff9d7bb59365f17c0f scsi: mpi3mr: Detect async=
+ reset that occurred in firmware
+date:   5 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 months ago
+config: microblaze-randconfig-m031-20220529 (https://download.01.org/0day-c=
+i/archive/20220601/202206012127.c8MQO8d8-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1209 mpi3mr_issue_reset() error: uninitiali=
+zed symbol 'host_diagnostic'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/gpu/drm/meson/meson_crtc.c:335:7: note: Assuming field 'osd1_afb=
-cd' is false
-                   if (priv->viu.osd1_afbcd) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/meson/meson_crtc.c:335:3: note: Taking false branch
-                   if (priv->viu.osd1_afbcd) {
-                   ^
-   drivers/gpu/drm/meson/meson_crtc.c:339:8: note: Assuming field 'disable_=
-osd1_afbc' is non-null
-                           if (meson_crtc->disable_osd1_afbc)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/meson/meson_crtc.c:339:4: note: Taking true branch
-                           if (meson_crtc->disable_osd1_afbc)
-                           ^
-   drivers/gpu/drm/meson/meson_crtc.c:340:5: note: Value assigned to field =
-'ops'
-                                   meson_crtc->disable_osd1_afbc(priv);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/meson/meson_crtc.c:341:8: note: Assuming field 'ops' is =
-null
-                           if (priv->afbcd.ops) {
-                               ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/meson/meson_crtc.c:341:4: note: Taking false branch
-                           if (priv->afbcd.ops) {
-                           ^
-   drivers/gpu/drm/meson/meson_crtc.c:369:7: note: Assuming field 'osd1_afb=
-cd' is true
-                   if (!priv->viu.osd1_afbcd)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/meson/meson_crtc.c:369:3: note: Taking false branch
-                   if (!priv->viu.osd1_afbcd)
-                   ^
-   drivers/gpu/drm/meson/meson_crtc.c:378:7: note: Assuming field 'enable_o=
-sd1' is null
-                   if (meson_crtc->enable_osd1)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/meson/meson_crtc.c:378:3: note: Taking false branch
-                   if (meson_crtc->enable_osd1)
-                   ^
-   drivers/gpu/drm/meson/meson_crtc.c:381:17: note: Field 'osd1_afbcd' is t=
-rue
-                   if (priv->viu.osd1_afbcd) {
-                                 ^
-   drivers/gpu/drm/meson/meson_crtc.c:381:3: note: Taking true branch
-                   if (priv->viu.osd1_afbcd) {
-                   ^
-   drivers/gpu/drm/meson/meson_crtc.c:382:4: note: Access to field 'reset' =
-results in a dereference of a null pointer (loaded from field 'ops')
-                           priv->afbcd.ops->reset(priv);
-                           ^           ~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   7 warnings generated.
-   Suppressed 7 warnings (7 with check filters).
-   1 warning generated.
-   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   drivers/dma/ti/omap-dma.c:1847:6: note: Assuming field 'may_lose_context=
-' is 0
-           if (od->cfg->may_lose_context)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/dma/ti/omap-dma.c:1847:2: note: Taking false branch
-           if (od->cfg->may_lose_context)
-           ^
-   drivers/dma/ti/omap-dma.c:1850:6: note: Assuming field 'of_node' is null
-           if (pdev->dev.of_node)
-               ^~~~~~~~~~~~~~~~~
-   drivers/dma/ti/omap-dma.c:1850:2: note: Taking false branch
-           if (pdev->dev.of_node)
-           ^
-   drivers/dma/ti/omap-dma.c:1858:6: note: Assuming field 'legacy' is true
-           if (!od->legacy) {
-               ^~~~~~~~~~~
-   drivers/dma/ti/omap-dma.c:1858:2: note: Taking false branch
-           if (!od->legacy) {
-           ^
-   drivers/dma/ti/omap-dma.c:1863:6: note: Assuming field 'll123_supported'=
- is false
-           if (od->ll123_supported)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/dma/ti/omap-dma.c:1863:2: note: Taking false branch
-           if (od->ll123_supported)
-           ^
-   drivers/dma/ti/omap-dma.c:1866:2: note: Calling 'omap_dma_free'
-           omap_dma_free(od);
-           ^~~~~~~~~~~~~~~~~
-   drivers/dma/ti/omap-dma.c:1515:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (!list_empty(&od->ddev.channels)) {
-           ^
-   drivers/dma/ti/omap-dma.c:1521:3: note: Memory is released
-                   kfree(c);
-                   ^~~~~~~~
-   drivers/dma/ti/omap-dma.c:1515:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (!list_empty(&od->ddev.channels)) {
-           ^
-   drivers/dma/ti/omap-dma.c:1519:3: note: Calling 'list_del'
-                   list_del(&c->vc.chan.device_node);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:148:2: note: Calling '__list_del_entry'
-           __list_del_entry(entry);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:2: note: Taking false branch
-           if (!__list_del_entry_valid(entry))
-           ^
-   include/linux/list.h:137:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
-   2 warnings generated.
->> drivers/media/platform/renesas/rcar_drif.c:585:31: warning: Access to fi=
-eld 'addr' results in a dereference of an undefined pointer value [clang-an=
-alyzer-core.NullDereference]
-                          i * sdr->hwbuf_size, buf[i]->addr, sdr->hwbuf_siz=
-e);
-                                               ^~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_drif.c:535:6: note: Assuming the con=
-dition is false
-           if (!vb2_is_streaming(&sdr->vb_queue)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_drif.c:535:2: note: Taking false bra=
-nch
-           if (!vb2_is_streaming(&sdr->vb_queue)) {
-           ^
-   drivers/media/platform/renesas/rcar_drif.c:543:6: note: Assuming field '=
-num_cur_ch' is not equal to RCAR_DRIF_MAX_CHANNEL
-           if (sdr->num_cur_ch =3D=3D RCAR_DRIF_MAX_CHANNEL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_drif.c:543:2: note: Taking false bra=
-nch
-           if (sdr->num_cur_ch =3D=3D RCAR_DRIF_MAX_CHANNEL) {
-           ^
-   drivers/media/platform/renesas/rcar_drif.c:565:7: note: Assuming the con=
-dition is false
-                   if (buf[0]->status & RCAR_DRIF_BUF_OVERFLOW) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_drif.c:565:3: note: Taking false bra=
-nch
-                   if (buf[0]->status & RCAR_DRIF_BUF_OVERFLOW) {
-                   ^
-   drivers/media/platform/renesas/rcar_drif.c:576:2: note: Taking false bra=
-nch
-           rdrif_dbg(sdr, "ch%u: prod %u\n", ch->num, produced);
-           ^
-   drivers/media/platform/renesas/rcar_drif.c:139:2: note: expanded from ma=
-cro 'rdrif_dbg'
-           dev_dbg(sdr->v4l2_dev.dev, fmt, ## arg)
-           ^
-   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
-           if (0)                                                          \
-           ^
-   drivers/media/platform/renesas/rcar_drif.c:579:9: note: Calling 'rcar_dr=
-if_get_fbuf'
-           fbuf =3D rcar_drif_get_fbuf(sdr);
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_drif.c:465:2: note: Loop condition i=
-s false.  Exiting loop
-           spin_lock_irqsave(&sdr->queued_bufs_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:244:36: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                        ^
-   include/linux/irqflags.h:176:2: note: expanded from macro 'raw_local_irq=
-_save'
-           do {                                            \
-           ^
-   drivers/media/platform/renesas/rcar_drif.c:465:2: note: Loop condition i=
-s false.  Exiting loop
-           spin_lock_irqsave(&sdr->queued_bufs_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:244:31: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                   ^
-   drivers/media/platform/renesas/rcar_drif.c:465:2: note: Loop condition i=
-s false.  Exiting loop
-           spin_lock_irqsave(&sdr->queued_bufs_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:31: note: expanded from macro '__LOCK=
-_IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-                                 ^
-   include/linux/spinlock_api_up.h:31:27: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-                             ^
-   include/linux/spinlock_api_up.h:28:3: note: expanded from macro '___LOCK'
-     do { __acquire(lock); (void)(lock); } while (0)
-     ^
-   drivers/media/platform/renesas/rcar_drif.c:465:2: note: Loop condition i=
-s false.  Exiting loop
-           spin_lock_irqsave(&sdr->queued_bufs_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1691 mpi3mr_create_op_reply_q() error: we p=
+reviously assumed 'op_reply_q->q_segments' could be null (see line 1662)
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1796 mpi3mr_create_op_req_q() error: we pre=
+viously assumed 'op_req_q->q_segments' could be null (see line 1769)
 
-vim +/addr +585 drivers/media/platform/renesas/rcar_drif.c
+vim +/host_diagnostic +1209 drivers/scsi/mpi3mr/mpi3mr_fw.c
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  520  =
+824a156633dfdb0 Kashyap Desai   2021-05-20  1167  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  521  /* DMA callback for each stage */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  522  static void rcar_drif_dma_complete(void *dma_async_param)
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  523  {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  524  	struct rcar_drif *ch =3D dma_async_param;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  525  	struct rcar_drif_sdr *sdr =3D ch->sdr;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  526  	struct rcar_drif_hwbuf *buf[RCAR_DRIF_MAX_CHANNEL];
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  527  	struct rcar_drif_frame_buf *fbuf;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  528  	bool overflow =3D false;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  529  	u32 idx, produced;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  530  	unsigned int i;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  531  =
+824a156633dfdb0 Kashyap Desai   2021-05-20  1168  /**
+824a156633dfdb0 Kashyap Desai   2021-05-20  1169   * mpi3mr_issue_reset - I=
+ssue reset to the controller
+824a156633dfdb0 Kashyap Desai   2021-05-20  1170   * @mrioc: Adapter refere=
+nce
+824a156633dfdb0 Kashyap Desai   2021-05-20  1171   * @reset_type: Reset type
+824a156633dfdb0 Kashyap Desai   2021-05-20  1172   * @reset_reason: Reset r=
+eason code
+824a156633dfdb0 Kashyap Desai   2021-05-20  1173   *
+f061178e076210a Kashyap Desai   2021-05-20  1174   * Unlock the host diagno=
+stic registers and write the specific
+f061178e076210a Kashyap Desai   2021-05-20  1175   * reset type to that, wa=
+it for reset acknowledgment from the
+f061178e076210a Kashyap Desai   2021-05-20  1176   * controller, if the res=
+et is not successful retry for the
+f061178e076210a Kashyap Desai   2021-05-20  1177   * predefined number of t=
+imes.
+824a156633dfdb0 Kashyap Desai   2021-05-20  1178   *
+824a156633dfdb0 Kashyap Desai   2021-05-20  1179   * Return: 0 on success, =
+non-zero on failure.
+824a156633dfdb0 Kashyap Desai   2021-05-20  1180   */
+824a156633dfdb0 Kashyap Desai   2021-05-20  1181  static int mpi3mr_issue_r=
+eset(struct mpi3mr_ioc *mrioc, u16 reset_type,
+824a156633dfdb0 Kashyap Desai   2021-05-20  1182  	u32 reset_reason)
+824a156633dfdb0 Kashyap Desai   2021-05-20  1183  {
+f061178e076210a Kashyap Desai   2021-05-20  1184  	int retval =3D -1;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1185  	u8 unlock_retry_count =
+=3D 0;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1186  	u32 host_diagnostic, ioc=
+_status, ioc_config;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1187  	u32 timeout =3D MPI3MR_R=
+ESET_ACK_TIMEOUT * 10;
+f061178e076210a Kashyap Desai   2021-05-20  1188  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  532  	spin_lock(&sdr->dma_lock);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  533  =
+f061178e076210a Kashyap Desai   2021-05-20  1189  	if ((reset_type !=3D MPI=
+3_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET) &&
+f061178e076210a Kashyap Desai   2021-05-20  1190  	    (reset_type !=3D MPI=
+3_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT))
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1191  		return retval;
+f061178e076210a Kashyap Desai   2021-05-20  1192  	if (mrioc->unrecoverable)
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1193  		return retval;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1194  	if (reset_reason =3D=3D =
+MPI3MR_RESET_FROM_FIRMWARE) {
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1195  		retval =3D 0;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1196  		return retval;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1197  	}
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1198  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  534  	/* DMA can be terminated while the callback was waiting on=
- lock */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  535  	if (!vb2_is_streaming(&sdr->vb_queue)) {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  536  		spin_unlock(&sdr->dma_lock);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  537  		return;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  538  	}
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  539  =
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1199  	ioc_info(mrioc, "%s rese=
+t due to %s(0x%x)\n",
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1200  	    mpi3mr_reset_type_na=
+me(reset_type),
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1201  	    mpi3mr_reset_rc_name=
+(reset_reason), reset_reason);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1202  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  540  	idx =3D sdr->produced % RCAR_DRIF_NUM_HWBUFS;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  541  	rcar_drif_channel_complete(ch, idx);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  542  =
+f061178e076210a Kashyap Desai   2021-05-20  1203  	mpi3mr_clear_reset_histo=
+ry(mrioc);
+f061178e076210a Kashyap Desai   2021-05-20  1204  	do {
+f061178e076210a Kashyap Desai   2021-05-20  1205  		ioc_info(mrioc,
+f061178e076210a Kashyap Desai   2021-05-20  1206  		    "Write magic sequen=
+ce to unlock host diag register (retry=3D%d)\n",
+f061178e076210a Kashyap Desai   2021-05-20  1207  		    ++unlock_retry_coun=
+t);
+f061178e076210a Kashyap Desai   2021-05-20  1208  		if (unlock_retry_count =
+>=3D MPI3MR_HOSTDIAG_UNLOCK_RETRY_COUNT) {
+b64845a7d4039ab Sreekanth Reddy 2021-12-20 @1209  			ioc_err(mrioc,
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1210  			    "%s reset failed d=
+ue to unlock failure, host_diagnostic(0x%08x)\n",
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1211  			    mpi3mr_reset_type_=
+name(reset_type),
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1212  			    host_diagnostic);
+f061178e076210a Kashyap Desai   2021-05-20  1213  			mrioc->unrecoverable =
+=3D 1;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1214  			return retval;
+f061178e076210a Kashyap Desai   2021-05-20  1215  		}
+f061178e076210a Kashyap Desai   2021-05-20  1216  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  543  	if (sdr->num_cur_ch =3D=3D RCAR_DRIF_MAX_CHANNEL) {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  544  		buf[0] =3D ch->num ? to_rcar_drif_buf_pair(sdr, ch->num, =
-idx) :
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  545  				&ch->buf[idx];
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  546  		buf[1] =3D ch->num ? &ch->buf[idx] :
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  547  				to_rcar_drif_buf_pair(sdr, ch->num, idx);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  548  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  549  		/* Check if both DMA buffers are done */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  550  		if (!rcar_drif_bufs_done(buf)) {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  551  			spin_unlock(&sdr->dma_lock);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  552  			return;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  553  		}
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  554  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  555  		/* Clear buf done status */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  556  		rcar_drif_bufs_clear(buf, RCAR_DRIF_BUF_DONE);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  557  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  558  		if (rcar_drif_bufs_overflow(buf)) {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  559  			overflow =3D true;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  560  			/* Clear the flag in status */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  561  			rcar_drif_bufs_clear(buf, RCAR_DRIF_BUF_OVERFLOW);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  562  		}
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  563  	} else {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  564  		buf[0] =3D &ch->buf[idx];
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  565  		if (buf[0]->status & RCAR_DRIF_BUF_OVERFLOW) {
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  566  			overflow =3D true;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  567  			/* Clear the flag in status */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  568  			buf[0]->status &=3D ~RCAR_DRIF_BUF_OVERFLOW;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  569  		}
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  570  	}
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  571  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  572  	/* Buffer produced for consumption */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  573  	produced =3D sdr->produced++;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  574  	spin_unlock(&sdr->dma_lock);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  575  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  576  	rdrif_dbg(sdr, "ch%u: prod %u\n", ch->num, produced);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  577  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  578  	/* Get fbuf */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  579  	fbuf =3D rcar_drif_get_fbuf(sdr);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  580  	if (!fbuf)
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  581  		return;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  582  =
-
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  583  	for (i =3D 0; i < RCAR_DRIF_MAX_CHANNEL; i++)
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  584  		memcpy(vb2_plane_vaddr(&fbuf->vb.vb2_buf, 0) +
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12 @585  		       i * sdr->hwbuf_size, buf[i]->addr, sdr->hwbuf_size=
+f061178e076210a Kashyap Desai   2021-05-20  1217  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_FLUSH,
+f061178e076210a Kashyap Desai   2021-05-20  1218  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1219  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_1ST,
+f061178e076210a Kashyap Desai   2021-05-20  1220  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1221  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_2ND,
+f061178e076210a Kashyap Desai   2021-05-20  1222  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1223  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_3RD,
+f061178e076210a Kashyap Desai   2021-05-20  1224  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1225  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_4TH,
+f061178e076210a Kashyap Desai   2021-05-20  1226  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1227  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_5TH,
+f061178e076210a Kashyap Desai   2021-05-20  1228  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1229  		writel(MPI3_SYSIF_WRITE=
+_SEQUENCE_KEY_VALUE_6TH,
+f061178e076210a Kashyap Desai   2021-05-20  1230  		    &mrioc->sysif_regs-=
+>write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1231  		usleep_range(1000, 1100=
 );
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  586  =
+f061178e076210a Kashyap Desai   2021-05-20  1232  		host_diagnostic =3D rea=
+dl(&mrioc->sysif_regs->host_diagnostic);
+f061178e076210a Kashyap Desai   2021-05-20  1233  		ioc_info(mrioc,
+f061178e076210a Kashyap Desai   2021-05-20  1234  		    "wrote magic sequen=
+ce: retry_count(%d), host_diagnostic(0x%08x)\n",
+f061178e076210a Kashyap Desai   2021-05-20  1235  		    unlock_retry_count,=
+ host_diagnostic);
+f061178e076210a Kashyap Desai   2021-05-20  1236  	} while (!(host_diagnost=
+ic & MPI3_SYSIF_HOST_DIAG_DIAG_WRITE_ENABLE));
+f061178e076210a Kashyap Desai   2021-05-20  1237  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  587  	fbuf->vb.field =3D V4L2_FIELD_NONE;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  588  	fbuf->vb.sequence =3D produced;
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  589  	fbuf->vb.vb2_buf.timestamp =3D ktime_get_ns();
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  590  	vb2_set_plane_payload(&fbuf->vb.vb2_buf, 0, sdr->fmt->buff=
-ersize);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  591  =
+f061178e076210a Kashyap Desai   2021-05-20  1238  	writel(reset_reason, &mr=
+ioc->sysif_regs->scratchpad[0]);
+f061178e076210a Kashyap Desai   2021-05-20  1239  	writel(host_diagnostic |=
+ reset_type,
+f061178e076210a Kashyap Desai   2021-05-20  1240  	    &mrioc->sysif_regs->=
+host_diagnostic);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1241  	switch (reset_type) {
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1242  	case MPI3_SYSIF_HOST_DIA=
+G_RESET_ACTION_SOFT_RESET:
+f061178e076210a Kashyap Desai   2021-05-20  1243  		do {
+f061178e076210a Kashyap Desai   2021-05-20  1244  			ioc_status =3D readl(&=
+mrioc->sysif_regs->ioc_status);
+f061178e076210a Kashyap Desai   2021-05-20  1245  			ioc_config =3D
+f061178e076210a Kashyap Desai   2021-05-20  1246  			    readl(&mrioc->sysi=
+f_regs->ioc_configuration);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1247  			if ((ioc_status & MPI3=
+_SYSIF_IOC_STATUS_RESET_HISTORY)
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1248  			    && mpi3mr_soft_res=
+et_success(ioc_status, ioc_config)
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1249  			    ) {
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1250  				mpi3mr_clear_reset_hi=
+story(mrioc);
+f061178e076210a Kashyap Desai   2021-05-20  1251  				retval =3D 0;
+f061178e076210a Kashyap Desai   2021-05-20  1252  				break;
+f061178e076210a Kashyap Desai   2021-05-20  1253  			}
+f061178e076210a Kashyap Desai   2021-05-20  1254  			msleep(100);
+f061178e076210a Kashyap Desai   2021-05-20  1255  		} while (--timeout);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1256  		mpi3mr_print_fault_info=
+(mrioc);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1257  		break;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1258  	case MPI3_SYSIF_HOST_DIA=
+G_RESET_ACTION_DIAG_FAULT:
+f061178e076210a Kashyap Desai   2021-05-20  1259  		do {
+f061178e076210a Kashyap Desai   2021-05-20  1260  			ioc_status =3D readl(&=
+mrioc->sysif_regs->ioc_status);
+f061178e076210a Kashyap Desai   2021-05-20  1261  			if (mpi3mr_diagfault_s=
+uccess(mrioc, ioc_status)) {
+f061178e076210a Kashyap Desai   2021-05-20  1262  				retval =3D 0;
+f061178e076210a Kashyap Desai   2021-05-20  1263  				break;
+f061178e076210a Kashyap Desai   2021-05-20  1264  			}
+f061178e076210a Kashyap Desai   2021-05-20  1265  			msleep(100);
+f061178e076210a Kashyap Desai   2021-05-20  1266  		} while (--timeout);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1267  		break;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1268  	default:
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1269  		break;
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1270  	}
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1271  =
 
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  592  	/* Set error state on overflow */
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  593  	vb2_buffer_done(&fbuf->vb.vb2_buf,
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  594  			overflow ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  595  }
-7625ee981af166 drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2=
-017-06-12  596  =
+f061178e076210a Kashyap Desai   2021-05-20  1272  	writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_2ND,
+f061178e076210a Kashyap Desai   2021-05-20  1273  	    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210a Kashyap Desai   2021-05-20  1274  =
 
+f061178e076210a Kashyap Desai   2021-05-20  1275  	ioc_config =3D readl(&mr=
+ioc->sysif_regs->ioc_configuration);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1276  	ioc_status =3D readl(&mr=
+ioc->sysif_regs->ioc_status);
+f061178e076210a Kashyap Desai   2021-05-20  1277  	ioc_info(mrioc,
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1278  	    "ioc_status/ioc_onfi=
+g after %s reset is (0x%x)/(0x%x)\n",
+f061178e076210a Kashyap Desai   2021-05-20  1279  	    (!retval)?"successfu=
+l":"failed", ioc_status,
+f061178e076210a Kashyap Desai   2021-05-20  1280  	    ioc_config);
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1281  	if (retval)
+b64845a7d4039ab Sreekanth Reddy 2021-12-20  1282  		mrioc->unrecoverable =
+=3D 1;
+f061178e076210a Kashyap Desai   2021-05-20  1283  	return retval;
+824a156633dfdb0 Kashyap Desai   2021-05-20  1284  }
+824a156633dfdb0 Kashyap Desai   2021-05-20  1285  =
 
-:::::: The code at line 585 was first introduced by commit
-:::::: 7625ee981af166ddb569e2e6c0006e2af471326f [media] media: platform: rc=
-ar_drif: Add DRIF support
-
-:::::: TO: Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.co=
-m>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7102468878701760114==--
+--===============6632063194983465300==--
 
