@@ -1,290 +1,402 @@
-Content-Type: multipart/mixed; boundary="===============3840328229761846869=="
+Content-Type: multipart/mixed; boundary="===============8470406426749076884=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH V9 4/9] cxl/pci: Create PCI DOE mailbox's for memory devices
-Date: Wed, 01 Jun 2022 13:44:28 +0800
-Message-ID: <202206011300.xtt4Q8PJ-lkp@intel.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1077 mpi3mr_create_op_reply_q() error: we previously assumed 'op_reply_q->q_segments' could be null (see line 1048)
+Date: Wed, 01 Jun 2022 12:42:55 +0800
+Message-ID: <202206011203.FAowiEzV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3840328229761846869==
+--===============8470406426749076884==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220531152632.1397976-5-ira.weiny@intel.com>
-References: <20220531152632.1397976-5-ira.weiny@intel.com>
-TO: ira.weiny(a)intel.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Kashyap Desai <kashyap.desai@broadcom.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Hannes Reinecke <hare@suse.de>
+CC: Tomas Henzl <thenzl@redhat.com>
+CC: Himanshu Madhani <himanshu.madhani@oracle.com>
 
-Hi,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20220601]
-[cannot apply to helgaas-pci/next v5.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ira-weiny-intel-com/=
-CXL-Read-CDAT-and-DSMAS-data/20220531-232807
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-601/202206011300.xtt4Q8PJ-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   700170bf6b4d773e328fa54ebb70ba444007c702
+commit: c9566231cfaf448dd281cd7c516012a7e1c7e448 scsi: mpi3mr: Create opera=
+tional request and reply queue pair
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+config: microblaze-randconfig-m031-20220529 (https://download.01.org/0day-c=
+i/archive/20220601/202206011203.FAowiEzV-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/pci/doe.c:324 doe_statemachine_work() error: uninitialized symbol '=
-rc'.
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1077 mpi3mr_create_op_reply_q() error: we p=
+reviously assumed 'op_reply_q->q_segments' could be null (see line 1048)
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1184 mpi3mr_create_op_req_q() error: we pre=
+viously assumed 'op_req_q->q_segments' could be null (see line 1157)
 
-vim +/rc +324 drivers/pci/doe.c
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:2380 mpi3mr_cleanup_ioc() warn: inconsisten=
+t indenting
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  182  =
+vim +1077 drivers/scsi/mpi3mr/mpi3mr_fw.c
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  183  static void doe_statemach=
-ine_work(struct work_struct *work)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  184  {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  185  	struct delayed_work *w =
-=3D to_delayed_work(work);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  186  	struct pci_doe_mb *doe_m=
-b =3D container_of(w, struct pci_doe_mb,
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  187  						 statemachine);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  188  	struct pci_dev *pdev =3D=
- doe_mb->pdev;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  189  	int offset =3D doe_mb->c=
-ap_offset;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  190  	struct pci_doe_task *tas=
-k;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  191  	u32 val;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  192  	int rc;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  193  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1013  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  194  	mutex_lock(&doe_mb->task=
-_lock);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  195  	task =3D doe_mb->cur_tas=
-k;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  196  	mutex_unlock(&doe_mb->ta=
-sk_lock);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  197  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1014  /**
+c9566231cfaf448 Kashyap Desai 2021-05-20  1015   * mpi3mr_create_op_reply_q=
+ - create operational reply queue
+c9566231cfaf448 Kashyap Desai 2021-05-20  1016   * @mrioc: Adapter instance=
+ reference
+c9566231cfaf448 Kashyap Desai 2021-05-20  1017   * @qidx: operational reply=
+ queue index
+c9566231cfaf448 Kashyap Desai 2021-05-20  1018   *
+c9566231cfaf448 Kashyap Desai 2021-05-20  1019   * Create operatinal reply =
+queue by issuing MPI request
+c9566231cfaf448 Kashyap Desai 2021-05-20  1020   * through admin queue.
+c9566231cfaf448 Kashyap Desai 2021-05-20  1021   *
+c9566231cfaf448 Kashyap Desai 2021-05-20  1022   * Return:  0 on success, n=
+on-zero on failure.
+c9566231cfaf448 Kashyap Desai 2021-05-20  1023   */
+c9566231cfaf448 Kashyap Desai 2021-05-20  1024  static int mpi3mr_create_op=
+_reply_q(struct mpi3mr_ioc *mrioc, u16 qidx)
+c9566231cfaf448 Kashyap Desai 2021-05-20  1025  {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1026  	struct mpi3_create_reply_q=
+ueue_request create_req;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1027  	struct op_reply_qinfo *op_=
+reply_q =3D mrioc->op_reply_qinfo + qidx;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1028  	int retval =3D 0;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1029  	u16 reply_qid =3D 0, midx;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1030  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  198  	if (test_and_clear_bit(P=
-CI_DOE_FLAG_ABORT, &doe_mb->flags)) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  199  		/*
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  200  		 * Currently only used =
-during init - care needed if
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  201  		 * pci_doe_abort() is g=
-enerally exposed as it would impact
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  202  		 * queries in flight.
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  203  		 */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  204  		if (task)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  205  			pci_err(pdev, "DOE [%x=
-] Aborting with active task!\n",
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  206  				doe_mb->cap_offset);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  207  		doe_mb->state =3D DOE_W=
-AIT_ABORT;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  208  		pci_doe_abort_start(doe=
-_mb);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  209  		return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  210  	}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  211  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1031  	reply_qid =3D op_reply_q->=
+qid;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1032  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  212  	switch (doe_mb->state) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  213  	case DOE_IDLE:
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  214  		if (task =3D=3D NULL)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  215  			return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  216  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1033  	midx =3D REPLY_QUEUE_IDX_T=
+O_MSIX_IDX(qidx, mrioc->op_reply_q_offset);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1034  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  217  		rc =3D pci_doe_send_req=
-(doe_mb, task);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  218  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1035  	if (reply_qid) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1036  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1037  		ioc_err(mrioc, "CreateRep=
+Q: called for duplicate qid %d\n",
+c9566231cfaf448 Kashyap Desai 2021-05-20  1038  		    reply_qid);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1039  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  219  		/*
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  220  		 * The specification do=
-es not provide any guidance on how long
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  221  		 * some other entity co=
-uld keep the DOE busy, so try for 1
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  222  		 * second then fail. Bu=
-sy handling is best effort only, because
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  223  		 * there is no way of a=
-voiding racing against another user of
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  224  		 * the DOE.
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  225  		 */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  226  		if (rc =3D=3D -EBUSY) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  227  			doe_mb->busy_retries++;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  228  			if (doe_mb->busy_retri=
-es =3D=3D PCI_DOE_BUSY_MAX_RETRIES) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  229  				/* Long enough, fail =
-this request */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  230  				pci_warn(pdev,
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  231  					"DOE [%x] busy for t=
-oo long (> 1 sec)\n",
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  232  					doe_mb->cap_offset);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  233  				doe_mb->busy_retries =
-=3D 0;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  234  				goto err_busy;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  235  			}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  236  			schedule_delayed_work(=
-w, HZ / PCI_DOE_BUSY_MAX_RETRIES);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  237  			return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  238  		}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  239  		if (rc)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  240  			goto err_abort;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  241  		doe_mb->busy_retries =
-=3D 0;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  242  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1040  		return retval;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1041  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1042  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  243  		doe_mb->state =3D DOE_W=
-AIT_RESP;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  244  		doe_mb->timeout_jiffies=
- =3D jiffies + HZ;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  245  		/* Now poll or wait for=
- IRQ with timeout */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  246  		if (doe_mb->irq >=3D 0)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  247  			schedule_delayed_work(=
-w, PCI_DOE_TIMEOUT);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  248  		else
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  249  			schedule_delayed_work(=
-w, PCI_DOE_POLL_INTERVAL);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  250  		return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  251  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1043  	reply_qid =3D qidx + 1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1044  	op_reply_q->num_replies =
+=3D MPI3MR_OP_REP_Q_QD;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1045  	op_reply_q->ci =3D 0;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1046  	op_reply_q->ephase =3D 1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1047  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  252  	case DOE_WAIT_RESP:
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  253  		/* Not possible to get =
-here with NULL task */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  254  		pci_read_config_dword(p=
-dev, offset + PCI_DOE_STATUS, &val);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  255  		if (FIELD_GET(PCI_DOE_S=
-TATUS_ERROR, val)) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  256  			rc =3D -EIO;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  257  			goto err_abort;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  258  		}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  259  =
+c9566231cfaf448 Kashyap Desai 2021-05-20 @1048  	if (!op_reply_q->q_segment=
+s) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1049  		retval =3D mpi3mr_alloc_o=
+p_reply_q_segments(mrioc, qidx);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1050  		if (retval) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1051  			mpi3mr_free_op_reply_q_s=
+egments(mrioc, qidx);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1052  			goto out;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1053  		}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1054  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1055  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  260  		if (!FIELD_GET(PCI_DOE_=
-STATUS_DATA_OBJECT_READY, val)) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  261  			/* If not yet at timeo=
-ut reschedule otherwise abort */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  262  			if (time_after(jiffies=
-, doe_mb->timeout_jiffies)) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  263  				rc =3D -ETIMEDOUT;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  264  				goto err_abort;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  265  			}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  266  			schedule_delayed_work(=
-w, PCI_DOE_POLL_INTERVAL);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  267  			return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  268  		}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  269  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1056  	memset(&create_req, 0, siz=
+eof(create_req));
+c9566231cfaf448 Kashyap Desai 2021-05-20  1057  	mutex_lock(&mrioc->init_cm=
+ds.mutex);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1058  	if (mrioc->init_cmds.state=
+ & MPI3MR_CMD_PENDING) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1059  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1060  		ioc_err(mrioc, "CreateRep=
+Q: Init command is in use\n");
+c9566231cfaf448 Kashyap Desai 2021-05-20  1061  		goto out;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1062  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1063  	mrioc->init_cmds.state =3D=
+ MPI3MR_CMD_PENDING;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1064  	mrioc->init_cmds.is_waitin=
+g =3D 1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1065  	mrioc->init_cmds.callback =
+=3D NULL;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1066  	create_req.host_tag =3D cp=
+u_to_le16(MPI3MR_HOSTTAG_INITCMDS);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1067  	create_req.function =3D MP=
+I3_FUNCTION_CREATE_REPLY_QUEUE;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1068  	create_req.queue_id =3D cp=
+u_to_le16(reply_qid);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1069  	create_req.flags =3D MPI3_=
+CREATE_REPLY_QUEUE_FLAGS_INT_ENABLE_ENABLE;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1070  	create_req.msix_index =3D =
+cpu_to_le16(mrioc->intr_info[midx].msix_index);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1071  	if (mrioc->enable_segqueue=
+) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1072  		create_req.flags |=3D
+c9566231cfaf448 Kashyap Desai 2021-05-20  1073  		    MPI3_CREATE_REQUEST_Q=
+UEUE_FLAGS_SEGMENTED_SEGMENTED;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1074  		create_req.base_address =
+=3D cpu_to_le64(
+c9566231cfaf448 Kashyap Desai 2021-05-20  1075  		    op_reply_q->q_segment=
+_list_dma);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1076  	} else
+c9566231cfaf448 Kashyap Desai 2021-05-20 @1077  		create_req.base_address =
+=3D cpu_to_le64(
+c9566231cfaf448 Kashyap Desai 2021-05-20  1078  		    op_reply_q->q_segment=
+s[0].segment_dma);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1079  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  270  		rc  =3D pci_doe_recv_re=
-sp(doe_mb, task);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  271  		if (rc < 0)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  272  			goto err_abort;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  273  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1080  	create_req.size =3D cpu_to=
+_le16(op_reply_q->num_replies);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1081  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  274  		doe_mb->state =3D DOE_I=
-DLE;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  275  =
-
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  276  		retire_cur_task(doe_mb);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  277  		/* Set the return value=
- to the length of received payload */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  278  		signal_task_complete(ta=
-sk, rc);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  279  =
-
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  280  		return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  281  =
-
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  282  	case DOE_WAIT_ABORT:
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  283  	case DOE_WAIT_ABORT_ON_E=
-RR:
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  284  		pci_read_config_dword(p=
-dev, offset + PCI_DOE_STATUS, &val);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  285  =
-
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  286  		if (!FIELD_GET(PCI_DOE_=
-STATUS_ERROR, val) &&
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  287  		    !FIELD_GET(PCI_DOE_=
-STATUS_BUSY, val)) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  288  			/* Back to normal stat=
-e - carry on */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  289  			retire_cur_task(doe_mb=
+c9566231cfaf448 Kashyap Desai 2021-05-20  1082  	init_completion(&mrioc->in=
+it_cmds.done);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1083  	retval =3D mpi3mr_admin_re=
+quest_post(mrioc, &create_req,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1084  	    sizeof(create_req), 1);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1085  	if (retval) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1086  		ioc_err(mrioc, "CreateRep=
+Q: Admin Post failed\n");
+c9566231cfaf448 Kashyap Desai 2021-05-20  1087  		goto out_unlock;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1088  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1089  	wait_for_completion_timeou=
+t(&mrioc->init_cmds.done,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1090  	    (MPI3MR_INTADMCMD_TIME=
+OUT * HZ));
+c9566231cfaf448 Kashyap Desai 2021-05-20  1091  	if (!(mrioc->init_cmds.sta=
+te & MPI3MR_CMD_COMPLETE)) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1092  		ioc_err(mrioc, "CreateRep=
+Q: command timed out\n");
+c9566231cfaf448 Kashyap Desai 2021-05-20  1093  		mpi3mr_set_diagsave(mrioc=
 );
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  290  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1094  		mpi3mr_issue_reset(mrioc,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1095  		    MPI3_SYSIF_HOST_DIAG_=
+RESET_ACTION_DIAG_FAULT,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1096  		    MPI3MR_RESET_FROM_CRE=
+ATEREPQ_TIMEOUT);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1097  		mrioc->unrecoverable =3D =
+1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1098  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1099  		goto out_unlock;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1100  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1101  	if ((mrioc->init_cmds.ioc_=
+status & MPI3_IOCSTATUS_STATUS_MASK)
+c9566231cfaf448 Kashyap Desai 2021-05-20  1102  	    !=3D MPI3_IOCSTATUS_SU=
+CCESS) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1103  		ioc_err(mrioc,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1104  		    "CreateRepQ: Failed i=
+oc_status(0x%04x) Loginfo(0x%08x)\n",
+c9566231cfaf448 Kashyap Desai 2021-05-20  1105  		    (mrioc->init_cmds.ioc=
+_status & MPI3_IOCSTATUS_STATUS_MASK),
+c9566231cfaf448 Kashyap Desai 2021-05-20  1106  		    mrioc->init_cmds.ioc_=
+loginfo);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1107  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1108  		goto out_unlock;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1109  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1110  	op_reply_q->qid =3D reply_=
+qid;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1111  	mrioc->intr_info[midx].op_=
+reply_q =3D op_reply_q;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1112  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  291  			/*
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  292  			 * For deliberately tr=
-iggered abort, someone is
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  293  			 * waiting.
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  294  			 */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  295  			if (doe_mb->state =3D=
-=3D DOE_WAIT_ABORT) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  296  				if (task)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  297  					signal_task_complete=
-(task, -EFAULT);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  298  				complete(&doe_mb->abo=
-rt_c);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  299  			}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  300  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1113  out_unlock:
+c9566231cfaf448 Kashyap Desai 2021-05-20  1114  	mrioc->init_cmds.state =3D=
+ MPI3MR_CMD_NOTUSED;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1115  	mutex_unlock(&mrioc->init_=
+cmds.mutex);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1116  out:
+c9566231cfaf448 Kashyap Desai 2021-05-20  1117  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  301  			doe_mb->state =3D DOE_=
-IDLE;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  302  			return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  303  		}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  304  		if (time_after(jiffies,=
- doe_mb->timeout_jiffies)) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  305  			/* Task has timed out =
-and is dead - abort */
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  306  			pci_err(pdev, "DOE [%x=
-] ABORT timed out\n",
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  307  				doe_mb->cap_offset);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  308  			set_bit(PCI_DOE_FLAG_D=
-EAD, &doe_mb->flags);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  309  			retire_cur_task(doe_mb=
+c9566231cfaf448 Kashyap Desai 2021-05-20  1118  	return retval;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1119  }
+c9566231cfaf448 Kashyap Desai 2021-05-20  1120  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1121  /**
+c9566231cfaf448 Kashyap Desai 2021-05-20  1122   * mpi3mr_create_op_req_q -=
+ create operational request queue
+c9566231cfaf448 Kashyap Desai 2021-05-20  1123   * @mrioc: Adapter instance=
+ reference
+c9566231cfaf448 Kashyap Desai 2021-05-20  1124   * @idx: operational reques=
+t queue index
+c9566231cfaf448 Kashyap Desai 2021-05-20  1125   * @reply_qid: Reply queue =
+ID
+c9566231cfaf448 Kashyap Desai 2021-05-20  1126   *
+c9566231cfaf448 Kashyap Desai 2021-05-20  1127   * Create operatinal reques=
+t queue by issuing MPI request
+c9566231cfaf448 Kashyap Desai 2021-05-20  1128   * through admin queue.
+c9566231cfaf448 Kashyap Desai 2021-05-20  1129   *
+c9566231cfaf448 Kashyap Desai 2021-05-20  1130   * Return:  0 on success, n=
+on-zero on failure.
+c9566231cfaf448 Kashyap Desai 2021-05-20  1131   */
+c9566231cfaf448 Kashyap Desai 2021-05-20  1132  static int mpi3mr_create_op=
+_req_q(struct mpi3mr_ioc *mrioc, u16 idx,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1133  	u16 reply_qid)
+c9566231cfaf448 Kashyap Desai 2021-05-20  1134  {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1135  	struct mpi3_create_request=
+_queue_request create_req;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1136  	struct op_req_qinfo *op_re=
+q_q =3D mrioc->req_qinfo + idx;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1137  	int retval =3D 0;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1138  	u16 req_qid =3D 0;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1139  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1140  	req_qid =3D op_req_q->qid;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1141  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1142  	if (req_qid) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1143  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1144  		ioc_err(mrioc, "CreateReq=
+Q: called for duplicate qid %d\n",
+c9566231cfaf448 Kashyap Desai 2021-05-20  1145  		    req_qid);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1146  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1147  		return retval;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1148  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1149  	req_qid =3D idx + 1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1150  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1151  	op_req_q->num_requests =3D=
+ MPI3MR_OP_REQ_Q_QD;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1152  	op_req_q->ci =3D 0;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1153  	op_req_q->pi =3D 0;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1154  	op_req_q->reply_qid =3D re=
+ply_qid;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1155  	spin_lock_init(&op_req_q->=
+q_lock);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1156  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20 @1157  	if (!op_req_q->q_segments)=
+ {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1158  		retval =3D mpi3mr_alloc_o=
+p_req_q_segments(mrioc, idx);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1159  		if (retval) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1160  			mpi3mr_free_op_req_q_seg=
+ments(mrioc, idx);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1161  			goto out;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1162  		}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1163  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1164  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1165  	memset(&create_req, 0, siz=
+eof(create_req));
+c9566231cfaf448 Kashyap Desai 2021-05-20  1166  	mutex_lock(&mrioc->init_cm=
+ds.mutex);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1167  	if (mrioc->init_cmds.state=
+ & MPI3MR_CMD_PENDING) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1168  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1169  		ioc_err(mrioc, "CreateReq=
+Q: Init command is in use\n");
+c9566231cfaf448 Kashyap Desai 2021-05-20  1170  		goto out;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1171  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1172  	mrioc->init_cmds.state =3D=
+ MPI3MR_CMD_PENDING;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1173  	mrioc->init_cmds.is_waitin=
+g =3D 1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1174  	mrioc->init_cmds.callback =
+=3D NULL;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1175  	create_req.host_tag =3D cp=
+u_to_le16(MPI3MR_HOSTTAG_INITCMDS);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1176  	create_req.function =3D MP=
+I3_FUNCTION_CREATE_REQUEST_QUEUE;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1177  	create_req.queue_id =3D cp=
+u_to_le16(req_qid);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1178  	if (mrioc->enable_segqueue=
+) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1179  		create_req.flags =3D
+c9566231cfaf448 Kashyap Desai 2021-05-20  1180  		    MPI3_CREATE_REQUEST_Q=
+UEUE_FLAGS_SEGMENTED_SEGMENTED;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1181  		create_req.base_address =
+=3D cpu_to_le64(
+c9566231cfaf448 Kashyap Desai 2021-05-20  1182  		    op_req_q->q_segment_l=
+ist_dma);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1183  	} else
+c9566231cfaf448 Kashyap Desai 2021-05-20 @1184  		create_req.base_address =
+=3D cpu_to_le64(
+c9566231cfaf448 Kashyap Desai 2021-05-20  1185  		    op_req_q->q_segments[=
+0].segment_dma);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1186  	create_req.reply_queue_id =
+=3D cpu_to_le16(reply_qid);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1187  	create_req.size =3D cpu_to=
+_le16(op_req_q->num_requests);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1188  =
+
+c9566231cfaf448 Kashyap Desai 2021-05-20  1189  	init_completion(&mrioc->in=
+it_cmds.done);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1190  	retval =3D mpi3mr_admin_re=
+quest_post(mrioc, &create_req,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1191  	    sizeof(create_req), 1);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1192  	if (retval) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1193  		ioc_err(mrioc, "CreateReq=
+Q: Admin Post failed\n");
+c9566231cfaf448 Kashyap Desai 2021-05-20  1194  		goto out_unlock;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1195  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1196  	wait_for_completion_timeou=
+t(&mrioc->init_cmds.done,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1197  	    (MPI3MR_INTADMCMD_TIME=
+OUT * HZ));
+c9566231cfaf448 Kashyap Desai 2021-05-20  1198  	if (!(mrioc->init_cmds.sta=
+te & MPI3MR_CMD_COMPLETE)) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1199  		ioc_err(mrioc, "CreateReq=
+Q: command timed out\n");
+c9566231cfaf448 Kashyap Desai 2021-05-20  1200  		mpi3mr_set_diagsave(mrioc=
 );
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  310  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1201  		if (mpi3mr_issue_reset(mr=
+ioc,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1202  		    MPI3_SYSIF_HOST_DIAG_=
+RESET_ACTION_DIAG_FAULT,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1203  		    MPI3MR_RESET_FROM_CRE=
+ATEREQQ_TIMEOUT))
+c9566231cfaf448 Kashyap Desai 2021-05-20  1204  			mrioc->unrecoverable =3D=
+ 1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1205  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1206  		goto out_unlock;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1207  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1208  	if ((mrioc->init_cmds.ioc_=
+status & MPI3_IOCSTATUS_STATUS_MASK)
+c9566231cfaf448 Kashyap Desai 2021-05-20  1209  	    !=3D MPI3_IOCSTATUS_SU=
+CCESS) {
+c9566231cfaf448 Kashyap Desai 2021-05-20  1210  		ioc_err(mrioc,
+c9566231cfaf448 Kashyap Desai 2021-05-20  1211  		    "CreateReqQ: Failed i=
+oc_status(0x%04x) Loginfo(0x%08x)\n",
+c9566231cfaf448 Kashyap Desai 2021-05-20  1212  		    (mrioc->init_cmds.ioc=
+_status & MPI3_IOCSTATUS_STATUS_MASK),
+c9566231cfaf448 Kashyap Desai 2021-05-20  1213  		    mrioc->init_cmds.ioc_=
+loginfo);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1214  		retval =3D -1;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1215  		goto out_unlock;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1216  	}
+c9566231cfaf448 Kashyap Desai 2021-05-20  1217  	op_req_q->qid =3D req_qid;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1218  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  311  			if (doe_mb->state =3D=
-=3D DOE_WAIT_ABORT) {
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  312  				if (task)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  313  					signal_task_complete=
-(task, -EFAULT);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  314  				complete(&doe_mb->abo=
-rt_c);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  315  			}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  316  		}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  317  		return;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  318  	}
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  319  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1219  out_unlock:
+c9566231cfaf448 Kashyap Desai 2021-05-20  1220  	mrioc->init_cmds.state =3D=
+ MPI3MR_CMD_NOTUSED;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1221  	mutex_unlock(&mrioc->init_=
+cmds.mutex);
+c9566231cfaf448 Kashyap Desai 2021-05-20  1222  out:
+c9566231cfaf448 Kashyap Desai 2021-05-20  1223  =
 
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  320  err_abort:
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  321  	doe_mb->state =3D DOE_WA=
-IT_ABORT_ON_ERR;
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  322  	pci_doe_abort_start(doe_=
-mb);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  323  err_busy:
-c67f0d52ff51105 Jonathan Cameron 2022-05-31 @324  	signal_task_complete(tas=
-k, rc);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  325  	if (doe_mb->state =3D=3D=
- DOE_IDLE)
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  326  		retire_cur_task(doe_mb);
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  327  }
-c67f0d52ff51105 Jonathan Cameron 2022-05-31  328  =
+c9566231cfaf448 Kashyap Desai 2021-05-20  1224  	return retval;
+c9566231cfaf448 Kashyap Desai 2021-05-20  1225  }
+c9566231cfaf448 Kashyap Desai 2021-05-20  1226  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3840328229761846869==--
+--===============8470406426749076884==--
 
