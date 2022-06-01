@@ -1,162 +1,290 @@
-Content-Type: multipart/mixed; boundary="===============6110774286691725359=="
+Content-Type: multipart/mixed; boundary="===============3840328229761846869=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1067 smu_v13_0_7_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_levels' 16 <= 31
-Date: Wed, 01 Jun 2022 14:25:13 +0800
-Message-ID: <202206011404.oQCkAPYj-lkp@intel.com>
+Subject: Re: [PATCH V9 4/9] cxl/pci: Create PCI DOE mailbox's for memory devices
+Date: Wed, 01 Jun 2022 13:44:28 +0800
+Message-ID: <202206011300.xtt4Q8PJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6110774286691725359==
+--===============3840328229761846869==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Kenneth Feng <kenneth.feng@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Jack Gui <Jack.Gui@amd.com>
+In-Reply-To: <20220531152632.1397976-5-ira.weiny@intel.com>
+References: <20220531152632.1397976-5-ira.weiny@intel.com>
+TO: ira.weiny(a)intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   700170bf6b4d773e328fa54ebb70ba444007c702
-commit: 2492d40d6ff2043682316b26c1c6436c9023de8f drm/amd/pm: pp_dpm_* inter=
-face for smu_v13_0_7
-date:   4 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 weeks ago
-config: ia64-randconfig-m031-20220530 (https://download.01.org/0day-ci/arch=
-ive/20220601/202206011404.oQCkAPYj-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+Hi,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20220601]
+[cannot apply to helgaas-pci/next v5.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ira-weiny-intel-com/=
+CXL-Read-CDAT-and-DSMAS-data/20220531-232807
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+8ab2afa23bd197df47819a87f0265c0ac95c5b6a
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+601/202206011300.xtt4Q8PJ-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1067 smu_v13=
-_0_7_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_level=
-s' 16 <=3D 31
+drivers/pci/doe.c:324 doe_statemachine_work() error: uninitialized symbol '=
+rc'.
 
-vim +1067 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c
+vim +/rc +324 drivers/pci/doe.c
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1004  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  182  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1005  static int smu_v13_0_7_force_=
-clk_levels(struct smu_context *smu,
-2492d40d6ff204 Kenneth Feng 2022-04-15  1006  					enum smu_clk_type clk_ty=
-pe,
-2492d40d6ff204 Kenneth Feng 2022-04-15  1007  					uint32_t mask)
-2492d40d6ff204 Kenneth Feng 2022-04-15  1008  {
-2492d40d6ff204 Kenneth Feng 2022-04-15  1009  	struct smu_dpm_context *smu_=
-dpm =3D &smu->smu_dpm;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1010  	struct smu_13_0_dpm_context =
-*dpm_context =3D smu_dpm->dpm_context;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1011  	struct smu_13_0_dpm_table *s=
-ingle_dpm_table;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1012  	uint32_t soft_min_level, sof=
-t_max_level;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1013  	uint32_t min_freq, max_freq;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1014  	int ret =3D 0;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1015  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  183  static void doe_statemach=
+ine_work(struct work_struct *work)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  184  {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  185  	struct delayed_work *w =
+=3D to_delayed_work(work);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  186  	struct pci_doe_mb *doe_m=
+b =3D container_of(w, struct pci_doe_mb,
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  187  						 statemachine);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  188  	struct pci_dev *pdev =3D=
+ doe_mb->pdev;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  189  	int offset =3D doe_mb->c=
+ap_offset;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  190  	struct pci_doe_task *tas=
+k;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  191  	u32 val;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  192  	int rc;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  193  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1016  	soft_min_level =3D mask ? (f=
-fs(mask) - 1) : 0;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1017  	soft_max_level =3D mask ? (f=
-ls(mask) - 1) : 0;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1018  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  194  	mutex_lock(&doe_mb->task=
+_lock);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  195  	task =3D doe_mb->cur_tas=
+k;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  196  	mutex_unlock(&doe_mb->ta=
+sk_lock);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  197  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1019  	switch (clk_type) {
-2492d40d6ff204 Kenneth Feng 2022-04-15  1020  	case SMU_GFXCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1021  	case SMU_SCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1022  		single_dpm_table =3D &(dpm_=
-context->dpm_tables.gfx_table);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1023  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1024  	case SMU_MCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1025  	case SMU_UCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1026  		single_dpm_table =3D &(dpm_=
-context->dpm_tables.uclk_table);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1027  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1028  	case SMU_SOCCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1029  		single_dpm_table =3D &(dpm_=
-context->dpm_tables.soc_table);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1030  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1031  	case SMU_FCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1032  		single_dpm_table =3D &(dpm_=
-context->dpm_tables.fclk_table);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1033  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1034  	case SMU_VCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1035  	case SMU_VCLK1:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1036  		single_dpm_table =3D &(dpm_=
-context->dpm_tables.vclk_table);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1037  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1038  	case SMU_DCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1039  	case SMU_DCLK1:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1040  		single_dpm_table =3D &(dpm_=
-context->dpm_tables.dclk_table);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1041  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1042  	default:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1043  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1044  	}
-2492d40d6ff204 Kenneth Feng 2022-04-15  1045  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  198  	if (test_and_clear_bit(P=
+CI_DOE_FLAG_ABORT, &doe_mb->flags)) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  199  		/*
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  200  		 * Currently only used =
+during init - care needed if
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  201  		 * pci_doe_abort() is g=
+enerally exposed as it would impact
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  202  		 * queries in flight.
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  203  		 */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  204  		if (task)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  205  			pci_err(pdev, "DOE [%x=
+] Aborting with active task!\n",
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  206  				doe_mb->cap_offset);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  207  		doe_mb->state =3D DOE_W=
+AIT_ABORT;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  208  		pci_doe_abort_start(doe=
+_mb);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  209  		return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  210  	}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  211  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1046  	switch (clk_type) {
-2492d40d6ff204 Kenneth Feng 2022-04-15  1047  	case SMU_GFXCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1048  	case SMU_SCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1049  	case SMU_MCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1050  	case SMU_UCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1051  	case SMU_SOCCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1052  	case SMU_FCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1053  	case SMU_VCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1054  	case SMU_VCLK1:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1055  	case SMU_DCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1056  	case SMU_DCLK1:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1057  		if (single_dpm_table->is_fi=
-ne_grained) {
-2492d40d6ff204 Kenneth Feng 2022-04-15  1058  			/* There is only 2 levels =
-for fine grained DPM */
-2492d40d6ff204 Kenneth Feng 2022-04-15  1059  			soft_max_level =3D (soft_m=
-ax_level >=3D 1 ? 1 : 0);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1060  			soft_min_level =3D (soft_m=
-in_level >=3D 1 ? 1 : 0);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1061  		} else {
-2492d40d6ff204 Kenneth Feng 2022-04-15  1062  			if ((soft_max_level >=3D s=
-ingle_dpm_table->count) ||
-2492d40d6ff204 Kenneth Feng 2022-04-15  1063  			    (soft_min_level >=3D s=
-ingle_dpm_table->count))
-2492d40d6ff204 Kenneth Feng 2022-04-15  1064  				return -EINVAL;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1065  		}
-2492d40d6ff204 Kenneth Feng 2022-04-15  1066  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  212  	switch (doe_mb->state) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  213  	case DOE_IDLE:
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  214  		if (task =3D=3D NULL)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  215  			return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  216  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15 @1067  		min_freq =3D single_dpm_tab=
-le->dpm_levels[soft_min_level].value;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1068  		max_freq =3D single_dpm_tab=
-le->dpm_levels[soft_max_level].value;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1069  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  217  		rc =3D pci_doe_send_req=
+(doe_mb, task);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  218  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1070  		ret =3D smu_v13_0_set_soft_=
-freq_limited_range(smu,
-2492d40d6ff204 Kenneth Feng 2022-04-15  1071  							    clk_type,
-2492d40d6ff204 Kenneth Feng 2022-04-15  1072  							    min_freq,
-2492d40d6ff204 Kenneth Feng 2022-04-15  1073  							    max_freq);
-2492d40d6ff204 Kenneth Feng 2022-04-15  1074  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1075  	case SMU_DCEFCLK:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1076  	case SMU_PCIE:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1077  	default:
-2492d40d6ff204 Kenneth Feng 2022-04-15  1078  		break;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1079  	}
-2492d40d6ff204 Kenneth Feng 2022-04-15  1080  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  219  		/*
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  220  		 * The specification do=
+es not provide any guidance on how long
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  221  		 * some other entity co=
+uld keep the DOE busy, so try for 1
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  222  		 * second then fail. Bu=
+sy handling is best effort only, because
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  223  		 * there is no way of a=
+voiding racing against another user of
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  224  		 * the DOE.
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  225  		 */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  226  		if (rc =3D=3D -EBUSY) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  227  			doe_mb->busy_retries++;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  228  			if (doe_mb->busy_retri=
+es =3D=3D PCI_DOE_BUSY_MAX_RETRIES) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  229  				/* Long enough, fail =
+this request */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  230  				pci_warn(pdev,
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  231  					"DOE [%x] busy for t=
+oo long (> 1 sec)\n",
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  232  					doe_mb->cap_offset);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  233  				doe_mb->busy_retries =
+=3D 0;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  234  				goto err_busy;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  235  			}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  236  			schedule_delayed_work(=
+w, HZ / PCI_DOE_BUSY_MAX_RETRIES);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  237  			return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  238  		}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  239  		if (rc)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  240  			goto err_abort;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  241  		doe_mb->busy_retries =
+=3D 0;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  242  =
 
-2492d40d6ff204 Kenneth Feng 2022-04-15  1081  	return ret;
-2492d40d6ff204 Kenneth Feng 2022-04-15  1082  }
-2492d40d6ff204 Kenneth Feng 2022-04-15  1083  =
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  243  		doe_mb->state =3D DOE_W=
+AIT_RESP;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  244  		doe_mb->timeout_jiffies=
+ =3D jiffies + HZ;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  245  		/* Now poll or wait for=
+ IRQ with timeout */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  246  		if (doe_mb->irq >=3D 0)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  247  			schedule_delayed_work(=
+w, PCI_DOE_TIMEOUT);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  248  		else
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  249  			schedule_delayed_work(=
+w, PCI_DOE_POLL_INTERVAL);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  250  		return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  251  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  252  	case DOE_WAIT_RESP:
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  253  		/* Not possible to get =
+here with NULL task */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  254  		pci_read_config_dword(p=
+dev, offset + PCI_DOE_STATUS, &val);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  255  		if (FIELD_GET(PCI_DOE_S=
+TATUS_ERROR, val)) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  256  			rc =3D -EIO;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  257  			goto err_abort;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  258  		}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  259  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  260  		if (!FIELD_GET(PCI_DOE_=
+STATUS_DATA_OBJECT_READY, val)) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  261  			/* If not yet at timeo=
+ut reschedule otherwise abort */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  262  			if (time_after(jiffies=
+, doe_mb->timeout_jiffies)) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  263  				rc =3D -ETIMEDOUT;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  264  				goto err_abort;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  265  			}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  266  			schedule_delayed_work(=
+w, PCI_DOE_POLL_INTERVAL);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  267  			return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  268  		}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  269  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  270  		rc  =3D pci_doe_recv_re=
+sp(doe_mb, task);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  271  		if (rc < 0)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  272  			goto err_abort;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  273  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  274  		doe_mb->state =3D DOE_I=
+DLE;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  275  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  276  		retire_cur_task(doe_mb);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  277  		/* Set the return value=
+ to the length of received payload */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  278  		signal_task_complete(ta=
+sk, rc);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  279  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  280  		return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  281  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  282  	case DOE_WAIT_ABORT:
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  283  	case DOE_WAIT_ABORT_ON_E=
+RR:
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  284  		pci_read_config_dword(p=
+dev, offset + PCI_DOE_STATUS, &val);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  285  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  286  		if (!FIELD_GET(PCI_DOE_=
+STATUS_ERROR, val) &&
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  287  		    !FIELD_GET(PCI_DOE_=
+STATUS_BUSY, val)) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  288  			/* Back to normal stat=
+e - carry on */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  289  			retire_cur_task(doe_mb=
+);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  290  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  291  			/*
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  292  			 * For deliberately tr=
+iggered abort, someone is
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  293  			 * waiting.
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  294  			 */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  295  			if (doe_mb->state =3D=
+=3D DOE_WAIT_ABORT) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  296  				if (task)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  297  					signal_task_complete=
+(task, -EFAULT);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  298  				complete(&doe_mb->abo=
+rt_c);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  299  			}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  300  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  301  			doe_mb->state =3D DOE_=
+IDLE;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  302  			return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  303  		}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  304  		if (time_after(jiffies,=
+ doe_mb->timeout_jiffies)) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  305  			/* Task has timed out =
+and is dead - abort */
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  306  			pci_err(pdev, "DOE [%x=
+] ABORT timed out\n",
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  307  				doe_mb->cap_offset);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  308  			set_bit(PCI_DOE_FLAG_D=
+EAD, &doe_mb->flags);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  309  			retire_cur_task(doe_mb=
+);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  310  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  311  			if (doe_mb->state =3D=
+=3D DOE_WAIT_ABORT) {
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  312  				if (task)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  313  					signal_task_complete=
+(task, -EFAULT);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  314  				complete(&doe_mb->abo=
+rt_c);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  315  			}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  316  		}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  317  		return;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  318  	}
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  319  =
+
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  320  err_abort:
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  321  	doe_mb->state =3D DOE_WA=
+IT_ABORT_ON_ERR;
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  322  	pci_doe_abort_start(doe_=
+mb);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  323  err_busy:
+c67f0d52ff51105 Jonathan Cameron 2022-05-31 @324  	signal_task_complete(tas=
+k, rc);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  325  	if (doe_mb->state =3D=3D=
+ DOE_IDLE)
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  326  		retire_cur_task(doe_mb);
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  327  }
+c67f0d52ff51105 Jonathan Cameron 2022-05-31  328  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6110774286691725359==--
+--===============3840328229761846869==--
 
