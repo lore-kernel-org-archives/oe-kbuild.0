@@ -1,53 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============7248965590721998783=="
+Content-Type: multipart/mixed; boundary="===============1203134882913161953=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/cifs-netfs 5/41] fs/cifs/smb2ops.c:4995:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Wed, 01 Jun 2022 10:08:57 +0800
-Message-ID: <202206010953.pjbFFc6d-lkp@intel.com>
+Subject: [jimc:dyndbg-next 16/16] lib/dynamic_debug.c:203:8: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Wed, 01 Jun 2022 09:47:04 +0800
+Message-ID: <202206010948.qN4YYduL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7248965590721998783==
+--===============1203134882913161953==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: fs/cifs/s=
-mb2ops.c:4995:2: warning: Undefined or garbage value returned to caller [cl=
-ang-analyzer-core.uninitialized.UndefReturn]"
+:::::: Manual check reason: "low confidence static check warning: lib/dynam=
+ic_debug.c:203:8: warning: Branch condition evaluates to a garbage value [c=
+lang-analyzer-core.uninitialized.Branch]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Jim Cromie <jim.cromie@gmail.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/cifs-n=
-etfs
-head:   1fc71b6b30f6d2a981c163b77c9aee0aecaecb29
-commit: 36c9de734b21b4bc60b7ee86228659d416d53470 [5/41] cifs: Change the I/=
-O paths to use an iterator rather than a page list
-:::::: branch date: 2 days ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20601/202206010953.pjbFFc6d-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0fbe3f=
-3f486e01448121f7931a4ca29fac1504ab)
+tree:   https://github.com/jimc/linux.git dyndbg-next
+head:   519000e6161f69c599038a4be3de19489a8caef6
+commit: 519000e6161f69c599038a4be3de19489a8caef6 [16/16] dyndbg: nouveau's =
+got like levels man
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-c007-20220530 (https://download.01.org/0day-ci/ar=
+chive/20220601/202206010948.qN4YYduL-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0776c4=
+8f9b7e69fa447bee57c7c0985caa856be9)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/36c9de734b21b4b=
-c60b7ee86228659d416d53470
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/cifs-netfs
-        git checkout 36c9de734b21b4bc60b7ee86228659d416d53470
+        # https://github.com/jimc/linux/commit/519000e6161f69c599038a4be3de=
+19489a8caef6
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dyndbg-next
+        git checkout 519000e6161f69c599038a4be3de19489a8caef6
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -58,524 +53,488 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4652:3: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-                   memcpy(iv, (char *)tr_hdr->Nonce, SMB3_AES_GCM_NONCE);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/io_uring.c:10075:2: note: Loop condition is false.  Exiting loop
+           do {
+           ^
+   fs/io_uring.c:10107:2: note: Loop condition is false. Execution continue=
+s on line 10122
+           while (!list_empty(&ctx->tctx_list)) {
+           ^
+   fs/io_uring.c:10126:2: note: Calling 'io_ring_ctx_free'
+           io_ring_ctx_free(ctx);
+           ^~~~~~~~~~~~~~~~~~~~~
+   fs/io_uring.c:9929:6: note: Assuming field 'mm_account' is null
+           if (ctx->mm_account) {
+               ^~~~~~~~~~~~~~~
+   fs/io_uring.c:9929:2: note: Taking false branch
+           if (ctx->mm_account) {
+           ^
+   fs/io_uring.c:9940:6: note: Assuming field 'buf_data' is null
+           if (ctx->buf_data)
+               ^~~~~~~~~~~~~
+   fs/io_uring.c:9940:2: note: Taking false branch
+           if (ctx->buf_data)
+           ^
+   fs/io_uring.c:9942:6: note: Assuming field 'file_data' is null
+           if (ctx->file_data)
+               ^~~~~~~~~~~~~~
+   fs/io_uring.c:9942:2: note: Taking false branch
+           if (ctx->file_data)
+           ^
+   fs/io_uring.c:9944:6: note: Assuming field 'rings' is null
+           if (ctx->rings)
+               ^~~~~~~~~~
+   fs/io_uring.c:9944:2: note: Taking false branch
+           if (ctx->rings)
+           ^
+   fs/io_uring.c:9947:2: note: Calling 'io_flush_apoll_cache'
+           io_flush_apoll_cache(ctx);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/io_uring.c:9917:2: note: Loop condition is true.  Entering loop body
+           while (!list_empty(&ctx->apoll_cache)) {
+           ^
+   fs/io_uring.c:9921:3: note: Memory is released
+                   kfree(apoll);
+                   ^~~~~~~~~~~~
+   fs/io_uring.c:9917:2: note: Loop condition is true.  Entering loop body
+           while (!list_empty(&ctx->apoll_cache)) {
+           ^
+   fs/io_uring.c:9920:3: note: Calling 'list_del'
+                   list_del(&apoll->poll.wait.entry);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+>> lib/dynamic_debug.c:203:8: warning: Branch condition evaluates to a garb=
+age value [clang-analyzer-core.uninitialized.Branch]
+                           if (!map) {
+                               ^~~~
+   lib/dynamic_debug.c:182:2: note: 'map' declared without an initial value
+           struct ddebug_known_classes_map *map;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:187:2: note: Loop condition is true.  Entering loop =
+body
+           list_for_each_entry(dt, &ddebug_tables, link) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   lib/dynamic_debug.c:190:7: note: Assuming field 'module' is null
+                   if (query->module &&
+                       ^~~~~~~~~~~~~
+   lib/dynamic_debug.c:190:21: note: Left side of '&&' is false
+                   if (query->module &&
+                                     ^
+   lib/dynamic_debug.c:195:17: note: Calling 'ddebug_validate_classname'
+                   query_class =3D ddebug_validate_classname(dt, query->cla=
+ss_string, &map);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:154:6: note: Assuming 'class_string' is null
+           if (!class_string)
+               ^~~~~~~~~~~~~
+   lib/dynamic_debug.c:154:2: note: Taking true branch
+           if (!class_string)
+           ^
+   lib/dynamic_debug.c:155:3: note: Returning without writing to '*mapout'
+                   return _DPRINTK_CLASS_DFLT;
                    ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4655:3: warning: Call to function 'memcpy' is insecure=
+   lib/dynamic_debug.c:195:17: note: Returning from 'ddebug_validate_classn=
+ame'
+                   query_class =3D ddebug_validate_classname(dt, query->cla=
+ss_string, &map);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:196:7: note: 'query_class' is >=3D 0
+                   if (query_class < 0)
+                       ^~~~~~~~~~~
+   lib/dynamic_debug.c:196:3: note: Taking false branch
+                   if (query_class < 0)
+                   ^
+   lib/dynamic_debug.c:199:15: note: Assuming 'i' is < field 'num_ddebugs'
+                   for (i =3D 0; i < dt->num_ddebugs; i++) {
+                               ^~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:199:3: note: Loop condition is true.  Entering loop =
+body
+                   for (i =3D 0; i < dt->num_ddebugs; i++) {
+                   ^
+   lib/dynamic_debug.c:203:8: note: Branch condition evaluates to a garbage=
+ value
+                           if (!map) {
+                               ^~~~
+   lib/dynamic_debug.c:624:2: warning: Call to function 'snprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(query, QUERY_SIZE, "class %s %c%s", dcp->map->classes[b=
+itpos],
+           ^~~~~~~~
+   lib/dynamic_debug.c:624:2: note: Call to function 'snprintf' is insecure=
  as it does not provide security checks introduced in the C11 standard. Rep=
 lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(iv + 1, (char *)tr_hdr->Nonce, SMB3_AES_CCM_NONCE=
-);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4655:3: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-                   memcpy(iv + 1, (char *)tr_hdr->Nonce, SMB3_AES_CCM_NONCE=
-);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4668:3: warning: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&tr_hdr->Signature, sign, SMB2_SIGNATURE_SIZE);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4668:3: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-                   memcpy(&tr_hdr->Signature, sign, SMB2_SIGNATURE_SIZE);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4820:2: warning: Call to function 'memmove' is insecur=
+ndary checks such as 'snprintf_s' in case of C11
+           snprintf(query, QUERY_SIZE, "class %s %c%s", dcp->map->classes[b=
+itpos],
+           ^~~~~~~~
+   lib/dynamic_debug.c:769:11: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           pos +=3D snprintf(buf + pos, remaining(pos), "<i=
+ntr> ");
+                                  ^~~~~~~~
+   lib/dynamic_debug.c:769:11: note: Call to function 'snprintf' is insecur=
 e as it does not provide security checks introduced in the C11 standard. Re=
 place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memmove_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memmove(buf, iov[1].iov_base, buf_data_size);
-           ^
-   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
-e'
-   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
-lying_memmove'
-   #define __underlying_memmove    __builtin_memmove
-                                   ^~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4820:2: note: Call to function 'memmove' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memmove_s' in case of C11
-           memmove(buf, iov[1].iov_base, buf_data_size);
-           ^
-   include/linux/fortify-string.h:373:27: note: expanded from macro 'memmov=
-e'
-   #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:46:30: note: expanded from macro '__under=
-lying_memmove'
-   #define __underlying_memmove    __builtin_memmove
-                                   ^~~~~~~~~~~~~~~~~
->> fs/cifs/smb2ops.c:4995:2: warning: Undefined or garbage value returned t=
-o caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return length;
-           ^      ~~~~~~
-   fs/cifs/smb2ops.c:4862:2: note: 'length' declared without an initial val=
-ue
-           int length;
-           ^~~~~~~~~~
-   fs/cifs/smb2ops.c:4865:6: note: Assuming field 'Command' is equal to SMB=
-2_READ
-           if (shdr->Command !=3D SMB2_READ) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4865:2: note: Taking false branch
-           if (shdr->Command !=3D SMB2_READ) {
-           ^
-   fs/cifs/smb2ops.c:4870:6: note: Assuming field 'is_session_expired' is n=
-ull
-           if (server->ops->is_session_expired &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4870:38: note: Left side of '&&' is false
-           if (server->ops->is_session_expired &&
-                                               ^
-   fs/cifs/smb2ops.c:4877:6: note: Assuming field 'is_status_pending' is nu=
-ll
-           if (server->ops->is_status_pending &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4877:37: note: Left side of '&&' is false
-           if (server->ops->is_status_pending &&
-                                              ^
-   fs/cifs/smb2ops.c:4886:3: note: Assuming '__UNIQUE_ID___x1317' is >=3D '=
-__UNIQUE_ID___y1318'
-                   min_t(unsigned int, buf_len, server->vals->read_rsp_size=
-);
-                   ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/cifs/smb2ops.c:4886:3: note: '?' condition is false
-                   min_t(unsigned int, buf_len, server->vals->read_rsp_size=
-);
-                   ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/cifs/smb2ops.c:4887:2: note: Taking false branch
-           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
-           ^
-   fs/cifs/cifs_debug.h:76:2: note: expanded from macro 'cifs_dbg'
-           if ((type) & ONCE)                                              \
-           ^
-   fs/cifs/smb2ops.c:4887:2: note: Left side of '&&' is true
-           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
-           ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^
-   fs/cifs/cifs_debug.h:64:6: note: expanded from macro 'cifs_dbg_func'
-           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
-               ^
-   fs/cifs/smb2ops.c:4887:2: note: Assuming the condition is false
-           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
-           ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/cifs_debug.h:64:22: note: expanded from macro 'cifs_dbg_func'
-           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
-                               ^~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4887:2: note: Taking false branch
-           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
-           ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^
-   fs/cifs/cifs_debug.h:64:2: note: expanded from macro 'cifs_dbg_func'
-           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
-           ^
-   fs/cifs/smb2ops.c:4887:2: note: Taking false branch
-           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
-           ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^
-   fs/cifs/cifs_debug.h:67:9: note: expanded from macro 'cifs_dbg_func'
-           } else if ((type) & VFS) {                                      \
-                  ^
-   fs/cifs/smb2ops.c:4887:2: note: Left side of '&&' is false
-           cifs_dbg(FYI, "0: iov_base=3D%p iov_len=3D%zu\n",
-           ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+undary checks such as 'snprintf_s' in case of C11
+                           pos +=3D snprintf(buf + pos, remaining(pos), "<i=
+ntr> ");
+                                  ^~~~~~~~
+   lib/dynamic_debug.c:771:11: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           pos +=3D snprintf(buf + pos, remaining(pos), "[%=
+d] ",
+                                  ^~~~~~~~
+   lib/dynamic_debug.c:771:11: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+                           pos +=3D snprintf(buf + pos, remaining(pos), "[%=
+d] ",
+                                  ^~~~~~~~
+   lib/dynamic_debug.c:776:10: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   pos +=3D snprintf(buf + pos, remaining(pos), "%s:",
+                          ^~~~~~~~
+   lib/dynamic_debug.c:776:10: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+                   pos +=3D snprintf(buf + pos, remaining(pos), "%s:",
+                          ^~~~~~~~
+   lib/dynamic_debug.c:779:10: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   pos +=3D snprintf(buf + pos, remaining(pos), "%s:",
+                          ^~~~~~~~
+   lib/dynamic_debug.c:779:10: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+                   pos +=3D snprintf(buf + pos, remaining(pos), "%s:",
+                          ^~~~~~~~
+   lib/dynamic_debug.c:782:10: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   pos +=3D snprintf(buf + pos, remaining(pos), "%d:",
+                          ^~~~~~~~
+   lib/dynamic_debug.c:782:10: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+                   pos +=3D snprintf(buf + pos, remaining(pos), "%d:",
+                          ^~~~~~~~
+   lib/dynamic_debug.c:785:10: warning: Call to function 'snprintf' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   pos +=3D snprintf(buf + pos, remaining(pos), " ");
+                          ^~~~~~~~
+   lib/dynamic_debug.c:785:10: note: Call to function 'snprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'snprintf_s' in case of C11
+                   pos +=3D snprintf(buf + pos, remaining(pos), " ");
+                          ^~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   fs/ntfs3/xattr.c:966:3: warning: 2nd function call argument is an uninit=
+ialized value [clang-analyzer-core.CallAndMessage]
+                   i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
+                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:960:6: note: Calling 'ntfs_get_ea'
+           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:209:6: note: Assuming the condition is false
+           if (!(ni->ni_flags & NI_FLAG_EA))
 
-vim +4995 fs/cifs/smb2ops.c
+vim +203 lib/dynamic_debug.c
 
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4849  =
+f657fd21e16e3a Joe Perches     2012-12-05  167  =
 
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4850  static int
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4851  handle_read_data(struct=
- TCP_Server_Info *server, struct mid_q_entry *mid,
-36c9de734b21b4 David Howells      2022-01-24  4852  		 char *buf, unsigned =
-int buf_len, struct xarray *pages,
-36c9de734b21b4 David Howells      2022-01-24  4853  		 unsigned int pages_l=
-en, bool is_offloaded)
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4854  {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4855  	unsigned int data_offs=
-et;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4856  	unsigned int data_len;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4857  	unsigned int cur_off;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4858  	unsigned int cur_page_=
-idx;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4859  	unsigned int pad_len;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4860  	struct cifs_readdata *=
-rdata =3D mid->callback_data;
-0d35e382e4e96a Ronnie Sahlberg    2021-11-05  4861  	struct smb2_hdr *shdr =
-=3D (struct smb2_hdr *)buf;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4862  	int length;
-74dcf418fe3446 Long Li            2017-11-22  4863  	bool use_rdma_mr =3D f=
-alse;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4864  =
+e9d376f0fa66bd Jason Baron     2009-02-05  168  /*
+85f7f6c0edb841 Jim Cromie      2011-12-19  169   * Search the tables for _d=
+debug's which match the given `query' and
+85f7f6c0edb841 Jim Cromie      2011-12-19  170   * apply the `flags' and `m=
+ask' to them.  Returns number of matching
+85f7f6c0edb841 Jim Cromie      2011-12-19  171   * callsites, normally the =
+same as number of changes.  If verbose,
+85f7f6c0edb841 Jim Cromie      2011-12-19  172   * logs the changes.  Takes=
+ ddebug_lock.
+e9d376f0fa66bd Jason Baron     2009-02-05  173   */
+85f7f6c0edb841 Jim Cromie      2011-12-19  174  static int ddebug_change(co=
+nst struct ddebug_query *query,
+84da83a6ffc0b7 Jim Cromie      2020-07-19  175  			 struct flag_settings *m=
+odifiers)
+e9d376f0fa66bd Jason Baron     2009-02-05  176  {
+e9d376f0fa66bd Jason Baron     2009-02-05  177  	int i;
+e9d376f0fa66bd Jason Baron     2009-02-05  178  	struct ddebug_table *dt;
+e9d376f0fa66bd Jason Baron     2009-02-05  179  	unsigned int newflags;
+e9d376f0fa66bd Jason Baron     2009-02-05  180  	unsigned int nfound =3D 0;
+d9df95baf80420 Jim Cromie      2022-01-31  181  	struct flagsbuf fbuf, nbuf;
+519000e6161f69 Jim Cromie      2022-05-27  182  	struct ddebug_known_classe=
+s_map *map;
+0389d9432ddc3b Jim Cromie      2022-04-01  183  	int query_class;
+e9d376f0fa66bd Jason Baron     2009-02-05  184  =
 
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4865  	if (shdr->Command !=3D=
- SMB2_READ) {
-3175eb9b577e82 Ronnie Sahlberg    2019-09-04  4866  		cifs_server_dbg(VFS, =
-"only big read responses are supported\n");
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4867  		return -ENOTSUPP;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4868  	}
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4869  =
+e9d376f0fa66bd Jason Baron     2009-02-05  185  	/* search for matching dde=
+bugs */
+e9d376f0fa66bd Jason Baron     2009-02-05  186  	mutex_lock(&ddebug_lock);
+e9d376f0fa66bd Jason Baron     2009-02-05  187  	list_for_each_entry(dt, &d=
+debug_tables, link) {
+e9d376f0fa66bd Jason Baron     2009-02-05  188  =
 
-511c54a2f69195 Pavel Shilovsky    2017-07-08  4870  	if (server->ops->is_se=
-ssion_expired &&
-511c54a2f69195 Pavel Shilovsky    2017-07-08  4871  	    server->ops->is_se=
-ssion_expired(buf)) {
-de9ac0a6e9efdf Rohith Surabattula 2020-10-28  4872  		if (!is_offloaded)
-183eea2ee5ba96 Shyam Prasad N     2021-07-19  4873  			cifs_reconnect(serve=
-r, true);
-511c54a2f69195 Pavel Shilovsky    2017-07-08  4874  		return -1;
-511c54a2f69195 Pavel Shilovsky    2017-07-08  4875  	}
-511c54a2f69195 Pavel Shilovsky    2017-07-08  4876  =
+e9d376f0fa66bd Jason Baron     2009-02-05  189  		/* match against the modu=
+le name */
+578b1e0701af34 Changbin Du     2014-01-23  190  		if (query->module &&
+578b1e0701af34 Changbin Du     2014-01-23  191  		    !match_wildcard(query=
+->module, dt->mod_name))
+e9d376f0fa66bd Jason Baron     2009-02-05  192  			continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  193  =
 
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4877  	if (server->ops->is_st=
-atus_pending &&
-66265f134acfb2 Pavel Shilovsky    2019-01-23  4878  			server->ops->is_stat=
-us_pending(buf, server))
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4879  		return -1;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4880  =
+0389d9432ddc3b Jim Cromie      2022-04-01  194  		/* validate class-string =
+against module's known classes */
+519000e6161f69 Jim Cromie      2022-05-27  195  		query_class =3D ddebug_va=
+lidate_classname(dt, query->class_string, &map);
+0389d9432ddc3b Jim Cromie      2022-04-01  196  		if (query_class < 0)
+0389d9432ddc3b Jim Cromie      2022-04-01  197  			continue;
+0389d9432ddc3b Jim Cromie      2022-04-01  198  =
 
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4881  	/* set up first two io=
-v to get credits */
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4882  	rdata->iov[0].iov_base=
- =3D buf;
-bb1bccb60c2ebd Pavel Shilovsky    2019-01-17  4883  	rdata->iov[0].iov_len =
-=3D 0;
-bb1bccb60c2ebd Pavel Shilovsky    2019-01-17  4884  	rdata->iov[1].iov_base=
- =3D buf;
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4885  	rdata->iov[1].iov_len =
-=3D
-bb1bccb60c2ebd Pavel Shilovsky    2019-01-17  4886  		min_t(unsigned int, b=
-uf_len, server->vals->read_rsp_size);
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4887  	cifs_dbg(FYI, "0: iov_=
-base=3D%p iov_len=3D%zu\n",
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4888  		 rdata->iov[0].iov_ba=
-se, rdata->iov[0].iov_len);
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4889  	cifs_dbg(FYI, "1: iov_=
-base=3D%p iov_len=3D%zu\n",
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4890  		 rdata->iov[1].iov_ba=
-se, rdata->iov[1].iov_len);
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4891  =
+e9d376f0fa66bd Jason Baron     2009-02-05  199  		for (i =3D 0; i < dt->num=
+_ddebugs; i++) {
+e9d376f0fa66bd Jason Baron     2009-02-05  200  			struct _ddebug *dp =3D &=
+dt->ddebugs[i];
+e9d376f0fa66bd Jason Baron     2009-02-05  201  =
 
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4892  	rdata->result =3D serv=
-er->ops->map_error(buf, true);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4893  	if (rdata->result !=3D=
- 0) {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4894  		cifs_dbg(FYI, "%s: se=
-rver returned error %d\n",
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4895  			 __func__, rdata->re=
-sult);
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4896  		/* normal error on re=
-ad response */
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4897  		if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4898  			mid->mid_state =3D M=
-ID_RESPONSE_RECEIVED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4899  		else
-ec678eae746dd2 Pavel Shilovsky    2019-01-18  4900  			dequeue_mid(mid, fal=
-se);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4901  		return 0;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4902  	}
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4903  =
+0389d9432ddc3b Jim Cromie      2022-04-01  202  			/* match against query-c=
+lass, either valid input or default */
+519000e6161f69 Jim Cromie      2022-05-27 @203  			if (!map) {
+519000e6161f69 Jim Cromie      2022-05-27  204  				if (query_class !=3D dp=
+->class_id)
+519000e6161f69 Jim Cromie      2022-05-27  205  					continue;
+519000e6161f69 Jim Cromie      2022-05-27  206  			} else {
+519000e6161f69 Jim Cromie      2022-05-27  207  				switch (map->map_type) {
+519000e6161f69 Jim Cromie      2022-05-27  208  				case DD_CLS_DISJOINT:
+0389d9432ddc3b Jim Cromie      2022-04-01  209  					if (query_class !=3D d=
+p->class_id)
+0389d9432ddc3b Jim Cromie      2022-04-01  210  						continue;
+519000e6161f69 Jim Cromie      2022-05-27  211  					break;
+519000e6161f69 Jim Cromie      2022-05-27  212  				case DD_CLS_VERBOSE:
+519000e6161f69 Jim Cromie      2022-05-27  213  					if (query_class < dp->=
+class_id &&
+519000e6161f69 Jim Cromie      2022-05-27  214  					    query_class >=3D m=
+ap->base)
+519000e6161f69 Jim Cromie      2022-05-27  215  						continue;
+519000e6161f69 Jim Cromie      2022-05-27  216  					break;
+519000e6161f69 Jim Cromie      2022-05-27  217  				case DD_CLS_PRIORITY:
+519000e6161f69 Jim Cromie      2022-05-27  218  					if (query_class > dp->=
+class_id &&
+519000e6161f69 Jim Cromie      2022-05-27  219  					    query_class < map-=
+>base + map->length)
+519000e6161f69 Jim Cromie      2022-05-27  220  						continue;
+519000e6161f69 Jim Cromie      2022-05-27  221  					break;
+519000e6161f69 Jim Cromie      2022-05-27  222  				default:
+519000e6161f69 Jim Cromie      2022-05-27  223  					BUG_ON("illegal enum v=
+alue\n");
+519000e6161f69 Jim Cromie      2022-05-27  224  				}
+519000e6161f69 Jim Cromie      2022-05-27  225  			}
+0389d9432ddc3b Jim Cromie      2022-04-01  226  =
 
-1fc6ad2f10ad6f Ronnie Sahlberg    2018-06-01  4904  	data_offset =3D server=
-->ops->read_data_offset(buf);
-74dcf418fe3446 Long Li            2017-11-22  4905  #ifdef CONFIG_CIFS_SMB_=
-DIRECT
-74dcf418fe3446 Long Li            2017-11-22  4906  	use_rdma_mr =3D rdata-=
->mr;
-74dcf418fe3446 Long Li            2017-11-22  4907  #endif
-74dcf418fe3446 Long Li            2017-11-22  4908  	data_len =3D server->o=
-ps->read_data_length(buf, use_rdma_mr);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4909  =
+e9d376f0fa66bd Jason Baron     2009-02-05  227  			/* match against the sou=
+rce filename */
+d6a238d25014d0 Jim Cromie      2011-12-19  228  			if (query->filename &&
+578b1e0701af34 Changbin Du     2014-01-23  229  			    !match_wildcard(quer=
+y->filename, dp->filename) &&
+578b1e0701af34 Changbin Du     2014-01-23  230  			    !match_wildcard(quer=
+y->filename,
+578b1e0701af34 Changbin Du     2014-01-23  231  					   kbasename(dp->filen=
+ame)) &&
+578b1e0701af34 Changbin Du     2014-01-23  232  			    !match_wildcard(quer=
+y->filename,
+578b1e0701af34 Changbin Du     2014-01-23  233  					   trim_prefix(dp->fil=
+ename)))
+e9d376f0fa66bd Jason Baron     2009-02-05  234  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  235  =
 
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4910  	if (data_offset < serv=
-er->vals->read_rsp_size) {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4911  		/*
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4912  		 * win2k8 sometimes s=
-ends an offset of 0 when the read
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4913  		 * is beyond the EOF.=
- Treat it as if the data starts just after
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4914  		 * the header.
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4915  		 */
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4916  		cifs_dbg(FYI, "%s: da=
-ta offset (%u) inside read response header\n",
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4917  			 __func__, data_offs=
-et);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4918  		data_offset =3D serve=
-r->vals->read_rsp_size;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4919  	} else if (data_offset=
- > MAX_CIFS_SMALL_BUFFER_SIZE) {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4920  		/* data_offset is bey=
-ond the end of smallbuf */
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4921  		cifs_dbg(FYI, "%s: da=
-ta offset (%u) beyond end of smallbuf\n",
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4922  			 __func__, data_offs=
-et);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4923  		rdata->result =3D -EI=
-O;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4924  		if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4925  			mid->mid_state =3D M=
-ID_RESPONSE_MALFORMED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4926  		else
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4927  			dequeue_mid(mid, rda=
-ta->result);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4928  		return 0;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4929  	}
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4930  =
+e9d376f0fa66bd Jason Baron     2009-02-05  236  			/* match against the fun=
+ction */
+d6a238d25014d0 Jim Cromie      2011-12-19  237  			if (query->function &&
+578b1e0701af34 Changbin Du     2014-01-23  238  			    !match_wildcard(quer=
+y->function, dp->function))
+e9d376f0fa66bd Jason Baron     2009-02-05  239  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  240  =
 
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4931  	pad_len =3D data_offse=
-t - server->vals->read_rsp_size;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4932  =
+e9d376f0fa66bd Jason Baron     2009-02-05  241  			/* match against the for=
+mat */
+4b334484fa7f44 Jim Cromie      2020-07-19  242  			if (query->format) {
+4b334484fa7f44 Jim Cromie      2020-07-19  243  				if (*query->format =3D=
+=3D '^') {
+4b334484fa7f44 Jim Cromie      2020-07-19  244  					char *p;
+4b334484fa7f44 Jim Cromie      2020-07-19  245  					/* anchored search. ma=
+tch must be at beginning */
+4b334484fa7f44 Jim Cromie      2020-07-19  246  					p =3D strstr(dp->forma=
+t, query->format+1);
+4b334484fa7f44 Jim Cromie      2020-07-19  247  					if (p !=3D dp->format)
+4b334484fa7f44 Jim Cromie      2020-07-19  248  						continue;
+4b334484fa7f44 Jim Cromie      2020-07-19  249  				} else if (!strstr(dp->=
+format, query->format))
+e9d376f0fa66bd Jason Baron     2009-02-05  250  					continue;
+4b334484fa7f44 Jim Cromie      2020-07-19  251  			}
+e9d376f0fa66bd Jason Baron     2009-02-05  252  =
 
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4933  	if (buf_len <=3D data_=
-offset) {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4934  		/* read response payl=
-oad is in pages */
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4935  		cur_page_idx =3D pad_=
-len / PAGE_SIZE;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4936  		cur_off =3D pad_len %=
- PAGE_SIZE;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4937  =
+e9d376f0fa66bd Jason Baron     2009-02-05  253  			/* match against the lin=
+e number range */
+e9d376f0fa66bd Jason Baron     2009-02-05  254  			if (query->first_lineno =
+&&
+e9d376f0fa66bd Jason Baron     2009-02-05  255  			    dp->lineno < query->=
+first_lineno)
+e9d376f0fa66bd Jason Baron     2009-02-05  256  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  257  			if (query->last_lineno &&
+e9d376f0fa66bd Jason Baron     2009-02-05  258  			    dp->lineno > query->=
+last_lineno)
+e9d376f0fa66bd Jason Baron     2009-02-05  259  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  260  =
 
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4938  		if (cur_page_idx !=3D=
- 0) {
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4939  			/* data offset is be=
-yond the 1st page of response */
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4940  			cifs_dbg(FYI, "%s: d=
-ata offset (%u) beyond 1st page of response\n",
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4941  				 __func__, data_off=
-set);
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4942  			rdata->result =3D -E=
-IO;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4943  			if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4944  				mid->mid_state =3D =
-MID_RESPONSE_MALFORMED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4945  			else
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4946  				dequeue_mid(mid, rd=
-ata->result);
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4947  			return 0;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4948  		}
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4949  =
+e9d376f0fa66bd Jason Baron     2009-02-05  261  			nfound++;
+e9d376f0fa66bd Jason Baron     2009-02-05  262  =
 
-36c9de734b21b4 David Howells      2022-01-24  4950  		if (data_len > pages_=
-len - pad_len) {
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4951  			/* data_len is corru=
-pt -- discard frame */
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4952  			rdata->result =3D -E=
-IO;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4953  			if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4954  				mid->mid_state =3D =
-MID_RESPONSE_MALFORMED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4955  			else
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4956  				dequeue_mid(mid, rd=
-ata->result);
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4957  			return 0;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4958  		}
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4959  =
+84da83a6ffc0b7 Jim Cromie      2020-07-19  263  			newflags =3D (dp->flags =
+& modifiers->mask) | modifiers->flags;
+e9d376f0fa66bd Jason Baron     2009-02-05  264  			if (newflags =3D=3D dp->=
+flags)
+e9d376f0fa66bd Jason Baron     2009-02-05  265  				continue;
+e9666d10a5677a Masahiro Yamada 2018-12-31  266  #ifdef CONFIG_JUMP_LABEL
+9049fc745300c5 Jason Baron     2016-08-03  267  			if (dp->flags & _DPRINTK=
+_FLAGS_PRINT) {
+4e833e8f218649 Jim Cromie      2022-01-31  268  				if (!(newflags & _DPRIN=
+TK_FLAGS_PRINT))
+9049fc745300c5 Jason Baron     2016-08-03  269  					static_branch_disable(=
+&dp->key.dd_key_true);
+4e833e8f218649 Jim Cromie      2022-01-31  270  			} else if (newflags & _D=
+PRINTK_FLAGS_PRINT) {
+9049fc745300c5 Jason Baron     2016-08-03  271  				static_branch_enable(&d=
+p->key.dd_key_true);
+4e833e8f218649 Jim Cromie      2022-01-31  272  			}
+9049fc745300c5 Jason Baron     2016-08-03  273  #endif
+d9df95baf80420 Jim Cromie      2022-01-31  274  			v4pr_info("changed %s:%d=
+ [%s]%s %s -> %s\n",
+2b6783191da721 Jim Cromie      2011-12-19  275  				  trim_prefix(dp->filen=
+ame), dp->lineno,
+e9d376f0fa66bd Jason Baron     2009-02-05  276  				  dt->mod_name, dp->fun=
+ction,
+d9df95baf80420 Jim Cromie      2022-01-31  277  				  ddebug_describe_flags=
+(dp->flags, &fbuf),
+d9df95baf80420 Jim Cromie      2022-01-31  278  				  ddebug_describe_flags=
+(newflags, &nbuf));
+d9df95baf80420 Jim Cromie      2022-01-31  279  			dp->flags =3D newflags;
+e9d376f0fa66bd Jason Baron     2009-02-05  280  		}
+e9d376f0fa66bd Jason Baron     2009-02-05  281  	}
+e9d376f0fa66bd Jason Baron     2009-02-05  282  	mutex_unlock(&ddebug_lock);
+e9d376f0fa66bd Jason Baron     2009-02-05  283  =
 
-36c9de734b21b4 David Howells      2022-01-24  4960  		/* Copy the data to t=
-he output I/O iterator. */
-36c9de734b21b4 David Howells      2022-01-24  4961  		rdata->result =3D cif=
-s_copy_pages_to_iter(pages, pages_len,
-36c9de734b21b4 David Howells      2022-01-24  4962  							cur_off, &rdata-=
->iter);
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4963  		if (rdata->result !=
-=3D 0) {
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4964  			if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4965  				mid->mid_state =3D =
-MID_RESPONSE_MALFORMED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4966  			else
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4967  				dequeue_mid(mid, rd=
-ata->result);
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4968  			return 0;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4969  		}
-36c9de734b21b4 David Howells      2022-01-24  4970  		rdata->got_bytes =3D =
-pages_len;
-c42a6abe301283 Pavel Shilovsky    2016-11-17  4971  =
+e9d376f0fa66bd Jason Baron     2009-02-05  284  	if (!nfound && verbose)
+4ad275e5cb576f Joe Perches     2011-08-11  285  		pr_info("no matches for q=
+uery\n");
+85f7f6c0edb841 Jim Cromie      2011-12-19  286  =
 
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4972  	} else if (buf_len >=
-=3D data_offset + data_len) {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4973  		/* read response payl=
-oad is in buf */
-36c9de734b21b4 David Howells      2022-01-24  4974  		WARN_ONCE(pages && !x=
-a_empty(pages),
-36c9de734b21b4 David Howells      2022-01-24  4975  			  "read data can be =
-either in buf or in pages");
-36c9de734b21b4 David Howells      2022-01-24  4976  		length =3D copy_to_it=
-er(buf + data_offset, data_len, &rdata->iter);
-36c9de734b21b4 David Howells      2022-01-24  4977  		if (length < 0)
-36c9de734b21b4 David Howells      2022-01-24  4978  			return length;
-36c9de734b21b4 David Howells      2022-01-24  4979  		rdata->got_bytes =3D =
-data_len;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4980  	} else {
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4981  		/* read response payl=
-oad cannot be in both buf and pages */
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4982  		WARN_ONCE(1, "buf can=
- not contain only a part of read data");
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4983  		rdata->result =3D -EI=
-O;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4984  		if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4985  			mid->mid_state =3D M=
-ID_RESPONSE_MALFORMED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4986  		else
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4987  			dequeue_mid(mid, rda=
-ta->result);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4988  		return 0;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4989  	}
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4990  =
+85f7f6c0edb841 Jim Cromie      2011-12-19  287  	return nfound;
+e9d376f0fa66bd Jason Baron     2009-02-05  288  }
+e9d376f0fa66bd Jason Baron     2009-02-05  289  =
 
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4991  	if (is_offloaded)
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4992  		mid->mid_state =3D MI=
-D_RESPONSE_RECEIVED;
-ac873aa3dc2170 Rohith Surabattula 2020-10-29  4993  	else
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4994  		dequeue_mid(mid, fals=
-e);
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17 @4995  	return length;
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4996  }
-4326ed2f6a16ae Pavel Shilovsky    2016-11-17  4997  =
-
-
-:::::: The code at line 4995 was first introduced by commit
-:::::: 4326ed2f6a16ae9d33e4209b540dc9a371aba840 CIFS: Decrypt and process s=
-mall encrypted packets
-
-:::::: TO: Pavel Shilovsky <pshilov@microsoft.com>
-:::::: CC: Steve French <smfrench@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7248965590721998783==--
+--===============1203134882913161953==--
 
