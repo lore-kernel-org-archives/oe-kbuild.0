@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8470406426749076884=="
+Content-Type: multipart/mixed; boundary="===============5582157855734366485=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1077 mpi3mr_create_op_reply_q() error: we previously assumed 'op_reply_q->q_segments' could be null (see line 1048)
-Date: Wed, 01 Jun 2022 12:42:55 +0800
-Message-ID: <202206011203.FAowiEzV-lkp@intel.com>
+Subject: drivers/irqchip/irq-apple-aic.c:980 aic_of_ic_init() error: uninitialized symbol 'start_off'.
+Date: Wed, 01 Jun 2022 10:50:30 +0800
+Message-ID: <202206011052.du9opGWF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8470406426749076884==
+--===============5582157855734366485==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,388 +15,223 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Kashyap Desai <kashyap.desai@broadcom.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Tomas Henzl <thenzl@redhat.com>
-CC: Himanshu Madhani <himanshu.madhani@oracle.com>
+TO: Hector Martin <marcan@marcan.st>
+CC: Marc Zyngier <maz@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   700170bf6b4d773e328fa54ebb70ba444007c702
-commit: c9566231cfaf448dd281cd7c516012a7e1c7e448 scsi: mpi3mr: Create opera=
-tional request and reply queue pair
-date:   12 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 12 months ago
-config: microblaze-randconfig-m031-20220529 (https://download.01.org/0day-c=
-i/archive/20220601/202206011203.FAowiEzV-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.3.0
+commit: a801f0ee563b8180caf186493806a145a75b4a3c irqchip/apple-aic: Support=
+ multiple dies
+date:   3 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 months ago
+config: arm64-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
+hive/20220601/202206011052.du9opGWF-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1077 mpi3mr_create_op_reply_q() error: we p=
-reviously assumed 'op_reply_q->q_segments' could be null (see line 1048)
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1184 mpi3mr_create_op_req_q() error: we pre=
-viously assumed 'op_req_q->q_segments' could be null (see line 1157)
+drivers/irqchip/irq-apple-aic.c:980 aic_of_ic_init() error: uninitialized s=
+ymbol 'start_off'.
 
 Old smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:2380 mpi3mr_cleanup_ioc() warn: inconsisten=
-t indenting
+drivers/irqchip/irq-apple-aic.c:943 aic_of_ic_init() warn: possible memory =
+leak of 'irqc'
+drivers/irqchip/irq-apple-aic.c:965 aic_of_ic_init() error: uninitialized s=
+ymbol 'off'.
+drivers/irqchip/irq-apple-aic.c:1029 aic_of_ic_init() warn: 'regs' from of_=
+iomap() not released on lines: 937,943.
 
-vim +1077 drivers/scsi/mpi3mr/mpi3mr_fw.c
+vim +/start_off +980 drivers/irqchip/irq-apple-aic.c
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1013  =
+b6ca556c352979 Marc Zyngier  2021-02-28   922  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1014  /**
-c9566231cfaf448 Kashyap Desai 2021-05-20  1015   * mpi3mr_create_op_reply_q=
- - create operational reply queue
-c9566231cfaf448 Kashyap Desai 2021-05-20  1016   * @mrioc: Adapter instance=
- reference
-c9566231cfaf448 Kashyap Desai 2021-05-20  1017   * @qidx: operational reply=
- queue index
-c9566231cfaf448 Kashyap Desai 2021-05-20  1018   *
-c9566231cfaf448 Kashyap Desai 2021-05-20  1019   * Create operatinal reply =
-queue by issuing MPI request
-c9566231cfaf448 Kashyap Desai 2021-05-20  1020   * through admin queue.
-c9566231cfaf448 Kashyap Desai 2021-05-20  1021   *
-c9566231cfaf448 Kashyap Desai 2021-05-20  1022   * Return:  0 on success, n=
-on-zero on failure.
-c9566231cfaf448 Kashyap Desai 2021-05-20  1023   */
-c9566231cfaf448 Kashyap Desai 2021-05-20  1024  static int mpi3mr_create_op=
-_reply_q(struct mpi3mr_ioc *mrioc, u16 qidx)
-c9566231cfaf448 Kashyap Desai 2021-05-20  1025  {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1026  	struct mpi3_create_reply_q=
-ueue_request create_req;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1027  	struct op_reply_qinfo *op_=
-reply_q =3D mrioc->op_reply_qinfo + qidx;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1028  	int retval =3D 0;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1029  	u16 reply_qid =3D 0, midx;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1030  =
+76cde26394114f Hector Martin 2021-01-21   923  static int __init aic_of_ic_=
+init(struct device_node *node, struct device_node *parent)
+76cde26394114f Hector Martin 2021-01-21   924  {
+a801f0ee563b81 Hector Martin 2022-03-10   925  	int i, die;
+a801f0ee563b81 Hector Martin 2022-03-10   926  	u32 off, start_off;
+76cde26394114f Hector Martin 2021-01-21   927  	void __iomem *regs;
+76cde26394114f Hector Martin 2021-01-21   928  	struct aic_irq_chip *irqc;
+2cf68211664acd Hector Martin 2022-03-10   929  	const struct of_device_id *=
+match;
+76cde26394114f Hector Martin 2021-01-21   930  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1031  	reply_qid =3D op_reply_q->=
-qid;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1032  =
+76cde26394114f Hector Martin 2021-01-21   931  	regs =3D of_iomap(node, 0);
+76cde26394114f Hector Martin 2021-01-21   932  	if (WARN_ON(!regs))
+76cde26394114f Hector Martin 2021-01-21   933  		return -EIO;
+76cde26394114f Hector Martin 2021-01-21   934  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1033  	midx =3D REPLY_QUEUE_IDX_T=
-O_MSIX_IDX(qidx, mrioc->op_reply_q_offset);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1034  =
+76cde26394114f Hector Martin 2021-01-21   935  	irqc =3D kzalloc(sizeof(*ir=
+qc), GFP_KERNEL);
+76cde26394114f Hector Martin 2021-01-21   936  	if (!irqc)
+76cde26394114f Hector Martin 2021-01-21   937  		return -ENOMEM;
+76cde26394114f Hector Martin 2021-01-21   938  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1035  	if (reply_qid) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1036  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1037  		ioc_err(mrioc, "CreateRep=
-Q: called for duplicate qid %d\n",
-c9566231cfaf448 Kashyap Desai 2021-05-20  1038  		    reply_qid);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1039  =
+76cde26394114f Hector Martin 2021-01-21   939  	irqc->base =3D regs;
+76cde26394114f Hector Martin 2021-01-21   940  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1040  		return retval;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1041  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1042  =
+2cf68211664acd Hector Martin 2022-03-10   941  	match =3D of_match_node(aic=
+_info_match, node);
+2cf68211664acd Hector Martin 2022-03-10   942  	if (!match)
+2cf68211664acd Hector Martin 2022-03-10   943  		return -ENODEV;
+2cf68211664acd Hector Martin 2022-03-10   944  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1043  	reply_qid =3D qidx + 1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1044  	op_reply_q->num_replies =
-=3D MPI3MR_OP_REP_Q_QD;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1045  	op_reply_q->ci =3D 0;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1046  	op_reply_q->ephase =3D 1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1047  =
+2cf68211664acd Hector Martin 2022-03-10   945  	irqc->info =3D *(struct aic=
+_info *)match->data;
+2cf68211664acd Hector Martin 2022-03-10   946  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20 @1048  	if (!op_reply_q->q_segment=
-s) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1049  		retval =3D mpi3mr_alloc_o=
-p_reply_q_segments(mrioc, qidx);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1050  		if (retval) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1051  			mpi3mr_free_op_reply_q_s=
-egments(mrioc, qidx);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1052  			goto out;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1053  		}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1054  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1055  =
+2cf68211664acd Hector Martin 2022-03-10   947  	aic_irqc =3D irqc;
+2cf68211664acd Hector Martin 2022-03-10   948  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1056  	memset(&create_req, 0, siz=
-eof(create_req));
-c9566231cfaf448 Kashyap Desai 2021-05-20  1057  	mutex_lock(&mrioc->init_cm=
-ds.mutex);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1058  	if (mrioc->init_cmds.state=
- & MPI3MR_CMD_PENDING) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1059  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1060  		ioc_err(mrioc, "CreateRep=
-Q: Init command is in use\n");
-c9566231cfaf448 Kashyap Desai 2021-05-20  1061  		goto out;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1062  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1063  	mrioc->init_cmds.state =3D=
- MPI3MR_CMD_PENDING;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1064  	mrioc->init_cmds.is_waitin=
-g =3D 1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1065  	mrioc->init_cmds.callback =
-=3D NULL;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1066  	create_req.host_tag =3D cp=
-u_to_le16(MPI3MR_HOSTTAG_INITCMDS);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1067  	create_req.function =3D MP=
-I3_FUNCTION_CREATE_REPLY_QUEUE;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1068  	create_req.queue_id =3D cp=
-u_to_le16(reply_qid);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1069  	create_req.flags =3D MPI3_=
-CREATE_REPLY_QUEUE_FLAGS_INT_ENABLE_ENABLE;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1070  	create_req.msix_index =3D =
-cpu_to_le16(mrioc->intr_info[midx].msix_index);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1071  	if (mrioc->enable_segqueue=
-) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1072  		create_req.flags |=3D
-c9566231cfaf448 Kashyap Desai 2021-05-20  1073  		    MPI3_CREATE_REQUEST_Q=
-UEUE_FLAGS_SEGMENTED_SEGMENTED;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1074  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf448 Kashyap Desai 2021-05-20  1075  		    op_reply_q->q_segment=
-_list_dma);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1076  	} else
-c9566231cfaf448 Kashyap Desai 2021-05-20 @1077  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf448 Kashyap Desai 2021-05-20  1078  		    op_reply_q->q_segment=
-s[0].segment_dma);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1079  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1080  	create_req.size =3D cpu_to=
-_le16(op_reply_q->num_replies);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1081  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1082  	init_completion(&mrioc->in=
-it_cmds.done);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1083  	retval =3D mpi3mr_admin_re=
-quest_post(mrioc, &create_req,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1084  	    sizeof(create_req), 1);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1085  	if (retval) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1086  		ioc_err(mrioc, "CreateRep=
-Q: Admin Post failed\n");
-c9566231cfaf448 Kashyap Desai 2021-05-20  1087  		goto out_unlock;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1088  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1089  	wait_for_completion_timeou=
-t(&mrioc->init_cmds.done,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1090  	    (MPI3MR_INTADMCMD_TIME=
-OUT * HZ));
-c9566231cfaf448 Kashyap Desai 2021-05-20  1091  	if (!(mrioc->init_cmds.sta=
-te & MPI3MR_CMD_COMPLETE)) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1092  		ioc_err(mrioc, "CreateRep=
-Q: command timed out\n");
-c9566231cfaf448 Kashyap Desai 2021-05-20  1093  		mpi3mr_set_diagsave(mrioc=
-);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1094  		mpi3mr_issue_reset(mrioc,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1095  		    MPI3_SYSIF_HOST_DIAG_=
-RESET_ACTION_DIAG_FAULT,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1096  		    MPI3MR_RESET_FROM_CRE=
-ATEREPQ_TIMEOUT);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1097  		mrioc->unrecoverable =3D =
-1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1098  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1099  		goto out_unlock;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1100  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1101  	if ((mrioc->init_cmds.ioc_=
-status & MPI3_IOCSTATUS_STATUS_MASK)
-c9566231cfaf448 Kashyap Desai 2021-05-20  1102  	    !=3D MPI3_IOCSTATUS_SU=
-CCESS) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1103  		ioc_err(mrioc,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1104  		    "CreateRepQ: Failed i=
-oc_status(0x%04x) Loginfo(0x%08x)\n",
-c9566231cfaf448 Kashyap Desai 2021-05-20  1105  		    (mrioc->init_cmds.ioc=
-_status & MPI3_IOCSTATUS_STATUS_MASK),
-c9566231cfaf448 Kashyap Desai 2021-05-20  1106  		    mrioc->init_cmds.ioc_=
-loginfo);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1107  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1108  		goto out_unlock;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1109  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1110  	op_reply_q->qid =3D reply_=
-qid;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1111  	mrioc->intr_info[midx].op_=
-reply_q =3D op_reply_q;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1112  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1113  out_unlock:
-c9566231cfaf448 Kashyap Desai 2021-05-20  1114  	mrioc->init_cmds.state =3D=
- MPI3MR_CMD_NOTUSED;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1115  	mutex_unlock(&mrioc->init_=
-cmds.mutex);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1116  out:
-c9566231cfaf448 Kashyap Desai 2021-05-20  1117  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1118  	return retval;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1119  }
-c9566231cfaf448 Kashyap Desai 2021-05-20  1120  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1121  /**
-c9566231cfaf448 Kashyap Desai 2021-05-20  1122   * mpi3mr_create_op_req_q -=
- create operational request queue
-c9566231cfaf448 Kashyap Desai 2021-05-20  1123   * @mrioc: Adapter instance=
- reference
-c9566231cfaf448 Kashyap Desai 2021-05-20  1124   * @idx: operational reques=
-t queue index
-c9566231cfaf448 Kashyap Desai 2021-05-20  1125   * @reply_qid: Reply queue =
-ID
-c9566231cfaf448 Kashyap Desai 2021-05-20  1126   *
-c9566231cfaf448 Kashyap Desai 2021-05-20  1127   * Create operatinal reques=
-t queue by issuing MPI request
-c9566231cfaf448 Kashyap Desai 2021-05-20  1128   * through admin queue.
-c9566231cfaf448 Kashyap Desai 2021-05-20  1129   *
-c9566231cfaf448 Kashyap Desai 2021-05-20  1130   * Return:  0 on success, n=
-on-zero on failure.
-c9566231cfaf448 Kashyap Desai 2021-05-20  1131   */
-c9566231cfaf448 Kashyap Desai 2021-05-20  1132  static int mpi3mr_create_op=
-_req_q(struct mpi3mr_ioc *mrioc, u16 idx,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1133  	u16 reply_qid)
-c9566231cfaf448 Kashyap Desai 2021-05-20  1134  {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1135  	struct mpi3_create_request=
-_queue_request create_req;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1136  	struct op_req_qinfo *op_re=
-q_q =3D mrioc->req_qinfo + idx;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1137  	int retval =3D 0;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1138  	u16 req_qid =3D 0;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1139  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1140  	req_qid =3D op_req_q->qid;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1141  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1142  	if (req_qid) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1143  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1144  		ioc_err(mrioc, "CreateReq=
-Q: called for duplicate qid %d\n",
-c9566231cfaf448 Kashyap Desai 2021-05-20  1145  		    req_qid);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1146  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1147  		return retval;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1148  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1149  	req_qid =3D idx + 1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1150  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20  1151  	op_req_q->num_requests =3D=
- MPI3MR_OP_REQ_Q_QD;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1152  	op_req_q->ci =3D 0;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1153  	op_req_q->pi =3D 0;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1154  	op_req_q->reply_qid =3D re=
-ply_qid;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1155  	spin_lock_init(&op_req_q->=
-q_lock);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1156  =
-
-c9566231cfaf448 Kashyap Desai 2021-05-20 @1157  	if (!op_req_q->q_segments)=
+dc97fd6fec0099 Hector Martin 2022-03-10   949  	switch (irqc->info.version)=
  {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1158  		retval =3D mpi3mr_alloc_o=
-p_req_q_segments(mrioc, idx);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1159  		if (retval) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1160  			mpi3mr_free_op_req_q_seg=
-ments(mrioc, idx);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1161  			goto out;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1162  		}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1163  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1164  =
+dc97fd6fec0099 Hector Martin 2022-03-10   950  	case 1: {
+dc97fd6fec0099 Hector Martin 2022-03-10   951  		u32 info;
+dc97fd6fec0099 Hector Martin 2022-03-10   952  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1165  	memset(&create_req, 0, siz=
-eof(create_req));
-c9566231cfaf448 Kashyap Desai 2021-05-20  1166  	mutex_lock(&mrioc->init_cm=
-ds.mutex);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1167  	if (mrioc->init_cmds.state=
- & MPI3MR_CMD_PENDING) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1168  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1169  		ioc_err(mrioc, "CreateReq=
-Q: Init command is in use\n");
-c9566231cfaf448 Kashyap Desai 2021-05-20  1170  		goto out;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1171  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1172  	mrioc->init_cmds.state =3D=
- MPI3MR_CMD_PENDING;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1173  	mrioc->init_cmds.is_waitin=
-g =3D 1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1174  	mrioc->init_cmds.callback =
-=3D NULL;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1175  	create_req.host_tag =3D cp=
-u_to_le16(MPI3MR_HOSTTAG_INITCMDS);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1176  	create_req.function =3D MP=
-I3_FUNCTION_CREATE_REQUEST_QUEUE;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1177  	create_req.queue_id =3D cp=
-u_to_le16(req_qid);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1178  	if (mrioc->enable_segqueue=
-) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1179  		create_req.flags =3D
-c9566231cfaf448 Kashyap Desai 2021-05-20  1180  		    MPI3_CREATE_REQUEST_Q=
-UEUE_FLAGS_SEGMENTED_SEGMENTED;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1181  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf448 Kashyap Desai 2021-05-20  1182  		    op_req_q->q_segment_l=
-ist_dma);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1183  	} else
-c9566231cfaf448 Kashyap Desai 2021-05-20 @1184  		create_req.base_address =
-=3D cpu_to_le64(
-c9566231cfaf448 Kashyap Desai 2021-05-20  1185  		    op_req_q->q_segments[=
-0].segment_dma);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1186  	create_req.reply_queue_id =
-=3D cpu_to_le16(reply_qid);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1187  	create_req.size =3D cpu_to=
-_le16(op_req_q->num_requests);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1188  =
+76cde26394114f Hector Martin 2021-01-21   953  		info =3D aic_ic_read(irqc,=
+ AIC_INFO);
+7c841f5f6fa3f9 Hector Martin 2022-03-10   954  		irqc->nr_irq =3D FIELD_GET=
+(AIC_INFO_NR_IRQ, info);
+dc97fd6fec0099 Hector Martin 2022-03-10   955  		irqc->max_irq =3D AIC_MAX_=
+IRQ;
+a801f0ee563b81 Hector Martin 2022-03-10   956  		irqc->nr_die =3D irqc->max=
+_die =3D 1;
+dc97fd6fec0099 Hector Martin 2022-03-10   957  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1189  	init_completion(&mrioc->in=
-it_cmds.done);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1190  	retval =3D mpi3mr_admin_re=
-quest_post(mrioc, &create_req,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1191  	    sizeof(create_req), 1);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1192  	if (retval) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1193  		ioc_err(mrioc, "CreateReq=
-Q: Admin Post failed\n");
-c9566231cfaf448 Kashyap Desai 2021-05-20  1194  		goto out_unlock;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1195  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1196  	wait_for_completion_timeou=
-t(&mrioc->init_cmds.done,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1197  	    (MPI3MR_INTADMCMD_TIME=
-OUT * HZ));
-c9566231cfaf448 Kashyap Desai 2021-05-20  1198  	if (!(mrioc->init_cmds.sta=
-te & MPI3MR_CMD_COMPLETE)) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1199  		ioc_err(mrioc, "CreateReq=
-Q: command timed out\n");
-c9566231cfaf448 Kashyap Desai 2021-05-20  1200  		mpi3mr_set_diagsave(mrioc=
-);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1201  		if (mpi3mr_issue_reset(mr=
-ioc,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1202  		    MPI3_SYSIF_HOST_DIAG_=
-RESET_ACTION_DIAG_FAULT,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1203  		    MPI3MR_RESET_FROM_CRE=
-ATEREQQ_TIMEOUT))
-c9566231cfaf448 Kashyap Desai 2021-05-20  1204  			mrioc->unrecoverable =3D=
- 1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1205  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1206  		goto out_unlock;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1207  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1208  	if ((mrioc->init_cmds.ioc_=
-status & MPI3_IOCSTATUS_STATUS_MASK)
-c9566231cfaf448 Kashyap Desai 2021-05-20  1209  	    !=3D MPI3_IOCSTATUS_SU=
-CCESS) {
-c9566231cfaf448 Kashyap Desai 2021-05-20  1210  		ioc_err(mrioc,
-c9566231cfaf448 Kashyap Desai 2021-05-20  1211  		    "CreateReqQ: Failed i=
-oc_status(0x%04x) Loginfo(0x%08x)\n",
-c9566231cfaf448 Kashyap Desai 2021-05-20  1212  		    (mrioc->init_cmds.ioc=
-_status & MPI3_IOCSTATUS_STATUS_MASK),
-c9566231cfaf448 Kashyap Desai 2021-05-20  1213  		    mrioc->init_cmds.ioc_=
-loginfo);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1214  		retval =3D -1;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1215  		goto out_unlock;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1216  	}
-c9566231cfaf448 Kashyap Desai 2021-05-20  1217  	op_req_q->qid =3D req_qid;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1218  =
+a801f0ee563b81 Hector Martin 2022-03-10   958  		off =3D start_off =3D irqc=
+->info.target_cpu;
+dc97fd6fec0099 Hector Martin 2022-03-10   959  		off +=3D sizeof(u32) * irq=
+c->max_irq; /* TARGET_CPU */
+dc97fd6fec0099 Hector Martin 2022-03-10   960  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1219  out_unlock:
-c9566231cfaf448 Kashyap Desai 2021-05-20  1220  	mrioc->init_cmds.state =3D=
- MPI3MR_CMD_NOTUSED;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1221  	mutex_unlock(&mrioc->init_=
-cmds.mutex);
-c9566231cfaf448 Kashyap Desai 2021-05-20  1222  out:
-c9566231cfaf448 Kashyap Desai 2021-05-20  1223  =
+dc97fd6fec0099 Hector Martin 2022-03-10   961  		break;
+dc97fd6fec0099 Hector Martin 2022-03-10   962  	}
+dc97fd6fec0099 Hector Martin 2022-03-10   963  	}
+dc97fd6fec0099 Hector Martin 2022-03-10   964  =
 
-c9566231cfaf448 Kashyap Desai 2021-05-20  1224  	return retval;
-c9566231cfaf448 Kashyap Desai 2021-05-20  1225  }
-c9566231cfaf448 Kashyap Desai 2021-05-20  1226  =
+dc97fd6fec0099 Hector Martin 2022-03-10   965  	irqc->info.sw_set =3D off;
+dc97fd6fec0099 Hector Martin 2022-03-10   966  	off +=3D sizeof(u32) * (irq=
+c->max_irq >> 5); /* SW_SET */
+dc97fd6fec0099 Hector Martin 2022-03-10   967  	irqc->info.sw_clr =3D off;
+dc97fd6fec0099 Hector Martin 2022-03-10   968  	off +=3D sizeof(u32) * (irq=
+c->max_irq >> 5); /* SW_CLR */
+dc97fd6fec0099 Hector Martin 2022-03-10   969  	irqc->info.mask_set =3D off;
+dc97fd6fec0099 Hector Martin 2022-03-10   970  	off +=3D sizeof(u32) * (irq=
+c->max_irq >> 5); /* MASK_SET */
+dc97fd6fec0099 Hector Martin 2022-03-10   971  	irqc->info.mask_clr =3D off;
+dc97fd6fec0099 Hector Martin 2022-03-10   972  	off +=3D sizeof(u32) * (irq=
+c->max_irq >> 5); /* MASK_CLR */
+dc97fd6fec0099 Hector Martin 2022-03-10   973  	off +=3D sizeof(u32) * (irq=
+c->max_irq >> 5); /* HW_STATE */
+76cde26394114f Hector Martin 2021-01-21   974  =
+
+2cf68211664acd Hector Martin 2022-03-10   975  	if (irqc->info.fast_ipi)
+2cf68211664acd Hector Martin 2022-03-10   976  		static_branch_enable(&use_=
+fast_ipi);
+2cf68211664acd Hector Martin 2022-03-10   977  	else
+2cf68211664acd Hector Martin 2022-03-10   978  		static_branch_disable(&use=
+_fast_ipi);
+2cf68211664acd Hector Martin 2022-03-10   979  =
+
+a801f0ee563b81 Hector Martin 2022-03-10  @980  	irqc->info.die_stride =3D o=
+ff - start_off;
+a801f0ee563b81 Hector Martin 2022-03-10   981  =
+
+7c841f5f6fa3f9 Hector Martin 2022-03-10   982  	irqc->hw_domain =3D irq_dom=
+ain_create_tree(of_node_to_fwnode(node),
+76cde26394114f Hector Martin 2021-01-21   983  						 &aic_irq_domain_ops, =
+irqc);
+76cde26394114f Hector Martin 2021-01-21   984  	if (WARN_ON(!irqc->hw_domai=
+n)) {
+76cde26394114f Hector Martin 2021-01-21   985  		iounmap(irqc->base);
+76cde26394114f Hector Martin 2021-01-21   986  		kfree(irqc);
+76cde26394114f Hector Martin 2021-01-21   987  		return -ENODEV;
+76cde26394114f Hector Martin 2021-01-21   988  	}
+76cde26394114f Hector Martin 2021-01-21   989  =
+
+76cde26394114f Hector Martin 2021-01-21   990  	irq_domain_update_bus_token=
+(irqc->hw_domain, DOMAIN_BUS_WIRED);
+76cde26394114f Hector Martin 2021-01-21   991  =
+
+76cde26394114f Hector Martin 2021-01-21   992  	if (aic_init_smp(irqc, node=
+)) {
+76cde26394114f Hector Martin 2021-01-21   993  		irq_domain_remove(irqc->hw=
+_domain);
+76cde26394114f Hector Martin 2021-01-21   994  		iounmap(irqc->base);
+76cde26394114f Hector Martin 2021-01-21   995  		kfree(irqc);
+76cde26394114f Hector Martin 2021-01-21   996  		return -ENODEV;
+76cde26394114f Hector Martin 2021-01-21   997  	}
+76cde26394114f Hector Martin 2021-01-21   998  =
+
+76cde26394114f Hector Martin 2021-01-21   999  	set_handle_irq(aic_handle_i=
+rq);
+76cde26394114f Hector Martin 2021-01-21  1000  	set_handle_fiq(aic_handle_f=
+iq);
+76cde26394114f Hector Martin 2021-01-21  1001  =
+
+a801f0ee563b81 Hector Martin 2022-03-10  1002  	off =3D 0;
+a801f0ee563b81 Hector Martin 2022-03-10  1003  	for (die =3D 0; die < irqc-=
+>nr_die; die++) {
+7c841f5f6fa3f9 Hector Martin 2022-03-10  1004  		for (i =3D 0; i < BITS_TO_=
+U32(irqc->nr_irq); i++)
+a801f0ee563b81 Hector Martin 2022-03-10  1005  			aic_ic_write(irqc, irqc->=
+info.mask_set + off + i * 4, U32_MAX);
+7c841f5f6fa3f9 Hector Martin 2022-03-10  1006  		for (i =3D 0; i < BITS_TO_=
+U32(irqc->nr_irq); i++)
+a801f0ee563b81 Hector Martin 2022-03-10  1007  			aic_ic_write(irqc, irqc->=
+info.sw_clr + off + i * 4, U32_MAX);
+a801f0ee563b81 Hector Martin 2022-03-10  1008  		if (irqc->info.target_cpu)
+7c841f5f6fa3f9 Hector Martin 2022-03-10  1009  			for (i =3D 0; i < irqc->n=
+r_irq; i++)
+a801f0ee563b81 Hector Martin 2022-03-10  1010  				aic_ic_write(irqc, irqc-=
+>info.target_cpu + off + i * 4, 1);
+a801f0ee563b81 Hector Martin 2022-03-10  1011  		off +=3D irqc->info.die_st=
+ride;
+a801f0ee563b81 Hector Martin 2022-03-10  1012  	}
+76cde26394114f Hector Martin 2021-01-21  1013  =
+
+76cde26394114f Hector Martin 2021-01-21  1014  	if (!is_kernel_in_hyp_mode(=
+))
+76cde26394114f Hector Martin 2021-01-21  1015  		pr_info("Kernel running in=
+ EL1, mapping interrupts");
+76cde26394114f Hector Martin 2021-01-21  1016  =
+
+2cf68211664acd Hector Martin 2022-03-10  1017  	if (static_branch_likely(&u=
+se_fast_ipi))
+2cf68211664acd Hector Martin 2022-03-10  1018  		pr_info("Using Fast IPIs");
+2cf68211664acd Hector Martin 2022-03-10  1019  =
+
+76cde26394114f Hector Martin 2021-01-21  1020  	cpuhp_setup_state(CPUHP_AP_=
+IRQ_APPLE_AIC_STARTING,
+76cde26394114f Hector Martin 2021-01-21  1021  			  "irqchip/apple-aic/ipi:=
+starting",
+76cde26394114f Hector Martin 2021-01-21  1022  			  aic_init_cpu, NULL);
+76cde26394114f Hector Martin 2021-01-21  1023  =
+
+b6ca556c352979 Marc Zyngier  2021-02-28  1024  	vgic_set_kvm_info(&vgic_inf=
+o);
+b6ca556c352979 Marc Zyngier  2021-02-28  1025  =
+
+a801f0ee563b81 Hector Martin 2022-03-10  1026  	pr_info("Initialized with %=
+d/%d IRQs * %d/%d die(s), %d FIQs, %d vIPIs",
+a801f0ee563b81 Hector Martin 2022-03-10  1027  		irqc->nr_irq, irqc->max_ir=
+q, irqc->nr_die, irqc->max_die, AIC_NR_FIQ, AIC_NR_SWIPI);
+76cde26394114f Hector Martin 2021-01-21  1028  =
+
+76cde26394114f Hector Martin 2021-01-21  1029  	return 0;
+76cde26394114f Hector Martin 2021-01-21  1030  }
+76cde26394114f Hector Martin 2021-01-21  1031  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8470406426749076884==--
+--===============5582157855734366485==--
 
