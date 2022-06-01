@@ -1,22 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============7112426384460754726=="
+Content-Type: multipart/mixed; boundary="===============7396831575942265428=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/tegra/dc.c:2238:2: warning: Value stored to 'old_state' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 02 Jun 2022 08:28:47 +0800
-Message-ID: <202206020858.AE35zuy5-lkp@intel.com>
+Subject: net/compat.c:444:5: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Thu, 02 Jun 2022 05:40:09 +0800
+Message-ID: <202206020541.rLhvboO3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7112426384460754726==
+--===============7396831575942265428==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/tegra/dc.c:2238:2: warning: Value stored to 'old_state' is never rea=
-d [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ net/compat.c:444:5: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]"
 :::::: =
 
 
@@ -24,36 +24,38 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Thierry Reding <treding@nvidia.com>
+TO: Kees Cook <keescook@chromium.org>
+CC: Miguel Ojeda <ojeda@kernel.org>
+
+Hi Kees,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   8171acb8bc9b33f3ed827f0615b24f7a06495cd0
-commit: 04d5d5df9df79f9045e76404775fc8a084aac23d drm/tegra: dc: Support mem=
-ory bandwidth management
-date:   10 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220531 (https://download.01.org/0day-ci/archi=
-ve/20220602/202206020858.AE35zuy5-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c825ab=
-d6b0198fb088d9752f556a70705bc99dfd)
+head:   8eca6b0a647aabea3d1d2907dd6245fc436f98e7
+commit: c80d92fbb67b2c80b8eeb8759ee79d676eb33520 compiler_types.h: Remove _=
+_compiletime_object_size()
+date:   8 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-c007-20220530 (https://download.01.org/0day-ci/ar=
+chive/20220602/202206020541.rLhvboO3-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0776c4=
+8f9b7e69fa447bee57c7c0985caa856be9)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D04d5d5df9df79f9045e76404775fc8a084aac23d
+t/commit/?id=3Dc80d92fbb67b2c80b8eeb8759ee79d676eb33520
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 04d5d5df9df79f9045e76404775fc8a084aac23d
+        git checkout c80d92fbb67b2c80b8eeb8759ee79d676eb33520
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -61,753 +63,535 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                          ^~~   ~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c:959:17: note: Value stored=
- to 'dev' during its initialization is never read
-           struct device *dev =3D hdev->core->dev;
-                          ^~~   ~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c:966:34: warning: Value sto=
-red to 'pkt' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-                           struct hfi_msg_sys_debug_pkt *pkt =3D packet;
-                                                         ^~~   ~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c:966:34: note: Value stored=
- to 'pkt' during its initialization is never read
-                           struct hfi_msg_sys_debug_pkt *pkt =3D packet;
-                                                         ^~~   ~~~~~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   block/bfq-wf2q.c:263:7: warning: Access to field 'my_sched_data' results=
- in a dereference of a null pointer (loaded from variable 'entity') [clang-=
-analyzer-core.NullDereference]
-           if (!entity->my_sched_data)
-                ^
-   block/bfq-wf2q.c:1508:2: note: 'entity' initialized to a null pointer va=
-lue
-           struct bfq_entity *entity =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1512:6: note: Assuming the condition is false
-           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1512:2: note: Taking false branch
-           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
            ^
-   block/bfq-wf2q.c:1521:2: note: Loop condition is false. Execution contin=
-ues on line 1582
-           for (; sd ; sd =3D entity->my_sched_data) {
+   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8406:3: note: '?' condition is=
+ true
+                   dev_info(&instance->pdev->dev, "Driver unload is in prog=
+ress "
+                   ^
+   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
+           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
+#__VA_ARGS__)
            ^
-   block/bfq-wf2q.c:1582:28: note: Passing null pointer value via 1st param=
-eter 'entity'
-           bfqq =3D bfq_entity_to_bfqq(entity);
-                                     ^~~~~~
-   block/bfq-wf2q.c:1582:9: note: Calling 'bfq_entity_to_bfqq'
-           bfqq =3D bfq_entity_to_bfqq(entity);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:263:7: note: Access to field 'my_sched_data' results in=
- a dereference of a null pointer (loaded from variable 'entity')
-           if (!entity->my_sched_data)
-                ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
+_emit'
+                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
+fmt) : NULL, \
+                                          ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8406:3: note: '?' condition is=
+ true
+                   dev_info(&instance->pdev->dev, "Driver unload is in prog=
+ress "
+                   ^
+   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
+           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
+#__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
+_emit'
+                                   .level =3D __builtin_constant_p(_level) =
+? (_level) : NULL, \
+                                            ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8406:3: note: Loop condition i=
+s false.  Exiting loop
+                   dev_info(&instance->pdev->dev, "Driver unload is in prog=
+ress "
+                   ^
+   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
+           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
+#__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
+emit'
+           do {                                                            \
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8408:3: note: Control jumps to=
+ line 8455
+                   goto out;
+                   ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8455:6: note: 'sense' is null
+           if (sense) {
+               ^~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:8455:2: note: Taking false bra=
+nch
+           if (sense) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8460:2: note: Loop condition i=
+s true.  Entering loop body
+           for (i =3D 0; i < ioc->sge_count; i++) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8461:3: note: Taking true bran=
+ch
+                   if (kbuff_arr[i]) {
+                   ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8462:8: note: Assuming field '=
+consistent_mask_64bit' is true
+                           if (instance->consistent_mask_64bit)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:8462:4: note: Taking true bran=
+ch
+                           if (instance->consistent_mask_64bit)
+                           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8464:6: note: Dereference of n=
+ull pointer
+                                           le32_to_cpu(kern_sge64[i].length=
+),
+                                           ^
+   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32=
+_to_cpu'
+   #define le32_to_cpu __le32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:34:50: note: expanded from =
+macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                    ^~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   12 warnings generated.
+   net/core/bpf_sk_storage.c:754:4: warning: Value stored to 'b' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           b =3D &smap->buckets[bucket_id++];
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/bpf_sk_storage.c:754:4: note: Value stored to 'b' is never read
+                           b =3D &smap->buckets[bucket_id++];
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   11 warnings generated.
+>> net/compat.c:444:5: warning: Assigned value is garbage or undefined [cla=
+ng-analyzer-core.uninitialized.Assign]
+           a0 =3D a[0];
+              ^
+   net/compat.c:424:1: note: Calling '__se_compat_sys_socketcall'
+   COMPAT_SYSCALL_DEFINE2(socketcall, int, call, u32 __user *, args)
+   ^
+   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_D=
+EFINE2'
+           COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:205:2: note: expanded from macro =
+'COMPAT_SYSCALL_DEFINEx'
+           __IA32_COMPAT_SYS_STUBx(x, name, __VA_ARGS__)                   =
+        \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:145:2: note: expanded from macro =
+'__IA32_COMPAT_SYS_STUBx'
+           __SYS_STUBx(ia32, compat_sys##name,                             \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
+'__SYS_STUBx'
+                   return __se_##name(__VA_ARGS__);                        \
+                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   net/compat.c:424:1: note: Calling '__do_compat_sys_socketcall'
+   COMPAT_SYSCALL_DEFINE2(socketcall, int, call, u32 __user *, args)
+   ^
+   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_D=
+EFINE2'
+           COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:209:10: note: expanded from macro=
+ 'COMPAT_SYSCALL_DEFINEx'
+                   return __do_compat_sys##name(__MAP(x,__SC_DELOUSE,__VA_A=
+RGS__));\
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   note: expanded from here
+   net/compat.c:431:6: note: Assuming 'call' is >=3D SYS_SOCKET
+           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+               ^~~~~~~~~~~~~~~~~
+   net/compat.c:431:6: note: Left side of '||' is false
+   net/compat.c:431:27: note: Assuming 'call' is <=3D SYS_SENDMMSG
+           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+                                    ^~~~~~~~~~~~~~~~~~~
+   net/compat.c:431:2: note: Taking false branch
+           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+           ^
+   net/compat.c:434:6: note: Assuming the condition is false
+           if (len > sizeof(a))
+               ^~~~~~~~~~~~~~~
+   net/compat.c:434:2: note: Taking false branch
+           if (len > sizeof(a))
+           ^
+   net/compat.c:437:6: note: Calling 'copy_from_user'
+           if (copy_from_user(a, args, len))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking false branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   net/compat.c:437:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(a, args, len))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/compat.c:437:6: note: Assuming the condition is false
+           if (copy_from_user(a, args, len))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/compat.c:437:2: note: Taking false branch
+           if (copy_from_user(a, args, len))
+           ^
+   net/compat.c:440:8: note: Calling 'audit_socketcall_compat'
+           ret =3D audit_socketcall_compat(len / sizeof(a[0]), a);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/audit.h:616:2: note: Returning without writing to '*args'
+           return 0;
+           ^
+   include/linux/audit.h:616:2: note: Returning zero, which participates in=
+ a condition later
+           return 0;
+           ^~~~~~~~
+   net/compat.c:440:8: note: Returning from 'audit_socketcall_compat'
+           ret =3D audit_socketcall_compat(len / sizeof(a[0]), a);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/compat.c:441:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   net/compat.c:441:2: note: Taking false branch
+           if (ret)
+           ^
+   net/compat.c:444:5: note: Assigned value is garbage or undefined
+           a0 =3D a[0];
+              ^ ~~~~
+   Suppressed 10 warnings (10 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/media/dvb-frontends/tda10048.c:493:3: warning: Value stored to '=
-ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/dvb-frontends/tda10048.c:493:3: note: Value stored to 'ret=
-' is never read
-                   ret =3D 0;
-                   ^     ~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/tegra/dc.c:1856:2: warning: Value stored to 'old_dc_stat=
-e' is never read [clang-analyzer-deadcode.DeadStores]
-           old_dc_state =3D to_const_dc_state(old_crtc_state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:1856:2: note: Value stored to 'old_dc_state' =
-is never read
-           old_dc_state =3D to_const_dc_state(old_crtc_state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:1857:2: warning: Value stored to 'new_dc_stat=
-e' is never read [clang-analyzer-deadcode.DeadStores]
-           new_dc_state =3D to_const_dc_state(crtc->state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:1857:2: note: Value stored to 'new_dc_state' =
-is never read
-           new_dc_state =3D to_const_dc_state(crtc->state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2145:2: warning: Value stored to 'value' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2145:2: note: Value stored to 'value' is neve=
-r read
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2149:2: warning: Value stored to 'value' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2149:2: note: Value stored to 'value' is neve=
-r read
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/tegra/dc.c:2238:2: warning: Value stored to 'old_state' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           old_state =3D drm_atomic_get_old_crtc_state(state, crtc);
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2238:2: note: Value stored to 'old_state' is =
-never read
-           old_state =3D drm_atomic_get_old_crtc_state(state, crtc);
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (1 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/base/dd.c:684:2: warning: Value stored to 'calltime' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-           calltime =3D ktime_get();
-           ^          ~~~~~~~~~~~
-   drivers/base/dd.c:684:2: note: Value stored to 'calltime' is never read
-           calltime =3D ktime_get();
-           ^          ~~~~~~~~~~~
-   drivers/base/dd.c:686:2: warning: Value stored to 'rettime' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           rettime =3D ktime_get();
-           ^         ~~~~~~~~~~~
-   drivers/base/dd.c:686:2: note: Value stored to 'rettime' is never read
-           rettime =3D ktime_get();
-           ^         ~~~~~~~~~~~
-   drivers/base/dd.c:1080:2: warning: Value stored to 'ret' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           ret =3D driver_probe_device(drv, dev);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/dd.c:1080:2: note: Value stored to 'ret' is never read
-           ret =3D driver_probe_device(drv, dev);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/base/platform.c:577:3: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(pa->name, name);
-                   ^~~~~~
-   drivers/base/platform.c:577:3: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-                   strcpy(pa->name, name);
-                   ^~~~~~
-   2 warnings generated.
-   drivers/mmc/core/regulator.c:181:17: warning: Value stored to 'dev' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D mmc_dev(mmc);
-                          ^~~
-   drivers/mmc/core/regulator.c:181:17: note: Value stored to 'dev' during =
-its initialization is never read
-           struct device *dev =3D mmc_dev(mmc);
-                          ^~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/media/platform/sti/delta/delta-debug.c:57:20: warning: Value sto=
-red to 'delta' during its initialization is never read [clang-analyzer-dead=
-code.DeadStores]
-           struct delta_dev *delta =3D ctx->dev;
-                             ^~~~~   ~~~~~~~~
-   drivers/media/platform/sti/delta/delta-debug.c:57:20: note: Value stored=
- to 'delta' during its initialization is never read
-           struct delta_dev *delta =3D ctx->dev;
-                             ^~~~~   ~~~~~~~~
-   drivers/media/platform/sti/delta/delta-debug.c:58:27: warning: Value sto=
-red to 's' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct delta_streaminfo *s =3D &ctx->streaminfo;
-                                    ^   ~~~~~~~~~~~~~~~~
-   drivers/media/platform/sti/delta/delta-debug.c:58:27: note: Value stored=
- to 's' during its initialization is never read
-           struct delta_streaminfo *s =3D &ctx->streaminfo;
-                                    ^   ~~~~~~~~~~~~~~~~
-   drivers/media/platform/sti/delta/delta-debug.c:59:16: warning: Value sto=
-red to 'str' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-           unsigned char str[100] =3D "";
-                         ^~~        ~~
-   drivers/media/platform/sti/delta/delta-debug.c:59:16: note: Value stored=
- to 'str' during its initialization is never read
-           unsigned char str[100] =3D "";
-                         ^~~        ~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
+   14 warnings generated.
+   net/core/filter.c:1737:2: warning: Null pointer passed as 1st argument t=
+o memory set function [clang-analyzer-unix.cstring.NullArg]
+           memset(to, 0, len);
+           ^
+   net/core/filter.c:10218:57: note: Passing value via 3rd parameter 'to'
+           return ____bpf_skb_load_bytes(reuse_kern->skb, offset, to, len);
+                                                                  ^~
+   net/core/filter.c:10218:9: note: Calling '____bpf_skb_load_bytes'
+           return ____bpf_skb_load_bytes(reuse_kern->skb, offset, to, len);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/filter.c:1726:15: note: Assuming 'offset' is <=3D 65535
+           if (unlikely(offset > 0xffff))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
 --
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   sound/soc/codecs/ak4613.c:402:2: warning: Value stored to 'fmt_ctrl' is =
-never read [clang-analyzer-deadcode.DeadStores]
-           fmt_ctrl =3D NO_FMT;
            ^
-   sound/soc/codecs/ak4613.c:402:2: note: Value stored to 'fmt_ctrl' is nev=
-er read
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/soc/codecs/adau7118.c:127:24: warning: Value stored to 'st' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct adau7118_data *st =3D
-                                 ^~
-   sound/soc/codecs/adau7118.c:127:24: note: Value stored to 'st' during it=
-s initialization is never read
-           struct adau7118_data *st =3D
-                                 ^~
-   sound/soc/codecs/adau7118.c:210:24: warning: Value stored to 'st' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct adau7118_data *st =3D
-                                 ^~
-   sound/soc/codecs/adau7118.c:210:24: note: Value stored to 'st' during it=
-s initialization is never read
-           struct adau7118_data *st =3D
-                                 ^~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/mtd/nand/onenand/onenand_bbt.c:72:12: warning: Although the valu=
-e stored to 'ooblen' is used in the enclosing expression, the value is neve=
-r actually read from 'ooblen' [clang-analyzer-deadcode.DeadStores]
-           scanlen =3D ooblen =3D 0;
-                     ^        ~
-   drivers/mtd/nand/onenand/onenand_bbt.c:72:12: note: Although the value s=
-tored to 'ooblen' is used in the enclosing expression, the value is never a=
-ctually read from 'ooblen'
-           scanlen =3D ooblen =3D 0;
-                     ^        ~
-   1 warning generated.
-   drivers/mtd/nand/onenand/generic.c:66:2: warning: Value stored to 'err' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           err =3D mtd_device_register(&info->mtd, pdata ? pdata->parts : N=
-ULL,
+   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
+                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+                   ^
+   fs/cifs/cifs_debug.h:62:52: note: expanded from macro 'cifs_dbg_func'
+   #define cifs_dbg_func(ratefunc, type, fmt, ...)                         \
+                                                                           ^
+   fs/cifs/cifssmb.c:2409:2: note: Loop condition is false.  Exiting loop
+           cifs_dbg(FYI, "Posix Lock\n");
            ^
-   drivers/mtd/nand/onenand/generic.c:66:2: note: Value stored to 'err' is =
-never read
-   9 warnings generated.
-   drivers/gpu/drm/tegra/dc.c:1856:2: warning: Value stored to 'old_dc_stat=
-e' is never read [clang-analyzer-deadcode.DeadStores]
-           old_dc_state =3D to_const_dc_state(old_crtc_state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:1856:2: note: Value stored to 'old_dc_state' =
-is never read
-           old_dc_state =3D to_const_dc_state(old_crtc_state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:1857:2: warning: Value stored to 'new_dc_stat=
-e' is never read [clang-analyzer-deadcode.DeadStores]
-           new_dc_state =3D to_const_dc_state(crtc->state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:1857:2: note: Value stored to 'new_dc_state' =
-is never read
-           new_dc_state =3D to_const_dc_state(crtc->state);
-           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2145:2: warning: Value stored to 'value' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2145:2: note: Value stored to 'value' is neve=
-r read
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2149:2: warning: Value stored to 'value' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2149:2: note: Value stored to 'value' is neve=
-r read
-           value =3D tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/tegra/dc.c:2238:2: warning: Value stored to 'old_state' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           old_state =3D drm_atomic_get_old_crtc_state(state, crtc);
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/dc.c:2238:2: note: Value stored to 'old_state' is =
-never read
-           old_state =3D drm_atomic_get_old_crtc_state(state, crtc);
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (1 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/w1/w1.c:589:3: warning: Value stored to 'event_owner' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   event_owner =3D "master";
+   fs/cifs/cifs_debug.h:74:38: note: expanded from macro 'cifs_dbg'
+   #define cifs_dbg(type, fmt, ...)                                        \
+                                                                           ^
+   fs/cifs/cifssmb.c:2411:7: note: Calling 'small_smb_init'
+           rc =3D small_smb_init(SMB_COM_TRANSACTION2, 15, tcon, (void **) =
+&pSMB);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/cifs/cifssmb.c:253:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   fs/cifs/cifssmb.c:253:2: note: Taking false branch
+           if (rc)
+           ^
+   fs/cifs/cifssmb.c:257:6: note: Assuming the condition is false
+           if (*request_buf =3D=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~
+   fs/cifs/cifssmb.c:257:2: note: Taking false branch
+           if (*request_buf =3D=3D NULL) {
+           ^
+   fs/cifs/cifssmb.c:265:6: note: Assuming 'tcon' is equal to NULL
+           if (tcon !=3D NULL)
+               ^~~~~~~~~~~~
+   fs/cifs/cifssmb.c:265:2: note: Taking false branch
+           if (tcon !=3D NULL)
+           ^
+   fs/cifs/cifssmb.c:268:2: note: Returning zero, which participates in a c=
+ondition later
+           return 0;
+           ^~~~~~~~
+   fs/cifs/cifssmb.c:2411:7: note: Returning from 'small_smb_init'
+           rc =3D small_smb_init(SMB_COM_TRANSACTION2, 15, tcon, (void **) =
+&pSMB);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/cifs/cifssmb.c:2413:6: note: 'rc' is 0
+           if (rc)
+               ^~
+   fs/cifs/cifssmb.c:2413:2: note: Taking false branch
+           if (rc)
+           ^
+   fs/cifs/cifssmb.c:2431:6: note: Assuming 'pLockData' is null
+           if (pLockData)
+               ^~~~~~~~~
+   fs/cifs/cifssmb.c:2431:2: note: Taking false branch
+           if (pLockData)
+           ^
+   fs/cifs/cifssmb.c:2446:6: note: Assuming 'waitFlag' is true
+           if (waitFlag) {
+               ^~~~~~~~
+   fs/cifs/cifssmb.c:2446:2: note: Taking true branch
+           if (waitFlag) {
+           ^
+   fs/cifs/cifssmb.c:2463:6: note: 'waitFlag' is true
+           if (waitFlag) {
+               ^~~~~~~~
+   fs/cifs/cifssmb.c:2463:2: note: Taking true branch
+           if (waitFlag) {
+           ^
+   fs/cifs/cifssmb.c:2475:6: note: Assuming 'rc' is 0
+           if (rc) {
+               ^~
+   fs/cifs/cifssmb.c:2475:2: note: Taking false branch
+           if (rc) {
+           ^
+   fs/cifs/cifssmb.c:2477:13: note: 'pLockData' is null
+           } else if (pLockData) {
+                      ^~~~~~~~~
+   fs/cifs/cifssmb.c:2477:9: note: Taking false branch
+           } else if (pLockData) {
+                  ^
+   fs/cifs/cifssmb.c:2513:2: note: 2nd function call argument is an uniniti=
+alized value
+           free_rsp_buf(resp_buf_type, rsp_iov.iov_base);
+           ^                           ~~~~~~~~~~~~~~~~
+   fs/cifs/cifssmb.c:4526:3: warning: Value stored to 'byte_count' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   byte_count +=3D name_len;
                    ^             ~~~~~~~~
-   drivers/w1/w1.c:589:3: note: Value stored to 'event_owner' is never read
-                   event_owner =3D "master";
+   fs/cifs/cifssmb.c:4526:3: note: Value stored to 'byte_count' is never re=
+ad
+                   byte_count +=3D name_len;
                    ^             ~~~~~~~~
-   drivers/w1/w1.c:590:3: warning: Value stored to 'name' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                   name =3D md->name;
-                   ^      ~~~~~~~~
-   drivers/w1/w1.c:590:3: note: Value stored to 'name' is never read
-                   name =3D md->name;
-                   ^      ~~~~~~~~
-   drivers/w1/w1.c:593:3: warning: Value stored to 'event_owner' is never r=
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   net/core/bpf_sk_storage.c:754:4: warning: Value stored to 'b' is never r=
 ead [clang-analyzer-deadcode.DeadStores]
-                   event_owner =3D "slave";
-                   ^             ~~~~~~~
-   drivers/w1/w1.c:593:3: note: Value stored to 'event_owner' is never read
-                   event_owner =3D "slave";
-                   ^             ~~~~~~~
-   drivers/w1/w1.c:594:3: warning: Value stored to 'name' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                   name =3D sl->name;
-                   ^      ~~~~~~~~
+                           b =3D &smap->buckets[bucket_id++];
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/bpf_sk_storage.c:754:4: note: Value stored to 'b' is never read
+                           b =3D &smap->buckets[bucket_id++];
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> net/compat.c:444:5: warning: Assigned value is garbage or undefined [cla=
+ng-analyzer-core.uninitialized.Assign]
+           a0 =3D a[0];
+              ^
+   net/compat.c:424:1: note: Calling '__se_compat_sys_socketcall'
+   COMPAT_SYSCALL_DEFINE2(socketcall, int, call, u32 __user *, args)
+   ^
+   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_D=
+EFINE2'
+           COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:205:2: note: expanded from macro =
+'COMPAT_SYSCALL_DEFINEx'
+           __IA32_COMPAT_SYS_STUBx(x, name, __VA_ARGS__)                   =
+        \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:145:2: note: expanded from macro =
+'__IA32_COMPAT_SYS_STUBx'
+           __SYS_STUBx(ia32, compat_sys##name,                             \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
+'__SYS_STUBx'
+                   return __se_##name(__VA_ARGS__);                        \
+                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   net/compat.c:424:1: note: Calling '__do_compat_sys_socketcall'
+   COMPAT_SYSCALL_DEFINE2(socketcall, int, call, u32 __user *, args)
+   ^
+   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_D=
+EFINE2'
+           COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:209:10: note: expanded from macro=
+ 'COMPAT_SYSCALL_DEFINEx'
+                   return __do_compat_sys##name(__MAP(x,__SC_DELOUSE,__VA_A=
+RGS__));\
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   note: expanded from here
+   net/compat.c:431:6: note: Assuming 'call' is >=3D SYS_SOCKET
+           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+               ^~~~~~~~~~~~~~~~~
+   net/compat.c:431:6: note: Left side of '||' is false
+   net/compat.c:431:27: note: Assuming 'call' is <=3D SYS_SENDMMSG
+           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+                                    ^~~~~~~~~~~~~~~~~~~
+   net/compat.c:431:2: note: Taking false branch
+           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+           ^
+   net/compat.c:434:6: note: Assuming the condition is false
+           if (len > sizeof(a))
+               ^~~~~~~~~~~~~~~
+   net/compat.c:434:2: note: Taking false branch
+           if (len > sizeof(a))
+           ^
+   net/compat.c:437:6: note: Calling 'copy_from_user'
+           if (copy_from_user(a, args, len))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking false branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   net/compat.c:437:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(a, args, len))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/compat.c:437:6: note: Assuming the condition is false
+           if (copy_from_user(a, args, len))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/compat.c:437:2: note: Taking false branch
+           if (copy_from_user(a, args, len))
+           ^
+   net/compat.c:440:8: note: Calling 'audit_socketcall_compat'
+           ret =3D audit_socketcall_compat(len / sizeof(a[0]), a);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/audit.h:616:2: note: Returning without writing to '*args'
+           return 0;
+           ^
+   include/linux/audit.h:616:2: note: Returning zero, which participates in=
+ a condition later
+           return 0;
+           ^~~~~~~~
+   net/compat.c:440:8: note: Returning from 'audit_socketcall_compat'
+           ret =3D audit_socketcall_compat(len / sizeof(a[0]), a);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/compat.c:441:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   net/compat.c:441:2: note: Taking false branch
+           if (ret)
+           ^
+   net/compat.c:444:5: note: Assigned value is garbage or undefined
+           a0 =3D a[0];
+              ^ ~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   fs/namei.c:557:2: warning: 1st function call argument is an uninitialize=
+d value [clang-analyzer-core.CallAndMessage]
+           dput(path->dentry);
+           ^
+   fs/namei.c:4481:1: note: Calling '__se_sys_link'
+   SYSCALL_DEFINE2(link, const char __user *, oldname, const char __user *,=
+ newname)
+   ^
+   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS=
+__)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:232:2: note: expanded from macro =
+'__SYSCALL_DEFINEx'
+           __IA32_SYS_STUBx(x, name, __VA_ARGS__)                          \
 
-vim +/old_state +2238 drivers/gpu/drm/tegra/dc.c
+vim +444 net/compat.c
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2213  =
+157b334aa84dc5 Dominik Brodowski  2018-03-16  423  =
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2214  static int tegra_crtc_calc=
-ulate_memory_bandwidth(struct drm_crtc *crtc,
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2215  						 struct drm_atomic_s=
-tate *state)
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2216  {
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2217  	ulong overlap_mask[TEGRA_=
-DC_LEGACY_PLANES_NUM] =3D {}, mask;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2218  	u32 plane_peak_bw[TEGRA_D=
-C_LEGACY_PLANES_NUM] =3D {};
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2219  	bool all_planes_overlap_s=
-imultaneously =3D true;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2220  	const struct tegra_plane_=
-state *tegra_state;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2221  	const struct drm_plane_st=
-ate *plane_state;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2222  	struct tegra_dc *dc =3D t=
-o_tegra_dc(crtc);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2223  	const struct drm_crtc_sta=
-te *old_state;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2224  	struct drm_crtc_state *ne=
-w_state;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2225  	struct tegra_plane *tegra;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2226  	struct drm_plane *plane;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2227  =
+361d93c46f688d Heiko Carstens     2014-03-03  424  COMPAT_SYSCALL_DEFINE2(s=
+ocketcall, int, call, u32 __user *, args)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  425  {
+62bc306e208343 Richard Guy Briggs 2017-01-17  426  	u32 a[AUDITSC_ARGS];
+62bc306e208343 Richard Guy Briggs 2017-01-17  427  	unsigned int len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  428  	u32 a0, a1;
+62bc306e208343 Richard Guy Briggs 2017-01-17  429  	int ret;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  430  =
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2228  	/*
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2229  	 * The nv-display uses sh=
-ared planes.  The algorithm below assumes
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2230  	 * maximum 3 planes per-C=
-RTC, this assumption isn't applicable to
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2231  	 * the nv-display.  Note =
-that T124 support has additional windows,
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2232  	 * but currently they are=
-n't supported by the driver.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2233  	 */
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2234  	if (dc->soc->has_nvdispla=
-y)
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2235  		return 0;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2236  =
+228e548e602061 Anton Blanchard    2011-05-02  431  	if (call < SYS_SOCKET |=
+| call > SYS_SENDMMSG)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  432  		return -EINVAL;
+62bc306e208343 Richard Guy Briggs 2017-01-17  433  	len =3D nas[call];
+62bc306e208343 Richard Guy Briggs 2017-01-17  434  	if (len > sizeof(a))
+62bc306e208343 Richard Guy Briggs 2017-01-17  435  		return -EINVAL;
+62bc306e208343 Richard Guy Briggs 2017-01-17  436  =
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2237  	new_state =3D drm_atomic_=
-get_new_crtc_state(state, crtc);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01 @2238  	old_state =3D drm_atomic_=
-get_old_crtc_state(state, crtc);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2239  =
+62bc306e208343 Richard Guy Briggs 2017-01-17  437  	if (copy_from_user(a, a=
+rgs, len))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  438  		return -EFAULT;
+62bc306e208343 Richard Guy Briggs 2017-01-17  439  =
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2240  	/*
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2241  	 * For overlapping planes=
- pixel's data is fetched for each plane at
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2242  	 * the same time, hence b=
-andwidths are accumulated in this case.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2243  	 * This needs to be taken=
- into account for calculating total bandwidth
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2244  	 * consumed by all planes.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2245  	 *
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2246  	 * Here we get the overla=
-pping state of each plane, which is a
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2247  	 * bitmask of plane indic=
-es telling with what planes there is an
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2248  	 * overlap. Note that bit=
-mask[plane] includes BIT(plane) in order
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2249  	 * to make further code n=
-icer and simpler.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2250  	 */
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2251  	drm_atomic_crtc_state_for=
-_each_plane_state(plane, plane_state, new_state) {
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2252  		tegra_state =3D to_const=
-_tegra_plane_state(plane_state);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2253  		tegra =3D to_tegra_plane=
-(plane);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2254  =
+62bc306e208343 Richard Guy Briggs 2017-01-17  440  	ret =3D audit_socketcal=
+l_compat(len / sizeof(a[0]), a);
+62bc306e208343 Richard Guy Briggs 2017-01-17  441  	if (ret)
+62bc306e208343 Richard Guy Briggs 2017-01-17  442  		return ret;
+62bc306e208343 Richard Guy Briggs 2017-01-17  443  =
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2255  		if (WARN_ON_ONCE(tegra->=
-index >=3D TEGRA_DC_LEGACY_PLANES_NUM))
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2256  			return -EINVAL;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2257  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @444  	a0 =3D a[0];
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2258  		plane_peak_bw[tegra->ind=
-ex] =3D tegra_state->peak_memory_bandwidth;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2259  		mask =3D tegra_plane_ove=
-rlap_mask(new_state, plane_state);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2260  		overlap_mask[tegra->inde=
-x] =3D mask;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2261  =
+:::::: The code at line 444 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2262  		if (hweight_long(mask) !=
-=3D 3)
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2263  			all_planes_overlap_simu=
-ltaneously =3D false;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2264  	}
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2265  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2266  	/*
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2267  	 * Then we calculate maxi=
-mum bandwidth of each plane state.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2268  	 * The bandwidth includes=
- the plane BW + BW of the "simultaneously"
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2269  	 * overlapping planes, wh=
-ere "simultaneously" means areas where DC
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2270  	 * fetches from the plane=
-s simultaneously during of scan-out process.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2271  	 *
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2272  	 * For example, if plane =
-A overlaps with planes B and C, but B and C
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2273  	 * don't overlap, then th=
-e peak bandwidth will be either in area where
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2274  	 * A-and-B or A-and-C pla=
-nes overlap.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2275  	 *
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2276  	 * The plane_peak_bw[] co=
-ntains peak memory bandwidth values of
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2277  	 * each plane, this infor=
-mation is needed by interconnect provider
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2278  	 * in order to set up lat=
-ency allowance based on the peak BW, see
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2279  	 * tegra_crtc_update_memo=
-ry_bandwidth().
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2280  	 */
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2281  	drm_atomic_crtc_state_for=
-_each_plane_state(plane, plane_state, new_state) {
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2282  		u32 i, old_peak_bw, new_=
-peak_bw, overlap_bw =3D 0;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2283  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2284  		/*
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2285  		 * Note that plane's ato=
-mic check doesn't touch the
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2286  		 * total_peak_memory_ban=
-dwidth of enabled plane, hence the
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2287  		 * current state contain=
-s the old bandwidth state from the
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2288  		 * previous CRTC commit.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2289  		 */
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2290  		tegra_state =3D to_const=
-_tegra_plane_state(plane_state);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2291  		tegra =3D to_tegra_plane=
-(plane);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2292  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2293  		for_each_set_bit(i, &ove=
-rlap_mask[tegra->index], 3) {
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2294  			if (i =3D=3D tegra->ind=
-ex)
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2295  				continue;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2296  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2297  			if (all_planes_overlap_=
-simultaneously)
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2298  				overlap_bw +=3D plane_=
-peak_bw[i];
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2299  			else
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2300  				overlap_bw =3D max(ove=
-rlap_bw, plane_peak_bw[i]);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2301  		}
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2302  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2303  		new_peak_bw =3D plane_pe=
-ak_bw[tegra->index] + overlap_bw;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2304  		old_peak_bw =3D tegra_st=
-ate->total_peak_memory_bandwidth;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2305  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2306  		/*
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2307  		 * If plane's peak bandw=
-idth changed (for example plane isn't
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2308  		 * overlapped anymore) a=
-nd plane isn't in the atomic state,
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2309  		 * then add plane to the=
- state in order to have the bandwidth
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2310  		 * updated.
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2311  		 */
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2312  		if (old_peak_bw !=3D new=
-_peak_bw) {
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2313  			struct tegra_plane_stat=
-e *new_tegra_state;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2314  			struct drm_plane_state =
-*new_plane_state;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2315  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2316  			new_plane_state =3D drm=
-_atomic_get_plane_state(state, plane);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2317  			if (IS_ERR(new_plane_st=
-ate))
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2318  				return PTR_ERR(new_pla=
-ne_state);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2319  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2320  			new_tegra_state =3D to_=
-tegra_plane_state(new_plane_state);
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2321  			new_tegra_state->total_=
-peak_memory_bandwidth =3D new_peak_bw;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2322  		}
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2323  	}
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2324  =
-
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2325  	return 0;
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2326  }
-04d5d5df9df79f Dmitry Osipenko 2021-06-01  2327  =
-
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7112426384460754726==--
+--===============7396831575942265428==--
 
