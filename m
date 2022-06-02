@@ -1,367 +1,332 @@
-Content-Type: multipart/mixed; boundary="===============9118955241830660458=="
+Content-Type: multipart/mixed; boundary="===============0028452400289058849=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] btrfs: Replace kmap() with kmap_local_page() in zlib.c
-Date: Fri, 03 Jun 2022 02:59:07 +0800
-Message-ID: <202206030230.ttuhGnvx-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 224/401] fs/xfs/scrub/nlinks_repair.c:181 xrep_nlinks_repair_and_relink_inode() warn: missing error code 'error'
+Date: Fri, 03 Jun 2022 02:48:53 +0800
+Message-ID: <202206030214.gyg6sS63-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9118955241830660458==
+--===============0028452400289058849==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220531145335.13954-4-fmdefrancesco@gmail.com>
-References: <20220531145335.13954-4-fmdefrancesco@gmail.com>
-TO: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-TO: Chris Mason <chris.mason@fusionio.com>
-TO: Josef Bacik <josef@toxicpanda.com>
-TO: David Sterba <dsterba@suse.com>
-TO: Ira Weiny <ira.weiny@intel.com>
-TO: linux-btrfs(a)vger.kernel.org
-TO: linux-kernel(a)vger.kernel.org
-CC: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi "Fabio,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on v5.18 next-20220602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco=
-/btrfs-Replace-kmap-with-kmap_local_page/20220531-225557
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
--next
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
-/20220603/202206030230.ttuhGnvx-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   1fcd9cea011a657d62ee332d161966c1ec92ffd5
+commit: a8d4ca3b7da1be34e97bc3003e962d14c0a30b5a [224/401] xfs: move files =
+to orphanage instead of letting nlinks drop to zero
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: microblaze-randconfig-m031-20220601 (https://download.01.org/0day-c=
+i/archive/20220603/202206030214.gyg6sS63-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/btrfs/zlib.c:151 zlib_compress_pages() error: uninitialized symbol 'data=
-_in'.
-fs/btrfs/zlib.c:267 zlib_compress_pages() error: uninitialized symbol 'cpag=
-e_out'.
+fs/xfs/scrub/nlinks_repair.c:181 xrep_nlinks_repair_and_relink_inode() warn=
+: missing error code 'error'
 
 Old smatch warnings:
-fs/btrfs/zlib.c:164 zlib_compress_pages() error: uninitialized symbol 'data=
-_in'.
-fs/btrfs/zlib.c:227 zlib_compress_pages() error: uninitialized symbol 'ret'.
-fs/btrfs/zlib.c:270 zlib_compress_pages() error: uninitialized symbol 'data=
-_in'.
+arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: u=
+ninitialized symbol 'sp'.
+fs/xfs/scrub/nlinks_repair.c:338 xrep_nlinks_repair_inode() warn: missing e=
+rror code 'error'
 
-vim +/data_in +151 fs/btrfs/zlib.c
+vim +/error +181 fs/xfs/scrub/nlinks_repair.c
 
-c8b978188c9a0f Chris Mason           2008-10-29   93  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  109  =
 
-c4bf665a319755 David Sterba          2019-10-01   94  int zlib_compress_pag=
-es(struct list_head *ws, struct address_space *mapping,
-c4bf665a319755 David Sterba          2019-10-01   95  		u64 start, struct p=
-age **pages, unsigned long *out_pages,
-c4bf665a319755 David Sterba          2019-10-01   96  		unsigned long *tota=
-l_in, unsigned long *total_out)
-c8b978188c9a0f Chris Mason           2008-10-29   97  {
-261507a02ccba9 Li Zefan              2010-12-17   98  	struct workspace *wo=
-rkspace =3D list_entry(ws, struct workspace, list);
-c8b978188c9a0f Chris Mason           2008-10-29   99  	int ret;
-c8b978188c9a0f Chris Mason           2008-10-29  100  	char *data_in;
-c8b978188c9a0f Chris Mason           2008-10-29  101  	char *cpage_out;
-c8b978188c9a0f Chris Mason           2008-10-29  102  	int nr_pages =3D 0;
-c8b978188c9a0f Chris Mason           2008-10-29  103  	struct page *in_page=
- =3D NULL;
-c8b978188c9a0f Chris Mason           2008-10-29  104  	struct page *out_pag=
-e =3D NULL;
-c8b978188c9a0f Chris Mason           2008-10-29  105  	unsigned long bytes_=
-left;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  106  	unsigned int in_buf_=
-pages;
-38c31464089f63 David Sterba          2017-02-14  107  	unsigned long len =
-=3D *total_out;
-4d3a800ebb1299 David Sterba          2017-02-14  108  	unsigned long nr_des=
-t_pages =3D *out_pages;
-e5d74902362f1a David Sterba          2017-02-14  109  	const unsigned long =
-max_out =3D nr_dest_pages * PAGE_SIZE;
-c8b978188c9a0f Chris Mason           2008-10-29  110  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  110  /*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  111   * Correct the link count o=
+f the given inode or move it to the orphanage.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  112   * Because we have to grab =
+locks and resources in a certain order, it's
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  113   * possible that this will =
+be a no-op.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  114   */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  115  STATIC int
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  116  xrep_nlinks_repair_and_reli=
+nk_inode(
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  117  	struct xchk_nlink_ctrs		*x=
+nc)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  118  {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  119  	struct xchk_nlink		obs;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  120  	struct xfs_scrub		*sc =3D =
+xnc->sc;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  121  	struct xrep_orphanage_req	=
+*orph =3D xrep_nlinks_orphanage_req(sc);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  122  	struct xfs_mount		*mp =3D =
+sc->mp;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  123  	struct xfs_inode		*ip =3D =
+sc->ip;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  124  	uint64_t			total_links;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  125  	unsigned int			actual_nlin=
+k;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  126  	bool				orphan =3D false;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  127  	int				error;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  128  =
 
-c8b978188c9a0f Chris Mason           2008-10-29  111  	*out_pages =3D 0;
-c8b978188c9a0f Chris Mason           2008-10-29  112  	*total_out =3D 0;
-c8b978188c9a0f Chris Mason           2008-10-29  113  	*total_in =3D 0;
-c8b978188c9a0f Chris Mason           2008-10-29  114  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  129  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  130  	 * Ignore temporary files =
+being used to stage repairs, since we assume
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  131  	 * they're correct for non=
+-directories, and the directory repair code
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  132  	 * doesn't bump the link c=
+ounts for the children.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  133  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  134  	if (xrep_is_tempfile(ip))
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  135  		return 0;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  136  =
 
-f51d2b59120ff3 David Sterba          2017-09-15  115  	if (Z_OK !=3D zlib_d=
-eflateInit(&workspace->strm, workspace->level)) {
-62e855771dacf7 Jeff Mahoney          2016-09-20  116  		pr_warn("BTRFS: def=
-lateInit failed\n");
-60e1975acb48fc Zach Brown            2014-05-09  117  		ret =3D -EIO;
-c8b978188c9a0f Chris Mason           2008-10-29  118  		goto out;
-c8b978188c9a0f Chris Mason           2008-10-29  119  	}
-c8b978188c9a0f Chris Mason           2008-10-29  120  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  137  	/* Grab the IOLOCK of the =
+orphanage and the child directory. */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  138  	error =3D xrep_orphanage_i=
+olock_two(sc);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  139  	if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  140  		return error;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  141  =
 
-7880991344f736 Sergey Senozhatsky    2014-07-07  121  	workspace->strm.tota=
-l_in =3D 0;
-7880991344f736 Sergey Senozhatsky    2014-07-07  122  	workspace->strm.tota=
-l_out =3D 0;
-c8b978188c9a0f Chris Mason           2008-10-29  123  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  142  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  143  	 * Allocate a transaction =
+for the adoption.  We'll reserve space for
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  144  	 * the transaction in the =
+adoption preparation step.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  145  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  146  	xrep_orphanage_compute_blk=
+res(sc, orph);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  147  =
 
-b0ee5e1ec44afd David Sterba          2021-06-14  124  	out_page =3D alloc_p=
-age(GFP_NOFS);
-4b72029dc3fd6b Li Zefan              2010-11-09  125  	if (out_page =3D=3D =
-NULL) {
-60e1975acb48fc Zach Brown            2014-05-09  126  		ret =3D -ENOMEM;
-4b72029dc3fd6b Li Zefan              2010-11-09  127  		goto out;
-4b72029dc3fd6b Li Zefan              2010-11-09  128  	}
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  129  	cpage_out =3D kmap_l=
-ocal_page(out_page);
-c8b978188c9a0f Chris Mason           2008-10-29  130  	pages[0] =3D out_pag=
-e;
-c8b978188c9a0f Chris Mason           2008-10-29  131  	nr_pages =3D 1;
-c8b978188c9a0f Chris Mason           2008-10-29  132  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  148  	error =3D xfs_trans_alloc(=
+mp, &M_RES(mp)->tr_link, 0, 0, 0, &sc->tp);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  149  	if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  150  		goto out_iolock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  151  =
 
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  133  	workspace->strm.next=
-_in =3D workspace->buf;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  134  	workspace->strm.avai=
-l_in =3D 0;
-7880991344f736 Sergey Senozhatsky    2014-07-07  135  	workspace->strm.next=
-_out =3D cpage_out;
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  136  	workspace->strm.avai=
-l_out =3D PAGE_SIZE;
-c8b978188c9a0f Chris Mason           2008-10-29  137  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  152  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  153  	 * Before we take the ILOC=
+Ks, compute the name of the potential
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  154  	 * orphanage directory ent=
+ry.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  155  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  156  	error =3D xrep_orphanage_c=
+ompute_name(orph, xrep_nlinks_namebuf(sc));
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  157  	if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  158  		goto out_trans;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  159  =
 
-7880991344f736 Sergey Senozhatsky    2014-07-07  138  	while (workspace->st=
-rm.total_in < len) {
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  139  		/*
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  140  		 * Get next input p=
-ages and copy the contents to
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  141  		 * the workspace bu=
-ffer if required.
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  142  		 */
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  143  		if (workspace->strm=
-.avail_in =3D=3D 0) {
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  144  			bytes_left =3D len=
- - workspace->strm.total_in;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  145  			in_buf_pages =3D m=
-in(DIV_ROUND_UP(bytes_left, PAGE_SIZE),
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  146  					   workspace->bu=
-f_size / PAGE_SIZE);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  147  			if (in_buf_pages >=
- 1) {
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  148  				int i;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  149  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  160  	error =3D xrep_orphanage_a=
+doption_prep(orph);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  161  	if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  162  		goto out_trans;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  163  =
 
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  150  				for (i =3D 0; i <=
- in_buf_pages; i++) {
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31 @151  					if (data_in) {
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  152  						kunmap_local(da=
-ta_in);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  153  						put_page(in_pag=
-e);
-55276e14df4324 David Sterba          2021-10-27  154  					}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  155  					in_page =3D find=
-_get_page(mapping,
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  156  								start >> PAGE=
-_SHIFT);
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  157  					data_in =3D kmap=
-_local_page(in_page);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  158  					memcpy(workspace=
-->buf + i * PAGE_SIZE,
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  159  					       data_in, =
-PAGE_SIZE);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  160  					start +=3D PAGE_=
-SIZE;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  161  				}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  162  				workspace->strm.n=
-ext_in =3D workspace->buf;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  163  			} else {
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  164  				if (data_in) {
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  165  					kunmap_local(dat=
-a_in);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  166  					put_page(in_page=
-);
-55276e14df4324 David Sterba          2021-10-27  167  				}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  168  				in_page =3D find_=
-get_page(mapping,
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  169  							start >> PAGE_=
-SHIFT);
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  170  				data_in =3D kmap_=
-local_page(in_page);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  171  				start +=3D PAGE_S=
-IZE;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  172  				workspace->strm.n=
-ext_in =3D data_in;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  173  			}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  174  			workspace->strm.av=
-ail_in =3D min(bytes_left,
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  175  						       (unsigne=
-d long) workspace->buf_size);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  176  		}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  177  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  164  	mutex_lock(&xnc->lock);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  165  =
 
-7880991344f736 Sergey Senozhatsky    2014-07-07  178  		ret =3D zlib_deflat=
-e(&workspace->strm, Z_SYNC_FLUSH);
-c8b978188c9a0f Chris Mason           2008-10-29  179  		if (ret !=3D Z_OK) {
-62e855771dacf7 Jeff Mahoney          2016-09-20  180  			pr_debug("BTRFS: d=
-eflate in loop returned %d\n",
-c8b978188c9a0f Chris Mason           2008-10-29  181  			       ret);
-7880991344f736 Sergey Senozhatsky    2014-07-07  182  			zlib_deflateEnd(&w=
-orkspace->strm);
-60e1975acb48fc Zach Brown            2014-05-09  183  			ret =3D -EIO;
-c8b978188c9a0f Chris Mason           2008-10-29  184  			goto out;
-c8b978188c9a0f Chris Mason           2008-10-29  185  		}
-c8b978188c9a0f Chris Mason           2008-10-29  186  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  166  	if (xchk_iscan_aborted(&xn=
+c->collect_iscan)) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  167  		error =3D -ECANCELED;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  168  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  169  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  170  =
 
-c8b978188c9a0f Chris Mason           2008-10-29  187  		/* we're making it =
-bigger, give up */
-7880991344f736 Sergey Senozhatsky    2014-07-07  188  		if (workspace->strm=
-.total_in > 8192 &&
-7880991344f736 Sergey Senozhatsky    2014-07-07  189  		    workspace->strm=
-.total_in <
-7880991344f736 Sergey Senozhatsky    2014-07-07  190  		    workspace->strm=
-.total_out) {
-130d5b415a091e David Sterba          2014-06-20  191  			ret =3D -E2BIG;
-c8b978188c9a0f Chris Mason           2008-10-29  192  			goto out;
-c8b978188c9a0f Chris Mason           2008-10-29  193  		}
-c8b978188c9a0f Chris Mason           2008-10-29  194  		/* we need another =
-page for writing out.  Test this
-c8b978188c9a0f Chris Mason           2008-10-29  195  		 * before the total=
-_in so we will pull in a new page for
-c8b978188c9a0f Chris Mason           2008-10-29  196  		 * the stream end i=
-f required
-c8b978188c9a0f Chris Mason           2008-10-29  197  		 */
-7880991344f736 Sergey Senozhatsky    2014-07-07  198  		if (workspace->strm=
-.avail_out =3D=3D 0) {
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  199  			kunmap_local(cpage=
-_out);
-c8b978188c9a0f Chris Mason           2008-10-29  200  			if (nr_pages =3D=
-=3D nr_dest_pages) {
-c8b978188c9a0f Chris Mason           2008-10-29  201  				out_page =3D NULL;
-60e1975acb48fc Zach Brown            2014-05-09  202  				ret =3D -E2BIG;
-c8b978188c9a0f Chris Mason           2008-10-29  203  				goto out;
-c8b978188c9a0f Chris Mason           2008-10-29  204  			}
-b0ee5e1ec44afd David Sterba          2021-06-14  205  			out_page =3D alloc=
-_page(GFP_NOFS);
-4b72029dc3fd6b Li Zefan              2010-11-09  206  			if (out_page =3D=
-=3D NULL) {
-60e1975acb48fc Zach Brown            2014-05-09  207  				ret =3D -ENOMEM;
-4b72029dc3fd6b Li Zefan              2010-11-09  208  				goto out;
-4b72029dc3fd6b Li Zefan              2010-11-09  209  			}
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  210  			cpage_out =3D kmap=
-_local_page(out_page);
-c8b978188c9a0f Chris Mason           2008-10-29  211  			pages[nr_pages] =
-=3D out_page;
-c8b978188c9a0f Chris Mason           2008-10-29  212  			nr_pages++;
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  213  			workspace->strm.av=
-ail_out =3D PAGE_SIZE;
-7880991344f736 Sergey Senozhatsky    2014-07-07  214  			workspace->strm.ne=
-xt_out =3D cpage_out;
-c8b978188c9a0f Chris Mason           2008-10-29  215  		}
-c8b978188c9a0f Chris Mason           2008-10-29  216  		/* we're all done */
-7880991344f736 Sergey Senozhatsky    2014-07-07  217  		if (workspace->strm=
-.total_in >=3D len)
-c8b978188c9a0f Chris Mason           2008-10-29  218  			break;
-7880991344f736 Sergey Senozhatsky    2014-07-07  219  		if (workspace->strm=
-.total_out > max_out)
-c8b978188c9a0f Chris Mason           2008-10-29  220  			break;
-c8b978188c9a0f Chris Mason           2008-10-29  221  	}
-7880991344f736 Sergey Senozhatsky    2014-07-07  222  	workspace->strm.avai=
-l_in =3D 0;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  223  	/*
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  224  	 * Call deflate with=
- Z_FINISH flush parameter providing more output
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  225  	 * space but no more=
- input data, until it returns with Z_STREAM_END.
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  226  	 */
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  227  	while (ret !=3D Z_ST=
-REAM_END) {
-7880991344f736 Sergey Senozhatsky    2014-07-07  228  		ret =3D zlib_deflat=
-e(&workspace->strm, Z_FINISH);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  229  		if (ret =3D=3D Z_ST=
-REAM_END)
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  230  			break;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  231  		if (ret !=3D Z_OK &=
-& ret !=3D Z_BUF_ERROR) {
-7880991344f736 Sergey Senozhatsky    2014-07-07  232  			zlib_deflateEnd(&w=
-orkspace->strm);
-60e1975acb48fc Zach Brown            2014-05-09  233  			ret =3D -EIO;
-c8b978188c9a0f Chris Mason           2008-10-29  234  			goto out;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  235  		} else if (workspac=
-e->strm.avail_out =3D=3D 0) {
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  236  			/* get another pag=
-e for the stream end */
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  237  			kunmap_local(cpage=
-_out);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  238  			if (nr_pages =3D=
-=3D nr_dest_pages) {
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  239  				out_page =3D NULL;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  240  				ret =3D -E2BIG;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  241  				goto out;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  242  			}
-b0ee5e1ec44afd David Sterba          2021-06-14  243  			out_page =3D alloc=
-_page(GFP_NOFS);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  244  			if (out_page =3D=
-=3D NULL) {
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  245  				ret =3D -ENOMEM;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  246  				goto out;
-c8b978188c9a0f Chris Mason           2008-10-29  247  			}
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  248  			cpage_out =3D kmap=
-_local_page(out_page);
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  249  			pages[nr_pages] =
-=3D out_page;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  250  			nr_pages++;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  251  			workspace->strm.av=
-ail_out =3D PAGE_SIZE;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  252  			workspace->strm.ne=
-xt_out =3D cpage_out;
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  253  		}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  254  	}
-3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  255  	zlib_deflateEnd(&wor=
-kspace->strm);
-c8b978188c9a0f Chris Mason           2008-10-29  256  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  171  	error =3D xfarray_load_spa=
+rse(xnc->nlinks, ip->i_ino, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  172  	if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  173  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  174  =
 
-7880991344f736 Sergey Senozhatsky    2014-07-07  257  	if (workspace->strm.=
-total_out >=3D workspace->strm.total_in) {
-60e1975acb48fc Zach Brown            2014-05-09  258  		ret =3D -E2BIG;
-c8b978188c9a0f Chris Mason           2008-10-29  259  		goto out;
-c8b978188c9a0f Chris Mason           2008-10-29  260  	}
-c8b978188c9a0f Chris Mason           2008-10-29  261  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  175  	total_links =3D xchk_nlink=
+_total(&obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  176  	actual_nlink =3D VFS_I(ip)=
+->i_nlink;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  177  =
 
-c8b978188c9a0f Chris Mason           2008-10-29  262  	ret =3D 0;
-7880991344f736 Sergey Senozhatsky    2014-07-07  263  	*total_out =3D works=
-pace->strm.total_out;
-7880991344f736 Sergey Senozhatsky    2014-07-07  264  	*total_in =3D worksp=
-ace->strm.total_in;
-c8b978188c9a0f Chris Mason           2008-10-29  265  out:
-c8b978188c9a0f Chris Mason           2008-10-29  266  	*out_pages =3D nr_pa=
-ges;
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31 @267  	if (cpage_out)
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  268  		kunmap_local(cpage_=
-out);
-55276e14df4324 David Sterba          2021-10-27  269  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  178  	/* Cannot set more than th=
+e maxiumum possible link count. */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  179  	if (total_links > U32_MAX)=
+ {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  180  		trace_xrep_nlinks_unfixab=
+le_inode(mp, ip, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06 @181  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  182  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  183  =
 
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  270  	if (data_in) {
-a549d3a90067e8 Fabio M. De Francesco 2022-05-31  271  		kunmap_local(data_i=
-n);
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  272  		put_page(in_page);
-55276e14df4324 David Sterba          2021-10-27  273  	}
-c8b978188c9a0f Chris Mason           2008-10-29  274  	return ret;
-c8b978188c9a0f Chris Mason           2008-10-29  275  }
-c8b978188c9a0f Chris Mason           2008-10-29  276  =
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  184  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  185  	 * Linked directories shou=
+ld have at least one "child" (the dot entry)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  186  	 * pointing up to them.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  187  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  188  	if (S_ISDIR(VFS_I(ip)->i_m=
+ode) && actual_nlink > 0 &&
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  189  					  obs.children =3D=3D =
+0) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  190  		trace_xrep_nlinks_unfixab=
+le_inode(mp, ip, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  191  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  192  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  193  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  194  	/* Non-directories cannot =
+have directories pointing up to them. */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  195  	if (!S_ISDIR(VFS_I(ip)->i_=
+mode) && obs.children > 0) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  196  		trace_xrep_nlinks_unfixab=
+le_inode(mp, ip, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  197  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  198  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  199  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  200  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  201  	 * Decide if we're going t=
+o move this file to the orphanage, and fix
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  202  	 * up the incore link coun=
+ts if we are.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  203  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  204  	if (xrep_nlinks_is_orphane=
+d(sc, ip, actual_nlink, &obs)) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  205  		obs.parents++;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  206  		total_links++;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  207  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  208  		error =3D xrep_nlinks_set=
+_record(xnc, ip->i_ino, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  209  		if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  210  			goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  211  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  212  		orphan =3D true;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  213  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  214  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  215  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  216  	 * We did not find any lin=
+ks to this inode and we're not planning to
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  217  	 * move it to the orphanag=
+e.  If the inode link count is also zero, we
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  218  	 * have nothing further to=
+ do.  Otherwise, the situation is unfixable.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  219  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  220  	if (total_links =3D=3D 0) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  221  		if (actual_nlink !=3D 0)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  222  			trace_xrep_nlinks_unfixa=
+ble_inode(mp, ip, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  223  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  224  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  225  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  226  	/* If the inode has the co=
+rrect link count and isn't orphaned, exit. */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  227  	if (total_links =3D=3D act=
+ual_nlink && !orphan)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  228  		goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  229  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  230  	/* Commit the new link cou=
+nt. */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  231  	trace_xrep_nlinks_update_i=
+node(mp, ip, &obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  232  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  233  	/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  234  	 * If this is an orphan, c=
+reate the new name in the orphanage, and bump
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  235  	 * the link count of the o=
+rphanage if we just added a directory.  Then
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  236  	 * we can set the correct =
+nlink.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  237  	 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  238  	if (orphan) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  239  		error =3D xrep_orphanage_=
+adopt(orph);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  240  		if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  241  			goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  242  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  243  		/*
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  244  		 * If the child is a dire=
+ctory, we need to bump the incore link
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  245  		 * count of the orphanage=
+ to account for the new orphan's
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  246  		 * child subdirectory ent=
+ry.
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  247  		 */
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  248  		if (S_ISDIR(VFS_I(ip)->i_=
+mode)) {
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  249  			error =3D xfarray_load_s=
+parse(xnc->nlinks,
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  250  					sc->orphanage->i_ino, =
+&obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  251  			if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  252  				goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  253  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  254  			obs.flags |=3D XCHK_NLIN=
+K_WRITTEN;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  255  			obs.children++;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  256  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  257  			error =3D xrep_nlinks_se=
+t_record(xnc,
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  258  					sc->orphanage->i_ino, =
+&obs);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  259  			if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  260  				goto out_scanlock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  261  		}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  262  	}
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  263  	set_nlink(VFS_I(ip), total=
+_links);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  264  	xfs_trans_log_inode(sc->tp=
+, ip, XFS_ILOG_CORE);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  265  	mutex_unlock(&xnc->lock);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  266  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  267  	error =3D xrep_trans_commi=
+t(sc);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  268  	if (error)
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  269  		goto out_ilock;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  270  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  271  	xchk_iunlock(sc, XFS_ILOCK=
+_EXCL | XFS_IOLOCK_EXCL);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  272  	xrep_orphanage_iunlock(sc,=
+ XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  273  	return 0;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  274  =
+
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  275  out_scanlock:
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  276  	mutex_unlock(&xnc->lock);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  277  out_trans:
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  278  	xchk_trans_cancel(sc);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  279  out_ilock:
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  280  	xchk_iunlock(sc, XFS_ILOCK=
+_EXCL);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  281  	xrep_orphanage_iunlock(sc,=
+ XFS_ILOCK_EXCL);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  282  out_iolock:
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  283  	xchk_iunlock(sc, XFS_IOLOC=
+K_EXCL);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  284  	xrep_orphanage_iunlock(sc,=
+ XFS_IOLOCK_EXCL);
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  285  	return error;
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  286  }
+a8d4ca3b7da1be Darrick J. Wong 2022-01-06  287  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9118955241830660458==--
+--===============0028452400289058849==--
 
