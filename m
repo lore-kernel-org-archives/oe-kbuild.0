@@ -1,53 +1,61 @@
-Content-Type: multipart/mixed; boundary="===============7586070933028716926=="
+Content-Type: multipart/mixed; boundary="===============5437002186442195894=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jpirko-mlxsw:jiri_devel_lc_dev 9/10] drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:323:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 04 Jun 2022 18:50:12 +0800
-Message-ID: <202206041857.HAQJUsJK-lkp@intel.com>
+Subject: [linux-next:master 14468/14705] lib/maple_tree.c:667:9: warning: The right operand of '>=' is a garbage value due to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorResult]
+Date: Fri, 03 Jun 2022 13:04:31 +0800
+Message-ID: <202206031212.dGV52qAL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7586070933028716926==
+--===============5437002186442195894==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/n=
-et/ethernet/mellanox/mlxsw/core_linecards.c:323:3: warning: Value stored to=
- 'err' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: lib/maple=
+_tree.c:667:9: warning: The right operand of '>=3D' is a garbage value due =
+to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorRe=
+sult]"
 :::::: =
 
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Jiri Pirko <jiri@nvidia.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 
-tree:   https://github.com/jpirko/linux_mlxsw jiri_devel_lc_dev
-head:   e2de0017d7e8979fd196f786987bbb81a0ed3e9d
-commit: 76d11dbddaefa6db02028619cf665afb8d70650b [9/10] mlxsw: core_linecar=
-ds: Expose device PSID over device info
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-604/202206041857.HAQJUsJK-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   2e776ccffa840ce53ee1c21bde54cbe4bc102c3b
+commit: 2434ee25be6b2f86767dcfd83f1c923f109fe73e [14468/14705] Maple Tree: =
+add new data structure
+:::::: branch date: 25 hours ago
+:::::: commit date: 30 hours ago
+config: s390-randconfig-c005-20220531 (https://download.01.org/0day-ci/arch=
+ive/20220603/202206031212.dGV52qAL-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b364c7=
 6683f8ef241025a9556300778c07b590c2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jpirko/linux_mlxsw/commit/76d11dbddaefa6db0202=
-8619cf665afb8d70650b
-        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
-        git fetch --no-tags jpirko-mlxsw jiri_devel_lc_dev
-        git checkout 76d11dbddaefa6db02028619cf665afb8d70650b
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D2434ee25be6b2f86767dcfd83f1c923f109fe73e
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 2434ee25be6b2f86767dcfd83f1c923f109fe73e
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Ds390 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -55,416 +63,304 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                 ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:128:7: note: 'err' =
-is 0
-                   if (err)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:128:3: note: '?' co=
-ndition is false
-                   if (err)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:128:3: note: Taking=
- false branch
-                   if (err)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:136:7: note: Assumi=
-ng 'data_valid' is true
-                   if (!data_valid)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:136:3: note: '?' co=
-ndition is false
-                   if (!data_valid)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:136:8: note: 'data_=
-valid' is true
-                   if (!data_valid)
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:136:3: note: '?' co=
-ndition is false
-                   if (!data_valid)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:136:3: note: Taking=
- false branch
-                   if (!data_valid)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:138:3: note: 1st fu=
-nction call argument is an uninitialized value
-                   if (!flash_owner) /* We care only about flashable ones. =
-*/
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^                    ~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:310:2: warning: Cal=
-l to function 'sprintf' is insecure as it does not provide security checks =
-introduced in the C11 standard. Replace with analogous functions that suppo=
-rt length arguments or provides boundary checks such as 'sprintf_s' in case=
- of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandli=
-ng]
-           sprintf(buf, "%d", linecard->hw_revision);
-           ^~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:310:2: note: Call t=
-o function 'sprintf' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'sprintf_s' in case of=
- C11
-           sprintf(buf, "%d", linecard->hw_revision);
-           ^~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:315:2: warning: Cal=
-l to function 'sprintf' is insecure as it does not provide security checks =
-introduced in the C11 standard. Replace with analogous functions that suppo=
-rt length arguments or provides boundary checks such as 'sprintf_s' in case=
- of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandli=
-ng]
-           sprintf(buf, "%d", linecard->ini_version);
-           ^~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:315:2: note: Call t=
-o function 'sprintf' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'sprintf_s' in case of=
- C11
-           sprintf(buf, "%d", linecard->ini_version);
-           ^~~~~~~
->> drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:323:3: warning: Val=
-ue stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D devlink_info_version_fixed_put(req,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:323:3: note: Value =
-stored to 'err' is never read
-                   err =3D devlink_info_version_fixed_put(req,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:327:3: warning: Cal=
-l to function 'sprintf' is insecure as it does not provide security checks =
-introduced in the C11 standard. Replace with analogous functions that suppo=
-rt length arguments or provides boundary checks such as 'sprintf_s' in case=
- of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandli=
-ng]
-                   sprintf(buf, "%u.%u.%u", info->fw_major, info->fw_minor,
-                   ^~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:327:3: note: Call t=
-o function 'sprintf' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'sprintf_s' in case of=
- C11
-                   sprintf(buf, "%u.%u.%u", info->fw_major, info->fw_minor,
-                   ^~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:901:2: warning: Cal=
-l to function 'memcpy' is insecure as it does not provide security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'memcpy_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(event->mddq_pl, mddq_pl, sizeof(event->mddq_pl));
-           ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:901:2: note: Call t=
-o function 'memcpy' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'memcpy_s' in case of C=
-11
-           memcpy(event->mddq_pl, mddq_pl, sizeof(event->mddq_pl));
-           ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:934:2: warning: Cal=
-l to function 'memcpy' is insecure as it does not provide security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'memcpy_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(event->mbct_pl, mbct_pl, sizeof(event->mbct_pl));
-           ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:934:2: note: Call t=
-o function 'memcpy' is insecure as it does not provide security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'memcpy_s' in case of C=
-11
-           memcpy(event->mbct_pl, mbct_pl, sizeof(event->mbct_pl));
-           ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1121:8: warning: Ca=
-ll to function 'snprintf' is insecure as it does not provide security check=
-s introduced in the C11 standard. Replace with analogous functions that sup=
-port length arguments or provides boundary checks such as 'snprintf_s' in c=
-ase of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHan=
-dling]
-           err =3D snprintf(filename, sizeof(filename),
-                 ^~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1121:8: note: Call =
-to function 'snprintf' is insecure as it does not provide security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'snprintf_s' in case=
- of C11
-           err =3D snprintf(filename, sizeof(filename),
-                 ^~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1148:2: warning: Ca=
-ll to function 'memcpy' is insecure as it does not provide security checks =
-introduced in the C11 standard. Replace with analogous functions that suppo=
-rt length arguments or provides boundary checks such as 'memcpy_s' in case =
-of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandlin=
-g]
-           memcpy(types_info->data, firmware->data, types_info->data_size);
-           ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1148:2: note: Call =
-to function 'memcpy' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'memcpy_s' in case of =
-C11
-           memcpy(types_info->data, firmware->data, types_info->data_size);
-           ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   Suppressed 224 warnings (223 in non-user code, 1 with check filters).
+   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
+inc'
+   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
+                                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
+add'
+   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
+pcp, val)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   include/linux/percpu-defs.h:379:11: note: expanded from macro '__pcpu_si=
+ze_call'
+                   case 4: stem##4(variable, __VA_ARGS__);break;           \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
+cpu_ptr'
+   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
+PU_PTR'
+           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
+       (typeof(ptr)) (__ptr + (off)); })
+                              ^~~~~
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   74 warnings generated.
-   Suppressed 74 warnings (74 in non-user code).
+   29 warnings generated.
+   lib/kobject_uevent.c:665:8: warning: Call to function 'vsnprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           len =3D vsnprintf(&env->buf[env->buflen],
+                 ^~~~~~~~~
+   lib/kobject_uevent.c:665:8: note: Call to function 'vsnprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'vsnprintf_s' in case of C11
+           len =3D vsnprintf(&env->buf[env->buflen],
+                 ^~~~~~~~~
+   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   99 warnings generated.
-   net/ethtool/ioctl.c:201:3: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data, netdev_features_strings,
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:201:3: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-                   memcpy(data, netdev_features_strings,
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:204:3: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data, rss_hash_func_strings,
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:204:3: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-                   memcpy(data, rss_hash_func_strings,
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:207:3: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data, tunable_strings, sizeof(tunable_strings));
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:207:3: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-                   memcpy(data, tunable_strings, sizeof(tunable_strings));
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:209:3: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data, phy_tunable_strings, sizeof(phy_tunable_str=
-ings));
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   26 warnings generated.
+   arch/s390/include/asm/spinlock.h:61:52: warning: Dereference of null poi=
+nter [clang-analyzer-core.NullDereference]
+           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKV=
+AL));
+                                                             ^
+   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINL=
+OCK_LOCKVAL'
+   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
+                            ^
+   lib/maple_tree.c:6259:2: note: Calling 'spin_lock'
+           mtree_lock(mt);
+           ^
+   include/linux/maple_tree.h:253:25: note: expanded from macro 'mtree_lock'
+   #define mtree_lock(mt)          spin_lock((&(mt)->ma_lock))
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:349:2: note: Calling '__raw_spin_lock'
+           raw_spin_lock(&lock->rlock);
+           ^
+   include/linux/spinlock.h:215:29: note: expanded from macro 'raw_spin_loc=
+k'
+   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
+                                   ^~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock_api_smp.h:47:30: note: expanded from macro '_raw_=
+spin_lock'
+   #define _raw_spin_lock(lock) __raw_spin_lock(lock)
+                                ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock_api_smp.h:133:2: note: Loop condition is false.  =
+Exiting loop
+           spin_acquire(&lock->dep_map, 0, 0, _RET_IP_);
+           ^
+   include/linux/lockdep.h:522:35: note: expanded from macro 'spin_acquire'
+   #define spin_acquire(l, s, t, i)                lock_acquire_exclusive(l=
+, s, t, NULL, i)
+                                                   ^
+   include/linux/lockdep.h:518:48: note: expanded from macro 'lock_acquire_=
+exclusive'
+   #define lock_acquire_exclusive(l, s, t, n, i)           lock_acquire(l, =
+s, t, 0, 1, n, i)
+                                                           ^
+   include/linux/lockdep.h:356:44: note: expanded from macro 'lock_acquire'
+   # define lock_acquire(l, s, t, r, c, n, i)      do { } while (0)
+                                                   ^
+   include/linux/spinlock_api_smp.h:134:44: note: Calling 'do_raw_spin_lock'
+           LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
+                                                     ^
+   include/linux/lockdep.h:477:2: note: expanded from macro 'LOCK_CONTENDED'
+           lock(_lock)
+           ^~~~~~~~~~~
+   include/linux/spinlock.h:185:2: note: Calling 'arch_spin_lock'
+           arch_spin_lock(&lock->raw_lock);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/spinlock.h:66:7: note: Calling 'arch_spin_trylock_=
+once'
+           if (!arch_spin_trylock_once(lp))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/spinlock.h:61:52: note: Dereference of null pointer
+           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKV=
+AL));
+                                                             ^
+   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINL=
+OCK_LOCKVAL'
+   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
+                            ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   lib/maple_tree.c:326:2: warning: Value stored to 'node' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           node =3D (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:326:2: note: Value stored to 'node' is never read
+           node =3D (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:331:2: warning: Value stored to 'node' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           node =3D (void *)((unsigned long)node | MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:331:2: note: Value stored to 'node' is never read
+           node =3D (void *)((unsigned long)node | MAPLE_ENODE_NULL);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/maple_tree.c:667:9: warning: The right operand of '>=3D' is a garbag=
+e value due to array index out of bounds [clang-analyzer-core.UndefinedBina=
+ryOperatorResult]
+           if(piv >=3D mt_pivots[piv]) {
+                  ^
+   lib/maple_tree.c:5223:6: note: Left side of '||' is false
+           if (mas_is_none(mas) || mas_is_ptr(mas)) {
+               ^
+   lib/maple_tree.c:5223:2: note: Taking false branch
+           if (mas_is_none(mas) || mas_is_ptr(mas)) {
+           ^
+   lib/maple_tree.c:5235:2: note: Taking false branch
+           if (mas_is_err(mas))
+           ^
+   lib/maple_tree.c:5238:11: note: Field 'offset' is not equal to MAPLE_NOD=
+E_SLOTS
+           if (mas->offset =3D=3D MAPLE_NODE_SLOTS)
+                    ^
+   lib/maple_tree.c:5238:2: note: Taking false branch
+           if (mas->offset =3D=3D MAPLE_NODE_SLOTS)
+           ^
+   lib/maple_tree.c:5246:11: note: Field 'offset' is 15
+           if (mas->offset)
+                    ^
+   lib/maple_tree.c:5246:2: note: Taking true branch
+           if (mas->offset)
+           ^
+   lib/maple_tree.c:5247:30: note: Passing the value 14 via 2nd parameter '=
+piv'
+                   min =3D mte_pivot(mas->node, mas->offset - 1) + 1;
+                                              ^~~~~~~~~~~~~~~
+   lib/maple_tree.c:5247:9: note: Calling 'mte_pivot'
+                   min =3D mte_pivot(mas->node, mas->offset - 1) + 1;
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:667:9: note: The right operand of '>=3D' is a garbage v=
+alue due to array index out of bounds
+           if(piv >=3D mt_pivots[piv]) {
+                  ^  ~~~~~~~~~~~~~~
+   lib/maple_tree.c:1206:23: warning: Value stored to 'nodep' during its in=
+itialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct maple_alloc **nodep =3D &mas->alloc;
+                                ^~~~~   ~~~~~~~~~~~
+   lib/maple_tree.c:1206:23: note: Value stored to 'nodep' during its initi=
+alization is never read
+           struct maple_alloc **nodep =3D &mas->alloc;
+                                ^~~~~   ~~~~~~~~~~~
+   lib/maple_tree.c:1218:20: warning: Access to field 'node_count' results =
+in a dereference of a null pointer (loaded from field 'alloc') [clang-analy=
+zer-core.NullDereference]
+           if (!allocated || mas->alloc->node_count =3D=3D MAPLE_ALLOC_SLOT=
+S - 1) {
+                             ^
+   lib/maple_tree.c:5936:6: note: Calling 'mas_is_none'
+           if (mas_is_none(mas) || mas_is_paused(mas))
+               ^~~~~~~~~~~~~~~~
+   include/linux/maple_tree.h:477:9: note: Assuming field 'node' is not equ=
+al to MAS_NONE
+           return mas->node =3D=3D MAS_NONE;
+                  ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/maple_tree.h:477:2: note: Returning without writing to 'ma=
+s->alloc', which participates in a condition later
+           return mas->node =3D=3D MAS_NONE;
+           ^
+   include/linux/maple_tree.h:477:2: note: Returning without writing to 'ma=
+s->alloc'
+   lib/maple_tree.c:5936:6: note: Returning from 'mas_is_none'
+           if (mas_is_none(mas) || mas_is_paused(mas))
+               ^~~~~~~~~~~~~~~~
+   lib/maple_tree.c:5936:6: note: Left side of '||' is false
+   lib/maple_tree.c:5936:26: note: Calling 'mas_is_paused'
+           if (mas_is_none(mas) || mas_is_paused(mas))
+                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/maple_tree.h:483:9: note: Assuming field 'node' is not equ=
+al to MAS_PAUSE
+           return mas->node =3D=3D MAS_PAUSE;
+                  ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/maple_tree.h:483:2: note: Returning without writing to 'ma=
+s->alloc', which participates in a condition later
+           return mas->node =3D=3D MAS_PAUSE;
+           ^
+   include/linux/maple_tree.h:483:2: note: Returning without writing to 'ma=
+s->alloc'
+   lib/maple_tree.c:5936:26: note: Returning from 'mas_is_paused'
+           if (mas_is_none(mas) || mas_is_paused(mas))
+                                   ^~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:5936:2: note: Taking false branch
+           if (mas_is_none(mas) || mas_is_paused(mas))
+           ^
+   lib/maple_tree.c:5940:10: note: Calling 'mas_state_walk'
+           entry =3D mas_state_walk(mas);
+                   ^~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:3745:10: note: Calling 'mas_start'
+           entry =3D mas_start(mas);
+                   ^~~~~~~~~~~~~~
+   lib/maple_tree.c:1322:13: note: Calling 'mas_is_start'
+           if (likely(mas_is_start(mas))) {
+                      ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   lib/maple_tree.c:243:9: note: Assuming field 'node' is equal to MAS_START
+           return mas->node =3D=3D MAS_START;
+                  ^~~~~~~~~~~~~~~~~~~~~~
+   lib/maple_tree.c:243:2: note: Returning without writing to 'mas->alloc',=
+ which participates in a condition later
+           return mas->node =3D=3D MAS_START;
+           ^
+   lib/maple_tree.c:243:2: note: Returning without writing to 'mas->alloc'
+   lib/maple_tree.c:1322:13: note: Returning from 'mas_is_start'
+           if (likely(mas_is_start(mas))) {
+                      ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   lib/maple_tree.c:1322:2: note: Taking true branch
+           if (likely(mas_is_start(mas))) {
+           ^
+   lib/maple_tree.c:1333:3: note: Taking false branch
 
-vim +/err +323 drivers/net/ethernet/mellanox/mlxsw/core_linecards.c
+vim +667 lib/maple_tree.c
 
-de28976d2650d3 Jiri Pirko 2022-04-19  296  =
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  654  =
 
-61245ead6e2b9f Jiri Pirko 2022-06-02  297  int mlxsw_linecard_devlink_info_=
-get(struct mlxsw_linecard *linecard,
-61245ead6e2b9f Jiri Pirko 2022-06-02  298  				    struct devlink_info_req =
-*req,
-61245ead6e2b9f Jiri Pirko 2022-06-02  299  				    struct netlink_ext_ack *=
-extack)
-61245ead6e2b9f Jiri Pirko 2022-06-02  300  {
-61245ead6e2b9f Jiri Pirko 2022-06-02  301  	char buf[32];
-61245ead6e2b9f Jiri Pirko 2022-06-02  302  	int err;
-61245ead6e2b9f Jiri Pirko 2022-06-02  303  =
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  655  /*
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  656   * mte_pivot() - Get the p=
+ivot at @piv of the maple encoded node.
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  657   * @mn: The maple encoded =
+node.
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  658   * @piv: The pivot.
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  659   *
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  660   * Return: the pivot at @p=
+iv of @mn.
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  661   */
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  662  static inline unsigned lon=
+g mte_pivot(const struct maple_enode *mn,
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  663  				 unsigned char piv)
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  664  {
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  665  	struct maple_node *node =
+=3D mte_to_node(mn);
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  666  =
 
-61245ead6e2b9f Jiri Pirko 2022-06-02  304  	mutex_lock(&linecard->lock);
-61245ead6e2b9f Jiri Pirko 2022-06-02  305  	if (WARN_ON(!linecard->provisio=
-ned)) {
-61245ead6e2b9f Jiri Pirko 2022-06-02  306  		err =3D 0;
-61245ead6e2b9f Jiri Pirko 2022-06-02  307  		goto unlock;
-61245ead6e2b9f Jiri Pirko 2022-06-02  308  	}
-61245ead6e2b9f Jiri Pirko 2022-06-02  309  =
-
-61245ead6e2b9f Jiri Pirko 2022-06-02  310  	sprintf(buf, "%d", linecard->hw=
-_revision);
-61245ead6e2b9f Jiri Pirko 2022-06-02  311  	err =3D devlink_info_version_fi=
-xed_put(req, "hw.revision", buf);
-61245ead6e2b9f Jiri Pirko 2022-06-02  312  	if (err)
-61245ead6e2b9f Jiri Pirko 2022-06-02  313  		goto unlock;
-61245ead6e2b9f Jiri Pirko 2022-06-02  314  =
-
-61245ead6e2b9f Jiri Pirko 2022-06-02  315  	sprintf(buf, "%d", linecard->in=
-i_version);
-61245ead6e2b9f Jiri Pirko 2022-06-02  316  	err =3D devlink_info_version_ru=
-nning_put(req, "ini.version", buf);
-61245ead6e2b9f Jiri Pirko 2022-06-02  317  	if (err)
-61245ead6e2b9f Jiri Pirko 2022-06-02  318  		goto unlock;
-61245ead6e2b9f Jiri Pirko 2022-06-02  319  =
-
-a07ffbd025d76f Jiri Pirko 2022-04-25  320  	if (linecard->ready) {
-a07ffbd025d76f Jiri Pirko 2022-04-25  321  		struct mlxsw_linecard_device_i=
-nfo *info =3D &linecard->device.info;
-a07ffbd025d76f Jiri Pirko 2022-04-25  322  =
-
-76d11dbddaefa6 Jiri Pirko 2022-06-03 @323  		err =3D devlink_info_version_f=
-ixed_put(req,
-76d11dbddaefa6 Jiri Pirko 2022-06-03  324  						     DEVLINK_INFO_VERSION_=
-GENERIC_FW_PSID,
-76d11dbddaefa6 Jiri Pirko 2022-06-03  325  						     info->psid);
-76d11dbddaefa6 Jiri Pirko 2022-06-03  326  =
-
-a07ffbd025d76f Jiri Pirko 2022-04-25  327  		sprintf(buf, "%u.%u.%u", info-=
->fw_major, info->fw_minor,
-a07ffbd025d76f Jiri Pirko 2022-04-25  328  			info->fw_sub_minor);
-a07ffbd025d76f Jiri Pirko 2022-04-25  329  		err =3D devlink_info_version_r=
-unning_put(req,
-a07ffbd025d76f Jiri Pirko 2022-04-25  330  						       DEVLINK_INFO_VERSIO=
-N_GENERIC_FW,
-a07ffbd025d76f Jiri Pirko 2022-04-25  331  						       buf);
-a07ffbd025d76f Jiri Pirko 2022-04-25  332  		if (err)
-a07ffbd025d76f Jiri Pirko 2022-04-25  333  			goto unlock;
-a07ffbd025d76f Jiri Pirko 2022-04-25  334  	}
-a07ffbd025d76f Jiri Pirko 2022-04-25  335  =
-
-61245ead6e2b9f Jiri Pirko 2022-06-02  336  unlock:
-61245ead6e2b9f Jiri Pirko 2022-06-02  337  	mutex_unlock(&linecard->lock);
-61245ead6e2b9f Jiri Pirko 2022-06-02  338  	return err;
-61245ead6e2b9f Jiri Pirko 2022-06-02  339  }
-61245ead6e2b9f Jiri Pirko 2022-06-02  340  =
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01 @667  	if(piv >=3D mt_pivots[piv=
+]) {
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  668  		WARN_ON(1);
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  669  		return 0;
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  670  	}
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  671  	switch (mte_node_type(mn)=
+) {
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  672  	case maple_arange_64:
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  673  		return node->ma64.pivot[=
+piv];
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  674  	case maple_range_64:
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  675  	case maple_leaf_64:
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  676  		return node->mr64.pivot[=
+piv];
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  677  	case maple_dense:
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  678  		return 0;
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  679  	}
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  680  	return 0;
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  681  }
+2434ee25be6b2f8 Liam R. Howlett 2022-06-01  682  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7586070933028716926==--
+--===============5437002186442195894==--
 
