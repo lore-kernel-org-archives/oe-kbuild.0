@@ -1,472 +1,790 @@
-Content-Type: multipart/mixed; boundary="===============1881915050666491552=="
+Content-Type: multipart/mixed; boundary="===============9028024858965579159=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/ath/ath11k/mac.c:1975 ath11k_peer_assoc_h_he() error: uninitialized symbol 'rx_mcs_80'.
-Date: Mon, 06 Jun 2022 01:21:40 +0800
-Message-ID: <202206060127.NFzDQEHo-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15 5484/5636] fs/proc/task_mmu.c:964:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sun, 05 Jun 2022 23:44:52 +0800
+Message-ID: <202206052344.80LaYZRN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1881915050666491552==
+--===============9028024858965579159==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/proc/task_mmu.c:964:28: warning: Dereference of null pointer [clang-ana=
+lyzer-core.NullDereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Wen Gong <quic_wgong@quicinc.com>
-CC: Kalle Valo <kvalo@codeaurora.org>
+TO: Ammar Faizi <ammarfaizi2@gnuweeb.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   952923ddc01120190dcf671e7b354364ce1d1362
-commit: 3db26ecf7114370e451e296e33a0af3303d32819 ath11k: calculate the corr=
-ect NSS of peer for HE capabilities
-date:   7 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 7 months ago
-config: microblaze-randconfig-m031-20220605 (https://download.01.org/0day-c=
-i/archive/20220606/202206060127.NFzDQEHo-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android13-5.15
+head:   754bb029c85fb4b18d198216540f75e635dde8d4
+commit: 67cc8ce9a649a8407c8e815d03b88761c4ddfe67 [5484/5636] FROMLIST: mm: =
+rcu safe vma freeing
+:::::: branch date: 9 weeks ago
+:::::: commit date: 2 months ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20605/202206052344.80LaYZRN-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b364c7=
+6683f8ef241025a9556300778c07b590c2)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/67cc8ce9a649a84=
+07c8e815d03b88761c4ddfe67
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
+android13-5.15
+        git checkout 67cc8ce9a649a8407c8e815d03b88761c4ddfe67
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireless/ath/ath11k/mac.c:1975 ath11k_peer_assoc_h_he() error: =
-uninitialized symbol 'rx_mcs_80'.
-drivers/net/wireless/ath/ath11k/mac.c:1975 ath11k_peer_assoc_h_he() error: =
-uninitialized symbol 'rx_mcs_160'.
 
-Old smatch warnings:
-drivers/net/wireless/ath/ath11k/mac.c:1977 ath11k_peer_assoc_h_he() error: =
-uninitialized symbol 'rx_mcs_80'.
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^
+   lib/vsprintf.c:1360:9: note: Assigned value is garbage or undefined
+                           *p++ =3D temp[digits];
+                                ^ ~~~~~~~~~~~~
+   lib/vsprintf.c:1423:4: warning: Value stored to 'needcolon' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           needcolon =3D false;
+                           ^           ~~~~~
+   lib/vsprintf.c:1423:4: note: Value stored to 'needcolon' is never read
+                           needcolon =3D false;
+                           ^           ~~~~~
+   lib/vsprintf.c:1791:2: warning: Call to function 'strcpy' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
+           ^~~~~~
+   lib/vsprintf.c:1791:2: note: Call to function 'strcpy' is insecure as it=
+ does not provide bounding of the memory buffer. Replace unbounded copy fun=
+ctions with analogous functions that support length arguments such as 'strl=
+cpy'. CWE-119
+           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
+           ^~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/acpi/acpica/nsrepair.c:264:8: warning: Dereference of null point=
+er [clang-analyzer-core.NullDereference]
+                               return_object->common.reference_count;
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:125:2: note: 'return_object' initialized =
+here
+           union acpi_operand_object *return_object =3D *return_object_ptr;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:139:6: note: Assuming 'predefined' is non=
+-null
+           if (predefined) {
+               ^~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:139:2: note: Taking true branch
+           if (predefined) {
+           ^
+   drivers/acpi/acpica/nsrepair.c:140:7: note: Assuming 'return_object' is =
+null
+                   if (!return_object) {
+                       ^~~~~~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:140:3: note: Taking true branch
+                   if (!return_object) {
+                   ^
+   drivers/acpi/acpica/nsrepair.c:148:7: note: Assuming 'status' is 0
+                   if (ACPI_FAILURE(status)) {
+                       ^
+   include/acpi/acexcep.h:58:41: note: expanded from macro 'ACPI_FAILURE'
+   #define ACPI_FAILURE(a)                 (a)
+                                           ^~~
+   drivers/acpi/acpica/nsrepair.c:148:3: note: Taking false branch
+                   if (ACPI_FAILURE(status)) {
+                   ^
+   drivers/acpi/acpica/nsrepair.c:156:7: note: Assuming 'new_object' is non=
+-null
+                   if (new_object) {
+                       ^~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:156:3: note: Taking true branch
+                   if (new_object) {
+                   ^
+   drivers/acpi/acpica/nsrepair.c:157:4: note: Control jumps to line 258
+                           goto object_repaired;
+                           ^
+   drivers/acpi/acpica/nsrepair.c:258:6: note: Assuming the condition is tr=
+ue
+           if (package_index !=3D ACPI_NOT_PACKAGE_ELEMENT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:258:2: note: Taking true branch
+           if (package_index !=3D ACPI_NOT_PACKAGE_ELEMENT) {
+           ^
+   drivers/acpi/acpica/nsrepair.c:262:7: note: Assuming the condition is tr=
+ue
+                   if (!(info->return_flags & ACPI_OBJECT_WRAPPED)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/nsrepair.c:262:3: note: Taking true branch
+                   if (!(info->return_flags & ACPI_OBJECT_WRAPPED)) {
+                   ^
+   drivers/acpi/acpica/nsrepair.c:264:8: note: Dereference of null pointer
+                               return_object->common.reference_count;
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> fs/proc/task_mmu.c:964:28: warning: Dereference of null pointer [clang-a=
+nalyzer-core.NullDereference]
+           show_vma_header_prefix(m, priv->mm->mmap->vm_start,
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c:878:6: note: Assuming field 'task' is non-null
+           if (!priv->task)
+               ^~~~~~~~~~~
+   fs/proc/task_mmu.c:878:2: note: Taking false branch
+           if (!priv->task)
+           ^
+   fs/proc/task_mmu.c:882:6: note: Assuming 'mm' is non-null
+           if (!mm || !mmget_not_zero(mm)) {
+               ^~~
+   fs/proc/task_mmu.c:882:6: note: Left side of '||' is false
+   fs/proc/task_mmu.c:882:2: note: Taking false branch
+           if (!mm || !mmget_not_zero(mm)) {
+           ^
+   fs/proc/task_mmu.c:889:8: note: Calling 'mmap_read_lock_killable'
+           ret =3D mmap_read_lock_killable(mm);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:179:2: note: Calling '__mmap_lock_trace_start_=
+locking'
+           __mmap_lock_trace_start_locking(mm, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:36:2: note: Taking false branch
+           if (tracepoint_enabled(mmap_lock_start_locking))
+           ^
+   include/linux/mmap_lock.h:38:1: note: Returning without writing to 'mm->=
+.mmap', which participates in a condition later
+   }
+   ^
+   include/linux/mmap_lock.h:38:1: note: Returning without writing to 'mm->=
+.mmap'
+   include/linux/mmap_lock.h:179:2: note: Returning from '__mmap_lock_trace=
+_start_locking'
+           __mmap_lock_trace_start_locking(mm, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:180:10: note: Value assigned to field 'mmap', =
+which participates in a condition later
+           error =3D down_read_killable(&mm->mmap_lock);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:180:10: note: Value assigned to field 'mmap'
+           error =3D down_read_killable(&mm->mmap_lock);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:181:48: note: Assuming 'error' is 0, which par=
+ticipates in a condition later
+           __mmap_lock_trace_acquire_returned(mm, false, !error);
+                                                         ^~~~~~
+   include/linux/mmap_lock.h:181:2: note: Calling '__mmap_lock_trace_acquir=
+e_returned'
+           __mmap_lock_trace_acquire_returned(mm, false, !error);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:43:2: note: Taking false branch
+           if (tracepoint_enabled(mmap_lock_acquire_returned))
+           ^
+   include/linux/mmap_lock.h:45:1: note: Returning without writing to 'mm->=
+.mmap', which participates in a condition later
+   }
+   ^
+   include/linux/mmap_lock.h:45:1: note: Returning without writing to 'mm->=
+.mmap'
+   include/linux/mmap_lock.h:181:2: note: Returning from '__mmap_lock_trace=
+_acquire_returned'
+           __mmap_lock_trace_acquire_returned(mm, false, !error);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:182:2: note: Returning zero (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/proc/task_mmu.c:889:8: note: Returning from 'mmap_read_lock_killable'
+           ret =3D mmap_read_lock_killable(mm);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c:890:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   fs/proc/task_mmu.c:890:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/proc/task_mmu.c:895:29: note: Assuming pointer value is null
+           for (vma =3D priv->mm->mmap; vma;) {
+                                      ^~~
+   fs/proc/task_mmu.c:895:2: note: Loop condition is false. Execution conti=
+nues on line 964
+           for (vma =3D priv->mm->mmap; vma;) {
+           ^
+   fs/proc/task_mmu.c:964:28: note: Dereference of null pointer
+           show_vma_header_prefix(m, priv->mm->mmap->vm_start,
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   lib/glob.c:48:32: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   lib/glob.c:48:32: note: Assigned value is garbage or undefined
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+--
+                             ^~~~   ~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/acpi/acpica/dbexec.c:390:2: warning: Call to function 'strcpy' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(name_string, name);
+           ^~~~~~
+   drivers/acpi/acpica/dbexec.c:390:2: note: Call to function 'strcpy' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcpy'. CWE-119
+           strcpy(name_string, name);
+           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/acpi/acpica/dbhistry.c:73:2: warning: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(acpi_gbl_history_buffer[acpi_gbl_next_history_index].comm=
+and,
+           ^~~~~~
+   drivers/acpi/acpica/dbhistry.c:73:2: note: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119
+           strcpy(acpi_gbl_history_buffer[acpi_gbl_next_history_index].comm=
+and,
+           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/leds/led-triggers.c:276:2: warning: Call to function 'strcpy' is=
+ insecure as it does not provide bounding of the memory buffer. Replace unb=
+ounded copy functions with analogous functions that support length argument=
+s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy((char *)trig->name, name);
+           ^~~~~~
+   drivers/leds/led-triggers.c:276:2: note: Call to function 'strcpy' is in=
+secure as it does not provide bounding of the memory buffer. Replace unboun=
+ded copy functions with analogous functions that support length arguments s=
+uch as 'strlcpy'. CWE-119
+           strcpy((char *)trig->name, name);
+           ^~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/net/phy/realtek.c:813:3: warning: Value stored to 'err' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   err =3D phy_write_paged(phydev, 0xa42, RTL9000A_GINMR, v=
+al);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/realtek.c:813:3: note: Value stored to 'err' is never re=
+ad
+                   err =3D phy_write_paged(phydev, 0xa42, RTL9000A_GINMR, v=
+al);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/realtek.c:820:3: warning: Value stored to 'err' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   err =3D rtl9000a_ack_interrupt(phydev);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/realtek.c:820:3: note: Value stored to 'err' is never re=
+ad
+                   err =3D rtl9000a_ack_interrupt(phydev);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> arch/x86/mm/pat/memtype.c:1098:24: warning: Dereference of null pointer =
+[clang-analyzer-core.NullDereference]
+                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+                                        ^~~~~~~~~~~~~
+   arch/x86/mm/pat/memtype.c:1092:6: note: Assuming 'vma' is null
+           if (vma && !(vma->vm_flags & VM_PAT))
+               ^~~
+   arch/x86/mm/pat/memtype.c:1092:10: note: Left side of '&&' is false
+           if (vma && !(vma->vm_flags & VM_PAT))
+                   ^
+   arch/x86/mm/pat/memtype.c:1097:6: note: Assuming 'paddr' is 0
+           if (!paddr && !size) {
+               ^~~~~~
+   arch/x86/mm/pat/memtype.c:1097:6: note: Left side of '&&' is true
+   arch/x86/mm/pat/memtype.c:1097:16: note: Assuming 'size' is 0
+           if (!paddr && !size) {
+                         ^~~~~
+   arch/x86/mm/pat/memtype.c:1097:2: note: Taking true branch
+           if (!paddr && !size) {
+           ^
+   arch/x86/mm/pat/memtype.c:1098:24: note: Dereference of null pointer
+                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+                                        ^~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/target/target_core_configfs.c:2017:5: warning: Value stored to '=
+ret' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2017:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2031:5: warning: Value stored to '=
+ret' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2031:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2095:5: warning: Value stored to '=
+ret' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2095:5: note: Value stored to 'ret=
+' is never read
+                                   ret =3D -EINVAL;
+                                   ^     ~~~~~~~
+   drivers/target/target_core_configfs.c:2217:17: warning: Value stored to =
+'hba' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2217:17: note: Value stored to 'hb=
+a' during its initialization is never read
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2257:17: warning: Value stored to =
+'hba' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2257:17: note: Value stored to 'hb=
+a' during its initialization is never read
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2339:17: warning: Value stored to =
+'hba' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct se_hba *hba =3D dev->se_hba;
+                          ^~~   ~~~~~~~~~~~
+   drivers/target/target_core_configfs.c:2339:17: note: Value stored to 'hb=
+a' during its initialization is never read
 
-vim +/rx_mcs_80 +1975 drivers/net/wireless/ath/ath11k/mac.c
+vim +964 fs/proc/task_mmu.c
 
-61fe43e7216df6 Miles Hu            2021-09-24  1914  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  867  =
 
-d5c65159f28953 Kalle Valo          2019-11-23  1915  static void ath11k_pee=
-r_assoc_h_he(struct ath11k *ar,
-d5c65159f28953 Kalle Valo          2019-11-23  1916  				   struct ieee8021=
-1_vif *vif,
-d5c65159f28953 Kalle Valo          2019-11-23  1917  				   struct ieee8021=
-1_sta *sta,
-d5c65159f28953 Kalle Valo          2019-11-23  1918  				   struct peer_ass=
-oc_params *arg)
-d5c65159f28953 Kalle Valo          2019-11-23  1919  {
-61fe43e7216df6 Miles Hu            2021-09-24  1920  	struct ath11k_vif *ar=
-vif =3D (void *)vif->drv_priv;
-61fe43e7216df6 Miles Hu            2021-09-24  1921  	struct cfg80211_chan_=
-def def;
-9f056ed8ee01ad John Crispin        2019-11-25  1922  	const struct ieee8021=
-1_sta_he_cap *he_cap =3D &sta->he_cap;
-61fe43e7216df6 Miles Hu            2021-09-24  1923  	enum nl80211_band ban=
-d;
-61fe43e7216df6 Miles Hu            2021-09-24  1924  	u16 *he_mcs_mask;
-61fe43e7216df6 Miles Hu            2021-09-24  1925  	u8 max_nss, he_mcs;
-61fe43e7216df6 Miles Hu            2021-09-24  1926  	u16 he_tx_mcs =3D 0, =
-v =3D 0;
-61fe43e7216df6 Miles Hu            2021-09-24  1927  	int i, he_nss, nss_id=
-x;
-61fe43e7216df6 Miles Hu            2021-09-24  1928  	bool user_rate_valid =
-=3D true;
-f552d6fd2f27ce P Praneesh          2021-09-24  1929  	u32 rx_nss, tx_nss, n=
-ss_160;
-3db26ecf711437 Wen Gong            2021-11-22  1930  	u8 ampdu_factor, rx_m=
-cs_80, rx_mcs_160;
-3db26ecf711437 Wen Gong            2021-11-22  1931  	u16 mcs_160_map, mcs_=
-80_map;
-3db26ecf711437 Wen Gong            2021-11-22  1932  	bool support_160;
-61fe43e7216df6 Miles Hu            2021-09-24  1933  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  868  static int show_smaps=
+_rollup(struct seq_file *m, void *v)
+258f669e7e88c1 Vlastimil Babka       2018-08-21  869  {
+258f669e7e88c1 Vlastimil Babka       2018-08-21  870  	struct proc_maps_pri=
+vate *priv =3D m->private;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  871  	struct mem_size_stat=
+s mss;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  872  	struct mm_struct *mm;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  873  	struct vm_area_struc=
+t *vma;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  874  	unsigned long last_v=
+ma_end =3D 0;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  875  	int ret =3D 0;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  876  =
 
-61fe43e7216df6 Miles Hu            2021-09-24  1934  	if (WARN_ON(ath11k_ma=
-c_vif_chan(vif, &def)))
-61fe43e7216df6 Miles Hu            2021-09-24  1935  		return;
-9f056ed8ee01ad John Crispin        2019-11-25  1936  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  877  	priv->task =3D get_p=
+roc_task(priv->inode);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  878  	if (!priv->task)
+258f669e7e88c1 Vlastimil Babka       2018-08-21  879  		return -ESRCH;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  880  =
 
-9f056ed8ee01ad John Crispin        2019-11-25  1937  	if (!he_cap->has_he)
-9f056ed8ee01ad John Crispin        2019-11-25  1938  		return;
-9f056ed8ee01ad John Crispin        2019-11-25  1939  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  881  	mm =3D priv->mm;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  882  	if (!mm || !mmget_no=
+t_zero(mm)) {
+258f669e7e88c1 Vlastimil Babka       2018-08-21  883  		ret =3D -ESRCH;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  884  		goto out_put_task;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  885  	}
+258f669e7e88c1 Vlastimil Babka       2018-08-21  886  =
 
-61fe43e7216df6 Miles Hu            2021-09-24  1940  	band =3D def.chan->ba=
-nd;
-61fe43e7216df6 Miles Hu            2021-09-24  1941  	he_mcs_mask =3D arvif=
-->bitrate_mask.control[band].he_mcs;
-61fe43e7216df6 Miles Hu            2021-09-24  1942  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  887  	memset(&mss, 0, size=
+of(mss));
+258f669e7e88c1 Vlastimil Babka       2018-08-21  888  =
 
-61fe43e7216df6 Miles Hu            2021-09-24  1943  	if (ath11k_peer_assoc=
-_h_he_masked(he_mcs_mask))
-61fe43e7216df6 Miles Hu            2021-09-24  1944  		return;
-61fe43e7216df6 Miles Hu            2021-09-24  1945  =
+d8ed45c5dcd455 Michel Lespinasse     2020-06-08  889  	ret =3D mmap_read_lo=
+ck_killable(mm);
+a26a9781554857 Konstantin Khlebnikov 2019-07-11  890  	if (ret)
+a26a9781554857 Konstantin Khlebnikov 2019-07-11  891  		goto out_put_mm;
+a26a9781554857 Konstantin Khlebnikov 2019-07-11  892  =
 
-9f056ed8ee01ad John Crispin        2019-11-25  1946  	arg->he_flag =3D true;
-3db26ecf711437 Wen Gong            2021-11-22  1947  	support_160 =3D !!(he=
-_cap->he_cap_elem.phy_cap_info[0] &
-3db26ecf711437 Wen Gong            2021-11-22  1948  		  IEEE80211_HE_PHY_C=
-AP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G);
-3db26ecf711437 Wen Gong            2021-11-22  1949  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  893  	hold_task_mempolicy(=
+priv);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  894  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1950  	/* Supported HE-MCS a=
-nd NSS Set of peer he_cap is intersection with self he_cp */
-3db26ecf711437 Wen Gong            2021-11-22  1951  	mcs_160_map =3D le16_=
-to_cpu(he_cap->he_mcs_nss_supp.rx_mcs_160);
-3db26ecf711437 Wen Gong            2021-11-22  1952  	mcs_80_map =3D le16_t=
-o_cpu(he_cap->he_mcs_nss_supp.rx_mcs_80);
-3db26ecf711437 Wen Gong            2021-11-22  1953  =
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  895  	for (vma =3D priv->m=
+m->mmap; vma;) {
+03b4b1149308b0 Chinwen Chang         2020-10-13  896  		smap_gather_stats(v=
+ma, &mss, 0);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  897  		last_vma_end =3D vm=
+a->vm_end;
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  898  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1954  	if (support_160) {
-3db26ecf711437 Wen Gong            2021-11-22  1955  		for (i =3D 7; i >=3D=
- 0; i--) {
-3db26ecf711437 Wen Gong            2021-11-22  1956  			u8 mcs_160 =3D (mcs=
-_160_map >> (2 * i)) & 3;
-3db26ecf711437 Wen Gong            2021-11-22  1957  =
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  899  		/*
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  900  		 * Release mmap_loc=
+k temporarily if someone wants to
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  901  		 * access it for wr=
+ite request.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  902  		 */
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  903  		if (mmap_lock_is_co=
+ntended(mm)) {
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  904  			mmap_read_unlock(m=
+m);
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  905  			ret =3D mmap_read_=
+lock_killable(mm);
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  906  			if (ret) {
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  907  				release_task_memp=
+olicy(priv);
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  908  				goto out_put_mm;
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  909  			}
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  910  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1958  			if (mcs_160 !=3D IE=
-EE80211_VHT_MCS_NOT_SUPPORTED) {
-3db26ecf711437 Wen Gong            2021-11-22  1959  				rx_mcs_160 =3D i +=
- 1;
-3db26ecf711437 Wen Gong            2021-11-22  1960  				break;
-3db26ecf711437 Wen Gong            2021-11-22  1961  			}
-3db26ecf711437 Wen Gong            2021-11-22  1962  		}
-3db26ecf711437 Wen Gong            2021-11-22  1963  	}
-3db26ecf711437 Wen Gong            2021-11-22  1964  =
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  911  			/*
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  912  			 * After dropping =
+the lock, there are four cases to
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  913  			 * consider. See t=
+he following example for explanation.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  914  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  915  			 *   +------+-----=
+-+-----------+
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  916  			 *   | VMA1 | VMA2=
+ | VMA3      |
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  917  			 *   +------+-----=
+-+-----------+
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  918  			 *   |      |     =
+ |           |
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  919  			 *  4k     8k     =
+16k         400k
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  920  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  921  			 * Suppose we drop=
+ the lock after reading VMA2 due to
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  922  			 * contention, the=
+n we get:
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  923  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  924  			 *	last_vma_end =
+=3D 16k
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  925  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  926  			 * 1) VMA2 is free=
+d, but VMA3 exists:
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  927  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  928  			 *    find_vma(mm,=
+ 16k - 1) will return VMA3.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  929  			 *    In this case=
+, just continue from VMA3.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  930  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  931  			 * 2) VMA2 still e=
+xists:
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  932  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  933  			 *    find_vma(mm,=
+ 16k - 1) will return VMA2.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  934  			 *    Iterate the =
+loop like the original one.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  935  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  936  			 * 3) No more VMAs=
+ can be found:
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  937  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  938  			 *    find_vma(mm,=
+ 16k - 1) will return NULL.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  939  			 *    No more thin=
+gs to do, just break.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  940  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  941  			 * 4) (last_vma_en=
+d - 1) is the middle of a vma (VMA'):
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  942  			 *
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  943  			 *    find_vma(mm,=
+ 16k - 1) will return VMA' whose range
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  944  			 *    contains las=
+t_vma_end.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  945  			 *    Iterate VMA'=
+ from last_vma_end.
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  946  			 */
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  947  			vma =3D find_vma(m=
+m, last_vma_end - 1);
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  948  			/* Case 3 above */
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  949  			if (!vma)
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  950  				break;
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  951  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1965  	for (i =3D 7; i >=3D =
-0; i--) {
-3db26ecf711437 Wen Gong            2021-11-22  1966  		u8 mcs_80 =3D (mcs_8=
-0_map >> (2 * i)) & 3;
-3db26ecf711437 Wen Gong            2021-11-22  1967  =
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  952  			/* Case 1 above */
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  953  			if (vma->vm_start =
+>=3D last_vma_end)
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  954  				continue;
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  955  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1968  		if (mcs_80 !=3D IEEE=
-80211_VHT_MCS_NOT_SUPPORTED) {
-3db26ecf711437 Wen Gong            2021-11-22  1969  			rx_mcs_80 =3D i + 1;
-3db26ecf711437 Wen Gong            2021-11-22  1970  			break;
-3db26ecf711437 Wen Gong            2021-11-22  1971  		}
-3db26ecf711437 Wen Gong            2021-11-22  1972  	}
-3db26ecf711437 Wen Gong            2021-11-22  1973  =
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  956  			/* Case 4 above */
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  957  			if (vma->vm_end > =
+last_vma_end)
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  958  				smap_gather_stats=
+(vma, &mss, last_vma_end);
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  959  		}
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  960  		/* Case 2 above */
+ff9f47f6f00cfe Chinwen Chang         2020-10-13  961  		vma =3D vma->vm_nex=
+t;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  962  	}
+258f669e7e88c1 Vlastimil Babka       2018-08-21  963  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1974  	if (support_160)
-3db26ecf711437 Wen Gong            2021-11-22 @1975  		max_nss =3D min(rx_m=
-cs_80, rx_mcs_160);
-3db26ecf711437 Wen Gong            2021-11-22  1976  	else
-3db26ecf711437 Wen Gong            2021-11-22  1977  		max_nss =3D rx_mcs_8=
-0;
-3db26ecf711437 Wen Gong            2021-11-22  1978  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21 @964  	show_vma_header_pref=
+ix(m, priv->mm->mmap->vm_start,
+258f669e7e88c1 Vlastimil Babka       2018-08-21  965  			       last_vma_en=
+d, 0, 0, 0, 0);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  966  	seq_pad(m, ' ');
+258f669e7e88c1 Vlastimil Babka       2018-08-21  967  	seq_puts(m, "[rollup=
+]\n");
+258f669e7e88c1 Vlastimil Babka       2018-08-21  968  =
 
-3db26ecf711437 Wen Gong            2021-11-22  1979  	arg->peer_nss =3D min=
-(sta->rx_nss, max_nss);
-9f056ed8ee01ad John Crispin        2019-11-25  1980  =
+ee2ad71b0756e9 Luigi Semenzato       2019-07-11  969  	__show_smap(m, &mss,=
+ true);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  970  =
 
-c8bcd82a4efd05 Kees Cook           2021-06-16  1981  	memcpy_and_pad(&arg->=
-peer_he_cap_macinfo,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1982  		       sizeof(arg->p=
-eer_he_cap_macinfo),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1983  		       he_cap->he_ca=
-p_elem.mac_cap_info,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1984  		       sizeof(he_cap=
-->he_cap_elem.mac_cap_info),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1985  		       0);
-c8bcd82a4efd05 Kees Cook           2021-06-16  1986  	memcpy_and_pad(&arg->=
-peer_he_cap_phyinfo,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1987  		       sizeof(arg->p=
-eer_he_cap_phyinfo),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1988  		       he_cap->he_ca=
-p_elem.phy_cap_info,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1989  		       sizeof(he_cap=
-->he_cap_elem.phy_cap_info),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1990  		       0);
-60689de46c7f6a Rajkumar Manoharan  2020-04-24  1991  	arg->peer_he_ops =3D =
-vif->bss_conf.he_oper.params;
-9f056ed8ee01ad John Crispin        2019-11-25  1992  =
+258f669e7e88c1 Vlastimil Babka       2018-08-21  971  	release_task_mempoli=
+cy(priv);
+d8ed45c5dcd455 Michel Lespinasse     2020-06-08  972  	mmap_read_unlock(mm);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  973  =
 
-9f056ed8ee01ad John Crispin        2019-11-25  1993  	/* the top most byte =
-is used to indicate BSS color info */
-9f056ed8ee01ad John Crispin        2019-11-25  1994  	arg->peer_he_ops &=3D=
- 0xffffff;
-9f056ed8ee01ad John Crispin        2019-11-25  1995  =
+a26a9781554857 Konstantin Khlebnikov 2019-07-11  974  out_put_mm:
+a26a9781554857 Konstantin Khlebnikov 2019-07-11  975  	mmput(mm);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  976  out_put_task:
+258f669e7e88c1 Vlastimil Babka       2018-08-21  977  	put_task_struct(priv=
+->task);
+258f669e7e88c1 Vlastimil Babka       2018-08-21  978  	priv->task =3D NULL;
+258f669e7e88c1 Vlastimil Babka       2018-08-21  979  =
 
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1996  	/* As per section 26.=
-6.1 11ax Draft5.0, if the Max AMPDU Exponent Extension
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1997  	 * in HE cap is zero,=
- use the arg->peer_max_mpdu as calculated while parsing
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1998  	 * VHT caps(if VHT ca=
-ps is present) or HT caps (if VHT caps is not present).
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1999  	 *
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2000  	 * For non-zero value=
- of Max AMPDU Extponent Extension in HE MAC caps,
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2001  	 * if a HE STA sends =
-VHT cap and HE cap IE in assoc request then, use
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2002  	 * MAX_AMPDU_LEN_FACT=
-OR as 20 to calculate max_ampdu length.
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2003  	 * If a HE STA that d=
-oes not send VHT cap, but HE and HT cap in assoc
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2004  	 * request, then use =
-MAX_AMPDU_LEN_FACTOR as 16 to calculate max_ampdu
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2005  	 * length.
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2006  	 */
-1f851b8dfd76a0 Johannes Berg       2021-04-09  2007  	ampdu_factor =3D u8_g=
-et_bits(he_cap->he_cap_elem.mac_cap_info[3],
-1f851b8dfd76a0 Johannes Berg       2021-04-09  2008  				   IEEE80211_HE_MA=
-C_CAP3_MAX_AMPDU_LEN_EXP_MASK);
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2009  =
+493b0e9d945fa9 Daniel Colascione     2017-09-06  980  	return ret;
+e070ad49f31155 Mauricio Lin          2005-09-03  981  }
+d1be35cb6f9697 Andrei Vagin          2018-04-10  982  #undef SEQ_PUT_DEC
+e070ad49f31155 Mauricio Lin          2005-09-03  983  =
 
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2010  	if (ampdu_factor) {
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2011  		if (sta->vht_cap.vht=
-_supported)
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2012  			arg->peer_max_mpdu =
-=3D (1 << (IEEE80211_HE_VHT_MAX_AMPDU_FACTOR +
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2013  						    ampdu_factor=
-)) - 1;
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2014  		else if (sta->ht_cap=
-.ht_supported)
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2015  			arg->peer_max_mpdu =
-=3D (1 << (IEEE80211_HE_HT_MAX_AMPDU_FACTOR +
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2016  						    ampdu_factor=
-)) - 1;
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2017  	}
-af6d39db1b046a Tamizh Chelvam      2020-09-08  2018  =
 
-9f056ed8ee01ad John Crispin        2019-11-25  2019  	if (he_cap->he_cap_el=
-em.phy_cap_info[6] &
-9f056ed8ee01ad John Crispin        2019-11-25  2020  	    IEEE80211_HE_PHY_=
-CAP6_PPE_THRESHOLD_PRESENT) {
-9f056ed8ee01ad John Crispin        2019-11-25  2021  		int bit =3D 7;
-9f056ed8ee01ad John Crispin        2019-11-25  2022  		int nss, ru;
-9f056ed8ee01ad John Crispin        2019-11-25  2023  =
+:::::: The code at line 964 was first introduced by commit
+:::::: 258f669e7e88c18edbc23fe5ce00a476b924551f mm: /proc/pid/smaps_rollup:=
+ convert to single value seq_file
 
-9f056ed8ee01ad John Crispin        2019-11-25  2024  		arg->peer_ppet.numss=
-_m1 =3D he_cap->ppe_thres[0] &
-9f056ed8ee01ad John Crispin        2019-11-25  2025  					  IEEE80211_PPE_T=
-HRES_NSS_MASK;
-9f056ed8ee01ad John Crispin        2019-11-25  2026  		arg->peer_ppet.ru_bi=
-t_mask =3D
-9f056ed8ee01ad John Crispin        2019-11-25  2027  			(he_cap->ppe_thres[=
-0] &
-9f056ed8ee01ad John Crispin        2019-11-25  2028  			 IEEE80211_PPE_THRE=
-S_RU_INDEX_BITMASK_MASK) >>
-9f056ed8ee01ad John Crispin        2019-11-25  2029  			IEEE80211_PPE_THRES=
-_RU_INDEX_BITMASK_POS;
-9f056ed8ee01ad John Crispin        2019-11-25  2030  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2031  		for (nss =3D 0; nss =
-<=3D arg->peer_ppet.numss_m1; nss++) {
-9f056ed8ee01ad John Crispin        2019-11-25  2032  			for (ru =3D 0; ru <=
- 4; ru++) {
-9f056ed8ee01ad John Crispin        2019-11-25  2033  				u32 val =3D 0;
-9f056ed8ee01ad John Crispin        2019-11-25  2034  				int i;
-9f056ed8ee01ad John Crispin        2019-11-25  2035  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2036  				if ((arg->peer_ppe=
-t.ru_bit_mask & BIT(ru)) =3D=3D 0)
-9f056ed8ee01ad John Crispin        2019-11-25  2037  					continue;
-9f056ed8ee01ad John Crispin        2019-11-25  2038  				for (i =3D 0; i < =
-6; i++) {
-9f056ed8ee01ad John Crispin        2019-11-25  2039  					val >>=3D 1;
-9f056ed8ee01ad John Crispin        2019-11-25  2040  					val |=3D ((he_cap=
-->ppe_thres[bit / 8] >>
-9f056ed8ee01ad John Crispin        2019-11-25  2041  						 (bit % 8)) & 0x=
-1) << 5;
-9f056ed8ee01ad John Crispin        2019-11-25  2042  					bit++;
-9f056ed8ee01ad John Crispin        2019-11-25  2043  				}
-9f056ed8ee01ad John Crispin        2019-11-25  2044  				arg->peer_ppet.ppe=
-t16_ppet8_ru3_ru0[nss] |=3D
-9f056ed8ee01ad John Crispin        2019-11-25  2045  								val << (ru * 6=
-);
-9f056ed8ee01ad John Crispin        2019-11-25  2046  			}
-9f056ed8ee01ad John Crispin        2019-11-25  2047  		}
-9f056ed8ee01ad John Crispin        2019-11-25  2048  	}
-9f056ed8ee01ad John Crispin        2019-11-25  2049  =
-
-6d293d447670da John Crispin        2019-11-25  2050  	if (he_cap->he_cap_el=
-em.mac_cap_info[0] & IEEE80211_HE_MAC_CAP0_TWT_RES)
-6d293d447670da John Crispin        2019-11-25  2051  		arg->twt_responder =
-=3D true;
-6d293d447670da John Crispin        2019-11-25  2052  	if (he_cap->he_cap_el=
-em.mac_cap_info[0] & IEEE80211_HE_MAC_CAP0_TWT_REQ)
-6d293d447670da John Crispin        2019-11-25  2053  		arg->twt_requester =
-=3D true;
-6d293d447670da John Crispin        2019-11-25  2054  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  2055  	he_nss =3D  ath11k_ma=
-c_max_he_nss(he_mcs_mask);
-61fe43e7216df6 Miles Hu            2021-09-24  2056  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  2057  	if (he_nss > sta->rx_=
-nss) {
-61fe43e7216df6 Miles Hu            2021-09-24  2058  		user_rate_valid =3D =
-false;
-61fe43e7216df6 Miles Hu            2021-09-24  2059  		for (nss_idx =3D sta=
-->rx_nss - 1; nss_idx >=3D 0; nss_idx--) {
-61fe43e7216df6 Miles Hu            2021-09-24  2060  			if (he_mcs_mask[nss=
-_idx]) {
-61fe43e7216df6 Miles Hu            2021-09-24  2061  				user_rate_valid =
-=3D true;
-61fe43e7216df6 Miles Hu            2021-09-24  2062  				break;
-61fe43e7216df6 Miles Hu            2021-09-24  2063  			}
-61fe43e7216df6 Miles Hu            2021-09-24  2064  		}
-61fe43e7216df6 Miles Hu            2021-09-24  2065  	}
-61fe43e7216df6 Miles Hu            2021-09-24  2066  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  2067  	if (!user_rate_valid)=
- {
-61fe43e7216df6 Miles Hu            2021-09-24  2068  		ath11k_dbg(ar->ab, A=
-TH11K_DBG_MAC, "mac setting he range mcs value to peer supported nss %d for=
- peer %pM\n",
-61fe43e7216df6 Miles Hu            2021-09-24  2069  			   sta->rx_nss, sta=
-->addr);
-61fe43e7216df6 Miles Hu            2021-09-24  2070  		he_mcs_mask[sta->rx_=
-nss - 1] =3D he_mcs_mask[he_nss - 1];
-61fe43e7216df6 Miles Hu            2021-09-24  2071  	}
-61fe43e7216df6 Miles Hu            2021-09-24  2072  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2073  	switch (sta->bandwidt=
-h) {
-9f056ed8ee01ad John Crispin        2019-11-25  2074  	case IEEE80211_STA_RX=
-_BW_160:
-9f056ed8ee01ad John Crispin        2019-11-25  2075  		if (he_cap->he_cap_e=
-lem.phy_cap_info[0] &
-9f056ed8ee01ad John Crispin        2019-11-25  2076  		    IEEE80211_HE_PHY=
-_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G) {
-9f056ed8ee01ad John Crispin        2019-11-25  2077  			v =3D le16_to_cpu(h=
-e_cap->he_mcs_nss_supp.rx_mcs_80p80);
-61fe43e7216df6 Miles Hu            2021-09-24  2078  			v =3D ath11k_peer_a=
-ssoc_h_he_limit(v, he_mcs_mask);
-9f056ed8ee01ad John Crispin        2019-11-25  2079  			arg->peer_he_rx_mcs=
-_set[WMI_HECAP_TXRX_MCS_NSS_IDX_80_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2080  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2081  			v =3D le16_to_cpu(h=
-e_cap->he_mcs_nss_supp.tx_mcs_80p80);
-9f056ed8ee01ad John Crispin        2019-11-25  2082  			arg->peer_he_tx_mcs=
-_set[WMI_HECAP_TXRX_MCS_NSS_IDX_80_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2083  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2084  			arg->peer_he_mcs_co=
-unt++;
-61fe43e7216df6 Miles Hu            2021-09-24  2085  			he_tx_mcs =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2086  		}
-9f056ed8ee01ad John Crispin        2019-11-25  2087  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.rx_mcs_160);
-9f056ed8ee01ad John Crispin        2019-11-25  2088  		arg->peer_he_rx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_160] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2089  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2090  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.tx_mcs_160);
-61fe43e7216df6 Miles Hu            2021-09-24  2091  		v =3D ath11k_peer_as=
-soc_h_he_limit(v, he_mcs_mask);
-9f056ed8ee01ad John Crispin        2019-11-25  2092  		arg->peer_he_tx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_160] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2093  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2094  		arg->peer_he_mcs_cou=
-nt++;
-61fe43e7216df6 Miles Hu            2021-09-24  2095  		if (!he_tx_mcs)
-61fe43e7216df6 Miles Hu            2021-09-24  2096  			he_tx_mcs =3D v;
-0b294aebb6a00b Gustavo A. R. Silva 2020-07-27  2097  		fallthrough;
-9f056ed8ee01ad John Crispin        2019-11-25  2098  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2099  	default:
-9f056ed8ee01ad John Crispin        2019-11-25  2100  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.rx_mcs_80);
-9f056ed8ee01ad John Crispin        2019-11-25  2101  		arg->peer_he_rx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2102  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2103  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.tx_mcs_80);
-61fe43e7216df6 Miles Hu            2021-09-24  2104  		v =3D ath11k_peer_as=
-soc_h_he_limit(v, he_mcs_mask);
-9f056ed8ee01ad John Crispin        2019-11-25  2105  		arg->peer_he_tx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2106  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  2107  		arg->peer_he_mcs_cou=
-nt++;
-61fe43e7216df6 Miles Hu            2021-09-24  2108  		if (!he_tx_mcs)
-61fe43e7216df6 Miles Hu            2021-09-24  2109  			he_tx_mcs =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  2110  		break;
-9f056ed8ee01ad John Crispin        2019-11-25  2111  	}
-61fe43e7216df6 Miles Hu            2021-09-24  2112  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  2113  	/* Calculate peer NSS=
- capability from HE capabilities if STA
-61fe43e7216df6 Miles Hu            2021-09-24  2114  	 * supports HE.
-61fe43e7216df6 Miles Hu            2021-09-24  2115  	 */
-61fe43e7216df6 Miles Hu            2021-09-24  2116  	for (i =3D 0, max_nss=
- =3D 0, he_mcs =3D 0; i < NL80211_HE_NSS_MAX; i++) {
-61fe43e7216df6 Miles Hu            2021-09-24  2117  		he_mcs =3D he_tx_mcs=
- >> (2 * i) & 3;
-61fe43e7216df6 Miles Hu            2021-09-24  2118  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  2119  		/* In case of fixed =
-rates, MCS Range in he_tx_mcs might have
-61fe43e7216df6 Miles Hu            2021-09-24  2120  		 * unsupported range=
-, with he_mcs_mask set, so check either of them
-61fe43e7216df6 Miles Hu            2021-09-24  2121  		 * to find nss.
-61fe43e7216df6 Miles Hu            2021-09-24  2122  		 */
-61fe43e7216df6 Miles Hu            2021-09-24  2123  		if (he_mcs !=3D IEEE=
-80211_HE_MCS_NOT_SUPPORTED ||
-61fe43e7216df6 Miles Hu            2021-09-24  2124  		    he_mcs_mask[i])
-61fe43e7216df6 Miles Hu            2021-09-24  2125  			max_nss =3D i + 1;
-61fe43e7216df6 Miles Hu            2021-09-24  2126  	}
-61fe43e7216df6 Miles Hu            2021-09-24  2127  	arg->peer_nss =3D min=
-(sta->rx_nss, max_nss);
-61fe43e7216df6 Miles Hu            2021-09-24  2128  =
-
-f552d6fd2f27ce P Praneesh          2021-09-24  2129  	if (arg->peer_phymode=
- =3D=3D MODE_11AX_HE160 ||
-f552d6fd2f27ce P Praneesh          2021-09-24  2130  	    arg->peer_phymode=
- =3D=3D MODE_11AX_HE80_80) {
-f552d6fd2f27ce P Praneesh          2021-09-24  2131  		tx_nss =3D ath11k_ge=
-t_nss_160mhz(ar, max_nss);
-f552d6fd2f27ce P Praneesh          2021-09-24  2132  		rx_nss =3D min(arg->=
-peer_nss, tx_nss);
-f552d6fd2f27ce P Praneesh          2021-09-24  2133  		arg->peer_bw_rxnss_o=
-verride =3D ATH11K_BW_NSS_MAP_ENABLE;
-f552d6fd2f27ce P Praneesh          2021-09-24  2134  =
-
-f552d6fd2f27ce P Praneesh          2021-09-24  2135  		if (!rx_nss) {
-f552d6fd2f27ce P Praneesh          2021-09-24  2136  			ath11k_warn(ar->ab,=
- "invalid max_nss\n");
-f552d6fd2f27ce P Praneesh          2021-09-24  2137  			return;
-f552d6fd2f27ce P Praneesh          2021-09-24  2138  		}
-f552d6fd2f27ce P Praneesh          2021-09-24  2139  =
-
-f552d6fd2f27ce P Praneesh          2021-09-24  2140  		if (arg->peer_phymod=
-e =3D=3D MODE_11AX_HE160)
-f552d6fd2f27ce P Praneesh          2021-09-24  2141  			nss_160 =3D FIELD_P=
-REP(ATH11K_PEER_RX_NSS_160MHZ, rx_nss - 1);
-f552d6fd2f27ce P Praneesh          2021-09-24  2142  		else
-f552d6fd2f27ce P Praneesh          2021-09-24  2143  			nss_160 =3D FIELD_P=
-REP(ATH11K_PEER_RX_NSS_80_80MHZ, rx_nss - 1);
-f552d6fd2f27ce P Praneesh          2021-09-24  2144  =
-
-f552d6fd2f27ce P Praneesh          2021-09-24  2145  		arg->peer_bw_rxnss_o=
-verride |=3D nss_160;
-f552d6fd2f27ce P Praneesh          2021-09-24  2146  	}
-f552d6fd2f27ce P Praneesh          2021-09-24  2147  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  2148  	ath11k_dbg(ar->ab, AT=
-H11K_DBG_MAC,
-f552d6fd2f27ce P Praneesh          2021-09-24  2149  		   "mac he peer %pM =
-nss %d mcs cnt %d nss_override 0x%x\n",
-f552d6fd2f27ce P Praneesh          2021-09-24  2150  		   sta->addr, arg->p=
-eer_nss,
-f552d6fd2f27ce P Praneesh          2021-09-24  2151  		   arg->peer_he_mcs_=
-count,
-f552d6fd2f27ce P Praneesh          2021-09-24  2152  		   arg->peer_bw_rxns=
-s_override);
-d5c65159f28953 Kalle Valo          2019-11-23  2153  }
-d5c65159f28953 Kalle Valo          2019-11-23  2154  =
-
+:::::: TO: Vlastimil Babka <vbabka@suse.cz>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1881915050666491552==--
+--===============9028024858965579159==--
 
