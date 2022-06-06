@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8553434423174460960=="
+Content-Type: multipart/mixed; boundary="===============4607290684174260571=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/bus/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring [uninitvar]
-Date: Mon, 06 Jun 2022 17:10:18 +0800
-Message-ID: <202206061719.FTH5onJU-lkp@intel.com>
+Subject: drivers/bus/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->state [uninitvar]
+Date: Mon, 06 Jun 2022 16:19:41 +0800
+Message-ID: <202206061617.FIhuoBMx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8553434423174460960==
+--===============4607290684174260571==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,7 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check warning: drivers/b=
-us/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring [uninitvar]"
+us/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->state [unini=
+tvar]"
 :::::: =
 
 
@@ -28,15 +29,15 @@ CC: Alex Elder <elder@linaro.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
-commit: 494a6f63937744d447630c9ab2f4a58f105b69f5 bus: mhi: ep: Add support =
-for processing channel rings
+commit: 484e04faa8a0487843808a08ff8b11e0684972f5 bus: mhi: ep: Add support =
+for managing MHI state machine
 date:   9 weeks ago
-:::::: branch date: 9 hours ago
+:::::: branch date: 8 hours ago
 :::::: commit date: 9 weeks ago
 compiler: riscv64-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 494a6f63937744d447630c9ab2f4a58f105b69f5
+        git checkout 484e04faa8a0487843808a08ff8b11e0684972f5
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -46,118 +47,77 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/bus/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring =
-[uninitvar]
-     ret =3D mhi_ep_update_wr_offset(ring);
-                                   ^
-   drivers/bus/mhi/ep/main.c:638:13: note: Assignment 'ring=3Ditr->ring', a=
-ssigned value is <Uninit>
-     ring =3D itr->ring;
-               ^
-   drivers/bus/mhi/ep/main.c:641:33: note: Uninitialized variable: ring
-     ret =3D mhi_ep_update_wr_offset(ring);
-                                   ^
-   drivers/bus/mhi/ep/main.c:689:24: warning: Uninitialized variable: itr->=
+>> drivers/bus/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->=
 state [uninitvar]
        mhi_state_str(itr->state));
                           ^
 
-vim +641 drivers/bus/mhi/ep/main.c
+vim +124 drivers/bus/mhi/ep/main.c
 
-2b231a40e9073a Manivannan Sadhasivam 2022-02-12  618  =
+6f7cb6e7883962 Manivannan Sadhasivam 2021-11-29  107  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  619  static void mhi_ep_ch=
-_ring_worker(struct work_struct *work)
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  620  {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  621  	struct mhi_ep_cntrl =
-*mhi_cntrl =3D container_of(work, struct mhi_ep_cntrl, ch_ring_work);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  622  	struct device *dev =
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  108  static void mhi_ep_st=
+ate_worker(struct work_struct *work)
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  109  {
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  110  	struct mhi_ep_cntrl =
+*mhi_cntrl =3D container_of(work, struct mhi_ep_cntrl, state_work);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  111  	struct device *dev =
 =3D &mhi_cntrl->mhi_dev->dev;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  623  	struct mhi_ep_ring_i=
-tem *itr, *tmp;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  624  	struct mhi_ring_elem=
-ent *el;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  625  	struct mhi_ep_ring *=
-ring;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  626  	struct mhi_ep_chan *=
-chan;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  627  	unsigned long flags;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  628  	LIST_HEAD(head);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  629  	int ret;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  630  =
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  112  	struct mhi_ep_state_=
+transition *itr, *tmp;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  113  	unsigned long flags;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  114  	LIST_HEAD(head);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  115  	int ret;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  116  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  631  	spin_lock_irqsave(&m=
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  117  	spin_lock_irqsave(&m=
 hi_cntrl->list_lock, flags);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  632  	list_splice_tail_ini=
-t(&mhi_cntrl->ch_db_list, &head);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  633  	spin_unlock_irqresto=
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  118  	list_splice_tail_ini=
+t(&mhi_cntrl->st_transition_list, &head);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  119  	spin_unlock_irqresto=
 re(&mhi_cntrl->list_lock, flags);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  634  =
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  120  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  635  	/* Process each queu=
-ed channel ring. In case of an error, just process next element. */
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  636  	list_for_each_entry_=
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  121  	list_for_each_entry_=
 safe(itr, tmp, &head, node) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  637  		list_del(&itr->node=
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  122  		list_del(&itr->node=
 );
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  638  		ring =3D itr->ring;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  639  =
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  123  		dev_dbg(dev, "Handl=
+ing MHI state transition to %s\n",
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29 @124  			 mhi_state_str(itr=
+->state));
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  125  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  640  		/* Update the write=
- offset for the ring */
-494a6f63937744 Manivannan Sadhasivam 2022-02-12 @641  		ret =3D mhi_ep_upda=
-te_wr_offset(ring);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  642  		if (ret) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  643  			dev_err(dev, "Erro=
-r updating write offset for ring\n");
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  644  			kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  645  			continue;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  646  		}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  647  =
-
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  648  		/* Sanity check to =
-make sure there are elements in the ring */
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  649  		if (ring->rd_offset=
- =3D=3D ring->wr_offset) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  650  			kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  651  			continue;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  652  		}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  653  =
-
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  654  		el =3D &ring->ring_=
-cache[ring->rd_offset];
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  655  		chan =3D &mhi_cntrl=
-->mhi_chan[ring->ch_id];
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  656  =
-
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  657  		mutex_lock(&chan->l=
-ock);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  658  		dev_dbg(dev, "Proce=
-ssing the ring for channel (%u)\n", ring->ch_id);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  659  		ret =3D mhi_ep_proc=
-ess_ch_ring(ring, el);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  660  		if (ret) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  661  			dev_err(dev, "Erro=
-r processing ring for channel (%u): %d\n",
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  662  				ring->ch_id, ret);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  663  			mutex_unlock(&chan=
-->lock);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  664  			kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  665  			continue;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  666  		}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  667  =
-
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  668  		mutex_unlock(&chan-=
->lock);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  669  		kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  670  	}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  671  }
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  672  =
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  126  		switch (itr->state)=
+ {
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  127  		case MHI_STATE_M0:
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  128  			ret =3D mhi_ep_set=
+_m0_state(mhi_cntrl);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  129  			if (ret)
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  130  				dev_err(dev, "Fai=
+led to transition to M0 state\n");
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  131  			break;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  132  		case MHI_STATE_M3:
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  133  			ret =3D mhi_ep_set=
+_m3_state(mhi_cntrl);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  134  			if (ret)
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  135  				dev_err(dev, "Fai=
+led to transition to M3 state\n");
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  136  			break;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  137  		default:
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  138  			dev_err(dev, "Inva=
+lid MHI state transition: %d\n", itr->state);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  139  			break;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  140  		}
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  141  		kfree(itr);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  142  	}
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  143  }
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  144  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8553434423174460960==--
+--===============4607290684174260571==--
 
