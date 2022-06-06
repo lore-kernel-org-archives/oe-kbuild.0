@@ -1,135 +1,365 @@
-Content-Type: multipart/mixed; boundary="===============9155841929630327006=="
+Content-Type: multipart/mixed; boundary="===============7009564957620391467=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/ath/ath11k/debugfs.c:907 ath11k_write_fw_dbglog() warn: potential spectre issue 'ar->debug.module_id_bitmap' [w] (local cap)
-Date: Mon, 06 Jun 2022 11:13:47 +0800
-Message-ID: <202206061100.wFYQ0ZIN-lkp@intel.com>
+Subject: drivers/media/platform/intel/pxa_camera.c:1352:25: warning: Value stored to 'pcdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 06 Jun 2022 10:41:22 +0800
+Message-ID: <202206060938.NBM47jGC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9155841929630327006==
+--===============7009564957620391467==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+edia/platform/intel/pxa_camera.c:1352:25: warning: Value stored to 'pcdev' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores=
+]"
+:::::: =
+
+
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Seevalamuthu Mariappan <quic_seevalam@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
-commit: f295ad912910e08d9b887a0c952f82d9612459d4 ath11k: Add debugfs interf=
-ace to configure firmware debug log level
-date:   4 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 months ago
-config: microblaze-randconfig-m031-20220605 (https://download.01.org/0day-c=
-i/archive/20220606/202206061100.wFYQ0ZIN-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.3.0
+head:   d717180e7f9775d468f415c10a4a474640146001
+commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Int=
+el drivers on a separate dir
+date:   3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220605 (https://download.01.org/0day-ci/archi=
+ve/20220606/202206060938.NBM47jGC-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0a90b7=
+2c432d70aae035727ece4ba80ce820f381)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D95495f2aa9d8df1a7697bab24118544d3568f41d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/wireless/ath/ath11k/debugfs.c:907 ath11k_write_fw_dbglog() warn=
-: potential spectre issue 'ar->debug.module_id_bitmap' [w] (local cap)
 
-vim +907 drivers/net/wireless/ath/ath11k/debugfs.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:632:3: note: Loop condition is true.=
+  Entering loop body
+                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
+                   ^
+   drivers/media/platform/ti-vpe/cal.c:633:8: note: Assuming the condition =
+is false
+                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:633:4: note: Taking false branch
+                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
+                           ^
+   drivers/media/platform/ti-vpe/cal.c:644:8: note: Assuming the condition =
+is false
+                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:644:4: note: Taking false branch
+                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
+                           ^
+   drivers/media/platform/ti-vpe/cal.c:632:15: note: Assuming 'i' is < fiel=
+d 'num_csi2_phy'
+                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:632:3: note: Loop condition is true.=
+  Entering loop body
+                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
+                   ^
+   drivers/media/platform/ti-vpe/cal.c:633:8: note: Assuming the condition =
+is false
+                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:633:4: note: Taking false branch
+                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
+                           ^
+   drivers/media/platform/ti-vpe/cal.c:644:8: note: Assuming the condition =
+is false
+                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:644:4: note: Taking false branch
+                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
+                           ^
+   drivers/media/platform/ti-vpe/cal.c:632:15: note: Assuming 'i' is < fiel=
+d 'num_csi2_phy'
+                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti-vpe/cal.c:632:3: note: Loop condition is true.=
+  Entering loop body
+                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
+                   ^
+   drivers/media/platform/ti-vpe/cal.c:633:17: note: The result of the left=
+ shift is undefined due to shifting by '32', which is greater or equal to t=
+he width of type 'unsigned long'
+                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
+                                        ^
+   drivers/media/platform/ti-vpe/cal_regs.h:133:34: note: expanded from mac=
+ro 'CAL_HL_IRQ_CIO_MASK'
+   #define CAL_HL_IRQ_CIO_MASK(i)                  BIT(16 + (i) * 8)
+                                                   ^~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+   #define BIT(nr)                 (UL(1) << (nr))
+                                          ^  ~~~~
+   Suppressed 1 warnings (1 with check filters).
+   4 warnings generated.
+   drivers/media/platform/exynos4-is/media-dev.c:1018:3: warning: Value sto=
+red to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
+nsor,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/media/platform/exynos4-is/media-dev.c:1018:3: note: Value stored=
+ to 'ret' is never read
+                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
+nsor,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/media/platform/exynos4-is/media-dev.c:1031:3: warning: Value sto=
+red to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
+nsor,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/media/platform/exynos4-is/media-dev.c:1031:3: note: Value stored=
+ to 'ret' is never read
+                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
+nsor,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   drivers/media/platform/exynos4-is/media-dev.c:1541:6: note: Assuming 'fm=
+d' is non-null
+           if (!fmd)
+               ^~~~
+   drivers/media/platform/exynos4-is/media-dev.c:1541:2: note: Taking false=
+ branch
+           if (!fmd)
+           ^
+   drivers/media/platform/exynos4-is/media-dev.c:1551:2: note: Calling 'fim=
+c_md_pipelines_free'
+           fimc_md_pipelines_free(fmd);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/exynos4-is/media-dev.c:389:2: note: Loop conditio=
+n is true.  Entering loop body
+           while (!list_empty(&fmd->pipelines)) {
+           ^
+   drivers/media/platform/exynos4-is/media-dev.c:394:3: note: Memory is rel=
+eased
+                   kfree(p);
+                   ^~~~~~~~
+   drivers/media/platform/exynos4-is/media-dev.c:389:2: note: Loop conditio=
+n is true.  Entering loop body
+           while (!list_empty(&fmd->pipelines)) {
+           ^
+   drivers/media/platform/exynos4-is/media-dev.c:393:3: note: Calling 'list=
+_del'
+                   list_del(&p->list);
+                   ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+>> drivers/media/platform/intel/pxa_camera.c:1352:25: warning: Value stored=
+ to 'pcdev' during its initialization is never read [clang-analyzer-deadcod=
+e.DeadStores]
+           struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->vb2_queue);
+                                  ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/intel/pxa_camera.c:1352:25: note: Value stored to=
+ 'pcdev' during its initialization is never read
+           struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->vb2_queue);
+                                  ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   drivers/iio/light/tsl2772.c:896:40: warning: The result of the left shif=
+t is undefined because the left operand is negative [clang-analyzer-core.Un=
+definedBinaryOperatorResult]
+           chip->settings.prox_thres_high =3D (max << 1) - mean;
+                                                 ^
+   drivers/iio/light/tsl2772.c:1057:6: note: Assuming the condition is false
+           if (kstrtobool(buf, &value) || !value)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:1057:6: note: Left side of '||' is false
+   drivers/iio/light/tsl2772.c:1057:33: note: Assuming 'value' is true
+           if (kstrtobool(buf, &value) || !value)
+                                          ^~~~~~
+   drivers/iio/light/tsl2772.c:1057:2: note: Taking false branch
+           if (kstrtobool(buf, &value) || !value)
+           ^
+   drivers/iio/light/tsl2772.c:1060:8: note: Calling 'tsl2772_prox_cal'
+           ret =3D tsl2772_prox_cal(indio_dev);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:875:6: note: Assuming field 'prox_max_sample=
+s_cal' is >=3D 1
+           if (chip->settings.prox_max_samples_cal < 1 ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:875:6: note: Left side of '||' is false
+   drivers/iio/light/tsl2772.c:876:6: note: Assuming field 'prox_max_sample=
+s_cal' is <=3D MAX_SAMPLES_CAL
+               chip->settings.prox_max_samples_cal > MAX_SAMPLES_CAL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:875:2: note: Taking false branch
+           if (chip->settings.prox_max_samples_cal < 1 ||
+           ^
+   drivers/iio/light/tsl2772.c:879:14: note: 'i' is < field 'prox_max_sampl=
+es_cal'
+           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+                       ^
+   drivers/iio/light/tsl2772.c:879:2: note: Loop condition is true.  Enteri=
+ng loop body
+           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+           ^
+   drivers/iio/light/tsl2772.c:882:7: note: 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~
+   drivers/iio/light/tsl2772.c:882:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   drivers/iio/light/tsl2772.c:879:14: note: Assuming 'i' is >=3D field 'pr=
+ox_max_samples_cal'
+           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:879:2: note: Loop condition is false. Execut=
+ion continues on line 888
+           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+           ^
+   drivers/iio/light/tsl2772.c:889:2: note: The value -2147483648 is assign=
+ed to 'max'
+           max =3D INT_MIN;
+           ^~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:890:14: note: Assuming 'i' is >=3D field 'pr=
+ox_max_samples_cal'
+           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/tsl2772.c:890:2: note: Loop condition is false. Execut=
+ion continues on line 894
+           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+           ^
+   drivers/iio/light/tsl2772.c:896:40: note: The result of the left shift i=
+s undefined because the left operand is negative
+           chip->settings.prox_thres_high =3D (max << 1) - mean;
+                                             ~~~ ^
+   Suppressed 1 warnings (1 with check filters).
+   5 warnings generated.
+   drivers/iio/light/veml6030.c:332:13: warning: The left operand of '*' is=
+ a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           period =3D y * (1 << ((reg >> 4) & 0x03));
+                      ^
+   drivers/iio/light/veml6030.c:589:2: note: Control jumps to 'case IIO_EV_=
+INFO_PERIOD:'  at line 599
+           switch (info) {
+           ^
+   drivers/iio/light/veml6030.c:600:10: note: Calling 'veml6030_read_persis=
+tence'
+                   return veml6030_read_persistence(indio_dev, val, val2);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/veml6030.c:318:27: note: 'y' declared without an initi=
+al value
+           int ret, reg, period, x, y;
+                                    ^
+   drivers/iio/light/veml6030.c:321:8: note: Calling 'veml6030_get_intgrn_t=
+m'
+           ret =3D veml6030_get_intgrn_tm(indio_dev, &x, &y);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/veml6030.c:221:6: note: Assuming 'ret' is not equal to=
+ 0
+           if (ret) {
+               ^~~
+   drivers/iio/light/veml6030.c:221:2: note: Taking true branch
+           if (ret) {
+           ^
+   drivers/iio/light/veml6030.c:222:3: note: Left side of '&&' is true
+                   dev_err(&data->client->dev,
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
 
-da3a9d3c15769b Kalle Valo             2020-09-16  878  =
+vim +/pcdev +1352 drivers/media/platform/intel/pxa_camera.c
 
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  879  static ssize_t ath11=
-k_write_fw_dbglog(struct file *file,
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  880  				      const char=
- __user *user_buf,
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  881  				      size_t cou=
-nt, loff_t *ppos)
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  882  {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  883  	struct ath11k *ar =
-=3D file->private_data;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  884  	char buf[128] =3D {=
-0};
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  885  	struct ath11k_fw_db=
-glog dbglog;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  886  	unsigned int param,=
- mod_id_index, is_end;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  887  	u64 value;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  888  	int ret, num;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  889  =
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1348  =
 
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  890  	ret =3D simple_writ=
-e_to_buffer(buf, sizeof(buf) - 1, ppos,
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  891  				     user_buf, c=
-ount);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  892  	if (ret <=3D 0)
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  893  		return ret;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  894  =
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1349  static void pxac_vb2_cleanup(struct vb2_buffer *vb)
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1350  {
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1351  	struct pxa_buffer *buf =3D vb2_to_pxa_buffer(vb);
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06 @1352  	struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->=
+vb2_queue);
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1353  =
 
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  895  	num =3D sscanf(buf,=
- "%u %llx %u %u", &param, &value, &mod_id_index, &is_end);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  896  =
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1354  	dev_dbg(pcdev_to_dev(pcdev),
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1355  		 "%s(vb=3D%p)\n", __func__, vb);
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1356  	pxa_buffer_cleanup(buf);
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1357  }
+6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
+k 2016-09-06  1358  =
 
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  897  	if (num < 2)
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  898  		return -EINVAL;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  899  =
 
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  900  	mutex_lock(&ar->con=
-f_mutex);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  901  	if (param =3D=3D WM=
-I_DEBUG_LOG_PARAM_MOD_ENABLE_BITMAP ||
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  902  	    param =3D=3D WM=
-I_DEBUG_LOG_PARAM_WOW_MOD_ENABLE_BITMAP) {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  903  		if (num !=3D 4 || =
-mod_id_index > (MAX_MODULE_ID_BITMAP_WORDS - 1)) {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  904  			ret =3D -EINVAL;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  905  			goto out;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  906  		}
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31 @907  		ar->debug.module_i=
-d_bitmap[mod_id_index] =3D upper_32_bits(value);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  908  		if (!is_end) {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  909  			ret =3D count;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  910  			goto out;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  911  		}
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  912  	} else {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  913  		if (num !=3D 2) {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  914  			ret =3D -EINVAL;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  915  			goto out;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  916  		}
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  917  	}
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  918  =
+:::::: The code at line 1352 was first introduced by commit
+:::::: 6f28435d1c157073e4257a5dca7695103f32ba02 [media] media: platform: px=
+a_camera: trivial move of functions
 
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  919  	dbglog.param =3D pa=
-ram;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  920  	dbglog.value =3D lo=
-wer_32_bits(value);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  921  	ret =3D ath11k_wmi_=
-fw_dbglog_cfg(ar, ar->debug.module_id_bitmap, &dbglog);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  922  	if (ret) {
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  923  		ath11k_warn(ar->ab=
-, "fw dbglog config failed from debugfs: %d\n",
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  924  			    ret);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  925  		goto out;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  926  	}
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  927  =
-
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  928  	ret =3D count;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  929  =
-
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  930  out:
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  931  	mutex_unlock(&ar->c=
-onf_mutex);
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  932  	return ret;
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  933  }
-f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  934  =
-
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9155841929630327006==--
+--===============7009564957620391467==--
 
