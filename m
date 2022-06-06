@@ -1,87 +1,163 @@
-Content-Type: multipart/mixed; boundary="===============2855291074528695073=="
+Content-Type: multipart/mixed; boundary="===============8553434423174460960=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/memory_hotplug.c:826 default_kernel_zone_for_pfn() warn: we never enter this loop
-Date: Mon, 06 Jun 2022 17:43:35 +0800
-Message-ID: <202206061742.dEsTx8C8-lkp@intel.com>
+Subject: drivers/bus/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring [uninitvar]
+Date: Mon, 06 Jun 2022 17:10:18 +0800
+Message-ID: <202206061719.FTH5onJU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2855291074528695073==
+--===============8553434423174460960==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/b=
+us/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring [uninitvar]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Miaohe Lin <linmiaohe@huawei.com>
-CC: David Hildenbrand <david@redhat.com>
-CC: Oscar Salvador <osalvador@suse.de>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Alex Elder <elder@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
-commit: d6aad2016a3f902153d7b8b7e02da2c7c50c10a4 mm/memory_hotplug: avoid c=
-alling zone_intersects() for ZONE_NORMAL
-date:   3 months ago
+commit: 494a6f63937744d447630c9ab2f4a58f105b69f5 bus: mhi: ep: Add support =
+for processing channel rings
+date:   9 weeks ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-m031-20220530 (https://download.01.org/0day-ci/arc=
-hive/20220606/202206061742.dEsTx8C8-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
+:::::: commit date: 9 weeks ago
+compiler: riscv64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 494a6f63937744d447630c9ab2f4a58f105b69f5
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/memory_hotplug.c:826 default_kernel_zone_for_pfn() warn: we never enter =
-this loop
 
-vim +826 mm/memory_hotplug.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-e83a437faa625e David Hildenbrand 2021-09-07  814  =
+>> drivers/bus/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring =
+[uninitvar]
+     ret =3D mhi_ep_update_wr_offset(ring);
+                                   ^
+   drivers/bus/mhi/ep/main.c:638:13: note: Assignment 'ring=3Ditr->ring', a=
+ssigned value is <Uninit>
+     ring =3D itr->ring;
+               ^
+   drivers/bus/mhi/ep/main.c:641:33: note: Uninitialized variable: ring
+     ret =3D mhi_ep_update_wr_offset(ring);
+                                   ^
+   drivers/bus/mhi/ep/main.c:689:24: warning: Uninitialized variable: itr->=
+state [uninitvar]
+       mhi_state_str(itr->state));
+                          ^
 
-c246a213f5bad6 Michal Hocko      2017-07-06  815  /*
-c246a213f5bad6 Michal Hocko      2017-07-06  816   * Returns a default kern=
-el memory zone for the given pfn range.
-c246a213f5bad6 Michal Hocko      2017-07-06  817   * If no kernel zone cove=
-rs this pfn range it will automatically go
-c246a213f5bad6 Michal Hocko      2017-07-06  818   * to the ZONE_NORMAL.
-c246a213f5bad6 Michal Hocko      2017-07-06  819   */
-c6f03e2903c9ec Michal Hocko      2017-09-06  820  static struct zone *defau=
-lt_kernel_zone_for_pfn(int nid, unsigned long start_pfn,
-c246a213f5bad6 Michal Hocko      2017-07-06  821  		unsigned long nr_pages)
-c246a213f5bad6 Michal Hocko      2017-07-06  822  {
-c246a213f5bad6 Michal Hocko      2017-07-06  823  	struct pglist_data *pgda=
-t =3D NODE_DATA(nid);
-c246a213f5bad6 Michal Hocko      2017-07-06  824  	int zid;
-c246a213f5bad6 Michal Hocko      2017-07-06  825  =
+vim +641 drivers/bus/mhi/ep/main.c
 
-d6aad2016a3f90 Miaohe Lin        2022-03-22 @826  	for (zid =3D 0; zid < ZO=
-NE_NORMAL; zid++) {
-c246a213f5bad6 Michal Hocko      2017-07-06  827  		struct zone *zone =3D &=
-pgdat->node_zones[zid];
-c246a213f5bad6 Michal Hocko      2017-07-06  828  =
+2b231a40e9073a Manivannan Sadhasivam 2022-02-12  618  =
 
-c246a213f5bad6 Michal Hocko      2017-07-06  829  		if (zone_intersects(zon=
-e, start_pfn, nr_pages))
-c246a213f5bad6 Michal Hocko      2017-07-06  830  			return zone;
-c246a213f5bad6 Michal Hocko      2017-07-06  831  	}
-c246a213f5bad6 Michal Hocko      2017-07-06  832  =
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  619  static void mhi_ep_ch=
+_ring_worker(struct work_struct *work)
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  620  {
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  621  	struct mhi_ep_cntrl =
+*mhi_cntrl =3D container_of(work, struct mhi_ep_cntrl, ch_ring_work);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  622  	struct device *dev =
+=3D &mhi_cntrl->mhi_dev->dev;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  623  	struct mhi_ep_ring_i=
+tem *itr, *tmp;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  624  	struct mhi_ring_elem=
+ent *el;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  625  	struct mhi_ep_ring *=
+ring;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  626  	struct mhi_ep_chan *=
+chan;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  627  	unsigned long flags;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  628  	LIST_HEAD(head);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  629  	int ret;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  630  =
 
-c246a213f5bad6 Michal Hocko      2017-07-06  833  	return &pgdat->node_zone=
-s[ZONE_NORMAL];
-c246a213f5bad6 Michal Hocko      2017-07-06  834  }
-c246a213f5bad6 Michal Hocko      2017-07-06  835  =
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  631  	spin_lock_irqsave(&m=
+hi_cntrl->list_lock, flags);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  632  	list_splice_tail_ini=
+t(&mhi_cntrl->ch_db_list, &head);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  633  	spin_unlock_irqresto=
+re(&mhi_cntrl->list_lock, flags);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  634  =
+
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  635  	/* Process each queu=
+ed channel ring. In case of an error, just process next element. */
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  636  	list_for_each_entry_=
+safe(itr, tmp, &head, node) {
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  637  		list_del(&itr->node=
+);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  638  		ring =3D itr->ring;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  639  =
+
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  640  		/* Update the write=
+ offset for the ring */
+494a6f63937744 Manivannan Sadhasivam 2022-02-12 @641  		ret =3D mhi_ep_upda=
+te_wr_offset(ring);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  642  		if (ret) {
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  643  			dev_err(dev, "Erro=
+r updating write offset for ring\n");
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  644  			kfree(itr);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  645  			continue;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  646  		}
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  647  =
+
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  648  		/* Sanity check to =
+make sure there are elements in the ring */
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  649  		if (ring->rd_offset=
+ =3D=3D ring->wr_offset) {
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  650  			kfree(itr);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  651  			continue;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  652  		}
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  653  =
+
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  654  		el =3D &ring->ring_=
+cache[ring->rd_offset];
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  655  		chan =3D &mhi_cntrl=
+->mhi_chan[ring->ch_id];
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  656  =
+
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  657  		mutex_lock(&chan->l=
+ock);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  658  		dev_dbg(dev, "Proce=
+ssing the ring for channel (%u)\n", ring->ch_id);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  659  		ret =3D mhi_ep_proc=
+ess_ch_ring(ring, el);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  660  		if (ret) {
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  661  			dev_err(dev, "Erro=
+r processing ring for channel (%u): %d\n",
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  662  				ring->ch_id, ret);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  663  			mutex_unlock(&chan=
+->lock);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  664  			kfree(itr);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  665  			continue;
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  666  		}
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  667  =
+
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  668  		mutex_unlock(&chan-=
+>lock);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  669  		kfree(itr);
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  670  	}
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  671  }
+494a6f63937744 Manivannan Sadhasivam 2022-02-12  672  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2855291074528695073==--
+--===============8553434423174460960==--
 
