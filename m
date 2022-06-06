@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5087951950527074337=="
+Content-Type: multipart/mixed; boundary="===============5900709846325369591=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/kcsan/debugfs.c:65:36: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Tue, 07 Jun 2022 07:10:32 +0800
-Message-ID: <202206070739.uGtue76U-lkp@intel.com>
+Subject: kernel/kcsan/core.c:301:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Tue, 07 Jun 2022 05:09:21 +0800
+Message-ID: <202206070457.hUCwqBHt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5087951950527074337==
+--===============5900709846325369591==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- kernel/kcsan/debugfs.c:65:36: warning: Dereference of null pointer [clang-=
-analyzer-core.NullDereference]"
+ kernel/kcsan/core.c:301:2: warning: Dereference of null pointer [clang-ana=
+lyzer-core.NullDereference]"
 :::::: =
 
 
@@ -32,10 +32,10 @@ master
 head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
 commit: e37b3dd063a1a68e28a7cfaf77c84c472112e330 s390: enable KCSAN
 date:   10 months ago
-:::::: branch date: 23 hours ago
+:::::: branch date: 21 hours ago
 :::::: commit date: 10 months ago
 config: s390-randconfig-c005-20220606 (https://download.01.org/0day-ci/arch=
-ive/20220607/202206070739.uGtue76U-lkp(a)intel.com/config)
+ive/20220607/202206070457.hUCwqBHt-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436=
 efcb7813fc481b30f2593a4907568d917a)
 reproduce (this is a W=3D1 build):
@@ -60,700 +60,6 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                           ^
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^
-   include/linux/compiler.h:188:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^
-   kernel/irq/chip.c:962:2: note: Calling '__kstat_incr_irqs_this_cpu'
-           __kstat_incr_irqs_this_cpu(desc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/internals.h:252:2: note: Loop condition is false.  Exiting lo=
-op
-           __this_cpu_inc(*desc->kstat_irqs);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   include/linux/percpu-defs.h:375:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           __verify_pcpu_ptr(&(variable));                                 \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   kernel/irq/internals.h:252:2: note: Control jumps to 'case 4:'  at line =
-252
-           __this_cpu_inc(*desc->kstat_irqs);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   include/linux/percpu-defs.h:376:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           switch(sizeof(variable)) {                                      \
-           ^
-   kernel/irq/internals.h:252:2: note: Loop condition is false.  Exiting lo=
-op
-           __this_cpu_inc(*desc->kstat_irqs);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:72:3: note: expanded from macro 'raw_cpu_ge=
-neric_to_op'
-           *raw_cpu_ptr(&(pcp)) op val;                                    \
-            ^
-   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   kernel/irq/internals.h:252:2: note: Dereference of null pointer
-           __this_cpu_inc(*desc->kstat_irqs);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:188:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^~~~~
-   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> kernel/kcsan/debugfs.c:65:36: warning: Dereference of null pointer [clan=
-g-analyzer-core.NullDereference]
-           const struct kcsan_ctx ctx_save =3D current->kcsan_ctx;
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   kernel/kcsan/debugfs.c:228:17: note: Assuming the condition is false
-           int read_len =3D count < (sizeof(kbuf) - 1) ? count : (sizeof(kb=
-uf) - 1);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/debugfs.c:228:17: note: '?' condition is false
-   kernel/kcsan/debugfs.c:230:2: note: Taking false branch
-           if (copy_from_user(kbuf, buf, read_len))
-           ^
-   kernel/kcsan/debugfs.c:235:6: note: Assuming the condition is false
-           if (!strcmp(arg, "on")) {
-               ^~~~~~~~~~~~~~~~~~
-   kernel/kcsan/debugfs.c:235:2: note: Taking false branch
-           if (!strcmp(arg, "on")) {
-           ^
-   kernel/kcsan/debugfs.c:237:13: note: Assuming the condition is false
-           } else if (!strcmp(arg, "off")) {
-                      ^~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/debugfs.c:237:9: note: Taking false branch
-           } else if (!strcmp(arg, "off")) {
-                  ^
-   kernel/kcsan/debugfs.c:239:9: note: Taking true branch
-           } else if (str_has_prefix(arg, "microbench=3D")) {
-                  ^
-   kernel/kcsan/debugfs.c:242:7: note: Assuming the condition is false
-                   if (kstrtoul(&arg[strlen("microbench=3D")], 0, &iters))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/debugfs.c:242:3: note: Taking false branch
-                   if (kstrtoul(&arg[strlen("microbench=3D")], 0, &iters))
-                   ^
-   kernel/kcsan/debugfs.c:244:3: note: Calling 'microbenchmark'
-                   microbenchmark(iters);
-                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/debugfs.c:65:36: note: Dereference of null pointer
-           const struct kcsan_ctx ctx_save =3D current->kcsan_ctx;
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   arch/s390/include/asm/preempt.h:77:9: warning: Dereference of null point=
-er [clang-analyzer-core.NullDereference]
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^
-   kernel/kcsan/report.c:642:32: note: Calling 'prepare_access_info'
-           const struct access_info ai =3D prepare_access_info(ptr, size, a=
-ccess_type);
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   kernel/kcsan/report.c:585:15: note: Calling 'preempt_count'
-                   .task_pid       =3D in_task() ? task_pid_nr(current) : -=
-1,
-                                     ^
-   include/linux/preempt.h:100:23: note: expanded from macro 'in_task'
-   #define in_task()               (!(in_nmi() | in_hardirq() | in_serving_=
-softirq()))
-                                      ^~~~~~~~
-   include/linux/preempt.h:97:20: note: expanded from macro 'in_nmi'
-   #define in_nmi()                (nmi_count())
-                                    ^~~~~~~~~~~
-   include/linux/preempt.h:80:22: note: expanded from macro 'nmi_count'
-   #define nmi_count()     (preempt_count() & NMI_MASK)
-                            ^~~~~~~~~~~~~~~
-   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is true
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   arch/s390/include/asm/preempt.h:77:9: note: Taking false branch
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   arch/s390/include/asm/preempt.h:77:9: note: Loop condition is false.  Ex=
-iting loop
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   arch/s390/include/asm/preempt.h:77:9: note: Dereference of null pointer
-           return READ_ONCE(S390_lowcore.preempt_count);
-                  ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->> kernel/kcsan/report.c:409:22: warning: Dereference of null pointer [clan=
-g-analyzer-core.NullDereference]
-                   print_verbose_info(current);
-                                      ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   kernel/kcsan/report.c:343:6: note: Assuming the condition is false
-           if (skip_report(KCSAN_VALUE_CHANGE_TRUE, stack_entries[skipnr]))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/report.c:343:2: note: Taking false branch
-           if (skip_report(KCSAN_VALUE_CHANGE_TRUE, stack_entries[skipnr]))
-           ^
-   kernel/kcsan/report.c:346:6: note: Assuming 'other_info' is null
-           if (other_info) {
-               ^~~~~~~~~~
-   kernel/kcsan/report.c:346:2: note: Taking false branch
-           if (other_info) {
-           ^
-   kernel/kcsan/report.c:356:6: note: Assuming the condition is false
-           if (rate_limit_report(this_frame, other_frame))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/report.c:356:2: note: Taking false branch
-           if (rate_limit_report(this_frame, other_frame))
-           ^
-   kernel/kcsan/report.c:361:6: note: 'other_info' is null
-           if (other_info) {
-               ^~~~~~~~~~
-   kernel/kcsan/report.c:361:2: note: Taking false branch
-           if (other_info) {
-           ^
-   kernel/kcsan/report.c:381:6: note: 'other_info' is null
-           if (other_info) {
-               ^~~~~~~~~~
-   kernel/kcsan/report.c:381:2: note: Taking false branch
-           if (other_info) {
-           ^
-   kernel/kcsan/report.c:408:2: note: Taking true branch
-           if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-           ^
-   kernel/kcsan/report.c:409:22: note: Dereference of null pointer
-                   print_verbose_info(current);
-                                      ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   kernel/kcsan/report.c:463:42: warning: Dereference of null pointer [clan=
-g-analyzer-core.NullDereference]
-           const bool is_running =3D task_is_running(current);
-                                                   ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   kernel/kcsan/report.c:517:2: note: Loop condition is false.  Exiting loop
-           raw_spin_lock_irqsave(&report_lock, *flags);
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   kernel/kcsan/report.c:532:2: note: Assuming field 'size' is 0
-           WARN_ON(other_info->ai.size);
-           ^
-   arch/s390/include/asm/bug.h:53:23: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(x);                      \
-                                ^~~~
-   kernel/kcsan/report.c:532:2: note: Taking false branch
-           WARN_ON(other_info->ai.size);
-           ^
-   arch/s390/include/asm/bug.h:54:2: note: expanded from macro 'WARN_ON'
-           if (__builtin_constant_p(__ret_warn_on)) {      \
-           ^
-   kernel/kcsan/report.c:532:2: note: Taking false branch
-           WARN_ON(other_info->ai.size);
-           ^
-   arch/s390/include/asm/bug.h:58:3: note: expanded from macro 'WARN_ON'
-                   if (unlikely(__ret_warn_on))            \
-                   ^
-   kernel/kcsan/report.c:537:2: note: Taking true branch
-           if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-           ^
-   kernel/kcsan/report.c:538:3: note: Calling 'set_other_info_task_blocking'
-                   set_other_info_task_blocking(flags, ai, other_info);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/report.c:463:26: note: Left side of '||' is false
-           const bool is_running =3D task_is_running(current);
-                                   ^
-   include/linux/sched.h:116:33: note: expanded from macro 'task_is_running'
-   #define task_is_running(task)           (READ_ONCE((task)->__state) =3D=
-=3D TASK_RUNNING)
-                                            ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
---
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/kunit/test.h:409:6: note: Assuming field 'free' is non-null
-           if (res->free) {
-               ^~~~~~~~~
-   include/kunit/test.h:409:2: note: Taking true branch
-           if (res->free) {
-           ^
-   include/kunit/test.h:411:3: note: Memory is released
-                   kfree(res);
-                   ^~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   include/kunit/test.h:429:2: note: Returning; memory was released
-           kref_put(&res->refcount, kunit_release_resource);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:572:2: note: Returning; memory was released via 1st par=
-ameter
-           kunit_put_resource(res);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:643:2: note: Returning; memory was released via 2nd par=
-ameter
-           kunit_remove_resource(test, res);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:645:2: note: Use of memory after it is freed
-           kunit_put_resource(res);
-           ^                  ~~~
-   lib/kunit/test.c:681:2: warning: Dereference of null pointer [clang-anal=
-yzer-core.NullDereference]
-           current->kunit_test =3D NULL;
-           ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   lib/kunit/test.c:340:6: note: Assuming 'try_exit_code' is 0
-           if (try_exit_code) {
-               ^~~~~~~~~~~~~
-   lib/kunit/test.c:340:2: note: Taking false branch
-           if (try_exit_code) {
-           ^
-   lib/kunit/test.c:363:2: note: Calling 'kunit_run_case_cleanup'
-           kunit_run_case_cleanup(test, suite);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:302:6: note: Assuming field 'exit' is null
-           if (suite->exit)
-               ^~~~~~~~~~~
-   lib/kunit/test.c:302:2: note: Taking false branch
-           if (suite->exit)
-           ^
-   lib/kunit/test.c:305:2: note: Calling 'kunit_case_internal_cleanup'
-           kunit_case_internal_cleanup(test);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:292:2: note: Calling 'kunit_cleanup'
-           kunit_cleanup(test);
-           ^~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:664:2: note: Loop condition is true.  Entering loop body
-           while (true) {
-           ^
-   lib/kunit/test.c:665:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&test->lock, flags);
-                   ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   lib/kunit/test.c:665:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&test->lock, flags);
-                   ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   lib/kunit/test.c:666:7: note: Assuming the condition is true
-                   if (list_empty(&test->resources)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:666:3: note: Taking true branch
-                   if (list_empty(&test->resources)) {
-                   ^
-   lib/kunit/test.c:668:4: note:  Execution continues on line 681
-                           break;
-                           ^
-   lib/kunit/test.c:681:2: note: Dereference of null pointer
-           current->kunit_test =3D NULL;
-           ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> kernel/kcsan/kcsan_test.c:178:3: warning: Value stored to 'cur' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   cur +=3D scnprintf(cur, end - cur, "%ps / %ps",
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kcsan/kcsan_test.c:178:3: note: Value stored to 'cur' is never re=
-ad
-                   cur +=3D scnprintf(cur, end - cur, "%ps / %ps",
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/kcsan/kcsan_test.c:220:5: warning: Call to function 'strcpy' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                                   strcpy(cur, "<none>");
-                                   ^~~~~~
-   kernel/kcsan/kcsan_test.c:220:5: note: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119
-                                   strcpy(cur, "<none>");
-                                   ^~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   fs/xfs/xfs_qm.c:66:2: warning: Value stored to 'nr_found' is never read =
-[clang-analyzer-deadcode.DeadStores]
-           nr_found =3D 0;
-           ^          ~
-   fs/xfs/xfs_qm.c:66:2: note: Value stored to 'nr_found' is never read
-           nr_found =3D 0;
-           ^          ~
-   fs/xfs/xfs_qm.c:150:4: warning: Value stored to 'error' is never read [c=
-lang-analyzer-deadcode.DeadStores]
-                           error =3D xfs_bwrite(bp);
-                           ^       ~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:150:4: note: Value stored to 'error' is never read
-                           error =3D xfs_bwrite(bp);
-                           ^       ~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:175:2: warning: Dereference of null pointer [clang-analy=
-zer-core.NullDereference]
-           XFS_STATS_DEC(mp, xs_qm_dquot_unused);
-           ^
-   fs/xfs/xfs_stats.h:171:2: note: expanded from macro 'XFS_STATS_DEC'
-           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->s.v--;   \
-           ^
-   include/linux/percpu-defs.h:236:41: note: expanded from macro 'per_cpu_p=
-tr'
-           SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-                                                  ^
-   fs/xfs/xfs_qm.c:1415:6: note: Assuming field 'sb_rextents' is 0
-           if (mp->m_sb.sb_rextents) {
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:1415:2: note: Taking false branch
-           if (mp->m_sb.sb_rextents) {
-           ^
-   fs/xfs/xfs_qm.c:1421:2: note: Assuming the condition is false
-           ASSERT(XFS_IS_QUOTA_RUNNING(mp));
-           ^
-   fs/xfs/xfs_linux.h:207:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^~~~~~~~~~~~
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^~~~
-   fs/xfs/xfs_qm.c:1421:2: note: '?' condition is true
-           ASSERT(XFS_IS_QUOTA_RUNNING(mp));
-           ^
-   fs/xfs/xfs_linux.h:207:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^
-   fs/xfs/xfs_qm.c:1428:6: note: 'error' is 0
-           if (error) {
-               ^~~~~
-   fs/xfs/xfs_qm.c:1428:2: note: Taking false branch
-           if (error) {
-           ^
-   fs/xfs/xfs_qm.c:1439:6: note: Assuming the condition is false
-           if (XFS_QM_NEED_QUOTACHECK(mp)) {
-               ^
-   fs/xfs/xfs_quota.h:33:4: note: expanded from macro 'XFS_QM_NEED_QUOTACHE=
-CK'
-           ((XFS_IS_UQUOTA_ON(mp) && \
-             ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_quota_defs.h:89:31: note: expanded from macro 'XFS_IS_=
-UQUOTA_ON'
-   #define XFS_IS_UQUOTA_ON(mp)    ((mp)->m_qflags & XFS_UQUOTA_ACTIVE)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:1439:6: note: Left side of '&&' is false
-           if (XFS_QM_NEED_QUOTACHECK(mp)) {
-               ^
-   fs/xfs/xfs_quota.h:33:25: note: expanded from macro 'XFS_QM_NEED_QUOTACH=
-ECK'
-           ((XFS_IS_UQUOTA_ON(mp) && \
-                                  ^
-   fs/xfs/xfs_qm.c:1439:6: note: Assuming the condition is false
-           if (XFS_QM_NEED_QUOTACHECK(mp)) {
-               ^
-   fs/xfs/xfs_quota.h:35:4: note: expanded from macro 'XFS_QM_NEED_QUOTACHE=
-CK'
-            (XFS_IS_GQUOTA_ON(mp) && \
-             ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_quota_defs.h:90:31: note: expanded from macro 'XFS_IS_=
-GQUOTA_ON'
-   #define XFS_IS_GQUOTA_ON(mp)    ((mp)->m_qflags & XFS_GQUOTA_ACTIVE)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:1439:6: note: Left side of '&&' is false
-           if (XFS_QM_NEED_QUOTACHECK(mp)) {
-               ^
-   fs/xfs/xfs_quota.h:35:25: note: expanded from macro 'XFS_QM_NEED_QUOTACH=
-ECK'
-            (XFS_IS_GQUOTA_ON(mp) && \
-                                  ^
-   fs/xfs/xfs_qm.c:1439:6: note: Assuming the condition is true
-           if (XFS_QM_NEED_QUOTACHECK(mp)) {
-               ^
-   fs/xfs/xfs_quota.h:37:4: note: expanded from macro 'XFS_QM_NEED_QUOTACHE=
-CK'
-            (XFS_IS_PQUOTA_ON(mp) && \
---
    include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
            compiletime_assert_rwonce_type(x);                              \
            ^
@@ -1103,142 +409,809 @@ lowcore'
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
+   27 warnings generated.
+   arch/s390/include/asm/preempt.h:77:9: warning: Dereference of null point=
+er [clang-analyzer-core.NullDereference]
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^
+   fs/inode.c:1838:2: note: Taking false branch
+           if (!atime_needs_update(path, inode))
+           ^
+   fs/inode.c:1841:7: note: Calling 'sb_start_write_trylock'
+           if (!sb_start_write_trylock(inode->i_sb))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fs.h:1838:9: note: Calling '__sb_start_write_trylock'
+           return __sb_start_write_trylock(sb, SB_FREEZE_WRITE);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fs.h:1768:9: note: Calling 'percpu_down_read_trylock'
+           return percpu_down_read_trylock(sb->s_writers.rw_sem + level - 1=
+);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:77:2: note: Loop condition is false.  Exiti=
+ng loop
+           preempt_disable();
+           ^
+   include/linux/preempt.h:175:27: note: expanded from macro 'preempt_disab=
+le'
+   #define preempt_disable() \
+                             ^
+   include/linux/percpu-rwsem.h:81:2: note: Taking false branch
+           if (likely(rcu_sync_is_idle(&sem->rss)))
+           ^
+   include/linux/percpu-rwsem.h:85:2: note: Calling 'should_resched'
+           preempt_enable();
+           ^
+   include/linux/preempt.h:195:15: note: expanded from macro 'preempt_enabl=
+e'
+           if (unlikely(preempt_count_dec_and_test())) \
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/preempt.h:160:27: note: expanded from macro 'preempt_count=
+_dec_and_test'
+           ({ preempt_count_sub(1); should_resched(0); })
+                                    ^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   arch/s390/include/asm/preempt.h:115:18: note: Calling 'preempt_count'
+           return unlikely(preempt_count() =3D=3D preempt_offset &&
+                           ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+--
+           list_for_each_entry(p, &MSDOS_I(inode)->cache_lru, cache_list) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/fat/cache.c:90:2: note: Loop condition is true.  Entering loop body
+           list_for_each_entry(p, &MSDOS_I(inode)->cache_lru, cache_list) {
+           ^
+   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   fs/fat/cache.c:92:7: note: Assuming 'fclus' is >=3D field 'fcluster'
+                   if (p->fcluster <=3D fclus && hit->fcluster < p->fcluste=
+r) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:92:7: note: Left side of '&&' is true
+   fs/fat/cache.c:92:31: note: Assuming 'hit->fcluster' is < 'p->fcluster'
+                   if (p->fcluster <=3D fclus && hit->fcluster < p->fcluste=
+r) {
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:92:3: note: Taking true branch
+                   if (p->fcluster <=3D fclus && hit->fcluster < p->fcluste=
+r) {
+                   ^
+   fs/fat/cache.c:94:8: note: Assuming the condition is false
+                           if ((hit->fcluster + hit->nr_contig) < fclus) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:94:4: note: Taking false branch
+                           if ((hit->fcluster + hit->nr_contig) < fclus) {
+                           ^
+   fs/fat/cache.c:98:5: note:  Execution continues on line 102
+                                   break;
+                                   ^
+   fs/fat/cache.c:102:6: note: Assuming the condition is false
+           if (hit !=3D &nohit) {
+               ^~~~~~~~~~~~~
+   fs/fat/cache.c:102:2: note: Taking false branch
+           if (hit !=3D &nohit) {
+           ^
+   fs/fat/cache.c:114:2: note: Returning without writing to 'cid->nr_contig'
+           return offset;
+           ^
+   fs/fat/cache.c:247:6: note: Returning from 'fat_cache_lookup'
+           if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:247:6: note: Assuming the condition is false
+           if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:247:2: note: Taking false branch
+           if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
+           ^
+   fs/fat/cache.c:256:2: note: Loop condition is true.  Entering loop body
+           while (*fclus < cluster) {
+           ^
+   fs/fat/cache.c:258:7: note: Assuming the condition is false
+                   if (*fclus > limit) {
+                       ^~~~~~~~~~~~~~
+   fs/fat/cache.c:258:3: note: Taking false branch
+                   if (*fclus > limit) {
+                   ^
+   fs/fat/cache.c:267:7: note: Assuming 'nr' is >=3D 0
+                   if (nr < 0)
+                       ^~~~~~
+   fs/fat/cache.c:267:3: note: Taking false branch
+                   if (nr < 0)
+                   ^
+   fs/fat/cache.c:269:12: note: Assuming 'nr' is not equal to FAT_ENT_FREE
+                   else if (nr =3D=3D FAT_ENT_FREE) {
+                            ^~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:269:8: note: Taking false branch
+                   else if (nr =3D=3D FAT_ENT_FREE) {
+                        ^
+   fs/fat/cache.c:275:14: note: Assuming 'nr' is not equal to FAT_ENT_EOF
+                   } else if (nr =3D=3D FAT_ENT_EOF) {
+                              ^~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:275:10: note: Taking false branch
+                   } else if (nr =3D=3D FAT_ENT_EOF) {
+                          ^
+   fs/fat/cache.c:281:8: note: Calling 'cache_contiguous'
+                   if (!cache_contiguous(&cid, *dclus))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fat/cache.c:213:2: note: The expression is an uninitialized value. Th=
+e computed value will also be garbage
+           cid->nr_contig++;
+           ^~~~~~~~~~~~~~
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
-   drivers/power/supply/generic-adc-battery.c:288:4: warning: Value stored =
-to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D PTR_ERR(adc_bat->channel[chan]);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/generic-adc-battery.c:288:4: note: Value stored to =
-'ret' is never read
-                           ret =3D PTR_ERR(adc_bat->channel[chan]);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/kcsan/debugfs.c:65:36: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+           const struct kcsan_ctx ctx_save =3D current->kcsan_ctx;
+                                             ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/kcsan/debugfs.c:228:17: note: Assuming the condition is false
+           int read_len =3D count < (sizeof(kbuf) - 1) ? count : (sizeof(kb=
+uf) - 1);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:228:17: note: '?' condition is false
+   kernel/kcsan/debugfs.c:230:2: note: Taking false branch
+           if (copy_from_user(kbuf, buf, read_len))
+           ^
+   kernel/kcsan/debugfs.c:235:6: note: Assuming the condition is false
+           if (!strcmp(arg, "on")) {
+               ^~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:235:2: note: Taking false branch
+           if (!strcmp(arg, "on")) {
+           ^
+   kernel/kcsan/debugfs.c:237:13: note: Assuming the condition is false
+           } else if (!strcmp(arg, "off")) {
+                      ^~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:237:9: note: Taking false branch
+           } else if (!strcmp(arg, "off")) {
+                  ^
+   kernel/kcsan/debugfs.c:239:9: note: Taking true branch
+           } else if (str_has_prefix(arg, "microbench=3D")) {
+                  ^
+   kernel/kcsan/debugfs.c:242:7: note: Assuming the condition is false
+                   if (kstrtoul(&arg[strlen("microbench=3D")], 0, &iters))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:242:3: note: Taking false branch
+                   if (kstrtoul(&arg[strlen("microbench=3D")], 0, &iters))
+                   ^
+   kernel/kcsan/debugfs.c:244:3: note: Calling 'microbenchmark'
+                   microbenchmark(iters);
+                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/debugfs.c:65:36: note: Dereference of null pointer
+           const struct kcsan_ctx ctx_save =3D current->kcsan_ctx;
+                                             ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
    Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   arch/s390/include/asm/preempt.h:77:9: warning: Dereference of null point=
+er [clang-analyzer-core.NullDereference]
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^
+   kernel/kcsan/report.c:642:32: note: Calling 'prepare_access_info'
+           const struct access_info ai =3D prepare_access_info(ptr, size, a=
+ccess_type);
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   kernel/kcsan/report.c:585:15: note: Calling 'preempt_count'
+                   .task_pid       =3D in_task() ? task_pid_nr(current) : -=
+1,
+                                     ^
+   include/linux/preempt.h:100:23: note: expanded from macro 'in_task'
+   #define in_task()               (!(in_nmi() | in_hardirq() | in_serving_=
+softirq()))
+                                      ^~~~~~~~
+   include/linux/preempt.h:97:20: note: expanded from macro 'in_nmi'
+   #define in_nmi()                (nmi_count())
+                                    ^~~~~~~~~~~
+   include/linux/preempt.h:80:22: note: expanded from macro 'nmi_count'
+   #define nmi_count()     (preempt_count() & NMI_MASK)
+                            ^~~~~~~~~~~~~~~
+   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is true
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   arch/s390/include/asm/preempt.h:77:9: note: Taking false branch
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   arch/s390/include/asm/preempt.h:77:9: note: Loop condition is false.  Ex=
+iting loop
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   arch/s390/include/asm/preempt.h:77:9: note: Dereference of null pointer
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+>> kernel/kcsan/report.c:409:22: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+                   print_verbose_info(current);
+                                      ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/kcsan/report.c:343:6: note: Assuming the condition is false
+           if (skip_report(KCSAN_VALUE_CHANGE_TRUE, stack_entries[skipnr]))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/report.c:343:2: note: Taking false branch
+           if (skip_report(KCSAN_VALUE_CHANGE_TRUE, stack_entries[skipnr]))
+           ^
+   kernel/kcsan/report.c:346:6: note: Assuming 'other_info' is null
+           if (other_info) {
+               ^~~~~~~~~~
+   kernel/kcsan/report.c:346:2: note: Taking false branch
+           if (other_info) {
+           ^
+   kernel/kcsan/report.c:356:6: note: Assuming the condition is false
+           if (rate_limit_report(this_frame, other_frame))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/report.c:356:2: note: Taking false branch
+           if (rate_limit_report(this_frame, other_frame))
+           ^
+   kernel/kcsan/report.c:361:6: note: 'other_info' is null
+           if (other_info) {
+               ^~~~~~~~~~
+   kernel/kcsan/report.c:361:2: note: Taking false branch
+           if (other_info) {
+           ^
+   kernel/kcsan/report.c:381:6: note: 'other_info' is null
+           if (other_info) {
+               ^~~~~~~~~~
+   kernel/kcsan/report.c:381:2: note: Taking false branch
+           if (other_info) {
+           ^
+   kernel/kcsan/report.c:408:2: note: Taking true branch
+           if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
+           ^
+   kernel/kcsan/report.c:409:22: note: Dereference of null pointer
+                   print_verbose_info(current);
+                                      ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/kcsan/report.c:463:42: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+           const bool is_running =3D task_is_running(current);
+                                                   ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/kcsan/report.c:517:2: note: Loop condition is false.  Exiting loop
+           raw_spin_lock_irqsave(&report_lock, *flags);
+           ^
+   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   kernel/kcsan/report.c:532:2: note: Assuming field 'size' is 0
+           WARN_ON(other_info->ai.size);
+           ^
+   arch/s390/include/asm/bug.h:53:23: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(x);                      \
+                                ^~~~
+   kernel/kcsan/report.c:532:2: note: Taking false branch
+           WARN_ON(other_info->ai.size);
+           ^
+   arch/s390/include/asm/bug.h:54:2: note: expanded from macro 'WARN_ON'
+           if (__builtin_constant_p(__ret_warn_on)) {      \
+           ^
+   kernel/kcsan/report.c:532:2: note: Taking false branch
+           WARN_ON(other_info->ai.size);
+           ^
+   arch/s390/include/asm/bug.h:58:3: note: expanded from macro 'WARN_ON'
+                   if (unlikely(__ret_warn_on))            \
+                   ^
+   kernel/kcsan/report.c:537:2: note: Taking true branch
+           if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
+           ^
+   kernel/kcsan/report.c:538:3: note: Calling 'set_other_info_task_blocking'
+                   set_other_info_task_blocking(flags, ai, other_info);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/report.c:463:26: note: Left side of '||' is false
+           const bool is_running =3D task_is_running(current);
+                                   ^
+   include/linux/sched.h:116:33: note: expanded from macro 'task_is_running'
+   #define task_is_running(task)           (READ_ONCE((task)->__state) =3D=
+=3D TASK_RUNNING)
+                                            ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+--
+                                          ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   block/blk-cgroup.c:1043:27: note: Loop condition is false.  Exiting loop
+                   struct blkcg_gq *blkg =3D hlist_entry(blkcg->blkg_list.f=
+irst,
+                                           ^
+   include/linux/list.h:972:40: note: expanded from macro 'hlist_entry'
+   #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
+                                          ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   block/blk-cgroup.c:1047:7: note: Calling 'need_resched'
+                   if (need_resched() || !spin_trylock(&q->queue_lock)) {
+                       ^~~~~~~~~~~~~~
+   include/linux/sched.h:1999:18: note: Dereference of null pointer
+           return unlikely(tif_need_resched());
+                           ^
+   include/linux/thread_info.h:166:28: note: expanded from macro 'tif_need_=
+resched'
+   #define tif_need_resched() test_thread_flag(TIF_NEED_RESCHED)
+                              ^
+   include/linux/thread_info.h:132:22: note: expanded from macro 'test_thre=
+ad_flag'
+           test_ti_thread_flag(current_thread_info(), flag)
+                               ^
+   include/linux/thread_info.h:24:54: note: expanded from macro 'current_th=
+read_info'
+   #define current_thread_info() ((struct thread_info *)current)
+                                                        ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/sched/signal.h:354:22: warning: Dereference of null pointe=
+r [clang-analyzer-core.NullDereference]
+           set_tsk_thread_flag(current, TIF_SIGPENDING);
+                               ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   block/blk-cgroup.c:632:2: note: Taking false branch
+           if (IS_ERR(bdev))
+           ^
+   block/blk-cgroup.c:641:2: note: Taking true branch
+           if (IS_ERR(blkg)) {
+           ^
+   block/blk-cgroup.c:643:3: note: Control jumps to line 714
+                   goto fail_unlock;
+                   ^
+   block/blk-cgroup.c:724:6: note: Assuming the condition is true
+           if (ret =3D=3D -EBUSY) {
+               ^~~~~~~~~~~~~
+   block/blk-cgroup.c:724:2: note: Taking true branch
+           if (ret =3D=3D -EBUSY) {
+           ^
+   block/blk-cgroup.c:726:9: note: Calling 'restart_syscall'
+                   ret =3D restart_syscall();
+                         ^~~~~~~~~~~~~~~~~
+   include/linux/sched/signal.h:354:22: note: Dereference of null pointer
+           set_tsk_thread_flag(current, TIF_SIGPENDING);
+                               ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> kernel/kcsan/kcsan_test.c:178:3: warning: Value stored to 'cur' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   cur +=3D scnprintf(cur, end - cur, "%ps / %ps",
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kcsan/kcsan_test.c:178:3: note: Value stored to 'cur' is never re=
+ad
+                   cur +=3D scnprintf(cur, end - cur, "%ps / %ps",
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/kcsan/kcsan_test.c:220:5: warning: Call to function 'strcpy' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                                   strcpy(cur, "<none>");
+                                   ^~~~~~
+   kernel/kcsan/kcsan_test.c:220:5: note: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119
+                                   strcpy(cur, "<none>");
+                                   ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (6 in non-user code, 4 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   include/linux/hid.h:1007:9: warning: Access to field 'name' results in a=
- dereference of a null pointer (loaded from variable 'input') [clang-analyz=
-er-core.NullDereference]
-                                       input->name, c, type);
-                                       ^
-   drivers/hid/hid-zydacron.c:53:6: note: Assuming the condition is false
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-zydacron.c:53:2: note: Taking false branch
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   arch/s390/include/asm/preempt.h:77:9: warning: Dereference of null point=
+er [clang-analyzer-core.NullDereference]
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
            ^
-   drivers/hid/hid-zydacron.c:56:2: note: Assuming 'hid_debug' is 0
-           dbg_hid("zynacron input mapping event [0x%x]\n",
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^
+   lib/random32.c:402:32: note: Loop condition is false.  Exiting loop
+           struct siprand_state *state =3D get_cpu_ptr(&net_rand_state);
+                                         ^
+   include/linux/percpu-defs.h:293:2: note: expanded from macro 'get_cpu_pt=
+r'
+           preempt_disable();                                              \
            ^
-   include/linux/hid.h:1208:6: note: expanded from macro 'dbg_hid'
-           if (hid_debug)                                                  \
-               ^~~~~~~~~
-   drivers/hid/hid-zydacron.c:56:2: note: Taking false branch
-           dbg_hid("zynacron input mapping event [0x%x]\n",
+   include/linux/preempt.h:175:27: note: expanded from macro 'preempt_disab=
+le'
+   #define preempt_disable() \
+                             ^
+   lib/random32.c:402:32: note: Loop condition is false.  Exiting loop
+           struct siprand_state *state =3D get_cpu_ptr(&net_rand_state);
+                                         ^
+   include/linux/percpu-defs.h:294:2: note: expanded from macro 'get_cpu_pt=
+r'
+           this_cpu_ptr(var);                                              \
            ^
-   include/linux/hid.h:1208:2: note: expanded from macro 'dbg_hid'
-           if (hid_debug)                                                  \
+   include/linux/percpu-defs.h:248:2: note: expanded from macro 'this_cpu_p=
+tr'
+           __verify_pcpu_ptr(ptr);                                         \
            ^
-   drivers/hid/hid-zydacron.c:56:2: note: Loop condition is false.  Exiting=
- loop
-           dbg_hid("zynacron input mapping event [0x%x]\n",
-           ^
-   include/linux/hid.h:1206:32: note: expanded from macro 'dbg_hid'
-   #define dbg_hid(fmt, ...)                                               \
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
                                                                            ^
-   drivers/hid/hid-zydacron.c:59:2: note: Control jumps to 'case 50:'  at l=
-ine 96
-           switch (usage->hid & HID_USAGE) {
+   lib/random32.c:405:9: note: Assuming the condition is false
+           while (bytes >=3D sizeof(u32)) {
+                  ^~~~~~~~~~~~~~~~~~~~
+   lib/random32.c:405:2: note: Loop condition is false. Execution continues=
+ on line 411
+           while (bytes >=3D sizeof(u32)) {
            ^
-   drivers/hid/hid-zydacron.c:97:3: note: Calling 'hid_map_usage_clear'
-                   zc_map_key_clear(KEY_TEXT);
-                   ^
-   drivers/hid/hid-zydacron.c:43:2: note: expanded from macro 'zc_map_key_c=
-lear'
-           hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:1035:2: note: Calling 'hid_map_usage'
-           hid_map_usage(hidinput, usage, bit, max, type, c);
+   lib/random32.c:411:6: note: Assuming 'bytes' is <=3D 0
+           if (bytes > 0) {
+               ^~~~~~~~~
+   lib/random32.c:411:2: note: Taking false branch
+           if (bytes > 0) {
+           ^
+   lib/random32.c:419:2: note: Calling 'should_resched'
+           put_cpu_ptr(&net_rand_state);
+           ^
+   include/linux/percpu-defs.h:300:2: note: expanded from macro 'put_cpu_pt=
+r'
+           preempt_enable();                                               \
+           ^~~~~~~~~~~~~~~~
+   include/linux/preempt.h:195:15: note: expanded from macro 'preempt_enabl=
+e'
+           if (unlikely(preempt_count_dec_and_test())) \
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/preempt.h:160:27: note: expanded from macro 'preempt_count=
+_dec_and_test'
+           ({ preempt_count_sub(1); should_resched(0); })
+                                    ^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   arch/s390/include/asm/preempt.h:115:18: note: Calling 'preempt_count'
+           return unlikely(preempt_count() =3D=3D preempt_offset &&
+                           ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/s390/include/asm/preempt.h:77:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
 
-vim +65 kernel/kcsan/debugfs.c
+vim +301 kernel/kcsan/core.c
 
-dfd402a4c4baae Marco Elver    2019-11-14  57  =
+cd290ec24633f5 Marco Elver 2020-08-21  294  =
 
-dfd402a4c4baae Marco Elver    2019-11-14  58  /*
-dfd402a4c4baae Marco Elver    2019-11-14  59   * The microbenchmark allows =
-benchmarking KCSAN core runtime only. To run
-dfd402a4c4baae Marco Elver    2019-11-14  60   * multiple threads, pipe 'mi=
-crobench=3D<iters>' from multiple tasks into the
-a312013578e477 Marco Elver    2020-02-06  61   * debugfs file. This will no=
-t generate any conflicts, and tests fast-path only.
-dfd402a4c4baae Marco Elver    2019-11-14  62   */
-a312013578e477 Marco Elver    2020-02-06  63  static noinline void microben=
-chmark(unsigned long iters)
-dfd402a4c4baae Marco Elver    2019-11-14  64  {
-44656d3dc4f0dc Marco Elver    2020-02-25 @65  	const struct kcsan_ctx ctx_s=
-ave =3D current->kcsan_ctx;
-44656d3dc4f0dc Marco Elver    2020-02-25  66  	const bool was_enabled =3D R=
-EAD_ONCE(kcsan_enabled);
-09b1b13461e12e Heiko Carstens 2021-07-29  67  	u64 cycles;
-dfd402a4c4baae Marco Elver    2019-11-14  68  =
+dfd402a4c4baae Marco Elver 2019-11-14  295  static inline void reset_kcsan_=
+skip(void)
+dfd402a4c4baae Marco Elver 2019-11-14  296  {
+80d4c477521660 Marco Elver 2020-02-07  297  	long skip_count =3D kcsan_skip=
+_watch -
+dfd402a4c4baae Marco Elver 2019-11-14  298  			  (IS_ENABLED(CONFIG_KCSAN_S=
+KIP_WATCH_RANDOMIZE) ?
+cd290ec24633f5 Marco Elver 2020-08-21  299  				   kcsan_prandom_u32_max(kc=
+san_skip_watch) :
+dfd402a4c4baae Marco Elver 2019-11-14  300  				   0);
+dfd402a4c4baae Marco Elver 2019-11-14 @301  	this_cpu_write(kcsan_skip, ski=
+p_count);
+dfd402a4c4baae Marco Elver 2019-11-14  302  }
+dfd402a4c4baae Marco Elver 2019-11-14  303  =
 
-44656d3dc4f0dc Marco Elver    2020-02-25  69  	/* We may have been called f=
-rom an atomic region; reset context. */
-44656d3dc4f0dc Marco Elver    2020-02-25  70  	memset(&current->kcsan_ctx, =
-0, sizeof(current->kcsan_ctx));
-44656d3dc4f0dc Marco Elver    2020-02-25  71  	/*
-44656d3dc4f0dc Marco Elver    2020-02-25  72  	 * Disable to benchmark fast=
--path for all accesses, and (expected
-44656d3dc4f0dc Marco Elver    2020-02-25  73  	 * negligible) call into slo=
-w-path, but never set up watchpoints.
-44656d3dc4f0dc Marco Elver    2020-02-25  74  	 */
-44656d3dc4f0dc Marco Elver    2020-02-25  75  	WRITE_ONCE(kcsan_enabled, fa=
-lse);
-44656d3dc4f0dc Marco Elver    2020-02-25  76  =
+5c361425744d1e Marco Elver 2020-01-07  304  static __always_inline bool kcs=
+an_is_enabled(void)
+dfd402a4c4baae Marco Elver 2019-11-14  305  {
+dfd402a4c4baae Marco Elver 2019-11-14  306  	return READ_ONCE(kcsan_enabled=
+) && get_ctx()->disable_count =3D=3D 0;
+dfd402a4c4baae Marco Elver 2019-11-14  307  }
+dfd402a4c4baae Marco Elver 2019-11-14  308  =
 
-178a1877d782c0 Marco Elver    2020-07-31  77  	pr_info("%s begin | iters: %=
-lu\n", __func__, iters);
-dfd402a4c4baae Marco Elver    2019-11-14  78  =
+cd290ec24633f5 Marco Elver 2020-08-21  309  /* Introduce delay depending on=
+ context and configuration. */
+cd290ec24633f5 Marco Elver 2020-08-21  310  static void delay_access(int ty=
+pe)
+dfd402a4c4baae Marco Elver 2019-11-14  311  {
+80d4c477521660 Marco Elver 2020-02-07  312  	unsigned int delay =3D in_task=
+() ? kcsan_udelay_task : kcsan_udelay_interrupt;
+106a307fd0a762 Marco Elver 2020-07-24  313  	/* For certain access types, s=
+kew the random delay to be longer. */
+106a307fd0a762 Marco Elver 2020-07-24 @314  	unsigned int skew_delay_order =
+=3D
+106a307fd0a762 Marco Elver 2020-07-24  315  		(type & (KCSAN_ACCESS_COMPOUN=
+D | KCSAN_ACCESS_ASSERT)) ? 1 : 0;
+106a307fd0a762 Marco Elver 2020-07-24  316  =
 
-dfd402a4c4baae Marco Elver    2019-11-14  79  	cycles =3D get_cycles();
-dfd402a4c4baae Marco Elver    2019-11-14  80  	while (iters--) {
-44656d3dc4f0dc Marco Elver    2020-02-25  81  		unsigned long addr =3D iter=
-s & ((PAGE_SIZE << 8) - 1);
-44656d3dc4f0dc Marco Elver    2020-02-25  82  		int type =3D !(iters & 0x7f=
-) ? KCSAN_ACCESS_ATOMIC :
-44656d3dc4f0dc Marco Elver    2020-02-25  83  				(!(iters & 0xf) ? KCSAN_A=
-CCESS_WRITE : 0);
-44656d3dc4f0dc Marco Elver    2020-02-25  84  		__kcsan_check_access((void =
-*)addr, sizeof(long), type);
-dfd402a4c4baae Marco Elver    2019-11-14  85  	}
-dfd402a4c4baae Marco Elver    2019-11-14  86  	cycles =3D get_cycles() - cy=
-cles;
-dfd402a4c4baae Marco Elver    2019-11-14  87  =
-
-178a1877d782c0 Marco Elver    2020-07-31  88  	pr_info("%s end   | cycles: =
-%llu\n", __func__, cycles);
-44656d3dc4f0dc Marco Elver    2020-02-25  89  =
-
-44656d3dc4f0dc Marco Elver    2020-02-25  90  	WRITE_ONCE(kcsan_enabled, wa=
-s_enabled);
-44656d3dc4f0dc Marco Elver    2020-02-25  91  	/* restore context */
-44656d3dc4f0dc Marco Elver    2020-02-25  92  	current->kcsan_ctx =3D ctx_s=
-ave;
-dfd402a4c4baae Marco Elver    2019-11-14  93  }
-dfd402a4c4baae Marco Elver    2019-11-14  94  =
+cd290ec24633f5 Marco Elver 2020-08-21  317  	delay -=3D IS_ENABLED(CONFIG_K=
+CSAN_DELAY_RANDOMIZE) ?
+cd290ec24633f5 Marco Elver 2020-08-21  318  			       kcsan_prandom_u32_max=
+(delay >> skew_delay_order) :
+cd290ec24633f5 Marco Elver 2020-08-21  319  			       0;
+cd290ec24633f5 Marco Elver 2020-08-21  320  	udelay(delay);
+dfd402a4c4baae Marco Elver 2019-11-14  321  }
+dfd402a4c4baae Marco Elver 2019-11-14  322  =
 
 
-:::::: The code at line 65 was first introduced by commit
-:::::: 44656d3dc4f0dc20010d054f27397a4a1469fabf kcsan: Add current->state t=
-o implicitly atomic accesses
+:::::: The code at line 301 was first introduced by commit
+:::::: dfd402a4c4baae42398ce9180ff424d589b8bffc kcsan: Add Kernel Concurren=
+cy Sanitizer infrastructure
 
 :::::: TO: Marco Elver <elver@google.com>
 :::::: CC: Paul E. McKenney <paulmck@kernel.org>
@@ -1247,5 +1220,5 @@ o implicitly atomic accesses
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5087951950527074337==--
+--===============5900709846325369591==--
 
