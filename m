@@ -1,73 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============5378352286148160658=="
+Content-Type: multipart/mixed; boundary="===============6565694895253099052=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: arch/riscv/kernel/cpufeature.c:288:27: warning: Parameter 'end' can be declared with const [constParameter]
-Date: Mon, 06 Jun 2022 19:45:08 +0800
-Message-ID: <202206061956.wJShLrrl-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized symbol 'off'.
+Date: Mon, 06 Jun 2022 14:25:02 +0300
+Message-ID: <20220606112502.GN2168@kadam>
+In-Reply-To: <87zgiq3uux.wl-maz@kernel.org>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5378352286148160658==
+--===============6565694895253099052==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
+On Mon, Jun 06, 2022 at 12:16:22PM +0100, Marc Zyngier wrote:
+> > dc97fd6fec0099 Hector Martin 2022-03-10   926  	switch (irqc->info.vers=
+ion) {
+> > dc97fd6fec0099 Hector Martin 2022-03-10   927  	case 1: {
+> > dc97fd6fec0099 Hector Martin 2022-03-10   928  		u32 info;
+> > dc97fd6fec0099 Hector Martin 2022-03-10   929  =
 
-:::::: Manual check reason: "low confidence static check warning: arch/risc=
-v/kernel/cpufeature.c:288:27: warning: Parameter 'end' can be declared with=
- const [constParameter]"
-:::::: =
+> > 76cde26394114f Hector Martin 2021-01-21   930  		info =3D aic_ic_read(i=
+rqc, AIC_INFO);
+> > 7c841f5f6fa3f9 Hector Martin 2022-03-10   931  		irqc->nr_irq =3D FIELD=
+_GET(AIC_INFO_NR_IRQ, info);
+> > dc97fd6fec0099 Hector Martin 2022-03-10   932  		irqc->max_irq =3D AIC_=
+MAX_IRQ;
+> > dc97fd6fec0099 Hector Martin 2022-03-10   933  =
 
+> > dc97fd6fec0099 Hector Martin 2022-03-10   934  		off =3D irqc->info.tar=
+get_cpu;
+> > dc97fd6fec0099 Hector Martin 2022-03-10   935  		off +=3D sizeof(u32) *=
+ irqc->max_irq; /* TARGET_CPU */
+> > dc97fd6fec0099 Hector Martin 2022-03-10   936  =
 
-CC: kbuild-all(a)lists.01.org
-BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: Palmer Dabbelt <palmer@rivosinc.com>
-CC: Wei Fu <wefu@redhat.com>
-CC: Liu Shaohua <liush@allwinnertech.com>
-CC: Guo Ren <guoren@kernel.org>
-CC: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> > dc97fd6fec0099 Hector Martin 2022-03-10   937  		break;
+> > =
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
-commit: ff689fd21cb13098305bae3f8d0c0065df2e2fc1 riscv: add RISC-V Svpbmt e=
-xtension support
-date:   4 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 weeks ago
-compiler: riscv64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout ff689fd21cb13098305bae3f8d0c0065df2e2fc1
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+> > "off" uninitialized if irqc->info.version !=3D 1.
+> =
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> Which is pretty much impossible by construction, as as of this
+> particular commit, all the possible implementations have version =3D=3D 1.
+> =
 
+> Subsequent patches do add cases where version =3D=3D 2, and that gets
+> covered too.
+> =
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+> So unless I'm missing something obvious, there is no bug here.
 
->> arch/riscv/kernel/cpufeature.c:288:27: warning: Parameter 'end' can be d=
-eclared with const [constParameter]
-           struct alt_entry *end,
-                             ^
+I assumed it was something like that.  The kbuild bot doesn't do cross
+function analysis.  Neither does Clang really.
 
-vim +/end +288 arch/riscv/kernel/cpufeature.c
-
-ff689fd21cb130 Heiko Stuebner 2022-05-11  286  =
-
-ff689fd21cb130 Heiko Stuebner 2022-05-11  287  void __init_or_module riscv_=
-cpufeature_patch_func(struct alt_entry *begin,
-ff689fd21cb130 Heiko Stuebner 2022-05-11 @288  						  struct alt_entry *en=
-d,
-
--- =
-
-0-DAY CI Kernel Test Service
-https://01.org/lkp
---===============5378352286148160658==--
+regards,
+dan carpenter
+--===============6565694895253099052==--
 
