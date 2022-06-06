@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7009564957620391467=="
+Content-Type: multipart/mixed; boundary="===============5802442193902082290=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/intel/pxa_camera.c:1352:25: warning: Value stored to 'pcdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 06 Jun 2022 10:41:22 +0800
-Message-ID: <202206060938.NBM47jGC-lkp@intel.com>
+Subject: drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 06 Jun 2022 10:41:21 +0800
+Message-ID: <202206060942.zOb08XEA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7009564957620391467==
+--===============5802442193902082290==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,9 +15,9 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/platform/intel/pxa_camera.c:1352:25: warning: Value stored to 'pcdev' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores=
-]"
+edia/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_c=
+lk' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]"
 :::::: =
 
 
@@ -25,19 +25,22 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+TO: Eugen Hristev <eugen.hristev@microchip.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: linux-media(a)vger.kernel.org
+CC: Jacopo Mondi <jacopo+renesas@jmondi.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d717180e7f9775d468f415c10a4a474640146001
-commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Int=
-el drivers on a separate dir
-date:   3 months ago
+commit: 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0 media: atmel: atmel-isc: s=
+plit the clock code into separate source file
+date:   4 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 3 months ago
+:::::: commit date: 4 months ago
 config: arm-randconfig-c002-20220605 (https://download.01.org/0day-ci/archi=
-ve/20220606/202206060938.NBM47jGC-lkp(a)intel.com/config)
+ve/20220606/202206060942.zOb08XEA-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0a90b7=
 2c432d70aae035727ece4ba80ce820f381)
 reproduce (this is a W=3D1 build):
@@ -47,11 +50,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D95495f2aa9d8df1a7697bab24118544d3568f41d
+t/commit/?id=3D118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
+        git checkout 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -62,304 +65,338 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:632:3: note: Loop condition is true.=
-  Entering loop body
-                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
-                   ^
-   drivers/media/platform/ti-vpe/cal.c:633:8: note: Assuming the condition =
-is false
-                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:633:4: note: Taking false branch
-                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
-                           ^
-   drivers/media/platform/ti-vpe/cal.c:644:8: note: Assuming the condition =
-is false
-                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:644:4: note: Taking false branch
-                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
-                           ^
-   drivers/media/platform/ti-vpe/cal.c:632:15: note: Assuming 'i' is < fiel=
-d 'num_csi2_phy'
-                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:632:3: note: Loop condition is true.=
-  Entering loop body
-                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
-                   ^
-   drivers/media/platform/ti-vpe/cal.c:633:8: note: Assuming the condition =
-is false
-                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:633:4: note: Taking false branch
-                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
-                           ^
-   drivers/media/platform/ti-vpe/cal.c:644:8: note: Assuming the condition =
-is false
-                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:644:4: note: Taking false branch
-                           if (status & CAL_HL_IRQ_VC_MASK(i)) {
-                           ^
-   drivers/media/platform/ti-vpe/cal.c:632:15: note: Assuming 'i' is < fiel=
-d 'num_csi2_phy'
-                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti-vpe/cal.c:632:3: note: Loop condition is true.=
-  Entering loop body
-                   for (i =3D 0; i < cal->data->num_csi2_phy; ++i) {
-                   ^
-   drivers/media/platform/ti-vpe/cal.c:633:17: note: The result of the left=
- shift is undefined due to shifting by '32', which is greater or equal to t=
-he width of type 'unsigned long'
-                           if (status & CAL_HL_IRQ_CIO_MASK(i)) {
-                                        ^
-   drivers/media/platform/ti-vpe/cal_regs.h:133:34: note: expanded from mac=
-ro 'CAL_HL_IRQ_CIO_MASK'
-   #define CAL_HL_IRQ_CIO_MASK(i)                  BIT(16 + (i) * 8)
-                                                   ^~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
+           if (WARN_ON(!sysdev->dma_mask))
+                        ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/usb/host/xhci-plat.c:200:6: note: Assuming the condition is false
+           if (usb_disabled())
+               ^~~~~~~~~~~~~~
+   drivers/usb/host/xhci-plat.c:200:2: note: Taking false branch
+           if (usb_disabled())
+           ^
+   drivers/usb/host/xhci-plat.c:206:6: note: Assuming 'irq' is >=3D 0
+           if (irq < 0)
+               ^~~~~~~
+   drivers/usb/host/xhci-plat.c:206:2: note: Taking false branch
+           if (irq < 0)
+           ^
+   drivers/usb/host/xhci-plat.c:216:28: note: Assuming pointer value is null
+           for (sysdev =3D &pdev->dev; sysdev; sysdev =3D sysdev->parent) {
+                                     ^~~~~~
+   drivers/usb/host/xhci-plat.c:216:2: note: Loop condition is false. Execu=
+tion continues on line 226
+           for (sysdev =3D &pdev->dev; sysdev; sysdev =3D sysdev->parent) {
+           ^
+   drivers/usb/host/xhci-plat.c:226:7: note: 'sysdev' is null
+           if (!sysdev)
+                ^~~~~~
+   drivers/usb/host/xhci-plat.c:226:2: note: Taking true branch
+           if (!sysdev)
+           ^
+   drivers/usb/host/xhci-plat.c:227:3: note: Null pointer value stored to '=
+sysdev'
+                   sysdev =3D &pdev->dev;
+                   ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-plat.c:230:15: note: Access to field 'dma_mask' re=
+sults in a dereference of a null pointer (loaded from variable 'sysdev')
+           if (WARN_ON(!sysdev->dma_mask))
+                        ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
    Suppressed 1 warnings (1 with check filters).
-   4 warnings generated.
-   drivers/media/platform/exynos4-is/media-dev.c:1018:3: warning: Value sto=
-red to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
-nsor,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/media/platform/exynos4-is/media-dev.c:1018:3: note: Value stored=
- to 'ret' is never read
-                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
-nsor,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/media/platform/exynos4-is/media-dev.c:1031:3: warning: Value sto=
-red to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
-nsor,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/media/platform/exynos4-is/media-dev.c:1031:3: note: Value stored=
- to 'ret' is never read
-                   ret =3D __fimc_md_create_fimc_sink_links(fmd, source, se=
-nsor,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   drivers/media/platform/exynos4-is/media-dev.c:1541:6: note: Assuming 'fm=
-d' is non-null
-           if (!fmd)
-               ^~~~
-   drivers/media/platform/exynos4-is/media-dev.c:1541:2: note: Taking false=
- branch
-           if (!fmd)
-           ^
-   drivers/media/platform/exynos4-is/media-dev.c:1551:2: note: Calling 'fim=
-c_md_pipelines_free'
-           fimc_md_pipelines_free(fmd);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/exynos4-is/media-dev.c:389:2: note: Loop conditio=
-n is true.  Entering loop body
-           while (!list_empty(&fmd->pipelines)) {
-           ^
-   drivers/media/platform/exynos4-is/media-dev.c:394:3: note: Memory is rel=
-eased
-                   kfree(p);
-                   ^~~~~~~~
-   drivers/media/platform/exynos4-is/media-dev.c:389:2: note: Loop conditio=
-n is true.  Entering loop body
-           while (!list_empty(&fmd->pipelines)) {
-           ^
-   drivers/media/platform/exynos4-is/media-dev.c:393:3: note: Calling 'list=
-_del'
-                   list_del(&p->list);
-                   ^~~~~~~~~~~~~~~~~~
-   include/linux/list.h:148:2: note: Calling '__list_del_entry'
-           __list_del_entry(entry);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:2: note: Taking false branch
-           if (!__list_del_entry_valid(entry))
-           ^
-   include/linux/list.h:137:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   3 warnings generated.
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:479:2: warning: Valu=
+e stored to 'cif_id' is never read [clang-analyzer-deadcode.DeadStores]
+           cif_id =3D rkisp1_read(rkisp1, RKISP1_CIF_VI_ID);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:479:2: note: Value s=
+tored to 'cif_id' is never read
+           cif_id =3D rkisp1_read(rkisp1, RKISP1_CIF_VI_ID);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:910:24: warning: Val=
+ue stored to 'rkisp1' during its initialization is never read [clang-analyz=
+er-deadcode.DeadStores]
+           struct rkisp1_device *rkisp1 =3D
+                                 ^~~~~~
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:910:24: note: Value =
+stored to 'rkisp1' during its initialization is never read
+           struct rkisp1_device *rkisp1 =3D
+                                 ^~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
    Suppressed 1 warnings (1 with check filters).
    1 warning generated.
    Suppressed 1 warnings (1 with check filters).
    2 warnings generated.
->> drivers/media/platform/intel/pxa_camera.c:1352:25: warning: Value stored=
- to 'pcdev' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-           struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->vb2_queue);
-                                  ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/intel/pxa_camera.c:1352:25: note: Value stored to=
- 'pcdev' during its initialization is never read
-           struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->vb2_queue);
-                                  ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stor=
+ed to 'isc_clk' during its initialization is never read [clang-analyzer-dea=
+dcode.DeadStores]
+           struct isc_clk *isc_clk =3D to_isc_clk(hw);
+                           ^~~~~~~
+   drivers/media/platform/atmel/atmel-isc-clk.c:125:18: note: Value stored =
+to 'isc_clk' during its initialization is never read
+           struct isc_clk *isc_clk =3D to_isc_clk(hw);
+                           ^~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
    Suppressed 1 warnings (1 with check filters).
    2 warnings generated.
-   drivers/iio/light/tsl2772.c:896:40: warning: The result of the left shif=
-t is undefined because the left operand is negative [clang-analyzer-core.Un=
-definedBinaryOperatorResult]
-           chip->settings.prox_thres_high =3D (max << 1) - mean;
-                                                 ^
-   drivers/iio/light/tsl2772.c:1057:6: note: Assuming the condition is false
-           if (kstrtobool(buf, &value) || !value)
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:1057:6: note: Left side of '||' is false
-   drivers/iio/light/tsl2772.c:1057:33: note: Assuming 'value' is true
-           if (kstrtobool(buf, &value) || !value)
-                                          ^~~~~~
-   drivers/iio/light/tsl2772.c:1057:2: note: Taking false branch
-           if (kstrtobool(buf, &value) || !value)
+   sound/core/device.c:237:2: warning: Use of memory after it is freed [cla=
+ng-analyzer-unix.Malloc]
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
            ^
-   drivers/iio/light/tsl2772.c:1060:8: note: Calling 'tsl2772_prox_cal'
-           ret =3D tsl2772_prox_cal(indio_dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:875:6: note: Assuming field 'prox_max_sample=
-s_cal' is >=3D 1
-           if (chip->settings.prox_max_samples_cal < 1 ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:875:6: note: Left side of '||' is false
-   drivers/iio/light/tsl2772.c:876:6: note: Assuming field 'prox_max_sample=
-s_cal' is <=3D MAX_SAMPLES_CAL
-               chip->settings.prox_max_samples_cal > MAX_SAMPLES_CAL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:875:2: note: Taking false branch
-           if (chip->settings.prox_max_samples_cal < 1 ||
+   include/linux/list.h:773:7: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+                   n =3D list_prev_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:572:2: note: expanded from macro 'list_prev_entry'
+           list_entry((pos)->member.prev, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   sound/core/device.c:226:17: note: Assuming 'card' is non-null
+           if (snd_BUG_ON(!card))
+                          ^
+   include/sound/core.h:401:35: note: expanded from macro 'snd_BUG_ON'
+   #define snd_BUG_ON(cond)        WARN_ON((cond))
+                                            ^~~~
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   sound/core/device.c:226:2: note: Taking false branch
+           if (snd_BUG_ON(!card))
            ^
-   drivers/iio/light/tsl2772.c:879:14: note: 'i' is < field 'prox_max_sampl=
-es_cal'
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-                       ^
-   drivers/iio/light/tsl2772.c:879:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+   sound/core/device.c:228:2: note: Loop condition is true.  Entering loop =
+body
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
+) {
            ^
-   drivers/iio/light/tsl2772.c:882:7: note: 'ret' is >=3D 0
-                   if (ret < 0)
-                       ^~~
-   drivers/iio/light/tsl2772.c:882:3: note: Taking false branch
-                   if (ret < 0)
+   include/linux/list.h:772:2: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
+           ^
+   sound/core/device.c:230:7: note: Assuming field 'type' is not equal to S=
+NDRV_DEV_CONTROL
+                   if (dev->type =3D=3D SNDRV_DEV_CONTROL ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:230:7: note: Left side of '||' is false
+   sound/core/device.c:231:7: note: Assuming field 'type' is not equal to S=
+NDRV_DEV_LOWLEVEL
+                       dev->type =3D=3D SNDRV_DEV_LOWLEVEL)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:230:3: note: Taking false branch
+                   if (dev->type =3D=3D SNDRV_DEV_CONTROL ||
                    ^
-   drivers/iio/light/tsl2772.c:879:14: note: Assuming 'i' is >=3D field 'pr=
-ox_max_samples_cal'
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:879:2: note: Loop condition is false. Execut=
-ion continues on line 888
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+   sound/core/device.c:233:3: note: Calling '__snd_device_free'
+                   __snd_device_free(dev);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:75:6: note: Assuming field 'dev_free' is null
+           if (dev->ops->dev_free) {
+               ^~~~~~~~~~~~~~~~~~
+   sound/core/device.c:75:2: note: Taking false branch
+           if (dev->ops->dev_free) {
            ^
-   drivers/iio/light/tsl2772.c:889:2: note: The value -2147483648 is assign=
-ed to 'max'
-           max =3D INT_MIN;
-           ^~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:890:14: note: Assuming 'i' is >=3D field 'pr=
-ox_max_samples_cal'
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:890:2: note: Loop condition is false. Execut=
-ion continues on line 894
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+   sound/core/device.c:79:2: note: Memory is released
+           kfree(dev);
+           ^~~~~~~~~~
+   sound/core/device.c:233:3: note: Returning; memory was released via 1st =
+parameter
+                   __snd_device_free(dev);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:228:2: note: Loop condition is false. Execution cont=
+inues on line 237
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
+) {
            ^
-   drivers/iio/light/tsl2772.c:896:40: note: The result of the left shift i=
-s undefined because the left operand is negative
-           chip->settings.prox_thres_high =3D (max << 1) - mean;
-                                             ~~~ ^
-   Suppressed 1 warnings (1 with check filters).
-   5 warnings generated.
-   drivers/iio/light/veml6030.c:332:13: warning: The left operand of '*' is=
- a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           period =3D y * (1 << ((reg >> 4) & 0x03));
-                      ^
-   drivers/iio/light/veml6030.c:589:2: note: Control jumps to 'case IIO_EV_=
-INFO_PERIOD:'  at line 599
-           switch (info) {
+   include/linux/list.h:772:2: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
            ^
-   drivers/iio/light/veml6030.c:600:10: note: Calling 'veml6030_read_persis=
-tence'
-                   return veml6030_read_persistence(indio_dev, val, val2);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/veml6030.c:318:27: note: 'y' declared without an initi=
-al value
-           int ret, reg, period, x, y;
-                                    ^
-   drivers/iio/light/veml6030.c:321:8: note: Calling 'veml6030_get_intgrn_t=
-m'
-           ret =3D veml6030_get_intgrn_tm(indio_dev, &x, &y);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/veml6030.c:221:6: note: Assuming 'ret' is not equal to=
- 0
-           if (ret) {
-               ^~~
-   drivers/iio/light/veml6030.c:221:2: note: Taking true branch
-           if (ret) {
+   sound/core/device.c:237:2: note: Use of memory after it is freed
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
            ^
-   drivers/iio/light/veml6030.c:222:3: note: Left side of '&&' is true
-                   dev_err(&data->client->dev,
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+   include/linux/list.h:773:7: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+                   n =3D list_prev_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:572:2: note: expanded from macro 'list_prev_entry'
+           list_entry((pos)->member.prev, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   4 warnings generated.
+   drivers/gpu/drm/bridge/tc358767.c:678:2: warning: Value stored to 'revis=
+ion' is never read [clang-analyzer-deadcode.DeadStores]
+           revision =3D tc->link.dpcd[DP_DPCD_REV];
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/tc358767.c:678:2: note: Value stored to 'revision=
+' is never read
+           revision =3D tc->link.dpcd[DP_DPCD_REV];
 
-vim +/pcdev +1352 drivers/media/platform/intel/pxa_camera.c
+vim +/isc_clk +125 drivers/media/platform/atmel/atmel-isc-clk.c
 
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1348  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  121  =
 
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1349  static void pxac_vb2_cleanup(struct vb2_buffer *vb)
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1350  {
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1351  	struct pxa_buffer *buf =3D vb2_to_pxa_buffer(vb);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06 @1352  	struct pxa_camera_dev *pcdev =3D vb2_get_drv_priv(vb->=
-vb2_queue);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1353  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  122  static int isc_clk_determine_=
+rate(struct clk_hw *hw,
+118bf76a35bc2e Eugen Hristev 2021-12-13  123  				  struct clk_rate_request=
+ *req)
+118bf76a35bc2e Eugen Hristev 2021-12-13  124  {
+118bf76a35bc2e Eugen Hristev 2021-12-13 @125  	struct isc_clk *isc_clk =3D =
+to_isc_clk(hw);
+118bf76a35bc2e Eugen Hristev 2021-12-13  126  	long best_rate =3D -EINVAL;
+118bf76a35bc2e Eugen Hristev 2021-12-13  127  	int best_diff =3D -1;
+118bf76a35bc2e Eugen Hristev 2021-12-13  128  	unsigned int i, div;
+118bf76a35bc2e Eugen Hristev 2021-12-13  129  =
 
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1354  	dev_dbg(pcdev_to_dev(pcdev),
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1355  		 "%s(vb=3D%p)\n", __func__, vb);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1356  	pxa_buffer_cleanup(buf);
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1357  }
-6f28435d1c1570 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmi=
-k 2016-09-06  1358  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  130  	for (i =3D 0; i < clk_hw_get=
+_num_parents(hw); i++) {
+118bf76a35bc2e Eugen Hristev 2021-12-13  131  		struct clk_hw *parent;
+118bf76a35bc2e Eugen Hristev 2021-12-13  132  		unsigned long parent_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  133  =
 
+118bf76a35bc2e Eugen Hristev 2021-12-13  134  		parent =3D clk_hw_get_paren=
+t_by_index(hw, i);
+118bf76a35bc2e Eugen Hristev 2021-12-13  135  		if (!parent)
+118bf76a35bc2e Eugen Hristev 2021-12-13  136  			continue;
+118bf76a35bc2e Eugen Hristev 2021-12-13  137  =
 
-:::::: The code at line 1352 was first introduced by commit
-:::::: 6f28435d1c157073e4257a5dca7695103f32ba02 [media] media: platform: px=
-a_camera: trivial move of functions
+118bf76a35bc2e Eugen Hristev 2021-12-13  138  		parent_rate =3D clk_hw_get_=
+rate(parent);
+118bf76a35bc2e Eugen Hristev 2021-12-13  139  		if (!parent_rate)
+118bf76a35bc2e Eugen Hristev 2021-12-13  140  			continue;
+118bf76a35bc2e Eugen Hristev 2021-12-13  141  =
 
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+118bf76a35bc2e Eugen Hristev 2021-12-13  142  		for (div =3D 1; div < ISC_C=
+LK_MAX_DIV + 2; div++) {
+118bf76a35bc2e Eugen Hristev 2021-12-13  143  			unsigned long rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  144  			int diff;
+118bf76a35bc2e Eugen Hristev 2021-12-13  145  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  146  			rate =3D DIV_ROUND_CLOSEST=
+(parent_rate, div);
+118bf76a35bc2e Eugen Hristev 2021-12-13  147  			diff =3D abs(req->rate - r=
+ate);
+118bf76a35bc2e Eugen Hristev 2021-12-13  148  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  149  			if (best_diff < 0 || best_=
+diff > diff) {
+118bf76a35bc2e Eugen Hristev 2021-12-13  150  				best_rate =3D rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  151  				best_diff =3D diff;
+118bf76a35bc2e Eugen Hristev 2021-12-13  152  				req->best_parent_rate =3D=
+ parent_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  153  				req->best_parent_hw =3D p=
+arent;
+118bf76a35bc2e Eugen Hristev 2021-12-13  154  			}
+118bf76a35bc2e Eugen Hristev 2021-12-13  155  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  156  			if (!best_diff || rate < r=
+eq->rate)
+118bf76a35bc2e Eugen Hristev 2021-12-13  157  				break;
+118bf76a35bc2e Eugen Hristev 2021-12-13  158  		}
+118bf76a35bc2e Eugen Hristev 2021-12-13  159  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  160  		if (!best_diff)
+118bf76a35bc2e Eugen Hristev 2021-12-13  161  			break;
+118bf76a35bc2e Eugen Hristev 2021-12-13  162  	}
+118bf76a35bc2e Eugen Hristev 2021-12-13  163  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  164  	dev_dbg(isc_clk->dev,
+118bf76a35bc2e Eugen Hristev 2021-12-13  165  		"ISC CLK: %s, best_rate =3D=
+ %ld, parent clk: %s @ %ld\n",
+118bf76a35bc2e Eugen Hristev 2021-12-13  166  		__func__, best_rate,
+118bf76a35bc2e Eugen Hristev 2021-12-13  167  		__clk_get_name((req->best_p=
+arent_hw)->clk),
+118bf76a35bc2e Eugen Hristev 2021-12-13  168  		req->best_parent_rate);
+118bf76a35bc2e Eugen Hristev 2021-12-13  169  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  170  	if (best_rate < 0)
+118bf76a35bc2e Eugen Hristev 2021-12-13  171  		return best_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  172  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  173  	req->rate =3D best_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  174  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  175  	return 0;
+118bf76a35bc2e Eugen Hristev 2021-12-13  176  }
+118bf76a35bc2e Eugen Hristev 2021-12-13  177  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7009564957620391467==--
+--===============5802442193902082290==--
 
