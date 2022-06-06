@@ -1,107 +1,66 @@
-Content-Type: multipart/mixed; boundary="===============7951393154263890004=="
+Content-Type: multipart/mixed; boundary="===============8008112420289311089=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
-Date: Tue, 07 Jun 2022 01:41:33 +0800
-Message-ID: <202206070100.W2bd4UfY-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: Fwd: [zen:5.17/ksm 3/5] mm/madvise.c:1529 __do_sys_pmadv_ksm() error: uninitialized symbol 'ret'.
+Date: Mon, 06 Jun 2022 17:17:39 +0300
+Message-ID: <20220606141738.GO2168@kadam>
+In-Reply-To: <10132072.nUPlyArG6x@natalenko.name>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7951393154263890004==
+--===============8008112420289311089==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
+On Mon, Jun 06, 2022 at 04:10:42PM +0200, Oleksandr Natalenko wrote:
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1504  	for (vma =3D mm->=
+mmap; vma; vma =3D vma->vm_next) {
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1505  		switch (behaviou=
+r) {
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1506  			case MADV_MERGE=
+ABLE:
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1507  				ret =3D ksm_ma=
+dvise_merge(vma->vm_mm, vma, &vma->vm_flags);
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1508  				break;
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1509  			case MADV_UNMER=
+GEABLE:
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1510  				ret =3D ksm_ma=
+dvise_unmerge(vma, vma->vm_start, vma->vm_end, &vma->vm_flags);
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1511  				break;
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1512  			default:
+> > 930581120060a7 Oleksandr Natalenko 2021-10-04  1513  				/* look, ma, n=
+o brain */
+> > =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl=
-' for 'wsr' instruction"
-:::::: =
+> > ret =3D -EINVAL;?
+> =
 
+> I think whatever performs this check and complains is overly cautious bec=
+ause given 1464=E2=80=931472 `switch` block the value of `behaviour` cannot=
+ be anything else other than `MADV_MERGEABLE | MADV_UNMERGEABLE`, hence `de=
+fault` branch will never be taken.
+> =
 
-CC: kbuild-all(a)lists.01.org
-BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Max Filippov <jcmvbkbc@gmail.com>
+> I can add this "fix", of course, to shut up the checker, but it doesn't m=
+ake much sense from my PoV.
+> =
 
-Hi Max,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
-commit: c20e1117d9aa22c558646a1060ddd1dd042fb107 xtensa: add kernel ABI sel=
-ection to Kconfig
-date:   3 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 3 months ago
-config: xtensa-randconfig-s031-20220605 (https://download.01.org/0day-ci/ar=
-chive/20220607/202206070100.W2bd4UfY-lkp(a)intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-18-g56afb504-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dc20e1117d9aa22c558646a1060ddd1dd042fb107
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c20e1117d9aa22c558646a1060ddd1dd042fb107
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dx=
-tensa SHELL=3D/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
->> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomc=
-tl' for 'wsr' instruction
-   arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value 0x00000001a0003=
-000 truncated to 0x00000000a0003000
+> A more reasonable thing to do is to remove `default` branch. Is this some=
+thing that can be tested by the test suite?
+> =
 
 
-vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
+You know what, I should have just looked at the date and ignored this.
+My own test system does not complain about this, because it has cross
+function information so it knows that default is impossible.
 
-e85e335f8ff615f Max Filippov 2012-12-03  42  =
+My bad.  Just ignore this.  To human reading this code it's pretty clear
+from the comments that the default path is just about silencing static
+checker warnings.
 
-e85e335f8ff615f Max Filippov 2012-12-03  43  	.align  4
-e85e335f8ff615f Max Filippov 2012-12-03  44  _SetupMMU:
-09af39f649dac66 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
-e85e335f8ff615f Max Filippov 2012-12-03  46  	movi	a0, 0
-e85e335f8ff615f Max Filippov 2012-12-03  47  	wsr	a0, windowbase
-e85e335f8ff615f Max Filippov 2012-12-03  48  	rsync
-e85e335f8ff615f Max Filippov 2012-12-03  49  	movi	a0, 1
-e85e335f8ff615f Max Filippov 2012-12-03  50  	wsr	a0, windowstart
-e85e335f8ff615f Max Filippov 2012-12-03  51  	rsync
-09af39f649dac66 Max Filippov 2021-07-26  52  #endif
-e85e335f8ff615f Max Filippov 2012-12-03  53  	movi	a0, 0x1F
-e85e335f8ff615f Max Filippov 2012-12-03  54  	wsr	a0, ps
-e85e335f8ff615f Max Filippov 2012-12-03  55  	rsync
-e85e335f8ff615f Max Filippov 2012-12-03  56  =
+regards,
+dan carpenter
 
-e85e335f8ff615f Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTEN=
-SA_MMU_INSIDE_VMLINUX
-e85e335f8ff615f Max Filippov 2012-12-03 @58  	initialize_mmu
-
-:::::: The code at line 58 was first introduced by commit
-:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
-
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Chris Zankel <chris@zankel.net>
-
--- =
-
-0-DAY CI Kernel Test Service
-https://01.org/lkp
---===============7951393154263890004==--
+--===============8008112420289311089==--
 
