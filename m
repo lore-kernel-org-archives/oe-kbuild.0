@@ -1,402 +1,193 @@
-Content-Type: multipart/mixed; boundary="===============5802442193902082290=="
+Content-Type: multipart/mixed; boundary="===============3451340897966605671=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 06 Jun 2022 10:41:21 +0800
-Message-ID: <202206060942.zOb08XEA-lkp@intel.com>
+Subject: drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface() warn: passing a valid pointer to 'PTR_ERR'
+Date: Mon, 06 Jun 2022 09:19:43 +0800
+Message-ID: <202206060933.pOhn51Vu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5802442193902082290==
+--===============3451340897966605671==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_c=
-lk' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]"
-:::::: =
-
-
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Jacopo Mondi <jacopo+renesas@jmondi.org>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d717180e7f9775d468f415c10a4a474640146001
-commit: 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0 media: atmel: atmel-isc: s=
-plit the clock code into separate source file
-date:   4 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20220605 (https://download.01.org/0day-ci/archi=
-ve/20220606/202206060942.zOb08XEA-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0a90b7=
-2c432d70aae035727ece4ba80ce820f381)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: d8701fe890ecbab239086e7053d62d0f08587d7c mtd: rawnand: renesas: Add=
+ new NAND controller driver
+date:   6 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 months ago
+config: microblaze-randconfig-m031-20220605 (https://download.01.org/0day-c=
+i/archive/20220606/202206060933.pOhn51Vu-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface()=
+ warn: passing a valid pointer to 'PTR_ERR'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           if (WARN_ON(!sysdev->dma_mask))
-                        ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/usb/host/xhci-plat.c:200:6: note: Assuming the condition is false
-           if (usb_disabled())
-               ^~~~~~~~~~~~~~
-   drivers/usb/host/xhci-plat.c:200:2: note: Taking false branch
-           if (usb_disabled())
-           ^
-   drivers/usb/host/xhci-plat.c:206:6: note: Assuming 'irq' is >=3D 0
-           if (irq < 0)
-               ^~~~~~~
-   drivers/usb/host/xhci-plat.c:206:2: note: Taking false branch
-           if (irq < 0)
-           ^
-   drivers/usb/host/xhci-plat.c:216:28: note: Assuming pointer value is null
-           for (sysdev =3D &pdev->dev; sysdev; sysdev =3D sysdev->parent) {
-                                     ^~~~~~
-   drivers/usb/host/xhci-plat.c:216:2: note: Loop condition is false. Execu=
-tion continues on line 226
-           for (sysdev =3D &pdev->dev; sysdev; sysdev =3D sysdev->parent) {
-           ^
-   drivers/usb/host/xhci-plat.c:226:7: note: 'sysdev' is null
-           if (!sysdev)
-                ^~~~~~
-   drivers/usb/host/xhci-plat.c:226:2: note: Taking true branch
-           if (!sysdev)
-           ^
-   drivers/usb/host/xhci-plat.c:227:3: note: Null pointer value stored to '=
-sysdev'
-                   sysdev =3D &pdev->dev;
-                   ^~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-plat.c:230:15: note: Access to field 'dma_mask' re=
-sults in a dereference of a null pointer (loaded from variable 'sysdev')
-           if (WARN_ON(!sysdev->dma_mask))
-                        ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:479:2: warning: Valu=
-e stored to 'cif_id' is never read [clang-analyzer-deadcode.DeadStores]
-           cif_id =3D rkisp1_read(rkisp1, RKISP1_CIF_VI_ID);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:479:2: note: Value s=
-tored to 'cif_id' is never read
-           cif_id =3D rkisp1_read(rkisp1, RKISP1_CIF_VI_ID);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:910:24: warning: Val=
-ue stored to 'rkisp1' during its initialization is never read [clang-analyz=
-er-deadcode.DeadStores]
-           struct rkisp1_device *rkisp1 =3D
-                                 ^~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:910:24: note: Value =
-stored to 'rkisp1' during its initialization is never read
-           struct rkisp1_device *rkisp1 =3D
-                                 ^~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
->> drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stor=
-ed to 'isc_clk' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           struct isc_clk *isc_clk =3D to_isc_clk(hw);
-                           ^~~~~~~
-   drivers/media/platform/atmel/atmel-isc-clk.c:125:18: note: Value stored =
-to 'isc_clk' during its initialization is never read
-           struct isc_clk *isc_clk =3D to_isc_clk(hw);
-                           ^~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   sound/core/device.c:237:2: warning: Use of memory after it is freed [cla=
-ng-analyzer-unix.Malloc]
-           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
-           ^
-   include/linux/list.h:773:7: note: expanded from macro 'list_for_each_ent=
-ry_safe_reverse'
-                   n =3D list_prev_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:572:2: note: expanded from macro 'list_prev_entry'
-           list_entry((pos)->member.prev, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   sound/core/device.c:226:17: note: Assuming 'card' is non-null
-           if (snd_BUG_ON(!card))
-                          ^
-   include/sound/core.h:401:35: note: expanded from macro 'snd_BUG_ON'
-   #define snd_BUG_ON(cond)        WARN_ON((cond))
-                                            ^~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   sound/core/device.c:226:2: note: Taking false branch
-           if (snd_BUG_ON(!card))
-           ^
-   sound/core/device.c:228:2: note: Loop condition is true.  Entering loop =
-body
-           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
-) {
-           ^
-   include/linux/list.h:772:2: note: expanded from macro 'list_for_each_ent=
-ry_safe_reverse'
-           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
-  \
-           ^
-   sound/core/device.c:230:7: note: Assuming field 'type' is not equal to S=
-NDRV_DEV_CONTROL
-                   if (dev->type =3D=3D SNDRV_DEV_CONTROL ||
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/device.c:230:7: note: Left side of '||' is false
-   sound/core/device.c:231:7: note: Assuming field 'type' is not equal to S=
-NDRV_DEV_LOWLEVEL
-                       dev->type =3D=3D SNDRV_DEV_LOWLEVEL)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/device.c:230:3: note: Taking false branch
-                   if (dev->type =3D=3D SNDRV_DEV_CONTROL ||
-                   ^
-   sound/core/device.c:233:3: note: Calling '__snd_device_free'
-                   __snd_device_free(dev);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   sound/core/device.c:75:6: note: Assuming field 'dev_free' is null
-           if (dev->ops->dev_free) {
-               ^~~~~~~~~~~~~~~~~~
-   sound/core/device.c:75:2: note: Taking false branch
-           if (dev->ops->dev_free) {
-           ^
-   sound/core/device.c:79:2: note: Memory is released
-           kfree(dev);
-           ^~~~~~~~~~
-   sound/core/device.c:233:3: note: Returning; memory was released via 1st =
-parameter
-                   __snd_device_free(dev);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   sound/core/device.c:228:2: note: Loop condition is false. Execution cont=
-inues on line 237
-           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
-) {
-           ^
-   include/linux/list.h:772:2: note: expanded from macro 'list_for_each_ent=
-ry_safe_reverse'
-           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
-  \
-           ^
-   sound/core/device.c:237:2: note: Use of memory after it is freed
-           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
-           ^
-   include/linux/list.h:773:7: note: expanded from macro 'list_for_each_ent=
-ry_safe_reverse'
-                   n =3D list_prev_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:572:2: note: expanded from macro 'list_prev_entry'
-           list_entry((pos)->member.prev, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   4 warnings generated.
-   drivers/gpu/drm/bridge/tc358767.c:678:2: warning: Value stored to 'revis=
-ion' is never read [clang-analyzer-deadcode.DeadStores]
-           revision =3D tc->link.dpcd[DP_DPCD_REV];
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:678:2: note: Value stored to 'revision=
-' is never read
-           revision =3D tc->link.dpcd[DP_DPCD_REV];
+vim +/PTR_ERR +900 drivers/mtd/nand/raw/renesas-nand-controller.c
 
-vim +/isc_clk +125 drivers/media/platform/atmel/atmel-isc-clk.c
+d8701fe890ecba Miquel Raynal 2021-12-17  888  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  121  =
+d8701fe890ecba Miquel Raynal 2021-12-17  889  static int rnandc_setup_inter=
+face(struct nand_chip *chip, int chipnr,
+d8701fe890ecba Miquel Raynal 2021-12-17  890  				  const struct nand_inter=
+face_config *conf)
+d8701fe890ecba Miquel Raynal 2021-12-17  891  {
+d8701fe890ecba Miquel Raynal 2021-12-17  892  	struct rnand_chip *rnand =3D=
+ to_rnand(chip);
+d8701fe890ecba Miquel Raynal 2021-12-17  893  	struct rnandc *rnandc =3D to=
+_rnandc(chip->controller);
+d8701fe890ecba Miquel Raynal 2021-12-17  894  	unsigned int period_ns =3D 1=
+000000000 / clk_get_rate(rnandc->eclk);
+d8701fe890ecba Miquel Raynal 2021-12-17  895  	const struct nand_sdr_timing=
+s *sdr;
+d8701fe890ecba Miquel Raynal 2021-12-17  896  	unsigned int cyc, cle, ale, =
+bef_dly, ca_to_data;
+d8701fe890ecba Miquel Raynal 2021-12-17  897  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  122  static int isc_clk_determine_=
-rate(struct clk_hw *hw,
-118bf76a35bc2e Eugen Hristev 2021-12-13  123  				  struct clk_rate_request=
- *req)
-118bf76a35bc2e Eugen Hristev 2021-12-13  124  {
-118bf76a35bc2e Eugen Hristev 2021-12-13 @125  	struct isc_clk *isc_clk =3D =
-to_isc_clk(hw);
-118bf76a35bc2e Eugen Hristev 2021-12-13  126  	long best_rate =3D -EINVAL;
-118bf76a35bc2e Eugen Hristev 2021-12-13  127  	int best_diff =3D -1;
-118bf76a35bc2e Eugen Hristev 2021-12-13  128  	unsigned int i, div;
-118bf76a35bc2e Eugen Hristev 2021-12-13  129  =
+d8701fe890ecba Miquel Raynal 2021-12-17  898  	sdr =3D nand_get_sdr_timings=
+(conf);
+d8701fe890ecba Miquel Raynal 2021-12-17  899  	if (IS_ERR(sdr))
+d8701fe890ecba Miquel Raynal 2021-12-17 @900  		return PTR_ERR(sdr);
+d8701fe890ecba Miquel Raynal 2021-12-17  901  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  130  	for (i =3D 0; i < clk_hw_get=
-_num_parents(hw); i++) {
-118bf76a35bc2e Eugen Hristev 2021-12-13  131  		struct clk_hw *parent;
-118bf76a35bc2e Eugen Hristev 2021-12-13  132  		unsigned long parent_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  133  =
+d8701fe890ecba Miquel Raynal 2021-12-17  902  	if (sdr->tRP_min !=3D sdr->t=
+WP_min || sdr->tREH_min !=3D sdr->tWH_min) {
+d8701fe890ecba Miquel Raynal 2021-12-17  903  		dev_err(rnandc->dev, "Read =
+and write hold times must be identical\n");
+d8701fe890ecba Miquel Raynal 2021-12-17  904  		return -EINVAL;
+d8701fe890ecba Miquel Raynal 2021-12-17  905  	}
+d8701fe890ecba Miquel Raynal 2021-12-17  906  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  134  		parent =3D clk_hw_get_paren=
-t_by_index(hw, i);
-118bf76a35bc2e Eugen Hristev 2021-12-13  135  		if (!parent)
-118bf76a35bc2e Eugen Hristev 2021-12-13  136  			continue;
-118bf76a35bc2e Eugen Hristev 2021-12-13  137  =
+d8701fe890ecba Miquel Raynal 2021-12-17  907  	if (chipnr < 0)
+d8701fe890ecba Miquel Raynal 2021-12-17  908  		return 0;
+d8701fe890ecba Miquel Raynal 2021-12-17  909  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  138  		parent_rate =3D clk_hw_get_=
-rate(parent);
-118bf76a35bc2e Eugen Hristev 2021-12-13  139  		if (!parent_rate)
-118bf76a35bc2e Eugen Hristev 2021-12-13  140  			continue;
-118bf76a35bc2e Eugen Hristev 2021-12-13  141  =
+d8701fe890ecba Miquel Raynal 2021-12-17  910  	rnand->timings_asyn =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  911  		TIMINGS_ASYN_TRWP(TO_CYCLES=
+64(sdr->tRP_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  912  		TIMINGS_ASYN_TRWH(TO_CYCLES=
+64(sdr->tREH_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  913  	rnand->tim_seq0 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  914  		TIM_SEQ0_TCCS(TO_CYCLES64(s=
+dr->tCCS_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  915  		TIM_SEQ0_TADL(TO_CYCLES64(s=
+dr->tADL_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  916  		TIM_SEQ0_TRHW(TO_CYCLES64(s=
+dr->tRHW_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  917  		TIM_SEQ0_TWHR(TO_CYCLES64(s=
+dr->tWHR_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  918  	rnand->tim_seq1 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  919  		TIM_SEQ1_TWB(TO_CYCLES64(sd=
+r->tWB_max, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  920  		TIM_SEQ1_TRR(TO_CYCLES64(sd=
+r->tRR_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  921  		TIM_SEQ1_TWW(TO_CYCLES64(sd=
+r->tWW_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  922  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  142  		for (div =3D 1; div < ISC_C=
-LK_MAX_DIV + 2; div++) {
-118bf76a35bc2e Eugen Hristev 2021-12-13  143  			unsigned long rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  144  			int diff;
-118bf76a35bc2e Eugen Hristev 2021-12-13  145  =
+d8701fe890ecba Miquel Raynal 2021-12-17  923  	cyc =3D sdr->tDS_min + sdr->=
+tDH_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  924  	cle =3D sdr->tCLH_min + sdr-=
+>tCLS_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  925  	ale =3D sdr->tALH_min + sdr-=
+>tALS_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  926  	bef_dly =3D sdr->tWB_max - s=
+dr->tDH_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  927  	ca_to_data =3D sdr->tWHR_min=
+ + sdr->tREA_max - sdr->tDH_min;
+d8701fe890ecba Miquel Raynal 2021-12-17  928  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  146  			rate =3D DIV_ROUND_CLOSEST=
-(parent_rate, div);
-118bf76a35bc2e Eugen Hristev 2021-12-13  147  			diff =3D abs(req->rate - r=
-ate);
-118bf76a35bc2e Eugen Hristev 2021-12-13  148  =
+d8701fe890ecba Miquel Raynal 2021-12-17  929  	/*
+d8701fe890ecba Miquel Raynal 2021-12-17  930  	 * D0 =3D CMD -> ADDR =3D tC=
+LH + tCLS - 1 cycle
+d8701fe890ecba Miquel Raynal 2021-12-17  931  	 * D1 =3D CMD -> CMD =3D tCL=
+H + tCLS - 1 cycle
+d8701fe890ecba Miquel Raynal 2021-12-17  932  	 * D2 =3D CMD -> DLY =3D tWB=
+ - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  933  	 * D3 =3D CMD -> DATA =3D tW=
+HR + tREA - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  934  	 */
+d8701fe890ecba Miquel Raynal 2021-12-17  935  	rnand->tim_gen_seq0 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  936  		TIM_GEN_SEQ0_D0(TO_CYCLES64=
+(cle - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  937  		TIM_GEN_SEQ0_D1(TO_CYCLES64=
+(cle - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  938  		TIM_GEN_SEQ0_D2(TO_CYCLES64=
+(bef_dly, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  939  		TIM_GEN_SEQ0_D3(TO_CYCLES64=
+(ca_to_data, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  940  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  149  			if (best_diff < 0 || best_=
-diff > diff) {
-118bf76a35bc2e Eugen Hristev 2021-12-13  150  				best_rate =3D rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  151  				best_diff =3D diff;
-118bf76a35bc2e Eugen Hristev 2021-12-13  152  				req->best_parent_rate =3D=
- parent_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  153  				req->best_parent_hw =3D p=
-arent;
-118bf76a35bc2e Eugen Hristev 2021-12-13  154  			}
-118bf76a35bc2e Eugen Hristev 2021-12-13  155  =
+d8701fe890ecba Miquel Raynal 2021-12-17  941  	/*
+d8701fe890ecba Miquel Raynal 2021-12-17  942  	 * D4 =3D ADDR -> CMD =3D tA=
+LH + tALS - 1 cyle
+d8701fe890ecba Miquel Raynal 2021-12-17  943  	 * D5 =3D ADDR -> ADDR =3D t=
+ALH + tALS - 1 cyle
+d8701fe890ecba Miquel Raynal 2021-12-17  944  	 * D6 =3D ADDR -> DLY =3D tW=
+B - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  945  	 * D7 =3D ADDR -> DATA =3D t=
+WHR + tREA - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  946  	 */
+d8701fe890ecba Miquel Raynal 2021-12-17  947  	rnand->tim_gen_seq1 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  948  		TIM_GEN_SEQ1_D4(TO_CYCLES64=
+(ale - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  949  		TIM_GEN_SEQ1_D5(TO_CYCLES64=
+(ale - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  950  		TIM_GEN_SEQ1_D6(TO_CYCLES64=
+(bef_dly, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  951  		TIM_GEN_SEQ1_D7(TO_CYCLES64=
+(ca_to_data, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  952  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  156  			if (!best_diff || rate < r=
-eq->rate)
-118bf76a35bc2e Eugen Hristev 2021-12-13  157  				break;
-118bf76a35bc2e Eugen Hristev 2021-12-13  158  		}
-118bf76a35bc2e Eugen Hristev 2021-12-13  159  =
+d8701fe890ecba Miquel Raynal 2021-12-17  953  	/*
+d8701fe890ecba Miquel Raynal 2021-12-17  954  	 * D8 =3D DLY -> DATA =3D tR=
+R + tREA
+d8701fe890ecba Miquel Raynal 2021-12-17  955  	 * D9 =3D DLY -> CMD =3D tRR
+d8701fe890ecba Miquel Raynal 2021-12-17  956  	 * D10 =3D DATA -> CMD =3D t=
+CLH + tCLS - 1 cycle
+d8701fe890ecba Miquel Raynal 2021-12-17  957  	 * D11 =3D DATA -> DLY =3D t=
+WB - tDH
+d8701fe890ecba Miquel Raynal 2021-12-17  958  	 */
+d8701fe890ecba Miquel Raynal 2021-12-17  959  	rnand->tim_gen_seq2 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  960  		TIM_GEN_SEQ2_D8(TO_CYCLES64=
+(sdr->tRR_min + sdr->tREA_max, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  961  		TIM_GEN_SEQ2_D9(TO_CYCLES64=
+(sdr->tRR_min, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  962  		TIM_GEN_SEQ2_D10(TO_CYCLES6=
+4(cle - cyc, period_ns)) |
+d8701fe890ecba Miquel Raynal 2021-12-17  963  		TIM_GEN_SEQ2_D11(TO_CYCLES6=
+4(bef_dly, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  964  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  160  		if (!best_diff)
-118bf76a35bc2e Eugen Hristev 2021-12-13  161  			break;
-118bf76a35bc2e Eugen Hristev 2021-12-13  162  	}
-118bf76a35bc2e Eugen Hristev 2021-12-13  163  =
+d8701fe890ecba Miquel Raynal 2021-12-17  965  	/* D12 =3D DATA -> END =3D t=
+CLH - tDH */
+d8701fe890ecba Miquel Raynal 2021-12-17  966  	rnand->tim_gen_seq3 =3D
+d8701fe890ecba Miquel Raynal 2021-12-17  967  		TIM_GEN_SEQ3_D12(TO_CYCLES6=
+4(sdr->tCLH_min - sdr->tDH_min, period_ns));
+d8701fe890ecba Miquel Raynal 2021-12-17  968  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  164  	dev_dbg(isc_clk->dev,
-118bf76a35bc2e Eugen Hristev 2021-12-13  165  		"ISC CLK: %s, best_rate =3D=
- %ld, parent clk: %s @ %ld\n",
-118bf76a35bc2e Eugen Hristev 2021-12-13  166  		__func__, best_rate,
-118bf76a35bc2e Eugen Hristev 2021-12-13  167  		__clk_get_name((req->best_p=
-arent_hw)->clk),
-118bf76a35bc2e Eugen Hristev 2021-12-13  168  		req->best_parent_rate);
-118bf76a35bc2e Eugen Hristev 2021-12-13  169  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  170  	if (best_rate < 0)
-118bf76a35bc2e Eugen Hristev 2021-12-13  171  		return best_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  172  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  173  	req->rate =3D best_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  174  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  175  	return 0;
-118bf76a35bc2e Eugen Hristev 2021-12-13  176  }
-118bf76a35bc2e Eugen Hristev 2021-12-13  177  =
+d8701fe890ecba Miquel Raynal 2021-12-17  969  	return 0;
+d8701fe890ecba Miquel Raynal 2021-12-17  970  }
+d8701fe890ecba Miquel Raynal 2021-12-17  971  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5802442193902082290==--
+--===============3451340897966605671==--
 
