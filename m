@@ -1,55 +1,56 @@
-Content-Type: multipart/mixed; boundary="===============8582183705976591485=="
+Content-Type: multipart/mixed; boundary="===============0997478665592491224=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.15 19/20] drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length argume...
-Date: Tue, 07 Jun 2022 02:53:28 +0800
-Message-ID: <202206070248.UrTRDiWK-lkp@intel.com>
+Subject: drivers/media/platform/marvell/mmp-driver.c:63:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 07 Jun 2022 01:52:48 +0800
+Message-ID: <202206070112.xlhQuKfX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8582183705976591485==
+--===============0997478665592491224==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: warning: Call to function 'spr=
-intf' is insecure as it does not provide bounding of the memory buffer or s=
-ecurity checks introduced in the C11 standard. Replace with analogous funct=
-ions that support length arguments or provides boundary checks such as 'spr=
-intf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUns=
-afeBufferHandling]"
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+edia/platform/marvell/mmp-driver.c:63:17: warning: Value stored to 'dev' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.15
-head:   44903c0c1ee49d44947df527a7f61fbeeef42835
-commit: 70bcd67fdf72dd1c1346a53e0bc977ef78f65761 [19/20] UPSTREAM: Kbuild: =
-move to -std=3Dgnu11
-:::::: branch date: 4 hours ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-c002-20220531 (https://download.01.org/0day-ci/archi=
-ve/20220607/202206070248.UrTRDiWK-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b364c7=
-6683f8ef241025a9556300778c07b590c2)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
+commit: dc7bbea90075b57772e9a28043061bf71d96f06f media: platform: rename ma=
+rvell-ccic/ to marvell/
+date:   3 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220605 (https://download.01.org/0day-ci/archi=
+ve/20220607/202206070112.xlhQuKfX-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0a90b7=
+2c432d70aae035727ece4ba80ce820f381)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        git remote add chrome-os https://chromium.googlesource.com/chromium=
-os/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.15
-        git checkout 70bcd67fdf72dd1c1346a53e0bc977ef78f65761
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Ddc7bbea90075b57772e9a28043061bf71d96f06f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout dc7bbea90075b57772e9a28043061bf71d96f06f
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -60,498 +61,504 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:267:3: note: Taking true branch
-                   if (!lvds->remote)
-                   ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:268:4: note:  Execution continues o=
-n line 243
-                           continue;
-                           ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:243:2: note: Loop condition is fals=
-e. Execution continues on line 278
-           for (i =3D 0; i < info->num_lvds; ++i) {
+   Suppressed 1 warnings (1 with check filters).
+   4 warnings generated.
+   drivers/media/usb/cx231xx/cx231xx-417.c:728:12: warning: The left operan=
+d of '!=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperator=
+Result]
+           if (value !=3D 0x12345678) {
+               ~~~~~ ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:719:6: note: 'value' declared wi=
+thout an initial value
+           u32 value, flag, retval =3D 0;
+               ^~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:722:2: note: Assuming 'v4l_debug=
+' is < 3
+           dprintk(3, "%s: command(0x%X) =3D %s\n", __func__, command,
            ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:280:6: note: Assuming 'ret' is >=3D=
+   drivers/media/usb/cx231xx/cx231xx-417.c:78:7: note: expanded from macro =
+'dprintk'
+                   if (v4l_debug >=3D level) \
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:722:2: note: Taking false branch
+           dprintk(3, "%s: command(0x%X) =3D %s\n", __func__, command,
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:78:3: note: expanded from macro =
+'dprintk'
+                   if (v4l_debug >=3D level) \
+                   ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:722:2: note: Loop condition is f=
+alse.  Exiting loop
+           dprintk(3, "%s: command(0x%X) =3D %s\n", __func__, command,
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:77:2: note: expanded from macro =
+'dprintk'
+           do {                            \
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:727:2: note: Calling 'mc417_memo=
+ry_read'
+           mc417_memory_read(dev, dev->cx23417_mailbox - 4, &value);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:560:6: note: Assuming 'ret' is <=
  0
            if (ret < 0)
                ^~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:280:2: note: Taking false branch
+   drivers/media/usb/cx231xx/cx231xx-417.c:560:2: note: Taking true branch
            if (ret < 0)
            ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:284:35: note: Assuming 'lvds_node' =
-is not equal to null
-           for_each_child_of_node(soc_node, lvds_node) {
-                                            ^
-   include/linux/of.h:1301:48: note: expanded from macro 'for_each_child_of=
-_node'
-           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
- \
-                                                         ^~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:284:2: note: Loop condition is true=
-.  Entering loop body
-           for_each_child_of_node(soc_node, lvds_node) {
-           ^
-   include/linux/of.h:1301:2: note: expanded from macro 'for_each_child_of_=
-node'
-           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
- \
-           ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:287:7: note: Assuming the condition=
- is false
-                   if (!of_device_is_compatible(lvds_node, compatible))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:287:3: note: Taking false branch
-                   if (!of_device_is_compatible(lvds_node, compatible))
+   drivers/media/usb/cx231xx/cx231xx-417.c:561:3: note: Returning without w=
+riting to '*value'
+                   return ret;
                    ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:292:7: note: Assuming 'ret' is >=3D=
+   drivers/media/usb/cx231xx/cx231xx-417.c:727:2: note: Returning from 'mc4=
+17_memory_read'
+           mc417_memory_read(dev, dev->cx23417_mailbox - 4, &value);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:728:12: note: The left operand o=
+f '!=3D' is a garbage value
+           if (value !=3D 0x12345678) {
+               ~~~~~ ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:738:6: warning: Branch condition=
+ evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (flag) {
+               ^~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:719:13: note: 'flag' declared wi=
+thout an initial value
+           u32 value, flag, retval =3D 0;
+                      ^~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:722:2: note: Assuming 'v4l_debug=
+' is < 3
+           dprintk(3, "%s: command(0x%X) =3D %s\n", __func__, command,
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:78:7: note: expanded from macro =
+'dprintk'
+                   if (v4l_debug >=3D level) \
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:722:2: note: Taking false branch
+           dprintk(3, "%s: command(0x%X) =3D %s\n", __func__, command,
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:78:3: note: expanded from macro =
+'dprintk'
+                   if (v4l_debug >=3D level) \
+                   ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:722:2: note: Loop condition is f=
+alse.  Exiting loop
+           dprintk(3, "%s: command(0x%X) =3D %s\n", __func__, command,
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:77:2: note: expanded from macro =
+'dprintk'
+           do {                            \
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:728:6: note: Assuming 'value' is=
+ equal to 305419896
+           if (value !=3D 0x12345678) {
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:728:2: note: Taking false branch
+           if (value !=3D 0x12345678) {
+           ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:737:2: note: Calling 'mc417_memo=
+ry_read'
+           mc417_memory_read(dev, dev->cx23417_mailbox, &flag);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:560:6: note: Assuming 'ret' is <=
  0
-                   if (ret < 0)
-                       ^~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:292:3: note: Taking false branch
-                   if (ret < 0)
-                   ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:295:3: note: Loop condition is true=
-.  Entering loop body
-                   for (i =3D 0; i < ARRAY_SIZE(lvds_data); ++i) {
-                   ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:8: note: Assuming 'lvds_data[i]=
-.res.start' is not equal to 'res.start'
-                           if (lvds_data[i].res.start =3D=3D res.start)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:4: note: Taking false branch
-                           if (lvds_data[i].res.start =3D=3D res.start)
-                           ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:295:3: note: Loop condition is true=
-.  Entering loop body
-                   for (i =3D 0; i < ARRAY_SIZE(lvds_data); ++i) {
-                   ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:8: note: Assuming 'lvds_data[i]=
-.res.start' is equal to 'res.start'
-                           if (lvds_data[i].res.start =3D=3D res.start)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:4: note: Taking true branch
-                           if (lvds_data[i].res.start =3D=3D res.start)
-                           ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:297:5: note:  Execution continues o=
-n line 300
-                                   break;
-                                   ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:300:3: note: Taking false branch
-                   if (i =3D=3D ARRAY_SIZE(lvds_data))
-                   ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:306:8: note: Passing null pointer v=
-alue via 4th parameter 'remote'
-                                             lvds_data[i].remote);
-                                             ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:304:3: note: Calling 'rcar_du_of_lv=
-ds_patch_one'
-                   rcar_du_of_lvds_patch_one(lvds_node, &lvds_data[i].clksp=
-ec,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:138:6: note: Assuming the condition=
- is false
-           if (clk->args_count >=3D ARRAY_SIZE(value) - 1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:138:2: note: Taking false branch
-           if (clk->args_count >=3D ARRAY_SIZE(value) - 1)
-           ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:144:14: note: Assuming 'i' is >=3D =
-field 'args_count'
-           for (i =3D 0; i < clk->args_count; ++i)
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:144:2: note: Loop condition is fals=
-e. Execution continues on line 147
-           for (i =3D 0; i < clk->args_count; ++i)
-           ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:150:6: note: 'ret' is >=3D 0
            if (ret < 0)
-               ^~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:150:2: note: Taking false branch
+               ^~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:560:2: note: Taking true branch
            if (ret < 0)
            ^
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:162:13: note: Access to field 'phan=
-dle' results in a dereference of a null pointer (loaded from variable 'remo=
-te')
-           value[1] =3D cpu_to_be32(remote->phandle);
-                      ^
-   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_=
-to_be32'
-   #define cpu_to_be32 __cpu_to_be32
+   drivers/media/usb/cx231xx/cx231xx-417.c:561:3: note: Returning without w=
+riting to '*value'
+                   return ret;
+                   ^
+   drivers/media/usb/cx231xx/cx231xx-417.c:737:2: note: Returning from 'mc4=
+17_memory_read'
+           mc417_memory_read(dev, dev->cx23417_mailbox, &flag);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:738:6: note: Branch condition ev=
+aluates to a garbage value
+           if (flag) {
+               ^~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:961:2: warning: Value stored to =
+'retval' is never read [clang-analyzer-deadcode.DeadStores]
+           retval |=3D mc417_memory_read(dev, 0x900C, &value);
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-417.c:961:2: note: Value stored to 're=
+tval' is never read
+           retval |=3D mc417_memory_read(dev, 0x900C, &value);
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+>> drivers/media/platform/marvell/mmp-driver.c:63:17: warning: Value stored=
+ to 'dev' during its initialization is never read [clang-analyzer-deadcode.=
+DeadStores]
+           struct device *dev =3D &cam->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/media/platform/marvell/mmp-driver.c:63:17: note: Value stored to=
+ 'dev' during its initialization is never read
+           struct device *dev =3D &cam->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   drivers/media/platform/omap3isp/isp.c:529:17: warning: Value stored to '=
+dev' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]
+           struct device *dev =3D isp->dev;
+                          ^~~   ~~~~~~~~
+   drivers/media/platform/omap3isp/isp.c:529:17: note: Value stored to 'dev=
+' during its initialization is never read
+           struct device *dev =3D isp->dev;
+                          ^~~   ~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   drivers/media/platform/omap3isp/ispcsiphy.c:63:14: warning: The left ope=
+rand of '<<' is a garbage value [clang-analyzer-core.UndefinedBinaryOperato=
+rResult]
+           reg |=3D mode << shift;
                        ^
-   include/uapi/linux/byteorder/little_endian.h:40:43: note: expanded from =
-macro '__cpu_to_be32'
-   #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
-                                             ^         ~
-   include/uapi/linux/swab.h:115:53: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                       ^~
->> drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: warning: Call to function 's=
-printf' is insecure as it does not provide bounding of the memory buffer or=
- security checks introduced in the C11 standard. Replace with analogous fun=
-ctions that support length arguments or provides boundary checks such as 's=
-printf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrU=
-nsafeBufferHandling]
-           sprintf(compatible, "renesas,%s-lvds", soc_name);
-           ^~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: note: Call to function 'spri=
-ntf' is insecure as it does not provide bounding of the memory buffer or se=
-curity checks introduced in the C11 standard. Replace with analogous functi=
-ons that support length arguments or provides boundary checks such as 'spri=
-ntf_s' in case of C11
-           sprintf(compatible, "renesas,%s-lvds", soc_name);
-           ^~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:249:3: warning: Call to function 's=
-printf' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
-nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(name, "lvds.%u", i);
-                   ^~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_of.c:249:3: note: Call to function 'spri=
-ntf' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(name, "lvds.%u", i);
-                   ^~~~~~~
-   Suppressed 52 warnings (51 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   54 warnings generated.
-   drivers/gpu/drm/drm_sysfs.c:257:2: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, edid + off, count);
-           ^~~~~~
-   drivers/gpu/drm/drm_sysfs.c:257:2: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-           memcpy(buf, edid + off, count);
-           ^~~~~~
-   drivers/gpu/drm/drm_sysfs.c:432:2: warning: Call to function 'snprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(conn_id, ARRAY_SIZE(conn_id),
-           ^~~~~~~~
-   drivers/gpu/drm/drm_sysfs.c:432:2: note: Call to function 'snprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(conn_id, ARRAY_SIZE(conn_id),
-           ^~~~~~~~
-   drivers/gpu/drm/drm_sysfs.c:434:2: warning: Call to function 'snprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(prop_id, ARRAY_SIZE(prop_id),
-           ^~~~~~~~
-   drivers/gpu/drm/drm_sysfs.c:434:2: note: Call to function 'snprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(prop_id, ARRAY_SIZE(prop_id),
-           ^~~~~~~~
-   Suppressed 51 warnings (51 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   drivers/gpu/drm/drm_mm.c:945:27: warning: The left operand of '>' is a g=
-arbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           DRM_MM_BUG_ON(hole_start > scan->hit_start);
-                                    ^
-   include/drm/drm_mm.h:52:36: note: expanded from macro 'DRM_MM_BUG_ON'
-   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
-                                      ^~~~
-   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/gpu/drm/drm_mm.c:919:6: note: 'hole_start' declared without an i=
-nitial value
-           u64 hole_start, hole_end;
-               ^~~~~~~~~~
-   drivers/gpu/drm/drm_mm.c:921:2: note: Assuming the condition is false
-           DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
+   drivers/media/platform/omap3isp/ispcsiphy.c:264:6: note: Assuming field =
+'vdd' is not equal to NULL
+           if (phy->vdd =3D=3D NULL) {
+               ^~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:264:2: note: Taking false br=
+anch
+           if (phy->vdd =3D=3D NULL) {
            ^
-   include/drm/drm_mm.h:52:29: note: expanded from macro 'DRM_MM_BUG_ON'
-   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
-                               ^~~~~~~~~~~~
-   include/asm-generic/bug.h:65:36: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mm.c:921:2: note: Taking false branch
-           DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
+   drivers/media/platform/omap3isp/ispcsiphy.c:273:6: note: Assuming 'rval'=
+ is >=3D 0
+           if (rval < 0)
+               ^~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:273:2: note: Taking false br=
+anch
+           if (rval < 0)
            ^
-   include/drm/drm_mm.h:52:29: note: expanded from macro 'DRM_MM_BUG_ON'
-   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
-                               ^
-   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   drivers/gpu/drm/drm_mm.c:921:2: note: Loop condition is false.  Exiting =
-loop
-           DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
+   drivers/media/platform/omap3isp/ispcsiphy.c:277:6: note: Assuming 'rval'=
+ is >=3D 0
+           if (rval < 0)
+               ^~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:277:2: note: Taking false br=
+anch
+           if (rval < 0)
            ^
-   include/drm/drm_mm.h:52:29: note: expanded from macro 'DRM_MM_BUG_ON'
-   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
-                               ^
-   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   drivers/gpu/drm/drm_mm.c:923:6: note: Assuming field 'color_adjust' is n=
-on-null
-           if (!mm->color_adjust)
-               ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mm.c:923:2: note: Taking false branch
-           if (!mm->color_adjust)
+   drivers/media/platform/omap3isp/ispcsiphy.c:282:9: note: Calling 'omap3i=
+sp_csiphy_config'
+           rval =3D omap3isp_csiphy_config(phy);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:172:6: note: Assuming field =
+'interface' is not equal to ISP_INTERFACE_CCP2B_PHY1
+           if (buscfg->interface =3D=3D ISP_INTERFACE_CCP2B_PHY1
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:172:6: note: Left side of '|=
+|' is false
+   drivers/media/platform/omap3isp/ispcsiphy.c:173:9: note: Assuming field =
+'interface' is not equal to ISP_INTERFACE_CCP2B_PHY2
+               || buscfg->interface =3D=3D ISP_INTERFACE_CCP2B_PHY2) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:172:2: note: Taking false br=
+anch
+           if (buscfg->interface =3D=3D ISP_INTERFACE_CCP2B_PHY1
            ^
-   drivers/gpu/drm/drm_mm.c:931:2: note: Left side of '&&' is false
-           list_for_each_entry(hole, &mm->hole_stack, hole_stack) {
+   drivers/media/platform/omap3isp/ispcsiphy.c:181:6: note: Assuming 'num_d=
+ata_lanes' is <=3D field 'num_data_lanes'
+           if (num_data_lanes > phy->num_data_lanes)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:181:2: note: Taking false br=
+anch
+           if (num_data_lanes > phy->num_data_lanes)
            ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   drivers/media/platform/omap3isp/ispcsiphy.c:185:14: note: Assuming 'i' i=
+s >=3D 'num_data_lanes'
+           for (i =3D 0; i < num_data_lanes; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:185:2: note: Loop condition =
+is false. Execution continues on line 195
+           for (i =3D 0; i < num_data_lanes; i++) {
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   drivers/media/platform/omap3isp/ispcsiphy.c:195:6: note: Assuming field =
+'pol' is <=3D 1
+           if (lanes->clk.pol > 1 || lanes->clk.pos > 3)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:195:6: note: Left side of '|=
+|' is false
+   drivers/media/platform/omap3isp/ispcsiphy.c:195:28: note: Assuming field=
+ 'pos' is <=3D 3
+           if (lanes->clk.pol > 1 || lanes->clk.pos > 3)
+                                     ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:195:2: note: Taking false br=
+anch
+           if (lanes->clk.pol > 1 || lanes->clk.pos > 3)
+           ^
+   drivers/media/platform/omap3isp/ispcsiphy.c:198:6: note: Assuming field =
+'pos' is not equal to 0
+           if (lanes->clk.pos =3D=3D 0 || used_lanes & (1 << lanes->clk.pos=
+))
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:198:6: note: Left side of '|=
+|' is false
+   drivers/media/platform/omap3isp/ispcsiphy.c:198:2: note: Taking false br=
+anch
+           if (lanes->clk.pos =3D=3D 0 || used_lanes & (1 << lanes->clk.pos=
+))
+           ^
+   drivers/media/platform/omap3isp/ispcsiphy.c:206:2: note: Calling 'csiphy=
+_routing_cfg'
+           csiphy_routing_cfg(phy, buscfg->interface, true,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:105:6: note: Assuming field =
+'phy_type' is equal to ISP_PHY_TYPE_3630
+           if (phy->isp->phy_type =3D=3D ISP_PHY_TYPE_3630 && on)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:105:6: note: Left side of '&=
+&' is true
+   drivers/media/platform/omap3isp/ispcsiphy.c:105:49: note: 'on' is true
+           if (phy->isp->phy_type =3D=3D ISP_PHY_TYPE_3630 && on)
+                                                          ^~
+   drivers/media/platform/omap3isp/ispcsiphy.c:105:2: note: Taking true bra=
+nch
+           if (phy->isp->phy_type =3D=3D ISP_PHY_TYPE_3630 && on)
+           ^
+   drivers/media/platform/omap3isp/ispcsiphy.c:106:10: note: Calling 'csiph=
+y_routing_cfg_3630'
+                   return csiphy_routing_cfg_3630(phy, iface, ccp2_strobe);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/omap3isp/ispcsiphy.c:28:13: note: 'mode' declared=
+ without an initial value
+           u32 shift, mode;
 
-vim +231 drivers/gpu/drm/rcar-du/rcar_du_of.c
+vim +/dev +63 drivers/media/platform/marvell/mmp-driver.c
 
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  194  =
+67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Co=
+rbet       2011-06-11   49  =
 
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  195  static void __init rcar_d=
-u_of_lvds_patch(const struct of_device_id *of_ids)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  196  {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  197  	const struct rcar_du_dev=
-ice_info *info;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  198  	const struct of_device_i=
-d *match;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  199  	struct lvds_of_data lvds=
-_data[2] =3D { };
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  200  	struct device_node *lvds=
-_node;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  201  	struct device_node *soc_=
-node;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  202  	struct device_node *du_n=
-ode;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  203  	char compatible[22];
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  204  	const char *soc_name;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  205  	unsigned int i;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  206  	int ret;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  207  =
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   50  /*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   51   * calc the dphy register values
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   52   * There are three dphy registers being used.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   53   * dphy[0] - CSI2_DPHY3
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   54   * dphy[1] - CSI2_DPHY5
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   55   * dphy[2] - CSI2_DPHY6
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   56   * CSI2_DPHY3 and CSI2_DPHY6 can be set with a =
+default value
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   57   * or be calculated dynamically
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   58   */
+e81afa6f28f974 drivers/media/platform/marvell-ccic/mmp-driver.c Mauro Carva=
+lho Chehab 2018-04-05   59  static void mmpcam_calc_dphy(struct mcam_camera=
+ *mcam)
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   60  {
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   61  	struct mmp_camera *cam =3D mcam_to_cam(mcam);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   62  	struct mmp_camera_platform_data *pdata =3D cam=
+->pdev->dev.platform_data;
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  @63  	struct device *dev =3D &cam->pdev->dev;
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   64  	unsigned long tx_clk_esc;
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   65  =
 
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  208  	/* Get the DU node and e=
-xit if not present or disabled. */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  209  	du_node =3D of_find_matc=
-hing_node_and_match(NULL, of_ids, &match);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  210  	if (!du_node || !of_devi=
-ce_is_available(du_node)) {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  211  		of_node_put(du_node);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  212  		return;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  213  	}
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  214  =
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   66  	/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   67  	 * If CSI2_DPHY3 is calculated dynamically,
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   68  	 * pdata->lane_clk should be already set
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   69  	 * either in the board driver statically
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   70  	 * or in the sensor driver dynamically.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   71  	 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   72  	/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   73  	 * dphy[0] - CSI2_DPHY3:
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   74  	 *  bit 0 ~ bit 7: HS Term Enable.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   75  	 *   defines the time that the DPHY
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   76  	 *   wait before enabling the data
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   77  	 *   lane termination after detecting
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   78  	 *   that the sensor has driven the data
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   79  	 *   lanes to the LP00 bridge state.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   80  	 *   The value is calculated by:
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   81  	 *   (Max T(D_TERM_EN)/Period(DDR)) - 1
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   82  	 *  bit 8 ~ bit 15: HS_SETTLE
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   83  	 *   Time interval during which the HS
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   84  	 *   receiver shall ignore any Data Lane
+8b72c18d467fad drivers/media/platform/marvell-ccic/mmp-driver.c Mauro Carva=
+lho Chehab 2019-02-18   85  	 *   HS transitions.
+8b72c18d467fad drivers/media/platform/marvell-ccic/mmp-driver.c Mauro Carva=
+lho Chehab 2019-02-18   86  	 *   The value has been calibrated on
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   87  	 *   different boards. It seems to work well.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   88  	 *
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   89  	 *  More detail please refer
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   90  	 *  MIPI Alliance Spectification for D-PHY
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   91  	 *  document for explanation of HS-SETTLE
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   92  	 *  and D-TERM-EN.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   93  	 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   94  	switch (pdata->dphy3_algo) {
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   95  	case DPHY3_ALGO_PXA910:
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   96  		/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   97  		 * Calculate CSI2_DPHY3 algo for PXA910
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   98  		 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03   99  		pdata->dphy[0] =3D
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  100  			(((1 + (pdata->lane_clk * 80) / 1000) & 0xff=
+) << 8)
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  101  			| (1 + pdata->lane_clk * 35 / 1000);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  102  		break;
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  103  	case DPHY3_ALGO_PXA2128:
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  104  		/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  105  		 * Calculate CSI2_DPHY3 algo for PXA2128
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  106  		 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  107  		pdata->dphy[0] =3D
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  108  			(((2 + (pdata->lane_clk * 110) / 1000) & 0xf=
+f) << 8)
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  109  			| (1 + pdata->lane_clk * 35 / 1000);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  110  		break;
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  111  	default:
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  112  		/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  113  		 * Use default CSI2_DPHY3 value for PXA688/PX=
+A988
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  114  		 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  115  		dev_dbg(dev, "camera: use the default CSI2_DP=
+HY3 value\n");
+67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Co=
+rbet       2011-06-11  116  	}
+67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Co=
+rbet       2011-06-11  117  =
 
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  215  	info =3D match->data;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  216  	soc_node =3D of_get_pare=
-nt(du_node);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  217  =
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  118  	/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  119  	 * mipi_clk will never be changed, it is a fix=
+ed value on MMP
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  120  	 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  121  	if (IS_ERR(cam->mipi_clk))
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  122  		return;
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  123  =
 
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  218  	if (WARN_ON(info->num_lv=
-ds > ARRAY_SIZE(lvds_data)))
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  219  		goto done;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  220  =
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  124  	/* get the escape clk, this is hard coded */
+326f5a3fc502f9 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-11-05  125  	clk_prepare_enable(cam->mipi_clk);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  126  	tx_clk_esc =3D (clk_get_rate(cam->mipi_clk) / =
+1000000) / 12;
+326f5a3fc502f9 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-11-05  127  	clk_disable_unprepare(cam->mipi_clk);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  128  	/*
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  129  	 * dphy[2] - CSI2_DPHY6:
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  130  	 * bit 0 ~ bit 7: CK Term Enable
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  131  	 *  Time for the Clock Lane receiver to enable=
+ the HS line
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  132  	 *  termination. The value is calculated simil=
+arly with
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  133  	 *  HS Term Enable
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  134  	 * bit 8 ~ bit 15: CK Settle
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  135  	 *  Time interval during which the HS receiver=
+ shall ignore
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  136  	 *  any Clock Lane HS transitions.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  137  	 *  The value is calibrated on the boards.
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  138  	 */
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  139  	pdata->dphy[2] =3D
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  140  		((((534 * tx_clk_esc) / 2000 - 1) & 0xff) << =
+8)
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  141  		| (((38 * tx_clk_esc) / 1000 - 1) & 0xff);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  142  =
 
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  221  	/*
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  222  	 * Skip if the LVDS node=
-s already exists.
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  223  	 *
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  224  	 * The nodes are searche=
-d based on the compatible string, which we
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  225  	 * construct from the So=
-C name found in the DU compatible string. As a
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  226  	 * match has been found =
-we know the compatible string matches the
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  227  	 * expected format and c=
-an thus skip some of the string manipulation
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  228  	 * normal safety checks.
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  229  	 */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  230  	soc_name =3D strchr(matc=
-h->compatible, '-') + 1;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10 @231  	sprintf(compatible, "ren=
-esas,%s-lvds", soc_name);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  232  	lvds_node =3D of_find_co=
-mpatible_node(NULL, NULL, compatible);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  233  	if (lvds_node) {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  234  		of_node_put(lvds_node);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  235  		return;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  236  	}
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  237  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  238  	/*
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  239  	 * Parse the DU node and=
- store the register specifier, the clock
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  240  	 * specifier and the loc=
-al and remote endpoint of the LVDS link for
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  241  	 * later use.
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  242  	 */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  243  	for (i =3D 0; i < info->=
-num_lvds; ++i) {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  244  		struct lvds_of_data *lv=
-ds =3D &lvds_data[i];
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  245  		unsigned int port;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  246  		char name[7];
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  247  		int index;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  248  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  249  		sprintf(name, "lvds.%u"=
-, i);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  250  		index =3D of_property_m=
-atch_string(du_node, "clock-names", name);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  251  		if (index < 0)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  252  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  253  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  254  		ret =3D of_parse_phandl=
-e_with_args(du_node, "clocks",
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  255  						 "#clock-cells", in=
-dex,
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  256  						 &lvds->clkspec);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  257  		if (ret < 0)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  258  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  259  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  260  		port =3D info->routes[R=
-CAR_DU_OUTPUT_LVDS0 + i].port;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  261  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  262  		lvds->local =3D of_grap=
-h_get_endpoint_by_regs(du_node, port, 0);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  263  		if (!lvds->local)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  264  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  265  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  266  		lvds->remote =3D of_gra=
-ph_get_remote_endpoint(lvds->local);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  267  		if (!lvds->remote)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  268  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  269  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  270  		index =3D of_property_m=
-atch_string(du_node, "reg-names", name);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  271  		if (index < 0)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  272  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  273  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  274  		of_address_to_resource(=
-du_node, index, &lvds->res);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  275  	}
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  276  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  277  	/* Parse and apply the o=
-verlay. This will resolve phandles. */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  278  	ret =3D rcar_du_of_apply=
-_overlay(rcar_du_lvds_overlays,
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  279  				       match->compati=
-ble);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  280  	if (ret < 0)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  281  		goto done;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  282  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  283  	/* Patch the newly creat=
-ed LVDS encoder nodes. */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  284  	for_each_child_of_node(s=
-oc_node, lvds_node) {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  285  		struct resource res;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  286  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  287  		if (!of_device_is_compa=
-tible(lvds_node, compatible))
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  288  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  289  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  290  		/* Locate the lvds_data=
- entry based on the resource start. */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  291  		ret =3D of_address_to_r=
-esource(lvds_node, 0, &res);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  292  		if (ret < 0)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  293  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  294  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  295  		for (i =3D 0; i < ARRAY=
-_SIZE(lvds_data); ++i) {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  296  			if (lvds_data[i].res.s=
-tart =3D=3D res.start)
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  297  				break;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  298  		}
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  299  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  300  		if (i =3D=3D ARRAY_SIZE=
-(lvds_data))
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  301  			continue;
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  302  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  303  		/* Patch the LVDS encod=
-er. */
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  304  		rcar_du_of_lvds_patch_o=
-ne(lvds_node, &lvds_data[i].clkspec,
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  305  					  lvds_data[i].local,
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  306  					  lvds_data[i].remot=
-e);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  307  	}
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  308  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  309  done:
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  310  	for (i =3D 0; i < info->=
-num_lvds; ++i) {
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  311  		of_node_put(lvds_data[i=
-].clkspec.np);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  312  		of_node_put(lvds_data[i=
-].local);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  313  		of_node_put(lvds_data[i=
-].remote);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  314  	}
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  315  =
-
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  316  	of_node_put(soc_node);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  317  	of_node_put(du_node);
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  318  }
-81c0e3dd8292706 Laurent Pinchart 2018-01-10  319  =
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  143  	dev_dbg(dev, "camera: DPHY sets: dphy3=3D0x%x,=
+ dphy5=3D0x%x, dphy6=3D0x%x\n",
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  144  		pdata->dphy[0], pdata->dphy[1], pdata->dphy[2=
+]);
+05fed81625bf75 drivers/media/platform/marvell-ccic/mmp-driver.c Libin Yang =
+           2013-07-03  145  }
+67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Co=
+rbet       2011-06-11  146  =
 
 
-:::::: The code at line 231 was first introduced by commit
-:::::: 81c0e3dd82927064a2f56a31a0974a0d110fcdb0 drm: rcar-du: Fix legacy DT=
- to create LVDS encoder nodes
+:::::: The code at line 63 was first introduced by commit
+:::::: 05fed81625bf755cc67c5864cdfd18b69ea828d1 [media] marvell-ccic: add M=
+IPI support for marvell-ccic driver
 
-:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-:::::: CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+:::::: TO: Libin Yang <lbyang@marvell.com>
+:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8582183705976591485==--
+--===============0997478665592491224==--
 
