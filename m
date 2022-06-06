@@ -1,417 +1,557 @@
-Content-Type: multipart/mixed; boundary="===============9010005505716151551=="
+Content-Type: multipart/mixed; boundary="===============8582183705976591485=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [pdx86-platform-drivers-x86:review-hans 11/13] sound/soc/codecs/da7213.c:1842:30: warning: dereference of NULL '*(struct da7213_priv *)MEM[(const struct device *)_63].driver_data.pdata' [CWE-476]
-Date: Sun, 12 Jun 2022 16:52:36 +0800
-Message-ID: <202206121656.pX56Ucv1-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 19/20] drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length argume...
+Date: Tue, 07 Jun 2022 02:53:28 +0800
+Message-ID: <202206070248.UrTRDiWK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9010005505716151551==
+--===============8582183705976591485==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- sound/soc/codecs/da7213.c:1842:30: warning: dereference of NULL '*(struct =
-da7213_priv *)MEM[(const struct device *)_63].driver_data.pdata' [CWE-476] =
-[-Wanalyzer-null-dereference]"
+ drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: warning: Call to function 'spr=
+intf' is insecure as it does not provide bounding of the memory buffer or s=
+ecurity checks introduced in the C11 standard. Replace with analogous funct=
+ions that support length arguments or provides boundary checks such as 'spr=
+intf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUns=
+afeBufferHandling]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: linux-kernel(a)vger.kernel.org
-TO: Hans de Goede <hdegoede@redhat.com>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-driv=
-ers-x86.git review-hans
-head:   8c99ffaa7c4b0b81e7bf18933d530dddc9ff0f85
-commit: 7e74b733f6d3905bdba30bcdb0084118b02c5803 [11/13] platform/x86: Drop=
- the PMC_ATOM Kconfig option
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-612/202206121656.pX56Ucv1-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.15
+head:   44903c0c1ee49d44947df527a7f61fbeeef42835
+commit: 70bcd67fdf72dd1c1346a53e0bc977ef78f65761 [19/20] UPSTREAM: Kbuild: =
+move to -std=3Dgnu11
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-c002-20220531 (https://download.01.org/0day-ci/archi=
+ve/20220607/202206070248.UrTRDiWK-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b364c7=
+6683f8ef241025a9556300778c07b590c2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-dr=
-ivers-x86.git/commit/?id=3D7e74b733f6d3905bdba30bcdb0084118b02c5803
-        git remote add pdx86-platform-drivers-x86 https://git.kernel.org/pu=
-b/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-        git fetch --no-tags pdx86-platform-drivers-x86 review-hans
-        git checkout 7e74b733f6d3905bdba30bcdb0084118b02c5803
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        git remote add chrome-os https://chromium.googlesource.com/chromium=
+os/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 70bcd67fdf72dd1c1346a53e0bc977ef78f65761
         # save the config file
-         ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/codecs/da7213.c: In function 'da7213_probe':
->> sound/soc/codecs/da7213.c:1842:30: warning: dereference of NULL '*(struc=
-t da7213_priv *)MEM[(const struct device *)_63].driver_data.pdata' [CWE-476=
-] [-Wanalyzer-null-dereference]
-    1842 |                 switch (pdata->micbias1_lvl) {
-         |                         ~~~~~^~~~~~~~~~~~~~
-     'da7213_probe': events 1-4
-       |
-       | 1766 | static int da7213_probe(struct snd_soc_component *component)
-       |      |            ^~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'da7213_probe'
-       |......
-       | 1833 |         if (!da7213->pdata)
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'true' branch...
-       | 1834 |                 da7213->pdata =3D da7213_fw_to_pdata(compon=
-ent);
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |                                 |
-       |      |                                 (3) ...to here
-       |      |                                 (4) calling 'da7213_fw_to_p=
-data' from 'da7213_probe'
-       |
-       +--> 'da7213_fw_to_pdata': events 5-6
-              |
-              | 1726 |         *da7213_fw_to_pdata(struct snd_soc_component=
- *component)
-              |      |          ^~~~~~~~~~~~~~~~~~
-              |      |          |
-              |      |          (5) entry to 'da7213_fw_to_pdata'
-              |......
-              | 1734 |         if (!pdata)
-              |      |            ~
-              |      |            |
-              |      |            (6) following 'true' branch...
-              |
-            'da7213_fw_to_pdata': event 7
-              |
-              |cc1:
-              | (7): ...to here
-              |
-       <------+
-       |
-     'da7213_probe': events 8-13
-       |
-       | 1834 |                 da7213->pdata =3D da7213_fw_to_pdata(compon=
-ent);
-       |      |                 ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |                               | |
-       |      |                               | (8) returning to 'da7213_pr=
-obe' from 'da7213_fw_to_pdata'
-       |      |                               (9) '<unknown>' is NULL
-       |      |                               (10) '<unknown>' is NULL
-       |......
-       | 1837 |         if (da7213->pdata) {
-       |      |            ~                     =
+clang-analyzer warnings: (new ones prefixed by >>)
+                       ^~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:267:3: note: Taking true branch
+                   if (!lvds->remote)
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:268:4: note:  Execution continues o=
+n line 243
+                           continue;
+                           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:243:2: note: Loop condition is fals=
+e. Execution continues on line 278
+           for (i =3D 0; i < info->num_lvds; ++i) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:280:6: note: Assuming 'ret' is >=3D=
+ 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:280:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:284:35: note: Assuming 'lvds_node' =
+is not equal to null
+           for_each_child_of_node(soc_node, lvds_node) {
+                                            ^
+   include/linux/of.h:1301:48: note: expanded from macro 'for_each_child_of=
+_node'
+           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
+ \
+                                                         ^~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:284:2: note: Loop condition is true=
+.  Entering loop body
+           for_each_child_of_node(soc_node, lvds_node) {
+           ^
+   include/linux/of.h:1301:2: note: expanded from macro 'for_each_child_of_=
+node'
+           for (child =3D of_get_next_child(parent, NULL); child !=3D NULL;=
+ \
+           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:287:7: note: Assuming the condition=
+ is false
+                   if (!of_device_is_compatible(lvds_node, compatible))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:287:3: note: Taking false branch
+                   if (!of_device_is_compatible(lvds_node, compatible))
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:292:7: note: Assuming 'ret' is >=3D=
+ 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:292:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:295:3: note: Loop condition is true=
+.  Entering loop body
+                   for (i =3D 0; i < ARRAY_SIZE(lvds_data); ++i) {
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:8: note: Assuming 'lvds_data[i]=
+.res.start' is not equal to 'res.start'
+                           if (lvds_data[i].res.start =3D=3D res.start)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:4: note: Taking false branch
+                           if (lvds_data[i].res.start =3D=3D res.start)
+                           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:295:3: note: Loop condition is true=
+.  Entering loop body
+                   for (i =3D 0; i < ARRAY_SIZE(lvds_data); ++i) {
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:8: note: Assuming 'lvds_data[i]=
+.res.start' is equal to 'res.start'
+                           if (lvds_data[i].res.start =3D=3D res.start)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:296:4: note: Taking true branch
+                           if (lvds_data[i].res.start =3D=3D res.start)
+                           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:297:5: note:  Execution continues o=
+n line 300
+                                   break;
+                                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:300:3: note: Taking false branch
+                   if (i =3D=3D ARRAY_SIZE(lvds_data))
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:306:8: note: Passing null pointer v=
+alue via 4th parameter 'remote'
+                                             lvds_data[i].remote);
+                                             ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:304:3: note: Calling 'rcar_du_of_lv=
+ds_patch_one'
+                   rcar_du_of_lvds_patch_one(lvds_node, &lvds_data[i].clksp=
+ec,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:138:6: note: Assuming the condition=
+ is false
+           if (clk->args_count >=3D ARRAY_SIZE(value) - 1)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:138:2: note: Taking false branch
+           if (clk->args_count >=3D ARRAY_SIZE(value) - 1)
+           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:144:14: note: Assuming 'i' is >=3D =
+field 'args_count'
+           for (i =3D 0; i < clk->args_count; ++i)
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:144:2: note: Loop condition is fals=
+e. Execution continues on line 147
+           for (i =3D 0; i < clk->args_count; ++i)
+           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:150:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:150:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:162:13: note: Access to field 'phan=
+dle' results in a dereference of a null pointer (loaded from variable 'remo=
+te')
+           value[1] =3D cpu_to_be32(remote->phandle);
+                      ^
+   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_=
+to_be32'
+   #define cpu_to_be32 __cpu_to_be32
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:40:43: note: expanded from =
+macro '__cpu_to_be32'
+   #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
+                                             ^         ~
+   include/uapi/linux/swab.h:115:53: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                       ^~
+>> drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: warning: Call to function 's=
+printf' is insecure as it does not provide bounding of the memory buffer or=
+ security checks introduced in the C11 standard. Replace with analogous fun=
+ctions that support length arguments or provides boundary checks such as 's=
+printf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrU=
+nsafeBufferHandling]
+           sprintf(compatible, "renesas,%s-lvds", soc_name);
+           ^~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:231:2: note: Call to function 'spri=
+ntf' is insecure as it does not provide bounding of the memory buffer or se=
+curity checks introduced in the C11 standard. Replace with analogous functi=
+ons that support length arguments or provides boundary checks such as 'spri=
+ntf_s' in case of C11
+           sprintf(compatible, "renesas,%s-lvds", soc_name);
+           ^~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:249:3: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(name, "lvds.%u", i);
+                   ^~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_of.c:249:3: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(name, "lvds.%u", i);
+                   ^~~~~~~
+   Suppressed 52 warnings (51 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   drivers/gpu/drm/drm_sysfs.c:257:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buf, edid + off, count);
+           ^~~~~~
+   drivers/gpu/drm/drm_sysfs.c:257:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(buf, edid + off, count);
+           ^~~~~~
+   drivers/gpu/drm/drm_sysfs.c:432:2: warning: Call to function 'snprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(conn_id, ARRAY_SIZE(conn_id),
+           ^~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:432:2: note: Call to function 'snprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(conn_id, ARRAY_SIZE(conn_id),
+           ^~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:434:2: warning: Call to function 'snprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(prop_id, ARRAY_SIZE(prop_id),
+           ^~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:434:2: note: Call to function 'snprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(prop_id, ARRAY_SIZE(prop_id),
+           ^~~~~~~~
+   Suppressed 51 warnings (51 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   32 warnings generated.
+   drivers/gpu/drm/drm_mm.c:945:27: warning: The left operand of '>' is a g=
+arbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           DRM_MM_BUG_ON(hole_start > scan->hit_start);
+                                    ^
+   include/drm/drm_mm.h:52:36: note: expanded from macro 'DRM_MM_BUG_ON'
+   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
+                                      ^~~~
+   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/gpu/drm/drm_mm.c:919:6: note: 'hole_start' declared without an i=
+nitial value
+           u64 hole_start, hole_end;
+               ^~~~~~~~~~
+   drivers/gpu/drm/drm_mm.c:921:2: note: Assuming the condition is false
+           DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
+           ^
+   include/drm/drm_mm.h:52:29: note: expanded from macro 'DRM_MM_BUG_ON'
+   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
+                               ^~~~~~~~~~~~
+   include/asm-generic/bug.h:65:36: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                      ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_mm.c:921:2: note: Taking false branch
+           DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
+           ^
+   include/drm/drm_mm.h:52:29: note: expanded from macro 'DRM_MM_BUG_ON'
+   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
+                               ^
+   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   drivers/gpu/drm/drm_mm.c:921:2: note: Loop condition is false.  Exiting =
+loop
+           DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
+           ^
+   include/drm/drm_mm.h:52:29: note: expanded from macro 'DRM_MM_BUG_ON'
+   #define DRM_MM_BUG_ON(expr) BUG_ON(expr)
+                               ^
+   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   drivers/gpu/drm/drm_mm.c:923:6: note: Assuming field 'color_adjust' is n=
+on-null
+           if (!mm->color_adjust)
+               ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_mm.c:923:2: note: Taking false branch
+           if (!mm->color_adjust)
+           ^
+   drivers/gpu/drm/drm_mm.c:931:2: note: Left side of '&&' is false
+           list_for_each_entry(hole, &mm->hole_stack, hole_stack) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
 
-       |      |            |
-       |      |            (11) following 'true' branch...
-       |......
-       | 1842 |                 switch (pdata->micbias1_lvl) {
-       |      |                         ~~~~~~~~~~~~~~~~~~~
-       |      |                              |
-       |      |                              (12) ...to here
-       |      |                              (13) dereference of NULL '*(st=
-ruct da7213_priv *)MEM[(const struct device *)_63].driver_data.pdata'
-       |
+vim +231 drivers/gpu/drm/rcar-du/rcar_du_of.c
 
-vim +1842 sound/soc/codecs/da7213.c
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  194  =
 
-e90996a3ea224f Adam Thomson      2015-10-07  1765  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  195  static void __init rcar_d=
+u_of_lvds_patch(const struct of_device_id *of_ids)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  196  {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  197  	const struct rcar_du_dev=
+ice_info *info;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  198  	const struct of_device_i=
+d *match;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  199  	struct lvds_of_data lvds=
+_data[2] =3D { };
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  200  	struct device_node *lvds=
+_node;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  201  	struct device_node *soc_=
+node;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  202  	struct device_node *du_n=
+ode;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  203  	char compatible[22];
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  204  	const char *soc_name;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  205  	unsigned int i;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  206  	int ret;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  207  =
 
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1766  static int da7213_probe(=
-struct snd_soc_component *component)
-ef5c2eba241259 Adam Thomson      2013-02-14  1767  {
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1768  	struct da7213_priv *da7=
-213 =3D snd_soc_component_get_drvdata(component);
-ef5c2eba241259 Adam Thomson      2013-02-14  1769  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  208  	/* Get the DU node and e=
+xit if not present or disabled. */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  209  	du_node =3D of_find_matc=
+hing_node_and_match(NULL, of_ids, &match);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  210  	if (!du_node || !of_devi=
+ce_is_available(du_node)) {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  211  		of_node_put(du_node);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  212  		return;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  213  	}
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  214  =
 
-b2a378816d0f67 Sebastian Reichel 2020-05-11  1770  	pm_runtime_get_sync(com=
-ponent->dev);
-b2a378816d0f67 Sebastian Reichel 2020-05-11  1771  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  215  	info =3D match->data;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  216  	soc_node =3D of_get_pare=
+nt(du_node);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  217  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1772  	/* Default to using ALC=
- auto offset calibration mode. */
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1773  	snd_soc_component_updat=
-e_bits(component, DA7213_ALC_CTRL1,
-ef5c2eba241259 Adam Thomson      2013-02-14  1774  			    DA7213_ALC_CALIB_=
-MODE_MAN, 0);
-ef5c2eba241259 Adam Thomson      2013-02-14  1775  	da7213->alc_calib_auto =
-=3D true;
-ef5c2eba241259 Adam Thomson      2013-02-14  1776  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  218  	if (WARN_ON(info->num_lv=
+ds > ARRAY_SIZE(lvds_data)))
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  219  		goto done;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  220  =
 
-7e28fd469624fc Adam Thomson      2016-05-10  1777  	/* Default PC counter t=
-o free-running */
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1778  	snd_soc_component_updat=
-e_bits(component, DA7213_PC_COUNT, DA7213_PC_FREERUN_MASK,
-7e28fd469624fc Adam Thomson      2016-05-10  1779  			    DA7213_PC_FREERUN=
-_MASK);
-7e28fd469624fc Adam Thomson      2016-05-10  1780  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  221  	/*
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  222  	 * Skip if the LVDS node=
+s already exists.
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  223  	 *
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  224  	 * The nodes are searche=
+d based on the compatible string, which we
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  225  	 * construct from the So=
+C name found in the DU compatible string. As a
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  226  	 * match has been found =
+we know the compatible string matches the
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  227  	 * expected format and c=
+an thus skip some of the string manipulation
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  228  	 * normal safety checks.
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  229  	 */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  230  	soc_name =3D strchr(matc=
+h->compatible, '-') + 1;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10 @231  	sprintf(compatible, "ren=
+esas,%s-lvds", soc_name);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  232  	lvds_node =3D of_find_co=
+mpatible_node(NULL, NULL, compatible);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  233  	if (lvds_node) {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  234  		of_node_put(lvds_node);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  235  		return;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  236  	}
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  237  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1781  	/* Enable all Gain Ramp=
-s */
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1782  	snd_soc_component_updat=
-e_bits(component, DA7213_AUX_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1783  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1784  	snd_soc_component_updat=
-e_bits(component, DA7213_AUX_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1785  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1786  	snd_soc_component_updat=
-e_bits(component, DA7213_MIXIN_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1787  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1788  	snd_soc_component_updat=
-e_bits(component, DA7213_MIXIN_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1789  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1790  	snd_soc_component_updat=
-e_bits(component, DA7213_ADC_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1791  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1792  	snd_soc_component_updat=
-e_bits(component, DA7213_ADC_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1793  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1794  	snd_soc_component_updat=
-e_bits(component, DA7213_DAC_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1795  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1796  	snd_soc_component_updat=
-e_bits(component, DA7213_DAC_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1797  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1798  	snd_soc_component_updat=
-e_bits(component, DA7213_HP_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1799  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1800  	snd_soc_component_updat=
-e_bits(component, DA7213_HP_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1801  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1802  	snd_soc_component_updat=
-e_bits(component, DA7213_LINE_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1803  			    DA7213_GAIN_RAMP_=
-EN, DA7213_GAIN_RAMP_EN);
-ef5c2eba241259 Adam Thomson      2013-02-14  1804  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  238  	/*
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  239  	 * Parse the DU node and=
+ store the register specifier, the clock
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  240  	 * specifier and the loc=
+al and remote endpoint of the LVDS link for
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  241  	 * later use.
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  242  	 */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  243  	for (i =3D 0; i < info->=
+num_lvds; ++i) {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  244  		struct lvds_of_data *lv=
+ds =3D &lvds_data[i];
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  245  		unsigned int port;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  246  		char name[7];
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  247  		int index;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  248  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1805  	/*
-ef5c2eba241259 Adam Thomson      2013-02-14  1806  	 * There are two separa=
-te control bits for input and output mixers as
-ef5c2eba241259 Adam Thomson      2013-02-14  1807  	 * well as headphone an=
-d line outs.
-ef5c2eba241259 Adam Thomson      2013-02-14  1808  	 * One to enable corres=
-ponding amplifier and other to enable its
-ef5c2eba241259 Adam Thomson      2013-02-14  1809  	 * output. As amplifier=
- bits are related to power control, they are
-ef5c2eba241259 Adam Thomson      2013-02-14  1810  	 * being managed by DAP=
-M while other (non power related) bits are
-ef5c2eba241259 Adam Thomson      2013-02-14  1811  	 * enabled here
-ef5c2eba241259 Adam Thomson      2013-02-14  1812  	 */
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1813  	snd_soc_component_updat=
-e_bits(component, DA7213_MIXIN_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1814  			    DA7213_MIXIN_MIX_=
-EN, DA7213_MIXIN_MIX_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1815  	snd_soc_component_updat=
-e_bits(component, DA7213_MIXIN_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1816  			    DA7213_MIXIN_MIX_=
-EN, DA7213_MIXIN_MIX_EN);
-ef5c2eba241259 Adam Thomson      2013-02-14  1817  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  249  		sprintf(name, "lvds.%u"=
+, i);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  250  		index =3D of_property_m=
+atch_string(du_node, "clock-names", name);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  251  		if (index < 0)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  252  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  253  =
 
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1818  	snd_soc_component_updat=
-e_bits(component, DA7213_MIXOUT_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1819  			    DA7213_MIXOUT_MIX=
-_EN, DA7213_MIXOUT_MIX_EN);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1820  	snd_soc_component_updat=
-e_bits(component, DA7213_MIXOUT_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1821  			    DA7213_MIXOUT_MIX=
-_EN, DA7213_MIXOUT_MIX_EN);
-ef5c2eba241259 Adam Thomson      2013-02-14  1822  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  254  		ret =3D of_parse_phandl=
+e_with_args(du_node, "clocks",
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  255  						 "#clock-cells", in=
+dex,
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  256  						 &lvds->clkspec);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  257  		if (ret < 0)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  258  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  259  =
 
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1823  	snd_soc_component_updat=
-e_bits(component, DA7213_HP_L_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1824  			    DA7213_HP_AMP_OE,=
- DA7213_HP_AMP_OE);
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1825  	snd_soc_component_updat=
-e_bits(component, DA7213_HP_R_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1826  			    DA7213_HP_AMP_OE,=
- DA7213_HP_AMP_OE);
-ef5c2eba241259 Adam Thomson      2013-02-14  1827  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  260  		port =3D info->routes[R=
+CAR_DU_OUTPUT_LVDS0 + i].port;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  261  =
 
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1828  	snd_soc_component_updat=
-e_bits(component, DA7213_LINE_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1829  			    DA7213_LINE_AMP_O=
-E, DA7213_LINE_AMP_OE);
-ef5c2eba241259 Adam Thomson      2013-02-14  1830  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  262  		lvds->local =3D of_grap=
+h_get_endpoint_by_regs(du_node, port, 0);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  263  		if (!lvds->local)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  264  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  265  =
 
-e90996a3ea224f Adam Thomson      2015-10-07  1831  	/* Handle DT/Platform d=
-ata */
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1832  	da7213->pdata =3D dev_g=
-et_platdata(component->dev);
-0e54153b668571 Adam Thomson      2017-05-19  1833  	if (!da7213->pdata)
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1834  		da7213->pdata =3D da72=
-13_fw_to_pdata(component);
-e90996a3ea224f Adam Thomson      2015-10-07  1835  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  266  		lvds->remote =3D of_gra=
+ph_get_remote_endpoint(lvds->local);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  267  		if (!lvds->remote)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  268  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  269  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1836  	/* Set platform data va=
-lues */
-ef5c2eba241259 Adam Thomson      2013-02-14  1837  	if (da7213->pdata) {
-e90996a3ea224f Adam Thomson      2015-10-07  1838  		struct da7213_platform=
-_data *pdata =3D da7213->pdata;
-ef5c2eba241259 Adam Thomson      2013-02-14  1839  		u8 micbias_lvl =3D 0, =
-dmic_cfg =3D 0;
-ef5c2eba241259 Adam Thomson      2013-02-14  1840  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  270  		index =3D of_property_m=
+atch_string(du_node, "reg-names", name);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  271  		if (index < 0)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  272  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  273  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1841  		/* Set Mic Bias voltag=
-es */
-ef5c2eba241259 Adam Thomson      2013-02-14 @1842  		switch (pdata->micbias=
-1_lvl) {
-ef5c2eba241259 Adam Thomson      2013-02-14  1843  		case DA7213_MICBIAS_1_=
-6V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1844  		case DA7213_MICBIAS_2_=
-2V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1845  		case DA7213_MICBIAS_2_=
-5V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1846  		case DA7213_MICBIAS_3_=
-0V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1847  			micbias_lvl |=3D (pda=
-ta->micbias1_lvl <<
-ef5c2eba241259 Adam Thomson      2013-02-14  1848  					DA7213_MICBIAS1_LEV=
-EL_SHIFT);
-ef5c2eba241259 Adam Thomson      2013-02-14  1849  			break;
-ef5c2eba241259 Adam Thomson      2013-02-14  1850  		}
-ef5c2eba241259 Adam Thomson      2013-02-14  1851  		switch (pdata->micbias=
-2_lvl) {
-ef5c2eba241259 Adam Thomson      2013-02-14  1852  		case DA7213_MICBIAS_1_=
-6V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1853  		case DA7213_MICBIAS_2_=
-2V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1854  		case DA7213_MICBIAS_2_=
-5V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1855  		case DA7213_MICBIAS_3_=
-0V:
-ef5c2eba241259 Adam Thomson      2013-02-14  1856  			micbias_lvl |=3D (pda=
-ta->micbias2_lvl <<
-ef5c2eba241259 Adam Thomson      2013-02-14  1857  					 DA7213_MICBIAS2_LE=
-VEL_SHIFT);
-ef5c2eba241259 Adam Thomson      2013-02-14  1858  			break;
-ef5c2eba241259 Adam Thomson      2013-02-14  1859  		}
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1860  		snd_soc_component_upda=
-te_bits(component, DA7213_MICBIAS_CTRL,
-ef5c2eba241259 Adam Thomson      2013-02-14  1861  				    DA7213_MICBIAS1_=
-LEVEL_MASK |
-ef5c2eba241259 Adam Thomson      2013-02-14  1862  				    DA7213_MICBIAS2_=
-LEVEL_MASK, micbias_lvl);
-ef5c2eba241259 Adam Thomson      2013-02-14  1863  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  274  		of_address_to_resource(=
+du_node, index, &lvds->res);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  275  	}
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  276  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1864  		/* Set DMIC configurat=
-ion */
-ef5c2eba241259 Adam Thomson      2013-02-14  1865  		switch (pdata->dmic_da=
-ta_sel) {
-ef5c2eba241259 Adam Thomson      2013-02-14  1866  		case DA7213_DMIC_DATA_=
-LFALL_RRISE:
-ef5c2eba241259 Adam Thomson      2013-02-14  1867  		case DA7213_DMIC_DATA_=
-LRISE_RFALL:
-ef5c2eba241259 Adam Thomson      2013-02-14  1868  			dmic_cfg |=3D (pdata-=
->dmic_data_sel <<
-ef5c2eba241259 Adam Thomson      2013-02-14  1869  				     DA7213_DMIC_DAT=
-A_SEL_SHIFT);
-ef5c2eba241259 Adam Thomson      2013-02-14  1870  			break;
-ef5c2eba241259 Adam Thomson      2013-02-14  1871  		}
-61559af111e417 Axel Lin          2013-05-09  1872  		switch (pdata->dmic_sa=
-mplephase) {
-ef5c2eba241259 Adam Thomson      2013-02-14  1873  		case DA7213_DMIC_SAMPL=
-E_ON_CLKEDGE:
-ef5c2eba241259 Adam Thomson      2013-02-14  1874  		case DA7213_DMIC_SAMPL=
-E_BETWEEN_CLKEDGE:
-61559af111e417 Axel Lin          2013-05-09  1875  			dmic_cfg |=3D (pdata-=
->dmic_samplephase <<
-ef5c2eba241259 Adam Thomson      2013-02-14  1876  				     DA7213_DMIC_SAM=
-PLEPHASE_SHIFT);
-ef5c2eba241259 Adam Thomson      2013-02-14  1877  			break;
-ef5c2eba241259 Adam Thomson      2013-02-14  1878  		}
-61559af111e417 Axel Lin          2013-05-09  1879  		switch (pdata->dmic_cl=
-k_rate) {
-ef5c2eba241259 Adam Thomson      2013-02-14  1880  		case DA7213_DMIC_CLK_3=
-_0MHZ:
-ef5c2eba241259 Adam Thomson      2013-02-14  1881  		case DA7213_DMIC_CLK_1=
-_5MHZ:
-61559af111e417 Axel Lin          2013-05-09  1882  			dmic_cfg |=3D (pdata-=
->dmic_clk_rate <<
-ef5c2eba241259 Adam Thomson      2013-02-14  1883  				     DA7213_DMIC_CLK=
-_RATE_SHIFT);
-ef5c2eba241259 Adam Thomson      2013-02-14  1884  			break;
-ef5c2eba241259 Adam Thomson      2013-02-14  1885  		}
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1886  		snd_soc_component_upda=
-te_bits(component, DA7213_MIC_CONFIG,
-ef5c2eba241259 Adam Thomson      2013-02-14  1887  				    DA7213_DMIC_DATA=
-_SEL_MASK |
-ef5c2eba241259 Adam Thomson      2013-02-14  1888  				    DA7213_DMIC_SAMP=
-LEPHASE_MASK |
-ef5c2eba241259 Adam Thomson      2013-02-14  1889  				    DA7213_DMIC_CLK_=
-RATE_MASK, dmic_cfg);
-6e7c4443186994 Adam Thomson      2015-10-07  1890  	}
-ef5c2eba241259 Adam Thomson      2013-02-14  1891  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  277  	/* Parse and apply the o=
+verlay. This will resolve phandles. */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  278  	ret =3D rcar_du_of_apply=
+_overlay(rcar_du_lvds_overlays,
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  279  				       match->compati=
+ble);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  280  	if (ret < 0)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  281  		goto done;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  282  =
 
-b2a378816d0f67 Sebastian Reichel 2020-05-11  1892  	pm_runtime_put_sync(com=
-ponent->dev);
-b2a378816d0f67 Sebastian Reichel 2020-05-11  1893  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  283  	/* Patch the newly creat=
+ed LVDS encoder nodes. */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  284  	for_each_child_of_node(s=
+oc_node, lvds_node) {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  285  		struct resource res;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  286  =
 
-6e7c4443186994 Adam Thomson      2015-10-07  1894  	/* Check if MCLK provid=
-ed */
-2918d9ccc46a40 Kuninori Morimoto 2018-01-29  1895  	da7213->mclk =3D devm_c=
-lk_get(component->dev, "mclk");
-6e7c4443186994 Adam Thomson      2015-10-07  1896  	if (IS_ERR(da7213->mclk=
-)) {
-6e7c4443186994 Adam Thomson      2015-10-07  1897  		if (PTR_ERR(da7213->mc=
-lk) !=3D -ENOENT)
-6e7c4443186994 Adam Thomson      2015-10-07  1898  			return PTR_ERR(da7213=
-->mclk);
-6e7c4443186994 Adam Thomson      2015-10-07  1899  		else
-6e7c4443186994 Adam Thomson      2015-10-07  1900  			da7213->mclk =3D NULL;
-5146b6a92c1194 Sebastian Reichel 2020-06-26  1901  	} else {
-5146b6a92c1194 Sebastian Reichel 2020-06-26  1902  		/* Do automatic PLL ha=
-ndling assuming fixed clock until
-5146b6a92c1194 Sebastian Reichel 2020-06-26  1903  		 * set_pll() has been =
-called. This makes the codec usable
-5146b6a92c1194 Sebastian Reichel 2020-06-26  1904  		 * with the simple-aud=
-io-card driver. */
-5146b6a92c1194 Sebastian Reichel 2020-06-26  1905  		da7213->fixed_clk_auto=
-_pll =3D true;
-ef5c2eba241259 Adam Thomson      2013-02-14  1906  	}
-e90996a3ea224f Adam Thomson      2015-10-07  1907  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  287  		if (!of_device_is_compa=
+tible(lvds_node, compatible))
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  288  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  289  =
 
-ef5c2eba241259 Adam Thomson      2013-02-14  1908  	return 0;
-ef5c2eba241259 Adam Thomson      2013-02-14  1909  }
-ef5c2eba241259 Adam Thomson      2013-02-14  1910  =
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  290  		/* Locate the lvds_data=
+ entry based on the resource start. */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  291  		ret =3D of_address_to_r=
+esource(lvds_node, 0, &res);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  292  		if (ret < 0)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  293  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  294  =
+
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  295  		for (i =3D 0; i < ARRAY=
+_SIZE(lvds_data); ++i) {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  296  			if (lvds_data[i].res.s=
+tart =3D=3D res.start)
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  297  				break;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  298  		}
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  299  =
+
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  300  		if (i =3D=3D ARRAY_SIZE=
+(lvds_data))
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  301  			continue;
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  302  =
+
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  303  		/* Patch the LVDS encod=
+er. */
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  304  		rcar_du_of_lvds_patch_o=
+ne(lvds_node, &lvds_data[i].clkspec,
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  305  					  lvds_data[i].local,
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  306  					  lvds_data[i].remot=
+e);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  307  	}
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  308  =
+
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  309  done:
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  310  	for (i =3D 0; i < info->=
+num_lvds; ++i) {
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  311  		of_node_put(lvds_data[i=
+].clkspec.np);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  312  		of_node_put(lvds_data[i=
+].local);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  313  		of_node_put(lvds_data[i=
+].remote);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  314  	}
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  315  =
+
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  316  	of_node_put(soc_node);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  317  	of_node_put(du_node);
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  318  }
+81c0e3dd8292706 Laurent Pinchart 2018-01-10  319  =
 
 
-:::::: The code at line 1842 was first introduced by commit
-:::::: ef5c2eba2412596f1a022c11caf74428bffd9abe ASoC: codecs: Add da7213 co=
-dec
+:::::: The code at line 231 was first introduced by commit
+:::::: 81c0e3dd82927064a2f56a31a0974a0d110fcdb0 drm: rcar-du: Fix legacy DT=
+ to create LVDS encoder nodes
 
-:::::: TO: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+:::::: CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9010005505716151551==--
+--===============8582183705976591485==--
 
