@@ -1,326 +1,646 @@
-Content-Type: multipart/mixed; boundary="===============0939554391163449620=="
+Content-Type: multipart/mixed; boundary="===============0267522430301847987=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/boot/compressed/misc.c:156:49: warning: Subtracting pointers that point to different objects [comparePointers]
-Date: Mon, 06 Jun 2022 18:44:36 +0800
-Message-ID: <202206061859.9Qpl05sl-lkp@intel.com>
+Subject: net/ipv4/tcp_bpf.c:169:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Mon, 06 Jun 2022 18:04:13 +0800
+Message-ID: <202206061721.4OMtsMZI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0939554391163449620==
+--===============0267522430301847987==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/arm/boot/compressed/misc.c:156:49: warning: Subtracting pointers that=
- point to different objects [comparePointers]"
+:::::: Manual check reason: "low confidence static check warning: net/ipv4/=
+tcp_bpf.c:169:2: warning: Dereference of null pointer [clang-analyzer-core.=
+NullDereference]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-
-Hi Arnd,
-
-First bad commit (maybe !=3D root cause):
+TO: Cong Wang <cong.wang@bytedance.com>
+CC: Daniel Borkmann <daniel@iogearbox.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
-commit: 424953cf3c6657f1e67e1a2c5d6e3bb518ea4e9a qcom_scm: hide Kconfig sym=
-bol
-date:   8 months ago
+commit: 9f2470fbc4cb4583c080bb729a998933ba61aca4 skmsg: Improve udp_bpf_rec=
+vmsg() accuracy
+date:   12 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 8 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 424953cf3c6657f1e67e1a2c5d6e3bb518ea4e9a
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+:::::: commit date: 12 months ago
+config: s390-randconfig-c005-20220605 (https://download.01.org/0day-ci/arch=
+ive/20220606/202206061721.4OMtsMZI-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0a90b7=
+2c432d70aae035727ece4ba80ce820f381)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9f2470fbc4cb4583c080bb729a998933ba61aca4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9f2470fbc4cb4583c080bb729a998933ba61aca4
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+                   flags |=3D TIMER_OF_IRQ;
+                   ^
+   drivers/clocksource/timer-of.c:191:3: note: Value stored to 'flags' is n=
+ever read
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (5 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (5 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (5 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/clocksource/sh_cmt.c:90:8: warning: Excessive padding in 'struct=
+ sh_cmt_channel' (291 padding bytes, where 35 is optimal). =
 
->> arch/arm/boot/compressed/misc.c:156:49: warning: Subtracting pointers th=
-at point to different objects [comparePointers]
-    ret =3D do_decompress(input_data, input_data_end - input_data,
-                                                   ^
-   arch/arm/boot/compressed/misc.c:104:13: note: Variable declared here.
-   extern char input_data_end[];
+   Optimal fields order: =
+
+   ced, =
+
+   cmt, =
+
+   iostart, =
+
+   ioctrl, =
+
+   flags, =
+
+   total_cycles, =
+
+   cs, =
+
+   index, =
+
+   hwidx, =
+
+   timer_bit, =
+
+   match_value, =
+
+   next_match_value, =
+
+   max_match_value, =
+
+   lock, =
+
+   cs_enabled, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct sh_cmt_channel {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_cmt.c:90:8: note: Excessive padding in 'struct sh=
+_cmt_channel' (291 padding bytes, where 35 is optimal). Optimal fields orde=
+r: ced, cmt, iostart, ioctrl, flags, total_cycles, cs, index, hwidx, timer_=
+bit, match_value, next_match_value, max_match_value, lock, cs_enabled, cons=
+ider reordering the fields or adding explicit padding members
+   struct sh_cmt_channel {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/clocksource/sh_tmu.c:38:8: warning: Excessive padding in 'struct=
+ sh_tmu_channel' (323 padding bytes, where 67 is optimal). =
+
+   Optimal fields order: =
+
+   ced, =
+
+   tmu, =
+
+   base, =
+
+   periodic, =
+
+   cs, =
+
+   index, =
+
+   irq, =
+
+   enable_count, =
+
+   cs_enabled, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct sh_tmu_channel {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/clocksource/sh_tmu.c:38:8: note: Excessive padding in 'struct sh=
+_tmu_channel' (323 padding bytes, where 67 is optimal). Optimal fields orde=
+r: ced, tmu, base, periodic, cs, index, irq, enable_count, cs_enabled, cons=
+ider reordering the fields or adding explicit padding members
+   struct sh_tmu_channel {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   include/linux/uaccess.h:229:2: warning: Dereference of null pointer [cla=
+ng-analyzer-core.NullDereference]
+           current->pagefault_disabled++;
+           ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/mmc/host/tifm_sd.c:213:27: note: Calling 'kmap_atomic'
+           unsigned char *src_buf =3D kmap_atomic(src) + src_off;
+                                    ^~~~~~~~~~~~~~~~
+   include/linux/highmem-internal.h:182:2: note: Loop condition is false.  =
+Exiting loop
+           preempt_disable();
+           ^
+   include/linux/preempt.h:175:27: note: expanded from macro 'preempt_disab=
+le'
+   #define preempt_disable() \
+                             ^
+   include/linux/highmem-internal.h:183:2: note: Calling 'pagefault_disable'
+           pagefault_disable();
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:246:2: note: Calling 'pagefault_disabled_inc'
+           pagefault_disabled_inc();
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:229:2: note: Dereference of null pointer
+           current->pagefault_disabled++;
+           ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   27 warnings generated.
+>> net/ipv4/tcp_bpf.c:169:2: warning: Dereference of null pointer [clang-an=
+alyzer-core.NullDereference]
+           DEFINE_WAIT_FUNC(wait, woken_wake_function);
+           ^
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   net/ipv4/tcp_bpf.c:194:6: note: Assuming the condition is true
+           if (unlikely(flags & MSG_ERRQUEUE))
                ^
-   arch/arm/boot/compressed/misc.c:156:34: note: Array decayed to pointer h=
-ere.
-    ret =3D do_decompress(input_data, input_data_end - input_data,
-                                    ^
-   arch/arm/boot/compressed/misc.c:103:13: note: Variable declared here.
-   extern char input_data[];
-               ^
-   arch/arm/boot/compressed/misc.c:156:51: note: Array decayed to pointer h=
-ere.
-    ret =3D do_decompress(input_data, input_data_end - input_data,
-                                                     ^
-   arch/arm/boot/compressed/misc.c:156:49: note: Subtracting pointers that =
-point to different objects
-    ret =3D do_decompress(input_data, input_data_end - input_data,
-                                                   ^
->> arch/arm/boot/compressed/misc.c:44:11: warning: Uninitialized variable: =
-status [uninitvar]
-    } while (status & (1 << 29));
-             ^
-   arch/arm/boot/compressed/misc.c:61:11: warning: Uninitialized variable: =
-status [uninitvar]
-    } while (status & (1 << 28));
-             ^
-   arch/arm/boot/compressed/misc.c:77:11: warning: Uninitialized variable: =
-status [uninitvar]
-    } while (status & 2);
-             ^
-
-vim +156 arch/arm/boot/compressed/misc.c
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   34  =
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   35  static void =
-icedcc_putc(int ch)
-7d95ded9114956 Tony Lindgren                  2006-09-20   36  {
-7d95ded9114956 Tony Lindgren                  2006-09-20   37  	int status,=
- i =3D 0x4000000;
-7d95ded9114956 Tony Lindgren                  2006-09-20   38  =
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   39  	do {
-7d95ded9114956 Tony Lindgren                  2006-09-20   40  		if (--i < =
-0)
-7d95ded9114956 Tony Lindgren                  2006-09-20   41  			return;
-7d95ded9114956 Tony Lindgren                  2006-09-20   42  =
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   43  		asm volati=
-le ("mrc p14, 0, %0, c0, c1, 0" : "=3Dr" (status));
-7d95ded9114956 Tony Lindgren                  2006-09-20  @44  	} while (st=
-atus & (1 << 29));
-7d95ded9114956 Tony Lindgren                  2006-09-20   45  =
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   46  	asm("mcr p1=
-4, 0, %0, c0, c5, 0" : : "r" (ch));
-7d95ded9114956 Tony Lindgren                  2006-09-20   47  }
-200b7a8dc09504 Tony Lindgren                  2010-01-19   48  =
-
-200b7a8dc09504 Tony Lindgren                  2010-01-19   49  =
-
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   50  #elif define=
-d(CONFIG_CPU_XSCALE)
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   51  =
-
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   52  static void =
-icedcc_putc(int ch)
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   53  {
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   54  	int status,=
- i =3D 0x4000000;
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   55  =
-
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   56  	do {
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   57  		if (--i < =
-0)
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   58  			return;
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   59  =
-
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   60  		asm volati=
-le ("mrc p14, 0, %0, c14, c0, 0" : "=3Dr" (status));
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   61  	} while (st=
-atus & (1 << 28));
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   62  =
-
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   63  	asm("mcr p1=
-4, 0, %0, c8, c0, 0" : : "r" (ch));
-c633c3cfcf41ef Jean-Christop PLAGNIOL-VILLARD 2009-02-25   64  }
-7d95ded9114956 Tony Lindgren                  2006-09-20   65  =
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   66  #else
-7d95ded9114956 Tony Lindgren                  2006-09-20   67  =
-
-de4533a04eb4f6 Russell King                   2006-03-28   68  static void =
-icedcc_putc(int ch)
-de4533a04eb4f6 Russell King                   2006-03-28   69  {
-de4533a04eb4f6 Russell King                   2006-03-28   70  	int status,=
- i =3D 0x4000000;
-de4533a04eb4f6 Russell King                   2006-03-28   71  =
-
-de4533a04eb4f6 Russell King                   2006-03-28   72  	do {
-de4533a04eb4f6 Russell King                   2006-03-28   73  		if (--i < =
-0)
-de4533a04eb4f6 Russell King                   2006-03-28   74  			return;
-de4533a04eb4f6 Russell King                   2006-03-28   75  =
-
-b2556da55f78a9 Uwe Zeisberger                 2006-05-02   76  		asm volati=
-le ("mrc p14, 0, %0, c0, c0, 0" : "=3Dr" (status));
-de4533a04eb4f6 Russell King                   2006-03-28   77  	} while (st=
-atus & 2);
-de4533a04eb4f6 Russell King                   2006-03-28   78  =
-
-b2556da55f78a9 Uwe Zeisberger                 2006-05-02   79  	asm("mcr p1=
-4, 0, %0, c1, c0, 0" : : "r" (ch));
-de4533a04eb4f6 Russell King                   2006-03-28   80  }
-de4533a04eb4f6 Russell King                   2006-03-28   81  =
-
-7d95ded9114956 Tony Lindgren                  2006-09-20   82  #endif
-7d95ded9114956 Tony Lindgren                  2006-09-20   83  =
-
-a081568d701606 Russell King                   2006-03-28   84  #define putc=
-(ch)	icedcc_putc(ch)
-a081568d701606 Russell King                   2006-03-28   85  #endif
-^1da177e4c3f41 Linus Torvalds                 2005-04-16   86  =
-
-a081568d701606 Russell King                   2006-03-28   87  static void =
-putstr(const char *ptr)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16   88  {
-a081568d701606 Russell King                   2006-03-28   89  	char c;
-a081568d701606 Russell King                   2006-03-28   90  =
-
-a081568d701606 Russell King                   2006-03-28   91  	while ((c =
-=3D *ptr++) !=3D '\0') {
-a081568d701606 Russell King                   2006-03-28   92  		if (c =3D=
-=3D '\n')
-a081568d701606 Russell King                   2006-03-28   93  			putc('\r'=
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   net/ipv4/tcp_bpf.c:194:2: note: Taking false branch
+           if (unlikely(flags & MSG_ERRQUEUE))
+           ^
+   net/ipv4/tcp_bpf.c:198:16: note: 'psock' is non-null
+           if (unlikely(!psock))
+                         ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/ipv4/tcp_bpf.c:198:2: note: Taking false branch
+           if (unlikely(!psock))
+           ^
+   net/ipv4/tcp_bpf.c:200:6: note: Assuming the condition is false
+           if (!skb_queue_empty(&sk->sk_receive_queue) &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:200:46: note: Left side of '&&' is false
+           if (!skb_queue_empty(&sk->sk_receive_queue) &&
+                                                       ^
+   net/ipv4/tcp_bpf.c:208:6: note: Assuming 'copied' is 0
+           if (!copied) {
+               ^~~~~~~
+   net/ipv4/tcp_bpf.c:208:2: note: Taking true branch
+           if (!copied) {
+           ^
+   net/ipv4/tcp_bpf.c:213:10: note: Calling 'tcp_msg_wait_data'
+                   data =3D tcp_msg_wait_data(sk, psock, flags, timeo, &err=
 );
-a081568d701606 Russell King                   2006-03-28   94  		putc(c);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16   95  	}
-a081568d701606 Russell King                   2006-03-28   96  =
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:169:2: note: Dereference of null pointer
+           DEFINE_WAIT_FUNC(wait, woken_wake_function);
+           ^
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 26 warnings (14 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   27 warnings generated.
+   fs/cifs/dns_resolve.c:80:17: warning: Dereference of null pointer [clang=
+-analyzer-core.NullDereference]
+           rc =3D dns_query(current->nsproxy->net_ns, NULL, hostname, len,
+                          ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   fs/cifs/dns_resolve.c:53:6: note: Assuming 'ip_addr' is non-null
+           if (!ip_addr || !unc)
+               ^~~~~~~~
+   fs/cifs/dns_resolve.c:53:6: note: Left side of '||' is false
+   fs/cifs/dns_resolve.c:53:18: note: Assuming 'unc' is non-null
+           if (!ip_addr || !unc)
+                           ^~~~
+   fs/cifs/dns_resolve.c:53:2: note: Taking false branch
+           if (!ip_addr || !unc)
+           ^
+   fs/cifs/dns_resolve.c:57:6: note: Assuming 'len' is >=3D 3
+           if (len < 3) {
+               ^~~~~~~
+   fs/cifs/dns_resolve.c:57:2: note: Taking false branch
+           if (len < 3) {
+           ^
+   fs/cifs/dns_resolve.c:68:6: note: Assuming 'sep' is null
+           if (sep)
+               ^~~
+   fs/cifs/dns_resolve.c:68:2: note: Taking false branch
+           if (sep)
+           ^
+   fs/cifs/dns_resolve.c:71:3: note: Taking false branch
+                   cifs_dbg(FYI, "%s: probably server name is whole unc: %s=
+\n",
+                   ^
+   fs/cifs/cifs_debug.h:139:2: note: expanded from macro 'cifs_dbg'
+           if (0)                                                          \
+           ^
+   fs/cifs/dns_resolve.c:71:3: note: Loop condition is false.  Exiting loop
+                   cifs_dbg(FYI, "%s: probably server name is whole unc: %s=
+\n",
+                   ^
+   fs/cifs/cifs_debug.h:137:38: note: expanded from macro 'cifs_dbg'
+--
+   net/ipv4/inet_hashtables.c:238:6: note: Left side of '&&' is true
+           if (net_eq(sock_net(sk), net) && sk->sk_num =3D=3D hnum &&
+               ^
+   net/ipv4/inet_hashtables.c:238:2: note: Taking true branch
+           if (net_eq(sock_net(sk), net) && sk->sk_num =3D=3D hnum &&
+           ^
+   net/ipv4/inet_hashtables.c:240:7: note: Assuming 'daddr' is equal to fie=
+ld 'skc_rcv_saddr'
+                   if (sk->sk_rcv_saddr !=3D daddr)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/inet_hashtables.c:240:3: note: Taking false branch
+                   if (sk->sk_rcv_saddr !=3D daddr)
+                   ^
+   net/ipv4/inet_hashtables.c:243:3: note: Taking false branch
+                   if (!inet_sk_bound_dev_eq(net, sk->sk_bound_dev_if, dif,=
+ sdif))
+                   ^
+   net/ipv4/inet_hashtables.c:246:11: note: Assuming field 'skc_family' is =
+not equal to PF_INET
+                   score =3D sk->sk_family =3D=3D PF_INET ? 2 : 1;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/inet_hashtables.c:246:11: note: '?' condition is false
+   net/ipv4/inet_hashtables.c:247:7: note: Left side of '||' is false
+                   if (READ_ONCE(sk->sk_incoming_cpu) =3D=3D raw_smp_proces=
+sor_id())
+                       ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/ipv4/inet_hashtables.c:247:7: note: Left side of '||' is false
+                   if (READ_ONCE(sk->sk_incoming_cpu) =3D=3D raw_smp_proces=
+sor_id())
+                       ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/ipv4/inet_hashtables.c:247:7: note: Left side of '||' is true
+                   if (READ_ONCE(sk->sk_incoming_cpu) =3D=3D raw_smp_proces=
+sor_id())
+                       ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   net/ipv4/inet_hashtables.c:247:7: note: Taking false branch
+                   if (READ_ONCE(sk->sk_incoming_cpu) =3D=3D raw_smp_proces=
+sor_id())
+                       ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/ipv4/inet_hashtables.c:247:7: note: Loop condition is false.  Exitin=
+g loop
+                   if (READ_ONCE(sk->sk_incoming_cpu) =3D=3D raw_smp_proces=
+sor_id())
+                       ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   net/ipv4/inet_hashtables.c:247:41: note: Dereference of null pointer
+                   if (READ_ONCE(sk->sk_incoming_cpu) =3D=3D raw_smp_proces=
+sor_id())
+                                                         ^
+   arch/s390/include/asm/smp.h:15:32: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^~~~~~~~~~~~~~~~~~~~~
+   Suppressed 26 warnings (14 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   27 warnings generated.
+>> net/ipv4/udp_bpf.c:42:2: warning: Dereference of null pointer [clang-ana=
+lyzer-core.NullDereference]
+           DEFINE_WAIT_FUNC(wait, woken_wake_function);
+           ^
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   net/ipv4/udp_bpf.c:69:6: note: Assuming the condition is true
+           if (unlikely(flags & MSG_ERRQUEUE))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   net/ipv4/udp_bpf.c:69:2: note: Taking false branch
+           if (unlikely(flags & MSG_ERRQUEUE))
+           ^
+   net/ipv4/udp_bpf.c:73:16: note: 'psock' is non-null
+           if (unlikely(!psock))
+                         ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/ipv4/udp_bpf.c:73:2: note: Taking false branch
+           if (unlikely(!psock))
+           ^
+   net/ipv4/udp_bpf.c:76:2: note: Taking false branch
+           if (!psock_has_data(psock)) {
+           ^
+   net/ipv4/udp_bpf.c:83:6: note: Assuming 'copied' is 0
+           if (!copied) {
+               ^~~~~~~
+   net/ipv4/udp_bpf.c:83:2: note: Taking true branch
+           if (!copied) {
+           ^
+   net/ipv4/udp_bpf.c:88:10: note: Calling 'udp_msg_wait_data'
+                   data =3D udp_msg_wait_data(sk, psock, flags, timeo, &err=
+);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/udp_bpf.c:42:2: note: Dereference of null pointer
+           DEFINE_WAIT_FUNC(wait, woken_wake_function);
+           ^
+   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
+C'
+                   .private        =3D current,                            =
+          \
+                                     ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 26 warnings (14 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   26 warnings generated.
+   Suppressed 26 warnings (14 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   26 warnings generated.
+   Suppressed 26 warnings (14 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   26 warnings generated.
+   Suppressed 26 warnings (14 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   drivers/spi/spi-ti-qspi.c:864:3: warning: Value stored to 'ret' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   drivers/spi/spi-ti-qspi.c:864:3: note: Value stored to 'ret' is never re=
+ad
+                   ret =3D 0;
+                   ^     ~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (7 in non-user code, 14 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-a081568d701606 Russell King                   2006-03-28   97  	flush();
-^1da177e4c3f41 Linus Torvalds                 2005-04-16   98  }
-^1da177e4c3f41 Linus Torvalds                 2005-04-16   99  =
+vim +169 net/ipv4/tcp_bpf.c
 
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  100  /*
-e40f1e9fb342a2 Nicolas Pitre                  2011-04-19  101   * gzip decl=
-arations
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  102   */
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  103  extern char =
-input_data[];
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  104  extern char =
-input_data_end[];
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  105  =
+a26527981af298 YueHaibing 2020-03-20  165  =
 
-5de813b6cd0646 Russell King                   2010-02-25  106  unsigned cha=
-r *output_data;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  107  =
+9f2470fbc4cb45 Cong Wang  2021-06-14  166  static int tcp_msg_wait_data(str=
+uct sock *sk, struct sk_psock *psock, int flags,
+9f2470fbc4cb45 Cong Wang  2021-06-14  167  			     long timeo, int *err)
+9f2470fbc4cb45 Cong Wang  2021-06-14  168  {
+9f2470fbc4cb45 Cong Wang  2021-06-14 @169  	DEFINE_WAIT_FUNC(wait, woken_wa=
+ke_function);
+9f2470fbc4cb45 Cong Wang  2021-06-14  170  	int ret =3D 0;
+9f2470fbc4cb45 Cong Wang  2021-06-14  171  =
 
-5de813b6cd0646 Russell King                   2010-02-25  108  unsigned lon=
-g free_mem_ptr;
-5de813b6cd0646 Russell King                   2010-02-25  109  unsigned lon=
-g free_mem_end_ptr;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  110  =
+9f2470fbc4cb45 Cong Wang  2021-06-14  172  	if (sk->sk_shutdown & RCV_SHUTD=
+OWN)
+9f2470fbc4cb45 Cong Wang  2021-06-14  173  		return 1;
+9f2470fbc4cb45 Cong Wang  2021-06-14  174  =
 
-f8c905d368c757 Ben Dooks                      2005-11-08  111  #ifndef arch=
-_error
-f8c905d368c757 Ben Dooks                      2005-11-08  112  #define arch=
-_error(x)
-f8c905d368c757 Ben Dooks                      2005-11-08  113  #endif
-f8c905d368c757 Ben Dooks                      2005-11-08  114  =
+9f2470fbc4cb45 Cong Wang  2021-06-14  175  	if (!timeo)
+9f2470fbc4cb45 Cong Wang  2021-06-14  176  		return ret;
+9f2470fbc4cb45 Cong Wang  2021-06-14  177  =
 
-5de813b6cd0646 Russell King                   2010-02-25  115  void error(c=
-har *x)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  116  {
-f8c905d368c757 Ben Dooks                      2005-11-08  117  	arch_error(=
-x);
-f8c905d368c757 Ben Dooks                      2005-11-08  118  =
+9f2470fbc4cb45 Cong Wang  2021-06-14  178  	add_wait_queue(sk_sleep(sk), &w=
+ait);
+9f2470fbc4cb45 Cong Wang  2021-06-14  179  	sk_set_bit(SOCKWQ_ASYNC_WAITDAT=
+A, sk);
+9f2470fbc4cb45 Cong Wang  2021-06-14  180  	ret =3D sk_wait_event(sk, &time=
+o,
+9f2470fbc4cb45 Cong Wang  2021-06-14  181  			    !list_empty(&psock->ingre=
+ss_msg) ||
+9f2470fbc4cb45 Cong Wang  2021-06-14  182  			    !skb_queue_empty(&sk->sk_=
+receive_queue), &wait);
+9f2470fbc4cb45 Cong Wang  2021-06-14  183  	sk_clear_bit(SOCKWQ_ASYNC_WAITD=
+ATA, sk);
+9f2470fbc4cb45 Cong Wang  2021-06-14  184  	remove_wait_queue(sk_sleep(sk),=
+ &wait);
+9f2470fbc4cb45 Cong Wang  2021-06-14  185  	return ret;
+9f2470fbc4cb45 Cong Wang  2021-06-14  186  }
+9f2470fbc4cb45 Cong Wang  2021-06-14  187  =
 
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  119  	putstr("\n\=
-n");
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  120  	putstr(x);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  121  	putstr("\n\=
-n -- System halted");
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  122  =
-
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  123  	while(1);	/=
-* Halt */
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  124  }
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  125  =
-
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  126  asmlinkage v=
-oid __div0(void)
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  127  {
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  128  	error("Atte=
-mpting division by 0!");
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  129  }
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  130  =
-
-7bbaf27d9c8303 Huacai Chen                    2018-04-05  131  const unsign=
-ed long __stack_chk_guard =3D 0x000a0dff;
-8779657d29c0eb Kees Cook                      2013-12-19  132  =
-
-8779657d29c0eb Kees Cook                      2013-12-19  133  void __stack=
-_chk_fail(void)
-8779657d29c0eb Kees Cook                      2013-12-19  134  {
-8779657d29c0eb Kees Cook                      2013-12-19  135  	error("stac=
-k-protector: Kernel stack is corrupted\n");
-8779657d29c0eb Kees Cook                      2013-12-19  136  }
-8779657d29c0eb Kees Cook                      2013-12-19  137  =
-
-ccc1c7c6c25661 Nicolas Pitre                  2011-04-21  138  extern int d=
-o_decompress(u8 *input, int len, u8 *output, void (*error)(char *x));
-5de813b6cd0646 Russell King                   2010-02-25  139  =
-
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  140  =
-
-e40f1e9fb342a2 Nicolas Pitre                  2011-04-19  141  void
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  142  decompress_k=
-ernel(unsigned long output_start, unsigned long free_mem_ptr_p,
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  143  		unsigned l=
-ong free_mem_ptr_end_p,
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  144  		int arch_i=
-d)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  145  {
-ccc1c7c6c25661 Nicolas Pitre                  2011-04-21  146  	int ret;
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  147  =
-
-e7db7b4270ed2a Albin Tonnerre                 2010-01-08  148  	output_data=
-		=3D (unsigned char *)output_start;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  149  	free_mem_pt=
-r		=3D free_mem_ptr_p;
-2d6ffcca623a9a Thomas Petazzoni               2008-07-25  150  	free_mem_en=
-d_ptr	=3D free_mem_ptr_end_p;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  151  	__machine_a=
-rch_type	=3D arch_id;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  152  =
-
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  153  	arch_decomp=
-_setup();
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  154  =
-
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  155  	putstr("Unc=
-ompressing Linux...");
-ccc1c7c6c25661 Nicolas Pitre                  2011-04-21 @156  	ret =3D do_=
-decompress(input_data, input_data_end - input_data,
-5de813b6cd0646 Russell King                   2010-02-25  157  			    outpu=
-t_data, error);
-ccc1c7c6c25661 Nicolas Pitre                  2011-04-21  158  	if (ret)
-ccc1c7c6c25661 Nicolas Pitre                  2011-04-21  159  		error("dec=
-ompressor returned an error");
-ccc1c7c6c25661 Nicolas Pitre                  2011-04-21  160  	else
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  161  		putstr(" d=
-one, booting the kernel.\n");
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  162  }
-ee333554fed555 Jinbum Park                    2018-03-06  163  =
-
-
-:::::: The code@line 156 was first introduced by commit
-:::::: ccc1c7c6c25661f0071a7ebe997abcbf529df3e9 ARM: zImage: don't ignore e=
-rror returned from decompress()
-
-:::::: TO: Nicolas Pitre <nicolas.pitre@linaro.org>
-:::::: CC: Nicolas Pitre <nico@fluxnic.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0939554391163449620==--
+--===============0267522430301847987==--
 
