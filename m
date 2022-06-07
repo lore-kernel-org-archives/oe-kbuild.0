@@ -1,60 +1,42 @@
-Content-Type: multipart/mixed; boundary="===============0952001013863765234=="
+Content-Type: multipart/mixed; boundary="===============8870055434392805159=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/5] PM / devfreq: Fix cpufreq passive unregister erroring on PROBE_DEFER
-Date: Tue, 07 Jun 2022 10:48:54 +0800
-Message-ID: <202206071052.9km2HTBI-lkp@intel.com>
+Subject: drivers/md/dm-stats.c:658:10: warning: Uninitialized variable: s->stat_flags [uninitvar]
+Date: Tue, 07 Jun 2022 09:18:27 +0800
+Message-ID: <202206070925.pYBBH5kG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0952001013863765234==
+--===============8870055434392805159==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/d=
-evfreq/governor_passive.c:238:24: warning: Uninitialized variable: parent_c=
-pu_data->opp_table [uninitvar]"
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+d/dm-stats.c:658:10: warning: Uninitialized variable: s->stat_flags [uninit=
+var]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220606111104.14534-2-ansuelsmth@gmail.com>
-References: <20220606111104.14534-2-ansuelsmth@gmail.com>
-TO: "Christian 'Ansuel' Marangi" <ansuelsmth@gmail.com>
-TO: MyungJoo Ham <myungjoo.ham@samsung.com>
-TO: Kyungmin Park <kyungmin.park@samsung.com>
-TO: Chanwoo Choi <cw00.choi@samsung.com>
-TO: Saravana Kannan <skannan@codeaurora.org>
-TO: Sibi Sankar <sibis@codeaurora.org>
-TO: linux-pm(a)vger.kernel.org
-TO: linux-kernel(a)vger.kernel.org
-CC: "Christian 'Ansuel' Marangi" <ansuelsmth@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mike Snitzer <snitzer@redhat.com>
 
-Hi Christian,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on chanwoo/devfreq-testing]
-[also build test WARNING on linus/master v5.19-rc1 next-20220606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Ansuel-Mar=
-angi/PM-devfreq-Various-Fixes-to-cpufreq-based-passive-governor/20220606-19=
-1335
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git d=
-evfreq-testing
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f2906aa863381afb0015a9eb7fefad885d4e5a56
+commit: 8d394bc4adf588ca4a0650745167cb83f86c18c9 dm: fix double accounting =
+of flush with data
+date:   4 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 4 months ago
 compiler: riscv64-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 2d59e1f0c418bf7a6fb2396c60a643994b4c4aba
+        git checkout 8d394bc4adf588ca4a0650745167cb83f86c18c9
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -64,63 +46,120 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/devfreq/governor_passive.c:238:24: warning: Uninitialized variab=
-le: parent_cpu_data->opp_table [uninitvar]
-     if (parent_cpu_data->opp_table)
-                          ^
+   drivers/md/dm-stats.c:398:10: warning: Uninitialized variable: s->id [un=
+initvar]
+     if (s->id > id)
+            ^
+   drivers/md/dm-stats.c:456:39: warning: Uninitialized variable: s->progra=
+m_id [uninitvar]
+     if (!program || !strcmp(program, s->program_id)) {
+                                         ^
+>> drivers/md/dm-stats.c:658:10: warning: Uninitialized variable: s->stat_f=
+lags [uninitvar]
+     if (s->stat_flags & STAT_PRECISE_TIMESTAMPS && !got_precise_time) {
+            ^
+   drivers/md/dm-stats.c:633:14: note: Assuming condition is false
+    if (unlikely(!bi_sectors))
+                ^
+   drivers/md/dm-stats.c:658:10: note: Uninitialized variable: s->stat_flags
+     if (s->stat_flags & STAT_PRECISE_TIMESTAMPS && !got_precise_time) {
+            ^
 
-vim +238 drivers/devfreq/governor_passive.c
+vim +658 drivers/md/dm-stats.c
 
-a03dacb0316f74 Saravana Kannan            2021-03-02  220  =
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  621  =
 
-a03dacb0316f74 Saravana Kannan            2021-03-02  221  static int cpufr=
-eq_passive_unregister_notifier(struct devfreq *devfreq)
-a03dacb0316f74 Saravana Kannan            2021-03-02  222  {
-a03dacb0316f74 Saravana Kannan            2021-03-02  223  	struct devfreq_=
-passive_data *p_data
-a03dacb0316f74 Saravana Kannan            2021-03-02  224  			=3D (struct d=
-evfreq_passive_data *)devfreq->data;
-a03dacb0316f74 Saravana Kannan            2021-03-02  225  	struct devfreq_=
-cpu_data *parent_cpu_data;
-2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  226  	int ret;
-a03dacb0316f74 Saravana Kannan            2021-03-02  227  =
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  622  void dm_stats_account_io=
+(struct dm_stats *stats, unsigned long bi_rw,
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  623  			 sector_t bi_sector, =
+unsigned bi_sectors, bool end,
+8d394bc4adf588c Mike Snitzer      2022-02-17  624  			 unsigned long start_=
+time,
+c96aec344de0de8 Mikulas Patocka   2015-06-09  625  			 struct dm_stats_aux =
+*stats_aux)
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  626  {
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  627  	struct dm_stat *s;
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  628  	sector_t end_sector;
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  629  	struct dm_stats_last_po=
+sition *last;
+c96aec344de0de8 Mikulas Patocka   2015-06-09  630  	bool got_precise_time;
+8d394bc4adf588c Mike Snitzer      2022-02-17  631  	unsigned long duration_=
+jiffies =3D 0;
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  632  =
 
-a03dacb0316f74 Saravana Kannan            2021-03-02  228  	if (p_data->nb.=
-notifier_call) {
-a03dacb0316f74 Saravana Kannan            2021-03-02  229  		ret =3D cpufre=
-q_unregister_notifier(&p_data->nb,
-a03dacb0316f74 Saravana Kannan            2021-03-02  230  					CPUFREQ_TRA=
-NSITION_NOTIFIER);
-a03dacb0316f74 Saravana Kannan            2021-03-02  231  		if (ret < 0)
-a03dacb0316f74 Saravana Kannan            2021-03-02  232  			return ret;
-a03dacb0316f74 Saravana Kannan            2021-03-02  233  	}
-a03dacb0316f74 Saravana Kannan            2021-03-02  234  =
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  633  	if (unlikely(!bi_sector=
+s))
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  634  		return;
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  635  =
 
-2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  235  	list_for_each_e=
-ntry(parent_cpu_data, &p_data->cpu_data_list, node) {
-26984d9d581e50 Chanwoo Choi               2022-04-27  236  		list_del(&pare=
-nt_cpu_data->node);
-2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  237  =
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  636  	end_sector =3D bi_secto=
+r + bi_sectors;
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  637  =
 
-a03dacb0316f74 Saravana Kannan            2021-03-02 @238  		if (parent_cpu=
-_data->opp_table)
-a03dacb0316f74 Saravana Kannan            2021-03-02  239  			dev_pm_opp_pu=
-t_opp_table(parent_cpu_data->opp_table);
-2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  240  =
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  638  	if (!end) {
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  639  		/*
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  640  		 * A race condition ca=
+n at worst result in the merged flag being
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  641  		 * misrepresented, so =
+we don't have to disable preemption here.
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  642  		 */
+1f125e76f5c134b Christoph Lameter 2014-08-17  643  		last =3D raw_cpu_ptr(s=
+tats->last);
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  644  		stats_aux->merged =3D
+6aa7de059173a98 Mark Rutland      2017-10-23  645  			(bi_sector =3D=3D (RE=
+AD_ONCE(last->last_sector) &&
+528ec5abe6808c3 Mike Christie     2016-06-05  646  				       ((bi_rw =3D=
+=3D WRITE) =3D=3D
+6aa7de059173a98 Mark Rutland      2017-10-23  647  					(READ_ONCE(last->la=
+st_rw) =3D=3D WRITE))
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  648  				       ));
+6aa7de059173a98 Mark Rutland      2017-10-23  649  		WRITE_ONCE(last->last_=
+sector, end_sector);
+6aa7de059173a98 Mark Rutland      2017-10-23  650  		WRITE_ONCE(last->last_=
+rw, bi_rw);
+8d394bc4adf588c Mike Snitzer      2022-02-17  651  	} else
+8d394bc4adf588c Mike Snitzer      2022-02-17  652  		duration_jiffies =3D j=
+iffies - start_time;
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  653  =
 
-a03dacb0316f74 Saravana Kannan            2021-03-02  241  		kfree(parent_c=
-pu_data);
-a03dacb0316f74 Saravana Kannan            2021-03-02  242  	}
-a03dacb0316f74 Saravana Kannan            2021-03-02  243  =
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  654  	rcu_read_lock();
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  655  =
 
-2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  244  	return 0;
-a03dacb0316f74 Saravana Kannan            2021-03-02  245  }
-a03dacb0316f74 Saravana Kannan            2021-03-02  246  =
+c96aec344de0de8 Mikulas Patocka   2015-06-09  656  	got_precise_time =3D fa=
+lse;
+c96aec344de0de8 Mikulas Patocka   2015-06-09  657  	list_for_each_entry_rcu=
+(s, &stats->list, list_entry) {
+c96aec344de0de8 Mikulas Patocka   2015-06-09 @658  		if (s->stat_flags & ST=
+AT_PRECISE_TIMESTAMPS && !got_precise_time) {
+c96aec344de0de8 Mikulas Patocka   2015-06-09  659  			if (!end)
+c96aec344de0de8 Mikulas Patocka   2015-06-09  660  				stats_aux->duration_=
+ns =3D ktime_to_ns(ktime_get());
+c96aec344de0de8 Mikulas Patocka   2015-06-09  661  			else
+c96aec344de0de8 Mikulas Patocka   2015-06-09  662  				stats_aux->duration_=
+ns =3D ktime_to_ns(ktime_get()) - stats_aux->duration_ns;
+c96aec344de0de8 Mikulas Patocka   2015-06-09  663  			got_precise_time =3D =
+true;
+c96aec344de0de8 Mikulas Patocka   2015-06-09  664  		}
+c96aec344de0de8 Mikulas Patocka   2015-06-09  665  		__dm_stat_bio(s, bi_rw=
+, bi_sector, end_sector, end, duration_jiffies, stats_aux);
+c96aec344de0de8 Mikulas Patocka   2015-06-09  666  	}
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  667  =
 
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  668  	rcu_read_unlock();
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  669  }
+fd2ed4d252701d3 Mikulas Patocka   2013-08-16  670  =
+
+
+:::::: The code at line 658 was first introduced by commit
+:::::: c96aec344de0de857ef3d7fba53992c7ba311e1e dm stats: support precise t=
+imestamps
+
+:::::: TO: Mikulas Patocka <mpatocka@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0952001013863765234==--
+--===============8870055434392805159==--
 
