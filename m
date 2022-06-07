@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5999079779694590933=="
+Content-Type: multipart/mixed; boundary="===============0859867538790100211=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: drivers/media/platform/samsung/exynos4-is/fimc-core.c:803:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 08 Jun 2022 06:09:57 +0800
-Message-ID: <202206080631.Vlps9JQ9-lkp@intel.com>
+Date: Tue, 07 Jun 2022 15:19:42 +0800
+Message-ID: <202206071503.tVEuXA4c-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5999079779694590933==
+--===============0859867538790100211==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -33,10 +33,10 @@ head:   e71e60cd74df9386c3f684c54888f2367050b831
 commit: 238c84f71120f41c45301359902a912a19370f3d media: platform: rename ex=
 ynos4-is/ to samsung/exynos4-is/
 date:   3 months ago
-:::::: branch date: 21 hours ago
+:::::: branch date: 6 hours ago
 :::::: commit date: 3 months ago
 config: arm-randconfig-c002-20220605 (https://download.01.org/0day-ci/archi=
-ve/20220608/202206080631.Vlps9JQ9-lkp(a)intel.com/config)
+ve/20220607/202206071503.tVEuXA4c-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0a90b7=
 2c432d70aae035727ece4ba80ce820f381)
 reproduce (this is a W=3D1 build):
@@ -61,135 +61,118 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/iio/adc/meson_saradc.c:1233:2: note: Taking false branch
+           if (IS_ERR(priv->clkin))
            ^
-   include/linux/dev_printk.h:146:2: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt)=
-, ##__VA_ARGS__)
+   drivers/iio/adc/meson_saradc.c:1238:2: note: Taking false branch
+           if (IS_ERR(priv->core_clk))
            ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
+   drivers/iio/adc/meson_saradc.c:1243:2: note: Taking false branch
+           if (IS_ERR(priv->adc_clk)) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1252:2: note: Taking false branch
+           if (IS_ERR(priv->adc_sel_clk)) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1261:6: note: Assuming field 'adc_clk' is=
+ null
+           if (!priv->adc_clk) {
+               ^~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1261:2: note: Taking true branch
+           if (!priv->adc_clk) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1263:7: note: 'ret' is 0
+                   if (ret)
+                       ^~~
+   drivers/iio/adc/meson_saradc.c:1263:3: note: Taking false branch
+                   if (ret)
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
+   drivers/iio/adc/meson_saradc.c:1268:2: note: Taking false branch
+           if (IS_ERR(priv->vref))
            ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+   drivers/iio/adc/meson_saradc.c:1274:6: note: Assuming field 'temperature=
+_trimming_bits' is not equal to 0
+           if (priv->param->temperature_trimming_bits) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1274:2: note: Taking true branch
+           if (priv->param->temperature_trimming_bits) {
            ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
+   drivers/iio/adc/meson_saradc.c:1276:7: note: 'ret' is 0
+                   if (ret)
+                       ^~~
+   drivers/iio/adc/meson_saradc.c:1276:3: note: Taking false branch
+                   if (ret)
                    ^
-   drivers/usb/misc/ftdi-elan.c:196:2: note: '?' condition is true
-           dev_warn(&ftdi->udev->dev, "FREEING ftdi=3D%p\n", ftdi);
+   drivers/iio/adc/meson_saradc.c:1280:6: note: Assuming field 'temperature=
+_sensor_calibrated' is true
+           if (priv->temperature_sensor_calibrated) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1280:2: note: Taking true branch
+           if (priv->temperature_sensor_calibrated) {
            ^
-   include/linux/dev_printk.h:146:2: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt)=
-, ##__VA_ARGS__)
+   drivers/iio/adc/meson_saradc.c:1291:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/iio/adc/meson_saradc.c:1291:2: note: Taking false branch
+           if (ret)
            ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
+   drivers/iio/adc/meson_saradc.c:1295:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/iio/adc/meson_saradc.c:1295:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/iio/adc/meson_saradc.c:1298:8: note: Calling 'meson_sar_adc_cali=
+b'
+           ret =3D meson_sar_adc_calib(indio_dev);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1027:31: note: 'value0' declared without =
+an initial value
+           int ret, nominal0, nominal1, value0, value1;
+                                        ^~~~~~
+   drivers/iio/adc/meson_saradc.c:1035:8: note: Calling 'meson_sar_adc_get_=
+sample'
+           ret =3D meson_sar_adc_get_sample(indio_dev,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:555:6: note: Assuming field 'type' is not=
+ equal to IIO_TEMP
+           if (chan->type =3D=3D IIO_TEMP && !priv->temperature_sensor_cali=
+brated)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:555:29: note: Left side of '&&' is false
+           if (chan->type =3D=3D IIO_TEMP && !priv->temperature_sensor_cali=
+brated)
+                                      ^
+   drivers/iio/adc/meson_saradc.c:559:6: note: Assuming 'ret' is not equal =
+to 0
+           if (ret)
+               ^~~
+   drivers/iio/adc/meson_saradc.c:559:2: note: Taking true branch
+           if (ret)
+           ^
+   drivers/iio/adc/meson_saradc.c:560:3: note: Returning without writing to=
+ '*val'
+                   return ret;
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
+   drivers/iio/adc/meson_saradc.c:1035:8: note: Returning from 'meson_sar_a=
+dc_get_sample'
+           ret =3D meson_sar_adc_get_sample(indio_dev,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1038:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/iio/adc/meson_saradc.c:1038:2: note: Taking false branch
+           if (ret < 0)
            ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+   drivers/iio/adc/meson_saradc.c:1046:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/iio/adc/meson_saradc.c:1046:2: note: Taking false branch
+           if (ret < 0)
            ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   drivers/usb/misc/ftdi-elan.c:196:2: note: '?' condition is true
-           dev_warn(&ftdi->udev->dev, "FREEING ftdi=3D%p\n", ftdi);
-           ^
-   include/linux/dev_printk.h:146:2: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt)=
-, ##__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   drivers/usb/misc/ftdi-elan.c:196:2: note: Loop condition is false.  Exit=
-ing loop
-           dev_warn(&ftdi->udev->dev, "FREEING ftdi=3D%p\n", ftdi);
-           ^
-   include/linux/dev_printk.h:146:2: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt)=
-, ##__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   drivers/usb/misc/ftdi-elan.c:205:2: note: Memory is released
-           kfree(ftdi);
-           ^~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/usb/misc/ftdi-elan.c:256:3: note: Returning; memory was released
-                   kref_put(&ftdi->kref, ftdi_elan_delete);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/misc/ftdi-elan.c:2782:3: note: Returning; memory was release=
-d via 1st parameter
-                   ftdi_command_cancel_work(ftdi);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/misc/ftdi-elan.c:2783:3: note: Use of memory after it is fre=
-ed
-                   ftdi_response_cancel_work(ftdi);
-                   ^                         ~~~~
-   Suppressed 2 warnings (2 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/pinctrl/mediatek/pinctrl-moore.c:183:4: warning: Value stored to=
- 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                           err =3D -ENOTSUPP;
-                           ^     ~~~~~~~~~
-   drivers/pinctrl/mediatek/pinctrl-moore.c:183:4: note: Value stored to 'e=
-rr' is never read
-                           err =3D -ENOTSUPP;
-                           ^     ~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1049:13: note: The right operand of '<=3D=
+' is a garbage value
+           if (value1 <=3D value0) {
+                      ^  ~~~~~~
    2 warnings generated.
 >> drivers/media/platform/samsung/exynos4-is/fimc-core.c:803:4: warning: Va=
 lue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
@@ -201,221 +184,6 @@ lue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
                            ^     ~~~~~~~~~~~~~~~~~~~~~~~
    Suppressed 1 warnings (1 with check filters).
    1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/hwmon/lm75.h:30:29: warning: The result of the left shift is und=
-efined because the left operand is negative [clang-analyzer-core.UndefinedB=
-inaryOperatorResult]
-           return (u16)((ntemp / 500) << 7);
-                                      ^
-   drivers/hwmon/w83627ehf.c:1608:6: note: Assuming 'type' is not equal to =
-hwmon_in
-           if (type =3D=3D hwmon_in && attr =3D=3D hwmon_in_min)
-               ^~~~~~~~~~~~~~~~
-   drivers/hwmon/w83627ehf.c:1608:23: note: Left side of '&&' is false
-           if (type =3D=3D hwmon_in && attr =3D=3D hwmon_in_min)
-                                ^
-   drivers/hwmon/w83627ehf.c:1610:6: note: 'type' is not equal to hwmon_in
-           if (type =3D=3D hwmon_in && attr =3D=3D hwmon_in_max)
-               ^~~~
-   drivers/hwmon/w83627ehf.c:1610:23: note: Left side of '&&' is false
-           if (type =3D=3D hwmon_in && attr =3D=3D hwmon_in_max)
-                                ^
-   drivers/hwmon/w83627ehf.c:1613:6: note: Assuming 'type' is not equal to =
-hwmon_fan
-           if (type =3D=3D hwmon_fan && attr =3D=3D hwmon_fan_min)
-               ^~~~~~~~~~~~~~~~~
-   drivers/hwmon/w83627ehf.c:1613:24: note: Left side of '&&' is false
-           if (type =3D=3D hwmon_fan && attr =3D=3D hwmon_fan_min)
-                                 ^
-   drivers/hwmon/w83627ehf.c:1616:6: note: Assuming 'type' is equal to hwmo=
-n_temp
-           if (type =3D=3D hwmon_temp && attr =3D=3D hwmon_temp_max)
-               ^~~~~~~~~~~~~~~~~~
-   drivers/hwmon/w83627ehf.c:1616:6: note: Left side of '&&' is true
-   drivers/hwmon/w83627ehf.c:1616:28: note: Assuming 'attr' is equal to hwm=
-on_temp_max
-           if (type =3D=3D hwmon_temp && attr =3D=3D hwmon_temp_max)
-                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/w83627ehf.c:1616:2: note: Taking true branch
-           if (type =3D=3D hwmon_temp && attr =3D=3D hwmon_temp_max)
-           ^
-   drivers/hwmon/w83627ehf.c:1617:10: note: Calling 'store_temp_max'
-                   return store_temp_max(dev, data, channel, val);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/w83627ehf.c:799:1: note: Calling 'LM75_TEMP_TO_REG'
-   store_temp_reg(reg_temp_over, temp_max);
-   ^
-   drivers/hwmon/w83627ehf.c:794:23: note: expanded from macro 'store_temp_=
-reg'
-           data->reg[channel] =3D LM75_TEMP_TO_REG(val); \
-                                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/lm75.h:27:14: note: Assuming '__UNIQUE_ID___x165' is <=3D =
-'__UNIQUE_ID___y166'
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/minmax.h:104:48: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x =3D (x);               \
-                                         ^
-   drivers/hwmon/lm75.h:27:14: note: '?' condition is false
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                                  ^
-   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/lm75.h:27:14: note: '__UNIQUE_ID___x167' is < '__UNIQUE_ID=
-___y168'
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
---
-           ^
-   lib/vsprintf.c:933:4: note: Assigned value is garbage or undefined
-           s =3D array[--i];
-             ^ ~~~~~~~~~~
-   lib/vsprintf.c:1350:9: warning: Assigned value is garbage or undefined [=
-clang-analyzer-core.uninitialized.Assign]
-                           *p++ =3D temp[digits];
-                                ^
-   lib/vsprintf.c:3061:2: note: Loop condition is true.  Entering loop body
-           while (*fmt) {
-           ^
-   lib/vsprintf.c:3066:3: note: Control jumps to 'case FORMAT_TYPE_PTR:'  a=
-t line 3101
-                   switch (spec.type) {
-                   ^
-   lib/vsprintf.c:3103:4: note: Control jumps to the 'default' case at line=
- 3112
-                           switch (*fmt) {
-                           ^
-   lib/vsprintf.c:3113:9: note: Assuming the condition is false
-                                   if (!isalnum(*fmt)) {
-                                       ^~~~~~~~~~~~~~
-   lib/vsprintf.c:3113:5: note: Taking false branch
-                                   if (!isalnum(*fmt)) {
-                                   ^
-   lib/vsprintf.c:3117:11: note: Calling 'pointer'
-                                   str =3D pointer(fmt, str, end, va_arg(ar=
-gs, void *),
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~
-   lib/vsprintf.c:2386:2: note: Control jumps to 'case 105:'  at line 2415
-           switch (*fmt) {
-           ^
-   lib/vsprintf.c:2419:10: note: Calling 'ip_addr_string'
-                   return ip_addr_string(buf, end, ptr, spec, fmt);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1587:2: note: Taking false branch
-           if (check_pointer(&buf, end, ptr, spec))
-           ^
-   lib/vsprintf.c:1590:2: note: Control jumps to 'case 52:'  at line 1593
-           switch (fmt[1]) {
-           ^
-   lib/vsprintf.c:1594:10: note: Calling 'ip4_addr_string'
-                   return ip4_addr_string(buf, end, ptr, spec, fmt);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1479:2: note: Calling 'ip4_string'
-           ip4_string(ip4_addr, addr, fmt);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1318:2: note: Control jumps to the 'default' case@line=
- 1334
-           switch (fmt[2]) {
-           ^
-   lib/vsprintf.c:1337:3: note:  Execution continues on line 1339
-                   break;
-                   ^
-   lib/vsprintf.c:1339:2: note: Loop condition is true.  Entering loop body
-           for (i =3D 0; i < 4; i++) {
-           ^
-   lib/vsprintf.c:1341:16: note: Calling 'put_dec_trunc8'
-                   int digits =3D put_dec_trunc8(temp, addr[index]) - temp;
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:219:6: note: Assuming 'r' is < 100
-           if (r < 100)
-               ^~~~~~~
-   lib/vsprintf.c:219:2: note: Taking true branch
-           if (r < 100)
-           ^
-   lib/vsprintf.c:220:3: note: Control jumps to line 249
-                   goto out_r;
-                   ^
-   lib/vsprintf.c:250:9: note: Assuming 'r' is >=3D 10
-           buf +=3D r < 10 ? 1 : 2;
-                  ^~~~~~
-   lib/vsprintf.c:250:9: note: '?' condition is false
-   lib/vsprintf.c:1341:16: note: Returning from 'put_dec_trunc8'
-                   int digits =3D put_dec_trunc8(temp, addr[index]) - temp;
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1342:7: note: Assuming 'leading_zeros' is false
-                   if (leading_zeros) {
-                       ^~~~~~~~~~~~~
-   lib/vsprintf.c:1342:3: note: Taking false branch
-                   if (leading_zeros) {
-                   ^
-   lib/vsprintf.c:1349:10: note: The value 1 is assigned to 'digits'
-                   while (digits--)
-                          ^~~~~~~~
-   lib/vsprintf.c:1349:3: note: Loop condition is true.  Entering loop body
-                   while (digits--)
-                   ^
-   lib/vsprintf.c:1350:9: note: Assigned value is garbage or undefined
-                           *p++ =3D temp[digits];
-                                ^ ~~~~~~~~~~~~
-   lib/vsprintf.c:1413:4: warning: Value stored to 'needcolon' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           needcolon =3D false;
-                           ^           ~~~~~
-   lib/vsprintf.c:1413:4: note: Value stored to 'needcolon' is never read
-                           needcolon =3D false;
-                           ^           ~~~~~
-   lib/vsprintf.c:1781:2: warning: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
-           ^~~~~~
-   lib/vsprintf.c:1781:2: note: Call to function 'strcpy' is insecure as it=
- does not provide bounding of the memory buffer. Replace unbounded copy fun=
-ctions with analogous functions that support length arguments such as 'strl=
-cpy'. CWE-119
-           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
-           ^~~~~~
    Suppressed 1 warnings (1 with check filters).
    2 warnings generated.
 >> drivers/media/platform/samsung/exynos4-is/fimc-m2m.c:467:20: warning: Di=
@@ -688,138 +456,117 @@ t);
    include/media/v4l2-subdev.h:1170:3: note: expanded from macro 'v4l2_subd=
 ev_call'
 --
-                         ^~~~~   ~~~~~~~~~~~~
-   2 warnings generated.
-   fs/affs/namei.c:22:34: warning: Although the value stored to 'ch' is use=
-d in the enclosing expression, the value is never actually read from 'ch' [=
-clang-analyzer-deadcode.DeadStores]
-           return ch >=3D 'a' && ch <=3D 'z' ? ch -=3D ('a' - 'A') : ch;
-                                           ^     ~~~~~~~~~~~
-   fs/affs/namei.c:22:34: note: Although the value stored to 'ch' is used i=
-n the enclosing expression, the value is never actually read from 'ch'
-           return ch >=3D 'a' && ch <=3D 'z' ? ch -=3D ('a' - 'A') : ch;
-                                           ^     ~~~~~~~~~~~
-   fs/affs/namei.c:489:2: warning: Value stored to 'retval' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           retval =3D affs_insert_hash(new_dir, bh_old);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/affs/namei.c:489:2: note: Value stored to 'retval' is never read
-           retval =3D affs_insert_hash(new_dir, bh_old);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   sound/usb/midi.c:2354:2: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(rmidi->name, umidi->card->shortname);
-           ^~~~~~
-   sound/usb/midi.c:2354:2: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-           strcpy(rmidi->name, umidi->card->shortname);
-           ^~~~~~
-   2 warnings generated.
-   sound/usb/misc/ua101.c:1250:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(card->shortname, name);
-           ^~~~~~
-   sound/usb/misc/ua101.c:1250:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(card->shortname, name);
-           ^~~~~~
-   sound/usb/misc/ua101.c:1275:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(ua->pcm->name, name);
-           ^~~~~~
-   sound/usb/misc/ua101.c:1275:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(ua->pcm->name, name);
-           ^~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/gpu/drm/drm_file.c:587:30: warning: Use of memory after it is fr=
-eed [clang-analyzer-unix.Malloc]
-                           file_priv->event_space +=3D e->event->length;
-                                                     ^~~~~~~~
-   drivers/gpu/drm/drm_file.c:577:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/drm_file.c:577:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/drm_file.c:580:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (;;) {
-           ^
-   drivers/gpu/drm/drm_file.c:584:7: note: Assuming the condition is true
-                   if (!list_empty(&file_priv->event_list)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:584:3: note: Taking true branch
-                   if (!list_empty(&file_priv->event_list)) {
-                   ^
-   drivers/gpu/drm/drm_file.c:592:7: note: 'e' is not equal to NULL
-                   if (e =3D=3D NULL) {
-                       ^
-   drivers/gpu/drm/drm_file.c:592:3: note: Taking false branch
-                   if (e =3D=3D NULL) {
-                   ^
-   drivers/gpu/drm/drm_file.c:611:8: note: Assuming the condition is false
-                           if (length > count - ret) {
+                   if (rdev && test_bit(WriteMostly, &rdev->flags))
+                            ^
+   drivers/md/raid1.c:1420:7: note: 'rdev' is null
+                   if (rdev && unlikely(test_bit(Blocked, &rdev->flags))) {
+                       ^~~~
+   drivers/md/raid1.c:1420:12: note: Left side of '&&' is false
+                   if (rdev && unlikely(test_bit(Blocked, &rdev->flags))) {
+                            ^
+   drivers/md/raid1.c:1426:8: note: 'rdev' is null
+                   if (!rdev || test_bit(Faulty, &rdev->flags)) {
+                        ^~~~
+   drivers/md/raid1.c:1426:13: note: Left side of '||' is true
+                   if (!rdev || test_bit(Faulty, &rdev->flags)) {
+                             ^
+   drivers/md/raid1.c:1427:8: note: Assuming 'i' is < field 'raid_disks'
+                           if (i < conf->raid_disks)
                                ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:611:4: note: Taking false branch
-                           if (length > count - ret) {
+   drivers/md/raid1.c:1427:4: note: Taking true branch
+                           if (i < conf->raid_disks)
                            ^
-   drivers/gpu/drm/drm_file.c:622:8: note: Assuming the condition is false
-                           if (copy_to_user(buffer + ret, e->event, length)=
-) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:622:4: note: Taking false branch
-                           if (copy_to_user(buffer + ret, e->event, length)=
-) {
+   drivers/md/raid1.c:1428:5: note: '?' condition is true
+                                   set_bit(R1BIO_Degraded, &r1_bio->state);
+                                   ^
+   arch/arm/include/asm/bitops.h:189:25: note: expanded from macro 'set_bit'
+   #define set_bit(nr,p)                   ATOMIC_BITOP(set_bit,nr,p)
+                                           ^
+   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
+ITOP'
+           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
+r,p))
+            ^
+   drivers/md/raid1.c:1429:4: note:  Execution continues on line 1409
+                           continue;
                            ^
-   drivers/gpu/drm/drm_file.c:629:4: note: Memory is released
-                           kfree(e);
-                           ^~~~~~~~
-   drivers/gpu/drm/drm_file.c:580:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (;;) {
+   drivers/md/raid1.c:1409:15: note: Assuming 'i' is >=3D 'disks'
+           for (i =3D 0;  i < disks; i++) {
+                        ^~~~~~~~~
+   drivers/md/raid1.c:1409:2: note: Loop condition is false. Execution cont=
+inues on line 1476
+           for (i =3D 0;  i < disks; i++) {
            ^
-   drivers/gpu/drm/drm_file.c:584:7: note: Assuming the condition is true
-                   if (!list_empty(&file_priv->event_list)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:584:3: note: Taking true branch
-                   if (!list_empty(&file_priv->event_list)) {
+   drivers/md/raid1.c:1478:2: note: Taking false branch
+           if (unlikely(blocked_rdev)) {
+           ^
+   drivers/md/raid1.c:1504:6: note: 'write_behind' is false
+           if (write_behind && bitmap)
+               ^~~~~~~~~~~~
+   drivers/md/raid1.c:1504:19: note: Left side of '&&' is false
+           if (write_behind && bitmap)
+                            ^
+   drivers/md/raid1.c:1507:6: note: Assuming the condition is false
+           if (max_sectors < bio_sectors(bio)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/raid1.c:1507:2: note: Taking false branch
+           if (max_sectors < bio_sectors(bio)) {
+           ^
+   drivers/md/raid1.c:1517:6: note: Assuming the condition is false
+           if (blk_queue_io_stat(bio->bi_bdev->bd_disk->queue))
+               ^
+   include/linux/blkdev.h:435:30: note: expanded from macro 'blk_queue_io_s=
+tat'
+   #define blk_queue_io_stat(q)    test_bit(QUEUE_FLAG_IO_STAT, &(q)->queue=
+_flags)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
+o 'test_bit'
+   #define test_bit arch_test_bit
+                    ^
+   drivers/md/raid1.c:1517:2: note: Taking false branch
+           if (blk_queue_io_stat(bio->bi_bdev->bd_disk->queue))
+           ^
+   drivers/md/raid1.c:1524:2: note: Loop condition is true.  Entering loop =
+body
+           for (i =3D 0; i < disks; i++) {
+           ^
+   drivers/md/raid1.c:1526:3: note: 'rdev' initialized to a null pointer va=
+lue
+                   struct md_rdev *rdev =3D conf->mirrors[i].rdev;
+                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/md/raid1.c:1527:7: note: Assuming the condition is false
+                   if (!r1_bio->bios[i])
+                       ^~~~~~~~~~~~~~~~
+   drivers/md/raid1.c:1527:3: note: Taking false branch
+                   if (!r1_bio->bios[i])
                    ^
-   drivers/gpu/drm/drm_file.c:587:30: note: Use of memory after it is freed
-                           file_priv->event_space +=3D e->event->length;
-                                                     ^~~~~~~~
-   1 warning generated.
-   sound/core/seq/seq_midi.c:348:4: warning: Call to function 'strcpy' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcpy(port->name, info->subname);
-                           ^~~~~~
-   sound/core/seq/seq_midi.c:348:4: note: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119
-                           strcpy(port->name, info->subname);
-                           ^~~~~~
-   2 warnings generated.
-   Suppressed 2 warnings (2 with check filters).
+   drivers/md/raid1.c:1530:7: note: 'first_clone' is 1
+                   if (first_clone) {
+                       ^~~~~~~~~~~
+   drivers/md/raid1.c:1530:3: note: Taking true branch
+                   if (first_clone) {
+                   ^
+   drivers/md/raid1.c:1535:8: note: Assuming 'bitmap' is non-null
+                           if (bitmap &&
+                               ^~~~~~
+   drivers/md/raid1.c:1535:8: note: Left side of '&&' is true
+   drivers/md/raid1.c:1536:30: note: Passing null pointer value via 2nd par=
+ameter 'addr'
+                               test_bit(WriteMostly, &rdev->flags) &&
+                                                     ^~~~~~~~~~~~
+   drivers/md/raid1.c:1536:8: note: Calling 'arch_test_bit'
+                               test_bit(WriteMostly, &rdev->flags) &&
+                               ^
+   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
+o 'test_bit'
+   #define test_bit arch_test_bit
+                    ^
+   include/asm-generic/bitops/non-atomic.h:118:16: note: Array access (from=
+ variable 'addr') results in a null pointer dereference
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^~~~
    4 warnings generated.
 >> drivers/media/platform/samsung/exynos4-is/media-dev.c:1018:3: warning: V=
 alue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
@@ -889,66 +636,78 @@ ng 'list_del'
    Suppressed 1 warnings (1 with check filters).
    1 warning generated.
    Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   fs/btrfs/verity.c:134:4: warning: Value stored to 'ret' is never read [c=
-lang-analyzer-deadcode.DeadStores]
-                           ret =3D 0;
-                           ^     ~
-   fs/btrfs/verity.c:134:4: note: Value stored to 'ret' is never read
-                           ret =3D 0;
-                           ^     ~
-   1 warning generated.
-   drivers/of/device.c:59:29: warning: Value stored to 'of_node' during its=
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *node, *of_node =3D dev->of_node;
-                                      ^~~~~~~   ~~~~~~~~~~~~
-   drivers/of/device.c:59:29: note: Value stored to 'of_node' during its in=
-itialization is never read
-           struct device_node *node, *of_node =3D dev->of_node;
-                                      ^~~~~~~   ~~~~~~~~~~~~
    2 warnings generated.
-   drivers/of/property.c:920:19: warning: Access to field 'full_name' resul=
-ts in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
+   fs/btrfs/sysfs.c:626:8: warning: Dereference of null pointer (loaded fro=
+m variable 'value_ptr') [clang-analyzer-core.NullDereference]
+           val =3D *value_ptr;
+                 ^
+   fs/btrfs/sysfs.c:644:34: note: Calling 'to_fs_info'
+           struct btrfs_fs_info *fs_info =3D to_fs_info(kobj->parent);
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:1097:6: note: Assuming the condition is false
+           if (kobj->ktype !=3D &btrfs_ktype)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:1097:2: note: Taking false branch
+           if (kobj->ktype !=3D &btrfs_ktype)
            ^
-   drivers/of/property.c:920:19: note: '?' condition is false
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
-                   ^
-   drivers/of/property.c:920:19: note: Access to field 'full_name' results =
-in a dereference of a null pointer
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
+   fs/btrfs/sysfs.c:1099:2: note: Returning pointer
+           return to_fs_devs(kobj)->fs_info;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:644:34: note: Returning from 'to_fs_info'
+           struct btrfs_fs_info *fs_info =3D to_fs_info(kobj->parent);
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:644:2: note: 'fs_info' initialized here
+           struct btrfs_fs_info *fs_info =3D to_fs_info(kobj->parent);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:645:2: note: 'block_rsv' initialized here
+           struct btrfs_block_rsv *block_rsv =3D &fs_info->global_block_rsv;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:646:24: note: Passing value via 1st parameter 'value_pt=
+r'
+           return btrfs_show_u64(&block_rsv->reserved, &block_rsv->lock, bu=
+f);
+                                 ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:646:9: note: Calling 'btrfs_show_u64'
+           return btrfs_show_u64(&block_rsv->reserved, &block_rsv->lock, bu=
+f);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/btrfs/sysfs.c:624:6: note: Assuming 'lock' is null
+           if (lock)
+               ^~~~
+   fs/btrfs/sysfs.c:624:2: note: Taking false branch
+           if (lock)
            ^
-   drivers/of/property.c:926:7: warning: Access to field 'parent' results i=
-n a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
-           ^
-   drivers/of/property.c:926:7: note: '?' condition is false
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
-                   ^
-   drivers/of/property.c:926:7: note: Access to field 'parent' results in a=
- dereference of a null pointer
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
-           ^
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
+   fs/btrfs/sysfs.c:626:8: note: Dereference of null pointer (loaded from v=
+ariable 'value_ptr')
+           val =3D *value_ptr;
+                 ^~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   fs/btrfs/xattr.c:484:3: warning: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(name, XATTR_SECURITY_PREFIX);
+                   ^~~~~~
+   fs/btrfs/xattr.c:484:3: note: Call to function 'strcpy' is insecure as i=
+t does not provide bounding of the memory buffer. Replace unbounded copy fu=
+nctions with analogous functions that support length arguments such as 'str=
+lcpy'. CWE-119
+                   strcpy(name, XATTR_SECURITY_PREFIX);
+                   ^~~~~~
+   fs/btrfs/xattr.c:485:3: warning: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(name + XATTR_SECURITY_PREFIX_LEN, xattr->name);
+                   ^~~~~~
+   fs/btrfs/xattr.c:485:3: note: Call to function 'strcpy' is insecure as i=
+t does not provide bounding of the memory buffer. Replace unbounded copy fu=
+nctions with analogous functions that support length arguments such as 'str=
+lcpy'. CWE-119
 
 vim +/ret +803 drivers/media/platform/samsung/exynos4-is/fimc-core.c
 
@@ -1027,5 +786,5 @@ urn value of clk_enable/clk_set_rate
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5999079779694590933==--
+--===============0859867538790100211==--
 
