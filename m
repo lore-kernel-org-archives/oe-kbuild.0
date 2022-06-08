@@ -1,193 +1,210 @@
-Content-Type: multipart/mixed; boundary="===============1246626464228392949=="
+Content-Type: multipart/mixed; boundary="===============6935199306363641854=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:drm-misc-next 1/2] drivers/video/fbdev/core/fbmem.c:1610:0-1: preceding lock on line 1598
-Date: Thu, 09 Jun 2022 13:14:12 +0800
-Message-ID: <202206091207.VzTUlukg-lkp@intel.com>
+Subject: [ebiggers:cryptobench 1/1] crypto/benchmark.c:444:27: warning: Parameter 'off' can be declared with const [constParameter]
+Date: Thu, 09 Jun 2022 06:53:09 +0800
+Message-ID: <202206090631.7HkJjbEw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1246626464228392949==
+--===============6935199306363641854==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: crypto/be=
+nchmark.c:444:27: warning: Parameter 'off' can be declared with const [cons=
+tParameter]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Javier Martinez Canillas <javierm@redhat.com>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+TO: Eric Biggers <ebiggers@google.com>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   6aed665f9d8368ae1e962f44339150884bb47f5b
-commit: 3367aa7d74d240261de2543ddb35531ccad9d884 [1/2] fbdev: Restart confl=
-icting fb removal loop when unregistering devices
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 weeks ago
-config: m68k-randconfig-c003-20220608 (https://download.01.org/0day-ci/arch=
-ive/20220609/202206091207.VzTUlukg-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git =
+cryptobench
+head:   d8c93cbf8d7da95989a79fcad5855bdb01070033
+commit: d8c93cbf8d7da95989a79fcad5855bdb01070033 [1/1] [TESTING, DO NOT MER=
+GE] crypto - add benchmark and testing module
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+compiler: alpha-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout d8c93cbf8d7da95989a79fcad5855bdb01070033
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/core/fbmem.c:1610:0-1: preceding lock on line 1598
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +1610 drivers/video/fbdev/core/fbmem.c
+>> crypto/benchmark.c:444:27: warning: Parameter 'off' can be declared with=
+ const [constParameter]
+        size_t size, loff_t *off)
+                             ^
 
-712f3147aee0fb drivers/video/fbmem.c            Linus Torvalds           20=
-11-05-13  1551  =
+vim +/off +444 crypto/benchmark.c
 
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1552  #define VGA_FB_PHYS 0xA0000
-deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
-19-05-28  1553  static void do_remove_conflicting_framebuffers(struct apert=
-ures_struct *a,
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1554  					       const char *name, bool primary)
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1555  {
-deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
-19-05-28  1556  	int i;
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1557  =
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  442  =
 
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1558  restart_removal:
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1559  	/* check all firmware fbs and kick off if the base addr ov=
-erlaps */
-10ac86884b4d76 drivers/video/fbdev/core/fbmem.c Yisheng Xie              20=
-18-07-24  1560  	for_each_registered_fb(i) {
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1561  		struct apertures_struct *gen_aper;
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1562  		struct device *device;
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1563  =
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  443  static ssize_t cryptobench_wri=
+te(struct file *f, const char __user *ubuf,
+d8c93cbf8d7da9 Eric Biggers 2022-05-02 @444  				 size_t size, loff_t *off)
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  445  {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  446  	char *optstr =3D NULL;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  447  	char *opt, *optp;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  448  	struct cryptobench_params par=
+ams =3D {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  449  		.algtype =3D "skcipher",
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  450  		.niter =3D 4096,
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  451  		.bufsize =3D 4096,
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  452  	};
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  453  	ssize_t ret;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  454  	int i;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  455  	enum cryptobench_result resul=
+t;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  456  =
 
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1564  		if (!(registered_fb[i]->flags & FBINFO_MISC_FIRMWARE))
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1565  			continue;
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1566  =
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  457  	mutex_lock(&cryptobench_mutex=
+);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  458  =
 
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1567  		gen_aper =3D registered_fb[i]->apertures;
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1568  		device =3D registered_fb[i]->device;
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1569  		if (fb_do_apertures_overlap(gen_aper, a) ||
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1570  			(primary && gen_aper && gen_aper->count &&
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1571  			 gen_aper->ranges[0].base =3D=3D VGA_FB_PHYS)) {
-3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1572  =
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  459  	if (size >=3D 4096 || *off !=
+=3D 0)
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  460  		goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  461  =
 
-fbc42d455a2982 drivers/video/fbdev/core/fbmem.c Micha=C5=82 Miros=C5=82aw  =
-        2018-09-01  1573  			printk(KERN_INFO "fb%d: switching to %s from %=
-s\n",
-fbc42d455a2982 drivers/video/fbdev/core/fbmem.c Micha=C5=82 Miros=C5=82aw  =
-        2018-09-01  1574  			       i, name, registered_fb[i]->fix.id);
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1575  =
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  462  	optstr =3D kmalloc(size + 1, =
+GFP_KERNEL);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  463  	if (!optstr)
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  464  		goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  465  	if (copy_from_user(optstr, ub=
+uf, size))
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  466  		goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  467  	optstr[size] =3D '\0';
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  468  =
 
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1576  			/*
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1577  			 * If we kick-out a firmware driver, we also want to rem=
-ove
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1578  			 * the underlying platform device, such as simple-frameb=
-uffer,
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1579  			 * VESA, EFI, etc. A native driver will then be able to
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1580  			 * allocate the memory range.
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1581  			 *
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1582  			 * If it's not a platform device, at least print a warni=
-ng. A
-b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-19  1583  			 * fix would add code to remove the device from the syst=
-em. For
-b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-19  1584  			 * framebuffers without any Linux device, print a warnin=
-g as
-b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-19  1585  			 * well.
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1586  			 */
-0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-04  1587  			if (!device) {
-b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-19  1588  				pr_warn("fb%d: no device set\n", i);
-0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-04  1589  				do_unregister_framebuffer(registered_fb[i]);
-0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-04-04  1590  			} else if (dev_is_platform(device)) {
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1591  				/*
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1592  				 * Drop the lock because if the device is unregistered,=
- its
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1593  				 * driver will call to unregister_framebuffer(), that t=
-akes
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1594  				 * this lock.
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1595  				 */
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1596  				mutex_unlock(&registration_lock);
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1597  				platform_device_unregister(to_platform_device(device));
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11 @1598  				mutex_lock(&registration_lock);
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1599  			} else {
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25  1600  				pr_warn("fb%d: cannot remove device\n", i);
-deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
-19-05-28  1601  				do_unregister_framebuffer(registered_fb[i]);
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1602  			}
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1603  			/*
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1604  			 * Restart the removal loop now that the device has been
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1605  			 * unregistered and its associated framebuffer gone.
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1606  			 */
-3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
-22-05-11  1607  			goto restart_removal;
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1608  		}
-06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
-10-05-16  1609  	}
-27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
-22-01-25 @1610  }
-^1da177e4c3f41 drivers/video/fbmem.c            Linus Torvalds           20=
-05-04-16  1611  =
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  469  	optp =3D optstr;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  470  	while ((opt =3D strsep(&optp,=
+ "\n ")) !=3D NULL) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  471  		substring_t args[MAX_OPT_ARG=
+S];
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  472  		int token;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  473  =
 
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  474  		if (!*opt)
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  475  			continue;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  476  =
 
-:::::: The code at line 1610 was first introduced by commit
-:::::: 27599aacbaefcbf2af7b06b0029459bbf682000d fbdev: Hot-unplug firmware =
-fb devices on forced removal
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  477  		token =3D match_token(opt, t=
+okens, args);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  478  		switch (token) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  479  		case Opt_algtype:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  480  			params.algtype =3D args[0].=
+from;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  481  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  482  		case Opt_algname:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  483  			params.algname =3D args[0].=
+from;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  484  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  485  		case Opt_keysize:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  486  			if (kstrtoint(args[0].from,=
+ 10, &params.keysize)) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  487  				pr_err("bad value for 'key=
+size' option");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  488  				goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  489  			}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  490  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  491  		case Opt_niter:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  492  			if (kstrtoul(args[0].from, =
+10, &params.niter)) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  493  				pr_err("bad value for 'nit=
+er' option");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  494  				goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  495  			}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  496  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  497  		case Opt_bufsize:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  498  			if (kstrtoul(args[0].from, =
+10, &params.bufsize)) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  499  				pr_err("bad value for 'buf=
+size' option");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  500  				goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  501  			}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  502  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  503  		case Opt_inplace:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  504  			params.inplace =3D true;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  505  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  506  		case Opt_random_seed:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  507  			if (kstrtoull(args[0].from,=
+ 10, &params.random_seed)) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  508  				pr_err("bad value for 'ran=
+dom_seed' option");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  509  				goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  510  			}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  511  			break;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  512  		default:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  513  			pr_err("unrecognized option=
+ '%s'\n", opt);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  514  			goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  515  		}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  516  	}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  517  =
 
-:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
-:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  518  	if (!params.algtype) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  519  		pr_err("'algtype' option is =
+missing");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  520  		goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  521  	}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  522  =
+
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  523  	if (!params.algname) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  524  		pr_err("'algname' option is =
+missing");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  525  		goto bad_params;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  526  	}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  527  =
+
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  528  	for (i =3D 0; i < ARRAY_SIZE(=
+benchmark_funcs); i++) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  529  		if (!strcmp(benchmark_funcs[=
+i].algtype, params.algtype)) {
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  530  			result =3D benchmark_funcs[=
+i].f(&params);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  531  			ret =3D size;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  532  			if (result !=3D SUCCESS)
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  533  				goto save_error;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  534  			goto out;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  535  		}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  536  	}
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  537  =
+
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  538  	pr_err("bad value for 'algtyp=
+e' option");
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  539  bad_params:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  540  	ret =3D -EINVAL;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  541  	result =3D BAD_PARAMETERS;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  542  save_error:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  543  	sprintf(cryptobench_results, =
+"ERROR %s\n", result_strings[result]);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  544  out:
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  545  	mutex_unlock(&cryptobench_mut=
+ex);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  546  	kfree(optstr);
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  547  	return ret;
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  548  }
+d8c93cbf8d7da9 Eric Biggers 2022-05-02  549  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1246626464228392949==--
+--===============6935199306363641854==--
 
