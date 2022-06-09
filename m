@@ -1,357 +1,315 @@
-Content-Type: multipart/mixed; boundary="===============6429546299529880457=="
+Content-Type: multipart/mixed; boundary="===============9074818005275327989=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ipv4/udp_bpf.c:42:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Thu, 09 Jun 2022 21:14:55 +0800
-Message-ID: <202206092124.Ypmmn4y9-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:5.19-rc 8/11] drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/include/stp_dbg.h:61:20: error: 'gStpDbgType' defined but not used
+Date: Thu, 09 Jun 2022 20:07:58 +0800
+Message-ID: <202206092049.hod40byN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6429546299529880457==
+--===============9074818005275327989==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: net/ipv4/=
-udp_bpf.c:42:2: warning: Dereference of null pointer [clang-analyzer-core.N=
-ullDereference]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/include/stp_d=
+bg.h:61:20: error: 'gStpDbgType' defined but not used [-Werror=3Dunused-con=
+st-variable=3D]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Cong Wang <cong.wang@bytedance.com>
-CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6bfb56e93bcef41859c2d5ab234ffd80b691be35
-commit: 9f2470fbc4cb4583c080bb729a998933ba61aca4 skmsg: Improve udp_bpf_rec=
-vmsg() accuracy
-date:   12 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 12 months ago
-config: s390-randconfig-c005-20220607 (https://download.01.org/0day-ci/arch=
-ive/20220609/202206092124.Ypmmn4y9-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436=
-efcb7813fc481b30f2593a4907568d917a)
-reproduce (this is a W=3D1 build):
+tree:   https://github.com/frank-w/BPI-R2-4.14 5.19-rc
+head:   fa34f89f09ed26613abc1cfe06895f259bfb66a0
+commit: 80e5f963a4f1916e2438b4df73b922da7b4a150b [8/11] mt6625l: include wi=
+fi-code
+:::::: branch date: 22 hours ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-s032-20220607 (https://download.01.org/0day-ci/archi=
+ve/20220609/202206092049.hod40byN-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9f2470fbc4cb4583c080bb729a998933ba61aca4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9f2470fbc4cb4583c080bb729a998933ba61aca4
+        # apt-get install sparse
+        # sparse version: v0.6.4-26-gb3cf30ba-dirty
+        # https://github.com/frank-w/BPI-R2-4.14/commit/80e5f963a4f1916e243=
+8b4df73b922da7b4a150b
+        git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R=
+2-4.14
+        git fetch --no-tags frank-w-bpi-r2-4.14 5.19-rc
+        git checkout 80e5f963a4f1916e2438b4df73b922da7b4a150b
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:686:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:910:7: note: Returning from 'kzalloc'
-           wq =3D kzalloc(sizeof(*wq), GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:911:6: note: Assuming 'wq' is non-null
-           if (!wq)
-               ^~~
-   fs/io-wq.c:911:2: note: Taking false branch
-           if (!wq)
-           ^
-   fs/io-wq.c:914:13: note: Calling 'kcalloc'
-           wq->wqes =3D kcalloc(nr_node_ids, sizeof(struct io_wqe *), GFP_K=
-ERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   include/linux/slab.h:625:9: note: Calling 'kmalloc_array'
-           return kmalloc_array(n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:592:2: note: Taking false branch
-           if (unlikely(check_mul_overflow(n, size, &bytes)))
-           ^
-   include/linux/slab.h:594:30: note: Left side of '&&' is false
-           if (__builtin_constant_p(n) && __builtin_constant_p(size))
-                                       ^
-   include/linux/slab.h:596:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(bytes, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:625:9: note: Returning from 'kmalloc_array'
-           return kmalloc_array(n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:625:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc_array(n, size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:914:13: note: Returning from 'kcalloc'
-           wq->wqes =3D kcalloc(nr_node_ids, sizeof(struct io_wqe *), GFP_K=
-ERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/io-wq.c:915:6: note: Assuming field 'wqes' is non-null
-           if (!wq->wqes)
-               ^~~~~~~~~
-   fs/io-wq.c:915:2: note: Taking false branch
-           if (!wq->wqes)
-           ^
-   fs/io-wq.c:919:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   fs/io-wq.c:919:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/io-wq.c:928:2: note: Loop condition is true.  Entering loop body
-           for_each_node(node) {
-           ^
-   include/linux/nodemask.h:514:32: note: expanded from macro 'for_each_nod=
-e'
-   #define for_each_node(node)        for_each_node_state(node, N_POSSIBLE)
-                                      ^
-   include/linux/nodemask.h:484:2: note: expanded from macro 'for_each_node=
-_state'
-           for ( (node) =3D 0; (node) =3D=3D 0; (node) =3D 1)
-           ^
-   fs/io-wq.c:932:3: note: Taking false branch
-                   if (!node_online(alloc_node))
-                   ^
-   fs/io-wq.c:934:9: note: Calling 'kzalloc_node'
-                   wqe =3D kzalloc_node(sizeof(struct io_wqe), GFP_KERNEL, =
-alloc_node);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   include/linux/slab.h:697:9: note: Calling 'kmalloc_node'
-           return kmalloc_node(size, flags | __GFP_ZERO, node);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:567:33: note: Left side of '&&' is false
-           if (__builtin_constant_p(size) &&
-                                          ^
-   include/linux/slab.h:579:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc_node(size, flags, node);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:697:9: note: Returning from 'kmalloc_node'
-           return kmalloc_node(size, flags | __GFP_ZERO, node);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:697:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc_node(size, flags | __GFP_ZERO, node);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:934:9: note: Returning from 'kzalloc_node'
-                   wqe =3D kzalloc_node(sizeof(struct io_wqe), GFP_KERNEL, =
-alloc_node);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   fs/io-wq.c:935:7: note: Assuming 'wqe' is non-null
-                   if (!wqe)
-                       ^~~~
-   fs/io-wq.c:935:3: note: Taking false branch
-                   if (!wqe)
-                   ^
-   fs/io-wq.c:944:18: note: Dereference of null pointer
-                                           task_rlimit(current, RLIMIT_NPRO=
-C);
-                                                       ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 17 warnings (5 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   25 warnings generated.
->> net/ipv4/udp_bpf.c:42:2: warning: Dereference of null pointer [clang-ana=
-lyzer-core.NullDereference]
-           DEFINE_WAIT_FUNC(wait, woken_wake_function);
-           ^
-   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
-C'
-                   .private        =3D current,                            =
-          \
-                                     ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   net/ipv4/udp_bpf.c:69:6: note: Assuming the condition is true
-           if (unlikely(flags & MSG_ERRQUEUE))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   net/ipv4/udp_bpf.c:69:2: note: Taking false branch
-           if (unlikely(flags & MSG_ERRQUEUE))
-           ^
-   net/ipv4/udp_bpf.c:73:16: note: 'psock' is non-null
-           if (unlikely(!psock))
-                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/ipv4/udp_bpf.c:73:2: note: Taking false branch
-           if (unlikely(!psock))
-           ^
-   net/ipv4/udp_bpf.c:76:2: note: Taking false branch
-           if (!psock_has_data(psock)) {
-           ^
-   net/ipv4/udp_bpf.c:83:6: note: Assuming 'copied' is 0
-           if (!copied) {
-               ^~~~~~~
-   net/ipv4/udp_bpf.c:83:2: note: Taking true branch
-           if (!copied) {
-           ^
-   net/ipv4/udp_bpf.c:88:10: note: Calling 'udp_msg_wait_data'
-                   data =3D udp_msg_wait_data(sk, psock, flags, timeo, &err=
-);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/udp_bpf.c:42:2: note: Dereference of null pointer
-           DEFINE_WAIT_FUNC(wait, woken_wake_function);
-           ^
-   include/linux/wait.h:1148:14: note: expanded from macro 'DEFINE_WAIT_FUN=
-C'
-                   .private        =3D current,                            =
-          \
-                                     ^~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 24 warnings (12 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   24 warnings generated.
-   Suppressed 24 warnings (12 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   24 warnings generated.
-   Suppressed 24 warnings (12 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   fs/fuse/dev.c:138:41: warning: Dereference of null pointer [clang-analyz=
-er-core.NullDereference]
-           req->in.h.uid =3D from_kuid(fc->user_ns, current_fsuid());
-                                                  ^
-   include/linux/cred.h:384:27: note: expanded from macro 'current_fsuid'
-   #define current_fsuid()         (current_cred_xxx(fsuid))
-                                    ^
-   include/linux/cred.h:375:2: note: expanded from macro 'current_cred_xxx'
-           current_cred()->xxx;                    \
-           ^
-   include/linux/cred.h:297:28: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-                                     ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:192:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/fuse/dev.c:592:8: note: Calling 'fuse_get_req'
-           req =3D fuse_get_req(fm, false);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:113:6: note: Calling 'fuse_block_alloc'
-           if (fuse_block_alloc(fc, for_background)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:87:9: note: Assuming field 'initialized' is not equal to 0
-           return !fc->initialized || (for_background && fc->blocked);
-                  ^~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:87:9: note: Left side of '||' is false
-   fs/fuse/dev.c:87:30: note: 'for_background' is false
-           return !fc->initialized || (for_background && fc->blocked);
-                                       ^~~~~~~~~~~~~~
-   fs/fuse/dev.c:87:45: note: Left side of '&&' is false
-           return !fc->initialized || (for_background && fc->blocked);
-                                                      ^
-   fs/fuse/dev.c:87:2: note: Returning without writing to 'fc->connected', =
-which participates in a condition later
-           return !fc->initialized || (for_background && fc->blocked);
-           ^
-   fs/fuse/dev.c:87:2: note: Returning without writing to 'fc->conn_error',=
- which participates in a condition later
+   In file included from drivers/misc/mediatek/connectivity/common/conn_soc=
+/core/wmt_ctrl.c:49:
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/include/stp=
+_dbg.h:61:20: error: 'gStpDbgType' defined but not used [-Werror=3Dunused-c=
+onst-variable=3D]
+      61 | static char *const gStpDbgType[] =3D {
+         |                    ^~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect_pwr.c=
+:51:5: error: no previous prototype for '_wmt_detect_output_low' [-Werror=
+=3Dmissing-prototypes]
+      51 | int _wmt_detect_output_low(unsigned int id)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c: In =
+function 'osal_snprintf':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c:168:=
+9: error: function 'osal_snprintf' might be a candidate for 'gnu_printf' fo=
+rmat attribute [-Werror=3Dsuggest-attribute=3Dformat]
+     168 |         iRet =3D vsnprintf(buf, len, fmt, args);
+         |         ^~~~
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c: In =
+function 'osal_err_print':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c:180:=
+9: error: function 'osal_err_print' might be a candidate for 'gnu_printf' f=
+ormat attribute [-Werror=3Dsuggest-attribute=3Dformat]
+     180 |         vsnprintf(tempString, DBG_LOG_STR_SIZE, str, args);
+         |         ^~~~~~~~~
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c: In =
+function 'osal_dbg_print':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c:194:=
+9: error: function 'osal_dbg_print' might be a candidate for 'gnu_printf' f=
+ormat attribute [-Werror=3Dsuggest-attribute=3Dformat]
+     194 |         vsnprintf(tempString, DBG_LOG_STR_SIZE, str, args);
+         |         ^~~~~~~~~
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c: In =
+function 'osal_warn_print':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c:208:=
+9: error: function 'osal_warn_print' might be a candidate for 'gnu_printf' =
+format attribute [-Werror=3Dsuggest-attribute=3Dformat]
+     208 |         vsnprintf(tempString, DBG_LOG_STR_SIZE, str, args);
+         |         ^~~~~~~~~
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c: In =
+function 'osal_sprintf':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/osal.c:251:=
+9: error: function 'osal_sprintf' might be a candidate for 'gnu_printf' for=
+mat attribute [-Werror=3Dsuggest-attribute=3Dformat]
+     251 |         iRet =3D vsnprintf(str, DBG_LOG_STR_SIZE, format, args);
+         |         ^~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/bgw_desense=
+.c: In function 'nl_data_handler':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/bgw_desense=
+.c:105:13: error: variable 'len' set but not used [-Werror=3Dunused-but-set=
+-variable]
+     105 |         int len;
+         |             ^~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: drivers/misc/mediatek/mach/mt7623/include/mach: No such file=
+ or directory [-Werror=3Dmissing-include-dirs]
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:1=
+31:14: error: no previous prototype for '_mtk_wcn_wmt_func_off' [-Werror=3D=
+missing-prototypes]
+     131 | MTK_WCN_BOOL _mtk_wcn_wmt_func_off(ENUM_WMTDRV_TYPE_T type)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:1=
+53:14: error: no previous prototype for '_mtk_wcn_wmt_func_on' [-Werror=3Dm=
+issing-prototypes]
+     153 | MTK_WCN_BOOL _mtk_wcn_wmt_func_on(ENUM_WMTDRV_TYPE_T type)
+         |              ^~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:1=
+89:6: error: no previous prototype for '_mtk_wcn_wmt_therm_ctrl' [-Werror=
+=3Dmissing-prototypes]
+     189 | INT8 _mtk_wcn_wmt_therm_ctrl(ENUM_WMTTHERM_TYPE_T eType)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:2=
+54:22: error: no previous prototype for '_mtk_wcn_wmt_hwver_get' [-Werror=
+=3Dmissing-prototypes]
+     254 | ENUM_WMTHWVER_TYPE_T _mtk_wcn_wmt_hwver_get(VOID)
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:2=
+69:14: error: no previous prototype for '_mtk_wcn_wmt_dsns_ctrl' [-Werror=
+=3Dmissing-prototypes]
+     269 | MTK_WCN_BOOL _mtk_wcn_wmt_dsns_ctrl(ENUM_WMTDSNS_TYPE_T eType)
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:3=
+30:7: error: no previous prototype for '_mtk_wcn_wmt_msgcb_reg' [-Werror=3D=
+missing-prototypes]
+     330 | INT32 _mtk_wcn_wmt_msgcb_reg(ENUM_WMTDRV_TYPE_T eType, PF_WMT_CB=
+ pCb)
+         |       ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:3=
+42:7: error: no previous prototype for '_mtk_wcn_wmt_msgcb_unreg' [-Werror=
+=3Dmissing-prototypes]
+     342 | INT32 _mtk_wcn_wmt_msgcb_unreg(ENUM_WMTDRV_TYPE_T eType)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:3=
+54:7: error: no previous prototype for '_mtk_wcn_stp_wmt_sdio_op_reg' [-Wer=
+ror=3Dmissing-prototypes]
+     354 | INT32 _mtk_wcn_stp_wmt_sdio_op_reg(PF_WMT_SDIO_PSOP own_cb)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:3=
+67:7: error: no previous prototype for '_mtk_wcn_stp_wmt_sdio_host_awake' [=
+-Werror=3Dmissing-prototypes]
+     367 | INT32 _mtk_wcn_stp_wmt_sdio_host_awake(VOID)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:3=
+80:14: error: no previous prototype for '_mtk_wcn_wmt_assert' [-Werror=3Dmi=
+ssing-prototypes]
+     380 | MTK_WCN_BOOL _mtk_wcn_wmt_assert(ENUM_WMTDRV_TYPE_T type, UINT32=
+ reason)
+         |              ^~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_exp.c:6=
+08:6: error: no previous prototype for 'mtk_wcn_wmt_set_wifi_ver' [-Werror=
+=3Dmissing-prototypes]
+     608 | VOID mtk_wcn_wmt_set_wifi_ver(UINT32 Value)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: drivers/misc/mediatek/mach/mt7623/include/mach: No such file=
+ or directory [-Werror=3Dmissing-include-dirs]
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: drivers/misc/mediatek/mach/mt7623/include/mach: No such file=
+ or directory [-Werror=3Dmissing-include-dirs]
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/stp_dbg.c: =
+In function 'stp_dbg_nl_bind':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/stp_dbg.c:1=
+254:15: error: variable 'mydata' set but not used [-Werror=3Dunused-but-set=
+-variable]
+    1254 |         char *mydata;
+         |               ^~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: drivers/misc/mediatek/mach/mt7623/include/mach: No such file=
+ or directory [-Werror=3Dmissing-include-dirs]
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_dev.c:1=
+597:14: error: no previous prototype for 'wmt_dev_is_file_exist' [-Werror=
+=3Dmissing-prototypes]
+    1597 | MTK_WCN_BOOL wmt_dev_is_file_exist(PUINT8 pFileName)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_dev.c:1=
+645:14: error: no previous prototype for 'wmt_dev_tra_bitf_update' [-Werror=
+=3Dmissing-prototypes]
+    1645 | extern INT32 wmt_dev_tra_bitf_update(void)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_dev.c: =
+In function 'WMT_unlocked_ioctl':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_dev.c:1=
+985:32: error: variable 'u4Wait' set but not used [-Werror=3Dunused-but-set=
+-variable]
+    1985 |                         UINT32 u4Wait;
+         |                                ^~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/wmt_dev.c:2=
+154:42: error: variable 'pTemp' set but not used [-Werror=3Dunused-but-set-=
+variable]
+    2154 |                         P_WMT_PATCH_INFO pTemp =3D NULL;
+         |                                          ^~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:191:6: error: no previous prototype for 'mtk_wcn_consys_power_on' [-W=
+error=3Dmissing-prototypes]
+     191 | VOID mtk_wcn_consys_power_on(VOID)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:207:6: error: no previous prototype for 'mtk_wcn_consys_power_off' [-=
+Werror=3Dmissing-prototypes]
+     207 | VOID mtk_wcn_consys_power_off(VOID)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:224:7: error: no previous prototype for 'mtk_wcn_consys_hw_reg_ctrl' =
+[-Werror=3Dmissing-prototypes]
+     224 | INT32 mtk_wcn_consys_hw_reg_ctrl(UINT32 on, UINT32 co_clock_type)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:335:7: error: no previous prototype for 'mtk_wcn_consys_hw_gpio_ctrl'=
+ [-Werror=3Dmissing-prototypes]
+     335 | INT32 mtk_wcn_consys_hw_gpio_ctrl(UINT32 on)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:539:7: error: no previous prototype for 'mtk_wcn_consys_hw_restore' [=
+-Werror=3Dmissing-prototypes]
+     539 | INT32 mtk_wcn_consys_hw_restore(struct device *device)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:592:5: error: no previous prototype for 'reserve_memory_consys_fn' [-=
+Werror=3Dmissing-prototypes]
+     592 | int reserve_memory_consys_fn(struct reserved_mem *rmem)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c: In function 'mtk_wcn_consys_get_pinctrl':
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/mtk_wcn_consys=
+_hw.c:713:17: error: old-style function definition [-Werror=3Dold-style-def=
+inition]
+     713 | struct pinctrl *mtk_wcn_consys_get_pinctrl()
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/wmt_plat_alps.=
+c:255:13: error: no previous prototype for 'wmt_plat_bgf_irq_isr' [-Werror=
+=3Dmissing-prototypes]
+     255 | irqreturn_t wmt_plat_bgf_irq_isr(INT32 i, VOID *arg)
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/connectivity/common/conn_soc/mt7623/wmt_plat_alps.=
+c:296:8: error: no previous prototype for 'wmt_plat_soc_co_clock_flag_get' =
+[-Werror=3Dmissing-prototypes]
+     296 | UINT32 wmt_plat_soc_co_clock_flag_get(VOID)
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/misc/mediatek/connectivity/common/conn_soc=
+/mt7623/wmt_plat_alps.c:39:
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/pri/include/stp=
+_dbg.h:61:20: error: 'gStpDbgType' defined but not used [-Werror=3Dunused-c=
+onst-variable=3D]
+      61 | static char *const gStpDbgType[] =3D {
+         |                    ^~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-vim +42 net/ipv4/udp_bpf.c
 
-9f2470fbc4cb458 Cong Wang 2021-06-14  35  =
+vim +/gStpDbgType +61 drivers/misc/mediatek/connectivity/common/conn_soc/li=
+nux/pri/include/stp_dbg.h
 
-9f2470fbc4cb458 Cong Wang 2021-06-14  36  #define udp_msg_has_data(__sk, __=
-psock)	\
-9f2470fbc4cb458 Cong Wang 2021-06-14  37  		({ udp_sk_has_data(__sk) || pso=
-ck_has_data(__psock); })
-9f2470fbc4cb458 Cong Wang 2021-06-14  38  =
+6815c045ef9784 Frank Wunderlich 2022-06-05  60  =
 
-9f2470fbc4cb458 Cong Wang 2021-06-14  39  static int udp_msg_wait_data(stru=
-ct sock *sk, struct sk_psock *psock, int flags,
-9f2470fbc4cb458 Cong Wang 2021-06-14  40  			     long timeo, int *err)
-9f2470fbc4cb458 Cong Wang 2021-06-14  41  {
-9f2470fbc4cb458 Cong Wang 2021-06-14 @42  	DEFINE_WAIT_FUNC(wait, woken_wak=
-e_function);
-9f2470fbc4cb458 Cong Wang 2021-06-14  43  	int ret =3D 0;
-9f2470fbc4cb458 Cong Wang 2021-06-14  44  =
+6815c045ef9784 Frank Wunderlich 2022-06-05 @61  static char *const gStpDbgT=
+ype[] =3D {
+6815c045ef9784 Frank Wunderlich 2022-06-05  62  	"< BT>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  63  	"< FM>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  64  	"<GPS>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  65  	"<WiFi>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  66  	"<WMT>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  67  	"<STP>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  68  	"<DBG>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  69  	"<WAKEINT>",
+6815c045ef9784 Frank Wunderlich 2022-06-05  70  	"<UNKNOWN>"
+6815c045ef9784 Frank Wunderlich 2022-06-05  71  };
+6815c045ef9784 Frank Wunderlich 2022-06-05  72  =
 
-9f2470fbc4cb458 Cong Wang 2021-06-14  45  	if (sk->sk_shutdown & RCV_SHUTDO=
-WN)
-9f2470fbc4cb458 Cong Wang 2021-06-14  46  		return 1;
-9f2470fbc4cb458 Cong Wang 2021-06-14  47  =
 
-9f2470fbc4cb458 Cong Wang 2021-06-14  48  	if (!timeo)
-9f2470fbc4cb458 Cong Wang 2021-06-14  49  		return ret;
-9f2470fbc4cb458 Cong Wang 2021-06-14  50  =
+:::::: The code at line 61 was first introduced by commit
+:::::: 6815c045ef97845d09668ec6d432b76e69497faa mt6625l: add driver from 5.=
+18
 
-9f2470fbc4cb458 Cong Wang 2021-06-14  51  	add_wait_queue(sk_sleep(sk), &wa=
-it);
-9f2470fbc4cb458 Cong Wang 2021-06-14  52  	sk_set_bit(SOCKWQ_ASYNC_WAITDATA=
-, sk);
-9f2470fbc4cb458 Cong Wang 2021-06-14  53  	ret =3D udp_msg_has_data(sk, pso=
-ck);
-9f2470fbc4cb458 Cong Wang 2021-06-14  54  	if (!ret) {
-9f2470fbc4cb458 Cong Wang 2021-06-14  55  		wait_woken(&wait, TASK_INTERRUP=
-TIBLE, timeo);
-9f2470fbc4cb458 Cong Wang 2021-06-14  56  		ret =3D udp_msg_has_data(sk, ps=
-ock);
-9f2470fbc4cb458 Cong Wang 2021-06-14  57  	}
-9f2470fbc4cb458 Cong Wang 2021-06-14  58  	sk_clear_bit(SOCKWQ_ASYNC_WAITDA=
-TA, sk);
-9f2470fbc4cb458 Cong Wang 2021-06-14  59  	remove_wait_queue(sk_sleep(sk), =
-&wait);
-9f2470fbc4cb458 Cong Wang 2021-06-14  60  	return ret;
-9f2470fbc4cb458 Cong Wang 2021-06-14  61  }
-9f2470fbc4cb458 Cong Wang 2021-06-14  62  =
-
+:::::: TO: Frank Wunderlich <frank-w@public-files.de>
+:::::: CC: Frank Wunderlich <frank-w@public-files.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6429546299529880457==--
+--===============9074818005275327989==--
 
