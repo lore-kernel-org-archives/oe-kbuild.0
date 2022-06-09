@@ -1,202 +1,392 @@
-Content-Type: multipart/mixed; boundary="===============6054291971849982345=="
+Content-Type: multipart/mixed; boundary="===============6205547595444634427=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error: uninitialized symbol 'error'.
-Date: Fri, 10 Jun 2022 04:48:11 +0800
-Message-ID: <202206100446.PKvWYKIL-lkp@intel.com>
+Subject: [linux-next:master 1642/2142] arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
+Date: Fri, 10 Jun 2022 04:17:45 +0800
+Message-ID: <202206100456.HomFaAeW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6054291971849982345==
+--===============6205547595444634427==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Jeff LaBundy <jeff@labundy.com>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Paolo Bonzini <pbonzini@redhat.com>
+CC: Like Xu <likexu@tencent.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6bfb56e93bcef41859c2d5ab234ffd80b691be35
-commit: e505edaedcb9e7d16eefddc62d2189afaea0febc Input: add support for Azo=
-teq IQS7222A/B/C
-date:   9 weeks ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 9 weeks ago
-config: openrisc-randconfig-m031-20220609 (https://download.01.org/0day-ci/=
-archive/20220610/202206100446.PKvWYKIL-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   ff539ac73ea559a8c146d99ab14bfcaddd30547a
+commit: 916e3a4f950eac92c28cc138c10d86514ffebf98 [1642/2142] x86: events: D=
+o not return bogus capabilities if PMU is broken
+:::::: branch date: 16 hours ago
+:::::: commit date: 27 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+610/202206100456.HomFaAeW-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error: uninitialized s=
-ymbol 'error'.
+arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code =
+'err'
 
-vim +/error +1404 drivers/input/misc/iqs7222.c
+vim +/err +2114 arch/x86/events/core.c
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1329  =
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2078  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1330  static int iqs7222_dev_init(s=
-truct iqs7222_private *iqs7222, int dir)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1331  {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1332  	const struct iqs7222_dev_des=
-c *dev_desc =3D iqs7222->dev_desc;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1333  	int comms_offset =3D dev_des=
-c->comms_offset;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1334  	int error, i, j, k;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1335  =
+dda99116969142 arch/x86/kernel/cpu/perf_event.c   Yinghai Lu             20=
+11-01-21  2079  static int __init init_hw_perf_events(void)
+b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2080  {
+c1d6f42f1a42c7 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+11-12-06  2081  	struct x86_pmu_quirk *quirk;
+72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
+09-04-29  2082  	int err;
+72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
+09-04-29  2083  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1336  	/*
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1337  	 * Take advantage of the sto=
-p-bit disable function, if available, to
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1338  	 * save the trouble of havin=
-g to reopen a communication window after
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1339  	 * each burst read or write.
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1340  	 */
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1341  	if (comms_offset) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1342  		u16 comms_setup;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1343  =
+cdd6c482c9ff9c arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
+09-09-21  2084  	pr_info("Performance Events: ");
+1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+09-05-29  2085  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1344  		error =3D iqs7222_read_word=
-(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1345  					  IQS7222_SYS_SETUP + co=
-mms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1346  					  &comms_setup);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1347  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1348  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1349  =
+b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2086  	switch (boot_cpu_data.x86_vendor) {
+b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2087  	case X86_VENDOR_INTEL:
+72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
+09-04-29  2088  		err =3D intel_pmu_init();
+b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2089  		break;
+f87ad35d37fa54 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2090  	case X86_VENDOR_AMD:
+72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
+09-04-29  2091  		err =3D amd_pmu_init();
+f87ad35d37fa54 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2092  		break;
+6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
+18-09-23  2093  	case X86_VENDOR_HYGON:
+6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
+18-09-23  2094  		err =3D amd_pmu_init();
+6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
+18-09-23  2095  		x86_pmu.name =3D "HYGON";
+6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
+18-09-23  2096  		break;
+3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
+20-04-13  2097  	case X86_VENDOR_ZHAOXIN:
+3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
+20-04-13  2098  	case X86_VENDOR_CENTAUR:
+3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
+20-04-13  2099  		err =3D zhaoxin_pmu_init();
+3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
+20-04-13  2100  		break;
+4138960a9251a2 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
+09-04-29  2101  	default:
+8a3da6c7d0031f arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
+13-09-28  2102  		err =3D -ENOTSUPP;
+b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2103  	}
+1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+09-05-29  2104  	if (err !=3D 0) {
+cdd6c482c9ff9c arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
+09-09-21  2105  		pr_cont("no PMU driver, software events only.\n");
+916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
+22-06-01  2106  		err =3D 0;
+916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
+22-06-01  2107  		goto out_bad_pmu;
+1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+09-05-29  2108  	}
+b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
+09-02-27  2109  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1350  		error =3D iqs7222_write_wor=
-d(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1351  					   IQS7222_SYS_SETUP + c=
-omms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1352  					   comms_setup | IQS7222=
-_COMMS_HOLD);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1353  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1354  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1355  	}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1356  =
+125580380f4180 arch/x86/kernel/cpu/perf_event.c   Cyrill Gorcunov        20=
+09-12-10  2110  	pmu_check_apic();
+125580380f4180 arch/x86/kernel/cpu/perf_event.c   Cyrill Gorcunov        20=
+09-12-10  2111  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1357  	for (i =3D 0; i < IQS7222_NU=
-M_REG_GRPS; i++) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1358  		int num_row =3D dev_desc->r=
-eg_grps[i].num_row;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1359  		int num_col =3D dev_desc->r=
-eg_grps[i].num_col;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1360  		u16 reg =3D dev_desc->reg_g=
-rps[i].base;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1361  		__le16 *val_buf;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1362  		u16 *val;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1363  =
+33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c   Don Zickus             20=
+10-11-22  2112  	/* sanity check that the hardware exists or is emulated */
+fc4b8fca2d8fc8 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2113  	if (!check_hw_exists(&pmu, x86_pmu.num_counters, x86_pmu.n=
+um_counters_fixed))
+916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
+22-06-01 @2114  		goto out_bad_pmu;
+33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c   Don Zickus             20=
+10-11-22  2115  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1364  		if (!num_col)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1365  			continue;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1366  =
+1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+09-05-29  2116  	pr_cont("%s PMU driver.\n", x86_pmu.name);
+faa28ae018ed00 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
+09-04-29  2117  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1367  		val =3D iqs7222_setup(iqs72=
-22, i, 0);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1368  		if (!val)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1369  			continue;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1370  =
+e97df76377b8b3 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+14-02-05  2118  	x86_pmu.attr_rdpmc =3D 1; /* enable userspace RDPMC usage =
+by default */
+e97df76377b8b3 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+14-02-05  2119  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1371  		val_buf =3D kcalloc(num_col=
-, sizeof(__le16), GFP_KERNEL);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1372  		if (!val_buf)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1373  			return -ENOMEM;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1374  =
+c1d6f42f1a42c7 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+11-12-06  2120  	for (quirk =3D x86_pmu.quirks; quirk; quirk =3D quirk->nex=
+t)
+c1d6f42f1a42c7 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+11-12-06  2121  		quirk->func();
+3c44780b220e87 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-03-04  2122  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1375  		for (j =3D 0; j < num_row; =
-j++) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1376  			switch (dir) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1377  			case READ:
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1378  				error =3D iqs7222_read_bu=
-rst(iqs7222, reg,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1379  							   val_buf, num_col);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1380  				for (k =3D 0; k < num_col=
-; k++)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1381  					val[k] =3D le16_to_cpu(v=
-al_buf[k]);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1382  				break;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1383  =
+a1eac7ac903ea9 arch/x86/kernel/cpu/perf_event.c   Robert Richter         20=
+12-06-20  2123  	if (!x86_pmu.intel_ctrl)
+948b1bb89a4456 arch/x86/kernel/cpu/perf_event.c   Robert Richter         20=
+10-03-29  2124  		x86_pmu.intel_ctrl =3D (1 << x86_pmu.num_counters) - 1;
+241771ef016b5c arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+08-12-03  2125  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1384  			case WRITE:
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1385  				for (k =3D 0; k < num_col=
-; k++)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1386  					val_buf[k] =3D cpu_to_le=
-16(val[k]);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1387  				error =3D iqs7222_write_b=
-urst(iqs7222, reg,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1388  							    val_buf, num_col);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1389  				break;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1390  =
+cdd6c482c9ff9c arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
+09-09-21  2126  	perf_events_lapic_init();
+9c48f1c629ecfa arch/x86/kernel/cpu/perf_event.c   Don Zickus             20=
+11-09-30  2127  	register_nmi_handler(NMI_LOCAL, perf_event_nmi_handler, 0,=
+ "PMI");
+1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+09-05-29  2128  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1391  			default:
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1392  				error =3D -EINVAL;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1393  			}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1394  =
+63b146490befc0 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-01-22  2129  	unconstrained =3D (struct event_constraint)
+948b1bb89a4456 arch/x86/kernel/cpu/perf_event.c   Robert Richter         20=
+10-03-29  2130  		__EVENT_CONSTRAINT(0, (1ULL << x86_pmu.num_counters) - 1,
+9fac2cf316b070 arch/x86/kernel/cpu/perf_event.c   Stephane Eranian       20=
+13-01-24  2131  				   0, x86_pmu.num_counters, 0, 0);
+63b146490befc0 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-01-22  2132  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1395  			if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1396  				break;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1397  =
+641cc938815dfd arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
+12-03-15  2133  	x86_pmu_format_group.attrs =3D x86_pmu.format_attrs;
+0c9d42ed4cee2a arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+11-11-20  2134  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1398  			reg +=3D IQS7222_REG_OFFSE=
-T;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1399  			val +=3D iqs7222_max_cols[=
-i];
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1400  		}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1401  =
+a47473939db20e arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
+12-10-10  2135  	if (!x86_pmu.events_sysfs_show)
+a47473939db20e arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
+12-10-10  2136  		x86_pmu_events_group.attrs =3D &empty_attrs;
+a47473939db20e arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
+12-10-10  2137  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1402  		kfree(val_buf);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1403  =
+baa0c83363c7aa arch/x86/events/core.c             Jiri Olsa              20=
+19-05-12  2138  	pmu.attr_update =3D x86_pmu.attr_update;
+6089327f5424f2 arch/x86/events/core.c             Kan Liang              20=
+17-05-12  2139  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08 @1404  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1405  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1406  	}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1407  =
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2140  	if (!is_hybrid()) {
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2141  		x86_pmu_show_pmu_cap(x86_pmu.num_counters,
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2142  				     x86_pmu.num_counters_fixed,
+e11c1a7eb302ac arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2143  				     x86_pmu.intel_ctrl);
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2144  	}
+3f6da390539882 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-03-05  2145  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1408  	if (comms_offset) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1409  		u16 comms_setup;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1410  =
+7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
+20-08-18  2146  	if (!x86_pmu.read)
+7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
+20-08-18  2147  		x86_pmu.read =3D _x86_pmu_read;
+7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
+20-08-18  2148  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1411  		error =3D iqs7222_read_word=
-(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1412  					  IQS7222_SYS_SETUP + co=
-mms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1413  					  &comms_setup);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1414  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1415  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1416  =
+abd562df94d19d arch/x86/events/core.c             Like Xu                20=
+21-01-25  2149  	if (!x86_pmu.guest_get_msrs)
+c8e2fe13d1d1f3 arch/x86/events/core.c             Sean Christopherson    20=
+21-03-09  2150  		x86_pmu.guest_get_msrs =3D (void *)&__static_call_return0;
+abd562df94d19d arch/x86/events/core.c             Like Xu                20=
+21-01-25  2151  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1417  		error =3D iqs7222_write_wor=
-d(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1418  					   IQS7222_SYS_SETUP + c=
-omms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1419  					   comms_setup & ~IQS722=
-2_COMMS_HOLD);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1420  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1421  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1422  	}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1423  =
+7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
+20-08-18  2152  	x86_pmu_static_call_update();
+7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
+20-08-18  2153  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1424  	if (dir =3D=3D READ)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1425  		return 0;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1426  =
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2154  	/*
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2155  	 * Install callbacks. Core will call them for each online
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2156  	 * cpu.
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2157  	 */
+73c1b41e63f040 arch/x86/events/core.c             Thomas Gleixner        20=
+16-12-21  2158  	err =3D cpuhp_setup_state(CPUHP_PERF_X86_PREPARE, "perf/x8=
+6:prepare",
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2159  				x86_pmu_prepare_cpu, x86_pmu_dead_cpu);
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2160  	if (err)
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2161  		return err;
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2162  =
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1427  	return iqs7222_ati_trigger(i=
-qs7222);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1428  }
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1429  =
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2163  	err =3D cpuhp_setup_state(CPUHP_AP_PERF_X86_STARTING,
+73c1b41e63f040 arch/x86/events/core.c             Thomas Gleixner        20=
+16-12-21  2164  				"perf/x86:starting", x86_pmu_starting_cpu,
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2165  				x86_pmu_dying_cpu);
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2166  	if (err)
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2167  		goto out;
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2168  =
+
+73c1b41e63f040 arch/x86/events/core.c             Thomas Gleixner        20=
+16-12-21  2169  	err =3D cpuhp_setup_state(CPUHP_AP_PERF_X86_ONLINE, "perf/=
+x86:online",
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2170  				x86_pmu_online_cpu, NULL);
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2171  	if (err)
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2172  		goto out1;
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2173  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2174  	if (!is_hybrid()) {
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2175  		err =3D perf_pmu_register(&pmu, "cpu", PERF_TYPE_RAW);
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2176  		if (err)
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2177  			goto out2;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2178  	} else {
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2179  		u8 cpu_type =3D get_this_hybrid_cpu_type();
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2180  		struct x86_hybrid_pmu *hybrid_pmu;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2181  		int i, j;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2182  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2183  		if (!cpu_type && x86_pmu.get_hybrid_cpu_type)
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2184  			cpu_type =3D x86_pmu.get_hybrid_cpu_type();
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2185  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2186  		for (i =3D 0; i < x86_pmu.num_hybrid_pmus; i++) {
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2187  			hybrid_pmu =3D &x86_pmu.hybrid_pmu[i];
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2188  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2189  			hybrid_pmu->pmu =3D pmu;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2190  			hybrid_pmu->pmu.type =3D -1;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2191  			hybrid_pmu->pmu.attr_update =3D x86_pmu.attr_update;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2192  			hybrid_pmu->pmu.capabilities |=3D PERF_PMU_CAP_HETEROGEN=
+EOUS_CPUS;
+55bcf6ef314ae8 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2193  			hybrid_pmu->pmu.capabilities |=3D PERF_PMU_CAP_EXTENDED_=
+HW_TYPE;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2194  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2195  			err =3D perf_pmu_register(&hybrid_pmu->pmu, hybrid_pmu->=
+name,
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2196  						(hybrid_pmu->cpu_type =3D=3D hybrid_big) ? PERF_TYPE_=
+RAW : -1);
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2197  			if (err)
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2198  				break;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2199  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2200  			if (cpu_type =3D=3D hybrid_pmu->cpu_type)
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2201  				x86_pmu_update_cpu_context(&hybrid_pmu->pmu, raw_smp_pr=
+ocessor_id());
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2202  		}
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2203  =
+
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2204  		if (i < x86_pmu.num_hybrid_pmus) {
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2205  			for (j =3D 0; j < i; j++)
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2206  				perf_pmu_unregister(&x86_pmu.hybrid_pmu[j].pmu);
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2207  			pr_warn("Failed to register hybrid PMUs\n");
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2208  			kfree(x86_pmu.hybrid_pmu);
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2209  			x86_pmu.hybrid_pmu =3D NULL;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2210  			x86_pmu.num_hybrid_pmus =3D 0;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2211  			goto out2;
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2212  		}
+d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
+21-04-12  2213  	}
+004417a6d468e2 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-11-25  2214  =
+
+004417a6d468e2 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-11-25  2215  	return 0;
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2216  =
+
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2217  out2:
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2218  	cpuhp_remove_state(CPUHP_AP_PERF_X86_ONLINE);
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2219  out1:
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2220  	cpuhp_remove_state(CPUHP_AP_PERF_X86_STARTING);
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2221  out:
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2222  	cpuhp_remove_state(CPUHP_PERF_X86_PREPARE);
+916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
+22-06-01  2223  out_bad_pmu:
+916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
+22-06-01  2224  	memset(&x86_pmu, 0, sizeof(x86_pmu));
+95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
+16-07-13  2225  	return err;
+241771ef016b5c arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+08-12-03  2226  }
+004417a6d468e2 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
+10-11-25  2227  early_initcall(init_hw_perf_events);
+621a01eac89b5e arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
+08-12-11  2228  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6054291971849982345==--
+--===============6205547595444634427==--
 
