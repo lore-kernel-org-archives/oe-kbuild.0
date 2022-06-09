@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5985719245380266598=="
+Content-Type: multipart/mixed; boundary="===============1246626464228392949=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:drm-misc-next 1/5] drivers/dma-buf/st-dma-fence-unwrap.c:75:39-45: ERROR: reference preceded by free on line 70
-Date: Thu, 09 Jun 2022 13:34:38 +0800
-Message-ID: <202206091319.R3TNwLyb-lkp@intel.com>
+Subject: [drm-misc:drm-misc-next 1/2] drivers/video/fbdev/core/fbmem.c:1610:0-1: preceding lock on line 1598
+Date: Thu, 09 Jun 2022 13:14:12 +0800
+Message-ID: <202206091207.VzTUlukg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5985719245380266598==
+--===============1246626464228392949==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,17 +15,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: Javier Martinez Canillas <javierm@redhat.com>
 CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 head:   6aed665f9d8368ae1e962f44339150884bb47f5b
-commit: 0c5064fa8d5a02dc2dcc6c674a0ad1bbaf79efda [1/5] dma-buf: cleanup dma=
-_fence_unwrap selftest v2
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 days ago
+commit: 3367aa7d74d240261de2543ddb35531ccad9d884 [1/2] fbdev: Restart confl=
+icting fb removal loop when unregistering devices
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 weeks ago
 config: m68k-randconfig-c003-20220608 (https://download.01.org/0day-ci/arch=
-ive/20220609/202206091319.R3TNwLyb-lkp(a)intel.com/config)
+ive/20220609/202206091207.VzTUlukg-lkp(a)intel.com/config)
 compiler: m68k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -34,69 +34,160 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/dma-buf/st-dma-fence-unwrap.c:75:39-45: ERROR: reference precede=
-d by free on line 70
+>> drivers/video/fbdev/core/fbmem.c:1610:0-1: preceding lock on line 1598
 
-vim +75 drivers/dma-buf/st-dma-fence-unwrap.c
+vim +1610 drivers/video/fbdev/core/fbmem.c
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  45  =
+712f3147aee0fb drivers/video/fbmem.c            Linus Torvalds           20=
+11-05-13  1551  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  46  static struct dma_fence=
- *mock_array(unsigned int num_fences, ...)
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  47  {
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  48  	struct dma_fence_array=
- *array;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  49  	struct dma_fence **fen=
-ces;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  50  	va_list valist;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  51  	int i;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  52  =
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1552  #define VGA_FB_PHYS 0xA0000
+deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
+19-05-28  1553  static void do_remove_conflicting_framebuffers(struct apert=
+ures_struct *a,
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1554  					       const char *name, bool primary)
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1555  {
+deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
+19-05-28  1556  	int i;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1557  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  53  	fences =3D kcalloc(num=
-_fences, sizeof(*fences), GFP_KERNEL);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  54  	if (!fences)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  55  		goto error_put;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  56  =
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1558  restart_removal:
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1559  	/* check all firmware fbs and kick off if the base addr ov=
+erlaps */
+10ac86884b4d76 drivers/video/fbdev/core/fbmem.c Yisheng Xie              20=
+18-07-24  1560  	for_each_registered_fb(i) {
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1561  		struct apertures_struct *gen_aper;
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1562  		struct device *device;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1563  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  57  	va_start(valist, num_f=
-ences);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  58  	for (i =3D 0; i < num_=
-fences; ++i)
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  59  		fences[i] =3D va_arg(=
-valist, typeof(*fences));
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  60  	va_end(valist);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  61  =
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1564  		if (!(registered_fb[i]->flags & FBINFO_MISC_FIRMWARE))
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1565  			continue;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1566  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  62  	array =3D dma_fence_ar=
-ray_create(num_fences, fences,
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  63  				       dma_fence_co=
-ntext_alloc(1),
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  64  				       1, false);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  65  	if (!array)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  66  		goto error_free;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  67  	return &array->base;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  68  =
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1567  		gen_aper =3D registered_fb[i]->apertures;
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1568  		device =3D registered_fb[i]->device;
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1569  		if (fb_do_apertures_overlap(gen_aper, a) ||
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1570  			(primary && gen_aper && gen_aper->count &&
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1571  			 gen_aper->ranges[0].base =3D=3D VGA_FB_PHYS)) {
+3b9676e7ac6eff drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1572  =
 
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  69  error_free:
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11 @70  	kfree(fences);
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  71  =
+fbc42d455a2982 drivers/video/fbdev/core/fbmem.c Micha=C5=82 Miros=C5=82aw  =
+        2018-09-01  1573  			printk(KERN_INFO "fb%d: switching to %s from %=
+s\n",
+fbc42d455a2982 drivers/video/fbdev/core/fbmem.c Micha=C5=82 Miros=C5=82aw  =
+        2018-09-01  1574  			       i, name, registered_fb[i]->fix.id);
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1575  =
 
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  72  error_put:
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  73  	va_start(valist, num_f=
-ences);
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  74  	for (i =3D 0; i < num_=
-fences; ++i)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04 @75  		dma_fence_put(va_arg(=
-valist, typeof(*fences)));
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  76  	va_end(valist);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  77  	return NULL;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  78  }
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  79  =
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1576  			/*
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1577  			 * If we kick-out a firmware driver, we also want to rem=
+ove
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1578  			 * the underlying platform device, such as simple-frameb=
+uffer,
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1579  			 * VESA, EFI, etc. A native driver will then be able to
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1580  			 * allocate the memory range.
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1581  			 *
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1582  			 * If it's not a platform device, at least print a warni=
+ng. A
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1583  			 * fix would add code to remove the device from the syst=
+em. For
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1584  			 * framebuffers without any Linux device, print a warnin=
+g as
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1585  			 * well.
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1586  			 */
+0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-04  1587  			if (!device) {
+b76ecff8317eed drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-19  1588  				pr_warn("fb%d: no device set\n", i);
+0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-04  1589  				do_unregister_framebuffer(registered_fb[i]);
+0f525289ff0dde drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-04-04  1590  			} else if (dev_is_platform(device)) {
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1591  				/*
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1592  				 * Drop the lock because if the device is unregistered,=
+ its
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1593  				 * driver will call to unregister_framebuffer(), that t=
+akes
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1594  				 * this lock.
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1595  				 */
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1596  				mutex_unlock(&registration_lock);
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1597  				platform_device_unregister(to_platform_device(device));
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11 @1598  				mutex_lock(&registration_lock);
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1599  			} else {
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25  1600  				pr_warn("fb%d: cannot remove device\n", i);
+deb00d2785bedd drivers/video/fbdev/core/fbmem.c Daniel Vetter            20=
+19-05-28  1601  				do_unregister_framebuffer(registered_fb[i]);
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1602  			}
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1603  			/*
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1604  			 * Restart the removal loop now that the device has been
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1605  			 * unregistered and its associated framebuffer gone.
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1606  			 */
+3367aa7d74d240 drivers/video/fbdev/core/fbmem.c Javier Martinez Canillas 20=
+22-05-11  1607  			goto restart_removal;
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1608  		}
+06415c564fb985 drivers/video/fbmem.c            Marcin Slusarz           20=
+10-05-16  1609  	}
+27599aacbaefcb drivers/video/fbdev/core/fbmem.c Thomas Zimmermann        20=
+22-01-25 @1610  }
+^1da177e4c3f41 drivers/video/fbmem.c            Linus Torvalds           20=
+05-04-16  1611  =
 
+
+:::::: The code at line 1610 was first introduced by commit
+:::::: 27599aacbaefcbf2af7b06b0029459bbf682000d fbdev: Hot-unplug firmware =
+fb devices on forced removal
+
+:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
+:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5985719245380266598==--
+--===============1246626464228392949==--
 
