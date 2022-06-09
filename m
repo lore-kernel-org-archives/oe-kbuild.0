@@ -1,392 +1,487 @@
-Content-Type: multipart/mixed; boundary="===============6205547595444634427=="
+Content-Type: multipart/mixed; boundary="===============6966030852818055609=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1642/2142] arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
-Date: Fri, 10 Jun 2022 04:17:45 +0800
-Message-ID: <202206100456.HomFaAeW-lkp@intel.com>
+Subject: [linux-next:master 1394/2142] fs/f2fs/super.c:500:31: warning: Value stored to 'policy' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 09 Jun 2022 23:16:57 +0800
+Message-ID: <202206092348.TcS2Gnl3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6205547595444634427==
+--===============6966030852818055609==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: fs/f2fs/s=
+uper.c:500:31: warning: Value stored to 'policy' during its initialization =
+is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: =
+
+
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Paolo Bonzini <pbonzini@redhat.com>
-CC: Like Xu <likexu@tencent.com>
+TO: Eric Biggers <ebiggers@google.com>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   ff539ac73ea559a8c146d99ab14bfcaddd30547a
-commit: 916e3a4f950eac92c28cc138c10d86514ffebf98 [1642/2142] x86: events: D=
-o not return bogus capabilities if PMU is broken
-:::::: branch date: 16 hours ago
-:::::: commit date: 27 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-610/202206100456.HomFaAeW-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+commit: b69c9585877949513cd3c9dea41801e9f2b8a6cb [1394/2142] f2fs: use the =
+updated test_dummy_encryption helper functions
+:::::: branch date: 11 hours ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-c006-20220608 (https://download.01.org/0day-ci/arc=
+hive/20220609/202206092348.TcS2Gnl3-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436=
+efcb7813fc481b30f2593a4907568d917a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Db69c9585877949513cd3c9dea41801e9f2b8a6cb
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout b69c9585877949513cd3c9dea41801e9f2b8a6cb
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code =
-'err'
 
-vim +/err +2114 arch/x86/events/core.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1617:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", rev);
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1617:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", rev);
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1636:10: warning: Call to function '=
+sprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'sprintf_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   return sprintf(buf, "spi\n");
+                          ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1636:10: note: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11
+                   return sprintf(buf, "spi\n");
+                          ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1638:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "i2c\n");
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1638:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "i2c\n");
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1848:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "0x%x\n", chip->int_mask);
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1848:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "0x%x\n", chip->int_mask);
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1888:2: warning: Value stored to 're=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D chip->bus.write(chip->bus.client, ADT7316_INT_MASK1, mas=
+k);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1888:2: note: Value stored to 'ret' =
+is never read
+           ret =3D chip->bus.write(chip->bus.client, ADT7316_INT_MASK1, mas=
+k);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1922:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", data);
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1922:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", data);
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1973:9: warning: Call to function 's=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", !!(chip->config1 & ADT7316_INT_EN));
+                  ^~~~~~~
+   drivers/staging/iio/addac/adt7316.c:1973:9: note: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", !!(chip->config1 & ADT7316_INT_EN));
+                  ^~~~~~~
+   Suppressed 62 warnings (55 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   63 warnings generated.
+   drivers/iio/potentiostat/lmp91000.c:141:2: warning: Call to function 'me=
+mset' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memset_s' in case of C11 [clang-anal=
+yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(data->buffer, 0, sizeof(data->buffer));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/iio/potentiostat/lmp91000.c:141:2: note: Call to function 'memse=
+t' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'memset_s' in case of C11
+           memset(data->buffer, 0, sizeof(data->buffer));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 62 warnings (55 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   68 warnings generated.
+   Suppressed 68 warnings (61 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   86 warnings generated.
+   fs/f2fs/super.c:80:3: warning: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(ffi, 0, sizeof(struct f2fs_fault_info));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:80:3: note: Call to function 'memset' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memset_s' in case of C11
+                   memset(ffi, 0, sizeof(struct f2fs_fault_info));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> fs/f2fs/super.c:500:31: warning: Value stored to 'policy' during its ini=
+tialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct fscrypt_dummy_policy *policy =3D
+                                        ^~~~~~
+   fs/f2fs/super.c:500:31: note: Value stored to 'policy' during its initia=
+lization is never read
+           struct fscrypt_dummy_policy *policy =3D
+                                        ^~~~~~
+   fs/f2fs/super.c:1151:4: warning: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(ext[ext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:1151:4: note: Call to function 'strcpy' is insecure as i=
+t does not provide bounding of the memory buffer. Replace unbounded copy fu=
+nctions with analogous functions that support length arguments such as 'str=
+lcpy'. CWE-119
+                           strcpy(ext[ext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:1175:4: warning: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(noext[noext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:1175:4: note: Call to function 'strcpy' is insecure as i=
+t does not provide bounding of the memory buffer. Replace unbounded copy fu=
+nctions with analogous functions that support length arguments such as 'str=
+lcpy'. CWE-119
+                           strcpy(noext[noext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:3133:3: warning: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(bh->b_data + F2FS_SUPER_OFFSET, super, sizeof(*su=
+per));
+                   ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:3133:3: note: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11
+                   memcpy(bh->b_data + F2FS_SUPER_OFFSET, super, sizeof(*su=
+per));
+                   ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:3775:4: warning: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(super, bh->b_data + F2FS_SUPER_OFFSET,
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:3775:4: note: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11
+                           memcpy(super, bh->b_data + F2FS_SUPER_OFFSET,
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:3871:4: warning: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(FDEV(i).path, RDEV(i).path, MAX_PATH_LEN);
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:3871:4: note: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11
+                           memcpy(FDEV(i).path, RDEV(i).path, MAX_PATH_LEN);
+                           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   fs/f2fs/super.c:4092:2: warning: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&sb->s_uuid, raw_super->uuid, sizeof(raw_super->uuid));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
 
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2078  =
+vim +/policy +500 fs/f2fs/super.c
 
-dda99116969142 arch/x86/kernel/cpu/perf_event.c   Yinghai Lu             20=
-11-01-21  2079  static int __init init_hw_perf_events(void)
-b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2080  {
-c1d6f42f1a42c7 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-11-12-06  2081  	struct x86_pmu_quirk *quirk;
-72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
-09-04-29  2082  	int err;
-72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
-09-04-29  2083  =
+4b2414d04e99120 Chao Yu      2017-08-08  489  =
 
-cdd6c482c9ff9c arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
-09-09-21  2084  	pr_info("Performance Events: ");
-1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-09-05-29  2085  =
+ed318a6cc0b6204 Eric Biggers 2020-05-12  490  static int f2fs_set_test_dumm=
+y_encryption(struct super_block *sb,
+ed318a6cc0b6204 Eric Biggers 2020-05-12  491  					  const char *opt,
+ed318a6cc0b6204 Eric Biggers 2020-05-12  492  					  const substring_t *arg,
+ed318a6cc0b6204 Eric Biggers 2020-05-12  493  					  bool is_remount)
+ed318a6cc0b6204 Eric Biggers 2020-05-12  494  {
+ed318a6cc0b6204 Eric Biggers 2020-05-12  495  	struct f2fs_sb_info *sbi =3D=
+ F2FS_SB(sb);
+b69c95858779495 Eric Biggers 2022-06-06  496  	struct fs_parameter param =
+=3D {
+b69c95858779495 Eric Biggers 2022-06-06  497  		.type =3D fs_value_is_strin=
+g,
+b69c95858779495 Eric Biggers 2022-06-06  498  		.string =3D arg->from ? arg=
+->from : "",
+b69c95858779495 Eric Biggers 2022-06-06  499  	};
+b69c95858779495 Eric Biggers 2022-06-06 @500  	struct fscrypt_dummy_policy =
+*policy =3D
+b69c95858779495 Eric Biggers 2022-06-06  501  		&F2FS_OPTION(sbi).dummy_enc=
+_policy;
+ed318a6cc0b6204 Eric Biggers 2020-05-12  502  	int err;
+ed318a6cc0b6204 Eric Biggers 2020-05-12  503  =
 
-b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2086  	switch (boot_cpu_data.x86_vendor) {
-b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2087  	case X86_VENDOR_INTEL:
-72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
-09-04-29  2088  		err =3D intel_pmu_init();
-b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2089  		break;
-f87ad35d37fa54 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2090  	case X86_VENDOR_AMD:
-72eae04d3a3075 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
-09-04-29  2091  		err =3D amd_pmu_init();
-f87ad35d37fa54 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2092  		break;
-6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
-18-09-23  2093  	case X86_VENDOR_HYGON:
-6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
-18-09-23  2094  		err =3D amd_pmu_init();
-6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
-18-09-23  2095  		x86_pmu.name =3D "HYGON";
-6d0ef316b9f8ea arch/x86/events/core.c             Pu Wen                 20=
-18-09-23  2096  		break;
-3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
-20-04-13  2097  	case X86_VENDOR_ZHAOXIN:
-3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
-20-04-13  2098  	case X86_VENDOR_CENTAUR:
-3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
-20-04-13  2099  		err =3D zhaoxin_pmu_init();
-3a4ac121c2cacb arch/x86/events/core.c             CodyYao-oc             20=
-20-04-13  2100  		break;
-4138960a9251a2 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
-09-04-29  2101  	default:
-8a3da6c7d0031f arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
-13-09-28  2102  		err =3D -ENOTSUPP;
-b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2103  	}
-1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-09-05-29  2104  	if (err !=3D 0) {
-cdd6c482c9ff9c arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
-09-09-21  2105  		pr_cont("no PMU driver, software events only.\n");
-916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
-22-06-01  2106  		err =3D 0;
-916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
-22-06-01  2107  		goto out_bad_pmu;
-1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-09-05-29  2108  	}
-b56a3802dc6df2 arch/x86/kernel/cpu/perf_counter.c Jaswinder Singh Rajput 20=
-09-02-27  2109  =
+b69c95858779495 Eric Biggers 2022-06-06  504  	if (!IS_ENABLED(CONFIG_FS_EN=
+CRYPTION)) {
+b69c95858779495 Eric Biggers 2022-06-06  505  		f2fs_warn(sbi, "test_dummy_=
+encryption option not supported");
+b69c95858779495 Eric Biggers 2022-06-06  506  		return -EINVAL;
+b69c95858779495 Eric Biggers 2022-06-06  507  	}
+b69c95858779495 Eric Biggers 2022-06-06  508  =
 
-125580380f4180 arch/x86/kernel/cpu/perf_event.c   Cyrill Gorcunov        20=
-09-12-10  2110  	pmu_check_apic();
-125580380f4180 arch/x86/kernel/cpu/perf_event.c   Cyrill Gorcunov        20=
-09-12-10  2111  =
+ed318a6cc0b6204 Eric Biggers 2020-05-12  509  	if (!f2fs_sb_has_encrypt(sbi=
+)) {
+ed318a6cc0b6204 Eric Biggers 2020-05-12  510  		f2fs_err(sbi, "Encrypt feat=
+ure is off");
+ed318a6cc0b6204 Eric Biggers 2020-05-12  511  		return -EINVAL;
+ed318a6cc0b6204 Eric Biggers 2020-05-12  512  	}
+ed318a6cc0b6204 Eric Biggers 2020-05-12  513  =
 
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c   Don Zickus             20=
-10-11-22  2112  	/* sanity check that the hardware exists or is emulated */
-fc4b8fca2d8fc8 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2113  	if (!check_hw_exists(&pmu, x86_pmu.num_counters, x86_pmu.n=
-um_counters_fixed))
-916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
-22-06-01 @2114  		goto out_bad_pmu;
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c   Don Zickus             20=
-10-11-22  2115  =
+ed318a6cc0b6204 Eric Biggers 2020-05-12  514  	/*
+ed318a6cc0b6204 Eric Biggers 2020-05-12  515  	 * This mount option is just=
+ for testing, and it's not worthwhile to
+ed318a6cc0b6204 Eric Biggers 2020-05-12  516  	 * implement the extra compl=
+exity (e.g. RCU protection) that would be
+ed318a6cc0b6204 Eric Biggers 2020-05-12  517  	 * needed to allow it to be =
+set or changed during remount.  We do allow
+ed318a6cc0b6204 Eric Biggers 2020-05-12  518  	 * it to be specified during=
+ remount, but only if there is no change.
+ed318a6cc0b6204 Eric Biggers 2020-05-12  519  	 */
+b69c95858779495 Eric Biggers 2022-06-06  520  	if (is_remount && !fscrypt_i=
+s_dummy_policy_set(policy)) {
+ed318a6cc0b6204 Eric Biggers 2020-05-12  521  		f2fs_warn(sbi, "Can't set t=
+est_dummy_encryption on remount");
+ed318a6cc0b6204 Eric Biggers 2020-05-12  522  		return -EINVAL;
+ed318a6cc0b6204 Eric Biggers 2020-05-12  523  	}
+b69c95858779495 Eric Biggers 2022-06-06  524  =
 
-1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-09-05-29  2116  	pr_cont("%s PMU driver.\n", x86_pmu.name);
-faa28ae018ed00 arch/x86/kernel/cpu/perf_counter.c Robert Richter         20=
-09-04-29  2117  =
-
-e97df76377b8b3 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-14-02-05  2118  	x86_pmu.attr_rdpmc =3D 1; /* enable userspace RDPMC usage =
-by default */
-e97df76377b8b3 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-14-02-05  2119  =
-
-c1d6f42f1a42c7 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-11-12-06  2120  	for (quirk =3D x86_pmu.quirks; quirk; quirk =3D quirk->nex=
-t)
-c1d6f42f1a42c7 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-11-12-06  2121  		quirk->func();
-3c44780b220e87 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-03-04  2122  =
-
-a1eac7ac903ea9 arch/x86/kernel/cpu/perf_event.c   Robert Richter         20=
-12-06-20  2123  	if (!x86_pmu.intel_ctrl)
-948b1bb89a4456 arch/x86/kernel/cpu/perf_event.c   Robert Richter         20=
-10-03-29  2124  		x86_pmu.intel_ctrl =3D (1 << x86_pmu.num_counters) - 1;
-241771ef016b5c arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-08-12-03  2125  =
-
-cdd6c482c9ff9c arch/x86/kernel/cpu/perf_event.c   Ingo Molnar            20=
-09-09-21  2126  	perf_events_lapic_init();
-9c48f1c629ecfa arch/x86/kernel/cpu/perf_event.c   Don Zickus             20=
-11-09-30  2127  	register_nmi_handler(NMI_LOCAL, perf_event_nmi_handler, 0,=
- "PMI");
-1123e3ad73697d arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-09-05-29  2128  =
-
-63b146490befc0 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-01-22  2129  	unconstrained =3D (struct event_constraint)
-948b1bb89a4456 arch/x86/kernel/cpu/perf_event.c   Robert Richter         20=
-10-03-29  2130  		__EVENT_CONSTRAINT(0, (1ULL << x86_pmu.num_counters) - 1,
-9fac2cf316b070 arch/x86/kernel/cpu/perf_event.c   Stephane Eranian       20=
-13-01-24  2131  				   0, x86_pmu.num_counters, 0, 0);
-63b146490befc0 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-01-22  2132  =
-
-641cc938815dfd arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
-12-03-15  2133  	x86_pmu_format_group.attrs =3D x86_pmu.format_attrs;
-0c9d42ed4cee2a arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-11-11-20  2134  =
-
-a47473939db20e arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
-12-10-10  2135  	if (!x86_pmu.events_sysfs_show)
-a47473939db20e arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
-12-10-10  2136  		x86_pmu_events_group.attrs =3D &empty_attrs;
-a47473939db20e arch/x86/kernel/cpu/perf_event.c   Jiri Olsa              20=
-12-10-10  2137  =
-
-baa0c83363c7aa arch/x86/events/core.c             Jiri Olsa              20=
-19-05-12  2138  	pmu.attr_update =3D x86_pmu.attr_update;
-6089327f5424f2 arch/x86/events/core.c             Kan Liang              20=
-17-05-12  2139  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2140  	if (!is_hybrid()) {
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2141  		x86_pmu_show_pmu_cap(x86_pmu.num_counters,
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2142  				     x86_pmu.num_counters_fixed,
-e11c1a7eb302ac arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2143  				     x86_pmu.intel_ctrl);
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2144  	}
-3f6da390539882 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-03-05  2145  =
-
-7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
-20-08-18  2146  	if (!x86_pmu.read)
-7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
-20-08-18  2147  		x86_pmu.read =3D _x86_pmu_read;
-7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
-20-08-18  2148  =
-
-abd562df94d19d arch/x86/events/core.c             Like Xu                20=
-21-01-25  2149  	if (!x86_pmu.guest_get_msrs)
-c8e2fe13d1d1f3 arch/x86/events/core.c             Sean Christopherson    20=
-21-03-09  2150  		x86_pmu.guest_get_msrs =3D (void *)&__static_call_return0;
-abd562df94d19d arch/x86/events/core.c             Like Xu                20=
-21-01-25  2151  =
-
-7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
-20-08-18  2152  	x86_pmu_static_call_update();
-7c9903c9bf716d arch/x86/events/core.c             Peter Zijlstra         20=
-20-08-18  2153  =
-
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2154  	/*
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2155  	 * Install callbacks. Core will call them for each online
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2156  	 * cpu.
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2157  	 */
-73c1b41e63f040 arch/x86/events/core.c             Thomas Gleixner        20=
-16-12-21  2158  	err =3D cpuhp_setup_state(CPUHP_PERF_X86_PREPARE, "perf/x8=
-6:prepare",
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2159  				x86_pmu_prepare_cpu, x86_pmu_dead_cpu);
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2160  	if (err)
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2161  		return err;
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2162  =
-
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2163  	err =3D cpuhp_setup_state(CPUHP_AP_PERF_X86_STARTING,
-73c1b41e63f040 arch/x86/events/core.c             Thomas Gleixner        20=
-16-12-21  2164  				"perf/x86:starting", x86_pmu_starting_cpu,
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2165  				x86_pmu_dying_cpu);
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2166  	if (err)
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2167  		goto out;
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2168  =
-
-73c1b41e63f040 arch/x86/events/core.c             Thomas Gleixner        20=
-16-12-21  2169  	err =3D cpuhp_setup_state(CPUHP_AP_PERF_X86_ONLINE, "perf/=
-x86:online",
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2170  				x86_pmu_online_cpu, NULL);
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2171  	if (err)
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2172  		goto out1;
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2173  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2174  	if (!is_hybrid()) {
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2175  		err =3D perf_pmu_register(&pmu, "cpu", PERF_TYPE_RAW);
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2176  		if (err)
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2177  			goto out2;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2178  	} else {
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2179  		u8 cpu_type =3D get_this_hybrid_cpu_type();
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2180  		struct x86_hybrid_pmu *hybrid_pmu;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2181  		int i, j;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2182  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2183  		if (!cpu_type && x86_pmu.get_hybrid_cpu_type)
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2184  			cpu_type =3D x86_pmu.get_hybrid_cpu_type();
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2185  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2186  		for (i =3D 0; i < x86_pmu.num_hybrid_pmus; i++) {
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2187  			hybrid_pmu =3D &x86_pmu.hybrid_pmu[i];
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2188  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2189  			hybrid_pmu->pmu =3D pmu;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2190  			hybrid_pmu->pmu.type =3D -1;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2191  			hybrid_pmu->pmu.attr_update =3D x86_pmu.attr_update;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2192  			hybrid_pmu->pmu.capabilities |=3D PERF_PMU_CAP_HETEROGEN=
-EOUS_CPUS;
-55bcf6ef314ae8 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2193  			hybrid_pmu->pmu.capabilities |=3D PERF_PMU_CAP_EXTENDED_=
-HW_TYPE;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2194  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2195  			err =3D perf_pmu_register(&hybrid_pmu->pmu, hybrid_pmu->=
-name,
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2196  						(hybrid_pmu->cpu_type =3D=3D hybrid_big) ? PERF_TYPE_=
-RAW : -1);
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2197  			if (err)
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2198  				break;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2199  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2200  			if (cpu_type =3D=3D hybrid_pmu->cpu_type)
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2201  				x86_pmu_update_cpu_context(&hybrid_pmu->pmu, raw_smp_pr=
-ocessor_id());
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2202  		}
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2203  =
-
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2204  		if (i < x86_pmu.num_hybrid_pmus) {
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2205  			for (j =3D 0; j < i; j++)
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2206  				perf_pmu_unregister(&x86_pmu.hybrid_pmu[j].pmu);
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2207  			pr_warn("Failed to register hybrid PMUs\n");
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2208  			kfree(x86_pmu.hybrid_pmu);
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2209  			x86_pmu.hybrid_pmu =3D NULL;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2210  			x86_pmu.num_hybrid_pmus =3D 0;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2211  			goto out2;
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2212  		}
-d9977c43bff895 arch/x86/events/core.c             Kan Liang              20=
-21-04-12  2213  	}
-004417a6d468e2 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-11-25  2214  =
-
-004417a6d468e2 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-11-25  2215  	return 0;
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2216  =
-
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2217  out2:
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2218  	cpuhp_remove_state(CPUHP_AP_PERF_X86_ONLINE);
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2219  out1:
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2220  	cpuhp_remove_state(CPUHP_AP_PERF_X86_STARTING);
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2221  out:
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2222  	cpuhp_remove_state(CPUHP_PERF_X86_PREPARE);
-916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
-22-06-01  2223  out_bad_pmu:
-916e3a4f950eac arch/x86/events/core.c             Paolo Bonzini          20=
-22-06-01  2224  	memset(&x86_pmu, 0, sizeof(x86_pmu));
-95ca792c7582fd arch/x86/events/core.c             Thomas Gleixner        20=
-16-07-13  2225  	return err;
-241771ef016b5c arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-08-12-03  2226  }
-004417a6d468e2 arch/x86/kernel/cpu/perf_event.c   Peter Zijlstra         20=
-10-11-25  2227  early_initcall(init_hw_perf_events);
-621a01eac89b5e arch/x86/kernel/cpu/perf_counter.c Ingo Molnar            20=
-08-12-11  2228  =
+b69c95858779495 Eric Biggers 2022-06-06  525  	err =3D fscrypt_parse_test_d=
+ummy_encryption(&param, policy);
+ed318a6cc0b6204 Eric Biggers 2020-05-12  526  	if (err) {
+ed318a6cc0b6204 Eric Biggers 2020-05-12  527  		if (err =3D=3D -EEXIST)
+ed318a6cc0b6204 Eric Biggers 2020-05-12  528  			f2fs_warn(sbi,
+ed318a6cc0b6204 Eric Biggers 2020-05-12  529  				  "Can't change test_dumm=
+y_encryption on remount");
+ed318a6cc0b6204 Eric Biggers 2020-05-12  530  		else if (err =3D=3D -EINVAL)
+ed318a6cc0b6204 Eric Biggers 2020-05-12  531  			f2fs_warn(sbi, "Value of o=
+ption \"%s\" is unrecognized",
+ed318a6cc0b6204 Eric Biggers 2020-05-12  532  				  opt);
+ed318a6cc0b6204 Eric Biggers 2020-05-12  533  		else
+ed318a6cc0b6204 Eric Biggers 2020-05-12  534  			f2fs_warn(sbi, "Error proc=
+essing option \"%s\" [%d]",
+ed318a6cc0b6204 Eric Biggers 2020-05-12  535  				  opt, err);
+ed318a6cc0b6204 Eric Biggers 2020-05-12  536  		return -EINVAL;
+ed318a6cc0b6204 Eric Biggers 2020-05-12  537  	}
+b69c95858779495 Eric Biggers 2022-06-06  538  	err =3D fscrypt_add_test_dum=
+my_key(sb, policy);
+b69c95858779495 Eric Biggers 2022-06-06  539  	if (err) {
+b69c95858779495 Eric Biggers 2022-06-06  540  		f2fs_warn(sbi, "Error addin=
+g test dummy encryption key [%d]",
+b69c95858779495 Eric Biggers 2022-06-06  541  			  err);
+b69c95858779495 Eric Biggers 2022-06-06  542  		return err;
+b69c95858779495 Eric Biggers 2022-06-06  543  	}
+ed318a6cc0b6204 Eric Biggers 2020-05-12  544  	f2fs_warn(sbi, "Test dummy e=
+ncryption mode enabled");
+64e3ed0b8ea0195 Eric Biggers 2022-04-30  545  	return 0;
+ed318a6cc0b6204 Eric Biggers 2020-05-12  546  }
+ed318a6cc0b6204 Eric Biggers 2020-05-12  547  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6205547595444634427==--
+--===============6966030852818055609==--
 
