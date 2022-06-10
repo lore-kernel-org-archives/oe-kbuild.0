@@ -1,112 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============2163199936335693864=="
+Content-Type: multipart/mixed; boundary="===============7317093758451463909=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [fdmanana:misc-next 36/71] fs/btrfs/sysfs.c:811 btrfs_force_chunk_alloc_store() warn: passing zero to 'PTR_ERR'
-Date: Fri, 10 Jun 2022 11:35:58 +0800
-Message-ID: <202206101159.fXYW8bYv-lkp@intel.com>
+Subject: Re: [PATCH 1/5] PM / devfreq: Fix cpufreq passive unregister erroring on PROBE_DEFER
+Date: Fri, 10 Jun 2022 11:25:43 +0800
+Message-ID: <202206101102.4JCYtCjM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2163199936335693864==
+--===============7317093758451463909==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Stefan Roesch <shr@fb.com>
-CC: David Sterba <dsterba@suse.com>
+In-Reply-To: <20220606111104.14534-2-ansuelsmth@gmail.com>
+References: <20220606111104.14534-2-ansuelsmth@gmail.com>
+TO: "Christian 'Ansuel' Marangi" <ansuelsmth@gmail.com>
+TO: MyungJoo Ham <myungjoo.ham@samsung.com>
+TO: Kyungmin Park <kyungmin.park@samsung.com>
+TO: Chanwoo Choi <cw00.choi@samsung.com>
+TO: Saravana Kannan <skannan@codeaurora.org>
+TO: Sibi Sankar <sibis@codeaurora.org>
+TO: linux-pm(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: "Christian 'Ansuel' Marangi" <ansuelsmth@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fdmanana/linux.git =
-misc-next
-head:   e2a46f3f73fd5aac0241242d535905286a947113
-commit: 46e1bce0ac340396474e5f604c2acb6644175854 [36/71] btrfs: sysfs: add =
-force_chunk_alloc trigger to force allocation
-:::::: branch date: 2 days ago
+Hi Christian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on chanwoo/devfreq-testing]
+[also build test WARNING on linus/master v5.19-rc1 next-20220609]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Ansuel-Mar=
+angi/PM-devfreq-Various-Fixes-to-cpufreq-based-passive-governor/20220606-19=
+1335
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git d=
+evfreq-testing
+:::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: m68k-randconfig-m031-20220608 (https://download.01.org/0day-ci/arch=
-ive/20220610/202206101159.fXYW8bYv-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.3.0
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+610/202206101102.4JCYtCjM-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/btrfs/sysfs.c:811 btrfs_force_chunk_alloc_store() warn: passing zero to =
-'PTR_ERR'
+drivers/devfreq/governor_passive.c:235 cpufreq_passive_unregister_notifier(=
+) error: dereferencing freed memory 'parent_cpu_data'
 
-vim +/PTR_ERR +811 fs/btrfs/sysfs.c
+vim +/parent_cpu_data +235 drivers/devfreq/governor_passive.c
 
-071124d221c5fb Stefan Roesch 2022-02-08  777  =
+a03dacb0316f74 Saravana Kannan            2021-03-02  220  =
 
-46e1bce0ac3403 Stefan Roesch 2022-02-08  778  #ifdef CONFIG_BTRFS_DEBUG
-46e1bce0ac3403 Stefan Roesch 2022-02-08  779  /*
-46e1bce0ac3403 Stefan Roesch 2022-02-08  780   * Request chunk allocation w=
-ith current chunk size.
-46e1bce0ac3403 Stefan Roesch 2022-02-08  781   */
-46e1bce0ac3403 Stefan Roesch 2022-02-08  782  static ssize_t btrfs_force_ch=
-unk_alloc_store(struct kobject *kobj,
-46e1bce0ac3403 Stefan Roesch 2022-02-08  783  					     struct kobj_attribu=
-te *a,
-46e1bce0ac3403 Stefan Roesch 2022-02-08  784  					     const char *buf, si=
-ze_t len)
-46e1bce0ac3403 Stefan Roesch 2022-02-08  785  {
-46e1bce0ac3403 Stefan Roesch 2022-02-08  786  	struct btrfs_space_info *spa=
-ce_info =3D to_space_info(kobj);
-46e1bce0ac3403 Stefan Roesch 2022-02-08  787  	struct btrfs_fs_info *fs_inf=
-o =3D to_fs_info(get_btrfs_kobj(kobj));
-46e1bce0ac3403 Stefan Roesch 2022-02-08  788  	struct btrfs_trans_handle *t=
-rans;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  789  	bool val;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  790  	int ret;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  791  =
+a03dacb0316f74 Saravana Kannan            2021-03-02  221  static int cpufr=
+eq_passive_unregister_notifier(struct devfreq *devfreq)
+a03dacb0316f74 Saravana Kannan            2021-03-02  222  {
+a03dacb0316f74 Saravana Kannan            2021-03-02  223  	struct devfreq_=
+passive_data *p_data
+a03dacb0316f74 Saravana Kannan            2021-03-02  224  			=3D (struct d=
+evfreq_passive_data *)devfreq->data;
+a03dacb0316f74 Saravana Kannan            2021-03-02  225  	struct devfreq_=
+cpu_data *parent_cpu_data;
+2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  226  	int ret;
+a03dacb0316f74 Saravana Kannan            2021-03-02  227  =
 
-46e1bce0ac3403 Stefan Roesch 2022-02-08  792  	if (!capable(CAP_SYS_ADMIN))
-46e1bce0ac3403 Stefan Roesch 2022-02-08  793  		return -EPERM;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  794  =
+a03dacb0316f74 Saravana Kannan            2021-03-02  228  	if (p_data->nb.=
+notifier_call) {
+a03dacb0316f74 Saravana Kannan            2021-03-02  229  		ret =3D cpufre=
+q_unregister_notifier(&p_data->nb,
+a03dacb0316f74 Saravana Kannan            2021-03-02  230  					CPUFREQ_TRA=
+NSITION_NOTIFIER);
+a03dacb0316f74 Saravana Kannan            2021-03-02  231  		if (ret < 0)
+a03dacb0316f74 Saravana Kannan            2021-03-02  232  			return ret;
+a03dacb0316f74 Saravana Kannan            2021-03-02  233  	}
+a03dacb0316f74 Saravana Kannan            2021-03-02  234  =
 
-46e1bce0ac3403 Stefan Roesch 2022-02-08  795  	if (sb_rdonly(fs_info->sb))
-46e1bce0ac3403 Stefan Roesch 2022-02-08  796  		return -EROFS;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  797  =
+2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06 @235  	list_for_each_e=
+ntry(parent_cpu_data, &p_data->cpu_data_list, node) {
+26984d9d581e50 Chanwoo Choi               2022-04-27  236  		list_del(&pare=
+nt_cpu_data->node);
+2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  237  =
 
-46e1bce0ac3403 Stefan Roesch 2022-02-08  798  	ret =3D kstrtobool(buf, &val=
-);
-46e1bce0ac3403 Stefan Roesch 2022-02-08  799  	if (ret)
-46e1bce0ac3403 Stefan Roesch 2022-02-08  800  		return ret;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  801  =
+a03dacb0316f74 Saravana Kannan            2021-03-02  238  		if (parent_cpu=
+_data->opp_table)
+a03dacb0316f74 Saravana Kannan            2021-03-02  239  			dev_pm_opp_pu=
+t_opp_table(parent_cpu_data->opp_table);
+2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  240  =
 
-46e1bce0ac3403 Stefan Roesch 2022-02-08  802  	if (!val)
-46e1bce0ac3403 Stefan Roesch 2022-02-08  803  		return -EINVAL;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  804  =
+a03dacb0316f74 Saravana Kannan            2021-03-02  241  		kfree(parent_c=
+pu_data);
+a03dacb0316f74 Saravana Kannan            2021-03-02  242  	}
+a03dacb0316f74 Saravana Kannan            2021-03-02  243  =
 
-46e1bce0ac3403 Stefan Roesch 2022-02-08  805  	/*
-46e1bce0ac3403 Stefan Roesch 2022-02-08  806  	 * This is unsafe to be call=
-ed from sysfs context and may cause
-46e1bce0ac3403 Stefan Roesch 2022-02-08  807  	 * unexpected problems.
-46e1bce0ac3403 Stefan Roesch 2022-02-08  808  	 */
-46e1bce0ac3403 Stefan Roesch 2022-02-08  809  	trans =3D btrfs_start_transa=
-ction(fs_info->tree_root, 0);
-46e1bce0ac3403 Stefan Roesch 2022-02-08  810  	if (!trans)
-46e1bce0ac3403 Stefan Roesch 2022-02-08 @811  		return PTR_ERR(trans);
-46e1bce0ac3403 Stefan Roesch 2022-02-08  812  	ret =3D btrfs_force_chunk_al=
-loc(trans, space_info->flags);
-46e1bce0ac3403 Stefan Roesch 2022-02-08  813  	btrfs_end_transaction(trans);
-46e1bce0ac3403 Stefan Roesch 2022-02-08  814  =
-
-46e1bce0ac3403 Stefan Roesch 2022-02-08  815  	if (ret =3D=3D 1)
-46e1bce0ac3403 Stefan Roesch 2022-02-08  816  		return len;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  817  =
-
-46e1bce0ac3403 Stefan Roesch 2022-02-08  818  	return -ENOSPC;
-46e1bce0ac3403 Stefan Roesch 2022-02-08  819  }
-46e1bce0ac3403 Stefan Roesch 2022-02-08  820  =
+2d59e1f0c418bf Christian 'Ansuel' Marangi 2022-06-06  244  	return 0;
+a03dacb0316f74 Saravana Kannan            2021-03-02  245  }
+a03dacb0316f74 Saravana Kannan            2021-03-02  246  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2163199936335693864==--
+--===============7317093758451463909==--
 
