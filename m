@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2662413923867469901=="
+Content-Type: multipart/mixed; boundary="===============4230782967389543792=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tip:x86/fpu 1/2] arch/x86/kernel/fpu/core.c:863 fpu_idle_fpregs() warn: bitwise AND condition is false here
-Date: Fri, 10 Jun 2022 22:07:36 +0800
-Message-ID: <202206102129.qGhd6PFG-lkp@intel.com>
+Subject: [esmil:visionfive 21/54] drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant because platform_get_irq() already prints an error
+Date: Fri, 10 Jun 2022 21:57:18 +0800
+Message-ID: <202206102133.rJwlnZLS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2662413923867469901==
+--===============4230782967389543792==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,50 +15,31 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-CC: x86(a)kernel.org
-TO: "Chang S. Bae" <chang.seok.bae@intel.com>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
+TO: Huan Feng <huan.feng@starfivetech.com>
+CC: Emil Renner Berthing <kernel@esmil.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/fpu
-head:   43843d58393026fef4a43d192b641a4fabdc42bf
-commit: 407f1fd0780e39d60778a66c6a157d8c8c832729 [1/2] x86/fpu: Add a helpe=
-r to prepare AMX state for low-power CPU idle
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-610/202206102129.qGhd6PFG-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://github.com/esmil/linux visionfive
+head:   906be7ef2fb9e2f1fcb740d3d506768cddfc52ca
+commit: b422a122c72a7448306ad60808c748d57b98da71 [21/54] drivers/hw_random:=
+ Add StarFive JH7100 Random Number Generator driver
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-c004-20220609 (https://download.01.org/0day-ci/arc=
+hive/20220610/202206102133.rJwlnZLS-lkp(a)intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-smatch warnings:
-arch/x86/kernel/fpu/core.c:863 fpu_idle_fpregs() warn: bitwise AND conditio=
-n is false here
 
-vim +863 arch/x86/kernel/fpu/core.c
-
-407f1fd0780e39 Chang S. Bae 2022-06-08  854  =
-
-407f1fd0780e39 Chang S. Bae 2022-06-08  855  /*
-407f1fd0780e39 Chang S. Bae 2022-06-08  856   * Initialize register state t=
-hat may prevent from entering low-power idle.
-407f1fd0780e39 Chang S. Bae 2022-06-08  857   * This function will be invok=
-ed from the cpuidle driver only when needed.
-407f1fd0780e39 Chang S. Bae 2022-06-08  858   */
-407f1fd0780e39 Chang S. Bae 2022-06-08  859  void fpu_idle_fpregs(void)
-407f1fd0780e39 Chang S. Bae 2022-06-08  860  {
-407f1fd0780e39 Chang S. Bae 2022-06-08  861  	/* Note: AMX_TILE being enabl=
-ed implies XGETBV1 support */
-407f1fd0780e39 Chang S. Bae 2022-06-08  862  	if (cpu_feature_enabled(X86_F=
-EATURE_AMX_TILE) &&
-407f1fd0780e39 Chang S. Bae 2022-06-08 @863  	    (xfeatures_in_use() & XFE=
-ATURE_MASK_XTILE)) {
+cocci warnings: (new ones prefixed by >>)
+>> drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant=
+ because platform_get_irq() already prints an error
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2662413923867469901==--
+--===============4230782967389543792==--
 
