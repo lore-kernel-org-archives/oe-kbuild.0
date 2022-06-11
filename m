@@ -1,158 +1,174 @@
-Content-Type: multipart/mixed; boundary="===============7472721753377172156=="
+Content-Type: multipart/mixed; boundary="===============3993661487978847739=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/vaddr.c:158 __damon_va_three_regions() error: uninitialized symbol 'start'.
-Date: Tue, 07 Jun 2022 14:58:55 +0800
-Message-ID: <202206071442.joHmyadx-lkp@intel.com>
+Subject: drivers/target/target_core_device.c:846:47: warning: shift by negative count ('-10')
+Date: Sun, 12 Jun 2022 06:32:23 +0800
+Message-ID: <202206120637.6xDu0WTQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7472721753377172156==
+--===============3993661487978847739==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/t=
+arget/target_core_device.c:846:47: warning: shift by negative count ('-10')=
+ [-Wanalyzer-shift-count-negative]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Leonard Foerster <foersleo@amazon.de>
-CC: Fernand Sieber <sieberf@amazon.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Chaitanya Kulkarni <kch@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   e71e60cd74df9386c3f684c54888f2367050b831
-commit: 3f49584b262cf8f42b25f4c1ad9f5bfd3bdc1bca mm/damon: implement primit=
-ives for the virtual memory address spaces
-date:   9 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
-/20220607/202206071442.joHmyadx-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+head:   0678afa6055d14799c1dc1eee47c8025eba56cab
+commit: 817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b target: pass a block_devic=
+e to target_configure_unmap_from_queue
+date:   8 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 weeks ago
+config: arm-randconfig-c002-20220611 (https://download.01.org/0day-ci/archi=
+ve/20220612/202206120637.6xDu0WTQ-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/damon/vaddr.c:158 __damon_va_three_regions() error: uninitialized symbol=
- 'start'.
 
-vim +/start +158 mm/damon/vaddr.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/target/target_core_device.c: In function 'target_configure_unmap=
+_from_queue':
+>> drivers/target/target_core_device.c:846:47: warning: shift by negative c=
+ount ('-10') [-Wanalyzer-shift-count-negative]
+     846 |                 q->limits.max_discard_sectors >> (ilog2(block_si=
+ze) - 9);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+     'target_configure_unmap_from_queue': events 1-3
+       |
+       |  842 |         if (!blk_queue_discard(q))
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch...
+       |......
+       |  846 |                 q->limits.max_discard_sectors >> (ilog2(blo=
+ck_size) - 9);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    ~~~~~~~~~~=
+~~~~~~~~~~~~~
+       |      |                          |                                 =
+         |
+       |      |                          (2) ...to here                    =
+         (3) following 'false' branch...
+       |
+     'target_configure_unmap_from_queue': events 4-5
+       |
+       |include/asm-generic/bitops/builtin-fls.h:14:53:
+       |   14 |         return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+       |      |                                                     |
+       |      |                                                     (4) ...=
+to here
+       |      |                                                     (5) fol=
+lowing 'false' branch...
+       |
+     'target_configure_unmap_from_queue': events 6-7
+       |
+       |drivers/target/target_core_device.c:846:69:
+       |  846 |                 q->limits.max_discard_sectors >> (ilog2(blo=
+ck_size) - 9);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~^~~~
+       |      |                                               |            =
+         |
+       |      |                                               |            =
+         (6) ...to here
+       |      |                                               (7) shift by =
+negative amount here ('-10')
+       |
 
-3f49584b262cf8f SeongJae Park 2021-09-07  109  =
+vim +846 drivers/target/target_core_device.c
 
-3f49584b262cf8f SeongJae Park 2021-09-07  110  /*
-3f49584b262cf8f SeongJae Park 2021-09-07  111   * Find three regions separa=
-ted by two biggest unmapped regions
-3f49584b262cf8f SeongJae Park 2021-09-07  112   *
-3f49584b262cf8f SeongJae Park 2021-09-07  113   * vma		the head vma of the =
-target address space
-3f49584b262cf8f SeongJae Park 2021-09-07  114   * regions	an array of three=
- address ranges that results will be saved
-3f49584b262cf8f SeongJae Park 2021-09-07  115   *
-3f49584b262cf8f SeongJae Park 2021-09-07  116   * This function receives an=
- address space and finds three regions in it which
-3f49584b262cf8f SeongJae Park 2021-09-07  117   * separated by the two bigg=
-est unmapped regions in the space.  Please refer to
-3f49584b262cf8f SeongJae Park 2021-09-07  118   * below comments of '__damo=
-n_va_init_regions()' function to know why this is
-3f49584b262cf8f SeongJae Park 2021-09-07  119   * necessary.
-3f49584b262cf8f SeongJae Park 2021-09-07  120   *
-3f49584b262cf8f SeongJae Park 2021-09-07  121   * Returns 0 if success, or =
-negative error code otherwise.
-3f49584b262cf8f SeongJae Park 2021-09-07  122   */
-3f49584b262cf8f SeongJae Park 2021-09-07  123  static int __damon_va_three_=
-regions(struct vm_area_struct *vma,
-3f49584b262cf8f SeongJae Park 2021-09-07  124  				       struct damon_addr=
-_range regions[3])
-3f49584b262cf8f SeongJae Park 2021-09-07  125  {
-3f49584b262cf8f SeongJae Park 2021-09-07  126  	struct damon_addr_range gap=
- =3D {0}, first_gap =3D {0}, second_gap =3D {0};
-3f49584b262cf8f SeongJae Park 2021-09-07  127  	struct vm_area_struct *last=
-_vma =3D NULL;
-3f49584b262cf8f SeongJae Park 2021-09-07  128  	unsigned long start =3D 0;
-3f49584b262cf8f SeongJae Park 2021-09-07  129  	struct rb_root rbroot;
-3f49584b262cf8f SeongJae Park 2021-09-07  130  =
+0fd97ccf45be26 Christoph Hellwig 2012-10-08  830  =
 
-3f49584b262cf8f SeongJae Park 2021-09-07  131  	/* Find two biggest gaps so=
- that first_gap > second_gap > others */
-3f49584b262cf8f SeongJae Park 2021-09-07  132  	for (; vma; vma =3D vma->vm=
-_next) {
-3f49584b262cf8f SeongJae Park 2021-09-07  133  		if (!last_vma) {
-3f49584b262cf8f SeongJae Park 2021-09-07  134  			start =3D vma->vm_start;
-3f49584b262cf8f SeongJae Park 2021-09-07  135  			goto next;
-3f49584b262cf8f SeongJae Park 2021-09-07  136  		}
-3f49584b262cf8f SeongJae Park 2021-09-07  137  =
+8a9ebe717a133b Mike Christie     2016-01-18  831  /*
+8a9ebe717a133b Mike Christie     2016-01-18  832   * Check if the underlyin=
+g struct block_device request_queue supports
+8a9ebe717a133b Mike Christie     2016-01-18  833   * the QUEUE_FLAG_DISCARD=
+ bit for UNMAP/WRITE_SAME in SCSI + TRIM
+8a9ebe717a133b Mike Christie     2016-01-18  834   * in ATA and we need to =
+set TPE=3D1
+8a9ebe717a133b Mike Christie     2016-01-18  835   */
+8a9ebe717a133b Mike Christie     2016-01-18  836  bool target_configure_unm=
+ap_from_queue(struct se_dev_attrib *attrib,
+817e8b51eb3d92 Christoph Hellwig 2022-04-15  837  				       struct block_d=
+evice *bdev)
+8a9ebe717a133b Mike Christie     2016-01-18  838  {
+817e8b51eb3d92 Christoph Hellwig 2022-04-15  839  	struct request_queue *q =
+=3D bdev_get_queue(bdev);
+817e8b51eb3d92 Christoph Hellwig 2022-04-15  840  	int block_size =3D bdev_=
+logical_block_size(bdev);
+ea263c7fada4af Mike Christie     2016-06-02  841  =
 
-3f49584b262cf8f SeongJae Park 2021-09-07  138  		if (vma->rb_subtree_gap <=
-=3D sz_range(&second_gap)) {
-3f49584b262cf8f SeongJae Park 2021-09-07  139  			rbroot.rb_node =3D &vma->=
-vm_rb;
-3f49584b262cf8f SeongJae Park 2021-09-07  140  			vma =3D rb_entry(rb_last(=
-&rbroot),
-3f49584b262cf8f SeongJae Park 2021-09-07  141  					struct vm_area_struct, =
-vm_rb);
-3f49584b262cf8f SeongJae Park 2021-09-07  142  			goto next;
-3f49584b262cf8f SeongJae Park 2021-09-07  143  		}
-3f49584b262cf8f SeongJae Park 2021-09-07  144  =
+8a9ebe717a133b Mike Christie     2016-01-18  842  	if (!blk_queue_discard(q=
+))
+8a9ebe717a133b Mike Christie     2016-01-18  843  		return false;
+8a9ebe717a133b Mike Christie     2016-01-18  844  =
 
-3f49584b262cf8f SeongJae Park 2021-09-07  145  		gap.start =3D last_vma->vm=
-_end;
-3f49584b262cf8f SeongJae Park 2021-09-07  146  		gap.end =3D vma->vm_start;
-3f49584b262cf8f SeongJae Park 2021-09-07  147  		if (sz_range(&gap) > sz_ra=
-nge(&second_gap)) {
-3f49584b262cf8f SeongJae Park 2021-09-07  148  			swap_ranges(&gap, &second=
-_gap);
-3f49584b262cf8f SeongJae Park 2021-09-07  149  			if (sz_range(&second_gap)=
- > sz_range(&first_gap))
-3f49584b262cf8f SeongJae Park 2021-09-07  150  				swap_ranges(&second_gap,=
- &first_gap);
-3f49584b262cf8f SeongJae Park 2021-09-07  151  		}
-3f49584b262cf8f SeongJae Park 2021-09-07  152  next:
-3f49584b262cf8f SeongJae Park 2021-09-07  153  		last_vma =3D vma;
-3f49584b262cf8f SeongJae Park 2021-09-07  154  	}
-3f49584b262cf8f SeongJae Park 2021-09-07  155  =
+ea263c7fada4af Mike Christie     2016-06-02  845  	attrib->max_unmap_lba_co=
+unt =3D
+ea263c7fada4af Mike Christie     2016-06-02 @846  		q->limits.max_discard_s=
+ectors >> (ilog2(block_size) - 9);
+8a9ebe717a133b Mike Christie     2016-01-18  847  	/*
+8a9ebe717a133b Mike Christie     2016-01-18  848  	 * Currently hardcoded t=
+o 1 in Linux/SCSI code..
+8a9ebe717a133b Mike Christie     2016-01-18  849  	 */
+8a9ebe717a133b Mike Christie     2016-01-18  850  	attrib->max_unmap_block_=
+desc_count =3D 1;
+8a9ebe717a133b Mike Christie     2016-01-18  851  	attrib->unmap_granularit=
+y =3D q->limits.discard_granularity / block_size;
+8a9ebe717a133b Mike Christie     2016-01-18  852  	attrib->unmap_granularit=
+y_alignment =3D q->limits.discard_alignment /
+8a9ebe717a133b Mike Christie     2016-01-18  853  								block_size;
+8a9ebe717a133b Mike Christie     2016-01-18  854  	return true;
+8a9ebe717a133b Mike Christie     2016-01-18  855  }
+8a9ebe717a133b Mike Christie     2016-01-18  856  EXPORT_SYMBOL(target_conf=
+igure_unmap_from_queue);
+8a9ebe717a133b Mike Christie     2016-01-18  857  =
 
-3f49584b262cf8f SeongJae Park 2021-09-07  156  	if (!sz_range(&second_gap) =
-|| !sz_range(&first_gap))
-3f49584b262cf8f SeongJae Park 2021-09-07  157  		return -EINVAL;
-3f49584b262cf8f SeongJae Park 2021-09-07 @158  =
 
-3f49584b262cf8f SeongJae Park 2021-09-07  159  	/* Sort the two biggest gap=
-s by address */
-3f49584b262cf8f SeongJae Park 2021-09-07  160  	if (first_gap.start > secon=
-d_gap.start)
-3f49584b262cf8f SeongJae Park 2021-09-07  161  		swap_ranges(&first_gap, &s=
-econd_gap);
-3f49584b262cf8f SeongJae Park 2021-09-07  162  =
+:::::: The code at line 846 was first introduced by commit
+:::::: ea263c7fada4af8ec7fe5fcfd6e7d7705a89351b target: Fix max_unmap_lba_c=
+ount calc overflow
 
-3f49584b262cf8f SeongJae Park 2021-09-07  163  	/* Store the result */
-3f49584b262cf8f SeongJae Park 2021-09-07  164  	regions[0].start =3D ALIGN(=
-start, DAMON_MIN_REGION);
-3f49584b262cf8f SeongJae Park 2021-09-07  165  	regions[0].end =3D ALIGN(fi=
-rst_gap.start, DAMON_MIN_REGION);
-3f49584b262cf8f SeongJae Park 2021-09-07  166  	regions[1].start =3D ALIGN(=
-first_gap.end, DAMON_MIN_REGION);
-3f49584b262cf8f SeongJae Park 2021-09-07  167  	regions[1].end =3D ALIGN(se=
-cond_gap.start, DAMON_MIN_REGION);
-3f49584b262cf8f SeongJae Park 2021-09-07  168  	regions[2].start =3D ALIGN(=
-second_gap.end, DAMON_MIN_REGION);
-3f49584b262cf8f SeongJae Park 2021-09-07  169  	regions[2].end =3D ALIGN(la=
-st_vma->vm_end, DAMON_MIN_REGION);
-3f49584b262cf8f SeongJae Park 2021-09-07  170  =
-
-3f49584b262cf8f SeongJae Park 2021-09-07  171  	return 0;
-3f49584b262cf8f SeongJae Park 2021-09-07  172  }
-3f49584b262cf8f SeongJae Park 2021-09-07  173  =
-
+:::::: TO: Mike Christie <mchristi@redhat.com>
+:::::: CC: Nicholas Bellinger <nab@linux-iscsi.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7472721753377172156==--
+--===============3993661487978847739==--
 
