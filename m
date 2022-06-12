@@ -1,204 +1,382 @@
-Content-Type: multipart/mixed; boundary="===============0821123160427121199=="
+Content-Type: multipart/mixed; boundary="===============0715373754686344861=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/madvise.c:124:28: warning: Parameter 'anon_name' can be declared with const [constParameter]
-Date: Fri, 17 Jun 2022 04:15:07 +0800
-Message-ID: <202206170442.PSaV6679-lkp@intel.com>
+Subject: fs/btrfs/ctree.h:3525:34: warning: dereference of NULL 'trans' [CWE-476]
+Date: Sun, 12 Jun 2022 21:29:48 +0800
+Message-ID: <202206122128.AtyCG5YP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0821123160427121199==
+--===============0715373754686344861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: mm/madvis=
-e.c:124:28: warning: Parameter 'anon_name' can be declared with const [cons=
-tParameter]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/btrfs/ctree.h:3525:34: warning: dereference of NULL 'trans' [CWE-476] [=
+-Wanalyzer-null-dereference]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Filipe Manana <fdmanana@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   30306f6194cadcc29c77f6ddcd416a75bf5c0232
-commit: 5c26f6ac9416b63d093e29c30e79b3297e425472 mm: refactor vm_area_struc=
-t::anon_vma_name usage code
-date:   3 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 3 months ago
-compiler: mips-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 5c26f6ac9416b63d093e29c30e79b3297e425472
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   7a68065eb9cd194cf03f135c9211eeb2d5c4c0a0
+commit: 79bd37120b149532af5b21953643ed74af69654f btrfs: rework chunk alloca=
+tion to avoid exhaustion of the system chunk array
+date:   11 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220611 (https://download.01.org/0day-ci/archi=
+ve/20220612/202206122128.AtyCG5YP-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D79bd37120b149532af5b21953643ed74af69654f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 79bd37120b149532af5b21953643ed74af69654f
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+gcc-analyzer warnings: (new ones prefixed by >>)
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (67) ...to here
+                                   |......
+                                   | 2560 |         if (ret) {
+                                   |      |            ~           =
 
->> mm/madvise.c:124:28: warning: Parameter 'anon_name' can be declared with=
- const [constParameter]
-        struct anon_vma_name *anon_name)
-                              ^
+                                   |      |            |
+                                   |      |            (68) following 'fals=
+e' branch (when 'ret =3D=3D 0')...
+                                   |
+                                 'split_node': event 69
+                                   |
+                                   |fs/btrfs/ctree.h:1925:46:
+                                   | 1925 |                 sizeof(struct b=
+trfs_key_ptr) * nr;
+                                   |      |                 ~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~^~~~
+                                   |      |                                =
+              |
+                                   |      |                                =
+              (69) ...to here
+                                   |
+                                 'split_node': event 70
+                                   |
+                                   |fs/btrfs/ctree.c:2574:9:
+                                   | 2574 |         insert_ptr(trans, path,=
+ &disk_key, split->start,
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (70) calling 'insert_pt=
+r' from 'split_node'
+                                   | 2575 |                    path->slots[=
+level + 1] + 1, level + 1);
+                                   |      |                    ~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                   +--> 'insert_ptr': event 71
+                                          |
+                                          | 2460 | static void insert_ptr(s=
+truct btrfs_trans_handle *trans,
+                                          |      |             ^~~~~~~~~~
+                                          |      |             |
+                                          |      |             (71) entry t=
+o 'insert_ptr'
+                                          |
+                                        'insert_ptr': event 72
+                                          |
+                                          |include/asm-generic/bug.h:183:35:
+                                          |  183 | #define BUG_ON(condition=
+) do { if (unlikely(condition)) BUG(); } while (0)
+                                          |      |                         =
+          ^
+                                          |      |                         =
+          |
+                                          |      |                         =
+          (72) following 'false' branch...
+   fs/btrfs/ctree.c:2469:9: note: in expansion of macro 'BUG_ON'
+                                          | 2469 |         BUG_ON(!path->no=
+des[level]);
+                                          |      |         ^~~~~~
+                                          |
+                                        'insert_ptr': event 73
+                                          |
+                                          | 2472 |         nritems =3D btrf=
+s_header_nritems(lower);
+                                          |      |                   ^~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+                                          |      |                   |
+                                          |      |                   (73) .=
+..to here
+                                          |
+                                        'insert_ptr': event 74
+                                          |
+                                          |include/asm-generic/bug.h:183:35:
+                                          |  183 | #define BUG_ON(condition=
+) do { if (unlikely(condition)) BUG(); } while (0)
+                                          |      |                         =
+          ^
+                                          |      |                         =
+          |
+                                          |      |                         =
+          (74) following 'false' branch...
+   fs/btrfs/ctree.c:2473:9: note: in expansion of macro 'BUG_ON'
+                                          | 2473 |         BUG_ON(slot > nr=
+items);
+                                          |      |         ^~~~~~
+                                          |
+                                        'insert_ptr': event 75
+                                          |
+                                          | 2474 |         BUG_ON(nritems =
+=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
+                                          |      |                         =
+                           ~~~~~^~~~~~~~~
+                                          |      |                         =
+                                |
+                                          |      |                         =
+                                (75) ...to here
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+                                          |   78 | # define unlikely(x)    =
+__builtin_expect(!!(x), 0)
+                                          |      |                         =
+                    ^
+   fs/btrfs/ctree.c:2474:9: note: in expansion of macro 'BUG_ON'
+                                          | 2474 |         BUG_ON(nritems =
+=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
+                                          |      |         ^~~~~~
+                                          |
+                                        'insert_ptr': event 76
+                                          |
+                                          | 2474 |         BUG_ON(nritems =
+=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
+                                          |      |                         =
+                           ~~~~~^~~~~~~~~
+                                          |      |                         =
+                                |
+                                          |      |                         =
+                                (76) dereference of NULL 'trans'
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+                                          |   78 | # define unlikely(x)    =
+__builtin_expect(!!(x), 0)
+                                          |      |                         =
+                    ^
+   fs/btrfs/ctree.c:2474:9: note: in expansion of macro 'BUG_ON'
+                                          | 2474 |         BUG_ON(nritems =
+=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
+                                          |      |         ^~~~~~
+                                          |
+   In file included from include/linux/bitops.h:32,
+                    from include/linux/kernel.h:12,
+                    from include/asm-generic/bug.h:20,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/arm/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from fs/btrfs/ctree.c:6:
+   fs/btrfs/ctree.c: In function 'split_node':
+>> fs/btrfs/ctree.h:3525:34: warning: dereference of NULL 'trans' [CWE-476]=
+ [-Wanalyzer-null-dereference]
+    3525 |                         &((trans)->fs_info->fs_state))) {       \
+         |                           ~~~~~~~^~~~~~~~~
+   arch/arm/include/asm/bitops.h:181:59: note: in definition of macro 'ATOM=
+IC_BITOP'
+     181 |         (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _=
+##name(nr,p))
+         |                                                           ^
+   fs/btrfs/ctree.h:3524:14: note: in expansion of macro 'test_and_set_bit'
+    3524 |         if (!test_and_set_bit(BTRFS_FS_STATE_TRANS_ABORTED,     \
+         |              ^~~~~~~~~~~~~~~~
+   fs/btrfs/ctree.c:2561:17: note: in expansion of macro 'btrfs_abort_trans=
+action'
+    2561 |                 btrfs_abort_transaction(trans, ret);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+     'btrfs_previous_extent_item': events 1-4
+       |
+       | 4577 | int btrfs_previous_extent_item(struct btrfs_root *root,
+       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'btrfs_previous_extent_item'
+       |......
+       | 4586 |                 if (path->slots[0] =3D=3D 0) {
+       |      |                    ~
+       |      |                    |
+       |      |                    (2) following 'true' branch...
+       | 4587 |                         ret =3D btrfs_prev_leaf(root, path);
+       |      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                               |
+       |      |                               (3) ...to here
+       |      |                               (4) calling 'btrfs_prev_leaf'=
+ from 'btrfs_previous_extent_item'
+       |
+       +--> 'btrfs_prev_leaf': events 5-6
+              |
+              | 4121 | int btrfs_prev_leaf(struct btrfs_root *root, struct =
+btrfs_path *path)
+              |      |     ^~~~~~~~~~~~~~~
+              |      |     |
+              |      |     (5) entry to 'btrfs_prev_leaf'
+              |......
+              | 4142 |         btrfs_release_path(path);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) calling 'btrfs_release_path' from 'btrfs=
+_prev_leaf'
+              |
+              +--> 'btrfs_release_path': event 7
+                     |
+                     |   97 | noinline void btrfs_release_path(struct btrfs=
+_path *p)
+                     |      |               ^~~~~~~~~~~~~~~~~~
+                     |      |               |
+                     |      |               (7) entry to 'btrfs_release_pat=
+h'
+                     |
+                   'btrfs_release_path': events 8-9
+                     |
+                     |  101 |         for (i =3D 0; i < BTRFS_MAX_LEVEL; i+=
++) {
+                     |  102 |                 p->slots[i] =3D 0;
+                     |      |                 ~~~~~~~~~~~~~~~
+                     |      |                             |
+                     |      |                             (9) ...to here
+                     |
+              <------+
+              |
+            'btrfs_prev_leaf': events 10-11
+              |
+              | 4142 |         btrfs_release_path(path);
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (10) returning to 'btrfs_prev_leaf' from 'bt=
+rfs_release_path'
+              | 4143 |         ret =3D btrfs_search_slot(NULL, root, &key, =
+path, 0, 0);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+              |      |               |
+              |      |               (11) calling 'btrfs_search_slot' from =
+'btrfs_prev_leaf'
+              |
+              +--> 'btrfs_search_slot': event 12
+                     |
+                     | 1682 | int btrfs_search_slot(struct btrfs_trans_hand=
+le *trans, struct btrfs_root *root,
+                     |      |     ^~~~~~~~~~~~~~~~~
+                     |      |     |
+                     |      |     (12) entry to 'btrfs_search_slot'
+                     |
+                   'btrfs_search_slot': event 13
+                     |
+                     |include/asm-generic/bug.h:183:35:
+                     |  183 | #define BUG_ON(condition) do { if (unlikely(c=
+ondition)) BUG(); } while (0)
+                     |      |                                   ^
+                     |      |                                   |
+                     |      |                                   (13) follow=
+ing 'true' branch...
+   fs/btrfs/ctree.c:1701:9: note: in expansion of macro 'BUG_ON'
+                     | 1701 |         BUG_ON(!cow && ins_len);
+                     |      |         ^~~~~~
+                     |
+                   'btrfs_search_slot': event 14
+                     |
+                     | 1701 |         BUG_ON(!cow && ins_len);
+                     |      |                     ^~
+                     |      |                     |
+                     |      |                     (14) ...to here
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+                     |   78 | # define unlikely(x)    __builtin_expect(!!(x=
+), 0)
+                     |      |                                             ^
+   fs/btrfs/ctree.c:1701:9: note: in expansion of macro 'BUG_ON'
+                     | 1701 |         BUG_ON(!cow && ins_len);
+                     |      |         ^~~~~~
+                     |
+                   'btrfs_search_slot': event 15
 
-vim +/anon_name +124 mm/madvise.c
+vim +/trans +3525 fs/btrfs/ctree.h
 
-9a10064f5625d5 Colin Cross        2022-01-14  100  =
+533574c6bc30cf Joe Perches  2012-07-30  3511  =
 
-9a10064f5625d5 Colin Cross        2022-01-14  101  /* mmap_lock should be w=
-rite-locked */
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  102  static int replace_anon_=
-vma_name(struct vm_area_struct *vma,
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  103  				 struct anon_vma_nam=
-e *anon_name)
-9a10064f5625d5 Colin Cross        2022-01-14  104  {
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  105  	struct anon_vma_name *o=
-rig_name =3D anon_vma_name(vma);
-78db3412833dc9 Suren Baghdasaryan 2022-01-14  106  =
+c0d19e2b9a521b David Sterba 2015-04-24  3512  __cold
+49b25e0540904b Jeff Mahoney 2012-03-01  3513  void __btrfs_abort_transactio=
+n(struct btrfs_trans_handle *trans,
+66642832f06a43 Jeff Mahoney 2016-06-10  3514  			       const char *functio=
+n,
+acce952b026382 liubo        2011-01-06  3515  			       unsigned int line, =
+int errno);
+acce952b026382 liubo        2011-01-06  3516  =
 
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  107  	if (!anon_name) {
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  108  		vma->anon_name =3D NUL=
-L;
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  109  		anon_vma_name_put(orig=
-_name);
-9a10064f5625d5 Colin Cross        2022-01-14  110  		return 0;
-9a10064f5625d5 Colin Cross        2022-01-14  111  	}
-9a10064f5625d5 Colin Cross        2022-01-14  112  =
+c5f4ccb2f77355 Anand Jain   2016-03-16  3517  /*
+c5f4ccb2f77355 Anand Jain   2016-03-16  3518   * Call btrfs_abort_transacti=
+on as early as possible when an error condition is
+c5f4ccb2f77355 Anand Jain   2016-03-16  3519   * detected, that way the exa=
+ct line number is reported.
+c5f4ccb2f77355 Anand Jain   2016-03-16  3520   */
+66642832f06a43 Jeff Mahoney 2016-06-10  3521  #define btrfs_abort_transacti=
+on(trans, errno)		\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3522  do {								\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3523  	/* Report first abort since =
+mount */			\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3524  	if (!test_and_set_bit(BTRFS_=
+FS_STATE_TRANS_ABORTED,	\
+66642832f06a43 Jeff Mahoney 2016-06-10 @3525  			&((trans)->fs_info->fs_sta=
+te))) {	\
+f95ebdbed46a4d Josef Bacik  2020-07-21  3526  		if ((errno) !=3D -EIO && (e=
+rrno) !=3D -EROFS) {		\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3527  			WARN(1, KERN_DEBUG				\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3528  			"BTRFS: Transaction aborte=
+d (error %d)\n",	\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3529  			(errno));					\
+e5d6b12fe14e89 Chris Mason  2016-12-09  3530  		} else {						\
+71367b3fa7f562 Jeff Mahoney 2017-02-15  3531  			btrfs_debug((trans)->fs_in=
+fo,			\
+71367b3fa7f562 Jeff Mahoney 2017-02-15  3532  				    "Transaction aborted =
+(error %d)", \
+e5d6b12fe14e89 Chris Mason  2016-12-09  3533  				  (errno));			\
+e5d6b12fe14e89 Chris Mason  2016-12-09  3534  		}						\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3535  	}							\
+66642832f06a43 Jeff Mahoney 2016-06-10  3536  	__btrfs_abort_transaction((t=
+rans), __func__,		\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3537  				  __LINE__, (errno));		\
+c5f4ccb2f77355 Anand Jain   2016-03-16  3538  } while (0)
+c5f4ccb2f77355 Anand Jain   2016-03-16  3539  =
 
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  113  	if (anon_vma_name_eq(or=
-ig_name, anon_name))
-9a10064f5625d5 Colin Cross        2022-01-14  114  		return 0;
-9a10064f5625d5 Colin Cross        2022-01-14  115  =
 
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  116  	anon_vma_name_get(anon_=
-name);
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  117  	vma->anon_name =3D anon=
-_name;
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  118  	anon_vma_name_put(orig_=
-name);
-9a10064f5625d5 Colin Cross        2022-01-14  119  =
+:::::: The code at line 3525 was first introduced by commit
+:::::: 66642832f06a4351e23cea6cf254967c227f8224 btrfs: btrfs_abort_transact=
+ion, drop root parameter
 
-9a10064f5625d5 Colin Cross        2022-01-14  120  	return 0;
-9a10064f5625d5 Colin Cross        2022-01-14  121  }
-9a10064f5625d5 Colin Cross        2022-01-14  122  #else /* CONFIG_ANON_VMA=
-_NAME */
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  123  static int replace_anon_=
-vma_name(struct vm_area_struct *vma,
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04 @124  				 struct anon_vma_nam=
-e *anon_name)
-9a10064f5625d5 Colin Cross        2022-01-14  125  {
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  126  	if (anon_name)
-9a10064f5625d5 Colin Cross        2022-01-14  127  		return -EINVAL;
-9a10064f5625d5 Colin Cross        2022-01-14  128  =
-
-9a10064f5625d5 Colin Cross        2022-01-14  129  	return 0;
-9a10064f5625d5 Colin Cross        2022-01-14  130  }
-9a10064f5625d5 Colin Cross        2022-01-14  131  #endif /* CONFIG_ANON_VM=
-A_NAME */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  132  /*
-ac1e9acc5acf0b Colin Cross        2022-01-14  133   * Update the vm_flags o=
-n region of a vma, splitting it or merging it as
-ac1e9acc5acf0b Colin Cross        2022-01-14  134   * necessary.  Must be c=
-alled with mmap_sem held for writing;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  135   */
-ac1e9acc5acf0b Colin Cross        2022-01-14  136  static int madvise_updat=
-e_vma(struct vm_area_struct *vma,
-ac1e9acc5acf0b Colin Cross        2022-01-14  137  			      struct vm_area_=
-struct **prev, unsigned long start,
-9a10064f5625d5 Colin Cross        2022-01-14  138  			      unsigned long e=
-nd, unsigned long new_flags,
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  139  			      struct anon_vma=
-_name *anon_name)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  140  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  141  	struct mm_struct *mm =
-=3D vma->vm_mm;
-ac1e9acc5acf0b Colin Cross        2022-01-14  142  	int error;
-05b7438475ddba Prasanna Meda      2005-06-21  143  	pgoff_t pgoff;
-e798c6e87b64d9 Prasanna Meda      2005-06-21  144  =
-
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  145  	if (new_flags =3D=3D vm=
-a->vm_flags && anon_vma_name_eq(anon_vma_name(vma), anon_name)) {
-05b7438475ddba Prasanna Meda      2005-06-21  146  		*prev =3D vma;
-ac1e9acc5acf0b Colin Cross        2022-01-14  147  		return 0;
-05b7438475ddba Prasanna Meda      2005-06-21  148  	}
-05b7438475ddba Prasanna Meda      2005-06-21  149  =
-
-05b7438475ddba Prasanna Meda      2005-06-21  150  	pgoff =3D vma->vm_pgoff=
- + ((start - vma->vm_start) >> PAGE_SHIFT);
-05b7438475ddba Prasanna Meda      2005-06-21  151  	*prev =3D vma_merge(mm,=
- *prev, start, end, new_flags, vma->anon_vma,
-19a809afe2fe08 Andrea Arcangeli   2015-09-04  152  			  vma->vm_file, pgoff=
-, vma_policy(vma),
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  153  			  vma->vm_userfaultfd=
-_ctx, anon_name);
-05b7438475ddba Prasanna Meda      2005-06-21  154  	if (*prev) {
-05b7438475ddba Prasanna Meda      2005-06-21  155  		vma =3D *prev;
-05b7438475ddba Prasanna Meda      2005-06-21  156  		goto success;
-05b7438475ddba Prasanna Meda      2005-06-21  157  	}
-05b7438475ddba Prasanna Meda      2005-06-21  158  =
-
-05b7438475ddba Prasanna Meda      2005-06-21  159  	*prev =3D vma;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  160  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  161  	if (start !=3D vma->vm_=
-start) {
-ac1e9acc5acf0b Colin Cross        2022-01-14  162  		if (unlikely(mm->map_c=
-ount >=3D sysctl_max_map_count))
-ac1e9acc5acf0b Colin Cross        2022-01-14  163  			return -ENOMEM;
-def5efe0376501 David Rientjes     2017-02-24  164  		error =3D __split_vma(=
-mm, vma, start, 1);
-f3bc0dba3154fa Mike Rapoport      2019-09-23  165  		if (error)
-ac1e9acc5acf0b Colin Cross        2022-01-14  166  			return error;
-def5efe0376501 David Rientjes     2017-02-24  167  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  168  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  169  	if (end !=3D vma->vm_en=
-d) {
-ac1e9acc5acf0b Colin Cross        2022-01-14  170  		if (unlikely(mm->map_c=
-ount >=3D sysctl_max_map_count))
-ac1e9acc5acf0b Colin Cross        2022-01-14  171  			return -ENOMEM;
-def5efe0376501 David Rientjes     2017-02-24  172  		error =3D __split_vma(=
-mm, vma, end, 0);
-f3bc0dba3154fa Mike Rapoport      2019-09-23  173  		if (error)
-ac1e9acc5acf0b Colin Cross        2022-01-14  174  			return error;
-def5efe0376501 David Rientjes     2017-02-24  175  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  176  =
-
-836d5ffd345509 Hugh Dickins       2005-09-03  177  success:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  178  	/*
-c1e8d7c6a7a682 Michel Lespinasse  2020-06-08  179  	 * vm_flags is protecte=
-d by the mmap_lock held in write mode.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  180  	 */
-e798c6e87b64d9 Prasanna Meda      2005-06-21  181  	vma->vm_flags =3D new_f=
-lags;
-9a10064f5625d5 Colin Cross        2022-01-14  182  	if (!vma->vm_file) {
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  183  		error =3D replace_anon=
-_vma_name(vma, anon_name);
-9a10064f5625d5 Colin Cross        2022-01-14  184  		if (error)
-9a10064f5625d5 Colin Cross        2022-01-14  185  			return error;
-9a10064f5625d5 Colin Cross        2022-01-14  186  	}
-f3bc0dba3154fa Mike Rapoport      2019-09-23  187  =
-
-ac1e9acc5acf0b Colin Cross        2022-01-14  188  	return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  189  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  190  =
-
+:::::: TO: Jeff Mahoney <jeffm@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0821123160427121199==--
+--===============0715373754686344861==--
 
