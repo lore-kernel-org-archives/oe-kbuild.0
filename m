@@ -1,282 +1,163 @@
-Content-Type: multipart/mixed; boundary="===============5896317004059325336=="
+Content-Type: multipart/mixed; boundary="===============7013623060678723018=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/crypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL '*cryp.areq' [CWE-476]
-Date: Fri, 17 Jun 2022 04:15:09 +0800
-Message-ID: <202206170419.9CBIeKi5-lkp@intel.com>
+Subject: drivers/cxl/core/port.c:748 cxl_decoder_add_locked() warn: passing zero to 'PTR_ERR'
+Date: Mon, 13 Jun 2022 04:36:36 +0800
+Message-ID: <202206130455.EAe0gkw6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5896317004059325336==
+--===============7013623060678723018==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/c=
-rypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL '*cryp.areq'=
- [CWE-476] [-Wanalyzer-null-dereference]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nicolas Toromanoff <nicolas.toromanoff@foss.st.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Dan Williams <dan.j.williams@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   30306f6194cadcc29c77f6ddcd416a75bf5c0232
-commit: 4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9 crypto: stm32/cryp - fix b=
-ugs and crash in tests
-date:   6 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20220616 (https://download.01.org/0day-ci/archi=
-ve/20220617/202206170419.9CBIeKi5-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+head:   7a68065eb9cd194cf03f135c9211eeb2d5c4c0a0
+commit: d17d0540a0dbf109210f7b57a37571e2978da0fa cxl/core/hdm: Add CXL stan=
+dard decoder enumeration to the core
+date:   4 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 months ago
+config: powerpc64-randconfig-m031-20220611 (https://download.01.org/0day-ci=
+/archive/20220613/202206130455.EAe0gkw6-lkp(a)intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/cxl/core/port.c:748 cxl_decoder_add_locked() warn: passing zero to =
+'PTR_ERR'
+
+Old smatch warnings:
+drivers/cxl/core/port.c:796 cxl_decoder_add() warn: passing zero to 'PTR_ER=
+R'
+
+vim +/PTR_ERR +748 drivers/cxl/core/port.c
+
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  718  =
+
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  719  /**
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  720   * cxl=
+_decoder_add_locked - Add a decoder with targets
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  721   * @cx=
+ld: The cxl decoder allocated by cxl_decoder_alloc()
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  722   * @ta=
+rget_map: A list of downstream ports that this decoder can direct memory
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  723   *    =
+          traffic to. These numbers should correspond with the port number
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  724   *    =
+          in the PCIe Link Capabilities structure.
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  725   *
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  726   * Cer=
+tain types of decoders may not have any targets. The main example of this
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  727   * is =
+an endpoint device. A more awkward example is a hostbridge whose root
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  728   * por=
+ts get hot added (technically possible, though unlikely).
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  729   *
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  730   * Thi=
+s is the locked variant of cxl_decoder_add().
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  731   *
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  732   * Con=
+text: Process context. Expects the device lock of the port that owns the
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  733   *	   =
+ @cxld to be held.
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  734   *
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  735   * Ret=
+urn: Negative error code if the decoder wasn't properly configured; else
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  736   *	   =
+returns 0.
+d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  737   */
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  738  int cx=
+l_decoder_add_locked(struct cxl_decoder *cxld, int *target_map)
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  739  {
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  740  	struc=
+t cxl_port *port;
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  741  	struc=
+t device *dev;
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  742  	int r=
+c;
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  743  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  744  	if (W=
+ARN_ON_ONCE(!cxld))
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  745  		retu=
+rn -EINVAL;
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  746  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  747  	if (W=
+ARN_ON_ONCE(IS_ERR(cxld)))
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21 @748  		retu=
+rn PTR_ERR(cxld);
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  749  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  750  	if (c=
+xld->interleave_ways < 1)
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  751  		retu=
+rn -EINVAL;
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  752  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  753  	port =
+=3D to_cxl_port(cxld->dev.parent);
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  754  	rc =
+=3D decoder_populate_targets(cxld, port, target_map);
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  755  	if (r=
+c)
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  756  		retu=
+rn rc;
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  757  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  758  	dev =
+=3D &cxld->dev;
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  759  	rc =
+=3D dev_set_name(dev, "decoder%d.%d", port->id, cxld->id);
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  760  	if (r=
+c)
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  761  		retu=
+rn rc;
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  762  =
+
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  763  	/*
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  764  	 * Pl=
+atform decoder resources should show up with a reasonable name. All
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  765  	 * ot=
+her resources are just sub ranges within the main decoder resource.
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  766  	 */
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  767  	if (i=
+s_root_decoder(dev))
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  768  		cxld=
+->platform_res.name =3D dev_name(dev);
+608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  769  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  770  	retur=
+n device_add(dev);
+40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  771  }
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  772  EXPORT=
+_SYMBOL_NS_GPL(cxl_decoder_add_locked, CXL);
+d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  773  =
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/crypto/stm32/stm32-cryp.c: In function 'stm32_cryp_prepare_req':
->> drivers/crypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL =
-'*cryp.areq' [CWE-476] [-Wanalyzer-null-dereference]
-    1057 |                 scatterwalk_copychunks(NULL, &cryp->out_walk, cr=
-yp->areq->assoclen, 2);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~
-     'stm32_cryp_prepare_req': events 1-3
-       |
-       |  999 |         if (!cryp)
-       |      |            ^
-       |      |            |
-       |      |            (1) following 'false' branch (when 'cryp' is non=
--NULL)...
-       |......
-       | 1002 |         rctx =3D req ? skcipher_request_ctx(req) : aead_req=
-uest_ctx(areq);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-       |      |              |
-       |      |              (2) ...to here
-       |      |              (3) following 'true' branch (when 'req' is non=
--NULL)...
-       |
-     'stm32_cryp_prepare_req': event 4
-       |
-       |include/crypto/internal/skcipher.h:156:16:
-       |  156 |         return req->__ctx;
-       |      |                ^~~
-       |      |                |
-       |      |                (4) ...to here
-       |
-     'stm32_cryp_prepare_req': events 5-6
-       |
-       |drivers/crypto/stm32/stm32-cryp.c:1011:12:
-       | 1011 |         if (req) {
-       |      |            ^
-       |      |            |
-       |      |            (5) following 'true' branch (when 'req' is non-N=
-ULL)...
-       | 1012 |                 cryp->req =3D req;
-       |      |                 ~~~~~~~~~~~~~~~
-       |      |                           |
-       |      |                           (6) ...to here
-       |
-     'stm32_cryp_prepare_req': events 7-13
-       |
-       | 1013 |                 cryp->areq =3D NULL;
-       |......
-       | 1049 |         in_sg =3D req ? req->src : areq->src;
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                |
-       |      |                                (8) following 'true' branch =
-(when 'req' is non-NULL)...
-       |      |                                (9) ...to here
-       |......
-       | 1052 |         cryp->out_sg =3D req ? req->dst : areq->dst;
-       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                       |
-       |      |                                       (10) following 'true'=
- branch (when 'req' is non-NULL)...
-       |      |                                       (11) ...to here
-       |......
-       | 1057 |                 scatterwalk_copychunks(NULL, &cryp->out_wal=
-k, cryp->areq->assoclen, 2);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |                                          =
-       |
-       |      |                 (13) dereference of NULL '*cryp.areq'      =
-       (12) '*cryp.areq' is NULL
-       |
+:::::: The code at line 748 was first introduced by commit
+:::::: 48667f676189eccfe9b7ac3a31772d55d6da40e5 cxl/core: Split decoder set=
+up into alloc + add
 
-vim +1057 drivers/crypto/stm32/stm32-cryp.c
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   981  =
-
-47ece4813f19f1 Ard Biesheuvel     2019-11-09   982  static int stm32_cryp_p=
-repare_req(struct skcipher_request *req,
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   983  				  struct aead_reque=
-st *areq)
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   984  {
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   985  	struct stm32_cryp_ctx =
-*ctx;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   986  	struct stm32_cryp *cry=
-p;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   987  	struct stm32_cryp_reqc=
-tx *rctx;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30   988  	struct scatterlist *in=
-_sg;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   989  	int ret;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   990  =
-
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   991  	if (!req && !areq)
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   992  		return -EINVAL;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   993  =
-
-47ece4813f19f1 Ard Biesheuvel     2019-11-09   994  	ctx =3D req ? crypto_s=
-kcipher_ctx(crypto_skcipher_reqtfm(req)) :
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   995  		    crypto_aead_ctx(c=
-rypto_aead_reqtfm(areq));
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   996  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   997  	cryp =3D ctx->cryp;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   998  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   999  	if (!cryp)
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1000  		return -ENODEV;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1001  =
-
-47ece4813f19f1 Ard Biesheuvel     2019-11-09  1002  	rctx =3D req ? skciphe=
-r_request_ctx(req) : aead_request_ctx(areq);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1003  	rctx->mode &=3D FLG_MO=
-DE_MASK;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1004  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1005  	ctx->cryp =3D cryp;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1006  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1007  	cryp->flags =3D (cryp-=
->flags & ~FLG_MODE_MASK) | rctx->mode;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1008  	cryp->hw_blocksize =3D=
- is_aes(cryp) ? AES_BLOCK_SIZE : DES_BLOCK_SIZE;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1009  	cryp->ctx =3D ctx;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1010  =
-
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1011  	if (req) {
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1012  		cryp->req =3D req;
-29aed438e87020 Lionel Debieve     2019-04-24  1013  		cryp->areq =3D NULL;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1014  		cryp->header_in =3D 0;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1015  		cryp->payload_in =3D =
-req->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1016  		cryp->payload_out =3D=
- req->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1017  		cryp->authsize =3D 0;
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1018  	} else {
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1019  		/*
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1020  		 * Length of input an=
-d output data:
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1021  		 * Encryption case:
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1022  		 *  INPUT  =3D AssocD=
-ata   ||     PlainText
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1023  		 *          <- assocl=
-en ->  <- cryptlen ->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1024  		 *
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1025  		 *  OUTPUT =3D AssocD=
-ata    ||   CipherText   ||      AuthTag
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1026  		 *          <- assocl=
-en ->  <-- cryptlen -->  <- authsize ->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1027  		 *
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1028  		 * Decryption case:
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1029  		 *  INPUT  =3D  Assoc=
-Data     ||    CipherTex   ||       AuthTag
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1030  		 *          <- assocl=
-en --->  <---------- cryptlen ---------->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1031  		 *
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1032  		 *  OUTPUT =3D AssocD=
-ata    ||               PlainText
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1033  		 *          <- assocl=
-en ->  <- cryptlen - authsize ->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1034  		 */
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1035  		cryp->areq =3D areq;
-29aed438e87020 Lionel Debieve     2019-04-24  1036  		cryp->req =3D NULL;
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1037  		cryp->authsize =3D cr=
-ypto_aead_authsize(crypto_aead_reqtfm(areq));
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1038  		if (is_encrypt(cryp))=
- {
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1039  			cryp->payload_in =3D=
- areq->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1040  			cryp->header_in =3D =
-areq->assoclen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1041  			cryp->payload_out =
-=3D areq->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1042  		} else {
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1043  			cryp->payload_in =3D=
- areq->cryptlen - cryp->authsize;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1044  			cryp->header_in =3D =
-areq->assoclen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1045  			cryp->payload_out =
-=3D cryp->payload_in;
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1046  		}
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1047  	}
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1048  =
-
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1049  	in_sg =3D req ? req->s=
-rc : areq->src;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1050  	scatterwalk_start(&cry=
-p->in_walk, in_sg);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1051  =
-
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1052  	cryp->out_sg =3D req ?=
- req->dst : areq->dst;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1053  	scatterwalk_start(&cry=
-p->out_walk, cryp->out_sg);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1054  =
-
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1055  	if (is_gcm(cryp) || is=
-_ccm(cryp)) {
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1056  		/* In output, jump af=
-ter assoc data */
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30 @1057  		scatterwalk_copychunk=
-s(NULL, &cryp->out_walk, cryp->areq->assoclen, 2);
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1058  	}
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1059  =
-
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1060  	if (is_ctr(cryp))
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1061  		memset(cryp->last_ctr=
-, 0, sizeof(cryp->last_ctr));
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1062  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1063  	ret =3D stm32_cryp_hw_=
-init(cryp);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1064  	return ret;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1065  }
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1066  =
-
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5896317004059325336==--
+--===============7013623060678723018==--
 
