@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6049167514975023332=="
+Content-Type: multipart/mixed; boundary="===============1200151136844959154=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cxl/core/port.c:534 cxl_decoder_add() warn: passing zero to 'PTR_ERR'
-Date: Mon, 13 Jun 2022 02:55:01 +0800
-Message-ID: <202206130224.Fp0lJdx6-lkp@intel.com>
+Subject: kernel/torture.c:491 torture_shuffle_task_register() warn: possible memory leak of 'stp'
+Date: Mon, 13 Jun 2022 01:44:04 +0800
+Message-ID: <202206130153.IUYUERW4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6049167514975023332==
+--===============1200151136844959154==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,97 +15,126 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Michael Ellerman <mpe@ellerman.id.au>
+
+Hi Christophe,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   7a68065eb9cd194cf03f135c9211eeb2d5c4c0a0
-commit: 0ff0af18216436d0151af4e410400c7a19ca9437 cxl/core/port: Rename bus.=
-c to port.c
-date:   4 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 4 months ago
+commit: 1e688dd2a3d6759d416616ff07afc4bb836c4213 powerpc/bug: Provide bette=
+r flexibility to WARN_ON/__WARN_FLAGS() with asm goto
+date:   10 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 10 months ago
 config: powerpc64-randconfig-m031-20220611 (https://download.01.org/0day-ci=
-/archive/20220613/202206130224.Fp0lJdx6-lkp(a)intel.com/config)
+/archive/20220613/202206130153.IUYUERW4-lkp(a)intel.com/config)
 compiler: powerpc64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/cxl/core/port.c:534 cxl_decoder_add() warn: passing zero to 'PTR_ER=
-R'
+New smatch warnings:
+kernel/torture.c:491 torture_shuffle_task_register() warn: possible memory =
+leak of 'stp'
+security/keys/trusted-keys/trusted_tpm2.c:61 tpm2_key_encode() warn: passin=
+g zero to 'PTR_ERR'
+drivers/infiniband/core/uverbs_uapi.c:77 uapi_create_write() error: potenti=
+ally using uninitialized 'exists'.
+drivers/reset/core.c:225 reset_control_array_rearm() error: 'rstc' derefere=
+ncing possible ERR_PTR()
+drivers/reset/core.c:339 reset_control_reset() error: 'rstc' dereferencing =
+possible ERR_PTR()
+drivers/reset/core.c:411 reset_control_rearm() error: 'rstc' dereferencing =
+possible ERR_PTR()
+drivers/reset/core.c:452 reset_control_assert() error: 'rstc' dereferencing=
+ possible ERR_PTR()
+drivers/reset/core.c:540 reset_control_deassert() error: 'rstc' dereferenci=
+ng possible ERR_PTR()
+drivers/reset/core.c:612 reset_control_status() error: 'rstc' dereferencing=
+ possible ERR_PTR()
+drivers/reset/core.c:654 reset_control_acquire() error: 'rstc' dereferencin=
+g possible ERR_PTR()
+drivers/reset/core.c:723 reset_control_release() error: 'rstc' dereferencin=
+g possible ERR_PTR()
+drivers/net/wwan/wwan_core.c:1062 wwan_unregister_ops() error: 'wwandev' de=
+referencing possible ERR_PTR()
+sound/core/oss/pcm_oss.c:2603 snd_pcm_oss_ioctl() error: we previously assu=
+med 'substream' could be null (see line 2598)
+net/mac80211/key.c:464 ieee80211_key_replace() error: we previously assumed=
+ 'new' could be null (see line 446)
+net/netfilter/nf_nat_core.c:1039 nf_nat_register_fn() warn: potentially one=
+ past the end of array 'nat_ops[hooknum]'
+net/netfilter/nf_nat_core.c:1039 nf_nat_register_fn() warn: potentially one=
+ past the end of array 'nat_ops[hooknum]'
+net/wireless/sme.c:782 __cfg80211_connect_result() error: we previously ass=
+umed 'cr->bss' could be null (see line 733)
+kernel/sched/topology.c:1338 asym_cpu_capacity_update_data() warn: possible=
+ memory leak of 'entry'
+kernel/rcu/rcutorture.c:2357 rcu_torture_fwd_prog_cr() warn: possible memor=
+y leak of 'rfcp'
 
-vim +/PTR_ERR +534 drivers/cxl/core/port.c
+Old smatch warnings:
+security/keys/trusted-keys/trusted_tpm2.c:83 tpm2_key_encode() warn: passin=
+g zero to 'PTR_ERR'
+drivers/infiniband/core/uverbs_uapi.c:114 uapi_merge_method() error: uninit=
+ialized symbol 'exists'.
+arch/powerpc/include/asm/mmu.h:233 early_mmu_has_feature() warn: bitwise AN=
+D condition is false here
+arch/powerpc/include/asm/mmu.h:233 early_mmu_has_feature() warn: bitwise AN=
+D condition is false here
 
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  523  =
+vim +/stp +491 kernel/torture.c
 
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  524  int cxl=
-_decoder_add(struct cxl_decoder *cxld, int *target_map)
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  525  {
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  526  	struct=
- cxl_port *port;
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  527  	struct=
- device *dev;
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  528  	int rc;
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  529  =
+3808dc9fab0591 Paul E. McKenney 2014-01-28  478  =
 
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  530  	if (WA=
-RN_ON_ONCE(!cxld))
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  531  		retur=
-n -EINVAL;
-a5c25802168993 drivers/cxl/core/bus.c Dan Williams 2021-09-08  532  =
+3808dc9fab0591 Paul E. McKenney 2014-01-28  479  /*
+3808dc9fab0591 Paul E. McKenney 2014-01-28  480   * Register a task to be s=
+huffled.  If there is no memory, just splat
+3808dc9fab0591 Paul E. McKenney 2014-01-28  481   * and don't bother regist=
+ering.
+3808dc9fab0591 Paul E. McKenney 2014-01-28  482   */
+3808dc9fab0591 Paul E. McKenney 2014-01-28  483  void torture_shuffle_task_=
+register(struct task_struct *tp)
+3808dc9fab0591 Paul E. McKenney 2014-01-28  484  {
+3808dc9fab0591 Paul E. McKenney 2014-01-28  485  	struct shuffle_task *stp;
+3808dc9fab0591 Paul E. McKenney 2014-01-28  486  =
 
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  533  	if (WA=
-RN_ON_ONCE(IS_ERR(cxld)))
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21 @534  		retur=
-n PTR_ERR(cxld);
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  535  =
-
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  536  	if (cx=
-ld->interleave_ways < 1)
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  537  		retur=
-n -EINVAL;
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  538  =
-
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  539  	port =
-=3D to_cxl_port(cxld->dev.parent);
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  540  	rc =3D=
- decoder_populate_targets(cxld, port, target_map);
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  541  	if (rc)
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  542  		retur=
-n rc;
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  543  =
-
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  544  	dev =
-=3D &cxld->dev;
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  545  	rc =3D=
- dev_set_name(dev, "decoder%d.%d", port->id, cxld->id);
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  546  	if (rc)
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  547  		retur=
-n rc;
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  548  =
-
-48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  549  	return=
- device_add(dev);
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  550  }
-affec782742e08 drivers/cxl/core/bus.c Dan Williams 2021-11-12  551  EXPORT_=
-SYMBOL_NS_GPL(cxl_decoder_add, CXL);
-40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  552  =
+3808dc9fab0591 Paul E. McKenney 2014-01-28  487  	if (WARN_ON_ONCE(tp =3D=
+=3D NULL))
+3808dc9fab0591 Paul E. McKenney 2014-01-28  488  		return;
+3808dc9fab0591 Paul E. McKenney 2014-01-28  489  	stp =3D kmalloc(sizeof(*s=
+tp), GFP_KERNEL);
+3808dc9fab0591 Paul E. McKenney 2014-01-28  490  	if (WARN_ON_ONCE(stp =3D=
+=3D NULL))
+3808dc9fab0591 Paul E. McKenney 2014-01-28 @491  		return;
+3808dc9fab0591 Paul E. McKenney 2014-01-28  492  	stp->st_t =3D tp;
+3808dc9fab0591 Paul E. McKenney 2014-01-28  493  	mutex_lock(&shuffle_task_=
+mutex);
+3808dc9fab0591 Paul E. McKenney 2014-01-28  494  	list_add(&stp->st_l, &shu=
+ffle_task_list);
+3808dc9fab0591 Paul E. McKenney 2014-01-28  495  	mutex_unlock(&shuffle_tas=
+k_mutex);
+3808dc9fab0591 Paul E. McKenney 2014-01-28  496  }
+3808dc9fab0591 Paul E. McKenney 2014-01-28  497  EXPORT_SYMBOL_GPL(torture_=
+shuffle_task_register);
+3808dc9fab0591 Paul E. McKenney 2014-01-28  498  =
 
 
-:::::: The code at line 534 was first introduced by commit
-:::::: 48667f676189eccfe9b7ac3a31772d55d6da40e5 cxl/core: Split decoder set=
-up into alloc + add
+:::::: The code at line 491 was first introduced by commit
+:::::: 3808dc9fab05913060626d7f0edd0f195cb9dcab rcutorture: Abstract tortur=
+e_shuffle()
 
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6049167514975023332==--
+--===============1200151136844959154==--
 
