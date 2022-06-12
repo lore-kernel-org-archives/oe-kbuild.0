@@ -1,163 +1,219 @@
-Content-Type: multipart/mixed; boundary="===============7013623060678723018=="
+Content-Type: multipart/mixed; boundary="===============0628856725003248806=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cxl/core/port.c:748 cxl_decoder_add_locked() warn: passing zero to 'PTR_ERR'
-Date: Mon, 13 Jun 2022 04:36:36 +0800
-Message-ID: <202206130455.EAe0gkw6-lkp@intel.com>
+Subject: include/asm-generic/bitops/non-atomic.h:118:27: warning: dereference of NULL 'other' [CWE-476]
+Date: Mon, 13 Jun 2022 04:26:19 +0800
+Message-ID: <202206130433.DyrBxnCG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7013623060678723018==
+--===============0628856725003248806==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: include/a=
+sm-generic/bitops/non-atomic.h:118:27: warning: dereference of NULL 'other'=
+ [CWE-476] [-Wanalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Marco Elver <elver@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7a68065eb9cd194cf03f135c9211eeb2d5c4c0a0
-commit: d17d0540a0dbf109210f7b57a37571e2978da0fa cxl/core/hdm: Add CXL stan=
-dard decoder enumeration to the core
-date:   4 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 months ago
-config: powerpc64-randconfig-m031-20220611 (https://download.01.org/0day-ci=
-/archive/20220613/202206130455.EAe0gkw6-lkp(a)intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.3.0
+head:   997952851843935024962b51fc36c61b3c2d1ed4
+commit: 9248e52fec9536590852844b0634b5d20483c1ab locking/atomic: simplify n=
+on-atomic wrappers
+date:   10 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220611 (https://download.01.org/0day-ci/archi=
+ve/20220613/202206130433.DyrBxnCG-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9248e52fec9536590852844b0634b5d20483c1ab
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9248e52fec9536590852844b0634b5d20483c1ab
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/cxl/core/port.c:748 cxl_decoder_add_locked() warn: passing zero to =
-'PTR_ERR'
-
-Old smatch warnings:
-drivers/cxl/core/port.c:796 cxl_decoder_add() warn: passing zero to 'PTR_ER=
-R'
-
-vim +/PTR_ERR +748 drivers/cxl/core/port.c
-
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  718  =
-
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  719  /**
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  720   * cxl=
-_decoder_add_locked - Add a decoder with targets
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  721   * @cx=
-ld: The cxl decoder allocated by cxl_decoder_alloc()
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  722   * @ta=
-rget_map: A list of downstream ports that this decoder can direct memory
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  723   *    =
-          traffic to. These numbers should correspond with the port number
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  724   *    =
-          in the PCIe Link Capabilities structure.
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  725   *
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  726   * Cer=
-tain types of decoders may not have any targets. The main example of this
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  727   * is =
-an endpoint device. A more awkward example is a hostbridge whose root
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  728   * por=
-ts get hot added (technically possible, though unlikely).
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  729   *
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  730   * Thi=
-s is the locked variant of cxl_decoder_add().
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  731   *
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  732   * Con=
-text: Process context. Expects the device lock of the port that owns the
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  733   *	   =
- @cxld to be held.
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  734   *
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  735   * Ret=
-urn: Negative error code if the decoder wasn't properly configured; else
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  736   *	   =
-returns 0.
-d54c1bbe2d34e3 drivers/cxl/core/port.c Ben Widawsky 2022-01-31  737   */
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  738  int cx=
-l_decoder_add_locked(struct cxl_decoder *cxld, int *target_map)
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  739  {
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  740  	struc=
-t cxl_port *port;
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  741  	struc=
-t device *dev;
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  742  	int r=
-c;
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  743  =
-
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  744  	if (W=
-ARN_ON_ONCE(!cxld))
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  745  		retu=
-rn -EINVAL;
-a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  746  =
-
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  747  	if (W=
-ARN_ON_ONCE(IS_ERR(cxld)))
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21 @748  		retu=
-rn PTR_ERR(cxld);
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  749  =
-
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  750  	if (c=
-xld->interleave_ways < 1)
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  751  		retu=
-rn -EINVAL;
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  752  =
-
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  753  	port =
-=3D to_cxl_port(cxld->dev.parent);
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  754  	rc =
-=3D decoder_populate_targets(cxld, port, target_map);
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  755  	if (r=
-c)
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  756  		retu=
-rn rc;
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  757  =
-
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  758  	dev =
-=3D &cxld->dev;
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  759  	rc =
-=3D dev_set_name(dev, "decoder%d.%d", port->id, cxld->id);
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  760  	if (r=
-c)
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  761  		retu=
-rn rc;
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  762  =
-
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  763  	/*
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  764  	 * Pl=
-atform decoder resources should show up with a reasonable name. All
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  765  	 * ot=
-her resources are just sub ranges within the main decoder resource.
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  766  	 */
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  767  	if (i=
-s_root_decoder(dev))
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  768  		cxld=
-->platform_res.name =3D dev_name(dev);
-608135db1b7901 drivers/cxl/core/port.c Ben Widawsky 2022-01-23  769  =
-
-48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  770  	retur=
-n device_add(dev);
-40ba17afdfabb0 drivers/cxl/core.c      Dan Williams 2021-06-09  771  }
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  772  EXPORT=
-_SYMBOL_NS_GPL(cxl_decoder_add_locked, CXL);
-d17d0540a0dbf1 drivers/cxl/core/port.c Dan Williams 2022-02-01  773  =
 
 
-:::::: The code at line 748 was first introduced by commit
-:::::: 48667f676189eccfe9b7ac3a31772d55d6da40e5 cxl/core: Split decoder set=
-up into alloc + add
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from arch/arm/include/asm/bitops.h:123,
+                    from include/linux/bitops.h:32,
+                    from include/linux/kernel.h:12,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:12,
+                    from net/unix/af_unix.c:80:
+   net/unix/af_unix.c: In function 'unix_dgram_disconnected':
+>> include/asm-generic/bitops/non-atomic.h:118:27: warning: dereference of =
+NULL 'other' [CWE-476] [-Wanalyzer-null-dereference]
+     118 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG=
+-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+     'unix_seqpacket_sendmsg.part.0': events 1-2
+       |
+       |net/unix/af_unix.c:2039:12:
+       | 2039 | static int unix_seqpacket_sendmsg(struct socket *sock, stru=
+ct msghdr *msg,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'unix_seqpacket_sendmsg.part.0'
+       |......
+       | 2055 |         return unix_dgram_sendmsg(sock, msg, len);
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (2) calling 'unix_dgram_sendmsg' from 'unix_=
+seqpacket_sendmsg.part.0'
+       |
+       +--> 'unix_dgram_sendmsg': events 3-4
+              |
+              | 1615 | static int unix_dgram_sendmsg(struct socket *sock, s=
+truct msghdr *msg,
+              |      |            ^~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (3) entry to 'unix_dgram_sendmsg'
+              |......
+              | 1633 |         err =3D scm_send(sock, msg, &scm, false);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (4) calling 'scm_send' from 'unix_dgra=
+m_sendmsg'
+              |
+              +--> 'scm_send': events 5-7
+                     |
+                     |include/net/scm.h:78:23:
+                     |   78 | static __inline__ int scm_send(struct socket =
+*sock, struct msghdr *msg,
+                     |      |                       ^~~~~~~~
+                     |      |                       |
+                     |      |                       (5) entry to 'scm_send'
+                     |......
+                     |   84 |         if (forcecreds)
+                     |      |            ~           =
 
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+                     |      |            |
+                     |      |            (6) following 'false' branch (when=
+ 'forcecreds =3D=3D 0')...
+                     |......
+                     |   87 |         if (msg->msg_controllen <=3D 0)
+                     |      |             ~~~~~~~~~~~~~~~~~~~
+                     |      |                |
+                     |      |                (7) ...to here
+                     |
+              <------+
+              |
+            'unix_dgram_sendmsg': events 8-9
+              |
+              |net/unix/af_unix.c:1633:15:
+              | 1633 |         err =3D scm_send(sock, msg, &scm, false);
+              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (8) returning to 'unix_dgram_sendmsg' =
+from 'scm_send'
+              | 1634 |         if (err < 0)
+              |      |            ~   =
+
+              |      |            |
+              |      |            (9) following 'false' branch...
+              |
+            'unix_dgram_sendmsg': events 10-13
+              |
+              | 1637 |         err =3D -EOPNOTSUPP;
+              | 1638 |         if (msg->msg_flags&MSG_OOB)
+              |      |            ~ =
+
+              |      |            |
+              |      |            (11) following 'false' branch...
+              |......
+              | 1641 |         if (msg->msg_namelen) {
+              |      |            ~~~~~~~~~~~~~~~~~
+              |      |            |   |
+              |      |            |   (12) ...to here
+              |      |            (13) following 'false' branch...
+              |
+            'unix_dgram_sendmsg': events 14-15
+              |
+              | 1648 |                 err =3D -ENOTCONN;
+              | 1649 |                 other =3D unix_peer_get(sk);
+              | 1650 |                 if (!other)
+              |      |                    ~ =
+
+              |      |                    |
+              |      |                    (15) following 'false' branch (wh=
+en 'other' is non-NULL)...
+              |
+            'unix_dgram_sendmsg': event 16
+              |
+              |include/asm-generic/bitops/non-atomic.h:118:27:
+              |  118 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (B=
+ITS_PER_LONG-1)));
+              |      |                       ~~~~^~~~~~~~~~~~~~
+              |      |                           |
+              |      |                           (16) ...to here
+              |
+            'unix_dgram_sendmsg': events 17-24
+              |
+              |net/unix/af_unix.c:1659:12:
+              | 1659 |         if (len > sk->sk_sndbuf - 32)
+              |      |            ^
+              |      |            |
+              |      |            (17) following 'false' branch...
+              |......
+              | 1662 |         if (len > SKB_MAX_ALLOC) {
+              |      |            ~
+
+vim +/other +118 include/asm-generic/bitops/non-atomic.h
+
+4117b02132d1cf Akinobu Mita 2006-03-26  109  =
+
+4117b02132d1cf Akinobu Mita 2006-03-26  110  /**
+cf3ee3c8c29dc3 Mark Rutland 2021-07-13  111   * arch_test_bit - Determine w=
+hether a bit is set
+4117b02132d1cf Akinobu Mita 2006-03-26  112   * @nr: bit number to test
+4117b02132d1cf Akinobu Mita 2006-03-26  113   * @addr: Address to start cou=
+nting from
+4117b02132d1cf Akinobu Mita 2006-03-26  114   */
+cf3ee3c8c29dc3 Mark Rutland 2021-07-13  115  static __always_inline int
+cf3ee3c8c29dc3 Mark Rutland 2021-07-13  116  arch_test_bit(int nr, const vo=
+latile unsigned long *addr)
+4117b02132d1cf Akinobu Mita 2006-03-26  117  {
+d05be13bcc6ec6 Jiri Slaby   2007-10-18 @118  	return 1UL & (addr[BIT_WORD(n=
+r)] >> (nr & (BITS_PER_LONG-1)));
+4117b02132d1cf Akinobu Mita 2006-03-26  119  }
+9248e52fec9536 Mark Rutland 2021-07-21  120  #define test_bit arch_test_bit
+4117b02132d1cf Akinobu Mita 2006-03-26  121  =
+
+
+:::::: The code at line 118 was first introduced by commit
+:::::: d05be13bcc6ec615fb2e9556a9b85d52800669b6 define first set of BIT* ma=
+cros
+
+:::::: TO: Jiri Slaby <jirislaby@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7013623060678723018==--
+--===============0628856725003248806==--
 
