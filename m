@@ -1,93 +1,136 @@
-Content-Type: multipart/mixed; boundary="===============4639611530897079017=="
+Content-Type: multipart/mixed; boundary="===============0826329759834346571=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:dd-drm 26/26] drivers/gpu/drm/drm_print.c:283 __drm_dev_dbg() warn: should this be a bitwise op?
-Date: Mon, 13 Jun 2022 12:14:12 +0800
-Message-ID: <202206131244.09L1piio-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.18-rc4-nesting 58/65] drivers/iommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y
+Date: Mon, 13 Jun 2022 10:31:26 +0800
+Message-ID: <202206131040.eElI6JIJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4639611530897079017==
+--===============0826329759834346571==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/i=
+ommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Jim Cromie <jim.cromie@gmail.com>
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-tree:   https://github.com/jimc/linux.git dd-drm
-head:   33833feb445e5cfc48f1fbfdbbb8ada11657c5d4
-commit: 33833feb445e5cfc48f1fbfdbbb8ada11657c5d4 [26/26] drm_print: add _dd=
-ebug desc to drm_*dbg prototypes
-:::::: branch date: 7 days ago
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.18-rc4-nesting
+head:   b0ccc100c237a8502dd13d8a0371d825f8832526
+commit: d99bc53272b7e5d94224b6540f764296f683adf2 [58/65] iommufd: Add IOMMU=
+_ALLOC_PASID
+:::::: branch date: 5 days ago
 :::::: commit date: 7 days ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20613/202206131244.09L1piio-lkp(a)intel.com/config)
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220613/202206131040.eElI6JIJ-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-30-g92122700-dirty
+        # https://github.com/luxis1999/iommufd/commit/d99bc53272b7e5d94224b=
+6540f764296f683adf2
+        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
+fd
+        git fetch --no-tags luxis1999-iommufd iommufd-v5.18-rc4-nesting
+        git checkout d99bc53272b7e5d94224b6540f764296f683adf2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/drm_print.c:283 __drm_dev_dbg() warn: should this be a bitw=
-ise op?
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Old smatch warnings:
-drivers/gpu/drm/drm_print.c:287 __drm_dev_dbg() warn: should this be a bitw=
-ise op?
+ERROR: modpost: "iommu_alloc_nested_domain" [drivers/iommu/iommufd/iommufd.=
+ko] undefined!
+>> ERROR: modpost: "iommu_domain_cache_inv" [drivers/iommu/iommufd/iommufd.=
+ko] undefined!
+ERROR: modpost: "iommu_attach_device_pasid" [drivers/iommu/iommufd/iommufd.=
+ko] undefined!
+ERROR: modpost: "iommu_detach_device_pasid" [drivers/iommu/iommufd/iommufd.=
+ko] undefined!
 
-vim +283 drivers/gpu/drm/drm_print.c
 
-db87086492581c Joe Perches     2018-03-16  267  =
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y
 
-33833feb445e5c Jim Cromie      2021-12-28  268  void __drm_dev_dbg(struct _=
-ddebug *desc, const struct device *dev,
-33833feb445e5c Jim Cromie      2021-12-28  269  		   enum drm_debug_categor=
-y category, const char *format, ...)
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  270  {
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  271  	struct va_format vaf;
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  272  	va_list args;
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  273  =
+vim +39 drivers/iommu/iommufd/pasid.c
 
-c42134fa6c61ec Jim Cromie      2022-01-19  274  	if (!__drm_debug_enabled(c=
-ategory))
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  275  		return;
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  276  =
+d99bc53272b7e5 Yi Liu 2022-05-25  20  =
 
-33833feb445e5c Jim Cromie      2021-12-28  277  	/* we know we are printing=
- for either syslog, tracefs, or both */
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  278  	va_start(args, format);
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  279  	vaf.fmt =3D format;
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  280  	vaf.va =3D &args;
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  281  =
+d99bc53272b7e5 Yi Liu 2022-05-25  21  int iommufd_alloc_pasid(struct iommuf=
+d_ucmd *ucmd)
+d99bc53272b7e5 Yi Liu 2022-05-25  22  {
+d99bc53272b7e5 Yi Liu 2022-05-25  23  	struct iommu_alloc_pasid *cmd =3D uc=
+md->cmd;
+d99bc53272b7e5 Yi Liu 2022-05-25  24  	struct iommufd_pasid_data *pdata;
+d99bc53272b7e5 Yi Liu 2022-05-25  25  	int rc;
+d99bc53272b7e5 Yi Liu 2022-05-25  26  =
 
-33833feb445e5c Jim Cromie      2021-12-28  282  	if (dev) {
-33833feb445e5c Jim Cromie      2021-12-28 @283  		if (desc->flags && _DPRIN=
-TK_FLAGS_PRINT)
-db87086492581c Joe Perches     2018-03-16  284  			dev_printk(KERN_DEBUG, d=
-ev, "[" DRM_NAME ":%ps] %pV",
-db87086492581c Joe Perches     2018-03-16  285  				   __builtin_return_add=
-ress(0), &vaf);
-33833feb445e5c Jim Cromie      2021-12-28  286  	} else {
-33833feb445e5c Jim Cromie      2021-12-28  287  		if (desc->flags && _DPRIN=
-TK_FLAGS_PRINT)
-db87086492581c Joe Perches     2018-03-16  288  			printk(KERN_DEBUG "[" DR=
-M_NAME ":%ps] %pV",
-db87086492581c Joe Perches     2018-03-16  289  			       __builtin_return_=
-address(0), &vaf);
-33833feb445e5c Jim Cromie      2021-12-28  290  	}
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  291  	va_end(args);
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  292  }
-0538400cb2f0f9 Jim Cromie      2021-12-18  293  EXPORT_SYMBOL(__drm_dev_dbg=
-);
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  294  =
+d99bc53272b7e5 Yi Liu 2022-05-25  27  	if (cmd->flags & ~IOMMU_ALLOC_PASID_=
+IDENTICAL)
+d99bc53272b7e5 Yi Liu 2022-05-25  28  		return -EOPNOTSUPP;
+d99bc53272b7e5 Yi Liu 2022-05-25  29  =
+
+d99bc53272b7e5 Yi Liu 2022-05-25  30  	if (cmd->range.min > cmd->range.max =
+||
+d99bc53272b7e5 Yi Liu 2022-05-25  31  	    cmd->range.min >=3D (1 << IOASID=
+_BITS) ||
+d99bc53272b7e5 Yi Liu 2022-05-25  32  	    cmd->range.max >=3D (1 << IOASID=
+_BITS))
+d99bc53272b7e5 Yi Liu 2022-05-25  33  		return -EINVAL;
+d99bc53272b7e5 Yi Liu 2022-05-25  34  =
+
+d99bc53272b7e5 Yi Liu 2022-05-25  35  	pdata =3D kzalloc(sizeof(*pdata), GF=
+P_KERNEL);
+d99bc53272b7e5 Yi Liu 2022-05-25  36  	if (!pdata)
+d99bc53272b7e5 Yi Liu 2022-05-25  37  		return -ENOMEM;
+d99bc53272b7e5 Yi Liu 2022-05-25  38  =
+
+d99bc53272b7e5 Yi Liu 2022-05-25 @39  	if (!cmd->flags & IOMMU_ALLOC_PASID_=
+IDENTICAL)
+d99bc53272b7e5 Yi Liu 2022-05-25  40  		pdata->vpasid =3D cmd->pasid;
+d99bc53272b7e5 Yi Liu 2022-05-25  41  	pdata->pasid =3D pdata->vpasid =3D
+d99bc53272b7e5 Yi Liu 2022-05-25  42  				ioasid_alloc(&ucmd->ictx->pasid_s=
+et,
+d99bc53272b7e5 Yi Liu 2022-05-25  43  				cmd->range.min, cmd->range.max,
+d99bc53272b7e5 Yi Liu 2022-05-25  44  				pdata);
+d99bc53272b7e5 Yi Liu 2022-05-25  45  	if (!pasid_valid(pdata->pasid)) {
+d99bc53272b7e5 Yi Liu 2022-05-25  46  		rc =3D -ENOMEM;
+d99bc53272b7e5 Yi Liu 2022-05-25  47  		goto out_free_mem;
+d99bc53272b7e5 Yi Liu 2022-05-25  48  	}
+d99bc53272b7e5 Yi Liu 2022-05-25  49  =
+
+d99bc53272b7e5 Yi Liu 2022-05-25  50  	cmd->pasid =3D pdata->pasid;
+d99bc53272b7e5 Yi Liu 2022-05-25  51  	rc =3D iommufd_ucmd_respond(ucmd, si=
+zeof(*cmd));
+d99bc53272b7e5 Yi Liu 2022-05-25  52  	if (rc)
+d99bc53272b7e5 Yi Liu 2022-05-25  53  		goto out_free_pasid;
+d99bc53272b7e5 Yi Liu 2022-05-25  54  =
+
+d99bc53272b7e5 Yi Liu 2022-05-25  55  	return 0;
+d99bc53272b7e5 Yi Liu 2022-05-25  56  out_free_pasid:
+d99bc53272b7e5 Yi Liu 2022-05-25  57  	ioasid_free(pdata->pasid);
+d99bc53272b7e5 Yi Liu 2022-05-25  58  out_free_mem:
+d99bc53272b7e5 Yi Liu 2022-05-25  59  	kfree(pdata);
+d99bc53272b7e5 Yi Liu 2022-05-25  60  	return rc;
+d99bc53272b7e5 Yi Liu 2022-05-25  61  }
+d99bc53272b7e5 Yi Liu 2022-05-25  62  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4639611530897079017==--
+--===============0826329759834346571==--
 
