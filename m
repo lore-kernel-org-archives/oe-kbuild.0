@@ -1,273 +1,458 @@
-Content-Type: multipart/mixed; boundary="===============9087357172909882569=="
+Content-Type: multipart/mixed; boundary="===============7602147718356575128=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_base_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
-Date: Mon, 13 Jun 2022 09:30:39 +0800
-Message-ID: <202206130957.ePVBkSOg-lkp@intel.com>
+Subject: mm/slob.c:415:30: warning: dereference of NULL 'sp' [CWE-476]
+Date: Mon, 13 Jun 2022 08:29:39 +0800
+Message-ID: <202206130858.vPJ2bNjO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9087357172909882569==
+--===============7602147718356575128==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: mm/slob.c=
+:415:30: warning: dereference of NULL 'sp' [CWE-476] [-Wanalyzer-null-deref=
+erence]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Alex Deucher <alexander.deucher@amd.com>
-CC: Guchun Chen <guchun.chen@amd.com>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Vlastimil Babka <vbabka@suse.cz>
+CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: a0ccc717c4ab3ef572f023fdceffb4b6df496a0d drm/amdgpu/discovery: vali=
-date VCN and SDMA instances
-date:   2 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 weeks ago
-config: parisc-randconfig-m031-20220608 (https://download.01.org/0day-ci/ar=
-chive/20220613/202206130957.ePVBkSOg-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.3.0
+head:   997952851843935024962b51fc36c61b3c2d1ed4
+commit: 50757018b4c9b02dbf7fcc0514e0fc45b8689c62 mm/slob: Convert SLOB to u=
+se struct slab and struct folio
+date:   5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20220611 (https://download.01.org/0day-ci/archi=
+ve/20220613/202206130858.vPJ2bNjO-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D50757018b4c9b02dbf7fcc0514e0fc45b8689c62
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 50757018b4c9b02dbf7fcc0514e0fc45b8689c62
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_bas=
-e_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1454 amdgpu_discovery_get_vcn=
-_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <=3D 3
+gcc-analyzer warnings: (new ones prefixed by >>)
+              |      |         (7) ...to here
+   include/asm-generic/getorder.h:38:24: note: in expansion of macro 'ilog2'
+              |   38 |                 return ilog2((size) - 1) - PAGE_SHIF=
+T + 1;
+              |      |                        ^~~~~
+              |
+            '__kmem_cache_free': event 8
+              |
+              |   38 |                 return ilog2((size) - 1) - PAGE_SHIF=
+T + 1;
+              |
+            '__kmem_cache_free': event 9
+              |
+              |include/linux/log2.h:162:24:
+              |  161 |         (sizeof(n) <=3D 4) ?              \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  162 |         __ilog2_u32(n) :                \
+              |      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+              |      |                        |
+              |      |                        (9) ...to here
+              |  163 |         __ilog2_u64(n)                  \
+              |      |         ~~~~~~~~~~~~~~  =
 
-vim +1133 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+   include/asm-generic/getorder.h:38:24: note: in expansion of macro 'ilog2'
+              |   38 |                 return ilog2((size) - 1) - PAGE_SHIF=
+T + 1;
+              |      |                        ^~~~~
+              |
+            '__kmem_cache_free': event 10
+              |
+              |include/linux/log2.h:162:24:
+              |  161 |         (sizeof(n) <=3D 4) ?              \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  162 |         __ilog2_u32(n) :                \
+              |      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+              |      |                        |
+              |      |                        (10) calling '__ilog2_u32' fr=
+om '__kmem_cache_free'
+              |  163 |         __ilog2_u64(n)                  \
+              |      |         ~~~~~~~~~~~~~~  =
 
-a6c40b178092f4 Luben Tuikov    2022-02-03  1064  =
+   include/asm-generic/getorder.h:38:24: note: in expansion of macro 'ilog2'
+              |   38 |                 return ilog2((size) - 1) - PAGE_SHIF=
+T + 1;
+              |      |                        ^~~~~
+              |
+              +--> '__ilog2_u32': event 11
+                     |
+                     |include/linux/log2.h:22:5:
+                     |   22 | int __ilog2_u32(u32 n)
+                     |      |     ^~~~~~~~~~~
+                     |      |     |
+                     |      |     (11) entry to '__ilog2_u32'
+                     |
+                   '__ilog2_u32': event 12
+                     |
+                     |include/asm-generic/bitops/builtin-fls.h:14:53:
+                     |   14 |         return x ? sizeof(x) * 8 - __builtin_=
+clz(x) : 0;
+                     |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~^~~
+                     |      |                                              =
+       |
+                     |      |                                              =
+       (12) following 'false' branch (when 'n =3D=3D 0')...
+                     |
+                   '__ilog2_u32': event 13
+                     |
+                     |include/linux/log2.h:24:23:
+                     |   24 |         return fls(n) - 1;
+                     |      |                ~~~~~~~^~~
+                     |      |                       |
+                     |      |                       (13) ...to here
+                     |
+              <------+
+              |
+            '__kmem_cache_free': event 14
+              |
+              |  161 |         (sizeof(n) <=3D 4) ?              \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  162 |         __ilog2_u32(n) :                \
+              |      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+              |      |                        |
+              |      |                        (14) returning to '__kmem_cac=
+he_free' from '__ilog2_u32'
+              |  163 |         __ilog2_u64(n)                  \
+              |      |         ~~~~~~~~~~~~~~  =
 
-e24d0e91b33676 Alex Deucher    2022-03-30  1065  static int amdgpu_discover=
-y_reg_base_init(struct amdgpu_device *adev)
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1066  {
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1067  	struct binary_header *bhd=
-r;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1068  	struct ip_discovery_heade=
-r *ihdr;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1069  	struct die_header *dhdr;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1070  	struct ip *ip;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1071  	uint16_t die_offset;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1072  	uint16_t ip_offset;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1073  	uint16_t num_dies;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1074  	uint16_t num_ips;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1075  	uint8_t num_base_address;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1076  	int hw_ip;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1077  	int i, j, k;
-dffa11b4f74b15 Monk Liu        2020-03-04  1078  	int r;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1079  =
+   include/asm-generic/getorder.h:38:24: note: in expansion of macro 'ilog2'
+              |   38 |                 return ilog2((size) - 1) - PAGE_SHIF=
+T + 1;
+              |      |                        ^~~~~
+              |
+            '__kmem_cache_free': event 15
+              |
+              |mm/slob.c:658:17:
+              |  658 |                 slob_free_pages(b, get_order(size));
+              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (15) calling 'slob_free_pages' from =
+'__kmem_cache_free'
+              |
+              +--> 'slob_free_pages': events 16-17
+                     |
+                     |  210 | static void slob_free_pages(void *b, int orde=
+r)
+                     |      |             ^~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (16) entry to 'slob_free_pages'
+                     |......
+                     |  218 |                             -(PAGE_SIZE << or=
+der));
+                     |      |                              ~~~~~~~~~~~~~~~~=
+~~~~
+                     |      |                                         |
+                     |      |                                         (17) =
+shift by negative amount here ('-12')
+                     |
+   mm/slob.c: In function 'slob_free':
+>> mm/slob.c:415:30: warning: dereference of NULL 'sp' [CWE-476] [-Wanalyze=
+r-null-dereference]
+     415 |                 sp->freelist =3D b;
+         |                 ~~~~~~~~~~~~~^~~
+     '__kmem_cache_free': events 1-4
+       |
+       |  653 | static void __kmem_cache_free(void *b, int size)
+       |      |             ^~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to '__kmem_cache_free'
+       |  654 | {
+       |  655 |         if (size < PAGE_SIZE)
+       |      |            ~ =
 
-dffa11b4f74b15 Monk Liu        2020-03-04  1080  	r =3D amdgpu_discovery_in=
-it(adev);
-dffa11b4f74b15 Monk Liu        2020-03-04  1081  	if (r) {
-dffa11b4f74b15 Monk Liu        2020-03-04  1082  		DRM_ERROR("amdgpu_discov=
-ery_init failed\n");
-dffa11b4f74b15 Monk Liu        2020-03-04  1083  		return r;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1084  	}
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1085  =
+       |      |            |
+       |      |            (2) following 'true' branch...
+       |  656 |                 slob_free(b, size);
+       |      |                 ~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+       |      |                 (4) calling 'slob_free' from '__kmem_cache_=
+free'
+       |
+       +--> 'slob_free': events 5-6
+              |
+              |  384 | static void slob_free(void *block, int size)
+              |      |             ^~~~~~~~~
+              |      |             |
+              |      |             (5) entry to 'slob_free'
+              |......
+              |  392 |         if (unlikely(ZERO_OR_NULL_PTR(block)))
+              |      |            ~ =
 
-72de33f8f7ba0f Alex Deucher    2020-07-29  1086  	bhdr =3D (struct binary_h=
-eader *)adev->mman.discovery_bin;
-72de33f8f7ba0f Alex Deucher    2020-07-29  1087  	ihdr =3D (struct ip_disco=
-very_header *)(adev->mman.discovery_bin +
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1088  			le16_to_cpu(bhdr->table=
-_list[IP_DISCOVERY].offset));
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1089  	num_dies =3D le16_to_cpu(=
-ihdr->num_dies);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1090  =
+              |      |            |
+              |      |            (6) following 'false' branch...
+              |
+            'slob_free': event 7
+              |
+              |include/linux/compiler.h:78:42:
+              |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+              |      |                                          ^~~~~
+              |      |                                          |
+              |      |                                          (7) ...to h=
+ere
+   include/asm-generic/bug.h:161:36: note: in expansion of macro 'unlikely'
+              |  161 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                    ^~~~~~~~
+   mm/slob.c:394:9: note: in expansion of macro 'BUG_ON'
+              |  394 |         BUG_ON(!size);
+              |      |         ^~~~~~
+              |
+            'slob_free': event 8
+              |
+              |include/asm-generic/bug.h:161:35:
+              |  161 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (8) following 'fal=
+se' branch...
+   mm/slob.c:394:9: note: in expansion of macro 'BUG_ON'
+              |  394 |         BUG_ON(!size);
+              |      |         ^~~~~~
+              |
+            'slob_free': events 9-10
+              |
+              |  396 |         sp =3D virt_to_slab(block);
+              |      |              ^~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (9) ...to here
+              |      |              (10) calling 'virt_to_slab' from 'slob_=
+free'
+              |
+              +--> 'virt_to_slab': events 11-12
+                     |
+                     |mm/slab.h:155:28:
+                     |  155 | static inline struct slab *virt_to_slab(const=
+ void *addr)
+                     |      |                            ^~~~~~~~~~~~
+                     |      |                            |
+                     |      |                            (11) entry to 'vir=
+t_to_slab'
+                     |......
+                     |  159 |         if (!folio_test_slab(folio))
+                     |      |            ~                =
 
-437298b833996d Xiaojie Yuan    2019-03-27  1091  	DRM_DEBUG("number of dies=
-: %d\n", num_dies);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1092  =
+                     |      |            |
+                     |      |            (12) following 'false' branch...
+                     |
+                   'virt_to_slab': event 13
+                     |
+                     |cc1:
+                     | (13): ...to here
+                     |
+              <------+
+              |
+            'slob_free': events 14-19
+              |
+              |mm/slob.c:396:14:
+              |  396 |         sp =3D virt_to_slab(block);
+              |      |              ^~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (14) return of NULL to 'slob_free' from=
+ 'virt_to_slab'
+              |......
+              |  401 |         if (sp->units + units =3D=3D SLOB_UNITS(PAGE=
+_SIZE)) {
+              |      |            ~  =
 
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1093  	for (i =3D 0; i < num_die=
-s; i++) {
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1094  		die_offset =3D le16_to_c=
-pu(ihdr->die_info[i].die_offset);
-72de33f8f7ba0f Alex Deucher    2020-07-29  1095  		dhdr =3D (struct die_hea=
-der *)(adev->mman.discovery_bin + die_offset);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1096  		num_ips =3D le16_to_cpu(=
-dhdr->num_ips);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1097  		ip_offset =3D die_offset=
- + sizeof(*dhdr);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1098  =
+              |      |            |
+              |      |            (15) following 'false' branch...
+              |......
+              |  412 |         if (!slob_page_free(sp)) {
+              |      |            ~ ~~~~~~~~~~~~~~~~~~
+              |      |            | |
 
-437298b833996d Xiaojie Yuan    2019-03-27  1099  		if (le16_to_cpu(dhdr->di=
-e_id) !=3D i) {
-437298b833996d Xiaojie Yuan    2019-03-27  1100  			DRM_ERROR("invalid die =
-id %d, expected %d\n",
-437298b833996d Xiaojie Yuan    2019-03-27  1101  					le16_to_cpu(dhdr->die=
-_id), i);
-437298b833996d Xiaojie Yuan    2019-03-27  1102  			return -EINVAL;
-437298b833996d Xiaojie Yuan    2019-03-27  1103  		}
-437298b833996d Xiaojie Yuan    2019-03-27  1104  =
+vim +/sp +415 mm/slob.c
 
-437298b833996d Xiaojie Yuan    2019-03-27  1105  		DRM_DEBUG("number of har=
-dware IPs on die%d: %d\n",
-437298b833996d Xiaojie Yuan    2019-03-27  1106  				le16_to_cpu(dhdr->die_=
-id), num_ips);
-437298b833996d Xiaojie Yuan    2019-03-27  1107  =
+10cef602950291 Matt Mackall            2006-01-08  380  =
 
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1108  		for (j =3D 0; j < num_ip=
-s; j++) {
-72de33f8f7ba0f Alex Deucher    2020-07-29  1109  			ip =3D (struct ip *)(ad=
-ev->mman.discovery_bin + ip_offset);
-5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1110  =
+95b35127f13661 Nicholas Piggin         2007-07-15  381  /*
+95b35127f13661 Nicholas Piggin         2007-07-15  382   * slob_free: entry=
+ point into the slob allocator.
+95b35127f13661 Nicholas Piggin         2007-07-15  383   */
+10cef602950291 Matt Mackall            2006-01-08  384  static void slob_fr=
+ee(void *block, int size)
+10cef602950291 Matt Mackall            2006-01-08  385  {
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  386) 	struct slab *sp;
+95b35127f13661 Nicholas Piggin         2007-07-15  387  	slob_t *prev, *nex=
+t, *b =3D (slob_t *)block;
+95b35127f13661 Nicholas Piggin         2007-07-15  388  	slobidx_t units;
+10cef602950291 Matt Mackall            2006-01-08  389  	unsigned long flag=
+s;
+d602dabaeba79d Bob Liu                 2010-07-10  390  	struct list_head *=
+slob_list;
+10cef602950291 Matt Mackall            2006-01-08  391  =
 
-5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1111  			if (amdgpu_discove=
-ry_validate_ip(ip))
-5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1112  				goto next_ip;
-5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1113  =
+2408c55037c3f7 Satyam Sharma           2007-10-16  392  	if (unlikely(ZERO_=
+OR_NULL_PTR(block)))
+10cef602950291 Matt Mackall            2006-01-08  393  		return;
+95b35127f13661 Nicholas Piggin         2007-07-15  394  	BUG_ON(!size);
+10cef602950291 Matt Mackall            2006-01-08  395  =
 
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1114  			num_base_address =3D ip=
-->num_base_address;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1115  =
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  396) 	sp =3D virt_to_sla=
+b(block);
+95b35127f13661 Nicholas Piggin         2007-07-15  397  	units =3D SLOB_UNI=
+TS(size);
+10cef602950291 Matt Mackall            2006-01-08  398  =
 
-437298b833996d Xiaojie Yuan    2019-03-27  1116  			DRM_DEBUG("%s(%d) #%d v=
-%d.%d.%d:\n",
-437298b833996d Xiaojie Yuan    2019-03-27  1117  				  hw_id_names[le16_to_=
-cpu(ip->hw_id)],
-437298b833996d Xiaojie Yuan    2019-03-27  1118  				  le16_to_cpu(ip->hw_i=
-d),
-437298b833996d Xiaojie Yuan    2019-03-27  1119  				  ip->number_instance,
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1120  				  ip->major, ip->minor,
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1121  				  ip->revision);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1122  =
+10cef602950291 Matt Mackall            2006-01-08  399  	spin_lock_irqsave(=
+&slob_lock, flags);
+10cef602950291 Matt Mackall            2006-01-08  400  =
 
-baf3f8f3740625 Alex Deucher    2021-11-30  1123  			if (le16_to_cpu(ip->hw_=
-id) =3D=3D VCN_HWID) {
-c40bdfb2ffa4cf Leslie Shi      2021-12-08  1124  				/* Bit [5:0]: original=
- revision value
-baf3f8f3740625 Alex Deucher    2021-11-30  1125  				 * Bit [7:6]: en/decod=
-e capability:
-baf3f8f3740625 Alex Deucher    2021-11-30  1126  				 *     0b00 : VCN func=
-tion normally
-baf3f8f3740625 Alex Deucher    2021-11-30  1127  				 *     0b10 : encode i=
-s disabled
-baf3f8f3740625 Alex Deucher    2021-11-30  1128  				 *     0b01 : decode i=
-s disabled
-baf3f8f3740625 Alex Deucher    2021-11-30  1129  				 */
-c40bdfb2ffa4cf Leslie Shi      2021-12-08  1130  				adev->vcn.vcn_config[a=
-dev->vcn.num_vcn_inst] =3D
-c40bdfb2ffa4cf Leslie Shi      2021-12-08  1131  					ip->revision & 0xc0;
-baf3f8f3740625 Alex Deucher    2021-11-30  1132  				ip->revision &=3D ~0xc=
-0;
-a0ccc717c4ab3e Alex Deucher    2022-05-16 @1133  				if (adev->vcn.num_vcn_=
-inst < AMDGPU_MAX_VCN_INSTANCES)
-7cbe08a930a132 Alex Deucher    2021-08-09  1134  					adev->vcn.num_vcn_ins=
-t++;
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1135  				else
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1136  					dev_err(adev->dev, "T=
-oo many VCN instances: %d vs %d\n",
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1137  						adev->vcn.num_vcn_in=
-st + 1,
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1138  						AMDGPU_MAX_VCN_INSTA=
-NCES);
-baf3f8f3740625 Alex Deucher    2021-11-30  1139  			}
-5c3720be7d4658 Alex Deucher    2021-08-09  1140  			if (le16_to_cpu(ip->hw_=
-id) =3D=3D SDMA0_HWID ||
-5c3720be7d4658 Alex Deucher    2021-08-09  1141  			    le16_to_cpu(ip->hw_=
-id) =3D=3D SDMA1_HWID ||
-5c3720be7d4658 Alex Deucher    2021-08-09  1142  			    le16_to_cpu(ip->hw_=
-id) =3D=3D SDMA2_HWID ||
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1143  			    le16_to_cpu(ip->hw_=
-id) =3D=3D SDMA3_HWID) {
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1144  				if (adev->sdma.num_ins=
-tances < AMDGPU_MAX_SDMA_INSTANCES)
-5c3720be7d4658 Alex Deucher    2021-08-09  1145  					adev->sdma.num_instan=
-ces++;
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1146  				else
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1147  					dev_err(adev->dev, "T=
-oo many SDMA instances: %d vs %d\n",
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1148  						adev->sdma.num_insta=
-nces + 1,
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1149  						AMDGPU_MAX_SDMA_INST=
-ANCES);
-a0ccc717c4ab3e Alex Deucher    2022-05-16  1150  			}
-7cbe08a930a132 Alex Deucher    2021-08-09  1151  =
+95b35127f13661 Nicholas Piggin         2007-07-15  401  	if (sp->units + un=
+its =3D=3D SLOB_UNITS(PAGE_SIZE)) {
+95b35127f13661 Nicholas Piggin         2007-07-15  402  		/* Go directly to=
+ page allocator. Do not pass slob allocator */
+95b35127f13661 Nicholas Piggin         2007-07-15  403  		if (slob_page_fre=
+e(sp))
+95b35127f13661 Nicholas Piggin         2007-07-15  404  			clear_slob_page_=
+free(sp);
+6fb8f424393025 Nicholas Piggin         2009-03-16  405  		spin_unlock_irqre=
+store(&slob_lock, flags);
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  406) 		__folio_clear_sla=
+b(slab_folio(sp));
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  407) 		page_mapcount_res=
+et(slab_page(sp));
+1f0532eb617d28 Nicholas Piggin         2009-05-05  408  		slob_free_pages(b=
+, 0);
+6fb8f424393025 Nicholas Piggin         2009-03-16  409  		return;
+95b35127f13661 Nicholas Piggin         2007-07-15  410  	}
+10cef602950291 Matt Mackall            2006-01-08  411  =
 
-a2efebf1a4f8b2 Alex Deucher    2022-03-31  1152  			if (le16_to_cpu(ip->hw_=
-id) =3D=3D UMC_HWID)
-a2efebf1a4f8b2 Alex Deucher    2022-03-31  1153  				adev->gmc.num_umc++;
-a2efebf1a4f8b2 Alex Deucher    2022-03-31  1154  =
+95b35127f13661 Nicholas Piggin         2007-07-15  412  	if (!slob_page_fre=
+e(sp)) {
+95b35127f13661 Nicholas Piggin         2007-07-15  413  		/* This slob page=
+ is about to become partially free. Easy! */
+95b35127f13661 Nicholas Piggin         2007-07-15  414  		sp->units =3D uni=
+ts;
+b8c24c4aef94b1 Christoph Lameter       2012-06-13 @415  		sp->freelist =3D =
+b;
+95b35127f13661 Nicholas Piggin         2007-07-15  416  		set_slob(b, units,
+95b35127f13661 Nicholas Piggin         2007-07-15  417  			(void *)((unsign=
+ed long)(b +
+95b35127f13661 Nicholas Piggin         2007-07-15  418  					SLOB_UNITS(PAG=
+E_SIZE)) & PAGE_MASK));
+d602dabaeba79d Bob Liu                 2010-07-10  419  		if (size < SLOB_B=
+REAK1)
+d602dabaeba79d Bob Liu                 2010-07-10  420  			slob_list =3D &f=
+ree_slob_small;
+d602dabaeba79d Bob Liu                 2010-07-10  421  		else if (size < S=
+LOB_BREAK2)
+d602dabaeba79d Bob Liu                 2010-07-10  422  			slob_list =3D &f=
+ree_slob_medium;
+d602dabaeba79d Bob Liu                 2010-07-10  423  		else
+d602dabaeba79d Bob Liu                 2010-07-10  424  			slob_list =3D &f=
+ree_slob_large;
+d602dabaeba79d Bob Liu                 2010-07-10  425  		set_slob_page_fre=
+e(sp, slob_list);
+95b35127f13661 Nicholas Piggin         2007-07-15  426  		goto out;
+95b35127f13661 Nicholas Piggin         2007-07-15  427  	}
+95b35127f13661 Nicholas Piggin         2007-07-15  428  =
 
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1155  			for (k =3D 0; k < num_b=
-ase_address; k++) {
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1156  				/*
-966f1d8fd05fd1 Xiaojie Yuan    2019-03-27  1157  				 * convert the endiann=
-ess of base addresses in place,
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1158  				 * so that we don't ne=
-ed to convert them when accessing adev->reg_offset.
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1159  				 */
-966f1d8fd05fd1 Xiaojie Yuan    2019-03-27  1160  				ip->base_address[k] =
-=3D le32_to_cpu(ip->base_address[k]);
-966f1d8fd05fd1 Xiaojie Yuan    2019-03-27  1161  				DRM_DEBUG("\t0x%08x\n"=
-, ip->base_address[k]);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1162  			}
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1163  =
+95b35127f13661 Nicholas Piggin         2007-07-15  429  	/*
+95b35127f13661 Nicholas Piggin         2007-07-15  430  	 * Otherwise the p=
+age is already partially free, so find reinsertion
+95b35127f13661 Nicholas Piggin         2007-07-15  431  	 * point.
+95b35127f13661 Nicholas Piggin         2007-07-15  432  	 */
+95b35127f13661 Nicholas Piggin         2007-07-15  433  	sp->units +=3D uni=
+ts;
+95b35127f13661 Nicholas Piggin         2007-07-15  434  =
 
-437298b833996d Xiaojie Yuan    2019-03-27  1164  			for (hw_ip =3D 0; hw_ip=
- < MAX_HWIP; hw_ip++) {
-437298b833996d Xiaojie Yuan    2019-03-27  1165  				if (hw_id_map[hw_ip] =
-=3D=3D le16_to_cpu(ip->hw_id)) {
-91aeda1811665a Alex Deucher    2020-02-19  1166  					DRM_DEBUG("set regist=
-er base offset for %s\n",
-437298b833996d Xiaojie Yuan    2019-03-27  1167  							hw_id_names[le16_to=
-_cpu(ip->hw_id)]);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1168  					adev->reg_offset[hw_i=
-p][ip->number_instance] =3D
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1169  						ip->base_address;
-1d789535a03679 Alex Deucher    2021-10-04  1170  					/* Instance support i=
-s somewhat inconsistent.
-1d789535a03679 Alex Deucher    2021-10-04  1171  					 * SDMA is a good exa=
-mple.  Sienna cichlid has 4 total
-1d789535a03679 Alex Deucher    2021-10-04  1172  					 * SDMA instances, ea=
-ch enumerated separately (HWIDs
-1d789535a03679 Alex Deucher    2021-10-04  1173  					 * 42, 43, 68, 69).  =
-Arcturus has 8 total SDMA instances,
-1d789535a03679 Alex Deucher    2021-10-04  1174  					 * but they are enume=
-rated as multiple instances of the
-1d789535a03679 Alex Deucher    2021-10-04  1175  					 * same HWIDs (4x HWI=
-D 42, 4x HWID 43).  UMC is another
-1d789535a03679 Alex Deucher    2021-10-04  1176  					 * example.  On most =
-chips there are multiple instances
-1d789535a03679 Alex Deucher    2021-10-04  1177  					 * with the same HWID.
-1d789535a03679 Alex Deucher    2021-10-04  1178  					 */
-1d789535a03679 Alex Deucher    2021-10-04  1179  					adev->ip_versions[hw_=
-ip][ip->number_instance] =3D
-54d2b1f402b6fe Alex Deucher    2021-07-20  1180  						IP_VERSION(ip->major=
-, ip->minor, ip->revision);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1181  				}
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1182  			}
-437298b833996d Xiaojie Yuan    2019-03-27  1183  =
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  435  	if (b < (slob_t *)=
+sp->freelist) {
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  436  		if (b + units =3D=
+=3D sp->freelist) {
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  437  			units +=3D slob_=
+units(sp->freelist);
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  438  			sp->freelist =3D=
+ slob_next(sp->freelist);
+679299b32dbf9b Matt Mackall            2008-02-04  439  		}
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  440  		set_slob(b, units=
+, sp->freelist);
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  441  		sp->freelist =3D =
+b;
+95b35127f13661 Nicholas Piggin         2007-07-15  442  	} else {
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  443  		prev =3D sp->free=
+list;
+95b35127f13661 Nicholas Piggin         2007-07-15  444  		next =3D slob_nex=
+t(prev);
+95b35127f13661 Nicholas Piggin         2007-07-15  445  		while (b > next) {
+95b35127f13661 Nicholas Piggin         2007-07-15  446  			prev =3D next;
+95b35127f13661 Nicholas Piggin         2007-07-15  447  			next =3D slob_ne=
+xt(prev);
+95b35127f13661 Nicholas Piggin         2007-07-15  448  		}
+10cef602950291 Matt Mackall            2006-01-08  449  =
 
-5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1184  next_ip:
-73bce7a423c3bb Lijo Lazar      2022-04-08  1185  			ip_offset +=3D struct_s=
-ize(ip, base_address, ip->num_base_address);
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1186  		}
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1187  	}
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1188  =
+95b35127f13661 Nicholas Piggin         2007-07-15  450  		if (!slob_last(pr=
+ev) && b + units =3D=3D next) {
+95b35127f13661 Nicholas Piggin         2007-07-15  451  			units +=3D slob_=
+units(next);
+95b35127f13661 Nicholas Piggin         2007-07-15  452  			set_slob(b, unit=
+s, slob_next(next));
+95b35127f13661 Nicholas Piggin         2007-07-15  453  		} else
+95b35127f13661 Nicholas Piggin         2007-07-15  454  			set_slob(b, unit=
+s, next);
+10cef602950291 Matt Mackall            2006-01-08  455  =
 
-a6c40b178092f4 Luben Tuikov    2022-02-03  1189  	amdgpu_discovery_sysfs_in=
-it(adev);
-a6c40b178092f4 Luben Tuikov    2022-02-03  1190  =
+95b35127f13661 Nicholas Piggin         2007-07-15  456  		if (prev + slob_u=
+nits(prev) =3D=3D b) {
+95b35127f13661 Nicholas Piggin         2007-07-15  457  			units =3D slob_u=
+nits(b) + slob_units(prev);
+95b35127f13661 Nicholas Piggin         2007-07-15  458  			set_slob(prev, u=
+nits, slob_next(b));
+95b35127f13661 Nicholas Piggin         2007-07-15  459  		} else
+95b35127f13661 Nicholas Piggin         2007-07-15  460  			set_slob(prev, s=
+lob_units(prev), b);
+95b35127f13661 Nicholas Piggin         2007-07-15  461  	}
+95b35127f13661 Nicholas Piggin         2007-07-15  462  out:
+10cef602950291 Matt Mackall            2006-01-08  463  	spin_unlock_irqres=
+tore(&slob_lock, flags);
+10cef602950291 Matt Mackall            2006-01-08  464  }
+10cef602950291 Matt Mackall            2006-01-08  465  =
 
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1191  	return 0;
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1192  }
-f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1193  =
 
+:::::: The code at line 415 was first introduced by commit
+:::::: b8c24c4aef94b1f0daafb450363fef13a1163780 slob: Define page struct fi=
+elds used in mm_types.h
+
+:::::: TO: Christoph Lameter <cl@linux.com>
+:::::: CC: Pekka Enberg <penberg@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9087357172909882569==--
+--===============7602147718356575128==--
 
