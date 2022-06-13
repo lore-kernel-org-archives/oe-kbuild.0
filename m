@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9004759882066030875=="
+Content-Type: multipart/mixed; boundary="===============9087357172909882569=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/ad_sigma_delta.c:493 ad_sd_trigger_handler() error: uninitialized symbol 'status_pos'.
-Date: Mon, 13 Jun 2022 10:31:24 +0800
-Message-ID: <202206131018.3241Ckzy-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_base_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
+Date: Mon, 13 Jun 2022 09:30:39 +0800
+Message-ID: <202206130957.ePVBkSOg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9004759882066030875==
+--===============9087357172909882569==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,189 +15,259 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Alexandru Tachici <alexandru.tachici@analog.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+CC: Guchun Chen <guchun.chen@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: 8bea9af887de4c99a95f93f2ce400ef63e8b4e9b iio: adc: ad_sigma_delta: =
-Add sequencer support
-date:   2 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 months ago
+commit: a0ccc717c4ab3ef572f023fdceffb4b6df496a0d drm/amdgpu/discovery: vali=
+date VCN and SDMA instances
+date:   2 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 weeks ago
 config: parisc-randconfig-m031-20220608 (https://download.01.org/0day-ci/ar=
-chive/20220613/202206131018.3241Ckzy-lkp(a)intel.com/config)
+chive/20220613/202206130957.ePVBkSOg-lkp(a)intel.com/config)
 compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/adc/ad_sigma_delta.c:493 ad_sd_trigger_handler() error: uniniti=
-alized symbol 'status_pos'.
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_bas=
+e_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
 
-vim +/status_pos +493 drivers/iio/adc/ad_sigma_delta.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1454 amdgpu_discovery_get_vcn=
+_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <=3D 3
 
-af3008485ea037 Lars-Peter Clausen 2012-08-10  431  =
+vim +1133 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 
-af3008485ea037 Lars-Peter Clausen 2012-08-10  432  static irqreturn_t ad_sd=
-_trigger_handler(int irq, void *p)
-af3008485ea037 Lars-Peter Clausen 2012-08-10  433  {
-af3008485ea037 Lars-Peter Clausen 2012-08-10  434  	struct iio_poll_func *p=
-f =3D p;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  435  	struct iio_dev *indio_d=
-ev =3D pf->indio_dev;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  436  	struct ad_sigma_delta *=
-sigma_delta =3D iio_device_get_drvdata(indio_dev);
-0fb6ee8d0b5e90 Lars-Peter Clausen 2020-11-24  437  	uint8_t *data =3D sigma=
-_delta->rx_buf;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  438  	unsigned int transfer_s=
-ize;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  439  	unsigned int sample_siz=
-e;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  440  	unsigned int sample_pos;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  441  	unsigned int status_pos;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  442  	unsigned int reg_size;
-f0aef2d0186431 Lars-Peter Clausen 2018-11-13  443  	unsigned int data_reg;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  444  =
+a6c40b178092f4 Luben Tuikov    2022-02-03  1064  =
 
-af3008485ea037 Lars-Peter Clausen 2012-08-10  445  	reg_size =3D indio_dev-=
->channels[0].scan_type.realbits +
-af3008485ea037 Lars-Peter Clausen 2012-08-10  446  			indio_dev->channels[0=
-].scan_type.shift;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  447  	reg_size =3D DIV_ROUND_=
-UP(reg_size, 8);
-af3008485ea037 Lars-Peter Clausen 2012-08-10  448  =
+e24d0e91b33676 Alex Deucher    2022-03-30  1065  static int amdgpu_discover=
+y_reg_base_init(struct amdgpu_device *adev)
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1066  {
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1067  	struct binary_header *bhd=
+r;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1068  	struct ip_discovery_heade=
+r *ihdr;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1069  	struct die_header *dhdr;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1070  	struct ip *ip;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1071  	uint16_t die_offset;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1072  	uint16_t ip_offset;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1073  	uint16_t num_dies;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1074  	uint16_t num_ips;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1075  	uint8_t num_base_address;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1076  	int hw_ip;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1077  	int i, j, k;
+dffa11b4f74b15 Monk Liu        2020-03-04  1078  	int r;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1079  =
 
-f0aef2d0186431 Lars-Peter Clausen 2018-11-13  449  	if (sigma_delta->info->=
-data_reg !=3D 0)
-f0aef2d0186431 Lars-Peter Clausen 2018-11-13  450  		data_reg =3D sigma_del=
-ta->info->data_reg;
-f0aef2d0186431 Lars-Peter Clausen 2018-11-13  451  	else
-f0aef2d0186431 Lars-Peter Clausen 2018-11-13  452  		data_reg =3D AD_SD_REG=
-_DATA;
-f0aef2d0186431 Lars-Peter Clausen 2018-11-13  453  =
+dffa11b4f74b15 Monk Liu        2020-03-04  1080  	r =3D amdgpu_discovery_in=
+it(adev);
+dffa11b4f74b15 Monk Liu        2020-03-04  1081  	if (r) {
+dffa11b4f74b15 Monk Liu        2020-03-04  1082  		DRM_ERROR("amdgpu_discov=
+ery_init failed\n");
+dffa11b4f74b15 Monk Liu        2020-03-04  1083  		return r;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1084  	}
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1085  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  454  	/* Status word will be =
-appended to the sample during transfer */
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  455  	if (sigma_delta->status=
-_appended)
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  456  		transfer_size =3D reg_=
-size + 1;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  457  	else
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  458  		transfer_size =3D reg_=
-size;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  459  =
+72de33f8f7ba0f Alex Deucher    2020-07-29  1086  	bhdr =3D (struct binary_h=
+eader *)adev->mman.discovery_bin;
+72de33f8f7ba0f Alex Deucher    2020-07-29  1087  	ihdr =3D (struct ip_disco=
+very_header *)(adev->mman.discovery_bin +
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1088  			le16_to_cpu(bhdr->table=
+_list[IP_DISCOVERY].offset));
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1089  	num_dies =3D le16_to_cpu(=
+ihdr->num_dies);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1090  =
 
-af3008485ea037 Lars-Peter Clausen 2012-08-10  460  	switch (reg_size) {
-af3008485ea037 Lars-Peter Clausen 2012-08-10  461  	case 4:
-af3008485ea037 Lars-Peter Clausen 2012-08-10  462  	case 2:
-af3008485ea037 Lars-Peter Clausen 2012-08-10  463  	case 1:
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  464  		status_pos =3D reg_siz=
-e;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  465  		ad_sd_read_reg_raw(sig=
-ma_delta, data_reg, transfer_size, &data[0]);
-af3008485ea037 Lars-Peter Clausen 2012-08-10  466  		break;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  467  	case 3:
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  468  		/*
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  469  		 * Data array after tr=
-ansfer will look like (if status is appended):
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  470  		 * data[] =3D { [0][sa=
-mple][sample][sample][status] }
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  471  		 * Keeping the first b=
-yte 0 shifts the status postion by 1 byte to the right.
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  472  		 */
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  473  		status_pos =3D reg_siz=
-e + 1;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  474  =
+437298b833996d Xiaojie Yuan    2019-03-27  1091  	DRM_DEBUG("number of dies=
+: %d\n", num_dies);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1092  =
 
-af3008485ea037 Lars-Peter Clausen 2012-08-10  475  		/* We store 24 bit sam=
-ples in a 32 bit word. Keep the upper
-af3008485ea037 Lars-Peter Clausen 2012-08-10  476  		 * byte set to zero. */
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  477  		ad_sd_read_reg_raw(sig=
-ma_delta, data_reg, transfer_size, &data[1]);
-af3008485ea037 Lars-Peter Clausen 2012-08-10  478  		break;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  479  	}
-af3008485ea037 Lars-Peter Clausen 2012-08-10  480  =
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1093  	for (i =3D 0; i < num_die=
+s; i++) {
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1094  		die_offset =3D le16_to_c=
+pu(ihdr->die_info[i].die_offset);
+72de33f8f7ba0f Alex Deucher    2020-07-29  1095  		dhdr =3D (struct die_hea=
+der *)(adev->mman.discovery_bin + die_offset);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1096  		num_ips =3D le16_to_cpu(=
+dhdr->num_ips);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1097  		ip_offset =3D die_offset=
+ + sizeof(*dhdr);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1098  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  481  	/*
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  482  	 * For devices sampling=
- only one channel at
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  483  	 * once, there is no ne=
-ed for sample number tracking.
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  484  	 */
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  485  	if (sigma_delta->active=
-_slots =3D=3D 1) {
-a1be505f49cacb Lars-Peter Clausen 2013-09-19  486  		iio_push_to_buffers_wi=
-th_timestamp(indio_dev, data, pf->timestamp);
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  487  		goto irq_handled;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  488  	}
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  489  =
+437298b833996d Xiaojie Yuan    2019-03-27  1099  		if (le16_to_cpu(dhdr->di=
+e_id) !=3D i) {
+437298b833996d Xiaojie Yuan    2019-03-27  1100  			DRM_ERROR("invalid die =
+id %d, expected %d\n",
+437298b833996d Xiaojie Yuan    2019-03-27  1101  					le16_to_cpu(dhdr->die=
+_id), i);
+437298b833996d Xiaojie Yuan    2019-03-27  1102  			return -EINVAL;
+437298b833996d Xiaojie Yuan    2019-03-27  1103  		}
+437298b833996d Xiaojie Yuan    2019-03-27  1104  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  490  	if (sigma_delta->status=
-_appended) {
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  491  		u8 converted_channel;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  492  =
+437298b833996d Xiaojie Yuan    2019-03-27  1105  		DRM_DEBUG("number of har=
+dware IPs on die%d: %d\n",
+437298b833996d Xiaojie Yuan    2019-03-27  1106  				le16_to_cpu(dhdr->die_=
+id), num_ips);
+437298b833996d Xiaojie Yuan    2019-03-27  1107  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22 @493  		converted_channel =3D =
-data[status_pos] & sigma_delta->info->status_ch_mask;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  494  		if (converted_channel =
-!=3D sigma_delta->slots[sigma_delta->current_slot]) {
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  495  			/*
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  496  			 * Desync occurred du=
-ring continuous sampling of multiple channels.
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  497  			 * Drop this incomple=
-te sample and start from first channel again.
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  498  			 */
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  499  =
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1108  		for (j =3D 0; j < num_ip=
+s; j++) {
+72de33f8f7ba0f Alex Deucher    2020-07-29  1109  			ip =3D (struct ip *)(ad=
+ev->mman.discovery_bin + ip_offset);
+5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1110  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  500  			sigma_delta->current_=
-slot =3D 0;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  501  			goto irq_handled;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  502  		}
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  503  	}
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  504  =
+5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1111  			if (amdgpu_discove=
+ry_validate_ip(ip))
+5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1112  				goto next_ip;
+5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1113  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  505  	sample_size =3D indio_d=
-ev->channels[0].scan_type.storagebits / 8;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  506  	sample_pos =3D sample_s=
-ize * sigma_delta->current_slot;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  507  	memcpy(&sigma_delta->sa=
-mples_buf[sample_pos], data, sample_size);
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  508  	sigma_delta->current_sl=
-ot++;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  509  =
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1114  			num_base_address =3D ip=
+->num_base_address;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1115  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  510  	if (sigma_delta->curren=
-t_slot =3D=3D sigma_delta->active_slots) {
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  511  		sigma_delta->current_s=
-lot =3D 0;
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  512  		iio_push_to_buffers_wi=
-th_timestamp(indio_dev, sigma_delta->samples_buf,
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  513  						   pf->timestamp);
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  514  	}
-af3008485ea037 Lars-Peter Clausen 2012-08-10  515  =
+437298b833996d Xiaojie Yuan    2019-03-27  1116  			DRM_DEBUG("%s(%d) #%d v=
+%d.%d.%d:\n",
+437298b833996d Xiaojie Yuan    2019-03-27  1117  				  hw_id_names[le16_to_=
+cpu(ip->hw_id)],
+437298b833996d Xiaojie Yuan    2019-03-27  1118  				  le16_to_cpu(ip->hw_i=
+d),
+437298b833996d Xiaojie Yuan    2019-03-27  1119  				  ip->number_instance,
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1120  				  ip->major, ip->minor,
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1121  				  ip->revision);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1122  =
 
-8bea9af887de4c Lars-Peter Clausen 2022-03-22  516  irq_handled:
-af3008485ea037 Lars-Peter Clausen 2012-08-10  517  	iio_trigger_notify_done=
-(indio_dev->trig);
-af3008485ea037 Lars-Peter Clausen 2012-08-10  518  	sigma_delta->irq_dis =
-=3D false;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  519  	enable_irq(sigma_delta-=
->spi->irq);
-af3008485ea037 Lars-Peter Clausen 2012-08-10  520  =
+baf3f8f3740625 Alex Deucher    2021-11-30  1123  			if (le16_to_cpu(ip->hw_=
+id) =3D=3D VCN_HWID) {
+c40bdfb2ffa4cf Leslie Shi      2021-12-08  1124  				/* Bit [5:0]: original=
+ revision value
+baf3f8f3740625 Alex Deucher    2021-11-30  1125  				 * Bit [7:6]: en/decod=
+e capability:
+baf3f8f3740625 Alex Deucher    2021-11-30  1126  				 *     0b00 : VCN func=
+tion normally
+baf3f8f3740625 Alex Deucher    2021-11-30  1127  				 *     0b10 : encode i=
+s disabled
+baf3f8f3740625 Alex Deucher    2021-11-30  1128  				 *     0b01 : decode i=
+s disabled
+baf3f8f3740625 Alex Deucher    2021-11-30  1129  				 */
+c40bdfb2ffa4cf Leslie Shi      2021-12-08  1130  				adev->vcn.vcn_config[a=
+dev->vcn.num_vcn_inst] =3D
+c40bdfb2ffa4cf Leslie Shi      2021-12-08  1131  					ip->revision & 0xc0;
+baf3f8f3740625 Alex Deucher    2021-11-30  1132  				ip->revision &=3D ~0xc=
+0;
+a0ccc717c4ab3e Alex Deucher    2022-05-16 @1133  				if (adev->vcn.num_vcn_=
+inst < AMDGPU_MAX_VCN_INSTANCES)
+7cbe08a930a132 Alex Deucher    2021-08-09  1134  					adev->vcn.num_vcn_ins=
+t++;
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1135  				else
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1136  					dev_err(adev->dev, "T=
+oo many VCN instances: %d vs %d\n",
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1137  						adev->vcn.num_vcn_in=
+st + 1,
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1138  						AMDGPU_MAX_VCN_INSTA=
+NCES);
+baf3f8f3740625 Alex Deucher    2021-11-30  1139  			}
+5c3720be7d4658 Alex Deucher    2021-08-09  1140  			if (le16_to_cpu(ip->hw_=
+id) =3D=3D SDMA0_HWID ||
+5c3720be7d4658 Alex Deucher    2021-08-09  1141  			    le16_to_cpu(ip->hw_=
+id) =3D=3D SDMA1_HWID ||
+5c3720be7d4658 Alex Deucher    2021-08-09  1142  			    le16_to_cpu(ip->hw_=
+id) =3D=3D SDMA2_HWID ||
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1143  			    le16_to_cpu(ip->hw_=
+id) =3D=3D SDMA3_HWID) {
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1144  				if (adev->sdma.num_ins=
+tances < AMDGPU_MAX_SDMA_INSTANCES)
+5c3720be7d4658 Alex Deucher    2021-08-09  1145  					adev->sdma.num_instan=
+ces++;
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1146  				else
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1147  					dev_err(adev->dev, "T=
+oo many SDMA instances: %d vs %d\n",
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1148  						adev->sdma.num_insta=
+nces + 1,
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1149  						AMDGPU_MAX_SDMA_INST=
+ANCES);
+a0ccc717c4ab3e Alex Deucher    2022-05-16  1150  			}
+7cbe08a930a132 Alex Deucher    2021-08-09  1151  =
 
-af3008485ea037 Lars-Peter Clausen 2012-08-10  521  	return IRQ_HANDLED;
-af3008485ea037 Lars-Peter Clausen 2012-08-10  522  }
-af3008485ea037 Lars-Peter Clausen 2012-08-10  523  =
+a2efebf1a4f8b2 Alex Deucher    2022-03-31  1152  			if (le16_to_cpu(ip->hw_=
+id) =3D=3D UMC_HWID)
+a2efebf1a4f8b2 Alex Deucher    2022-03-31  1153  				adev->gmc.num_umc++;
+a2efebf1a4f8b2 Alex Deucher    2022-03-31  1154  =
+
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1155  			for (k =3D 0; k < num_b=
+ase_address; k++) {
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1156  				/*
+966f1d8fd05fd1 Xiaojie Yuan    2019-03-27  1157  				 * convert the endiann=
+ess of base addresses in place,
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1158  				 * so that we don't ne=
+ed to convert them when accessing adev->reg_offset.
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1159  				 */
+966f1d8fd05fd1 Xiaojie Yuan    2019-03-27  1160  				ip->base_address[k] =
+=3D le32_to_cpu(ip->base_address[k]);
+966f1d8fd05fd1 Xiaojie Yuan    2019-03-27  1161  				DRM_DEBUG("\t0x%08x\n"=
+, ip->base_address[k]);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1162  			}
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1163  =
+
+437298b833996d Xiaojie Yuan    2019-03-27  1164  			for (hw_ip =3D 0; hw_ip=
+ < MAX_HWIP; hw_ip++) {
+437298b833996d Xiaojie Yuan    2019-03-27  1165  				if (hw_id_map[hw_ip] =
+=3D=3D le16_to_cpu(ip->hw_id)) {
+91aeda1811665a Alex Deucher    2020-02-19  1166  					DRM_DEBUG("set regist=
+er base offset for %s\n",
+437298b833996d Xiaojie Yuan    2019-03-27  1167  							hw_id_names[le16_to=
+_cpu(ip->hw_id)]);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1168  					adev->reg_offset[hw_i=
+p][ip->number_instance] =3D
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1169  						ip->base_address;
+1d789535a03679 Alex Deucher    2021-10-04  1170  					/* Instance support i=
+s somewhat inconsistent.
+1d789535a03679 Alex Deucher    2021-10-04  1171  					 * SDMA is a good exa=
+mple.  Sienna cichlid has 4 total
+1d789535a03679 Alex Deucher    2021-10-04  1172  					 * SDMA instances, ea=
+ch enumerated separately (HWIDs
+1d789535a03679 Alex Deucher    2021-10-04  1173  					 * 42, 43, 68, 69).  =
+Arcturus has 8 total SDMA instances,
+1d789535a03679 Alex Deucher    2021-10-04  1174  					 * but they are enume=
+rated as multiple instances of the
+1d789535a03679 Alex Deucher    2021-10-04  1175  					 * same HWIDs (4x HWI=
+D 42, 4x HWID 43).  UMC is another
+1d789535a03679 Alex Deucher    2021-10-04  1176  					 * example.  On most =
+chips there are multiple instances
+1d789535a03679 Alex Deucher    2021-10-04  1177  					 * with the same HWID.
+1d789535a03679 Alex Deucher    2021-10-04  1178  					 */
+1d789535a03679 Alex Deucher    2021-10-04  1179  					adev->ip_versions[hw_=
+ip][ip->number_instance] =3D
+54d2b1f402b6fe Alex Deucher    2021-07-20  1180  						IP_VERSION(ip->major=
+, ip->minor, ip->revision);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1181  				}
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1182  			}
+437298b833996d Xiaojie Yuan    2019-03-27  1183  =
+
+5039f5298880f7 Ernst Sj=C3=B6strand 2021-09-26  1184  next_ip:
+73bce7a423c3bb Lijo Lazar      2022-04-08  1185  			ip_offset +=3D struct_s=
+ize(ip, base_address, ip->num_base_address);
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1186  		}
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1187  	}
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1188  =
+
+a6c40b178092f4 Luben Tuikov    2022-02-03  1189  	amdgpu_discovery_sysfs_in=
+it(adev);
+a6c40b178092f4 Luben Tuikov    2022-02-03  1190  =
+
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1191  	return 0;
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1192  }
+f39f5bb1c9d68d Xiaojie Yuan    2019-06-20  1193  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9004759882066030875==--
+--===============9087357172909882569==--
 
