@@ -1,136 +1,203 @@
-Content-Type: multipart/mixed; boundary="===============0826329759834346571=="
+Content-Type: multipart/mixed; boundary="===============9004759882066030875=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [luxis1999-iommufd:iommufd-v5.18-rc4-nesting 58/65] drivers/iommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y
-Date: Mon, 13 Jun 2022 10:31:26 +0800
-Message-ID: <202206131040.eElI6JIJ-lkp@intel.com>
+Subject: drivers/iio/adc/ad_sigma_delta.c:493 ad_sd_trigger_handler() error: uninitialized symbol 'status_pos'.
+Date: Mon, 13 Jun 2022 10:31:24 +0800
+Message-ID: <202206131018.3241Ckzy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0826329759834346571==
+--===============9004759882066030875==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-ommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Liu Yi L <yi.l.liu@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Alexandru Tachici <alexandru.tachici@analog.com>
 
-tree:   https://github.com/luxis1999/iommufd iommufd-v5.18-rc4-nesting
-head:   b0ccc100c237a8502dd13d8a0371d825f8832526
-commit: d99bc53272b7e5d94224b6540f764296f683adf2 [58/65] iommufd: Add IOMMU=
-_ALLOC_PASID
-:::::: branch date: 5 days ago
-:::::: commit date: 7 days ago
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
-/20220613/202206131040.eElI6JIJ-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-30-g92122700-dirty
-        # https://github.com/luxis1999/iommufd/commit/d99bc53272b7e5d94224b=
-6540f764296f683adf2
-        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
-fd
-        git fetch --no-tags luxis1999-iommufd iommufd-v5.18-rc4-nesting
-        git checkout d99bc53272b7e5d94224b6540f764296f683adf2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
+commit: 8bea9af887de4c99a95f93f2ce400ef63e8b4e9b iio: adc: ad_sigma_delta: =
+Add sequencer support
+date:   2 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 2 months ago
+config: parisc-randconfig-m031-20220608 (https://download.01.org/0day-ci/ar=
+chive/20220613/202206131018.3241Ckzy-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+smatch warnings:
+drivers/iio/adc/ad_sigma_delta.c:493 ad_sd_trigger_handler() error: uniniti=
+alized symbol 'status_pos'.
 
-ERROR: modpost: "iommu_alloc_nested_domain" [drivers/iommu/iommufd/iommufd.=
-ko] undefined!
->> ERROR: modpost: "iommu_domain_cache_inv" [drivers/iommu/iommufd/iommufd.=
-ko] undefined!
-ERROR: modpost: "iommu_attach_device_pasid" [drivers/iommu/iommufd/iommufd.=
-ko] undefined!
-ERROR: modpost: "iommu_detach_device_pasid" [drivers/iommu/iommufd/iommufd.=
-ko] undefined!
+vim +/status_pos +493 drivers/iio/adc/ad_sigma_delta.c
 
+af3008485ea037 Lars-Peter Clausen 2012-08-10  431  =
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y
+af3008485ea037 Lars-Peter Clausen 2012-08-10  432  static irqreturn_t ad_sd=
+_trigger_handler(int irq, void *p)
+af3008485ea037 Lars-Peter Clausen 2012-08-10  433  {
+af3008485ea037 Lars-Peter Clausen 2012-08-10  434  	struct iio_poll_func *p=
+f =3D p;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  435  	struct iio_dev *indio_d=
+ev =3D pf->indio_dev;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  436  	struct ad_sigma_delta *=
+sigma_delta =3D iio_device_get_drvdata(indio_dev);
+0fb6ee8d0b5e90 Lars-Peter Clausen 2020-11-24  437  	uint8_t *data =3D sigma=
+_delta->rx_buf;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  438  	unsigned int transfer_s=
+ize;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  439  	unsigned int sample_siz=
+e;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  440  	unsigned int sample_pos;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  441  	unsigned int status_pos;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  442  	unsigned int reg_size;
+f0aef2d0186431 Lars-Peter Clausen 2018-11-13  443  	unsigned int data_reg;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  444  =
 
-vim +39 drivers/iommu/iommufd/pasid.c
+af3008485ea037 Lars-Peter Clausen 2012-08-10  445  	reg_size =3D indio_dev-=
+>channels[0].scan_type.realbits +
+af3008485ea037 Lars-Peter Clausen 2012-08-10  446  			indio_dev->channels[0=
+].scan_type.shift;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  447  	reg_size =3D DIV_ROUND_=
+UP(reg_size, 8);
+af3008485ea037 Lars-Peter Clausen 2012-08-10  448  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  20  =
+f0aef2d0186431 Lars-Peter Clausen 2018-11-13  449  	if (sigma_delta->info->=
+data_reg !=3D 0)
+f0aef2d0186431 Lars-Peter Clausen 2018-11-13  450  		data_reg =3D sigma_del=
+ta->info->data_reg;
+f0aef2d0186431 Lars-Peter Clausen 2018-11-13  451  	else
+f0aef2d0186431 Lars-Peter Clausen 2018-11-13  452  		data_reg =3D AD_SD_REG=
+_DATA;
+f0aef2d0186431 Lars-Peter Clausen 2018-11-13  453  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  21  int iommufd_alloc_pasid(struct iommuf=
-d_ucmd *ucmd)
-d99bc53272b7e5 Yi Liu 2022-05-25  22  {
-d99bc53272b7e5 Yi Liu 2022-05-25  23  	struct iommu_alloc_pasid *cmd =3D uc=
-md->cmd;
-d99bc53272b7e5 Yi Liu 2022-05-25  24  	struct iommufd_pasid_data *pdata;
-d99bc53272b7e5 Yi Liu 2022-05-25  25  	int rc;
-d99bc53272b7e5 Yi Liu 2022-05-25  26  =
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  454  	/* Status word will be =
+appended to the sample during transfer */
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  455  	if (sigma_delta->status=
+_appended)
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  456  		transfer_size =3D reg_=
+size + 1;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  457  	else
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  458  		transfer_size =3D reg_=
+size;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  459  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  27  	if (cmd->flags & ~IOMMU_ALLOC_PASID_=
-IDENTICAL)
-d99bc53272b7e5 Yi Liu 2022-05-25  28  		return -EOPNOTSUPP;
-d99bc53272b7e5 Yi Liu 2022-05-25  29  =
+af3008485ea037 Lars-Peter Clausen 2012-08-10  460  	switch (reg_size) {
+af3008485ea037 Lars-Peter Clausen 2012-08-10  461  	case 4:
+af3008485ea037 Lars-Peter Clausen 2012-08-10  462  	case 2:
+af3008485ea037 Lars-Peter Clausen 2012-08-10  463  	case 1:
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  464  		status_pos =3D reg_siz=
+e;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  465  		ad_sd_read_reg_raw(sig=
+ma_delta, data_reg, transfer_size, &data[0]);
+af3008485ea037 Lars-Peter Clausen 2012-08-10  466  		break;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  467  	case 3:
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  468  		/*
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  469  		 * Data array after tr=
+ansfer will look like (if status is appended):
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  470  		 * data[] =3D { [0][sa=
+mple][sample][sample][status] }
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  471  		 * Keeping the first b=
+yte 0 shifts the status postion by 1 byte to the right.
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  472  		 */
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  473  		status_pos =3D reg_siz=
+e + 1;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  474  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  30  	if (cmd->range.min > cmd->range.max =
-||
-d99bc53272b7e5 Yi Liu 2022-05-25  31  	    cmd->range.min >=3D (1 << IOASID=
-_BITS) ||
-d99bc53272b7e5 Yi Liu 2022-05-25  32  	    cmd->range.max >=3D (1 << IOASID=
-_BITS))
-d99bc53272b7e5 Yi Liu 2022-05-25  33  		return -EINVAL;
-d99bc53272b7e5 Yi Liu 2022-05-25  34  =
+af3008485ea037 Lars-Peter Clausen 2012-08-10  475  		/* We store 24 bit sam=
+ples in a 32 bit word. Keep the upper
+af3008485ea037 Lars-Peter Clausen 2012-08-10  476  		 * byte set to zero. */
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  477  		ad_sd_read_reg_raw(sig=
+ma_delta, data_reg, transfer_size, &data[1]);
+af3008485ea037 Lars-Peter Clausen 2012-08-10  478  		break;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  479  	}
+af3008485ea037 Lars-Peter Clausen 2012-08-10  480  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  35  	pdata =3D kzalloc(sizeof(*pdata), GF=
-P_KERNEL);
-d99bc53272b7e5 Yi Liu 2022-05-25  36  	if (!pdata)
-d99bc53272b7e5 Yi Liu 2022-05-25  37  		return -ENOMEM;
-d99bc53272b7e5 Yi Liu 2022-05-25  38  =
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  481  	/*
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  482  	 * For devices sampling=
+ only one channel at
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  483  	 * once, there is no ne=
+ed for sample number tracking.
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  484  	 */
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  485  	if (sigma_delta->active=
+_slots =3D=3D 1) {
+a1be505f49cacb Lars-Peter Clausen 2013-09-19  486  		iio_push_to_buffers_wi=
+th_timestamp(indio_dev, data, pf->timestamp);
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  487  		goto irq_handled;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  488  	}
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  489  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25 @39  	if (!cmd->flags & IOMMU_ALLOC_PASID_=
-IDENTICAL)
-d99bc53272b7e5 Yi Liu 2022-05-25  40  		pdata->vpasid =3D cmd->pasid;
-d99bc53272b7e5 Yi Liu 2022-05-25  41  	pdata->pasid =3D pdata->vpasid =3D
-d99bc53272b7e5 Yi Liu 2022-05-25  42  				ioasid_alloc(&ucmd->ictx->pasid_s=
-et,
-d99bc53272b7e5 Yi Liu 2022-05-25  43  				cmd->range.min, cmd->range.max,
-d99bc53272b7e5 Yi Liu 2022-05-25  44  				pdata);
-d99bc53272b7e5 Yi Liu 2022-05-25  45  	if (!pasid_valid(pdata->pasid)) {
-d99bc53272b7e5 Yi Liu 2022-05-25  46  		rc =3D -ENOMEM;
-d99bc53272b7e5 Yi Liu 2022-05-25  47  		goto out_free_mem;
-d99bc53272b7e5 Yi Liu 2022-05-25  48  	}
-d99bc53272b7e5 Yi Liu 2022-05-25  49  =
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  490  	if (sigma_delta->status=
+_appended) {
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  491  		u8 converted_channel;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  492  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  50  	cmd->pasid =3D pdata->pasid;
-d99bc53272b7e5 Yi Liu 2022-05-25  51  	rc =3D iommufd_ucmd_respond(ucmd, si=
-zeof(*cmd));
-d99bc53272b7e5 Yi Liu 2022-05-25  52  	if (rc)
-d99bc53272b7e5 Yi Liu 2022-05-25  53  		goto out_free_pasid;
-d99bc53272b7e5 Yi Liu 2022-05-25  54  =
+8bea9af887de4c Lars-Peter Clausen 2022-03-22 @493  		converted_channel =3D =
+data[status_pos] & sigma_delta->info->status_ch_mask;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  494  		if (converted_channel =
+!=3D sigma_delta->slots[sigma_delta->current_slot]) {
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  495  			/*
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  496  			 * Desync occurred du=
+ring continuous sampling of multiple channels.
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  497  			 * Drop this incomple=
+te sample and start from first channel again.
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  498  			 */
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  499  =
 
-d99bc53272b7e5 Yi Liu 2022-05-25  55  	return 0;
-d99bc53272b7e5 Yi Liu 2022-05-25  56  out_free_pasid:
-d99bc53272b7e5 Yi Liu 2022-05-25  57  	ioasid_free(pdata->pasid);
-d99bc53272b7e5 Yi Liu 2022-05-25  58  out_free_mem:
-d99bc53272b7e5 Yi Liu 2022-05-25  59  	kfree(pdata);
-d99bc53272b7e5 Yi Liu 2022-05-25  60  	return rc;
-d99bc53272b7e5 Yi Liu 2022-05-25  61  }
-d99bc53272b7e5 Yi Liu 2022-05-25  62  =
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  500  			sigma_delta->current_=
+slot =3D 0;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  501  			goto irq_handled;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  502  		}
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  503  	}
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  504  =
+
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  505  	sample_size =3D indio_d=
+ev->channels[0].scan_type.storagebits / 8;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  506  	sample_pos =3D sample_s=
+ize * sigma_delta->current_slot;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  507  	memcpy(&sigma_delta->sa=
+mples_buf[sample_pos], data, sample_size);
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  508  	sigma_delta->current_sl=
+ot++;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  509  =
+
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  510  	if (sigma_delta->curren=
+t_slot =3D=3D sigma_delta->active_slots) {
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  511  		sigma_delta->current_s=
+lot =3D 0;
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  512  		iio_push_to_buffers_wi=
+th_timestamp(indio_dev, sigma_delta->samples_buf,
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  513  						   pf->timestamp);
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  514  	}
+af3008485ea037 Lars-Peter Clausen 2012-08-10  515  =
+
+8bea9af887de4c Lars-Peter Clausen 2022-03-22  516  irq_handled:
+af3008485ea037 Lars-Peter Clausen 2012-08-10  517  	iio_trigger_notify_done=
+(indio_dev->trig);
+af3008485ea037 Lars-Peter Clausen 2012-08-10  518  	sigma_delta->irq_dis =
+=3D false;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  519  	enable_irq(sigma_delta-=
+>spi->irq);
+af3008485ea037 Lars-Peter Clausen 2012-08-10  520  =
+
+af3008485ea037 Lars-Peter Clausen 2012-08-10  521  	return IRQ_HANDLED;
+af3008485ea037 Lars-Peter Clausen 2012-08-10  522  }
+af3008485ea037 Lars-Peter Clausen 2012-08-10  523  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0826329759834346571==--
+--===============9004759882066030875==--
 
