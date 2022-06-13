@@ -1,382 +1,598 @@
-Content-Type: multipart/mixed; boundary="===============1952190590005824045=="
+Content-Type: multipart/mixed; boundary="===============8983218390706156743=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/btrfs/ctree.h:3525:34: warning: dereference of NULL 'trans' [CWE-476]
-Date: Tue, 14 Jun 2022 02:20:29 +0800
-Message-ID: <202206140255.Esy9Vda1-lkp@intel.com>
+Subject: Re: [RFC][CFT] handling Rerror without copy_from_iter_full()
+Date: Mon, 13 Jun 2022 12:54:54 +0800
+Message-ID: <202206131238.IpT05p4w-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1952190590005824045==
+--===============8983218390706156743==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- fs/btrfs/ctree.h:3525:34: warning: dereference of NULL 'trans' [CWE-476] [=
--Wanalyzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: net/9p/tr=
+ans_virtio.c:401:24: warning: Dereference of null pointer [clang-analyzer-c=
+ore.NullDereference]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Filipe Manana <fdmanana@suse.com>
-CC: David Sterba <dsterba@suse.com>
+In-Reply-To: <YqDfWho8+f2AXPrj@zeniv-ca.linux.org.uk>
+References: <YqDfWho8+f2AXPrj@zeniv-ca.linux.org.uk>
+TO: Al Viro <viro@zeniv.linux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: 79bd37120b149532af5b21953643ed74af69654f btrfs: rework chunk alloca=
-tion to avoid exhaustion of the system chunk array
-date:   11 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220611 (https://download.01.org/0day-ci/archi=
-ve/20220614/202206140255.Esy9Vda1-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+Hi Al,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on v5.19-rc1]
+[also build test WARNING on next-20220610]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Al-Viro/handling-Rer=
+ror-without-copy_from_iter_full/20220609-014338
+base:    f2906aa863381afb0015a9eb7fefad885d4e5a56
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20613/202206131238.IpT05p4w-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ff4abe=
+755279a3a47cc416ef80dbc900d9a98a19)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D79bd37120b149532af5b21953643ed74af69654f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 79bd37120b149532af5b21953643ed74af69654f
+        # https://github.com/intel-lab-lkp/linux/commit/0e939f8c227af3b09fc=
+90c8f3b6441a4bfb0b95b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Al-Viro/handling-Rerror-without-co=
+py_from_iter_full/20220609-014338
+        git checkout 0e939f8c227af3b09fc90c8f3b6441a4bfb0b95b
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-                                   |      |         |
-                                   |      |         (67) ...to here
-                                   |......
-                                   | 2560 |         if (ret) {
-                                   |      |            ~           =
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/sunrpc/svcauth_unix.c:883:29: warning: Although the value stored to =
+'len' is used in the enclosing expression, the value is never actually read=
+ from 'len' [clang-analyzer-deadcode.DeadStores]
+           if (slen > UNX_NGROUPS || (len -=3D (slen + 2)*4) < 0)
+                                      ^      ~~~~~~~~~~~~
+   net/sunrpc/svcauth_unix.c:883:29: note: Although the value stored to 'le=
+n' is used in the enclosing expression, the value is never actually read fr=
+om 'len'
+           if (slen > UNX_NGROUPS || (len -=3D (slen + 2)*4) < 0)
+                                      ^      ~~~~~~~~~~~~
+   Suppressed 94 warnings (93 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   drivers/leds/trigger/ledtrig-oneshot.c:43:9: warning: Call to function '=
+sprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'sprintf_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", oneshot_data->invert);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-oneshot.c:43:9: note: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", oneshot_data->invert);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-oneshot.c:73:9: warning: Call to function '=
+sprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'sprintf_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", led_cdev->blink_delay_on);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-oneshot.c:73:9: note: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", led_cdev->blink_delay_on);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-oneshot.c:97:9: warning: Call to function '=
+sprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'sprintf_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lu\n", led_cdev->blink_delay_off);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-oneshot.c:97:9: note: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lu\n", led_cdev->blink_delay_off);
+                  ^~~~~~~
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   38 warnings generated.
+   drivers/leds/trigger/ledtrig-gpio.c:53:9: warning: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", gpio_data->desired_brightness);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:53:9: note: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", gpio_data->desired_brightness);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:63:8: warning: Call to function 'ssc=
+anf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sscanf_s' in case of C11 [clang-analy=
+zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret =3D sscanf(buf, "%u", &desired_brightness);
+                 ^~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:63:8: note: Call to function 'sscanf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'sscanf_s' in case of C11
+           ret =3D sscanf(buf, "%u", &desired_brightness);
+                 ^~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:81:9: warning: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", gpio_data->inverted);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:81:9: note: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", gpio_data->inverted);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:115:9: warning: Call to function 'sp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", gpio_data->gpio);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:115:9: note: Call to function 'sprin=
+tf' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", gpio_data->gpio);
+                  ^~~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:126:8: warning: Call to function 'ss=
+canf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sscanf_s' in case of C11 [clang-anal=
+yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret =3D sscanf(buf, "%u", &gpio);
+                 ^~~~~~
+   drivers/leds/trigger/ledtrig-gpio.c:126:8: note: Call to function 'sscan=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sscanf_s' in case of C11
+           ret =3D sscanf(buf, "%u", &gpio);
+                 ^~~~~~
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   71 warnings generated.
+   net/wireless/lib80211.c:51:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(info, 0, sizeof(*info));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/wireless/lib80211.c:51:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(info, 0, sizeof(*info));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 70 warnings (70 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   86 warnings generated.
+>> net/9p/trans_virtio.c:401:24: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+                   memcpy_from_page(to, *pages++, offs, n);
+                                        ^
+   net/9p/trans_virtio.c:435:2: note: Taking false branch
+           p9_debug(P9_DEBUG_TRANS, "virtio request\n");
+           ^
+   include/net/9p/9p.h:56:2: note: expanded from macro 'p9_debug'
+           no_printk(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/9p/trans_virtio.c:437:6: note: Assuming 'uodata' is null
+           if (uodata) {
+               ^~~~~~
+   net/9p/trans_virtio.c:437:2: note: Taking false branch
+           if (uodata) {
+           ^
+   net/9p/trans_virtio.c:457:13: note: Assuming 'uidata' is non-null
+           } else if (uidata) {
+                      ^~~~~~
+   net/9p/trans_virtio.c:457:9: note: Taking true branch
+           } else if (uidata) {
+                  ^
+   net/9p/trans_virtio.c:460:7: note: Assuming 'n' is >=3D 0
+                   if (n < 0) {
+                       ^~~~~
+   net/9p/trans_virtio.c:460:3: note: Taking false branch
+                   if (n < 0) {
+                   ^
+   net/9p/trans_virtio.c:465:7: note: Assuming 'n' is equal to 'inlen'
+                   if (n !=3D inlen) {
+                       ^~~~~~~~~~
+   net/9p/trans_virtio.c:465:3: note: Taking false branch
+                   if (n !=3D inlen) {
+                   ^
+   net/9p/trans_virtio.c:473:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&chan->lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   net/9p/trans_virtio.c:473:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&chan->lock, flags);
+           ^
+   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   net/9p/trans_virtio.c:481:6: note: Assuming 'out' is 0
+           if (out)
+               ^~~
+   net/9p/trans_virtio.c:481:2: note: Taking false branch
+           if (out)
+           ^
+   net/9p/trans_virtio.c:484:6: note: 'out_pages' is null
+           if (out_pages) {
+               ^~~~~~~~~
+   net/9p/trans_virtio.c:484:2: note: Taking false branch
+           if (out_pages) {
+           ^
+   net/9p/trans_virtio.c:499:6: note: Assuming 'in' is 0
+           if (in)
+               ^~
+   net/9p/trans_virtio.c:499:2: note: Taking false branch
+           if (in)
+           ^
+   net/9p/trans_virtio.c:502:6: note: Assuming 'in_pages' is null
+           if (in_pages) {
+               ^~~~~~~~
+   net/9p/trans_virtio.c:502:2: note: Taking false branch
+           if (in_pages) {
+           ^
+   net/9p/trans_virtio.c:508:2: note: Taking false branch
+           BUG_ON(out_sgs + in_sgs > ARRAY_SIZE(sgs));
+           ^
+   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   net/9p/trans_virtio.c:508:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(out_sgs + in_sgs > ARRAY_SIZE(sgs));
+           ^
+   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   net/9p/trans_virtio.c:511:6: note: Assuming 'err' is >=3D 0
+           if (err < 0) {
+               ^~~~~~~
+   net/9p/trans_virtio.c:511:2: note: Taking false branch
+           if (err < 0) {
+           ^
+   net/9p/trans_virtio.c:533:2: note: Taking false branch
+           p9_debug(P9_DEBUG_TRANS, "virtio request kicked\n");
+           ^
+   include/net/9p/9p.h:56:2: note: expanded from macro 'p9_debug'
+           no_printk(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/9p/trans_virtio.c:534:8: note: Loop condition is false.  Exiting loop
+           err =3D wait_event_killable(req->wq, req->status >=3D REQ_STATUS=
+_RCVD);
+                 ^
+   include/linux/wait.h:928:2: note: expanded from macro 'wait_event_killab=
+le'
+           might_sleep();                                                  =
+        \
+           ^
+   include/linux/kernel.h:143:2: note: expanded from macro 'might_sleep'
+           do { __might_sleep(__FILE__, __LINE__); might_resched(); } while=
+ (0)
+           ^
+   net/9p/trans_virtio.c:534:37: note: Assuming field 'status' is >=3D REQ_=
+STATUS_RCVD
+           err =3D wait_event_killable(req->wq, req->status >=3D REQ_STATUS=
+_RCVD);
+                                              ^
+   include/linux/wait.h:929:8: note: expanded from macro 'wait_event_killab=
+le'
+           if (!(condition))                                               =
+        \
+                 ^~~~~~~~~
+   net/9p/trans_virtio.c:534:8: note: Taking false branch
+           err =3D wait_event_killable(req->wq, req->status >=3D REQ_STATUS=
+_RCVD);
+                 ^
+   include/linux/wait.h:929:2: note: expanded from macro 'wait_event_killab=
+le'
+           if (!(condition))                                               =
+        \
+           ^
+   net/9p/trans_virtio.c:536:6: note: Assuming field 'status' is equal to R=
+EQ_STATUS_RCVD
+           if (req->status =3D=3D REQ_STATUS_RCVD &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/9p/trans_virtio.c:536:6: note: Left side of '&&' is true
+   net/9p/trans_virtio.c:537:15: note: Assuming the condition is true
+               unlikely(req->rc.sdata[4] =3D=3D P9_RERROR))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/9p/trans_virtio.c:536:2: note: Taking true branch
+           if (req->status =3D=3D REQ_STATUS_RCVD &&
+           ^
+   net/9p/trans_virtio.c:538:3: note: Calling 'handle_rerror'
+                   handle_rerror(req, in_hdr_len, offs, in_pages);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/9p/trans_virtio.c:387:6: note: Assuming 'in_hdr_len' is <=3D field '=
+size'
+           if (req->rc.size < in_hdr_len)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/9p/trans_virtio.c:387:2: note: Taking false branch
+           if (req->rc.size < in_hdr_len)
+           ^
+   net/9p/trans_virtio.c:394:15: note: Assuming field 'size' is <=3D 4096
+           if (unlikely(req->rc.size > P9_ZC_HDR_SZ))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/9p/trans_virtio.c:394:2: note: Taking false branch
+           if (unlikely(req->rc.size > P9_ZC_HDR_SZ))
+           ^
+   net/9p/trans_virtio.c:400:6: note: Assuming 'size' is > 'n'
+           if (size > n) {
+               ^~~~~~~~
+   net/9p/trans_virtio.c:400:2: note: Taking true branch
+           if (size > n) {
+           ^
+   net/9p/trans_virtio.c:401:25: note: Null pointer value stored to 'pages'
+                   memcpy_from_page(to, *pages++, offs, n);
+                                         ^~~~~~~
+   net/9p/trans_virtio.c:401:24: note: Dereference of null pointer
+                   memcpy_from_page(to, *pages++, offs, n);
+                                        ^~~~~~~~
+>> net/9p/trans_virtio.c:406:23: warning: Dereference of null pointer (load=
+ed from variable 'pages') [clang-analyzer-core.NullDereference]
+           memcpy_from_page(to, *pages, offs, size);
+                                ^
+   net/9p/trans_virtio.c:435:2: note: Taking false branch
+           p9_debug(P9_DEBUG_TRANS, "virtio request\n");
+           ^
+   include/net/9p/9p.h:56:2: note: expanded from macro 'p9_debug'
+           no_printk(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/9p/trans_virtio.c:437:6: note: Assuming 'uodata' is null
+           if (uodata) {
+               ^~~~~~
+   net/9p/trans_virtio.c:437:2: note: Taking false branch
+           if (uodata) {
+           ^
+   net/9p/trans_virtio.c:457:13: note: Assuming 'uidata' is non-null
+           } else if (uidata) {
+                      ^~~~~~
+   net/9p/trans_virtio.c:457:9: note: Taking true branch
+           } else if (uidata) {
+                  ^
+   net/9p/trans_virtio.c:458:11: note: Value assigned to 'in_pages'
+                   int n =3D p9_get_mapped_pages(chan, &in_pages, uidata,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/9p/trans_virtio.c:460:7: note: Assuming 'n' is >=3D 0
+                   if (n < 0) {
+                       ^~~~~
+   net/9p/trans_virtio.c:460:3: note: Taking false branch
+                   if (n < 0) {
+                   ^
+   net/9p/trans_virtio.c:465:7: note: Assuming 'n' is equal to 'inlen'
+                   if (n !=3D inlen) {
+                       ^~~~~~~~~~
+   net/9p/trans_virtio.c:465:3: note: Taking false branch
+                   if (n !=3D inlen) {
+                   ^
+   net/9p/trans_virtio.c:473:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&chan->lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   net/9p/trans_virtio.c:473:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&chan->lock, flags);
+           ^
+   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   net/9p/trans_virtio.c:481:6: note: Assuming 'out' is 0
+           if (out)
+               ^~~
+   net/9p/trans_virtio.c:481:2: note: Taking false branch
+           if (out)
+           ^
+   net/9p/trans_virtio.c:484:6: note: 'out_pages' is null
+           if (out_pages) {
+               ^~~~~~~~~
+   net/9p/trans_virtio.c:484:2: note: Taking false branch
+           if (out_pages) {
+           ^
+   net/9p/trans_virtio.c:499:6: note: Assuming 'in' is 0
+           if (in)
+               ^~
+   net/9p/trans_virtio.c:499:2: note: Taking false branch
+           if (in)
+           ^
+   net/9p/trans_virtio.c:502:6: note: Assuming 'in_pages' is null
+           if (in_pages) {
+               ^~~~~~~~
+   net/9p/trans_virtio.c:502:2: note: Taking false branch
+           if (in_pages) {
+           ^
+   net/9p/trans_virtio.c:508:2: note: Taking false branch
+           BUG_ON(out_sgs + in_sgs > ARRAY_SIZE(sgs));
+           ^
+   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   net/9p/trans_virtio.c:508:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(out_sgs + in_sgs > ARRAY_SIZE(sgs));
+           ^
+   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   net/9p/trans_virtio.c:511:6: note: Assuming 'err' is >=3D 0
+           if (err < 0) {
+               ^~~~~~~
+   net/9p/trans_virtio.c:511:2: note: Taking false branch
+           if (err < 0) {
+           ^
+   net/9p/trans_virtio.c:533:2: note: Taking false branch
+           p9_debug(P9_DEBUG_TRANS, "virtio request kicked\n");
+           ^
+   include/net/9p/9p.h:56:2: note: expanded from macro 'p9_debug'
+           no_printk(fmt, ##__VA_ARGS__)
 
-                                   |      |            |
-                                   |      |            (68) following 'fals=
-e' branch (when 'ret =3D=3D 0')...
-                                   |
-                                 'split_node': event 69
-                                   |
-                                   |fs/btrfs/ctree.h:1925:46:
-                                   | 1925 |                 sizeof(struct b=
-trfs_key_ptr) * nr;
-                                   |      |                 ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~^~~~
-                                   |      |                                =
-              |
-                                   |      |                                =
-              (69) ...to here
-                                   |
-                                 'split_node': event 70
-                                   |
-                                   |fs/btrfs/ctree.c:2574:9:
-                                   | 2574 |         insert_ptr(trans, path,=
- &disk_key, split->start,
-                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~
-                                   |      |         |
-                                   |      |         (70) calling 'insert_pt=
-r' from 'split_node'
-                                   | 2575 |                    path->slots[=
-level + 1] + 1, level + 1);
-                                   |      |                    ~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                   |
-                                   +--> 'insert_ptr': event 71
-                                          |
-                                          | 2460 | static void insert_ptr(s=
-truct btrfs_trans_handle *trans,
-                                          |      |             ^~~~~~~~~~
-                                          |      |             |
-                                          |      |             (71) entry t=
-o 'insert_ptr'
-                                          |
-                                        'insert_ptr': event 72
-                                          |
-                                          |include/asm-generic/bug.h:183:35:
-                                          |  183 | #define BUG_ON(condition=
-) do { if (unlikely(condition)) BUG(); } while (0)
-                                          |      |                         =
-          ^
-                                          |      |                         =
-          |
-                                          |      |                         =
-          (72) following 'false' branch...
-   fs/btrfs/ctree.c:2469:9: note: in expansion of macro 'BUG_ON'
-                                          | 2469 |         BUG_ON(!path->no=
-des[level]);
-                                          |      |         ^~~~~~
-                                          |
-                                        'insert_ptr': event 73
-                                          |
-                                          | 2472 |         nritems =3D btrf=
-s_header_nritems(lower);
-                                          |      |                   ^~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-                                          |      |                   |
-                                          |      |                   (73) .=
-..to here
-                                          |
-                                        'insert_ptr': event 74
-                                          |
-                                          |include/asm-generic/bug.h:183:35:
-                                          |  183 | #define BUG_ON(condition=
-) do { if (unlikely(condition)) BUG(); } while (0)
-                                          |      |                         =
-          ^
-                                          |      |                         =
-          |
-                                          |      |                         =
-          (74) following 'false' branch...
-   fs/btrfs/ctree.c:2473:9: note: in expansion of macro 'BUG_ON'
-                                          | 2473 |         BUG_ON(slot > nr=
-items);
-                                          |      |         ^~~~~~
-                                          |
-                                        'insert_ptr': event 75
-                                          |
-                                          | 2474 |         BUG_ON(nritems =
-=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
-                                          |      |                         =
-                           ~~~~~^~~~~~~~~
-                                          |      |                         =
-                                |
-                                          |      |                         =
-                                (75) ...to here
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-                                          |   78 | # define unlikely(x)    =
-__builtin_expect(!!(x), 0)
-                                          |      |                         =
-                    ^
-   fs/btrfs/ctree.c:2474:9: note: in expansion of macro 'BUG_ON'
-                                          | 2474 |         BUG_ON(nritems =
-=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
-                                          |      |         ^~~~~~
-                                          |
-                                        'insert_ptr': event 76
-                                          |
-                                          | 2474 |         BUG_ON(nritems =
-=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
-                                          |      |                         =
-                           ~~~~~^~~~~~~~~
-                                          |      |                         =
-                                |
-                                          |      |                         =
-                                (76) dereference of NULL 'trans'
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-                                          |   78 | # define unlikely(x)    =
-__builtin_expect(!!(x), 0)
-                                          |      |                         =
-                    ^
-   fs/btrfs/ctree.c:2474:9: note: in expansion of macro 'BUG_ON'
-                                          | 2474 |         BUG_ON(nritems =
-=3D=3D BTRFS_NODEPTRS_PER_BLOCK(trans->fs_info));
-                                          |      |         ^~~~~~
-                                          |
-   In file included from include/linux/bitops.h:32,
-                    from include/linux/kernel.h:12,
-                    from include/asm-generic/bug.h:20,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/arm/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from fs/btrfs/ctree.c:6:
-   fs/btrfs/ctree.c: In function 'split_node':
->> fs/btrfs/ctree.h:3525:34: warning: dereference of NULL 'trans' [CWE-476]=
- [-Wanalyzer-null-dereference]
-    3525 |                         &((trans)->fs_info->fs_state))) {       \
-         |                           ~~~~~~~^~~~~~~~~
-   arch/arm/include/asm/bitops.h:181:59: note: in definition of macro 'ATOM=
-IC_BITOP'
-     181 |         (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _=
-##name(nr,p))
-         |                                                           ^
-   fs/btrfs/ctree.h:3524:14: note: in expansion of macro 'test_and_set_bit'
-    3524 |         if (!test_and_set_bit(BTRFS_FS_STATE_TRANS_ABORTED,     \
-         |              ^~~~~~~~~~~~~~~~
-   fs/btrfs/ctree.c:2561:17: note: in expansion of macro 'btrfs_abort_trans=
-action'
-    2561 |                 btrfs_abort_transaction(trans, ret);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-     'btrfs_previous_extent_item': events 1-4
-       |
-       | 4577 | int btrfs_previous_extent_item(struct btrfs_root *root,
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'btrfs_previous_extent_item'
-       |......
-       | 4586 |                 if (path->slots[0] =3D=3D 0) {
-       |      |                    ~
-       |      |                    |
-       |      |                    (2) following 'true' branch...
-       | 4587 |                         ret =3D btrfs_prev_leaf(root, path);
-       |      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                               |
-       |      |                               (3) ...to here
-       |      |                               (4) calling 'btrfs_prev_leaf'=
- from 'btrfs_previous_extent_item'
-       |
-       +--> 'btrfs_prev_leaf': events 5-6
-              |
-              | 4121 | int btrfs_prev_leaf(struct btrfs_root *root, struct =
-btrfs_path *path)
-              |      |     ^~~~~~~~~~~~~~~
-              |      |     |
-              |      |     (5) entry to 'btrfs_prev_leaf'
-              |......
-              | 4142 |         btrfs_release_path(path);
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (6) calling 'btrfs_release_path' from 'btrfs=
-_prev_leaf'
-              |
-              +--> 'btrfs_release_path': event 7
-                     |
-                     |   97 | noinline void btrfs_release_path(struct btrfs=
-_path *p)
-                     |      |               ^~~~~~~~~~~~~~~~~~
-                     |      |               |
-                     |      |               (7) entry to 'btrfs_release_pat=
-h'
-                     |
-                   'btrfs_release_path': events 8-9
-                     |
-                     |  101 |         for (i =3D 0; i < BTRFS_MAX_LEVEL; i+=
-+) {
-                     |  102 |                 p->slots[i] =3D 0;
-                     |      |                 ~~~~~~~~~~~~~~~
-                     |      |                             |
-                     |      |                             (9) ...to here
-                     |
-              <------+
-              |
-            'btrfs_prev_leaf': events 10-11
-              |
-              | 4142 |         btrfs_release_path(path);
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (10) returning to 'btrfs_prev_leaf' from 'bt=
-rfs_release_path'
-              | 4143 |         ret =3D btrfs_search_slot(NULL, root, &key, =
-path, 0, 0);
-              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-              |      |               |
-              |      |               (11) calling 'btrfs_search_slot' from =
-'btrfs_prev_leaf'
-              |
-              +--> 'btrfs_search_slot': event 12
-                     |
-                     | 1682 | int btrfs_search_slot(struct btrfs_trans_hand=
-le *trans, struct btrfs_root *root,
-                     |      |     ^~~~~~~~~~~~~~~~~
-                     |      |     |
-                     |      |     (12) entry to 'btrfs_search_slot'
-                     |
-                   'btrfs_search_slot': event 13
-                     |
-                     |include/asm-generic/bug.h:183:35:
-                     |  183 | #define BUG_ON(condition) do { if (unlikely(c=
-ondition)) BUG(); } while (0)
-                     |      |                                   ^
-                     |      |                                   |
-                     |      |                                   (13) follow=
-ing 'true' branch...
-   fs/btrfs/ctree.c:1701:9: note: in expansion of macro 'BUG_ON'
-                     | 1701 |         BUG_ON(!cow && ins_len);
-                     |      |         ^~~~~~
-                     |
-                   'btrfs_search_slot': event 14
-                     |
-                     | 1701 |         BUG_ON(!cow && ins_len);
-                     |      |                     ^~
-                     |      |                     |
-                     |      |                     (14) ...to here
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-                     |   78 | # define unlikely(x)    __builtin_expect(!!(x=
-), 0)
-                     |      |                                             ^
-   fs/btrfs/ctree.c:1701:9: note: in expansion of macro 'BUG_ON'
-                     | 1701 |         BUG_ON(!cow && ins_len);
-                     |      |         ^~~~~~
-                     |
-                   'btrfs_search_slot': event 15
+vim +401 net/9p/trans_virtio.c
 
-vim +/trans +3525 fs/btrfs/ctree.h
+4038866dab4e46 Venkateswararao Jujjuri (JV  2011-01-28  379) =
 
-533574c6bc30cf Joe Perches  2012-07-30  3511  =
+0e939f8c227af3 Al Viro                      2022-06-08  380  static void ha=
+ndle_rerror(struct p9_req_t *req, int in_hdr_len,
+0e939f8c227af3 Al Viro                      2022-06-08  381  			  size_t of=
+fs, struct page **pages)
+0e939f8c227af3 Al Viro                      2022-06-08  382  {
+0e939f8c227af3 Al Viro                      2022-06-08  383  	unsigned size=
+, n;
+0e939f8c227af3 Al Viro                      2022-06-08  384  	void *to =3D =
+req->rc.sdata + in_hdr_len;
+0e939f8c227af3 Al Viro                      2022-06-08  385  =
 
-c0d19e2b9a521b David Sterba 2015-04-24  3512  __cold
-49b25e0540904b Jeff Mahoney 2012-03-01  3513  void __btrfs_abort_transactio=
-n(struct btrfs_trans_handle *trans,
-66642832f06a43 Jeff Mahoney 2016-06-10  3514  			       const char *functio=
-n,
-acce952b026382 liubo        2011-01-06  3515  			       unsigned int line, =
-int errno);
-acce952b026382 liubo        2011-01-06  3516  =
+0e939f8c227af3 Al Viro                      2022-06-08  386  	// Fits entir=
+ely into the static data?  Nothing to do.
+0e939f8c227af3 Al Viro                      2022-06-08  387  	if (req->rc.s=
+ize < in_hdr_len)
+0e939f8c227af3 Al Viro                      2022-06-08  388  		return;
+0e939f8c227af3 Al Viro                      2022-06-08  389  =
 
-c5f4ccb2f77355 Anand Jain   2016-03-16  3517  /*
-c5f4ccb2f77355 Anand Jain   2016-03-16  3518   * Call btrfs_abort_transacti=
-on as early as possible when an error condition is
-c5f4ccb2f77355 Anand Jain   2016-03-16  3519   * detected, that way the exa=
-ct line number is reported.
-c5f4ccb2f77355 Anand Jain   2016-03-16  3520   */
-66642832f06a43 Jeff Mahoney 2016-06-10  3521  #define btrfs_abort_transacti=
-on(trans, errno)		\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3522  do {								\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3523  	/* Report first abort since =
-mount */			\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3524  	if (!test_and_set_bit(BTRFS_=
-FS_STATE_TRANS_ABORTED,	\
-66642832f06a43 Jeff Mahoney 2016-06-10 @3525  			&((trans)->fs_info->fs_sta=
-te))) {	\
-f95ebdbed46a4d Josef Bacik  2020-07-21  3526  		if ((errno) !=3D -EIO && (e=
-rrno) !=3D -EROFS) {		\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3527  			WARN(1, KERN_DEBUG				\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3528  			"BTRFS: Transaction aborte=
-d (error %d)\n",	\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3529  			(errno));					\
-e5d6b12fe14e89 Chris Mason  2016-12-09  3530  		} else {						\
-71367b3fa7f562 Jeff Mahoney 2017-02-15  3531  			btrfs_debug((trans)->fs_in=
-fo,			\
-71367b3fa7f562 Jeff Mahoney 2017-02-15  3532  				    "Transaction aborted =
-(error %d)", \
-e5d6b12fe14e89 Chris Mason  2016-12-09  3533  				  (errno));			\
-e5d6b12fe14e89 Chris Mason  2016-12-09  3534  		}						\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3535  	}							\
-66642832f06a43 Jeff Mahoney 2016-06-10  3536  	__btrfs_abort_transaction((t=
-rans), __func__,		\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3537  				  __LINE__, (errno));		\
-c5f4ccb2f77355 Anand Jain   2016-03-16  3538  } while (0)
-c5f4ccb2f77355 Anand Jain   2016-03-16  3539  =
+0e939f8c227af3 Al Viro                      2022-06-08  390  	// Really lon=
+g error message?  Tough, truncate the reply.  Might get
+0e939f8c227af3 Al Viro                      2022-06-08  391  	// rejected (=
+we can't be arsed to adjust the size encoded in header,
+0e939f8c227af3 Al Viro                      2022-06-08  392  	// or string =
+size for that matter), but it wouldn't be anything valid
+0e939f8c227af3 Al Viro                      2022-06-08  393  	// anyway.
+0e939f8c227af3 Al Viro                      2022-06-08  394  	if (unlikely(=
+req->rc.size > P9_ZC_HDR_SZ))
+0e939f8c227af3 Al Viro                      2022-06-08  395  		req->rc.size=
+ =3D P9_ZC_HDR_SZ;
+0e939f8c227af3 Al Viro                      2022-06-08  396  =
 
+0e939f8c227af3 Al Viro                      2022-06-08  397  	// data won't=
+ span more than two pages
+0e939f8c227af3 Al Viro                      2022-06-08  398  	size =3D req-=
+>rc.size - in_hdr_len;
+0e939f8c227af3 Al Viro                      2022-06-08  399  	n =3D PAGE_SI=
+ZE - offs;
+0e939f8c227af3 Al Viro                      2022-06-08  400  	if (size > n)=
+ {
+0e939f8c227af3 Al Viro                      2022-06-08 @401  		memcpy_from_=
+page(to, *pages++, offs, n);
+0e939f8c227af3 Al Viro                      2022-06-08  402  		offs =3D 0;
+0e939f8c227af3 Al Viro                      2022-06-08  403  		to +=3D n;
+0e939f8c227af3 Al Viro                      2022-06-08  404  		size -=3D n;
+0e939f8c227af3 Al Viro                      2022-06-08  405  	}
+0e939f8c227af3 Al Viro                      2022-06-08 @406  	memcpy_from_p=
+age(to, *pages, offs, size);
+0e939f8c227af3 Al Viro                      2022-06-08  407  }
+0e939f8c227af3 Al Viro                      2022-06-08  408  =
 
-:::::: The code at line 3525 was first introduced by commit
-:::::: 66642832f06a4351e23cea6cf254967c227f8224 btrfs: btrfs_abort_transact=
-ion, drop root parameter
-
-:::::: TO: Jeff Mahoney <jeffm@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1952190590005824045==--
+--===============8983218390706156743==--
 
