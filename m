@@ -1,122 +1,122 @@
-Content-Type: multipart/mixed; boundary="===============6100774252088836743=="
+Content-Type: multipart/mixed; boundary="===============4312025318113585826=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/coredump.c:399:15: warning: Redundant initialization for 'core_waiters'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Fri, 17 Jun 2022 17:50:56 +0800
-Message-ID: <202206171716.V1BXtxCY-lkp@intel.com>
+Subject: [jimc:ddn3f 23/23] lib/dynamic_debug.c:731 param_set_dyndbg_classes() error: uninitialized symbol 'i'.
+Date: Wed, 15 Jun 2022 07:02:11 +0800
+Message-ID: <202206150631.dn9D6jac-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6100774252088836743==
+--===============4312025318113585826==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: fs/coredu=
-mp.c:399:15: warning: Redundant initialization for 'core_waiters'. The init=
-ialized value is overwritten before it is read. [redundantInitialization]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: "Eric W. Biederman" <ebiederm@xmission.com>
-CC: Kees Cook <keescook@chromium.org>
+TO: Jim Cromie <jim.cromie@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   47700948a4abb4a5ae13ef943ff682a7f327547a
-commit: 0258b5fd7c7124b87e185a1a9322d2c66b1876b7 coredump: Limit coredumps =
-to a single thread group
-date:   8 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 months ago
-compiler: mips-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 0258b5fd7c7124b87e185a1a9322d2c66b1876b7
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/jimc/linux.git ddn3f
+head:   8b979e42bc4bc001aeee88f11787c944c00e909c
+commit: 8b979e42bc4bc001aeee88f11787c944c00e909c [23/23] drop loop calling =
+do_cb_changes
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-m001-20220613 (https://download.01.org/0day-ci/ar=
+chive/20220615/202206150631.dn9D6jac-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+lib/dynamic_debug.c:731 param_set_dyndbg_classes() error: uninitialized sym=
+bol 'i'.
+
+Old smatch warnings:
+lib/dynamic_debug.c:732 param_set_dyndbg_classes() error: uninitialized sym=
+bol 'i'.
+
+vim +/i +731 lib/dynamic_debug.c
+
+af486d3610e6e57 Jim Cromie 2022-04-06  699  =
+
+5ef1ab46f824c31 Jim Cromie 2022-04-01  700  /**
+5ef1ab46f824c31 Jim Cromie 2022-04-01  701   * param_set_dyndbg_classes - b=
+its =3D> categories >control setter
+5ef1ab46f824c31 Jim Cromie 2022-04-01  702   * @instr: string echo>d to sys=
+fs
+5ef1ab46f824c31 Jim Cromie 2022-04-01  703   * @kp:    kp->arg has state: b=
+its, map
+5ef1ab46f824c31 Jim Cromie 2022-04-01  704   *
+5ef1ab46f824c31 Jim Cromie 2022-04-01  705   * Enable/disable prdbgs by the=
+ir "category", as specified in the
+5ef1ab46f824c31 Jim Cromie 2022-04-01  706   * arguments to DYNAMIC_DEBUG_C=
+LASSES.
+5ef1ab46f824c31 Jim Cromie 2022-04-01  707   *
+5ef1ab46f824c31 Jim Cromie 2022-04-01  708   * Returns: 0 or <0 if error.
+5ef1ab46f824c31 Jim Cromie 2022-04-01  709   */
+5ef1ab46f824c31 Jim Cromie 2022-04-01  710  int param_set_dyndbg_classes(co=
+nst char *instr, const struct kernel_param *kp)
+5ef1ab46f824c31 Jim Cromie 2022-04-01  711  {
+5ef1ab46f824c31 Jim Cromie 2022-04-01  712  	const struct ddebug_classes_bi=
+tmap_param *dcp =3D kp->arg;
+5ef1ab46f824c31 Jim Cromie 2022-04-01  713  	unsigned long inbits;
+5ef1ab46f824c31 Jim Cromie 2022-04-01  714  	int rc, i, totct =3D 0;
+5ef1ab46f824c31 Jim Cromie 2022-04-01  715  =
+
+5ef1ab46f824c31 Jim Cromie 2022-04-01  716  	if (!dcp || !dcp->map) {
+5ef1ab46f824c31 Jim Cromie 2022-04-01  717  		pr_err("set_dyndbg_classes: n=
+o bits=3D>queries map\n");
+5ef1ab46f824c31 Jim Cromie 2022-04-01  718  		return -EINVAL;
+5ef1ab46f824c31 Jim Cromie 2022-04-01  719  	}
+5ef1ab46f824c31 Jim Cromie 2022-04-01  720  	rc =3D kstrtoul(instr, 0, &inb=
+its);
+af486d3610e6e57 Jim Cromie 2022-04-06  721  	if (rc)
+af486d3610e6e57 Jim Cromie 2022-04-06  722  		return param_set_dyndbg_class=
+_strings(instr, kp);
+af486d3610e6e57 Jim Cromie 2022-04-06  723  =
+
+5ef1ab46f824c31 Jim Cromie 2022-04-01  724  	vpr_info("set_dyndbg_classes: =
+0x%lx =3D> 0x%lx\n", *dcp->bits, inbits);
+5ef1ab46f824c31 Jim Cromie 2022-04-01  725  =
+
+99e627f4b95fae1 Jim Cromie 2022-06-07  726  	/* force bits if sysfs-node is=
+ for a VERBOSE class-map */
+99e627f4b95fae1 Jim Cromie 2022-06-07  727  	if (dcp->map->map_type =3D=3D =
+DD_CLS_VERBOSE) {
+99e627f4b95fae1 Jim Cromie 2022-06-07  728  		inbits =3D (1 << (inbits + 1)=
+) - 1;
+99e627f4b95fae1 Jim Cromie 2022-06-07  729  	}
+99e627f4b95fae1 Jim Cromie 2022-06-07  730  =
+
+af486d3610e6e57 Jim Cromie 2022-04-06 @731  	vpr_info("set_dyndbg_classes: =
+bit %d: %s\n", i, dcp->map->class_names[i]);
+5ef1ab46f824c31 Jim Cromie 2022-04-01  732  	totct +=3D do_callback_changes=
+(dcp, i, &inbits);
+8b979e42bc4bc00 Jim Cromie 2022-06-07  733  =
+
+5ef1ab46f824c31 Jim Cromie 2022-04-01  734  	*dcp->bits =3D inbits;
+5ef1ab46f824c31 Jim Cromie 2022-04-01  735  	vpr_info("total matches: %d\n"=
+, totct);
+5ef1ab46f824c31 Jim Cromie 2022-04-01  736  	return 0;
+5ef1ab46f824c31 Jim Cromie 2022-04-01  737  }
+5ef1ab46f824c31 Jim Cromie 2022-04-01  738  EXPORT_SYMBOL(param_set_dyndbg_=
+classes);
+5ef1ab46f824c31 Jim Cromie 2022-04-01  739  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 731 was first introduced by commit
+:::::: af486d3610e6e5743398b4000282d155c7475bd1 dyndbg: support symbolic cl=
+ass-names in bitmap
 
->> fs/coredump.c:399:15: warning: Redundant initialization for 'core_waiter=
-s'. The initialized value is overwritten before it is read. [redundantIniti=
-alization]
-    core_waiters =3D zap_threads(tsk, core_state, exit_code);
-                 ^
-   fs/coredump.c:393:19: note: core_waiters is initialized
-    int core_waiters =3D -EBUSY;
-                     ^
-   fs/coredump.c:399:15: note: core_waiters is overwritten
-    core_waiters =3D zap_threads(tsk, core_state, exit_code);
-                 ^
-
-vim +/core_waiters +399 fs/coredump.c
-
-10c28d937e2cca5 Alex Kelly        2012-09-26  389  =
-
-10c28d937e2cca5 Alex Kelly        2012-09-26  390  static int coredump_wait=
-(int exit_code, struct core_state *core_state)
-10c28d937e2cca5 Alex Kelly        2012-09-26  391  {
-10c28d937e2cca5 Alex Kelly        2012-09-26  392  	struct task_struct *tsk=
- =3D current;
-10c28d937e2cca5 Alex Kelly        2012-09-26  393  	int core_waiters =3D -E=
-BUSY;
-10c28d937e2cca5 Alex Kelly        2012-09-26  394  =
-
-10c28d937e2cca5 Alex Kelly        2012-09-26  395  	init_completion(&core_s=
-tate->startup);
-10c28d937e2cca5 Alex Kelly        2012-09-26  396  	core_state->dumper.task=
- =3D tsk;
-10c28d937e2cca5 Alex Kelly        2012-09-26  397  	core_state->dumper.next=
- =3D NULL;
-10c28d937e2cca5 Alex Kelly        2012-09-26  398  =
-
-0258b5fd7c7124b Eric W. Biederman 2021-09-22 @399  	core_waiters =3D zap_th=
-reads(tsk, core_state, exit_code);
-10c28d937e2cca5 Alex Kelly        2012-09-26  400  	if (core_waiters > 0) {
-10c28d937e2cca5 Alex Kelly        2012-09-26  401  		struct core_thread *pt=
-r;
-10c28d937e2cca5 Alex Kelly        2012-09-26  402  =
-
-70d78fe7c8b640b Andrey Ryabinin   2016-11-10  403  		freezer_do_not_count();
-10c28d937e2cca5 Alex Kelly        2012-09-26  404  		wait_for_completion(&c=
-ore_state->startup);
-70d78fe7c8b640b Andrey Ryabinin   2016-11-10  405  		freezer_count();
-10c28d937e2cca5 Alex Kelly        2012-09-26  406  		/*
-10c28d937e2cca5 Alex Kelly        2012-09-26  407  		 * Wait for all the th=
-reads to become inactive, so that
-10c28d937e2cca5 Alex Kelly        2012-09-26  408  		 * all the thread cont=
-ext (extended register state, like
-10c28d937e2cca5 Alex Kelly        2012-09-26  409  		 * fpu etc) gets copie=
-d to the memory.
-10c28d937e2cca5 Alex Kelly        2012-09-26  410  		 */
-10c28d937e2cca5 Alex Kelly        2012-09-26  411  		ptr =3D core_state->du=
-mper.next;
-10c28d937e2cca5 Alex Kelly        2012-09-26  412  		while (ptr !=3D NULL) {
-10c28d937e2cca5 Alex Kelly        2012-09-26  413  			wait_task_inactive(pt=
-r->task, 0);
-10c28d937e2cca5 Alex Kelly        2012-09-26  414  			ptr =3D ptr->next;
-10c28d937e2cca5 Alex Kelly        2012-09-26  415  		}
-10c28d937e2cca5 Alex Kelly        2012-09-26  416  	}
-10c28d937e2cca5 Alex Kelly        2012-09-26  417  =
-
-10c28d937e2cca5 Alex Kelly        2012-09-26  418  	return core_waiters;
-10c28d937e2cca5 Alex Kelly        2012-09-26  419  }
-10c28d937e2cca5 Alex Kelly        2012-09-26  420  =
-
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6100774252088836743==--
+--===============4312025318113585826==--
 
