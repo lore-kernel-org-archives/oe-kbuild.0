@@ -1,232 +1,218 @@
-Content-Type: multipart/mixed; boundary="===============4814424637821112785=="
+Content-Type: multipart/mixed; boundary="===============3459458162081124837=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: consider using resource_size() here
-Date: Fri, 17 Jun 2022 17:20:29 +0800
-Message-ID: <202206171714.8BBFqjqg-lkp@intel.com>
+Subject: fs/affs/affs.h:21:58: warning: dereference of NULL 'ext_bh' [CWE-476]
+Date: Tue, 14 Jun 2022 23:03:38 +0800
+Message-ID: <202206142301.PkPYvrep-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4814424637821112785==
+--===============3459458162081124837==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/affs/affs.h:21:58: warning: dereference of NULL 'ext_bh' [CWE-476] [-Wa=
+nalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Dustin L. Howett" <dustin@howett.net>
-CC: "Tzung-Bi Shih" <tzungbi@kernel.org>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   47700948a4abb4a5ae13ef943ff682a7f327547a
-commit: c9bc1a0ef9f613a7bc1adfff4c67dc5e5d7d1709 platform/chrome: cros_ec_l=
-pcs: reserve the MEC LPC I/O ports first
-date:   6 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 weeks ago
-config: ia64-randconfig-m031-20220617 (https://download.01.org/0day-ci/arch=
-ive/20220617/202206171714.8BBFqjqg-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
+commit: cf3ee3c8c29dc349b2cf52e5e72e8cb805ff5e57 locking/atomic: add generi=
+c arch_*() bitops
+date:   11 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
+ve/20220614/202206142301.PkPYvrep-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dcf3ee3c8c29dc349b2cf52e5e72e8cb805ff5e57
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout cf3ee3c8c29dc349b2cf52e5e72e8cb805ff5e57
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
-r using resource_size() here
 
-vim +382 drivers/platform/chrome/cros_ec_lpc.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/little_endian.h:13,
+                    from include/linux/byteorder/little_endian.h:5,
+                    from arch/arm/include/uapi/asm/byteorder.h:22,
+                    from include/asm-generic/bitops/le.h:7,
+                    from arch/arm/include/asm/bitops.h:268,
+                    from include/linux/bitops.h:32,
+                    from include/linux/kernel.h:12,
+                    from include/linux/uio.h:8,
+                    from fs/affs/file.c:16:
+   fs/affs/file.c: In function 'affs_truncate':
+>> fs/affs/affs.h:21:58: warning: dereference of NULL 'ext_bh' [CWE-476] [-=
+Wanalyzer-null-dereference]
+      21 | #define AFFS_HEAD(bh)           ((struct affs_head *)(bh)->b_dat=
+a)
+         |                                                      ~~~~^~~~~~~~
+   include/uapi/linux/swab.h:115:54: note: in definition of macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   include/linux/byteorder/generic.h:95:21: note: in expansion of macro '__=
+be32_to_cpu'
+      95 | #define be32_to_cpu __be32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   fs/affs/affs.h:19:42: note: in expansion of macro 'AFFS_HEAD'
+      19 | #define AFFS_BLOCK(sb, bh, blk)         (AFFS_HEAD(bh)->table[AF=
+FS_SB(sb)->s_hashsize-1-(blk)])
+         |                                          ^~~~~~~~~
+   fs/affs/file.c:970:57: note: in expansion of macro 'AFFS_BLOCK'
+     970 |                         affs_free_block(sb, be32_to_cpu(AFFS_BLO=
+CK(sb, ext_bh, i)));
+         |                                                         ^~~~~~~~=
+~~
+     'affs_file_release.part.0': events 1-4
+       |
+       |   32 | affs_file_release(struct inode *inode, struct file *filp)
+       |      | ^~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'affs_file_release.part.0'
+       |......
+       |   39 |                 if (inode->i_size !=3D AFFS_I(inode)->mmu_p=
+rivate)
+       |      |                    ~
+       |      |                    |
+       |      |                    (2) following 'true' branch...
+       |   40 |                         affs_truncate(inode);
+       |      |                         ~~~~~~~~~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (3) ...to here
+       |      |                         (4) calling 'affs_truncate' from 'a=
+ffs_file_release.part.0'
+       |
+       +--> 'affs_truncate': events 5-14
+              |
+              |  860 | affs_truncate(struct inode *inode)
+              |      | ^~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to 'affs_truncate'
+              |......
+              |  879 |         if (inode->i_size > AFFS_I(inode)->mmu_priva=
+te) {
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'false' branch...
+              |......
+              |  893 |         } else if (inode->i_size =3D=3D AFFS_I(inode=
+)->mmu_private)
+              |      |                   ~
+              |      |                   |
+              |      |                   (7) ...to here
+              |      |                   (8) following 'false' branch...
+              |......
+              |  897 |         ext_bh =3D affs_get_extblock(inode, ext);
+              |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                  |
+              |      |                  (9) ...to here
+              |  898 |         if (IS_ERR(ext_bh)) {
+              |      |            ~
+              |      |            |
+              |      |            (10) following 'false' branch...
+              |......
+              |  904 |         if (AFFS_I(inode)->i_lc) {
+              |      |             ~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (11) ...to here
+              |......
+              |  964 |         while (ext_key) {
+              |      |                ~~~~~~~
+              |      |                |
+              |      |                (12) following 'true' branch (when 'e=
+xt_key !=3D 0')...
+              |  965 |                 ext_bh =3D affs_bread(sb, ext_key);
+              |      |                          ~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (13) ...to here
+              |      |                          (14) calling 'affs_bread' f=
+rom 'affs_truncate'
+              |
+              +--> 'affs_bread': events 15-16
+                     |
+                     |fs/affs/affs.h:235:1:
+                     |  235 | affs_bread(struct super_block *sb, int block)
+                     |      | ^~~~~~~~~~
+                     |      | |
+                     |      | (15) entry to 'affs_bread'
+                     |......
+                     |  238 |         if (affs_validblock(sb, block))
+                     |      |            ~
+                     |      |            |
+                     |      |            (16) following 'false' branch...
+                     |
+                   'affs_bread': event 17
+                     |
+                     |cc1:
+                     | (17): ...to here
+                     |
+              <------+
+              |
+            'affs_truncate': events 18-19
+              |
+              |fs/affs/file.c:965:26:
+              |  965 |                 ext_bh =3D affs_bread(sb, ext_key);
+              |      |                          ^~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (18) return of NULL to 'aff=
+s_truncate' from 'affs_bread'
 
-a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
+vim +/ext_bh +21 fs/affs/affs.h
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
-pc_probe(struct platform_device *pdev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
-=3D &pdev->dev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
-*adev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
-ce *ec_dev;
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
-da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
+^1da177e4c3f415 Linus Torvalds 2005-04-16  20  =
 
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  344  	/*
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  345  	 * The Framework La=
-ptop (and possibly other non-ChromeOS devices)
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  346  	 * only exposes the=
- eight I/O ports that are required for the Microchip EC.
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  347  	 * Requesting a lar=
-ger reservation will fail.
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  348  	 */
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  349  	if (!devm_request_r=
-egion(dev, EC_HOST_CMD_REGION0,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  350  				 EC_HOST_CMD_MEC=
-_REGION_SIZE, dev_name(dev))) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  351  		dev_err(dev, "coul=
-dn't reserve MEC region\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
+^1da177e4c3f415 Linus Torvalds 2005-04-16 @21  #define AFFS_HEAD(bh)		((str=
+uct affs_head *)(bh)->b_data)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  22  #define AFFS_TAIL(sb, bh)	((=
+struct affs_tail *)((bh)->b_data+(sb)->s_blocksize-sizeof(struct affs_tail)=
+))
+^1da177e4c3f415 Linus Torvalds 2005-04-16  23  #define AFFS_ROOT_HEAD(bh)	(=
+(struct affs_root_head *)(bh)->b_data)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  24  #define AFFS_ROOT_TAIL(sb, b=
+h)	((struct affs_root_tail *)((bh)->b_data+(sb)->s_blocksize-sizeof(struct =
+affs_root_tail)))
+^1da177e4c3f415 Linus Torvalds 2005-04-16  25  #define AFFS_DATA_HEAD(bh)	(=
+(struct affs_data_head *)(bh)->b_data)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  26  #define AFFS_DATA(bh)		(((st=
+ruct affs_data_head *)(bh)->b_data)->data)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  27  =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
-ID twice, the first one is assuming the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
-p Embedded Controller (MEC) variant, if the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
-fallback to the non MEC variant and try to
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
-D.
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
-d =3D cros_ec_lpc_mec_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
-te =3D cros_ec_lpc_mec_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
-d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
- || buf[1] !=3D 'C') {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  365  		if (!devm_request_=
-region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  366  					 dev_name(dev))=
-) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  367  			dev_err(dev, "cou=
-ldn't reserve memmap region\n");
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  368  			return -EBUSY;
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  369  		}
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  370  =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
-write operations for the non MEC variant */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
-ad =3D cros_ec_lpc_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
-ite =3D cros_ec_lpc_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
-ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
-' || buf[1] !=3D 'C') {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
-ID not detected\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
+:::::: The code at line 21 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  381  		/* Reserve the rem=
-aining I/O ports required by the non-MEC protocol. */
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17 @382  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  383  					 EC_HOST_CMD_RE=
-GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  384  					 dev_name(dev))=
-) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  385  			dev_err(dev, "cou=
-ldn't reserve remainder of region0\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION1,
-ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
-GION_SIZE, dev_name(dev))) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
-ldn't reserve region1\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  393  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
-lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
-a(pdev, ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
-=3D dev_name(dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
-=3D cros_ec_cmd_xfer_lpc;
-d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
-=3D cros_ec_pkt_xfer_lpc;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
- =3D cros_ec_lpc_readmem;
-2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
-=3D sizeof(struct ec_host_response) +
-2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
-ec_response_get_protocol_info);
-2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
-=3D sizeof(struct ec_host_request);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
-
-da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
-da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
-ot have an IRQ allotted for cros_ec_lpc,
-da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
-O an expected (and safe) scenario.
-da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
-a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
-t_irq_optional(pdev, 0);
-da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
-da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
-q;
-da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
-ENXIO) {
-da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
-dn't retrieve IRQ number (%d)\n", irq);
-da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
-da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
-da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
-ister(ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
-dn't register ec_dev (%d)\n", ret);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
-
-a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
-a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
- handler to process MKBP messages if we have a
-a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
-evice.
-a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
-a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
-NION(dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
-a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
-stall_notify_handler(adev->handle,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
-NOTIFY,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
-pc_acpi_notify,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
-tatus))
-a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
-iled to register notifier %08x\n",
-a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
-a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
-ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
-
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4814424637821112785==--
+--===============3459458162081124837==--
 
