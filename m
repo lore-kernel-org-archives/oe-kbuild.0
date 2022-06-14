@@ -1,122 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============4312025318113585826=="
+Content-Type: multipart/mixed; boundary="===============6320488565550003919=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:ddn3f 23/23] lib/dynamic_debug.c:731 param_set_dyndbg_classes() error: uninitialized symbol 'i'.
-Date: Wed, 15 Jun 2022 07:02:11 +0800
-Message-ID: <202206150631.dn9D6jac-lkp@intel.com>
+Subject: [agd5f:drm-next 137/222] drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1979:15: sparse: sparse: memcpy with byte count of 123448
+Date: Wed, 15 Jun 2022 06:31:36 +0800
+Message-ID: <202206150601.83yQoZI9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4312025318113585826==
+--===============6320488565550003919==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1979:15: sparse: sparse=
+: memcpy with byte count of 123448"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Jim Cromie <jim.cromie@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Lei, Jun" <Jun.Lei@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Alvin Lee <Alvin.Lee2@amd.com>
+CC: Jun Lei <jun.lei@amd.com>
 
-tree:   https://github.com/jimc/linux.git ddn3f
-head:   8b979e42bc4bc001aeee88f11787c944c00e909c
-commit: 8b979e42bc4bc001aeee88f11787c944c00e909c [23/23] drop loop calling =
-do_cb_changes
-:::::: branch date: 7 days ago
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   225678ec43757ab8827df1963c5555b852f7a1d6
+commit: d445dd7b39c56a66872386a3ce0c8a862e59be46 [137/222] drm/amd/display:=
+ Extend soc BB capabilitiy
+:::::: branch date: 5 hours ago
 :::::: commit date: 7 days ago
-config: x86_64-randconfig-m001-20220613 (https://download.01.org/0day-ci/ar=
-chive/20220615/202206150631.dn9D6jac-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+config: microblaze-randconfig-s031-20220613 (https://download.01.org/0day-c=
+i/archive/20220615/202206150601.83yQoZI9-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-30-g92122700-dirty
+        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
+        git fetch --no-tags agd5f drm-next
+        git checkout d445dd7b39c56a66872386a3ce0c8a862e59be46
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
+icroblaze SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-lib/dynamic_debug.c:731 param_set_dyndbg_classes() error: uninitialized sym=
-bol 'i'.
-
-Old smatch warnings:
-lib/dynamic_debug.c:732 param_set_dyndbg_classes() error: uninitialized sym=
-bol 'i'.
-
-vim +/i +731 lib/dynamic_debug.c
-
-af486d3610e6e57 Jim Cromie 2022-04-06  699  =
-
-5ef1ab46f824c31 Jim Cromie 2022-04-01  700  /**
-5ef1ab46f824c31 Jim Cromie 2022-04-01  701   * param_set_dyndbg_classes - b=
-its =3D> categories >control setter
-5ef1ab46f824c31 Jim Cromie 2022-04-01  702   * @instr: string echo>d to sys=
-fs
-5ef1ab46f824c31 Jim Cromie 2022-04-01  703   * @kp:    kp->arg has state: b=
-its, map
-5ef1ab46f824c31 Jim Cromie 2022-04-01  704   *
-5ef1ab46f824c31 Jim Cromie 2022-04-01  705   * Enable/disable prdbgs by the=
-ir "category", as specified in the
-5ef1ab46f824c31 Jim Cromie 2022-04-01  706   * arguments to DYNAMIC_DEBUG_C=
-LASSES.
-5ef1ab46f824c31 Jim Cromie 2022-04-01  707   *
-5ef1ab46f824c31 Jim Cromie 2022-04-01  708   * Returns: 0 or <0 if error.
-5ef1ab46f824c31 Jim Cromie 2022-04-01  709   */
-5ef1ab46f824c31 Jim Cromie 2022-04-01  710  int param_set_dyndbg_classes(co=
-nst char *instr, const struct kernel_param *kp)
-5ef1ab46f824c31 Jim Cromie 2022-04-01  711  {
-5ef1ab46f824c31 Jim Cromie 2022-04-01  712  	const struct ddebug_classes_bi=
-tmap_param *dcp =3D kp->arg;
-5ef1ab46f824c31 Jim Cromie 2022-04-01  713  	unsigned long inbits;
-5ef1ab46f824c31 Jim Cromie 2022-04-01  714  	int rc, i, totct =3D 0;
-5ef1ab46f824c31 Jim Cromie 2022-04-01  715  =
-
-5ef1ab46f824c31 Jim Cromie 2022-04-01  716  	if (!dcp || !dcp->map) {
-5ef1ab46f824c31 Jim Cromie 2022-04-01  717  		pr_err("set_dyndbg_classes: n=
-o bits=3D>queries map\n");
-5ef1ab46f824c31 Jim Cromie 2022-04-01  718  		return -EINVAL;
-5ef1ab46f824c31 Jim Cromie 2022-04-01  719  	}
-5ef1ab46f824c31 Jim Cromie 2022-04-01  720  	rc =3D kstrtoul(instr, 0, &inb=
-its);
-af486d3610e6e57 Jim Cromie 2022-04-06  721  	if (rc)
-af486d3610e6e57 Jim Cromie 2022-04-06  722  		return param_set_dyndbg_class=
-_strings(instr, kp);
-af486d3610e6e57 Jim Cromie 2022-04-06  723  =
-
-5ef1ab46f824c31 Jim Cromie 2022-04-01  724  	vpr_info("set_dyndbg_classes: =
-0x%lx =3D> 0x%lx\n", *dcp->bits, inbits);
-5ef1ab46f824c31 Jim Cromie 2022-04-01  725  =
-
-99e627f4b95fae1 Jim Cromie 2022-06-07  726  	/* force bits if sysfs-node is=
- for a VERBOSE class-map */
-99e627f4b95fae1 Jim Cromie 2022-06-07  727  	if (dcp->map->map_type =3D=3D =
-DD_CLS_VERBOSE) {
-99e627f4b95fae1 Jim Cromie 2022-06-07  728  		inbits =3D (1 << (inbits + 1)=
-) - 1;
-99e627f4b95fae1 Jim Cromie 2022-06-07  729  	}
-99e627f4b95fae1 Jim Cromie 2022-06-07  730  =
-
-af486d3610e6e57 Jim Cromie 2022-04-06 @731  	vpr_info("set_dyndbg_classes: =
-bit %d: %s\n", i, dcp->map->class_names[i]);
-5ef1ab46f824c31 Jim Cromie 2022-04-01  732  	totct +=3D do_callback_changes=
-(dcp, i, &inbits);
-8b979e42bc4bc00 Jim Cromie 2022-06-07  733  =
-
-5ef1ab46f824c31 Jim Cromie 2022-04-01  734  	*dcp->bits =3D inbits;
-5ef1ab46f824c31 Jim Cromie 2022-04-01  735  	vpr_info("total matches: %d\n"=
-, totct);
-5ef1ab46f824c31 Jim Cromie 2022-04-01  736  	return 0;
-5ef1ab46f824c31 Jim Cromie 2022-04-01  737  }
-5ef1ab46f824c31 Jim Cromie 2022-04-01  738  EXPORT_SYMBOL(param_set_dyndbg_=
-classes);
-5ef1ab46f824c31 Jim Cromie 2022-04-01  739  =
 
 
-:::::: The code at line 731 was first introduced by commit
-:::::: af486d3610e6e5743398b4000282d155c7475bd1 dyndbg: support symbolic cl=
-ass-names in bitmap
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1979:15: sparse: spar=
+se: memcpy with byte count of 123448
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2004:15: sparse: spar=
+se: memcpy with byte count of 145232
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:3386:23: sparse: spar=
+se: memcpy with byte count of 123448
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:3389:23: sparse: spar=
+se: memset with byte count of 145232
 
-:::::: TO: Jim Cromie <jim.cromie@gmail.com>
-:::::: CC: Jim Cromie <jim.cromie@gmail.com>
+vim +1979 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c
+
+4562236b3bc0a28 Harry Wentland   2017-09-12  1972  =
+
+e4863f118a7d58e Aric Cyr         2020-08-23  1973  static void init_state(s=
+truct dc *dc, struct dc_state *context)
+81c90ec0348002b Leo (Sunpeng  Li 2017-09-07  1974) {
+813d20dccf93f84 Aidan Wood       2019-02-22  1975  	/* Each context must ha=
+ve their own instance of VBA and in order to
+813d20dccf93f84 Aidan Wood       2019-02-22  1976  	 * initialize and obtai=
+n IP and SOC the base DML instance from DC is
+813d20dccf93f84 Aidan Wood       2019-02-22  1977  	 * initially copied int=
+o every context
+813d20dccf93f84 Aidan Wood       2019-02-22  1978  	 */
+813d20dccf93f84 Aidan Wood       2019-02-22 @1979  	memcpy(&context->bw_ctx=
+.dml, &dc->dml, sizeof(struct display_mode_lib));
+e4863f118a7d58e Aric Cyr         2020-08-23  1980  }
+e4863f118a7d58e Aric Cyr         2020-08-23  1981  =
+
+
+:::::: The code at line 1979 was first introduced by commit
+:::::: 813d20dccf93f84f4c16236f7c037dc34db48f10 drm/amd/display: Fix multi-=
+thread writing to 1 state
+
+:::::: TO: Aidan Wood <Aidan.Wood@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4312025318113585826==--
+--===============6320488565550003919==--
 
