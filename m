@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2244200654144106252=="
+Content-Type: multipart/mixed; boundary="===============5704103878484535116=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ptp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expression '0xffff<<(16-shift)'. [integerOverflow]
-Date: Tue, 14 Jun 2022 17:11:49 +0800
-Message-ID: <202206141719.QqSYr7Yb-lkp@intel.com>
+Subject: drivers/ptp/ptp_ocp.c:1236:18: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
+Date: Tue, 14 Jun 2022 14:28:52 +0800
+Message-ID: <202206141419.RDZLbrqP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2244200654144106252==
+--===============5704103878484535116==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check warning: drivers/p=
-tp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expression '0xff=
-ff<<(16-shift)'. [integerOverflow]"
+tp/ptp_ocp.c:1236:18: warning: Boolean result is used in bitwise operation.=
+ Clarify expression with parentheses. [clarifyCondition]"
 :::::: =
 
 
@@ -28,15 +28,15 @@ TO: Jonathan Lemon <jonathan.lemon@gmail.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: a509a7c61e3b7a16054dafdc5ae804e9a859a0a9 ptp: ocp: Add support for =
-selectable SMA directions.
-date:   3 months ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 3 months ago
+commit: a62a56d04e63cf0ececb5dd339811f0a14b7e77c ptp: ocp: Enable 4th times=
+tamper / PPS generator
+date:   9 months ago
+:::::: branch date: 31 hours ago
+:::::: commit date: 9 months ago
 compiler: hppa-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout a509a7c61e3b7a16054dafdc5ae804e9a859a0a9
+        git checkout a62a56d04e63cf0ececb5dd339811f0a14b7e77c
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -46,100 +46,73 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   drivers/ptp/ptp_ocp.c:1659:26: warning: Either the condition 'default_id=
-x>=3D0' is redundant or the array 'ptp_ocp_sma_in[8]' is accessed at index =
-8, which is out of bounds. [arrayIndexOutOfBoundsCond]
-              ptp_ocp_sma_in[default_idx].name);
-                            ^
-   drivers/ptp/ptp_ocp.c:1657:26: note: Assuming that condition 'default_id=
-x>=3D0' is not redundant
-    if (!val && default_idx >=3D 0)
-                            ^
-   drivers/ptp/ptp_ocp.c:1659:26: note: Array index out of bounds
-              ptp_ocp_sma_in[default_idx].name);
-                            ^
-   drivers/ptp/ptp_ocp.c:1356:18: warning: Boolean result is used in bitwis=
+>> drivers/ptp/ptp_ocp.c:1236:18: warning: Boolean result is used in bitwis=
 e operation. Clarify expression with parentheses. [clarifyCondition]
      if ((!!old_map ^ !!bp->pps_req_map) =3D=3D 0)
                     ^
->> drivers/ptp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expr=
-ession '0xffff<<(16-shift)'. [integerOverflow]
-    mask =3D 0xffff << (16 - shift);
-                  ^
-   drivers/ptp/ptp_ocp.c:1778:21: note: Assignment 'shift=3Dsma_nr&1?0:16',=
- assigned value is 0
-    shift =3D sma_nr & 1 ? 0 : 16;
-                       ^
-   drivers/ptp/ptp_ocp.c:1780:16: note: Integer overflow
-    mask =3D 0xffff << (16 - shift);
-                  ^
-   drivers/ptp/ptp_ocp.c:1804:16: warning: Signed integer overflow for expr=
-ession '0xffff<<(16-shift)'. [integerOverflow]
-    mask =3D 0xffff << (16 - shift);
-                  ^
-   drivers/ptp/ptp_ocp.c:1802:21: note: Assignment 'shift=3Dsma_nr&1?0:16',=
- assigned value is 0
-    shift =3D sma_nr & 1 ? 0 : 16;
-                       ^
-   drivers/ptp/ptp_ocp.c:1804:16: note: Integer overflow
-    mask =3D 0xffff << (16 - shift);
-                  ^
+>> net/bridge/br_netlink.c:1066:60: warning: Parameter 'data' can be declar=
+ed with const [constParameter]
+   static int br_validate(struct nlattr *tb[], struct nlattr *data[],
+                                                              ^
 
-vim +1780 drivers/ptp/ptp_ocp.c
+vim +1236 drivers/ptp/ptp_ocp.c
 
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1769  =
+773bda96492153 Jonathan Lemon 2021-08-03  1219  =
 
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1770  static void
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1771  ptp_ocp_sma_store_output(st=
-ruct ptp_ocp *bp, int sma_nr, u32 val)
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1772  {
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1773  	u32 reg, mask, shift;
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1774  	unsigned long flags;
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1775  	u32 __iomem *gpio;
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1776  =
+773bda96492153 Jonathan Lemon 2021-08-03  1220  static int
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1221  ptp_ocp_ts_enable(void *pri=
+v, u32 req, bool enable)
+773bda96492153 Jonathan Lemon 2021-08-03  1222  {
+773bda96492153 Jonathan Lemon 2021-08-03  1223  	struct ptp_ocp_ext_src *ex=
+t =3D priv;
+773bda96492153 Jonathan Lemon 2021-08-03  1224  	struct ts_reg __iomem *reg=
+ =3D ext->mem;
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1225  	struct ptp_ocp *bp =3D ext=
+->bp;
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1226  =
 
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1777  	gpio =3D sma_nr > 2 ? &bp-=
->sma_map1->gpio2 : &bp->sma_map2->gpio2;
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1778  	shift =3D sma_nr & 1 ? 0 :=
- 16;
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1779  =
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1227  	if (ext =3D=3D bp->pps) {
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1228  		u32 old_map =3D bp->pps_r=
+eq_map;
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1229  =
 
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14 @1780  	mask =3D 0xffff << (16 - s=
-hift);
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1781  =
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1230  		if (enable)
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1231  			bp->pps_req_map |=3D req;
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1232  		else
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1233  			bp->pps_req_map &=3D ~re=
+q;
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1234  =
 
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1782  	spin_lock_irqsave(&bp->loc=
-k, flags);
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1783  =
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1235  		/* if no state change, ju=
+st return */
+a62a56d04e63cf Jonathan Lemon 2021-09-14 @1236  		if ((!!old_map ^ !!bp->pp=
+s_req_map) =3D=3D 0)
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1237  			return 0;
+a62a56d04e63cf Jonathan Lemon 2021-09-14  1238  	}
+773bda96492153 Jonathan Lemon 2021-08-03  1239  =
 
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1784  	reg =3D ioread32(gpio);
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1785  	reg =3D (reg & mask) | (va=
-l << shift);
-6baf2925424a83 Jonathan Lemon 2021-09-14  1786  =
+773bda96492153 Jonathan Lemon 2021-08-03  1240  	if (enable) {
+773bda96492153 Jonathan Lemon 2021-08-03  1241  		iowrite32(1, &reg->enable=
+);
+773bda96492153 Jonathan Lemon 2021-08-03  1242  		iowrite32(1, &reg->intr_m=
+ask);
+773bda96492153 Jonathan Lemon 2021-08-03  1243  		iowrite32(1, &reg->intr);
+773bda96492153 Jonathan Lemon 2021-08-03  1244  	} else {
+773bda96492153 Jonathan Lemon 2021-08-03  1245  		iowrite32(0, &reg->intr_m=
+ask);
+773bda96492153 Jonathan Lemon 2021-08-03  1246  		iowrite32(0, &reg->enable=
+);
+773bda96492153 Jonathan Lemon 2021-08-03  1247  	}
+773bda96492153 Jonathan Lemon 2021-08-03  1248  =
 
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1787  	__handle_signal_outputs(bp=
-, reg);
-6baf2925424a83 Jonathan Lemon 2021-09-14  1788  =
+773bda96492153 Jonathan Lemon 2021-08-03  1249  	return 0;
+773bda96492153 Jonathan Lemon 2021-08-03  1250  }
+773bda96492153 Jonathan Lemon 2021-08-03  1251  =
 
-a509a7c61e3b7a Jonathan Lemon 2022-03-10  1789  	iowrite32(reg, gpio);
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1790  =
-
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1791  	spin_unlock_irqrestore(&bp=
-->lock, flags);
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1792  }
-e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1793  =
-
-
-:::::: The code at line 1780 was first introduced by commit
-:::::: e1daf0ec73b2e9170d7df1e5cda409de3535bac2 ptp: ocp: Add SMA selector =
-and controls
-
-:::::: TO: Jonathan Lemon <jonathan.lemon@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2244200654144106252==--
+--===============5704103878484535116==--
 
