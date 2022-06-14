@@ -1,264 +1,145 @@
-Content-Type: multipart/mixed; boundary="===============2226459274109392677=="
+Content-Type: multipart/mixed; boundary="===============2244200654144106252=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/fortify-string.h:45:33: warning: use of NULL 'nonce' where non-null expected [CWE-476]
-Date: Tue, 14 Jun 2022 17:42:50 +0800
-Message-ID: <202206141748.tgBXJMRe-lkp@intel.com>
+Subject: drivers/ptp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expression '0xffff<<(16-shift)'. [integerOverflow]
+Date: Tue, 14 Jun 2022 17:11:49 +0800
+Message-ID: <202206141719.QqSYr7Yb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2226459274109392677==
+--===============2244200654144106252==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/fortify-string.h:45:33: warning: use of NULL 'nonce' where n=
-on-null expected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: Manual check reason: "low confidence static check warning: drivers/p=
+tp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expression '0xff=
+ff<<(16-shift)'. [integerOverflow]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eric Biggers <ebiggers@google.com>
+TO: Jonathan Lemon <jonathan.lemon@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: bfb9700bdf35417454a9bb8b67221d89d7c6e75a fscrypt: factor out fscryp=
-t_policy_to_key_spec()
-date:   5 weeks ago
+commit: a509a7c61e3b7a16054dafdc5ae804e9a859a0a9 ptp: ocp: Add support for =
+selectable SMA directions.
+date:   3 months ago
 :::::: branch date: 34 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
-ve/20220614/202206141748.tgBXJMRe-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dbfb9700bdf35417454a9bb8b67221d89d7c6e75a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout bfb9700bdf35417454a9bb8b67221d89d7c6e75a
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+:::::: commit date: 3 months ago
+compiler: hppa-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout a509a7c61e3b7a16054dafdc5ae804e9a859a0a9
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/string.h:253,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:62,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from include/linux/crypto.h:20,
-                    from include/crypto/skcipher.h:12,
-                    from fs/crypto/keysetup.c:11:
-   include/linux/fortify-string.h: In function 'fscrypt_setup_encryption_in=
-fo':
->> include/linux/fortify-string.h:45:33: warning: use of NULL 'nonce' where=
- non-null expected [CWE-476] [-Wanalyzer-null-argument]
-      45 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:362:9: note: in expansion of macro '__und=
-erlying_memcpy'
-     362 |         __underlying_##op(p, q, __fortify_size);                =
-        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:369:26: note: in expansion of macro '__fo=
-rtify_memcpy_chk'
-     369 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,          =
-        \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/crypto/keysetup.c:541:9: note: in expansion of macro 'memcpy'
-     541 |         memcpy(crypt_info->ci_nonce, nonce, FSCRYPT_FILE_NONCE_S=
-IZE);
-         |         ^~~~~~
-     'fscrypt_get_encryption_info': events 1-8
-       |
-       |  608 | int fscrypt_get_encryption_info(struct inode *inode, bool a=
-llow_unsupported)
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'fscrypt_get_encryption_info'
-       |......
-       |  614 |         if (fscrypt_has_encryption_key(inode))
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  617 |         res =3D inode->i_sb->s_cop->get_context(inode, &ctx=
-, sizeof(ctx));
-       |      |               ~~~~~~~~~~~
-       |      |                    |
-       |      |                    (3) ...to here
-       |  618 |         if (res < 0) {
-       |      |            ~
-       |      |            |
-       |      |            (4) following 'false' branch (when 'res >=3D 0')=
-...
-       |......
-       |  625 |         res =3D fscrypt_policy_from_context(&policy, &ctx, =
-res);
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |               |
-       |      |               (5) ...to here
-       |  626 |         if (res) {
-       |      |            ~
-       |      |            |
-       |      |            (6) following 'false' branch (when 'res =3D=3D 0=
-')...
-       |......
-       |  634 |         if (!fscrypt_supported_policy(&policy, inode)) {
-       |      |            ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            | |
-       |      |            | (7) ...to here
-       |      |            (8) following 'true' branch...
-       |
-     'fscrypt_get_encryption_info': events 9-10
-       |
-       |fs/crypto/fscrypt_private.h:98:20:
-       |   98 |         switch (ctx->version) {
-       |      |         ~~~~~~  ~~~^~~~~~~~~
-       |      |         |          |
-       |      |         |          (9) ...to here
-       |      |         (10) following 'default:' branch...
-       |
-     'fscrypt_get_encryption_info': event 11
-       |
-       |include/linux/fs.h:2181:41:
-       | 2181 | #define IS_CASEFOLDED(inode)    ((inode)->i_flags & S_CASEF=
-OLD)
-       |      |                                  ~~~~~~~^~~~~~~~~
-       |      |                                         |
-       |      |                                         (11) ...to here
-   fs/crypto/keysetup.c:642:45: note: in expansion of macro 'IS_CASEFOLDED'
-       |  642 |                                             IS_CASEFOLDED(i=
-node) &&
-       |      |                                             ^~~~~~~~~~~~~
-       |
-     'fscrypt_get_encryption_info': event 12
-       |
-       |  642 |                                             IS_CASEFOLDED(i=
-node) &&
-       |
-     'fscrypt_get_encryption_info': event 13
-       |
-       |  643 |                                             S_ISDIR(inode->=
-i_mode));
-   include/uapi/linux/stat.h:23:28: note: in definition of macro 'S_ISDIR'
-       |   23 | #define S_ISDIR(m)      (((m) & S_IFMT) =3D=3D S_IFDIR)
-       |      |                            ^
-       |
-     'fscrypt_get_encryption_info': events 14-16
-       |
-       |fs/crypto/keysetup.c:642:66:
-       |  640 |         res =3D fscrypt_setup_encryption_info(inode, &polic=
-y,
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-       =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-       |      |               |
-       |      |               (15) ...to here
-       |      |               (16) calling 'fscrypt_setup_encryption_info' =
-from 'fscrypt_get_encryption_info'
-       |  641 |                                             fscrypt_context=
-_nonce(&ctx),
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-       |  642 |                                             IS_CASEFOLDED(i=
-node) &&
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |  643 |                                             S_ISDIR(inode->=
-i_mode));
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |
-       +--> 'fscrypt_setup_encryption_info': events 17-21
-              |
-              |  521 | fscrypt_setup_encryption_info(struct inode *inode,
-              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      | |
-              |      | (17) entry to 'fscrypt_setup_encryption_info'
-              |......
+   drivers/ptp/ptp_ocp.c:1659:26: warning: Either the condition 'default_id=
+x>=3D0' is redundant or the array 'ptp_ocp_sma_in[8]' is accessed at index =
+8, which is out of bounds. [arrayIndexOutOfBoundsCond]
+              ptp_ocp_sma_in[default_idx].name);
+                            ^
+   drivers/ptp/ptp_ocp.c:1657:26: note: Assuming that condition 'default_id=
+x>=3D0' is not redundant
+    if (!val && default_idx >=3D 0)
+                            ^
+   drivers/ptp/ptp_ocp.c:1659:26: note: Array index out of bounds
+              ptp_ocp_sma_in[default_idx].name);
+                            ^
+   drivers/ptp/ptp_ocp.c:1356:18: warning: Boolean result is used in bitwis=
+e operation. Clarify expression with parentheses. [clarifyCondition]
+     if ((!!old_map ^ !!bp->pps_req_map) =3D=3D 0)
+                    ^
+>> drivers/ptp/ptp_ocp.c:1780:16: warning: Signed integer overflow for expr=
+ession '0xffff<<(16-shift)'. [integerOverflow]
+    mask =3D 0xffff << (16 - shift);
+                  ^
+   drivers/ptp/ptp_ocp.c:1778:21: note: Assignment 'shift=3Dsma_nr&1?0:16',=
+ assigned value is 0
+    shift =3D sma_nr & 1 ? 0 : 16;
+                       ^
+   drivers/ptp/ptp_ocp.c:1780:16: note: Integer overflow
+    mask =3D 0xffff << (16 - shift);
+                  ^
+   drivers/ptp/ptp_ocp.c:1804:16: warning: Signed integer overflow for expr=
+ession '0xffff<<(16-shift)'. [integerOverflow]
+    mask =3D 0xffff << (16 - shift);
+                  ^
+   drivers/ptp/ptp_ocp.c:1802:21: note: Assignment 'shift=3Dsma_nr&1?0:16',=
+ assigned value is 0
+    shift =3D sma_nr & 1 ? 0 : 16;
+                       ^
+   drivers/ptp/ptp_ocp.c:1804:16: note: Integer overflow
+    mask =3D 0xffff << (16 - shift);
+                  ^
 
-vim +/nonce +45 include/linux/fortify-string.h
+vim +1780 drivers/ptp/ptp_ocp.c
 
-3009f891bb9f32 Kees Cook      2021-08-02  30  =
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1769  =
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  31  #if defined(CONFIG_KASAN_GENE=
-RIC) || defined(CONFIG_KASAN_SW_TAGS)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_mem=
-chr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern int __underlying_memcm=
-p(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern void *__underlying_mem=
-cpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern void *__underlying_mem=
-move(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern void *__underlying_mem=
-set(void *p, int c, __kernel_size_t size) __RENAME(memset);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_str=
-cat(char *p, const char *q) __RENAME(strcat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  38  extern char *__underlying_str=
-cpy(char *p, const char *q) __RENAME(strcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  39  extern __kernel_size_t __unde=
-rlying_strlen(const char *p) __RENAME(strlen);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  40  extern char *__underlying_str=
-ncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  41  extern char *__underlying_str=
-ncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #else
-a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memchr	_=
-_builtin_memchr
-a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_memcmp	_=
-_builtin_memcmp
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @45  #define __underlying_memcpy	_=
-_builtin_memcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_memmove	=
-__builtin_memmove
-a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_memset	_=
-_builtin_memset
-a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strcat	_=
-_builtin_strcat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #define __underlying_strcpy	_=
-_builtin_strcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  50  #define __underlying_strlen	_=
-_builtin_strlen
-a28a6e860c6cf2 Francis Laniel 2021-02-25  51  #define __underlying_strncat	=
-__builtin_strncat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  52  #define __underlying_strncpy	=
-__builtin_strncpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  53  #endif
-a28a6e860c6cf2 Francis Laniel 2021-02-25  54  =
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1770  static void
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1771  ptp_ocp_sma_store_output(st=
+ruct ptp_ocp *bp, int sma_nr, u32 val)
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1772  {
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1773  	u32 reg, mask, shift;
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1774  	unsigned long flags;
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1775  	u32 __iomem *gpio;
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1776  =
+
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1777  	gpio =3D sma_nr > 2 ? &bp-=
+>sma_map1->gpio2 : &bp->sma_map2->gpio2;
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1778  	shift =3D sma_nr & 1 ? 0 :=
+ 16;
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1779  =
+
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14 @1780  	mask =3D 0xffff << (16 - s=
+hift);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1781  =
+
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1782  	spin_lock_irqsave(&bp->loc=
+k, flags);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1783  =
+
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1784  	reg =3D ioread32(gpio);
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1785  	reg =3D (reg & mask) | (va=
+l << shift);
+6baf2925424a83 Jonathan Lemon 2021-09-14  1786  =
+
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1787  	__handle_signal_outputs(bp=
+, reg);
+6baf2925424a83 Jonathan Lemon 2021-09-14  1788  =
+
+a509a7c61e3b7a Jonathan Lemon 2022-03-10  1789  	iowrite32(reg, gpio);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1790  =
+
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1791  	spin_unlock_irqrestore(&bp=
+->lock, flags);
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1792  }
+e1daf0ec73b2e9 Jonathan Lemon 2021-09-14  1793  =
 
 
-:::::: The code at line 45 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
-nctions definitions in a dedicated header.
+:::::: The code at line 1780 was first introduced by commit
+:::::: e1daf0ec73b2e9170d7df1e5cda409de3535bac2 ptp: ocp: Add SMA selector =
+and controls
 
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Jonathan Lemon <jonathan.lemon@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2226459274109392677==--
+--===============2244200654144106252==--
 
