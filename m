@@ -1,130 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============1426611801551256197=="
+Content-Type: multipart/mixed; boundary="===============4070712314152640047=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [avpatel:riscv_kvm_aia_v1 25/29] arch/riscv/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared with const [constParameter]
-Date: Fri, 17 Jun 2022 15:58:50 +0800
-Message-ID: <202206171538.bDZqbQaw-lkp@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 297/453] drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_out()+0xa6: stack state mismatch: cfa1=5+16 cfa2=4+8
+Date: Tue, 14 Jun 2022 18:04:47 +0800
+Message-ID: <202206141758.kYqRmOR2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1426611801551256197==
+--===============4070712314152640047==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: arch/risc=
-v/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared with const [c=
-onstParameter]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_out()+0=
+xa6: stack state mismatch: cfa1=3D5+16 cfa2=3D4+8"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Anup Patel <apatel@ventanamicro.com>
+TO: Isaku Yamahata <isaku.yamahata@intel.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_kvm_aia_v1
-head:   00790a8b765d864a8a1d0be2f7985954cb719031
-commit: 2bbb6c939352838630361b9d4a0ea5266c708614 [25/29] RISC-V: KVM: Imple=
-ment guest external interrupt line management
-:::::: branch date: 28 hours ago
-:::::: commit date: 2 days ago
-compiler: riscv64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 2bbb6c939352838630361b9d4a0ea5266c708614
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   64f3ddf316eab9398414b94e62a01d185e6e94c8
+commit: 0d5a463b763c81dd381730e11fd24b0c5326758c [297/453] [REVERTME] fix u=
+ndefined symbol of cc_init
+:::::: branch date: 5 days ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-s021-20220613 (https://download.01.org/0day-ci/ar=
+chive/20220614/202206141758.kYqRmOR2-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-30-g92122700-dirty
+        # https://github.com/intel/tdx/commit/0d5a463b763c81dd381730e11fd24=
+b0c5326758c
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout 0d5a463b763c81dd381730e11fd24b0c5326758c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+All warnings (new ones prefixed by >>):
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> arch/riscv/kvm/vcpu_insn.c:613:9: warning: Expression '-(20-2)' can have=
- a negative value. That is converted to an unsigned value and used in an un=
-signed calculation. [signConversion]
-    data =3D GET_RS2(insn, &vcpu->arch.guest_context);
-           ^
-   arch/riscv/kvm/vcpu_insn.c:637:12: warning: Expression '0-2' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data32 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_insn.c:613:9: warning: Expression '-(20-3)' can have=
- a negative value. That is converted to an unsigned value and used in an un=
-signed calculation. [signConversion]
-    data =3D GET_RS2(insn, &vcpu->arch.guest_context);
-           ^
-   arch/riscv/kvm/vcpu_insn.c:629:12: warning: Expression '0-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data64 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_insn.c:633:12: warning: Expression '2-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data64 =3D GET_RS2C(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_insn.c:637:12: warning: Expression '0-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data32 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_insn.c:641:12: warning: Expression '2-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data32 =3D GET_RS2C(insn, &vcpu->arch.guest_context);
-              ^
---
->> arch/riscv/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared w=
-ith const [constParameter]
-   static int aia_find_hgei(struct kvm_vcpu *owner)
-                                             ^
-
-vim +/owner +31 arch/riscv/kvm/aia.c
-
-865faedf30dc847 Anup Patel 2022-01-19  30  =
-
-2bbb6c939352838 Anup Patel 2022-01-19 @31  static int aia_find_hgei(struct =
-kvm_vcpu *owner)
-2bbb6c939352838 Anup Patel 2022-01-19  32  {
-2bbb6c939352838 Anup Patel 2022-01-19  33  	int i, hgei;
-2bbb6c939352838 Anup Patel 2022-01-19  34  	unsigned long flags;
-2bbb6c939352838 Anup Patel 2022-01-19  35  	struct aia_hgei_control *hgctrl=
- =3D this_cpu_ptr(&aia_hgei);
-2bbb6c939352838 Anup Patel 2022-01-19  36  =
-
-2bbb6c939352838 Anup Patel 2022-01-19  37  	raw_spin_lock_irqsave(&hgctrl->=
-lock, flags);
-2bbb6c939352838 Anup Patel 2022-01-19  38  =
-
-2bbb6c939352838 Anup Patel 2022-01-19  39  	hgei =3D -1;
-2bbb6c939352838 Anup Patel 2022-01-19  40  	for (i =3D 1; i <=3D kvm_riscv_=
-aia_nr_hgei; i++) {
-2bbb6c939352838 Anup Patel 2022-01-19  41  		if (hgctrl->owners[i] =3D=3D o=
-wner) {
-2bbb6c939352838 Anup Patel 2022-01-19  42  			hgei =3D i;
-2bbb6c939352838 Anup Patel 2022-01-19  43  			break;
-2bbb6c939352838 Anup Patel 2022-01-19  44  		}
-2bbb6c939352838 Anup Patel 2022-01-19  45  	}
-2bbb6c939352838 Anup Patel 2022-01-19  46  =
-
-2bbb6c939352838 Anup Patel 2022-01-19  47  	raw_spin_unlock_irqrestore(&hgc=
-trl->lock, flags);
-2bbb6c939352838 Anup Patel 2022-01-19  48  =
-
-2bbb6c939352838 Anup Patel 2022-01-19  49  	return hgei;
-2bbb6c939352838 Anup Patel 2022-01-19  50  }
-2bbb6c939352838 Anup Patel 2022-01-19  51  =
-
+   drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_in()+=
+0xf6: return with modified stack frame
+>> drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_out()=
++0xa6: stack state mismatch: cfa1=3D5+16 cfa2=3D4+8
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1426611801551256197==--
+--===============4070712314152640047==--
 
