@@ -1,140 +1,456 @@
-Content-Type: multipart/mixed; boundary="===============2494224146320481750=="
+Content-Type: multipart/mixed; boundary="===============3212147889979283136=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 01/12] VFS: support parallel updates in the one directory.
-Date: Wed, 15 Jun 2022 01:47:50 +0800
-Message-ID: <202206150106.UQt97GFW-lkp@intel.com>
+Subject: arch/x86/include/asm/bitops.h:207:22: warning: dereference of NULL 'wb' [CWE-476]
+Date: Wed, 15 Jun 2022 00:57:10 +0800
+Message-ID: <202206150030.Rfx3gcFX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2494224146320481750==
+--===============3212147889979283136==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ arch/x86/include/asm/bitops.h:207:22: warning: dereference of NULL 'wb' [C=
+WE-476] [-Wanalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <165516230195.21248.5682920287666811819.stgit@noble.brown>
-References: <165516230195.21248.5682920287666811819.stgit@noble.brown>
-TO: NeilBrown <neilb@suse.de>
-TO: Al Viro <viro@zeniv.linux.org.uk>
-TO: Daire Byrne <daire@dneg.com>
-TO: Trond Myklebust <trond.myklebust@hammerspace.com>
-TO: Chuck Lever <chuck.lever@oracle.com>
-CC: Linux NFS Mailing List <linux-nfs@vger.kernel.org>
-CC: linux-fsdevel(a)vger.kernel.org
-CC: LKML <linux-kernel@vger.kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jchao Sun <sunjunchao2870@gmail.com>
+CC: Jan Kara <jack@suse.cz>
 
-Hi NeilBrown,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.19-rc2 next-20220614]
-[cannot apply to trondmy-nfs/linux-next viro-vfs/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/Allow-conc=
-urrent-directory-updates/20220614-072355
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: i386-randconfig-m021-20220613 (https://download.01.org/0day-ci/arch=
-ive/20220615/202206150106.UQt97GFW-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
+commit: 10e14073107dd0b6d97d9516a02845a8e501c2c9 writeback: Fix inode->i_io=
+_list not be protected by inode->i_lock error
+date:   8 days ago
+:::::: branch date: 2 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-c001-20220613 (https://download.01.org/0day-ci/arch=
+ive/20220615/202206150030.Rfx3gcFX-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D10e14073107dd0b6d97d9516a02845a8e501c2c9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 10e14073107dd0b6d97d9516a02845a8e501c2c9
+        # save the config file
+         ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/namei.c:1663 lookup_hash_update() warn: inconsistent returns '&dir->i_rw=
-sem'.
 
-Old smatch warnings:
-fs/namei.c:1571 lookup_dcache() warn: passing zero to 'ERR_PTR'
-fs/namei.c:1756 lookup_fast() warn: passing zero to 'ERR_PTR'
-fs/namei.c:2284 hash_name() error: uninitialized symbol 'bdata'.
-fs/namei.c:2685 __kern_path_locked() warn: inconsistent returns '&path->den=
-try->d_inode->i_rwsem'.
-fs/namei.c:3586 open_last_lookups() error: uninitialized symbol 'inode'.
-fs/namei.c:3586 open_last_lookups() error: uninitialized symbol 'seq'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/bitops.h:33,
+                    from include/linux/kernel.h:22,
+                    from fs/fs-writeback.c:17:
+   In function 'wb_io_lists_depopulated':
+>> arch/x86/include/asm/bitops.h:207:22: warning: dereference of NULL 'wb' =
+[CWE-476] [-Wanalyzer-null-dereference]
+     207 |                 (addr[nr >> _BITOPS_LONG_SHIFT])) !=3D 0;
+         |                 ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+     '__mark_inode_dirty': events 1-4
+       |
+       |fs/fs-writeback.c:2363:6:
+       | 2363 | void __mark_inode_dirty(struct inode *inode, int flags)
+       |      |      ^~~~~~~~~~~~~~~~~~
+       |      |      |
+       |      |      (1) entry to '__mark_inode_dirty'
+       |......
+       | 2402 |         if (((inode->i_state & flags) =3D=3D flags) ||
+       |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |                                    |
+       |      |            (2) following 'false' branch...      (3) ...to h=
+ere
+       | 2403 |             (dirtytime && (inode->i_state & I_DIRTY_INODE)))
+       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |......
+       | 2409 |         if ((inode->i_state & flags) !=3D flags) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |
+     '__mark_inode_dirty': events 5-8
+       |
+       | 2410 |                 const int was_dirty =3D inode->i_state & I_=
+DIRTY;
+       |......
+       | 2425 |                 if (!was_dirty) {
+       |      |                    ~                                  =
 
-vim +1663 fs/namei.c
+       |      |                    |
+       |      |                    (6) following 'false' branch (when 'was_=
+dirty !=3D 0')...
+       |......
+       | 2436 |                 if (inode->i_state & I_SYNC_QUEUED)
+       |      |                    ~~~~~~~~~~~~~~~                    =
 
-a32555466caee3 Al Viro   2012-03-30  1618  =
+       |      |                    |     |
+       |      |                    |     (7) ...to here
+       |      |                    (8) following 'false' branch...
+       |
+     '__mark_inode_dirty': event 9
+       |
+       | 2443 |                 if (!S_ISBLK(inode->i_mode)) {
+   include/uapi/linux/stat.h:25:28: note: in definition of macro 'S_ISBLK'
+       |   25 | #define S_ISBLK(m)      (((m) & S_IFMT) =3D=3D S_IFBLK)
+       |      |                            ^
+       |
+     '__mark_inode_dirty': events 10-16
+       |
+       |fs/fs-writeback.c:2447:20:
+       | 2447 |                 if (inode->i_state & I_FREEING)
+       |      |                    ^
+       |      |                    |
+       |      |                    (10) following 'false' branch...
+       |......
+       | 2454 |                 if (!was_dirty) {
+       |      |                    ~
+       |      |                    |
+       |      |                    (11) ...to here
+       |      |                    (12) following 'true' branch (when 'was_=
+dirty =3D=3D 0')...
+       |......
+       | 2458 |                         inode->dirtied_when =3D jiffies;
+       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                             |
+       |      |                                             (13) ...to here
+       |......
+       | 2462 |                         if (inode->i_state & I_DIRTY)
+       |      |                            ~
+       |      |                            |
+       |      |                            (14) following 'false' branch...
+       |......
+       | 2465 |                                 dirty_list =3D &wb->b_dirty=
+_time;
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+       |      |                                            |
+       |      |                                            (15) ...to here
+       | 2466 | =
 
-5af00285eef74d NeilBrown 2022-06-14  1619  /*
-5af00285eef74d NeilBrown 2022-06-14  1620   * Parent directory (base) is no=
-t locked.  We take either an exclusive
-5af00285eef74d NeilBrown 2022-06-14  1621   * or shared lock depending on t=
-he fs preference, then do a lookup,
-5af00285eef74d NeilBrown 2022-06-14  1622   * and then set the DCACHE_PAR_U=
-PDATE bit on the child if a shared lock
-5af00285eef74d NeilBrown 2022-06-14  1623   * was taken on the parent.
-5af00285eef74d NeilBrown 2022-06-14  1624   */
-5af00285eef74d NeilBrown 2022-06-14  1625  static struct dentry *lookup_has=
-h_update(const struct qstr *name,
-5af00285eef74d NeilBrown 2022-06-14  1626  					 struct dentry *base, unsig=
-ned int flags,
-5af00285eef74d NeilBrown 2022-06-14  1627  					 wait_queue_head_t *wq)
-5af00285eef74d NeilBrown 2022-06-14  1628  {
-5af00285eef74d NeilBrown 2022-06-14  1629  	struct dentry *dentry;
-5af00285eef74d NeilBrown 2022-06-14  1630  	struct inode *dir =3D base->d_i=
-node;
-5af00285eef74d NeilBrown 2022-06-14  1631  	int err;
-5af00285eef74d NeilBrown 2022-06-14  1632  =
+       | 2467 |                         wakeup_bdi =3D inode_io_list_move_l=
+ocked(inode, wb,
+       |      |                                      ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |      |                                      |
+       |      |                                      (16) calling 'inode_io=
+_list_move_locked' from '__mark_inode_dirty'
+       | 2468 |                                                            =
+    dirty_list);
+       |      |                                                            =
+    ~~~~~~~~~~~
+       |
+       +--> 'inode_io_list_move_locked': event 17
+              |
+              |  118 | static bool inode_io_list_move_locked(struct inode *=
+inode,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (17) entry to 'inode_io_list_move_locked'
+              |
+            'inode_io_list_move_locked': event 18
+              |
+              |include/asm-generic/bug.h:71:35:
+              |   71 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (18) following 'fa=
+lse' branch (when '______r =3D=3D 0')...
+   include/linux/spinlock_api_smp.h:20:41: note: in expansion of macro 'BUG=
+_ON'
+              |   20 | #define assert_raw_spin_locked(x)       BUG_ON(!raw_=
+spin_is_locked(x))
+              |      |                                         ^~~~~~
+   include/linux/spinlock.h:450:41: note: in expansion of macro 'assert_raw=
+_spin_locked'
+              |  450 | #define assert_spin_locked(lock)        assert_raw_s=
+pin_locked(&(lock)->rlock)
+              |      |                                         ^~~~~~~~~~~~=
+~~~~~~~~~~
+   fs/fs-writeback.c:122:9: note: in expansion of macro 'assert_spin_locked'
+              |  122 |         assert_spin_locked(&wb->list_lock);
+              |      |         ^~~~~~~~~~~~~~~~~~
+              |
+            'inode_io_list_move_locked': event 19
+              |
+              |include/linux/spinlock_up.h:27:45:
+              |   27 | #define arch_spin_is_locked(x)          ((x)->slock =
+=3D=3D 0)
+              |      |                                          ~~~^~~~~~~
+              |      |                                             |
+              |      |                                             (19) ...=
+to here
+   include/linux/compiler.h:33:55: note: in definition of macro '__branch_c=
+heck__'
+              |   33 |                         ______r =3D __builtin_expect=
+(!!(x), expect);      \
+              |      |                                                     =
+  ^
+   include/asm-generic/bug.h:71:36: note: in expansion of macro 'unlikely'
+              |   71 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                    ^~~~~~~~
+   include/linux/spinlock_api_smp.h:20:41: note: in expansion of macro 'BUG=
+_ON'
+              |   20 | #define assert_raw_spin_locked(x)       BUG_ON(!raw_=
+spin_is_locked(x))
+              |      |                                         ^~~~~~
+   include/linux/spinlock.h:114:41: note: in expansion of macro 'arch_spin_=
+is_locked'
+              |  114 | #define raw_spin_is_locked(lock)        arch_spin_is=
+_locked(&(lock)->raw_lock)
+              |      |                                         ^~~~~~~~~~~~=
+~~~~~~~
+   include/linux/spinlock_api_smp.h:20:49: note: in expansion of macro 'raw=
+_spin_is_locked'
+              |   20 | #define assert_raw_spin_locked(x)       BUG_ON(!raw_=
+spin_is_locked(x))
+              |      |                                                 ^~~~=
+~~~~~~~~~~~~~~
+   include/linux/spinlock.h:450:41: note: in expansion of macro 'assert_raw=
+_spin_locked'
+              |  450 | #define assert_spin_locked(lock)        assert_raw_s=
+pin_locked(&(lock)->rlock)
+              |      |                                         ^~~~~~~~~~~~=
+~~~~~~~~~~
+   fs/fs-writeback.c:123:9: note: in expansion of macro 'assert_spin_locked'
+              |  123 |         assert_spin_locked(&inode->i_lock);
+              |      |         ^~~~~~~~~~~~~~~~~~
+              |
+            'inode_io_list_move_locked': event 20
+              |
+              |include/asm-generic/bug.h:71:35:
+              |   71 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (20) following 'fa=
+lse' branch (when '______r =3D=3D 0')...
+   include/linux/spinlock_api_smp.h:20:41: note: in expansion of macro 'BUG=
+_ON'
+              |   20 | #define assert_raw_spin_locked(x)       BUG_ON(!raw_=
+spin_is_locked(x))
+              |      |                                         ^~~~~~
+   include/linux/spinlock.h:450:41: note: in expansion of macro 'assert_raw=
+_spin_locked'
+              |  450 | #define assert_spin_locked(lock)        assert_raw_s=
+pin_locked(&(lock)->rlock)
+              |      |                                         ^~~~~~~~~~~~=
+~~~~~~~~~~
+   fs/fs-writeback.c:123:9: note: in expansion of macro 'assert_spin_locked'
+              |  123 |         assert_spin_locked(&inode->i_lock);
+              |      |         ^~~~~~~~~~~~~~~~~~
+              |
+            'inode_io_list_move_locked': events 21-24
+              |
+              |  125 |         list_move(&inode->i_io_list, head);
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (21) ...to here
+              |......
+              |  128 |         if (head !=3D &wb->b_dirty_time)
+              |      |            ~
+              |      |            |
+              |      |            (22) following 'false' branch...
+              |......
+              |  131 |         wb_io_lists_depopulated(wb);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (23) ...to here
+              |      |         (24) calling 'wb_io_lists_depopulated' from =
+'inode_io_list_move_locked'
+              |
+              +--> 'wb_io_lists_depopulated': event 25
+                     |
+                     |   98 | static void wb_io_lists_depopulated(struct bd=
+i_writeback *wb)
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (25) entry to 'wb_io_lists_depopu=
+lated'
+                     |
+                   'wb_io_lists_depopulated': event 26
+                     |
+                     |arch/x86/include/asm/bitops.h:207:22:
+                     |  207 |                 (addr[nr >> _BITOPS_LONG_SHIF=
+T])) !=3D 0;
+                     |      |                 ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+                     |      |                      |
+                     |      |                      (26) dereference of NULL=
+ 'wb'
+                     |
+   In function 'wb_io_lists_populated':
+>> arch/x86/include/asm/bitops.h:207:22: warning: dereference of NULL 'wb' =
+[CWE-476] [-Wanalyzer-null-dereference]
+     207 |                 (addr[nr >> _BITOPS_LONG_SHIFT])) !=3D 0;
+         |                 ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+     '__mark_inode_dirty': events 1-4
+       |
+       |fs/fs-writeback.c:2363:6:
+       | 2363 | void __mark_inode_dirty(struct inode *inode, int flags)
+       |      |      ^~~~~~~~~~~~~~~~~~
+       |      |      |
+       |      |      (1) entry to '__mark_inode_dirty'
+       |......
+       | 2402 |         if (((inode->i_state & flags) =3D=3D flags) ||
+       |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |                                    |
+       |      |            (2) following 'false' branch...      (3) ...to h=
+ere
+       | 2403 |             (dirtytime && (inode->i_state & I_DIRTY_INODE)))
+       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |......
+       | 2409 |         if ((inode->i_state & flags) !=3D flags) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |
+     '__mark_inode_dirty': events 5-8
+       |
+       | 2410 |                 const int was_dirty =3D inode->i_state & I_=
+DIRTY;
+       |......
+       | 2425 |                 if (!was_dirty) {
+       |      |                    ~                                  =
 
-5af00285eef74d NeilBrown 2022-06-14  1633  	if (!(dir->i_flags & S_PAR_UPDA=
-TE))
-5af00285eef74d NeilBrown 2022-06-14  1634  		wq =3D NULL;
-5af00285eef74d NeilBrown 2022-06-14  1635  =
+       |      |                    |
+       |      |                    (6) following 'false' branch (when 'was_=
+dirty !=3D 0')...
+       |......
+       | 2436 |                 if (inode->i_state & I_SYNC_QUEUED)
+       |      |                    ~~~~~~~~~~~~~~~                    =
 
-5af00285eef74d NeilBrown 2022-06-14  1636  	if (wq)
-5af00285eef74d NeilBrown 2022-06-14  1637  		inode_lock_shared_nested(dir, =
-I_MUTEX_PARENT);
-5af00285eef74d NeilBrown 2022-06-14  1638  	else
-5af00285eef74d NeilBrown 2022-06-14  1639  		inode_lock_nested(dir, I_MUTEX=
-_PARENT);
-5af00285eef74d NeilBrown 2022-06-14  1640  =
+       |      |                    |     |
+       |      |                    |     (7) ...to here
+       |      |                    (8) following 'false' branch...
+       |
+     '__mark_inode_dirty': event 9
+       |
+       | 2443 |                 if (!S_ISBLK(inode->i_mode)) {
+   include/uapi/linux/stat.h:25:28: note: in definition of macro 'S_ISBLK'
+       |   25 | #define S_ISBLK(m)      (((m) & S_IFMT) =3D=3D S_IFBLK)
+       |      |                            ^
+       |
+     '__mark_inode_dirty': events 10-16
+       |
+       |fs/fs-writeback.c:2447:20:
+       | 2447 |                 if (inode->i_state & I_FREEING)
+       |      |                    ^
+       |      |                    |
+       |      |                    (10) following 'false' branch...
+       |......
+       | 2454 |                 if (!was_dirty) {
+       |      |                    ~
+       |      |                    |
+       |      |                    (11) ...to here
+       |      |                    (12) following 'true' branch (when 'was_=
+dirty =3D=3D 0')...
+       |......
+       | 2458 |                         inode->dirtied_when =3D jiffies;
+       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                             |
+       |      |                                             (13) ...to here
+       |......
+       | 2462 |                         if (inode->i_state & I_DIRTY)
+       |      |                            ~
+       |      |                            |
+       |      |                            (14) following 'true' branch...
+       | 2463 |                                 dirty_list =3D &wb->b_dirty;
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                            |
+       |      |                                            (15) ...to here
+       |......
+       | 2467 |                         wakeup_bdi =3D inode_io_list_move_l=
+ocked(inode, wb,
+       |      |                                      ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |      |                                      |
+       |      |                                      (16) calling 'inode_io=
+_list_move_locked' from '__mark_inode_dirty'
+       | 2468 |                                                            =
+    dirty_list);
+       |      |                                                            =
+    ~~~~~~~~~~~
+       |
+       +--> 'inode_io_list_move_locked': event 17
+              |
+              |  118 | static bool inode_io_list_move_locked(struct inode *=
+inode,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (17) entry to 'inode_io_list_move_locked'
+              |
+            'inode_io_list_move_locked': event 18
+              |
+              |include/asm-generic/bug.h:71:35:
+              |   71 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (18) following 'fa=
+lse' branch (when '______r =3D=3D 0')...
+   include/linux/spinlock_api_smp.h:20:41: note: in expansion of macro 'BUG=
+_ON'
+              |   20 | #define assert_raw_spin_locked(x)       BUG_ON(!raw_=
+spin_is_locked(x))
+              |      |                                         ^~~~~~
+   include/linux/spinlock.h:450:41: note: in expansion of macro 'assert_raw=
+_spin_locked'
+              |  450 | #define assert_spin_locked(lock)        assert_raw_s=
+pin_locked(&(lock)->rlock)
+              |      |                                         ^~~~~~~~~~~~=
+~~~~~~~~~~
+   fs/fs-writeback.c:122:9: note: in expansion of macro 'assert_spin_locked'
 
-5af00285eef74d NeilBrown 2022-06-14  1641  retry:
-5af00285eef74d NeilBrown 2022-06-14  1642  	dentry =3D __lookup_hash(name, =
-base, flags, wq);
-5af00285eef74d NeilBrown 2022-06-14  1643  	if (IS_ERR(dentry)) {
-5af00285eef74d NeilBrown 2022-06-14  1644  		err =3D PTR_ERR(dentry);
-5af00285eef74d NeilBrown 2022-06-14  1645  		goto out_err;
-5af00285eef74d NeilBrown 2022-06-14  1646  	}
-5af00285eef74d NeilBrown 2022-06-14  1647  	if (wq && !d_lock_update(dentry=
-, base, name)) {
-5af00285eef74d NeilBrown 2022-06-14  1648  		/*
-5af00285eef74d NeilBrown 2022-06-14  1649  		 * Failed to get lock due to r=
-ace with unlink or rename
-5af00285eef74d NeilBrown 2022-06-14  1650  		 * - try again
-5af00285eef74d NeilBrown 2022-06-14  1651  		 */
-5af00285eef74d NeilBrown 2022-06-14  1652  		d_lookup_done(dentry);
-5af00285eef74d NeilBrown 2022-06-14  1653  		dput(dentry);
-5af00285eef74d NeilBrown 2022-06-14  1654  		goto retry;
-5af00285eef74d NeilBrown 2022-06-14  1655  	}
-5af00285eef74d NeilBrown 2022-06-14  1656  	return dentry;
-5af00285eef74d NeilBrown 2022-06-14  1657  =
+vim +/wb +207 arch/x86/include/asm/bitops.h
 
-5af00285eef74d NeilBrown 2022-06-14  1658  out_err:
-5af00285eef74d NeilBrown 2022-06-14  1659  	if (wq)
-5af00285eef74d NeilBrown 2022-06-14  1660  		inode_unlock_shared(dir);
-5af00285eef74d NeilBrown 2022-06-14  1661  	else
-5af00285eef74d NeilBrown 2022-06-14  1662  		inode_unlock(dir);
-5af00285eef74d NeilBrown 2022-06-14 @1663  	return ERR_PTR(err);
-5af00285eef74d NeilBrown 2022-06-14  1664  }
-5af00285eef74d NeilBrown 2022-06-14  1665  =
+1c54d77078056cd include/asm-x86/bitops.h      Jeremy Fitzhardinge 2008-01-3=
+0  203  =
 
+e82587336695f14 arch/x86/include/asm/bitops.h Peter Zijlstra      2020-06-0=
+2  204  static __always_inline bool constant_test_bit(long nr, const volati=
+le unsigned long *addr)
+1c54d77078056cd include/asm-x86/bitops.h      Jeremy Fitzhardinge 2008-01-3=
+0  205  {
+9b710506a03b01a arch/x86/include/asm/bitops.h H. Peter Anvin      2013-07-1=
+6  206  	return ((1UL << (nr & (BITS_PER_LONG-1))) &
+9b710506a03b01a arch/x86/include/asm/bitops.h H. Peter Anvin      2013-07-1=
+6 @207  		(addr[nr >> _BITOPS_LONG_SHIFT])) !=3D 0;
+1c54d77078056cd include/asm-x86/bitops.h      Jeremy Fitzhardinge 2008-01-3=
+0  208  }
+1c54d77078056cd include/asm-x86/bitops.h      Jeremy Fitzhardinge 2008-01-3=
+0  209  =
+
+
+:::::: The code at line 207 was first introduced by commit
+:::::: 9b710506a03b01a9fdd83962912bc9d8237b82e8 x86, bitops: Change bitops =
+to be native operand size
+
+:::::: TO: H. Peter Anvin <hpa@linux.intel.com>
+:::::: CC: H. Peter Anvin <hpa@linux.intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2494224146320481750==--
+--===============3212147889979283136==--
 
