@@ -1,450 +1,297 @@
-Content-Type: multipart/mixed; boundary="===============7627227798729945261=="
+Content-Type: multipart/mixed; boundary="===============3130055631240263173=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v36 18/33] LSM: Use lsmcontext in security_dentry_init_security
-Date: Tue, 14 Jun 2022 13:47:34 +0800
-Message-ID: <202206141353.zFFje0Za-lkp@intel.com>
+Subject: drivers/perf/arm-cmn.c:1708:29: warning: dereference of NULL 'xp' [CWE-476]
+Date: Tue, 14 Jun 2022 13:27:03 +0800
+Message-ID: <202206141307.gwH2zJa4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7627227798729945261==
+--===============3130055631240263173==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: fs/fuse/d=
-ir.c:482:6: warning: Branch condition evaluates to a garbage value [clang-a=
-nalyzer-core.uninitialized.Branch]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/p=
+erf/arm-cmn.c:1708:29: warning: dereference of NULL 'xp' [CWE-476] [-Wanaly=
+zer-null-dereference]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220609230146.319210-19-casey@schaufler-ca.com>
-References: <20220609230146.319210-19-casey@schaufler-ca.com>
-TO: Casey Schaufler <casey@schaufler-ca.com>
-TO: casey.schaufler(a)intel.com
-TO: jmorris(a)namei.org
-TO: linux-security-module(a)vger.kernel.org
-TO: selinux(a)vger.kernel.org
-CC: casey(a)schaufler-ca.com
-CC: linux-audit(a)redhat.com
-CC: keescook(a)chromium.org
-CC: john.johansen(a)canonical.com
-CC: penguin-kernel(a)i-love.sakura.ne.jp
-CC: paul(a)paul-moore.com
-CC: stephen.smalley.work(a)gmail.com
 CC: linux-kernel(a)vger.kernel.org
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Will Deacon <will@kernel.org>
 
-Hi Casey,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on pcmoore-audit/next]
-[also build test WARNING on pcmoore-selinux/next linus/master v5.19-rc2 nex=
-t-20220610]
-[cannot apply to jmorris-security/next-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/inte=
-grity-disassociate-ima_filter_rule-from-security_audit_rule/20220610-080129
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git n=
-ext
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: s390-randconfig-c005-20220613 (https://download.01.org/0day-ci/arch=
-ive/20220614/202206141353.zFFje0Za-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d37826=
-8ead93c85803c270277f0243737b536ae7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
+commit: 8e504d93acb647c0db31ba13ba11b510bbab4174 perf/arm-cmn: Add CMN-650 =
+support
+date:   6 weeks ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
+ve/20220614/202206141307.gwH2zJa4-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/86d33e271bed739fe32=
-367e703b054ea253bb471
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/integrity-disassoc=
-iate-ima_filter_rule-from-security_audit_rule/20220610-080129
-        git checkout 86d33e271bed739fe32367e703b054ea253bb471
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D8e504d93acb647c0db31ba13ba11b510bbab4174
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8e504d93acb647c0db31ba13ba11b510bbab4174
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~
-   lib/kunit/test.c:371:2: warning: Dereference of null pointer [clang-anal=
-yzer-core.NullDereference]
-           current->kunit_test =3D test;
-           ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   lib/kunit/test.c:371:2: note: Dereference of null pointer
-           current->kunit_test =3D test;
-           ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   lib/kunit/test.c:535:6: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                           snprintf(param_desc, sizeof(para=
-m_desc),
-                                           ^~~~~~~~
-   lib/kunit/test.c:535:6: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-                                           snprintf(param_desc, sizeof(para=
-m_desc),
-                                           ^~~~~~~~
-   lib/kunit/test.c:699:2: warning: Dereference of null pointer [clang-anal=
-yzer-core.NullDereference]
-           current->kunit_test =3D NULL;
-           ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   lib/kunit/test.c:390:6: note: Assuming 'try_exit_code' is 0
-           if (try_exit_code) {
-               ^~~~~~~~~~~~~
-   lib/kunit/test.c:390:2: note: Taking false branch
-           if (try_exit_code) {
-           ^
-   lib/kunit/test.c:413:2: note: Calling 'kunit_run_case_cleanup'
-           kunit_run_case_cleanup(test, suite);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:352:6: note: Assuming field 'exit' is null
-           if (suite->exit)
-               ^~~~~~~~~~~
-   lib/kunit/test.c:352:2: note: Taking false branch
-           if (suite->exit)
-           ^
-   lib/kunit/test.c:355:2: note: Calling 'kunit_case_internal_cleanup'
-           kunit_case_internal_cleanup(test);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:342:2: note: Calling 'kunit_cleanup'
-           kunit_cleanup(test);
-           ^~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:682:2: note: Loop condition is true.  Entering loop body
-           while (true) {
-           ^
-   lib/kunit/test.c:683:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&test->lock, flags);
-                   ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   lib/kunit/test.c:683:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&test->lock, flags);
-                   ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   lib/kunit/test.c:684:7: note: Assuming the condition is true
-                   if (list_empty(&test->resources)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/test.c:684:3: note: Taking true branch
-                   if (list_empty(&test->resources)) {
-                   ^
-   lib/kunit/test.c:686:4: note:  Execution continues on line 699
-                           break;
-                           ^
-   lib/kunit/test.c:699:2: note: Dereference of null pointer
-           current->kunit_test =3D NULL;
-           ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 36 warnings (36 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   66 warnings generated.
-   fs/fuse/dir.c:179:2: warning: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecure=
-API.DeprecatedOrUnsafeBufferHandling]
-           memset(outarg, 0, sizeof(struct fuse_entry_out));
-           ^~~~~~
-   fs/fuse/dir.c:179:2: note: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11
-           memset(outarg, 0, sizeof(struct fuse_entry_out));
-           ^~~~~~
->> fs/fuse/dir.c:482:6: warning: Branch condition evaluates to a garbage va=
-lue [clang-analyzer-core.uninitialized.Branch]
-           if (lsmctx.len) {
-               ^
-   fs/fuse/dir.c:831:9: note: Calling 'create_new_entry'
-           return create_new_entry(fm, &args, dir, entry, S_IFLNK);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dir.c:702:2: note: Taking false branch
-           if (fuse_is_bad(dir))
-           ^
-   fs/fuse/dir.c:706:6: note: Assuming 'forget' is non-null
-           if (!forget)
-               ^~~~~~~
-   fs/fuse/dir.c:706:2: note: Taking false branch
-           if (!forget)
-           ^
-   fs/fuse/dir.c:715:6: note: Assuming field 'init_security' is not equal t=
-o 0
-           if (fm->fc->init_security && args->opcode !=3D FUSE_LINK) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dir.c:715:6: note: Left side of '&&' is true
-   fs/fuse/dir.c:715:37: note: Field 'opcode' is not equal to FUSE_LINK
-           if (fm->fc->init_security && args->opcode !=3D FUSE_LINK) {
-                                              ^
-   fs/fuse/dir.c:715:2: note: Taking true branch
-           if (fm->fc->init_security && args->opcode !=3D FUSE_LINK) {
-           ^
-   fs/fuse/dir.c:716:9: note: Calling 'get_security_context'
-                   err =3D get_security_context(entry, mode, &security_ctx,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dir.c:474:8: note: Calling 'security_dentry_init_security'
-           err =3D security_dentry_init_security(entry, mode, &entry->d_nam=
-e,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:893:2: note: Returning without writing to 'lsmc=
-xt->len'
-           return -EOPNOTSUPP;
-           ^
-   include/linux/security.h:893:2: note: Returning the value -95, which par=
-ticipates in a condition later
-           return -EOPNOTSUPP;
-           ^~~~~~~~~~~~~~~~~~
-   fs/fuse/dir.c:474:8: note: Returning from 'security_dentry_init_security'
-           err =3D security_dentry_init_security(entry, mode, &entry->d_nam=
-e,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dir.c:476:6: note: 'err' is -95
-           if (err) {
-               ^~~
-   fs/fuse/dir.c:476:2: note: Taking true branch
-           if (err) {
-           ^
-   fs/fuse/dir.c:477:3: note: Taking false branch
-                   if (err !=3D -EOPNOTSUPP)
-                   ^
-   fs/fuse/dir.c:482:6: note: Branch condition evaluates to a garbage value
-           if (lsmctx.len) {
-               ^~~~~~~~~~
-   fs/fuse/dir.c:506:3: warning: Call to function 'strcpy' is insecure as i=
-t does not provide bounding of the memory buffer. Replace unbounded copy fu=
-nctions with analogous functions that support length arguments such as 'str=
-lcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(ptr, name);
-                   ^~~~~~
-   fs/fuse/dir.c:506:3: note: Call to function 'strcpy' is insecure as it d=
-oes not provide bounding of the memory buffer. Replace unbounded copy funct=
-ions with analogous functions that support length arguments such as 'strlcp=
-y'. CWE-119
-                   strcpy(ptr, name);
-                   ^~~~~~
-   fs/fuse/dir.c:509:3: warning: Call to function 'memcpy' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecure=
-API.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(ptr, lsmctx.context, lsmctx.len);
-                   ^~~~~~
-   fs/fuse/dir.c:509:3: note: Call to function 'memcpy' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memcpy_s' in case of C11
-                   memcpy(ptr, lsmctx.context, lsmctx.len);
-                   ^~~~~~
-   fs/fuse/dir.c:560:2: warning: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecure=
-API.DeprecatedOrUnsafeBufferHandling]
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/dir.c:560:2: note: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/dir.c:561:2: warning: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecure=
-API.DeprecatedOrUnsafeBufferHandling]
-           memset(&outentry, 0, sizeof(outentry));
-           ^~~~~~
-   fs/fuse/dir.c:561:2: note: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11
-           memset(&outentry, 0, sizeof(outentry));
-           ^~~~~~
-   fs/fuse/dir.c:709:2: warning: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecure=
-API.DeprecatedOrUnsafeBufferHandling]
-           memset(&outarg, 0, sizeof(outarg));
-           ^~~~~~
-   fs/fuse/dir.c:709:2: note: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11
-           memset(&outarg, 0, sizeof(outarg));
-           ^~~~~~
-   fs/fuse/dir.c:764:2: warning: Address of stack memory associated with lo=
-cal variable 'outarg' is still referred to by the stack variable 'args' upo=
-n returning to the caller.  This will be a dangling reference [clang-analyz=
-er-core.StackAddressEscape]
-           return err;
-           ^
-   fs/fuse/dir.c:649:2: note: Taking false branch
-           if (fuse_is_bad(dir))
-           ^
-   fs/fuse/dir.c:652:6: note: Assuming the condition is true
-           if (d_in_lookup(entry)) {
-               ^~~~~~~~~~~~~~~~~~
-   fs/fuse/dir.c:652:2: note: Taking true branch
-           if (d_in_lookup(entry)) {
-           ^
-   fs/fuse/dir.c:654:3: note: Taking false branch
-                   if (IS_ERR(res))
-                   ^
-   fs/fuse/dir.c:657:7: note: Assuming 'res' is null
-                   if (res)
-                       ^~~
-   fs/fuse/dir.c:657:3: note: Taking false branch
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/perf/arm-cmn.c: In function 'arm_cmn_pmu_offline_cpu':
+   drivers/perf/arm-cmn.c:1569:23: warning: dereference of NULL '0' [CWE-47=
+6] [-Wanalyzer-null-dereference]
+    1569 |         if (cpu !=3D cmn->cpu)
+         |                    ~~~^~~~~
+     'arm_cmn_pmu_offline_cpu': event 1
+       |
+       |include/linux/list.h:993:57:
+       |  993 |            ____ptr ? hlist_entry(____ptr, type, member) : N=
+ULL; \
+   drivers/perf/arm-cmn.c:1568:15: note: in expansion of macro 'hlist_entry=
+_safe'
+       | 1568 |         cmn =3D hlist_entry_safe(cpuhp_node, struct arm_cmn=
+, cpuhp_node);
+       |      |               ^~~~~~~~~~~~~~~~
+       |
+     'arm_cmn_pmu_offline_cpu': events 2-3
+       |
+       | 1569 |         if (cpu !=3D cmn->cpu)
+       |      |                    ~~~^~~~~
+       |      |                       |
+       |      |                       (2) ...to here
+       |      |                       (3) dereference of NULL '<unknown>'
+       |
+   drivers/perf/arm-cmn.c: In function 'arm_cmn_init_dtcs':
+>> drivers/perf/arm-cmn.c:1708:29: warning: dereference of NULL 'xp' [CWE-4=
+76] [-Wanalyzer-null-dereference]
+    1708 |                 dn->dtm =3D xp->dtm;
+         |                           ~~^~~~~
+     'arm_cmn_init_dtcs': event 1
+       |
+       | 1687 | static int arm_cmn_init_dtcs(struct arm_cmn *cmn)
+       |      |            ^~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'arm_cmn_init_dtcs'
+       |
+     'arm_cmn_init_dtcs': events 2-3
+       |
+       |include/linux/device.h:216:12:
+       |  216 |         if (unlikely(check_mul_overflow(n, size, &bytes)))
+       |      |            ^
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  219 |         return devm_kmalloc(dev, bytes, flags);
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (3) ...to here
+       |
+     'arm_cmn_init_dtcs': events 4-11
+       |
+       |drivers/perf/arm-cmn.c:1694:12:
+       | 1694 |         if (!cmn->dtc)
+       |      |            ^
+       |      |            |
+       |      |            (4) following 'false' branch...
+       |......
+       | 1697 |         sort(cmn->dns, cmn->num_dns, sizeof(cmn->dns[0]), a=
+rm_cmn_node_cmp, NULL);
+       |      |              ~~~~~~~~
+       |      |                 |
+       |      |                 (5) ...to here
+       | 1698 | =
 
-vim +482 fs/fuse/dir.c
+       | 1699 |         cmn->xps =3D arm_cmn_node(cmn, CMN_TYPE_XP);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                  |
+       |      |                  (6) '*cmn.xps' is NULL
+       | 1700 | =
 
-e5e5558e923f35 Miklos Szeredi  2005-09-09  461  =
+       | 1701 |         for (dn =3D cmn->dns; dn->type; dn++) {
+       |      |                             ~~
+       |      |                             |
+       |      |                             (7) following 'true' branch...
+       | 1702 |                 if (dn->type =3D=3D CMN_TYPE_XP) {
+       |      |                    ~
+       |      |                    |
+       |      |                    (8) ...to here
+       |      |                    (9) following 'false' branch...
+       |......
+       | 1707 |                 xp =3D arm_cmn_node_to_xp(cmn, dn);
+       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                      |
+       |      |                      (10) ...to here
+       |      |                      (11) calling 'arm_cmn_node_to_xp' from=
+ 'arm_cmn_init_dtcs'
+       |
+       +--> 'arm_cmn_node_to_xp': events 12-13
+              |
+              |  349 | static struct arm_cmn_node *arm_cmn_node_to_xp(const=
+ struct arm_cmn *cmn,
+              |      |                             ^~~~~~~~~~~~~~~~~~
+              |      |                             |
+              |      |                             (12) entry to 'arm_cmn_n=
+ode_to_xp'
+              |......
+              |  352 |         struct arm_cmn_nodeid nid =3D arm_cmn_nid(cm=
+n, dn->id);
+              |      |                                     ~~~~~~~~~~~~~~~~=
+~~~~~~~~
+              |      |                                     |
+              |      |                                     (13) calling 'ar=
+m_cmn_nid' from 'arm_cmn_node_to_xp'
+              |
+              +--> 'arm_cmn_nid': events 14-15
+                     |
+                     |  324 | static struct arm_cmn_nodeid arm_cmn_nid(cons=
+t struct arm_cmn *cmn, u16 id)
+                     |      |                              ^~~~~~~~~~~
+                     |      |                              |
+                     |      |                              (14) entry to 'a=
+rm_cmn_nid'
+                     |......
+                     |  328 |         if (cmn->num_xps =3D=3D 1) {
+                     |      |            ~                  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  462  static int get_security_con=
-text(struct dentry *entry, umode_t mode,
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  463  				void **security_ctx, u3=
-2 *security_ctxlen)
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  464  {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  465  	struct fuse_secctx *fctx;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  466  	struct fuse_secctx_header =
-*header;
-86d33e271bed73 Casey Schaufler 2022-06-09  467  	struct lsmcontext lsmctx;
-86d33e271bed73 Casey Schaufler 2022-06-09  468  	void *ptr;
-86d33e271bed73 Casey Schaufler 2022-06-09  469  	u32 total_len =3D sizeof(*=
-header);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  470  	int err, nr_ctx =3D 0;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  471  	const char *name;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  472  	size_t namelen;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  473  =
+                     |      |            |
+                     |      |            (15) following 'true' branch...
+                     |
+                   'arm_cmn_nid': event 16
+                     |
+                     |   31 | #define CMN_NODEID_1x1_PID(reg)         (((re=
+g) >> 2) & 7)
+                     |      |                                         ~~~~~=
+~~~~~~~~~^~~~
+                     |      |                                              =
+         |
+                     |      |                                              =
+         (16) ...to here
+   drivers/perf/arm-cmn.c:331:28: note: in expansion of macro 'CMN_NODEID_1=
+x1_PID'
+                     |  331 |                 nid.port =3D CMN_NODEID_1x1_P=
+ID(id);
+                     |      |                            ^~~~~~~~~~~~~~~~~~
+                     |
+              <------+
+              |
+            'arm_cmn_node_to_xp': events 17-19
+              |
+              |  352 |         struct arm_cmn_nodeid nid =3D arm_cmn_nid(cm=
+n, dn->id);
+              |      |                                     ^~~~~~~~~~~~~~~~=
+~~~~~~~~
+              |      |                                     |
+              |      |                                     (17) returning t=
+o 'arm_cmn_node_to_xp' from 'arm_cmn_nid'
+              |......
+              |  355 |         return cmn->xps + xp_idx;
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  474  	err =3D security_dentry_in=
-it_security(entry, mode, &entry->d_name,
-86d33e271bed73 Casey Schaufler 2022-06-09  475  					    &name, &lsmctx);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  476  	if (err) {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  477  		if (err !=3D -EOPNOTSUPP)
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  478  			goto out_err;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  479  		/* No LSM is supporting t=
-his security hook. Ignore error */
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  480  	}
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  481  =
+vim +/xp +1708 drivers/perf/arm-cmn.c
 
-86d33e271bed73 Casey Schaufler 2022-06-09 @482  	if (lsmctx.len) {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  483  		nr_ctx =3D 1;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  484  		namelen =3D strlen(name) =
-+ 1;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  485  		err =3D -EIO;
-86d33e271bed73 Casey Schaufler 2022-06-09  486  		if (WARN_ON(namelen > XAT=
-TR_NAME_MAX + 1 ||
-86d33e271bed73 Casey Schaufler 2022-06-09  487  		    lsmctx.len > S32_MAX))
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  488  			goto out_err;
-86d33e271bed73 Casey Schaufler 2022-06-09  489  		total_len +=3D FUSE_REC_A=
-LIGN(sizeof(*fctx) + namelen +
-86d33e271bed73 Casey Schaufler 2022-06-09  490  					    lsmctx.len);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  491  	}
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  492  =
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1686  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  493  	err =3D -ENOMEM;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  494  	header =3D ptr =3D kzalloc=
-(total_len, GFP_KERNEL);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  495  	if (!ptr)
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  496  		goto out_err;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  497  =
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1687  static int arm_cmn_init_dtcs=
+(struct arm_cmn *cmn)
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1688  {
+0947c80aba23972 Robin Murphy 2021-12-03  1689  	struct arm_cmn_node *dn, *x=
+p;
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1690  	int dtc_idx =3D 0;
+4f2c3872dde5509 Robin Murphy 2021-12-03  1691  	u8 dtcs_present =3D (1 << c=
+mn->num_dtcs) - 1;
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1692  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  498  	header->nr_secctx =3D nr_c=
-tx;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  499  	header->size =3D total_len;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  500  	ptr +=3D sizeof(*header);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  501  	if (nr_ctx) {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  502  		fctx =3D ptr;
-86d33e271bed73 Casey Schaufler 2022-06-09  503  		fctx->size =3D lsmctx.len;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  504  		ptr +=3D sizeof(*fctx);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  505  =
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1693  	cmn->dtc =3D devm_kcalloc(c=
+mn->dev, cmn->num_dtcs, sizeof(cmn->dtc[0]), GFP_KERNEL);
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1694  	if (!cmn->dtc)
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1695  		return -ENOMEM;
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1696  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  506  		strcpy(ptr, name);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  507  		ptr +=3D namelen;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  508  =
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1697  	sort(cmn->dns, cmn->num_dns=
+, sizeof(cmn->dns[0]), arm_cmn_node_cmp, NULL);
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1698  =
 
-86d33e271bed73 Casey Schaufler 2022-06-09  509  		memcpy(ptr, lsmctx.contex=
-t, lsmctx.len);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  510  	}
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  511  	*security_ctxlen =3D total=
-_len;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  512  	*security_ctx =3D header;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  513  	err =3D 0;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  514  out_err:
-86d33e271bed73 Casey Schaufler 2022-06-09  515  	if (nr_ctx)
-86d33e271bed73 Casey Schaufler 2022-06-09  516  		security_release_secctx(&=
-lsmctx);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  517  	return err;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  518  }
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  519  =
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1699  	cmn->xps =3D arm_cmn_node(c=
+mn, CMN_TYPE_XP);
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1700  =
 
+da5f7d2c8019c9d Robin Murphy 2021-12-03  1701  	for (dn =3D cmn->dns; dn->t=
+ype; dn++) {
+0947c80aba23972 Robin Murphy 2021-12-03  1702  		if (dn->type =3D=3D CMN_TY=
+PE_XP) {
+4f2c3872dde5509 Robin Murphy 2021-12-03  1703  			dn->dtc &=3D dtcs_present;
+0947c80aba23972 Robin Murphy 2021-12-03  1704  			continue;
+0947c80aba23972 Robin Murphy 2021-12-03  1705  		}
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1706  =
+
+0947c80aba23972 Robin Murphy 2021-12-03  1707  		xp =3D arm_cmn_node_to_xp(=
+cmn, dn);
+0947c80aba23972 Robin Murphy 2021-12-03 @1708  		dn->dtm =3D xp->dtm;
+60d1504070c22c0 Robin Murphy 2021-12-03  1709  		if (cmn->multi_dtm)
+60d1504070c22c0 Robin Murphy 2021-12-03  1710  			dn->dtm +=3D arm_cmn_nid(=
+cmn, dn->id).port / 2;
+0947c80aba23972 Robin Murphy 2021-12-03  1711  =
+
+0947c80aba23972 Robin Murphy 2021-12-03  1712  		if (dn->type =3D=3D CMN_TY=
+PE_DTC) {
+0947c80aba23972 Robin Murphy 2021-12-03  1713  			int err;
+0947c80aba23972 Robin Murphy 2021-12-03  1714  			/* We do at least know th=
+at a DTC's XP must be in that DTC's domain */
+4f2c3872dde5509 Robin Murphy 2021-12-03  1715  			if (xp->dtc =3D=3D 0xf)
+4f2c3872dde5509 Robin Murphy 2021-12-03  1716  				xp->dtc =3D 1 << dtc_idx;
+0947c80aba23972 Robin Murphy 2021-12-03  1717  			err =3D arm_cmn_init_dtc(=
+cmn, dn, dtc_idx++);
+0947c80aba23972 Robin Murphy 2021-12-03  1718  			if (err)
+0947c80aba23972 Robin Murphy 2021-12-03  1719  				return err;
+0947c80aba23972 Robin Murphy 2021-12-03  1720  		}
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1721  =
+
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1722  		/* To the PMU, RN-Ds don't=
+ add anything over RN-Is, so smoosh them together */
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1723  		if (dn->type =3D=3D CMN_TY=
+PE_RND)
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1724  			dn->type =3D CMN_TYPE_RNI;
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1725  	}
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1726  =
+
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1727  	writel_relaxed(CMN_DT_DTC_C=
+TL_DT_EN, cmn->dtc[0].base + CMN_DT_DTC_CTL);
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1728  =
+
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1729  	return 0;
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1730  }
+0ba64770a2f2e5a Robin Murphy 2020-09-18  1731  =
+
+
+:::::: The code at line 1708 was first introduced by commit
+:::::: 0947c80aba23972987a88e620812d17a7af27297 perf/arm-cmn: Refactor DTM =
+handling
+
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7627227798729945261==--
+--===============3130055631240263173==--
 
