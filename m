@@ -1,125 +1,153 @@
-Content-Type: multipart/mixed; boundary="===============0278313823090877863=="
+Content-Type: multipart/mixed; boundary="===============0600878867334997476=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [luxis1999-iommufd:iommufd-v5.18-rc4-nesting 65/70] drivers/iommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y
-Date: Tue, 14 Jun 2022 10:07:30 +0800
-Message-ID: <202206141037.xHsqMzVD-lkp@intel.com>
+Subject: drivers/gpu/drm/mediatek/mtk_dsi.c:951 mtk_dsi_host_transfer() warn: check sign expansion for 'ret'
+Date: Tue, 14 Jun 2022 09:16:31 +0800
+Message-ID: <202206140910.aE0Vlhfq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0278313823090877863==
+--===============0600878867334997476==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-ommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Liu Yi L <yi.l.liu@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Julien STEPHAN <jstephan@baylibre.com>
+CC: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
+CC: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://github.com/luxis1999/iommufd iommufd-v5.18-rc4-nesting
-head:   e642747ca46aa568063964b5b5101e35258ea0d5
-commit: d31540d648e6d794af2a9e5ff8bfff0e7c1e4575 [65/70] iommufd: Add IOMMU=
-_ALLOC_PASID
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
-/20220614/202206141037.xHsqMzVD-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-30-g92122700-dirty
-        # https://github.com/luxis1999/iommufd/commit/d31540d648e6d794af2a9=
-e5ff8bfff0e7c1e4575
-        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
-fd
-        git fetch --no-tags luxis1999-iommufd iommufd-v5.18-rc4-nesting
-        git checkout d31540d648e6d794af2a9e5ff8bfff0e7c1e4575
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/iommu/iommufd/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
+commit: 81cc7e51c4f1686b71e30046437056ece6b2cb4d drm/mediatek: Allow comman=
+ds to be sent during video mode
+date:   4 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-m031-20220613 (https://download.01.org/0day-ci/arc=
+hive/20220614/202206140910.aE0Vlhfq-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpu/drm/mediatek/mtk_dsi.c:951 mtk_dsi_host_transfer() warn: check =
+sign expansion for 'ret'
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/iommufd/pasid.c:39:25: sparse: sparse: dubious: !x & y
+vim +/ret +951 drivers/gpu/drm/mediatek/mtk_dsi.c
 
-vim +39 drivers/iommu/iommufd/pasid.c
+21898816831fc6 shaoming chen  2017-03-31  885  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  20  =
+21898816831fc6 shaoming chen  2017-03-31  886  static ssize_t mtk_dsi_host_=
+transfer(struct mipi_dsi_host *host,
+21898816831fc6 shaoming chen  2017-03-31  887  				     const struct mipi_d=
+si_msg *msg)
+21898816831fc6 shaoming chen  2017-03-31  888  {
+21898816831fc6 shaoming chen  2017-03-31  889  	struct mtk_dsi *dsi =3D hos=
+t_to_dsi(host);
+21898816831fc6 shaoming chen  2017-03-31  890  	u32 recv_cnt, i;
+21898816831fc6 shaoming chen  2017-03-31  891  	u8 read_data[16];
+21898816831fc6 shaoming chen  2017-03-31  892  	void *src_addr;
+21898816831fc6 shaoming chen  2017-03-31  893  	u8 irq_flag =3D CMD_DONE_IN=
+T_FLAG;
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  894  	u32 dsi_mode;
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  895  	int ret;
+21898816831fc6 shaoming chen  2017-03-31  896  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  21  int iommufd_alloc_pasid(struct iommuf=
-d_ucmd *ucmd)
-d31540d648e6d7 Yi Liu 2022-05-25  22  {
-d31540d648e6d7 Yi Liu 2022-05-25  23  	struct iommu_alloc_pasid *cmd =3D uc=
-md->cmd;
-d31540d648e6d7 Yi Liu 2022-05-25  24  	struct iommufd_pasid_data *pdata;
-d31540d648e6d7 Yi Liu 2022-05-25  25  	int rc;
-d31540d648e6d7 Yi Liu 2022-05-25  26  =
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  897  	dsi_mode =3D readl(dsi->reg=
+s + DSI_MODE_CTRL);
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  898  	if (dsi_mode & MODE) {
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  899  		mtk_dsi_stop(dsi);
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  900  		ret =3D mtk_dsi_switch_to_=
+cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  901  		if (ret)
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  902  			goto restore_dsi_mode;
+21898816831fc6 shaoming chen  2017-03-31  903  	}
+21898816831fc6 shaoming chen  2017-03-31  904  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  27  	if (cmd->flags & ~IOMMU_ALLOC_PASID_=
-IDENTICAL)
-d31540d648e6d7 Yi Liu 2022-05-25  28  		return -EOPNOTSUPP;
-d31540d648e6d7 Yi Liu 2022-05-25  29  =
+21898816831fc6 shaoming chen  2017-03-31  905  	if (MTK_DSI_HOST_IS_READ(ms=
+g->type))
+21898816831fc6 shaoming chen  2017-03-31  906  		irq_flag |=3D LPRX_RD_RDY_=
+INT_FLAG;
+21898816831fc6 shaoming chen  2017-03-31  907  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  30  	if (cmd->range.min > cmd->range.max =
-||
-d31540d648e6d7 Yi Liu 2022-05-25  31  	    cmd->range.min >=3D (1 << IOASID=
-_BITS) ||
-d31540d648e6d7 Yi Liu 2022-05-25  32  	    cmd->range.max >=3D (1 << IOASID=
-_BITS))
-d31540d648e6d7 Yi Liu 2022-05-25  33  		return -EINVAL;
-d31540d648e6d7 Yi Liu 2022-05-25  34  =
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  908  	ret =3D mtk_dsi_host_send_c=
+md(dsi, msg, irq_flag);
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  909  	if (ret)
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  910  		goto restore_dsi_mode;
+21898816831fc6 shaoming chen  2017-03-31  911  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  35  	pdata =3D kzalloc(sizeof(*pdata), GF=
-P_KERNEL);
-d31540d648e6d7 Yi Liu 2022-05-25  36  	if (!pdata)
-d31540d648e6d7 Yi Liu 2022-05-25  37  		return -ENOMEM;
-d31540d648e6d7 Yi Liu 2022-05-25  38  =
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  912  	if (!MTK_DSI_HOST_IS_READ(m=
+sg->type)) {
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  913  		recv_cnt =3D 0;
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  914  		goto restore_dsi_mode;
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  915  	}
+21898816831fc6 shaoming chen  2017-03-31  916  =
 
-d31540d648e6d7 Yi Liu 2022-05-25 @39  	if (!cmd->flags & IOMMU_ALLOC_PASID_=
-IDENTICAL)
-d31540d648e6d7 Yi Liu 2022-05-25  40  		pdata->vpasid =3D cmd->pasid;
-d31540d648e6d7 Yi Liu 2022-05-25  41  	pdata->pasid =3D pdata->vpasid =3D
-d31540d648e6d7 Yi Liu 2022-05-25  42  				ioasid_alloc(&ucmd->ictx->pasid_s=
-et,
-d31540d648e6d7 Yi Liu 2022-05-25  43  				cmd->range.min, cmd->range.max,
-d31540d648e6d7 Yi Liu 2022-05-25  44  				pdata);
-d31540d648e6d7 Yi Liu 2022-05-25  45  	if (!pasid_valid(pdata->pasid)) {
-d31540d648e6d7 Yi Liu 2022-05-25  46  		rc =3D -ENOMEM;
-d31540d648e6d7 Yi Liu 2022-05-25  47  		goto out_free_mem;
-d31540d648e6d7 Yi Liu 2022-05-25  48  	}
-d31540d648e6d7 Yi Liu 2022-05-25  49  =
+21898816831fc6 shaoming chen  2017-03-31  917  	if (!msg->rx_buf) {
+21898816831fc6 shaoming chen  2017-03-31  918  		DRM_ERROR("dsi receive buf=
+fer size may be NULL\n");
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  919  		ret =3D -EINVAL;
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  920  		goto restore_dsi_mode;
+21898816831fc6 shaoming chen  2017-03-31  921  	}
+21898816831fc6 shaoming chen  2017-03-31  922  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  50  	cmd->pasid =3D pdata->pasid;
-d31540d648e6d7 Yi Liu 2022-05-25  51  	rc =3D iommufd_ucmd_respond(ucmd, si=
-zeof(*cmd));
-d31540d648e6d7 Yi Liu 2022-05-25  52  	if (rc)
-d31540d648e6d7 Yi Liu 2022-05-25  53  		goto out_free_pasid;
-d31540d648e6d7 Yi Liu 2022-05-25  54  =
+21898816831fc6 shaoming chen  2017-03-31  923  	for (i =3D 0; i < 16; i++)
+21898816831fc6 shaoming chen  2017-03-31  924  		*(read_data + i) =3D readb=
+(dsi->regs + DSI_RX_DATA0 + i);
+21898816831fc6 shaoming chen  2017-03-31  925  =
 
-d31540d648e6d7 Yi Liu 2022-05-25  55  	return 0;
-d31540d648e6d7 Yi Liu 2022-05-25  56  out_free_pasid:
-d31540d648e6d7 Yi Liu 2022-05-25  57  	ioasid_free(pdata->pasid);
-d31540d648e6d7 Yi Liu 2022-05-25  58  out_free_mem:
-d31540d648e6d7 Yi Liu 2022-05-25  59  	kfree(pdata);
-d31540d648e6d7 Yi Liu 2022-05-25  60  	return rc;
-d31540d648e6d7 Yi Liu 2022-05-25  61  }
-d31540d648e6d7 Yi Liu 2022-05-25  62  =
+21898816831fc6 shaoming chen  2017-03-31  926  	recv_cnt =3D mtk_dsi_recv_c=
+nt(read_data[0], read_data);
+21898816831fc6 shaoming chen  2017-03-31  927  =
+
+21898816831fc6 shaoming chen  2017-03-31  928  	if (recv_cnt > 2)
+21898816831fc6 shaoming chen  2017-03-31  929  		src_addr =3D &read_data[4];
+21898816831fc6 shaoming chen  2017-03-31  930  	else
+21898816831fc6 shaoming chen  2017-03-31  931  		src_addr =3D &read_data[1];
+21898816831fc6 shaoming chen  2017-03-31  932  =
+
+21898816831fc6 shaoming chen  2017-03-31  933  	if (recv_cnt > 10)
+21898816831fc6 shaoming chen  2017-03-31  934  		recv_cnt =3D 10;
+21898816831fc6 shaoming chen  2017-03-31  935  =
+
+21898816831fc6 shaoming chen  2017-03-31  936  	if (recv_cnt > msg->rx_len)
+21898816831fc6 shaoming chen  2017-03-31  937  		recv_cnt =3D msg->rx_len;
+21898816831fc6 shaoming chen  2017-03-31  938  =
+
+21898816831fc6 shaoming chen  2017-03-31  939  	if (recv_cnt)
+21898816831fc6 shaoming chen  2017-03-31  940  		memcpy(msg->rx_buf, src_ad=
+dr, recv_cnt);
+21898816831fc6 shaoming chen  2017-03-31  941  =
+
+21898816831fc6 shaoming chen  2017-03-31  942  	DRM_INFO("dsi get %d byte d=
+ata from the panel address(0x%x)\n",
+21898816831fc6 shaoming chen  2017-03-31  943  		 recv_cnt, *((u8 *)(msg->t=
+x_buf)));
+21898816831fc6 shaoming chen  2017-03-31  944  =
+
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  945  restore_dsi_mode:
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  946  	if (dsi_mode & MODE) {
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  947  		mtk_dsi_set_mode(dsi);
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  948  		mtk_dsi_start(dsi);
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  949  	}
+81cc7e51c4f168 Julien STEPHAN 2022-02-14  950  =
+
+81cc7e51c4f168 Julien STEPHAN 2022-02-14 @951  	return ret < 0 ? ret : recv=
+_cnt;
+21898816831fc6 shaoming chen  2017-03-31  952  }
+21898816831fc6 shaoming chen  2017-03-31  953  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0278313823090877863==--
+--===============0600878867334997476==--
 
