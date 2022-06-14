@@ -1,153 +1,180 @@
-Content-Type: multipart/mixed; boundary="===============0600878867334997476=="
+Content-Type: multipart/mixed; boundary="===============1199998551576850347=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/mediatek/mtk_dsi.c:951 mtk_dsi_host_transfer() warn: check sign expansion for 'ret'
-Date: Tue, 14 Jun 2022 09:16:31 +0800
-Message-ID: <202206140910.aE0Vlhfq-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.18-rc4-nesting 48/70] drivers/iommu/iommufd/device.c:80:21: sparse: sparse: dubious: !x & y
+Date: Tue, 14 Jun 2022 08:56:09 +0800
+Message-ID: <202206140846.icPRERoE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0600878867334997476==
+--===============1199998551576850347==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/i=
+ommu/iommufd/device.c:80:21: sparse: sparse: dubious: !x & y"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Julien STEPHAN <jstephan@baylibre.com>
-CC: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
-CC: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: 81cc7e51c4f1686b71e30046437056ece6b2cb4d drm/mediatek: Allow comman=
-ds to be sent during video mode
-date:   4 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-m031-20220613 (https://download.01.org/0day-ci/arc=
-hive/20220614/202206140910.aE0Vlhfq-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.18-rc4-nesting
+head:   e642747ca46aa568063964b5b5101e35258ea0d5
+commit: d507176b02c1c8113388d7dbac46ac3244453e24 [48/70] iommufd/device: Ad=
+d iommufd_device_attach_pasid()
+:::::: branch date: 17 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220614/202206140846.icPRERoE-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-30-g92122700-dirty
+        # https://github.com/luxis1999/iommufd/commit/d507176b02c1c8113388d=
+7dbac46ac3244453e24
+        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
+fd
+        git fetch --no-tags luxis1999-iommufd iommufd-v5.18-rc4-nesting
+        git checkout d507176b02c1c8113388d7dbac46ac3244453e24
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/iommu/iommufd/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/mediatek/mtk_dsi.c:951 mtk_dsi_host_transfer() warn: check =
-sign expansion for 'ret'
 
-vim +/ret +951 drivers/gpu/drm/mediatek/mtk_dsi.c
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/device.c:80:21: sparse: sparse: dubious: !x & y
+   drivers/iommu/iommufd/device.c:109:21: sparse: sparse: dubious: !x & y
 
-21898816831fc6 shaoming chen  2017-03-31  885  =
+vim +80 drivers/iommu/iommufd/device.c
 
-21898816831fc6 shaoming chen  2017-03-31  886  static ssize_t mtk_dsi_host_=
-transfer(struct mipi_dsi_host *host,
-21898816831fc6 shaoming chen  2017-03-31  887  				     const struct mipi_d=
-si_msg *msg)
-21898816831fc6 shaoming chen  2017-03-31  888  {
-21898816831fc6 shaoming chen  2017-03-31  889  	struct mtk_dsi *dsi =3D hos=
-t_to_dsi(host);
-21898816831fc6 shaoming chen  2017-03-31  890  	u32 recv_cnt, i;
-21898816831fc6 shaoming chen  2017-03-31  891  	u8 read_data[16];
-21898816831fc6 shaoming chen  2017-03-31  892  	void *src_addr;
-21898816831fc6 shaoming chen  2017-03-31  893  	u8 irq_flag =3D CMD_DONE_IN=
-T_FLAG;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  894  	u32 dsi_mode;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  895  	int ret;
-21898816831fc6 shaoming chen  2017-03-31  896  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   41  =
 
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  897  	dsi_mode =3D readl(dsi->reg=
-s + DSI_MODE_CTRL);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  898  	if (dsi_mode & MODE) {
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  899  		mtk_dsi_stop(dsi);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  900  		ret =3D mtk_dsi_switch_to_=
-cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  901  		if (ret)
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  902  			goto restore_dsi_mode;
-21898816831fc6 shaoming chen  2017-03-31  903  	}
-21898816831fc6 shaoming chen  2017-03-31  904  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   42  /**
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   43   * iommufd_bind_pci_device =
+- Bind a physical device to an iommu fd
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   44   * @fd: iommufd file descri=
+ptor.
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   45   * @pdev: Pointer to a phys=
+ical PCI device struct
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   46   * @id: Output ID number to=
+ return to userspace for this device
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   47   *
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   48   * A successful bind establ=
+ishes an ownership over the device and returns
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   49   * struct iommufd_device po=
+inter, otherwise returns error pointer.
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   50   *
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   51   * A driver using this API =
+must set driver_managed_dma and must not touch
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   52   * the device until this ro=
+utine succeeds and establishes ownership.
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   53   *
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   54   * Binding a PCI device pla=
+ces the entire RID under iommufd control.
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   55   *
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   56   * The caller must undo thi=
+s with iommufd_unbind_device()
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   57   */
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   58  struct iommufd_device *iomm=
+ufd_bind_pci_device(int fd, struct pci_dev *pdev,
+d507176b02c1c8 Yi Liu          2022-05-13   59  					       unsigned int fl=
+ags, u32 *id)
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   60  {
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   61  	struct iommufd_device *ide=
+v;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   62  	struct iommufd_ctx *ictx;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   63  	struct iommu_group *group;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   64  	int rc;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   65  =
 
-21898816831fc6 shaoming chen  2017-03-31  905  	if (MTK_DSI_HOST_IS_READ(ms=
-g->type))
-21898816831fc6 shaoming chen  2017-03-31  906  		irq_flag |=3D LPRX_RD_RDY_=
-INT_FLAG;
-21898816831fc6 shaoming chen  2017-03-31  907  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   66  	ictx =3D iommufd_fget(fd);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   67  	if (!ictx)
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   68  		return ERR_PTR(-EINVAL);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   69  =
 
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  908  	ret =3D mtk_dsi_host_send_c=
-md(dsi, msg, irq_flag);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  909  	if (ret)
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  910  		goto restore_dsi_mode;
-21898816831fc6 shaoming chen  2017-03-31  911  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   70  	group =3D iommu_group_get(=
+&pdev->dev);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   71  	if (!group) {
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   72  		rc =3D -ENODEV;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   73  		goto out_file_put;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   74  	}
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   75  =
 
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  912  	if (!MTK_DSI_HOST_IS_READ(m=
-sg->type)) {
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  913  		recv_cnt =3D 0;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  914  		goto restore_dsi_mode;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  915  	}
-21898816831fc6 shaoming chen  2017-03-31  916  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   76  	/*
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   77  	 * FIXME: Use a device-cen=
+tric iommu api and this won't work with
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   78  	 * multi-device groups
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   79  	 */
+d507176b02c1c8 Yi Liu          2022-05-13  @80  	if ((!flags & IOMMUFD_BIND=
+_FLAGS_BYPASS_DMA_OWNERSHIP)) {
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   81  		rc =3D iommu_group_claim_=
+dma_owner(group, ictx->filp);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   82  		if (rc)
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   83  			goto out_group_put;
+d507176b02c1c8 Yi Liu          2022-05-13   84  	}
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   85  =
 
-21898816831fc6 shaoming chen  2017-03-31  917  	if (!msg->rx_buf) {
-21898816831fc6 shaoming chen  2017-03-31  918  		DRM_ERROR("dsi receive buf=
-fer size may be NULL\n");
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  919  		ret =3D -EINVAL;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  920  		goto restore_dsi_mode;
-21898816831fc6 shaoming chen  2017-03-31  921  	}
-21898816831fc6 shaoming chen  2017-03-31  922  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   86  	idev =3D iommufd_object_al=
+loc(ictx, idev, IOMMUFD_OBJ_DEVICE);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   87  	if (IS_ERR(idev)) {
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   88  		rc =3D PTR_ERR(idev);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   89  		goto out_release_owner;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   90  	}
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   91  	idev->ictx =3D ictx;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   92  	idev->dev =3D &pdev->dev;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   93  	/* The calling driver is a=
+ user until iommufd_unbind_device() */
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   94  	refcount_inc(&idev->obj.us=
+ers);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   95  	/* group refcount moves in=
+to iommufd_device */
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   96  	idev->group =3D group;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   97  =
 
-21898816831fc6 shaoming chen  2017-03-31  923  	for (i =3D 0; i < 16; i++)
-21898816831fc6 shaoming chen  2017-03-31  924  		*(read_data + i) =3D readb=
-(dsi->regs + DSI_RX_DATA0 + i);
-21898816831fc6 shaoming chen  2017-03-31  925  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   98  	/*
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11   99  	 * If the caller fails aft=
+er this success it must call
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  100  	 * iommufd_unbind_device()=
+ which is safe since we hold this refcount.
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  101  	 * This also means the dev=
+ice is a leaf in the graph and no other object
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  102  	 * can take a reference on=
+ it.
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  103  	 */
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  104  	iommufd_object_finalize(ic=
+tx, &idev->obj);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  105  	*id =3D idev->obj.id;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  106  	return idev;
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  107  =
 
-21898816831fc6 shaoming chen  2017-03-31  926  	recv_cnt =3D mtk_dsi_recv_c=
-nt(read_data[0], read_data);
-21898816831fc6 shaoming chen  2017-03-31  927  =
-
-21898816831fc6 shaoming chen  2017-03-31  928  	if (recv_cnt > 2)
-21898816831fc6 shaoming chen  2017-03-31  929  		src_addr =3D &read_data[4];
-21898816831fc6 shaoming chen  2017-03-31  930  	else
-21898816831fc6 shaoming chen  2017-03-31  931  		src_addr =3D &read_data[1];
-21898816831fc6 shaoming chen  2017-03-31  932  =
-
-21898816831fc6 shaoming chen  2017-03-31  933  	if (recv_cnt > 10)
-21898816831fc6 shaoming chen  2017-03-31  934  		recv_cnt =3D 10;
-21898816831fc6 shaoming chen  2017-03-31  935  =
-
-21898816831fc6 shaoming chen  2017-03-31  936  	if (recv_cnt > msg->rx_len)
-21898816831fc6 shaoming chen  2017-03-31  937  		recv_cnt =3D msg->rx_len;
-21898816831fc6 shaoming chen  2017-03-31  938  =
-
-21898816831fc6 shaoming chen  2017-03-31  939  	if (recv_cnt)
-21898816831fc6 shaoming chen  2017-03-31  940  		memcpy(msg->rx_buf, src_ad=
-dr, recv_cnt);
-21898816831fc6 shaoming chen  2017-03-31  941  =
-
-21898816831fc6 shaoming chen  2017-03-31  942  	DRM_INFO("dsi get %d byte d=
-ata from the panel address(0x%x)\n",
-21898816831fc6 shaoming chen  2017-03-31  943  		 recv_cnt, *((u8 *)(msg->t=
-x_buf)));
-21898816831fc6 shaoming chen  2017-03-31  944  =
-
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  945  restore_dsi_mode:
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  946  	if (dsi_mode & MODE) {
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  947  		mtk_dsi_set_mode(dsi);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  948  		mtk_dsi_start(dsi);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  949  	}
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  950  =
-
-81cc7e51c4f168 Julien STEPHAN 2022-02-14 @951  	return ret < 0 ? ret : recv=
-_cnt;
-21898816831fc6 shaoming chen  2017-03-31  952  }
-21898816831fc6 shaoming chen  2017-03-31  953  =
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  108  out_release_owner:
+d507176b02c1c8 Yi Liu          2022-05-13  109  	if ((!flags & IOMMUFD_BIND=
+_FLAGS_BYPASS_DMA_OWNERSHIP))
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  110  		iommu_group_release_dma_o=
+wner(group);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  111  out_group_put:
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  112  	iommu_group_put(group);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  113  out_file_put:
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  114  	fput(ictx->filp);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  115  	return ERR_PTR(rc);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  116  }
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  117  EXPORT_SYMBOL_GPL(iommufd_b=
+ind_pci_device);
+a9447b06c53bd3 Jason Gunthorpe 2021-11-11  118  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0600878867334997476==--
+--===============1199998551576850347==--
 
