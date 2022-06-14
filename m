@@ -1,199 +1,185 @@
-Content-Type: multipart/mixed; boundary="===============4912522234452452080=="
+Content-Type: multipart/mixed; boundary="===============8894242460623373330=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/kernel/cpu/common.c:187:45: warning: Parameter 's' can be declared with const [constParameter]
-Date: Tue, 14 Jun 2022 11:28:55 +0800
-Message-ID: <202206141115.KVr3yKXL-lkp@intel.com>
+Subject: include/linux/bio.h:563:35: warning: dereference of NULL '((struct bio_list *)rbio)[8].tail' [CWE-476]
+Date: Tue, 14 Jun 2022 11:18:46 +0800
+Message-ID: <202206141145.WJlIHlWJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4912522234452452080==
+--===============8894242460623373330==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: arch/x86/=
-kernel/cpu/common.c:187:45: warning: Parameter 's' can be declared with con=
-st [constParameter]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/linux/bio.h:563:35: warning: dereference of NULL '((struct bio_lis=
+t *)rbio)[8].tail' [CWE-476] [-Wanalyzer-null-dereference]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Borislav Petkov <bp@suse.de>
+TO: Christoph Hellwig <hch@lst.de>
+CC: David Sterba <dsterba@suse.com>
+CC: Qu Wenruo <wqu@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: 8a1dc55a3f3ef0a723c3c117a567e7b5dd2c1793 x86/cpu: Sanitize X86_FEAT=
-URE_OSPKE
-date:   12 months ago
+commit: 385de0ef387dc7f33fc5b828136cbc9516b3ec1a btrfs: use a normal workqu=
+eue for rmw_workers
+date:   4 weeks ago
 :::::: branch date: 28 hours ago
-:::::: commit date: 12 months ago
+:::::: commit date: 4 weeks ago
+config: i386-randconfig-c001-20220613 (https://download.01.org/0day-ci/arch=
+ive/20220614/202206141145.WJlIHlWJ-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 8a1dc55a3f3ef0a723c3c117a567e7b5dd2c1793
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D385de0ef387dc7f33fc5b828136cbc9516b3ec1a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 385de0ef387dc7f33fc5b828136cbc9516b3ec1a
+        # save the config file
+         ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> arch/x86/mm/tlb.c:1225:8: warning: %ld in format string (no. 1) requires=
- 'long' but the argument type is 'unsigned long'. [invalidPrintfArgType_sin=
-t]
-    len =3D sprintf(buf, "%ldn", tlb_single_page_flush_ceiling);
-          ^
---
->> arch/x86/mm/pat/set_memory.c:1033:17: warning: Local variable 'pfn' shad=
-ows outer variable [shadowVariable]
-     unsigned long pfn =3D PFN_DOWN(__pa(address));
-                   ^
-   arch/x86/mm/pat/set_memory.c:971:40: note: Shadowed declaration
-    unsigned long lpaddr, lpinc, ref_pfn, pfn, pfninc =3D 1;
-                                          ^
-   arch/x86/mm/pat/set_memory.c:1033:17: note: Shadow variable
-     unsigned long pfn =3D PFN_DOWN(__pa(address));
-                   ^
->> arch/x86/mm/pat/set_memory.c:2040:16: warning: Local variable 'addr' sha=
-dows outer variable [shadowVariable]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:110:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2040:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/set_memory.c:2112:16: warning: Local variable 'addr' sha=
-dows outer variable [shadowVariable]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:110:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2112:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/set_memory.c:2145:16: warning: Local variable 'addr' sha=
-dows outer variable [shadowVariable]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:110:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2145:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/set_memory.c:2152:16: warning: Local variable 'addr' sha=
-dows outer variable [shadowVariable]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:110:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2152:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from fs/btrfs/raid56.c:8:
+   In function 'raid56_alloc_missing_rbio':
+>> include/linux/bio.h:563:35: warning: dereference of NULL '((struct bio_l=
+ist *)rbio)[8].tail' [CWE-476] [-Wanalyzer-null-dereference]
+     563 |                 bl->tail->bi_next =3D bio;
+         |                 ~~~~~~~~~~~~~~~~~~^~~~~
+     'raid56_alloc_missing_rbio': events 1-2
+       |
+       |fs/btrfs/raid56.c:2800:1:
+       | 2800 | raid56_alloc_missing_rbio(struct bio *bio, struct btrfs_io_=
+context *bioc,
+       |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'raid56_alloc_missing_rbio'
+       |......
+       | 2806 |         rbio =3D alloc_rbio(fs_info, bioc, length);
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (2) calling 'alloc_rbio' from 'raid56_alloc_=
+missing_rbio'
+       |
+       +--> 'alloc_rbio': events 3-4
+              |
+              | 1025 | static struct btrfs_raid_bio *alloc_rbio(struct btrf=
+s_fs_info *fs_info,
+              |      |                               ^~~~~~~~~~
+              |      |                               |
+              |      |                               (3) entry to 'alloc_rb=
+io'
+              |......
+              | 1050 |         if (!rbio)
+              |      |            ~                   =
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+              |      |            |
+              |      |            (4) following 'false' branch (when 'rbio'=
+ is non-NULL)...
+              |
+            'alloc_rbio': event 5
+              |
+              |include/linux/bio.h:539:29:
+              |  539 |         bl->head =3D bl->tail =3D NULL;
+              |
+            'alloc_rbio': event 6
+              |
+              |  539 |         bl->head =3D bl->tail =3D NULL;
+              |
+            'alloc_rbio': event 7
+              |
+              |  539 |         bl->head =3D bl->tail =3D NULL;
+              |
+            'alloc_rbio': event 8
+              |
+              |  539 |         bl->head =3D bl->tail =3D NULL;
+              |
+       <------+
+       |
+     'raid56_alloc_missing_rbio': events 9-11
+       |
+       |fs/btrfs/raid56.c:2806:16:
+       | 2806 |         rbio =3D alloc_rbio(fs_info, bioc, length);
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (9) returning to 'raid56_alloc_missing_rbio'=
+ from 'alloc_rbio'
+       | 2807 |         if (IS_ERR(rbio))
+       |      |            ~    =
 
->> arch/x86/mm/tlb.c:1225:8: warning: %ld in format string (no. 1) requires=
- 'long' but the argument type is 'unsigned long'. [invalidPrintfArgType_sin=
-t]
-    len =3D sprintf(buf, "%ldn", tlb_single_page_flush_ceiling);
-          ^
---
-   arch/x86/kernel/cpu/common.c:1366:40: warning: Comparing pointers that p=
-oint to different objects [comparePointers]
-    for (cdev =3D __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
-                                          ^
-   arch/x86/kernel/cpu/cpu.h:44:36: note: Variable declared here.
-   extern const struct cpu_dev *const __x86_cpu_dev_start[],
-                                      ^
-   arch/x86/kernel/cpu/common.c:1366:14: note: Array decayed to pointer her=
-e.
-    for (cdev =3D __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
-                ^
-   arch/x86/kernel/cpu/cpu.h:45:15: note: Variable declared here.
-          *const __x86_cpu_dev_end[];
-                 ^
-   arch/x86/kernel/cpu/common.c:1366:42: note: Array decayed to pointer her=
-e.
-    for (cdev =3D __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
-                                            ^
-   arch/x86/kernel/cpu/common.c:1366:40: note: Comparing pointers that poin=
-t to different objects
-    for (cdev =3D __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
-                                          ^
->> arch/x86/kernel/cpu/common.c:187:45: warning: Parameter 's' can be decla=
-red with const [constParameter]
-   static int __init x86_noinvpcid_setup(char *s)
-                                               ^
->> arch/x86/kernel/cpu/common.c:467:59: warning: Parameter 'c' can be decla=
-red with const [constParameter]
-   static __always_inline void setup_pku(struct cpuinfo_x86 *c)
-                                                             ^
->> drivers/acpi/processor_idle.c:162:32: warning: Parameter 'cx' can be dec=
-lared with const [constParameter]
-        struct acpi_processor_cx *cx)
-                                  ^
---
->> arch/x86/mm/pat/set_memory.c:399:52: warning: Same expression on both si=
-des of '||' because 'r1_start<=3Dr2_end&&r1_end>=3Dr2_start' and 'r2_start<=
-=3Dr1_end&&r2_end>=3Dr1_start' represent the same value. [knownConditionTru=
-eFalse]
-    return (r1_start <=3D r2_end && r1_end >=3D r2_start) ||
-                                                      ^
+       |      |            |
+       |      |            (10) following 'false' branch...
+       |......
+       | 2810 |         rbio->operation =3D BTRFS_RBIO_REBUILD_MISSING;
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (11) ...to here
+       |
+     'raid56_alloc_missing_rbio': events 12-14
+       |
+       |include/linux/bio.h:562:12:
+       |  562 |         if (bl->tail)
+       |      |            ^
+       |      |            |
+       |      |            (12) following 'true' branch...
+       |  563 |                 bl->tail->bi_next =3D bio;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                   |
+       |      |                                   (13) ...to here
+       |      |                                   (14) dereference of NULL =
+'((struct bio_list *)rbio)[8].tail'
+       |
 
-vim +/s +187 arch/x86/kernel/cpu/common.c
+vim +563 include/linux/bio.h
 
-0790c9aad84901 Andy Lutomirski 2017-06-29  186  =
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  557  =
 
-d12a72b844a49d Andy Lutomirski 2016-01-29 @187  static int __init x86_noinv=
-pcid_setup(char *s)
-d12a72b844a49d Andy Lutomirski 2016-01-29  188  {
-d12a72b844a49d Andy Lutomirski 2016-01-29  189  	/* noinvpcid doesn't accep=
-t parameters */
-d12a72b844a49d Andy Lutomirski 2016-01-29  190  	if (s)
-d12a72b844a49d Andy Lutomirski 2016-01-29  191  		return -EINVAL;
-d12a72b844a49d Andy Lutomirski 2016-01-29  192  =
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  558  static inline void bio_li=
+st_add(struct bio_list *bl, struct bio *bio)
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  559  {
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  560  	bio->bi_next =3D NULL;
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  561  =
 
-d12a72b844a49d Andy Lutomirski 2016-01-29  193  	/* do not emit a message i=
-f the feature is not present */
-d12a72b844a49d Andy Lutomirski 2016-01-29  194  	if (!boot_cpu_has(X86_FEAT=
-URE_INVPCID))
-d12a72b844a49d Andy Lutomirski 2016-01-29  195  		return 0;
-d12a72b844a49d Andy Lutomirski 2016-01-29  196  =
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  562  	if (bl->tail)
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07 @563  		bl->tail->bi_next =3D b=
+io;
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  564  	else
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  565  		bl->head =3D bio;
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  566  =
 
-d12a72b844a49d Andy Lutomirski 2016-01-29  197  	setup_clear_cpu_cap(X86_FE=
-ATURE_INVPCID);
-d12a72b844a49d Andy Lutomirski 2016-01-29  198  	pr_info("noinvpcid: INVPCI=
-D feature disabled\n");
-d12a72b844a49d Andy Lutomirski 2016-01-29  199  	return 0;
-d12a72b844a49d Andy Lutomirski 2016-01-29  200  }
-d12a72b844a49d Andy Lutomirski 2016-01-29  201  early_param("noinvpcid", x8=
-6_noinvpcid_setup);
-d12a72b844a49d Andy Lutomirski 2016-01-29  202  =
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  567  	bl->tail =3D bio;
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  568  }
+8f3d8ba20e6799 Christoph Hellwig 2009-04-07  569  =
 
 
-:::::: The code at line 187 was first introduced by commit
-:::::: d12a72b844a49d4162f24cefdab30bed3f86730e x86/mm: Add a 'noinvpcid' b=
-oot option to turn off INVPCID
+:::::: The code at line 563 was first introduced by commit
+:::::: 8f3d8ba20e67991b531e9c0227dcd1f99271a32c block: move bio list helper=
+s into bio.h
 
-:::::: TO: Andy Lutomirski <luto@kernel.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4912522234452452080==--
+--===============8894242460623373330==--
 
