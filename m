@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7699691001138890880=="
+Content-Type: multipart/mixed; boundary="===============8208487898947176722=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/crypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL '*cryp.areq' [CWE-476]
-Date: Fri, 17 Jun 2022 20:17:32 +0800
-Message-ID: <202206172043.tO1UzqFb-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 121/367] fs/xfs/libxfs/xfs_dir2_block.c:653:13: warning: dereference of NULL 'bp' [CWE-476]
+Date: Wed, 15 Jun 2022 17:10:45 +0800
+Message-ID: <202206151742.zTBR6kB6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7699691001138890880==
+--===============8208487898947176722==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/c=
-rypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL '*cryp.areq'=
- [CWE-476] [-Wanalyzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: fs/xfs/li=
+bxfs/xfs_dir2_block.c:653:13: warning: dereference of NULL 'bp' [CWE-476] [=
+-Wanalyzer-null-dereference]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Nicolas Toromanoff <nicolas.toromanoff@foss.st.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   47700948a4abb4a5ae13ef943ff682a7f327547a
-commit: 4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9 crypto: stm32/cryp - fix b=
-ugs and crash in tests
-date:   6 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20220616 (https://download.01.org/0day-ci/archi=
-ve/20220617/202206172043.tO1UzqFb-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   879e09570c469d3320e25aa7f625ded1a2f5c24e
+commit: bb42e8154500a2fea7cb7b4b1976cf76ba29d267 [121/367] xfs: report dir/=
+attr block corruption errors to the health system
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
+ve/20220615/202206151742.zTBR6kB6-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3Dbb42e8154500a2fea7cb7b4b1976cf76ba29d267
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs vectorized-scrub
+        git checkout bb42e8154500a2fea7cb7b4b1976cf76ba29d267
         # save the config file
          ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
@@ -57,226 +56,355 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/crypto/stm32/stm32-cryp.c: In function 'stm32_cryp_prepare_req':
->> drivers/crypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL =
-'*cryp.areq' [CWE-476] [-Wanalyzer-null-dereference]
-    1057 |                 scatterwalk_copychunks(NULL, &cryp->out_walk, cr=
-yp->areq->assoclen, 2);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~
-     'stm32_cryp_prepare_req': events 1-3
+   fs/xfs/libxfs/xfs_dir2_block.c: In function 'xfs_dir2_block_lookup':
+>> fs/xfs/libxfs/xfs_dir2_block.c:653:13: warning: dereference of NULL 'bp'=
+ [CWE-476] [-Wanalyzer-null-dereference]
+     653 |         hdr =3D bp->b_addr;
+         |         ~~~~^~~~~~~~~~~~
+     'xfs_dir2_block_lookup': event 1
        |
-       |  999 |         if (!cryp)
-       |      |            ^
+       |  632 | xfs_dir2_block_lookup(
+       |      | ^~~~~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'xfs_dir2_block_lookup'
+       |
+     'xfs_dir2_block_lookup': event 2
+       |
+       |cc1:
+       | (2): '=1B[01m=1B[Kbp=1B[m=1B[K' is NULL
+       |
+     'xfs_dir2_block_lookup': event 3
+       |
+       |  650 |         if ((error =3D xfs_dir2_block_lookup_int(args, &bp,=
+ &ent)))
+       |      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+       |      |                      |
+       |      |                      (3) calling 'xfs_dir2_block_lookup_int=
+' from 'xfs_dir2_block_lookup'
+       |
+       +--> 'xfs_dir2_block_lookup_int': event 4
+              |
+              |  677 | xfs_dir2_block_lookup_int(
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (4) entry to 'xfs_dir2_block_lookup_int'
+              |
+            'xfs_dir2_block_lookup_int': event 5
+              |
+              |cc1:
+              | (5): '=1B[01m=1B[Kbp=1B[m=1B[K' is NULL
+              |
+            'xfs_dir2_block_lookup_int': events 6-7
+              |
+              |  701 |         if (error)
+              |      |            ^
+              |      |            |
+              |      |            (6) following 'false' branch (when 'error=
+ =3D=3D 0')...
+              |......
+              |  704 |         hdr =3D bp->b_addr;
+              |      |                 ~~
+              |      |                 |
+              |      |                 (7) ...to here
+              |
+            'xfs_dir2_block_lookup_int': event 8
+              |
+              |fs/xfs/xfs_linux.h:206:33:
+              |  206 |         (likely(expr) ? (void)0 : assfail(NULL, #exp=
+r, __FILE__, __LINE__))
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                                 |
+              |      |                                 (8) following 'false=
+' branch...
+   fs/xfs/libxfs/xfs_dir2_block.c:761:9: note: in expansion of macro 'ASSER=
+T'
+              |  761 |         ASSERT(args->op_flags & XFS_DA_OP_OKNOENT);
+              |      |         ^~~~~~
+              |
+            'xfs_dir2_block_lookup_int': events 9-10
+              |
+              |  766 |         if (args->cmpresult =3D=3D XFS_CMP_CASE)
+              |      |            ~~~~~^~~~~~~~~~~
+              |      |            |    |
+              |      |            |    (9) ...to here
+              |      |            (10) following 'true' branch...
+              |
+            'xfs_dir2_block_lookup_int': event 11
+              |
+              |cc1:
+              | (11): ...to here
+              |
+       <------+
+       |
+     'xfs_dir2_block_lookup': events 12-16
+       |
+       |  650 |         if ((error =3D xfs_dir2_block_lookup_int(args, &bp,=
+ &ent)))
+       |      |            ~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+       |      |            |         |
+       |      |            |         (12) returning to 'xfs_dir2_block_look=
+up' from 'xfs_dir2_block_lookup_int'
+       |      |            (13) following 'false' branch (when 'error =3D=
+=3D 0')...
+       |  651 |                 return error;
+       |  652 |         dp =3D args->dp;
+       |      |         ~~~~~~~~~~~~~ =
+
        |      |            |
-       |      |            (1) following 'false' branch (when 'cryp' is non=
--NULL)...
-       |......
-       | 1002 |         rctx =3D req ? skcipher_request_ctx(req) : aead_req=
-uest_ctx(areq);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-       |      |              |
-       |      |              (2) ...to here
-       |      |              (3) following 'true' branch (when 'req' is non=
--NULL)...
+       |      |            (14) ...to here
+       |  653 |         hdr =3D bp->b_addr;
+       |      |         ~~~~~~~~~~~~~~~~
+       |      |             |   |
+       |      |             |   (15) 'bp' is NULL
+       |      |             (16) dereference of NULL 'bp'
        |
-     'stm32_cryp_prepare_req': event 4
+   fs/xfs/libxfs/xfs_dir2_block.c: In function 'xfs_dir2_block_removename':
+   fs/xfs/libxfs/xfs_dir2_block.c:808:13: warning: dereference of NULL 'bp'=
+ [CWE-476] [-Wanalyzer-null-dereference]
+     808 |         hdr =3D bp->b_addr;
+         |         ~~~~^~~~~~~~~~~~
+     'xfs_dir2_block_removename': event 1
        |
-       |include/crypto/internal/skcipher.h:156:16:
-       |  156 |         return req->__ctx;
-       |      |                ^~~
-       |      |                |
-       |      |                (4) ...to here
+       |  780 | xfs_dir2_block_removename(
+       |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'xfs_dir2_block_removename'
        |
-     'stm32_cryp_prepare_req': events 5-6
+--
+   fs/xfs/libxfs/xfs_dir2_node.c: In function 'xfs_dir2_node_addname_int':
+>> fs/xfs/libxfs/xfs_dir2_node.c:1959:13: warning: dereference of NULL 'dbp=
+' [CWE-476] [-Wanalyzer-null-dereference]
+    1959 |         hdr =3D dbp->b_addr;
+         |         ~~~~^~~~~~~~~~~~~
+     'xfs_dir2_node_addname_int': event 1
        |
-       |drivers/crypto/stm32/stm32-cryp.c:1011:12:
-       | 1011 |         if (req) {
-       |      |            ^
+       | 1901 | xfs_dir2_node_addname_int(
+       |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'xfs_dir2_node_addname_int'
+       |
+     'xfs_dir2_node_addname_int': event 2
+       |
+       |cc1:
+       | (2): '=1B[01m=1B[Kdbp=1B[m=1B[K' is NULL
+       |
+     'xfs_dir2_node_addname_int': event 3
+       |
+       |cc1:
+       | (3): '=1B[01m=1B[Kdbp=1B[m=1B[K' is NULL
+       |
+     'xfs_dir2_node_addname_int': event 4
+       |
+       | 1925 |         error =3D xfs_dir2_node_find_freeblk(args, fblk, &d=
+bno, &fbp, &freehdr,
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (4) calling 'xfs_dir2_node_find_freeblk' fr=
+om 'xfs_dir2_node_addname_int'
+       | 1926 |                                            &findex, length);
+       |      |                                            ~~~~~~~~~~~~~~~~
+       |
+       +--> 'xfs_dir2_node_find_freeblk': event 5
+              |
+              | 1796 | xfs_dir2_node_find_freeblk(
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to 'xfs_dir2_node_find_freeblk'
+              |
+            'xfs_dir2_node_find_freeblk': event 6
+              |
+              |cc1:
+              | (6): '=1B[01m=1B[Kfbp=1B[m=1B[K' is NULL
+              |
+       <------+
+       |
+     'xfs_dir2_node_addname_int': events 7-14
+       |
+       | 1925 |         error =3D xfs_dir2_node_find_freeblk(args, fblk, &d=
+bno, &fbp, &freehdr,
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (7) returning to 'xfs_dir2_node_addname_int=
+' from 'xfs_dir2_node_find_freeblk'
+       | 1926 |                                            &findex, length);
+       |      |                                            ~~~~~~~~~~~~~~~~
+       | 1927 |         if (error)
+       |      |            ~     =
+
        |      |            |
-       |      |            (5) following 'true' branch (when 'req' is non-N=
-ULL)...
-       | 1012 |                 cryp->req =3D req;
-       |      |                 ~~~~~~~~~~~~~~~
-       |      |                           |
-       |      |                           (6) ...to here
-       |
-     'stm32_cryp_prepare_req': events 7-13
-       |
-       | 1013 |                 cryp->areq =3D NULL;
+       |      |            (8) following 'false' branch (when 'error =3D=3D=
+ 0')...
        |......
-       | 1049 |         in_sg =3D req ? req->src : areq->src;
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                |
-       |      |                                (8) following 'true' branch =
-(when 'req' is non-NULL)...
-       |      |                                (9) ...to here
+       | 1934 |         if (args->op_flags & XFS_DA_OP_JUSTCHECK) {
+       |      |            ~~~~~~~~~~~~~~~
+       |      |            |    |
+       |      |            |    (9) ...to here
+       |      |            (10) following 'false' branch...
        |......
-       | 1052 |         cryp->out_sg =3D req ? req->dst : areq->dst;
-       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                       |
-       |      |                                       (10) following 'true'=
- branch (when 'req' is non-NULL)...
-       |      |                                       (11) ...to here
+       | 1944 |         if (dbno =3D=3D -1) {
+       |      |            ~~~~~~~~~~~
+       |      |            |     |
+       |      |            |     (11) ...to here
+       |      |            (12) following 'true' branch...
        |......
-       | 1057 |                 scatterwalk_copychunks(NULL, &cryp->out_wal=
-k, cryp->areq->assoclen, 2);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |                                          =
+       | 1947 |                 error =3D xfs_dir2_node_add_datablk(args, f=
+blk, &dbno, &dbp, &fbp,
+       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (13) ...to here
+       |      |                         (14) calling 'xfs_dir2_node_add_dat=
+ablk' from 'xfs_dir2_node_addname_int'
+       | 1948 |                                                   &freehdr,=
+ &findex);
+       |      |                                                   ~~~~~~~~~=
+~~~~~~~~~
        |
-       |      |                 (13) dereference of NULL '*cryp.areq'      =
-       (12) '*cryp.areq' is NULL
+       +--> 'xfs_dir2_node_add_datablk': event 15
+              |
+              | 1683 | xfs_dir2_node_add_datablk(
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (15) entry to 'xfs_dir2_node_add_datablk'
+              |
+            'xfs_dir2_node_add_datablk': event 16
+              |
+              |cc1:
+              | (16): '=1B[01m=1B[Kfbp=1B[m=1B[K' is NULL
+              |
+            'xfs_dir2_node_add_datablk': event 17
+              |
+              |cc1:
+              | (17): '=1B[01m=1B[Kfbp=1B[m=1B[K' is NULL
+              |
+       <------+
        |
+     'xfs_dir2_node_addname_int': events 18-22
+       |
+       | 1947 |                 error =3D xfs_dir2_node_add_datablk(args, f=
+blk, &dbno, &dbp, &fbp,
+       |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (18) returning to 'xfs_dir2_node_ad=
+dname_int' from 'xfs_dir2_node_add_datablk'
 
-vim +1057 drivers/crypto/stm32/stm32-cryp.c
+vim +/bp +653 fs/xfs/libxfs/xfs_dir2_block.c
 
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   981  =
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 626  =
 
-47ece4813f19f1 Ard Biesheuvel     2019-11-09   982  static int stm32_cryp_p=
-repare_req(struct skcipher_request *req,
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   983  				  struct aead_reque=
-st *areq)
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   984  {
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   985  	struct stm32_cryp_ctx =
-*ctx;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   986  	struct stm32_cryp *cry=
-p;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   987  	struct stm32_cryp_reqc=
-tx *rctx;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30   988  	struct scatterlist *in=
-_sg;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   989  	int ret;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   990  =
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 627  /*
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 628   * Look up an entry in the block.  This is the external routine,
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 629   * xfs_dir2_block_lookup_int does the real work.
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 630   */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 631  int						/* error */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 632  xfs_dir2_block_lookup(
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 633  	xfs_da_args_t		*args)		/* dir lookup arguments */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 634  {
+4f6ae1a49ed5c8 fs/xfs/xfs_dir2_block.c        Christoph Hellwig 2011-07-08 =
+ 635  	xfs_dir2_data_hdr_t	*hdr;		/* block header */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 636  	xfs_dir2_leaf_entry_t	*blp;		/* block leaf entries */
+1d9025e56143c0 fs/xfs/xfs_dir2_block.c        Dave Chinner      2012-06-22 =
+ 637  	struct xfs_buf		*bp;		/* block buffer */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 638  	xfs_dir2_block_tail_t	*btp;		/* block tail */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 639  	xfs_dir2_data_entry_t	*dep;		/* block data entry */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 640  	xfs_inode_t		*dp;		/* incore inode */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 641  	int			ent;		/* entry index */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 642  	int			error;		/* error return value */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 643  =
 
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   991  	if (!req && !areq)
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   992  		return -EINVAL;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   993  =
+0b1b213fcf3a84 fs/xfs/xfs_dir2_block.c        Christoph Hellwig 2009-12-14 =
+ 644  	trace_xfs_dir2_block_lookup(args);
+0b1b213fcf3a84 fs/xfs/xfs_dir2_block.c        Christoph Hellwig 2009-12-14 =
+ 645  =
 
-47ece4813f19f1 Ard Biesheuvel     2019-11-09   994  	ctx =3D req ? crypto_s=
-kcipher_ctx(crypto_skcipher_reqtfm(req)) :
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   995  		    crypto_aead_ctx(c=
-rypto_aead_reqtfm(areq));
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   996  =
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 646  	/*
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 647  	 * Get the buffer, look up the entry.
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 648  	 * If not found (ENOENT) then return, have no buffer.
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 649  	 */
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 650  	if ((error =3D xfs_dir2_block_lookup_int(args, &bp, &ent)))
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 651  		return error;
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 652  	dp =3D args->dp;
+1d9025e56143c0 fs/xfs/xfs_dir2_block.c        Dave Chinner      2012-06-22 =
+@653  	hdr =3D bp->b_addr;
+33363feed1614d fs/xfs/xfs_dir2_block.c        Dave Chinner      2013-04-03 =
+ 654  	xfs_dir3_data_check(dp, bp);
+8f66193c89f0b0 fs/xfs/xfs_dir2_block.c        Dave Chinner      2014-06-06 =
+ 655  	btp =3D xfs_dir2_block_tail_p(args->geo, hdr);
+bbaaf53808c778 fs/xfs/xfs_dir2_block.c        Christoph Hellwig 2007-06-28 =
+ 656  	blp =3D xfs_dir2_block_leaf_p(btp);
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 657  	/*
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 658  	 * Get the offset from the leaf entry, to point to the data.
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 659  	 */
+4f6ae1a49ed5c8 fs/xfs/xfs_dir2_block.c        Christoph Hellwig 2011-07-08 =
+ 660  	dep =3D (xfs_dir2_data_entry_t *)((char *)hdr +
+30028030b14d08 fs/xfs/xfs_dir2_block.c        Dave Chinner      2014-06-06 =
+ 661  			xfs_dir2_dataptr_to_off(args->geo,
+30028030b14d08 fs/xfs/xfs_dir2_block.c        Dave Chinner      2014-06-06 =
+ 662  						be32_to_cpu(blp[ent].address)));
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 663  	/*
+384f3ced07efdd fs/xfs/xfs_dir2_block.c        Barry Naujok      2008-05-21 =
+ 664  	 * Fill in inode number, CI name if appropriate, release the block.
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 665  	 */
+ff9901c1e7c7be fs/xfs/xfs_dir2_block.c        Christoph Hellwig 2006-06-09 =
+ 666  	args->inumber =3D be64_to_cpu(dep->inumber);
+59b8b465058ec2 fs/xfs/libxfs/xfs_dir2_block.c Christoph Hellwig 2019-11-08 =
+ 667  	args->filetype =3D xfs_dir2_data_get_ftype(dp->i_mount, dep);
+384f3ced07efdd fs/xfs/xfs_dir2_block.c        Barry Naujok      2008-05-21 =
+ 668  	error =3D xfs_dir_cilookup_result(args, dep->name, dep->namelen);
+1d9025e56143c0 fs/xfs/xfs_dir2_block.c        Dave Chinner      2012-06-22 =
+ 669  	xfs_trans_brelse(args->trans, bp);
+b474c7ae4395ba fs/xfs/xfs_dir2_block.c        Eric Sandeen      2014-06-22 =
+ 670  	return error;
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 671  }
+^1da177e4c3f41 fs/xfs/xfs_dir2_block.c        Linus Torvalds    2005-04-16 =
+ 672  =
 
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   997  	cryp =3D ctx->cryp;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   998  =
 
-9e054ec21ef834 Fabien DESSENNE    2017-10-19   999  	if (!cryp)
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1000  		return -ENODEV;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1001  =
+:::::: The code at line 653 was first introduced by commit
+:::::: 1d9025e56143c0c4aebebdb62e46618d3d284218 xfs: remove struct xfs_dabu=
+f and infrastructure
 
-47ece4813f19f1 Ard Biesheuvel     2019-11-09  1002  	rctx =3D req ? skciphe=
-r_request_ctx(req) : aead_request_ctx(areq);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1003  	rctx->mode &=3D FLG_MO=
-DE_MASK;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1004  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1005  	ctx->cryp =3D cryp;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1006  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1007  	cryp->flags =3D (cryp-=
->flags & ~FLG_MODE_MASK) | rctx->mode;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1008  	cryp->hw_blocksize =3D=
- is_aes(cryp) ? AES_BLOCK_SIZE : DES_BLOCK_SIZE;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1009  	cryp->ctx =3D ctx;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1010  =
-
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1011  	if (req) {
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1012  		cryp->req =3D req;
-29aed438e87020 Lionel Debieve     2019-04-24  1013  		cryp->areq =3D NULL;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1014  		cryp->header_in =3D 0;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1015  		cryp->payload_in =3D =
-req->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1016  		cryp->payload_out =3D=
- req->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1017  		cryp->authsize =3D 0;
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1018  	} else {
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1019  		/*
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1020  		 * Length of input an=
-d output data:
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1021  		 * Encryption case:
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1022  		 *  INPUT  =3D AssocD=
-ata   ||     PlainText
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1023  		 *          <- assocl=
-en ->  <- cryptlen ->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1024  		 *
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1025  		 *  OUTPUT =3D AssocD=
-ata    ||   CipherText   ||      AuthTag
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1026  		 *          <- assocl=
-en ->  <-- cryptlen -->  <- authsize ->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1027  		 *
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1028  		 * Decryption case:
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1029  		 *  INPUT  =3D  Assoc=
-Data     ||    CipherTex   ||       AuthTag
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1030  		 *          <- assocl=
-en --->  <---------- cryptlen ---------->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1031  		 *
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1032  		 *  OUTPUT =3D AssocD=
-ata    ||               PlainText
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1033  		 *          <- assocl=
-en ->  <- cryptlen - authsize ->
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1034  		 */
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1035  		cryp->areq =3D areq;
-29aed438e87020 Lionel Debieve     2019-04-24  1036  		cryp->req =3D NULL;
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1037  		cryp->authsize =3D cr=
-ypto_aead_authsize(crypto_aead_reqtfm(areq));
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1038  		if (is_encrypt(cryp))=
- {
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1039  			cryp->payload_in =3D=
- areq->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1040  			cryp->header_in =3D =
-areq->assoclen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1041  			cryp->payload_out =
-=3D areq->cryptlen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1042  		} else {
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1043  			cryp->payload_in =3D=
- areq->cryptlen - cryp->authsize;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1044  			cryp->header_in =3D =
-areq->assoclen;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1045  			cryp->payload_out =
-=3D cryp->payload_in;
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1046  		}
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1047  	}
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1048  =
-
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1049  	in_sg =3D req ? req->s=
-rc : areq->src;
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1050  	scatterwalk_start(&cry=
-p->in_walk, in_sg);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1051  =
-
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1052  	cryp->out_sg =3D req ?=
- req->dst : areq->dst;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1053  	scatterwalk_start(&cry=
-p->out_walk, cryp->out_sg);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1054  =
-
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1055  	if (is_gcm(cryp) || is=
-_ccm(cryp)) {
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1056  		/* In output, jump af=
-ter assoc data */
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30 @1057  		scatterwalk_copychunk=
-s(NULL, &cryp->out_walk, cryp->areq->assoclen, 2);
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1058  	}
-9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1059  =
-
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1060  	if (is_ctr(cryp))
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1061  		memset(cryp->last_ctr=
-, 0, sizeof(cryp->last_ctr));
-4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1062  =
-
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1063  	ret =3D stm32_cryp_hw_=
-init(cryp);
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1064  	return ret;
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1065  }
-9e054ec21ef834 Fabien DESSENNE    2017-10-19  1066  =
-
+:::::: TO: Dave Chinner <dchinner@redhat.com>
+:::::: CC: Ben Myers <bpm@sgi.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7699691001138890880==--
+--===============8208487898947176722==--
 
