@@ -1,86 +1,221 @@
-Content-Type: multipart/mixed; boundary="===============0332791573656066283=="
+Content-Type: multipart/mixed; boundary="===============3347000249402735090=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm64/mm/mmap.c:77 vm_get_page_prot() warn: bitwise AND condition is false here
-Date: Thu, 16 Jun 2022 03:14:17 +0800
-Message-ID: <202206160306.zkaxKedS-lkp@intel.com>
+Subject: include/linux/etherdevice.h:126:13: warning: dereference of NULL 'addr' [CWE-476]
+Date: Thu, 16 Jun 2022 01:53:03 +0800
+Message-ID: <202206160157.GrdNOiaV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0332791573656066283==
+--===============3347000249402735090==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/linux/etherdevice.h:126:13: warning: dereference of NULL 'addr' [C=
+WE-476] [-Wanalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Anshuman Khandual <anshuman.khandual@arm.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Catalin Marinas <catalin.marinas@arm.com>
+TO: Nikolay Aleksandrov <razor@blackwall.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   979086f5e0066b4eff66e1eee123da228489985c
-commit: b3aca728fb276782ab3c851aedaf3d19b33faabe arm64/mm: enable ARCH_HAS_=
-VM_GET_PAGE_PROT
-date:   7 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 weeks ago
-config: arm64-randconfig-m031-20220615 (https://download.01.org/0day-ci/arc=
-hive/20220616/202206160306.zkaxKedS-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
+head:   018ab4fabddd94f1c96f3b59e180691b9e88d5d8
+commit: 9e83425993f38bb89e0ea07849ba0039a748e85b net: rtnetlink: add NLM_F_=
+BULK support to rtnl_fdb_del
+date:   9 weeks ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 9 weeks ago
+config: x86_64-randconfig-c001-20220613 (https://download.01.org/0day-ci/ar=
+chive/20220616/202206160157.GrdNOiaV-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9e83425993f38bb89e0ea07849ba0039a748e85b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9e83425993f38bb89e0ea07849ba0039a748e85b
+        # save the config file
+         ARCH=3Dx86_64 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/arm64/mm/mmap.c:77 vm_get_page_prot() warn: bitwise AND condition is f=
-alse here
 
-vim +77 arch/arm64/mm/mmap.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/if_vlan.h:11,
+                    from net/core/rtnetlink.c:36:
+   net/core/rtnetlink.c: In function 'ndo_dflt_fdb_del':
+>> include/linux/etherdevice.h:126:13: warning: dereference of NULL 'addr' =
+[CWE-476] [-Wanalyzer-null-dereference]
+     126 |         u32 a =3D *(const u32 *)addr;
+         |             ^
+     'rtnl_fdb_del': events 1-4
+       |
+       |net/core/rtnetlink.c:4177:12:
+       | 4177 | static int rtnl_fdb_del(struct sk_buff *skb, struct nlmsghd=
+r *nlh,
+       |      |            ^~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'rtnl_fdb_del'
+       |......
+       | 4190 |         if (!netlink_capable(skb, CAP_NET_ADMIN))
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'true' branch...
+       |......
+       | 4193 |         if (!del_bulk) {
+       |      |            ~
+       |      |            |
+       |      |            (3) ...to here
+       |......
+       | 4200 |         if (err < 0)
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'false' branch (when 'err >=3D 0')=
+...
+       |
+     'rtnl_fdb_del': event 5
+       |
+       |include/net/netlink.h:570:38:
+       |  570 |         return (unsigned char *) nlh + NLMSG_HDRLEN;
+       |
+     'rtnl_fdb_del': events 6-22
+       |
+       |net/core/rtnetlink.c:4204:12:
+       | 4204 |         if (ndm->ndm_ifindex =3D=3D 0) {
+       |      |            ^
+       |      |            |
+       |      |            (6) following 'false' branch...
+       |......
+       | 4209 |         dev =3D __dev_get_by_index(net, ndm->ndm_ifindex);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (7) ...to here
+       | 4210 |         if (dev =3D=3D NULL) {
+       |      |            ~
+       |      |            |
+       |      |            (8) following 'false' branch (when 'dev' is non-=
+NULL)...
+       |......
+       | 4215 |         if (!del_bulk) {
+       |      |            ~
+       |      |            |
+       |      |            (9) ...to here
+       |      |            (10) following 'false' branch...
+       |......
+       | 4223 |         if (dev->type !=3D ARPHRD_ETHER) {
+       |      |            ~~~~~~~~~~
+       |      |            |   |
+       |      |            |   (11) ...to here
+       |      |            (12) following 'false' branch...
+       |......
+       | 4228 |         err =3D fdb_vid_parse(tb[NDA_VLAN], &vid, extack);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (13) ...to here
+       | 4229 |         if (err)
+       |      |            ~
+       |      |            |
+       |      |            (14) following 'false' branch (when 'err =3D=3D =
+0')...
+       |......
+       | 4235 |         if ((!ndm->ndm_flags || ndm->ndm_flags & NTF_MASTER=
+) &&
+       |      |               ~~~~~~~~~~~~~~
+       |      |                  |
+       |      |                  (15) ...to here
+       |......
+       | 4256 |         if (ndm->ndm_flags & NTF_SELF) {
+       |      |            ~
+       |      |            |
+       |      |            (16) following 'true' branch...
+       | 4257 |                 ops =3D dev->netdev_ops;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (17) ...to here
+       | 4258 |                 if (!del_bulk) {
+       |      |                    ~
+       |      |                    |
+       |      |                    (18) following 'true' branch...
+       | 4259 |                         if (ops->ndo_fdb_del)
+       |      |                            ~~~~~~~~~~~~~~~~~
+       |      |                            |   |
+       |      |                            |   (19) ...to here
+       |      |                            (20) following 'false' branch...
+       |......
+       | 4262 |                                 err =3D ndo_dflt_fdb_del(nd=
+m, tb, dev, addr, vid);
+       |      |                                       ~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~
+       |      |                                       |
+       |      |                                       (21) ...to here
+       |      |                                       (22) calling 'ndo_dfl=
+t_fdb_del' from 'rtnl_fdb_del'
+       |
+       +--> 'ndo_dflt_fdb_del': events 23-24
+              |
+              | 4148 | int ndo_dflt_fdb_del(struct ndmsg *ndm,
 
-b3aca728fb2767 Anshuman Khandual 2022-04-28  58  =
+vim +/addr +126 include/linux/etherdevice.h
 
-b3aca728fb2767 Anshuman Khandual 2022-04-28  59  pgprot_t vm_get_page_prot(=
-unsigned long vm_flags)
-b3aca728fb2767 Anshuman Khandual 2022-04-28  60  {
-b3aca728fb2767 Anshuman Khandual 2022-04-28  61  	pteval_t prot =3D pgprot_=
-val(protection_map[vm_flags &
-b3aca728fb2767 Anshuman Khandual 2022-04-28  62  				   (VM_READ|VM_WRITE|V=
-M_EXEC|VM_SHARED)]);
-b3aca728fb2767 Anshuman Khandual 2022-04-28  63  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  115  =
 
-b3aca728fb2767 Anshuman Khandual 2022-04-28  64  	if (vm_flags & VM_ARM64_B=
-TI)
-b3aca728fb2767 Anshuman Khandual 2022-04-28  65  		prot |=3D PTE_GP;
-b3aca728fb2767 Anshuman Khandual 2022-04-28  66  =
+79165121bc09c2 Michael Ellerman  2005-05-29  116  /**
+c2da8acaf488b8 Stephen Hemminger 2005-11-01  117   * is_multicast_ether_add=
+r - Determine if the Ethernet address is a multicast.
+79165121bc09c2 Michael Ellerman  2005-05-29  118   * @addr: Pointer to a si=
+x-byte array containing the Ethernet address
+79165121bc09c2 Michael Ellerman  2005-05-29  119   *
+79165121bc09c2 Michael Ellerman  2005-05-29  120   * Return true if the add=
+ress is a multicast address.
+88df8ef59a3eb5 Stephen Hemminger 2006-01-03  121   * By definition the broa=
+dcast address is also a multicast address.
+79165121bc09c2 Michael Ellerman  2005-05-29  122   */
+b44907e64cc198 Joe Perches       2012-05-08  123  static inline bool is_mul=
+ticast_ether_addr(const u8 *addr)
+79165121bc09c2 Michael Ellerman  2005-05-29  124  {
+d54385ce68cd18 Alexander Duyck   2015-04-30  125  #if defined(CONFIG_HAVE_E=
+FFICIENT_UNALIGNED_ACCESS)
+d54385ce68cd18 Alexander Duyck   2015-04-30 @126  	u32 a =3D *(const u32 *)=
+addr;
+d54385ce68cd18 Alexander Duyck   2015-04-30  127  #else
+d54385ce68cd18 Alexander Duyck   2015-04-30  128  	u16 a =3D *(const u16 *)=
+addr;
+d54385ce68cd18 Alexander Duyck   2015-04-30  129  #endif
+d54385ce68cd18 Alexander Duyck   2015-04-30  130  #ifdef __BIG_ENDIAN
+d54385ce68cd18 Alexander Duyck   2015-04-30  131  	return 0x01 & (a >> ((si=
+zeof(a) * 8) - 8));
+d54385ce68cd18 Alexander Duyck   2015-04-30  132  #else
+d54385ce68cd18 Alexander Duyck   2015-04-30  133  	return 0x01 & a;
+d54385ce68cd18 Alexander Duyck   2015-04-30  134  #endif
+d54385ce68cd18 Alexander Duyck   2015-04-30  135  }
+d54385ce68cd18 Alexander Duyck   2015-04-30  136  =
 
-b3aca728fb2767 Anshuman Khandual 2022-04-28  67  	/*
-b3aca728fb2767 Anshuman Khandual 2022-04-28  68  	 * There are two conditio=
-ns required for returning a Normal Tagged
-b3aca728fb2767 Anshuman Khandual 2022-04-28  69  	 * memory type: (1) the u=
-ser requested it via PROT_MTE passed to
-b3aca728fb2767 Anshuman Khandual 2022-04-28  70  	 * mmap() or mprotect() a=
-nd (2) the corresponding vma supports MTE. We
-b3aca728fb2767 Anshuman Khandual 2022-04-28  71  	 * register (1) as VM_MTE=
- in the vma->vm_flags and (2) as
-b3aca728fb2767 Anshuman Khandual 2022-04-28  72  	 * VM_MTE_ALLOWED. Note t=
-hat the latter can only be set during the
-b3aca728fb2767 Anshuman Khandual 2022-04-28  73  	 * mmap() call since mpro=
-tect() does not accept MAP_* flags.
-b3aca728fb2767 Anshuman Khandual 2022-04-28  74  	 * Checking for VM_MTE on=
-ly is sufficient since arch_validate_flags()
-b3aca728fb2767 Anshuman Khandual 2022-04-28  75  	 * does not permit (VM_MT=
-E & !VM_MTE_ALLOWED).
-b3aca728fb2767 Anshuman Khandual 2022-04-28  76  	 */
-b3aca728fb2767 Anshuman Khandual 2022-04-28 @77  	if (vm_flags & VM_MTE)
+
+:::::: The code at line 126 was first introduced by commit
+:::::: d54385ce68cd18ab002b46f61246ad197cec92de etherdev: Process is_multic=
+ast_ether_addr at same size as other operations
+
+:::::: TO: Alexander Duyck <alexander.h.duyck@redhat.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0332791573656066283==--
+--===============3347000249402735090==--
 
