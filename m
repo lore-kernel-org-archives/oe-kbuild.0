@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8288091142916115549=="
+Content-Type: multipart/mixed; boundary="===============0712165166189800045=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: fs/cifs/cifssmb.c:1386:17: warning: dereference of NULL 'tcon' [CWE-476]
-Date: Thu, 16 Jun 2022 06:58:46 +0800
-Message-ID: <202206160622.tpWgArPl-lkp@intel.com>
+Date: Thu, 16 Jun 2022 04:15:57 +0800
+Message-ID: <202206160424.O3ChW9zW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8288091142916115549==
+--===============0712165166189800045==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -28,14 +28,14 @@ TO: Tanner Love <tannerlove@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   afe9eb14ea1cbac5d91ca04eb64810d2d9fa22b0
+head:   979086f5e0066b4eff66e1eee123da228489985c
 commit: a358f40600b3b39ae3906b6118625b99c0aa7a34 once: implement DO_ONCE_LI=
 TE for non-fast-path "do once" functionality
 date:   12 months ago
-:::::: branch date: 3 hours ago
+:::::: branch date: 4 hours ago
 :::::: commit date: 12 months ago
 config: i386-randconfig-c001-20220613 (https://download.01.org/0day-ci/arch=
-ive/20220616/202206160622.tpWgArPl-lkp(a)intel.com/config)
+ive/20220616/202206160424.O3ChW9zW-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
@@ -394,5 +394,5 @@ a5a2b489bae8f6 Steve French    2005-08-20  1435  =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8288091142916115549==--
+--===============0712165166189800045==--
 
