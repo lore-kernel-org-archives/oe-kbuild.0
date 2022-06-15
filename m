@@ -1,377 +1,221 @@
-Content-Type: multipart/mixed; boundary="===============6088128731316865134=="
+Content-Type: multipart/mixed; boundary="===============1902619401516913423=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH net-next v3 2/3] net/macsec: Add MACsec skb extension Rx Data path support
-Date: Wed, 15 Jun 2022 21:16:52 +0800
-Message-ID: <202206152156.8ckKlv4A-lkp@intel.com>
+Subject: drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shadows outer argument [shadowArgument]
+Date: Wed, 15 Jun 2022 18:33:04 +0800
+Message-ID: <202206151813.cfX3lzX2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6088128731316865134==
+--===============1902619401516913423==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: net/core/=
-gro.c:417:77: warning: dereference of NULL 'macsec_p_ext' [CWE-476] [-Wanal=
-yzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shadows outer arg=
+ument [shadowArgument]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220613111942.12726-3-liorna@nvidia.com>
-References: <20220613111942.12726-3-liorna@nvidia.com>
-TO: Lior Nahmanson <liorna@nvidia.com>
-TO: edumazet(a)google.com
-TO: kuba(a)kernel.org
-TO: pabeni(a)redhat.com
-CC: davem(a)davemloft.net
-CC: netdev(a)vger.kernel.org
-CC: Lior Nahmanson <liorna@nvidia.com>
-CC: Raed Salem <raeds@nvidia.com>
-CC: Jiri Pirko <jiri@nvidia.com>
-CC: "Ben Ben-Ishay" <benishay@nvidia.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
 
-Hi Lior,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lior-Nahmanson/Intro=
-duce-MACsec-offload-SKB-extension/20220613-211703
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-5f30671d8dc6b7a489435ce8c40a2036e3c16d04
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c001-20220613 (https://download.01.org/0day-ci/ar=
-chive/20220615/202206152156.8ckKlv4A-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9ee59a567b790747e39=
-e7cdd959991b4d994fc52
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lior-Nahmanson/Introduce-MACsec-of=
-fload-SKB-extension/20220613-211703
-        git checkout 9ee59a567b790747e39e7cdd959991b4d994fc52
-        # save the config file
-         ARCH=3Dx86_64 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   018ab4fabddd94f1c96f3b59e180691b9e88d5d8
+commit: 89fb7536ad2fdcdaf95eee44b9e162d0522f48dc drm/edid: add typedef for =
+block read function
+date:   9 weeks ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 9 weeks ago
+compiler: hppa-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 89fb7536ad2fdcdaf95eee44b9e162d0522f48dc
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-              |  487 | static enum gro_result dev_gro_receive(struct napi_s=
-truct *napi, struct sk_buff *skb)
-              |      |                        ^~~~~~~~~~~~~~~
-              |      |                        |
-              |      |                        (12) entry to 'dev_gro_receiv=
-e'
-              |
-            'dev_gro_receive': event 13
-              |
-              |include/linux/netdevice.h:2340:12:
-              | 2340 |         if (!(dev->features & NETIF_F_GRO) || dev->x=
-dp_prog)
-              |      |            ^
-              |      |            |
-              |      |            (13) following 'false' branch...
-              |
-            'dev_gro_receive': event 14
-              |
-              |net/core/gro.c:502:26:
-              |  502 |         gro_list_prepare(&gro_list->list, skb);
-              |      |                          ^~~~~~~~~~~~~~~
-              |      |                          |
-              |      |                          (14) ...to here
-              |
-            'dev_gro_receive': event 15
-              |
-              |include/linux/rculist.h:392:30:
-              |  392 |                 &pos->member !=3D (head);           =
-                      \
-              |      |                 ~~~~~~~~~~~~~^~~~~~~~~
-              |      |                              |
-              |      |                              (15) following 'true' b=
-ranch...
-   net/core/gro.c:505:9: note: in expansion of macro 'list_for_each_entry_r=
-cu'
-              |  505 |         list_for_each_entry_rcu(ptype, head, list) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'dev_gro_receive': events 16-19
-              |
-              |  506 |                 if (ptype->type !=3D type || !ptype-=
->callbacks.gro_receive)
-              |      |                     ~~~~~^~~~~~
-              |      |                          |
-              |      |                          (16) ...to here
-              |......
-              |  536 |         if (&ptype->list =3D=3D head)
-              |      |            ~              =
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/pci.c:2075:10: warning: Local variable 'size' shadows =
+outer variable [shadowVariable]
+     size_t size =3D le32_to_cpu(descs[i].size) * NVME_CTRL_PAGE_SIZE;
+            ^
+   drivers/nvme/host/pci.c:2031:6: note: Shadowed declaration
+    u64 size, tmp;
+        ^
+   drivers/nvme/host/pci.c:2075:10: note: Shadow variable
+     size_t size =3D le32_to_cpu(descs[i].size) * NVME_CTRL_PAGE_SIZE;
+            ^
 
-              |      |            |
-              |      |            (17) following 'false' branch...
-              |......
-              |  539 |         if (PTR_ERR(pp) =3D=3D -EINPROGRESS) {
-              |      |            ~              =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-              |      |            |
-              |      |            (18) ...to here
-              |      |            (19) following 'false' branch (when 'pp !=
-=3D 18446744073709551501')...
-              |
-            'dev_gro_receive': events 20-23
-              |
-              |  544 |         same_flow =3D NAPI_GRO_CB(skb)->same_flow;
-              |......
-              |  547 |         if (pp) {
-              |      |            ~                         =
+>> drivers/pci/pci-sysfs.c:1272:47: warning: Parameter 'buf' can be declare=
+d with const [constParameter]
+           struct bin_attribute *bin_attr, char *buf,
+                                                 ^
+>> drivers/gpu/drm/ttm/ttm_bo.c:1098:28: warning: Local variable 'ctx' shad=
+ows outer argument [shadowArgument]
+     struct ttm_operation_ctx ctx =3D { false, false };
+                              ^
+   drivers/gpu/drm/ttm/ttm_bo.c:1058:76: note: Shadowed declaration
+   int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ct=
+x *ctx,
+                                                                           =
+   ^
+   drivers/gpu/drm/ttm/ttm_bo.c:1098:28: note: Shadow variable
+     struct ttm_operation_ctx ctx =3D { false, false };
+                              ^
+--
+>> drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shado=
+ws outer argument [shadowArgument]
+     void *block =3D edid + j;
+           ^
+   drivers/gpu/drm/drm_edid.c:2101:0: note: Shadowed declaration
+           read_block_fn read_block,
+   ^
+   drivers/gpu/drm/drm_edid.c:2124:9: note: Shadow variable
+     void *block =3D edid + j;
+           ^
 
-              |      |            |
-              |      |            (21) following 'false' branch (when 'pp' =
-is NULL)...
-              |......
-              |  553 |         if (same_flow)
-              |      |            ~                         =
+vim +/block +2124 drivers/gpu/drm/drm_edid.c
 
-              |      |            |
-              |      |            (22) ...to here
-              |      |            (23) following 'false' branch...
-              |
-            'dev_gro_receive': events 24-25
-              |
-              |  556 |         if (NAPI_GRO_CB(skb)->flush)
-              |      |            ~                 =
+bac9c29482248b0 Douglas Anderson   2021-09-14  2079  =
 
-              |      |            |
-              |      |            (25) following 'false' branch...
-              |
-            'dev_gro_receive': event 26
-              |
-              |  559 |         if (unlikely(gro_list->count >=3D MAX_GRO_SK=
-BS))
-              |      |                      ~~~~~~~~^~~~~~~
-              |      |                              |
-              |      |                              (26) ...to here
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-              |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-              |      |                                             ^
-              |
-            'dev_gro_receive': event 27
-              |
-              |net/core/gro.c:566:32:
-              |  566 |         NAPI_GRO_CB(skb)->last =3D skb;
-              |
-            'dev_gro_receive': event 28
-              |
-              |  566 |         NAPI_GRO_CB(skb)->last =3D skb;
-              |
-            'dev_gro_receive': event 29
-              |
-              |include/net/gro.h:128:19:
-              |  128 |         return skb->len - NAPI_GRO_CB(skb)->data_off=
-set;
-              |      |                ~~~^~~~~
-              |      |                   |
-              |      |                   (29) dereference of NULL 'skb'
-              |
-   include/linux/skbuff.h: In function 'gro_list_prepare':
->> net/core/gro.c:417:77: warning: dereference of NULL 'macsec_p_ext' [CWE-=
-476] [-Wanalyzer-null-dereference]
-     417 |                                 diffs |=3D (__force unsigned lon=
-g)macsec_p_ext->sci ^
-         |                                                                 =
-~~~~~~~~~~~~^~~~~
-     'napi_gro_frags': events 1-2
-       |
-       |  773 | gro_result_t napi_gro_frags(struct napi_struct *napi)
-       |      |              ^~~~~~~~~~~~~~
-       |      |              |
-       |      |              (1) entry to 'napi_gro_frags'
-       |......
-       |  776 |         struct sk_buff *skb =3D napi_frags_skb(napi);
-       |      |                               ~~~~~~~~~~~~~~~~~~~~
-       |      |                               |
-       |      |                               (2) calling 'napi_frags_skb' =
-from 'napi_gro_frags'
-       |
-       +--> 'napi_frags_skb': events 3-6
-              |
-              |  736 | static struct sk_buff *napi_frags_skb(struct napi_st=
-ruct *napi)
-              |      |                        ^~~~~~~~~~~~~~
-              |      |                        |
-              |      |                        (3) entry to 'napi_frags_skb'
-              |......
-              |  747 |         if (unlikely(skb_gro_header_hard(skb, hlen))=
-) {
-              |      |            ~            =
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2080  /**
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2081   * drm_do_get_edid - g=
+et EDID data using a custom EDID block read function
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2082   * @connector: connect=
+or we're probing
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2083   * @get_edid_block: ED=
+ID block read function
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2084   * @data: private data=
+ passed to the block read function
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2085   *
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2086   * When the I2C adapte=
+r connected to the DDC bus is hidden behind a device that
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2087   * exposes a different=
+ interface to read EDID blocks this function can be used
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2088   * to get EDID data us=
+ing a custom block read function.
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2089   *
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2090   * As in the general c=
+ase the DDC bus is accessible by the kernel at the I2C
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2091   * level, drivers must=
+ make all reasonable efforts to expose it as an I2C
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2092   * adapter and use drm=
+_get_edid() instead of abusing this function.
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2093   *
+0ae865ef92f1920 Cai Huoqing        2021-07-30  2094   * The EDID may be ove=
+rridden using debugfs override_edid or firmware EDID
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2095   * (drm_load_edid_firm=
+ware() and drm.edid_firmware parameter), in this priority
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2096   * order. Having eithe=
+r of them bypasses actual EDID reads.
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2097   *
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2098   * Return: Pointer to =
+valid EDID or NULL if we couldn't find any.
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2099   */
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2100  struct edid *drm_do_ge=
+t_edid(struct drm_connector *connector,
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2101  			     read_block_fn =
+read_block,
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2102  			     void *context)
+61e57a8d72f2336 Adam Jackson       2010-03-29  2103  {
+ccc97def44ecc08 Jani Nikula        2022-03-31  2104  	int j, invalid_blocks=
+ =3D 0;
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2105  	struct edid *edid, *n=
+ew, *override;
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2106  =
 
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |  748 |                 eth =3D skb_gro_header_slow(skb, hle=
-n, 0);
-              |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-              |      |                       |
-              |      |                       (5) ...to here
-              |  749 |                 if (unlikely(!eth)) {
-              |      |                    ~    =
+56a2b7f2a39a8d4 Jani Nikula        2019-06-07  2107  	override =3D drm_get_=
+override_edid(connector);
+56a2b7f2a39a8d4 Jani Nikula        2019-06-07  2108  	if (override)
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2109  		return override;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2110  =
 
-              |      |                    |
-              |      |                    (6) following 'true' branch...
-              |
-            'napi_frags_skb': event 7
-              |
-              |include/linux/net.h:265:13:
-              |  265 |         if (net_ratelimit())                        =
-            \
-              |      |             ^~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) ...to here
-   include/linux/net.h:280:9: note: in expansion of macro 'net_ratelimited_=
-function'
-              |  280 |         net_ratelimited_function(pr_warn, fmt, ##__V=
-A_ARGS__)
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/gro.c:750:25: note: in expansion of macro 'net_warn_ratelimited'
-              |  750 |                         net_warn_ratelimited("%s: dr=
-opping impossible skb from %s\n",
-              |      |                         ^~~~~~~~~~~~~~~~~~~~
-              |
-       <------+
-       |
-     'napi_gro_frags': events 8-9
-       |
-       |  776 |         struct sk_buff *skb =3D napi_frags_skb(napi);
-       |      |                               ^~~~~~~~~~~~~~~~~~~~
-       |      |                               |
-       |      |                               (8) returning to 'napi_gro_fr=
-ags' from 'napi_frags_skb'
-       |......
-       |  780 |         ret =3D napi_frags_finish(napi, skb, dev_gro_receiv=
-e(napi, skb));
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-       |      |               |
-       |      |               (9) calling 'dev_gro_receive' from 'napi_gro_=
-frags'
-       |
-       +--> 'dev_gro_receive': event 10
-              |
-              |  487 | static enum gro_result dev_gro_receive(struct napi_s=
-truct *napi, struct sk_buff *skb)
-              |      |                        ^~~~~~~~~~~~~~~
-              |      |                        |
-              |      |                        (10) entry to 'dev_gro_receiv=
-e'
-              |
-            'dev_gro_receive': event 11
-              |
-              |include/linux/netdevice.h:2340:12:
-              | 2340 |         if (!(dev->features & NETIF_F_GRO) || dev->x=
-dp_prog)
-              |      |            ^
-              |      |            |
-              |      |            (11) following 'false' branch...
-              |
-            'dev_gro_receive': events 12-13
-              |
-              |net/core/gro.c:502:26:
-              |  502 |         gro_list_prepare(&gro_list->list, skb);
-              |      |         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-              |      |         |                |
-              |      |         |                (12) ...to here
-              |      |         (13) calling 'gro_list_prepare' from 'dev_gr=
-o_receive'
-              |
-              +--> 'gro_list_prepare': event 14
-                     |
-                     |  354 | static void gro_list_prepare(const struct lis=
-t_head *head,
-                     |      |             ^~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (14) entry to 'gro_list_prepare'
-                     |
-                   'gro_list_prepare': event 15
-                     |
-                     |include/linux/list.h:675:14:
-                     |  675 |              !list_entry_is_head(pos, head, m=
-ember);                    \
-                     |      |              ^
-                     |      |              |
-                     |      |              (15) following 'true' branch...
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2111  	edid =3D drm_do_get_e=
+did_base_block(connector, read_block, context);
+e7bd95a7ed4e4c8 Douglas Anderson   2021-10-04  2112  	if (!edid)
+61e57a8d72f2336 Adam Jackson       2010-03-29  2113  		return NULL;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2114  =
 
-vim +/macsec_p_ext +417 net/core/gro.c
+ccc97def44ecc08 Jani Nikula        2022-03-31  2115  	if (edid->extensions =
+=3D=3D 0)
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2116  		return edid;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2117  =
 
-587652bbdd06ab Eric Dumazet   2021-11-15  398  =
+ccc97def44ecc08 Jani Nikula        2022-03-31  2118  	new =3D krealloc(edid=
+, (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2119  	if (!new)
+61e57a8d72f2336 Adam Jackson       2010-03-29  2120  		goto out;
+f14f368670541bf Chris Wilson       2016-10-17  2121  	edid =3D new;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2122  =
 
-587652bbdd06ab Eric Dumazet   2021-11-15  399  			diffs |=3D p->sk !=3D skb=
-->sk;
-587652bbdd06ab Eric Dumazet   2021-11-15  400  			diffs |=3D skb_metadata_d=
-st_cmp(p, skb);
-587652bbdd06ab Eric Dumazet   2021-11-15  401  			diffs |=3D skb_get_nfct(p=
-) ^ skb_get_nfct(skb);
-587652bbdd06ab Eric Dumazet   2021-11-15  402  =
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2123  	for (j =3D 1; j <=3D =
+edid->extensions; j++) {
+e9a9e0768ba49d9 Jani Nikula        2022-03-31 @2124  		void *block =3D edid=
+ + j;
+18d83450468ca57 Jani Nikula        2022-03-31  2125  		int try;
+a28187ccab9410c Chris Wilson       2016-10-17  2126  =
 
-587652bbdd06ab Eric Dumazet   2021-11-15  403  #if IS_ENABLED(CONFIG_SKB_EX=
-TENSIONS) && IS_ENABLED(CONFIG_NET_TC_SKB_EXT)
-587652bbdd06ab Eric Dumazet   2021-11-15  404  			skb_ext =3D skb_ext_find(=
-skb, TC_SKB_EXT);
-587652bbdd06ab Eric Dumazet   2021-11-15  405  			p_ext =3D skb_ext_find(p,=
- TC_SKB_EXT);
-587652bbdd06ab Eric Dumazet   2021-11-15  406  =
+18d83450468ca57 Jani Nikula        2022-03-31  2127  		for (try =3D 0; try =
+< 4; try++) {
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2128  			if (read_block(cont=
+ext, block, j, EDID_LENGTH))
+61e57a8d72f2336 Adam Jackson       2010-03-29  2129  				goto out;
+14544d0937bf016 Chris Wilson       2016-10-24  2130  			if (drm_edid_block_=
+valid(block, j, false, NULL))
+61e57a8d72f2336 Adam Jackson       2010-03-29  2131  				break;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2132  		}
+f934ec8c34b9dce Maarten Lankhorst  2013-01-29  2133  =
 
-587652bbdd06ab Eric Dumazet   2021-11-15  407  			diffs |=3D (!!p_ext) ^ (!=
-!skb_ext);
-587652bbdd06ab Eric Dumazet   2021-11-15  408  			if (!diffs && unlikely(sk=
-b_ext))
-587652bbdd06ab Eric Dumazet   2021-11-15  409  				diffs |=3D p_ext->chain =
-^ skb_ext->chain;
-9ee59a567b7907 Lior Nahmanson 2022-06-13  410  #endif
-9ee59a567b7907 Lior Nahmanson 2022-06-13  411  #if IS_ENABLED(CONFIG_SKB_EX=
-TENSIONS) && IS_ENABLED(CONFIG_MACSEC)
-9ee59a567b7907 Lior Nahmanson 2022-06-13  412  			macsec_skb_ext =3D skb_ex=
-t_find(skb, SKB_EXT_MACSEC);
-9ee59a567b7907 Lior Nahmanson 2022-06-13  413  			macsec_p_ext =3D skb_ext_=
-find(p, SKB_EXT_MACSEC);
-9ee59a567b7907 Lior Nahmanson 2022-06-13  414  =
+18d83450468ca57 Jani Nikula        2022-03-31  2134  		if (try =3D=3D 4)
+ccc97def44ecc08 Jani Nikula        2022-03-31  2135  			invalid_blocks++;
+0ea75e23356f73b Sam Tygier         2010-09-23  2136  	}
+0ea75e23356f73b Sam Tygier         2010-09-23  2137  =
 
-9ee59a567b7907 Lior Nahmanson 2022-06-13  415  			diffs |=3D (!!macsec_p_ex=
-t) ^ (!!macsec_skb_ext);
-9ee59a567b7907 Lior Nahmanson 2022-06-13  416  			if (!diffs && unlikely(ma=
-csec_skb_ext)) {
-9ee59a567b7907 Lior Nahmanson 2022-06-13 @417  				diffs |=3D (__force unsi=
-gned long)macsec_p_ext->sci ^
-9ee59a567b7907 Lior Nahmanson 2022-06-13  418  					 (__force unsigned long=
-)macsec_skb_ext->sci;
-9ee59a567b7907 Lior Nahmanson 2022-06-13  419  				diffs |=3D macsec_p_ext-=
->offloaded ^ macsec_skb_ext->offloaded;
-9ee59a567b7907 Lior Nahmanson 2022-06-13  420  			}
-587652bbdd06ab Eric Dumazet   2021-11-15  421  #endif
-587652bbdd06ab Eric Dumazet   2021-11-15  422  		}
-587652bbdd06ab Eric Dumazet   2021-11-15  423  =
+ccc97def44ecc08 Jani Nikula        2022-03-31  2138  	if (invalid_blocks) {
+63cae081538de1b Jani Nikula        2022-04-11  2139  		connector_bad_edid(c=
+onnector, edid, edid->extensions + 1);
+14544d0937bf016 Chris Wilson       2016-10-24  2140  =
 
-587652bbdd06ab Eric Dumazet   2021-11-15  424  		NAPI_GRO_CB(p)->same_flow =
-=3D !diffs;
-587652bbdd06ab Eric Dumazet   2021-11-15  425  	}
-587652bbdd06ab Eric Dumazet   2021-11-15  426  }
-587652bbdd06ab Eric Dumazet   2021-11-15  427  =
+ccc97def44ecc08 Jani Nikula        2022-03-31  2141  		edid =3D edid_filter=
+_invalid_blocks(edid, invalid_blocks);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2142  	}
+61e57a8d72f2336 Adam Jackson       2010-03-29  2143  =
 
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2144  	return edid;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2145  =
+
+61e57a8d72f2336 Adam Jackson       2010-03-29  2146  out:
+f14f368670541bf Chris Wilson       2016-10-17  2147  	kfree(edid);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2148  	return NULL;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2149  }
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2150  EXPORT_SYMBOL_GPL(drm_=
+do_get_edid);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2151  =
+
+
+:::::: The code at line 2124 was first introduced by commit
+:::::: e9a9e0768ba49d9cad3b698860af1842c53c717f drm/edid: use struct edid *=
+ in drm_do_get_edid()
+
+:::::: TO: Jani Nikula <jani.nikula@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6088128731316865134==--
+--===============1902619401516913423==--
 
