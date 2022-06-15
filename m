@@ -1,100 +1,86 @@
-Content-Type: multipart/mixed; boundary="===============2599581001710867888=="
+Content-Type: multipart/mixed; boundary="===============0332791573656066283=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/block/brd.c:443:18: warning: Uninitialized variables: brd.brd_number, brd.brd_list, brd.brd_lock, brd.brd_pages, brd.brd_nr_pages [uninitvar]
-Date: Sat, 18 Jun 2022 00:46:14 +0800
-Message-ID: <202206180011.YPbZ2OeM-lkp@intel.com>
+Subject: arch/arm64/mm/mmap.c:77 vm_get_page_prot() warn: bitwise AND condition is false here
+Date: Thu, 16 Jun 2022 03:14:17 +0800
+Message-ID: <202206160306.zkaxKedS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2599581001710867888==
+--===============0332791573656066283==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/b=
-lock/brd.c:443:18: warning: Uninitialized variables: brd.brd_number, brd.br=
-d_list, brd.brd_lock, brd.brd_pages, brd.brd_nr_pages [uninitvar]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Luis Chamberlain <mcgrof@kernel.org>
+TO: Anshuman Khandual <anshuman.khandual@arm.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Catalin Marinas <catalin.marinas@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   79fe0f863f920c5fcf9dea61676742f813f0b7a6
-commit: 00358933f66c44d511368a57eb421e172447cfb9 brd: remove brd_devices_mu=
-tex mutex
-date:   5 months ago
-:::::: branch date: 71 minutes ago
-:::::: commit date: 5 months ago
-compiler: m68k-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 00358933f66c44d511368a57eb421e172447cfb9
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   979086f5e0066b4eff66e1eee123da228489985c
+commit: b3aca728fb276782ab3c851aedaf3d19b33faabe arm64/mm: enable ARCH_HAS_=
+VM_GET_PAGE_PROT
+date:   7 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 weeks ago
+config: arm64-randconfig-m031-20220615 (https://download.01.org/0day-ci/arc=
+hive/20220616/202206160306.zkaxKedS-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+arch/arm64/mm/mmap.c:77 vm_get_page_prot() warn: bitwise AND condition is f=
+alse here
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +77 arch/arm64/mm/mmap.c
 
->> drivers/block/brd.c:443:18: warning: Uninitialized variables: brd.brd_nu=
-mber, brd.brd_list, brd.brd_lock, brd.brd_pages, brd.brd_nr_pages [uninitva=
-r]
-     brd_free_pages(brd);
-                    ^
+b3aca728fb2767 Anshuman Khandual 2022-04-28  58  =
 
-vim +443 drivers/block/brd.c
+b3aca728fb2767 Anshuman Khandual 2022-04-28  59  pgprot_t vm_get_page_prot(=
+unsigned long vm_flags)
+b3aca728fb2767 Anshuman Khandual 2022-04-28  60  {
+b3aca728fb2767 Anshuman Khandual 2022-04-28  61  	pteval_t prot =3D pgprot_=
+val(protection_map[vm_flags &
+b3aca728fb2767 Anshuman Khandual 2022-04-28  62  				   (VM_READ|VM_WRITE|V=
+M_EXEC|VM_SHARED)]);
+b3aca728fb2767 Anshuman Khandual 2022-04-28  63  =
 
-9db5579be4bb53 Nicholas Piggin   2008-02-08  433  =
+b3aca728fb2767 Anshuman Khandual 2022-04-28  64  	if (vm_flags & VM_ARM64_B=
+TI)
+b3aca728fb2767 Anshuman Khandual 2022-04-28  65  		prot |=3D PTE_GP;
+b3aca728fb2767 Anshuman Khandual 2022-04-28  66  =
 
-00358933f66c44 Tetsuo Handa      2022-01-06  434  static void brd_cleanup(v=
-oid)
-9db5579be4bb53 Nicholas Piggin   2008-02-08  435  {
-00358933f66c44 Tetsuo Handa      2022-01-06  436  	struct brd_device *brd, =
-*next;
-00358933f66c44 Tetsuo Handa      2022-01-06  437  =
-
-00358933f66c44 Tetsuo Handa      2022-01-06  438  	debugfs_remove_recursive=
-(brd_debugfs_dir);
-00358933f66c44 Tetsuo Handa      2022-01-06  439  =
-
-00358933f66c44 Tetsuo Handa      2022-01-06  440  	list_for_each_entry_safe=
-(brd, next, &brd_devices, brd_list) {
-9db5579be4bb53 Nicholas Piggin   2008-02-08  441  		del_gendisk(brd->brd_di=
-sk);
-7f9b348cb5e942 Christoph Hellwig 2021-05-21  442  		blk_cleanup_disk(brd->b=
-rd_disk);
-7f9b348cb5e942 Christoph Hellwig 2021-05-21 @443  		brd_free_pages(brd);
-f7bf35862477d6 Tetsuo Handa      2021-09-07  444  		list_del(&brd->brd_list=
-);
-7f9b348cb5e942 Christoph Hellwig 2021-05-21  445  		kfree(brd);
-9db5579be4bb53 Nicholas Piggin   2008-02-08  446  	}
-00358933f66c44 Tetsuo Handa      2022-01-06  447  }
-9db5579be4bb53 Nicholas Piggin   2008-02-08  448  =
-
-
-:::::: The code at line 443 was first introduced by commit
-:::::: 7f9b348cb5e94259acdcbafbcaed55d3bb515304 brd: convert to blk_alloc_d=
-isk/blk_cleanup_disk
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+b3aca728fb2767 Anshuman Khandual 2022-04-28  67  	/*
+b3aca728fb2767 Anshuman Khandual 2022-04-28  68  	 * There are two conditio=
+ns required for returning a Normal Tagged
+b3aca728fb2767 Anshuman Khandual 2022-04-28  69  	 * memory type: (1) the u=
+ser requested it via PROT_MTE passed to
+b3aca728fb2767 Anshuman Khandual 2022-04-28  70  	 * mmap() or mprotect() a=
+nd (2) the corresponding vma supports MTE. We
+b3aca728fb2767 Anshuman Khandual 2022-04-28  71  	 * register (1) as VM_MTE=
+ in the vma->vm_flags and (2) as
+b3aca728fb2767 Anshuman Khandual 2022-04-28  72  	 * VM_MTE_ALLOWED. Note t=
+hat the latter can only be set during the
+b3aca728fb2767 Anshuman Khandual 2022-04-28  73  	 * mmap() call since mpro=
+tect() does not accept MAP_* flags.
+b3aca728fb2767 Anshuman Khandual 2022-04-28  74  	 * Checking for VM_MTE on=
+ly is sufficient since arch_validate_flags()
+b3aca728fb2767 Anshuman Khandual 2022-04-28  75  	 * does not permit (VM_MT=
+E & !VM_MTE_ALLOWED).
+b3aca728fb2767 Anshuman Khandual 2022-04-28  76  	 */
+b3aca728fb2767 Anshuman Khandual 2022-04-28 @77  	if (vm_flags & VM_MTE)
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2599581001710867888==--
+--===============0332791573656066283==--
 
