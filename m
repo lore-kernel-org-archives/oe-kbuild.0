@@ -1,185 +1,117 @@
-Content-Type: multipart/mixed; boundary="===============8894242460623373330=="
+Content-Type: multipart/mixed; boundary="===============3180362765460045825=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/bio.h:563:35: warning: dereference of NULL '((struct bio_list *)rbio)[8].tail' [CWE-476]
-Date: Tue, 14 Jun 2022 11:18:46 +0800
-Message-ID: <202206141145.WJlIHlWJ-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1433 amdgpu_discovery_get_vcn_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <= 3
+Date: Fri, 17 Jun 2022 07:49:09 +0800
+Message-ID: <202206170749.3DE0MiWb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8894242460623373330==
+--===============3180362765460045825==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/bio.h:563:35: warning: dereference of NULL '((struct bio_lis=
-t *)rbio)[8].tail' [CWE-476] [-Wanalyzer-null-dereference]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: David Sterba <dsterba@suse.com>
-CC: Qu Wenruo <wqu@suse.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: 385de0ef387dc7f33fc5b828136cbc9516b3ec1a btrfs: use a normal workqu=
-eue for rmw_workers
-date:   4 weeks ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 4 weeks ago
-config: i386-randconfig-c001-20220613 (https://download.01.org/0day-ci/arch=
-ive/20220614/202206141145.WJlIHlWJ-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D385de0ef387dc7f33fc5b828136cbc9516b3ec1a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 385de0ef387dc7f33fc5b828136cbc9516b3ec1a
-        # save the config file
-         ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+head:   48a23ec6ff2b2a5effe8d3ae5f17fc6b7f35df65
+commit: 622469c87fc3e6c90a980be3e2287d82bd55c977 drm/amdgpu/discovery: add =
+a function to parse the vcn info table
+date:   7 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 weeks ago
+config: ia64-randconfig-m031-20220616 (https://download.01.org/0day-ci/arch=
+ive/20220617/202206170749.3DE0MiWb-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1433 amdgpu_discovery_get_vcn=
+_info() error: buffer overflow 'adev->vcn.vcn_codec_disable_mask' 2 <=3D 3
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from fs/btrfs/raid56.c:8:
-   In function 'raid56_alloc_missing_rbio':
->> include/linux/bio.h:563:35: warning: dereference of NULL '((struct bio_l=
-ist *)rbio)[8].tail' [CWE-476] [-Wanalyzer-null-dereference]
-     563 |                 bl->tail->bi_next =3D bio;
-         |                 ~~~~~~~~~~~~~~~~~~^~~~~
-     'raid56_alloc_missing_rbio': events 1-2
-       |
-       |fs/btrfs/raid56.c:2800:1:
-       | 2800 | raid56_alloc_missing_rbio(struct bio *bio, struct btrfs_io_=
-context *bioc,
-       |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |      | |
-       |      | (1) entry to 'raid56_alloc_missing_rbio'
-       |......
-       | 2806 |         rbio =3D alloc_rbio(fs_info, bioc, length);
-       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (2) calling 'alloc_rbio' from 'raid56_alloc_=
-missing_rbio'
-       |
-       +--> 'alloc_rbio': events 3-4
-              |
-              | 1025 | static struct btrfs_raid_bio *alloc_rbio(struct btrf=
-s_fs_info *fs_info,
-              |      |                               ^~~~~~~~~~
-              |      |                               |
-              |      |                               (3) entry to 'alloc_rb=
-io'
-              |......
-              | 1050 |         if (!rbio)
-              |      |            ~                   =
+vim +1433 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 
-              |      |            |
-              |      |            (4) following 'false' branch (when 'rbio'=
- is non-NULL)...
-              |
-            'alloc_rbio': event 5
-              |
-              |include/linux/bio.h:539:29:
-              |  539 |         bl->head =3D bl->tail =3D NULL;
-              |
-            'alloc_rbio': event 6
-              |
-              |  539 |         bl->head =3D bl->tail =3D NULL;
-              |
-            'alloc_rbio': event 7
-              |
-              |  539 |         bl->head =3D bl->tail =3D NULL;
-              |
-            'alloc_rbio': event 8
-              |
-              |  539 |         bl->head =3D bl->tail =3D NULL;
-              |
-       <------+
-       |
-     'raid56_alloc_missing_rbio': events 9-11
-       |
-       |fs/btrfs/raid56.c:2806:16:
-       | 2806 |         rbio =3D alloc_rbio(fs_info, bioc, length);
-       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (9) returning to 'raid56_alloc_missing_rbio'=
- from 'alloc_rbio'
-       | 2807 |         if (IS_ERR(rbio))
-       |      |            ~    =
+622469c87fc3e6 Alex Deucher 2022-03-30  1402  =
 
-       |      |            |
-       |      |            (10) following 'false' branch...
-       |......
-       | 2810 |         rbio->operation =3D BTRFS_RBIO_REBUILD_MISSING;
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (11) ...to here
-       |
-     'raid56_alloc_missing_rbio': events 12-14
-       |
-       |include/linux/bio.h:562:12:
-       |  562 |         if (bl->tail)
-       |      |            ^
-       |      |            |
-       |      |            (12) following 'true' branch...
-       |  563 |                 bl->tail->bi_next =3D bio;
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                   |
-       |      |                                   (13) ...to here
-       |      |                                   (14) dereference of NULL =
-'((struct bio_list *)rbio)[8].tail'
-       |
+622469c87fc3e6 Alex Deucher 2022-03-30  1403  int amdgpu_discovery_get_vcn_=
+info(struct amdgpu_device *adev)
+622469c87fc3e6 Alex Deucher 2022-03-30  1404  {
+622469c87fc3e6 Alex Deucher 2022-03-30  1405  	struct binary_header *bhdr;
+622469c87fc3e6 Alex Deucher 2022-03-30  1406  	union vcn_info *vcn_info;
+622469c87fc3e6 Alex Deucher 2022-03-30  1407  	u16 offset;
+622469c87fc3e6 Alex Deucher 2022-03-30  1408  	int v;
+622469c87fc3e6 Alex Deucher 2022-03-30  1409  =
 
-vim +563 include/linux/bio.h
+622469c87fc3e6 Alex Deucher 2022-03-30  1410  	if (!adev->mman.discovery_bi=
+n) {
+622469c87fc3e6 Alex Deucher 2022-03-30  1411  		DRM_ERROR("ip discovery uni=
+nitialized\n");
+622469c87fc3e6 Alex Deucher 2022-03-30  1412  		return -EINVAL;
+622469c87fc3e6 Alex Deucher 2022-03-30  1413  	}
+622469c87fc3e6 Alex Deucher 2022-03-30  1414  =
 
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  557  =
+622469c87fc3e6 Alex Deucher 2022-03-30  1415  	if (adev->vcn.num_vcn_inst >=
+ VCN_INFO_TABLE_MAX_NUM_INSTANCES) {
+622469c87fc3e6 Alex Deucher 2022-03-30  1416  		dev_err(adev->dev, "invalid=
+ vcn instances\n");
+622469c87fc3e6 Alex Deucher 2022-03-30  1417  		return -EINVAL;
+622469c87fc3e6 Alex Deucher 2022-03-30  1418  	}
+622469c87fc3e6 Alex Deucher 2022-03-30  1419  =
 
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  558  static inline void bio_li=
-st_add(struct bio_list *bl, struct bio *bio)
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  559  {
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  560  	bio->bi_next =3D NULL;
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  561  =
+622469c87fc3e6 Alex Deucher 2022-03-30  1420  	bhdr =3D (struct binary_head=
+er *)adev->mman.discovery_bin;
+622469c87fc3e6 Alex Deucher 2022-03-30  1421  	offset =3D le16_to_cpu(bhdr-=
+>table_list[VCN_INFO].offset);
+622469c87fc3e6 Alex Deucher 2022-03-30  1422  =
 
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  562  	if (bl->tail)
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07 @563  		bl->tail->bi_next =3D b=
-io;
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  564  	else
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  565  		bl->head =3D bio;
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  566  =
+622469c87fc3e6 Alex Deucher 2022-03-30  1423  	if (!offset) {
+622469c87fc3e6 Alex Deucher 2022-03-30  1424  		dev_err(adev->dev, "invalid=
+ vcn table offset\n");
+622469c87fc3e6 Alex Deucher 2022-03-30  1425  		return -EINVAL;
+622469c87fc3e6 Alex Deucher 2022-03-30  1426  	}
+622469c87fc3e6 Alex Deucher 2022-03-30  1427  =
 
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  567  	bl->tail =3D bio;
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  568  }
-8f3d8ba20e6799 Christoph Hellwig 2009-04-07  569  =
+622469c87fc3e6 Alex Deucher 2022-03-30  1428  	vcn_info =3D (union vcn_info=
+ *)(adev->mman.discovery_bin + offset);
+622469c87fc3e6 Alex Deucher 2022-03-30  1429  =
 
+622469c87fc3e6 Alex Deucher 2022-03-30  1430  	switch (le16_to_cpu(vcn_info=
+->v1.header.version_major)) {
+622469c87fc3e6 Alex Deucher 2022-03-30  1431  	case 1:
+622469c87fc3e6 Alex Deucher 2022-03-30  1432  		for (v =3D 0; v < adev->vcn=
+.num_vcn_inst; v++) {
+622469c87fc3e6 Alex Deucher 2022-03-30 @1433  			adev->vcn.vcn_codec_disabl=
+e_mask[v] =3D
+622469c87fc3e6 Alex Deucher 2022-03-30  1434  				le32_to_cpu(vcn_info->v1.=
+instance_info[v].fuse_data.all_bits);
+622469c87fc3e6 Alex Deucher 2022-03-30  1435  		}
+622469c87fc3e6 Alex Deucher 2022-03-30  1436  		break;
+622469c87fc3e6 Alex Deucher 2022-03-30  1437  	default:
+622469c87fc3e6 Alex Deucher 2022-03-30  1438  		dev_err(adev->dev,
+622469c87fc3e6 Alex Deucher 2022-03-30  1439  			"Unhandled VCN info table =
+%d.%d\n",
+622469c87fc3e6 Alex Deucher 2022-03-30  1440  			le16_to_cpu(vcn_info->v1.h=
+eader.version_major),
+622469c87fc3e6 Alex Deucher 2022-03-30  1441  			le16_to_cpu(vcn_info->v1.h=
+eader.version_minor));
+622469c87fc3e6 Alex Deucher 2022-03-30  1442  		return -EINVAL;
+622469c87fc3e6 Alex Deucher 2022-03-30  1443  	}
+622469c87fc3e6 Alex Deucher 2022-03-30  1444  	return 0;
+f39f5bb1c9d68d Xiaojie Yuan 2019-06-20  1445  }
+795d08391b8627 Alex Deucher 2021-07-20  1446  =
 
-:::::: The code at line 563 was first introduced by commit
-:::::: 8f3d8ba20e67991b531e9c0227dcd1f99271a32c block: move bio list helper=
-s into bio.h
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8894242460623373330==--
+--===============3180362765460045825==--
 
