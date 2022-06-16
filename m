@@ -1,44 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============0950889824730068967=="
+Content-Type: multipart/mixed; boundary="===============6594817119250007420=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/madvise.c:124:28: warning: Parameter 'anon_name' can be declared with const [constParameter]
-Date: Fri, 17 Jun 2022 23:24:41 +0800
-Message-ID: <202206172345.CYZPcBAU-lkp@intel.com>
+Subject: drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shadows outer argument [shadowArgument]
+Date: Thu, 16 Jun 2022 11:43:55 +0800
+Message-ID: <202206161156.h0wRXMV3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0950889824730068967==
+--===============6594817119250007420==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: mm/madvis=
-e.c:124:28: warning: Parameter 'anon_name' can be declared with const [cons=
-tParameter]"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shadows outer arg=
+ument [shadowArgument]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   47700948a4abb4a5ae13ef943ff682a7f327547a
-commit: 5c26f6ac9416b63d093e29c30e79b3297e425472 mm: refactor vm_area_struc=
-t::anon_vma_name usage code
-date:   3 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 3 months ago
-compiler: mips-linux-gcc (GCC) 11.3.0
+head:   30306f6194cadcc29c77f6ddcd416a75bf5c0232
+commit: 89fb7536ad2fdcdaf95eee44b9e162d0522f48dc drm/edid: add typedef for =
+block read function
+date:   9 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 weeks ago
+compiler: hppa-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 5c26f6ac9416b63d093e29c30e79b3297e425472
+        git checkout 89fb7536ad2fdcdaf95eee44b9e162d0522f48dc
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -46,159 +45,177 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/pci.c:2075:10: warning: Local variable 'size' shadows =
+outer variable [shadowVariable]
+     size_t size =3D le32_to_cpu(descs[i].size) * NVME_CTRL_PAGE_SIZE;
+            ^
+   drivers/nvme/host/pci.c:2031:6: note: Shadowed declaration
+    u64 size, tmp;
+        ^
+   drivers/nvme/host/pci.c:2075:10: note: Shadow variable
+     size_t size =3D le32_to_cpu(descs[i].size) * NVME_CTRL_PAGE_SIZE;
+            ^
+
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> mm/madvise.c:124:28: warning: Parameter 'anon_name' can be declared with=
- const [constParameter]
-        struct anon_vma_name *anon_name)
+>> drivers/pci/pci-sysfs.c:1272:47: warning: Parameter 'buf' can be declare=
+d with const [constParameter]
+           struct bin_attribute *bin_attr, char *buf,
+                                                 ^
+>> drivers/gpu/drm/ttm/ttm_bo.c:1098:28: warning: Local variable 'ctx' shad=
+ows outer argument [shadowArgument]
+     struct ttm_operation_ctx ctx =3D { false, false };
                               ^
+   drivers/gpu/drm/ttm/ttm_bo.c:1058:76: note: Shadowed declaration
+   int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ct=
+x *ctx,
+                                                                           =
+   ^
+   drivers/gpu/drm/ttm/ttm_bo.c:1098:28: note: Shadow variable
+     struct ttm_operation_ctx ctx =3D { false, false };
+                              ^
+--
+>> drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shado=
+ws outer argument [shadowArgument]
+     void *block =3D edid + j;
+           ^
+   drivers/gpu/drm/drm_edid.c:2101:0: note: Shadowed declaration
+           read_block_fn read_block,
+   ^
+   drivers/gpu/drm/drm_edid.c:2124:9: note: Shadow variable
+     void *block =3D edid + j;
+           ^
 
-vim +/anon_name +124 mm/madvise.c
+vim +/block +2124 drivers/gpu/drm/drm_edid.c
 
-9a10064f5625d55 Colin Cross        2022-01-14  100  =
+bac9c29482248b Douglas Anderson   2021-09-14  2079  =
 
-9a10064f5625d55 Colin Cross        2022-01-14  101  /* mmap_lock should be =
-write-locked */
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  102  static int replace_anon=
-_vma_name(struct vm_area_struct *vma,
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  103  				 struct anon_vma_na=
-me *anon_name)
-9a10064f5625d55 Colin Cross        2022-01-14  104  {
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  105  	struct anon_vma_name *=
-orig_name =3D anon_vma_name(vma);
-78db3412833dc9c Suren Baghdasaryan 2022-01-14  106  =
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2080  /**
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2081   * drm_do_get_edid - ge=
+t EDID data using a custom EDID block read function
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2082   * @connector: connecto=
+r we're probing
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2083   * @get_edid_block: EDI=
+D block read function
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2084   * @data: private data =
+passed to the block read function
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2085   *
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2086   * When the I2C adapter=
+ connected to the DDC bus is hidden behind a device that
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2087   * exposes a different =
+interface to read EDID blocks this function can be used
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2088   * to get EDID data usi=
+ng a custom block read function.
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2089   *
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2090   * As in the general ca=
+se the DDC bus is accessible by the kernel at the I2C
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2091   * level, drivers must =
+make all reasonable efforts to expose it as an I2C
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2092   * adapter and use drm_=
+get_edid() instead of abusing this function.
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2093   *
+0ae865ef92f192 Cai Huoqing        2021-07-30  2094   * The EDID may be over=
+ridden using debugfs override_edid or firmware EDID
+53fd40a90f3c0b Jani Nikula        2017-09-12  2095   * (drm_load_edid_firmw=
+are() and drm.edid_firmware parameter), in this priority
+53fd40a90f3c0b Jani Nikula        2017-09-12  2096   * order. Having either=
+ of them bypasses actual EDID reads.
+53fd40a90f3c0b Jani Nikula        2017-09-12  2097   *
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2098   * Return: Pointer to v=
+alid EDID or NULL if we couldn't find any.
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2099   */
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2100  struct edid *drm_do_get=
+_edid(struct drm_connector *connector,
+89fb7536ad2fdc Jani Nikula        2022-04-11  2101  			     read_block_fn r=
+ead_block,
+89fb7536ad2fdc Jani Nikula        2022-04-11  2102  			     void *context)
+61e57a8d72f233 Adam Jackson       2010-03-29  2103  {
+ccc97def44ecc0 Jani Nikula        2022-03-31  2104  	int j, invalid_blocks =
+=3D 0;
+e9a9e0768ba49d Jani Nikula        2022-03-31  2105  	struct edid *edid, *ne=
+w, *override;
+53fd40a90f3c0b Jani Nikula        2017-09-12  2106  =
 
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  107  	if (!anon_name) {
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  108  		vma->anon_name =3D NU=
-LL;
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  109  		anon_vma_name_put(ori=
-g_name);
-9a10064f5625d55 Colin Cross        2022-01-14  110  		return 0;
-9a10064f5625d55 Colin Cross        2022-01-14  111  	}
-9a10064f5625d55 Colin Cross        2022-01-14  112  =
+56a2b7f2a39a8d Jani Nikula        2019-06-07  2107  	override =3D drm_get_o=
+verride_edid(connector);
+56a2b7f2a39a8d Jani Nikula        2019-06-07  2108  	if (override)
+53fd40a90f3c0b Jani Nikula        2017-09-12  2109  		return override;
+61e57a8d72f233 Adam Jackson       2010-03-29  2110  =
 
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  113  	if (anon_vma_name_eq(o=
-rig_name, anon_name))
-9a10064f5625d55 Colin Cross        2022-01-14  114  		return 0;
-9a10064f5625d55 Colin Cross        2022-01-14  115  =
+89fb7536ad2fdc Jani Nikula        2022-04-11  2111  	edid =3D drm_do_get_ed=
+id_base_block(connector, read_block, context);
+e7bd95a7ed4e4c Douglas Anderson   2021-10-04  2112  	if (!edid)
+61e57a8d72f233 Adam Jackson       2010-03-29  2113  		return NULL;
+61e57a8d72f233 Adam Jackson       2010-03-29  2114  =
 
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  116  	anon_vma_name_get(anon=
-_name);
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  117  	vma->anon_name =3D ano=
-n_name;
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  118  	anon_vma_name_put(orig=
-_name);
-9a10064f5625d55 Colin Cross        2022-01-14  119  =
+ccc97def44ecc0 Jani Nikula        2022-03-31  2115  	if (edid->extensions =
+=3D=3D 0)
+e9a9e0768ba49d Jani Nikula        2022-03-31  2116  		return edid;
+61e57a8d72f233 Adam Jackson       2010-03-29  2117  =
 
-9a10064f5625d55 Colin Cross        2022-01-14  120  	return 0;
-9a10064f5625d55 Colin Cross        2022-01-14  121  }
-9a10064f5625d55 Colin Cross        2022-01-14  122  #else /* CONFIG_ANON_VM=
-A_NAME */
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  123  static int replace_anon=
-_vma_name(struct vm_area_struct *vma,
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04 @124  				 struct anon_vma_na=
-me *anon_name)
-9a10064f5625d55 Colin Cross        2022-01-14  125  {
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  126  	if (anon_name)
-9a10064f5625d55 Colin Cross        2022-01-14  127  		return -EINVAL;
-9a10064f5625d55 Colin Cross        2022-01-14  128  =
+ccc97def44ecc0 Jani Nikula        2022-03-31  2118  	new =3D krealloc(edid,=
+ (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
+61e57a8d72f233 Adam Jackson       2010-03-29  2119  	if (!new)
+61e57a8d72f233 Adam Jackson       2010-03-29  2120  		goto out;
+f14f368670541b Chris Wilson       2016-10-17  2121  	edid =3D new;
+61e57a8d72f233 Adam Jackson       2010-03-29  2122  =
 
-9a10064f5625d55 Colin Cross        2022-01-14  129  	return 0;
-9a10064f5625d55 Colin Cross        2022-01-14  130  }
-9a10064f5625d55 Colin Cross        2022-01-14  131  #endif /* CONFIG_ANON_V=
-MA_NAME */
-^1da177e4c3f415 Linus Torvalds     2005-04-16  132  /*
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  133   * Update the vm_flags =
-on region of a vma, splitting it or merging it as
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  134   * necessary.  Must be =
-called with mmap_sem held for writing;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  135   */
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  136  static int madvise_upda=
-te_vma(struct vm_area_struct *vma,
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  137  			      struct vm_area=
-_struct **prev, unsigned long start,
-9a10064f5625d55 Colin Cross        2022-01-14  138  			      unsigned long =
-end, unsigned long new_flags,
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  139  			      struct anon_vm=
-a_name *anon_name)
-^1da177e4c3f415 Linus Torvalds     2005-04-16  140  {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  141  	struct mm_struct *mm =
-=3D vma->vm_mm;
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  142  	int error;
-05b7438475ddbac Prasanna Meda      2005-06-21  143  	pgoff_t pgoff;
-e798c6e87b64d9f Prasanna Meda      2005-06-21  144  =
+e9a9e0768ba49d Jani Nikula        2022-03-31  2123  	for (j =3D 1; j <=3D e=
+did->extensions; j++) {
+e9a9e0768ba49d Jani Nikula        2022-03-31 @2124  		void *block =3D edid =
++ j;
+18d83450468ca5 Jani Nikula        2022-03-31  2125  		int try;
+a28187ccab9410 Chris Wilson       2016-10-17  2126  =
 
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  145  	if (new_flags =3D=3D v=
-ma->vm_flags && anon_vma_name_eq(anon_vma_name(vma), anon_name)) {
-05b7438475ddbac Prasanna Meda      2005-06-21  146  		*prev =3D vma;
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  147  		return 0;
-05b7438475ddbac Prasanna Meda      2005-06-21  148  	}
-05b7438475ddbac Prasanna Meda      2005-06-21  149  =
+18d83450468ca5 Jani Nikula        2022-03-31  2127  		for (try =3D 0; try <=
+ 4; try++) {
+89fb7536ad2fdc Jani Nikula        2022-04-11  2128  			if (read_block(conte=
+xt, block, j, EDID_LENGTH))
+61e57a8d72f233 Adam Jackson       2010-03-29  2129  				goto out;
+14544d0937bf01 Chris Wilson       2016-10-24  2130  			if (drm_edid_block_v=
+alid(block, j, false, NULL))
+61e57a8d72f233 Adam Jackson       2010-03-29  2131  				break;
+61e57a8d72f233 Adam Jackson       2010-03-29  2132  		}
+f934ec8c34b9dc Maarten Lankhorst  2013-01-29  2133  =
 
-05b7438475ddbac Prasanna Meda      2005-06-21  150  	pgoff =3D vma->vm_pgof=
-f + ((start - vma->vm_start) >> PAGE_SHIFT);
-05b7438475ddbac Prasanna Meda      2005-06-21  151  	*prev =3D vma_merge(mm=
-, *prev, start, end, new_flags, vma->anon_vma,
-19a809afe2fe089 Andrea Arcangeli   2015-09-04  152  			  vma->vm_file, pgof=
-f, vma_policy(vma),
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  153  			  vma->vm_userfaultf=
-d_ctx, anon_name);
-05b7438475ddbac Prasanna Meda      2005-06-21  154  	if (*prev) {
-05b7438475ddbac Prasanna Meda      2005-06-21  155  		vma =3D *prev;
-05b7438475ddbac Prasanna Meda      2005-06-21  156  		goto success;
-05b7438475ddbac Prasanna Meda      2005-06-21  157  	}
-05b7438475ddbac Prasanna Meda      2005-06-21  158  =
+18d83450468ca5 Jani Nikula        2022-03-31  2134  		if (try =3D=3D 4)
+ccc97def44ecc0 Jani Nikula        2022-03-31  2135  			invalid_blocks++;
+0ea75e23356f73 Sam Tygier         2010-09-23  2136  	}
+0ea75e23356f73 Sam Tygier         2010-09-23  2137  =
 
-05b7438475ddbac Prasanna Meda      2005-06-21  159  	*prev =3D vma;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  160  =
+ccc97def44ecc0 Jani Nikula        2022-03-31  2138  	if (invalid_blocks) {
+63cae081538de1 Jani Nikula        2022-04-11  2139  		connector_bad_edid(co=
+nnector, edid, edid->extensions + 1);
+14544d0937bf01 Chris Wilson       2016-10-24  2140  =
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  161  	if (start !=3D vma->vm=
-_start) {
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  162  		if (unlikely(mm->map_=
-count >=3D sysctl_max_map_count))
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  163  			return -ENOMEM;
-def5efe0376501e David Rientjes     2017-02-24  164  		error =3D __split_vma=
-(mm, vma, start, 1);
-f3bc0dba3154fa7 Mike Rapoport      2019-09-23  165  		if (error)
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  166  			return error;
-def5efe0376501e David Rientjes     2017-02-24  167  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  168  =
+ccc97def44ecc0 Jani Nikula        2022-03-31  2141  		edid =3D edid_filter_=
+invalid_blocks(edid, invalid_blocks);
+61e57a8d72f233 Adam Jackson       2010-03-29  2142  	}
+61e57a8d72f233 Adam Jackson       2010-03-29  2143  =
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  169  	if (end !=3D vma->vm_e=
-nd) {
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  170  		if (unlikely(mm->map_=
-count >=3D sysctl_max_map_count))
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  171  			return -ENOMEM;
-def5efe0376501e David Rientjes     2017-02-24  172  		error =3D __split_vma=
-(mm, vma, end, 0);
-f3bc0dba3154fa7 Mike Rapoport      2019-09-23  173  		if (error)
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  174  			return error;
-def5efe0376501e David Rientjes     2017-02-24  175  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  176  =
+e9a9e0768ba49d Jani Nikula        2022-03-31  2144  	return edid;
+61e57a8d72f233 Adam Jackson       2010-03-29  2145  =
 
-836d5ffd3455090 Hugh Dickins       2005-09-03  177  success:
-^1da177e4c3f415 Linus Torvalds     2005-04-16  178  	/*
-c1e8d7c6a7a682e Michel Lespinasse  2020-06-08  179  	 * vm_flags is protect=
-ed by the mmap_lock held in write mode.
-^1da177e4c3f415 Linus Torvalds     2005-04-16  180  	 */
-e798c6e87b64d9f Prasanna Meda      2005-06-21  181  	vma->vm_flags =3D new_=
-flags;
-9a10064f5625d55 Colin Cross        2022-01-14  182  	if (!vma->vm_file) {
-5c26f6ac9416b63 Suren Baghdasaryan 2022-03-04  183  		error =3D replace_ano=
-n_vma_name(vma, anon_name);
-9a10064f5625d55 Colin Cross        2022-01-14  184  		if (error)
-9a10064f5625d55 Colin Cross        2022-01-14  185  			return error;
-9a10064f5625d55 Colin Cross        2022-01-14  186  	}
-f3bc0dba3154fa7 Mike Rapoport      2019-09-23  187  =
+61e57a8d72f233 Adam Jackson       2010-03-29  2146  out:
+f14f368670541b Chris Wilson       2016-10-17  2147  	kfree(edid);
+61e57a8d72f233 Adam Jackson       2010-03-29  2148  	return NULL;
+61e57a8d72f233 Adam Jackson       2010-03-29  2149  }
+18df89fef2d5c7 Lars-Peter Clausen 2012-04-27  2150  EXPORT_SYMBOL_GPL(drm_d=
+o_get_edid);
+61e57a8d72f233 Adam Jackson       2010-03-29  2151  =
 
-ac1e9acc5acf0b4 Colin Cross        2022-01-14  188  	return 0;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  189  }
-^1da177e4c3f415 Linus Torvalds     2005-04-16  190  =
 
+:::::: The code at line 2124 was first introduced by commit
+:::::: e9a9e0768ba49d9cad3b698860af1842c53c717f drm/edid: use struct edid *=
+ in drm_do_get_edid()
+
+:::::: TO: Jani Nikula <jani.nikula@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0950889824730068967==--
+--===============6594817119250007420==--
 
