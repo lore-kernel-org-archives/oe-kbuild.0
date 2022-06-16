@@ -1,44 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============2156753902241515919=="
+Content-Type: multipart/mixed; boundary="===============7986428972729827624=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/base/regmap/regmap.c:1966:19: warning: Redundant condition: !map->bus. 'map->bus || (!map->bus && map->read)' is equivalent to 'map->bus || map->read' [redundantCondition]
-Date: Thu, 16 Jun 2022 18:40:02 +0800
-Message-ID: <202206161821.V5Bvhl81-lkp@intel.com>
+Subject: fs/coredump.c:399:15: warning: Redundant initialization for 'core_waiters'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Thu, 16 Jun 2022 13:45:47 +0800
+Message-ID: <202206161344.ekQQdo4z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2156753902241515919==
+--===============7986428972729827624==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/b=
-ase/regmap/regmap.c:1966:19: warning: Redundant condition: !map->bus. 'map-=
->bus || (!map->bus && map->read)' is equivalent to 'map->bus || map->read' =
-[redundantCondition]"
+:::::: Manual check reason: "low confidence static check warning: fs/coredu=
+mp.c:399:15: warning: Redundant initialization for 'core_waiters'. The init=
+ialized value is overwritten before it is read. [redundantInitialization]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Marek Vasut <marex@denx.de>
-CC: Mark Brown <broonie@kernel.org>
+TO: "Eric W. Biederman" <ebiederm@xmission.com>
+CC: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   30306f6194cadcc29c77f6ddcd416a75bf5c0232
-commit: d77e745613680c54708470402e2b623dcd769681 regmap: Add bulk read/writ=
-e callbacks into regmap_config
-date:   6 weeks ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 weeks ago
-compiler: hppa-linux-gcc (GCC) 11.3.0
+commit: 0258b5fd7c7124b87e185a1a9322d2c66b1876b7 coredump: Limit coredumps =
+to a single thread group
+date:   8 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 months ago
+compiler: mips-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout d77e745613680c54708470402e2b623dcd769681
+        git checkout 0258b5fd7c7124b87e185a1a9322d2c66b1876b7
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -46,63 +45,77 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_modes.c:1833:16: warning: Local variable 'len' shado=
-ws outer variable [shadowVariable]
-     unsigned int len =3D strlen(mode_option);
-                  ^
-   drivers/gpu/drm/drm_modes.c:1769:9: note: Shadowed declaration
-    int i, len, ret;
-           ^
-   drivers/gpu/drm/drm_modes.c:1833:16: note: Shadow variable
-     unsigned int len =3D strlen(mode_option);
-                  ^
-
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpu/drm/drm_of.c:30:28: warning: Parameter 'port' can be declare=
-d with const [constParameter]
-          struct device_node *port)
-                              ^
---
->> drivers/gpu/drm/drm_gem_framebuffer_helper.c:67:28: warning: Parameter '=
-obj' can be declared with const [constParameter]
-      struct drm_gem_object **obj, unsigned int num_planes,
-                              ^
---
->> drivers/base/regmap/regmap.c:1966:19: warning: Redundant condition: !map=
-->bus. 'map->bus || (!map->bus && map->read)' is equivalent to 'map->bus ||=
- map->read' [redundantCondition]
-    return (map->bus || (!map->bus && map->read)) ? map : map->bus_context;
+>> fs/coredump.c:399:15: warning: Redundant initialization for 'core_waiter=
+s'. The initialized value is overwritten before it is read. [redundantIniti=
+alization]
+    core_waiters =3D zap_threads(tsk, core_state, exit_code);
+                 ^
+   fs/coredump.c:393:19: note: core_waiters is initialized
+    int core_waiters =3D -EBUSY;
                      ^
-   drivers/base/regmap/regmap.c:1838:7: warning: Redundant initialization f=
-or 'ret'. The initialized value is overwritten before it is read. [redundan=
-tInitialization]
-     ret =3D map->write(map->bus_context, map->work_buf,
-         ^
-   drivers/base/regmap/regmap.c:1685:10: note: ret is initialized
-    int ret =3D -ENOTSUPP;
-            ^
-   drivers/base/regmap/regmap.c:1838:7: note: ret is overwritten
-     ret =3D map->write(map->bus_context, map->work_buf,
-         ^
+   fs/coredump.c:399:15: note: core_waiters is overwritten
+    core_waiters =3D zap_threads(tsk, core_state, exit_code);
+                 ^
 
-vim +1966 drivers/base/regmap/regmap.c
+vim +/core_waiters +399 fs/coredump.c
 
-07c320dc31d757 Andrey Smirnov 2013-01-12  1963  =
+10c28d937e2cca Alex Kelly        2012-09-26  389  =
 
-d2a5884a64161b Andrey Smirnov 2013-01-27  1964  static inline void *_regmap=
-_map_get_context(struct regmap *map)
-d2a5884a64161b Andrey Smirnov 2013-01-27  1965  {
-d77e745613680c Marek Vasut    2022-04-30 @1966  	return (map->bus || (!map-=
->bus && map->read)) ? map : map->bus_context;
-d2a5884a64161b Andrey Smirnov 2013-01-27  1967  }
-d2a5884a64161b Andrey Smirnov 2013-01-27  1968  =
+10c28d937e2cca Alex Kelly        2012-09-26  390  static int coredump_wait(=
+int exit_code, struct core_state *core_state)
+10c28d937e2cca Alex Kelly        2012-09-26  391  {
+10c28d937e2cca Alex Kelly        2012-09-26  392  	struct task_struct *tsk =
+=3D current;
+10c28d937e2cca Alex Kelly        2012-09-26  393  	int core_waiters =3D -EB=
+USY;
+10c28d937e2cca Alex Kelly        2012-09-26  394  =
+
+10c28d937e2cca Alex Kelly        2012-09-26  395  	init_completion(&core_st=
+ate->startup);
+10c28d937e2cca Alex Kelly        2012-09-26  396  	core_state->dumper.task =
+=3D tsk;
+10c28d937e2cca Alex Kelly        2012-09-26  397  	core_state->dumper.next =
+=3D NULL;
+10c28d937e2cca Alex Kelly        2012-09-26  398  =
+
+0258b5fd7c7124 Eric W. Biederman 2021-09-22 @399  	core_waiters =3D zap_thr=
+eads(tsk, core_state, exit_code);
+10c28d937e2cca Alex Kelly        2012-09-26  400  	if (core_waiters > 0) {
+10c28d937e2cca Alex Kelly        2012-09-26  401  		struct core_thread *ptr;
+10c28d937e2cca Alex Kelly        2012-09-26  402  =
+
+70d78fe7c8b640 Andrey Ryabinin   2016-11-10  403  		freezer_do_not_count();
+10c28d937e2cca Alex Kelly        2012-09-26  404  		wait_for_completion(&co=
+re_state->startup);
+70d78fe7c8b640 Andrey Ryabinin   2016-11-10  405  		freezer_count();
+10c28d937e2cca Alex Kelly        2012-09-26  406  		/*
+10c28d937e2cca Alex Kelly        2012-09-26  407  		 * Wait for all the thr=
+eads to become inactive, so that
+10c28d937e2cca Alex Kelly        2012-09-26  408  		 * all the thread conte=
+xt (extended register state, like
+10c28d937e2cca Alex Kelly        2012-09-26  409  		 * fpu etc) gets copied=
+ to the memory.
+10c28d937e2cca Alex Kelly        2012-09-26  410  		 */
+10c28d937e2cca Alex Kelly        2012-09-26  411  		ptr =3D core_state->dum=
+per.next;
+10c28d937e2cca Alex Kelly        2012-09-26  412  		while (ptr !=3D NULL) {
+10c28d937e2cca Alex Kelly        2012-09-26  413  			wait_task_inactive(ptr=
+->task, 0);
+10c28d937e2cca Alex Kelly        2012-09-26  414  			ptr =3D ptr->next;
+10c28d937e2cca Alex Kelly        2012-09-26  415  		}
+10c28d937e2cca Alex Kelly        2012-09-26  416  	}
+10c28d937e2cca Alex Kelly        2012-09-26  417  =
+
+10c28d937e2cca Alex Kelly        2012-09-26  418  	return core_waiters;
+10c28d937e2cca Alex Kelly        2012-09-26  419  }
+10c28d937e2cca Alex Kelly        2012-09-26  420  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2156753902241515919==--
+--===============7986428972729827624==--
 
