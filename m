@@ -1,410 +1,232 @@
-Content-Type: multipart/mixed; boundary="===============7281226496002327826=="
+Content-Type: multipart/mixed; boundary="===============4814424637821112785=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ipv4/route.c:670:24: warning: The statement 'if (fnhe->fnhe_genid!=genid) fnhe->fnhe_genid=genid' is logically equivalent to 'fnhe->fnhe_genid=genid'. [duplicateConditionalAssign]
-Date: Tue, 14 Jun 2022 23:13:45 +0800
-Message-ID: <202206142313.kzoibAoo-lkp@intel.com>
+Subject: drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: consider using resource_size() here
+Date: Fri, 17 Jun 2022 17:20:29 +0800
+Message-ID: <202206171714.8BBFqjqg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7281226496002327826==
+--===============4814424637821112785==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: net/ipv4/=
-route.c:670:24: warning: The statement 'if (fnhe->fnhe_genid!=3Dgenid) fnhe=
-->fnhe_genid=3Dgenid' is logically equivalent to 'fnhe->fnhe_genid=3Dgenid'=
-. [duplicateConditionalAssign]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-CC: David Ahern <dsahern@kernel.org>
+TO: "Dustin L. Howett" <dustin@howett.net>
+CC: "Tzung-Bi Shih" <tzungbi@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-commit: 67d6d681e15b578c1725bad8ad079e05d1c48a8e ipv4: make exception cache=
- less predictible
-date:   10 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 10 months ago
-compiler: hppa-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 67d6d681e15b578c1725bad8ad079e05d1c48a8e
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   47700948a4abb4a5ae13ef943ff682a7f327547a
+commit: c9bc1a0ef9f613a7bc1adfff4c67dc5e5d7d1709 platform/chrome: cros_ec_l=
+pcs: reserve the MEC LPC I/O ports first
+date:   6 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 weeks ago
+config: ia64-randconfig-m031-20220617 (https://download.01.org/0day-ci/arch=
+ive/20220617/202206171714.8BBFqjqg-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
+r using resource_size() here
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +382 drivers/platform/chrome/cros_ec_lpc.c
 
->> net/ipv4/route.c:670:24: warning: The statement 'if (fnhe->fnhe_genid!=
-=3Dgenid) fnhe->fnhe_genid=3Dgenid' is logically equivalent to 'fnhe->fnhe_=
-genid=3Dgenid'. [duplicateConditionalAssign]
-     if (fnhe->fnhe_genid !=3D genid)
-                          ^
-   net/ipv4/route.c:671:21: note: Assignment 'fnhe->fnhe_genid=3Dgenid'
-      fnhe->fnhe_genid =3D genid;
-                       ^
-   net/ipv4/route.c:670:24: note: Condition 'fnhe->fnhe_genid!=3Dgenid' is =
-redundant
-     if (fnhe->fnhe_genid !=3D genid)
-                          ^
->> net/ipv4/route.c:592:40: warning: Found suspicious operator ',' [constSt=
-atement]
-    struct fib_nh_exception __rcu **fnhe_p, **oldest_p;
-                                          ^
->> net/ipv4/route.c:3399:13: warning: Uninitialized variable: fa->fa_slen [=
-uninitvar]
-       if (fa->fa_slen =3D=3D slen &&
-               ^
->> net/ipv4/route.c:221:58: warning: Parameter 'v' can be declared with con=
-st [constParameter]
-   static int rt_cache_seq_show(struct seq_file *seq, void *v)
-                                                            ^
---
->> net/ipv4/tcp_output.c:2311:3: warning: Assignment of function parameter =
-has no effect outside the function. [uselessAssignmentArg]
-     len -=3D skb->len;
-     ^
->> net/ipv4/tcp_output.c:1128:18: warning: Using pointer that is a temporar=
-y. [danglingTemporaryLifetime]
-     INIT_LIST_HEAD(&tsq->head);
-                    ^
-   net/ipv4/tcp_output.c:1126:29: note: Address of variable taken here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                               ^
-   net/ipv4/tcp_output.c:1128:18: note: Address of variable taken here.
-     INIT_LIST_HEAD(&tsq->head);
-                    ^
-   net/ipv4/tcp_output.c:1126:37: note: Temporary created here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                                       ^
-   net/ipv4/tcp_output.c:1128:18: note: Using pointer that is a temporary.
-     INIT_LIST_HEAD(&tsq->head);
-                    ^
-   net/ipv4/tcp_output.c:1128:19: warning: Using pointer that is a temporar=
-y. [danglingTemporaryLifetime]
-     INIT_LIST_HEAD(&tsq->head);
-                     ^
-   net/ipv4/tcp_output.c:1126:29: note: Address of variable taken here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                               ^
-   net/ipv4/tcp_output.c:1126:37: note: Temporary created here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                                       ^
-   net/ipv4/tcp_output.c:1128:19: note: Using pointer that is a temporary.
-     INIT_LIST_HEAD(&tsq->head);
-                     ^
-   net/ipv4/tcp_output.c:1129:17: warning: Using pointer that is a temporar=
-y. [danglingTemporaryLifetime]
-     tasklet_setup(&tsq->tasklet, tcp_tasklet_func);
-                   ^
-   net/ipv4/tcp_output.c:1126:29: note: Address of variable taken here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                               ^
-   net/ipv4/tcp_output.c:1129:17: note: Address of variable taken here.
-     tasklet_setup(&tsq->tasklet, tcp_tasklet_func);
-                   ^
-   net/ipv4/tcp_output.c:1126:37: note: Temporary created here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                                       ^
-   net/ipv4/tcp_output.c:1129:17: note: Using pointer that is a temporary.
-     tasklet_setup(&tsq->tasklet, tcp_tasklet_func);
-                   ^
-   net/ipv4/tcp_output.c:1129:18: warning: Using pointer that is a temporar=
-y. [danglingTemporaryLifetime]
-     tasklet_setup(&tsq->tasklet, tcp_tasklet_func);
-                    ^
-   net/ipv4/tcp_output.c:1126:29: note: Address of variable taken here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                               ^
-   net/ipv4/tcp_output.c:1126:37: note: Temporary created here.
-     struct tsq_tasklet *tsq =3D &per_cpu(tsq_tasklet, i);
-                                       ^
-   net/ipv4/tcp_output.c:1129:18: note: Using pointer that is a temporary.
-     tasklet_setup(&tsq->tasklet, tcp_tasklet_func);
-                    ^
->> net/ipv4/tcp_output.c:458:57: warning: Parameter 'skb' can be declared w=
-ith const [constParameter]
-   static int bpf_skops_write_hdr_opt_arg0(struct sk_buff *skb,
-                                                           ^
---
->> net/ipv4/udp.c:459:24: warning: Parameter 'udptable' can be declared wit=
-h const [constParameter]
-        struct udp_table *udptable,
-                          ^
+a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
 
-vim +670 net/ipv4/route.c
+ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
+pc_probe(struct platform_device *pdev)
+ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
+=3D &pdev->dev;
+a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
+*adev;
+a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
+ce *ec_dev;
+bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
+da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
 
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  589  =
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  344  	/*
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  345  	 * The Framework La=
+ptop (and possibly other non-ChromeOS devices)
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  346  	 * only exposes the=
+ eight I/O ports that are required for the Microchip EC.
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  347  	 * Requesting a lar=
+ger reservation will fail.
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  348  	 */
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  349  	if (!devm_request_r=
+egion(dev, EC_HOST_CMD_REGION0,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  350  				 EC_HOST_CMD_MEC=
+_REGION_SIZE, dev_name(dev))) {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  351  		dev_err(dev, "coul=
+dn't reserve MEC region\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
 
-67d6d681e15b57 Eric Dumazet           2021-08-29  590  static void fnhe_rem=
-ove_oldest(struct fnhe_hash_bucket *hash)
-4895c771c7f006 David S. Miller        2012-07-17  591  {
-67d6d681e15b57 Eric Dumazet           2021-08-29 @592  	struct fib_nh_excep=
-tion __rcu **fnhe_p, **oldest_p;
-67d6d681e15b57 Eric Dumazet           2021-08-29  593  	struct fib_nh_excep=
-tion *fnhe, *oldest =3D NULL;
-4895c771c7f006 David S. Miller        2012-07-17  594  =
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
+ID twice, the first one is assuming the
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
+p Embedded Controller (MEC) variant, if the
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
+fallback to the non MEC variant and try to
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
+D.
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
+d =3D cros_ec_lpc_mec_read_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
+te =3D cros_ec_lpc_mec_write_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
+d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
+ || buf[1] !=3D 'C') {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  365  		if (!devm_request_=
+region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  366  					 dev_name(dev))=
+) {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  367  			dev_err(dev, "cou=
+ldn't reserve memmap region\n");
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  368  			return -EBUSY;
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  369  		}
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  370  =
 
-67d6d681e15b57 Eric Dumazet           2021-08-29  595  	for (fnhe_p =3D &ha=
-sh->chain; ; fnhe_p =3D &fnhe->fnhe_next) {
-67d6d681e15b57 Eric Dumazet           2021-08-29  596  		fnhe =3D rcu_deref=
-erence_protected(*fnhe_p,
-67d6d681e15b57 Eric Dumazet           2021-08-29  597  						 lockdep_is_he=
-ld(&fnhe_lock));
-67d6d681e15b57 Eric Dumazet           2021-08-29  598  		if (!fnhe)
-67d6d681e15b57 Eric Dumazet           2021-08-29  599  			break;
-67d6d681e15b57 Eric Dumazet           2021-08-29  600  		if (!oldest ||
-67d6d681e15b57 Eric Dumazet           2021-08-29  601  		    time_before(fn=
-he->fnhe_stamp, oldest->fnhe_stamp)) {
-4895c771c7f006 David S. Miller        2012-07-17  602  			oldest =3D fnhe;
-67d6d681e15b57 Eric Dumazet           2021-08-29  603  			oldest_p =3D fnhe=
-_p;
-67d6d681e15b57 Eric Dumazet           2021-08-29  604  		}
-4895c771c7f006 David S. Miller        2012-07-17  605  	}
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  606  	fnhe_flush_rou=
-tes(oldest);
-67d6d681e15b57 Eric Dumazet           2021-08-29  607  	*oldest_p =3D oldes=
-t->fnhe_next;
-67d6d681e15b57 Eric Dumazet           2021-08-29  608  	kfree_rcu(oldest, r=
-cu);
-4895c771c7f006 David S. Miller        2012-07-17  609  }
-4895c771c7f006 David S. Miller        2012-07-17  610  =
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
+write operations for the non MEC variant */
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
+ad =3D cros_ec_lpc_read_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
+ite =3D cros_ec_lpc_write_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
+ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
+bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
+' || buf[1] !=3D 'C') {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
+ID not detected\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
 
-6457378fe79681 Eric Dumazet           2021-08-25  611  static u32 fnhe_hash=
-fun(__be32 daddr)
-d3a25c980fc231 David S. Miller        2012-07-17  612  {
-6457378fe79681 Eric Dumazet           2021-08-25  613  	static siphash_key_=
-t fnhe_hash_key __read_mostly;
-6457378fe79681 Eric Dumazet           2021-08-25  614  	u64 hval;
-d3a25c980fc231 David S. Miller        2012-07-17  615  =
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  381  		/* Reserve the rem=
+aining I/O ports required by the non-MEC protocol. */
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17 @382  		if (!devm_request_=
+region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  383  					 EC_HOST_CMD_RE=
+GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  384  					 dev_name(dev))=
+) {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  385  			dev_err(dev, "cou=
+ldn't reserve remainder of region0\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
+region(dev, EC_HOST_CMD_REGION1,
+ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
+GION_SIZE, dev_name(dev))) {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
+ldn't reserve region1\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  393  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
 
-6457378fe79681 Eric Dumazet           2021-08-25  616  	net_get_random_once=
-(&fnhe_hash_key, sizeof(fnhe_hash_key));
-6457378fe79681 Eric Dumazet           2021-08-25  617  	hval =3D siphash_1u=
-32((__force u32)daddr, &fnhe_hash_key);
-6457378fe79681 Eric Dumazet           2021-08-25  618  	return hash_64(hval=
-, FNHE_HASH_SHIFT);
-d3a25c980fc231 David S. Miller        2012-07-17  619  }
-d3a25c980fc231 David S. Miller        2012-07-17  620  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
+lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
+ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
 
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  621  static void fil=
-l_route_from_fnhe(struct rtable *rt, struct fib_nh_exception *fnhe)
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  622  {
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  623  	rt->rt_pmtu =
-=3D fnhe->fnhe_pmtu;
-d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  624  	rt->rt_mtu_locked =
-=3D fnhe->fnhe_mtu_locked;
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  625  	rt->dst.expire=
-s =3D fnhe->fnhe_expires;
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  626  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
+a(pdev, ec_dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
+=3D dev_name(dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
+=3D cros_ec_cmd_xfer_lpc;
+d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
+=3D cros_ec_pkt_xfer_lpc;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
+ =3D cros_ec_lpc_readmem;
+2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
+=3D sizeof(struct ec_host_response) +
+2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
+ec_response_get_protocol_info);
+2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
+=3D sizeof(struct ec_host_request);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
 
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  627  	if (fnhe->fnhe=
-_gw) {
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  628  		rt->rt_flags =
-|=3D RTCF_REDIRECTED;
-77d5bc7e6a6cf8 David Ahern            2019-09-17  629  		rt->rt_uses_gatewa=
-y =3D 1;
-1550c171935d26 David Ahern            2019-04-05  630  		rt->rt_gw_family =
-=3D AF_INET;
-1550c171935d26 David Ahern            2019-04-05  631  		rt->rt_gw4 =3D fnh=
-e->fnhe_gw;
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  632  	}
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  633  }
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  634  =
+da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
+da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
+ot have an IRQ allotted for cros_ec_lpc,
+da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
+O an expected (and safe) scenario.
+da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
+a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
+t_irq_optional(pdev, 0);
+da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
+da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
+q;
+da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
+ENXIO) {
+da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
+dn't retrieve IRQ number (%d)\n", irq);
+da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
+da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
+da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
 
-a5995e7107eb3d David Ahern            2019-04-30  635  static void update_o=
-r_create_fnhe(struct fib_nh_common *nhc, __be32 daddr,
-a5995e7107eb3d David Ahern            2019-04-30  636  				  __be32 gw, u32=
- pmtu, bool lock,
-a5995e7107eb3d David Ahern            2019-04-30  637  				  unsigned long =
-expires)
-4895c771c7f006 David S. Miller        2012-07-17  638  {
-aee06da6726d49 Julian Anastasov       2012-07-18  639  	struct fnhe_hash_bu=
-cket *hash;
-4895c771c7f006 David S. Miller        2012-07-17  640  	struct fib_nh_excep=
-tion *fnhe;
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  641  	struct rtable =
-*rt;
-cebe84c6190d74 Xin Long               2017-11-17  642  	u32 genid, hval;
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  643  	unsigned int i;
-4895c771c7f006 David S. Miller        2012-07-17  644  	int depth;
-cebe84c6190d74 Xin Long               2017-11-17  645  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
+ister(ec_dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
+dn't register ec_dev (%d)\n", ret);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
 
-a5995e7107eb3d David Ahern            2019-04-30  646  	genid =3D fnhe_geni=
-d(dev_net(nhc->nhc_dev));
-cebe84c6190d74 Xin Long               2017-11-17  647  	hval =3D fnhe_hashf=
-un(daddr);
-4895c771c7f006 David S. Miller        2012-07-17  648  =
+a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
+a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
+ handler to process MKBP messages if we have a
+a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
+evice.
+a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
+a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
+NION(dev);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
+a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
+stall_notify_handler(adev->handle,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
+NOTIFY,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
+pc_acpi_notify,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
+tatus))
+a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
+iled to register notifier %08x\n",
+a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
+a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
 
-c5038a8327b980 David S. Miller        2012-07-31  649  	spin_lock_bh(&fnhe_=
-lock);
-aee06da6726d49 Julian Anastasov       2012-07-18  650  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
+ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
 
-a5995e7107eb3d David Ahern            2019-04-30  651  	hash =3D rcu_derefe=
-rence(nhc->nhc_exceptions);
-4895c771c7f006 David S. Miller        2012-07-17  652  	if (!hash) {
-6396bb221514d2 Kees Cook              2018-06-12  653  		hash =3D kcalloc(F=
-NHE_HASH_SIZE, sizeof(*hash), GFP_ATOMIC);
-4895c771c7f006 David S. Miller        2012-07-17  654  		if (!hash)
-aee06da6726d49 Julian Anastasov       2012-07-18  655  			goto out_unlock;
-a5995e7107eb3d David Ahern            2019-04-30  656  		rcu_assign_pointer=
-(nhc->nhc_exceptions, hash);
-4895c771c7f006 David S. Miller        2012-07-17  657  	}
-4895c771c7f006 David S. Miller        2012-07-17  658  =
-
-4895c771c7f006 David S. Miller        2012-07-17  659  	hash +=3D hval;
-4895c771c7f006 David S. Miller        2012-07-17  660  =
-
-4895c771c7f006 David S. Miller        2012-07-17  661  	depth =3D 0;
-4895c771c7f006 David S. Miller        2012-07-17  662  	for (fnhe =3D rcu_d=
-ereference(hash->chain); fnhe;
-4895c771c7f006 David S. Miller        2012-07-17  663  	     fnhe =3D rcu_d=
-ereference(fnhe->fnhe_next)) {
-4895c771c7f006 David S. Miller        2012-07-17  664  		if (fnhe->fnhe_dad=
-dr =3D=3D daddr)
-aee06da6726d49 Julian Anastasov       2012-07-18  665  			break;
-4895c771c7f006 David S. Miller        2012-07-17  666  		depth++;
-4895c771c7f006 David S. Miller        2012-07-17  667  	}
-4895c771c7f006 David S. Miller        2012-07-17  668  =
-
-aee06da6726d49 Julian Anastasov       2012-07-18  669  	if (fnhe) {
-cebe84c6190d74 Xin Long               2017-11-17 @670  		if (fnhe->fnhe_gen=
-id !=3D genid)
-cebe84c6190d74 Xin Long               2017-11-17  671  			fnhe->fnhe_genid =
-=3D genid;
-aee06da6726d49 Julian Anastasov       2012-07-18  672  		if (gw)
-aee06da6726d49 Julian Anastasov       2012-07-18  673  			fnhe->fnhe_gw =3D=
- gw;
-d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  674  		if (pmtu) {
-aee06da6726d49 Julian Anastasov       2012-07-18  675  			fnhe->fnhe_pmtu =
-=3D pmtu;
-d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  676  			fnhe->fnhe_mtu_lo=
-cked =3D lock;
-d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  677  		}
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  678  		fnhe->fnhe_ex=
-pires =3D max(1UL, expires);
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  679  		/* Update all=
- cached dsts too */
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  680  		rt =3D rcu_de=
-reference(fnhe->fnhe_rth_input);
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  681  		if (rt)
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  682  			fill_route_f=
-rom_fnhe(rt, fnhe);
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  683  		rt =3D rcu_de=
-reference(fnhe->fnhe_rth_output);
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  684  		if (rt)
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  685  			fill_route_f=
-rom_fnhe(rt, fnhe);
-aee06da6726d49 Julian Anastasov       2012-07-18  686  	} else {
-67d6d681e15b57 Eric Dumazet           2021-08-29  687  		/* Randomize max d=
-epth to avoid some side channels attacks. */
-67d6d681e15b57 Eric Dumazet           2021-08-29  688  		int max_depth =3D =
-FNHE_RECLAIM_DEPTH +
-67d6d681e15b57 Eric Dumazet           2021-08-29  689  				prandom_u32_max(=
-FNHE_RECLAIM_DEPTH);
-67d6d681e15b57 Eric Dumazet           2021-08-29  690  =
-
-67d6d681e15b57 Eric Dumazet           2021-08-29  691  		while (depth > max=
-_depth) {
-67d6d681e15b57 Eric Dumazet           2021-08-29  692  			fnhe_remove_oldes=
-t(hash);
-67d6d681e15b57 Eric Dumazet           2021-08-29  693  			depth--;
-67d6d681e15b57 Eric Dumazet           2021-08-29  694  		}
-67d6d681e15b57 Eric Dumazet           2021-08-29  695  =
-
-4895c771c7f006 David S. Miller        2012-07-17  696  		fnhe =3D kzalloc(s=
-izeof(*fnhe), GFP_ATOMIC);
-4895c771c7f006 David S. Miller        2012-07-17  697  		if (!fnhe)
-aee06da6726d49 Julian Anastasov       2012-07-18  698  			goto out_unlock;
-4895c771c7f006 David S. Miller        2012-07-17  699  =
-
-4895c771c7f006 David S. Miller        2012-07-17  700  		fnhe->fnhe_next =
-=3D hash->chain;
-67d6d681e15b57 Eric Dumazet           2021-08-29  701  =
-
-cebe84c6190d74 Xin Long               2017-11-17  702  		fnhe->fnhe_genid =
-=3D genid;
-4895c771c7f006 David S. Miller        2012-07-17  703  		fnhe->fnhe_daddr =
-=3D daddr;
-aee06da6726d49 Julian Anastasov       2012-07-18  704  		fnhe->fnhe_gw =3D =
-gw;
-aee06da6726d49 Julian Anastasov       2012-07-18  705  		fnhe->fnhe_pmtu =
-=3D pmtu;
-d52e5a7e7ca494 Sabrina Dubroca        2018-03-14  706  		fnhe->fnhe_mtu_loc=
-ked =3D lock;
-94720e3aee6884 Julian Anastasov       2018-05-02  707  		fnhe->fnhe_expires=
- =3D max(1UL, expires);
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  708  =
-
-67d6d681e15b57 Eric Dumazet           2021-08-29  709  		rcu_assign_pointer=
-(hash->chain, fnhe);
-67d6d681e15b57 Eric Dumazet           2021-08-29  710  =
-
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  711  		/* Exception =
-created; mark the cached routes for the nexthop
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  712  		 * stale, so =
-anyone caching it rechecks if this exception
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  713  		 * applies to=
- them.
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  714  		 */
-0f457a36626fa9 David Ahern            2019-04-30  715  		rt =3D rcu_derefer=
-ence(nhc->nhc_rth_input);
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  716  		if (rt)
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  717  			rt->dst.obso=
-lete =3D DST_OBSOLETE_KILL;
-2ffae99d1fac27 Timo Ter=C3=A4s             2013-06-27  718  =
-
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  719  		for_each_poss=
-ible_cpu(i) {
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  720  			struct rtabl=
-e __rcu **prt;
-6ad086009f87f6 Shubhankar Kuranagatti 2021-03-12  721  =
-
-0f457a36626fa9 David Ahern            2019-04-30  722  			prt =3D per_cpu_p=
-tr(nhc->nhc_pcpu_rth_output, i);
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  723  			rt =3D rcu_d=
-ereference(*prt);
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  724  			if (rt)
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  725  				rt->dst.obs=
-olete =3D DST_OBSOLETE_KILL;
-387aa65a89434a Timo Ter=C3=A4s             2013-05-27  726  		}
-aee06da6726d49 Julian Anastasov       2012-07-18  727  	}
-aee06da6726d49 Julian Anastasov       2012-07-18  728  =
-
-4895c771c7f006 David S. Miller        2012-07-17  729  	fnhe->fnhe_stamp =
-=3D jiffies;
-aee06da6726d49 Julian Anastasov       2012-07-18  730  =
-
-aee06da6726d49 Julian Anastasov       2012-07-18  731  out_unlock:
-c5038a8327b980 David S. Miller        2012-07-31  732  	spin_unlock_bh(&fnh=
-e_lock);
-4895c771c7f006 David S. Miller        2012-07-17  733  }
-4895c771c7f006 David S. Miller        2012-07-17  734  =
-
-
-:::::: The code at line 670 was first introduced by commit
-:::::: cebe84c6190d741045a322f5343f717139993c08 route: also update fnhe_gen=
-id when updating a route cache
-
-:::::: TO: Xin Long <lucien.xin@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7281226496002327826==--
+--===============4814424637821112785==--
 
