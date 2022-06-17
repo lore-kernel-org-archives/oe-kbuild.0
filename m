@@ -1,286 +1,282 @@
-Content-Type: multipart/mixed; boundary="===============5876894916525651690=="
+Content-Type: multipart/mixed; boundary="===============7699691001138890880=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [samba-ksmbd:for-next 2/5] fs/cifs/smb2ops.c:571 parse_server_interfaces() warn: sleeping in atomic context
-Date: Wed, 15 Jun 2022 17:31:05 +0800
-Message-ID: <202206151736.Oy7RWMHu-lkp@intel.com>
+Subject: drivers/crypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL '*cryp.areq' [CWE-476]
+Date: Fri, 17 Jun 2022 20:17:32 +0800
+Message-ID: <202206172043.tO1UzqFb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5876894916525651690==
+--===============7699691001138890880==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/c=
+rypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL '*cryp.areq'=
+ [CWE-476] [-Wanalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Shyam Prasad N <sprasad@microsoft.com>
+TO: Nicolas Toromanoff <nicolas.toromanoff@foss.st.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-tree:   git://git.samba.org/ksmbd.git for-next
-head:   43c233283f928be86531f030c8a3faa497a30e15
-commit: 29c5f6efd1d496330e43ed2779ed371663f446b5 [2/5] cifs: change iface_l=
-ist from array to sorted linked list
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: i386-randconfig-m021-20220613 (https://download.01.org/0day-ci/arch=
-ive/20220615/202206151736.Oy7RWMHu-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   47700948a4abb4a5ae13ef943ff682a7f327547a
+commit: 4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9 crypto: stm32/cryp - fix b=
+ugs and crash in tests
+date:   6 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-c002-20220616 (https://download.01.org/0day-ci/archi=
+ve/20220617/202206172043.tO1UzqFb-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4b898d5cfa4d9a0ad5bc82cb5eafdc092394c6a9
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/cifs/smb2ops.c:571 parse_server_interfaces() warn: sleeping in atomic co=
-ntext
 
-vim +571 fs/cifs/smb2ops.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/crypto/stm32/stm32-cryp.c: In function 'stm32_cryp_prepare_req':
+>> drivers/crypto/stm32/stm32-cryp.c:1057:17: warning: dereference of NULL =
+'*cryp.areq' [CWE-476] [-Wanalyzer-null-dereference]
+    1057 |                 scatterwalk_copychunks(NULL, &cryp->out_walk, cr=
+yp->areq->assoclen, 2);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~
+     'stm32_cryp_prepare_req': events 1-3
+       |
+       |  999 |         if (!cryp)
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch (when 'cryp' is non=
+-NULL)...
+       |......
+       | 1002 |         rctx =3D req ? skcipher_request_ctx(req) : aead_req=
+uest_ctx(areq);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+       |      |              |
+       |      |              (2) ...to here
+       |      |              (3) following 'true' branch (when 'req' is non=
+-NULL)...
+       |
+     'stm32_cryp_prepare_req': event 4
+       |
+       |include/crypto/internal/skcipher.h:156:16:
+       |  156 |         return req->__ctx;
+       |      |                ^~~
+       |      |                |
+       |      |                (4) ...to here
+       |
+     'stm32_cryp_prepare_req': events 5-6
+       |
+       |drivers/crypto/stm32/stm32-cryp.c:1011:12:
+       | 1011 |         if (req) {
+       |      |            ^
+       |      |            |
+       |      |            (5) following 'true' branch (when 'req' is non-N=
+ULL)...
+       | 1012 |                 cryp->req =3D req;
+       |      |                 ~~~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (6) ...to here
+       |
+     'stm32_cryp_prepare_req': events 7-13
+       |
+       | 1013 |                 cryp->areq =3D NULL;
+       |......
+       | 1049 |         in_sg =3D req ? req->src : areq->src;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                |
+       |      |                                (8) following 'true' branch =
+(when 'req' is non-NULL)...
+       |      |                                (9) ...to here
+       |......
+       | 1052 |         cryp->out_sg =3D req ? req->dst : areq->dst;
+       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                       |
+       |      |                                       (10) following 'true'=
+ branch (when 'req' is non-NULL)...
+       |      |                                       (11) ...to here
+       |......
+       | 1057 |                 scatterwalk_copychunks(NULL, &cryp->out_wal=
+k, cryp->areq->assoclen, 2);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |                                          =
+       |
+       |      |                 (13) dereference of NULL '*cryp.areq'      =
+       (12) '*cryp.areq' is NULL
+       |
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  511  =
+vim +1057 drivers/crypto/stm32/stm32-cryp.c
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  512  static int
-fe856be475f7cf Aurelien Aptel 2018-06-14  513  parse_server_interfaces(stru=
-ct network_interface_info_ioctl_rsp *buf,
-fe856be475f7cf Aurelien Aptel 2018-06-14  514  			size_t buf_len,
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  515  			struct cifs_ses *ses)
-fe856be475f7cf Aurelien Aptel 2018-06-14  516  {
-fe856be475f7cf Aurelien Aptel 2018-06-14  517  	struct network_interface_in=
-fo_ioctl_rsp *p;
-fe856be475f7cf Aurelien Aptel 2018-06-14  518  	struct sockaddr_in *addr4;
-fe856be475f7cf Aurelien Aptel 2018-06-14  519  	struct sockaddr_in6 *addr6;
-fe856be475f7cf Aurelien Aptel 2018-06-14  520  	struct iface_info_ipv4 *p4;
-fe856be475f7cf Aurelien Aptel 2018-06-14  521  	struct iface_info_ipv6 *p6;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  522  	struct cifs_server_iface *i=
-nfo =3D NULL, *iface =3D NULL, *niface =3D NULL;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  523  	struct cifs_server_iface tm=
-p_iface;
-fe856be475f7cf Aurelien Aptel 2018-06-14  524  	ssize_t bytes_left;
-fe856be475f7cf Aurelien Aptel 2018-06-14  525  	size_t next =3D 0;
-fe856be475f7cf Aurelien Aptel 2018-06-14  526  	int nb_iface =3D 0;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  527  	int rc =3D 0, ret =3D 0;
-fe856be475f7cf Aurelien Aptel 2018-06-14  528  =
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   981  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  529  	bytes_left =3D buf_len;
-fe856be475f7cf Aurelien Aptel 2018-06-14  530  	p =3D buf;
-fe856be475f7cf Aurelien Aptel 2018-06-14  531  =
+47ece4813f19f1 Ard Biesheuvel     2019-11-09   982  static int stm32_cryp_p=
+repare_req(struct skcipher_request *req,
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   983  				  struct aead_reque=
+st *areq)
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   984  {
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   985  	struct stm32_cryp_ctx =
+*ctx;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   986  	struct stm32_cryp *cry=
+p;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   987  	struct stm32_cryp_reqc=
+tx *rctx;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30   988  	struct scatterlist *in=
+_sg;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   989  	int ret;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   990  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  532  	spin_lock(&ses->iface_lock);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  533  	/*
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  534  	 * Go through iface_list an=
-d do kref_put to remove
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  535  	 * any unused ifaces. iface=
-s in use will be removed
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  536  	 * when the last user calls=
- a kref_put on it
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  537  	 */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  538  	list_for_each_entry_safe(if=
-ace, niface, &ses->iface_list,
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  539  				 iface_head) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  540  		iface->is_active =3D 0;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  541  		kref_put(&iface->refcount,=
- release_iface);
-fe856be475f7cf Aurelien Aptel 2018-06-14  542  	}
-fe856be475f7cf Aurelien Aptel 2018-06-14  543  =
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   991  	if (!req && !areq)
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   992  		return -EINVAL;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   993  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  544  	while (bytes_left >=3D size=
-of(*p)) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  545  		memset(&tmp_iface, 0, size=
-of(tmp_iface));
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  546  		tmp_iface.speed =3D le64_t=
-o_cpu(p->LinkSpeed);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  547  		tmp_iface.rdma_capable =3D=
- le32_to_cpu(p->Capability & RDMA_CAPABLE) ? 1 : 0;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  548  		tmp_iface.rss_capable =3D =
-le32_to_cpu(p->Capability & RSS_CAPABLE) ? 1 : 0;
-fe856be475f7cf Aurelien Aptel 2018-06-14  549  =
+47ece4813f19f1 Ard Biesheuvel     2019-11-09   994  	ctx =3D req ? crypto_s=
+kcipher_ctx(crypto_skcipher_reqtfm(req)) :
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07   995  		    crypto_aead_ctx(c=
+rypto_aead_reqtfm(areq));
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   996  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  550  		/*
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  551  		 * The iface_list is assum=
-ed to be sorted by speed.
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  552  		 * Check if the new interf=
-ace exists in that list.
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  553  		 * NEVER change iface. it =
-could be in use.
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  554  		 * Add a new one instead
-fe856be475f7cf Aurelien Aptel 2018-06-14  555  		 */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  556  		list_for_each_entry_safe(i=
-face, niface, &ses->iface_list,
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  557  					 iface_head) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  558  			ret =3D iface_cmp(iface, =
-&tmp_iface);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  559  			if (!ret) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  560  				/* just get a ref so tha=
-t it doesn't get picked/freed */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  561  				iface->is_active =3D 1;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  562  				kref_get(&iface->refcoun=
-t);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  563  				goto next_iface;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  564  			} else if (ret > 0) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  565  				/* all remaining ifaces =
-are slower */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  566  				break;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  567  			}
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  568  		}
-fe856be475f7cf Aurelien Aptel 2018-06-14  569  =
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   997  	cryp =3D ctx->cryp;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   998  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  570  		/* no match. insert the en=
-try in the list */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01 @571  		info =3D kmalloc(sizeof(st=
-ruct cifs_server_iface),
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  572  			       GFP_KERNEL);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  573  		if (!info) {
-fe856be475f7cf Aurelien Aptel 2018-06-14  574  			rc =3D -ENOMEM;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  575  			spin_unlock(&ses->iface_l=
-ock);
-fe856be475f7cf Aurelien Aptel 2018-06-14  576  			goto out;
-fe856be475f7cf Aurelien Aptel 2018-06-14  577  		}
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  578  		memcpy(info, &tmp_iface, s=
-izeof(tmp_iface));
-fe856be475f7cf Aurelien Aptel 2018-06-14  579  =
+9e054ec21ef834 Fabien DESSENNE    2017-10-19   999  	if (!cryp)
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1000  		return -ENODEV;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1001  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  580  		/* add this new entry to t=
-he list */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  581  		kref_init(&info->refcount);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  582  		info->is_active =3D 1;
-fe856be475f7cf Aurelien Aptel 2018-06-14  583  =
+47ece4813f19f1 Ard Biesheuvel     2019-11-09  1002  	rctx =3D req ? skciphe=
+r_request_ctx(req) : aead_request_ctx(areq);
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1003  	rctx->mode &=3D FLG_MO=
+DE_MASK;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1004  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  584  		cifs_dbg(FYI, "%s: adding =
-iface %zu\n", __func__, ses->iface_count);
-fe856be475f7cf Aurelien Aptel 2018-06-14  585  		cifs_dbg(FYI, "%s: speed %=
-zu bps\n", __func__, info->speed);
-fe856be475f7cf Aurelien Aptel 2018-06-14  586  		cifs_dbg(FYI, "%s: capabil=
-ities 0x%08x\n", __func__,
-fe856be475f7cf Aurelien Aptel 2018-06-14  587  			 le32_to_cpu(p->Capabilit=
-y));
-fe856be475f7cf Aurelien Aptel 2018-06-14  588  =
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1005  	ctx->cryp =3D cryp;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1006  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  589  		switch (p->Family) {
-fe856be475f7cf Aurelien Aptel 2018-06-14  590  		/*
-fe856be475f7cf Aurelien Aptel 2018-06-14  591  		 * The kernel and wire soc=
-ket structures have the same
-fe856be475f7cf Aurelien Aptel 2018-06-14  592  		 * layout and use network =
-byte order but make the
-fe856be475f7cf Aurelien Aptel 2018-06-14  593  		 * conversion explicit in =
-case either one changes.
-fe856be475f7cf Aurelien Aptel 2018-06-14  594  		 */
-fe856be475f7cf Aurelien Aptel 2018-06-14  595  		case INTERNETWORK:
-fe856be475f7cf Aurelien Aptel 2018-06-14  596  			addr4 =3D (struct sockadd=
-r_in *)&info->sockaddr;
-fe856be475f7cf Aurelien Aptel 2018-06-14  597  			p4 =3D (struct iface_info=
-_ipv4 *)p->Buffer;
-fe856be475f7cf Aurelien Aptel 2018-06-14  598  			addr4->sin_family =3D AF_=
-INET;
-fe856be475f7cf Aurelien Aptel 2018-06-14  599  			memcpy(&addr4->sin_addr, =
-&p4->IPv4Address, 4);
-fe856be475f7cf Aurelien Aptel 2018-06-14  600  =
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1007  	cryp->flags =3D (cryp-=
+>flags & ~FLG_MODE_MASK) | rctx->mode;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1008  	cryp->hw_blocksize =3D=
+ is_aes(cryp) ? AES_BLOCK_SIZE : DES_BLOCK_SIZE;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1009  	cryp->ctx =3D ctx;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1010  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  601  			/* [MS-SMB2] 2.2.32.5.1.1=
- Clients MUST ignore these */
-fe856be475f7cf Aurelien Aptel 2018-06-14  602  			addr4->sin_port =3D cpu_t=
-o_be16(CIFS_PORT);
-fe856be475f7cf Aurelien Aptel 2018-06-14  603  =
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1011  	if (req) {
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1012  		cryp->req =3D req;
+29aed438e87020 Lionel Debieve     2019-04-24  1013  		cryp->areq =3D NULL;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1014  		cryp->header_in =3D 0;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1015  		cryp->payload_in =3D =
+req->cryptlen;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1016  		cryp->payload_out =3D=
+ req->cryptlen;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1017  		cryp->authsize =3D 0;
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1018  	} else {
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1019  		/*
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1020  		 * Length of input an=
+d output data:
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1021  		 * Encryption case:
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1022  		 *  INPUT  =3D AssocD=
+ata   ||     PlainText
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1023  		 *          <- assocl=
+en ->  <- cryptlen ->
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1024  		 *
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1025  		 *  OUTPUT =3D AssocD=
+ata    ||   CipherText   ||      AuthTag
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1026  		 *          <- assocl=
+en ->  <-- cryptlen -->  <- authsize ->
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1027  		 *
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1028  		 * Decryption case:
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1029  		 *  INPUT  =3D  Assoc=
+Data     ||    CipherTex   ||       AuthTag
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1030  		 *          <- assocl=
+en --->  <---------- cryptlen ---------->
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1031  		 *
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1032  		 *  OUTPUT =3D AssocD=
+ata    ||               PlainText
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1033  		 *          <- assocl=
+en ->  <- cryptlen - authsize ->
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1034  		 */
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1035  		cryp->areq =3D areq;
+29aed438e87020 Lionel Debieve     2019-04-24  1036  		cryp->req =3D NULL;
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1037  		cryp->authsize =3D cr=
+ypto_aead_authsize(crypto_aead_reqtfm(areq));
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1038  		if (is_encrypt(cryp))=
+ {
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1039  			cryp->payload_in =3D=
+ areq->cryptlen;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1040  			cryp->header_in =3D =
+areq->assoclen;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1041  			cryp->payload_out =
+=3D areq->cryptlen;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1042  		} else {
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1043  			cryp->payload_in =3D=
+ areq->cryptlen - cryp->authsize;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1044  			cryp->header_in =3D =
+areq->assoclen;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1045  			cryp->payload_out =
+=3D cryp->payload_in;
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1046  		}
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1047  	}
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1048  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  604  			cifs_dbg(FYI, "%s: ipv4 %=
-pI4\n", __func__,
-fe856be475f7cf Aurelien Aptel 2018-06-14  605  				 &addr4->sin_addr);
-fe856be475f7cf Aurelien Aptel 2018-06-14  606  			break;
-fe856be475f7cf Aurelien Aptel 2018-06-14  607  		case INTERNETWORKV6:
-fe856be475f7cf Aurelien Aptel 2018-06-14  608  			addr6 =3D	(struct sockadd=
-r_in6 *)&info->sockaddr;
-fe856be475f7cf Aurelien Aptel 2018-06-14  609  			p6 =3D (struct iface_info=
-_ipv6 *)p->Buffer;
-fe856be475f7cf Aurelien Aptel 2018-06-14  610  			addr6->sin6_family =3D AF=
-_INET6;
-fe856be475f7cf Aurelien Aptel 2018-06-14  611  			memcpy(&addr6->sin6_addr,=
- &p6->IPv6Address, 16);
-fe856be475f7cf Aurelien Aptel 2018-06-14  612  =
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1049  	in_sg =3D req ? req->s=
+rc : areq->src;
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1050  	scatterwalk_start(&cry=
+p->in_walk, in_sg);
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1051  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  613  			/* [MS-SMB2] 2.2.32.5.1.2=
- Clients MUST ignore these */
-fe856be475f7cf Aurelien Aptel 2018-06-14  614  			addr6->sin6_flowinfo =3D =
-0;
-fe856be475f7cf Aurelien Aptel 2018-06-14  615  			addr6->sin6_scope_id =3D =
-0;
-fe856be475f7cf Aurelien Aptel 2018-06-14  616  			addr6->sin6_port =3D cpu_=
-to_be16(CIFS_PORT);
-fe856be475f7cf Aurelien Aptel 2018-06-14  617  =
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1052  	cryp->out_sg =3D req ?=
+ req->dst : areq->dst;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1053  	scatterwalk_start(&cry=
+p->out_walk, cryp->out_sg);
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1054  =
 
-fe856be475f7cf Aurelien Aptel 2018-06-14  618  			cifs_dbg(FYI, "%s: ipv6 %=
-pI6\n", __func__,
-fe856be475f7cf Aurelien Aptel 2018-06-14  619  				 &addr6->sin6_addr);
-fe856be475f7cf Aurelien Aptel 2018-06-14  620  			break;
-fe856be475f7cf Aurelien Aptel 2018-06-14  621  		default:
-fe856be475f7cf Aurelien Aptel 2018-06-14  622  			cifs_dbg(VFS,
-fe856be475f7cf Aurelien Aptel 2018-06-14  623  				 "%s: skipping unsupport=
-ed socket family\n",
-fe856be475f7cf Aurelien Aptel 2018-06-14  624  				 __func__);
-fe856be475f7cf Aurelien Aptel 2018-06-14  625  			goto next_iface;
-fe856be475f7cf Aurelien Aptel 2018-06-14  626  		}
-fe856be475f7cf Aurelien Aptel 2018-06-14  627  =
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1055  	if (is_gcm(cryp) || is=
+_ccm(cryp)) {
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1056  		/* In output, jump af=
+ter assoc data */
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30 @1057  		scatterwalk_copychunk=
+s(NULL, &cryp->out_walk, cryp->areq->assoclen, 2);
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1058  	}
+9d3b5030bc1e44 Fabien DESSENNE    2018-02-07  1059  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  628  		if (!list_entry_is_head(if=
-ace, &ses->iface_list, iface_head))
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  629  			list_add_tail(&info->ifac=
-e_head, &iface->iface_head);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  630  		else
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  631  			list_add_tail(&info->ifac=
-e_head, &ses->iface_list);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  632  =
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1060  	if (is_ctr(cryp))
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1061  		memset(cryp->last_ctr=
+, 0, sizeof(cryp->last_ctr));
+4b898d5cfa4d9a Nicolas Toromanoff 2021-11-30  1062  =
 
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  633  		ses->iface_count++;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  634  		ses->iface_last_update =3D=
- jiffies;
-fe856be475f7cf Aurelien Aptel 2018-06-14  635  next_iface:
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  636  		nb_iface++;
-fe856be475f7cf Aurelien Aptel 2018-06-14  637  		next =3D le32_to_cpu(p->Ne=
-xt);
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  638  		if (!next) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  639  			bytes_left -=3D sizeof(*p=
-);
-fe856be475f7cf Aurelien Aptel 2018-06-14  640  			break;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  641  		}
-fe856be475f7cf Aurelien Aptel 2018-06-14  642  		p =3D (struct network_inte=
-rface_info_ioctl_rsp *)((u8 *)p+next);
-fe856be475f7cf Aurelien Aptel 2018-06-14  643  		bytes_left -=3D next;
-fe856be475f7cf Aurelien Aptel 2018-06-14  644  	}
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  645  	spin_unlock(&ses->iface_loc=
-k);
-fe856be475f7cf Aurelien Aptel 2018-06-14  646  =
-
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  647  	if (!nb_iface) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  648  		cifs_dbg(VFS, "%s: malform=
-ed interface info\n", __func__);
-fe856be475f7cf Aurelien Aptel 2018-06-14  649  		rc =3D -EINVAL;
-fe856be475f7cf Aurelien Aptel 2018-06-14  650  		goto out;
-fe856be475f7cf Aurelien Aptel 2018-06-14  651  	}
-fe856be475f7cf Aurelien Aptel 2018-06-14  652  =
-
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  653  	/* Azure rounds the buffer =
-size up 8, to a 16 byte boundary */
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  654  	if ((bytes_left > 8) || p->=
-Next)
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  655  		cifs_dbg(VFS, "%s: incompl=
-ete interface info\n", __func__);
-fe856be475f7cf Aurelien Aptel 2018-06-14  656  =
-
-35adffed079fdc Aurelien Aptel 2019-09-20  657  =
-
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  658  	if (!ses->iface_count) {
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  659  		rc =3D -EINVAL;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  660  		goto out;
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  661  	}
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  662  =
-
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  663  out:
-29c5f6efd1d496 Shyam Prasad N 2022-01-01  664  	return rc;
-35adffed079fdc Aurelien Aptel 2019-09-20  665  }
-fe856be475f7cf Aurelien Aptel 2018-06-14  666  =
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1063  	ret =3D stm32_cryp_hw_=
+init(cryp);
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1064  	return ret;
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1065  }
+9e054ec21ef834 Fabien DESSENNE    2017-10-19  1066  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5876894916525651690==--
+--===============7699691001138890880==--
 
