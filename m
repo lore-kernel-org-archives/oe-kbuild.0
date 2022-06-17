@@ -1,221 +1,100 @@
-Content-Type: multipart/mixed; boundary="===============7139537710034704558=="
+Content-Type: multipart/mixed; boundary="===============2599581001710867888=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/etherdevice.h:126:13: warning: dereference of NULL 'addr' [CWE-476]
-Date: Thu, 16 Jun 2022 03:55:36 +0800
-Message-ID: <202206160341.0cdShtVP-lkp@intel.com>
+Subject: drivers/block/brd.c:443:18: warning: Uninitialized variables: brd.brd_number, brd.brd_list, brd.brd_lock, brd.brd_pages, brd.brd_nr_pages [uninitvar]
+Date: Sat, 18 Jun 2022 00:46:14 +0800
+Message-ID: <202206180011.YPbZ2OeM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7139537710034704558==
+--===============2599581001710867888==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/etherdevice.h:126:13: warning: dereference of NULL 'addr' [C=
-WE-476] [-Wanalyzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/b=
+lock/brd.c:443:18: warning: Uninitialized variables: brd.brd_number, brd.br=
+d_list, brd.brd_lock, brd.brd_pages, brd.brd_nr_pages [uninitvar]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nikolay Aleksandrov <razor@blackwall.org>
+TO: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Luis Chamberlain <mcgrof@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   979086f5e0066b4eff66e1eee123da228489985c
-commit: 9e83425993f38bb89e0ea07849ba0039a748e85b net: rtnetlink: add NLM_F_=
-BULK support to rtnl_fdb_del
-date:   9 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-c001-20220613 (https://download.01.org/0day-ci/ar=
-chive/20220616/202206160341.0cdShtVP-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9e83425993f38bb89e0ea07849ba0039a748e85b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9e83425993f38bb89e0ea07849ba0039a748e85b
-        # save the config file
-         ARCH=3Dx86_64 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+head:   79fe0f863f920c5fcf9dea61676742f813f0b7a6
+commit: 00358933f66c44d511368a57eb421e172447cfb9 brd: remove brd_devices_mu=
+tex mutex
+date:   5 months ago
+:::::: branch date: 71 minutes ago
+:::::: commit date: 5 months ago
+compiler: m68k-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 00358933f66c44d511368a57eb421e172447cfb9
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/if_vlan.h:11,
-                    from net/core/rtnetlink.c:36:
-   net/core/rtnetlink.c: In function 'ndo_dflt_fdb_del':
->> include/linux/etherdevice.h:126:13: warning: dereference of NULL 'addr' =
-[CWE-476] [-Wanalyzer-null-dereference]
-     126 |         u32 a =3D *(const u32 *)addr;
-         |             ^
-     'rtnl_fdb_del': events 1-4
-       |
-       |net/core/rtnetlink.c:4177:12:
-       | 4177 | static int rtnl_fdb_del(struct sk_buff *skb, struct nlmsghd=
-r *nlh,
-       |      |            ^~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'rtnl_fdb_del'
-       |......
-       | 4190 |         if (!netlink_capable(skb, CAP_NET_ADMIN))
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'true' branch...
-       |......
-       | 4193 |         if (!del_bulk) {
-       |      |            ~
-       |      |            |
-       |      |            (3) ...to here
-       |......
-       | 4200 |         if (err < 0)
-       |      |            ~
-       |      |            |
-       |      |            (4) following 'false' branch (when 'err >=3D 0')=
-...
-       |
-     'rtnl_fdb_del': event 5
-       |
-       |include/net/netlink.h:570:38:
-       |  570 |         return (unsigned char *) nlh + NLMSG_HDRLEN;
-       |
-     'rtnl_fdb_del': events 6-22
-       |
-       |net/core/rtnetlink.c:4204:12:
-       | 4204 |         if (ndm->ndm_ifindex =3D=3D 0) {
-       |      |            ^
-       |      |            |
-       |      |            (6) following 'false' branch...
-       |......
-       | 4209 |         dev =3D __dev_get_by_index(net, ndm->ndm_ifindex);
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |               |
-       |      |               (7) ...to here
-       | 4210 |         if (dev =3D=3D NULL) {
-       |      |            ~
-       |      |            |
-       |      |            (8) following 'false' branch (when 'dev' is non-=
-NULL)...
-       |......
-       | 4215 |         if (!del_bulk) {
-       |      |            ~
-       |      |            |
-       |      |            (9) ...to here
-       |      |            (10) following 'false' branch...
-       |......
-       | 4223 |         if (dev->type !=3D ARPHRD_ETHER) {
-       |      |            ~~~~~~~~~~
-       |      |            |   |
-       |      |            |   (11) ...to here
-       |      |            (12) following 'false' branch...
-       |......
-       | 4228 |         err =3D fdb_vid_parse(tb[NDA_VLAN], &vid, extack);
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |               |
-       |      |               (13) ...to here
-       | 4229 |         if (err)
-       |      |            ~
-       |      |            |
-       |      |            (14) following 'false' branch (when 'err =3D=3D =
-0')...
-       |......
-       | 4235 |         if ((!ndm->ndm_flags || ndm->ndm_flags & NTF_MASTER=
-) &&
-       |      |               ~~~~~~~~~~~~~~
-       |      |                  |
-       |      |                  (15) ...to here
-       |......
-       | 4256 |         if (ndm->ndm_flags & NTF_SELF) {
-       |      |            ~
-       |      |            |
-       |      |            (16) following 'true' branch...
-       | 4257 |                 ops =3D dev->netdev_ops;
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (17) ...to here
-       | 4258 |                 if (!del_bulk) {
-       |      |                    ~
-       |      |                    |
-       |      |                    (18) following 'true' branch...
-       | 4259 |                         if (ops->ndo_fdb_del)
-       |      |                            ~~~~~~~~~~~~~~~~~
-       |      |                            |   |
-       |      |                            |   (19) ...to here
-       |      |                            (20) following 'false' branch...
-       |......
-       | 4262 |                                 err =3D ndo_dflt_fdb_del(nd=
-m, tb, dev, addr, vid);
-       |      |                                       ~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~
-       |      |                                       |
-       |      |                                       (21) ...to here
-       |      |                                       (22) calling 'ndo_dfl=
-t_fdb_del' from 'rtnl_fdb_del'
-       |
-       +--> 'ndo_dflt_fdb_del': events 23-24
-              |
-              | 4148 | int ndo_dflt_fdb_del(struct ndmsg *ndm,
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/addr +126 include/linux/etherdevice.h
+>> drivers/block/brd.c:443:18: warning: Uninitialized variables: brd.brd_nu=
+mber, brd.brd_list, brd.brd_lock, brd.brd_pages, brd.brd_nr_pages [uninitva=
+r]
+     brd_free_pages(brd);
+                    ^
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  115  =
+vim +443 drivers/block/brd.c
 
-79165121bc09c2 Michael Ellerman  2005-05-29  116  /**
-c2da8acaf488b8 Stephen Hemminger 2005-11-01  117   * is_multicast_ether_add=
-r - Determine if the Ethernet address is a multicast.
-79165121bc09c2 Michael Ellerman  2005-05-29  118   * @addr: Pointer to a si=
-x-byte array containing the Ethernet address
-79165121bc09c2 Michael Ellerman  2005-05-29  119   *
-79165121bc09c2 Michael Ellerman  2005-05-29  120   * Return true if the add=
-ress is a multicast address.
-88df8ef59a3eb5 Stephen Hemminger 2006-01-03  121   * By definition the broa=
-dcast address is also a multicast address.
-79165121bc09c2 Michael Ellerman  2005-05-29  122   */
-b44907e64cc198 Joe Perches       2012-05-08  123  static inline bool is_mul=
-ticast_ether_addr(const u8 *addr)
-79165121bc09c2 Michael Ellerman  2005-05-29  124  {
-d54385ce68cd18 Alexander Duyck   2015-04-30  125  #if defined(CONFIG_HAVE_E=
-FFICIENT_UNALIGNED_ACCESS)
-d54385ce68cd18 Alexander Duyck   2015-04-30 @126  	u32 a =3D *(const u32 *)=
-addr;
-d54385ce68cd18 Alexander Duyck   2015-04-30  127  #else
-d54385ce68cd18 Alexander Duyck   2015-04-30  128  	u16 a =3D *(const u16 *)=
-addr;
-d54385ce68cd18 Alexander Duyck   2015-04-30  129  #endif
-d54385ce68cd18 Alexander Duyck   2015-04-30  130  #ifdef __BIG_ENDIAN
-d54385ce68cd18 Alexander Duyck   2015-04-30  131  	return 0x01 & (a >> ((si=
-zeof(a) * 8) - 8));
-d54385ce68cd18 Alexander Duyck   2015-04-30  132  #else
-d54385ce68cd18 Alexander Duyck   2015-04-30  133  	return 0x01 & a;
-d54385ce68cd18 Alexander Duyck   2015-04-30  134  #endif
-d54385ce68cd18 Alexander Duyck   2015-04-30  135  }
-d54385ce68cd18 Alexander Duyck   2015-04-30  136  =
+9db5579be4bb53 Nicholas Piggin   2008-02-08  433  =
+
+00358933f66c44 Tetsuo Handa      2022-01-06  434  static void brd_cleanup(v=
+oid)
+9db5579be4bb53 Nicholas Piggin   2008-02-08  435  {
+00358933f66c44 Tetsuo Handa      2022-01-06  436  	struct brd_device *brd, =
+*next;
+00358933f66c44 Tetsuo Handa      2022-01-06  437  =
+
+00358933f66c44 Tetsuo Handa      2022-01-06  438  	debugfs_remove_recursive=
+(brd_debugfs_dir);
+00358933f66c44 Tetsuo Handa      2022-01-06  439  =
+
+00358933f66c44 Tetsuo Handa      2022-01-06  440  	list_for_each_entry_safe=
+(brd, next, &brd_devices, brd_list) {
+9db5579be4bb53 Nicholas Piggin   2008-02-08  441  		del_gendisk(brd->brd_di=
+sk);
+7f9b348cb5e942 Christoph Hellwig 2021-05-21  442  		blk_cleanup_disk(brd->b=
+rd_disk);
+7f9b348cb5e942 Christoph Hellwig 2021-05-21 @443  		brd_free_pages(brd);
+f7bf35862477d6 Tetsuo Handa      2021-09-07  444  		list_del(&brd->brd_list=
+);
+7f9b348cb5e942 Christoph Hellwig 2021-05-21  445  		kfree(brd);
+9db5579be4bb53 Nicholas Piggin   2008-02-08  446  	}
+00358933f66c44 Tetsuo Handa      2022-01-06  447  }
+9db5579be4bb53 Nicholas Piggin   2008-02-08  448  =
 
 
-:::::: The code at line 126 was first introduced by commit
-:::::: d54385ce68cd18ab002b46f61246ad197cec92de etherdev: Process is_multic=
-ast_ether_addr at same size as other operations
+:::::: The code at line 443 was first introduced by commit
+:::::: 7f9b348cb5e94259acdcbafbcaed55d3bb515304 brd: convert to blk_alloc_d=
+isk/blk_cleanup_disk
 
-:::::: TO: Alexander Duyck <alexander.h.duyck@redhat.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7139537710034704558==--
+--===============2599581001710867888==--
 
