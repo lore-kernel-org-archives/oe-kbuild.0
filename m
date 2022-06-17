@@ -1,250 +1,237 @@
-Content-Type: multipart/mixed; boundary="===============8997690591658620433=="
+Content-Type: multipart/mixed; boundary="===============5502382982222843470=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [alobakin:bitops 5/7] include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: ignoring unreachable code.
-Date: Sat, 18 Jun 2022 07:35:32 +0800
-Message-ID: <202206180701.oLzXW2Ik-lkp@intel.com>
+Subject: include/linux/etherdevice.h:337:19: warning: dereference of NULL 'failover_dev' [CWE-476]
+Date: Sat, 18 Jun 2022 07:25:16 +0800
+Message-ID: <202206180726.9Xs1LGbY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8997690591658620433==
+--===============5502382982222843470==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/linux/etherdevice.h:337:19: warning: dereference of NULL 'failover=
+_dev' [CWE-476] [-Wanalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+TO: Yajun Deng <yajun.deng@linux.dev>
 
-tree:   https://github.com/alobakin/linux bitops
-head:   9bd39b17ce49d350eed93a031e0da6389067013e
-commit: 54dcb250626d4ec53e9d5e41ee078b0c48849b38 [5/7] bitops: wrap non-ato=
-mic bitops with a transparent macro
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20618/202206180701.oLzXW2Ik-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
+commit: b37a466837393af72fe8bcb8f1436410f3f173f3 netdevice: add the case if=
+ dev is NULL
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220617 (https://download.01.org/0day-ci/archi=
+ve/20220618/202206180726.9Xs1LGbY-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db37a466837393af72fe8bcb8f1436410f3f173f3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b37a466837393af72fe8bcb8f1436410f3f173f3
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:99 ___test_and_set_bit=
-() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:114 ___test_and_clear_=
-bit() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:99 ___test_and_set_bit=
-() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:99 ___test_and_set_bit=
-() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:114 ___test_and_clear_=
-bit() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-
-Old smatch warnings:
-fs/exec.c:127 __do_sys_uselib() warn: passing zero to 'PTR_ERR'
-fs/exec.c:127 __do_sys_uselib() warn: passing zero to 'PTR_ERR'
-fs/namei.c:1571 lookup_dcache() warn: passing zero to 'ERR_PTR'
-fs/namei.c:1668 lookup_fast() warn: passing zero to 'ERR_PTR'
-fs/namei.c:2196 hash_name() error: uninitialized symbol 'bdata'.
-fs/namei.c:3467 open_last_lookups() error: uninitialized symbol 'inode'.
-fs/namei.c:3467 open_last_lookups() error: uninitialized symbol 'seq'.
-fs/dcache.c:2922 __d_move() warn: statement has no effect 31
-fs/splice.c:725 iter_file_splice_write() error: uninitialized symbol 'ret'.
-arch/x86/include/asm/elf.h:164 elf_common_init() warn: inconsistent indenti=
-ng
-security/keys/keyring.c:1230 keyring_detect_cycle() warn: passing zero to '=
-PTR_ERR'
-lib/radix-tree.c:1046 radix_tree_tag_clear() error: uninitialized symbol 'o=
-ffset'.
-lib/radix-tree.c:1124 set_iter_tags() warn: unsigned 'tag_long' is never le=
-ss than zero.
-lib/vsprintf.c:1431 ip6_compressed_string() warn: possible spectre second h=
-alf.  '*p'
-lib/vsprintf.c:1434 ip6_compressed_string() warn: possible spectre second h=
-alf.  '*p'
-lib/rhashtable.c:550 rhashtable_insert_one() warn: passing zero to 'ERR_CAS=
-T'
-lib/rhashtable.c:616 rhashtable_try_insert() warn: passing zero to 'ERR_CAS=
-T'
-fs/nfs/dir.c:334 nfs_readdir_page_array_append() warn: potential spectre is=
-sue 'array->array' [r]
-fs/nfs/nfs4proc.c:1386 nfs4_opendata_alloc() error: we previously assumed '=
-c' could be null (see line 1354)
-fs/jffs2/nodemgmt.c:629 jffs2_mark_node_obsolete() warn: inconsistent inden=
-ting
-fs/jffs2/nodemgmt.c:640 jffs2_mark_node_obsolete() warn: inconsistent inden=
-ting
-fs/ubifs/lpt_commit.c:1649 dbg_check_ltab_lnum() warn: ignoring unreachable=
- code.
-fs/ubifs/debug.c:2072 check_leaf() warn: is 'node' large enough for 'struct=
- ubifs_data_node'? 24
-fs/ubifs/debug.c:2094 check_leaf() warn: is 'node' large enough for 'struct=
- ubifs_dent_node'? 24
-fs/fuse/dir.c:502 get_security_context() warn: is 'ptr' large enough for 's=
-truct fuse_secctx'? 0
-fs/overlayfs/inode.c:1117 ovl_get_inode() error: we previously assumed 'low=
-erpath' could be null (see line 1114)
-fs/overlayfs/copy_up.c:421 ovl_set_origin() warn: variable dereferenced bef=
-ore check 'fh' (see line 420)
-fs/overlayfs/export.c:825 ovl_fh_to_dentry() warn: passing zero to 'PTR_ERR'
-fs/cifs/connect.c:2830 generic_ip_connect() error: we previously assumed 's=
-ocket' could be null (see line 2818)
-
-vim +141 include/asm-generic/bitops/instrumented-non-atomic.h
-
-068df05363b79f Marco Elver       2020-08-13   87  =
-
-81d2c6f81996e0 Daniel Axtens     2019-08-20   88  /**
-54dcb250626d4e Alexander Lobakin 2022-06-16   89   * ___test_and_set_bit - =
-Set a bit and return its old value
-81d2c6f81996e0 Daniel Axtens     2019-08-20   90   * @nr: Bit to set
-81d2c6f81996e0 Daniel Axtens     2019-08-20   91   * @addr: Address to coun=
-t from
-81d2c6f81996e0 Daniel Axtens     2019-08-20   92   *
-81d2c6f81996e0 Daniel Axtens     2019-08-20   93   * This operation is non-=
-atomic. If two instances of this operation race, one
-81d2c6f81996e0 Daniel Axtens     2019-08-20   94   * can appear to succeed =
-but actually fail.
-81d2c6f81996e0 Daniel Axtens     2019-08-20   95   */
-521611f961a7dd Alexander Lobakin 2022-05-09   96  static __always_inline bo=
-ol
-54dcb250626d4e Alexander Lobakin 2022-06-16   97  ___test_and_set_bit(unsig=
-ned long nr, volatile unsigned long *addr)
-81d2c6f81996e0 Daniel Axtens     2019-08-20   98  {
-068df05363b79f Marco Elver       2020-08-13  @99  	__instrument_read_write_=
-bitop(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  100  	return arch___test_and_s=
-et_bit(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  101  }
-81d2c6f81996e0 Daniel Axtens     2019-08-20  102  =
-
-81d2c6f81996e0 Daniel Axtens     2019-08-20  103  /**
-54dcb250626d4e Alexander Lobakin 2022-06-16  104   * ___test_and_clear_bit =
-- Clear a bit and return its old value
-81d2c6f81996e0 Daniel Axtens     2019-08-20  105   * @nr: Bit to clear
-81d2c6f81996e0 Daniel Axtens     2019-08-20  106   * @addr: Address to coun=
-t from
-81d2c6f81996e0 Daniel Axtens     2019-08-20  107   *
-81d2c6f81996e0 Daniel Axtens     2019-08-20  108   * This operation is non-=
-atomic. If two instances of this operation race, one
-81d2c6f81996e0 Daniel Axtens     2019-08-20  109   * can appear to succeed =
-but actually fail.
-81d2c6f81996e0 Daniel Axtens     2019-08-20  110   */
-521611f961a7dd Alexander Lobakin 2022-05-09  111  static __always_inline bo=
-ol
-54dcb250626d4e Alexander Lobakin 2022-06-16  112  ___test_and_clear_bit(uns=
-igned long nr, volatile unsigned long *addr)
-81d2c6f81996e0 Daniel Axtens     2019-08-20  113  {
-068df05363b79f Marco Elver       2020-08-13 @114  	__instrument_read_write_=
-bitop(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  115  	return arch___test_and_c=
-lear_bit(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  116  }
-81d2c6f81996e0 Daniel Axtens     2019-08-20  117  =
-
-81d2c6f81996e0 Daniel Axtens     2019-08-20  118  /**
-54dcb250626d4e Alexander Lobakin 2022-06-16  119   * ___test_and_change_bit=
- - Change a bit and return its old value
-81d2c6f81996e0 Daniel Axtens     2019-08-20  120   * @nr: Bit to change
-81d2c6f81996e0 Daniel Axtens     2019-08-20  121   * @addr: Address to coun=
-t from
-81d2c6f81996e0 Daniel Axtens     2019-08-20  122   *
-81d2c6f81996e0 Daniel Axtens     2019-08-20  123   * This operation is non-=
-atomic. If two instances of this operation race, one
-81d2c6f81996e0 Daniel Axtens     2019-08-20  124   * can appear to succeed =
-but actually fail.
-81d2c6f81996e0 Daniel Axtens     2019-08-20  125   */
-521611f961a7dd Alexander Lobakin 2022-05-09  126  static __always_inline bo=
-ol
-54dcb250626d4e Alexander Lobakin 2022-06-16  127  ___test_and_change_bit(un=
-signed long nr, volatile unsigned long *addr)
-81d2c6f81996e0 Daniel Axtens     2019-08-20  128  {
-068df05363b79f Marco Elver       2020-08-13  129  	__instrument_read_write_=
-bitop(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  130  	return arch___test_and_c=
-hange_bit(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  131  }
-81d2c6f81996e0 Daniel Axtens     2019-08-20  132  =
-
-81d2c6f81996e0 Daniel Axtens     2019-08-20  133  /**
-54dcb250626d4e Alexander Lobakin 2022-06-16  134   * _test_bit - Determine =
-whether a bit is set
-81d2c6f81996e0 Daniel Axtens     2019-08-20  135   * @nr: bit number to test
-81d2c6f81996e0 Daniel Axtens     2019-08-20  136   * @addr: Address to star=
-t counting from
-81d2c6f81996e0 Daniel Axtens     2019-08-20  137   */
-521611f961a7dd Alexander Lobakin 2022-05-09  138  static __always_inline bo=
-ol
-54dcb250626d4e Alexander Lobakin 2022-06-16  139  _test_bit(unsigned long n=
-r, const volatile unsigned long *addr)
-81d2c6f81996e0 Daniel Axtens     2019-08-20  140  {
-27f937cc810aef Marco Elver       2020-01-21 @141  	instrument_atomic_read(a=
-ddr + BIT_WORD(nr), sizeof(long));
-81d2c6f81996e0 Daniel Axtens     2019-08-20  142  	return arch_test_bit(nr,=
- addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  143  }
-81d2c6f81996e0 Daniel Axtens     2019-08-20  144  =
 
 
-:::::: The code at line 141 was first introduced by commit
-:::::: 27f937cc810aef63b0752f5bfbf383390dd076a1 asm-generic, kcsan: Add KCS=
-AN instrumentation for bitops
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from net/core/failover.c:11:
+   net/core/failover.c: In function 'failover_existing_slave_register':
+>> include/linux/etherdevice.h:337:19: warning: dereference of NULL 'failov=
+er_dev' [CWE-476] [-Wanalyzer-null-dereference]
+     337 |         return ((a[0] ^ b[0]) | (a[1] ^ b[1]) | (a[2] ^ b[2])) =
+=3D=3D 0;
+         |                  ~^~~
+     'failover_register.part.0': events 1-2
+       |
+       |net/core/failover.c:242:18:
+       |  242 | struct failover *failover_register(struct net_device *dev,
+       |      |                  ^~~~~~~~~~~~~~~~~
+       |      |                  |
+       |      |                  (1) entry to 'failover_register.part.0'
+       |......
+       |  251 |         if (!failover)
+       |      |            ~      =
 
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |
+     'failover_register.part.0': event 3
+       |
+       |include/linux/compiler.h:86:20:
+       |   86 | # define barrier() __asm__ __volatile__("": : :"memory")
+       |      |                    ^~~~~~~
+       |      |                    |
+       |      |                    (3) ...to here
+   include/asm-generic/barrier.h:163:9: note: in expansion of macro 'barrie=
+r'
+       |  163 |         barrier();                                         =
+             \
+       |      |         ^~~~~~~
+   include/linux/rcupdate.h:452:17: note: in expansion of macro 'smp_store_=
+release'
+       |  452 |                 smp_store_release(&p, RCU_INITIALIZER((type=
+of(p))_r_a_p__v)); \
+       |      |                 ^~~~~~~~~~~~~~~~~
+   net/core/failover.c:254:9: note: in expansion of macro 'rcu_assign_point=
+er'
+       |  254 |         rcu_assign_pointer(failover->ops, ops);
+       |      |         ^~~~~~~~~~~~~~~~~~
+       |
+     'failover_register.part.0': event 4
+       |
+       |  255 |         dev_hold(dev);
+       |      |         ^~~~~~~~~~~~~
+       |      |         |
+       |      |         (4) calling 'dev_hold' from 'failover_register.part=
+.0'
+       |
+       +--> 'dev_hold': events 5-7
+              |
+              |include/linux/netdevice.h:4161:20:
+              | 4161 | static inline void dev_hold(struct net_device *dev)
+              |      |                    ^~~~~~~~
+              |      |                    |
+              |      |                    (5) entry to 'dev_hold'
+              | 4162 | {
+              | 4163 |         if (dev) {
+              |      |            ~        =
+
+              |      |            |
+              |      |            (6) following 'false' branch (when 'dev' =
+is NULL)...
+              |......
+              | 4170 | }
+              |      | ~                   =
+
+              |      | |
+              |      | (7) ...to here
+              |
+       <------+
+       |
+     'failover_register.part.0': events 8-9
+       |
+       |net/core/failover.c:255:9:
+       |  255 |         dev_hold(dev);
+       |      |         ^~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) returning to 'failover_register.part.0' from 'd=
+ev_hold'
+       |......
+       |  265 |         failover_existing_slave_register(dev);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (9) calling 'failover_existing_slave_register' from=
+ 'failover_register.part.0'
+       |
+       +--> 'failover_existing_slave_register': event 10
+              |
+              |  215 | failover_existing_slave_register(struct net_device *=
+failover_dev)
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (10) entry to 'failover_existing_slave_register'
+              |
+            'failover_existing_slave_register': event 11
+              |
+              |include/linux/list.h:629:14:
+              |  629 |              !list_entry_is_head(pos, head, member);=
+                    \
+              |      |              ^
+              |      |              |
+              |      |              (11) following 'true' branch...
+   include/linux/netdevice.h:2877:17: note: in expansion of macro 'list_for=
+_each_entry'
+              | 2877 |                 list_for_each_entry(d, &(net)->dev_b=
+ase_head, dev_list)
+              |      |                 ^~~~~~~~~~~~~~~~~~~
+   net/core/failover.c:221:9: note: in expansion of macro 'for_each_netdev'
+              |  221 |         for_each_netdev(net, dev) {
+              |      |         ^~~~~~~~~~~~~~~
+              |
+            'failover_existing_slave_register': event 12
+              |
+              |include/linux/netdevice.h:5188:19:
+              | 5188 |         return dev->priv_flags & IFF_FAILOVER;
+              |      |                ~~~^~~~~~~~~~~~
+              |      |                   |
+              |      |                   (12) ...to here
+
+vim +/failover_dev +337 include/linux/etherdevice.h
+
+83a093b486ecfd Bj=C3=B8rn Mork        2013-08-30  316  =
+
+a599b0f54d233d Joe Perches       2012-05-08  317  /**
+a599b0f54d233d Joe Perches       2012-05-08  318   * ether_addr_equal - Com=
+pare two Ethernet addresses
+a599b0f54d233d Joe Perches       2012-05-08  319   * @addr1: Pointer to a s=
+ix-byte array containing the Ethernet address
+a599b0f54d233d Joe Perches       2012-05-08  320   * @addr2: Pointer other =
+six-byte array containing the Ethernet address
+a599b0f54d233d Joe Perches       2012-05-08  321   *
+048b899ce38c3e stephen hemminger 2012-05-17  322   * Compare two Ethernet a=
+ddresses, returns true if equal
+0d74c42f788caf Joe Perches       2013-12-05  323   *
+0d74c42f788caf Joe Perches       2013-12-05  324   * Please note: addr1 & a=
+ddr2 must both be aligned to u16.
+a599b0f54d233d Joe Perches       2012-05-08  325   */
+a599b0f54d233d Joe Perches       2012-05-08  326  static inline bool ether_=
+addr_equal(const u8 *addr1, const u8 *addr2)
+a599b0f54d233d Joe Perches       2012-05-08  327  {
+0d74c42f788caf Joe Perches       2013-12-05  328  #if defined(CONFIG_HAVE_E=
+FFICIENT_UNALIGNED_ACCESS)
+0d74c42f788caf Joe Perches       2013-12-05  329  	u32 fold =3D ((*(const u=
+32 *)addr1) ^ (*(const u32 *)addr2)) |
+0d74c42f788caf Joe Perches       2013-12-05  330  		   ((*(const u16 *)(add=
+r1 + 4)) ^ (*(const u16 *)(addr2 + 4)));
+a599b0f54d233d Joe Perches       2012-05-08  331  =
+
+0d74c42f788caf Joe Perches       2013-12-05  332  	return fold =3D=3D 0;
+1f87e235e6fb92 Eric Dumazet      2008-11-23  333  #else
+0d74c42f788caf Joe Perches       2013-12-05  334  	const u16 *a =3D (const =
+u16 *)addr1;
+0d74c42f788caf Joe Perches       2013-12-05  335  	const u16 *b =3D (const =
+u16 *)addr2;
+0d74c42f788caf Joe Perches       2013-12-05  336  =
+
+0d74c42f788caf Joe Perches       2013-12-05 @337  	return ((a[0] ^ b[0]) | =
+(a[1] ^ b[1]) | (a[2] ^ b[2])) =3D=3D 0;
+1f87e235e6fb92 Eric Dumazet      2008-11-23  338  #endif
+1f87e235e6fb92 Eric Dumazet      2008-11-23  339  }
+1f87e235e6fb92 Eric Dumazet      2008-11-23  340  =
+
+
+:::::: The code at line 337 was first introduced by commit
+:::::: 0d74c42f788caf3cad727c61c490d9459bc8918b ether_addr_equal: Optimize =
+implementation, remove unused compare_ether_addr
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8997690591658620433==--
+--===============5502382982222843470==--
 
