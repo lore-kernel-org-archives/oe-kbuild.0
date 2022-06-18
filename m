@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2009861073474293182=="
+Content-Type: multipart/mixed; boundary="===============3811809691143655352=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/core.c:71:10: warning: dereference of NULL 't' [CWE-476]
-Date: Sun, 19 Jun 2022 09:35:51 +0800
-Message-ID: <202206190908.6hzWvTI6-lkp@intel.com>
+Subject: include/kunit/test.h:1281:21: warning: dereference of NULL 'filtered' [CWE-476]
+Date: Sun, 19 Jun 2022 07:54:39 +0800
+Message-ID: <202206190710.DD0NPOal-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2009861073474293182==
+--===============3811809691143655352==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,40 +15,40 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: mm/damon/=
-core.c:71:10: warning: dereference of NULL 't' [CWE-476] [-Wanalyzer-null-d=
-ereference]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/kunit/test.h:1281:21: warning: dereference of NULL 'filtered' [CWE=
+-476] [-Wanalyzer-null-dereference]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Brendan Higgins <brendanhiggins@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Daniel Latypov <dlatypov@google.com>
+CC: Shuah Khan <skhan@linuxfoundation.org>
+CC: David Gow <davidgow@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: 17ccae8bb5c928946f6f3af14626ec458f74e6ad mm/damon: add kunit tests
-date:   9 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 9 months ago
+commit: 1d71307a6f94df3750f8f884545a769e227172fe kunit: add unit test for f=
+iltering suites by names
+date:   12 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 12 months ago
 config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
-ve/20220619/202206190908.6hzWvTI6-lkp(a)intel.com/config)
+ve/20220619/202206190710.DD0NPOal-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D17ccae8bb5c928946f6f3af14626ec458f74e6ad
+t/commit/?id=3D1d71307a6f94df3750f8f884545a769e227172fe
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 17ccae8bb5c928946f6f3af14626ec458f74e6ad
+        git checkout 1d71307a6f94df3750f8f884545a769e227172fe
         # save the config file
          ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
@@ -58,706 +58,232 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/mutex.h:15,
-                    from include/linux/damon.h:11,
-                    from mm/damon/core.c:10:
-   mm/damon/core.c: In function 'damon_add_region':
->> include/linux/list.h:100:9: warning: dereference of NULL 't' [CWE-476] [=
--Wanalyzer-null-dereference]
-     100 |         __list_add(new, head->prev, head);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'damon_test_merge_two': events 1-2
+   In file included from lib/kunit/executor.c:4:
+   In function 'filter_subsuite_test':
+>> include/kunit/test.h:1281:21: warning: dereference of NULL 'filtered' [C=
+WE-476] [-Wanalyzer-null-dereference]
+    1281 |         typeof(ptr) __ptr =3D (ptr);                            =
+                 \
+         |                     ^~~~~
+   include/kunit/test.h:1295:9: note: in expansion of macro 'KUNIT_PTR_NOT_=
+ERR_OR_NULL_MSG_ASSERTION'
+    1295 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,           =
+               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1854:9: note: in expansion of macro 'KUNIT_PTR_NOT_=
+ERR_OR_NULL_ASSERTION'
+    1854 |         KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTIO=
+N, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:28:9: note: in expansion of macro 'KUNIT_ASSER=
+T_NOT_ERR_OR_NULL'
+      28 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filtered[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'filter_subsuite_test': events 1-2
        |
-       |mm/damon/core-test.h:140:13:
-       |  140 | static void damon_test_merge_two(struct kunit *test)
+       |   15 | static void filter_subsuite_test(struct kunit *test)
        |      |             ^~~~~~~~~~~~~~~~~~~~
        |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
+       |      |             (1) entry to 'filter_subsuite_test'
        |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
+       |   20 |         subsuite[0] =3D alloc_fake_suite(test, "suite1");
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (2) calling 'alloc_fake_suite' from '=
+filter_subsuite_test'
        |
-       +--> 'damon_new_target': events 3-4
+       +--> 'alloc_fake_suite': event 3
               |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
+              |  123 | static struct kunit_suite *alloc_fake_suite(struct k=
+unit *test,
+              |      |                            ^~~~~~~~~~~~~~~~
+              |      |                            |
+              |      |                            (3) entry to 'alloc_fake_=
+suite'
+              |
+            'alloc_fake_suite': event 4
+              |
+              |include/linux/fortify-string.h:36:12:
+              |   36 |         if (p_size < size)
+              |      |            ^
               |      |            |
-              |      |            (4) following 'true' branch...
+              |      |            (4) following 'false' branch...
               |
-            'damon_new_target': event 5
+            'alloc_fake_suite': event 5
               |
-              |cc1:
-              | (5): ...to here
+              |   27 | #define __underlying_strncpy    __builtin_strncpy
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (5) ...to here
+   include/linux/fortify-string.h:38:16: note: in expansion of macro '__und=
+erlying_strncpy'
+              |   38 |         return __underlying_strncpy(p, q, size);
+              |      |                ^~~~~~~~~~~~~~~~~~~~
               |
        <------+
        |
-     'damon_test_merge_two': events 6-7
+     'filter_subsuite_test': events 6-7
        |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) return of NULL to 'damon_test_merge_two' fr=
-om 'damon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
+       |lib/kunit/executor_test.c:20:23:
+       |   20 |         subsuite[0] =3D alloc_fake_suite(test, "suite1");
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (6) returning to 'filter_subsuite_tes=
+t' from 'alloc_fake_suite'
+       |   21 |         subsuite[1] =3D alloc_fake_suite(test, "suite2");
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (7) calling 'alloc_fake_suite' from '=
+filter_subsuite_test'
        |
-       +--> 'damon_new_region': events 8-10
+       +--> 'alloc_fake_suite': event 8
               |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
+              |  123 | static struct kunit_suite *alloc_fake_suite(struct k=
+unit *test,
+              |      |                            ^~~~~~~~~~~~~~~~
+              |      |                            |
+              |      |                            (8) entry to 'alloc_fake_=
+suite'
+              |
+            'alloc_fake_suite': event 9
+              |
+              |include/linux/fortify-string.h:36:12:
+              |   36 |         if (p_size < size)
+              |      |            ^
               |      |            |
               |      |            (9) following 'false' branch...
-              |......
-              |   43 |         region->ar.start =3D start;
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                          |
-              |      |                          (10) ...to here
+              |
+            'alloc_fake_suite': event 10
+              |
+              |   27 | #define __underlying_strncpy    __builtin_strncpy
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (10) ...to here
+   include/linux/fortify-string.h:38:16: note: in expansion of macro '__und=
+erlying_strncpy'
+              |   38 |         return __underlying_strncpy(p, q, size);
+              |      |                ^~~~~~~~~~~~~~~~~~~~
               |
        <------+
        |
-     'damon_test_merge_two': events 11-12
+     'filter_subsuite_test': events 11-12
        |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) returning to 'damon_test_merge_two' from '=
-damon_new_region'
-       |  148 |         r->nr_accesses =3D 10;
-       |  149 |         damon_add_region(r, t);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) calling 'damon_add_region' from 'damon_test_me=
-rge_two'
-       |
-       +--> 'damon_add_region': event 13
-              |
-              |mm/damon/core.c:62:6:
-              |   62 | void damon_add_region(struct damon_region *r, struct=
- damon_target *t)
-              |      |      ^~~~~~~~~~~~~~~~
-              |      |      |
-              |      |      (13) entry to 'damon_add_region'
-              |
-            'damon_add_region': event 14
-              |
-              |include/linux/list.h:100:9:
-              |  100 |         __list_add(new, head->prev, head);
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (14) dereference of NULL 't'
-              |
-   mm/damon/core.c: In function 'damon_destroy_region':
->> mm/damon/core.c:71:10: warning: dereference of NULL 't' [CWE-476] [-Wana=
-lyzer-null-dereference]
-      71 |         t->nr_regions--;
-         |         ~^~~~~~~~~~~~
-     'damon_test_merge_regions_of': events 1-2
-       |
-       |mm/damon/core-test.h:182:13:
-       |  182 | static void damon_test_merge_regions_of(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_regions_of'
+       |lib/kunit/executor_test.c:21:23:
+       |   21 |         subsuite[1] =3D alloc_fake_suite(test, "suite2");
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (11) returning to 'filter_subsuite_te=
+st' from 'alloc_fake_suite'
        |......
-       |  194 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_regions_of'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
+       |   24 |         filtered =3D kunit_filter_subsuite(subsuite, "suite=
+2*");
+       |      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+       |      |                    |
 
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_regions_of': event 6
-       |
-       |mm/damon/core-test.h:194:13:
-       |  194 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) return of NULL to 'damon_test_merge_regions=
-_of' from 'damon_new_target'
-       |
-     'damon_test_merge_regions_of': events 7-8
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (8) ...to here
-       |
-     'damon_test_merge_regions_of': events 9-10
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (10) ...to here
-       |
-     'damon_test_merge_regions_of': events 11-13
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |......
-       |  201 |         damon_merge_regions_of(t, 9, 9999);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) ...to here
-       |      |         (13) calling 'damon_merge_regions_of' from 'damon_t=
-est_merge_regions_of'
-       |
-       +--> 'damon_merge_regions_of': event 14
-              |
-              |mm/damon/core.c:477:13:
-              |  477 | static void damon_merge_regions_of(struct damon_targ=
-et *t, unsigned int thres,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (14) entry to 'damon_merge_regions_of'
-              |
-            'damon_merge_regions_of': event 15
-              |
-              |include/linux/list.h:717:14:
-              |  717 |              !list_entry_is_head(pos, head, member);=
-                    \
-              |      |              ^
-              |      |              |
-              |      |              (15) following 'true' branch...
-   include/linux/damon.h:218:9: note: in expansion of macro 'list_for_each_=
-entry_safe'
-              |  218 |         list_for_each_entry_safe(r, next, &t->region=
-s_list, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core.c:482:9: note: in expansion of macro 'damon_for_each_regio=
-n_safe'
-              |  482 |         damon_for_each_region_safe(r, next, t) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'damon_merge_regions_of': events 16-17
-              |
-              |  483 |                 if (prev && prev->ar.end =3D=3D r->a=
-r.start &&
-              |      |                    ^
-              |      |                    |
-              |      |                    (16) ...to here
-              |      |                    (17) following 'false' branch (wh=
-en 'prev' is NULL)...
-              |
-            'damon_merge_regions_of': event 18
---
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
+vim +/filtered +1281 include/kunit/test.h
 
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_regions_of': event 6
-       |
-       |mm/damon/core-test.h:194:13:
-       |  194 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) return of NULL to 'damon_test_merge_regions=
-_of' from 'damon_new_target'
-       |
-     'damon_test_merge_regions_of': events 7-8
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (8) ...to here
-       |
-     'damon_test_merge_regions_of': events 9-10
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (10) ...to here
-       |
-     'damon_test_merge_regions_of': events 11-13
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |......
-       |  201 |         damon_merge_regions_of(t, 9, 9999);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) ...to here
-       |      |         (13) calling 'damon_merge_regions_of' from 'damon_t=
-est_merge_regions_of'
-       |
-       +--> 'damon_merge_regions_of': event 14
-              |
-              |mm/damon/core.c:477:13:
-              |  477 | static void damon_merge_regions_of(struct damon_targ=
-et *t, unsigned int thres,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (14) entry to 'damon_merge_regions_of'
-              |
-            'damon_merge_regions_of': event 15
-              |
-              |include/linux/list.h:717:14:
-              |  717 |              !list_entry_is_head(pos, head, member);=
-                    \
-              |      |              ^
-              |      |              |
-              |      |              (15) following 'false' branch...
-   include/linux/damon.h:218:9: note: in expansion of macro 'list_for_each_=
-entry_safe'
-              |  218 |         list_for_each_entry_safe(r, next, &t->region=
-s_list, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core.c:482:9: note: in expansion of macro 'damon_for_each_regio=
-n_safe'
-              |  482 |         damon_for_each_region_safe(r, next, t) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'damon_merge_regions_of': event 16
-              |
-              |  490 | }
-              |      | ^
-              |      | |
-              |      | (16) ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_regions_of': event 17
-       |
-       |mm/damon/core-test.h:201:9:
-       |  201 |         damon_merge_regions_of(t, 9, 9999);
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (17) returning to 'damon_test_merge_regions_of' fro=
-m 'damon_merge_regions_of'
-       |
-     'damon_test_merge_regions_of': event 18
-       |
-       |mm/damon/core.c:132:17:
-       |  132 |         return t->nr_regions;
-       |      |                ~^~~~~~~~~~~~
-       |      |                 |
-       |      |                 (18) dereference of NULL 't'
-       |
-   In file included from mm/damon/core.c:720:
-   mm/damon/core.c: In function 'damon_test_merge_two':
->> mm/damon/core-test.h:148:24: warning: dereference of NULL 'r' [CWE-476] =
-[-Wanalyzer-null-dereference]
-     148 |         r->nr_accesses =3D 10;
-         |         ~~~~~~~~~~~~~~~^~~~
-     'damon_test_merge_two': events 1-2
-       |
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
-       |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1236  =
 
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) returning to 'damon_test_merge_two' from 'd=
-amon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-9
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1237  #define KUNIT_BINARY_STR_E=
+Q_MSG_ASSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1238  					  assert_type,			    =
+   \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1239  					  left,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1240  					  right,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1241  					  fmt,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1242  					  ...)				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1243  	KUNIT_BINARY_STR_ASSERTIO=
+N(test,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1244  				   assert_type,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1245  				   left, =3D=3D, right=
+,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1246  				   fmt,					       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1247  				   ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1248  =
 
-              |      |            |
-              |      |            (9) following 'true' branch...
-              |
-            'damon_new_region': event 10
-              |
-              |cc1:
-              | (10): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 11-12
-       |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) return of NULL to 'damon_test_merge_two' f=
-rom 'damon_new_region'
-       |  148 |         r->nr_accesses =3D 10;
-       |      |         ~~~~~~~~~~~~~~~~~~~
-       |      |                        |
-       |      |                        (12) dereference of NULL 'r'
-       |
->> mm/damon/core-test.h:151:25: warning: dereference of NULL 'r2' [CWE-476]=
- [-Wanalyzer-null-dereference]
-     151 |         r2->nr_accesses =3D 20;
-         |         ~~~~~~~~~~~~~~~~^~~~
-     'damon_test_merge_two': events 1-2
-       |
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
-       |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1249  #define KUNIT_BINARY_STR_E=
+Q_ASSERTION(test, assert_type, left, right)	       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1250  	KUNIT_BINARY_STR_EQ_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1251  					  assert_type,			    =
+   \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1252  					  left,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1253  					  right,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1254  					  NULL)
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1255  =
 
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) returning to 'damon_test_merge_two' from 'd=
-amon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-9
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1256  #define KUNIT_BINARY_STR_N=
+E_MSG_ASSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1257  					  assert_type,			    =
+   \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1258  					  left,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1259  					  right,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1260  					  fmt,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1261  					  ...)				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1262  	KUNIT_BINARY_STR_ASSERTIO=
+N(test,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1263  				   assert_type,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1264  				   left, !=3D, right,	=
+		       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1265  				   fmt,					       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1266  				   ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1267  =
 
-              |      |            |
-              |      |            (9) following 'true' branch...
-              |
-            'damon_new_region': event 10
-              |
-              |cc1:
-              | (10): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 11-12
-       |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) return of NULL to 'damon_test_merge_two' f=
-rom 'damon_new_region'
-       |......
-       |  150 |         r2 =3D damon_new_region(100, 300);
-       |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |              |
-       |      |              (12) calling 'damon_new_region' from 'damon_te=
-st_merge_two'
-       |
-       +--> 'damon_new_region': events 13-14
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (13) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1268  #define KUNIT_BINARY_STR_N=
+E_ASSERTION(test, assert_type, left, right)	       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1269  	KUNIT_BINARY_STR_NE_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1270  					  assert_type,			    =
+   \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1271  					  left,				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1272  					  right,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1273  					  NULL)
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1274  =
 
-              |      |            |
-              |      |            (14) following 'true' branch...
-              |
-            'damon_new_region': event 15
-              |
-              |cc1:
-              | (15): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 16-17
-       |
-       |mm/damon/core-test.h:150:14:
-       |  150 |         r2 =3D damon_new_region(100, 300);
-       |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |              |
-       |      |              (16) returning to 'damon_test_merge_two' from =
-'damon_new_region'
-       |  151 |         r2->nr_accesses =3D 20;
-       |      |         ~~~~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (17) dereference of NULL 'r2'
-       |
-   In file included from mm/damon/core-test.h:15,
-                    from mm/damon/core.c:720:
->> include/kunit/test.h:866:22: warning: dereference of NULL 'r' [CWE-476] =
-[-Wanalyzer-null-dereference]
-     866 |         typeof(left) __left =3D (left);                         =
-                 \
-         |                      ^~~~~~
-   include/kunit/test.h:891:9: note: in expansion of macro 'KUNIT_BASE_BINA=
-RY_ASSERTION'
-     891 |         KUNIT_BASE_BINARY_ASSERTION(test,                       =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:980:9: note: in expansion of macro 'KUNIT_BASE_EQ_M=
-SG_ASSERTION'
-     980 |         KUNIT_BASE_EQ_MSG_ASSERTION(test,                       =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:990:9: note: in expansion of macro 'KUNIT_BINARY_EQ=
-_MSG_ASSERTION'
-     990 |         KUNIT_BINARY_EQ_MSG_ASSERTION(test,                     =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1353:9: note: in expansion of macro 'KUNIT_BINARY_E=
-Q_ASSERTION'
-    1353 |         KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left,=
- right)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core-test.h:157:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-     157 |         KUNIT_EXPECT_EQ(test, r->nr_accesses, 16u);
-         |         ^~~~~~~~~~~~~~~
-     'damon_test_merge_two': events 1-2
-       |
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
-       |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) returning to 'damon_test_merge_two' from 'd=
-amon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-9
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (9) following 'true' branch...
-              |
-            'damon_new_region': event 10
-              |
-              |cc1:
-              | (10): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': event 11
-       |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) return of NULL to 'damon_test_merge_two' f=
-rom 'damon_new_region'
-       |
-     'damon_test_merge_two': event 12
-       |
-       |include/kunit/test.h:866:22:
-       |  866 |         typeof(left) __left =3D (left);                    =
-                      \
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (12) dereference of NULL 'r'
-   include/kunit/test.h:891:9: note: in expansion of macro 'KUNIT_BASE_BINA=
-RY_ASSERTION'
-       |  891 |         KUNIT_BASE_BINARY_ASSERTION(test,                  =
-                    \
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:980:9: note: in expansion of macro 'KUNIT_BASE_EQ_M=
-SG_ASSERTION'
-
-vim +/t +71 mm/damon/core.c
-
-f23b8eee1871a6 SeongJae Park 2021-09-07  67  =
-
-b9a6ac4e4ede41 SeongJae Park 2021-09-07  68  static void damon_del_region(s=
-truct damon_region *r, struct damon_target *t)
-f23b8eee1871a6 SeongJae Park 2021-09-07  69  {
-f23b8eee1871a6 SeongJae Park 2021-09-07  70  	list_del(&r->list);
-b9a6ac4e4ede41 SeongJae Park 2021-09-07 @71  	t->nr_regions--;
-f23b8eee1871a6 SeongJae Park 2021-09-07  72  }
-f23b8eee1871a6 SeongJae Park 2021-09-07  73  =
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1275  #define KUNIT_PTR_NOT_ERR_=
+OR_NULL_MSG_ASSERTION(test,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1276  						assert_type,		      =
+ \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1277  						ptr,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1278  						fmt,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1279  						...)			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1280  do {									       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23 @1281  	typeof(ptr) __ptr =3D (pt=
+r);					       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1282  									       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1283  	KUNIT_ASSERTION(test,				=
+		       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1284  			!IS_ERR_OR_NULL(__ptr),=
+				       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1285  			kunit_ptr_not_err_asser=
+t,			       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1286  			KUNIT_INIT_PTR_NOT_ERR_=
+STRUCT(test,		       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1287  						      assert_type,	 =
+      \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1288  						      #ptr,		       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1289  						      __ptr),		     =
+  \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1290  			fmt,						       \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1291  			##__VA_ARGS__);					   =
+    \
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1292  } while (0)
+73cda7bb8bfb1d Brendan Higgins 2019-09-23  1293  =
 
 
-:::::: The code at line 71 was first introduced by commit
-:::::: b9a6ac4e4ede4172d165c133398b93e3233b0ba7 mm/damon: adaptively adjust=
- regions
+:::::: The code@line 1281 was first introduced by commit
+:::::: 73cda7bb8bfb1d4be0325d76172950ede1a65fd0 kunit: test: add the concep=
+t of expectations
 
-:::::: TO: SeongJae Park <sjpark@amazon.de>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Brendan Higgins <brendanhiggins@google.com>
+:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2009861073474293182==--
+--===============3811809691143655352==--
 
