@@ -1,162 +1,217 @@
-Content-Type: multipart/mixed; boundary="===============1349134292752773079=="
+Content-Type: multipart/mixed; boundary="===============8411720624875924104=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1031 smu_v13_0_0_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_levels' 16 <= 31
-Date: Sat, 18 Jun 2022 17:17:53 +0800
-Message-ID: <202206181704.FRfydS7y-lkp@intel.com>
+Subject: fs/affs/affs.h:21:58: warning: dereference of NULL 'ext_bh' [CWE-476]
+Date: Sat, 18 Jun 2022 16:27:18 +0800
+Message-ID: <202206181634.ISlemx4O-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1349134292752773079==
+--===============8411720624875924104==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/affs/affs.h:21:58: warning: dereference of NULL 'ext_bh' [CWE-476] [-Wa=
+nalyzer-null-dereference]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Evan Quan <evan.quan@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Lijo Lazar <lijo.lazar@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: 276c03a0547068026241decd2c1159df0be5941f drm/amd/smu: Update SMU13 =
-support for SMU 13.0.0
-date:   6 weeks ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 weeks ago
-config: ia64-randconfig-m031-20220616 (https://download.01.org/0day-ci/arch=
-ive/20220618/202206181704.FRfydS7y-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
+commit: cf3ee3c8c29dc349b2cf52e5e72e8cb805ff5e57 locking/atomic: add generi=
+c arch_*() bitops
+date:   11 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
+ve/20220618/202206181634.ISlemx4O-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dcf3ee3c8c29dc349b2cf52e5e72e8cb805ff5e57
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout cf3ee3c8c29dc349b2cf52e5e72e8cb805ff5e57
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1031 smu_v13=
-_0_0_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_level=
-s' 16 <=3D 31
 
-vim +1031 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/little_endian.h:13,
+                    from include/linux/byteorder/little_endian.h:5,
+                    from arch/arm/include/uapi/asm/byteorder.h:22,
+                    from include/asm-generic/bitops/le.h:7,
+                    from arch/arm/include/asm/bitops.h:268,
+                    from include/linux/bitops.h:32,
+                    from include/linux/kernel.h:12,
+                    from include/linux/uio.h:8,
+                    from fs/affs/file.c:16:
+   fs/affs/file.c: In function 'affs_truncate':
+>> fs/affs/affs.h:21:58: warning: dereference of NULL 'ext_bh' [CWE-476] [-=
+Wanalyzer-null-dereference]
+      21 | #define AFFS_HEAD(bh)           ((struct affs_head *)(bh)->b_dat=
+a)
+         |                                                      ~~~~^~~~~~~~
+   include/uapi/linux/swab.h:115:54: note: in definition of macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   include/linux/byteorder/generic.h:95:21: note: in expansion of macro '__=
+be32_to_cpu'
+      95 | #define be32_to_cpu __be32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   fs/affs/affs.h:19:42: note: in expansion of macro 'AFFS_HEAD'
+      19 | #define AFFS_BLOCK(sb, bh, blk)         (AFFS_HEAD(bh)->table[AF=
+FS_SB(sb)->s_hashsize-1-(blk)])
+         |                                          ^~~~~~~~~
+   fs/affs/file.c:970:57: note: in expansion of macro 'AFFS_BLOCK'
+     970 |                         affs_free_block(sb, be32_to_cpu(AFFS_BLO=
+CK(sb, ext_bh, i)));
+         |                                                         ^~~~~~~~=
+~~
+     'affs_file_release.part.0': events 1-4
+       |
+       |   32 | affs_file_release(struct inode *inode, struct file *filp)
+       |      | ^~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'affs_file_release.part.0'
+       |......
+       |   39 |                 if (inode->i_size !=3D AFFS_I(inode)->mmu_p=
+rivate)
+       |      |                    ~
+       |      |                    |
+       |      |                    (2) following 'true' branch...
+       |   40 |                         affs_truncate(inode);
+       |      |                         ~~~~~~~~~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (3) ...to here
+       |      |                         (4) calling 'affs_truncate' from 'a=
+ffs_file_release.part.0'
+       |
+       +--> 'affs_truncate': events 5-14
+              |
+              |  860 | affs_truncate(struct inode *inode)
+              |      | ^~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to 'affs_truncate'
+              |......
+              |  879 |         if (inode->i_size > AFFS_I(inode)->mmu_priva=
+te) {
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'false' branch...
+              |......
+              |  893 |         } else if (inode->i_size =3D=3D AFFS_I(inode=
+)->mmu_private)
+              |      |                   ~
+              |      |                   |
+              |      |                   (7) ...to here
+              |      |                   (8) following 'false' branch...
+              |......
+              |  897 |         ext_bh =3D affs_get_extblock(inode, ext);
+              |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                  |
+              |      |                  (9) ...to here
+              |  898 |         if (IS_ERR(ext_bh)) {
+              |      |            ~
+              |      |            |
+              |      |            (10) following 'false' branch...
+              |......
+              |  904 |         if (AFFS_I(inode)->i_lc) {
+              |      |             ~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (11) ...to here
+              |......
+              |  964 |         while (ext_key) {
+              |      |                ~~~~~~~
+              |      |                |
+              |      |                (12) following 'true' branch (when 'e=
+xt_key !=3D 0')...
+              |  965 |                 ext_bh =3D affs_bread(sb, ext_key);
+              |      |                          ~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (13) ...to here
+              |      |                          (14) calling 'affs_bread' f=
+rom 'affs_truncate'
+              |
+              +--> 'affs_bread': events 15-16
+                     |
+                     |fs/affs/affs.h:235:1:
+                     |  235 | affs_bread(struct super_block *sb, int block)
+                     |      | ^~~~~~~~~~
+                     |      | |
+                     |      | (15) entry to 'affs_bread'
+                     |......
+                     |  238 |         if (affs_validblock(sb, block))
+                     |      |            ~
+                     |      |            |
+                     |      |            (16) following 'false' branch...
+                     |
+                   'affs_bread': event 17
+                     |
+                     |cc1:
+                     | (17): ...to here
+                     |
+              <------+
+              |
+            'affs_truncate': events 18-19
+              |
+              |fs/affs/file.c:965:26:
+              |  965 |                 ext_bh =3D affs_bread(sb, ext_key);
+              |      |                          ^~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (18) return of NULL to 'aff=
+s_truncate' from 'affs_bread'
 
-276c03a0547068 Evan Quan 2022-04-06   968  =
+vim +/ext_bh +21 fs/affs/affs.h
 
-276c03a0547068 Evan Quan 2022-04-06   969  static int smu_v13_0_0_force_clk=
-_levels(struct smu_context *smu,
-276c03a0547068 Evan Quan 2022-04-06   970  					enum smu_clk_type clk_type,
-276c03a0547068 Evan Quan 2022-04-06   971  					uint32_t mask)
-276c03a0547068 Evan Quan 2022-04-06   972  {
-276c03a0547068 Evan Quan 2022-04-06   973  	struct smu_dpm_context *smu_dpm=
- =3D &smu->smu_dpm;
-276c03a0547068 Evan Quan 2022-04-06   974  	struct smu_13_0_dpm_context *dp=
-m_context =3D smu_dpm->dpm_context;
-276c03a0547068 Evan Quan 2022-04-06   975  	struct smu_13_0_dpm_table *sing=
-le_dpm_table;
-276c03a0547068 Evan Quan 2022-04-06   976  	uint32_t soft_min_level, soft_m=
-ax_level;
-276c03a0547068 Evan Quan 2022-04-06   977  	uint32_t min_freq, max_freq;
-276c03a0547068 Evan Quan 2022-04-06   978  	int ret =3D 0;
-276c03a0547068 Evan Quan 2022-04-06   979  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  20  =
 
-276c03a0547068 Evan Quan 2022-04-06   980  	soft_min_level =3D mask ? (ffs(=
-mask) - 1) : 0;
-276c03a0547068 Evan Quan 2022-04-06   981  	soft_max_level =3D mask ? (fls(=
-mask) - 1) : 0;
-276c03a0547068 Evan Quan 2022-04-06   982  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @21  #define AFFS_HEAD(bh)		((stru=
+ct affs_head *)(bh)->b_data)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  22  #define AFFS_TAIL(sb, bh)	((s=
+truct affs_tail *)((bh)->b_data+(sb)->s_blocksize-sizeof(struct affs_tail)))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  23  #define AFFS_ROOT_HEAD(bh)	((=
+struct affs_root_head *)(bh)->b_data)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  24  #define AFFS_ROOT_TAIL(sb, bh=
+)	((struct affs_root_tail *)((bh)->b_data+(sb)->s_blocksize-sizeof(struct a=
+ffs_root_tail)))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  25  #define AFFS_DATA_HEAD(bh)	((=
+struct affs_data_head *)(bh)->b_data)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  26  #define AFFS_DATA(bh)		(((str=
+uct affs_data_head *)(bh)->b_data)->data)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  27  =
 
-276c03a0547068 Evan Quan 2022-04-06   983  	switch (clk_type) {
-276c03a0547068 Evan Quan 2022-04-06   984  	case SMU_GFXCLK:
-276c03a0547068 Evan Quan 2022-04-06   985  	case SMU_SCLK:
-276c03a0547068 Evan Quan 2022-04-06   986  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.gfx_table);
-276c03a0547068 Evan Quan 2022-04-06   987  		break;
-276c03a0547068 Evan Quan 2022-04-06   988  	case SMU_MCLK:
-276c03a0547068 Evan Quan 2022-04-06   989  	case SMU_UCLK:
-276c03a0547068 Evan Quan 2022-04-06   990  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.uclk_table);
-276c03a0547068 Evan Quan 2022-04-06   991  		break;
-276c03a0547068 Evan Quan 2022-04-06   992  	case SMU_SOCCLK:
-276c03a0547068 Evan Quan 2022-04-06   993  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.soc_table);
-276c03a0547068 Evan Quan 2022-04-06   994  		break;
-276c03a0547068 Evan Quan 2022-04-06   995  	case SMU_FCLK:
-276c03a0547068 Evan Quan 2022-04-06   996  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.fclk_table);
-276c03a0547068 Evan Quan 2022-04-06   997  		break;
-276c03a0547068 Evan Quan 2022-04-06   998  	case SMU_VCLK:
-276c03a0547068 Evan Quan 2022-04-06   999  	case SMU_VCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1000  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.vclk_table);
-276c03a0547068 Evan Quan 2022-04-06  1001  		break;
-276c03a0547068 Evan Quan 2022-04-06  1002  	case SMU_DCLK:
-276c03a0547068 Evan Quan 2022-04-06  1003  	case SMU_DCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1004  		single_dpm_table =3D &(dpm_con=
-text->dpm_tables.dclk_table);
-276c03a0547068 Evan Quan 2022-04-06  1005  		break;
-276c03a0547068 Evan Quan 2022-04-06  1006  	default:
-276c03a0547068 Evan Quan 2022-04-06  1007  		break;
-276c03a0547068 Evan Quan 2022-04-06  1008  	}
-276c03a0547068 Evan Quan 2022-04-06  1009  =
 
-276c03a0547068 Evan Quan 2022-04-06  1010  	switch (clk_type) {
-276c03a0547068 Evan Quan 2022-04-06  1011  	case SMU_GFXCLK:
-276c03a0547068 Evan Quan 2022-04-06  1012  	case SMU_SCLK:
-276c03a0547068 Evan Quan 2022-04-06  1013  	case SMU_MCLK:
-276c03a0547068 Evan Quan 2022-04-06  1014  	case SMU_UCLK:
-276c03a0547068 Evan Quan 2022-04-06  1015  	case SMU_SOCCLK:
-276c03a0547068 Evan Quan 2022-04-06  1016  	case SMU_FCLK:
-276c03a0547068 Evan Quan 2022-04-06  1017  	case SMU_VCLK:
-276c03a0547068 Evan Quan 2022-04-06  1018  	case SMU_VCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1019  	case SMU_DCLK:
-276c03a0547068 Evan Quan 2022-04-06  1020  	case SMU_DCLK1:
-276c03a0547068 Evan Quan 2022-04-06  1021  		if (single_dpm_table->is_fine_=
-grained) {
-276c03a0547068 Evan Quan 2022-04-06  1022  			/* There is only 2 levels for=
- fine grained DPM */
-276c03a0547068 Evan Quan 2022-04-06  1023  			soft_max_level =3D (soft_max_=
-level >=3D 1 ? 1 : 0);
-276c03a0547068 Evan Quan 2022-04-06  1024  			soft_min_level =3D (soft_min_=
-level >=3D 1 ? 1 : 0);
-276c03a0547068 Evan Quan 2022-04-06  1025  		} else {
-276c03a0547068 Evan Quan 2022-04-06  1026  			if ((soft_max_level >=3D sing=
-le_dpm_table->count) ||
-276c03a0547068 Evan Quan 2022-04-06  1027  			    (soft_min_level >=3D sing=
-le_dpm_table->count))
-276c03a0547068 Evan Quan 2022-04-06  1028  				return -EINVAL;
-276c03a0547068 Evan Quan 2022-04-06  1029  		}
-276c03a0547068 Evan Quan 2022-04-06  1030  =
+:::::: The code at line 21 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-276c03a0547068 Evan Quan 2022-04-06 @1031  		min_freq =3D single_dpm_table-=
->dpm_levels[soft_min_level].value;
-276c03a0547068 Evan Quan 2022-04-06  1032  		max_freq =3D single_dpm_table-=
->dpm_levels[soft_max_level].value;
-276c03a0547068 Evan Quan 2022-04-06  1033  =
-
-276c03a0547068 Evan Quan 2022-04-06  1034  		ret =3D smu_v13_0_set_soft_fre=
-q_limited_range(smu,
-276c03a0547068 Evan Quan 2022-04-06  1035  							    clk_type,
-276c03a0547068 Evan Quan 2022-04-06  1036  							    min_freq,
-276c03a0547068 Evan Quan 2022-04-06  1037  							    max_freq);
-276c03a0547068 Evan Quan 2022-04-06  1038  		break;
-276c03a0547068 Evan Quan 2022-04-06  1039  	case SMU_DCEFCLK:
-276c03a0547068 Evan Quan 2022-04-06  1040  	case SMU_PCIE:
-276c03a0547068 Evan Quan 2022-04-06  1041  	default:
-276c03a0547068 Evan Quan 2022-04-06  1042  		break;
-276c03a0547068 Evan Quan 2022-04-06  1043  	}
-276c03a0547068 Evan Quan 2022-04-06  1044  =
-
-276c03a0547068 Evan Quan 2022-04-06  1045  	return ret;
-276c03a0547068 Evan Quan 2022-04-06  1046  }
-276c03a0547068 Evan Quan 2022-04-06  1047  =
-
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1349134292752773079==--
+--===============8411720624875924104==--
 
