@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3811809691143655352=="
+Content-Type: multipart/mixed; boundary="===============7055957460919456641=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/kunit/test.h:1281:21: warning: dereference of NULL 'filtered' [CWE-476]
-Date: Sun, 19 Jun 2022 07:54:39 +0800
-Message-ID: <202206190710.DD0NPOal-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_panel.c:159:46: warning: dereference of NULL 'preferred_mode' [CWE-476]
+Date: Sun, 19 Jun 2022 07:44:16 +0800
+Message-ID: <202206190758.RdYUewoz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3811809691143655352==
+--===============7055957460919456641==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,42 +15,41 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/kunit/test.h:1281:21: warning: dereference of NULL 'filtered' [CWE=
--476] [-Wanalyzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/i915/display/intel_panel.c:159:46: warning: dereference of NULL 'pre=
+ferred_mode' [CWE-476] [-Wanalyzer-null-dereference]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Latypov <dlatypov@google.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: David Gow <davidgow@google.com>
+TO: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
+CC: Jani Nikula <jani.nikula@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: 1d71307a6f94df3750f8f884545a769e227172fe kunit: add unit test for f=
-iltering suites by names
-date:   12 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
-ve/20220619/202206190710.DD0NPOal-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+commit: c19909d037b640a5e3580c68f420e7ba058c68e4 drm/i915: Allow higher ref=
+resh rate alternate fixed modes
+date:   3 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-c001-20220613 (https://download.01.org/0day-ci/ar=
+chive/20220619/202206190758.RdYUewoz-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D1d71307a6f94df3750f8f884545a769e227172fe
+t/commit/?id=3Dc19909d037b640a5e3580c68f420e7ba058c68e4
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 1d71307a6f94df3750f8f884545a769e227172fe
+        git checkout c19909d037b640a5e3580c68f420e7ba058c68e4
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+         ARCH=3Dx86_64 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -58,232 +57,125 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from lib/kunit/executor.c:4:
-   In function 'filter_subsuite_test':
->> include/kunit/test.h:1281:21: warning: dereference of NULL 'filtered' [C=
-WE-476] [-Wanalyzer-null-dereference]
-    1281 |         typeof(ptr) __ptr =3D (ptr);                            =
-                 \
-         |                     ^~~~~
-   include/kunit/test.h:1295:9: note: in expansion of macro 'KUNIT_PTR_NOT_=
-ERR_OR_NULL_MSG_ASSERTION'
-    1295 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,           =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1854:9: note: in expansion of macro 'KUNIT_PTR_NOT_=
-ERR_OR_NULL_ASSERTION'
-    1854 |         KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTIO=
-N, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/executor_test.c:28:9: note: in expansion of macro 'KUNIT_ASSER=
-T_NOT_ERR_OR_NULL'
-      28 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filtered[0]);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'filter_subsuite_test': events 1-2
+   drivers/gpu/drm/i915/display/intel_panel.c: In function 'is_alt_fixed_mo=
+de':
+>> drivers/gpu/drm/i915/display/intel_panel.c:159:46: warning: dereference =
+of NULL 'preferred_mode' [CWE-476] [-Wanalyzer-null-dereference]
+     159 |                 mode->clock !=3D preferred_mode->clock;
+         |                                ~~~~~~~~~~~~~~^~~~~~~
+     'intel_panel_add_edid_alt_fixed_modes': event 1
        |
-       |   15 | static void filter_subsuite_test(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
+       |  162 | static void intel_panel_add_edid_alt_fixed_modes(struct int=
+el_connector *connector)
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        |      |             |
-       |      |             (1) entry to 'filter_subsuite_test'
-       |......
-       |   20 |         subsuite[0] =3D alloc_fake_suite(test, "suite1");
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (2) calling 'alloc_fake_suite' from '=
-filter_subsuite_test'
+       |      |             (1) entry to 'intel_panel_add_edid_alt_fixed_mo=
+des'
        |
-       +--> 'alloc_fake_suite': event 3
-              |
-              |  123 | static struct kunit_suite *alloc_fake_suite(struct k=
-unit *test,
-              |      |                            ^~~~~~~~~~~~~~~~
-              |      |                            |
-              |      |                            (3) entry to 'alloc_fake_=
-suite'
-              |
-            'alloc_fake_suite': event 4
-              |
-              |include/linux/fortify-string.h:36:12:
-              |   36 |         if (p_size < size)
-              |      |            ^
-              |      |            |
-              |      |            (4) following 'false' branch...
-              |
-            'alloc_fake_suite': event 5
-              |
-              |   27 | #define __underlying_strncpy    __builtin_strncpy
-              |      |                                 ^
-              |      |                                 |
-              |      |                                 (5) ...to here
-   include/linux/fortify-string.h:38:16: note: in expansion of macro '__und=
-erlying_strncpy'
-              |   38 |         return __underlying_strncpy(p, q, size);
-              |      |                ^~~~~~~~~~~~~~~~~~~~
-              |
-       <------+
+     'intel_panel_add_edid_alt_fixed_modes': event 2
        |
-     'filter_subsuite_test': events 6-7
+       |include/linux/list.h:555:59:
+       |  555 |         pos__ !=3D head__ ? list_entry(pos__, type, member)=
+ : NULL; \
+   drivers/gpu/drm/i915/display/intel_panel.c:52:16: note: in expansion of =
+macro 'list_first_entry_or_null'
+       |   52 |         return list_first_entry_or_null(&connector->panel.f=
+ixed_modes,
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~
        |
-       |lib/kunit/executor_test.c:20:23:
-       |   20 |         subsuite[0] =3D alloc_fake_suite(test, "suite1");
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (6) returning to 'filter_subsuite_tes=
-t' from 'alloc_fake_suite'
-       |   21 |         subsuite[1] =3D alloc_fake_suite(test, "suite2");
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (7) calling 'alloc_fake_suite' from '=
-filter_subsuite_test'
+     'intel_panel_add_edid_alt_fixed_modes': event 3
        |
-       +--> 'alloc_fake_suite': event 8
-              |
-              |  123 | static struct kunit_suite *alloc_fake_suite(struct k=
-unit *test,
-              |      |                            ^~~~~~~~~~~~~~~~
-              |      |                            |
-              |      |                            (8) entry to 'alloc_fake_=
-suite'
-              |
-            'alloc_fake_suite': event 9
-              |
-              |include/linux/fortify-string.h:36:12:
-              |   36 |         if (p_size < size)
-              |      |            ^
-              |      |            |
-              |      |            (9) following 'false' branch...
-              |
-            'alloc_fake_suite': event 10
-              |
-              |   27 | #define __underlying_strncpy    __builtin_strncpy
-              |      |                                 ^
-              |      |                                 |
-              |      |                                 (10) ...to here
-   include/linux/fortify-string.h:38:16: note: in expansion of macro '__und=
-erlying_strncpy'
-              |   38 |         return __underlying_strncpy(p, q, size);
-              |      |                ^~~~~~~~~~~~~~~~~~~~
-              |
-       <------+
+       |cc1:
+       | (3): ...to here
        |
-     'filter_subsuite_test': events 11-12
+     'intel_panel_add_edid_alt_fixed_modes': event 4
        |
-       |lib/kunit/executor_test.c:21:23:
-       |   21 |         subsuite[1] =3D alloc_fake_suite(test, "suite2");
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (11) returning to 'filter_subsuite_te=
-st' from 'alloc_fake_suite'
-       |......
-       |   24 |         filtered =3D kunit_filter_subsuite(subsuite, "suite=
-2*");
-       |      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+       |include/linux/list.h:727:14:
+       |  727 |              !list_entry_is_head(pos, head, member);       =
+             \
+       |      |              ^
+       |      |              |
+       |      |              (4) following 'true' branch...
+   drivers/gpu/drm/i915/display/intel_panel.c:169:9: note: in expansion of =
+macro 'list_for_each_entry_safe'
+       |  169 |         list_for_each_entry_safe(mode, next, &connector->ba=
+se.probed_modes, head) {
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'intel_panel_add_edid_alt_fixed_modes': events 5-6
+       |
+       |  170 |                 if (!is_alt_fixed_mode(mode, preferred_mode=
+))
+       |      |                 ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |    |
+       |      |                 |    (6) calling 'is_alt_fixed_mode' from '=
+intel_panel_add_edid_alt_fixed_modes'
+       |      |                 (5) ...to here
+       |
+       +--> 'is_alt_fixed_mode': events 7-10
+              |
+              |  152 | static bool is_alt_fixed_mode(const struct drm_displ=
+ay_mode *mode,
+              |      |             ^~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (7) entry to 'is_alt_fixed_mode'
+              |......
+              |  155 |         return drm_mode_match(mode, preferred_mode,
+              |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  156 |                               DRM_MODE_MATCH_TIMINGS=
+ |
+              |      |                               ~~~~~~~~~~~~~~~~~~~~~~=
 ~~
-       |      |                    |
+              |  157 |                               DRM_MODE_MATCH_FLAGS |
+              |      |                               ~~~~~~~~~~~~~~~~~~~~~~
+              |  158 |                               DRM_MODE_MATCH_3D_FLAG=
+S) &&
+              |      |                               ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+              |      |                                                     =
+   |
+              |      |                                                     =
+   (8) following 'true' branch...
+              |  159 |                 mode->clock !=3D preferred_mode->clo=
+ck;
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                     |                        |
+              |      |                     (9) ...to here           (10) de=
+reference of NULL 'preferred_mode'
+              |
 
-vim +/filtered +1281 include/kunit/test.h
+vim +/preferred_mode +159 drivers/gpu/drm/i915/display/intel_panel.c
 
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1236  =
+1d8e1c75ffa844 drivers/gpu/drm/i915/intel_panel.c         Chris Wilson  201=
+0-08-07  151  =
 
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1237  #define KUNIT_BINARY_STR_E=
-Q_MSG_ASSERTION(test,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1238  					  assert_type,			    =
-   \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1239  					  left,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1240  					  right,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1241  					  fmt,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1242  					  ...)				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1243  	KUNIT_BINARY_STR_ASSERTIO=
-N(test,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1244  				   assert_type,				   =
-    \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1245  				   left, =3D=3D, right=
-,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1246  				   fmt,					       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1247  				   ##__VA_ARGS__)
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1248  =
+c19909d037b640 drivers/gpu/drm/i915/display/intel_panel.c Ville Syrj=C3=A4l=
+=C3=A4 2022-03-31  152  static bool is_alt_fixed_mode(const struct drm_disp=
+lay_mode *mode,
+c19909d037b640 drivers/gpu/drm/i915/display/intel_panel.c Ville Syrj=C3=A4l=
+=C3=A4 2022-03-31  153  			      const struct drm_display_mode *preferred_m=
+ode)
+9f6fbe22be90b7 drivers/gpu/drm/i915/intel_panel.c         Ville Syrj=C3=A4l=
+=C3=A4 2019-03-21  154  {
+c19909d037b640 drivers/gpu/drm/i915/display/intel_panel.c Ville Syrj=C3=A4l=
+=C3=A4 2022-03-31  155  	return drm_mode_match(mode, preferred_mode,
+9f6fbe22be90b7 drivers/gpu/drm/i915/intel_panel.c         Ville Syrj=C3=A4l=
+=C3=A4 2019-03-21  156  			      DRM_MODE_MATCH_TIMINGS |
+9f6fbe22be90b7 drivers/gpu/drm/i915/intel_panel.c         Ville Syrj=C3=A4l=
+=C3=A4 2019-03-21  157  			      DRM_MODE_MATCH_FLAGS |
+9f6fbe22be90b7 drivers/gpu/drm/i915/intel_panel.c         Ville Syrj=C3=A4l=
+=C3=A4 2019-03-21  158  			      DRM_MODE_MATCH_3D_FLAGS) &&
+c19909d037b640 drivers/gpu/drm/i915/display/intel_panel.c Ville Syrj=C3=A4l=
+=C3=A4 2022-03-31 @159  		mode->clock !=3D preferred_mode->clock;
+9f6fbe22be90b7 drivers/gpu/drm/i915/intel_panel.c         Ville Syrj=C3=A4l=
+=C3=A4 2019-03-21  160  }
+9f6fbe22be90b7 drivers/gpu/drm/i915/intel_panel.c         Ville Syrj=C3=A4l=
+=C3=A4 2019-03-21  161  =
 
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1249  #define KUNIT_BINARY_STR_E=
-Q_ASSERTION(test, assert_type, left, right)	       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1250  	KUNIT_BINARY_STR_EQ_MSG_A=
-SSERTION(test,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1251  					  assert_type,			    =
-   \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1252  					  left,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1253  					  right,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1254  					  NULL)
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1255  =
-
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1256  #define KUNIT_BINARY_STR_N=
-E_MSG_ASSERTION(test,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1257  					  assert_type,			    =
-   \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1258  					  left,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1259  					  right,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1260  					  fmt,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1261  					  ...)				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1262  	KUNIT_BINARY_STR_ASSERTIO=
-N(test,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1263  				   assert_type,				   =
-    \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1264  				   left, !=3D, right,	=
-		       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1265  				   fmt,					       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1266  				   ##__VA_ARGS__)
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1267  =
-
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1268  #define KUNIT_BINARY_STR_N=
-E_ASSERTION(test, assert_type, left, right)	       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1269  	KUNIT_BINARY_STR_NE_MSG_A=
-SSERTION(test,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1270  					  assert_type,			    =
-   \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1271  					  left,				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1272  					  right,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1273  					  NULL)
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1274  =
-
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1275  #define KUNIT_PTR_NOT_ERR_=
-OR_NULL_MSG_ASSERTION(test,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1276  						assert_type,		      =
- \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1277  						ptr,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1278  						fmt,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1279  						...)			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1280  do {									       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23 @1281  	typeof(ptr) __ptr =3D (pt=
-r);					       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1282  									       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1283  	KUNIT_ASSERTION(test,				=
-		       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1284  			!IS_ERR_OR_NULL(__ptr),=
-				       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1285  			kunit_ptr_not_err_asser=
-t,			       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1286  			KUNIT_INIT_PTR_NOT_ERR_=
-STRUCT(test,		       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1287  						      assert_type,	 =
-      \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1288  						      #ptr,		       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1289  						      __ptr),		     =
-  \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1290  			fmt,						       \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1291  			##__VA_ARGS__);					   =
-    \
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1292  } while (0)
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  1293  =
-
-
-:::::: The code@line 1281 was first introduced by commit
-:::::: 73cda7bb8bfb1d4be0325d76172950ede1a65fd0 kunit: test: add the concep=
-t of expectations
-
-:::::: TO: Brendan Higgins <brendanhiggins@google.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3811809691143655352==--
+--===============7055957460919456641==--
 
