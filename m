@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5261690734988250566=="
+Content-Type: multipart/mixed; boundary="===============7730996734975289262=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:261 dpu_encoder_phys_wb_atomic_check() warn: variable dereferenced before check 'conn_state' (see line 255)
-Date: Sun, 19 Jun 2022 06:12:46 +0800
-Message-ID: <202206190637.iURVxsik-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1067 smu_v13_0_7_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_levels' 16 <= 31
+Date: Sun, 19 Jun 2022 01:49:09 +0800
+Message-ID: <202206190158.Ppr0O0zJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5261690734988250566==
+--===============7730996734975289262==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,130 +15,148 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Abhinav Kumar <quic_abhinavk@quicinc.com>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+TO: Kenneth Feng <kenneth.feng@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Jack Gui <Jack.Gui@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: d7d0e73f7de33a2b9998b607707a3e944ef3b86d drm/msm/dpu: introduce the=
- dpu_encoder_phys_* for writeback
-date:   7 weeks ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 7 weeks ago
+commit: 2492d40d6ff2043682316b26c1c6436c9023de8f drm/amd/pm: pp_dpm_* inter=
+face for smu_v13_0_7
+date:   6 weeks ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 6 weeks ago
 config: ia64-randconfig-m031-20220616 (https://download.01.org/0day-ci/arch=
-ive/20220619/202206190637.iURVxsik-lkp(a)intel.com/config)
+ive/20220619/202206190158.Ppr0O0zJ-lkp(a)intel.com/config)
 compiler: ia64-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:261 dpu_encoder_phys_wb=
-_atomic_check() warn: variable dereferenced before check 'conn_state' (see =
-line 255)
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1067 smu_v13=
+_0_7_force_clk_levels() error: buffer overflow 'single_dpm_table->dpm_level=
+s' 16 <=3D 31
 
-Old smatch warnings:
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:252 dpu_encoder_phys_wb=
-_atomic_check() error: potentially dereferencing uninitialized 'mode'.
+vim +1067 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c
 
-vim +/conn_state +261 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+2492d40d6ff204 Kenneth Feng 2022-04-15  1004  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  237  =
+2492d40d6ff204 Kenneth Feng 2022-04-15  1005  static int smu_v13_0_7_force_=
+clk_levels(struct smu_context *smu,
+2492d40d6ff204 Kenneth Feng 2022-04-15  1006  					enum smu_clk_type clk_ty=
+pe,
+2492d40d6ff204 Kenneth Feng 2022-04-15  1007  					uint32_t mask)
+2492d40d6ff204 Kenneth Feng 2022-04-15  1008  {
+2492d40d6ff204 Kenneth Feng 2022-04-15  1009  	struct smu_dpm_context *smu_=
+dpm =3D &smu->smu_dpm;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1010  	struct smu_13_0_dpm_context =
+*dpm_context =3D smu_dpm->dpm_context;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1011  	struct smu_13_0_dpm_table *s=
+ingle_dpm_table;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1012  	uint32_t soft_min_level, sof=
+t_max_level;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1013  	uint32_t min_freq, max_freq;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1014  	int ret =3D 0;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1015  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  238  /**
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  239   * dpu_encoder_phys_wb_atomic=
-_check - verify and fixup given atomic states
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  240   * @phys_enc:	Pointer to phys=
-ical encoder
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  241   * @crtc_state:	Pointer to CR=
-TC atomic state
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  242   * @conn_state:	Pointer to co=
-nnector atomic state
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  243   */
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  244  static int dpu_encoder_phys_w=
-b_atomic_check(
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  245  		struct dpu_encoder_phys *ph=
-ys_enc,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  246  		struct drm_crtc_state *crtc=
-_state,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  247  		struct drm_connector_state =
-*conn_state)
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  248  {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  249  	struct drm_framebuffer *fb;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  250  	const struct drm_display_mod=
-e *mode;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  251  =
+2492d40d6ff204 Kenneth Feng 2022-04-15  1016  	soft_min_level =3D mask ? (f=
+fs(mask) - 1) : 0;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1017  	soft_max_level =3D mask ? (f=
+ls(mask) - 1) : 0;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1018  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  252  	DPU_DEBUG("[atomic_check:%d,=
- \"%s\",%d,%d]\n",
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  253  			phys_enc->wb_idx, mode->na=
-me, mode->hdisplay, mode->vdisplay);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  254  =
+2492d40d6ff204 Kenneth Feng 2022-04-15  1019  	switch (clk_type) {
+2492d40d6ff204 Kenneth Feng 2022-04-15  1020  	case SMU_GFXCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1021  	case SMU_SCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1022  		single_dpm_table =3D &(dpm_=
+context->dpm_tables.gfx_table);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1023  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1024  	case SMU_MCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1025  	case SMU_UCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1026  		single_dpm_table =3D &(dpm_=
+context->dpm_tables.uclk_table);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1027  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1028  	case SMU_SOCCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1029  		single_dpm_table =3D &(dpm_=
+context->dpm_tables.soc_table);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1030  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1031  	case SMU_FCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1032  		single_dpm_table =3D &(dpm_=
+context->dpm_tables.fclk_table);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1033  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1034  	case SMU_VCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1035  	case SMU_VCLK1:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1036  		single_dpm_table =3D &(dpm_=
+context->dpm_tables.vclk_table);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1037  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1038  	case SMU_DCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1039  	case SMU_DCLK1:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1040  		single_dpm_table =3D &(dpm_=
+context->dpm_tables.dclk_table);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1041  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1042  	default:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1043  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1044  	}
+2492d40d6ff204 Kenneth Feng 2022-04-15  1045  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26 @255  	if (!conn_state->writeback_j=
-ob || !conn_state->writeback_job->fb)
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  256  		return 0;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  257  =
+2492d40d6ff204 Kenneth Feng 2022-04-15  1046  	switch (clk_type) {
+2492d40d6ff204 Kenneth Feng 2022-04-15  1047  	case SMU_GFXCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1048  	case SMU_SCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1049  	case SMU_MCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1050  	case SMU_UCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1051  	case SMU_SOCCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1052  	case SMU_FCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1053  	case SMU_VCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1054  	case SMU_VCLK1:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1055  	case SMU_DCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1056  	case SMU_DCLK1:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1057  		if (single_dpm_table->is_fi=
+ne_grained) {
+2492d40d6ff204 Kenneth Feng 2022-04-15  1058  			/* There is only 2 levels =
+for fine grained DPM */
+2492d40d6ff204 Kenneth Feng 2022-04-15  1059  			soft_max_level =3D (soft_m=
+ax_level >=3D 1 ? 1 : 0);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1060  			soft_min_level =3D (soft_m=
+in_level >=3D 1 ? 1 : 0);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1061  		} else {
+2492d40d6ff204 Kenneth Feng 2022-04-15  1062  			if ((soft_max_level >=3D s=
+ingle_dpm_table->count) ||
+2492d40d6ff204 Kenneth Feng 2022-04-15  1063  			    (soft_min_level >=3D s=
+ingle_dpm_table->count))
+2492d40d6ff204 Kenneth Feng 2022-04-15  1064  				return -EINVAL;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1065  		}
+2492d40d6ff204 Kenneth Feng 2022-04-15  1066  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  258  	fb =3D conn_state->writeback=
-_job->fb;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  259  	mode =3D &crtc_state->mode;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  260  =
+2492d40d6ff204 Kenneth Feng 2022-04-15 @1067  		min_freq =3D single_dpm_tab=
+le->dpm_levels[soft_min_level].value;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1068  		max_freq =3D single_dpm_tab=
+le->dpm_levels[soft_max_level].value;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1069  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26 @261  	if (!conn_state || !conn_sta=
-te->connector) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  262  		DPU_ERROR("invalid connecto=
-r state\n");
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  263  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  264  	} else if (conn_state->conne=
-ctor->status !=3D
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  265  			connector_status_connected=
-) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  266  		DPU_ERROR("connector not co=
-nnected %d\n",
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  267  				conn_state->connector->st=
-atus);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  268  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  269  	}
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  270  =
+2492d40d6ff204 Kenneth Feng 2022-04-15  1070  		ret =3D smu_v13_0_set_soft_=
+freq_limited_range(smu,
+2492d40d6ff204 Kenneth Feng 2022-04-15  1071  							    clk_type,
+2492d40d6ff204 Kenneth Feng 2022-04-15  1072  							    min_freq,
+2492d40d6ff204 Kenneth Feng 2022-04-15  1073  							    max_freq);
+2492d40d6ff204 Kenneth Feng 2022-04-15  1074  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1075  	case SMU_DCEFCLK:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1076  	case SMU_PCIE:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1077  	default:
+2492d40d6ff204 Kenneth Feng 2022-04-15  1078  		break;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1079  	}
+2492d40d6ff204 Kenneth Feng 2022-04-15  1080  =
 
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  271  	DPU_DEBUG("[fb_id:%u][fb:%u,=
-%u]\n", fb->base.id,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  272  			fb->width, fb->height);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  273  =
-
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  274  	if (fb->width !=3D mode->hdi=
-splay) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  275  		DPU_ERROR("invalid fb w=3D%=
-d, mode w=3D%d\n", fb->width,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  276  				mode->hdisplay);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  277  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  278  	} else if (fb->height !=3D m=
-ode->vdisplay) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  279  		DPU_ERROR("invalid fb h=3D%=
-d, mode h=3D%d\n", fb->height,
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  280  				  mode->vdisplay);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  281  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  282  	} else if (fb->width > DEFAU=
-LT_MAX_WRITEBACK_WIDTH) {
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  283  		DPU_ERROR("invalid fb w=3D%=
-d, maxlinewidth=3D%u\n",
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  284  				  fb->width, DEFAULT_MAX_=
-WRITEBACK_WIDTH);
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  285  		return -EINVAL;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  286  	}
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  287  =
-
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  288  	return 0;
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  289  }
-d7d0e73f7de33a Abhinav Kumar 2022-04-26  290  =
+2492d40d6ff204 Kenneth Feng 2022-04-15  1081  	return ret;
+2492d40d6ff204 Kenneth Feng 2022-04-15  1082  }
+2492d40d6ff204 Kenneth Feng 2022-04-15  1083  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5261690734988250566==--
+--===============7730996734975289262==--
 
