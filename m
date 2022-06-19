@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9180103624984664040=="
+Content-Type: multipart/mixed; boundary="===============5191323485083028867=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 03/10] ext4: Remove EA inode entry from mbcache on inode eviction
-Date: Mon, 20 Jun 2022 08:32:49 +0800
-Message-ID: <202206200847.jnigy6BH-lkp@intel.com>
+Subject: drivers/gpu/drm/tegra/plane.c:260:19: warning: dereference of NULL 'state' [CWE-476]
+Date: Mon, 20 Jun 2022 07:01:41 +0800
+Message-ID: <202206200623.whoAf3pT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9180103624984664040==
+--===============5191323485083028867==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,52 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/asm-generic/bug.h:97:17: warning: dereference of NULL 'ea_inode' [=
-CWE-476] [-Wanalyzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/tegra/plane.c:260:19: warning: dereference of NULL 'state' [CWE-476]=
+ [-Wanalyzer-null-dereference]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220614160603.20566-3-jack@suse.cz>
-References: <20220614160603.20566-3-jack@suse.cz>
-TO: Jan Kara <jack@suse.cz>
-TO: Ted Tso <tytso@mit.edu>
-CC: linux-ext4(a)vger.kernel.org
-CC: Ritesh Harjani <ritesh.list@gmail.com>
-CC: Jan Kara <jack@suse.cz>
-CC: stable(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Dmitry Osipenko <digetx@gmail.com>
+CC: Thierry Reding <treding@nvidia.com>
 
-Hi Jan,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on jack-fs/for_next linus/master v5.19-rc2 next-20=
-220617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Kara/ext4-Fix-po=
-ssible-fs-corruption-due-to-xattr-races/20220615-000954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-c002-20220619 (https://download.01.org/0day-ci/archi=
-ve/20220620/202206200847.jnigy6BH-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
+commit: 04d5d5df9df79f9045e76404775fc8a084aac23d drm/tegra: dc: Support mem=
+ory bandwidth management
+date:   10 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
+ve/20220620/202206200623.whoAf3pT-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d2f5812460a63288558=
-be0c9ee0fedd060236275
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jan-Kara/ext4-Fix-possible-fs-corr=
-uption-due-to-xattr-races/20220615-000954
-        git checkout d2f5812460a63288558be0c9ee0fedd060236275
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D04d5d5df9df79f9045e76404775fc8a084aac23d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 04d5d5df9df79f9045e76404775fc8a084aac23d
         # save the config file
          ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
@@ -70,508 +57,628 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:55,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/ext4/xattr.c:55:
-   fs/ext4/xattr.c: In function 'ext4_xattr_inode_update_ref':
->> include/asm-generic/bug.h:97:17: warning: dereference of NULL 'ea_inode'=
- [CWE-476] [-Wanalyzer-null-dereference]
-      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg=
-);      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:133:17: note: in expansion of macro '__WARN_pr=
-intf'
-     133 |                 __WARN_printf(TAINT_WARN, format);              =
-        \
-         |                 ^~~~~~~~~~~~~
-   include/linux/once_lite.h:19:25: note: in expansion of macro 'WARN'
-      19 |                         func(__VA_ARGS__);                      =
-        \
-         |                         ^~~~
-   include/asm-generic/bug.h:151:9: note: in expansion of macro 'DO_ONCE_LI=
-TE_IF'
-     151 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
-         |         ^~~~~~~~~~~~~~~
-   fs/ext4/xattr.c:1013:17: note: in expansion of macro 'WARN_ONCE'
-    1013 |                 WARN_ONCE(ref_count < 0, "EA inode %lu ref_count=
-=3D%lld",
-         |                 ^~~~~~~~~
-     'ext4_xattr_delete_inode': event 1
+       |      |         (4) ...to here
+       |   62 |         copy->tiling =3D state->tiling;
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                      |
+       |      |                      (5) dereference of NULL '<unknown>'
        |
-       | 2823 | int ext4_xattr_delete_inode(handle_t *handle, struct inode =
-*inode,
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_plane_supports_sector_=
+layout':
+   drivers/gpu/drm/tegra/plane.c:98:32: warning: dereference of NULL '0' [C=
+WE-476] [-Wanalyzer-null-dereference]
+      98 |                         if (!dc->soc->supports_sector_layout)
+         |                              ~~^~~~~
+     'tegra_plane_supports_sector_layout': event 1
+       |
+       |include/linux/list.h:629:14:
+       |  629 |              !list_entry_is_head(pos, head, member);       =
+             \
+       |      |              ^
+       |      |              |
+       |      |              (1) following 'true' branch...
+   include/drm/drm_crtc.h:1313:9: note: in expansion of macro 'list_for_eac=
+h_entry'
+       | 1313 |         list_for_each_entry(crtc, &(dev)->mode_config.crtc_=
+list, head)
+       |      |         ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/plane.c:94:9: note: in expansion of macro 'drm_for=
+_each_crtc'
+       |   94 |         drm_for_each_crtc(crtc, plane->dev) {
+       |      |         ^~~~~~~~~~~~~~~~~
+       |
+     'tegra_plane_supports_sector_layout': events 2-3
+       |
+       |   95 |                 if (plane->possible_crtcs & drm_crtc_mask(c=
+rtc)) {
+       |      |                     ~~~~~^~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (2) ...to here
+       |......
+       |   98 |                         if (!dc->soc->supports_sector_layou=
+t)
+       |      |                              ~~~~~~~
+       |      |                                |
+       |      |                                (3) dereference of NULL '<un=
+known>'
+       |
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_dc_pin':
+   drivers/gpu/drm/tegra/plane.c:141:39: warning: dereference of NULL 'dc' =
+[CWE-476] [-Wanalyzer-null-dereference]
+     141 |         struct iommu_domain *domain =3D iommu_get_domain_for_dev=
+(dc->dev);
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+     'tegra_plane_prepare_fb': event 1
+       |
+       |  229 | int tegra_plane_prepare_fb(struct drm_plane *plane,
+       |      |     ^~~~~~~~~~~~~~~~~~~~~~
        |      |     |
-       |      |     (1) entry to 'ext4_xattr_delete_inode'
+       |      |     (1) entry to 'tegra_plane_prepare_fb'
        |
-     'ext4_xattr_delete_inode': event 2
+     'tegra_plane_prepare_fb': event 2
        |
-       |cc1:
-       | (2): '=1B[01m=1B[Kea_inode=1B[m=1B[K' is NULL
+       |drivers/gpu/drm/tegra/dc.h:114:65:
+       |  114 |         return crtc ? container_of(crtc, struct tegra_dc, b=
+ase) : NULL;
        |
-     'ext4_xattr_delete_inode': events 3-5
+     'tegra_plane_prepare_fb': events 3-5
        |
-       | 2836 |         if (error < 0) {
+       |drivers/gpu/drm/tegra/plane.c:234:19:
+       |  234 |         if (!state->fb)
+       |      |            ~ ~~~~~^~~~
+       |      |            |      |
+       |      |            |      (3) ...to here
+       |      |            (4) following 'false' branch...
+       |......
+       |  237 |         drm_gem_plane_helper_prepare_fb(plane, state);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (5) ...to here
+       |
+     'tegra_plane_prepare_fb': event 6
+       |
+       |drivers/gpu/drm/tegra/plane.h:69:12:
+       |   69 |         if (state)
        |      |            ^
        |      |            |
-       |      |            (3) following 'false' branch (when 'error >=3D 0=
-')...
-       |......
-       | 2841 |         if (ext4_has_feature_ea_inode(inode->i_sb) &&
-       |      |         ~~ ~
-       |      |         |  |
-       |      |         |  (5) following 'true' branch...
-       |      |         (4) ...to here
+       |      |            (6) following 'true' branch (when 'state' is non=
+-NULL)...
        |
-     'ext4_xattr_delete_inode': event 6
+     'tegra_plane_prepare_fb': event 7
        |
-       |fs/ext4/ext4.h:1898:9:
-       | 1898 |         return test_bit(bit + (offset), &EXT4_I(inode)->i_#=
-#field);     \
-       |      |         ^~~~~~
-       |      |         |
-       |      |         (6) ...to here
-   fs/ext4/ext4.h:1922:1: note: in expansion of macro 'EXT4_INODE_BIT_FNS'
-       | 1922 | EXT4_INODE_BIT_FNS(state, state_flags, 0)
-       |      | ^~~~~~~~~~~~~~~~~~
+       |cc1:
+       | (7): ...to here
        |
-     'ext4_xattr_delete_inode': events 7-15
+     'tegra_plane_prepare_fb': event 8
        |
-       |fs/ext4/xattr.c:2841:52:
-       | 2841 |         if (ext4_has_feature_ea_inode(inode->i_sb) &&
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-       |      |                                                    |
-       |      |                                                    (7) foll=
-owing 'true' branch...
-       | 2842 |             ext4_test_inode_state(inode, EXT4_STATE_XATTR))=
- {
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       | 2843 | =
-
-       | 2844 |                 error =3D ext4_get_inode_loc(inode, &iloc);
-       |      |                 ~~~~~                               =
-
-       |      |                 |
-       |      |                 (8) ...to here
-       | 2845 |                 if (error) {
-       |      |                    ~                                =
-
-       |      |                    |
-       |      |                    (9) following 'false' branch (when 'erro=
-r =3D=3D 0')...
-       |......
-       | 2850 |                 error =3D ext4_journal_get_write_access(han=
-dle, inode->i_sb,
-       |      |                 ~~~~~                               =
-
-       |      |                 |
-       |      |                 (10) ...to here
-       | 2851 |                                                 iloc.bh, EX=
-T4_JTR_NONE);
-       | 2852 |                 if (error) {
-       |      |                    ~                                =
-
-       |      |                    |
-       |      |                    (11) following 'false' branch (when 'err=
-or =3D=3D 0')...
-       |......
-       | 2858 |                 header =3D IHDR(inode, ext4_raw_inode(&iloc=
-));
-       |      |                 ~~~~~~                              =
-
-       |      |                 |
-       |      |                 (12) ...to here
-       | 2859 |                 if (header->h_magic =3D=3D cpu_to_le32(EXT4=
-_XATTR_MAGIC))
-       |      |                    ~                                =
-
-       |      |                    |
-       |      |                    (13) following 'true' branch...
-       | 2860 |                         ext4_xattr_inode_dec_ref_all(handle=
-, inode, iloc.bh,
-       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (14) ...to here
-       |      |                         (15) calling 'ext4_xattr_inode_dec_=
-ref_all' from 'ext4_xattr_delete_inode'
-       | 2861 |                                                      IFIRST=
-(header),
-       |      |                                                      ~~~~~~=
-~~~~~~~~~
-       | 2862 |                                                      false =
-/* block_csum */,
-       |      |                                                      ~~~~~~=
-~~~~~~~~~~~~~~~~~
-       | 2863 |                                                      ea_ino=
-de_array,
-       |      |                                                      ~~~~~~=
-~~~~~~~~~
-       | 2864 |                                                      extra_=
-credits,
-       |      |                                                      ~~~~~~=
-~~~~~~~~
---
-              |......
-              | 1155 |                 err =3D ext4_journal_ensure_credits_=
-fn(handle, credits, credits,
-              |      |                 ~~~          =
-
-              |      |                 |
-              |      |                 (22) ...to here
-              |......
-              | 1159 |                 if (err < 0) {
-              |      |                    ~         =
-
-              |      |                    |
-              |      |                    (23) following 'false' branch (wh=
-en 'err >=3D 0')...
-              |......
-              | 1164 |                 if (err > 0) {
-              |      |                 ~~           =
-
-              |      |                 |
-              |      |                 (24) ...to here
+       |drivers/gpu/drm/tegra/plane.c:239:16:
+       |  239 |         return tegra_dc_pin(dc, to_tegra_plane_state(state)=
+);
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (8) calling 'tegra_dc_pin' from 'tegra_plane=
+_prepare_fb'
+       |
+       +--> 'tegra_dc_pin': events 9-10
               |
-              +--> 'ext4_xattr_inode_update_ref': events 26-29
-                     |
-                     |  984 | static int ext4_xattr_inode_update_ref(handle=
-_t *handle, struct inode *ea_inode,
-                     |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |            |
-                     |      |            (26) entry to 'ext4_xattr_inode_up=
-date_ref'
-                     |......
-                     |  994 |         if (ret)
-                     |      |            ~
-                     |      |            |
-                     |      |            (27) following 'false' branch (whe=
-n 'ret =3D=3D 0')...
-                     |......
-                     |  997 |         ref_count =3D ext4_xattr_inode_get_re=
-f(ea_inode);
-                     |      |         ~~~~~~~~~
-                     |      |         |
-                     |      |         (28) ...to here
-                     |......
-                     | 1001 |         if (ref_change > 0) {
-                     |      |            ~
-                     |      |            |
-                     |      |            (29) following 'false' branch (whe=
-n 'ref_change <=3D 0')...
-                     |
-                   'ext4_xattr_inode_update_ref': event 30
-                     |
-                     |include/linux/once_lite.h:13:9:
-                     |   13 |         ({                                   =
-                           \
-                     |      |         ^
-                     |      |         |
-                     |      |         (30) ...to here
-   include/asm-generic/bug.h:151:9: note: in expansion of macro 'DO_ONCE_LI=
-TE_IF'
-                     |  151 |         DO_ONCE_LITE_IF(condition, WARN, 1, f=
-ormat)
-                     |      |         ^~~~~~~~~~~~~~~
-   fs/ext4/xattr.c:1013:17: note: in expansion of macro 'WARN_ONCE'
-                     | 1013 |                 WARN_ONCE(ref_count < 0, "EA =
-inode %lu ref_count=3D%lld",
-                     |      |                 ^~~~~~~~~
-                     |
-                   'ext4_xattr_inode_update_ref': event 31
-                     |
-                     |include/linux/once_lite.h:17:20:
-                     |   17 |                 if (unlikely(__ret_do_once &&=
- !__already_done)) {       \
-                     |      |                    ^
-                     |      |                    |
-                     |      |                    (31) following 'true' bran=
-ch...
-   include/asm-generic/bug.h:151:9: note: in expansion of macro 'DO_ONCE_LI=
-TE_IF'
-                     |  151 |         DO_ONCE_LITE_IF(condition, WARN, 1, f=
-ormat)
-                     |      |         ^~~~~~~~~~~~~~~
-   fs/ext4/xattr.c:1013:17: note: in expansion of macro 'WARN_ONCE'
-                     | 1013 |                 WARN_ONCE(ref_count < 0, "EA =
-inode %lu ref_count=3D%lld",
-                     |      |                 ^~~~~~~~~
-                     |
-                   'ext4_xattr_inode_update_ref': event 32
-                     |
-                     |include/linux/once_lite.h:18:25:
-                     |   18 |                         __already_done =3D tr=
-ue;                          \
-                     |      |                         ^~~~~~~~~~~~~~
-                     |      |                         |
-                     |      |                         (32) ...to here
-   include/asm-generic/bug.h:151:9: note: in expansion of macro 'DO_ONCE_LI=
-TE_IF'
-                     |  151 |         DO_ONCE_LITE_IF(condition, WARN, 1, f=
-ormat)
-                     |      |         ^~~~~~~~~~~~~~~
-   fs/ext4/xattr.c:1013:17: note: in expansion of macro 'WARN_ONCE'
-                     | 1013 |                 WARN_ONCE(ref_count < 0, "EA =
-inode %lu ref_count=3D%lld",
-                     |      |                 ^~~~~~~~~
-                     |
-                   'ext4_xattr_inode_update_ref': event 33
-                     |
-                     |include/asm-generic/bug.h:97:17:
-                     |   97 |                 warn_slowpath_fmt(__FILE__, _=
-_LINE__, taint, arg);      \
-                     |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (33) dereference of NULL 'ea_=
-inode'
-   include/asm-generic/bug.h:133:17: note: in expansion of macro '__WARN_pr=
-intf'
-                     |  133 |                 __WARN_printf(TAINT_WARN, for=
-mat);                      \
-                     |      |                 ^~~~~~~~~~~~~
-   include/linux/once_lite.h:19:25: note: in expansion of macro 'WARN'
-                     |   19 |                         func(__VA_ARGS__);   =
-                           \
-                     |      |                         ^~~~
-   include/asm-generic/bug.h:151:9: note: in expansion of macro 'DO_ONCE_LI=
-TE_IF'
-                     |  151 |         DO_ONCE_LITE_IF(condition, WARN, 1, f=
-ormat)
-                     |      |         ^~~~~~~~~~~~~~~
-   fs/ext4/xattr.c:1013:17: note: in expansion of macro 'WARN_ONCE'
-                     | 1013 |                 WARN_ONCE(ref_count < 0, "EA =
-inode %lu ref_count=3D%lld",
-                     |      |                 ^~~~~~~~~
-                     |
->> include/asm-generic/bug.h:97:17: warning: dereference of NULL 'ea_inode'=
- [CWE-476] [-Wanalyzer-null-dereference]
-      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg=
-);      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:133:17: note: in expansion of macro '__WARN_pr=
-intf'
-     133 |                 __WARN_printf(TAINT_WARN, format);              =
-        \
-         |                 ^~~~~~~~~~~~~
-   include/linux/once_lite.h:19:25: note: in expansion of macro 'WARN'
-      19 |                         func(__VA_ARGS__);                      =
-        \
-         |                         ^~~~
-   include/asm-generic/bug.h:151:9: note: in expansion of macro 'DO_ONCE_LI=
-TE_IF'
-     151 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
-         |         ^~~~~~~~~~~~~~~
-   fs/ext4/xattr.c:1017:25: note: in expansion of macro 'WARN_ONCE'
-    1017 |                         WARN_ONCE(ea_inode->i_nlink !=3D 1,
-         |                         ^~~~~~~~~
-     'ext4_xattr_delete_inode': event 1
+              |  139 | static int tegra_dc_pin(struct tegra_dc *dc, struct =
+tegra_plane_state *state)
+              |      |            ^~~~~~~~~~~~
+              |      |            |
+              |      |            (9) entry to 'tegra_dc_pin'
+              |  140 | {
+              |  141 |         struct iommu_domain *domain =3D iommu_get_do=
+main_for_dev(dc->dev);
+              |      |                                       ~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+              |      |                                       |
+              |      |                                       (10) dereferen=
+ce of NULL 'dc'
+              |
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_plane_calculate_memory=
+_bandwidth':
+>> drivers/gpu/drm/tegra/plane.c:260:19: warning: dereference of NULL 'stat=
+e' [CWE-476] [-Wanalyzer-null-dereference]
+     260 |         if (!state->visible)
+         |              ~~~~~^~~~~~~~~
+     'tegra_plane_calculate_memory_bandwidth': event 1
        |
-       | 2823 | int ext4_xattr_delete_inode(handle_t *handle, struct inode =
-*inode,
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'ext4_xattr_delete_inode'
-       |
-     'ext4_xattr_delete_inode': event 2
-       |
-       |cc1:
-       | (2): '=1B[01m=1B[Kea_inode=1B[m=1B[K' is NULL
-       |
-     'ext4_xattr_delete_inode': events 3-5
-       |
-       | 2836 |         if (error < 0) {
+       |drivers/gpu/drm/tegra/plane.h:69:12:
+       |   69 |         if (state)
        |      |            ^
        |      |            |
-       |      |            (3) following 'false' branch (when 'error >=3D 0=
-')...
+       |      |            (1) following 'false' branch (when 'state' is NU=
+LL)...
+       |
+     'tegra_plane_calculate_memory_bandwidth': events 2-3
+       |
+       |drivers/gpu/drm/tegra/plane.c:260:19:
+       |  260 |         if (!state->visible)
+       |      |              ~~~~~^~~~~~~~~
+       |      |                   |
+       |      |                   (2) ...to here
+       |      |                   (3) dereference of NULL 'state'
+       |
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_plane_state_add':
+   drivers/gpu/drm/tegra/plane.c:347:23: warning: dereference of NULL '0' [=
+CWE-476] [-Wanalyzer-null-dereference]
+     347 |         tegra->planes |=3D WIN_A_ACT_REQ << plane->index;
+         |                       ^~
+     'tegra_plane_state_add': events 1-6
+       |
+       |  323 | int tegra_plane_state_add(struct tegra_plane *plane,
+       |      |     ^~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'tegra_plane_state_add'
        |......
-       | 2841 |         if (ext4_has_feature_ea_inode(inode->i_sb) &&
-       |      |         ~~ ~
-       |      |         |  |
-       |      |         |  (5) following 'true' branch...
-       |      |         (4) ...to here
+       |  332 |         if (IS_ERR(crtc_state))
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  336 |         err =3D drm_atomic_helper_check_plane_state(state, =
+crtc_state,
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+       |      |               |
+       |      |               (3) ...to here
+       |  337 |                                                   0, INT_MA=
+X, true, true);
+       |      |                                                   ~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |  338 |         if (err < 0)
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'false' branch (when 'err >=3D 0')=
+...
+       |......
+       |  341 |         err =3D tegra_plane_calculate_memory_bandwidth(stat=
+e);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (5) ...to here
+       |      |               (6) calling 'tegra_plane_calculate_memory_ban=
+dwidth' from 'tegra_plane_state_add'
        |
-     'ext4_xattr_delete_inode': event 6
+       +--> 'tegra_plane_calculate_memory_bandwidth': event 7
+              |
+              |  251 | static int tegra_plane_calculate_memory_bandwidth(st=
+ruct drm_plane_state *state)
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (7) entry to 'tegra_plane_calculate_memor=
+y_bandwidth'
+              |
+            'tegra_plane_calculate_memory_bandwidth': event 8
+              |
+              |drivers/gpu/drm/tegra/plane.h:69:12:
+              |   69 |         if (state)
+              |      |            ^
+              |      |            |
+              |      |            (8) following 'true' branch (when 'state'=
+ is non-NULL)...
+              |
+            'tegra_plane_calculate_memory_bandwidth': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+       <------+
        |
-       |fs/ext4/ext4.h:1898:9:
-       | 1898 |         return test_bit(bit + (offset), &EXT4_I(inode)->i_#=
-#field);     \
-       |      |         ^~~~~~
+     'tegra_plane_state_add': events 10-11
+       |
+       |drivers/gpu/drm/tegra/plane.c:341:15:
+       |  341 |         err =3D tegra_plane_calculate_memory_bandwidth(stat=
+e);
+       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (10) returning to 'tegra_plane_state_add' fro=
+m 'tegra_plane_calculate_memory_bandwidth'
+       |  342 |         if (err < 0)
+       |      |            ~   =
+
+       |      |            |
+       |      |            (11) following 'false' branch (when 'err >=3D 0'=
+)...
+       |
+     'tegra_plane_state_add': events 12-13
+       |
+       |drivers/gpu/drm/tegra/dc.h:32:12:
+       |   32 |         if (state)
+       |      |            ^
+       |      |            |
+       |      |            (12) ...to here
+       |      |            (13) following 'false' branch (when 'crtc_state'=
+ is NULL)...
+       |
+     'tegra_plane_state_add': events 14-15
+       |
+       |drivers/gpu/drm/tegra/plane.c:347:23:
+       |  347 |         tegra->planes |=3D WIN_A_ACT_REQ << plane->index;
+       |      |                       ^~
+--
+     'tegra_crtc_update_memory_bandwidth': event 7
+       |
+       |include/drm/drm_atomic.h:927:20:
+       |  927 |              (__i) < (__state)->dev->mode_config.num_total_=
+plane;       \
+       |      |              ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+       |      |                    |
+       |      |                    (7) following 'true' branch...
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+       | 1878 |         for_each_old_plane_in_state(old_crtc_state->state, =
+plane,
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'tegra_crtc_update_memory_bandwidth': event 8
+       |
+       |include/drm/drm_atomic.h:929:39:
+       |  929 |                 for_each_if ((__state)->planes[__i].ptr && =
+             \
+       |      |                              ~~~~~~~~~^~~~~~~~
+       |      |                                       |
+       |      |                                       (8) ...to here
+   include/drm/drm_util.h:63:38: note: in definition of macro 'for_each_if'
+       |   63 | #define for_each_if(condition) if (!(condition)) {} else
+       |      |                                      ^~~~~~~~~
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+       | 1878 |         for_each_old_plane_in_state(old_crtc_state->state, =
+plane,
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'tegra_crtc_update_memory_bandwidth': event 9
+       |
+       |include/drm/drm_util.h:63:35:
+       |   63 | #define for_each_if(condition) if (!(condition)) {} else
+       |      |                                   ^
+       |      |                                   |
+       |      |                                   (9) following 'false' bra=
+nch...
+   include/drm/drm_atomic.h:929:17: note: in expansion of macro 'for_each_i=
+f'
+       |  929 |                 for_each_if ((__state)->planes[__i].ptr && =
+             \
+       |      |                 ^~~~~~~~~~~
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+       | 1878 |         for_each_old_plane_in_state(old_crtc_state->state, =
+plane,
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'tegra_crtc_update_memory_bandwidth': event 10
+       |
+       |include/drm/drm_atomic.h:931:49:
+       |  931 |                               (old_plane_state) =3D (__stat=
+e)->planes[__i].old_state, 1))
+       |      |                               ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                                 |
+       |      |                                                 (10) ...to =
+here
+   include/drm/drm_util.h:63:38: note: in definition of macro 'for_each_if'
+       |   63 | #define for_each_if(condition) if (!(condition)) {} else
+       |      |                                      ^~~~~~~~~
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+       | 1878 |         for_each_old_plane_in_state(old_crtc_state->state, =
+plane,
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'tegra_crtc_update_memory_bandwidth': event 11
+       |
+       |drivers/gpu/drm/tegra/plane.h:69:12:
+       |   69 |         if (state)
+       |      |            ^
+       |      |            |
+       |      |            (11) following 'false' branch (when 'old_plane_s=
+tate' is NULL)...
+       |
+     'tegra_crtc_update_memory_bandwidth': event 12
+       |
+       |drivers/gpu/drm/tegra/dc.c:1881:67:
+       | 1881 |                 new_tegra_state =3D to_const_tegra_plane_st=
+ate(plane->state);
+       |      |                                                            =
+  ~~~~~^~~~~~~
+       |      |                                                            =
+       |
+       |      |                                                            =
+       (12) ...to here
+       |
+     'tegra_crtc_update_memory_bandwidth': event 13
+       |
+       |drivers/gpu/drm/tegra/plane.h:69:12:
+       |   69 |         if (state)
+       |      |            ^
+       |      |            |
+       |      |            (13) following 'true' branch...
+       |
+     'tegra_crtc_update_memory_bandwidth': event 14
+       |
+       |cc1:
+       | (14): ...to here
+       |
+     'tegra_crtc_update_memory_bandwidth': events 15-17
+       |
+       |drivers/gpu/drm/tegra/dc.c:1889:20:
+       | 1889 |                 if (tegra->dc !=3D dc)
+       |      |                    ^
+       |      |                    |
+       |      |                    (15) following 'false' branch...
+       |......
+       | 1892 |                 new_avg_bw =3D new_tegra_state->avg_memory_=
+bandwidth;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+       |      |                            |
+       |      |                            (16) ...to here
+       | 1893 |                 old_avg_bw =3D old_tegra_state->avg_memory_=
+bandwidth;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+       |      |                            |
+       |      |                            (17) dereference of NULL '<unkno=
+wn>'
+       |
+   drivers/gpu/drm/tegra/plane.h: In function 'tegra_crtc_atomic_begin':
+>> drivers/gpu/drm/tegra/dc.c:2120:17: warning: dereference of NULL 'crtc' =
+[CWE-476] [-Wanalyzer-null-dereference]
+    2120 |         if (crtc->state->event) {
+         |             ~~~~^~~~~~~
+     'tegra_crtc_atomic_begin': events 1-2
+       |
+       | 2113 | static void tegra_crtc_atomic_begin(struct drm_crtc *crtc,
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'tegra_crtc_atomic_begin'
+       |......
+       | 2118 |         tegra_crtc_update_memory_bandwidth(crtc, state, tru=
+e);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
        |      |         |
-       |      |         (6) ...to here
-   fs/ext4/ext4.h:1922:1: note: in expansion of macro 'EXT4_INODE_BIT_FNS'
-       | 1922 | EXT4_INODE_BIT_FNS(state, state_flags, 0)
-       |      | ^~~~~~~~~~~~~~~~~~
+       |      |         (2) calling 'tegra_crtc_update_memory_bandwidth' fr=
+om 'tegra_crtc_atomic_begin'
        |
-     'ext4_xattr_delete_inode': events 7-15
-       |
-       |fs/ext4/xattr.c:2841:52:
-       | 2841 |         if (ext4_has_feature_ea_inode(inode->i_sb) &&
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-       |      |                                                    |
-       |      |                                                    (7) foll=
-owing 'true' branch...
-       | 2842 |             ext4_test_inode_state(inode, EXT4_STATE_XATTR))=
- {
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       | 2843 | =
+       +--> 'tegra_crtc_update_memory_bandwidth': event 3
+              |
+              | 1838 | tegra_crtc_update_memory_bandwidth(struct drm_crtc *=
+crtc,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (3) entry to 'tegra_crtc_update_memory_bandwidth'
+              |
+            'tegra_crtc_update_memory_bandwidth': event 4
+              |
+              |drivers/gpu/drm/tegra/dc.h:114:65:
+              |  114 |         return crtc ? container_of(crtc, struct tegr=
+a_dc, base) : NULL;
+              |
+            'tegra_crtc_update_memory_bandwidth': events 5-7
+              |
+              |drivers/gpu/drm/tegra/dc.c:1852:15:
+              | 1852 |         if (dc->soc->has_nvdisplay)
+              |      |            ~~~^~~~~
+              |      |            |  |
+              |      |            |  (5) ...to here
+              |      |            |  (6) state of 'INIT_VAL(crtc_5(D))': 'n=
+ull' -> 'stop' (NULL origin)
+              |      |            (7) following 'false' branch...
+              |
+            'tegra_crtc_update_memory_bandwidth': event 8
+              |
+              |include/drm/drm_atomic.h:542:21:
+              |  542 |         return state->crtcs[drm_crtc_index(crtc)].ol=
+d_state;
+              |      |                ~~~~~^~~~~~~
+              |      |                     |
+              |      |                     (8) ...to here
+              |
+            'tegra_crtc_update_memory_bandwidth': event 9
+              |
+              |drivers/gpu/drm/tegra/dc.c:1859:12:
+              | 1859 |         if (!crtc->state->active) {
+              |      |            ^
+              |      |            |
+              |      |            (9) following 'true' branch...
+              |
+            'tegra_crtc_update_memory_bandwidth': event 10
+              |
+              |cc1:
+              | (10): ...to here
+              |
+            'tegra_crtc_update_memory_bandwidth': event 11
+              |
+              |include/drm/drm_atomic.h:927:20:
+              |  927 |              (__i) < (__state)->dev->mode_config.num=
+_total_plane;       \
+              |      |              ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (11) following 'true' branch...
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+              | 1878 |         for_each_old_plane_in_state(old_crtc_state->=
+state, plane,
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'tegra_crtc_update_memory_bandwidth': event 12
+              |
+              |include/drm/drm_atomic.h:929:39:
+              |  929 |                 for_each_if ((__state)->planes[__i].=
+ptr &&              \
+              |      |                              ~~~~~~~~~^~~~~~~~
+              |      |                                       |
+              |      |                                       (12) ...to here
+   include/drm/drm_util.h:63:38: note: in definition of macro 'for_each_if'
+              |   63 | #define for_each_if(condition) if (!(condition)) {} =
+else
+              |      |                                      ^~~~~~~~~
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+              | 1878 |         for_each_old_plane_in_state(old_crtc_state->=
+state, plane,
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'tegra_crtc_update_memory_bandwidth': event 13
+              |
+              |include/drm/drm_util.h:63:35:
+              |   63 | #define for_each_if(condition) if (!(condition)) {} =
+else
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (13) following 'fa=
+lse' branch...
+   include/drm/drm_atomic.h:929:17: note: in expansion of macro 'for_each_i=
+f'
+              |  929 |                 for_each_if ((__state)->planes[__i].=
+ptr &&              \
+              |      |                 ^~~~~~~~~~~
+   drivers/gpu/drm/tegra/dc.c:1878:9: note: in expansion of macro 'for_each=
+_old_plane_in_state'
+              | 1878 |         for_each_old_plane_in_state(old_crtc_state->=
+state, plane,
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'tegra_crtc_update_memory_bandwidth': event 14
+              |
+              |include/drm/drm_atomic.h:931:49:
+              |  931 |                               (old_plane_state) =3D =
+(__state)->planes[__i].old_state, 1))
 
-       | 2844 |                 error =3D ext4_get_inode_loc(inode, &iloc);
-       |      |                 ~~~~~                               =
+vim +/state +260 drivers/gpu/drm/tegra/plane.c
 
-       |      |                 |
-       |      |                 (8) ...to here
-       | 2845 |                 if (error) {
-       |      |                    ~                                =
+2e8d8749f6f9bb Thierry Reding  2019-10-28  250  =
 
-       |      |                    |
-       |      |                    (9) following 'false' branch (when 'erro=
-r =3D=3D 0')...
-       |......
-       | 2850 |                 error =3D ext4_journal_get_write_access(han=
-dle, inode->i_sb,
-       |      |                 ~~~~~                               =
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  251  static int tegra_plane_calc=
+ulate_memory_bandwidth(struct drm_plane_state *state)
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  252  {
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  253  	struct tegra_plane_state *=
+tegra_state =3D to_tegra_plane_state(state);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  254  	unsigned int i, bpp, dst_w=
+, dst_h, src_w, src_h, mul;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  255  	const struct tegra_dc_soc_=
+info *soc;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  256  	const struct drm_format_in=
+fo *fmt;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  257  	struct drm_crtc_state *crt=
+c_state;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  258  	u64 avg_bandwidth, peak_ba=
+ndwidth;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  259  =
 
-       |      |                 |
-       |      |                 (10) ...to here
-       | 2851 |                                                 iloc.bh, EX=
-T4_JTR_NONE);
-       | 2852 |                 if (error) {
-       |      |                    ~                                =
+04d5d5df9df79f Dmitry Osipenko 2021-06-01 @260  	if (!state->visible)
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  261  		return 0;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  262  =
 
-       |      |                    |
-       |      |                    (11) following 'false' branch (when 'err=
-or =3D=3D 0')...
-       |......
-       | 2858 |                 header =3D IHDR(inode, ext4_raw_inode(&iloc=
-));
-       |      |                 ~~~~~~                              =
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  263  	crtc_state =3D drm_atomic_=
+get_new_crtc_state(state->state, state->crtc);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  264  	if (!crtc_state)
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  265  		return -EINVAL;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  266  =
 
-       |      |                 |
-       |      |                 (12) ...to here
-       | 2859 |                 if (header->h_magic =3D=3D cpu_to_le32(EXT4=
-_XATTR_MAGIC))
-       |      |                    ~                                =
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  267  	src_w =3D drm_rect_width(&=
+state->src) >> 16;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  268  	src_h =3D drm_rect_height(=
+&state->src) >> 16;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  269  	dst_w =3D drm_rect_width(&=
+state->dst);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  270  	dst_h =3D drm_rect_height(=
+&state->dst);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  271  =
 
-       |      |                    |
-       |      |                    (13) following 'true' branch...
-       | 2860 |                         ext4_xattr_inode_dec_ref_all(handle=
-, inode, iloc.bh,
-       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (14) ...to here
-       |      |                         (15) calling 'ext4_xattr_inode_dec_=
-ref_all' from 'ext4_xattr_delete_inode'
-       | 2861 |                                                      IFIRST=
-(header),
-       |      |                                                      ~~~~~~=
-~~~~~~~~~
-       | 2862 |                                                      false =
-/* block_csum */,
-       |      |                                                      ~~~~~~=
-~~~~~~~~~~~~~~~~~
-       | 2863 |                                                      ea_ino=
-de_array,
-       |      |                                                      ~~~~~~=
-~~~~~~~~~
-       | 2864 |                                                      extra_=
-credits,
-       |      |                                                      ~~~~~~=
-~~~~~~~~
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  272  	fmt =3D state->fb->format;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  273  	soc =3D to_tegra_dc(state-=
+>crtc)->soc;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  274  =
 
-vim +/ea_inode +97 include/asm-generic/bug.h
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  275  	/*
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  276  	 * Note that real memory b=
+andwidth vary depending on format and
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  277  	 * memory layout, we are n=
+ot taking that into account because small
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  278  	 * estimation error isn't =
+important since bandwidth is rounded up
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  279  	 * anyway.
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  280  	 */
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  281  	for (i =3D 0, bpp =3D 0; i=
+ < fmt->num_planes; i++) {
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  282  		unsigned int bpp_plane =
+=3D fmt->cpp[i] * 8;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  283  =
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16   73  =
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  284  		/*
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  285  		 * Sub-sampling is releva=
+nt for chroma planes only and vertical
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  286  		 * readouts are not cache=
+d, hence only horizontal sub-sampling
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  287  		 * matters.
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  288  		 */
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  289  		if (i > 0)
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  290  			bpp_plane /=3D fmt->hsub;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  291  =
 
-af9379c7121d55 David Brownell   2009-01-06   74  /*
-af9379c7121d55 David Brownell   2009-01-06   75   * WARN(), WARN_ON(), WARN=
-_ON_ONCE, and so on can be used to report
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   76   * significant kernel issu=
-es that need prompt attention if they should ever
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   77   * appear at runtime.
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   78   *
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   79   * Do not use these macros=
- when checking for invalid external inputs
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   80   * (e.g. invalid system ca=
-ll arguments, or invalid data coming from
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   81   * network/devices), and o=
-n transient conditions like ENOMEM or EAGAIN.
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   82   * These macros should be =
-used for recoverable kernel issues only.
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   83   * For invalid external in=
-puts, transient conditions, etc use
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   84   * pr_err[_once/_ratelimit=
-ed]() followed by dump_stack(), if necessary.
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   85   * Do not include "BUG"/"W=
-ARNING" in format strings manually to make these
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   86   * conditions distinguisha=
-ble from kernel issues.
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   87   *
-96c6a32ccb55a3 Dmitry Vyukov    2018-08-21   88   * Use the versions with p=
-rintk format strings to provide better diagnostics.
-af9379c7121d55 David Brownell   2009-01-06   89   */
-d4bce140b4e739 Kees Cook        2019-09-25   90  #ifndef __WARN_FLAGS
-b9075fa968a0a4 Joe Perches      2011-10-31   91  extern __printf(4, 5)
-ee8711336c5170 Kees Cook        2019-09-25   92  void warn_slowpath_fmt(con=
-st char *file, const int line, unsigned taint,
-b9075fa968a0a4 Joe Perches      2011-10-31   93  		       const char *fmt, =
-...);
-f2f84b05e02b77 Kees Cook        2019-09-25   94  #define __WARN()		__WARN_p=
-rintf(TAINT_WARN, NULL)
-5916d5f9b33473 Thomas Gleixner  2020-03-13   95  #define __WARN_printf(tain=
-t, arg...) do {				\
-5916d5f9b33473 Thomas Gleixner  2020-03-13   96  		instrumentation_begin();=
-				\
-5916d5f9b33473 Thomas Gleixner  2020-03-13  @97  		warn_slowpath_fmt(__FILE=
-__, __LINE__, taint, arg);	\
-5916d5f9b33473 Thomas Gleixner  2020-03-13   98  		instrumentation_end();		=
-			\
-5916d5f9b33473 Thomas Gleixner  2020-03-13   99  	} while (0)
-a8f18b909c0a3f Arjan van de Ven 2008-07-25  100  #else
-a7bed27af194aa Kees Cook        2017-11-17  101  extern __printf(1, 2) void=
- __warn_printk(const char *fmt, ...);
-a44f71a9ab99b5 Kees Cook        2019-09-25  102  #define __WARN()		__WARN_F=
-LAGS(BUGFLAG_TAINT(TAINT_WARN))
-d4bce140b4e739 Kees Cook        2019-09-25  103  #define __WARN_printf(tain=
-t, arg...) do {				\
-5916d5f9b33473 Thomas Gleixner  2020-03-13  104  		instrumentation_begin();=
-				\
-d4bce140b4e739 Kees Cook        2019-09-25  105  		__warn_printk(arg);					\
-a44f71a9ab99b5 Kees Cook        2019-09-25  106  		__WARN_FLAGS(BUGFLAG_NO_=
-CUT_HERE | BUGFLAG_TAINT(taint));\
-5916d5f9b33473 Thomas Gleixner  2020-03-13  107  		instrumentation_end();		=
-			\
-6b15f678fb7d5e Drew Davenport   2019-07-16  108  	} while (0)
-2da1ead4d5f7fa Kees Cook        2019-09-25  109  #define WARN_ON_ONCE(condi=
-tion) ({				\
-2da1ead4d5f7fa Kees Cook        2019-09-25  110  	int __ret_warn_on =3D !!(=
-condition);			\
-2da1ead4d5f7fa Kees Cook        2019-09-25  111  	if (unlikely(__ret_warn_o=
-n))				\
-2da1ead4d5f7fa Kees Cook        2019-09-25  112  		__WARN_FLAGS(BUGFLAG_ONC=
-E |			\
-2da1ead4d5f7fa Kees Cook        2019-09-25  113  			     BUGFLAG_TAINT(TAIN=
-T_WARN));	\
-2da1ead4d5f7fa Kees Cook        2019-09-25  114  	unlikely(__ret_warn_on);	=
-			\
-2da1ead4d5f7fa Kees Cook        2019-09-25  115  })
-3a6a62f96f168d Olof Johansson   2008-01-30  116  #endif
-3a6a62f96f168d Olof Johansson   2008-01-30  117  =
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  292  		bpp +=3D bpp_plane;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  293  	}
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  294  =
+
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  295  	/* average bandwidth in kb=
+ytes/sec */
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  296  	avg_bandwidth  =3D min(src=
+_w, dst_w) * min(src_h, dst_h);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  297  	avg_bandwidth *=3D drm_mod=
+e_vrefresh(&crtc_state->adjusted_mode);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  298  	avg_bandwidth  =3D DIV_ROU=
+ND_UP(avg_bandwidth * bpp, 8) + 999;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  299  	do_div(avg_bandwidth, 1000=
+);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  300  =
+
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  301  	/* mode.clock in kHz, peak=
+ bandwidth in kbytes/sec */
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  302  	peak_bandwidth =3D DIV_ROU=
+ND_UP(crtc_state->adjusted_mode.clock * bpp, 8);
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  303  =
+
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  304  	/*
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  305  	 * Tegra30/114 Memory Cont=
+roller can't interleave DC memory requests
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  306  	 * for the tiled windows b=
+ecause DC uses 16-bytes atom, while DDR3
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  307  	 * uses 32-bytes atom.  He=
+nce there is x2 memory overfetch for tiled
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  308  	 * framebuffer and DDR3 on=
+ these SoCs.
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  309  	 */
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  310  	if (soc->plane_tiled_memor=
+y_bandwidth_x2 &&
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  311  	    tegra_state->tiling.mo=
+de =3D=3D TEGRA_BO_TILING_MODE_TILED)
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  312  		mul =3D 2;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  313  	else
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  314  		mul =3D 1;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  315  =
+
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  316  	/* ICC bandwidth in kbytes=
+/sec */
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  317  	tegra_state->peak_memory_b=
+andwidth =3D kBps_to_icc(peak_bandwidth) * mul;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  318  	tegra_state->avg_memory_ba=
+ndwidth  =3D kBps_to_icc(avg_bandwidth)  * mul;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  319  =
+
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  320  	return 0;
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  321  }
+04d5d5df9df79f Dmitry Osipenko 2021-06-01  322  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9180103624984664040==--
+--===============5191323485083028867==--
 
