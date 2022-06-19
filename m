@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3029568500157634682=="
+Content-Type: multipart/mixed; boundary="===============2974377099811812920=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/core.c:71:10: warning: dereference of NULL 't' [CWE-476]
-Date: Mon, 20 Jun 2022 21:16:40 +0800
-Message-ID: <202206202133.L7rJenny-lkp@intel.com>
+Subject: include/linux/fortify-string.h:41:33: warning: use of NULL 'extra' where non-null expected [CWE-476]
+Date: Sun, 19 Jun 2022 20:02:48 +0800
+Message-ID: <202206191946.YIs96YkU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3029568500157634682==
+--===============2974377099811812920==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,40 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: mm/damon/=
-core.c:71:10: warning: dereference of NULL 't' [CWE-476] [-Wanalyzer-null-d=
-ereference]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/linux/fortify-string.h:41:33: warning: use of NULL 'extra' where n=
+on-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Brendan Higgins <brendanhiggins@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hangbin Liu <liuhangbin@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: 17ccae8bb5c928946f6f3af14626ec458f74e6ad mm/damon: add kunit tests
-date:   10 months ago
-:::::: branch date: 3 days ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
-ve/20220620/202206202133.L7rJenny-lkp(a)intel.com/config)
+commit: 841e95641e4cb695586b036f330d6d272fcd7173 bonding: add extra field f=
+or bond_opt_value
+date:   4 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20220617 (https://download.01.org/0day-ci/archi=
+ve/20220619/202206191946.YIs96YkU-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D17ccae8bb5c928946f6f3af14626ec458f74e6ad
+t/commit/?id=3D841e95641e4cb695586b036f330d6d272fcd7173
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 17ccae8bb5c928946f6f3af14626ec458f74e6ad
+        git checkout 841e95641e4cb695586b036f330d6d272fcd7173
         # save the config file
          ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
@@ -58,706 +56,454 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/mutex.h:15,
-                    from include/linux/damon.h:11,
-                    from mm/damon/core.c:10:
-   mm/damon/core.c: In function 'damon_add_region':
->> include/linux/list.h:100:9: warning: dereference of NULL 't' [CWE-476] [=
--Wanalyzer-null-dereference]
-     100 |         __list_add(new, head->prev, head);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'damon_test_merge_two': events 1-2
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/net/bonding/bond_main.c:35:
+   include/linux/ipv6.h: In function '__bond_opt_init.part.0':
+>> include/linux/fortify-string.h:41:33: warning: use of NULL 'extra' where=
+ non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      41 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
+derlying_memcpy'
+     225 |         return __underlying_memcpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~
+     'bond_check_params': events 1-5
        |
-       |mm/damon/core-test.h:140:13:
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
+       |drivers/net/bonding/bond_main.c:5568:12:
+       | 5568 | static int bond_check_params(struct bond_params *params)
+       |      |            ^~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'bond_check_params'
        |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) return of NULL to 'damon_test_merge_two' fr=
-om 'damon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-10
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (9) following 'false' branch...
-              |......
-              |   43 |         region->ar.start =3D start;
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                          |
-              |      |                          (10) ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 11-12
-       |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) returning to 'damon_test_merge_two' from '=
-damon_new_region'
-       |  148 |         r->nr_accesses =3D 10;
-       |  149 |         damon_add_region(r, t);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) calling 'damon_add_region' from 'damon_test_me=
-rge_two'
-       |
-       +--> 'damon_add_region': event 13
-              |
-              |mm/damon/core.c:62:6:
-              |   62 | void damon_add_region(struct damon_region *r, struct=
- damon_target *t)
-              |      |      ^~~~~~~~~~~~~~~~
-              |      |      |
-              |      |      (13) entry to 'damon_add_region'
-              |
-            'damon_add_region': event 14
-              |
-              |include/linux/list.h:100:9:
-              |  100 |         __list_add(new, head->prev, head);
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (14) dereference of NULL 't'
-              |
-   mm/damon/core.c: In function 'damon_destroy_region':
->> mm/damon/core.c:71:10: warning: dereference of NULL 't' [CWE-476] [-Wana=
-lyzer-null-dereference]
-      71 |         t->nr_regions--;
-         |         ~^~~~~~~~~~~~
-     'damon_test_merge_regions_of': events 1-2
-       |
-       |mm/damon/core-test.h:182:13:
-       |  182 | static void damon_test_merge_regions_of(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_regions_of'
+       | 5584 |         if (mode) {
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
        |......
-       |  194 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
+       | 5594 |         if (xmit_hash_policy) {
+       |      |             ~~~~~~~~~~~~~~~~
        |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_regions_of'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_regions_of': event 6
-       |
-       |mm/damon/core-test.h:194:13:
-       |  194 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) return of NULL to 'damon_test_merge_regions=
-_of' from 'damon_new_target'
-       |
-     'damon_test_merge_regions_of': events 7-8
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (8) ...to here
-       |
-     'damon_test_merge_regions_of': events 9-10
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (10) ...to here
-       |
-     'damon_test_merge_regions_of': events 11-13
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
+       |      |             (3) ...to here
        |......
-       |  201 |         damon_merge_regions_of(t, 9, 9999);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) ...to here
-       |      |         (13) calling 'damon_merge_regions_of' from 'damon_t=
-est_merge_regions_of'
+       | 5682 |         if (!bond_mode_uses_arp(bond_mode)) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'false' branch...
+       |......
+       | 5690 |         if (tx_queues < 1 || tx_queues > 255) {
+       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (5) ...to here
        |
-       +--> 'damon_merge_regions_of': event 14
+     'bond_check_params': event 6
+       |
+       |include/net/bond_options.h:137:41:
+       |  137 | #define bond_opt_initval(optval, value) __bond_opt_init(opt=
+val, NULL, value, NULL, 0)
+       |      |                                         ^~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                         |
+       |      |                                         (6) calling '__bond=
+_opt_init' from 'bond_check_params'
+   drivers/net/bonding/bond_main.c:5708:9: note: in expansion of macro 'bon=
+d_opt_initval'
+       | 5708 |         bond_opt_initval(&newval, packets_per_slave);
+       |      |         ^~~~~~~~~~~~~~~~
+       |
+       +--> '__bond_opt_init': event 7
               |
-              |mm/damon/core.c:477:13:
-              |  477 | static void damon_merge_regions_of(struct damon_targ=
-et *t, unsigned int thres,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (14) entry to 'damon_merge_regions_of'
-              |
-            'damon_merge_regions_of': event 15
-              |
-              |include/linux/list.h:717:14:
-              |  717 |              !list_entry_is_head(pos, head, member);=
-                    \
-              |      |              ^
-              |      |              |
-              |      |              (15) following 'true' branch...
-   include/linux/damon.h:218:9: note: in expansion of macro 'list_for_each_=
-entry_safe'
-              |  218 |         list_for_each_entry_safe(r, next, &t->region=
-s_list, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core.c:482:9: note: in expansion of macro 'damon_for_each_regio=
-n_safe'
-              |  482 |         damon_for_each_region_safe(r, next, t) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'damon_merge_regions_of': events 16-17
-              |
-              |  483 |                 if (prev && prev->ar.end =3D=3D r->a=
-r.start &&
-              |      |                    ^
+              |include/net/bond_options.h:124:20:
+              |  124 | static inline void __bond_opt_init(struct bond_opt_v=
+alue *optval,
+              |      |                    ^~~~~~~~~~~~~~~
               |      |                    |
-              |      |                    (16) ...to here
-              |      |                    (17) following 'false' branch (wh=
-en 'prev' is NULL)...
+              |      |                    (7) entry to '__bond_opt_init'
               |
-            'damon_merge_regions_of': event 18
---
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
+            '__bond_opt_init': event 8
+              |
+              |include/linux/fortify-string.h:207:12:
+              |  207 |         if (p_size < size)
+              |      |            ^
               |      |            |
-              |      |            (4) following 'true' branch...
+              |      |            (8) following 'false' branch (when 'p_siz=
+e > 39')...
               |
-            'damon_new_target': event 5
+            '__bond_opt_init': event 9
               |
-              |cc1:
-              | (5): ...to here
+              |   43 | #define __underlying_memset     __builtin_memset
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (9) ...to here
+   include/linux/fortify-string.h:209:16: note: in expansion of macro '__un=
+derlying_memset'
+              |  209 |         return __underlying_memset(p, c, size);
+              |      |                ^~~~~~~~~~~~~~~~~~~
               |
-       <------+
-       |
-     'damon_test_merge_regions_of': event 6
-       |
-       |mm/damon/core-test.h:194:13:
-       |  194 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) return of NULL to 'damon_test_merge_regions=
-_of' from 'damon_new_target'
-       |
-     'damon_test_merge_regions_of': events 7-8
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (8) ...to here
-       |
-     'damon_test_merge_regions_of': events 9-10
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |  196 |                 r =3D damon_new_region(sa[i], ea[i]);
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (10) ...to here
-       |
-     'damon_test_merge_regions_of': events 11-13
-       |
-       |  195 |         for (i =3D 0; i < ARRAY_SIZE(sa); i++) {
-       |......
-       |  201 |         damon_merge_regions_of(t, 9, 9999);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) ...to here
-       |      |         (13) calling 'damon_merge_regions_of' from 'damon_t=
-est_merge_regions_of'
-       |
-       +--> 'damon_merge_regions_of': event 14
+            '__bond_opt_init': events 10-14
               |
-              |mm/damon/core.c:477:13:
-              |  477 | static void damon_merge_regions_of(struct damon_targ=
-et *t, unsigned int thres,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (14) entry to 'damon_merge_regions_of'
-              |
-            'damon_merge_regions_of': event 15
-              |
-              |include/linux/list.h:717:14:
-              |  717 |              !list_entry_is_head(pos, head, member);=
-                    \
-              |      |              ^
-              |      |              |
-              |      |              (15) following 'false' branch...
-   include/linux/damon.h:218:9: note: in expansion of macro 'list_for_each_=
-entry_safe'
-              |  218 |         list_for_each_entry_safe(r, next, &t->region=
-s_list, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core.c:482:9: note: in expansion of macro 'damon_for_each_regio=
-n_safe'
-              |  482 |         damon_for_each_region_safe(r, next, t) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'damon_merge_regions_of': event 16
-              |
-              |  490 | }
-              |      | ^
-              |      | |
-              |      | (16) ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_regions_of': event 17
-       |
-       |mm/damon/core-test.h:201:9:
-       |  201 |         damon_merge_regions_of(t, 9, 9999);
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (17) returning to 'damon_test_merge_regions_of' fro=
-m 'damon_merge_regions_of'
-       |
-     'damon_test_merge_regions_of': event 18
-       |
-       |mm/damon/core.c:132:17:
-       |  132 |         return t->nr_regions;
-       |      |                ~^~~~~~~~~~~~
-       |      |                 |
-       |      |                 (18) dereference of NULL 't'
-       |
-   In file included from mm/damon/core.c:720:
-   mm/damon/core.c: In function 'damon_test_merge_two':
->> mm/damon/core-test.h:148:24: warning: dereference of NULL 'r' [CWE-476] =
-[-Wanalyzer-null-dereference]
-     148 |         r->nr_accesses =3D 10;
-         |         ~~~~~~~~~~~~~~~^~~~
-     'damon_test_merge_two': events 1-2
-       |
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
-       |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
+              |include/net/bond_options.h:130:12:
+              |  130 |         if (value !=3D ULLONG_MAX)
+              |      |            ^
               |      |            |
-              |      |            (4) following 'true' branch...
+              |      |            (10) following 'false' branch (when 'valu=
+e =3D=3D 18446744073709551615')...
+              |  131 |                 optval->value =3D value;
+              |  132 |         else if (string)
+              |      |                 ~
+              |      |                 |
+              |      |                 (11) ...to here
+              |      |                 (12) following 'false' branch (when =
+'string' is NULL)...
+              |  133 |                 optval->string =3D string;
+              |  134 |         else if (extra_len <=3D BOND_OPT_EXTRA_MAXLE=
+N)
+              |      |                 ~
+              |      |                 |
+              |      |                 (13) ...to here
+              |      |                 (14) following 'true' branch (when '=
+extra_len <=3D 16')...
               |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) returning to 'damon_test_merge_two' from 'd=
-amon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-9
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (9) following 'true' branch...
-              |
-            'damon_new_region': event 10
-              |
-              |cc1:
-              | (10): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 11-12
-       |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) return of NULL to 'damon_test_merge_two' f=
-rom 'damon_new_region'
-       |  148 |         r->nr_accesses =3D 10;
-       |      |         ~~~~~~~~~~~~~~~~~~~
-       |      |                        |
-       |      |                        (12) dereference of NULL 'r'
-       |
->> mm/damon/core-test.h:151:25: warning: dereference of NULL 'r2' [CWE-476]=
- [-Wanalyzer-null-dereference]
-     151 |         r2->nr_accesses =3D 20;
-         |         ~~~~~~~~~~~~~~~~^~~~
-     'damon_test_merge_two': events 1-2
-       |
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
-       |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_target': events 3-4
-              |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) returning to 'damon_test_merge_two' from 'd=
-amon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-9
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (9) following 'true' branch...
-              |
-            'damon_new_region': event 10
-              |
-              |cc1:
-              | (10): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 11-12
-       |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) return of NULL to 'damon_test_merge_two' f=
-rom 'damon_new_region'
-       |......
-       |  150 |         r2 =3D damon_new_region(100, 300);
-       |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |              |
-       |      |              (12) calling 'damon_new_region' from 'damon_te=
-st_merge_two'
-       |
-       +--> 'damon_new_region': events 13-14
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (13) entry to 'damon_new_region'
-              |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
-              |      |            |
-              |      |            (14) following 'true' branch...
-              |
-            'damon_new_region': event 15
+            '__bond_opt_init': event 15
               |
               |cc1:
               | (15): ...to here
               |
-       <------+
+            '__bond_opt_init': event 16
+              |
+              |cc1:
+              | (16): calling '__bond_opt_init.part.0' from '__bond_opt_ini=
+t'
+              |
+--
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/net/bonding/bond_netlink.c:8:
+   include/linux/fortify-string.h: In function '__bond_opt_init.part.0':
+>> include/linux/fortify-string.h:41:33: warning: use of NULL 'extra' where=
+ non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      41 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
+derlying_memcpy'
+     225 |         return __underlying_memcpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~
+     'bond_newlink': events 1-2
        |
-     'damon_test_merge_two': events 16-17
-       |
-       |mm/damon/core-test.h:150:14:
-       |  150 |         r2 =3D damon_new_region(100, 300);
-       |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |              |
-       |      |              (16) returning to 'damon_test_merge_two' from =
-'damon_new_region'
-       |  151 |         r2->nr_accesses =3D 20;
-       |      |         ~~~~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (17) dereference of NULL 'r2'
-       |
-   In file included from mm/damon/core-test.h:15,
-                    from mm/damon/core.c:720:
->> include/kunit/test.h:866:22: warning: dereference of NULL 'r' [CWE-476] =
-[-Wanalyzer-null-dereference]
-     866 |         typeof(left) __left =3D (left);                         =
-                 \
-         |                      ^~~~~~
-   include/kunit/test.h:891:9: note: in expansion of macro 'KUNIT_BASE_BINA=
-RY_ASSERTION'
-     891 |         KUNIT_BASE_BINARY_ASSERTION(test,                       =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:980:9: note: in expansion of macro 'KUNIT_BASE_EQ_M=
-SG_ASSERTION'
-     980 |         KUNIT_BASE_EQ_MSG_ASSERTION(test,                       =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:990:9: note: in expansion of macro 'KUNIT_BINARY_EQ=
-_MSG_ASSERTION'
-     990 |         KUNIT_BINARY_EQ_MSG_ASSERTION(test,                     =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1353:9: note: in expansion of macro 'KUNIT_BINARY_E=
-Q_ASSERTION'
-    1353 |         KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left,=
- right)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core-test.h:157:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-     157 |         KUNIT_EXPECT_EQ(test, r->nr_accesses, 16u);
-         |         ^~~~~~~~~~~~~~~
-     'damon_test_merge_two': events 1-2
-       |
-       |  140 | static void damon_test_merge_two(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'damon_test_merge_two'
+       |drivers/net/bonding/bond_netlink.c:469:12:
+       |  469 | static int bond_newlink(struct net *src_net, struct net_dev=
+ice *bond_dev,
+       |      |            ^~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'bond_newlink'
        |......
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (2) calling 'damon_new_target' from 'damon_test=
-_merge_two'
+       |  475 |         err =3D bond_changelink(bond_dev, tb, data, extack);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'bond_changelink' from 'bond_newl=
+ink'
        |
-       +--> 'damon_new_target': events 3-4
+       +--> 'bond_changelink': events 3-6
               |
-              |mm/damon/core.c:90:22:
-              |   90 | struct damon_target *damon_new_target(unsigned long =
-id)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (3) entry to 'damon_new_target'
-              |......
-              |   95 |         if (!t)
-              |      |            ~          =
-
+              |  160 | static int bond_changelink(struct net_device *bond_d=
+ev, struct nlattr *tb[],
+              |      |            ^~~~~~~~~~~~~~~
               |      |            |
-              |      |            (4) following 'true' branch...
-              |
-            'damon_new_target': event 5
-              |
-              |cc1:
-              | (5): ...to here
-              |
-       <------+
-       |
-     'damon_test_merge_two': events 6-7
-       |
-       |mm/damon/core-test.h:146:13:
-       |  146 |         t =3D damon_new_target(42);
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (6) returning to 'damon_test_merge_two' from 'd=
-amon_new_target'
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (7) calling 'damon_new_region' from 'damon_test=
-_merge_two'
-       |
-       +--> 'damon_new_region': events 8-9
-              |
-              |mm/damon/core.c:35:22:
-              |   35 | struct damon_region *damon_new_region(unsigned long =
-start, unsigned long end)
-              |      |                      ^~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (8) entry to 'damon_new_region'
+              |      |            (3) entry to 'bond_changelink'
               |......
-              |   40 |         if (!region)
-              |      |            ~          =
-
+              |  169 |         if (!data)
+              |      |            ~
               |      |            |
-              |      |            (9) following 'true' branch...
+              |      |            (4) following 'false' branch (when 'data'=
+ is non-NULL)...
+              |......
+              |  172 |         if (data[IFLA_BOND_MODE]) {
+              |      |            ~~~~~~~~~~~~~~~~~~~~~
+              |      |            |    |
+              |      |            |    (5) ...to here
+              |      |            (6) following 'true' branch...
               |
-            'damon_new_region': event 10
+            'bond_changelink': event 7
               |
-              |cc1:
-              | (10): ...to here
+              |include/net/netlink.h:1608:16:
+              | 1608 |         return *(u8 *) nla_data(nla);
+              |      |                ^~~~~~~~~~~~~~~~~~~~~
+              |      |                |
+              |      |                (7) ...to here
               |
-       <------+
+            'bond_changelink': event 8
+              |
+              |include/net/bond_options.h:137:41:
+              |  137 | #define bond_opt_initval(optval, value) __bond_opt_i=
+nit(optval, NULL, value, NULL, 0)
+              |      |                                         ^~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                                         |
+              |      |                                         (8) calling =
+'__bond_opt_init' from 'bond_changelink'
+   drivers/net/bonding/bond_netlink.c:175:17: note: in expansion of macro '=
+bond_opt_initval'
+              |  175 |                 bond_opt_initval(&newval, mode);
+              |      |                 ^~~~~~~~~~~~~~~~
+              |
+              +--> '__bond_opt_init': event 9
+                     |
+                     |include/net/bond_options.h:124:20:
+                     |  124 | static inline void __bond_opt_init(struct bon=
+d_opt_value *optval,
+                     |      |                    ^~~~~~~~~~~~~~~
+                     |      |                    |
+                     |      |                    (9) entry to '__bond_opt_i=
+nit'
+                     |
+                   '__bond_opt_init': event 10
+                     |
+                     |include/linux/fortify-string.h:207:12:
+                     |  207 |         if (p_size < size)
+                     |      |            ^
+                     |      |            |
+                     |      |            (10) following 'false' branch (whe=
+n 'p_size > 39')...
+                     |
+                   '__bond_opt_init': event 11
+                     |
+                     |   43 | #define __underlying_memset     __builtin_mem=
+set
+                     |      |                                 ^
+                     |      |                                 |
+                     |      |                                 (11) ...to he=
+re
+   include/linux/fortify-string.h:209:16: note: in expansion of macro '__un=
+derlying_memset'
+                     |  209 |         return __underlying_memset(p, c, size=
+);
+                     |      |                ^~~~~~~~~~~~~~~~~~~
+                     |
+                   '__bond_opt_init': events 12-16
+                     |
+                     |include/net/bond_options.h:130:12:
+                     |  130 |         if (value !=3D ULLONG_MAX)
+                     |      |            ^
+                     |      |            |
+                     |      |            (12) following 'false' branch (whe=
+n 'value =3D=3D 18446744073709551615')...
+                     |  131 |                 optval->value =3D value;
+                     |  132 |         else if (string)
+                     |      |                 ~
+                     |      |                 |
+                     |      |                 (13) ...to here
+                     |      |                 (14) following 'false' branch=
+ (when 'string' is NULL)...
+                     |  133 |                 optval->string =3D string;
+                     |  134 |         else if (extra_len <=3D BOND_OPT_EXTR=
+A_MAXLEN)
+                     |      |                 ~
+                     |      |                 |
+                     |      |                 (15) ...to here
+                     |      |                 (16) following 'true' branch =
+(when 'extra_len <=3D 16')...
+--
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/uio.h:10,
+                    from include/linux/socket.h:8,
+                    from include/uapi/linux/if.h:25,
+                    from drivers/net/bonding/bond_options.c:9:
+   drivers/net/bonding/bond_options.c: In function '__bond_opt_init':
+>> include/linux/fortify-string.h:41:33: warning: use of NULL 'extra' where=
+ non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      41 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
+derlying_memcpy'
+     225 |         return __underlying_memcpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~
+     'bond_opt_tryset_rtnl': events 1-2
        |
-     'damon_test_merge_two': event 11
+       |drivers/net/bonding/bond_options.c:764:5:
+       |  764 | int bond_opt_tryset_rtnl(struct bonding *bond, unsigned int=
+ option, char *buf)
+       |      |     ^~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'bond_opt_tryset_rtnl'
+       |......
+       |  769 |         if (!rtnl_trylock())
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
        |
-       |mm/damon/core-test.h:147:13:
-       |  147 |         r =3D damon_new_region(0, 100);
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (11) return of NULL to 'damon_test_merge_two' f=
-rom 'damon_new_region'
+     'bond_opt_tryset_rtnl': event 3
        |
-     'damon_test_merge_two': event 12
+       |include/net/bond_options.h:138:39:
+       |  138 | #define bond_opt_initstr(optval, str) __bond_opt_init(optva=
+l, str, ULLONG_MAX, NULL, 0)
+       |      |                                       ^~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                       |
+       |      |                                       (3) ...to here
+   drivers/net/bonding/bond_options.c:771:9: note: in expansion of macro 'b=
+ond_opt_initstr'
+       |  771 |         bond_opt_initstr(&optval, buf);
+       |      |         ^~~~~~~~~~~~~~~~
        |
-       |include/kunit/test.h:866:22:
-       |  866 |         typeof(left) __left =3D (left);                    =
-                      \
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (12) dereference of NULL 'r'
-   include/kunit/test.h:891:9: note: in expansion of macro 'KUNIT_BASE_BINA=
-RY_ASSERTION'
-       |  891 |         KUNIT_BASE_BINARY_ASSERTION(test,                  =
-                    \
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:980:9: note: in expansion of macro 'KUNIT_BASE_EQ_M=
-SG_ASSERTION'
+     'bond_opt_tryset_rtnl': event 4
+       |
+       |include/net/bond_options.h:138:39:
+       |  138 | #define bond_opt_initstr(optval, str) __bond_opt_init(optva=
+l, str, ULLONG_MAX, NULL, 0)
+       |      |                                       ^~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                       |
+       |      |                                       (4) calling '__bond_o=
+pt_init' from 'bond_opt_tryset_rtnl'
+   drivers/net/bonding/bond_options.c:771:9: note: in expansion of macro 'b=
+ond_opt_initstr'
+       |  771 |         bond_opt_initstr(&optval, buf);
+       |      |         ^~~~~~~~~~~~~~~~
+       |
+       +--> '__bond_opt_init': event 5
+              |
+              |include/net/bond_options.h:124:20:
+              |  124 | static inline void __bond_opt_init(struct bond_opt_v=
+alue *optval,
+              |      |                    ^~~~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (5) entry to '__bond_opt_init'
+              |
+            '__bond_opt_init': event 6
+              |
+              |include/linux/fortify-string.h:207:12:
+              |  207 |         if (p_size < size)
+              |      |            ^
+              |      |            |
+              |      |            (6) following 'false' branch (when 'p_siz=
+e > 39')...
+              |
+            '__bond_opt_init': event 7
+              |
+              |   43 | #define __underlying_memset     __builtin_memset
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (7) ...to here
+   include/linux/fortify-string.h:209:16: note: in expansion of macro '__un=
+derlying_memset'
+              |  209 |         return __underlying_memset(p, c, size);
+              |      |                ^~~~~~~~~~~~~~~~~~~
+              |
+            '__bond_opt_init': events 8-13
+              |
+              |include/net/bond_options.h:130:12:
+              |  130 |         if (value !=3D ULLONG_MAX)
+              |      |            ^
+              |      |            |
+              |      |            (8) following 'false' branch (when 'value=
+ =3D=3D 18446744073709551615')...
+              |  131 |                 optval->value =3D value;
+              |  132 |         else if (string)
+              |      |                 ~
+              |      |                 |
+              |      |                 (9) ...to here
+              |      |                 (10) following 'false' branch (when =
+'string' is NULL)...
+              |  133 |                 optval->string =3D string;
+              |  134 |         else if (extra_len <=3D BOND_OPT_EXTRA_MAXLE=
+N)
+              |      |                 ~
+              |      |                 |
+              |      |                 (11) ...to here
+              |      |                 (12) following 'true' branch (when '=
+extra_len <=3D 16')...
+              |  135 |                 memcpy(optval->extra, extra, extra_l=
+en);
+              |      |                        ~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (13) ...to here
+              |
+            '__bond_opt_init': event 14
+              |
+              |include/linux/fortify-string.h:223:12:
+              |  223 |         if (p_size < size || q_size < size)
+              |      |            ^
+              |      |            |
+              |      |            (14) following 'false' branch...
+              |
+            '__bond_opt_init': event 15
+              |
 
-vim +/t +71 mm/damon/core.c
+vim +/extra +41 include/linux/fortify-string.h
 
-f23b8eee1871a6 SeongJae Park 2021-09-07  67  =
+3009f891bb9f32 Kees Cook      2021-08-02  26  =
 
-b9a6ac4e4ede41 SeongJae Park 2021-09-07  68  static void damon_del_region(s=
-truct damon_region *r, struct damon_target *t)
-f23b8eee1871a6 SeongJae Park 2021-09-07  69  {
-f23b8eee1871a6 SeongJae Park 2021-09-07  70  	list_del(&r->list);
-b9a6ac4e4ede41 SeongJae Park 2021-09-07 @71  	t->nr_regions--;
-f23b8eee1871a6 SeongJae Park 2021-09-07  72  }
-f23b8eee1871a6 SeongJae Park 2021-09-07  73  =
+a28a6e860c6cf2 Francis Laniel 2021-02-25  27  #if defined(CONFIG_KASAN_GENE=
+RIC) || defined(CONFIG_KASAN_SW_TAGS)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  28  extern void *__underlying_mem=
+chr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  29  extern int __underlying_memcm=
+p(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  30  extern void *__underlying_mem=
+cpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  31  extern void *__underlying_mem=
+move(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_mem=
+set(void *p, int c, __kernel_size_t size) __RENAME(memset);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern char *__underlying_str=
+cat(char *p, const char *q) __RENAME(strcat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern char *__underlying_str=
+cpy(char *p, const char *q) __RENAME(strcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern __kernel_size_t __unde=
+rlying_strlen(const char *p) __RENAME(strlen);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern char *__underlying_str=
+ncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_str=
+ncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  38  #else
+a28a6e860c6cf2 Francis Laniel 2021-02-25  39  #define __underlying_memchr	_=
+_builtin_memchr
+a28a6e860c6cf2 Francis Laniel 2021-02-25  40  #define __underlying_memcmp	_=
+_builtin_memcmp
+a28a6e860c6cf2 Francis Laniel 2021-02-25 @41  #define __underlying_memcpy	_=
+_builtin_memcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #define __underlying_memmove	=
+__builtin_memmove
+a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memset	_=
+_builtin_memset
+a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_strcat	_=
+_builtin_strcat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #define __underlying_strcpy	_=
+_builtin_strcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_strlen	_=
+_builtin_strlen
+a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_strncat	=
+__builtin_strncat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strncpy	=
+__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #endif
+a28a6e860c6cf2 Francis Laniel 2021-02-25  50  =
 
 
-:::::: The code at line 71 was first introduced by commit
-:::::: b9a6ac4e4ede4172d165c133398b93e3233b0ba7 mm/damon: adaptively adjust=
- regions
+:::::: The code@line 41 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
+nctions definitions in a dedicated header.
 
-:::::: TO: SeongJae Park <sjpark@amazon.de>
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
 :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3029568500157634682==--
+--===============2974377099811812920==--
 
