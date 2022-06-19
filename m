@@ -1,32 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============6685018059742845368=="
+Content-Type: multipart/mixed; boundary="===============1882332284742044009=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [geert-renesas-drivers:renesas-clk-for-v5.20 14/19] drivers/clk/renesas/clk-r8a7779.c:137 r8a7779_cpg_clocks_init() warn: possible memory leak of 'data'
-Date: Sun, 19 Jun 2022 13:24:24 +0800
-Message-ID: <202206191333.YmgTGPjZ-lkp@intel.com>
+Subject: [linux-next:master 3459/4317] drivers/gpu/drm/vc4/vc4_perfmon.c:25 vc4_perfmon_get() warn: variable dereferenced before check 'perfmon' (see line 20)
+Date: Sun, 19 Jun 2022 12:12:41 +0800
+Message-ID: <202206191217.pbL9f0PA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6685018059742845368==
+--===============1882332284742044009==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-renesas-soc(a)vger.kernel.org
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Maxime Ripard <maxime@cerno.tech>
+CC: Melissa Wen <mwen@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drive=
-rs.git renesas-clk-for-v5.20
-head:   080bcd8d5997b1a615e17cab02bd9d16d1d4fbf3
-commit: 444877983933d0efaf6788eabf2f750b1c175419 [14/19] clk: renesas: r8a7=
-779: Remove struct r8a7779_cpg
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   07dc787be2316e243a16a33d0a9b734cd9365bd3
+commit: 30f8c74ca9b7b3a2db55f6bb1d2e9f8c47a79f94 [3459/4317] drm/vc4: Warn =
+if some v3d code is run on BCM2711
 :::::: branch date: 2 days ago
-:::::: commit date: 6 days ago
+:::::: commit date: 3 days ago
 config: parisc-randconfig-m031-20220619 (https://download.01.org/0day-ci/ar=
-chive/20220619/202206191333.YmgTGPjZ-lkp(a)intel.com/config)
+chive/20220619/202206191217.pbL9f0PA-lkp(a)intel.com/config)
 compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -34,81 +34,46 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/clk/renesas/clk-r8a7779.c:137 r8a7779_cpg_clocks_init() warn: possi=
-ble memory leak of 'data'
+drivers/gpu/drm/vc4/vc4_perfmon.c:25 vc4_perfmon_get() warn: variable deref=
+erenced before check 'perfmon' (see line 20)
+drivers/gpu/drm/vc4/vc4_perfmon.c:240 vc4_perfmon_get_values_ioctl() warn: =
+variable dereferenced before check 'perfmon' (see line 237)
+drivers/gpu/drm/vc4/vc4_validate.c:173 vc4_check_tex_size() warn: signednes=
+s bug returning '(-19)'
 
-vim +/data +137 drivers/clk/renesas/clk-r8a7779.c
+vim +/perfmon +25 drivers/gpu/drm/vc4/vc4_perfmon.c
 
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  112  =
+65101d8c910820 Boris Brezillon 2018-01-12  17  =
 
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  113  static void __init r8a7779_cpg_clocks_init(struct device_node *n=
-p)
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  114  {
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  115  	const struct cpg_clk_config *config;
-444877983933d0 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2022-0=
-6-08  116  	struct clk_onecell_data *data;
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  117  	struct clk **clks;
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  118  	unsigned int i, plla_mult;
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  119  	int num_clks;
-931db8a0c646e2 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2016-0=
-6-01  120  	u32 mode;
-931db8a0c646e2 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2016-0=
-6-01  121  =
+65101d8c910820 Boris Brezillon 2018-01-12  18  void vc4_perfmon_get(struct =
+vc4_perfmon *perfmon)
+65101d8c910820 Boris Brezillon 2018-01-12  19  {
+30f8c74ca9b7b3 Maxime Ripard   2022-06-10 @20  	struct vc4_dev *vc4 =3D per=
+fmon->dev;
+30f8c74ca9b7b3 Maxime Ripard   2022-06-10  21  =
 
-931db8a0c646e2 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2016-0=
-6-01  122  	if (rcar_rst_read_mode_pins(&mode))
-931db8a0c646e2 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2016-0=
-6-01  123  		return;
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  124  =
+30f8c74ca9b7b3 Maxime Ripard   2022-06-10  22  	if (WARN_ON_ONCE(vc4->is_vc=
+5))
+30f8c74ca9b7b3 Maxime Ripard   2022-06-10  23  		return;
+30f8c74ca9b7b3 Maxime Ripard   2022-06-10  24  =
 
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  125  	num_clks =3D of_property_count_strings(np, "clock-output-names"=
-);
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  126  	if (num_clks < 0) {
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  127  		pr_err("%s: failed to count clocks\n", __func__);
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  128  		return;
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  129  	}
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  130  =
+65101d8c910820 Boris Brezillon 2018-01-12 @25  	if (perfmon)
+65101d8c910820 Boris Brezillon 2018-01-12  26  		refcount_inc(&perfmon->ref=
+cnt);
+65101d8c910820 Boris Brezillon 2018-01-12  27  }
+65101d8c910820 Boris Brezillon 2018-01-12  28  =
 
-444877983933d0 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2022-0=
-6-08  131  	data =3D kzalloc(sizeof(*data), GFP_KERNEL);
-6396bb221514d2 drivers/clk/renesas/clk-r8a7779.c  Kees Cook          2018-0=
-6-12  132  	clks =3D kcalloc(CPG_NUM_CLOCKS, sizeof(*clks), GFP_KERNEL);
-444877983933d0 drivers/clk/renesas/clk-r8a7779.c  Geert Uytterhoeven 2022-0=
-6-08  133  	if (data =3D=3D NULL || clks =3D=3D NULL) {
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  134  		/* We're leaking memory on purpose, there's no point in cleani=
-ng
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  135  		 * up as the system won't boot anyway.
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18  136  		 */
-7b42a997bfb93c drivers/clk/shmobile/clk-r8a7779.c Simon Horman       2014-0=
-4-18 @137  		return;
 
-:::::: The code@line 137 was first introduced by commit
-:::::: 7b42a997bfb93c6ae0709f34ec8e2860757804b5 clk: shmobile: r8a7779: Add=
- clocks support
+:::::: The code at line 25 was first introduced by commit
+:::::: 65101d8c9108201118efa7e08f4e2c57f438deb9 drm/vc4: Expose performance=
+ counters to userspace
 
-:::::: TO: Simon Horman <horms+renesas@verge.net.au>
-:::::: CC: Mike Turquette <mturquette@linaro.org>
+:::::: TO: Boris Brezillon <boris.brezillon@free-electrons.com>
+:::::: CC: Eric Anholt <eric@anholt.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6685018059742845368==--
+--===============1882332284742044009==--
 
