@@ -1,305 +1,299 @@
-Content-Type: multipart/mixed; boundary="===============5957196127797388606=="
+Content-Type: multipart/mixed; boundary="===============1721735354523329859=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/libsas/sas_port.c:172:18: warning: dereference of NULL 'port' [CWE-476]
-Date: Sun, 19 Jun 2022 15:18:24 +0800
-Message-ID: <202206191546.QgaGOq93-lkp@intel.com>
+Subject: Re: [PATCH] USB: hub: add module parameters to usbcore for port init retries
+Date: Sun, 19 Jun 2022 14:57:07 +0800
+Message-ID: <202206191456.FfS44rox-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5957196127797388606==
+--===============1721735354523329859==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/s=
-csi/libsas/sas_port.c:172:18: warning: dereference of NULL 'port' [CWE-476]=
- [-Wanalyzer-null-dereference]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220617102256.3253019-1-raychi@google.com>
+References: <20220617102256.3253019-1-raychi@google.com>
+TO: Ray Chi <raychi@google.com>
+TO: corbet(a)lwn.net
+TO: gregkh(a)linuxfoundation.org
+CC: linux-doc(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: John Garry <john.garry@huawei.com>
+CC: linux-usb(a)vger.kernel.org
+CC: albertccwang(a)google.com
+CC: Ray Chi <raychi@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: 32698c955295957d63f042f4bb30e9d613ca8b55 scsi: libsas: Clean up sas=
-_form_port()
-date:   4 months ago
-:::::: branch date: 35 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20220619 (https://download.01.org/0day-ci/archi=
-ve/20220619/202206191546.QgaGOq93-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D32698c955295957d63f042f4bb30e9d613ca8b55
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 32698c955295957d63f042f4bb30e9d613ca8b55
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+Hi Ray,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on linus/master v5.19-rc2 next-20220617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ray-Chi/USB-hub-add-=
+module-parameters-to-usbcore-for-port-init-retries/20220617-182442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
+testing
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: parisc-randconfig-m031-20220619 (https://download.01.org/0day-ci/ar=
+chive/20220619/202206191456.FfS44rox-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/usb/core/hub.c:3061 hub_port_reset() error: uninitialized symbol 's=
+tatus'.
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   include/linux/spinlock.h: In function 'sas_form_port':
->> drivers/scsi/libsas/sas_port.c:172:18: warning: dereference of NULL 'por=
-t' [CWE-476] [-Wanalyzer-null-dereference]
-     172 |         if (!port->port) {
-         |              ~~~~^~~~~~
-     'sas_form_port': event 1
-       |
-       |  115 |         if (port) {
-       |      |            ^
-       |      |            |
-       |      |            (1) following 'false' branch (when 'port' is NUL=
-L)...
-       |
-     'sas_form_port': event 2
-       |
-       |include/linux/spinlock.h:324:16:
-       |  324 |         return &lock->rlock;
-       |      |                ^~~~~~~~~~~~
-       |      |                |
-       |      |                (2) ...to here
-       |
-     'sas_form_port': events 3-5
-       |
-       |drivers/scsi/libsas/sas_port.c:135:23:
-       |  135 |         for (i =3D 0; i < sas_ha->num_phys; i++) {
-       |      |                     ~~^~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (3) following 'false' branch...
-       |......
-       |  149 |         if (i =3D=3D sas_ha->num_phys) {
-       |      |            ~     ~~~~~~~~~~~~~~~~
-       |      |            |           |
-       |      |            |           (4) ...to here
-       |      |            (5) following 'false' branch...
-       |
-     'sas_form_port': event 6
-       |
-       |include/linux/spinlock.h:280:17:
-       |  280 |                 _raw_spin_unlock_irqrestore(lock, flags);  =
-     \
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (6) ...to here
-   include/linux/spinlock.h:404:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-       |  404 |         raw_spin_unlock_irqrestore(&lock->rlock, flags);
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |
-     'sas_form_port': event 7
-       |
-       |drivers/scsi/libsas/sas_port.c:172:18:
-       |  172 |         if (!port->port) {
-       |      |              ~~~~^~~~~~
-       |      |                  |
-       |      |                  (7) dereference of NULL 'port'
-       |
+vim +/status +3061 drivers/usb/core/hub.c
 
-vim +/port +172 drivers/scsi/libsas/sas_port.c
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2955  =
 
-32698c95529595 Damien Le Moal  2022-02-28   97  =
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2956  /* Handle port reset and=
+ port warm(BH) reset (for USB3 protocol ports) */
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2957  static int hub_port_rese=
+t(struct usb_hub *hub, int port1,
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2958  			struct usb_device *ud=
+ev, unsigned int delay, bool warm)
+5e467f6ebab151 Andiry Xu         2011-04-27  2959  {
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2960  	int i, status;
+a24a6078754f28 Sarah Sharp       2012-11-01  2961  	u16 portchange, portsta=
+tus;
+d99f6b41308779 Dan Williams      2014-05-20  2962  	struct usb_port *port_d=
+ev =3D hub->ports[port1 - 1];
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  2963  	int reset_recovery_time;
+5e467f6ebab151 Andiry Xu         2011-04-27  2964  =
 
-2908d778ab3e24 James Bottomley 2006-08-29   98  /**
-121246ae93a1ef Bart Van Assche 2018-02-22   99   * sas_form_port - add this=
- phy to a port
-2908d778ab3e24 James Bottomley 2006-08-29  100   * @phy: the phy of interest
-2908d778ab3e24 James Bottomley 2006-08-29  101   *
-2908d778ab3e24 James Bottomley 2006-08-29  102   * This function adds this =
-phy to an existing port, thus creating a wide
-2908d778ab3e24 James Bottomley 2006-08-29  103   * port, or it creates a po=
-rt and adds the phy to the port.
-2908d778ab3e24 James Bottomley 2006-08-29  104   */
-2908d778ab3e24 James Bottomley 2006-08-29  105  static void sas_form_port(s=
-truct asd_sas_phy *phy)
-2908d778ab3e24 James Bottomley 2006-08-29  106  {
-2908d778ab3e24 James Bottomley 2006-08-29  107  	int i;
-2908d778ab3e24 James Bottomley 2006-08-29  108  	struct sas_ha_struct *sas_=
-ha =3D phy->ha;
-2908d778ab3e24 James Bottomley 2006-08-29  109  	struct asd_sas_port *port =
-=3D phy->port;
-32698c95529595 Damien Le Moal  2022-02-28  110  	struct domain_device *port=
-_dev =3D NULL;
-2908d778ab3e24 James Bottomley 2006-08-29  111  	struct sas_internal *si =
-=3D
-2908d778ab3e24 James Bottomley 2006-08-29  112  		to_sas_internal(sas_ha->c=
-ore.shost->transportt);
-980fa2f9d64b9b Darrick J. Wong 2007-01-11  113  	unsigned long flags;
-2908d778ab3e24 James Bottomley 2006-08-29  114  =
+5e467f6ebab151 Andiry Xu         2011-04-27  2965  	if (!hub_is_superspeed(=
+hub->hdev)) {
+0fe51aa5eee51d Sarah Sharp       2012-11-01  2966  		if (warm) {
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2967  			dev_err(hub->intfdev,=
+ "only USB3 hub support "
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2968  						"warm reset\n");
+5e467f6ebab151 Andiry Xu         2011-04-27  2969  			return -EINVAL;
+5e467f6ebab151 Andiry Xu         2011-04-27  2970  		}
+0fe51aa5eee51d Sarah Sharp       2012-11-01  2971  		/* Block EHCI CF initi=
+alization during the port reset.
+0fe51aa5eee51d Sarah Sharp       2012-11-01  2972  		 * Some companion cont=
+rollers don't like it when they mix.
+0fe51aa5eee51d Sarah Sharp       2012-11-01  2973  		 */
+0fe51aa5eee51d Sarah Sharp       2012-11-01  2974  		down_read(&ehci_cf_por=
+t_reset_rwsem);
+d3b9d7a9051d70 Sarah Sharp       2012-11-01  2975  	} else if (!warm) {
+d3b9d7a9051d70 Sarah Sharp       2012-11-01  2976  		/*
+d3b9d7a9051d70 Sarah Sharp       2012-11-01  2977  		 * If the caller hasn'=
+t explicitly requested a warm reset,
+d3b9d7a9051d70 Sarah Sharp       2012-11-01  2978  		 * double check and se=
+e if one is needed.
+d3b9d7a9051d70 Sarah Sharp       2012-11-01  2979  		 */
+f061f43d7418cb Michael Grzeschik 2022-06-07  2980  		if (usb_hub_port_statu=
+s(hub, port1, &portstatus,
+f061f43d7418cb Michael Grzeschik 2022-06-07  2981  					&portchange) =3D=3D=
+ 0)
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  2982  			if (hub_port_warm_res=
+et_required(hub, port1,
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  2983  							portstatus))
+d3b9d7a9051d70 Sarah Sharp       2012-11-01  2984  				warm =3D true;
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2985  	}
+3cd12f91514da6 Dan Williams      2014-05-29  2986  	clear_bit(port1, hub->w=
+arm_reset_bits);
+5e467f6ebab151 Andiry Xu         2011-04-27  2987  =
 
-2908d778ab3e24 James Bottomley 2006-08-29  115  	if (port) {
-00f0254ed9b191 Dan Williams    2010-10-01  116  		if (!phy_is_wideport_memb=
-er(port, phy))
-90f1e10d08bad8 Dan Williams    2011-05-24  117  			sas_deform_port(phy, 0);
-303694eeee5eac Dan Williams    2012-06-21  118  		else if (phy->suspended) {
-303694eeee5eac Dan Williams    2012-06-21  119  			phy->suspended =3D 0;
-303694eeee5eac Dan Williams    2012-06-21  120  			sas_resume_port(phy);
-303694eeee5eac Dan Williams    2012-06-21  121  =
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2988  	/* Reset the port */
+079a8b75b95ac4 Ray Chi           2022-06-17  2989  	for (i =3D 0; i < port_=
+reset_tries; i++) {
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2990  		status =3D set_port_fe=
+ature(hub->hdev, port1, (warm ?
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2991  					USB_PORT_FEAT_BH_PO=
+RT_RESET :
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2992  					USB_PORT_FEAT_RESET=
+));
+e9e88fb7bca9f5 Alan Stern        2013-03-27  2993  		if (status =3D=3D -ENO=
+DEV) {
+e9e88fb7bca9f5 Alan Stern        2013-03-27  2994  			;	/* The hub is gone =
+*/
+e9e88fb7bca9f5 Alan Stern        2013-03-27  2995  		} else if (status) {
+d99f6b41308779 Dan Williams      2014-05-20  2996  			dev_err(&port_dev->de=
+v,
+d99f6b41308779 Dan Williams      2014-05-20  2997  					"cannot %sreset (er=
+r =3D %d)\n",
+d99f6b41308779 Dan Williams      2014-05-20  2998  					warm ? "warm " : ""=
+, status);
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  2999  		} else {
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3000  			status =3D hub_port_w=
+ait_reset(hub, port1, udev, delay,
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3001  								warm);
+e9e88fb7bca9f5 Alan Stern        2013-03-27  3002  			if (status && status =
+!=3D -ENOTCONN && status !=3D -ENODEV)
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3003  				dev_dbg(hub->intfdev,
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3004  						"port_wait_reset: =
+err =3D %d\n",
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3005  						status);
+5e467f6ebab151 Andiry Xu         2011-04-27  3006  		}
+5e467f6ebab151 Andiry Xu         2011-04-27  3007  =
 
-303694eeee5eac Dan Williams    2012-06-21  122  			/* phy came back, try to=
- cancel the timeout */
-303694eeee5eac Dan Williams    2012-06-21  123  			wake_up(&sas_ha->eh_wait=
-_q);
-303694eeee5eac Dan Williams    2012-06-21  124  			return;
-303694eeee5eac Dan Williams    2012-06-21  125  		} else {
-15ba7806c316ce John Garry      2018-11-15  126  			pr_info("%s: phy%d belon=
-gs to port%d already(%d)!\n",
-cadbd4a5e36dde Harvey Harrison 2008-07-03  127  				__func__, phy->id, phy-=
->port->id,
-2908d778ab3e24 James Bottomley 2006-08-29  128  				phy->port->num_phys);
-2908d778ab3e24 James Bottomley 2006-08-29  129  			return;
-2908d778ab3e24 James Bottomley 2006-08-29  130  		}
-2908d778ab3e24 James Bottomley 2006-08-29  131  	}
-2908d778ab3e24 James Bottomley 2006-08-29  132  =
+c89686118c786a Kai-Heng Feng     2022-01-20  3008  		/*
+c89686118c786a Kai-Heng Feng     2022-01-20  3009  		 * Check for disconnec=
+t or reset, and bail out after several
+c89686118c786a Kai-Heng Feng     2022-01-20  3010  		 * reset attempts to a=
+void warm reset loop.
+c89686118c786a Kai-Heng Feng     2022-01-20  3011  		 */
+c89686118c786a Kai-Heng Feng     2022-01-20  3012  		if (status =3D=3D 0 ||=
+ status =3D=3D -ENOTCONN || status =3D=3D -ENODEV ||
+079a8b75b95ac4 Ray Chi           2022-06-17  3013  		    (status =3D=3D -EB=
+USY && i =3D=3D port_reset_tries - 1)) {
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3014  			usb_clear_port_featur=
+e(hub->hdev, port1,
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3015  					USB_PORT_FEAT_C_RES=
+ET);
+a24a6078754f28 Sarah Sharp       2012-11-01  3016  =
 
-5381837f125cc6 Tom Peng        2009-07-01  133  	/* see if the phy should b=
-e part of a wide port */
-980fa2f9d64b9b Darrick J. Wong 2007-01-11  134  	spin_lock_irqsave(&sas_ha-=
->phy_port_lock, flags);
-2908d778ab3e24 James Bottomley 2006-08-29  135  	for (i =3D 0; i < sas_ha->=
-num_phys; i++) {
-2908d778ab3e24 James Bottomley 2006-08-29  136  		port =3D sas_ha->sas_port=
-[i];
-2908d778ab3e24 James Bottomley 2006-08-29  137  		spin_lock(&port->phy_list=
-_lock);
-2908d778ab3e24 James Bottomley 2006-08-29  138  		if (*(u64 *) port->sas_ad=
-dr &&
-00f0254ed9b191 Dan Williams    2010-10-01  139  		    phy_is_wideport_membe=
-r(port, phy) && port->num_phys > 0) {
-2908d778ab3e24 James Bottomley 2006-08-29  140  			/* wide port */
-32698c95529595 Damien Le Moal  2022-02-28  141  			port_dev =3D port->port_=
-dev;
-32698c95529595 Damien Le Moal  2022-02-28  142  			sas_form_port_add_phy(po=
-rt, phy, true);
-32698c95529595 Damien Le Moal  2022-02-28  143  			spin_unlock(&port->phy_l=
-ist_lock);
-2908d778ab3e24 James Bottomley 2006-08-29  144  			break;
-5381837f125cc6 Tom Peng        2009-07-01  145  		}
-5381837f125cc6 Tom Peng        2009-07-01  146  		spin_unlock(&port->phy_li=
-st_lock);
-5381837f125cc6 Tom Peng        2009-07-01  147  	}
-5381837f125cc6 Tom Peng        2009-07-01  148  	/* The phy does not match =
-any existing port, create a new one */
-5381837f125cc6 Tom Peng        2009-07-01  149  	if (i =3D=3D sas_ha->num_p=
-hys) {
-5381837f125cc6 Tom Peng        2009-07-01  150  		for (i =3D 0; i < sas_ha-=
->num_phys; i++) {
-5381837f125cc6 Tom Peng        2009-07-01  151  			port =3D sas_ha->sas_por=
-t[i];
-5381837f125cc6 Tom Peng        2009-07-01  152  			spin_lock(&port->phy_lis=
-t_lock);
-5381837f125cc6 Tom Peng        2009-07-01  153  			if (*(u64 *)port->sas_ad=
-dr =3D=3D 0
-5381837f125cc6 Tom Peng        2009-07-01  154  			    && port->num_phys =
-=3D=3D 0) {
-32698c95529595 Damien Le Moal  2022-02-28  155  				port_dev =3D port->port=
-_dev;
-32698c95529595 Damien Le Moal  2022-02-28  156  				sas_form_port_add_phy(p=
-ort, phy, false);
-32698c95529595 Damien Le Moal  2022-02-28  157  				spin_unlock(&port->phy_=
-list_lock);
-2908d778ab3e24 James Bottomley 2006-08-29  158  				break;
-2908d778ab3e24 James Bottomley 2006-08-29  159  			}
-2908d778ab3e24 James Bottomley 2006-08-29  160  			spin_unlock(&port->phy_l=
-ist_lock);
-2908d778ab3e24 James Bottomley 2006-08-29  161  		}
-2908d778ab3e24 James Bottomley 2006-08-29  162  =
+a24a6078754f28 Sarah Sharp       2012-11-01  3017  			if (!hub_is_superspee=
+d(hub->hdev))
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3018  				goto done;
+a24a6078754f28 Sarah Sharp       2012-11-01  3019  =
 
-2908d778ab3e24 James Bottomley 2006-08-29  163  		if (i >=3D sas_ha->num_ph=
-ys) {
-32698c95529595 Damien Le Moal  2022-02-28  164  			pr_err("%s: couldn't fin=
-d a free port, bug?\n",
-32698c95529595 Damien Le Moal  2022-02-28  165  			       __func__);
-980fa2f9d64b9b Darrick J. Wong 2007-01-11  166  			spin_unlock_irqrestore(&=
-sas_ha->phy_port_lock, flags);
-2908d778ab3e24 James Bottomley 2006-08-29  167  			return;
-2908d778ab3e24 James Bottomley 2006-08-29  168  		}
-32698c95529595 Damien Le Moal  2022-02-28  169  	}
-980fa2f9d64b9b Darrick J. Wong 2007-01-11  170  	spin_unlock_irqrestore(&sa=
-s_ha->phy_port_lock, flags);
-2908d778ab3e24 James Bottomley 2006-08-29  171  =
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3020  			usb_clear_port_featur=
+e(hub->hdev, port1,
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3021  					USB_PORT_FEAT_C_BH_=
+PORT_RESET);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3022  			usb_clear_port_featur=
+e(hub->hdev, port1,
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3023  					USB_PORT_FEAT_C_POR=
+T_LINK_STATE);
+22454b79e6de05 Dennis Wassenberg 2018-11-13  3024  =
 
-2908d778ab3e24 James Bottomley 2006-08-29 @172  	if (!port->port) {
-b4698d88585e23 Dan Williams    2012-04-19  173  		port->port =3D sas_port_a=
-lloc(phy->phy->dev.parent, port->id);
-2908d778ab3e24 James Bottomley 2006-08-29  174  		BUG_ON(!port->port);
-2908d778ab3e24 James Bottomley 2006-08-29  175  		sas_port_add(port->port);
-2908d778ab3e24 James Bottomley 2006-08-29  176  	}
-2908d778ab3e24 James Bottomley 2006-08-29  177  	sas_port_add_phy(port->por=
-t, phy->phy);
-2908d778ab3e24 James Bottomley 2006-08-29  178  =
+22454b79e6de05 Dennis Wassenberg 2018-11-13  3025  			if (udev)
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3026  				usb_clear_port_featu=
+re(hub->hdev, port1,
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3027  					USB_PORT_FEAT_C_CON=
+NECTION);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3028  =
 
-b3e3d4c618c5b9 John Garry      2019-12-19  179  	pr_debug("%s added to %s, =
-phy_mask:0x%x (%016llx)\n",
-71610f55fa4db6 Kay Sievers     2008-12-03  180  		 dev_name(&phy->phy->dev)=
-, dev_name(&port->port->dev),
-a29c05153630b2 James Bottomley 2008-02-23  181  		 port->phy_mask,
-a29c05153630b2 James Bottomley 2008-02-23  182  		 SAS_ADDR(port->attached_=
-sas_addr));
-a29c05153630b2 James Bottomley 2008-02-23  183  =
+a24a6078754f28 Sarah Sharp       2012-11-01  3029  			/*
+a24a6078754f28 Sarah Sharp       2012-11-01  3030  			 * If a USB 3.0 devic=
+e migrates from reset to an error
+a24a6078754f28 Sarah Sharp       2012-11-01  3031  			 * state, re-issue th=
+e warm reset.
+a24a6078754f28 Sarah Sharp       2012-11-01  3032  			 */
+f061f43d7418cb Michael Grzeschik 2022-06-07  3033  			if (usb_hub_port_stat=
+us(hub, port1,
+a24a6078754f28 Sarah Sharp       2012-11-01  3034  					&portstatus, &portc=
+hange) < 0)
+a24a6078754f28 Sarah Sharp       2012-11-01  3035  				goto done;
+a24a6078754f28 Sarah Sharp       2012-11-01  3036  =
 
-085f104a83d565 John Garry      2019-04-12  184  	if (port_dev)
-085f104a83d565 John Garry      2019-04-12  185  		port_dev->pathways =3D po=
-rt->num_phys;
-2908d778ab3e24 James Bottomley 2006-08-29  186  =
+3cd12f91514da6 Dan Williams      2014-05-29  3037  			if (!hub_port_warm_re=
+set_required(hub, port1,
+3cd12f91514da6 Dan Williams      2014-05-29  3038  					portstatus))
+a24a6078754f28 Sarah Sharp       2012-11-01  3039  				goto done;
+a24a6078754f28 Sarah Sharp       2012-11-01  3040  =
 
-2908d778ab3e24 James Bottomley 2006-08-29  187  	/* Tell the LLDD about thi=
-s port formation. */
-2908d778ab3e24 James Bottomley 2006-08-29  188  	if (si->dft->lldd_port_for=
-med)
-2908d778ab3e24 James Bottomley 2006-08-29  189  		si->dft->lldd_port_formed=
-(phy);
-2908d778ab3e24 James Bottomley 2006-08-29  190  =
+a24a6078754f28 Sarah Sharp       2012-11-01  3041  			/*
+a24a6078754f28 Sarah Sharp       2012-11-01  3042  			 * If the port is in =
+SS.Inactive or Compliance Mode, the
+a24a6078754f28 Sarah Sharp       2012-11-01  3043  			 * hot or warm reset =
+failed.  Try another warm reset.
+a24a6078754f28 Sarah Sharp       2012-11-01  3044  			 */
+a24a6078754f28 Sarah Sharp       2012-11-01  3045  			if (!warm) {
+d99f6b41308779 Dan Williams      2014-05-20  3046  				dev_dbg(&port_dev->d=
+ev,
+d99f6b41308779 Dan Williams      2014-05-20  3047  						"hot reset failed,=
+ warm reset\n");
+a24a6078754f28 Sarah Sharp       2012-11-01  3048  				warm =3D true;
+a24a6078754f28 Sarah Sharp       2012-11-01  3049  			}
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3050  		}
+5e467f6ebab151 Andiry Xu         2011-04-27  3051  =
 
-2908d778ab3e24 James Bottomley 2006-08-29  191  	sas_discover_event(phy->po=
-rt, DISCE_DISCOVER_DOMAIN);
-085f104a83d565 John Garry      2019-04-12  192  	/* Only insert a revalidat=
-e event after initial discovery */
-924a3541eab0d2 John Garry      2019-06-10  193  	if (port_dev && dev_is_exp=
-ander(port_dev->dev_type)) {
-085f104a83d565 John Garry      2019-04-12  194  		struct expander_device *e=
-x_dev =3D &port_dev->ex_dev;
-085f104a83d565 John Garry      2019-04-12  195  =
+d99f6b41308779 Dan Williams      2014-05-20  3052  		dev_dbg(&port_dev->dev,
+d99f6b41308779 Dan Williams      2014-05-20  3053  				"not enabled, trying=
+ %sreset again...\n",
+d99f6b41308779 Dan Williams      2014-05-20  3054  				warm ? "warm " : "");
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3055  		delay =3D HUB_LONG_RES=
+ET_TIME;
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3056  	}
+5e467f6ebab151 Andiry Xu         2011-04-27  3057  =
 
-085f104a83d565 John Garry      2019-04-12  196  		ex_dev->ex_change_count =
-=3D -1;
-085f104a83d565 John Garry      2019-04-12  197  		sas_discover_event(port, =
-DISCE_REVALIDATE_DOMAIN);
-085f104a83d565 John Garry      2019-04-12  198  	}
-517e5153d242cb Jason Yan       2017-12-08  199  	flush_workqueue(sas_ha->di=
-sco_q);
-2908d778ab3e24 James Bottomley 2006-08-29  200  }
-2908d778ab3e24 James Bottomley 2006-08-29  201  =
+d99f6b41308779 Dan Williams      2014-05-20  3058  	dev_err(&port_dev->dev,=
+ "Cannot enable. Maybe the USB cable is bad?\n");
+5e467f6ebab151 Andiry Xu         2011-04-27  3059  =
 
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3060  done:
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26 @3061  	if (status =3D=3D 0) {
+aa071a92bbf09d Nicolas Boichat   2018-05-28  3062  		if (port_dev->quirks &=
+ USB_PORT_QUIRK_FAST_ENUM)
+aa071a92bbf09d Nicolas Boichat   2018-05-28  3063  			usleep_range(10000, 1=
+2000);
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3064  		else {
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3065  			/* TRSTRCY =3D 10 ms;=
+ plus some extra */
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3066  			reset_recovery_time =
+=3D 10 + 40;
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3067  =
 
-:::::: The code at line 172 was first introduced by commit
-:::::: 2908d778ab3e244900c310974e1fc1c69066e450 [SCSI] aic94xx: new driver
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3068  			/* Hub needs extra de=
+lay after resetting its port. */
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3069  			if (hub->hdev->quirks=
+ & USB_QUIRK_HUB_SLOW_RESET)
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3070  				reset_recovery_time =
++=3D 100;
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3071  =
 
-:::::: TO: James Bottomley <James.Bottomley@SteelEye.com>
-:::::: CC: James Bottomley <jejb@mulgrave.il.steeleye.com>
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3072  			msleep(reset_recovery=
+_time);
+781f0766cc41a9 Kai-Heng Feng     2018-10-19  3073  		}
+aa071a92bbf09d Nicolas Boichat   2018-05-28  3074  =
+
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3075  		if (udev) {
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3076  			struct usb_hcd *hcd =
+=3D bus_to_hcd(udev->bus);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3077  =
+
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3078  			update_devnum(udev, 0=
+);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3079  			/* The xHC may think =
+the device is already reset,
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3080  			 * so ignore the stat=
+us.
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3081  			 */
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3082  			if (hcd->driver->rese=
+t_device)
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3083  				hcd->driver->reset_d=
+evice(hcd, udev);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3084  =
+
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3085  			usb_set_device_state(=
+udev, USB_STATE_DEFAULT);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3086  		}
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3087  	} else {
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3088  		if (udev)
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3089  			usb_set_device_state(=
+udev, USB_STATE_NOTATTACHED);
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3090  	}
+fb6d1f7df5d252 Robert Schlabbach 2015-05-26  3091  =
+
+0fe51aa5eee51d Sarah Sharp       2012-11-01  3092  	if (!hub_is_superspeed(=
+hub->hdev))
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3093  		up_read(&ehci_cf_port_=
+reset_rwsem);
+5e467f6ebab151 Andiry Xu         2011-04-27  3094  =
+
+75d7cf72ab9fa0 Andiry Xu         2011-09-13  3095  	return status;
+5e467f6ebab151 Andiry Xu         2011-04-27  3096  }
+5e467f6ebab151 Andiry Xu         2011-04-27  3097  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5957196127797388606==--
+--===============1721735354523329859==--
 
