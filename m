@@ -1,232 +1,260 @@
-Content-Type: multipart/mixed; boundary="===============6521550090830207936=="
+Content-Type: multipart/mixed; boundary="===============3754306083642269286=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: consider using resource_size() here
-Date: Mon, 20 Jun 2022 20:45:56 +0800
-Message-ID: <202206202040.NN89l1Y7-lkp@intel.com>
+Subject: Re: [PATCH V2 2/2] drm: xlnx: dsi: Add Xilinx MIPI DSI-Tx subsystem driver
+Date: Sun, 19 Jun 2022 14:36:14 +0800
+Message-ID: <202206191404.Z1X0BOIH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6521550090830207936==
+--===============3754306083642269286==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/xlnx/xlnx_dsi.c:256:9: sparse: sparse: statement expected after case=
+ label"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <1655389056-37044-3-git-send-email-venkateshwar.rao.gannavarap=
+u@xilinx.com>
+References: <1655389056-37044-3-git-send-email-venkateshwar.rao.gannavarapu=
+@xilinx.com>
+TO: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+TO: laurent.pinchart(a)ideasonboard.com
+TO: sam(a)ravnborg.org
+TO: dri-devel(a)lists.freedesktop.org
+CC: airlied(a)linux.ie
+CC: vgannava(a)xilinx.com
+CC: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Dustin L. Howett" <dustin@howett.net>
-CC: "Tzung-Bi Shih" <tzungbi@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: c9bc1a0ef9f613a7bc1adfff4c67dc5e5d7d1709 platform/chrome: cros_ec_l=
-pcs: reserve the MEC LPC I/O ports first
-date:   7 weeks ago
+Hi Venkateshwar,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on linus/master v5.19-rc2 next-20220617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Venkateshwar-Rao-Gan=
+navarapu/Add-Xilinx-DSI-Tx-subsystem-DRM-driver/20220616-222008
+base:   git://anongit.freedesktop.org/drm/drm drm-next
 :::::: branch date: 3 days ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-m001-20220620 (https://download.01.org/0day-ci/ar=
-chive/20220620/202206202040.NN89l1Y7-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+:::::: commit date: 3 days ago
+config: riscv-randconfig-s031-20220619 (https://download.01.org/0day-ci/arc=
+hive/20220619/202206191404.Z1X0BOIH-lkp(a)intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-30-g92122700-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/28aa62ffdc1901029bf=
+75961166f4ebba948b9b7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Venkateshwar-Rao-Gannavarapu/Add-X=
+ilinx-DSI-Tx-subsystem-DRM-driver/20220616-222008
+        git checkout 28aa62ffdc1901029bf75961166f4ebba948b9b7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dr=
+iscv SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
-r using resource_size() here
 
-vim +382 drivers/platform/chrome/cros_ec_lpc.c
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xlnx/xlnx_dsi.c:256:9: sparse: sparse: statement expecte=
+d after case label
+>> drivers/gpu/drm/xlnx/xlnx_dsi.c:218:27: sparse: sparse: incorrect type i=
+n argument 1 (different address spaces) @@     expected struct xlnx_dsi *ds=
+i @@     got void [noderef] __iomem *iomem @@
+   drivers/gpu/drm/xlnx/xlnx_dsi.c:218:27: sparse:     expected struct xlnx=
+_dsi *dsi
+   drivers/gpu/drm/xlnx/xlnx_dsi.c:218:27: sparse:     got void [noderef] _=
+_iomem *iomem
 
-a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
+vim +256 drivers/gpu/drm/xlnx/xlnx_dsi.c
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
-pc_probe(struct platform_device *pdev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
-=3D &pdev->dev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
-*adev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
-ce *ec_dev;
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
-da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  179  =
 
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  344  	/*
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  345  	 * The Framework La=
-ptop (and possibly other non-ChromeOS devices)
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  346  	 * only exposes the=
- eight I/O ports that are required for the Microchip EC.
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  347  	 * Requesting a lar=
-ger reservation will fail.
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  348  	 */
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  349  	if (!devm_request_r=
-egion(dev, EC_HOST_CMD_REGION0,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  350  				 EC_HOST_CMD_MEC=
-_REGION_SIZE, dev_name(dev))) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  351  		dev_err(dev, "coul=
-dn't reserve MEC region\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  180  static void
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  181  xlnx_dsi_bridg=
+e_enable(struct drm_bridge *bridge,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  182  		       struc=
+t drm_bridge_state *old_bridge_state)
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  183  {
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  184  	struct xlnx_d=
+si *dsi =3D bridge_to_dsi(bridge);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  185  	struct drm_at=
+omic_state *state =3D old_bridge_state->base.state;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  186  	struct drm_co=
+nnector *connector;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  187  	struct drm_cr=
+tc *crtc;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  188  	const struct =
+drm_crtc_state *crtc_state;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  189  	const struct =
+drm_display_mode *mode;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  190  	u32 reg, vide=
+o_mode;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  191  =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
-ID twice, the first one is assuming the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
-p Embedded Controller (MEC) variant, if the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
-fallback to the non MEC variant and try to
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
-D.
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
-d =3D cros_ec_lpc_mec_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
-te =3D cros_ec_lpc_mec_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
-d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
- || buf[1] !=3D 'C') {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  365  		if (!devm_request_=
-region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  366  					 dev_name(dev))=
-) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  367  			dev_err(dev, "cou=
-ldn't reserve memmap region\n");
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  368  			return -EBUSY;
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  369  		}
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  370  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  192  	connector =3D=
+ drm_atomic_get_new_connector_for_encoder(state,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  193  							     br=
+idge->encoder);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  194  	crtc =3D drm_=
+atomic_get_new_connector_state(state, connector)->crtc;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  195  	crtc_state =
+=3D drm_atomic_get_new_crtc_state(state, crtc);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  196  	mode =3D &crt=
+c_state->adjusted_mode;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  197  =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
-write operations for the non MEC variant */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
-ad =3D cros_ec_lpc_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
-ite =3D cros_ec_lpc_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
-ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
-' || buf[1] !=3D 'C') {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
-ID not detected\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  198  	reg =3D xlnx_=
+dsi_read(dsi, XDSI_PCR);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  199  	video_mode =
+=3D (reg & XDSI_PCR_VIDEOMODE_MASK) >> XDSI_PCR_VIDEOMODE_SHIFT;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  200  =
 
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  381  		/* Reserve the rem=
-aining I/O ports required by the non-MEC protocol. */
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17 @382  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  383  					 EC_HOST_CMD_RE=
-GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  384  					 dev_name(dev))=
-) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  385  			dev_err(dev, "cou=
-ldn't reserve remainder of region0\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION1,
-ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
-GION_SIZE, dev_name(dev))) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
-ldn't reserve region1\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  393  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  201  	if (!video_mo=
+de && (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)) {
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  202  		reg =3D XDSI=
+_TIME1_HSA(mode->hsync_end -
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  203  				     mode-=
+>hsync_start);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  204  		xlnx_dsi_wri=
+te(dsi, XDSI_TIME1, reg);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  205  	}
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  206  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
-lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  207  	reg =3D XDSI_=
+TIME4_VFP(mode->vsync_start - mode->vdisplay) |
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  208  		XDSI_TIME4_V=
+BP(mode->vtotal - mode->vsync_end) |
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  209  		XDSI_TIME4_V=
+SA(mode->vsync_end - mode->vsync_start);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  210  	xlnx_dsi_writ=
+e(dsi, XDSI_TIME4, reg);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  211  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
-a(pdev, ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
-=3D dev_name(dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
-=3D cros_ec_cmd_xfer_lpc;
-d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
-=3D cros_ec_pkt_xfer_lpc;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
- =3D cros_ec_lpc_readmem;
-2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
-=3D sizeof(struct ec_host_response) +
-2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
-ec_response_get_protocol_info);
-2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
-=3D sizeof(struct ec_host_request);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  212  	reg =3D XDSI_=
+TIME3_HFP(mode->hsync_start - mode->hdisplay) |
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  213  		XDSI_TIME3_H=
+BP(mode->htotal - mode->hsync_end);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  214  	xlnx_dsi_writ=
+e(dsi, XDSI_TIME3, reg);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  215  =
 
-da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
-da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
-ot have an IRQ allotted for cros_ec_lpc,
-da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
-O an expected (and safe) scenario.
-da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
-a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
-t_irq_optional(pdev, 0);
-da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
-da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
-q;
-da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
-ENXIO) {
-da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
-dn't retrieve IRQ number (%d)\n", irq);
-da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
-da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
-da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  216  	reg =3D XDSI_=
+TIME2_HACT(mode->hdisplay * dsi->mul_factor / 100) |
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  217  		XDSI_TIME2_V=
+ACT(mode->vdisplay);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16 @218  	xlnx_dsi_writ=
+e(dsi->iomem, XDSI_TIME2, reg);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  219  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
-ister(ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
-dn't register ec_dev (%d)\n", ret);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  220  	xlnx_dsi_writ=
+e(dsi, XDSI_PCR, XDSI_PCR_VIDEOMODE(BIT(0)));
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  221  =
 
-a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
-a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
- handler to process MKBP messages if we have a
-a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
-evice.
-a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
-a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
-NION(dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
-a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
-stall_notify_handler(adev->handle,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
-NOTIFY,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
-pc_acpi_notify,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
-tatus))
-a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
-iled to register notifier %08x\n",
-a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
-a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  222  	/* Enable Cor=
+e */
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  223  	reg =3D xlnx_=
+dsi_read(dsi, XDSI_CCR);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  224  	reg |=3D XDSI=
+_CCR_COREENB;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  225  	xlnx_dsi_writ=
+e(dsi, XDSI_CCR, reg);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  226  }
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  227  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
-ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  228  #define MAX_IN=
+PUT_SEL_FORMATS   3
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  229  static u32
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  230  *xlnx_dsi_brid=
+ge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  231  					   struct=
+ drm_bridge_state *bridge_state,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  232  					   struct=
+ drm_crtc_state *crtc_state,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  233  					   struct=
+ drm_connector_state *conn_state,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  234  					   u32 ou=
+tput_fmt,
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  235  					   unsign=
+ed int *num_input_fmts)
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  236  {
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  237  	u32 *input_fm=
+ts;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  238  	unsigned int =
+i =3D 0;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  239  =
+
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  240  	*num_input_fm=
+ts =3D 0;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  241  	input_fmts =
+=3D kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts), GFP_KERNEL);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  242  	if (!input_fm=
+ts)
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  243  		return NULL;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  244  =
+
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  245  	switch (outpu=
+t_fmt) {
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  246  	case MEDIA_BU=
+S_FMT_FIXED:
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  247  		input_fmts[i=
+++] =3D MEDIA_BUS_FMT_RGB888_1X24;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  248  		break;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  249  	case MEDIA_BU=
+S_FMT_RGB666_1X18:
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  250  		input_fmts[i=
+++] =3D MEDIA_BUS_FMT_RGB666_1X18;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  251  		break;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  252  	case MEDIA_BU=
+S_FMT_RGB565_1X16:
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  253  		input_fmts[i=
+++] =3D MEDIA_BUS_FMT_RGB565_1X16;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  254  		break;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  255  	default: /* d=
+efine */
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16 @256  	}
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  257  =
+
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  258  	*num_input_fm=
+ts =3D i;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  259  	if (*num_inpu=
+t_fmts =3D=3D 0) {
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  260  		kfree(input_=
+fmts);
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  261  		input_fmts =
+=3D NULL;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  262  	}
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  263  =
+
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  264  	return input_=
+fmts;
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  265  }
+28aa62ffdc1901 Venkateshwar Rao Gannavarapu 2022-06-16  266  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6521550090830207936==--
+--===============3754306083642269286==--
 
