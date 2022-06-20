@@ -1,162 +1,380 @@
-Content-Type: multipart/mixed; boundary="===============5364376709504414440=="
+Content-Type: multipart/mixed; boundary="===============2047249500389208133=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] clk: qcom: common: use parent_hws in _qcom_cc_register_board_clk()
-Date: Tue, 21 Jun 2022 03:07:12 +0800
-Message-ID: <202206210257.lD0x1WPz-lkp@intel.com>
+Subject: net/dsa/tag_sja1105.c:168:3: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Mon, 20 Jun 2022 17:43:13 +0800
+Message-ID: <202206201718.TKIKCbRb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5364376709504414440==
+--===============2047249500389208133==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: net/dsa/t=
+ag_sja1105.c:168:3: warning: Undefined or garbage value returned to caller =
+[clang-analyzer-core.uninitialized.UndefReturn]"
+:::::: =
+
+
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220620080117.1571807-1-dmitry.baryshkov@linaro.org>
-References: <20220620080117.1571807-1-dmitry.baryshkov@linaro.org>
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-TO: Andy Gross <agross@kernel.org>
-TO: Bjorn Andersson <bjorn.andersson@linaro.org>
-TO: Stephen Boyd <swboyd@chromium.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Taniya Das <quic_tdas@quicinc.com>
-CC: linux-arm-msm(a)vger.kernel.org
-CC: linux-clk(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Hi Dmitry,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
+commit: 8ded9160928e545c2e694b77a87263fa078ff4c6 net: dsa: tag_sja1105: sto=
+p asking the sja1105 driver in sja1105_xmit_tpid
+date:   10 months ago
+:::::: branch date: 3 days ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220617 (https://download.01.org/0day-ci/archi=
+ve/20220620/202206201718.TKIKCbRb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d764aa=
+7fc6b9cc3fbe960019018f5f9e941eb0a6)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D8ded9160928e545c2e694b77a87263fa078ff4c6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8ded9160928e545c2e694b77a87263fa078ff4c6
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v5.19-rc2 next-20220617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/clk=
--qcom-common-use-parent_hws-in-_qcom_cc_register_board_clk/20220620-160242
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
-ext
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: parisc-randconfig-m031-20220619 (https://download.01.org/0day-ci/ar=
-chive/20220621/202206210257.lD0x1WPz-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/clk/qcom/common.c:172 _qcom_cc_register_board_clk() error: uninitia=
-lized symbol 'fixed'.
 
-vim +/fixed +172 drivers/clk/qcom/common.c
+clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~~~~~~~~~~~~~
+   net/ipv4/fib_semantics.c:1527:22: note: Left side of '&&' is false
+           if (fi->fib_prefsrc && !fib_valid_prefsrc(cfg, fi->fib_prefsrc))=
+ {
+                               ^
+   net/ipv4/fib_semantics.c:1532:11: note: Field 'nh' is non-null
+           if (!fi->nh) {
+                    ^
+   net/ipv4/fib_semantics.c:1532:2: note: Taking false branch
+           if (!fi->nh) {
+           ^
+   net/ipv4/fib_semantics.c:1545:6: note: Assuming 'ofi' is null
+           if (ofi) {
+               ^~~
+   net/ipv4/fib_semantics.c:1545:2: note: Taking false branch
+           if (ofi) {
+           ^
+   net/ipv4/fib_semantics.c:1556:25: note: Calling 'fib_info_hashfn'
+                          &fib_info_hash[fib_info_hashfn(fi)]);
+                                         ^~~~~~~~~~~~~~~~~~~
+   net/ipv4/fib_semantics.c:353:6: note: Assuming field 'nh' is non-null
+           if (fi->nh) {
+               ^~~~~~
+   net/ipv4/fib_semantics.c:353:2: note: Taking true branch
+           if (fi->nh) {
+           ^
+   net/ipv4/fib_semantics.c:361:2: note: Returning without writing to 'fi->=
+nh', which participates in a condition later
+           return fib_info_hashfn_result(val);
+           ^
+   net/ipv4/fib_semantics.c:1556:25: note: Returning from 'fib_info_hashfn'
+                          &fib_info_hash[fib_info_hashfn(fi)]);
+                                         ^~~~~~~~~~~~~~~~~~~
+   net/ipv4/fib_semantics.c:1557:6: note: Assuming field 'fib_prefsrc' is 0
+           if (fi->fib_prefsrc) {
+               ^~~~~~~~~~~~~~~
+   net/ipv4/fib_semantics.c:1557:2: note: Taking false branch
+           if (fi->fib_prefsrc) {
+           ^
+   net/ipv4/fib_semantics.c:1563:6: note: Assuming field 'nh' is non-null
+           if (fi->nh) {
+               ^~~~~~
+   net/ipv4/fib_semantics.c:1563:2: note: Taking true branch
+           if (fi->nh) {
+           ^
+   net/ipv4/fib_semantics.c:1564:26: note: Passing null pointer value via 2=
+nd parameter 'head'
+                   list_add(&fi->nh_list, &nh->fi_list);
+                                          ^~~~~~~~~~~~
+   net/ipv4/fib_semantics.c:1564:3: note: Calling 'list_add'
+                   list_add(&fi->nh_list, &nh->fi_list);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:86:24: note: Access to field 'next' results in a de=
+reference of a null pointer (loaded from variable 'head')
+           __list_add(new, head, head->next);
+                                 ^~~~
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> net/dsa/tag_sja1105.c:168:3: warning: Undefined or garbage value returne=
+d to caller [clang-analyzer-core.uninitialized.UndefReturn]
+                   return proto;
+                   ^
+   net/dsa/tag_sja1105.c:270:6: note: Assuming field 'offload_fwd_mark' is 0
+           if (skb->offload_fwd_mark)
+               ^~~~~~~~~~~~~~~~~~~~~
+   net/dsa/tag_sja1105.c:270:2: note: Taking false branch
+           if (skb->offload_fwd_mark)
+           ^
+   net/dsa/tag_sja1105.c:277:2: note: Taking true branch
+           if (likely(!sja1105_is_link_local(skb)))
+           ^
+   net/dsa/tag_sja1105.c:278:38: note: Calling 'sja1105_xmit_tpid'
+                   return dsa_8021q_xmit(skb, netdev, sja1105_xmit_tpid(dp),
+                                                      ^~~~~~~~~~~~~~~~~~~~~
+   net/dsa/tag_sja1105.c:143:2: note: 'proto' declared without an initial v=
+alue
+           u16 proto;
+           ^~~~~~~~~
+   net/dsa/tag_sja1105.c:148:6: note: Assuming the condition is false
+           if (!dsa_port_is_vlan_filtering(dp))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/dsa/tag_sja1105.c:148:2: note: Taking false branch
+           if (!dsa_port_is_vlan_filtering(dp))
+           ^
+   net/dsa/tag_sja1105.c:155:2: note: Left side of '&&' is false
+           list_for_each_entry(other_dp, &ds->dst->ports, list) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   net/dsa/tag_sja1105.c:155:2: note: Taking false branch
+           list_for_each_entry(other_dp, &ds->dst->ports, list) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/dsa/tag_sja1105.c:155:2: note: Loop condition is false.  Exiting loop
+           list_for_each_entry(other_dp, &ds->dst->ports, list) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   net/dsa/tag_sja1105.c:155:2: note: Loop condition is true.  Entering loo=
+p body
+           list_for_each_entry(other_dp, &ds->dst->ports, list) {
+           ^
+   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   net/dsa/tag_sja1105.c:156:7: note: Assuming 'ds' is equal to field 'ds'
+                   if (other_dp->ds !=3D ds)
+                       ^~~~~~~~~~~~~~~~~~
+   net/dsa/tag_sja1105.c:156:3: note: Taking false branch
+                   if (other_dp->ds !=3D ds)
+                   ^
+   net/dsa/tag_sja1105.c:159:7: note: Assuming field 'bridge_dev' is non-nu=
+ll
+                   if (!other_dp->bridge_dev)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   net/dsa/tag_sja1105.c:159:3: note: Taking false branch
+                   if (!other_dp->bridge_dev)
+                   ^
 
-94c51f4073260e Stephen Boyd     2015-10-07  123  =
+vim +168 net/dsa/tag_sja1105.c
 
-ee15faffef1130 Stephen Boyd     2015-10-26  124  /*
-ee15faffef1130 Stephen Boyd     2015-10-26  125   * Backwards compatibility=
- with old DTs. Register a pass-through factor 1/1
-ad61dd303a0f24 Stephen Boyd     2017-05-08  126   * clock to translate 'pat=
-h' clk into 'name' clk and register the 'path'
-ee15faffef1130 Stephen Boyd     2015-10-26  127   * clk as a fixed rate clo=
-ck if it isn't present.
-ee15faffef1130 Stephen Boyd     2015-10-26  128   */
-ee15faffef1130 Stephen Boyd     2015-10-26  129  static int _qcom_cc_regist=
-er_board_clk(struct device *dev, const char *path,
-ee15faffef1130 Stephen Boyd     2015-10-26  130  				       const char *nam=
-e, unsigned long rate,
-ee15faffef1130 Stephen Boyd     2015-10-26  131  				       bool add_factor)
-ee15faffef1130 Stephen Boyd     2015-10-26  132  {
-ee15faffef1130 Stephen Boyd     2015-10-26  133  	struct device_node *node =
-=3D NULL;
-ee15faffef1130 Stephen Boyd     2015-10-26  134  	struct device_node *clock=
-s_node;
-ee15faffef1130 Stephen Boyd     2015-10-26  135  	struct clk_fixed_factor *=
-factor;
-ee15faffef1130 Stephen Boyd     2015-10-26  136  	struct clk_fixed_rate *fi=
-xed;
-ee15faffef1130 Stephen Boyd     2015-10-26  137  	struct clk_init_data init=
-_data =3D { };
-120c1552839036 Stephen Boyd     2016-08-16  138  	int ret;
-ee15faffef1130 Stephen Boyd     2015-10-26  139  =
+a68578c20a9667 Vladimir Oltean 2020-01-04  135  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  140  	clocks_node =3D of_find_n=
-ode_by_path("/clocks");
-43a51019cc8ff1 Johan Hovold     2017-11-11  141  	if (clocks_node) {
-43a51019cc8ff1 Johan Hovold     2017-11-11  142  		node =3D of_get_child_by=
-_name(clocks_node, path);
-43a51019cc8ff1 Johan Hovold     2017-11-11  143  		of_node_put(clocks_node);
-43a51019cc8ff1 Johan Hovold     2017-11-11  144  	}
-ee15faffef1130 Stephen Boyd     2015-10-26  145  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  136  /* Send VLAN tags with a TP=
+ID that blends in with whatever VLAN protocol a
+8ded9160928e54 Vladimir Oltean 2021-08-24  137   * bridge spanning ports of=
+ this switch might have.
+8ded9160928e54 Vladimir Oltean 2021-08-24  138   */
+994d2cbb08ca05 Vladimir Oltean 2021-08-17  139  static u16 sja1105_xmit_tpi=
+d(struct dsa_port *dp)
+38b5beeae7a4cd Vladimir Oltean 2020-05-12  140  {
+8ded9160928e54 Vladimir Oltean 2021-08-24  141  	struct dsa_switch *ds =3D =
+dp->ds;
+8ded9160928e54 Vladimir Oltean 2021-08-24  142  	struct dsa_port *other_dp;
+8ded9160928e54 Vladimir Oltean 2021-08-24  143  	u16 proto;
+8ded9160928e54 Vladimir Oltean 2021-08-24  144  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  146  	if (!node) {
-ee15faffef1130 Stephen Boyd     2015-10-26  147  		fixed =3D devm_kzalloc(d=
-ev, sizeof(*fixed), GFP_KERNEL);
-ee15faffef1130 Stephen Boyd     2015-10-26  148  		if (!fixed)
-ee15faffef1130 Stephen Boyd     2015-10-26  149  			return -EINVAL;
-ee15faffef1130 Stephen Boyd     2015-10-26  150  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  145  	/* Since VLAN awareness is=
+ global, then if this port is VLAN-unaware,
+8ded9160928e54 Vladimir Oltean 2021-08-24  146  	 * all ports are. Use the =
+VLAN-unaware TPID used for tag_8021q.
+8ded9160928e54 Vladimir Oltean 2021-08-24  147  	 */
+8ded9160928e54 Vladimir Oltean 2021-08-24  148  	if (!dsa_port_is_vlan_filt=
+ering(dp))
+8ded9160928e54 Vladimir Oltean 2021-08-24  149  		return ETH_P_SJA1105;
+8ded9160928e54 Vladimir Oltean 2021-08-24  150  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  151  		fixed->fixed_rate =3D ra=
-te;
-ee15faffef1130 Stephen Boyd     2015-10-26  152  		fixed->hw.init =3D &init=
-_data;
-ee15faffef1130 Stephen Boyd     2015-10-26  153  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  151  	/* Port is VLAN-aware, so =
+there is a bridge somewhere (a single one,
+8ded9160928e54 Vladimir Oltean 2021-08-24  152  	 * we're sure about that).=
+ It may not be on this port though, so we
+8ded9160928e54 Vladimir Oltean 2021-08-24  153  	 * need to find it.
+8ded9160928e54 Vladimir Oltean 2021-08-24  154  	 */
+8ded9160928e54 Vladimir Oltean 2021-08-24  155  	list_for_each_entry(other_=
+dp, &ds->dst->ports, list) {
+8ded9160928e54 Vladimir Oltean 2021-08-24  156  		if (other_dp->ds !=3D ds)
+8ded9160928e54 Vladimir Oltean 2021-08-24  157  			continue;
+8ded9160928e54 Vladimir Oltean 2021-08-24  158  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  154  		init_data.name =3D path;
-ee15faffef1130 Stephen Boyd     2015-10-26  155  		init_data.ops =3D &clk_f=
-ixed_rate_ops;
-ee15faffef1130 Stephen Boyd     2015-10-26  156  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  159  		if (!other_dp->bridge_dev)
+8ded9160928e54 Vladimir Oltean 2021-08-24  160  			continue;
+8ded9160928e54 Vladimir Oltean 2021-08-24  161  =
 
-120c1552839036 Stephen Boyd     2016-08-16  157  		ret =3D devm_clk_hw_regi=
-ster(dev, &fixed->hw);
-120c1552839036 Stephen Boyd     2016-08-16  158  		if (ret)
-120c1552839036 Stephen Boyd     2016-08-16  159  			return ret;
-ee15faffef1130 Stephen Boyd     2015-10-26  160  	}
-ee15faffef1130 Stephen Boyd     2015-10-26  161  	of_node_put(node);
-ee15faffef1130 Stephen Boyd     2015-10-26  162  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  162  		/* Error is returned only=
+ if CONFIG_BRIDGE_VLAN_FILTERING,
+8ded9160928e54 Vladimir Oltean 2021-08-24  163  		 * which seems pointless =
+to handle, as our port cannot become
+8ded9160928e54 Vladimir Oltean 2021-08-24  164  		 * VLAN-aware in that cas=
+e.
+8ded9160928e54 Vladimir Oltean 2021-08-24  165  		 */
+8ded9160928e54 Vladimir Oltean 2021-08-24  166  		br_vlan_get_proto(other_d=
+p->bridge_dev, &proto);
+8ded9160928e54 Vladimir Oltean 2021-08-24  167  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  163  	if (add_factor) {
-ee15faffef1130 Stephen Boyd     2015-10-26  164  		factor =3D devm_kzalloc(=
-dev, sizeof(*factor), GFP_KERNEL);
-ee15faffef1130 Stephen Boyd     2015-10-26  165  		if (!factor)
-ee15faffef1130 Stephen Boyd     2015-10-26  166  			return -EINVAL;
-ee15faffef1130 Stephen Boyd     2015-10-26  167  =
+8ded9160928e54 Vladimir Oltean 2021-08-24 @168  		return proto;
+8ded9160928e54 Vladimir Oltean 2021-08-24  169  	}
+994d2cbb08ca05 Vladimir Oltean 2021-08-17  170  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  168  		factor->mult =3D factor-=
->div =3D 1;
-ee15faffef1130 Stephen Boyd     2015-10-26  169  		factor->hw.init =3D &ini=
-t_data;
-ee15faffef1130 Stephen Boyd     2015-10-26  170  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  171  	WARN_ONCE(1, "Port is VLAN=
+-aware but cannot find associated bridge!\n");
+994d2cbb08ca05 Vladimir Oltean 2021-08-17  172  =
 
-ee15faffef1130 Stephen Boyd     2015-10-26  171  		init_data.name =3D name;
-daa853a735065a Dmitry Baryshkov 2022-06-20 @172  		init_data.parent_hws =3D=
- (const struct clk_hw*[]){ &fixed->hw };
-ee15faffef1130 Stephen Boyd     2015-10-26  173  		init_data.num_parents =
-=3D 1;
-ee15faffef1130 Stephen Boyd     2015-10-26  174  		init_data.flags =3D 0;
-ee15faffef1130 Stephen Boyd     2015-10-26  175  		init_data.ops =3D &clk_f=
-ixed_factor_ops;
-ee15faffef1130 Stephen Boyd     2015-10-26  176  =
-
-120c1552839036 Stephen Boyd     2016-08-16  177  		ret =3D devm_clk_hw_regi=
-ster(dev, &factor->hw);
-120c1552839036 Stephen Boyd     2016-08-16  178  		if (ret)
-120c1552839036 Stephen Boyd     2016-08-16  179  			return ret;
-ee15faffef1130 Stephen Boyd     2015-10-26  180  	}
-ee15faffef1130 Stephen Boyd     2015-10-26  181  =
-
-ee15faffef1130 Stephen Boyd     2015-10-26  182  	return 0;
-ee15faffef1130 Stephen Boyd     2015-10-26  183  }
-ee15faffef1130 Stephen Boyd     2015-10-26  184  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  173  	return ETH_P_SJA1105;
+38b5beeae7a4cd Vladimir Oltean 2020-05-12  174  }
+38b5beeae7a4cd Vladimir Oltean 2020-05-12  175  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5364376709504414440==--
+--===============2047249500389208133==--
 
