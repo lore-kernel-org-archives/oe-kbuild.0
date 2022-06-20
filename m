@@ -1,259 +1,461 @@
-Content-Type: multipart/mixed; boundary="===============8297727404170821880=="
+Content-Type: multipart/mixed; boundary="===============0841403817313531045=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/fortify-string.h:19:33: warning: use of NULL 'name' where non-null expected [CWE-476]
-Date: Mon, 20 Jun 2022 13:48:47 +0800
-Message-ID: <202206201338.bKapPUnp-lkp@intel.com>
+Subject: sound/drivers/serial-generic.c:303:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [...
+Date: Mon, 20 Jun 2022 13:17:42 +0800
+Message-ID: <202206201317.F4APgcLD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8297727404170821880==
+--===============0841403817313531045==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/fortify-string.h:19:33: warning: use of NULL 'name' where no=
-n-null expected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: Manual check reason: "low confidence static check warning: sound/dri=
+vers/serial-generic.c:303:2: warning: Call to function 'strcpy' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+TO: Daniel Kaehn <kaehndan@gmail.com>
+CC: Takashi Iwai <tiwai@suse.de>
+CC: Rob Herring <robh@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4b35035bcf80ddb47c0112c4fbd84a63a2836a18
-commit: 6e5be40d32fb1907285277c02e74493ed43d77fe fs/ntfs3: Add NTFS3 in fs/=
-Kconfig and fs/Makefile
-date:   10 months ago
+commit: 542350509499fed057a2a56921a383888a6f4fd3 ALSA: Add generic serial M=
+IDI driver using serial bus API
+date:   6 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220613 (https://download.01.org/0day-ci/archi=
-ve/20220620/202206201338.bKapPUnp-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20220619 (https://download.01.org/0day-ci/archi=
+ve/20220620/202206201317.F4APgcLD-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 916887=
+16ba49942051dccdf7b9c4f81a7ec8feaf)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6e5be40d32fb1907285277c02e74493ed43d77fe
+t/commit/?id=3D542350509499fed057a2a56921a383888a6f4fd3
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 6e5be40d32fb1907285277c02e74493ed43d77fe
+        git checkout 542350509499fed057a2a56921a383888a6f4fd3
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/string.h:262,
-                    from include/linux/bitmap.h:10,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/blkdev.h:5,
-                    from fs/ntfs3/attrib.c:9:
-   include/linux/fortify-string.h: In function 'attr_set_size':
->> include/linux/fortify-string.h:19:33: warning: use of NULL 'name' where =
-non-null expected [CWE-476] [-Wanalyzer-null-argument]
-      19 | #define __underlying_memcmp     __builtin_memcmp
-         |                                 ^
-   include/linux/fortify-string.h:235:16: note: in expansion of macro '__un=
-derlying_memcmp'
-     235 |         return __underlying_memcmp(p, q, size);
-         |                ^~~~~~~~~~~~~~~~~~~
-     'attr_collapse_range': events 1-6
-       |
-       |fs/ntfs3/attrib.c:1688:5:
-       | 1688 | int attr_collapse_range(struct ntfs_inode *ni, u64 vbo, u64=
- bytes)
-       |      |     ^~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'attr_collapse_range'
-       |......
-       | 1702 |         if (!bytes)
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch (when 'bytes !=3D 0=
-')...
-       |......
-       | 1706 |         attr_b =3D ni_find_attr(ni, NULL, &le_b, ATTR_DATA,=
- NULL, 0, NULL, &mi_b);
-       |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~
-       |      |                  |
-       |      |                  (3) ...to here
-       | 1707 |         if (!attr_b)
-       |      |            ~
-       |      |            |
-       |      |            (4) following 'false' branch (when 'attr_b' is n=
-on-NULL)...
-       |......
-       | 1710 |         if (!attr_b->non_res) {
-       |      |            ~ ~~~~~~~~~~~~~~~
-       |      |            |       |
-       |      |            |       (5) ...to here
-       |      |            (6) following 'false' branch...
-       |
-     'attr_collapse_range': events 7-12
-       |
-       | 1715 |         data_size =3D le64_to_cpu(attr_b->nres.data_size);
-       |......
-       | 1727 |         if ((vbo & mask) || (bytes & mask)) {
-       |      |            ~       =
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^~~~~~
+   drivers/base/regmap/regcache-rbtree.c:293:3: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+                   memset(present + BITS_TO_LONGS(rbnode->blklen), 0,
+                   ^~~~~~
+   drivers/base/regmap/regcache-rbtree.c:302:3: warning: Call to function '=
+memmove' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memmove_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memmove(blk + offset * map->cache_word_size,
+                   ^~~~~~~
+   drivers/base/regmap/regcache-rbtree.c:302:3: note: Call to function 'mem=
+move' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memmove_s' in case of C11
+                   memmove(blk + offset * map->cache_word_size,
+                   ^~~~~~~
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   drivers/base/regmap/regmap-debugfs.c:31:9: warning: Call to function 'sn=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'snprintf_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return snprintf(NULL, 0, "%x", max_val);
+                  ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:31:9: note: Call to function 'snpri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'snprintf_s' in case of C11
+           return snprintf(NULL, 0, "%x", max_val);
+                  ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:50:8: warning: Call to function 'sn=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'snprintf_s' in case of C11 [clang-=
+analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret =3D snprintf(buf, PAGE_SIZE, "%s\n", name);
+                 ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:50:8: note: Call to function 'snpri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'snprintf_s' in case of C11
+           ret =3D snprintf(buf, PAGE_SIZE, "%s\n", name);
+                 ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:251:4: warning: Call to function 's=
+nprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'snprintf_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           snprintf(buf + buf_pos, count - buf_pos, "%.*x: =
+",
+                           ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:251:4: note: Call to function 'snpr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'snprintf_s' in case of C11
+                           snprintf(buf + buf_pos, count - buf_pos, "%.*x: =
+",
+                           ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:258:5: warning: Call to function 's=
+nprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'snprintf_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   snprintf(buf + buf_pos, count - buf_pos,
+                                   ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:258:5: note: Call to function 'snpr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'snprintf_s' in case of C11
+                                   snprintf(buf + buf_pos, count - buf_pos,
+                                   ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:261:5: warning: Call to function 'm=
+emset' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'memset_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memset(buf + buf_pos, 'X',
+                                   ^~~~~~
+   drivers/base/regmap/regmap-debugfs.c:261:5: note: Call to function 'mems=
+et' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memset_s' in case of C11
+                                   memset(buf + buf_pos, 'X',
+                                   ^~~~~~
+   drivers/base/regmap/regmap-debugfs.c:402:15: warning: Call to function '=
+snprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'snprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   entry_len =3D snprintf(entry, PAGE_SIZE, "%x-%x\n",
+                               ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:402:15: note: Call to function 'snp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'snprintf_s' in case of C11
+                   entry_len =3D snprintf(entry, PAGE_SIZE, "%x-%x\n",
+                               ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:407:4: warning: Call to function 'm=
+emcpy' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'memcpy_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(buf + buf_pos, entry, entry_len);
+                           ^~~~~~
+   drivers/base/regmap/regmap-debugfs.c:407:4: note: Call to function 'memc=
+py' is insecure as it does not provide security checks introduced in the C1=
+1 standard. Replace with analogous functions that support length arguments =
+or provides boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(buf + buf_pos, entry, entry_len);
+                           ^~~~~~
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   drivers/base/regmap/regmap-debugfs.c:657:6: note: Assuming field 'debugf=
+s' is non-null
+           if (map->debugfs) {
+               ^~~~~~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:657:2: note: Taking true branch
+           if (map->debugfs) {
+           ^
+   drivers/base/regmap/regmap-debugfs.c:660:3: note: Calling 'regmap_debugf=
+s_free_dump_cache'
+                   regmap_debugfs_free_dump_cache(map);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:71:2: note: Loop condition is true.=
+  Entering loop body
+           while (!list_empty(&map->debugfs_off_cache)) {
+           ^
+   drivers/base/regmap/regmap-debugfs.c:76:3: note: Memory is released
+                   kfree(c);
+                   ^~~~~~~~
+   drivers/base/regmap/regmap-debugfs.c:71:2: note: Loop condition is true.=
+  Entering loop body
+           while (!list_empty(&map->debugfs_off_cache)) {
+           ^
+   drivers/base/regmap/regmap-debugfs.c:75:3: note: Calling 'list_del'
+                   list_del(&c->list);
+                   ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   25 warnings generated.
+   sound/drivers/serial-generic.c:283:3: warning: Call to function 'sprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(substream->name, "Serial MIDI %d-%d", dev_num, s=
+ubstream->number);
+                   ^~~~~~~
+   sound/drivers/serial-generic.c:283:3: note: Call to function 'sprintf' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(substream->name, "Serial MIDI %d-%d", dev_num, s=
+ubstream->number);
+                   ^~~~~~~
+>> sound/drivers/serial-generic.c:303:2: warning: Call to function 'strcpy'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(rrawmidi->name, drvdata->card->shortname);
+           ^~~~~~
+   sound/drivers/serial-generic.c:303:2: note: Call to function 'strcpy' is=
+ insecure as it does not provide bounding of the memory buffer. Replace unb=
+ounded copy functions with analogous functions that support length argument=
+s such as 'strlcpy'. CWE-119
+           strcpy(rrawmidi->name, drvdata->card->shortname);
+           ^~~~~~
+   sound/drivers/serial-generic.c:333:2: warning: Call to function 'sprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(card->shortname, "SerialMIDI-%d", serdev->ctrl->nr);
+           ^~~~~~~
+   sound/drivers/serial-generic.c:333:2: note: Call to function 'sprintf' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(card->shortname, "SerialMIDI-%d", serdev->ctrl->nr);
+           ^~~~~~~
+   sound/drivers/serial-generic.c:334:2: warning: Call to function 'sprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(card->longname, "Serial MIDI device at serial%d", serdev=
+->ctrl->nr);
+           ^~~~~~~
+   sound/drivers/serial-generic.c:334:2: note: Call to function 'sprintf' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(card->longname, "Serial MIDI device at serial%d", serdev=
+->ctrl->nr);
+           ^~~~~~~
+   Suppressed 21 warnings (21 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   drivers/platform/mellanox/mlxreg-hotplug.c:87:2: warning: Call to functi=
+on 'snprintf' is insecure as it does not provide security checks introduced=
+ in the C11 standard. Replace with analogous functions that support length =
+arguments or provides boundary checks such as 'snprintf_s' in case of C11 [=
+clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=3D%d", label=
+, !!action);
+           ^~~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c:87:2: note: Call to function =
+'snprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=3D%d", label=
+, !!action);
+           ^~~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c:236:9: warning: Call to funct=
+ion 'sprintf' is insecure as it does not provide security checks introduced=
+ in the C11 standard. Replace with analogous functions that support length =
+arguments or provides boundary checks such as 'sprintf_s' in case of C11 [c=
+lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%u\n", regval);
+                  ^~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c:236:9: note: Call to function=
+ 'sprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%u\n", regval);
+                  ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/iio/proximity/sx9310.c:451:17: warning: The left operand of '>>'=
+ is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           *val =3D pthresh >> (5 - regval);
+                          ^
+   drivers/iio/proximity/sx9310.c:500:6: note: Assuming field 'type' is equ=
+al to IIO_PROXIMITY
+           if (chan->type !=3D IIO_PROXIMITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/proximity/sx9310.c:500:2: note: Taking false branch
+           if (chan->type !=3D IIO_PROXIMITY)
+           ^
+   drivers/iio/proximity/sx9310.c:503:2: note: Control jumps to 'case IIO_E=
+V_INFO_HYSTERESIS:'  at line 515
+           switch (info) {
+           ^
+   drivers/iio/proximity/sx9310.c:516:10: note: Calling 'sx9310_read_hyster=
+esis'
+                   return sx9310_read_hysteresis(data, chan, val);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/proximity/sx9310.c:435:23: note: 'pthresh' declared without =
+an initial value
+           unsigned int regval, pthresh;
+                                ^~~~~~~
+   drivers/iio/proximity/sx9310.c:438:8: note: Calling 'sx9310_read_thresh'
+           ret =3D sx9310_read_thresh(data, chan, &pthresh);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/proximity/sx9310.c:417:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   drivers/iio/proximity/sx9310.c:417:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/iio/proximity/sx9310.c:421:6: note: Assuming 'ret' is not equal =
+to 0
+           if (ret)
+               ^~~
+   drivers/iio/proximity/sx9310.c:421:2: note: Taking true branch
+           if (ret)
+           ^
+   drivers/iio/proximity/sx9310.c:438:8: note: Returning from 'sx9310_read_=
+thresh'
+           ret =3D sx9310_read_thresh(data, chan, &pthresh);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/proximity/sx9310.c:439:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/iio/proximity/sx9310.c:439:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/iio/proximity/sx9310.c:443:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/iio/proximity/sx9310.c:443:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/iio/proximity/sx9310.c:446:11: note: Taking false branch
+           regval =3D FIELD_GET(SX9310_REG_PROX_CTRL10_HYST_MASK, regval);
+                    ^
+   include/linux/bitfield.h:128:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:65:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
 
-       |      |            |
-       |      |            (8) following 'false' branch...
-       |......
-       | 1732 |         if (vbo > data_size)
-       |      |            ~       =
+vim +303 sound/drivers/serial-generic.c
 
-       |      |            |
-       |      |            (9) ...to here
-       |      |            (10) following 'false' branch (when 'data_size >=
-=3D vbo')...
-       |......
-       | 1735 |         down_write(&ni->file.run_lock);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (11) ...to here
-       | 1736 | =
+542350509499fe Daniel Kaehn 2022-05-09  286  =
 
-       | 1737 |         if (vbo + bytes >=3D data_size) {
-       |      |            ~       =
+542350509499fe Daniel Kaehn 2022-05-09  287  static int snd_serial_generic_=
+rmidi(struct snd_serial_generic *drvdata,
+542350509499fe Daniel Kaehn 2022-05-09  288  				int outs, int ins, struct =
+snd_rawmidi **rmidi)
+542350509499fe Daniel Kaehn 2022-05-09  289  {
+542350509499fe Daniel Kaehn 2022-05-09  290  	struct snd_rawmidi *rrawmidi;
+542350509499fe Daniel Kaehn 2022-05-09  291  	int err;
+542350509499fe Daniel Kaehn 2022-05-09  292  =
 
-       |      |            |
-       |      |            (12) following 'true' branch...
-       |
-     'attr_collapse_range': event 13
-       |
-       |include/linux/compiler-gcc.h:42:45:
-       |   42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, p=
-refix), __COUNTER__)
-       |      |                                             ^~~~~~~~~~~~
-       |      |                                             |
-       |      |                                             (13) ...to here
-   include/linux/minmax.h:31:27: note: in definition of macro '__cmp_once'
-       |   31 |                 typeof(x) unique_x =3D (x);               \
-       |      |                           ^~~~~~~~
-   include/linux/compiler_types.h:60:22: note: in expansion of macro '___PA=
-STE'
-       |   60 | #define __PASTE(a,b) ___PASTE(a,b)
-       |      |                      ^~~~~~~~
-   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
-       |   42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, p=
-refix), __COUNTER__)
-       |      |                             ^~~~~~~
-   include/linux/compiler_types.h:60:22: note: in expansion of macro '___PA=
-STE'
-       |   60 | #define __PASTE(a,b) ___PASTE(a,b)
-       |      |                      ^~~~~~~~
-   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
-       |   42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, p=
-refix), __COUNTER__)
-       |      |                                     ^~~~~~~
-   include/linux/minmax.h:38:34: note: in expansion of macro '__UNIQUE_ID'
-       |   38 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE=
-_ID(__y), op))
-       |      |                                  ^~~~~~~~~~~
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-       |   45 | #define min(x, y)       __careful_cmp(x, y, <)
-       |      |                         ^~~~~~~~~~~~~
-   fs/ntfs3/attrib.c:1738:33: note: in expansion of macro 'min'
-       | 1738 |                 u64 new_valid =3D min(ni->i_valid, vbo);
-       |      |                                 ^~~
-       |
-     'attr_collapse_range': event 14
-       |
-       | 1742 |                 err =3D attr_set_size(ni, ATTR_DATA, NULL, =
-0, &ni->file.run, vbo,
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (14) calling 'attr_set_size' from 'at=
-tr_collapse_range'
-       | 1743 |                                     &new_valid, true, NULL);
-       |      |                                     ~~~~~~~~~~~~~~~~~~~~~~~
-       |
-       +--> 'attr_set_size': events 15-24
+542350509499fe Daniel Kaehn 2022-05-09  293  	err =3D snd_rawmidi_new(drvda=
+ta->card, drvdata->card->driver, 0,
+542350509499fe Daniel Kaehn 2022-05-09  294  				outs, ins, &rrawmidi);
+542350509499fe Daniel Kaehn 2022-05-09  295  =
 
-vim +/name +19 include/linux/fortify-string.h
+542350509499fe Daniel Kaehn 2022-05-09  296  	if (err < 0)
+542350509499fe Daniel Kaehn 2022-05-09  297  		return err;
+542350509499fe Daniel Kaehn 2022-05-09  298  =
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25   4  =
+542350509499fe Daniel Kaehn 2022-05-09  299  	snd_rawmidi_set_ops(rrawmidi,=
+ SNDRV_RAWMIDI_STREAM_INPUT,
+542350509499fe Daniel Kaehn 2022-05-09  300  				&snd_serial_generic_input);
+542350509499fe Daniel Kaehn 2022-05-09  301  	snd_rawmidi_set_ops(rrawmidi,=
+ SNDRV_RAWMIDI_STREAM_OUTPUT,
+542350509499fe Daniel Kaehn 2022-05-09  302  				&snd_serial_generic_output=
+);
+542350509499fe Daniel Kaehn 2022-05-09 @303  	strcpy(rrawmidi->name, drvdat=
+a->card->shortname);
+542350509499fe Daniel Kaehn 2022-05-09  304  =
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25   5  =
+542350509499fe Daniel Kaehn 2022-05-09  305  	snd_serial_generic_substreams=
+(&rrawmidi->streams[SNDRV_RAWMIDI_STREAM_OUTPUT],
+542350509499fe Daniel Kaehn 2022-05-09  306  					drvdata->serdev->ctrl->nr=
+);
+542350509499fe Daniel Kaehn 2022-05-09  307  	snd_serial_generic_substreams=
+(&rrawmidi->streams[SNDRV_RAWMIDI_STREAM_INPUT],
+542350509499fe Daniel Kaehn 2022-05-09  308  					drvdata->serdev->ctrl->nr=
+);
+542350509499fe Daniel Kaehn 2022-05-09  309  =
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25   6  #if defined(CONFIG_KASAN_GENE=
-RIC) || defined(CONFIG_KASAN_SW_TAGS)
-a28a6e860c6cf2 Francis Laniel 2021-02-25   7  extern void *__underlying_mem=
-chr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-a28a6e860c6cf2 Francis Laniel 2021-02-25   8  extern int __underlying_memcm=
-p(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
-a28a6e860c6cf2 Francis Laniel 2021-02-25   9  extern void *__underlying_mem=
-cpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  10  extern void *__underlying_mem=
-move(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  11  extern void *__underlying_mem=
-set(void *p, int c, __kernel_size_t size) __RENAME(memset);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  12  extern char *__underlying_str=
-cat(char *p, const char *q) __RENAME(strcat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  13  extern char *__underlying_str=
-cpy(char *p, const char *q) __RENAME(strcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  14  extern __kernel_size_t __unde=
-rlying_strlen(const char *p) __RENAME(strlen);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  15  extern char *__underlying_str=
-ncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  16  extern char *__underlying_str=
-ncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  17  #else
-a28a6e860c6cf2 Francis Laniel 2021-02-25  18  #define __underlying_memchr	_=
-_builtin_memchr
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @19  #define __underlying_memcmp	_=
-_builtin_memcmp
-a28a6e860c6cf2 Francis Laniel 2021-02-25  20  #define __underlying_memcpy	_=
-_builtin_memcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  21  #define __underlying_memmove	=
-__builtin_memmove
-a28a6e860c6cf2 Francis Laniel 2021-02-25  22  #define __underlying_memset	_=
-_builtin_memset
-a28a6e860c6cf2 Francis Laniel 2021-02-25  23  #define __underlying_strcat	_=
-_builtin_strcat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  24  #define __underlying_strcpy	_=
-_builtin_strcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  25  #define __underlying_strlen	_=
-_builtin_strlen
-a28a6e860c6cf2 Francis Laniel 2021-02-25  26  #define __underlying_strncat	=
-__builtin_strncat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  27  #define __underlying_strncpy	=
-__builtin_strncpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  28  #endif
-a28a6e860c6cf2 Francis Laniel 2021-02-25  29  =
+542350509499fe Daniel Kaehn 2022-05-09  310  	rrawmidi->info_flags =3D SNDR=
+V_RAWMIDI_INFO_OUTPUT |
+542350509499fe Daniel Kaehn 2022-05-09  311  			       SNDRV_RAWMIDI_INFO_I=
+NPUT |
+542350509499fe Daniel Kaehn 2022-05-09  312  			       SNDRV_RAWMIDI_INFO_D=
+UPLEX;
+542350509499fe Daniel Kaehn 2022-05-09  313  =
 
+542350509499fe Daniel Kaehn 2022-05-09  314  	if (rmidi)
+542350509499fe Daniel Kaehn 2022-05-09  315  		*rmidi =3D rrawmidi;
+542350509499fe Daniel Kaehn 2022-05-09  316  	return 0;
+542350509499fe Daniel Kaehn 2022-05-09  317  }
+542350509499fe Daniel Kaehn 2022-05-09  318  =
 
-:::::: The code at line 19 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
-nctions definitions in a dedicated header.
-
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8297727404170821880==--
+--===============0841403817313531045==--
 
