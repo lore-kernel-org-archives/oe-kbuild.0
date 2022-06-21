@@ -1,471 +1,405 @@
-Content-Type: multipart/mixed; boundary="===============1225781168039984599=="
+Content-Type: multipart/mixed; boundary="===============5709960042071425027=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 7/7] sched/fair: de-entropy for SIS filter
-Date: Tue, 21 Jun 2022 15:27:07 +0800
-Message-ID: <202206211517.bchsifSF-lkp@intel.com>
+Subject: Re: [net-next: PATCH 07/12] net: mdio: allow registering non-PHY devices in ACPI world
+Date: Tue, 21 Jun 2022 12:37:54 +0800
+Message-ID: <202206211240.eoGOEICS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1225781168039984599==
+--===============5709960042071425027==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: kernel/sc=
-hed/fair.c:9330:6: warning: Value stored to 'icpu' during its initializatio=
-n is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/asm-generic/rwonce.h:44:26: warning: dereference of NULL '<unknown=
+>' [CWE-476] [-Wanalyzer-null-dereference]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220619120451.95251-8-wuyun.abel@bytedance.com>
-References: <20220619120451.95251-8-wuyun.abel@bytedance.com>
-TO: Abel Wu <wuyun.abel@bytedance.com>
-TO: Peter Zijlstra <peterz@infradead.org>
-TO: Mel Gorman <mgorman@suse.de>
-TO: Vincent Guittot <vincent.guittot@linaro.org>
-CC: Josh Don <joshdon@google.com>
-CC: Chen Yu <yu.c.chen@intel.com>
-CC: Tim Chen <tim.c.chen@linux.intel.com>
-CC: K Prateek Nayak <kprateek.nayak@amd.com>
-CC: "Gautham R . Shenoy" <gautham.shenoy@amd.com>
-CC: linux-kernel(a)vger.kernel.org
-CC: Abel Wu <wuyun.abel@bytedance.com>
+In-Reply-To: <20220620150225.1307946-8-mw@semihalf.com>
+References: <20220620150225.1307946-8-mw@semihalf.com>
+TO: Marcin Wojtas <mw@semihalf.com>
+TO: linux-kernel(a)vger.kernel.org
+TO: linux-acpi(a)vger.kernel.org
+TO: netdev(a)vger.kernel.org
+CC: rafael(a)kernel.org
+CC: andriy.shevchenko(a)linux.intel.com
+CC: lenb(a)kernel.org
+CC: andrew(a)lunn.ch
+CC: vivien.didelot(a)gmail.com
+CC: f.fainelli(a)gmail.com
+CC: olteanv(a)gmail.com
+CC: davem(a)davemloft.net
+CC: edumazet(a)google.com
+CC: kuba(a)kernel.org
+CC: pabeni(a)redhat.com
+CC: linux(a)armlinux.org.uk
+CC: hkallweit1(a)gmail.com
+CC: gjb(a)semihalf.com
+CC: mw(a)semihalf.com
+CC: jaz(a)semihalf.com
+CC: tn(a)semihalf.com
+CC: Samer.El-Haj-Mahmoud(a)arm.com
+CC: upstream(a)semihalf.com
 
-Hi Abel,
+Hi Marcin,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on linus/master v5.19-rc2 next-20220617]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on robh/for-next linus/master v5.19-rc2 next-20220=
+617]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Wu/sched-fair-i=
-mprove-scan-efficiency-of-SIS/20220619-200743
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git f3dd3f6=
-74555bd9455c5ae7fafce0696bd9931b3
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: s390-randconfig-c005-20220619 (https://download.01.org/0day-ci/arch=
-ive/20220621/202206211517.bchsifSF-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af6d2a=
-0b6825e71965f3e2701a63c239fa0ad70f)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcin-Wojtas/ACPI-s=
+upport-for-DSA/20220620-231646
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+ linux-next
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+621/202206211240.eoGOEICS-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/32fe13cd7aa184ed349=
-d698ebf6f420fa426dd73
+        # https://github.com/intel-lab-lkp/linux/commit/3971d5dc91ab6b9c21f=
+20cc7c431aca0a8ea6740
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Abel-Wu/sched-fair-improve-scan-ef=
-ficiency-of-SIS/20220619-200743
-        git checkout 32fe13cd7aa184ed349d698ebf6f420fa426dd73
+        git fetch --no-tags linux-review Marcin-Wojtas/ACPI-support-for-DSA=
+/20220620-231646
+        git checkout 3971d5dc91ab6b9c21f20cc7c431aca0a8ea6740
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+         ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:9670:2: note: Calling 'update_sd_lb_stats'
-           update_sd_lb_stats(env, &sds);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:9422:7: note: Assuming 'local_group' is 0
-                   if (local_group) {
-                       ^~~~~~~~~~~
-   kernel/sched/fair.c:9422:3: note: Taking false branch
-                   if (local_group) {
-                   ^
-   kernel/sched/fair.c:9431:3: note: Calling 'update_sg_lb_stats'
-                   update_sg_lb_stats(env, sds, sg, sgs, &sg_status);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8766:16: note: Assuming 'group' is not equal to fiel=
-d 'local'
-           local_group =3D group =3D=3D sds->local;
-                         ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8769:2: note: Assuming 'i' is >=3D 'nr_cpu_ids'
-           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
-           ^
-   include/linux/cpumask.h:326:3: note: expanded from macro 'for_each_cpu_a=
-nd'
-                   (cpu) < nr_cpu_ids;)
-                   ^~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8769:2: note: Loop condition is false. Execution con=
-tinues on line 8828
-           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
-           ^
-   include/linux/cpumask.h:324:2: note: expanded from macro 'for_each_cpu_a=
-nd'
-           for ((cpu) =3D -1;                                              =
-  \
-           ^
-   kernel/sched/fair.c:8833:7: note: 'local_group' is 0
-           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
-                ^~~~~~~~~~~
-   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
-           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
-               ^
-   kernel/sched/fair.c:8833:22: note: Assuming the condition is true
-           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
-           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
-               ^
-   kernel/sched/fair.c:8834:6: note: Assuming field 'idle' is not equal to =
-CPU_NOT_IDLE
-               env->idle !=3D CPU_NOT_IDLE && sgs->sum_h_nr_running &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
-           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
-               ^
-   kernel/sched/fair.c:8834:35: note: Assuming field 'sum_h_nr_running' is =
-not equal to 0
-               env->idle !=3D CPU_NOT_IDLE && sgs->sum_h_nr_running &&
-                                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
-           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
-               ^
-   kernel/sched/fair.c:8835:6: note: Calling 'sched_asym'
-               sched_asym(env, sds, sgs, group)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8727:7: note: Access to field 'flags' results in a d=
-ereference of a null pointer (loaded from field 'local')
-           if ((sds->local->flags & SD_SHARE_CPUCAPACITY) ||
-                ^    ~~~~~
-   kernel/sched/fair.c:8828:24: warning: Access to field 'sgc' results in a=
- dereference of a null pointer (loaded from variable 'group') [clang-analyz=
-er-core.NullDereference]
-           sgs->group_capacity =3D group->sgc->capacity;
-                                 ^
-   kernel/sched/fair.c:9670:2: note: Calling 'update_sd_lb_stats'
-           update_sd_lb_stats(env, &sds);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:9412:2: note: 'sg' initialized here
-           struct sched_group *sg =3D env->sd->groups;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:9422:7: note: Assuming 'local_group' is 0
-                   if (local_group) {
-                       ^~~~~~~~~~~
-   kernel/sched/fair.c:9422:3: note: Taking false branch
-                   if (local_group) {
-                   ^
-   kernel/sched/fair.c:9431:32: note: Passing 'sg' via 3rd parameter 'group'
-                   update_sg_lb_stats(env, sds, sg, sgs, &sg_status);
-                                                ^~
-   kernel/sched/fair.c:9431:3: note: Calling 'update_sg_lb_stats'
-                   update_sg_lb_stats(env, sds, sg, sgs, &sg_status);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8766:16: note: Assuming 'group' is equal to field 'l=
-ocal'
-           local_group =3D group =3D=3D sds->local;
-                         ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8766:16: note: Assuming pointer value is null
-           local_group =3D group =3D=3D sds->local;
-                         ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8769:2: note: Assuming 'i' is >=3D 'nr_cpu_ids'
-           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
-           ^
-   include/linux/cpumask.h:326:3: note: expanded from macro 'for_each_cpu_a=
-nd'
-                   (cpu) < nr_cpu_ids;)
-                   ^~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8769:2: note: Loop condition is false. Execution con=
-tinues on line 8828
-           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
-           ^
-   include/linux/cpumask.h:324:2: note: expanded from macro 'for_each_cpu_a=
-nd'
-           for ((cpu) =3D -1;                                              =
-  \
-           ^
-   kernel/sched/fair.c:8828:24: note: Access to field 'sgc' results in a de=
-reference of a null pointer (loaded from variable 'group')
-           sgs->group_capacity =3D group->sgc->capacity;
-                                 ^~~~~
->> kernel/sched/fair.c:9330:6: warning: Value stored to 'icpu' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           int icpu =3D sds->idle_cpu, this =3D env->dst_cpu;
-               ^~~~   ~~~~~~~~~~~~~
-   kernel/sched/fair.c:9330:6: note: Value stored to 'icpu' during its init=
-ialization is never read
-           int icpu =3D sds->idle_cpu, this =3D env->dst_cpu;
-               ^~~~   ~~~~~~~~~~~~~
->> kernel/sched/fair.c:9352:4: warning: Value stored to 'icpu' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           icpu =3D this;
-                           ^      ~~~~
-   kernel/sched/fair.c:9352:4: note: Value stored to 'icpu' is never read
-                           icpu =3D this;
-                           ^      ~~~~
-   kernel/sched/fair.c:10040:25: warning: Dereference of null pointer [clan=
-g-analyzer-core.NullDereference]
-           struct cpumask *cpus =3D this_cpu_cpumask_var_ptr(load_balance_m=
-ask);
-                                  ^
-   include/linux/cpumask.h:761:37: note: expanded from macro 'this_cpu_cpum=
-ask_var_ptr'
-   #define this_cpu_cpumask_var_ptr(x) this_cpu_ptr(x)
-                                       ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^
-   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           arch_raw_cpu_ptr(ptr);                                          \
-           ^
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^
-   kernel/sched/fair.c:10462:13: note: Assuming 'idle' is equal to CPU_IDLE
-           int busy =3D idle !=3D CPU_IDLE && !sched_idle_cpu(cpu);
-                      ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10462:30: note: Left side of '&&' is false
-           int busy =3D idle !=3D CPU_IDLE && !sched_idle_cpu(cpu);
-                                       ^
-   kernel/sched/fair.c:10472:2: note: Left side of '||' is false
-           for_each_domain(cpu, sd) {
-           ^
-   kernel/sched/sched.h:1716:14: note: expanded from macro 'for_each_domain'
-           for (__sd =3D rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd=
-); \
-                       ^
-   kernel/sched/sched.h:1705:2: note: expanded from macro 'rcu_dereference_=
-check_sched_domain'
-           rcu_dereference_check((p), \
-           ^
-   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/sched/fair.c:10472:2: note: Left side of '||' is false
-           for_each_domain(cpu, sd) {
-           ^
-   kernel/sched/sched.h:1716:14: note: expanded from macro 'for_each_domain'
-           for (__sd =3D rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd=
-); \
-                       ^
-   kernel/sched/sched.h:1705:2: note: expanded from macro 'rcu_dereference_=
-check_sched_domain'
-           rcu_dereference_check((p), \
-           ^
-   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/sched/fair.c:10472:2: note: Left side of '||' is false
-           for_each_domain(cpu, sd) {
-           ^
-   kernel/sched/sched.h:1716:14: note: expanded from macro 'for_each_domain'
-           for (__sd =3D rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd=
-); \
-                       ^
-   kernel/sched/sched.h:1705:2: note: expanded from macro 'rcu_dereference_=
-check_sched_domain'
-           rcu_dereference_check((p), \
-           ^
-   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/sched/fair.c:10472:2: note: Left side of '||' is true
-           for_each_domain(cpu, sd) {
+gcc-analyzer warnings: (new ones prefixed by >>)
+       |   65 | int acpi_mdiobus_register(struct mii_bus *mdio, struct fwno=
+de_handle *fwnode)
+       |      |     ^~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'acpi_mdiobus_register.part.0'
+       |
+     'acpi_mdiobus_register.part.0': event 2
+       |
+       |   80 |         fwnode_for_each_child_node(fwnode, child) {
+       |      |                                            ^~~~~
+       |      |                                            |
+       |      |                                            (2) following 't=
+rue' branch (when 'child' is non-NULL)...
+   include/linux/property.h:105:64: note: in definition of macro 'fwnode_fo=
+r_each_child_node'
+       |  105 |         for (child =3D fwnode_get_next_child_node(fwnode, N=
+ULL); child;   \
+       |      |                                                            =
+    ^~~~~
+       |
+     'acpi_mdiobus_register.part.0': event 3
+       |
+       |include/acpi/acpi_bus.h:421:17:
+       |  421 |                 is_acpi_device_node(__to_acpi_device_node_f=
+wnode) ?     \
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
+node'
+       |   48 |                                 acpi_device_handle(to_acpi_=
+device_node(fwnode))
+       |      |                                                    ^~~~~~~~=
+~~~~~~~~~~~
+   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
+NDLE_FWNODE'
+       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
+FWNODE(child), &addr);
+       |      |                                              ^~~~~~~~~~~~~~=
+~~~~
+       |
+     'acpi_mdiobus_register.part.0': events 4-6
+       |
+       |   82 |                 if (ret || addr >=3D PHY_MAX_ADDR)
+       |      |                    ^
+       |      |                    |
+       |      |                    (4) following 'false' branch...
+       |......
+       |   85 |                 if (acpi_mdiobus_child_is_phy(child))
+       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (5) ...to here
+       |      |                     (6) calling 'acpi_mdiobus_child_is_phy'=
+ from 'acpi_mdiobus_register.part.0'
+       |
+       +--> 'acpi_mdiobus_child_is_phy': event 7
+              |
+              |   32 | static bool acpi_mdiobus_child_is_phy(struct fwnode_=
+handle *child)
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (7) entry to 'acpi_mdiobus_child_is_phy'
+              |
+            'acpi_mdiobus_child_is_phy': event 8
+              |
+              |include/acpi/acpi_bus.h:423:66:
+              |  423 |                                      struct acpi_dev=
+ice, fwnode) :      \
+   drivers/net/mdio/acpi_mdio.c:34:36: note: in expansion of macro 'to_acpi=
+_device_node'
+              |   34 |         struct acpi_device *adev =3D to_acpi_device_=
+node(child);
+              |      |                                    ^~~~~~~~~~~~~~~~~=
+~~
+              |
+            'acpi_mdiobus_child_is_phy': events 9-15
+              |
+              |   37 |         if (fwnode_get_phy_id(child, &phy_id) !=3D -=
+EINVAL)
+              |      |            ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            ||
+              |      |            |(9) ...to here
+              |      |            (10) following 'false' branch...
+              |......
+              |   40 |         if (fwnode_property_match_string(child, "com=
+patible",
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+              |      |            ||
+              |      |            |(11) ...to here
+              |      |            (12) following 'false' branch...
+              |   41 |                                          "ethernet-p=
+hy-ieee802.3-c45") =3D=3D 0)
+              |      |                                          ~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+              |......
+              |   44 |         if (fwnode_property_match_string(child, "com=
+patible",
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+              |      |            ||
+              |      |            |(13) ...to here
+              |      |            (14) following 'false' branch...
+              |   45 |                                          "ethernet-p=
+hy-ieee802.3-c22") =3D=3D 0)
+              |      |                                          ~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+              |......
+              |   49 |         if (list_empty(&adev->pnp.ids))
+              |      |                        ~~~~~~~~~~~~~~
+              |      |                        |
+              |      |                        (15) ...to here
+              |
+            'acpi_mdiobus_child_is_phy': event 16
+              |
+              |include/asm-generic/rwonce.h:44:26:
+              |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_s=
+calar_typeof(x) *)&(x))
+              |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (16) dereference of NULL '<=
+unknown>'
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+              |   50 |         __READ_ONCE(x);                             =
+                    \
+              |      |         ^~~~~~~~~~~
+   include/linux/list.h:292:16: note: in expansion of macro 'READ_ONCE'
+              |  292 |         return READ_ONCE(head->next) =3D=3D head;
+              |      |                ^~~~~~~~~
+              |
+>> include/asm-generic/rwonce.h:44:26: warning: dereference of NULL '<unkno=
+wn>' [CWE-476] [-Wanalyzer-null-dereference]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof=
+(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+      50 |         __READ_ONCE(x);                                         =
+        \
+         |         ^~~~~~~~~~~
+   include/linux/list.h:292:16: note: in expansion of macro 'READ_ONCE'
+     292 |         return READ_ONCE(head->next) =3D=3D head;
+         |                ^~~~~~~~~
+     'acpi_mdiobus_register.part.0': event 1
+       |
+       |drivers/net/mdio/acpi_mdio.c:65:5:
+       |   65 | int acpi_mdiobus_register(struct mii_bus *mdio, struct fwno=
+de_handle *fwnode)
+       |      |     ^~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'acpi_mdiobus_register.part.0'
+       |
+     'acpi_mdiobus_register.part.0': event 2
+       |
+       |   80 |         fwnode_for_each_child_node(fwnode, child) {
+       |      |                                            ^~~~~
+       |      |                                            |
+       |      |                                            (2) following 't=
+rue' branch (when 'child' is non-NULL)...
+   include/linux/property.h:105:64: note: in definition of macro 'fwnode_fo=
+r_each_child_node'
+       |  105 |         for (child =3D fwnode_get_next_child_node(fwnode, N=
+ULL); child;   \
+       |      |                                                            =
+    ^~~~~
+       |
+     'acpi_mdiobus_register.part.0': event 3
+       |
+       |include/acpi/acpi_bus.h:421:17:
+       |  421 |                 is_acpi_device_node(__to_acpi_device_node_f=
+wnode) ?     \
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
+node'
+       |   48 |                                 acpi_device_handle(to_acpi_=
+device_node(fwnode))
+       |      |                                                    ^~~~~~~~=
+~~~~~~~~~~~
+   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
+NDLE_FWNODE'
+       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
+FWNODE(child), &addr);
+       |      |                                              ^~~~~~~~~~~~~~=
+~~~~
+       |
+     'acpi_mdiobus_register.part.0': event 4
+       |
+       |include/acpi/acpi_bus.h:423:66:
+       |  423 |                                      struct acpi_device, fw=
+node) :      \
+   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
+node'
+       |   48 |                                 acpi_device_handle(to_acpi_=
+device_node(fwnode))
+       |      |                                                    ^~~~~~~~=
+~~~~~~~~~~~
+   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
+NDLE_FWNODE'
+       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
+FWNODE(child), &addr);
+       |      |                                              ^~~~~~~~~~~~~~=
+~~~~
+       |
+     'acpi_mdiobus_register.part.0': event 5
+       |
+       |include/linux/container_of.h:22:10:
+       |   22 |         ((type *)(__mptr - offsetof(type, member))); })
+       |      |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |          |
+       |      |          (5) ...to here
+   include/acpi/acpi_bus.h:422:25: note: in expansion of macro 'container_o=
+f'
+       |  422 |                         container_of(__to_acpi_device_node_=
+fwnode,      \
+       |      |                         ^~~~~~~~~~~~
+   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
+node'
+       |   48 |                                 acpi_device_handle(to_acpi_=
+device_node(fwnode))
+       |      |                                                    ^~~~~~~~=
+~~~~~~~~~~~
+   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
+NDLE_FWNODE'
+       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
+FWNODE(child), &addr);
+       |      |                                              ^~~~~~~~~~~~~~=
+~~~~
+       |
+     'acpi_mdiobus_register.part.0': event 6
+       |
+       |include/linux/acpi.h:40:36:
+       |   40 |         return adev ? adev->handle : NULL;
+       |
+     'acpi_mdiobus_register.part.0': events 7-10
+       |
+       |drivers/net/mdio/acpi_mdio.c:81:23:
+       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
+FWNODE(child), &addr);
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (7) ...to here
+       |   82 |                 if (ret || addr >=3D PHY_MAX_ADDR)
+       |      |                    ~   =
 
-vim +/icpu +9330 kernel/sched/fair.c
+       |      |                    |
+       |      |                    (8) following 'false' branch...
+       |......
+       |   85 |                 if (acpi_mdiobus_child_is_phy(child))
+       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (9) ...to here
+       |      |                     (10) calling 'acpi_mdiobus_child_is_phy=
+' from 'acpi_mdiobus_register.part.0'
+       |
+       +--> 'acpi_mdiobus_child_is_phy': event 11
+              |
+              |   32 | static bool acpi_mdiobus_child_is_phy(struct fwnode_=
+handle *child)
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (11) entry to 'acpi_mdiobus_child_is_phy'
+              |
+            'acpi_mdiobus_child_is_phy': event 12
+              |
 
-57abff067a0848 Vincent Guittot 2019-10-18  9325  =
+vim +44 include/asm-generic/rwonce.h
 
-ba6ee6cee1ed2f Abel Wu         2022-06-19  9326  static void sd_update_stat=
-e(struct lb_env *env, struct sd_lb_stats *sds)
-ba6ee6cee1ed2f Abel Wu         2022-06-19  9327  {
-fcc108377a7cf7 Abel Wu         2022-06-19  9328  	struct sched_domain_share=
-d *sd_smt_shared =3D env->sd->shared;
-fcc108377a7cf7 Abel Wu         2022-06-19  9329  	enum sd_state new =3D sds=
-->sd_state;
-32fe13cd7aa184 Abel Wu         2022-06-19 @9330  	int icpu =3D sds->idle_cp=
-u, this =3D env->dst_cpu;
-fcc108377a7cf7 Abel Wu         2022-06-19  9331  =
+e506ea451254ab Will Deacon 2019-10-15  28  =
 
-fcc108377a7cf7 Abel Wu         2022-06-19  9332  	/*
-fcc108377a7cf7 Abel Wu         2022-06-19  9333  	 * Parallel updating can =
-hardly contribute accuracy to
-fcc108377a7cf7 Abel Wu         2022-06-19  9334  	 * the filter, besides it=
- can be one of the burdens on
-fcc108377a7cf7 Abel Wu         2022-06-19  9335  	 * cache traffic.
-fcc108377a7cf7 Abel Wu         2022-06-19  9336  	 */
-fcc108377a7cf7 Abel Wu         2022-06-19  9337  	if (cmpxchg(&sd_smt_share=
-d->updating, 0, 1))
-fcc108377a7cf7 Abel Wu         2022-06-19  9338  		return;
-fcc108377a7cf7 Abel Wu         2022-06-19  9339  =
+e506ea451254ab Will Deacon 2019-10-15  29  /*
+e506ea451254ab Will Deacon 2019-10-15  30   * Yes, this permits 64-bit acce=
+sses on 32-bit architectures. These will
+e506ea451254ab Will Deacon 2019-10-15  31   * actually be atomic in some ca=
+ses (namely Armv7 + LPAE), but for others we
+e506ea451254ab Will Deacon 2019-10-15  32   * rely on the access being spli=
+t into 2x32-bit accesses for a 32-bit quantity
+e506ea451254ab Will Deacon 2019-10-15  33   * (e.g. a virtual address) and =
+a strong prevailing wind.
+e506ea451254ab Will Deacon 2019-10-15  34   */
+e506ea451254ab Will Deacon 2019-10-15  35  #define compiletime_assert_rwonc=
+e_type(t)					\
+e506ea451254ab Will Deacon 2019-10-15  36  	compiletime_assert(__native_wor=
+d(t) || sizeof(t) =3D=3D sizeof(long long),	\
+e506ea451254ab Will Deacon 2019-10-15  37  		"Unsupported access size for {=
+READ,WRITE}_ONCE().")
+e506ea451254ab Will Deacon 2019-10-15  38  =
 
-32fe13cd7aa184 Abel Wu         2022-06-19  9340  	/*
-32fe13cd7aa184 Abel Wu         2022-06-19  9341  	 * The dst_cpu is likely =
-to be fed with tasks soon.
-32fe13cd7aa184 Abel Wu         2022-06-19  9342  	 * If it is the only unoc=
-cupied cpu in this domain,
-32fe13cd7aa184 Abel Wu         2022-06-19  9343  	 * we still handle it the=
- same way as as_has_icpus
-32fe13cd7aa184 Abel Wu         2022-06-19  9344  	 * but turn the SMT into =
-the unstable state, rather
-32fe13cd7aa184 Abel Wu         2022-06-19  9345  	 * than waiting to the en=
-d of load balancing since
-32fe13cd7aa184 Abel Wu         2022-06-19  9346  	 * it's also important th=
-at update the filter as
-32fe13cd7aa184 Abel Wu         2022-06-19  9347  	 * early as possible to k=
-eep it fresh.
-32fe13cd7aa184 Abel Wu         2022-06-19  9348  	 */
-32fe13cd7aa184 Abel Wu         2022-06-19  9349  	if (new =3D=3D sd_is_busy=
-) {
-32fe13cd7aa184 Abel Wu         2022-06-19  9350  		if (idle_cpu(this) || sc=
-hed_idle_cpu(this)) {
-32fe13cd7aa184 Abel Wu         2022-06-19  9351  			new =3D sd_may_idle;
-32fe13cd7aa184 Abel Wu         2022-06-19 @9352  			icpu =3D this;
-32fe13cd7aa184 Abel Wu         2022-06-19  9353  		}
-32fe13cd7aa184 Abel Wu         2022-06-19  9354  	}
-32fe13cd7aa184 Abel Wu         2022-06-19  9355  =
-
-fcc108377a7cf7 Abel Wu         2022-06-19  9356  	/*
-fcc108377a7cf7 Abel Wu         2022-06-19  9357  	 * There is at least one =
-unoccupied cpu available, so
-fcc108377a7cf7 Abel Wu         2022-06-19  9358  	 * propagate it to the fi=
-lter to avoid false negative
-fcc108377a7cf7 Abel Wu         2022-06-19  9359  	 * issue which could resu=
-lt in lost tracking of some
-fcc108377a7cf7 Abel Wu         2022-06-19  9360  	 * idle cpus thus through=
-upt downgraded.
-fcc108377a7cf7 Abel Wu         2022-06-19  9361  	 */
-fcc108377a7cf7 Abel Wu         2022-06-19  9362  	if (new !=3D sd_is_busy) {
-32fe13cd7aa184 Abel Wu         2022-06-19  9363  		/*
-32fe13cd7aa184 Abel Wu         2022-06-19  9364  		 * The sd_may_idle state=
- is taken into
-32fe13cd7aa184 Abel Wu         2022-06-19  9365  		 * consideration as well=
- because from
-32fe13cd7aa184 Abel Wu         2022-06-19  9366  		 * here we couldn't actu=
-ally know task
-32fe13cd7aa184 Abel Wu         2022-06-19  9367  		 * migrations would happ=
-en or not.
-32fe13cd7aa184 Abel Wu         2022-06-19  9368  		 */
-fcc108377a7cf7 Abel Wu         2022-06-19  9369  		if (!test_idle_cpus(this=
-))
-fcc108377a7cf7 Abel Wu         2022-06-19  9370  			set_idle_cpus(this, tru=
-e);
-fcc108377a7cf7 Abel Wu         2022-06-19  9371  	} else {
-fcc108377a7cf7 Abel Wu         2022-06-19  9372  		/*
-fcc108377a7cf7 Abel Wu         2022-06-19  9373  		 * Nothing changes so no=
-thing to update or
-fcc108377a7cf7 Abel Wu         2022-06-19  9374  		 * propagate.
-fcc108377a7cf7 Abel Wu         2022-06-19  9375  		 */
-fcc108377a7cf7 Abel Wu         2022-06-19  9376  		if (sd_smt_shared->state=
- =3D=3D sd_is_busy)
-fcc108377a7cf7 Abel Wu         2022-06-19  9377  			goto out;
-32fe13cd7aa184 Abel Wu         2022-06-19  9378  =
-
-32fe13cd7aa184 Abel Wu         2022-06-19  9379  		/*
-32fe13cd7aa184 Abel Wu         2022-06-19  9380  		 * Allow false positive =
-to exist for some time
-32fe13cd7aa184 Abel Wu         2022-06-19  9381  		 * to make a tradeoff of=
- accuracy of the filter
-32fe13cd7aa184 Abel Wu         2022-06-19  9382  		 * for relieving cache t=
-raffic.
-32fe13cd7aa184 Abel Wu         2022-06-19  9383  		 */
-32fe13cd7aa184 Abel Wu         2022-06-19  9384  		if (sd_smt_shared->state=
- =3D=3D sd_has_icpus) {
-32fe13cd7aa184 Abel Wu         2022-06-19  9385  			new =3D sd_may_idle;
-32fe13cd7aa184 Abel Wu         2022-06-19  9386  			goto update;
-32fe13cd7aa184 Abel Wu         2022-06-19  9387  		}
-32fe13cd7aa184 Abel Wu         2022-06-19  9388  =
-
-32fe13cd7aa184 Abel Wu         2022-06-19  9389  		/*
-32fe13cd7aa184 Abel Wu         2022-06-19  9390  		 * If the false positive=
- issue has already been
-32fe13cd7aa184 Abel Wu         2022-06-19  9391  		 * there for a while, a =
-correction of the filter
-32fe13cd7aa184 Abel Wu         2022-06-19  9392  		 * is needed.
-32fe13cd7aa184 Abel Wu         2022-06-19  9393  		 */
-fcc108377a7cf7 Abel Wu         2022-06-19  9394  	}
-fcc108377a7cf7 Abel Wu         2022-06-19  9395  =
-
-fcc108377a7cf7 Abel Wu         2022-06-19  9396  	sd_update_icpus(this, sds=
-->idle_cpu);
-32fe13cd7aa184 Abel Wu         2022-06-19  9397  update:
-fcc108377a7cf7 Abel Wu         2022-06-19  9398  	sd_smt_shared->state =3D =
-new;
-fcc108377a7cf7 Abel Wu         2022-06-19  9399  out:
-fcc108377a7cf7 Abel Wu         2022-06-19  9400  	xchg(&sd_smt_shared->upda=
-ting, 0);
-ba6ee6cee1ed2f Abel Wu         2022-06-19  9401  }
-ba6ee6cee1ed2f Abel Wu         2022-06-19  9402  =
+e506ea451254ab Will Deacon 2019-10-15  39  /*
+e506ea451254ab Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of =
+READ_ONCE() if you do not require any
+3c9184109e78ea Will Deacon 2019-10-30  41   * atomicity. Note that this may=
+ result in tears!
+e506ea451254ab Will Deacon 2019-10-15  42   */
+b78b331a3f5c07 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
+e506ea451254ab Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const =
+volatile __unqual_scalar_typeof(x) *)&(x))
+b78b331a3f5c07 Will Deacon 2019-10-15  45  #endif
+e506ea451254ab Will Deacon 2019-10-15  46  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1225781168039984599==--
+--===============5709960042071425027==--
 
