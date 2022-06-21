@@ -1,39 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============6737938647271296483=="
+Content-Type: multipart/mixed; boundary="===============1225781168039984599=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [alobakin:bitops 6/7] drivers/block/mtip32xx/mtip32xx.c:2607:44: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Tue, 21 Jun 2022 18:20:11 +0800
-Message-ID: <202206211838.Mfp8OrKU-lkp@intel.com>
+Subject: Re: [PATCH v4 7/7] sched/fair: de-entropy for SIS filter
+Date: Tue, 21 Jun 2022 15:27:07 +0800
+Message-ID: <202206211517.bchsifSF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6737938647271296483==
+--===============1225781168039984599==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/block/mtip32xx/mtip32xx.c:2607:44: warning: Use of memory after it=
- is freed [clang-analyzer-unix.Malloc]"
+:::::: Manual check reason: "low confidence static check warning: kernel/sc=
+hed/fair.c:9330:6: warning: Value stored to 'icpu' during its initializatio=
+n is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: =
 
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220619120451.95251-8-wuyun.abel@bytedance.com>
+References: <20220619120451.95251-8-wuyun.abel@bytedance.com>
+TO: Abel Wu <wuyun.abel@bytedance.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Mel Gorman <mgorman@suse.de>
+TO: Vincent Guittot <vincent.guittot@linaro.org>
+CC: Josh Don <joshdon@google.com>
+CC: Chen Yu <yu.c.chen@intel.com>
+CC: Tim Chen <tim.c.chen@linux.intel.com>
+CC: K Prateek Nayak <kprateek.nayak@amd.com>
+CC: "Gautham R . Shenoy" <gautham.shenoy@amd.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+CC: Abel Wu <wuyun.abel@bytedance.com>
 
-tree:   https://github.com/alobakin/linux bitops
-head:   9bd39b17ce49d350eed93a031e0da6389067013e
-commit: a8846f7b2f123f210694db27803e17fae1c15cbe [6/7] bitops: let optimize=
- out non-atomic bitops on compile-time constants
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
+Hi Abel,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on linus/master v5.19-rc2 next-20220617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Wu/sched-fair-i=
+mprove-scan-efficiency-of-SIS/20220619-200743
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git f3dd3f6=
+74555bd9455c5ae7fafce0696bd9931b3
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: s390-randconfig-c005-20220619 (https://download.01.org/0day-ci/arch=
-ive/20220621/202206211838.Mfp8OrKU-lkp(a)intel.com/config)
+ive/20220621/202206211517.bchsifSF-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af6d2a=
 0b6825e71965f3e2701a63c239fa0ad70f)
 reproduce (this is a W=3D1 build):
@@ -42,11 +63,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install s390 cross compiling tool for clang build
         # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/alobakin/linux/commit/a8846f7b2f123f210694db27=
-803e17fae1c15cbe
-        git remote add alobakin https://github.com/alobakin/linux
-        git fetch --no-tags alobakin bitops
-        git checkout a8846f7b2f123f210694db27803e17fae1c15cbe
+        # https://github.com/intel-lab-lkp/linux/commit/32fe13cd7aa184ed349=
+d698ebf6f420fa426dd73
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Abel-Wu/sched-fair-improve-scan-ef=
+ficiency-of-SIS/20220619-200743
+        git checkout 32fe13cd7aa184ed349d698ebf6f420fa426dd73
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Ds390 clang-analyzer =
@@ -57,567 +79,393 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2289:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "H/ S ACTive      : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2292:11: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   size +=3D sprintf(&buf[size], "%08X ",
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2292:11: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-                   size +=3D sprintf(&buf[size], "%08X ",
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2295:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2295:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2296:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "H/ Command Issue : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2296:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "H/ Command Issue : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2299:11: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   size +=3D sprintf(&buf[size], "%08X ",
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2299:11: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-                   size +=3D sprintf(&buf[size], "%08X ",
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2302:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2302:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2303:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "H/ Completed     : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2303:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "H/ Completed     : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2306:11: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   size +=3D sprintf(&buf[size], "%08X ",
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2306:11: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-                   size +=3D sprintf(&buf[size], "%08X ",
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2309:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2309:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2310:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "H/ PORT IRQ STAT : [ 0x%08X ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2310:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "H/ PORT IRQ STAT : [ 0x%08X ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2312:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "H/ HOST IRQ STAT : [ 0x%08X ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2312:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "H/ HOST IRQ STAT : [ 0x%08X ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2314:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2314:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2316:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "L/ Commands in Q : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2316:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "L/ Commands in Q : [ 0x");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2324:11: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   size +=3D sprintf(&buf[size], "%08X ", group_allocated);
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2324:11: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-                   size +=3D sprintf(&buf[size], "%08X ", group_allocated);
-                           ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2326:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2326:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "]\n");
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2352:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "Flag-port : [ %08lX ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2352:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "Flag-port : [ %08lX ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2354:10: warning: Call to function 'sp=
-rintf' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'sprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           size +=3D sprintf(&buf[size], "Flag-dd   : [ %08lX ]\n",
-                   ^~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2354:10: note: Call to function 'sprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'sprintf_s' in case of C11
-           size +=3D sprintf(&buf[size], "Flag-dd   : [ %08lX ]\n",
-                   ^~~~~~~
->> drivers/block/mtip32xx/mtip32xx.c:2607:44: warning: Use of memory after =
-it is freed [clang-analyzer-unix.Malloc]
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                                                            ^
-   include/linux/wait.h:500:8: note: expanded from macro 'wait_event_interr=
-uptible'
-           if (!(condition))                                               =
-        \
-                 ^~~~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2597:2: note: Loop condition is true. =
- Entering loop body
-           while (1) {
+           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:9670:2: note: Calling 'update_sd_lb_stats'
+           update_sd_lb_stats(env, &sds);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:9422:7: note: Assuming 'local_group' is 0
+                   if (local_group) {
+                       ^~~~~~~~~~~
+   kernel/sched/fair.c:9422:3: note: Taking false branch
+                   if (local_group) {
+                   ^
+   kernel/sched/fair.c:9431:3: note: Calling 'update_sg_lb_stats'
+                   update_sg_lb_stats(env, sds, sg, sgs, &sg_status);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8766:16: note: Assuming 'group' is not equal to fiel=
+d 'local'
+           local_group =3D group =3D=3D sds->local;
+                         ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8769:2: note: Assuming 'i' is >=3D 'nr_cpu_ids'
+           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
            ^
-   drivers/block/mtip32xx/mtip32xx.c:2598:7: note: Assuming the condition i=
-s false
-                   if (kthread_should_stop() ||
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2598:7: note: Left side of '||' is fal=
-se
-   drivers/block/mtip32xx/mtip32xx.c:2599:4: note: Left side of '&&' is true
-                           test_bit(MTIP_PF_SVC_THD_STOP_BIT, &port->flags))
-                           ^
-   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
-   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-                                           ^
-   include/linux/bitops.h:49:4: note: expanded from macro 'bitop'
-           ((__builtin_constant_p(nr) &&                                   \
-             ^
-   drivers/block/mtip32xx/mtip32xx.c:2599:4: note: Assuming the condition i=
-s true
-                           test_bit(MTIP_PF_SVC_THD_STOP_BIT, &port->flags))
-                           ^
-   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
-   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:50:25: note: expanded from macro 'bitop'
-             __builtin_constant_p((uintptr_t)(addr) !=3D (uintptr_t)NULL) &=
-& \
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2599:4: note: Left side of '&&' is fal=
-se
-                           test_bit(MTIP_PF_SVC_THD_STOP_BIT, &port->flags))
-                           ^
-   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
-   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-                                           ^
-   include/linux/bitops.h:50:63: note: expanded from macro 'bitop'
-             __builtin_constant_p((uintptr_t)(addr) !=3D (uintptr_t)NULL) &=
-& \
-                                                                        ^
-   drivers/block/mtip32xx/mtip32xx.c:2599:4: note: Assuming the condition i=
-s false
-                           test_bit(MTIP_PF_SVC_THD_STOP_BIT, &port->flags))
-                           ^
-   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
-   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:49:3: note: expanded from macro 'bitop'
-           ((__builtin_constant_p(nr) &&                                   \
+   include/linux/cpumask.h:326:3: note: expanded from macro 'for_each_cpu_a=
+nd'
+                   (cpu) < nr_cpu_ids;)
+                   ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8769:2: note: Loop condition is false. Execution con=
+tinues on line 8828
+           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
+           ^
+   include/linux/cpumask.h:324:2: note: expanded from macro 'for_each_cpu_a=
+nd'
+           for ((cpu) =3D -1;                                              =
+  \
+           ^
+   kernel/sched/fair.c:8833:7: note: 'local_group' is 0
+           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
+                ^~~~~~~~~~~
+   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
+           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
+               ^
+   kernel/sched/fair.c:8833:22: note: Assuming the condition is true
+           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
+           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
+               ^
+   kernel/sched/fair.c:8834:6: note: Assuming field 'idle' is not equal to =
+CPU_NOT_IDLE
+               env->idle !=3D CPU_NOT_IDLE && sgs->sum_h_nr_running &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
+           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
+               ^
+   kernel/sched/fair.c:8834:35: note: Assuming field 'sum_h_nr_running' is =
+not equal to 0
+               env->idle !=3D CPU_NOT_IDLE && sgs->sum_h_nr_running &&
+                                            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8833:6: note: Left side of '&&' is true
+           if (!local_group && env->sd->flags & SD_ASYM_PACKING &&
+               ^
+   kernel/sched/fair.c:8835:6: note: Calling 'sched_asym'
+               sched_asym(env, sds, sgs, group)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8727:7: note: Access to field 'flags' results in a d=
+ereference of a null pointer (loaded from field 'local')
+           if ((sds->local->flags & SD_SHARE_CPUCAPACITY) ||
+                ^    ~~~~~
+   kernel/sched/fair.c:8828:24: warning: Access to field 'sgc' results in a=
+ dereference of a null pointer (loaded from variable 'group') [clang-analyz=
+er-core.NullDereference]
+           sgs->group_capacity =3D group->sgc->capacity;
+                                 ^
+   kernel/sched/fair.c:9670:2: note: Calling 'update_sd_lb_stats'
+           update_sd_lb_stats(env, &sds);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:9412:2: note: 'sg' initialized here
+           struct sched_group *sg =3D env->sd->groups;
+           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:9422:7: note: Assuming 'local_group' is 0
+                   if (local_group) {
+                       ^~~~~~~~~~~
+   kernel/sched/fair.c:9422:3: note: Taking false branch
+                   if (local_group) {
+                   ^
+   kernel/sched/fair.c:9431:32: note: Passing 'sg' via 3rd parameter 'group'
+                   update_sg_lb_stats(env, sds, sg, sgs, &sg_status);
+                                                ^~
+   kernel/sched/fair.c:9431:3: note: Calling 'update_sg_lb_stats'
+                   update_sg_lb_stats(env, sds, sg, sgs, &sg_status);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8766:16: note: Assuming 'group' is equal to field 'l=
+ocal'
+           local_group =3D group =3D=3D sds->local;
+                         ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8766:16: note: Assuming pointer value is null
+           local_group =3D group =3D=3D sds->local;
+                         ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8769:2: note: Assuming 'i' is >=3D 'nr_cpu_ids'
+           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
+           ^
+   include/linux/cpumask.h:326:3: note: expanded from macro 'for_each_cpu_a=
+nd'
+                   (cpu) < nr_cpu_ids;)
+                   ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8769:2: note: Loop condition is false. Execution con=
+tinues on line 8828
+           for_each_cpu_and(i, sched_group_span(group), env->cpus) {
+           ^
+   include/linux/cpumask.h:324:2: note: expanded from macro 'for_each_cpu_a=
+nd'
+           for ((cpu) =3D -1;                                              =
+  \
+           ^
+   kernel/sched/fair.c:8828:24: note: Access to field 'sgc' results in a de=
+reference of a null pointer (loaded from variable 'group')
+           sgs->group_capacity =3D group->sgc->capacity;
+                                 ^~~~~
+>> kernel/sched/fair.c:9330:6: warning: Value stored to 'icpu' during its i=
+nitialization is never read [clang-analyzer-deadcode.DeadStores]
+           int icpu =3D sds->idle_cpu, this =3D env->dst_cpu;
+               ^~~~   ~~~~~~~~~~~~~
+   kernel/sched/fair.c:9330:6: note: Value stored to 'icpu' during its init=
+ialization is never read
+           int icpu =3D sds->idle_cpu, this =3D env->dst_cpu;
+               ^~~~   ~~~~~~~~~~~~~
+>> kernel/sched/fair.c:9352:4: warning: Value stored to 'icpu' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           icpu =3D this;
+                           ^      ~~~~
+   kernel/sched/fair.c:9352:4: note: Value stored to 'icpu' is never read
+                           icpu =3D this;
+                           ^      ~~~~
+   kernel/sched/fair.c:10040:25: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+           struct cpumask *cpus =3D this_cpu_cpumask_var_ptr(load_balance_m=
+ask);
+                                  ^
+   include/linux/cpumask.h:761:37: note: expanded from macro 'this_cpu_cpum=
+ask_var_ptr'
+   #define this_cpu_cpumask_var_ptr(x) this_cpu_ptr(x)
+                                       ^
+   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+                             ^
+   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_pt=
+r'
+           arch_raw_cpu_ptr(ptr);                                          \
+           ^
+   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
+cpu_ptr'
+   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+                                 ^
+   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
+PU_PTR'
+           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+           ^
+   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
+       (typeof(ptr)) (__ptr + (off)); })
+                              ^
+   kernel/sched/fair.c:10462:13: note: Assuming 'idle' is equal to CPU_IDLE
+           int busy =3D idle !=3D CPU_IDLE && !sched_idle_cpu(cpu);
+                      ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10462:30: note: Left side of '&&' is false
+           int busy =3D idle !=3D CPU_IDLE && !sched_idle_cpu(cpu);
+                                       ^
+   kernel/sched/fair.c:10472:2: note: Left side of '||' is false
+           for_each_domain(cpu, sd) {
+           ^
+   kernel/sched/sched.h:1716:14: note: expanded from macro 'for_each_domain'
+           for (__sd =3D rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd=
+); \
+                       ^
+   kernel/sched/sched.h:1705:2: note: expanded from macro 'rcu_dereference_=
+check_sched_domain'
+           rcu_dereference_check((p), \
+           ^
+   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
             ^
-   drivers/block/mtip32xx/mtip32xx.c:2598:3: note: Taking false branch
-                   if (kthread_should_stop() ||
-                   ^
-   drivers/block/mtip32xx/mtip32xx.c:2607:3: note: Loop condition is false.=
-  Exiting loop
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                   ^
-   include/linux/wait.h:499:2: note: expanded from macro 'wait_event_interr=
-uptible'
-           might_sleep();                                                  =
-        \
+   kernel/sched/fair.c:10472:2: note: Left side of '||' is false
+           for_each_domain(cpu, sd) {
            ^
-   include/linux/kernel.h:185:24: note: expanded from macro 'might_sleep'
-   # define might_sleep() do { might_resched(); } while (0)
-                          ^
-   drivers/block/mtip32xx/mtip32xx.c:2607:44: note: Assuming field 'flags' =
-is 0
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                                                            ^
-   include/linux/wait.h:500:8: note: expanded from macro 'wait_event_interr=
-uptible'
-           if (!(condition))                                               =
-        \
-                 ^~~~~~~~~
-   drivers/block/mtip32xx/mtip32xx.c:2607:58: note: Left side of '&&' is fa=
-lse
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                                                                          ^
-   drivers/block/mtip32xx/mtip32xx.c:2607:3: note: Taking true branch
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                   ^
-   include/linux/wait.h:500:2: note: expanded from macro 'wait_event_interr=
-uptible'
-           if (!(condition))                                               =
-        \
+   kernel/sched/sched.h:1716:14: note: expanded from macro 'for_each_domain'
+           for (__sd =3D rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd=
+); \
+                       ^
+   kernel/sched/sched.h:1705:2: note: expanded from macro 'rcu_dereference_=
+check_sched_domain'
+           rcu_dereference_check((p), \
            ^
-   drivers/block/mtip32xx/mtip32xx.c:2607:3: note: '?' condition is false
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                   ^
-   include/linux/wait.h:501:11: note: expanded from macro 'wait_event_inter=
-ruptible'
-                   __ret =3D __wait_event_interruptible(wq_head, condition)=
-;         \
-                           ^
-   include/linux/wait.h:478:56: note: expanded from macro '__wait_event_int=
-erruptible'
-           ___wait_event(wq_head, condition, TASK_INTERRUPTIBLE, 0, 0,     =
-        \
-                                                                 ^
-   drivers/block/mtip32xx/mtip32xx.c:2607:3: note: Loop condition is true. =
- Entering loop body
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                   ^
-   include/linux/wait.h:501:11: note: expanded from macro 'wait_event_inter=
-ruptible'
-                   __ret =3D __wait_event_interruptible(wq_head, condition)=
-;         \
-                           ^
-   include/linux/wait.h:478:2: note: expanded from macro '__wait_event_inte=
-rruptible'
-           ___wait_event(wq_head, condition, TASK_INTERRUPTIBLE, 0, 0,     =
-        \
+   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
            ^
-   include/linux/wait.h:307:2: note: expanded from macro '___wait_event'
-           for (;;) {                                                      =
-        \
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   drivers/block/mtip32xx/mtip32xx.c:2607:44: note: Assuming field 'flags' =
-is 0
-                   wait_event_interruptible(port->svc_wait, (port->flags) &&
-                                                            ^
-   include/linux/wait.h:501:47: note: expanded from macro 'wait_event_inter=
-ruptible'
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   kernel/sched/fair.c:10472:2: note: Left side of '||' is false
+           for_each_domain(cpu, sd) {
+           ^
+   kernel/sched/sched.h:1716:14: note: expanded from macro 'for_each_domain'
+           for (__sd =3D rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd=
+); \
+                       ^
+   kernel/sched/sched.h:1705:2: note: expanded from macro 'rcu_dereference_=
+check_sched_domain'
+           rcu_dereference_check((p), \
+           ^
+   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   kernel/sched/fair.c:10472:2: note: Left side of '||' is true
+           for_each_domain(cpu, sd) {
 
-vim +2607 drivers/block/mtip32xx/mtip32xx.c
+vim +/icpu +9330 kernel/sched/fair.c
 
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2580  =
+57abff067a0848 Vincent Guittot 2019-10-18  9325  =
 
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2581  /*
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2582   * service thread to is=
-sue queued commands
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2583   *
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2584   * @data Pointer to the=
- driver data structure.
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2585   *
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2586   * return value
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2587   *	0
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2588   */
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2589  =
+ba6ee6cee1ed2f Abel Wu         2022-06-19  9326  static void sd_update_stat=
+e(struct lb_env *env, struct sd_lb_stats *sds)
+ba6ee6cee1ed2f Abel Wu         2022-06-19  9327  {
+fcc108377a7cf7 Abel Wu         2022-06-19  9328  	struct sched_domain_share=
+d *sd_smt_shared =3D env->sd->shared;
+fcc108377a7cf7 Abel Wu         2022-06-19  9329  	enum sd_state new =3D sds=
+->sd_state;
+32fe13cd7aa184 Abel Wu         2022-06-19 @9330  	int icpu =3D sds->idle_cp=
+u, this =3D env->dst_cpu;
+fcc108377a7cf7 Abel Wu         2022-06-19  9331  =
 
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2590  static int mtip_service=
-_thread(void *data)
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2591  {
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2592  	struct driver_data *dd=
- =3D (struct driver_data *)data;
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2593  	unsigned long slot, sl=
-ot_start, slot_wrap, to;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2594  	unsigned int num_cmd_s=
-lots =3D dd->slot_groups * 32;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2595  	struct mtip_port *port=
- =3D dd->port;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2596  =
+fcc108377a7cf7 Abel Wu         2022-06-19  9332  	/*
+fcc108377a7cf7 Abel Wu         2022-06-19  9333  	 * Parallel updating can =
+hardly contribute accuracy to
+fcc108377a7cf7 Abel Wu         2022-06-19  9334  	 * the filter, besides it=
+ can be one of the burdens on
+fcc108377a7cf7 Abel Wu         2022-06-19  9335  	 * cache traffic.
+fcc108377a7cf7 Abel Wu         2022-06-19  9336  	 */
+fcc108377a7cf7 Abel Wu         2022-06-19  9337  	if (cmpxchg(&sd_smt_share=
+d->updating, 0, 1))
+fcc108377a7cf7 Abel Wu         2022-06-19  9338  		return;
+fcc108377a7cf7 Abel Wu         2022-06-19  9339  =
 
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2597  	while (1) {
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2598  		if (kthread_should_st=
-op() ||
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2599  			test_bit(MTIP_PF_SVC=
-_THD_STOP_BIT, &port->flags))
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2600  			goto st_out;
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2601  		clear_bit(MTIP_PF_SVC=
-_THD_ACTIVE_BIT, &port->flags);
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2602  =
+32fe13cd7aa184 Abel Wu         2022-06-19  9340  	/*
+32fe13cd7aa184 Abel Wu         2022-06-19  9341  	 * The dst_cpu is likely =
+to be fed with tasks soon.
+32fe13cd7aa184 Abel Wu         2022-06-19  9342  	 * If it is the only unoc=
+cupied cpu in this domain,
+32fe13cd7aa184 Abel Wu         2022-06-19  9343  	 * we still handle it the=
+ same way as as_has_icpus
+32fe13cd7aa184 Abel Wu         2022-06-19  9344  	 * but turn the SMT into =
+the unstable state, rather
+32fe13cd7aa184 Abel Wu         2022-06-19  9345  	 * than waiting to the en=
+d of load balancing since
+32fe13cd7aa184 Abel Wu         2022-06-19  9346  	 * it's also important th=
+at update the filter as
+32fe13cd7aa184 Abel Wu         2022-06-19  9347  	 * early as possible to k=
+eep it fresh.
+32fe13cd7aa184 Abel Wu         2022-06-19  9348  	 */
+32fe13cd7aa184 Abel Wu         2022-06-19  9349  	if (new =3D=3D sd_is_busy=
+) {
+32fe13cd7aa184 Abel Wu         2022-06-19  9350  		if (idle_cpu(this) || sc=
+hed_idle_cpu(this)) {
+32fe13cd7aa184 Abel Wu         2022-06-19  9351  			new =3D sd_may_idle;
+32fe13cd7aa184 Abel Wu         2022-06-19 @9352  			icpu =3D this;
+32fe13cd7aa184 Abel Wu         2022-06-19  9353  		}
+32fe13cd7aa184 Abel Wu         2022-06-19  9354  	}
+32fe13cd7aa184 Abel Wu         2022-06-19  9355  =
 
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2603  		/*
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2604  		 * the condition is t=
-o check neither an internal command is
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2605  		 * is in progress nor=
- error handling is active
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2606  		 */
-60ec0eecfa8968d Asai Thambi S P   2011-11-23 @2607  		wait_event_interrupti=
-ble(port->svc_wait, (port->flags) &&
-cfc05bd31384c48 Asai Thambi SP    2016-02-24  2608  			(port->flags & MTIP_=
-PF_SVC_THD_WORK));
-8f8b899563f28ef Asai Thambi S P   2013-09-11  2609  =
+fcc108377a7cf7 Abel Wu         2022-06-19  9356  	/*
+fcc108377a7cf7 Abel Wu         2022-06-19  9357  	 * There is at least one =
+unoccupied cpu available, so
+fcc108377a7cf7 Abel Wu         2022-06-19  9358  	 * propagate it to the fi=
+lter to avoid false negative
+fcc108377a7cf7 Abel Wu         2022-06-19  9359  	 * issue which could resu=
+lt in lost tracking of some
+fcc108377a7cf7 Abel Wu         2022-06-19  9360  	 * idle cpus thus through=
+upt downgraded.
+fcc108377a7cf7 Abel Wu         2022-06-19  9361  	 */
+fcc108377a7cf7 Abel Wu         2022-06-19  9362  	if (new !=3D sd_is_busy) {
+32fe13cd7aa184 Abel Wu         2022-06-19  9363  		/*
+32fe13cd7aa184 Abel Wu         2022-06-19  9364  		 * The sd_may_idle state=
+ is taken into
+32fe13cd7aa184 Abel Wu         2022-06-19  9365  		 * consideration as well=
+ because from
+32fe13cd7aa184 Abel Wu         2022-06-19  9366  		 * here we couldn't actu=
+ally know task
+32fe13cd7aa184 Abel Wu         2022-06-19  9367  		 * migrations would happ=
+en or not.
+32fe13cd7aa184 Abel Wu         2022-06-19  9368  		 */
+fcc108377a7cf7 Abel Wu         2022-06-19  9369  		if (!test_idle_cpus(this=
+))
+fcc108377a7cf7 Abel Wu         2022-06-19  9370  			set_idle_cpus(this, tru=
+e);
+fcc108377a7cf7 Abel Wu         2022-06-19  9371  	} else {
+fcc108377a7cf7 Abel Wu         2022-06-19  9372  		/*
+fcc108377a7cf7 Abel Wu         2022-06-19  9373  		 * Nothing changes so no=
+thing to update or
+fcc108377a7cf7 Abel Wu         2022-06-19  9374  		 * propagate.
+fcc108377a7cf7 Abel Wu         2022-06-19  9375  		 */
+fcc108377a7cf7 Abel Wu         2022-06-19  9376  		if (sd_smt_shared->state=
+ =3D=3D sd_is_busy)
+fcc108377a7cf7 Abel Wu         2022-06-19  9377  			goto out;
+32fe13cd7aa184 Abel Wu         2022-06-19  9378  =
 
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2610  		if (kthread_should_st=
-op() ||
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2611  			test_bit(MTIP_PF_SVC=
-_THD_STOP_BIT, &port->flags))
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2612  			goto st_out;
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2613  =
+32fe13cd7aa184 Abel Wu         2022-06-19  9379  		/*
+32fe13cd7aa184 Abel Wu         2022-06-19  9380  		 * Allow false positive =
+to exist for some time
+32fe13cd7aa184 Abel Wu         2022-06-19  9381  		 * to make a tradeoff of=
+ accuracy of the filter
+32fe13cd7aa184 Abel Wu         2022-06-19  9382  		 * for relieving cache t=
+raffic.
+32fe13cd7aa184 Abel Wu         2022-06-19  9383  		 */
+32fe13cd7aa184 Abel Wu         2022-06-19  9384  		if (sd_smt_shared->state=
+ =3D=3D sd_has_icpus) {
+32fe13cd7aa184 Abel Wu         2022-06-19  9385  			new =3D sd_may_idle;
+32fe13cd7aa184 Abel Wu         2022-06-19  9386  			goto update;
+32fe13cd7aa184 Abel Wu         2022-06-19  9387  		}
+32fe13cd7aa184 Abel Wu         2022-06-19  9388  =
 
-8a857a880bd83ba Asai Thambi S P   2012-04-09  2614  		if (unlikely(test_bit=
-(MTIP_DDF_REMOVE_PENDING_BIT,
-45038367c271f83 Asai Thambi S P   2012-04-09  2615  				&dd->dd_flag)))
-8f8b899563f28ef Asai Thambi S P   2013-09-11  2616  			goto st_out;
-c74b0f586fa3cbc Asai Thambi S P   2012-04-09  2617  =
+32fe13cd7aa184 Abel Wu         2022-06-19  9389  		/*
+32fe13cd7aa184 Abel Wu         2022-06-19  9390  		 * If the false positive=
+ issue has already been
+32fe13cd7aa184 Abel Wu         2022-06-19  9391  		 * there for a while, a =
+correction of the filter
+32fe13cd7aa184 Abel Wu         2022-06-19  9392  		 * is needed.
+32fe13cd7aa184 Abel Wu         2022-06-19  9393  		 */
+fcc108377a7cf7 Abel Wu         2022-06-19  9394  	}
+fcc108377a7cf7 Abel Wu         2022-06-19  9395  =
 
-cfc05bd31384c48 Asai Thambi SP    2016-02-24  2618  		set_bit(MTIP_PF_SVC_T=
-HD_ACTIVE_BIT, &port->flags);
-cfc05bd31384c48 Asai Thambi SP    2016-02-24  2619  =
+fcc108377a7cf7 Abel Wu         2022-06-19  9396  	sd_update_icpus(this, sds=
+->idle_cpu);
+32fe13cd7aa184 Abel Wu         2022-06-19  9397  update:
+fcc108377a7cf7 Abel Wu         2022-06-19  9398  	sd_smt_shared->state =3D =
+new;
+fcc108377a7cf7 Abel Wu         2022-06-19  9399  out:
+fcc108377a7cf7 Abel Wu         2022-06-19  9400  	xchg(&sd_smt_shared->upda=
+ting, 0);
+ba6ee6cee1ed2f Abel Wu         2022-06-19  9401  }
+ba6ee6cee1ed2f Abel Wu         2022-06-19  9402  =
 
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2620  restart_eh:
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2621  		/* Demux bits: start =
-with error handling */
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2622  		if (test_bit(MTIP_PF_=
-EH_ACTIVE_BIT, &port->flags)) {
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2623  			mtip_handle_tfe(dd);
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2624  			clear_bit(MTIP_PF_EH=
-_ACTIVE_BIT, &port->flags);
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2625  		}
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2626  =
-
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2627  		if (test_bit(MTIP_PF_=
-EH_ACTIVE_BIT, &port->flags))
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2628  			goto restart_eh;
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2629  =
-
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2630  		if (test_bit(MTIP_PF_=
-TO_ACTIVE_BIT, &port->flags)) {
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2631  			to =3D jiffies + mse=
-cs_to_jiffies(5000);
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2632  =
-
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2633  			do {
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2634  				mdelay(100);
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2635  			} while (atomic_read=
-(&dd->irq_workers_active) !=3D 0 &&
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2636  				time_before(jiffies=
-, to));
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2637  =
-
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2638  			if (atomic_read(&dd-=
->irq_workers_active) !=3D 0)
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2639  				dev_warn(&dd->pdev-=
->dev,
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2640  					"Completion worker=
-s still active!");
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2641  =
-
-436c15ab6596b12 Sagi Grimberg     2017-07-04  2642  			blk_mq_quiesce_queue=
-(dd->queue);
-436c15ab6596b12 Sagi Grimberg     2017-07-04  2643  =
-
-39795d6534c6e69 Christoph Hellwig 2018-11-14  2644  			blk_mq_tagset_busy_i=
-ter(&dd->tags, mtip_queue_cmd, dd);
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2645  =
-
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2646  			set_bit(MTIP_PF_ISSU=
-E_CMDS_BIT, &dd->port->flags);
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2647  =
-
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2648  			if (mtip_device_rese=
-t(dd))
-6d125de40bbc5b2 Keith Busch       2016-03-10  2649  				blk_mq_tagset_busy_=
-iter(&dd->tags,
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2650  							mtip_abort_cmd, =
-dd);
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2651  =
-
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2652  			clear_bit(MTIP_PF_TO=
-_ACTIVE_BIT, &dd->port->flags);
-436c15ab6596b12 Sagi Grimberg     2017-07-04  2653  =
-
-436c15ab6596b12 Sagi Grimberg     2017-07-04  2654  			blk_mq_unquiesce_que=
-ue(dd->queue);
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2655  		}
-abb0ccd185c9e31 Asai Thambi SP    2016-02-24  2656  =
-
-8a857a880bd83ba Asai Thambi S P   2012-04-09  2657  		if (test_bit(MTIP_PF_=
-ISSUE_CMDS_BIT, &port->flags)) {
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2658  			slot =3D 1;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2659  			/* used to restrict =
-the loop to one iteration */
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2660  			slot_start =3D num_c=
-md_slots;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2661  			slot_wrap =3D 0;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2662  			while (1) {
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2663  				slot =3D find_next_=
-bit(port->cmds_to_issue,
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2664  						num_cmd_slots, sl=
-ot);
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2665  				if (slot_wrap =3D=
-=3D 1) {
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2666  					if ((slot_start >=
-=3D slot) ||
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2667  						(slot >=3D num_cm=
-d_slots))
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2668  						break;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2669  				}
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2670  				if (unlikely(slot_s=
-tart =3D=3D num_cmd_slots))
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2671  					slot_start =3D slo=
-t;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2672  =
-
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2673  				if (unlikely(slot =
-=3D=3D num_cmd_slots)) {
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2674  					slot =3D 1;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2675  					slot_wrap =3D 1;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2676  					continue;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2677  				}
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2678  =
-
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2679  				/* Issue the comman=
-d to the hardware */
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2680  				mtip_issue_ncq_comm=
-and(port, slot);
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2681  =
-
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2682  				clear_bit(slot, por=
-t->cmds_to_issue);
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2683  			}
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2684  =
-
-8a857a880bd83ba Asai Thambi S P   2012-04-09  2685  			clear_bit(MTIP_PF_IS=
-SUE_CMDS_BIT, &port->flags);
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2686  		}
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2687  =
-
-9b204fbf0987748 Asai Thambi S P   2014-05-20  2688  		if (test_bit(MTIP_PF_=
-REBUILD_BIT, &port->flags)) {
-59cf70e236c9659 Asai Thambi SP    2016-02-24  2689  			if (mtip_ftl_rebuild=
-_poll(dd) =3D=3D 0)
-8a857a880bd83ba Asai Thambi S P   2012-04-09  2690  				clear_bit(MTIP_PF_R=
-EBUILD_BIT, &port->flags);
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2691  		}
-8f8b899563f28ef Asai Thambi S P   2013-09-11  2692  	}
-8f8b899563f28ef Asai Thambi S P   2013-09-11  2693  =
-
-8f8b899563f28ef Asai Thambi S P   2013-09-11  2694  st_out:
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2695  	return 0;
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2696  }
-60ec0eecfa8968d Asai Thambi S P   2011-11-23  2697  =
-
-
-:::::: The code at line 2607 was first introduced by commit
-:::::: 60ec0eecfa8968d0f1188e3730979196ac28b9de mtip32xx: updates based on =
-feedback
-
-:::::: TO: Asai Thambi S P <asamymuthupa@micron.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6737938647271296483==--
+--===============1225781168039984599==--
 
