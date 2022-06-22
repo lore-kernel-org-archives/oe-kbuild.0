@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2915643589326861673=="
+Content-Type: multipart/mixed; boundary="===============6008163978171722392=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.15 3/63] sound/soc/sof/amd/acp-common.c: ../sof-audio.h is included more than once.
-Date: Thu, 30 Jun 2022 08:51:41 +0800
-Message-ID: <202206300842.MGGpR69i-lkp@intel.com>
+Subject: drivers/regulator/mt6397-regulator.c:179:13: warning: shift by negative count ('-1')
+Date: Wed, 22 Jun 2022 15:02:49 +0800
+Message-ID: <202206221448.nGowkGBr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2915643589326861673==
+--===============6008163978171722392==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,221 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/r=
+egulator/mt6397-regulator.c:179:13: warning: shift by negative count ('-1')=
+ [-Wanalyzer-shift-count-negative]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Axel Lin <axel.lin@ingics.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.15
-head:   dd04e927ac7a3637e375c92b3a6b4ceb3fc8e867
-commit: ecc4093b35607454e588544176df93257b7b3459 [3/63] CHROMIUM: ASoC: SOF=
-: amd: Make ACP core code generic for newer SOC transition
-:::::: branch date: 27 hours ago
-:::::: commit date: 3 days ago
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ca1fdab7fd27eb069df1384b2850dcd0c2bebe8d
+commit: 12401a1cef787167aff52ef2dd28286e61054c38 regulator: mt6397: Remove =
+modeset_shift from struct mt6397_regulator_info
+date:   12 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220622 (https://download.01.org/0day-ci/archi=
+ve/20220622/202206221448.nGowkGBr-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D12401a1cef787167aff52ef2dd28286e61054c38
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 12401a1cef787167aff52ef2dd28286e61054c38
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-includecheck warnings: (new ones prefixed by >>)
->> sound/soc/sof/amd/acp-common.c: ../sof-audio.h is included more than onc=
-e.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In function 'mt6397_regulator_set_mode':
+>> drivers/regulator/mt6397-regulator.c:179:13: warning: shift by negative =
+count ('-1') [-Wanalyzer-shift-count-negative]
+     179 |         val <<=3D ffs(info->modeset_mask) - 1;
+         |             ^~~
+     'mt6397_regulator_set_mode': events 1-2
+       |
+       |  158 | static int mt6397_regulator_set_mode(struct regulator_dev *=
+rdev,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'mt6397_regulator_set_mode'
+       |......
+       |  179 |         val <<=3D ffs(info->modeset_mask) - 1;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling 'ffs' from 'mt6397_regulator_se=
+t_mode'
+       |
+       +--> 'ffs': events 3-4
+              |
+              |include/asm-generic/bitops/ffs.h:13:19:
+              |   13 | static inline int ffs(int x)
+              |      |                   ^~~
+              |      |                   |
+              |      |                   (3) entry to 'ffs'
+              |......
+              |   17 |         if (!x)
+              |      |            ~       =
+
+              |      |            |
+              |      |            (4) following 'true' branch (when 'x =3D=
+=3D 0')...
+              |
+            'ffs': event 5
+              |
+              |cc1:
+              | (5): ...to here
+              |
+       <------+
+       |
+     'mt6397_regulator_set_mode': events 6-7
+       |
+       |drivers/regulator/mt6397-regulator.c:179:17:
+       |  179 |         val <<=3D ffs(info->modeset_mask) - 1;
+       |      |             ~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |   |
+       |      |             |   (6) returning to 'mt6397_regulator_set_mode=
+' from 'ffs'
+       |      |             (7) shift by negative amount here ('-1')
+       |
+   In function 'mt6397_regulator_get_mode':
+   drivers/regulator/mt6397-regulator.c:206:16: warning: shift by negative =
+count ('-1') [-Wanalyzer-shift-count-negative]
+     206 |         regval >>=3D ffs(info->modeset_mask) - 1;
+         |                ^~~
+     'mt6397_regulator_get_mode': events 1-4
+       |
+       |  193 | static unsigned int mt6397_regulator_get_mode(struct regula=
+tor_dev *rdev)
+       |      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (1) entry to 'mt6397_regulator_get_mode'
+       |......
+       |  199 |         if (ret !=3D 0) {
+       |      |            ~         =
+
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
+')...
+       |......
+       |  205 |         regval &=3D info->modeset_mask;
+       |      |                   ~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (3) ...to here
+       |  206 |         regval >>=3D ffs(info->modeset_mask) - 1;
+       |      |                    ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                    |
+       |      |                    (4) calling 'ffs' from 'mt6397_regulator=
+_get_mode'
+       |
+       +--> 'ffs': events 5-6
+              |
+              |include/asm-generic/bitops/ffs.h:13:19:
+              |   13 | static inline int ffs(int x)
+              |      |                   ^~~
+              |      |                   |
+              |      |                   (5) entry to 'ffs'
+              |......
+              |   17 |         if (!x)
+              |      |            ~       =
+
+              |      |            |
+              |      |            (6) following 'true' branch (when 'x =3D=
+=3D 0')...
+              |
+            'ffs': event 7
+              |
+              |cc1:
+              | (7): ...to here
+              |
+       <------+
+       |
+     'mt6397_regulator_get_mode': events 8-9
+       |
+       |drivers/regulator/mt6397-regulator.c:206:20:
+       |  206 |         regval >>=3D ffs(info->modeset_mask) - 1;
+       |      |                ~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |   |
+       |      |                |   (8) returning to 'mt6397_regulator_get_m=
+ode' from 'ffs'
+       |      |                (9) shift by negative amount here ('-1')
+       |
+
+vim +179 drivers/regulator/mt6397-regulator.c
+
+8096236db4349c Anand K Mistry 2020-07-02  157  =
+
+05692513272231 Henry Chen     2016-05-23  158  static int mt6397_regulator_=
+set_mode(struct regulator_dev *rdev,
+05692513272231 Henry Chen     2016-05-23  159  				     unsigned int mode)
+05692513272231 Henry Chen     2016-05-23  160  {
+05692513272231 Henry Chen     2016-05-23  161  	struct mt6397_regulator_inf=
+o *info =3D rdev_get_drvdata(rdev);
+05692513272231 Henry Chen     2016-05-23  162  	int ret, val;
+05692513272231 Henry Chen     2016-05-23  163  =
+
+05692513272231 Henry Chen     2016-05-23  164  	switch (mode) {
+05692513272231 Henry Chen     2016-05-23  165  	case REGULATOR_MODE_FAST:
+05692513272231 Henry Chen     2016-05-23  166  		val =3D MT6397_BUCK_MODE_F=
+ORCE_PWM;
+05692513272231 Henry Chen     2016-05-23  167  		break;
+05692513272231 Henry Chen     2016-05-23  168  	case REGULATOR_MODE_NORMAL:
+05692513272231 Henry Chen     2016-05-23  169  		val =3D MT6397_BUCK_MODE_A=
+UTO;
+05692513272231 Henry Chen     2016-05-23  170  		break;
+05692513272231 Henry Chen     2016-05-23  171  	default:
+05692513272231 Henry Chen     2016-05-23  172  		ret =3D -EINVAL;
+05692513272231 Henry Chen     2016-05-23  173  		goto err_mode;
+05692513272231 Henry Chen     2016-05-23  174  	}
+05692513272231 Henry Chen     2016-05-23  175  =
+
+12401a1cef7871 Axel Lin       2021-06-29  176  	dev_dbg(&rdev->dev, "mt6397=
+ buck set_mode %#x, %#x, %#x\n",
+12401a1cef7871 Axel Lin       2021-06-29  177  		info->modeset_reg, info->m=
+odeset_mask, val);
+12401a1cef7871 Axel Lin       2021-06-29  178  =
+
+12401a1cef7871 Axel Lin       2021-06-29 @179  	val <<=3D ffs(info->modeset=
+_mask) - 1;
+05692513272231 Henry Chen     2016-05-23  180  =
+
+05692513272231 Henry Chen     2016-05-23  181  	ret =3D regmap_update_bits(=
+rdev->regmap, info->modeset_reg,
+05692513272231 Henry Chen     2016-05-23  182  				 info->modeset_mask, val=
+);
+05692513272231 Henry Chen     2016-05-23  183  err_mode:
+05692513272231 Henry Chen     2016-05-23  184  	if (ret !=3D 0) {
+05692513272231 Henry Chen     2016-05-23  185  		dev_err(&rdev->dev,
+05692513272231 Henry Chen     2016-05-23  186  			"Failed to set mt6397 buc=
+k mode: %d\n", ret);
+05692513272231 Henry Chen     2016-05-23  187  		return ret;
+05692513272231 Henry Chen     2016-05-23  188  	}
+05692513272231 Henry Chen     2016-05-23  189  =
+
+05692513272231 Henry Chen     2016-05-23  190  	return 0;
+05692513272231 Henry Chen     2016-05-23  191  }
+05692513272231 Henry Chen     2016-05-23  192  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2915643589326861673==--
+--===============6008163978171722392==--
 
