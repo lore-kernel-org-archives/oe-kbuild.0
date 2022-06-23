@@ -1,155 +1,235 @@
-Content-Type: multipart/mixed; boundary="===============6182889194048296982=="
+Content-Type: multipart/mixed; boundary="===============5294193107537205844=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v36 18/33] LSM: Use lsmcontext in security_dentry_init_security
-Date: Thu, 23 Jun 2022 08:36:17 +0800
-Message-ID: <202206230827.rGKbTxmu-lkp@intel.com>
+Subject: drivers/regulator/mt6397-regulator.c:179:13: warning: shift by negative count ('-1')
+Date: Thu, 23 Jun 2022 08:36:14 +0800
+Message-ID: <202206230801.8S3TqXeH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6182889194048296982==
+--===============5294193107537205844==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/r=
+egulator/mt6397-regulator.c:179:13: warning: shift by negative count ('-1')=
+ [-Wanalyzer-shift-count-negative]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220609230146.319210-19-casey@schaufler-ca.com>
-References: <20220609230146.319210-19-casey@schaufler-ca.com>
-TO: Casey Schaufler <casey@schaufler-ca.com>
-TO: casey.schaufler(a)intel.com
-TO: jmorris(a)namei.org
-TO: linux-security-module(a)vger.kernel.org
-TO: selinux(a)vger.kernel.org
-CC: casey(a)schaufler-ca.com
-CC: linux-audit(a)redhat.com
-CC: keescook(a)chromium.org
-CC: john.johansen(a)canonical.com
-CC: penguin-kernel(a)i-love.sakura.ne.jp
-CC: paul(a)paul-moore.com
-CC: stephen.smalley.work(a)gmail.com
 CC: linux-kernel(a)vger.kernel.org
+TO: Axel Lin <axel.lin@ingics.com>
+CC: Mark Brown <broonie@kernel.org>
 
-Hi Casey,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   de5c208d533a46a074eb46ea17f672cc005a7269
+commit: 12401a1cef787167aff52ef2dd28286e61054c38 regulator: mt6397: Remove =
+modeset_shift from struct mt6397_regulator_info
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220622 (https://download.01.org/0day-ci/archi=
+ve/20220623/202206230801.8S3TqXeH-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D12401a1cef787167aff52ef2dd28286e61054c38
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 12401a1cef787167aff52ef2dd28286e61054c38
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on pcmoore-audit/next]
-[also build test WARNING on pcmoore-selinux/next linus/master v5.19-rc3 nex=
-t-20220622]
-[cannot apply to jmorris-security/next-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/inte=
-grity-disassociate-ima_filter_rule-from-security_audit_rule/20220610-080129
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git n=
-ext
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: parisc-randconfig-m031-20220622 (https://download.01.org/0day-ci/ar=
-chive/20220623/202206230827.rGKbTxmu-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/fuse/dir.c:484 get_security_context() error: uninitialized symbol 'name'.
 
-Old smatch warnings:
-fs/fuse/dir.c:503 get_security_context() warn: is 'ptr' large enough for 's=
-truct fuse_secctx'? 0
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In function 'mt6397_regulator_set_mode':
+>> drivers/regulator/mt6397-regulator.c:179:13: warning: shift by negative =
+count ('-1') [-Wanalyzer-shift-count-negative]
+     179 |         val <<=3D ffs(info->modeset_mask) - 1;
+         |             ^~~
+     'mt6397_regulator_set_mode': events 1-2
+       |
+       |  158 | static int mt6397_regulator_set_mode(struct regulator_dev *=
+rdev,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'mt6397_regulator_set_mode'
+       |......
+       |  179 |         val <<=3D ffs(info->modeset_mask) - 1;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling 'ffs' from 'mt6397_regulator_se=
+t_mode'
+       |
+       +--> 'ffs': events 3-4
+              |
+              |include/asm-generic/bitops/ffs.h:13:19:
+              |   13 | static inline int ffs(int x)
+              |      |                   ^~~
+              |      |                   |
+              |      |                   (3) entry to 'ffs'
+              |......
+              |   17 |         if (!x)
+              |      |            ~       =
 
-vim +/name +484 fs/fuse/dir.c
+              |      |            |
+              |      |            (4) following 'true' branch (when 'x =3D=
+=3D 0')...
+              |
+            'ffs': event 5
+              |
+              |cc1:
+              | (5): ...to here
+              |
+       <------+
+       |
+     'mt6397_regulator_set_mode': events 6-7
+       |
+       |drivers/regulator/mt6397-regulator.c:179:17:
+       |  179 |         val <<=3D ffs(info->modeset_mask) - 1;
+       |      |             ~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |   |
+       |      |             |   (6) returning to 'mt6397_regulator_set_mode=
+' from 'ffs'
+       |      |             (7) shift by negative amount here ('-1')
+       |
+   In function 'mt6397_regulator_get_mode':
+   drivers/regulator/mt6397-regulator.c:206:16: warning: shift by negative =
+count ('-1') [-Wanalyzer-shift-count-negative]
+     206 |         regval >>=3D ffs(info->modeset_mask) - 1;
+         |                ^~~
+     'mt6397_regulator_get_mode': events 1-4
+       |
+       |  193 | static unsigned int mt6397_regulator_get_mode(struct regula=
+tor_dev *rdev)
+       |      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (1) entry to 'mt6397_regulator_get_mode'
+       |......
+       |  199 |         if (ret !=3D 0) {
+       |      |            ~         =
 
-e5e5558e923f35 Miklos Szeredi  2005-09-09  461  =
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
+')...
+       |......
+       |  205 |         regval &=3D info->modeset_mask;
+       |      |                   ~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (3) ...to here
+       |  206 |         regval >>=3D ffs(info->modeset_mask) - 1;
+       |      |                    ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                    |
+       |      |                    (4) calling 'ffs' from 'mt6397_regulator=
+_get_mode'
+       |
+       +--> 'ffs': events 5-6
+              |
+              |include/asm-generic/bitops/ffs.h:13:19:
+              |   13 | static inline int ffs(int x)
+              |      |                   ^~~
+              |      |                   |
+              |      |                   (5) entry to 'ffs'
+              |......
+              |   17 |         if (!x)
+              |      |            ~       =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  462  static int get_security_con=
-text(struct dentry *entry, umode_t mode,
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  463  				void **security_ctx, u3=
-2 *security_ctxlen)
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  464  {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  465  	struct fuse_secctx *fctx;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  466  	struct fuse_secctx_header =
-*header;
-86d33e271bed73 Casey Schaufler 2022-06-09  467  	struct lsmcontext lsmctx;
-86d33e271bed73 Casey Schaufler 2022-06-09  468  	void *ptr;
-86d33e271bed73 Casey Schaufler 2022-06-09  469  	u32 total_len =3D sizeof(*=
-header);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  470  	int err, nr_ctx =3D 0;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  471  	const char *name;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  472  	size_t namelen;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  473  =
+              |      |            |
+              |      |            (6) following 'true' branch (when 'x =3D=
+=3D 0')...
+              |
+            'ffs': event 7
+              |
+              |cc1:
+              | (7): ...to here
+              |
+       <------+
+       |
+     'mt6397_regulator_get_mode': events 8-9
+       |
+       |drivers/regulator/mt6397-regulator.c:206:20:
+       |  206 |         regval >>=3D ffs(info->modeset_mask) - 1;
+       |      |                ~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |   |
+       |      |                |   (8) returning to 'mt6397_regulator_get_m=
+ode' from 'ffs'
+       |      |                (9) shift by negative amount here ('-1')
+       |
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  474  	err =3D security_dentry_in=
-it_security(entry, mode, &entry->d_name,
-86d33e271bed73 Casey Schaufler 2022-06-09  475  					    &name, &lsmctx);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  476  	if (err) {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  477  		if (err !=3D -EOPNOTSUPP)
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  478  			goto out_err;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  479  		/* No LSM is supporting t=
-his security hook. Ignore error */
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  480  	}
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  481  =
+vim +179 drivers/regulator/mt6397-regulator.c
 
-86d33e271bed73 Casey Schaufler 2022-06-09  482  	if (lsmctx.len) {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  483  		nr_ctx =3D 1;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11 @484  		namelen =3D strlen(name) =
-+ 1;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  485  		err =3D -EIO;
-86d33e271bed73 Casey Schaufler 2022-06-09  486  		if (WARN_ON(namelen > XAT=
-TR_NAME_MAX + 1 ||
-86d33e271bed73 Casey Schaufler 2022-06-09  487  		    lsmctx.len > S32_MAX))
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  488  			goto out_err;
-86d33e271bed73 Casey Schaufler 2022-06-09  489  		total_len +=3D FUSE_REC_A=
-LIGN(sizeof(*fctx) + namelen +
-86d33e271bed73 Casey Schaufler 2022-06-09  490  					    lsmctx.len);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  491  	}
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  492  =
+8096236db4349c4 Anand K Mistry 2020-07-02  157  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  493  	err =3D -ENOMEM;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  494  	header =3D ptr =3D kzalloc=
-(total_len, GFP_KERNEL);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  495  	if (!ptr)
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  496  		goto out_err;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  497  =
+056925132722312 Henry Chen     2016-05-23  158  static int mt6397_regulator=
+_set_mode(struct regulator_dev *rdev,
+056925132722312 Henry Chen     2016-05-23  159  				     unsigned int mode)
+056925132722312 Henry Chen     2016-05-23  160  {
+056925132722312 Henry Chen     2016-05-23  161  	struct mt6397_regulator_in=
+fo *info =3D rdev_get_drvdata(rdev);
+056925132722312 Henry Chen     2016-05-23  162  	int ret, val;
+056925132722312 Henry Chen     2016-05-23  163  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  498  	header->nr_secctx =3D nr_c=
-tx;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  499  	header->size =3D total_len;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  500  	ptr +=3D sizeof(*header);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  501  	if (nr_ctx) {
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  502  		fctx =3D ptr;
-86d33e271bed73 Casey Schaufler 2022-06-09  503  		fctx->size =3D lsmctx.len;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  504  		ptr +=3D sizeof(*fctx);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  505  =
+056925132722312 Henry Chen     2016-05-23  164  	switch (mode) {
+056925132722312 Henry Chen     2016-05-23  165  	case REGULATOR_MODE_FAST:
+056925132722312 Henry Chen     2016-05-23  166  		val =3D MT6397_BUCK_MODE_=
+FORCE_PWM;
+056925132722312 Henry Chen     2016-05-23  167  		break;
+056925132722312 Henry Chen     2016-05-23  168  	case REGULATOR_MODE_NORMAL:
+056925132722312 Henry Chen     2016-05-23  169  		val =3D MT6397_BUCK_MODE_=
+AUTO;
+056925132722312 Henry Chen     2016-05-23  170  		break;
+056925132722312 Henry Chen     2016-05-23  171  	default:
+056925132722312 Henry Chen     2016-05-23  172  		ret =3D -EINVAL;
+056925132722312 Henry Chen     2016-05-23  173  		goto err_mode;
+056925132722312 Henry Chen     2016-05-23  174  	}
+056925132722312 Henry Chen     2016-05-23  175  =
 
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  506  		strcpy(ptr, name);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  507  		ptr +=3D namelen;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  508  =
+12401a1cef78716 Axel Lin       2021-06-29  176  	dev_dbg(&rdev->dev, "mt639=
+7 buck set_mode %#x, %#x, %#x\n",
+12401a1cef78716 Axel Lin       2021-06-29  177  		info->modeset_reg, info->=
+modeset_mask, val);
+12401a1cef78716 Axel Lin       2021-06-29  178  =
 
-86d33e271bed73 Casey Schaufler 2022-06-09  509  		memcpy(ptr, lsmctx.contex=
-t, lsmctx.len);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  510  	}
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  511  	*security_ctxlen =3D total=
-_len;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  512  	*security_ctx =3D header;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  513  	err =3D 0;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  514  out_err:
-86d33e271bed73 Casey Schaufler 2022-06-09  515  	if (nr_ctx)
-86d33e271bed73 Casey Schaufler 2022-06-09  516  		security_release_secctx(&=
-lsmctx);
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  517  	return err;
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  518  }
-3e2b6fdbdc9ab5 Vivek Goyal     2021-11-11  519  =
+12401a1cef78716 Axel Lin       2021-06-29 @179  	val <<=3D ffs(info->modese=
+t_mask) - 1;
+056925132722312 Henry Chen     2016-05-23  180  =
+
+056925132722312 Henry Chen     2016-05-23  181  	ret =3D regmap_update_bits=
+(rdev->regmap, info->modeset_reg,
+056925132722312 Henry Chen     2016-05-23  182  				 info->modeset_mask, va=
+l);
+056925132722312 Henry Chen     2016-05-23  183  err_mode:
+056925132722312 Henry Chen     2016-05-23  184  	if (ret !=3D 0) {
+056925132722312 Henry Chen     2016-05-23  185  		dev_err(&rdev->dev,
+056925132722312 Henry Chen     2016-05-23  186  			"Failed to set mt6397 bu=
+ck mode: %d\n", ret);
+056925132722312 Henry Chen     2016-05-23  187  		return ret;
+056925132722312 Henry Chen     2016-05-23  188  	}
+056925132722312 Henry Chen     2016-05-23  189  =
+
+056925132722312 Henry Chen     2016-05-23  190  	return 0;
+056925132722312 Henry Chen     2016-05-23  191  }
+056925132722312 Henry Chen     2016-05-23  192  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6182889194048296982==--
+--===============5294193107537205844==--
 
