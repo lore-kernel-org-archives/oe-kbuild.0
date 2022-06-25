@@ -1,564 +1,367 @@
-Content-Type: multipart/mixed; boundary="===============9126730269740000556=="
+Content-Type: multipart/mixed; boundary="===============6500261196621766146=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 26 Jun 2022 20:26:41 +0800
-Message-ID: <202206262051.G4VkNlkN-lkp@intel.com>
+Subject: kernel/sched/fair.c:6981 find_energy_efficient_cpu() error: uninitialized symbol 'best_energy_cpu'.
+Date: Sat, 25 Jun 2022 16:25:21 +0800
+Message-ID: <202206251643.Ptg4ve5l-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9126730269740000556==
+--===============6500261196621766146==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to 'ret' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]"
-:::::: =
-
-
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>
+TO: Vincent Donnefort <vincent.donnefort@arm.com>
+CC: 0day robot <lkp@intel.com>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0840a7914caa14315a3191178a9f72c742477860
-commit: 6874f48bb8b050b695698f1145e6846ba08baa75 drm/msm: make mdp5/dpu dev=
-ices master components
-date:   9 weeks ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-c006-20220622
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8b8d12=
-6598ce7bd5243da7f94f69fa1104288bee)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6874f48bb8b050b695698f1145e6846ba08baa75
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 6874f48bb8b050b695698f1145e6846ba08baa75
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/fe=
+ec-energy-margin-removal/20220621-170631
+head:   2059fff7a5a2b6016ef5843c673845283a00a646
+commit: 2059fff7a5a2b6016ef5843c673845283a00a646 sched/fair: Remove the ene=
+rgy margin in feec()
+date:   4 days ago
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+kernel/sched/fair.c:6981 find_energy_efficient_cpu() error: uninitialized s=
+ymbol 'best_energy_cpu'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/pci/pci.c:5280:2: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-           memcpy(pdev->reset_methods, reset_methods, sizeof(pdev->reset_me=
-thods));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/pci/pci.c:6012:20: warning: The result of the left shift is unde=
-fined because the left operand is negative [clang-analyzer-core.UndefinedBi=
-naryOperatorResult]
-           v =3D (ffs(rq) - 8) << 12;
-               ~~~~~~~~~~~~~ ^
-   drivers/pci/pci.c:5997:6: note: Assuming 'rq' is >=3D 128
-           if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
-               ^~~~~~~~
-   drivers/pci/pci.c:5997:6: note: Left side of '||' is false
-   drivers/pci/pci.c:5997:18: note: Assuming 'rq' is <=3D 4096
-           if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
-                           ^~~~~~~~~
-   drivers/pci/pci.c:5997:6: note: Left side of '||' is false
-           if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
-               ^
-   drivers/pci/pci.c:5997:2: note: Taking false branch
-           if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
-           ^
-   drivers/pci/pci.c:6005:6: note: Assuming 'pcie_bus_config' is not equal =
-to PCIE_BUS_PERFORMANCE
-           if (pcie_bus_config =3D=3D PCIE_BUS_PERFORMANCE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci.c:6005:2: note: Taking false branch
-           if (pcie_bus_config =3D=3D PCIE_BUS_PERFORMANCE) {
-           ^
-   drivers/pci/pci.c:6012:20: note: The result of the left shift is undefin=
-ed because the left operand is negative
-           v =3D (ffs(rq) - 8) << 12;
-               ~~~~~~~~~~~~~ ^
-   drivers/pci/pci.c:6490:7: warning: Call to function 'sscanf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   if (sscanf(p, "%d%n", &align_order, &count) =3D=3D 1 &&
-                       ^~~~~~
-   drivers/pci/pci.c:6490:7: note: Call to function 'sscanf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'sscanf_s' in case of C11
-                   if (sscanf(p, "%d%n", &align_order, &count) =3D=3D 1 &&
-                       ^~~~~~
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   36 warnings generated.
-   Suppressed 36 warnings (35 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   50 warnings generated.
-   Suppressed 50 warnings (50 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   54 warnings generated.
-   Suppressed 54 warnings (54 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   56 warnings generated.
->> drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: note: Value stored to 'r=
-et' is never read
-           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:687:12: warning: 1st function c=
-all argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   hwpipe =3D mdp5_pipe_init(pipes[i], offsets[i], caps);
-                            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:8: note: Calling 'mdp5_init'
-           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:815:6: note: Assuming 'mdp5_kms=
-' is non-null
-           if (!mdp5_kms) {
-               ^~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:815:2: note: Taking false branch
-           if (!mdp5_kms) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:822:2: note: Loop condition is =
-false.  Exiting loop
-           spin_lock_init(&mdp5_kms->resource_lock);
-           ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:828:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:828:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:832:2: note: Taking false branch
-           if (IS_ERR(mdp5_kms->mmio)) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:839:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:839:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:842:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:842:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:845:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:845:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:848:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:848:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:868:2: note: Taking false branch
-           if (IS_ERR(mdp5_kms->cfg)) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:885:6: note: Assuming the condi=
-tion is false
-           if (mdp5_kms->caps & MDP_CAP_SMP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:885:2: note: Taking false branch
-           if (mdp5_kms->caps & MDP_CAP_SMP) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:895:2: note: Taking false branch
-           if (IS_ERR(mdp5_kms->ctlm)) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:901:8: note: Calling 'hwpipe_in=
-it'
-           ret =3D hwpipe_init(mdp5_kms);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:723:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:723:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:729:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:729:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:733:8: note: Calling 'construct=
-_pipes'
-           ret =3D construct_pipes(mdp5_kms, hw_cfg->pipe_dma.count, dma_pl=
-anes,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:14: note: Assuming 'i' is <=
- 'cnt'
-           for (i =3D 0; i < cnt; i++) {
-                       ^~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:2: note: Loop condition is =
-true.  Entering loop body
-           for (i =3D 0; i < cnt; i++) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:688:3: note: Taking false branch
-                   if (IS_ERR(hwpipe)) {
-                   ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:14: note: Assuming 'i' is <=
- 'cnt'
-           for (i =3D 0; i < cnt; i++) {
-                       ^~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:2: note: Loop condition is =
-true.  Entering loop body
-           for (i =3D 0; i < cnt; i++) {
+vim +/best_energy_cpu +6981 kernel/sched/fair.c
 
-vim +/ret +563 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+390031e4c309c9 Quentin Perret            2018-12-03  6815  =
 
-6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  551  =
+732cd75b8c920d Quentin Perret            2018-12-03  6816  /*
+732cd75b8c920d Quentin Perret            2018-12-03  6817   * find_energy_e=
+fficient_cpu(): Find most energy-efficient target CPU for the
+732cd75b8c920d Quentin Perret            2018-12-03  6818   * waking task. =
+find_energy_efficient_cpu() looks for the CPU with maximum
+732cd75b8c920d Quentin Perret            2018-12-03  6819   * spare capacit=
+y in each performance domain and uses it as a potential
+732cd75b8c920d Quentin Perret            2018-12-03  6820   * candidate to =
+execute the task. Then, it uses the Energy Model to figure
+732cd75b8c920d Quentin Perret            2018-12-03  6821   * out which of =
+the CPU candidates is the most energy-efficient.
+732cd75b8c920d Quentin Perret            2018-12-03  6822   *
+732cd75b8c920d Quentin Perret            2018-12-03  6823   * The rationale=
+ for this heuristic is as follows. In a performance domain,
+732cd75b8c920d Quentin Perret            2018-12-03  6824   * all the most =
+energy efficient CPU candidates (according to the Energy
+732cd75b8c920d Quentin Perret            2018-12-03  6825   * Model) are th=
+ose for which we'll request a low frequency. When there are
+732cd75b8c920d Quentin Perret            2018-12-03  6826   * several CPUs =
+for which the frequency request will be the same, we don't
+732cd75b8c920d Quentin Perret            2018-12-03  6827   * have enough d=
+ata to break the tie between them, because the Energy Model
+732cd75b8c920d Quentin Perret            2018-12-03  6828   * only includes=
+ active power costs. With this model, if we assume that
+732cd75b8c920d Quentin Perret            2018-12-03  6829   * frequency req=
+uests follow utilization (e.g. using schedutil), the CPU with
+732cd75b8c920d Quentin Perret            2018-12-03  6830   * the maximum s=
+pare capacity in a performance domain is guaranteed to be among
+732cd75b8c920d Quentin Perret            2018-12-03  6831   * the best cand=
+idates of the performance domain.
+732cd75b8c920d Quentin Perret            2018-12-03  6832   *
+732cd75b8c920d Quentin Perret            2018-12-03  6833   * In practice, =
+it could be preferable from an energy standpoint to pack
+732cd75b8c920d Quentin Perret            2018-12-03  6834   * small tasks o=
+n a CPU in order to let other CPUs go in deeper idle states,
+732cd75b8c920d Quentin Perret            2018-12-03  6835   * but that coul=
+d also hurt our chances to go cluster idle, and we have no
+732cd75b8c920d Quentin Perret            2018-12-03  6836   * ways to tell =
+with the current Energy Model if this is actually a good
+732cd75b8c920d Quentin Perret            2018-12-03  6837   * idea or not. =
+So, find_energy_efficient_cpu() basically favors
+732cd75b8c920d Quentin Perret            2018-12-03  6838   * cluster-packi=
+ng, and spreading inside a cluster. That should at least be
+732cd75b8c920d Quentin Perret            2018-12-03  6839   * a good thing =
+for latency, and this is consistent with the idea that most
+732cd75b8c920d Quentin Perret            2018-12-03  6840   * of the energy=
+ savings of EAS come from the asymmetry of the system, and
+732cd75b8c920d Quentin Perret            2018-12-03  6841   * not so much f=
+rom breaking the tie between identical CPUs. That's also the
+732cd75b8c920d Quentin Perret            2018-12-03  6842   * reason why EA=
+S is enabled in the topology code only for systems where
+732cd75b8c920d Quentin Perret            2018-12-03  6843   * SD_ASYM_CPUCA=
+PACITY is set.
+732cd75b8c920d Quentin Perret            2018-12-03  6844   *
+732cd75b8c920d Quentin Perret            2018-12-03  6845   * NOTE: Forkees=
+ are not accepted in the energy-aware wake-up path because
+732cd75b8c920d Quentin Perret            2018-12-03  6846   * they don't ha=
+ve any useful utilization data yet and it's not possible to
+732cd75b8c920d Quentin Perret            2018-12-03  6847   * forecast thei=
+r impact on energy consumption. Consequently, they will be
+732cd75b8c920d Quentin Perret            2018-12-03  6848   * placed by fin=
+d_idlest_cpu() on the least loaded CPU, which might turn out
+732cd75b8c920d Quentin Perret            2018-12-03  6849   * to be energy-=
+inefficient in some use-cases. The alternative would be to
+732cd75b8c920d Quentin Perret            2018-12-03  6850   * bias new task=
+s towards specific types of CPUs first, or to try to infer
+732cd75b8c920d Quentin Perret            2018-12-03  6851   * their util_av=
+g from the parent task, but those heuristics could hurt
+732cd75b8c920d Quentin Perret            2018-12-03  6852   * other use-cas=
+es too. So, until someone finds a better way to solve this,
+732cd75b8c920d Quentin Perret            2018-12-03  6853   * let's keep th=
+ings simple by re-using the existing slow path.
+732cd75b8c920d Quentin Perret            2018-12-03  6854   */
+732cd75b8c920d Quentin Perret            2018-12-03  6855  static int find_=
+energy_efficient_cpu(struct task_struct *p, int prev_cpu)
+732cd75b8c920d Quentin Perret            2018-12-03  6856  {
+7f486e7e7ceb74 Dietmar Eggemann          2022-06-21  6857  	struct cpumask =
+*cpus =3D this_cpu_cpumask_var_ptr(select_rq_mask);
+eb92692b2544d3 Quentin Perret            2019-09-12  6858  	unsigned long p=
+rev_delta =3D ULONG_MAX, best_delta =3D ULONG_MAX;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6859  	struct root_dom=
+ain *rd =3D this_rq()->rd;
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6860  	int cpu, best_e=
+nergy_cpu, target =3D -1;
+732cd75b8c920d Quentin Perret            2018-12-03  6861  	struct sched_do=
+main *sd;
+eb92692b2544d3 Quentin Perret            2019-09-12  6862  	struct perf_dom=
+ain *pd;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6863  	struct energy_e=
+nv eenv;
+732cd75b8c920d Quentin Perret            2018-12-03  6864  =
 
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  552  static int mdp5_kms_init(struct drm_device *dev)
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  553  {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  554  	struct msm_drm_private *priv =3D dev->dev_private;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  555  	struct platform_device *pdev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  556  	struct mdp5_kms *mdp5_kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  557  	struct mdp5_cfg *config;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  558  	struct msm_kms *kms;
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-09-28  559  	struct msm_gem_address_space *aspace;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  560  	int irq, i, ret;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  561  	struct device *iommu_dev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  562  =
+732cd75b8c920d Quentin Perret            2018-12-03  6865  	rcu_read_lock();
+732cd75b8c920d Quentin Perret            2018-12-03  6866  	pd =3D rcu_dere=
+ference(rd->pd);
+732cd75b8c920d Quentin Perret            2018-12-03  6867  	if (!pd || READ=
+_ONCE(rd->overutilized))
+619e090c8e409e Pierre Gondois            2021-05-04  6868  		goto unlock;
+732cd75b8c920d Quentin Perret            2018-12-03  6869  =
 
-6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19 @563  	ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  564  =
+732cd75b8c920d Quentin Perret            2018-12-03  6870  	/*
+732cd75b8c920d Quentin Perret            2018-12-03  6871  	 * Energy-aware=
+ wake-up happens on the lowest sched_domain starting
+732cd75b8c920d Quentin Perret            2018-12-03  6872  	 * from sd_asym=
+_cpucapacity spanning over this_cpu and prev_cpu.
+732cd75b8c920d Quentin Perret            2018-12-03  6873  	 */
+732cd75b8c920d Quentin Perret            2018-12-03  6874  	sd =3D rcu_dere=
+ference(*this_cpu_ptr(&sd_asym_cpucapacity));
+732cd75b8c920d Quentin Perret            2018-12-03  6875  	while (sd && !c=
+pumask_test_cpu(prev_cpu, sched_domain_span(sd)))
+732cd75b8c920d Quentin Perret            2018-12-03  6876  		sd =3D sd->par=
+ent;
+732cd75b8c920d Quentin Perret            2018-12-03  6877  	if (!sd)
+619e090c8e409e Pierre Gondois            2021-05-04  6878  		goto unlock;
+619e090c8e409e Pierre Gondois            2021-05-04  6879  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  565  	/* priv->kms would have been populated by the MDP5 drive=
-r */
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  566  	kms =3D priv->kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  567  	if (!kms)
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  568  		return -ENOMEM;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  569  =
+619e090c8e409e Pierre Gondois            2021-05-04  6880  	target =3D prev=
+_cpu;
+732cd75b8c920d Quentin Perret            2018-12-03  6881  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  570  	mdp5_kms =3D to_mdp5_kms(to_mdp_kms(kms));
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  571  	pdev =3D mdp5_kms->pdev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  572  =
+732cd75b8c920d Quentin Perret            2018-12-03  6882  	sync_entity_loa=
+d_avg(&p->se);
+732cd75b8c920d Quentin Perret            2018-12-03  6883  	if (!task_util_=
+est(p))
+732cd75b8c920d Quentin Perret            2018-12-03  6884  		goto unlock;
+732cd75b8c920d Quentin Perret            2018-12-03  6885  =
 
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  573  	ret =3D mdp_kms_init(&mdp5_kms->base, &kms_funcs);
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  574  	if (ret) {
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  575  		DRM_DEV_ERROR(&pdev->dev, "failed to init kms\n");
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  576  		goto fail;
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  577  	}
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  578  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6886  	eenv_task_busy_=
+time(&eenv, p, prev_cpu);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6887  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  579  	irq =3D irq_of_parse_and_map(pdev->dev.of_node, 0);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  580  	if (irq < 0) {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  581  		ret =3D irq;
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
- 2018-10-20  582  		DRM_DEV_ERROR(&pdev->dev, "failed to get irq: %d\n", re=
-t);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  583  		goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  584  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  585  =
+732cd75b8c920d Quentin Perret            2018-12-03  6888  	for (; pd; pd =
+=3D pd->next) {
+227680b6d7f621 Vincent Donnefort         2022-06-21  6889  		unsigned long =
+cpu_cap, cpu_thermal_cap, util;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6890  		unsigned long =
+cur_delta, max_spare_cap =3D 0;
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6891  		bool compute_p=
+rev_delta =3D false;
+732cd75b8c920d Quentin Perret            2018-12-03  6892  		int max_spare_=
+cap_cpu =3D -1;
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6893  		unsigned long =
+base_energy;
+732cd75b8c920d Quentin Perret            2018-12-03  6894  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  586  	kms->irq =3D irq;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  587  =
+7f486e7e7ceb74 Dietmar Eggemann          2022-06-21  6895  		cpumask_and(cp=
+us, perf_domain_span(pd), cpu_online_mask);
+7f486e7e7ceb74 Dietmar Eggemann          2022-06-21  6896  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  588  	config =3D mdp5_cfg_get_config(mdp5_kms->cfg);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  589  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6897  		if (cpumask_em=
+pty(cpus))
+227680b6d7f621 Vincent Donnefort         2022-06-21  6898  			continue;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6899  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  590  	/* make sure things are off before attaching iommu (boot=
-loader could
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  591  	 * have left things on, in which case we'll start gettin=
-g faults if
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  592  	 * we don't disable):
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  593  	 */
-d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2017-07-28  594  	pm_runtime_get_sync(&pdev->dev);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  595  	for (i =3D 0; i < MDP5_INTF_NUM_MAX; i++) {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  596  		if (mdp5_cfg_intf_is_virtual(config->hw->intf.connect[i=
-]) ||
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  597  		    !config->hw->intf.base[i])
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  598  			continue;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  599  		mdp5_write(mdp5_kms, REG_MDP5_INTF_TIMING_ENGINE_EN(i),=
- 0);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  600  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6900  		/* Account the=
+rmal pressure for the energy estimation */
+227680b6d7f621 Vincent Donnefort         2022-06-21  6901  		cpu =3D cpumas=
+k_first(cpus);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6902  		cpu_thermal_ca=
+p =3D arch_scale_cpu_capacity(cpu);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6903  		cpu_thermal_ca=
+p -=3D arch_scale_thermal_pressure(cpu);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6904  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  601  		mdp5_write(mdp5_kms, REG_MDP5_INTF_FRAME_LINE_COUNT_EN(=
-i), 0x3);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  602  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  603  	mdelay(16);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  604  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6905  		eenv.cpu_cap =
+=3D cpu_thermal_cap;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6906  		eenv.pd_cap =
+=3D 0;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6907  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  605  	if (config->platform.iommu) {
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  606  		struct msm_mmu *mmu;
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  607  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6908  		for_each_cpu(c=
+pu, cpus) {
+227680b6d7f621 Vincent Donnefort         2022-06-21  6909  			eenv.pd_cap +=
+=3D cpu_thermal_cap;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6910  =
 
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  608  		iommu_dev =3D &pdev->dev;
-d3e240c4bcf003 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Joerg Roedel       =
- 2020-03-26  609  		if (!dev_iommu_fwspec_get(iommu_dev))
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  610  			iommu_dev =3D iommu_dev->parent;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  611  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6911  			if (!cpumask_=
+test_cpu(cpu, sched_domain_span(sd)))
+227680b6d7f621 Vincent Donnefort         2022-06-21  6912  				continue;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6913  =
 
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  612  		mmu =3D msm_iommu_new(iommu_dev, config->platform.iommu=
-);
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  613  =
+3bd3706251ee8a Sebastian Andrzej Siewior 2019-04-23  6914  			if (!cpumask_=
+test_cpu(cpu, p->cpus_ptr))
+732cd75b8c920d Quentin Perret            2018-12-03  6915  				continue;
+732cd75b8c920d Quentin Perret            2018-12-03  6916  =
 
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  614  		aspace =3D msm_gem_address_space_create(mmu, "mdp5",
-30480e6ed508e3 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-06-22  615  			0x1000, 0x100000000 - 0x1000);
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  616  =
+732cd75b8c920d Quentin Perret            2018-12-03  6917  			util =3D cpu_=
+util_next(cpu, p, cpu);
+732cd75b8c920d Quentin Perret            2018-12-03  6918  			cpu_cap =3D c=
+apacity_of(cpu);
+1d42509e475cdc Valentin Schneider        2019-12-11  6919  =
 
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-09-28  617  		if (IS_ERR(aspace)) {
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  618  			if (!IS_ERR(mmu))
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  619  				mmu->funcs->destroy(mmu);
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-09-28  620  			ret =3D PTR_ERR(aspace);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  621  			goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  622  		}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  623  =
+1d42509e475cdc Valentin Schneider        2019-12-11  6920  			/*
+1d42509e475cdc Valentin Schneider        2019-12-11  6921  			 * Skip CPUs =
+that cannot satisfy the capacity request.
+1d42509e475cdc Valentin Schneider        2019-12-11  6922  			 * IOW, placi=
+ng the task there would make the CPU
+1d42509e475cdc Valentin Schneider        2019-12-11  6923  			 * overutiliz=
+ed. Take uclamp into account to see how
+1d42509e475cdc Valentin Schneider        2019-12-11  6924  			 * much capac=
+ity we can get out of the CPU; this is
+a5418be9dffe70 Viresh Kumar              2020-12-08  6925  			 * aligned wi=
+th sched_cpu_util().
+1d42509e475cdc Valentin Schneider        2019-12-11  6926  			 */
+1d42509e475cdc Valentin Schneider        2019-12-11  6927  			util =3D ucla=
+mp_rq_util_with(cpu_rq(cpu), util, p);
+60e17f5cef838e Viresh Kumar              2019-06-04  6928  			if (!fits_cap=
+acity(util, cpu_cap))
+732cd75b8c920d Quentin Perret            2018-12-03  6929  				continue;
+732cd75b8c920d Quentin Perret            2018-12-03  6930  =
 
-f59f62d592a055 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2017-06-13  624  		kms->aspace =3D aspace;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  625  	} else {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
- 2018-10-20  626  		DRM_DEV_INFO(&pdev->dev,
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  627  			 "no iommu, fallback to phys contig buffers for scanou=
-t\n");
-52a8988de97f5e drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Luis de Bethencourt=
- 2018-01-17  628  		aspace =3D NULL;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  629  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  630  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6931  			lsub_positive=
+(&cpu_cap, util);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6932  =
 
-3c352b66905b29 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2017-10-20  631  	pm_runtime_put_sync(&pdev->dev);
-d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2017-07-28  632  =
+732cd75b8c920d Quentin Perret            2018-12-03  6933  			if (cpu =3D=
+=3D prev_cpu) {
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6934  				/* Always us=
+e prev_cpu as a candidate. */
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6935  				compute_prev=
+_delta =3D true;
+227680b6d7f621 Vincent Donnefort         2022-06-21  6936  			} else if (cp=
+u_cap > max_spare_cap) {
+732cd75b8c920d Quentin Perret            2018-12-03  6937  				/*
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6938  				 * Find the =
+CPU with the maximum spare capacity
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6939  				 * in the pe=
+rformance domain.
+732cd75b8c920d Quentin Perret            2018-12-03  6940  				 */
+227680b6d7f621 Vincent Donnefort         2022-06-21  6941  				max_spare_ca=
+p =3D cpu_cap;
+732cd75b8c920d Quentin Perret            2018-12-03  6942  				max_spare_ca=
+p_cpu =3D cpu;
+732cd75b8c920d Quentin Perret            2018-12-03  6943  			}
+732cd75b8c920d Quentin Perret            2018-12-03  6944  		}
+732cd75b8c920d Quentin Perret            2018-12-03  6945  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  633  	ret =3D modeset_init(mdp5_kms);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  634  	if (ret) {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
- 2018-10-20  635  		DRM_DEV_ERROR(&pdev->dev, "modeset_init failed: %d\n", =
-ret);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  636  		goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  637  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  638  =
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6946  		if (max_spare_=
+cap_cpu < 0 && !compute_prev_delta)
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6947  			continue;
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6948  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  639  	dev->mode_config.min_width =3D 0;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  640  	dev->mode_config.min_height =3D 0;
-9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-11-05  641  	dev->mode_config.max_width =3D 0xffff;
-9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-11-05  642  	dev->mode_config.max_height =3D 0xffff;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  643  =
+227680b6d7f621 Vincent Donnefort         2022-06-21  6949  		eenv_pd_busy_t=
+ime(&eenv, cpus, p);
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6950  		/* Compute the=
+ 'base' energy of the pd, without @p */
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6951  		base_energy =
+=3D compute_energy(&eenv, pd, cpus, p, -1);
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6952  =
 
-2bab52af6fe68c drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Brian Masney       =
- 2019-05-31  644  	dev->max_vblank_count =3D 0; /* max_vblank_count is set =
-on each CRTC */
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  645  	dev->vblank_disable_immediate =3D true;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  646  =
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6953  		/* Evaluate th=
+e energy impact of using prev_cpu. */
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6954  		if (compute_pr=
+ev_delta) {
+227680b6d7f621 Vincent Donnefort         2022-06-21  6955  			prev_delta =
+=3D compute_energy(&eenv, pd, cpus, p,
+227680b6d7f621 Vincent Donnefort         2022-06-21  6956  						    prev_c=
+pu);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6957  			/* CPU utiliz=
+ation has changed */
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6958  			if (prev_delt=
+a < base_energy)
+619e090c8e409e Pierre Gondois            2021-05-04  6959  				goto unlock;
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6960  			prev_delta -=
+=3D base_energy;
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6961  			best_delta =
+=3D min(best_delta, prev_delta);
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6962  		}
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6963  =
 
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  647  	return 0;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  648  fail:
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  649  	if (kms)
-392ae6e0efa5e2 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  650  		mdp5_kms_destroy(kms);
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  651  =
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6964  		/* Evaluate th=
+e energy impact of using max_spare_cap_cpu. */
+8d4c97c105ca07 Pierre Gondois            2021-05-04  6965  		if (max_spare_=
+cap_cpu >=3D 0) {
+227680b6d7f621 Vincent Donnefort         2022-06-21  6966  			cur_delta =3D=
+ compute_energy(&eenv, pd, cpus, p,
+227680b6d7f621 Vincent Donnefort         2022-06-21  6967  						   max_spa=
+re_cap_cpu);
+227680b6d7f621 Vincent Donnefort         2022-06-21  6968  			/* CPU utiliz=
+ation has changed */
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6969  			if (cur_delta=
+ < base_energy)
+619e090c8e409e Pierre Gondois            2021-05-04  6970  				goto unlock;
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6971  			cur_delta -=
+=3D base_energy;
+eb92692b2544d3 Quentin Perret            2019-09-12  6972  			if (cur_delta=
+ < best_delta) {
+eb92692b2544d3 Quentin Perret            2019-09-12  6973  				best_delta =
+=3D cur_delta;
+732cd75b8c920d Quentin Perret            2018-12-03  6974  				best_energy_=
+cpu =3D max_spare_cap_cpu;
+732cd75b8c920d Quentin Perret            2018-12-03  6975  			}
+732cd75b8c920d Quentin Perret            2018-12-03  6976  		}
+732cd75b8c920d Quentin Perret            2018-12-03  6977  	}
+732cd75b8c920d Quentin Perret            2018-12-03  6978  	rcu_read_unlock=
+();
+732cd75b8c920d Quentin Perret            2018-12-03  6979  =
 
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  652  	return ret;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  653  }
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  654  =
+2059fff7a5a2b6 Vincent Donnefort         2022-06-21  6980  	if (best_delta =
+< prev_delta)
+619e090c8e409e Pierre Gondois            2021-05-04 @6981  		target =3D bes=
+t_energy_cpu;
+732cd75b8c920d Quentin Perret            2018-12-03  6982  =
+
+619e090c8e409e Pierre Gondois            2021-05-04  6983  	return target;
+732cd75b8c920d Quentin Perret            2018-12-03  6984  =
+
+619e090c8e409e Pierre Gondois            2021-05-04  6985  unlock:
+732cd75b8c920d Quentin Perret            2018-12-03  6986  	rcu_read_unlock=
+();
+732cd75b8c920d Quentin Perret            2018-12-03  6987  =
+
+619e090c8e409e Pierre Gondois            2021-05-04  6988  	return target;
+732cd75b8c920d Quentin Perret            2018-12-03  6989  }
+732cd75b8c920d Quentin Perret            2018-12-03  6990  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9126730269740000556==--
+--===============6500261196621766146==--
 
