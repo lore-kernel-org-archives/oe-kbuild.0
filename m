@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6988992006304981563=="
+Content-Type: multipart/mixed; boundary="===============2554697340631643759=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: fs/ntfs3/frecord.c:866:9: warning: use of NULL where non-null expected [CWE-476]
-Date: Sat, 25 Jun 2022 10:59:49 +0800
-Message-ID: <202206250915.N91ECRZ3-lkp@intel.com>
+Date: Sat, 25 Jun 2022 10:59:48 +0800
+Message-ID: <202206250824.CJRn6hPy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6988992006304981563==
+--===============2554697340631643759==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -32,7 +32,7 @@ head:   6a0a17e6c6d1091ada18d43afd87fb26a82a9823
 commit: 78ab59fee07f22464f32eafebab2bd97ba94ff2d fs/ntfs3: Rework file oper=
 ations
 date:   10 months ago
-:::::: branch date: 5 hours ago
+:::::: branch date: 3 hours ago
 :::::: commit date: 10 months ago
 config: arm-randconfig-c002-20220624
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
@@ -571,7 +571,7 @@ ns and implementation
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============6988992006304981563==
+--===============2554697340631643759==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -3172,5 +3172,5 @@ VEVTVD15CiMgZW5kIG9mIEtlcm5lbCBUZXN0aW5nIGFuZCBDb3ZlcmFnZQoKQ09ORklHX1dBUk5f
 TUlTU0lOR19ET0NVTUVOVFM9eQojIENPTkZJR19XQVJOX0FCSV9FUlJPUlMgaXMgbm90IHNldAoj
 IGVuZCBvZiBLZXJuZWwgaGFja2luZwo=
 
---===============6988992006304981563==--
+--===============2554697340631643759==--
 
