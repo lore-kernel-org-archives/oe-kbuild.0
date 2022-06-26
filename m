@@ -1,229 +1,412 @@
-Content-Type: multipart/mixed; boundary="===============6258297045768226617=="
+Content-Type: multipart/mixed; boundary="===============3822959671770580905=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 337/1197] drivers/usb/storage/uas.c:564 uas_workaround() warn: possible memory leak of 'temp_request'
-Date: Sun, 26 Jun 2022 21:17:42 +0800
-Message-ID: <202206262104.pJLQ7O8m-lkp@intel.com>
+Subject: drivers/gpu/ipu-v3/ipu-image-convert.c:1955:34: warning: shift by count ('4294967295') >= precision of type ('32')
+Date: Sun, 26 Jun 2022 20:57:30 +0800
+Message-ID: <202206262021.a2EgeIrE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6258297045768226617==
+--===============3822959671770580905==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/gpu/ipu-v3/ipu-image-convert.c:1955:34: warning: shift by count ('=
+4294967295') >=3D precision of type ('32') [-Wanalyzer-shift-count-overflow=
+]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Piyush Mehta <piyush.mehta@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-CC: Manish Narani <manish.narani@xilinx.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   1e67f149fb5eb4f5eb4e0d4f69194eac6d2497d7
-commit: 6e36c8e67532397180bc05d39599d0d16a82269c [337/1197] usb: uas: Add w=
-orkaround for DATA IN urb's returned with status -EAGAIN
-:::::: branch date: 6 days ago
-:::::: commit date: 5 months ago
-config: parisc-randconfig-m031-20220622
-compiler: hppa-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0840a7914caa14315a3191178a9f72c742477860
+commit: f334f5668bedf7307f6df1d98b14f55902931926 ilog2: force inlining of _=
+_ilog2_u32() and __ilog2_u64()
+date:   3 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220624
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df334f5668bedf7307f6df1d98b14f55902931926
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f334f5668bedf7307f6df1d98b14f55902931926
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/usb/storage/uas.c:564 uas_workaround() warn: possible memory leak o=
-f 'temp_request'
 
-vim +/temp_request +564 drivers/usb/storage/uas.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+                                          |      |                 ~~ ~   =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  448  =
+                                          |      |                 |  |
+                                          |      |                 |  (28) =
+following 'false' branch...
+                                          |      |                 (27) ...=
+to here
+                                          |
+                                   <------+
+                                   |
+                                 'ipu_image_convert_adjust': events 30-31
+                                   |
+                                   | 1985 |                 outfmt =3D get_=
+format(V4L2_PIX_FMT_RGB24);
+                                   |      |                          ^~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |                          |
+                                   |      |                          (30) r=
+eturn of NULL to 'ipu_image_convert_adjust' from 'get_format'
+                                   |......
+                                   | 2011 |         in->pix.height =3D clam=
+p_align(in->pix.height, MIN_H, MAX_H,
+                                   |      |                          ~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |                          |
+                                   |      |                          (31) c=
+alling 'clamp_align' from 'ipu_image_convert_adjust'
+                                   | 2012 |                                =
+      h_align_in);
+                                   |      |                                =
+      ~~~~~~~~~~~
+                                   |
+                                   +--> 'clamp_align': events 32-34
+                                          |
+                                          | 1951 | static unsigned int clam=
+p_align(unsigned int x, unsigned int min,
+                                          |      |                     ^~~~=
+~~~~~~~
+                                          |      |                     |
+                                          |      |                     (32)=
+ entry to 'clamp_align'
+                                          |......
+                                          | 1961 |         if (align)
+                                          |      |            ~         =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  449  /*
-6e36c8e6753239 Piyush Mehta 2022-01-26  450   * This function is called onl=
-y if the DATA IN stream timer expired, which
-6e36c8e6753239 Piyush Mehta 2022-01-26  451   * means xhci host controller =
-has failed to process the TRB's present in the
-6e36c8e6753239 Piyush Mehta 2022-01-26  452   * stream ring. As a part of r=
-ecovery sequence, this function re-submits the
-6e36c8e6753239 Piyush Mehta 2022-01-26  453   * previous stopped urb on whi=
-ch xhci failed to process data and along with
-6e36c8e6753239 Piyush Mehta 2022-01-26  454   * that urb it prepares & subm=
-its sense, data and cmnd urb with scsi command
-6e36c8e6753239 Piyush Mehta 2022-01-26  455   * set to standard inquiry req=
-uest containing the next free stream id tag.
-6e36c8e6753239 Piyush Mehta 2022-01-26  456   * Doing so will make the xhci=
- start processing the previous stopped urb
-6e36c8e6753239 Piyush Mehta 2022-01-26  457   * along with the urb that has=
- standard inquiry scsi command.
-6e36c8e6753239 Piyush Mehta 2022-01-26  458   */
-6e36c8e6753239 Piyush Mehta 2022-01-26  459  static int uas_workaround(stru=
-ct urb *urb)
-6e36c8e6753239 Piyush Mehta 2022-01-26  460  {
-6e36c8e6753239 Piyush Mehta 2022-01-26  461  	struct scsi_cmnd *cmnd =3D ur=
-b->context;
-6e36c8e6753239 Piyush Mehta 2022-01-26  462  	struct scsi_device *sdev =3D =
-cmnd->device;
-6e36c8e6753239 Piyush Mehta 2022-01-26  463  	struct uas_dev_info *devinfo =
-=3D (void *)cmnd->device->hostdata;
-6e36c8e6753239 Piyush Mehta 2022-01-26  464  	struct scsi_cmnd *temp_cmnd;
-6e36c8e6753239 Piyush Mehta 2022-01-26  465  	struct uas_cmd_info *temp_cmd=
-info;
-6e36c8e6753239 Piyush Mehta 2022-01-26  466  	struct urb *sense_urb, *data_=
-urb, *cmnd_urb;
-6e36c8e6753239 Piyush Mehta 2022-01-26  467  	struct request *temp_request;
-6e36c8e6753239 Piyush Mehta 2022-01-26  468  	unsigned int idx;
-6e36c8e6753239 Piyush Mehta 2022-01-26  469  	int err;
-6e36c8e6753239 Piyush Mehta 2022-01-26  470  	char inquiry[16] =3D { 0x12, =
-0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0,
-6e36c8e6753239 Piyush Mehta 2022-01-26  471  				0x0, 0x0, 0x0, 0x0, 0x0, 0=
-x0, 0x0, 0x0 };
-6e36c8e6753239 Piyush Mehta 2022-01-26  472  =
+                                          |      |            |
+                                          |      |            (33) followin=
+g 'true' branch (when 'align !=3D 0')...
+                                          | 1962 |                 x =3D (x=
+ + (1 << (align - 1))) & mask;
+                                          |      |                 ~    =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  473  =
+                                          |      |                 |
+                                          |      |                 (34) ...=
+to here
+                                          |
+                                   <------+
+                                   |
+                                 'ipu_image_convert_adjust': event 35
+                                   |
+                                   | 2011 |         in->pix.height =3D clam=
+p_align(in->pix.height, MIN_H, MAX_H,
+                                   |      |                          ^~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |                          |
+                                   |      |                          (35) r=
+eturning to 'ipu_image_convert_adjust' from 'clamp_align'
+                                   | 2012 |                                =
+      h_align_in);
+                                   |      |                                =
+      ~~~~~~~~~~~
+                                   |
+                                 'ipu_image_convert_adjust': event 36
+                                   |
+                                   |include/linux/log2.h:160:35:
+                                   |  157 | ( \
+                                   |      | ~~~                            =
+    =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  474  	/* Find a free uas-tag */
-6e36c8e6753239 Piyush Mehta 2022-01-26  475  	for (idx =3D 0; idx < devinfo=
-->qdepth; idx++) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  476  		if (!devinfo->cmnd[idx])
-6e36c8e6753239 Piyush Mehta 2022-01-26  477  			break;
-6e36c8e6753239 Piyush Mehta 2022-01-26  478  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  479  =
+                                   |  158 |         __builtin_constant_p(n)=
+ ?       \
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |  159 |         ((n) < 2 ? 0 :         =
+         \
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |  160 |          63 - __builtin_clzll(n=
+)) :     \
+                                   |      |          ~~~~~~~~~~~~~~~~~~~~~~=
+~~~^~~~~~~
+                                   |      |                                =
+   |
+                                   |      |                                =
+   (36) calling 'tile_width_align' from 'ipu_image_convert_adjust'
+                                   |  161 |         (sizeof(n) <=3D 4) ?   =
+           \
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |  162 |         __ilog2_u32(n) :       =
+         \
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |  163 |         __ilog2_u64(n)         =
+         \
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |  164 |  )
+                                   |      |  ~                             =
+    =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  480  	if (idx =3D=3D devinfo->qdept=
-h) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  481  		shost_printk(KERN_INFO, sdev=
-->host,
-6e36c8e6753239 Piyush Mehta 2022-01-26  482  			"%s: Failed to find free ta=
-g\n", __func__);
-6e36c8e6753239 Piyush Mehta 2022-01-26  483  		err =3D -EINVAL;
-6e36c8e6753239 Piyush Mehta 2022-01-26  484  		goto free;
-6e36c8e6753239 Piyush Mehta 2022-01-26  485  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  486  =
+   drivers/gpu/ipu-v3/ipu-image-convert.c:2015:23: note: in expansion of ma=
+cro 'ilog2'
+                                   | 2015 |         w_align_out =3D ilog2(t=
+ile_width_align(IMAGE_CONVERT_OUT, outfmt,
+                                   |      |                       ^~~~~
+                                   |
+                                   +--> 'tile_width_align': events 37-42
+                                          |
+                                          |  619 | static inline u32 tile_w=
+idth_align(enum ipu_image_convert_type type,
+                                          |      |                   ^~~~~~=
+~~~~~~~~~~
+                                          |      |                   |
+                                          |      |                   (37) e=
+ntry to 'tile_width_align'
+                                          |......
+                                          |  623 |         if (type =3D=3D =
+IMAGE_CONVERT_IN) {
+                                          |      |            ~       =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  487  	/* Create a scsi_cmnd and sen=
-d dummy inquiry data on the next
-6e36c8e6753239 Piyush Mehta 2022-01-26  488  	 * available tag
-6e36c8e6753239 Piyush Mehta 2022-01-26  489  	 */
-6e36c8e6753239 Piyush Mehta 2022-01-26  490  	temp_cmnd =3D kzalloc(sizeof(=
-struct scsi_cmnd), GFP_ATOMIC);
-6e36c8e6753239 Piyush Mehta 2022-01-26  491  	if (!temp_cmnd) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  492  		shost_printk(KERN_INFO, sdev=
-->host,
-6e36c8e6753239 Piyush Mehta 2022-01-26  493  			"%s: Failed to allocate mem=
-ory for scsi_cmnd\n",
-6e36c8e6753239 Piyush Mehta 2022-01-26  494  			__func__);
-6e36c8e6753239 Piyush Mehta 2022-01-26  495  		err =3D -ENOMEM;
-6e36c8e6753239 Piyush Mehta 2022-01-26  496  		goto free;
-6e36c8e6753239 Piyush Mehta 2022-01-26  497  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  498  =
+                                          |      |            |
+                                          |      |            (38) followin=
+g 'false' branch (when 'type !=3D 0')...
+                                          |......
+                                          |  640 |         return (ipu_rot_=
+mode_is_irt(rot_mode) &&
+                                          |      |         ~~~~~~ ~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~
+                                          |      |         |
+                                          |      |         (39) ...to here
+                                          |  641 |                 fmt->pla=
+nar && !fmt->uv_packed) ?
+                                          |      |                 ~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~
+                                          |      |                    |
+                                          |      |                    (41) =
+...to here
+                                          |      |                    (42) =
+dereference of NULL 'fmt'
+                                          |  642 |                 8 * fmt-=
+>uv_width_dec : 8;
+                                          |      |                 ~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+                                          |      |                         =
+              |
+                                          |      |                         =
+              (40) following 'true' branch...
+                                          |
+   drivers/gpu/ipu-v3/ipu-image-convert.c: In function 'clamp_align':
+>> drivers/gpu/ipu-v3/ipu-image-convert.c:1955:34: warning: shift by count =
+('4294967295') >=3D precision of type ('32') [-Wanalyzer-shift-count-overfl=
+ow]
+    1955 |         unsigned int mask =3D ~((1 << align) - 1);
+         |                               ~~~^~~~~~~~~
+     'ipu_image_convert_sync': events 1-2
+       |
+       | 2453 | int ipu_image_convert_sync(struct ipu_soc *ipu, enum ipu_ic=
+_task ic_task,
+       |      |     ^~~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ipu_image_convert_sync'
+       |......
+       | 2463 |         run =3D ipu_image_convert(ipu, ic_task, in, out, ro=
+t_mode,
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+       |      |               |
+       |      |               (2) calling 'ipu_image_convert' from 'ipu_ima=
+ge_convert_sync'
+       | 2464 |                                 image_convert_sync_complete=
+, &comp);
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+       |
+       +--> 'ipu_image_convert': events 3-4
+              |
+              | 2408 | ipu_image_convert(struct ipu_soc *ipu, enum ipu_ic_t=
+ask ic_task,
+              |      | ^~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (3) entry to 'ipu_image_convert'
+              |......
+              | 2418 |         ctx =3D ipu_image_convert_prepare(ipu, ic_ta=
+sk, in, out, rot_mode,
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (4) calling 'ipu_image_convert_prepare=
+' from 'ipu_image_convert'
+              | 2419 |                                         complete, co=
+mplete_context);
+              |      |                                         ~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+              |
+              +--> 'ipu_image_convert_prepare': events 5-8
+                     |
+                     | 2073 | ipu_image_convert_prepare(struct ipu_soc *ipu=
+, enum ipu_ic_task ic_task,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (5) entry to 'ipu_image_convert_prepare'
+                     |......
+                     | 2088 |         if (!in || !out || !complete ||
+                     |      |            ~
+                     |      |            |
+                     |      |            (6) following 'false' branch...
+                     |......
+                     | 2094 |         ret =3D ipu_image_convert_verify(in, =
+out, rot_mode);
+                     |      |         ~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+                     |      |         |     |
+                     |      |         |     (8) calling 'ipu_image_convert_=
+verify' from 'ipu_image_convert_prepare'
+                     |      |         (7) ...to here
+                     |
+                     +--> 'ipu_image_convert_verify': events 9-10
+                            |
+                            | 2048 | int ipu_image_convert_verify(struct ip=
+u_image *in, struct ipu_image *out,
+                            |      |     ^~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |     |
+                            |      |     (9) entry to 'ipu_image_convert_ve=
+rify'
+                            |......
+                            | 2056 |         ipu_image_convert_adjust(&test=
+in, &testout, rot_mode);
+                            |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |         |
+                            |      |         (10) calling 'ipu_image_conver=
+t_adjust' from 'ipu_image_convert_verify'
+                            |
+                            +--> 'ipu_image_convert_adjust': events 11-12
+                                   |
+                                   | 1968 | void ipu_image_convert_adjust(s=
+truct ipu_image *in, struct ipu_image *out,
+                                   |      |      ^~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |      |
+                                   |      |      (11) entry to 'ipu_image_c=
+onvert_adjust'
+                                   |......
+                                   | 1975 |         infmt =3D get_format(in=
+->pix.pixelformat);
+                                   |      |                 ~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+                                   |      |                 |
+                                   |      |                 (12) calling 'g=
+et_format' from 'ipu_image_convert_adjust'
+                                   |
+                                   +--> 'get_format': event 13
+                                          |
+                                          |  322 | static const struct ipu_=
+image_pixfmt *get_format(u32 fourcc)
+                                          |      |                         =
+              ^~~~~~~~~~
+                                          |      |                         =
+              |
+                                          |      |                         =
+              (13) entry to 'get_format'
+                                          |
+                                        'get_format': events 14-15
+                                          |
+                                          |  327 |         for (i =3D 0; i =
+< ARRAY_SIZE(image_convert_formats); i++) {
+                                          |  328 |                 if (imag=
+e_convert_formats[i].fourcc =3D=3D fourcc) {
+                                          |      |                 ~~     =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  499  	temp_request =3D kzalloc(size=
-of(struct request), GFP_ATOMIC);
-6e36c8e6753239 Piyush Mehta 2022-01-26  500  	if (!temp_cmnd) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  501  		shost_printk(KERN_INFO, sdev=
-->host,
-6e36c8e6753239 Piyush Mehta 2022-01-26  502  			"%s: Failed to allocate mem=
-ory for request\n",
-6e36c8e6753239 Piyush Mehta 2022-01-26  503  			__func__);
-6e36c8e6753239 Piyush Mehta 2022-01-26  504  		err =3D -ENOMEM;
-6e36c8e6753239 Piyush Mehta 2022-01-26  505  		goto free;
-6e36c8e6753239 Piyush Mehta 2022-01-26  506  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  507  =
+                                          |      |                 |
+                                          |      |                 (15) ...=
+to here
+                                          |
+                                   <------+
+                                   |
+                                 'ipu_image_convert_adjust': events 16-17
+                                   |
+                                   | 1975 |         infmt =3D get_format(in=
+->pix.pixelformat);
+                                   |      |                 ^~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+                                   |      |                 |
+                                   |      |                 (16) returning =
+to 'ipu_image_convert_adjust' from 'get_format'
+                                   | 1976 |         outfmt =3D get_format(o=
+ut->pix.pixelformat);
+                                   |      |                  ~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+                                   |      |                  |
+                                   |      |                  (17) calling '=
+get_format' from 'ipu_image_convert_adjust'
+                                   |
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  508  	temp_cmnd->device =3D cmnd->d=
-evice;
-6e36c8e6753239 Piyush Mehta 2022-01-26  509  	temp_cmnd->cmnd =3D inquiry;
-6e36c8e6753239 Piyush Mehta 2022-01-26  510  	temp_cmnd->cmd_len =3D 16;
-6e36c8e6753239 Piyush Mehta 2022-01-26  511  	temp_cmnd->sdb.length =3D 0x1=
-0;
-6e36c8e6753239 Piyush Mehta 2022-01-26  512  	temp_cmnd->scsi_done =3D dumm=
-y_scsi_done;
-6e36c8e6753239 Piyush Mehta 2022-01-26  513  	temp_request->tag =3D idx;
-6e36c8e6753239 Piyush Mehta 2022-01-26  514  =
+vim +1955 drivers/gpu/ipu-v3/ipu-image-convert.c
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  515  	temp_cmdinfo =3D (struct uas_=
-cmd_info *)&temp_cmnd->SCp;
-6e36c8e6753239 Piyush Mehta 2022-01-26  516  	memset(temp_cmdinfo, 0, sizeo=
-f(struct uas_cmd_info));
-6e36c8e6753239 Piyush Mehta 2022-01-26  517  =
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1949  =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  518  	temp_cmdinfo->uas_tag =3D idx=
- + 1;
-6e36c8e6753239 Piyush Mehta 2022-01-26  519  	devinfo->cmnd[idx] =3D temp_c=
-mnd;
-6e36c8e6753239 Piyush Mehta 2022-01-26  520  =
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1950  /* borrowed from drivers/=
+media/v4l2-core/v4l2-common.c */
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1951  static unsigned int clamp=
+_align(unsigned int x, unsigned int min,
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1952  				unsigned int max, uns=
+igned int align)
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1953  {
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1954  	/* Bits that must be zer=
+o to be aligned */
+cd98e85a6b786d Steve Longerbeam 2016-09-17 @1955  	unsigned int mask =3D ~(=
+(1 << align) - 1);
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1956  =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  521  	/* Submit previously stopped =
-URB first */
-6e36c8e6753239 Piyush Mehta 2022-01-26  522  	err =3D usb_submit_urb(urb, G=
-FP_ATOMIC);
-6e36c8e6753239 Piyush Mehta 2022-01-26  523  	if (err) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  524  		shost_printk(KERN_INFO, sdev=
-->host,
-6e36c8e6753239 Piyush Mehta 2022-01-26  525  			"%s: submit err %d\n", __fu=
-nc__, err);
-6e36c8e6753239 Piyush Mehta 2022-01-26  526  		kfree(temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  527  		kfree(temp_request);
-6e36c8e6753239 Piyush Mehta 2022-01-26  528  		goto free;
-6e36c8e6753239 Piyush Mehta 2022-01-26  529  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  530  	usb_anchor_urb(urb, &devinfo-=
->data_urbs);
-6e36c8e6753239 Piyush Mehta 2022-01-26  531  =
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1957  	/* Clamp to aligned min =
+and max */
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1958  	x =3D clamp(x, (min + ~m=
+ask) & mask, max & mask);
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1959  =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  532  	/* Allocate and submit SENSE =
-urb for next available tag */
-6e36c8e6753239 Piyush Mehta 2022-01-26  533  	sense_urb =3D uas_workaround_=
-sense(devinfo, GFP_ATOMIC, temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  534  	if (!sense_urb) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  535  		kfree(temp_request);
-6e36c8e6753239 Piyush Mehta 2022-01-26  536  		kfree(temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  537  		goto free;
-6e36c8e6753239 Piyush Mehta 2022-01-26  538  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  539  =
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1960  	/* Round to nearest alig=
+ned value */
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1961  	if (align)
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1962  		x =3D (x + (1 << (align=
+ - 1))) & mask;
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1963  =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  540  	/* Allocate and submit DATA I=
-N urb for next available tag */
-6e36c8e6753239 Piyush Mehta 2022-01-26  541  	data_urb =3D uas_workaround_d=
-ata(devinfo, GFP_ATOMIC, temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  542  	if (!data_urb) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  543  		/* Kill previously allocated=
- sense urb */
-6e36c8e6753239 Piyush Mehta 2022-01-26  544  		sense_urb->context =3D NULL;
-6e36c8e6753239 Piyush Mehta 2022-01-26  545  		usb_kill_urb(sense_urb);
-6e36c8e6753239 Piyush Mehta 2022-01-26  546  		usb_put_urb(sense_urb);
-6e36c8e6753239 Piyush Mehta 2022-01-26  547  		kfree(temp_request);
-6e36c8e6753239 Piyush Mehta 2022-01-26  548  		kfree(temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  549  		goto free;
-6e36c8e6753239 Piyush Mehta 2022-01-26  550  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  551  =
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1964  	return x;
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1965  }
+cd98e85a6b786d Steve Longerbeam 2016-09-17  1966  =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  552  	/* Allocate and submit CMND u=
-rb with dummy inquiry data */
-6e36c8e6753239 Piyush Mehta 2022-01-26  553  	cmnd_urb =3D uas_workaround_c=
-mnd(devinfo, GFP_ATOMIC, temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  554  	if (!cmnd_urb) {
-6e36c8e6753239 Piyush Mehta 2022-01-26  555  		/* Kill previously allocated=
- data urb */
-6e36c8e6753239 Piyush Mehta 2022-01-26  556  		data_urb->context =3D NULL;
-6e36c8e6753239 Piyush Mehta 2022-01-26  557  		usb_kill_urb(data_urb);
-6e36c8e6753239 Piyush Mehta 2022-01-26  558  		usb_put_urb(data_urb);
-6e36c8e6753239 Piyush Mehta 2022-01-26  559  		kfree(temp_request);
-6e36c8e6753239 Piyush Mehta 2022-01-26  560  		kfree(temp_cmnd);
-6e36c8e6753239 Piyush Mehta 2022-01-26  561  	}
-6e36c8e6753239 Piyush Mehta 2022-01-26  562  =
 
-6e36c8e6753239 Piyush Mehta 2022-01-26  563  free:
-6e36c8e6753239 Piyush Mehta 2022-01-26 @564  	return err;
-6e36c8e6753239 Piyush Mehta 2022-01-26  565  }
-6e36c8e6753239 Piyush Mehta 2022-01-26  566  =
+:::::: The code@line 1955 was first introduced by commit
+:::::: cd98e85a6b786da83e0b120b53a182d100c19c9b gpu: ipu-v3: Add queued ima=
+ge conversion support
 
+:::::: TO: Steve Longerbeam <slongerbeam@gmail.com>
+:::::: CC: Philipp Zabel <p.zabel@pengutronix.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6258297045768226617==--
+--===============3822959671770580905==--
 
