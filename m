@@ -1,190 +1,413 @@
-Content-Type: multipart/mixed; boundary="===============0247592229298546575=="
+Content-Type: multipart/mixed; boundary="===============2344881049125613615=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/s390/kernel/vtime.c:148:13: sparse: sparse: too long token expansion
-Date: Fri, 01 Jul 2022 02:33:45 +0800
-Message-ID: <202207010242.bHbSCpsB-lkp@intel.com>
+Subject: [ardb:for-kernelci 18/18] fs/efivarfs/vars.c:600:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 27 Jun 2022 05:13:16 +0800
+Message-ID: <202206270512.gkcuJqn3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0247592229298546575==
+--===============2344881049125613615==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/s390/kernel/vtime.c:148:13: sparse: sparse: too long token expansion"
+:::::: Manual check reason: "low confidence static check warning: fs/efivar=
+fs/vars.c:600:2: warning: Value stored to 'err' is never read [clang-analyz=
+er-deadcode.DeadStores]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Ian Abbott <abbotti@mev.co.uk>
-CC: 0day robot <lkp@intel.com>
+TO: Ard Biesheuvel <ardb@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20220624-1857=
-49/Ian-Abbott/typecheck-h-Force-a-compilation-error-if-typecheck-type-x-fai=
-ls/20220203-223926
-head:   cd7ada76c22048d07d7b311abf1d181d6d6fe6e2
-commit: cd7ada76c22048d07d7b311abf1d181d6d6fe6e2 typecheck.h: Force a compi=
-lation error if typecheck(type,x) fails
-date:   6 days ago
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-ke=
+rnelci
+head:   f51a4cf21aeb5f981799be9ffc2111729dd0f15e
+commit: f51a4cf21aeb5f981799be9ffc2111729dd0f15e [18/18] efi: vars: move ef=
+ivar caching layer into efivarfs
 :::::: branch date: 6 days ago
 :::::: commit date: 6 days ago
-config: s390-randconfig-s031-20220629 (https://download.01.org/0day-ci/arch=
-ive/20220701/202207010242.bHbSCpsB-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce:
+config: riscv-randconfig-c006-20220625
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 42a7dd=
+b428c999229491b0effbb1a4059149fba8)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/cd7ada76c22048d07d7=
-b311abf1d181d6d6fe6e2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review UPDATE-20220624-185749/Ian-Abbott/=
-typecheck-h-Force-a-compilation-error-if-typecheck-type-x-fails/20220203-22=
-3926
-        git checkout cd7ada76c22048d07d7b311abf1d181d6d6fe6e2
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/co=
+mmit/?id=3Df51a4cf21aeb5f981799be9ffc2111729dd0f15e
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/a=
+rdb/linux.git
+        git fetch --no-tags ardb for-kernelci
+        git checkout f51a4cf21aeb5f981799be9ffc2111729dd0f15e
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Ds=
-390 SHELL=3D/bin/bash
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> arch/s390/kernel/vtime.c:148:13: sparse: sparse: too long token expansion
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:352:22: note: expanded from macro 'compil=
+etime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   include/linux/compiler_types.h:340:23: note: expanded from macro '_compi=
+letime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:332:9: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   include/linux/sched.h:1661:2: note: Taking false branch
+           BUILD_BUG_ON(1 + ilog2(TASK_REPORT_MAX) !=3D sizeof(state_char) =
+- 1);
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:332:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/sched.h:1661:2: note: Loop condition is false.  Exiting lo=
+op
+           BUILD_BUG_ON(1 + ilog2(TASK_REPORT_MAX) !=3D sizeof(state_char) =
+- 1);
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:324:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/sched.h:1663:2: note: Undefined or garbage value returned =
+to caller
+           return state_char[state];
+           ^      ~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:4312:2: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&p->stats, 0, sizeof(p->stats));
+           ^~~~~~
+   kernel/sched/core.c:4312:2: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+           memset(&p->stats, 0, sizeof(p->stats));
+           ^~~~~~
+   kernel/sched/core.c:4551:3: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&p->sched_info, 0, sizeof(p->sched_info));
+                   ^~~~~~
+   kernel/sched/core.c:4551:3: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+                   memset(&p->sched_info, 0, sizeof(p->sched_info));
+                   ^~~~~~
+   kernel/sched/core.c:5640:16: warning: Value stored to 'preempt_disable_i=
+p' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           unsigned long preempt_disable_ip =3D get_preempt_disable_ip(curr=
+ent);
+                         ^~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   kernel/sched/core.c:5640:16: note: Value stored to 'preempt_disable_ip' =
+during its initialization is never read
+           unsigned long preempt_disable_ip =3D get_preempt_disable_ip(curr=
+ent);
+                         ^~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   kernel/sched/core.c:6428:3: warning: Value stored to 'rq' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   rq =3D context_switch(rq, prev, next, &rf);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6428:3: note: Value stored to 'rq' is never read
+                   rq =3D context_switch(rq, prev, next, &rf);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:7677:2: warning: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(attr, 0, sizeof(*attr));
+           ^~~~~~
+   kernel/sched/core.c:7677:2: note: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11
+           memset(attr, 0, sizeof(*attr));
+           ^~~~~~
+   kernel/sched/core.c:9545:3: warning: Value stored to 'ptr' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   ptr +=3D nr_cpu_ids * sizeof(void **);
+                   ^
+   kernel/sched/core.c:9545:3: note: Value stored to 'ptr' is never read
+   kernel/sched/core.c:10974:6: warning: Call to function 'sscanf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           if (sscanf(buf, "%20s %llu", tok, periodp) < 1)
+               ^~~~~~
+   kernel/sched/core.c:10974:6: note: Call to function 'sscanf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sscanf_s' in case of C11
+           if (sscanf(buf, "%20s %llu", tok, periodp) < 1)
+               ^~~~~~
+   kernel/sched/core.c:10979:6: warning: Call to function 'sscanf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           if (sscanf(tok, "%llu", quotap))
+               ^~~~~~
+   kernel/sched/core.c:10979:6: note: Call to function 'sscanf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sscanf_s' in case of C11
+           if (sscanf(tok, "%llu", quotap))
+               ^~~~~~
+   Suppressed 97 warnings (91 in non-user code, 6 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   34 warnings generated.
+>> fs/efivarfs/vars.c:600:2: warning: Value stored to 'err' is never read [=
+clang-analyzer-deadcode.DeadStores]
+           err =3D __efivar_entry_get(entry, attributes, size, data);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/efivarfs/vars.c:600:2: note: Value stored to 'err' is never read
+           err =3D __efivar_entry_get(entry, attributes, size, data);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   35 warnings generated.
+   ipc/msg.c:329:3: warning: Call to function 'memset' is insecure as it do=
+es not provide security checks introduced in the C11 standard. Replace with=
+ analogous functions that support length arguments or provides boundary che=
+cks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.=
+DeprecatedOrUnsafeBufferHandling]
+                   memset(&out, 0, sizeof(out));
+                   ^~~~~~
+   ipc/msg.c:329:3: note: Call to function 'memset' is insecure as it does =
+not provide security checks introduced in the C11 standard. Replace with an=
+alogous functions that support length arguments or provides boundary checks=
+ such as 'memset_s' in case of C11
+                   memset(&out, 0, sizeof(out));
+                   ^~~~~~
+   ipc/msg.c:491:2: warning: Call to function 'memset' is insecure as it do=
+es not provide security checks introduced in the C11 standard. Replace with=
+ analogous functions that support length arguments or provides boundary che=
+cks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.=
+DeprecatedOrUnsafeBufferHandling]
+           memset(msginfo, 0, sizeof(*msginfo));
+           ^~~~~~
+   ipc/msg.c:491:2: note: Call to function 'memset' is insecure as it does =
+not provide security checks introduced in the C11 standard. Replace with an=
+alogous functions that support length arguments or provides boundary checks=
+ such as 'memset_s' in case of C11
+           memset(msginfo, 0, sizeof(*msginfo));
+           ^~~~~~
+   ipc/msg.c:518:2: warning: Call to function 'memset' is insecure as it do=
+es not provide security checks introduced in the C11 standard. Replace with=
+ analogous functions that support length arguments or provides boundary che=
+cks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.=
+DeprecatedOrUnsafeBufferHandling]
+           memset(p, 0, sizeof(*p));
+           ^~~~~~
+   ipc/msg.c:518:2: note: Call to function 'memset' is insecure as it does =
+not provide security checks introduced in the C11 standard. Replace with an=
+alogous functions that support length arguments or provides boundary checks=
+ such as 'memset_s' in case of C11
+           memset(p, 0, sizeof(*p));
+           ^~~~~~
+   Suppressed 32 warnings (32 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   ipc/sem.c:688:29: warning: Access to field 'sem_num' results in a derefe=
+rence of a null pointer (loaded from variable 'sop') [clang-analyzer-core.N=
+ullDereference]
+                   ipc_update_pid(&sma->sems[sop->sem_num].sempid, pid);
+                                             ^
+   ipc/sem.c:2341:6: note: Assuming 'ulp' is non-null
+           if (!ulp)
+               ^~~~
+   ipc/sem.c:2341:2: note: Taking false branch
+           if (!ulp)
+           ^
+   ipc/sem.c:2345:2: note: Taking false branch
+           if (!refcount_dec_and_test(&ulp->refcnt))
+           ^
+   ipc/sem.c:2348:2: note: Loop condition is true.  Entering loop body
+           for (;;) {
+           ^
+   ipc/sem.c:2357:8: note: Left side of '||' is false
+                   un =3D list_entry_rcu(ulp->list_proc.next,
+                        ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   ipc/sem.c:2357:8: note: Left side of '||' is false
+                   un =3D list_entry_rcu(ulp->list_proc.next,
+                        ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:319:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   ipc/sem.c:2357:8: note: Left side of '||' is true
+                   un =3D list_entry_rcu(ulp->list_proc.next,
+                        ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:320:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   ipc/sem.c:2357:8: note: Taking false branch
+                   un =3D list_entry_rcu(ulp->list_proc.next,
+                        ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
 
-vim +148 arch/s390/kernel/vtime.c
+vim +/err +600 fs/efivarfs/vars.c
 
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  120  =
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  584  =
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  121  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  122   * Update process times=
- based on virtual cpu times stored by entry.S
-^1da177e4c3f41 Linus Torvalds      2005-04-16  123   * to the lowcore field=
-s user_timer, system_timer & steal_clock.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  124   */
-8f2b468aadc81c Martin Schwidefsky  2016-12-20  125  static int do_account_v=
-time(struct task_struct *tsk)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  126  {
-152e9b8676c6e7 Martin Schwidefsky  2019-03-06  127  	u64 timer, clock, user=
-, guest, system, hardirq, softirq;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  128  =
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  585  /**
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  586   * efivar_entry_get - call g=
+et_variable()
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  587   * @entry: read data for thi=
+s variable
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  588   * @attributes: variable att=
+ributes
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  589   * @size: size of @data buff=
+er
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  590   * @data: buffer to store va=
+riable data
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  591   */
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  592  int efivar_entry_get(struct =
+efivar_entry *entry, u32 *attributes,
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  593  		     unsigned long *size, =
+void *data)
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  594  {
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  595  	int err;
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  596  =
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  129  	timer =3D S390_lowcore=
-.last_update_timer;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  130  	clock =3D S390_lowcore=
-.last_update_clock;
-1c7673476b8298 Heiko Carstens      2021-02-02  131  	/* Use STORE CLOCK by =
-default, STORE CLOCK FAST if available. */
-1c7673476b8298 Heiko Carstens      2021-02-02  132  	alternative_io("stpt %=
-0\n .insn s,0xb2050000,%1\n",
-1c7673476b8298 Heiko Carstens      2021-02-02  133  		       "stpt %0\n .in=
-sn s,0xb27c0000,%1\n",
-1c7673476b8298 Heiko Carstens      2021-02-02  134  		       25,
-1c7673476b8298 Heiko Carstens      2021-02-02  135  		       ASM_OUTPUT2("=
-=3DQ" (S390_lowcore.last_update_timer),
-1c7673476b8298 Heiko Carstens      2021-02-02  136  				   "=3DQ" (S390_low=
-core.last_update_clock)),
-1c7673476b8298 Heiko Carstens      2021-02-02  137  		       ASM_NO_INPUT_C=
-LOBBER("cc"));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  138  	clock =3D S390_lowcore=
-.last_update_clock - clock;
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  139  	timer -=3D S390_lowcor=
-e.last_update_timer;
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  140  =
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  597  	err =3D efivar_lock();
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  598  	if (err)
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  599  		return err;
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20 @600  	err =3D __efivar_entry_get(=
+entry, attributes, size, data);
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  601  	efivar_unlock();
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  602  =
 
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  141  	if (hardirq_count())
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  142  		S390_lowcore.hardirq_=
-timer +=3D timer;
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  143  	else
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  144  		S390_lowcore.system_t=
-imer +=3D timer;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  145  =
-
-72d38b19781de4 Martin Schwidefsky  2015-09-18  146  	/* Update MT utilizati=
-on calculation */
-f341b8dff9823a Martin Schwidefsky  2015-08-03  147  	if (smp_cpu_mtid &&
-72d38b19781de4 Martin Schwidefsky  2015-09-18 @148  	    time_after64(jiffi=
-es_64, this_cpu_read(mt_scaling_jiffies)))
-72d38b19781de4 Martin Schwidefsky  2015-09-18  149  		update_mt_scaling();
-10ad34bc76dfbc Martin Schwidefsky  2015-01-14  150  =
-
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  151  	/* Calculate cputime d=
-elta */
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  152  	user =3D update_tsk_ti=
-mer(&tsk->thread.user_timer,
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  153  				READ_ONCE(S390_lowc=
-ore.user_timer));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  154  	guest =3D update_tsk_t=
-imer(&tsk->thread.guest_timer,
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  155  				 READ_ONCE(S390_low=
-core.guest_timer));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  156  	system =3D update_tsk_=
-timer(&tsk->thread.system_timer,
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  157  				  READ_ONCE(S390_lo=
-wcore.system_timer));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  158  	hardirq =3D update_tsk=
-_timer(&tsk->thread.hardirq_timer,
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  159  				   READ_ONCE(S390_l=
-owcore.hardirq_timer));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  160  	softirq =3D update_tsk=
-_timer(&tsk->thread.softirq_timer,
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  161  				   READ_ONCE(S390_l=
-owcore.softirq_timer));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  162  	S390_lowcore.steal_tim=
-er +=3D
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  163  		clock - user - guest =
-- system - hardirq - softirq;
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  164  =
-
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  165  	/* Push account value =
-*/
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  166  	if (user) {
-23244a5c8003d4 Frederic Weisbecker 2017-01-31  167  		account_user_time(tsk=
-, cputime_to_nsecs(user));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  168  		tsk->utimescaled +=3D=
- cputime_to_nsecs(scale_vtime(user));
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  169  	}
-10ad34bc76dfbc Martin Schwidefsky  2015-01-14  170  =
-
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  171  	if (guest) {
-fb8b049c988f1f Frederic Weisbecker 2017-01-31  172  		account_guest_time(ts=
-k, cputime_to_nsecs(guest));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  173  		tsk->utimescaled +=3D=
- cputime_to_nsecs(scale_vtime(guest));
-10ad34bc76dfbc Martin Schwidefsky  2015-01-14  174  	}
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  175  =
-
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  176  	if (system)
-b29e061bb7a8d2 Martin Schwidefsky  2017-05-12  177  		account_system_index_=
-scaled(tsk, system, CPUTIME_SYSTEM);
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  178  	if (hardirq)
-b29e061bb7a8d2 Martin Schwidefsky  2017-05-12  179  		account_system_index_=
-scaled(tsk, hardirq, CPUTIME_IRQ);
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  180  	if (softirq)
-b29e061bb7a8d2 Martin Schwidefsky  2017-05-12  181  		account_system_index_=
-scaled(tsk, softirq, CPUTIME_SOFTIRQ);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  182  =
-
-b7394a5f4ce954 Martin Schwidefsky  2017-01-05  183  	return virt_timer_forw=
-ard(user + guest + system + hardirq + softirq);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  184  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  185  =
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  603  	return 0;
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  604  }
+f51a4cf21aeb5f Ard Biesheuvel 2022-06-20  605  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0247592229298546575==--
+--===============2344881049125613615==--
 
