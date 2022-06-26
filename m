@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0663634151721644558=="
+Content-Type: multipart/mixed; boundary="===============6258297045768226617=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 415/1197] drivers/uio/uio_dmabuf.c:163 uio_dmabuf_unmap() warn: iterator used outside loop: 'dbuf_mem'
-Date: Sun, 26 Jun 2022 22:28:55 +0800
-Message-ID: <202206262245.4Ea8u0Up-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 337/1197] drivers/usb/storage/uas.c:564 uas_workaround() warn: possible memory leak of 'temp_request'
+Date: Sun, 26 Jun 2022 21:17:42 +0800
+Message-ID: <202206262104.pJLQ7O8m-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0663634151721644558==
+--===============6258297045768226617==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,13 +15,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-arm-kernel(a)lists.infradead.org
-TO: Hyun Kwon <hyun.kwon@xilinx.com>
+TO: Piyush Mehta <piyush.mehta@xilinx.com>
 CC: Michal Simek <monstr@monstr.eu>
+CC: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+CC: Manish Narani <manish.narani@xilinx.com>
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
 head:   1e67f149fb5eb4f5eb4e0d4f69194eac6d2497d7
-commit: b648abcf3cf96c8f2aa1fa5b7f22122c27296496 [415/1197] uio: Add dma-bu=
-f import ioctls
+commit: 6e36c8e67532397180bc05d39599d0d16a82269c [337/1197] usb: uas: Add w=
+orkaround for DATA IN urb's returned with status -EAGAIN
 :::::: branch date: 6 days ago
 :::::: commit date: 5 months ago
 config: parisc-randconfig-m031-20220622
@@ -32,87 +34,196 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/uio/uio_dmabuf.c:163 uio_dmabuf_unmap() warn: iterator used outside=
- loop: 'dbuf_mem'
+drivers/usb/storage/uas.c:564 uas_workaround() warn: possible memory leak o=
+f 'temp_request'
 
-vim +/dbuf_mem +163 drivers/uio/uio_dmabuf.c
+vim +/temp_request +564 drivers/usb/storage/uas.c
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  143  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  448  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  144  long uio_dmabuf_unmap(struct uio=
-_device *dev, struct list_head *dbufs,
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  145  		      struct mutex *dbufs_lock=
-, void __user *user_args)
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  146  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  449  /*
+6e36c8e6753239 Piyush Mehta 2022-01-26  450   * This function is called onl=
+y if the DATA IN stream timer expired, which
+6e36c8e6753239 Piyush Mehta 2022-01-26  451   * means xhci host controller =
+has failed to process the TRB's present in the
+6e36c8e6753239 Piyush Mehta 2022-01-26  452   * stream ring. As a part of r=
+ecovery sequence, this function re-submits the
+6e36c8e6753239 Piyush Mehta 2022-01-26  453   * previous stopped urb on whi=
+ch xhci failed to process data and along with
+6e36c8e6753239 Piyush Mehta 2022-01-26  454   * that urb it prepares & subm=
+its sense, data and cmnd urb with scsi command
+6e36c8e6753239 Piyush Mehta 2022-01-26  455   * set to standard inquiry req=
+uest containing the next free stream id tag.
+6e36c8e6753239 Piyush Mehta 2022-01-26  456   * Doing so will make the xhci=
+ start processing the previous stopped urb
+6e36c8e6753239 Piyush Mehta 2022-01-26  457   * along with the urb that has=
+ standard inquiry scsi command.
+6e36c8e6753239 Piyush Mehta 2022-01-26  458   */
+6e36c8e6753239 Piyush Mehta 2022-01-26  459  static int uas_workaround(stru=
+ct urb *urb)
+6e36c8e6753239 Piyush Mehta 2022-01-26  460  {
+6e36c8e6753239 Piyush Mehta 2022-01-26  461  	struct scsi_cmnd *cmnd =3D ur=
+b->context;
+6e36c8e6753239 Piyush Mehta 2022-01-26  462  	struct scsi_device *sdev =3D =
+cmnd->device;
+6e36c8e6753239 Piyush Mehta 2022-01-26  463  	struct uas_dev_info *devinfo =
+=3D (void *)cmnd->device->hostdata;
+6e36c8e6753239 Piyush Mehta 2022-01-26  464  	struct scsi_cmnd *temp_cmnd;
+6e36c8e6753239 Piyush Mehta 2022-01-26  465  	struct uas_cmd_info *temp_cmd=
+info;
+6e36c8e6753239 Piyush Mehta 2022-01-26  466  	struct urb *sense_urb, *data_=
+urb, *cmnd_urb;
+6e36c8e6753239 Piyush Mehta 2022-01-26  467  	struct request *temp_request;
+6e36c8e6753239 Piyush Mehta 2022-01-26  468  	unsigned int idx;
+6e36c8e6753239 Piyush Mehta 2022-01-26  469  	int err;
+6e36c8e6753239 Piyush Mehta 2022-01-26  470  	char inquiry[16] =3D { 0x12, =
+0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0,
+6e36c8e6753239 Piyush Mehta 2022-01-26  471  				0x0, 0x0, 0x0, 0x0, 0x0, 0=
+x0, 0x0, 0x0 };
+6e36c8e6753239 Piyush Mehta 2022-01-26  472  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  147  {
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  148  	struct uio_dmabuf_args args;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  149  	struct uio_dmabuf_mem *dbuf_mem;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  150  	long ret;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  151  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  473  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  152  	if (copy_from_user(&args, user_=
-args, sizeof(args))) {
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  153  		ret =3D -EFAULT;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  154  		goto err;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  155  	}
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  156  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  474  	/* Find a free uas-tag */
+6e36c8e6753239 Piyush Mehta 2022-01-26  475  	for (idx =3D 0; idx < devinfo=
+->qdepth; idx++) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  476  		if (!devinfo->cmnd[idx])
+6e36c8e6753239 Piyush Mehta 2022-01-26  477  			break;
+6e36c8e6753239 Piyush Mehta 2022-01-26  478  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  479  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  157  	mutex_lock(dbufs_lock);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  158  	list_for_each_entry(dbuf_mem, d=
-bufs, list) {
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  159  		if (dbuf_mem->dbuf_fd =3D=3D a=
-rgs.dbuf_fd)
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  160  			break;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  161  	}
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  162  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  480  	if (idx =3D=3D devinfo->qdept=
+h) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  481  		shost_printk(KERN_INFO, sdev=
+->host,
+6e36c8e6753239 Piyush Mehta 2022-01-26  482  			"%s: Failed to find free ta=
+g\n", __func__);
+6e36c8e6753239 Piyush Mehta 2022-01-26  483  		err =3D -EINVAL;
+6e36c8e6753239 Piyush Mehta 2022-01-26  484  		goto free;
+6e36c8e6753239 Piyush Mehta 2022-01-26  485  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  486  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04 @163  	if (dbuf_mem->dbuf_fd !=3D args=
-.dbuf_fd) {
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  164  		dev_err(dev->dev.parent, "fail=
-ed to find the dmabuf (%d)\n",
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  165  			args.dbuf_fd);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  166  		ret =3D -EINVAL;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  167  		goto err_unlock;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  168  	}
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  169  	list_del(&dbuf_mem->list);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  170  	mutex_unlock(dbufs_lock);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  171  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  487  	/* Create a scsi_cmnd and sen=
+d dummy inquiry data on the next
+6e36c8e6753239 Piyush Mehta 2022-01-26  488  	 * available tag
+6e36c8e6753239 Piyush Mehta 2022-01-26  489  	 */
+6e36c8e6753239 Piyush Mehta 2022-01-26  490  	temp_cmnd =3D kzalloc(sizeof(=
+struct scsi_cmnd), GFP_ATOMIC);
+6e36c8e6753239 Piyush Mehta 2022-01-26  491  	if (!temp_cmnd) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  492  		shost_printk(KERN_INFO, sdev=
+->host,
+6e36c8e6753239 Piyush Mehta 2022-01-26  493  			"%s: Failed to allocate mem=
+ory for scsi_cmnd\n",
+6e36c8e6753239 Piyush Mehta 2022-01-26  494  			__func__);
+6e36c8e6753239 Piyush Mehta 2022-01-26  495  		err =3D -ENOMEM;
+6e36c8e6753239 Piyush Mehta 2022-01-26  496  		goto free;
+6e36c8e6753239 Piyush Mehta 2022-01-26  497  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  498  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  172  	dma_buf_unmap_attachment(dbuf_m=
-em->dbuf_attach, dbuf_mem->sgt,
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  173  				 dbuf_mem->dir);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  174  	dma_buf_detach(dbuf_mem->dbuf, =
-dbuf_mem->dbuf_attach);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  175  	dma_buf_put(dbuf_mem->dbuf);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  176  	kfree(dbuf_mem);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  177  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  499  	temp_request =3D kzalloc(size=
+of(struct request), GFP_ATOMIC);
+6e36c8e6753239 Piyush Mehta 2022-01-26  500  	if (!temp_cmnd) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  501  		shost_printk(KERN_INFO, sdev=
+->host,
+6e36c8e6753239 Piyush Mehta 2022-01-26  502  			"%s: Failed to allocate mem=
+ory for request\n",
+6e36c8e6753239 Piyush Mehta 2022-01-26  503  			__func__);
+6e36c8e6753239 Piyush Mehta 2022-01-26  504  		err =3D -ENOMEM;
+6e36c8e6753239 Piyush Mehta 2022-01-26  505  		goto free;
+6e36c8e6753239 Piyush Mehta 2022-01-26  506  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  507  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  178  	memset(&args, 0x0, sizeof(args)=
-);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  179  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  508  	temp_cmnd->device =3D cmnd->d=
+evice;
+6e36c8e6753239 Piyush Mehta 2022-01-26  509  	temp_cmnd->cmnd =3D inquiry;
+6e36c8e6753239 Piyush Mehta 2022-01-26  510  	temp_cmnd->cmd_len =3D 16;
+6e36c8e6753239 Piyush Mehta 2022-01-26  511  	temp_cmnd->sdb.length =3D 0x1=
+0;
+6e36c8e6753239 Piyush Mehta 2022-01-26  512  	temp_cmnd->scsi_done =3D dumm=
+y_scsi_done;
+6e36c8e6753239 Piyush Mehta 2022-01-26  513  	temp_request->tag =3D idx;
+6e36c8e6753239 Piyush Mehta 2022-01-26  514  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  180  	if (copy_to_user(user_args, &ar=
-gs, sizeof(args))) {
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  181  		ret =3D -EFAULT;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  182  		goto err;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  183  	}
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  184  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  515  	temp_cmdinfo =3D (struct uas_=
+cmd_info *)&temp_cmnd->SCp;
+6e36c8e6753239 Piyush Mehta 2022-01-26  516  	memset(temp_cmdinfo, 0, sizeo=
+f(struct uas_cmd_info));
+6e36c8e6753239 Piyush Mehta 2022-01-26  517  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  185  	return 0;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  186  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  518  	temp_cmdinfo->uas_tag =3D idx=
+ + 1;
+6e36c8e6753239 Piyush Mehta 2022-01-26  519  	devinfo->cmnd[idx] =3D temp_c=
+mnd;
+6e36c8e6753239 Piyush Mehta 2022-01-26  520  =
 
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  187  err_unlock:
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  188  	mutex_unlock(dbufs_lock);
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  189  err:
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  190  	return ret;
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  191  }
-b648abcf3cf96c8 Hyun Kwon 2019-03-04  192  =
+6e36c8e6753239 Piyush Mehta 2022-01-26  521  	/* Submit previously stopped =
+URB first */
+6e36c8e6753239 Piyush Mehta 2022-01-26  522  	err =3D usb_submit_urb(urb, G=
+FP_ATOMIC);
+6e36c8e6753239 Piyush Mehta 2022-01-26  523  	if (err) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  524  		shost_printk(KERN_INFO, sdev=
+->host,
+6e36c8e6753239 Piyush Mehta 2022-01-26  525  			"%s: submit err %d\n", __fu=
+nc__, err);
+6e36c8e6753239 Piyush Mehta 2022-01-26  526  		kfree(temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  527  		kfree(temp_request);
+6e36c8e6753239 Piyush Mehta 2022-01-26  528  		goto free;
+6e36c8e6753239 Piyush Mehta 2022-01-26  529  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  530  	usb_anchor_urb(urb, &devinfo-=
+>data_urbs);
+6e36c8e6753239 Piyush Mehta 2022-01-26  531  =
+
+6e36c8e6753239 Piyush Mehta 2022-01-26  532  	/* Allocate and submit SENSE =
+urb for next available tag */
+6e36c8e6753239 Piyush Mehta 2022-01-26  533  	sense_urb =3D uas_workaround_=
+sense(devinfo, GFP_ATOMIC, temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  534  	if (!sense_urb) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  535  		kfree(temp_request);
+6e36c8e6753239 Piyush Mehta 2022-01-26  536  		kfree(temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  537  		goto free;
+6e36c8e6753239 Piyush Mehta 2022-01-26  538  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  539  =
+
+6e36c8e6753239 Piyush Mehta 2022-01-26  540  	/* Allocate and submit DATA I=
+N urb for next available tag */
+6e36c8e6753239 Piyush Mehta 2022-01-26  541  	data_urb =3D uas_workaround_d=
+ata(devinfo, GFP_ATOMIC, temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  542  	if (!data_urb) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  543  		/* Kill previously allocated=
+ sense urb */
+6e36c8e6753239 Piyush Mehta 2022-01-26  544  		sense_urb->context =3D NULL;
+6e36c8e6753239 Piyush Mehta 2022-01-26  545  		usb_kill_urb(sense_urb);
+6e36c8e6753239 Piyush Mehta 2022-01-26  546  		usb_put_urb(sense_urb);
+6e36c8e6753239 Piyush Mehta 2022-01-26  547  		kfree(temp_request);
+6e36c8e6753239 Piyush Mehta 2022-01-26  548  		kfree(temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  549  		goto free;
+6e36c8e6753239 Piyush Mehta 2022-01-26  550  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  551  =
+
+6e36c8e6753239 Piyush Mehta 2022-01-26  552  	/* Allocate and submit CMND u=
+rb with dummy inquiry data */
+6e36c8e6753239 Piyush Mehta 2022-01-26  553  	cmnd_urb =3D uas_workaround_c=
+mnd(devinfo, GFP_ATOMIC, temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  554  	if (!cmnd_urb) {
+6e36c8e6753239 Piyush Mehta 2022-01-26  555  		/* Kill previously allocated=
+ data urb */
+6e36c8e6753239 Piyush Mehta 2022-01-26  556  		data_urb->context =3D NULL;
+6e36c8e6753239 Piyush Mehta 2022-01-26  557  		usb_kill_urb(data_urb);
+6e36c8e6753239 Piyush Mehta 2022-01-26  558  		usb_put_urb(data_urb);
+6e36c8e6753239 Piyush Mehta 2022-01-26  559  		kfree(temp_request);
+6e36c8e6753239 Piyush Mehta 2022-01-26  560  		kfree(temp_cmnd);
+6e36c8e6753239 Piyush Mehta 2022-01-26  561  	}
+6e36c8e6753239 Piyush Mehta 2022-01-26  562  =
+
+6e36c8e6753239 Piyush Mehta 2022-01-26  563  free:
+6e36c8e6753239 Piyush Mehta 2022-01-26 @564  	return err;
+6e36c8e6753239 Piyush Mehta 2022-01-26  565  }
+6e36c8e6753239 Piyush Mehta 2022-01-26  566  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0663634151721644558==--
+--===============6258297045768226617==--
 
