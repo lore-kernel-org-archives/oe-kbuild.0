@@ -1,465 +1,250 @@
-Content-Type: multipart/mixed; boundary="===============5682387334335052699=="
+Content-Type: multipart/mixed; boundary="===============6824587821300780437=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1577/5720] drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:582:19: warning: Value stored to 'qmp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 27 Jun 2022 03:04:29 +0000
-Message-ID: <202206261517.wU5Ehotq-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-multiqueue 5/9] net/rxrpc/af_rxrpc.c:948:2: sparse: sparse: compat_setsockopt disappeared
+Date: Mon, 27 Jun 2022 06:03:55 +0800
+Message-ID: <202206270544.ZjtwYn0F-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5682387334335052699==
+--===============6824587821300780437==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/p=
-hy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:582:19: warning: Value stored to 'q=
-mp' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]"
+:::::: Manual check reason: "low confidence static check warning: net/rxrpc=
+/af_rxrpc.c:948:2: sparse: sparse: compat_setsockopt disappeared"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Vinod Koul <vkoul@kernel.org>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   2f9cb3d3bd73fc2225d66aa8fcffb632ed3eb235
-commit: 4856865b0dec88570edfbdf3e9c3b551923c0768 [1577/5720] phy: qcom-qmp-=
-pcie-msm8996: cleanup the driver
-:::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-c006-20220617
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 916887=
-16ba49942051dccdf7b9c4f81a7ec8feaf)
-reproduce (this is a W=3D1 build):
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-=
+multiqueue
+head:   9d38361e5122a5aa9192faf3d3ea55bd7c302d09
+commit: 313eea79a952d095d26bb59d1d560731b354a078 [5/9] rxrpc: Allow the cal=
+l to interact with to be preselected
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-s031-20220626
+compiler: aarch64-linux-gcc (GCC) 11.3.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D4856865b0dec88570edfbdf3e9c3b551923c0768
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 4856865b0dec88570edfbdf3e9c3b551923c0768
+        # apt-get install sparse
+        # sparse version: v0.6.4-31-g4880bd19-dirty
+        # https://github.com/ammarfaizi2/linux-block/commit/313eea79a952d09=
+5d26bb59d1d560731b354a078
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/rxrpc-multi=
+queue
+        git checkout 313eea79a952d095d26bb59d1d560731b354a078
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm64 SHELL=3D/bin/bash net/rxrpc/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                 ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/max6621.c:323:10: note: Calling 'max6621_temp_mc2reg'
-                           val =3D max6621_temp_mc2reg(val);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/max6621.c:135:23: note: The result of the left shift is un=
-defined because the left operand is negative
-           return (val / 1000L) << MAX6621_REG_TEMP_SHIFT;
-                  ~~~~~~~~~~~~~ ^
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   49 warnings generated.
-   drivers/target/target_core_file.c:502:2: warning: Call to function 'mems=
-et' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memset_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(buf, 0xff, bufsize);
-           ^~~~~~
-   drivers/target/target_core_file.c:502:2: note: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11
-           memset(buf, 0xff, bufsize);
-           ^~~~~~
-   drivers/target/target_core_file.c:799:7: warning: Call to function 'spri=
-ntf' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'sprintf_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           bl =3D sprintf(b + bl, "TCM FILEIO ID: %u", fd_dev->fd_dev_id);
-                ^~~~~~~
-   drivers/target/target_core_file.c:799:7: note: Call to function 'sprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'sprintf_s' in case of C11
-           bl =3D sprintf(b + bl, "TCM FILEIO ID: %u", fd_dev->fd_dev_id);
-                ^~~~~~~
-   drivers/target/target_core_file.c:800:8: warning: Call to function 'spri=
-ntf' is insecure as it does not provide bounding of the memory buffer or se=
-curity checks introduced in the C11 standard. Replace with analogous functi=
-ons that support length arguments or provides boundary checks such as 'spri=
-ntf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsa=
-feBufferHandling]
-           bl +=3D sprintf(b + bl, "        File: %s  Size: %llu  Mode: %s =
-Async: %d\n",
-                 ^~~~~~~
-   drivers/target/target_core_file.c:800:8: note: Call to function 'sprintf=
-' is insecure as it does not provide bounding of the memory buffer or secur=
-ity checks introduced in the C11 standard. Replace with analogous functions=
- that support length arguments or provides boundary checks such as 'sprintf=
-_s' in case of C11
-           bl +=3D sprintf(b + bl, "        File: %s  Size: %llu  Mode: %s =
-Async: %d\n",
-                 ^~~~~~~
-   drivers/target/target_core_file.c:851:2: warning: Call to function 'snpr=
-intf' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'snprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(buf, FD_MAX_DEV_PROT_NAME, "%s.protection",
-           ^~~~~~~~
-   drivers/target/target_core_file.c:851:2: note: Call to function 'snprint=
-f' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(buf, FD_MAX_DEV_PROT_NAME, "%s.protection",
-           ^~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   Suppressed 32 warnings (32 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   Suppressed 33 warnings (33 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/dma/sh/usb-dmac.c:720:2: warning: Call to function 'sprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(pdev_irqname, "ch%u", index);
-           ^~~~~~~
-   drivers/dma/sh/usb-dmac.c:720:2: note: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11
-           sprintf(pdev_irqname, "ch%u", index);
-           ^~~~~~~
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/dma/sh/rz-dmac.c:753:2: warning: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(pdev_irqname, "ch%u", index);
-           ^~~~~~~
-   drivers/dma/sh/rz-dmac.c:753:2: note: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11
-           sprintf(pdev_irqname, "ch%u", index);
-           ^~~~~~~
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:1884:19: warning: Value stored =
-to 'qmp' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct qcom_qmp *qmp =3D qphy->qmp;
-                            ^~~   ~~~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:1884:19: note: Value stored to =
-'qmp' during its initialization is never read
-           struct qcom_qmp *qmp =3D qphy->qmp;
-                            ^~~   ~~~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2256:2: warning: Call to functi=
-on 'snprintf' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'snprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(prop_name, sizeof(prop_name), "pipe%d", id);
-           ^~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2256:2: note: Call to function =
-'snprintf' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(prop_name, sizeof(prop_name), "pipe%d", id);
-           ^~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
->> drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:582:19: warning: Value =
-stored to 'qmp' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           struct qcom_qmp *qmp =3D qphy->qmp;
-                            ^~~   ~~~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:582:19: note: Value sto=
-red to 'qmp' during its initialization is never read
-           struct qcom_qmp *qmp =3D qphy->qmp;
-                            ^~~   ~~~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:927:2: warning: Call to=
- function 'snprintf' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'snprintf_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(prop_name, sizeof(prop_name), "pipe%d", id);
-           ^~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:927:2: note: Call to fu=
-nction 'snprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'snprintf_s' in case of C=
-11
-           snprintf(prop_name, sizeof(prop_name), "pipe%d", id);
-           ^~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:943:2: warning: Call to=
- function 'snprintf' is insecure as it does not provide security checks int=
-roduced in the C11 standard. Replace with analogous functions that support =
-length arguments or provides boundary checks such as 'snprintf_s' in case o=
-f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(prop_name, sizeof(prop_name), "lane%d", id);
-           ^~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c:943:2: note: Call to fu=
-nction 'snprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'snprintf_s' in case of C=
-11
-           snprintf(prop_name, sizeof(prop_name), "lane%d", id);
-           ^~~~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   drivers/opp/core.c:995:3: warning: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data->old_opp.supplies, old_opp->supplies, size);
-                   ^~~~~~
-   drivers/opp/core.c:995:3: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-                   memcpy(data->old_opp.supplies, old_opp->supplies, size);
-                   ^~~~~~
-   drivers/opp/core.c:996:3: warning: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data->new_opp.supplies, opp->supplies, size);
-                   ^~~~~~
-   drivers/opp/core.c:996:3: note: Call to function 'memcpy' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memcpy_s' in case of C11
-                   memcpy(data->new_opp.supplies, opp->supplies, size);
-                   ^~~~~~
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   34 warnings generated.
-   drivers/opp/of.c:586:3: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   snprintf(name, sizeof(name), "opp-microvolt-%s",
-                   ^~~~~~~~
-   drivers/opp/of.c:586:3: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-                   snprintf(name, sizeof(name), "opp-microvolt-%s",
-                   ^~~~~~~~
-   drivers/opp/of.c:593:3: warning: Call to function 'sprintf' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(name, "opp-microvolt");
-                   ^~~~~~~
-   drivers/opp/of.c:593:3: note: Call to function 'sprintf' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'sprintf_s' in case of C11
-                   sprintf(name, "opp-microvolt");
-                   ^~~~~~~
-   drivers/opp/of.c:649:3: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   snprintf(name, sizeof(name), "opp-microamp-%s",
-                   ^~~~~~~~
-   drivers/opp/of.c:649:3: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-                   snprintf(name, sizeof(name), "opp-microamp-%s",
-                   ^~~~~~~~
-   drivers/opp/of.c:656:3: warning: Call to function 'sprintf' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(name, "opp-microamp");
-                   ^~~~~~~
-   drivers/opp/of.c:656:3: note: Call to function 'sprintf' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'sprintf_s' in case of C11
-                   sprintf(name, "opp-microamp");
-                   ^~~~~~~
-   drivers/opp/of.c:693:2: warning: Call to function 'sprintf' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(name, "opp-microwatt");
-           ^~~~~~~
-   drivers/opp/of.c:693:2: note: Call to function 'sprintf' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'sprintf_s' in case of C11
-           sprintf(name, "opp-microwatt");
-           ^~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
-   drivers/phy/cadence/phy-cadence-sierra.c:750:2: warning: Call to functio=
-n 'snprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'snprintf_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(clk_name, sizeof(clk_name), "%s_%s", dev_name(dev), clk=
-_names[clk_index]);
-           ^~~~~~~~
-   drivers/phy/cadence/phy-cadence-sierra.c:750:2: note: Call to function '=
-snprintf' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(clk_name, sizeof(clk_name), "%s_%s", dev_name(dev), clk=
-_names[clk_index]);
-           ^~~~~~~~
-   drivers/phy/cadence/phy-cadence-sierra.c:848:2: warning: Call to functio=
-n 'snprintf' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'snprintf_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(clk_name, sizeof(clk_name), "%s_%s", dev_name(dev),
-           ^~~~~~~~
-   drivers/phy/cadence/phy-cadence-sierra.c:848:2: note: Call to function '=
-snprintf' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(clk_name, sizeof(clk_name), "%s_%s", dev_name(dev),
-           ^~~~~~~~
-   Suppressed 46 warnings (46 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   drivers/phy/cadence/phy-cadence-salvo.c:227:2: warning: Value stored to =
-'value' is never read [clang-analyzer-deadcode.DeadStores]
-           value |=3D RXDET_IN_P3_32KHZ;
-           ^
-   drivers/phy/cadence/phy-cadence-salvo.c:227:2: note: Value stored to 'va=
-lue' is never read
-   Suppressed 46 warnings (45 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   drivers/phy/hisilicon/phy-hi3670-usb3.c:355:3: warning: Value stored to =
-'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D regmap_write(priv->pctrl, PCTRL_PERI_CTRL3,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/hisilicon/phy-hi3670-usb3.c:355:3: note: Value stored to 're=
-t' is never read
+sparse warnings: (new ones prefixed by >>)
+>> net/rxrpc/af_rxrpc.c:948:2: sparse: sparse: compat_setsockopt disappeared
 
-vim +/qmp +582 drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c
+vim +948 net/rxrpc/af_rxrpc.c
 
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  578  =
+313eea79a952d0 David Howells     2019-10-10  848  =
 
-2abf0c8e61a900 Dmitry Baryshkov 2022-06-08  579  static int qcom_qmp_phy_pc=
-ie_msm8996_init(struct phy *phy)
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  580  {
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  581  	struct qmp_phy *qphy =3D =
-phy_get_drvdata(phy);
-94a407cc17a445 Dmitry Baryshkov 2022-06-08 @582  	struct qcom_qmp *qmp =3D =
-qphy->qmp;
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  583  	int ret;
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  584  	dev_vdbg(qmp->dev, "Initi=
-alizing QMP phy\n");
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  585  =
+17926a79320afa David Howells     2007-04-26  849  /*
+17926a79320afa David Howells     2007-04-26  850   * set RxRPC socket optio=
+ns
+17926a79320afa David Howells     2007-04-26  851   */
+17926a79320afa David Howells     2007-04-26  852  static int rxrpc_setsocko=
+pt(struct socket *sock, int level, int optname,
+a7b75c5a8c4144 Christoph Hellwig 2020-07-23  853  			    sockptr_t optval, =
+unsigned int optlen)
+17926a79320afa David Howells     2007-04-26  854  {
+17926a79320afa David Howells     2007-04-26  855  	struct rxrpc_sock *rx =
+=3D rxrpc_sk(sock->sk);
+313eea79a952d0 David Howells     2019-10-10  856  	unsigned long long call_=
+id;
+95c961747284a6 Eric Dumazet      2012-04-15  857  	unsigned int min_sec_lev=
+el;
+4722974d90e06d David Howells     2017-06-05  858  	u16 service_upgrade[2];
+a8b1b8262cc1a7 David Howells     2022-06-16  859  	int ret, fd;
+17926a79320afa David Howells     2007-04-26  860  =
 
-2abf0c8e61a900 Dmitry Baryshkov 2022-06-08  586  	ret =3D qcom_qmp_phy_pcie=
-_msm8996_com_init(qphy);
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  587  	if (ret)
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  588  		return ret;
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  589  =
+17926a79320afa David Howells     2007-04-26  861  	_enter(",%d,%d,,%d", lev=
+el, optname, optlen);
+17926a79320afa David Howells     2007-04-26  862  =
 
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  590  	return 0;
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  591  }
-94a407cc17a445 Dmitry Baryshkov 2022-06-08  592  =
+17926a79320afa David Howells     2007-04-26  863  	lock_sock(&rx->sk);
+17926a79320afa David Howells     2007-04-26  864  	ret =3D -EOPNOTSUPP;
+17926a79320afa David Howells     2007-04-26  865  =
 
+17926a79320afa David Howells     2007-04-26  866  	if (level =3D=3D SOL_RXR=
+PC) {
+17926a79320afa David Howells     2007-04-26  867  		switch (optname) {
+17926a79320afa David Howells     2007-04-26  868  		case RXRPC_EXCLUSIVE_CO=
+NNECTION:
+17926a79320afa David Howells     2007-04-26  869  			ret =3D -EINVAL;
+17926a79320afa David Howells     2007-04-26  870  			if (optlen !=3D 0)
+17926a79320afa David Howells     2007-04-26  871  				goto error;
+17926a79320afa David Howells     2007-04-26  872  			ret =3D -EISCONN;
+2341e077574786 David Howells     2016-06-09  873  			if (rx->sk.sk_state !=
+=3D RXRPC_UNBOUND)
+17926a79320afa David Howells     2007-04-26  874  				goto error;
+cc8feb8edd92d8 David Howells     2016-04-04  875  			rx->exclusive =3D true;
+17926a79320afa David Howells     2007-04-26  876  			goto success;
+17926a79320afa David Howells     2007-04-26  877  =
 
-:::::: The code at line 582 was first introduced by commit
-:::::: 94a407cc17a445ddb3f7315cee0b0916d35d177c phy: qcom-qmp: create copie=
-s of QMP PHY driver
+17926a79320afa David Howells     2007-04-26  878  		case RXRPC_SECURITY_KEY:
+17926a79320afa David Howells     2007-04-26  879  			ret =3D -EINVAL;
+17926a79320afa David Howells     2007-04-26  880  			if (rx->key)
+17926a79320afa David Howells     2007-04-26  881  				goto error;
+17926a79320afa David Howells     2007-04-26  882  			ret =3D -EISCONN;
+2341e077574786 David Howells     2016-06-09  883  			if (rx->sk.sk_state !=
+=3D RXRPC_UNBOUND)
+17926a79320afa David Howells     2007-04-26  884  				goto error;
+17926a79320afa David Howells     2007-04-26  885  			ret =3D rxrpc_request_=
+key(rx, optval, optlen);
+17926a79320afa David Howells     2007-04-26  886  			goto error;
+17926a79320afa David Howells     2007-04-26  887  =
 
-:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+17926a79320afa David Howells     2007-04-26  888  		case RXRPC_SECURITY_KEY=
+RING:
+17926a79320afa David Howells     2007-04-26  889  			ret =3D -EINVAL;
+17926a79320afa David Howells     2007-04-26  890  			if (rx->key)
+17926a79320afa David Howells     2007-04-26  891  				goto error;
+17926a79320afa David Howells     2007-04-26  892  			ret =3D -EISCONN;
+2341e077574786 David Howells     2016-06-09  893  			if (rx->sk.sk_state !=
+=3D RXRPC_UNBOUND)
+17926a79320afa David Howells     2007-04-26  894  				goto error;
+17926a79320afa David Howells     2007-04-26  895  			ret =3D rxrpc_server_k=
+eyring(rx, optval, optlen);
+17926a79320afa David Howells     2007-04-26  896  			goto error;
+17926a79320afa David Howells     2007-04-26  897  =
+
+17926a79320afa David Howells     2007-04-26  898  		case RXRPC_MIN_SECURITY=
+_LEVEL:
+17926a79320afa David Howells     2007-04-26  899  			ret =3D -EINVAL;
+95c961747284a6 Eric Dumazet      2012-04-15  900  			if (optlen !=3D sizeof=
+(unsigned int))
+17926a79320afa David Howells     2007-04-26  901  				goto error;
+17926a79320afa David Howells     2007-04-26  902  			ret =3D -EISCONN;
+2341e077574786 David Howells     2016-06-09  903  			if (rx->sk.sk_state !=
+=3D RXRPC_UNBOUND)
+17926a79320afa David Howells     2007-04-26  904  				goto error;
+a7b75c5a8c4144 Christoph Hellwig 2020-07-23  905  			ret =3D copy_from_sock=
+ptr(&min_sec_level, optval,
+a7b75c5a8c4144 Christoph Hellwig 2020-07-23  906  				       sizeof(unsigne=
+d int));
+17926a79320afa David Howells     2007-04-26  907  			if (ret < 0)
+17926a79320afa David Howells     2007-04-26  908  				goto error;
+17926a79320afa David Howells     2007-04-26  909  			ret =3D -EINVAL;
+17926a79320afa David Howells     2007-04-26  910  			if (min_sec_level > RX=
+RPC_SECURITY_MAX)
+17926a79320afa David Howells     2007-04-26  911  				goto error;
+17926a79320afa David Howells     2007-04-26  912  			rx->min_sec_level =3D =
+min_sec_level;
+17926a79320afa David Howells     2007-04-26  913  			goto success;
+17926a79320afa David Howells     2007-04-26  914  =
+
+4722974d90e06d David Howells     2017-06-05  915  		case RXRPC_UPGRADEABLE_=
+SERVICE:
+4722974d90e06d David Howells     2017-06-05  916  			ret =3D -EINVAL;
+b130b073513295 David Howells     2022-06-16  917  			if (optlen !=3D sizeof=
+(service_upgrade))
+4722974d90e06d David Howells     2017-06-05  918  				goto error;
+4722974d90e06d David Howells     2017-06-05  919  			ret =3D -EISCONN;
+b130b073513295 David Howells     2022-06-16  920  			if (rx->sk.sk_state !=
+=3D RXRPC_SERVER_BOUND)
+4722974d90e06d David Howells     2017-06-05  921  				goto error;
+4722974d90e06d David Howells     2017-06-05  922  			ret =3D -EFAULT;
+a7b75c5a8c4144 Christoph Hellwig 2020-07-23  923  			if (copy_from_sockptr(=
+service_upgrade, optval,
+4722974d90e06d David Howells     2017-06-05  924  					   sizeof(service_up=
+grade)) !=3D 0)
+4722974d90e06d David Howells     2017-06-05  925  				goto error;
+b130b073513295 David Howells     2022-06-16  926  			mutex_lock(&rx->local-=
+>services_lock);
+b130b073513295 David Howells     2022-06-16  927  			ret =3D rxrpc_bind_ser=
+vice_upgrade(rx, service_upgrade[0],
+b130b073513295 David Howells     2022-06-16  928  							 service_upgrade[1=
+]);
+b130b073513295 David Howells     2022-06-16  929  			mutex_unlock(&rx->loca=
+l->services_lock);
+b130b073513295 David Howells     2022-06-16  930  			if (ret < 0)
+4722974d90e06d David Howells     2017-06-05  931  				goto error;
+4722974d90e06d David Howells     2017-06-05  932  			goto success;
+4722974d90e06d David Howells     2017-06-05  933  =
+
+a8b1b8262cc1a7 David Howells     2022-06-16  934  		case RXRPC_BIND_CHANNEL:
+a8b1b8262cc1a7 David Howells     2022-06-16  935  			ret =3D -EINVAL;
+a8b1b8262cc1a7 David Howells     2022-06-16  936  			if (optlen !=3D sizeof=
+(fd))
+a8b1b8262cc1a7 David Howells     2022-06-16  937  				goto error;
+a8b1b8262cc1a7 David Howells     2022-06-16  938  			ret =3D -EFAULT;
+a8b1b8262cc1a7 David Howells     2022-06-16  939  			if (copy_from_sockptr(=
+&fd, optval, sizeof(fd)) !=3D 0)
+a8b1b8262cc1a7 David Howells     2022-06-16  940  				goto error;
+a8b1b8262cc1a7 David Howells     2022-06-16  941  			ret =3D rxrpc_bind_cha=
+nnel(rx, fd);
+a8b1b8262cc1a7 David Howells     2022-06-16  942  			if (ret < 0)
+a8b1b8262cc1a7 David Howells     2022-06-16  943  				goto error;
+a8b1b8262cc1a7 David Howells     2022-06-16  944  			goto success;
+a8b1b8262cc1a7 David Howells     2022-06-16  945  =
+
+313eea79a952d0 David Howells     2019-10-10  946  		case RXRPC_SELECT_CALL_=
+FOR_RECV:
+313eea79a952d0 David Howells     2019-10-10  947  		case RXRPC_SELECT_CALL_=
+FOR_SEND:
+313eea79a952d0 David Howells     2019-10-10 @948  #warning compat_setsockop=
+t disappeared
+313eea79a952d0 David Howells     2019-10-10  949  			ret =3D -EINVAL;
+313eea79a952d0 David Howells     2019-10-10  950  			if (optlen !=3D sizeof=
+(call_id))
+313eea79a952d0 David Howells     2019-10-10  951  				goto error;
+313eea79a952d0 David Howells     2019-10-10  952  			ret =3D -EFAULT;
+313eea79a952d0 David Howells     2019-10-10  953  			if (copy_from_sockptr(=
+&call_id, optval,
+313eea79a952d0 David Howells     2019-10-10  954  					      sizeof(call_id=
+)) !=3D 0)
+313eea79a952d0 David Howells     2019-10-10  955  				goto error;
+313eea79a952d0 David Howells     2019-10-10  956  			ret =3D rxrpc_set_sele=
+ct_call(rx, call_id, optname);
+313eea79a952d0 David Howells     2019-10-10  957  			goto error;
+313eea79a952d0 David Howells     2019-10-10  958  =
+
+17926a79320afa David Howells     2007-04-26  959  		default:
+313eea79a952d0 David Howells     2019-10-10  960  			goto error;
+17926a79320afa David Howells     2007-04-26  961  		}
+313eea79a952d0 David Howells     2019-10-10  962  	} else {
+313eea79a952d0 David Howells     2019-10-10  963  		goto error;
+17926a79320afa David Howells     2007-04-26  964  	}
+17926a79320afa David Howells     2007-04-26  965  =
+
+17926a79320afa David Howells     2007-04-26  966  success:
+17926a79320afa David Howells     2007-04-26  967  	ret =3D 0;
+17926a79320afa David Howells     2007-04-26  968  error:
+17926a79320afa David Howells     2007-04-26  969  	release_sock(&rx->sk);
+17926a79320afa David Howells     2007-04-26  970  	return ret;
+17926a79320afa David Howells     2007-04-26  971  }
+17926a79320afa David Howells     2007-04-26  972  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5682387334335052699==--
+--===============6824587821300780437==--
 
