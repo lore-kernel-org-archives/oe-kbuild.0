@@ -1,338 +1,574 @@
-Content-Type: multipart/mixed; boundary="===============8072660447298390713=="
+Content-Type: multipart/mixed; boundary="===============4655741857270346284=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [alobakin:bitops 6/9] fs/ext4/ialloc.c:296 ext4_free_inode() error: we previously assumed '&(grp->bb_state)' could be null (see line 296)
+Subject: fs/ntfs3/frecord.c:866:9: warning: use of NULL where non-null expected [CWE-476]
 Date: Mon, 27 Jun 2022 03:04:29 +0000
-Message-ID: <202206261031.IsA8gYRe-lkp@intel.com>
+Message-ID: <202206260624.bDBsVSYC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8072660447298390713==
+--===============4655741857270346284==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/ntfs3/=
+frecord.c:866:9: warning: use of NULL where non-null expected [CWE-476] [-W=
+analyzer-null-argument]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-CC: Marco Elver <elver@google.com>
+TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-tree:   https://github.com/alobakin/linux bitops
-head:   3d9705b33014389e95ff8ac2eeadd081934aa571
-commit: e9cfd713a4977a015d0bec5f26abb0ad7111e202 [6/9] bitops: let optimize=
- out non-atomic bitops on compile-time constants
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-rhel-8.3-kselftests
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0840a7914caa14315a3191178a9f72c742477860
+commit: 78ab59fee07f22464f32eafebab2bd97ba94ff2d fs/ntfs3: Rework file oper=
+ations
+date:   10 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220624
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D78ab59fee07f22464f32eafebab2bd97ba94ff2d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 78ab59fee07f22464f32eafebab2bd97ba94ff2d
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/ext4/ialloc.c:296 ext4_free_inode() error: we previously assumed '&(grp-=
->bb_state)' could be null (see line 296)
-fs/ext4/mballoc.c:1500 ext4_mb_load_buddy_gfp() error: we previously assume=
-d '&(grp->bb_state)' could be null (see line 1500)
-fs/ext4/mballoc.c:1792 mb_free_blocks() error: we previously assumed '&((e4=
-b->bd_info)->bb_state)' could be null (see line 1792)
-fs/ext4/mballoc.c:2211 ext4_mb_find_by_goal() error: we previously assumed =
-'&((e4b->bd_info)->bb_state)' could be null (see line 2211)
-fs/ext4/mballoc.c:2426 ext4_mb_good_group() error: we previously assumed '&=
-(grp->bb_state)' could be null (see line 2426)
-fs/ext4/mballoc.c:2882 ext4_mb_seq_groups_show() error: we previously assum=
-ed '&(grinfo->bb_state)' could be null (see line 2882)
-fs/ext4/mballoc.c:6529 ext4_trim_fs() error: we previously assumed '&(grp->=
-bb_state)' could be null (see line 6529)
 
-Old smatch warnings:
-include/asm-generic/bitops/generic-non-atomic.h:158 const_test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/generic-non-atomic.h:98 generic___test_and_clear=
-_bit() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:114 ___test_and_clear_=
-bit() warn: ignoring unreachable code.
-include/asm-generic/bitops/generic-non-atomic.h:78 generic___test_and_set_b=
-it() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:99 ___test_and_set_bit=
-() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:141 _test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/generic-non-atomic.h:158 const_test_bit() warn: =
-ignoring unreachable code.
-include/asm-generic/bitops/generic-non-atomic.h:98 generic___test_and_clear=
-_bit() warn: ignoring unreachable code.
-include/asm-generic/bitops/instrumented-non-atomic.h:114 ___test_and_clear_=
-bit() warn: ignoring unreachable code.
-fs/ext4/mballoc.c:3994 ext4_mb_mark_bb() error: uninitialized symbol 'err'.
-fs/ext4/mballoc.c:4625 ext4_mb_put_pa() warn: inconsistent returns '&pa->pa=
-_lock'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+                     |      |            ^~~~~~~~~
+                     |      |            |
+                     |      |            (35) entry to 'ni_repack'
+                     |......
+                     |  527 |         struct ATTR_LIST_ENTRY *le =3D NULL, =
+*le_p;
+                     |      |                                 ~~
+                     |      |                                 |
+                     |      |                                 (36) 'le' is =
+NULL
+                     |......
+                     |  536 |         while ((attr =3D ni_enum_attr_ex(ni, =
+attr, &le, &mi))) {
+                     |      |                        ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
+                     |      |                        |
+                     |      |                        (37) calling 'ni_enum_=
+attr_ex' from 'ni_repack'
+                     |
+                     +--> 'ni_enum_attr_ex': events 38-39
+                            |
+                            |  249 | struct ATTRIB *ni_enum_attr_ex(struct =
+ntfs_inode *ni, struct ATTRIB *attr,
+                            |      |                ^~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (38) entry to 'ni_enum_=
+attr_ex'
+                            |......
+                            |  257 |         if (!ni->attr_list.size) {
+                            |      |            ~    =
 
-vim +296 fs/ext4/ialloc.c
+                            |      |            |
+                            |      |            (39) following 'true' branc=
+h...
+                            |
+                          'ni_enum_attr_ex': events 40-42
+                            |
+                            |  258 |                 *le =3D NULL;
+                            |  259 |                 if (mi)
+                            |      |                    ~ =
 
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  218  =
-
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  219  /*
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  220   * NOTE! When we get t=
-he inode, we're the only people
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  221   * that have access to=
- it, and as such there are no
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  222   * race conditions we =
-have to worry about. The inode
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  223   * is not on the hash-=
-lists, and it cannot be reached
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  224   * through the filesys=
-tem because the directory entry
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  225   * has been deleted ea=
-rlier.
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  226   *
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  227   * HOWEVER: we must ma=
-ke sure that we get no aliases,
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  228   * which means that we=
- have to call "clear_inode()"
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  229   * _before_ we mark th=
-e inode not in use in the inode
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  230   * bitmaps. Otherwise =
-a newly created file might use
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  231   * the same inode numb=
-er (not actually the same pointer
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  232   * though), and then w=
-e'd have two inodes sharing the
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  233   * same inode number a=
-nd space on the harddisk.
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  234   */
-617ba13b31fbf5 Mingming Cao         2006-10-11  235  void ext4_free_inode(h=
-andle_t *handle, struct inode *inode)
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  236  {
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  237  	struct super_block *s=
-b =3D inode->i_sb;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  238  	int is_directory;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  239  	unsigned long ino;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  240  	struct buffer_head *b=
-itmap_bh =3D NULL;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  241  	struct buffer_head *b=
-h2;
-fd2d42912f9f09 Avantika Mathur      2008-01-28  242  	ext4_group_t block_gr=
-oup;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  243  	unsigned long bit;
-617ba13b31fbf5 Mingming Cao         2006-10-11  244  	struct ext4_group_des=
-c *gdp;
-617ba13b31fbf5 Mingming Cao         2006-10-11  245  	struct ext4_super_blo=
-ck *es;
-617ba13b31fbf5 Mingming Cao         2006-10-11  246  	struct ext4_sb_info *=
-sbi;
-7ce9d5d1f3c873 Eric Sandeen         2009-03-04  247  	int fatal =3D 0, err,=
- count, cleared;
-87a39389be3e3b Darrick J. Wong      2013-08-28  248  	struct ext4_group_inf=
-o *grp;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  249  =
-
-92b9781658dba2 Theodore Ts'o        2012-03-19  250  	if (!sb) {
-92b9781658dba2 Theodore Ts'o        2012-03-19  251  		printk(KERN_ERR "EXT=
-4-fs: %s:%d: inode on "
-92b9781658dba2 Theodore Ts'o        2012-03-19  252  		       "nonexistent =
-device\n", __func__, __LINE__);
-92b9781658dba2 Theodore Ts'o        2012-03-19  253  		return;
-92b9781658dba2 Theodore Ts'o        2012-03-19  254  	}
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  255  	if (atomic_read(&inod=
-e->i_count) > 1) {
-92b9781658dba2 Theodore Ts'o        2012-03-19  256  		ext4_msg(sb, KERN_ER=
-R, "%s:%d: inode #%lu: count=3D%d",
-92b9781658dba2 Theodore Ts'o        2012-03-19  257  			 __func__, __LINE__=
-, inode->i_ino,
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  258  			 atomic_read(&inode=
-->i_count));
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  259  		return;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  260  	}
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  261  	if (inode->i_nlink) {
-92b9781658dba2 Theodore Ts'o        2012-03-19  262  		ext4_msg(sb, KERN_ER=
-R, "%s:%d: inode #%lu: nlink=3D%d\n",
-92b9781658dba2 Theodore Ts'o        2012-03-19  263  			 __func__, __LINE__=
-, inode->i_ino, inode->i_nlink);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  264  		return;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  265  	}
-617ba13b31fbf5 Mingming Cao         2006-10-11  266  	sbi =3D EXT4_SB(sb);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  267  =
-
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  268  	ino =3D inode->i_ino;
-617ba13b31fbf5 Mingming Cao         2006-10-11  269  	ext4_debug("freeing i=
-node %lu\n", ino);
-9bffad1ed2a003 Theodore Ts'o        2009-06-17  270  	trace_ext4_free_inode=
-(inode);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  271  =
-
-871a293155a245 Christoph Hellwig    2010-03-03  272  	dquot_initialize(inod=
-e);
-63936ddaa16b94 Christoph Hellwig    2010-03-03  273  	dquot_free_inode(inod=
-e);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  274  =
-
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  275  	is_directory =3D S_IS=
-DIR(inode->i_mode);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  276  =
-
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  277  	/* Do this BEFORE mar=
-king the inode not in use or returning an error */
-0930fcc1ee2f0a Al Viro              2010-06-07  278  	ext4_clear_inode(inod=
-e);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  279  =
-
-49598e04b5a1c3 Jun Piao             2018-01-11  280  	es =3D sbi->s_es;
-617ba13b31fbf5 Mingming Cao         2006-10-11  281  	if (ino < EXT4_FIRST_=
-INO(sb) || ino > le32_to_cpu(es->s_inodes_count)) {
-12062dddda4509 Eric Sandeen         2010-02-15  282  		ext4_error(sb, "rese=
-rved or nonexistent inode %lu", ino);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  283  		goto error_return;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  284  	}
-617ba13b31fbf5 Mingming Cao         2006-10-11  285  	block_group =3D (ino =
-- 1) / EXT4_INODES_PER_GROUP(sb);
-617ba13b31fbf5 Mingming Cao         2006-10-11  286  	bit =3D (ino - 1) % E=
-XT4_INODES_PER_GROUP(sb);
-e29d1cde63be0b Eric Sandeen         2008-08-02  287  	bitmap_bh =3D ext4_re=
-ad_inode_bitmap(sb, block_group);
-87a39389be3e3b Darrick J. Wong      2013-08-28  288  	/* Don't bother if th=
-e inode bitmap is corrupt. */
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  289  	if (IS_ERR(bitmap_bh)=
+                            |      |                    |
+                            |      |                    (41) following 'tru=
+e' branch (when 'mi' is non-NULL)...
+                            |  260 |                         *mi =3D &ni->m=
+i;
+                            |      |                               ~~~~~~~
+                            |      |                               |
+                            |      |                               (42) ...=
+to here
+                            |
+                     <------+
+                     |
+                   'ni_repack': events 43-46
+                     |
+                     |  536 |         while ((attr =3D ni_enum_attr_ex(ni, =
+attr, &le, &mi))) {
+                     |      |                ~       ^~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
+                     |      |                |       |
+                     |      |                |       (43) returning to 'ni_=
+repack' from 'ni_enum_attr_ex'
+                     |      |                (44) following 'true' branch (=
+when 'attr' is non-NULL)...
+                     |  537 |                 if (!attr->non_res)
+                     |      |                    ~ ~~~~~~~~~~~~~
+                     |      |                    |     |
+                     |      |                    |     (45) ...to here
+                     |      |                    (46) following 'false' bra=
+nch...
+                     |
+                   'ni_repack': event 47
+                     |
+                     |  540 |                 svcn =3D le64_to_cpu(attr->nr=
+es.svcn);
+   include/uapi/linux/byteorder/little_endian.h:32:51: note: in definition =
+of macro '__le64_to_cpu'
+                     |   32 | #define __le64_to_cpu(x) ((__force __u64)(__l=
+e64)(x))
+                     |      |                                              =
+     ^
+   fs/ntfs3/frecord.c:540:24: note: in expansion of macro 'le64_to_cpu'
+                     |  540 |                 svcn =3D le64_to_cpu(attr->nr=
+es.svcn);
+                     |      |                        ^~~~~~~~~~~
+                     |
+                   'ni_repack': event 48
+                     |
+                     |  541 |                 if (svcn !=3D le64_to_cpu(le-=
+>vcn)) {
+                     |      |                                           ^~
+                     |      |                                           |
+                     |      |                                           (48=
+) 'le' is NULL
+   include/uapi/linux/byteorder/little_endian.h:32:51: note: in definition =
+of macro '__le64_to_cpu'
+                     |   32 | #define __le64_to_cpu(x) ((__force __u64)(__l=
+e64)(x))
+                     |      |                                              =
+     ^
+   fs/ntfs3/frecord.c:541:29: note: in expansion of macro 'le64_to_cpu'
+                     |  541 |                 if (svcn !=3D le64_to_cpu(le-=
+>vcn)) {
+                     |      |                             ^~~~~~~~~~~
+                     |
+                   'ni_repack': event 49
+                     |
+                     |  541 |                 if (svcn !=3D le64_to_cpu(le-=
+>vcn)) {
+                     |      |                                           ^~
+                     |      |                                           |
+                     |      |                                           (49=
+) 'le' is NULL
+   include/uapi/linux/byteorder/little_endian.h:32:51: note: in definition =
+of macro '__le64_to_cpu'
+                     |   32 | #define __le64_to_cpu(x) ((__force __u64)(__l=
+e64)(x))
+                     |      |                                              =
+     ^
+   fs/ntfs3/frecord.c:541:29: note: in expansion of macro 'le64_to_cpu'
+                     |  541 |                 if (svcn !=3D le64_to_cpu(le-=
+>vcn)) {
+                     |      |                             ^~~~~~~~~~~
+                     |
+                   'ni_repack': event 50
+                     |
+                     |  541 |                 if (svcn !=3D le64_to_cpu(le-=
+>vcn)) {
+   include/uapi/linux/byteorder/little_endian.h:32:51: note: in definition =
+of macro '__le64_to_cpu'
+                     |   32 | #define __le64_to_cpu(x) ((__force __u64)(__l=
+e64)(x))
+                     |      |                                              =
+     ^
+   fs/ntfs3/frecord.c:541:29: note: in expansion of macro 'le64_to_cpu'
+                     |  541 |                 if (svcn !=3D le64_to_cpu(le-=
+>vcn)) {
+                     |      |                             ^~~~~~~~~~~
+                     |
+   fs/ntfs3/frecord.c: In function 'ni_create_attr_list':
+>> fs/ntfs3/frecord.c:866:9: warning: use of NULL where non-null expected [=
+CWE-476] [-Wanalyzer-null-argument]
+     866 |         memcpy(resident_data_ex(attr, lsize), ni->attr_list.le, =
+lsize);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+     'ni_rename': events 1-2
+       |
+       | 2953 | int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode =
+*new_dir_ni,
+       |      |     ^~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ni_rename'
+       |......
+       | 2975 |         err =3D ni_add_name(new_dir_ni, ni, new_de);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'ni_add_name' from 'ni_rename'
+       |
+       +--> 'ni_add_name': events 3-4
+              |
+              | 2921 | int ni_add_name(struct ntfs_inode *dir_ni, struct nt=
+fs_inode *ni,
+              |      |     ^~~~~~~~~~~
+              |      |     |
+              |      |     (3) entry to 'ni_add_name'
+              |......
+              | 2935 |         err =3D ni_insert_resident(ni, de_key_size, =
+ATTR_NAME, NULL, 0, &attr,
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (4) calling 'ni_insert_resident' from =
+'ni_add_name'
+              | 2936 |                                  &mi, &le);
+              |      |                                  ~~~~~~~~~
+              |
+              +--> 'ni_insert_resident': events 5-6
+                     |
+                     | 1431 | int ni_insert_resident(struct ntfs_inode *ni,=
+ u32 data_size,
+                     |      |     ^~~~~~~~~~~~~~~~~~
+                     |      |     |
+                     |      |     (5) entry to 'ni_insert_resident'
+                     |......
+                     | 1441 |         err =3D ni_insert_attr(ni, type, name=
+, name_len, asize, SIZEOF_RESIDENT,
+                     |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |               |
+                     |      |               (6) calling 'ni_insert_attr' fr=
+om 'ni_insert_resident'
+                     | 1442 |                              0, &attr, mi, le=
+);
+                     |      |                              ~~~~~~~~~~~~~~~~~
+                     |
+                     +--> 'ni_insert_attr': events 7-8
+                            |
+                            | 1021 | static int ni_insert_attr(struct ntfs_=
+inode *ni, enum ATTR_TYPE type,
+                            |      |            ^~~~~~~~~~~~~~
+                            |      |            |
+                            |      |            (7) entry to 'ni_insert_att=
+r'
+                            |......
+                            | 1067 |                 err =3D ni_ins_attr_ex=
+t(ni, NULL, type, name, name_len, asize,
+                            |      |                       ~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                       |
+                            |      |                       (8) calling 'ni_=
+ins_attr_ext' from 'ni_insert_attr'
+                            | 1068 |                                       =
+svcn, name_off, false, ins_attr, ins_mi,
+                            |      |                                       =
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            | 1069 |                                       =
+ins_le);
+                            |      |                                       =
+~~~~~~~
+                            |
+                            +--> 'ni_ins_attr_ext': events 9-16
+                                   |
+                                   |  885 | static int ni_ins_attr_ext(stru=
+ct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+                                   |      |            ^~~~~~~~~~~~~~~
+                                   |      |            |
+                                   |      |            (9) entry to 'ni_ins=
+_attr_ext'
+                                   |......
+                                   |  903 |         if (asize > sbi->max_by=
+tes_per_attr) {
+                                   |      |            ~
+                                   |      |            |
+                                   |      |            (10) following 'fals=
+e' branch...
+                                   |......
+                                   |  912 |         if (type =3D=3D ATTR_ST=
+D || type =3D=3D ATTR_LIST ||
+                                   |      |            ~
+                                   |      |            |
+                                   |      |            (11) ...to here
+                                   |      |            (12) following 'fals=
+e' branch...
+                                   |......
+                                   |  919 |         if (!ni->attr_list.size=
 ) {
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  290  		fatal =3D PTR_ERR(bi=
-tmap_bh);
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  291  		bitmap_bh =3D NULL;
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  292  		goto error_return;
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  293  	}
-8016e29f4362e2 Harshad Shirwadkar   2020-10-15  294  	if (!(sbi->s_mount_st=
-ate & EXT4_FC_REPLAY)) {
-8016e29f4362e2 Harshad Shirwadkar   2020-10-15  295  		grp =3D ext4_get_gro=
-up_info(sb, block_group);
-9008a58e5dcee0 Darrick J. Wong      2015-10-17 @296  		if (unlikely(EXT4_MB=
-_GRP_IBITMAP_CORRUPT(grp))) {
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  297  			fatal =3D -EFSCORRU=
-PTED;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  298  			goto error_return;
-9008a58e5dcee0 Darrick J. Wong      2015-10-17  299  		}
-8016e29f4362e2 Harshad Shirwadkar   2020-10-15  300  	}
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  301  =
+                                   |      |            ~ ~~~~~~~~~~~~~~~~~~
+                                   |      |            |              |
+                                   |      |            |              (13) =
+...to here
+                                   |      |            (14) following 'true=
+' branch...
+                                   |  920 |                 err =3D ni_crea=
+te_attr_list(ni);
+                                   |      |                       ~~~~~~~~~=
+~~~~~~~~~~~~~~
+                                   |      |                       |
+                                   |      |                       (15) ...t=
+o here
+                                   |      |                       (16) call=
+ing 'ni_create_attr_list' from 'ni_ins_attr_ext'
+                                   |
+                                   +--> 'ni_create_attr_list': events 17-18
+                                          |
+                                          |  744 | int ni_create_attr_list(=
+struct ntfs_inode *ni)
+                                          |      |     ^~~~~~~~~~~~~~~~~~~
+                                          |      |     |
+                                          |      |     (17) entry to 'ni_cr=
+eate_attr_list'
+                                          |......
+                                          |  826 |         if (err)
+                                          |      |            ~
+                                          |      |            |
+                                          |      |            (18) followin=
+g 'false' branch (when 'err =3D=3D 0')...
+                                          |
+                                        'ni_create_attr_list': event 19
 
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  302  	BUFFER_TRACE(bitmap_b=
-h, "get_write_access");
-188c299e2a26cc Jan Kara             2021-08-16  303  	fatal =3D ext4_journa=
-l_get_write_access(handle, sb, bitmap_bh,
-188c299e2a26cc Jan Kara             2021-08-16  304  					      EXT4_JTR_NO=
-NE);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  305  	if (fatal)
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  306  		goto error_return;
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  307  =
+vim +866 fs/ntfs3/frecord.c
 
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  308  	fatal =3D -ESRCH;
-617ba13b31fbf5 Mingming Cao         2006-10-11  309  	gdp =3D ext4_get_grou=
-p_desc(sb, block_group, &bh2);
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  310  	if (gdp) {
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  311  		BUFFER_TRACE(bh2, "g=
-et_write_access");
-188c299e2a26cc Jan Kara             2021-08-16  312  		fatal =3D ext4_journ=
-al_get_write_access(handle, sb, bh2,
-188c299e2a26cc Jan Kara             2021-08-16  313  						      EXT4_JTR_N=
-ONE);
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  314  	}
-955ce5f5be67df Aneesh Kumar K.V     2009-05-02  315  	ext4_lock_group(sb, b=
-lock_group);
-597d508c17a6dc Akinobu Mita         2011-12-28  316  	cleared =3D ext4_test=
-_and_clear_bit(bit, bitmap_bh->b_data);
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  317  	if (fatal || !cleared=
-) {
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  318  		ext4_unlock_group(sb=
-, block_group);
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  319  		goto out;
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  320  	}
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  321  =
+4342306f0f0d5f Konstantin Komarov 2021-08-13  740  =
 
-560671a0d3c9ad Aneesh Kumar K.V     2009-01-05  322  	count =3D ext4_free_i=
-nodes_count(sb, gdp) + 1;
-560671a0d3c9ad Aneesh Kumar K.V     2009-01-05  323  	ext4_free_inodes_set(=
-sb, gdp, count);
-560671a0d3c9ad Aneesh Kumar K.V     2009-01-05  324  	if (is_directory) {
-560671a0d3c9ad Aneesh Kumar K.V     2009-01-05  325  		count =3D ext4_used_=
-dirs_count(sb, gdp) - 1;
-560671a0d3c9ad Aneesh Kumar K.V     2009-01-05  326  		ext4_used_dirs_set(s=
-b, gdp, count);
-b45f189a19b38e Ritesh Harjani       2021-04-29  327  		if (percpu_counter_i=
-nitialized(&sbi->s_dirs_counter))
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  328  			percpu_counter_dec(=
-&sbi->s_dirs_counter);
-560671a0d3c9ad Aneesh Kumar K.V     2009-01-05  329  	}
-41a246d1ff75a9 Darrick J. Wong      2012-04-29  330  	ext4_inode_bitmap_csu=
-m_set(sb, block_group, gdp, bitmap_bh,
-41a246d1ff75a9 Darrick J. Wong      2012-04-29  331  				   EXT4_INODES_PER=
-_GROUP(sb) / 8);
-feb0ab32a57e4e Darrick J. Wong      2012-04-29  332  	ext4_group_desc_csum_=
-set(sb, block_group, gdp);
-955ce5f5be67df Aneesh Kumar K.V     2009-05-02  333  	ext4_unlock_group(sb,=
- block_group);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  334  =
+4342306f0f0d5f Konstantin Komarov 2021-08-13  741  /*
+e8b8e97f91b80f Kari Argillander   2021-08-03  742   * ni_create_attr_list -=
+ Generates an attribute list for this primary record.
+4342306f0f0d5f Konstantin Komarov 2021-08-13  743  */
+4342306f0f0d5f Konstantin Komarov 2021-08-13  744  int ni_create_attr_list(=
+struct ntfs_inode *ni)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  745  {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  746  	struct ntfs_sb_info *sb=
+i =3D ni->mi.sbi;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  747  	int err;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  748  	u32 lsize;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  749  	struct ATTRIB *attr;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  750  	struct ATTRIB *arr_move=
+[7];
+4342306f0f0d5f Konstantin Komarov 2021-08-13  751  	struct ATTR_LIST_ENTRY =
+*le, *le_b[7];
+4342306f0f0d5f Konstantin Komarov 2021-08-13  752  	struct MFT_REC *rec;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  753  	bool is_mft;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  754  	CLST rno =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  755  	struct mft_inode *mi;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  756  	u32 free_b, nb, to_free=
+, rs;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  757  	u16 sz;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  758  =
 
-b45f189a19b38e Ritesh Harjani       2021-04-29  335  	if (percpu_counter_in=
-itialized(&sbi->s_freeinodes_counter))
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  336  		percpu_counter_inc(&=
-sbi->s_freeinodes_counter);
-772cb7c83ba256 Jose R. Santos       2008-07-11  337  	if (sbi->s_log_groups=
-_per_flex) {
-7c990728b99ed6 Suraj Jitindar Singh 2020-02-18  338  		struct flex_groups *=
-fg;
-9f24e4208f7ee2 Theodore Ts'o        2009-03-04  339  =
+4342306f0f0d5f Konstantin Komarov 2021-08-13  759  	is_mft =3D ni->mi.rno =
+=3D=3D MFT_REC_MFT;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  760  	rec =3D ni->mi.mrec;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  761  	rs =3D sbi->record_size;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  762  =
 
-7c990728b99ed6 Suraj Jitindar Singh 2020-02-18  340  		fg =3D sbi_array_rcu=
-_deref(sbi, s_flex_groups,
-7c990728b99ed6 Suraj Jitindar Singh 2020-02-18  341  					 ext4_flex_group(=
-sbi, block_group));
-7c990728b99ed6 Suraj Jitindar Singh 2020-02-18  342  		atomic_inc(&fg->free=
-_inodes);
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  343  		if (is_directory)
-7c990728b99ed6 Suraj Jitindar Singh 2020-02-18  344  			atomic_dec(&fg->use=
-d_dirs);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  345  	}
-0390131ba84fd3 Frank Mayhar         2009-01-07  346  	BUFFER_TRACE(bh2, "ca=
-ll ext4_handle_dirty_metadata");
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  347  	fatal =3D ext4_handle=
-_dirty_metadata(handle, NULL, bh2);
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  348  out:
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  349  	if (cleared) {
-0390131ba84fd3 Frank Mayhar         2009-01-07  350  		BUFFER_TRACE(bitmap_=
-bh, "call ext4_handle_dirty_metadata");
-0390131ba84fd3 Frank Mayhar         2009-01-07  351  		err =3D ext4_handle_=
-dirty_metadata(handle, NULL, bitmap_bh);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  352  		if (!fatal)
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  353  			fatal =3D err;
-87a39389be3e3b Darrick J. Wong      2013-08-28  354  	} else {
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  355  		ext4_error(sb, "bit =
-already cleared for inode %lu", ino);
-db79e6d1fb1f71 Wang Shilong         2018-05-12  356  		ext4_mark_group_bitm=
-ap_corrupted(sb, block_group,
-db79e6d1fb1f71 Wang Shilong         2018-05-12  357  					EXT4_GROUP_INFO_I=
-BITMAP_CORRUPT);
-87a39389be3e3b Darrick J. Wong      2013-08-28  358  	}
-d17413c08cd2b1 Dmitry Monakhov      2010-05-16  359  =
+4342306f0f0d5f Konstantin Komarov 2021-08-13  763  	/*
+e8b8e97f91b80f Kari Argillander   2021-08-03  764  	 * Skip estimating exac=
+t memory requirement.
+e8b8e97f91b80f Kari Argillander   2021-08-03  765  	 * Looks like one recor=
+d_size is always enough.
+4342306f0f0d5f Konstantin Komarov 2021-08-13  766  	 */
+195c52bdd5d5ec Kari Argillander   2021-08-24  767  	le =3D kmalloc(al_align=
+ed(rs), GFP_NOFS);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  768  	if (!le) {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  769  		err =3D -ENOMEM;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  770  		goto out;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  771  	}
+4342306f0f0d5f Konstantin Komarov 2021-08-13  772  =
 
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  360  error_return:
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  361  	brelse(bitmap_bh);
-617ba13b31fbf5 Mingming Cao         2006-10-11  362  	ext4_std_error(sb, fa=
-tal);
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  363  }
-ac27a0ec112a08 Dave Kleikamp        2006-10-11  364  =
+4342306f0f0d5f Konstantin Komarov 2021-08-13  773  	mi_get_ref(&ni->mi, &le=
+->ref);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  774  	ni->attr_list.le =3D le;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  775  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  776  	attr =3D NULL;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  777  	nb =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  778  	free_b =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  779  	attr =3D NULL;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  780  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  781  	for (; (attr =3D mi_enu=
+m_attr(&ni->mi, attr)); le =3D Add2Ptr(le, sz)) {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  782  		sz =3D le_size(attr->n=
+ame_len);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  783  		le->type =3D attr->typ=
+e;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  784  		le->size =3D cpu_to_le=
+16(sz);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  785  		le->name_len =3D attr-=
+>name_len;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  786  		le->name_off =3D offse=
+tof(struct ATTR_LIST_ENTRY, name);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  787  		le->vcn =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  788  		if (le !=3D ni->attr_l=
+ist.le)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  789  			le->ref =3D ni->attr_=
+list.le->ref;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  790  		le->id =3D attr->id;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  791  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  792  		if (attr->name_len)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  793  			memcpy(le->name, attr=
+_name(attr),
+4342306f0f0d5f Konstantin Komarov 2021-08-13  794  			       sizeof(short) =
+* attr->name_len);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  795  		else if (attr->type =
+=3D=3D ATTR_STD)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  796  			continue;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  797  		else if (attr->type =
+=3D=3D ATTR_LIST)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  798  			continue;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  799  		else if (is_mft && att=
+r->type =3D=3D ATTR_DATA)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  800  			continue;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  801  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  802  		if (!nb || nb < ARRAY_=
+SIZE(arr_move)) {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  803  			le_b[nb] =3D le;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  804  			arr_move[nb++] =3D at=
+tr;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  805  			free_b +=3D le32_to_c=
+pu(attr->size);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  806  		}
+4342306f0f0d5f Konstantin Komarov 2021-08-13  807  	}
+4342306f0f0d5f Konstantin Komarov 2021-08-13  808  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  809  	lsize =3D PtrOffset(ni-=
+>attr_list.le, le);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  810  	ni->attr_list.size =3D =
+lsize;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  811  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  812  	to_free =3D le32_to_cpu=
+(rec->used) + lsize + SIZEOF_RESIDENT;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  813  	if (to_free <=3D rs) {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  814  		to_free =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  815  	} else {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  816  		to_free -=3D rs;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  817  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  818  		if (to_free > free_b) {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  819  			err =3D -EINVAL;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  820  			goto out1;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  821  		}
+4342306f0f0d5f Konstantin Komarov 2021-08-13  822  	}
+4342306f0f0d5f Konstantin Komarov 2021-08-13  823  =
+
+e8b8e97f91b80f Kari Argillander   2021-08-03  824  	/* Allocate child MFT. =
+*/
+4342306f0f0d5f Konstantin Komarov 2021-08-13  825  	err =3D ntfs_look_free_=
+mft(sbi, &rno, is_mft, ni, &mi);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  826  	if (err)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  827  		goto out1;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  828  =
+
+e8b8e97f91b80f Kari Argillander   2021-08-03  829  	/* Call mi_remove_attr(=
+) in reverse order to keep pointers 'arr_move' valid. */
+4342306f0f0d5f Konstantin Komarov 2021-08-13  830  	while (to_free > 0) {
+4342306f0f0d5f Konstantin Komarov 2021-08-13  831  		struct ATTRIB *b =3D a=
+rr_move[--nb];
+4342306f0f0d5f Konstantin Komarov 2021-08-13  832  		u32 asize =3D le32_to_=
+cpu(b->size);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  833  		u16 name_off =3D le16_=
+to_cpu(b->name_off);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  834  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  835  		attr =3D mi_insert_att=
+r(mi, b->type, Add2Ptr(b, name_off),
+4342306f0f0d5f Konstantin Komarov 2021-08-13  836  				      b->name_len, a=
+size, name_off);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  837  		WARN_ON(!attr);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  838  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  839  		mi_get_ref(mi, &le_b[n=
+b]->ref);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  840  		le_b[nb]->id =3D attr-=
+>id;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  841  =
+
+e8b8e97f91b80f Kari Argillander   2021-08-03  842  		/* Copy all except id.=
+ */
+4342306f0f0d5f Konstantin Komarov 2021-08-13  843  		memcpy(attr, b, asize);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  844  		attr->id =3D le_b[nb]-=
+>id;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  845  =
+
+78ab59fee07f22 Konstantin Komarov 2021-08-31  846  		/* Remove from primary=
+ record. */
+78ab59fee07f22 Konstantin Komarov 2021-08-31  847  		WARN_ON(!mi_remove_att=
+r(NULL, &ni->mi, b));
+4342306f0f0d5f Konstantin Komarov 2021-08-13  848  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  849  		if (to_free <=3D asize)
+4342306f0f0d5f Konstantin Komarov 2021-08-13  850  			break;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  851  		to_free -=3D asize;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  852  		WARN_ON(!nb);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  853  	}
+4342306f0f0d5f Konstantin Komarov 2021-08-13  854  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  855  	attr =3D mi_insert_attr=
+(&ni->mi, ATTR_LIST, NULL, 0,
+4342306f0f0d5f Konstantin Komarov 2021-08-13  856  			      lsize + SIZEOF_=
+RESIDENT, SIZEOF_RESIDENT);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  857  	WARN_ON(!attr);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  858  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  859  	attr->non_res =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  860  	attr->flags =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  861  	attr->res.data_size =3D=
+ cpu_to_le32(lsize);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  862  	attr->res.data_off =3D =
+SIZEOF_RESIDENT_LE;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  863  	attr->res.flags =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  864  	attr->res.res =3D 0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  865  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13 @866  	memcpy(resident_data_ex=
+(attr, lsize), ni->attr_list.le, lsize);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  867  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  868  	ni->attr_list.dirty =3D=
+ false;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  869  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  870  	mark_inode_dirty(&ni->v=
+fs_inode);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  871  	goto out;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  872  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  873  out1:
+195c52bdd5d5ec Kari Argillander   2021-08-24  874  	kfree(ni->attr_list.le);
+4342306f0f0d5f Konstantin Komarov 2021-08-13  875  	ni->attr_list.le =3D NU=
+LL;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  876  	ni->attr_list.size =3D =
+0;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  877  =
+
+4342306f0f0d5f Konstantin Komarov 2021-08-13  878  out:
+4342306f0f0d5f Konstantin Komarov 2021-08-13  879  	return err;
+4342306f0f0d5f Konstantin Komarov 2021-08-13  880  }
+4342306f0f0d5f Konstantin Komarov 2021-08-13  881  =
 
 
-:::::: The code at line 296 was first introduced by commit
-:::::: 9008a58e5dcee014f5de69d154e2620870f9224e ext4: make the bitmap read =
-routines return real error codes
+:::::: The code at line 866 was first introduced by commit
+:::::: 4342306f0f0d5ff4315a204d315c1b51b914fca5 fs/ntfs3: Add file operatio=
+ns and implementation
 
-:::::: TO: Darrick J. Wong <darrick.wong@oracle.com>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8072660447298390713==--
+--===============4655741857270346284==--
 
