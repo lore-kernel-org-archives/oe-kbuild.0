@@ -1,218 +1,162 @@
-Content-Type: multipart/mixed; boundary="===============2502327280878220418=="
+Content-Type: multipart/mixed; boundary="===============8116693806300006728=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ufs/core/ufshcd.c:7851:5: warning: Variable 'gran_to_us_table' can be declared with const [constVariable]
-Date: Mon, 27 Jun 2022 03:04:32 +0000
-Message-ID: <202206261409.32WwjKkz-lkp@intel.com>
+Subject: Re: [PATCH 2/3] iio: pressure: bmp280: Add support for BMP380 sensor family
+Date: Mon, 27 Jun 2022 03:04:31 +0000
+Message-ID: <202206260803.ctZKSyI9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2502327280878220418==
+--===============8116693806300006728==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/u=
-fs/core/ufshcd.c:7851:5: warning: Variable 'gran_to_us_table' can be declar=
-ed with const [constVariable]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220625150921.47769-1-ang.iglesiasg@gmail.com>
+References: <20220625150921.47769-1-ang.iglesiasg@gmail.com>
+TO: Angel Iglesias <ang.iglesiasg@gmail.com>
+CC: Angel Iglesias <ang.iglesiasg@gmail.com>
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
+CC: Paul Cercueil <paul@crapouillou.net>
+CC: linux-iio(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Bean Huo <beanhuo@micron.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0840a7914caa14315a3191178a9f72c742477860
-commit: dd11376b9f1b73aca3f8c6eb541486bbb6996f05 scsi: ufs: Split the drive=
-rs/scsi/ufs directory
-date:   5 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 5 weeks ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout dd11376b9f1b73aca3f8c6eb541486bbb6996f05
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Angel,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v5.19-rc3 next-20220=
+624]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Angel-Iglesias/dt-bi=
+ndings-iio-pressure-bmp085-Add-BMP380-compatible-string/20220625-231424
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/iio/pressure/bmp280-core.c:1000 bmp380_chip_config() warn: should t=
+his be a bitwise op?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +1000 drivers/iio/pressure/bmp280-core.c
 
->> drivers/ufs/core/ufshcd.c:7851:5: warning: Variable 'gran_to_us_table' c=
-an be declared with const [constVariable]
-    u8 gran_to_us_table[] =3D {1, 4, 8, 16, 32, 100};
-       ^
->> drivers/ufs/core/ufshcd.c:5421:67: warning: Parameter 'other_mask' can b=
-e declared with const [constParameter]
-   int ufshcd_update_ee_control(struct ufs_hba *hba, u16 *mask, u16 *other_=
-mask,
-                                                                     ^
+56e3f8aecddacd Angel Iglesias 2022-06-25   945  =
 
-vim +/gran_to_us_table +7851 drivers/ufs/core/ufshcd.c
+56e3f8aecddacd Angel Iglesias 2022-06-25   946  static int bmp380_chip_conf=
+ig(struct bmp280_data *data)
+56e3f8aecddacd Angel Iglesias 2022-06-25   947  {
+56e3f8aecddacd Angel Iglesias 2022-06-25   948  	u8 osrs;
+56e3f8aecddacd Angel Iglesias 2022-06-25   949  	unsigned int tmp;
+56e3f8aecddacd Angel Iglesias 2022-06-25   950  	int ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25   951  =
 
-371131065de99b drivers/scsi/ufs/ufshcd.c Yaniv Gardi      2016-03-10  7833  =
+56e3f8aecddacd Angel Iglesias 2022-06-25   952  	/* configure power control=
+ register */
+56e3f8aecddacd Angel Iglesias 2022-06-25   953  	ret =3D regmap_write_bits(=
+data->regmap, BMP380_REG_POWER_CONTROL,
+56e3f8aecddacd Angel Iglesias 2022-06-25   954  				BMP380_CTRL_SENSORS_MAS=
+K |
+56e3f8aecddacd Angel Iglesias 2022-06-25   955  				BMP380_MODE_MASK,
+56e3f8aecddacd Angel Iglesias 2022-06-25   956  				BMP380_CTRL_SENSORS_PRE=
+SS_EN |
+56e3f8aecddacd Angel Iglesias 2022-06-25   957  				BMP380_CTRL_SENSORS_TEM=
+P_EN |
+56e3f8aecddacd Angel Iglesias 2022-06-25   958  				BMP380_MODE_NORMAL);
+56e3f8aecddacd Angel Iglesias 2022-06-25   959  	if (ret < 0) {
+56e3f8aecddacd Angel Iglesias 2022-06-25   960  		dev_err(data->dev,
+56e3f8aecddacd Angel Iglesias 2022-06-25   961  			"failed to write operati=
+on control register\n");
+56e3f8aecddacd Angel Iglesias 2022-06-25   962  		return ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25   963  	}
+56e3f8aecddacd Angel Iglesias 2022-06-25   964  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7834 =
- /**
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7835 =
-  * ufshcd_quirk_tune_host_pa_tactivate - Ensures that host PA_TACTIVATE is
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7836 =
-  * less than device PA_TACTIVATE time.
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7837 =
-  * @hba: per-adapter instance
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7838 =
-  *
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7839 =
-  * Some UFS devices require host PA_TACTIVATE to be lower than device
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7840 =
-  * PA_TACTIVATE, we need to enable UFS_DEVICE_QUIRK_HOST_PA_TACTIVATE quirk
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7841 =
-  * for such devices.
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7842 =
-  *
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7843 =
-  * Returns zero on success, non-zero error value on failure.
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7844 =
-  */
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7845 =
- static int ufshcd_quirk_tune_host_pa_tactivate(struct ufs_hba *hba)
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7846 =
- {
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7847 =
- 	int ret =3D 0;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7848 =
- 	u32 granularity, peer_granularity;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7849 =
- 	u32 pa_tactivate, peer_pa_tactivate;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7850 =
- 	u32 pa_tactivate_us, peer_pa_tactivate_us;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23 @7851 =
- 	u8 gran_to_us_table[] =3D {1, 4, 8, 16, 32, 100};
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7852  =
+56e3f8aecddacd Angel Iglesias 2022-06-25   965  	/* configure oversampling =
+*/
+56e3f8aecddacd Angel Iglesias 2022-06-25   966  	osrs =3D BMP380_OSRS_TEMP_=
+X(data->oversampling_temp) |
+56e3f8aecddacd Angel Iglesias 2022-06-25   967  				BMP380_OSRS_PRESS_X(dat=
+a->oversampling_press);
+56e3f8aecddacd Angel Iglesias 2022-06-25   968  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7853 =
- 	ret =3D ufshcd_dme_get(hba, UIC_ARG_MIB(PA_GRANULARITY),
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7854 =
- 				  &granularity);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7855 =
- 	if (ret)
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7856 =
- 		goto out;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7857  =
+56e3f8aecddacd Angel Iglesias 2022-06-25   969  	ret =3D regmap_write_bits(=
+data->regmap, BMP380_REG_OSR,
+56e3f8aecddacd Angel Iglesias 2022-06-25   970  				BMP380_OSRS_TEMP_MASK |=
+ BMP380_OSRS_PRESS_MASK,
+56e3f8aecddacd Angel Iglesias 2022-06-25   971  				osrs);
+56e3f8aecddacd Angel Iglesias 2022-06-25   972  	if (ret < 0) {
+56e3f8aecddacd Angel Iglesias 2022-06-25   973  		dev_err(data->dev, "faile=
+d to write oversampling register\n");
+56e3f8aecddacd Angel Iglesias 2022-06-25   974  		return ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25   975  	}
+56e3f8aecddacd Angel Iglesias 2022-06-25   976  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7858 =
- 	ret =3D ufshcd_dme_peer_get(hba, UIC_ARG_MIB(PA_GRANULARITY),
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7859 =
- 				  &peer_granularity);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7860 =
- 	if (ret)
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7861 =
- 		goto out;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7862  =
+56e3f8aecddacd Angel Iglesias 2022-06-25   977  	/* configure output data r=
+ate */
+56e3f8aecddacd Angel Iglesias 2022-06-25   978  	ret =3D regmap_write_bits(=
+data->regmap, BMP380_REG_ODR,
+56e3f8aecddacd Angel Iglesias 2022-06-25   979  				BMP380_ODRS_MASK, BMP38=
+0_ODRS_50HZ);
+56e3f8aecddacd Angel Iglesias 2022-06-25   980  	if (ret < 0) {
+56e3f8aecddacd Angel Iglesias 2022-06-25   981  		dev_err(data->dev, "faile=
+d to write ODR selection register\n");
+56e3f8aecddacd Angel Iglesias 2022-06-25   982  		return ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25   983  	}
+56e3f8aecddacd Angel Iglesias 2022-06-25   984  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7863 =
- 	if ((granularity < PA_GRANULARITY_MIN_VAL) ||
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7864 =
- 	    (granularity > PA_GRANULARITY_MAX_VAL)) {
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7865 =
- 		dev_err(hba->dev, "%s: invalid host PA_GRANULARITY %d",
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7866 =
- 			__func__, granularity);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7867 =
- 		return -EINVAL;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7868 =
- 	}
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7869  =
+56e3f8aecddacd Angel Iglesias 2022-06-25   985  	/* set filter data */
+56e3f8aecddacd Angel Iglesias 2022-06-25   986  	ret =3D regmap_update_bits=
+(data->regmap, BMP380_REG_CONFIG,
+56e3f8aecddacd Angel Iglesias 2022-06-25   987  				BMP380_FILTER_MASK, BMP=
+380_FILTER_3X);
+56e3f8aecddacd Angel Iglesias 2022-06-25   988  	if (ret < 0) {
+56e3f8aecddacd Angel Iglesias 2022-06-25   989  		dev_err(data->dev, "faile=
+d to write config register\n");
+56e3f8aecddacd Angel Iglesias 2022-06-25   990  		return ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25   991  	}
+56e3f8aecddacd Angel Iglesias 2022-06-25   992  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7870 =
- 	if ((peer_granularity < PA_GRANULARITY_MIN_VAL) ||
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7871 =
- 	    (peer_granularity > PA_GRANULARITY_MAX_VAL)) {
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7872 =
- 		dev_err(hba->dev, "%s: invalid device PA_GRANULARITY %d",
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7873 =
- 			__func__, peer_granularity);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7874 =
- 		return -EINVAL;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7875 =
- 	}
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7876  =
+56e3f8aecddacd Angel Iglesias 2022-06-25   993  	/* check config error flag=
+ */
+56e3f8aecddacd Angel Iglesias 2022-06-25   994  	ret =3D regmap_read(data->=
+regmap, BMP380_REG_ERROR, &tmp);
+56e3f8aecddacd Angel Iglesias 2022-06-25   995  	if (ret < 0) {
+56e3f8aecddacd Angel Iglesias 2022-06-25   996  		dev_err(data->dev,
+56e3f8aecddacd Angel Iglesias 2022-06-25   997  			"failed to read error re=
+gister\n");
+56e3f8aecddacd Angel Iglesias 2022-06-25   998  		return ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25   999  	}
+56e3f8aecddacd Angel Iglesias 2022-06-25 @1000  	if (tmp && BMP380_ERR_CONF=
+_MASK) {
+56e3f8aecddacd Angel Iglesias 2022-06-25  1001  		dev_warn(data->dev,
+56e3f8aecddacd Angel Iglesias 2022-06-25  1002  			 "sensor flagged configu=
+ration as incompatible\n");
+56e3f8aecddacd Angel Iglesias 2022-06-25  1003  		ret =3D -EINVAL;
+56e3f8aecddacd Angel Iglesias 2022-06-25  1004  	}
+56e3f8aecddacd Angel Iglesias 2022-06-25  1005  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7877 =
- 	ret =3D ufshcd_dme_get(hba, UIC_ARG_MIB(PA_TACTIVATE), &pa_tactivate);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7878 =
- 	if (ret)
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7879 =
- 		goto out;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7880  =
+56e3f8aecddacd Angel Iglesias 2022-06-25  1006  	return ret;
+56e3f8aecddacd Angel Iglesias 2022-06-25  1007  }
+56e3f8aecddacd Angel Iglesias 2022-06-25  1008  =
 
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7881 =
- 	ret =3D ufshcd_dme_peer_get(hba, UIC_ARG_MIB(PA_TACTIVATE),
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7882 =
- 				  &peer_pa_tactivate);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7883 =
- 	if (ret)
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7884 =
- 		goto out;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7885  =
-
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7886 =
- 	pa_tactivate_us =3D pa_tactivate * gran_to_us_table[granularity - 1];
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7887 =
- 	peer_pa_tactivate_us =3D peer_pa_tactivate *
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7888 =
- 			     gran_to_us_table[peer_granularity - 1];
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7889  =
-
-9008661e19606b drivers/scsi/ufs/ufshcd.c SEO HOYOUNG      2022-01-07  7890 =
- 	if (pa_tactivate_us >=3D peer_pa_tactivate_us) {
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7891 =
- 		u32 new_peer_pa_tactivate;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7892  =
-
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7893 =
- 		new_peer_pa_tactivate =3D pa_tactivate_us /
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7894 =
- 				      gran_to_us_table[peer_granularity - 1];
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7895 =
- 		new_peer_pa_tactivate++;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7896 =
- 		ret =3D ufshcd_dme_peer_set(hba, UIC_ARG_MIB(PA_TACTIVATE),
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7897 =
- 					  new_peer_pa_tactivate);
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7898 =
- 	}
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7899  =
-
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7900 =
- out:
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7901 =
- 	return ret;
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7902 =
- }
-c6a6db439868c7 drivers/scsi/ufs/ufshcd.c Subhash Jadavani 2016-11-23  7903  =
-
-
-:::::: The code at line 7851 was first introduced by commit
-:::::: c6a6db439868c7ba5cc90d4c461d9697ec731fa1 scsi: ufs: ensure that host=
- pa_tactivate is higher than device
-
-:::::: TO: subhashj(a)codeaurora.org <subhashj@codeaurora.org>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2502327280878220418==--
+--===============8116693806300006728==--
 
