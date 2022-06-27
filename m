@@ -1,162 +1,140 @@
-Content-Type: multipart/mixed; boundary="===============8116693806300006728=="
+Content-Type: multipart/mixed; boundary="===============6235728424919362275=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/3] iio: pressure: bmp280: Add support for BMP380 sensor family
+Subject: net/dsa/tag_sja1105.c:432 sja1105_rcv() error: uninitialized symbol 'vid'.
 Date: Mon, 27 Jun 2022 03:04:31 +0000
-Message-ID: <202206260803.ctZKSyI9-lkp@intel.com>
+Message-ID: <202206252029.6pIntoLK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8116693806300006728==
+--===============6235728424919362275==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220625150921.47769-1-ang.iglesiasg@gmail.com>
-References: <20220625150921.47769-1-ang.iglesiasg@gmail.com>
-TO: Angel Iglesias <ang.iglesiasg@gmail.com>
-CC: Angel Iglesias <ang.iglesiasg@gmail.com>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
-CC: Paul Cercueil <paul@crapouillou.net>
-CC: linux-iio(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Hi Angel,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v5.19-rc3 next-20220=
-624]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Angel-Iglesias/dt-bi=
-ndings-iio-pressure-bmp085-Add-BMP380-compatible-string/20220625-231424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   8c23f235a6a8ae43abea215812eb9d8cf4dd165e
+commit: 04a1758348a87eb73b8a4554d0c227831e2bb33e net: dsa: tag_sja1105: fix=
+ control packets on SJA1110 being received on an imprecise port
+date:   11 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 11 months ago
+config: nios2-randconfig-m031-20220624
+compiler: nios2-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/pressure/bmp280-core.c:1000 bmp380_chip_config() warn: should t=
-his be a bitwise op?
+New smatch warnings:
+net/dsa/tag_sja1105.c:432 sja1105_rcv() error: uninitialized symbol 'vid'.
 
-vim +1000 drivers/iio/pressure/bmp280-core.c
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
+ialized symbol 'sp'.
+net/dsa/tag_sja1105.c:564 sja1110_rcv() error: uninitialized symbol 'vid'.
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   945  =
+vim +/vid +432 net/dsa/tag_sja1105.c
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   946  static int bmp380_chip_conf=
-ig(struct bmp280_data *data)
-56e3f8aecddacd Angel Iglesias 2022-06-25   947  {
-56e3f8aecddacd Angel Iglesias 2022-06-25   948  	u8 osrs;
-56e3f8aecddacd Angel Iglesias 2022-06-25   949  	unsigned int tmp;
-56e3f8aecddacd Angel Iglesias 2022-06-25   950  	int ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25   951  =
+884be12f85666c Vladimir Oltean 2021-07-26  392  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   952  	/* configure power control=
- register */
-56e3f8aecddacd Angel Iglesias 2022-06-25   953  	ret =3D regmap_write_bits(=
-data->regmap, BMP380_REG_POWER_CONTROL,
-56e3f8aecddacd Angel Iglesias 2022-06-25   954  				BMP380_CTRL_SENSORS_MAS=
-K |
-56e3f8aecddacd Angel Iglesias 2022-06-25   955  				BMP380_MODE_MASK,
-56e3f8aecddacd Angel Iglesias 2022-06-25   956  				BMP380_CTRL_SENSORS_PRE=
-SS_EN |
-56e3f8aecddacd Angel Iglesias 2022-06-25   957  				BMP380_CTRL_SENSORS_TEM=
-P_EN |
-56e3f8aecddacd Angel Iglesias 2022-06-25   958  				BMP380_MODE_NORMAL);
-56e3f8aecddacd Angel Iglesias 2022-06-25   959  	if (ret < 0) {
-56e3f8aecddacd Angel Iglesias 2022-06-25   960  		dev_err(data->dev,
-56e3f8aecddacd Angel Iglesias 2022-06-25   961  			"failed to write operati=
-on control register\n");
-56e3f8aecddacd Angel Iglesias 2022-06-25   962  		return ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25   963  	}
-56e3f8aecddacd Angel Iglesias 2022-06-25   964  =
+227d07a07ef126 Vladimir Oltean 2019-05-05  393  static struct sk_buff *sja1=
+105_rcv(struct sk_buff *skb,
+227d07a07ef126 Vladimir Oltean 2019-05-05  394  				   struct net_device *n=
+etdev,
+227d07a07ef126 Vladimir Oltean 2019-05-05  395  				   struct packet_type *=
+pt)
+227d07a07ef126 Vladimir Oltean 2019-05-05  396  {
+884be12f85666c Vladimir Oltean 2021-07-26  397  	int source_port =3D -1, sw=
+itch_id =3D -1;
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  398  	struct sja1105_meta meta =
+=3D {0};
+e80f40cbe4dd51 Vladimir Oltean 2020-03-24  399  	struct ethhdr *hdr;
+42824463d38d27 Vladimir Oltean 2019-06-08  400  	bool is_link_local;
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  401  	bool is_meta;
+884be12f85666c Vladimir Oltean 2021-07-26  402  	u16 vid;
+227d07a07ef126 Vladimir Oltean 2019-05-05  403  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   965  	/* configure oversampling =
-*/
-56e3f8aecddacd Angel Iglesias 2022-06-25   966  	osrs =3D BMP380_OSRS_TEMP_=
-X(data->oversampling_temp) |
-56e3f8aecddacd Angel Iglesias 2022-06-25   967  				BMP380_OSRS_PRESS_X(dat=
-a->oversampling_press);
-56e3f8aecddacd Angel Iglesias 2022-06-25   968  =
+e80f40cbe4dd51 Vladimir Oltean 2020-03-24  404  	hdr =3D eth_hdr(skb);
+42824463d38d27 Vladimir Oltean 2019-06-08  405  	is_link_local =3D sja1105_=
+is_link_local(skb);
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  406  	is_meta =3D sja1105_is_met=
+a_frame(skb);
+227d07a07ef126 Vladimir Oltean 2019-05-05  407  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   969  	ret =3D regmap_write_bits(=
-data->regmap, BMP380_REG_OSR,
-56e3f8aecddacd Angel Iglesias 2022-06-25   970  				BMP380_OSRS_TEMP_MASK |=
- BMP380_OSRS_PRESS_MASK,
-56e3f8aecddacd Angel Iglesias 2022-06-25   971  				osrs);
-56e3f8aecddacd Angel Iglesias 2022-06-25   972  	if (ret < 0) {
-56e3f8aecddacd Angel Iglesias 2022-06-25   973  		dev_err(data->dev, "faile=
-d to write oversampling register\n");
-56e3f8aecddacd Angel Iglesias 2022-06-25   974  		return ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25   975  	}
-56e3f8aecddacd Angel Iglesias 2022-06-25   976  =
+227d07a07ef126 Vladimir Oltean 2019-05-05  408  	skb->offload_fwd_mark =3D =
+1;
+227d07a07ef126 Vladimir Oltean 2019-05-05  409  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   977  	/* configure output data r=
-ate */
-56e3f8aecddacd Angel Iglesias 2022-06-25   978  	ret =3D regmap_write_bits(=
-data->regmap, BMP380_REG_ODR,
-56e3f8aecddacd Angel Iglesias 2022-06-25   979  				BMP380_ODRS_MASK, BMP38=
-0_ODRS_50HZ);
-56e3f8aecddacd Angel Iglesias 2022-06-25   980  	if (ret < 0) {
-56e3f8aecddacd Angel Iglesias 2022-06-25   981  		dev_err(data->dev, "faile=
-d to write ODR selection register\n");
-56e3f8aecddacd Angel Iglesias 2022-06-25   982  		return ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25   983  	}
-56e3f8aecddacd Angel Iglesias 2022-06-25   984  =
+233697b3b3f60b Vladimir Oltean 2021-06-11  410  	if (sja1105_skb_has_tag_80=
+21q(skb)) {
+42824463d38d27 Vladimir Oltean 2019-06-08  411  		/* Normal traffic path. */
+04a1758348a87e Vladimir Oltean 2021-07-29  412  		sja1105_vlan_rcv(skb, &so=
+urce_port, &switch_id, &vid);
+42824463d38d27 Vladimir Oltean 2019-06-08  413  	} else if (is_link_local) {
+227d07a07ef126 Vladimir Oltean 2019-05-05  414  		/* Management traffic pat=
+h. Switch embeds the switch ID and
+227d07a07ef126 Vladimir Oltean 2019-05-05  415  		 * port ID into bytes of =
+the destination MAC, courtesy of
+227d07a07ef126 Vladimir Oltean 2019-05-05  416  		 * the incl_srcpt options.
+227d07a07ef126 Vladimir Oltean 2019-05-05  417  		 */
+227d07a07ef126 Vladimir Oltean 2019-05-05  418  		source_port =3D hdr->h_de=
+st[3];
+227d07a07ef126 Vladimir Oltean 2019-05-05  419  		switch_id =3D hdr->h_dest=
+[4];
+227d07a07ef126 Vladimir Oltean 2019-05-05  420  		/* Clear the DMAC bytes t=
+hat were mangled by the switch */
+227d07a07ef126 Vladimir Oltean 2019-05-05  421  		hdr->h_dest[3] =3D 0;
+227d07a07ef126 Vladimir Oltean 2019-05-05  422  		hdr->h_dest[4] =3D 0;
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  423  	} else if (is_meta) {
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  424  		sja1105_meta_unpack(skb, =
+&meta);
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  425  		source_port =3D meta.sour=
+ce_port;
+e53e18a6fe4d3a Vladimir Oltean 2019-06-08  426  		switch_id =3D meta.switch=
+_id;
+227d07a07ef126 Vladimir Oltean 2019-05-05  427  	} else {
+42824463d38d27 Vladimir Oltean 2019-06-08  428  		return NULL;
+227d07a07ef126 Vladimir Oltean 2019-05-05  429  	}
+227d07a07ef126 Vladimir Oltean 2019-05-05  430  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   985  	/* set filter data */
-56e3f8aecddacd Angel Iglesias 2022-06-25   986  	ret =3D regmap_update_bits=
-(data->regmap, BMP380_REG_CONFIG,
-56e3f8aecddacd Angel Iglesias 2022-06-25   987  				BMP380_FILTER_MASK, BMP=
-380_FILTER_3X);
-56e3f8aecddacd Angel Iglesias 2022-06-25   988  	if (ret < 0) {
-56e3f8aecddacd Angel Iglesias 2022-06-25   989  		dev_err(data->dev, "faile=
-d to write config register\n");
-56e3f8aecddacd Angel Iglesias 2022-06-25   990  		return ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25   991  	}
-56e3f8aecddacd Angel Iglesias 2022-06-25   992  =
+04a1758348a87e Vladimir Oltean 2021-07-29  431  	if (source_port =3D=3D -1 =
+|| switch_id =3D=3D -1)
+884be12f85666c Vladimir Oltean 2021-07-26 @432  		skb->dev =3D dsa_find_des=
+ignated_bridge_port_by_vid(netdev, vid);
+884be12f85666c Vladimir Oltean 2021-07-26  433  	else
+227d07a07ef126 Vladimir Oltean 2019-05-05  434  		skb->dev =3D dsa_master_f=
+ind_slave(netdev, switch_id, source_port);
+227d07a07ef126 Vladimir Oltean 2019-05-05  435  	if (!skb->dev) {
+227d07a07ef126 Vladimir Oltean 2019-05-05  436  		netdev_warn(netdev, "Coul=
+dn't decode source port\n");
+227d07a07ef126 Vladimir Oltean 2019-05-05  437  		return NULL;
+227d07a07ef126 Vladimir Oltean 2019-05-05  438  	}
+227d07a07ef126 Vladimir Oltean 2019-05-05  439  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25   993  	/* check config error flag=
- */
-56e3f8aecddacd Angel Iglesias 2022-06-25   994  	ret =3D regmap_read(data->=
-regmap, BMP380_REG_ERROR, &tmp);
-56e3f8aecddacd Angel Iglesias 2022-06-25   995  	if (ret < 0) {
-56e3f8aecddacd Angel Iglesias 2022-06-25   996  		dev_err(data->dev,
-56e3f8aecddacd Angel Iglesias 2022-06-25   997  			"failed to read error re=
-gister\n");
-56e3f8aecddacd Angel Iglesias 2022-06-25   998  		return ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25   999  	}
-56e3f8aecddacd Angel Iglesias 2022-06-25 @1000  	if (tmp && BMP380_ERR_CONF=
-_MASK) {
-56e3f8aecddacd Angel Iglesias 2022-06-25  1001  		dev_warn(data->dev,
-56e3f8aecddacd Angel Iglesias 2022-06-25  1002  			 "sensor flagged configu=
-ration as incompatible\n");
-56e3f8aecddacd Angel Iglesias 2022-06-25  1003  		ret =3D -EINVAL;
-56e3f8aecddacd Angel Iglesias 2022-06-25  1004  	}
-56e3f8aecddacd Angel Iglesias 2022-06-25  1005  =
+f3097be21bf17a Vladimir Oltean 2019-06-08  440  	return sja1105_rcv_meta_st=
+ate_machine(skb, &meta, is_link_local,
+f3097be21bf17a Vladimir Oltean 2019-06-08  441  					      is_meta);
+227d07a07ef126 Vladimir Oltean 2019-05-05  442  }
+227d07a07ef126 Vladimir Oltean 2019-05-05  443  =
 
-56e3f8aecddacd Angel Iglesias 2022-06-25  1006  	return ret;
-56e3f8aecddacd Angel Iglesias 2022-06-25  1007  }
-56e3f8aecddacd Angel Iglesias 2022-06-25  1008  =
 
+:::::: The code at line 432 was first introduced by commit
+:::::: 884be12f85666c6e9ff1cf3ead06a7371f6863dc net: dsa: sja1105: add supp=
+ort for imprecise RX
+
+:::::: TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8116693806300006728==--
+--===============6235728424919362275==--
 
