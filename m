@@ -1,420 +1,232 @@
-Content-Type: multipart/mixed; boundary="===============2786820447206030399=="
+Content-Type: multipart/mixed; boundary="===============1078207399930810426=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/staging/media/rkvdec/rkvdec-h264.c:732:45: warning: Value stored to 'dec_params' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 28 Jun 2022 07:10:58 +0800
-Message-ID: <202206280737.qW8q2gAn-lkp@intel.com>
+Subject: Re: [PATCH 3/6] xfs: merge xfs_buf_find() and xfs_buf_get_map()
+Date: Tue, 28 Jun 2022 06:09:43 +0800
+Message-ID: <202206280549.pN2aOPuA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2786820447206030399==
+--===============1078207399930810426==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/s=
-taging/media/rkvdec/rkvdec-h264.c:732:45: warning: Value stored to 'dec_par=
-ams' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]"
-:::::: =
-
-
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Sebastian Fricke <sebastian.fricke@collabora.com>
-CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220627060841.244226-4-david@fromorbit.com>
+References: <20220627060841.244226-4-david@fromorbit.com>
+TO: Dave Chinner <david@fromorbit.com>
+TO: linux-xfs(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   03c765b0e3b4cb5063276b086c76f7a612856a9a
-commit: 7ab889f09dfa70e8097ec1b9186fd228124112cb media: rkvdec: h264: Fix d=
-pb_valid implementation
-date:   6 weeks ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-c006-20220622 (https://download.01.org/0day-ci/arc=
-hive/20220628/202206280737.qW8q2gAn-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8b8d12=
-6598ce7bd5243da7f94f69fa1104288bee)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7ab889f09dfa70e8097ec1b9186fd228124112cb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7ab889f09dfa70e8097ec1b9186fd228124112cb
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+Hi Dave,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on linus/master v5.19-rc4 next-20220627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Chinner/xfs-loc=
+kless-buffer-lookups/20220627-141053
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-randconfig-m001-20220627 (https://download.01.org/0day-ci/ar=
+chive/20220628/202206280549.pN2aOPuA-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/xfs/xfs_buf.c:703 xfs_buf_get_map() error: we previously assumed 'bp' co=
+uld be null (see line 686)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:874:4: warning: Call to f=
-unction 'memcpy' is insecure as it does not provide security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'memcpy_s' in case of C11 =
-[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&last_bytes, rop.buf + (words * sizeof(u3=
-2)), remainder);
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:874:4: note: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&last_bytes, rop.buf + (words * sizeof(u3=
-2)), remainder);
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   52 warnings generated.
-   drivers/hwmon/adm9240.c:230:9: warning: Call to function 'sprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", vid_from_reg(vid, data->vrm));
-                  ^~~~~~~
-   drivers/hwmon/adm9240.c:230:9: note: Call to function 'sprintf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", vid_from_reg(vid, data->vrm));
-                  ^~~~~~~
-   drivers/hwmon/adm9240.c:245:9: warning: Call to function 'sprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", AOUT_FROM_REG(regval));
-                  ^~~~~~~
-   drivers/hwmon/adm9240.c:245:9: note: Call to function 'sprintf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", AOUT_FROM_REG(regval));
-                  ^~~~~~~
-   Suppressed 50 warnings (50 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   51 warnings generated.
-   drivers/hwmon/ads7828.c:65:9: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n",
-                  ^~~~~~~
-   drivers/hwmon/ads7828.c:65:9: note: Call to function 'sprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n",
-                  ^~~~~~~
-   Suppressed 50 warnings (50 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   39 warnings generated.
-   Suppressed 39 warnings (39 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   50 warnings generated.
-   Suppressed 50 warnings (50 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   53 warnings generated.
-   Suppressed 53 warnings (53 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   53 warnings generated.
-   Suppressed 53 warnings (53 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   53 warnings generated.
-   Suppressed 53 warnings (53 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   62 warnings generated.
-   drivers/staging/media/rkvdec/rkvdec-h264.c:657:2: warning: Call to funct=
-ion 'memset' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'memset_s' in case of C11 [cla=
-ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(hw_ps, 0, sizeof(*hw_ps));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:657:2: note: Call to function=
- 'memset' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'memset_s' in case of C11
-           memset(hw_ps, 0, sizeof(*hw_ps));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> drivers/staging/media/rkvdec/rkvdec-h264.c:732:45: warning: Value stored=
- to 'dec_params' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->d=
-ecode_params;
-                                                      ^~~~~~~~~~   ~~~~~~~~=
-~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:732:45: note: Value stored to=
- 'dec_params' during its initialization is never read
-           const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->d=
-ecode_params;
-                                                      ^~~~~~~~~~   ~~~~~~~~=
-~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:763:2: warning: Call to funct=
-ion 'memset' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'memset_s' in case of C11 [cla=
-ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(hw_rps, 0, sizeof(priv_tbl->rps));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:763:2: note: Call to function=
- 'memset' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'memset_s' in case of C11
-           memset(hw_rps, 0, sizeof(priv_tbl->rps));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:826:2: warning: Call to funct=
-ion 'memcpy' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'memcpy_s' in case of C11 [cla=
-ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(tbl->scaling_list.scaling_list_4x4,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:826:2: note: Call to function=
- 'memcpy' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(tbl->scaling_list.scaling_list_4x4,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:830:2: warning: Call to funct=
-ion 'memcpy' is insecure as it does not provide security checks introduced =
-in the C11 standard. Replace with analogous functions that support length a=
-rguments or provides boundary checks such as 'memcpy_s' in case of C11 [cla=
-ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(tbl->scaling_list.scaling_list_8x8,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:830:2: note: Call to function=
- 'memcpy' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(tbl->scaling_list.scaling_list_8x8,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:1058:2: warning: Call to func=
-tion 'memcpy' is insecure as it does not provide security checks introduced=
- in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
-ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(priv_tbl->cabac_table, rkvdec_h264_cabac_table,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/staging/media/rkvdec/rkvdec-h264.c:1058:2: note: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(priv_tbl->cabac_table, rkvdec_h264_cabac_table,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/bp +703 fs/xfs/xfs_buf.c
 
-vim +/dec_params +732 drivers/staging/media/rkvdec/rkvdec-h264.c
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  651=
+  =
 
-cd33c830448baf Boris Brezillon  2020-04-04  728  =
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  652=
+  /*
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  653=
+   * Assembles a buffer covering the specified range. The code is optimised=
+ for
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  654=
+   * cache hits, as metadata intensive workloads will see 3 orders of magni=
+tude
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  655=
+   * more hits than misses.
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  656=
+   */
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  657=
+  int
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  658=
+  xfs_buf_get_map(
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  659=
+  	struct xfs_buftarg	*btp,
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  660=
+  	struct xfs_buf_map	*map,
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  661=
+  	int			nmaps,
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  662=
+  	xfs_buf_flags_t		flags,
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  663=
+  	struct xfs_buf		**bpp)
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  664=
+  {
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  665=
+  	struct xfs_perag	*pag;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  666=
+  	struct xfs_buf		*bp =3D NULL;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  667=
+  	struct xfs_buf_map	cmap =3D { .bm_bn =3D map[0].bm_bn };
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  668=
+  	int			error;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  669=
+  	int			i;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  670=
+  =
 
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  729  static void lookup_ref_buf=
-_idx(struct rkvdec_ctx *ctx,
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  730  			       struct rkvdec_h2=
-64_run *run)
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  731  {
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13 @732  	const struct v4l2_ctrl_h2=
-64_decode_params *dec_params =3D run->decode_params;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  733  	u32 i;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  734  =
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  671=
+  	for (i =3D 0; i < nmaps; i++)
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  672=
+  		cmap.bm_len +=3D map[i].bm_len;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  673=
+  =
 
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  735  	for (i =3D 0; i < ARRAY_S=
-IZE(dec_params->dpb); i++) {
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  736  		struct v4l2_m2m_ctx *m2m=
-_ctx =3D ctx->fh.m2m_ctx;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  737  		const struct v4l2_h264_d=
-pb_entry *dpb =3D run->decode_params->dpb;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  738  		struct vb2_queue *cap_q =
-=3D &m2m_ctx->cap_q_ctx.q;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  739  		int buf_idx =3D -1;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  740  =
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  674=
+  	error =3D xfs_buf_find_verify(btp, &cmap);
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  675=
+  	if (error)
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  676=
+  		return error;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  677=
+  =
 
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  741  		if (dpb[i].flags & V4L2_=
-H264_DPB_ENTRY_FLAG_ACTIVE)
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  742  			buf_idx =3D vb2_find_ti=
-mestamp(cap_q,
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  743  						     dpb[i].referenc=
-e_ts, 0);
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  744  =
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  678=
+  	pag =3D xfs_perag_get(btp->bt_mount,
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  679=
+  			    xfs_daddr_to_agno(btp->bt_mount, cmap.bm_bn));
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  680=
+  =
 
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  745  		run->ref_buf_idx[i] =3D =
-buf_idx;
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  746  	}
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  747  }
-7ab889f09dfa70 Nicolas Dufresne 2022-05-13  748  =
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  681=
+  	error =3D xfs_buf_find_fast(pag, &cmap, flags, &bp);
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  682=
+  	if (error && error !=3D -ENOENT)
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  683=
+  		goto out_put_perag;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  684=
+  =
+
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  685=
+  	/* cache hits always outnumber misses by at least 10:1 */
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27 @686=
+  	if (unlikely(!bp)) {
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  687=
+  		XFS_STATS_INC(btp->bt_mount, xb_miss_locked);
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  688=
+  =
+
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  689=
+  		if (flags & XBF_INCORE)
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  690=
+  			goto out_put_perag;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  691=
+  =
+
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  692=
+  		/* xfs_buf_find_insert() consumes the perag reference. */
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  693=
+  		error =3D xfs_buf_find_insert(btp, pag, &cmap, map, nmaps,
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  694=
+  				flags, &bp);
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  695=
+  		if (error)
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  696=
+  			return error;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  697=
+  	} else {
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  698=
+  		XFS_STATS_INC(btp->bt_mount, xb_get_locked);
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  699=
+  		xfs_perag_put(pag);
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  700=
+  	}
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  701=
+  =
+
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  702=
+  	/* We do not hold a perag reference anymore. */
+611c99468c7aa1 fs/xfs/xfs_buf.c           Dave Chinner      2012-04-23 @703=
+  	if (!bp->b_addr) {
+ce8e922c0e79c8 fs/xfs/linux-2.6/xfs_buf.c Nathan Scott      2006-01-11  704=
+  		error =3D _xfs_buf_map_pages(bp, flags);
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  705=
+  		if (unlikely(error)) {
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  706=
+  			xfs_warn_ratelimited(btp->bt_mount,
+93baa55af1a19a fs/xfs/xfs_buf.c           Darrick J. Wong   2020-02-21  707=
+  				"%s: failed to map %u pages", __func__,
+93baa55af1a19a fs/xfs/xfs_buf.c           Darrick J. Wong   2020-02-21  708=
+  				bp->b_page_count);
+a8acad70731e7d fs/xfs/xfs_buf.c           Dave Chinner      2012-04-23  709=
+  			xfs_buf_relse(bp);
+3848b5f6709221 fs/xfs/xfs_buf.c           Darrick J. Wong   2020-01-23  710=
+  			return error;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  711=
+  		}
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  712=
+  	}
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  713=
+  =
+
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  714=
+  	/*
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  715=
+  	 * Clear b_error if this is a lookup from a caller that doesn't expect
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  716=
+  	 * valid data to be found in the buffer.
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  717=
+  	 */
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  718=
+  	if (!(flags & XBF_READ))
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  719=
+  		xfs_buf_ioerror(bp, 0);
+b79f4a1c68bb99 fs/xfs/xfs_buf.c           Dave Chinner      2016-01-12  720=
+  =
+
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  721=
+  	XFS_STATS_INC(btp->bt_mount, xb_get);
+0b1b213fcf3a84 fs/xfs/linux-2.6/xfs_buf.c Christoph Hellwig 2009-12-14  722=
+  	trace_xfs_buf_get(bp, flags, _RET_IP_);
+3848b5f6709221 fs/xfs/xfs_buf.c           Darrick J. Wong   2020-01-23  723=
+  	*bpp =3D bp;
+3848b5f6709221 fs/xfs/xfs_buf.c           Darrick J. Wong   2020-01-23  724=
+  	return 0;
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  725=
+  =
+
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  726=
+  out_put_perag:
+ac3a2dcca9b378 fs/xfs/xfs_buf.c           Dave Chinner      2022-06-27  727=
+  	xfs_perag_put(pag);
+170041f71596da fs/xfs/xfs_buf.c           Christoph Hellwig 2021-06-07  728=
+  	return error;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  729=
+  }
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  730=
+  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2786820447206030399==--
+--===============1078207399930810426==--
 
