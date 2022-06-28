@@ -1,22 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============4141246363269798388=="
+Content-Type: multipart/mixed; boundary="===============5215934738721735171=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 29 Jun 2022 01:03:28 +0800
-Message-ID: <202206290101.R8QUpBSX-lkp@intel.com>
+Subject: block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Tue, 28 Jun 2022 23:41:08 +0800
+Message-ID: <202206282351.6ki5bWh5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4141246363269798388==
+--===============5215934738721735171==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to 'ret' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: block/bfq=
+-cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-u=
+nix.Malloc]"
 :::::: =
 
 
@@ -24,36 +24,36 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>
+TO: Paolo Valente <paolo.valente@linaro.org>
+CC: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   941e3e7912696b9fbe3586083a7c2e102cee7a87
-commit: 6874f48bb8b050b695698f1145e6846ba08baa75 drm/msm: make mdp5/dpu dev=
-ices master components
-date:   9 weeks ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-c006-20220622 (https://download.01.org/0day-ci/arc=
-hive/20220629/202206290101.R8QUpBSX-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8b8d12=
-6598ce7bd5243da7f94f69fa1104288bee)
+commit: d29bd41428cfff9b582c248db14a47e2be8457a8 block, bfq: reset last_bfq=
+q_created on group change
+date:   8 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220625 (https://download.01.org/0day-ci/archi=
+ve/20220628/202206282351.6ki5bWh5-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 42a7dd=
+b428c999229491b0effbb1a4059149fba8)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6874f48bb8b050b695698f1145e6846ba08baa75
+t/commit/?id=3Dd29bd41428cfff9b582c248db14a47e2be8457a8
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 6874f48bb8b050b695698f1145e6846ba08baa75
+        git checkout d29bd41428cfff9b582c248db14a47e2be8457a8
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -61,533 +61,361 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           memcpy(dst, src, n);
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/char/xillybus/xillyusb.c:355:2: note: Call to function 'memcpy' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, n);
+   drivers/iio/buffer/kfifo_buf.c:35:6: note: Calling '__roundup_pow_of_two'
+           if (roundup_pow_of_two(length) > UINT_MAX / bytes_per_datum)
+               ^
+   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __roundup_pow_of_two(n)                 \
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:188:2: note: Taking true branch
+           if (sizeof(l) =3D=3D 4)
            ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/char/xillybus/xillyusb.c:1153:4: warning: Value stored to 'rc' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                           rc =3D wait_event_interruptible_timeout(chan->fl=
-ushq,
-                           ^
-   drivers/char/xillybus/xillyusb.c:1153:4: note: Value stored to 'rc' is n=
-ever read
-   Suppressed 40 warnings (40 in non-user code).
+   include/linux/bitops.h:189:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r =3D 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
+o 0, which participates in a condition later
+           if (!x)
+               ^~
+   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
+           if (!x)
+           ^
+   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
+ded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:189:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:189:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
+ned due to shifting by '32', which is greater or equal to the width of type=
+ 'unsigned long'
+           return 1UL << fls_long(n - 1);
+                      ^  ~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   drivers/iommu/iommu.c:420:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide bounding of the memory buffer or security check=
-s introduced in the C11 standard. Replace with analogous functions that sup=
-port length arguments or provides boundary checks such as 'sprintf_s' in ca=
-se of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHand=
-ling]
-           return sprintf(buf, "%s\n", group->name);
-                  ^~~~~~~
-   drivers/iommu/iommu.c:420:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide bounding of the memory buffer or security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'sprintf_s' in case =
-of C11
-           return sprintf(buf, "%s\n", group->name);
-                  ^~~~~~~
-   drivers/iommu/iommu.c:532:10: warning: Call to function 'sprintf' is ins=
-ecure as it does not provide bounding of the memory buffer or security chec=
-ks introduced in the C11 standard. Replace with analogous functions that su=
-pport length arguments or provides boundary checks such as 'sprintf_s' in c=
-ase of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHan=
-dling]
-                   str +=3D sprintf(str, "0x%016llx 0x%016llx %s\n",
-                          ^~~~~~~
-   drivers/iommu/iommu.c:532:10: note: Call to function 'sprintf' is insecu=
-re as it does not provide bounding of the memory buffer or security checks =
-introduced in the C11 standard. Replace with analogous functions that suppo=
-rt length arguments or provides boundary checks such as 'sprintf_s' in case=
- of C11
-                   str +=3D sprintf(str, "0x%016llx 0x%016llx %s\n",
-                          ^~~~~~~
-   drivers/iommu/iommu.c:569:2: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(buf, type);
-           ^~~~~~
-   drivers/iommu/iommu.c:569:2: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-           strcpy(buf, type);
-           ^~~~~~
-   drivers/iommu/iommu.c:1729:2: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&gtype, 0, sizeof(gtype));
+   9 warnings generated.
+   block/bfq-wf2q.c:263:7: warning: Access to field 'my_sched_data' results=
+ in a dereference of a null pointer (loaded from variable 'entity') [clang-=
+analyzer-core.NullDereference]
+           if (!entity->my_sched_data)
+                ^
+   block/bfq-wf2q.c:1508:2: note: 'entity' initialized to a null pointer va=
+lue
+           struct bfq_entity *entity =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:1512:6: note: Assuming the condition is false
+           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:1512:2: note: Taking false branch
+           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/iommu/iommu.c:1729:2: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-           memset(&gtype, 0, sizeof(gtype));
+   block/bfq-wf2q.c:1521:2: note: Loop condition is false. Execution contin=
+ues on line 1582
+           for (; sd ; sd =3D entity->my_sched_data) {
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 38 warnings (38 in non-user code).
+   block/bfq-wf2q.c:1582:28: note: Passing null pointer value via 1st param=
+eter 'entity'
+           bfqq =3D bfq_entity_to_bfqq(entity);
+                                     ^~~~~~
+   block/bfq-wf2q.c:1582:9: note: Calling 'bfq_entity_to_bfqq'
+           bfqq =3D bfq_entity_to_bfqq(entity);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:263:7: note: Access to field 'my_sched_data' results in=
+ a dereference of a null pointer (loaded from variable 'entity')
+           if (!entity->my_sched_data)
+                ^~~~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   57 warnings generated.
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:291:3: warning: Value stored t=
-o 'plane' is never read [clang-analyzer-deadcode.DeadStores]
-                   plane =3D pstates[i]->base.plane;
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:291:3: note: Value stored to '=
-plane' is never read
-                   plane =3D pstates[i]->base.plane;
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1056:24: warning: Although the=
- value stored to 'x' is used in the enclosing expression, the value is neve=
-r actually read from 'x' [clang-analyzer-deadcode.DeadStores]
-           mdp5_crtc->cursor.x =3D x =3D max(x, -(int)mdp5_crtc->cursor.wid=
-th);
-                                 ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1056:24: note: Although the va=
-lue stored to 'x' is used in the enclosing expression, the value is never a=
-ctually read from 'x'
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1057:24: warning: Although the=
- value stored to 'y' is used in the enclosing expression, the value is neve=
-r actually read from 'y' [clang-analyzer-deadcode.DeadStores]
-           mdp5_crtc->cursor.y =3D y =3D max(y, -(int)mdp5_crtc->cursor.hei=
-ght);
-                                 ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1057:24: note: Although the va=
-lue stored to 'y' is used in the enclosing expression, the value is never a=
-ctually read from 'y'
-   Suppressed 54 warnings (54 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   54 warnings generated.
-   Suppressed 54 warnings (54 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   54 warnings generated.
-   Suppressed 54 warnings (54 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   56 warnings generated.
->> drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: note: Value stored to 'r=
-et' is never read
-           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:687:12: warning: 1st function c=
-all argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   hwpipe =3D mdp5_pipe_init(pipes[i], offsets[i], caps);
-                            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:8: note: Calling 'mdp5_init'
-           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:815:6: note: Assuming 'mdp5_kms=
-' is non-null
-           if (!mdp5_kms) {
-               ^~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:815:2: note: Taking false branch
-           if (!mdp5_kms) {
+   9 warnings generated.
+>> block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clan=
+g-analyzer-unix.Malloc]
+               entity->parent->last_bfqq_created =3D=3D bfqq)
+               ^
+   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&bfqd->lock, flags);
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:822:2: note: Loop condition is =
-false.  Exiting loop
-           spin_lock_init(&mdp5_kms->resource_lock);
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
            ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
+   include/linux/spinlock.h:254:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&bfqd->lock, flags);
+           ^
+   include/linux/spinlock.h:391:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
                                                                    ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:828:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:828:2: note: Taking false branch
-           if (ret)
+   block/bfq-cgroup.c:894:6: note: Assuming 'entity' is non-null
+           if (!entity) /* root group */
+               ^~~~~~~
+   block/bfq-cgroup.c:894:2: note: Taking false branch
+           if (!entity) /* root group */
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:832:2: note: Taking false branch
-           if (IS_ERR(mdp5_kms->mmio)) {
+   block/bfq-cgroup.c:901:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (i =3D 0; i < BFQ_IOPRIO_CLASSES; i++) {
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:839:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:839:2: note: Taking false branch
-           if (ret)
+   block/bfq-cgroup.c:916:3: note: Calling 'bfq_reparent_active_queues'
+                   bfq_reparent_active_queues(bfqd, bfqg, st, i);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:866:2: note: Loop condition is true.  Entering loop b=
+ody
+           while ((entity =3D bfq_entity_of(rb_first(active))))
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:842:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:842:2: note: Taking false branch
-           if (ret)
+   block/bfq-cgroup.c:867:3: note: Calling 'bfq_reparent_leaf_entity'
+                   bfq_reparent_leaf_entity(bfqd, entity, ioprio_class);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:836:2: note: Loop condition is false. Execution conti=
+nues on line 848
+           while (child_entity->my_sched_data) { /* leaf not reached yet */
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:845:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:845:2: note: Taking false branch
-           if (ret)
+   block/bfq-cgroup.c:849:2: note: Calling 'bfq_bfqq_move'
+           bfq_bfqq_move(bfqd, bfqq, bfqd->root_group);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:659:6: note: Assuming 'bfqq' is not equal to field 'i=
+n_service_queue'
+           if (bfqq =3D=3D bfqd->in_service_queue)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:659:2: note: Taking false branch
+           if (bfqq =3D=3D bfqd->in_service_queue)
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:848:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:848:2: note: Taking false branch
-           if (ret)
+   block/bfq-cgroup.c:663:6: note: Assuming the condition is true
+           if (bfq_bfqq_busy(bfqq))
+               ^~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:663:2: note: Taking true branch
+           if (bfq_bfqq_busy(bfqq))
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:868:2: note: Taking false branch
-           if (IS_ERR(mdp5_kms->cfg)) {
+   block/bfq-cgroup.c:667:20: note: Calling 'bfqq_group'
+           bfqg_and_blkg_put(bfqq_group(bfqq));
+                             ^~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:312:9: note: Assuming 'group_entity' is non-null
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                  ^~~~~~~~~~~~
+   block/bfq-cgroup.c:312:9: note: '?' condition is true
+   block/bfq-cgroup.c:312:24: note: Left side of '&&' is false
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                                 ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   block/bfq-cgroup.c:312:24: note: Taking false branch
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                                 ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:885:6: note: Assuming the condi=
-tion is false
-           if (mdp5_kms->caps & MDP_CAP_SMP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:885:2: note: Taking false branch
-           if (mdp5_kms->caps & MDP_CAP_SMP) {
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:895:2: note: Taking false branch
-           if (IS_ERR(mdp5_kms->ctlm)) {
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:901:8: note: Calling 'hwpipe_in=
-it'
-           ret =3D hwpipe_init(mdp5_kms);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:723:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:723:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:729:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:729:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:733:8: note: Calling 'construct=
-_pipes'
-           ret =3D construct_pipes(mdp5_kms, hw_cfg->pipe_dma.count, dma_pl=
-anes,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:14: note: Assuming 'i' is <=
- 'cnt'
-           for (i =3D 0; i < cnt; i++) {
-                       ^~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:2: note: Loop condition is =
-true.  Entering loop body
-           for (i =3D 0; i < cnt; i++) {
-           ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:688:3: note: Taking false branch
-                   if (IS_ERR(hwpipe)) {
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:14: note: Assuming 'i' is <=
- 'cnt'
-           for (i =3D 0; i < cnt; i++) {
-                       ^~~~~~~
-   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:2: note: Loop condition is =
-true.  Entering loop body
-           for (i =3D 0; i < cnt; i++) {
+   block/bfq-cgroup.c:312:24: note: Loop condition is false.  Exiting loop
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                                 ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
 
-vim +/ret +563 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+vim +670 block/bfq-cgroup.c
 
-6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  551  =
+ea25da48086d3b Paolo Valente 2017-04-19  627  =
 
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  552  static int mdp5_kms_init(struct drm_device *dev)
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  553  {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  554  	struct msm_drm_private *priv =3D dev->dev_private;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  555  	struct platform_device *pdev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  556  	struct mdp5_kms *mdp5_kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  557  	struct mdp5_cfg *config;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  558  	struct msm_kms *kms;
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-09-28  559  	struct msm_gem_address_space *aspace;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  560  	int irq, i, ret;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  561  	struct device *iommu_dev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  562  =
+ea25da48086d3b Paolo Valente 2017-04-19  628  /**
+ea25da48086d3b Paolo Valente 2017-04-19  629   * bfq_bfqq_move - migrate @b=
+fqq to @bfqg.
+ea25da48086d3b Paolo Valente 2017-04-19  630   * @bfqd: queue descriptor.
+ea25da48086d3b Paolo Valente 2017-04-19  631   * @bfqq: the queue to move.
+ea25da48086d3b Paolo Valente 2017-04-19  632   * @bfqg: the group to move t=
+o.
+ea25da48086d3b Paolo Valente 2017-04-19  633   *
+ea25da48086d3b Paolo Valente 2017-04-19  634   * Move @bfqq to @bfqg, deact=
+ivating it from its old group and reactivating
+ea25da48086d3b Paolo Valente 2017-04-19  635   * it on the new one.  Avoid =
+putting the entity on the old group idle tree.
+ea25da48086d3b Paolo Valente 2017-04-19  636   *
+8f9bebc33dd718 Paolo Valente 2017-06-05  637   * Must be called under the s=
+cheduler lock, to make sure that the blkg
+8f9bebc33dd718 Paolo Valente 2017-06-05  638   * owning @bfqg does not disa=
+ppear (see comments in
+8f9bebc33dd718 Paolo Valente 2017-06-05  639   * bfq_bic_update_cgroup on g=
+uaranteeing the consistency of blkg
+8f9bebc33dd718 Paolo Valente 2017-06-05  640   * objects).
+ea25da48086d3b Paolo Valente 2017-04-19  641   */
+ea25da48086d3b Paolo Valente 2017-04-19  642  void bfq_bfqq_move(struct bfq=
+_data *bfqd, struct bfq_queue *bfqq,
+ea25da48086d3b Paolo Valente 2017-04-19  643  		   struct bfq_group *bfqg)
+ea25da48086d3b Paolo Valente 2017-04-19  644  {
+ea25da48086d3b Paolo Valente 2017-04-19  645  	struct bfq_entity *entity =
+=3D &bfqq->entity;
+ea25da48086d3b Paolo Valente 2017-04-19  646  =
 
-6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19 @563  	ret =3D mdp5_init(to_platform_device(dev->dev), dev);
-6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  564  =
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  647  	/*
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  648  	 * Get extra reference to pr=
+event bfqq from being freed in
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  649  	 * next possible expire or d=
+eactivate.
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  650  	 */
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  651  	bfqq->ref++;
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  652  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  565  	/* priv->kms would have been populated by the MDP5 drive=
-r */
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  566  	kms =3D priv->kms;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  567  	if (!kms)
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  568  		return -ENOMEM;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  569  =
+ea25da48086d3b Paolo Valente 2017-04-19  653  	/* If bfqq is empty, then bf=
+q_bfqq_expire also invokes
+ea25da48086d3b Paolo Valente 2017-04-19  654  	 * bfq_del_bfqq_busy, thereb=
+y removing bfqq and its entity
+ea25da48086d3b Paolo Valente 2017-04-19  655  	 * from data structures rela=
+ted to current group. Otherwise we
+ea25da48086d3b Paolo Valente 2017-04-19  656  	 * need to remove bfqq expli=
+citly with bfq_deactivate_bfqq, as
+ea25da48086d3b Paolo Valente 2017-04-19  657  	 * we do below.
+ea25da48086d3b Paolo Valente 2017-04-19  658  	 */
+ea25da48086d3b Paolo Valente 2017-04-19  659  	if (bfqq =3D=3D bfqd->in_ser=
+vice_queue)
+ea25da48086d3b Paolo Valente 2017-04-19  660  		bfq_bfqq_expire(bfqd, bfqd-=
+>in_service_queue,
+ea25da48086d3b Paolo Valente 2017-04-19  661  				false, BFQQE_PREEMPTED);
+ea25da48086d3b Paolo Valente 2017-04-19  662  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  570  	mdp5_kms =3D to_mdp5_kms(to_mdp_kms(kms));
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  571  	pdev =3D mdp5_kms->pdev;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  572  =
+ea25da48086d3b Paolo Valente 2017-04-19  663  	if (bfq_bfqq_busy(bfqq))
+ea25da48086d3b Paolo Valente 2017-04-19  664  		bfq_deactivate_bfqq(bfqd, b=
+fqq, false, false);
+33a16a9804688b Paolo Valente 2020-02-03  665  	else if (entity->on_st_or_in=
+_serv)
+ea25da48086d3b Paolo Valente 2017-04-19  666  		bfq_put_idle_entity(bfq_ent=
+ity_service_tree(entity), entity);
+8f9bebc33dd718 Paolo Valente 2017-06-05  667  	bfqg_and_blkg_put(bfqq_group=
+(bfqq));
+ea25da48086d3b Paolo Valente 2017-04-19  668  =
 
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  573  	ret =3D mdp_kms_init(&mdp5_kms->base, &kms_funcs);
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  574  	if (ret) {
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  575  		DRM_DEV_ERROR(&pdev->dev, "failed to init kms\n");
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  576  		goto fail;
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  577  	}
-ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
- 2020-10-19  578  =
+d29bd41428cfff Paolo Valente 2021-10-15  669  	if (entity->parent &&
+d29bd41428cfff Paolo Valente 2021-10-15 @670  	    entity->parent->last_bfq=
+q_created =3D=3D bfqq)
+d29bd41428cfff Paolo Valente 2021-10-15  671  		entity->parent->last_bfqq_c=
+reated =3D NULL;
+d29bd41428cfff Paolo Valente 2021-10-15  672  	else if (bfqd->last_bfqq_cre=
+ated =3D=3D bfqq)
+d29bd41428cfff Paolo Valente 2021-10-15  673  		bfqd->last_bfqq_created =3D=
+ NULL;
+d29bd41428cfff Paolo Valente 2021-10-15  674  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  579  	irq =3D irq_of_parse_and_map(pdev->dev.of_node, 0);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  580  	if (irq < 0) {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  581  		ret =3D irq;
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
- 2018-10-20  582  		DRM_DEV_ERROR(&pdev->dev, "failed to get irq: %d\n", re=
-t);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  583  		goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  584  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  585  =
+ea25da48086d3b Paolo Valente 2017-04-19  675  	entity->parent =3D bfqg->my_=
+entity;
+ea25da48086d3b Paolo Valente 2017-04-19  676  	entity->sched_data =3D &bfqg=
+->sched_data;
+8f9bebc33dd718 Paolo Valente 2017-06-05  677  	/* pin down bfqg and its ass=
+ociated blkg  */
+8f9bebc33dd718 Paolo Valente 2017-06-05  678  	bfqg_and_blkg_get(bfqg);
+ea25da48086d3b Paolo Valente 2017-04-19  679  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  586  	kms->irq =3D irq;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  587  =
+ea25da48086d3b Paolo Valente 2017-04-19  680  	if (bfq_bfqq_busy(bfqq)) {
+8cacc5ab3eacf5 Paolo Valente 2019-03-12  681  		if (unlikely(!bfqd->nonrot_=
+with_queueing))
+ea25da48086d3b Paolo Valente 2017-04-19  682  			bfq_pos_tree_add_move(bfqd=
+, bfqq);
+ea25da48086d3b Paolo Valente 2017-04-19  683  		bfq_activate_bfqq(bfqd, bfq=
+q);
+ea25da48086d3b Paolo Valente 2017-04-19  684  	}
+ea25da48086d3b Paolo Valente 2017-04-19  685  =
 
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  588  	config =3D mdp5_cfg_get_config(mdp5_kms->cfg);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  589  =
-
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  590  	/* make sure things are off before attaching iommu (boot=
-loader could
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  591  	 * have left things on, in which case we'll start gettin=
-g faults if
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  592  	 * we don't disable):
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  593  	 */
-d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2017-07-28  594  	pm_runtime_get_sync(&pdev->dev);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  595  	for (i =3D 0; i < MDP5_INTF_NUM_MAX; i++) {
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  596  		if (mdp5_cfg_intf_is_virtual(config->hw->intf.connect[i=
-]) ||
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  597  		    !config->hw->intf.base[i])
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  598  			continue;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  599  		mdp5_write(mdp5_kms, REG_MDP5_INTF_TIMING_ENGINE_EN(i),=
- 0);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  600  =
-
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  601  		mdp5_write(mdp5_kms, REG_MDP5_INTF_FRAME_LINE_COUNT_EN(=
-i), 0x3);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  602  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  603  	mdelay(16);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  604  =
-
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  605  	if (config->platform.iommu) {
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  606  		struct msm_mmu *mmu;
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  607  =
-
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  608  		iommu_dev =3D &pdev->dev;
-d3e240c4bcf003 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Joerg Roedel       =
- 2020-03-26  609  		if (!dev_iommu_fwspec_get(iommu_dev))
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  610  			iommu_dev =3D iommu_dev->parent;
-518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
- 2019-07-08  611  =
-
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  612  		mmu =3D msm_iommu_new(iommu_dev, config->platform.iommu=
-);
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  613  =
-
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  614  		aspace =3D msm_gem_address_space_create(mmu, "mdp5",
-30480e6ed508e3 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-06-22  615  			0x1000, 0x100000000 - 0x1000);
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  616  =
-
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-09-28  617  		if (IS_ERR(aspace)) {
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  618  			if (!IS_ERR(mmu))
-ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
- 2020-05-22  619  				mmu->funcs->destroy(mmu);
-667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-09-28  620  			ret =3D PTR_ERR(aspace);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  621  			goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  622  		}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  623  =
-
-f59f62d592a055 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2017-06-13  624  		kms->aspace =3D aspace;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  625  	} else {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
- 2018-10-20  626  		DRM_DEV_INFO(&pdev->dev,
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  627  			 "no iommu, fallback to phys contig buffers for scanou=
-t\n");
-52a8988de97f5e drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Luis de Bethencourt=
- 2018-01-17  628  		aspace =3D NULL;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  629  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  630  =
-
-3c352b66905b29 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2017-10-20  631  	pm_runtime_put_sync(&pdev->dev);
-d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2017-07-28  632  =
-
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  633  	ret =3D modeset_init(mdp5_kms);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  634  	if (ret) {
-6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
- 2018-10-20  635  		DRM_DEV_ERROR(&pdev->dev, "modeset_init failed: %d\n", =
-ret);
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  636  		goto fail;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  637  	}
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  638  =
-
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  639  	dev->mode_config.min_width =3D 0;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  640  	dev->mode_config.min_height =3D 0;
-9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-11-05  641  	dev->mode_config.max_width =3D 0xffff;
-9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
- 2016-11-05  642  	dev->mode_config.max_height =3D 0xffff;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  643  =
-
-2bab52af6fe68c drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Brian Masney       =
- 2019-05-31  644  	dev->max_vblank_count =3D 0; /* max_vblank_count is set =
-on each CRTC */
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  645  	dev->vblank_disable_immediate =3D true;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  646  =
-
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  647  	return 0;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  648  fail:
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  649  	if (kms)
-392ae6e0efa5e2 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  650  		mdp5_kms_destroy(kms);
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  651  =
-
-5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
- 2022-04-19  652  	return ret;
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  653  }
-aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
- 2016-06-14  654  =
+ea25da48086d3b Paolo Valente 2017-04-19  686  	if (!bfqd->in_service_queue =
+&& !bfqd->rq_in_driver)
+ea25da48086d3b Paolo Valente 2017-04-19  687  		bfq_schedule_dispatch(bfqd);
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  688  	/* release extra ref taken a=
+bove, bfqq may happen to be freed now */
+ecedd3d7e19911 Paolo Valente 2020-02-03  689  	bfq_put_queue(bfqq);
+ea25da48086d3b Paolo Valente 2017-04-19  690  }
+ea25da48086d3b Paolo Valente 2017-04-19  691  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4141246363269798388==--
+--===============5215934738721735171==--
 
