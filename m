@@ -1,421 +1,267 @@
-Content-Type: multipart/mixed; boundary="===============5215934738721735171=="
+Content-Type: multipart/mixed; boundary="===============3720113876099254568=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Tue, 28 Jun 2022 23:41:08 +0800
-Message-ID: <202206282351.6ki5bWh5-lkp@intel.com>
+Subject: [intel-tdx:guest-filter 1/28] drivers/thunderbolt/tb.c:1282:37: error: 'struct tb_switch' has no member named 'authorized'
+Date: Tue, 28 Jun 2022 23:17:17 +0800
+Message-ID: <202206282327.40tEMwsL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5215934738721735171==
+--===============3720113876099254568==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: block/bfq=
--cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-u=
-nix.Malloc]"
+:::::: Manual check reason: "commit no functional change"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Paolo Valente <paolo.valente@linaro.org>
-CC: Jens Axboe <axboe@kernel.dk>
+TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.co=
+m>
+CC: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   941e3e7912696b9fbe3586083a7c2e102cee7a87
-commit: d29bd41428cfff9b582c248db14a47e2be8457a8 block, bfq: reset last_bfq=
-q_created on group change
-date:   8 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220625 (https://download.01.org/0day-ci/archi=
-ve/20220628/202206282351.6ki5bWh5-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 42a7dd=
-b428c999229491b0effbb1a4059149fba8)
+tree:   https://github.com/intel/tdx.git guest-filter
+head:   0a555e67b143701a81612d819e693cf5786de418
+commit: b2b91a2a02f064fb8dd7fda65b2268a714656b3f [1/28] driver core: Move t=
+he "authorized" attribute from USB/Thunderbolt to core
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arc-randconfig-r043-20220627 (https://download.01.org/0day-ci/archi=
+ve/20220628/202206282327.40tEMwsL-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd29bd41428cfff9b582c248db14a47e2be8457a8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d29bd41428cfff9b582c248db14a47e2be8457a8
+        # https://github.com/intel/tdx/commit/b2b91a2a02f064fb8dd7fda65b226=
+8a714656b3f
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-filter
+        git checkout b2b91a2a02f064fb8dd7fda65b2268a714656b3f
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ W=3D1 O=3Dbuild_dir ARCH=3Darc SHELL=3D/bin/bash drivers/thunderbolt/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/iio/buffer/kfifo_buf.c:35:6: note: Calling '__roundup_pow_of_two'
-           if (roundup_pow_of_two(length) > UINT_MAX / bytes_per_datum)
-               ^
-   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __roundup_pow_of_two(n)                 \
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Calling 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/bitops.h:188:2: note: Taking true branch
-           if (sizeof(l) =3D=3D 4)
-           ^
-   include/linux/bitops.h:189:10: note: Calling 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/linux/bitops.h:189:10: note: Returning from 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/linux/bitops.h:189:3: note: Returning the value 32
-                   return fls(l);
-                   ^~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Returning from 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
-ned due to shifting by '32', which is greater or equal to the width of type=
- 'unsigned long'
-           return 1UL << fls_long(n - 1);
-                      ^  ~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   block/bfq-wf2q.c:263:7: warning: Access to field 'my_sched_data' results=
- in a dereference of a null pointer (loaded from variable 'entity') [clang-=
-analyzer-core.NullDereference]
-           if (!entity->my_sched_data)
-                ^
-   block/bfq-wf2q.c:1508:2: note: 'entity' initialized to a null pointer va=
-lue
-           struct bfq_entity *entity =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1512:6: note: Assuming the condition is false
-           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1512:2: note: Taking false branch
-           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
-           ^
-   block/bfq-wf2q.c:1521:2: note: Loop condition is false. Execution contin=
-ues on line 1582
-           for (; sd ; sd =3D entity->my_sched_data) {
-           ^
-   block/bfq-wf2q.c:1582:28: note: Passing null pointer value via 1st param=
-eter 'entity'
-           bfqq =3D bfq_entity_to_bfqq(entity);
-                                     ^~~~~~
-   block/bfq-wf2q.c:1582:9: note: Calling 'bfq_entity_to_bfqq'
-           bfqq =3D bfq_entity_to_bfqq(entity);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:263:7: note: Access to field 'my_sched_data' results in=
- a dereference of a null pointer (loaded from variable 'entity')
-           if (!entity->my_sched_data)
-                ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clan=
-g-analyzer-unix.Malloc]
-               entity->parent->last_bfqq_created =3D=3D bfqq)
-               ^
-   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&bfqd->lock, flags);
-           ^
-   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:254:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&bfqd->lock, flags);
-           ^
-   include/linux/spinlock.h:391:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   block/bfq-cgroup.c:894:6: note: Assuming 'entity' is non-null
-           if (!entity) /* root group */
-               ^~~~~~~
-   block/bfq-cgroup.c:894:2: note: Taking false branch
-           if (!entity) /* root group */
-           ^
-   block/bfq-cgroup.c:901:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (i =3D 0; i < BFQ_IOPRIO_CLASSES; i++) {
-           ^
-   block/bfq-cgroup.c:916:3: note: Calling 'bfq_reparent_active_queues'
-                   bfq_reparent_active_queues(bfqd, bfqg, st, i);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:866:2: note: Loop condition is true.  Entering loop b=
-ody
-           while ((entity =3D bfq_entity_of(rb_first(active))))
-           ^
-   block/bfq-cgroup.c:867:3: note: Calling 'bfq_reparent_leaf_entity'
-                   bfq_reparent_leaf_entity(bfqd, entity, ioprio_class);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:836:2: note: Loop condition is false. Execution conti=
-nues on line 848
-           while (child_entity->my_sched_data) { /* leaf not reached yet */
-           ^
-   block/bfq-cgroup.c:849:2: note: Calling 'bfq_bfqq_move'
-           bfq_bfqq_move(bfqd, bfqq, bfqd->root_group);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:659:6: note: Assuming 'bfqq' is not equal to field 'i=
-n_service_queue'
-           if (bfqq =3D=3D bfqd->in_service_queue)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:659:2: note: Taking false branch
-           if (bfqq =3D=3D bfqd->in_service_queue)
-           ^
-   block/bfq-cgroup.c:663:6: note: Assuming the condition is true
-           if (bfq_bfqq_busy(bfqq))
-               ^~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:663:2: note: Taking true branch
-           if (bfq_bfqq_busy(bfqq))
-           ^
-   block/bfq-cgroup.c:667:20: note: Calling 'bfqq_group'
-           bfqg_and_blkg_put(bfqq_group(bfqq));
-                             ^~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:312:9: note: Assuming 'group_entity' is non-null
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                  ^~~~~~~~~~~~
-   block/bfq-cgroup.c:312:9: note: '?' condition is true
-   block/bfq-cgroup.c:312:24: note: Left side of '&&' is false
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                                 ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   block/bfq-cgroup.c:312:24: note: Taking false branch
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   block/bfq-cgroup.c:312:24: note: Loop condition is false.  Exiting loop
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
+   drivers/thunderbolt/tb.c: In function 'tb_handle_hotplug':
+>> drivers/thunderbolt/tb.c:1282:37: error: 'struct tb_switch' has no membe=
+r named 'authorized'
+    1282 |         } else if (!port->port && sw->authorized) {
+         |                                     ^~
 
-vim +670 block/bfq-cgroup.c
 
-ea25da48086d3b Paolo Valente 2017-04-19  627  =
+vim +1282 drivers/thunderbolt/tb.c
 
-ea25da48086d3b Paolo Valente 2017-04-19  628  /**
-ea25da48086d3b Paolo Valente 2017-04-19  629   * bfq_bfqq_move - migrate @b=
-fqq to @bfqg.
-ea25da48086d3b Paolo Valente 2017-04-19  630   * @bfqd: queue descriptor.
-ea25da48086d3b Paolo Valente 2017-04-19  631   * @bfqq: the queue to move.
-ea25da48086d3b Paolo Valente 2017-04-19  632   * @bfqg: the group to move t=
-o.
-ea25da48086d3b Paolo Valente 2017-04-19  633   *
-ea25da48086d3b Paolo Valente 2017-04-19  634   * Move @bfqq to @bfqg, deact=
-ivating it from its old group and reactivating
-ea25da48086d3b Paolo Valente 2017-04-19  635   * it on the new one.  Avoid =
-putting the entity on the old group idle tree.
-ea25da48086d3b Paolo Valente 2017-04-19  636   *
-8f9bebc33dd718 Paolo Valente 2017-06-05  637   * Must be called under the s=
-cheduler lock, to make sure that the blkg
-8f9bebc33dd718 Paolo Valente 2017-06-05  638   * owning @bfqg does not disa=
-ppear (see comments in
-8f9bebc33dd718 Paolo Valente 2017-06-05  639   * bfq_bic_update_cgroup on g=
-uaranteeing the consistency of blkg
-8f9bebc33dd718 Paolo Valente 2017-06-05  640   * objects).
-ea25da48086d3b Paolo Valente 2017-04-19  641   */
-ea25da48086d3b Paolo Valente 2017-04-19  642  void bfq_bfqq_move(struct bfq=
-_data *bfqd, struct bfq_queue *bfqq,
-ea25da48086d3b Paolo Valente 2017-04-19  643  		   struct bfq_group *bfqg)
-ea25da48086d3b Paolo Valente 2017-04-19  644  {
-ea25da48086d3b Paolo Valente 2017-04-19  645  	struct bfq_entity *entity =
-=3D &bfqq->entity;
-ea25da48086d3b Paolo Valente 2017-04-19  646  =
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1194  =
 
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  647  	/*
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  648  	 * Get extra reference to pr=
-event bfqq from being freed in
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  649  	 * next possible expire or d=
-eactivate.
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  650  	 */
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  651  	bfqq->ref++;
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  652  =
+877e50b358c88b Lee Jones       2021-01-27  1195  /*
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1196   * tb_handle_hotplug() - h=
+andle hotplug event
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1197   *
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1198   * Executes on tb->wq.
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1199   */
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1200  static void tb_handle_hotp=
+lug(struct work_struct *work)
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1201  {
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1202  	struct tb_hotplug_event *=
+ev =3D container_of(work, typeof(*ev), work);
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1203  	struct tb *tb =3D ev->tb;
+9d3cce0b613689 Mika Westerberg 2017-06-06  1204  	struct tb_cm *tcm =3D tb_=
+priv(tb);
+053596d9e26c86 Andreas Noever  2014-06-03  1205  	struct tb_switch *sw;
+053596d9e26c86 Andreas Noever  2014-06-03  1206  	struct tb_port *port;
+284652a4a49917 Mika Westerberg 2020-04-09  1207  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  653  	/* If bfqq is empty, then bf=
-q_bfqq_expire also invokes
-ea25da48086d3b Paolo Valente 2017-04-19  654  	 * bfq_del_bfqq_busy, thereb=
-y removing bfqq and its entity
-ea25da48086d3b Paolo Valente 2017-04-19  655  	 * from data structures rela=
-ted to current group. Otherwise we
-ea25da48086d3b Paolo Valente 2017-04-19  656  	 * need to remove bfqq expli=
-citly with bfq_deactivate_bfqq, as
-ea25da48086d3b Paolo Valente 2017-04-19  657  	 * we do below.
-ea25da48086d3b Paolo Valente 2017-04-19  658  	 */
-ea25da48086d3b Paolo Valente 2017-04-19  659  	if (bfqq =3D=3D bfqd->in_ser=
-vice_queue)
-ea25da48086d3b Paolo Valente 2017-04-19  660  		bfq_bfqq_expire(bfqd, bfqd-=
->in_service_queue,
-ea25da48086d3b Paolo Valente 2017-04-19  661  				false, BFQQE_PREEMPTED);
-ea25da48086d3b Paolo Valente 2017-04-19  662  =
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1208  	/* Bring the domain back =
+from sleep if it was suspended */
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1209  	pm_runtime_get_sync(&tb->=
+dev);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1210  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  663  	if (bfq_bfqq_busy(bfqq))
-ea25da48086d3b Paolo Valente 2017-04-19  664  		bfq_deactivate_bfqq(bfqd, b=
-fqq, false, false);
-33a16a9804688b Paolo Valente 2020-02-03  665  	else if (entity->on_st_or_in=
-_serv)
-ea25da48086d3b Paolo Valente 2017-04-19  666  		bfq_put_idle_entity(bfq_ent=
-ity_service_tree(entity), entity);
-8f9bebc33dd718 Paolo Valente 2017-06-05  667  	bfqg_and_blkg_put(bfqq_group=
-(bfqq));
-ea25da48086d3b Paolo Valente 2017-04-19  668  =
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1211  	mutex_lock(&tb->lock);
+9d3cce0b613689 Mika Westerberg 2017-06-06  1212  	if (!tcm->hotplug_active)
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1213  		goto out; /* during init=
+, suspend or shutdown */
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1214  =
 
-d29bd41428cfff Paolo Valente 2021-10-15  669  	if (entity->parent &&
-d29bd41428cfff Paolo Valente 2021-10-15 @670  	    entity->parent->last_bfq=
-q_created =3D=3D bfqq)
-d29bd41428cfff Paolo Valente 2021-10-15  671  		entity->parent->last_bfqq_c=
-reated =3D NULL;
-d29bd41428cfff Paolo Valente 2021-10-15  672  	else if (bfqd->last_bfqq_cre=
-ated =3D=3D bfqq)
-d29bd41428cfff Paolo Valente 2021-10-15  673  		bfqd->last_bfqq_created =3D=
- NULL;
-d29bd41428cfff Paolo Valente 2021-10-15  674  =
+8f965efd215a09 Mika Westerberg 2019-03-15  1215  	sw =3D tb_switch_find_by_=
+route(tb, ev->route);
+053596d9e26c86 Andreas Noever  2014-06-03  1216  	if (!sw) {
+053596d9e26c86 Andreas Noever  2014-06-03  1217  		tb_warn(tb,
+053596d9e26c86 Andreas Noever  2014-06-03  1218  			"hotplug event from non=
+ existent switch %llx:%x (unplug: %d)\n",
+053596d9e26c86 Andreas Noever  2014-06-03  1219  			ev->route, ev->port, ev=
+->unplug);
+053596d9e26c86 Andreas Noever  2014-06-03  1220  		goto out;
+053596d9e26c86 Andreas Noever  2014-06-03  1221  	}
+053596d9e26c86 Andreas Noever  2014-06-03  1222  	if (ev->port > sw->config=
+.max_port_number) {
+053596d9e26c86 Andreas Noever  2014-06-03  1223  		tb_warn(tb,
+053596d9e26c86 Andreas Noever  2014-06-03  1224  			"hotplug event from non=
+ existent port %llx:%x (unplug: %d)\n",
+053596d9e26c86 Andreas Noever  2014-06-03  1225  			ev->route, ev->port, ev=
+->unplug);
+8f965efd215a09 Mika Westerberg 2019-03-15  1226  		goto put_sw;
+053596d9e26c86 Andreas Noever  2014-06-03  1227  	}
+053596d9e26c86 Andreas Noever  2014-06-03  1228  	port =3D &sw->ports[ev->p=
+ort];
+053596d9e26c86 Andreas Noever  2014-06-03  1229  	if (tb_is_upstream_port(p=
+ort)) {
+dfe40ca486f60d Mika Westerberg 2019-03-07  1230  		tb_dbg(tb, "hotplug even=
+t for upstream port %llx:%x (unplug: %d)\n",
+053596d9e26c86 Andreas Noever  2014-06-03  1231  		       ev->route, ev->po=
+rt, ev->unplug);
+8f965efd215a09 Mika Westerberg 2019-03-15  1232  		goto put_sw;
+053596d9e26c86 Andreas Noever  2014-06-03  1233  	}
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1234  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  675  	entity->parent =3D bfqg->my_=
-entity;
-ea25da48086d3b Paolo Valente 2017-04-19  676  	entity->sched_data =3D &bfqg=
-->sched_data;
-8f9bebc33dd718 Paolo Valente 2017-06-05  677  	/* pin down bfqg and its ass=
-ociated blkg  */
-8f9bebc33dd718 Paolo Valente 2017-06-05  678  	bfqg_and_blkg_get(bfqg);
-ea25da48086d3b Paolo Valente 2017-04-19  679  =
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1235  	pm_runtime_get_sync(&sw->=
+dev);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1236  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  680  	if (bfq_bfqq_busy(bfqq)) {
-8cacc5ab3eacf5 Paolo Valente 2019-03-12  681  		if (unlikely(!bfqd->nonrot_=
-with_queueing))
-ea25da48086d3b Paolo Valente 2017-04-19  682  			bfq_pos_tree_add_move(bfqd=
-, bfqq);
-ea25da48086d3b Paolo Valente 2017-04-19  683  		bfq_activate_bfqq(bfqd, bfq=
-q);
-ea25da48086d3b Paolo Valente 2017-04-19  684  	}
-ea25da48086d3b Paolo Valente 2017-04-19  685  =
+053596d9e26c86 Andreas Noever  2014-06-03  1237  	if (ev->unplug) {
+dacb12877d9222 Kranthi Kuntala 2020-03-05  1238  		tb_retimer_remove_all(po=
+rt);
+dacb12877d9222 Kranthi Kuntala 2020-03-05  1239  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  686  	if (!bfqd->in_service_queue =
-&& !bfqd->rq_in_driver)
-ea25da48086d3b Paolo Valente 2017-04-19  687  		bfq_schedule_dispatch(bfqd);
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  688  	/* release extra ref taken a=
-bove, bfqq may happen to be freed now */
-ecedd3d7e19911 Paolo Valente 2020-02-03  689  	bfq_put_queue(bfqq);
-ea25da48086d3b Paolo Valente 2017-04-19  690  }
-ea25da48086d3b Paolo Valente 2017-04-19  691  =
+dfe40ca486f60d Mika Westerberg 2019-03-07  1240  		if (tb_port_has_remote(p=
+ort)) {
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1241  			tb_port_dbg(port, "swit=
+ch unplugged\n");
+aae20bb6b45e06 Lukas Wunner    2016-03-20  1242  			tb_sw_set_unplugged(por=
+t->remote->sw);
+3364f0c1279571 Andreas Noever  2014-06-03  1243  			tb_free_invalid_tunnels=
+(tb);
+8afe909b78e16e Mika Westerberg 2019-03-26  1244  			tb_remove_dp_resources(=
+port->remote->sw);
+cf29b9afb12149 Rajmohan Mani   2019-12-17  1245  			tb_switch_tmu_disable(p=
+ort->remote->sw);
+de462039178651 Mika Westerberg 2020-04-02  1246  			tb_switch_unconfigure_l=
+ink(port->remote->sw);
+91c0c12080d0f4 Mika Westerberg 2019-03-21  1247  			tb_switch_lane_bonding_=
+disable(port->remote->sw);
+bfe778ac49826c Mika Westerberg 2017-06-06  1248  			tb_switch_remove(port->=
+remote->sw);
+053596d9e26c86 Andreas Noever  2014-06-03  1249  			port->remote =3D NULL;
+dfe40ca486f60d Mika Westerberg 2019-03-07  1250  			if (port->dual_link_por=
+t)
+dfe40ca486f60d Mika Westerberg 2019-03-07  1251  				port->dual_link_port->=
+remote =3D NULL;
+8afe909b78e16e Mika Westerberg 2019-03-26  1252  			/* Maybe we can create =
+another DP tunnel */
+8afe909b78e16e Mika Westerberg 2019-03-26  1253  			tb_tunnel_dp(tb);
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1254  		} else if (port->xdomain=
+) {
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1255  			struct tb_xdomain *xd =
+=3D tb_xdomain_get(port->xdomain);
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1256  =
 
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1257  			tb_port_dbg(port, "xdom=
+ain unplugged\n");
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1258  			/*
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1259  			 * Service drivers are =
+unbound during
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1260  			 * tb_xdomain_remove() =
+so setting XDomain as
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1261  			 * unplugged here preve=
+nts deadlock if they call
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1262  			 * tb_xdomain_disable_p=
+aths(). We will tear down
+180b0689425c6f Mika Westerberg 2021-01-08  1263  			 * all the tunnels belo=
+w.
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1264  			 */
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1265  			xd->is_unplugged =3D tr=
+ue;
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1266  			tb_xdomain_remove(xd);
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1267  			port->xdomain =3D NULL;
+180b0689425c6f Mika Westerberg 2021-01-08  1268  			__tb_disconnect_xdomain=
+_paths(tb, xd, -1, -1, -1, -1);
+7ea4cd6b2010ee Mika Westerberg 2018-09-28  1269  			tb_xdomain_put(xd);
+284652a4a49917 Mika Westerberg 2020-04-09  1270  			tb_port_unconfigure_xdo=
+main(port);
+8afe909b78e16e Mika Westerberg 2019-03-26  1271  		} else if (tb_port_is_dp=
+out(port) || tb_port_is_dpin(port)) {
+8afe909b78e16e Mika Westerberg 2019-03-26  1272  			tb_dp_resource_unavaila=
+ble(tb, port);
+30a4eca69b76c0 Mika Westerberg 2022-01-07  1273  		} else if (!port->port) {
+30a4eca69b76c0 Mika Westerberg 2022-01-07  1274  			tb_sw_dbg(sw, "xHCI dis=
+connect request\n");
+30a4eca69b76c0 Mika Westerberg 2022-01-07  1275  			tb_switch_xhci_disconne=
+ct(sw);
+053596d9e26c86 Andreas Noever  2014-06-03  1276  		} else {
+62efe699a7f666 Mika Westerberg 2018-09-17  1277  			tb_port_dbg(port,
+053596d9e26c86 Andreas Noever  2014-06-03  1278  				   "got unplug event f=
+or disconnected port, ignoring\n");
+053596d9e26c86 Andreas Noever  2014-06-03  1279  		}
+053596d9e26c86 Andreas Noever  2014-06-03  1280  	} else if (port->remote) {
+62efe699a7f666 Mika Westerberg 2018-09-17  1281  		tb_port_dbg(port, "got p=
+lug event for connected port, ignoring\n");
+30a4eca69b76c0 Mika Westerberg 2022-01-07 @1282  	} else if (!port->port &&=
+ sw->authorized) {
+30a4eca69b76c0 Mika Westerberg 2022-01-07  1283  		tb_sw_dbg(sw, "xHCI conn=
+ect request\n");
+30a4eca69b76c0 Mika Westerberg 2022-01-07  1284  		tb_switch_xhci_connect(s=
+w);
+053596d9e26c86 Andreas Noever  2014-06-03  1285  	} else {
+344e06430a7234 Mika Westerberg 2017-10-11  1286  		if (tb_port_is_null(port=
+)) {
+62efe699a7f666 Mika Westerberg 2018-09-17  1287  			tb_port_dbg(port, "hotp=
+lug: scanning\n");
+053596d9e26c86 Andreas Noever  2014-06-03  1288  			tb_scan_port(port);
+99cabbb006f1eb Mika Westerberg 2018-12-30  1289  			if (!port->remote)
+62efe699a7f666 Mika Westerberg 2018-09-17  1290  				tb_port_dbg(port, "hot=
+plug: no switch found\n");
+8afe909b78e16e Mika Westerberg 2019-03-26  1291  		} else if (tb_port_is_dp=
+out(port) || tb_port_is_dpin(port)) {
+8afe909b78e16e Mika Westerberg 2019-03-26  1292  			tb_dp_resource_availabl=
+e(tb, port);
+053596d9e26c86 Andreas Noever  2014-06-03  1293  		}
+344e06430a7234 Mika Westerberg 2017-10-11  1294  	}
+8f965efd215a09 Mika Westerberg 2019-03-15  1295  =
+
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1296  	pm_runtime_mark_last_busy=
+(&sw->dev);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1297  	pm_runtime_put_autosuspen=
+d(&sw->dev);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1298  =
+
+8f965efd215a09 Mika Westerberg 2019-03-15  1299  put_sw:
+8f965efd215a09 Mika Westerberg 2019-03-15  1300  	tb_switch_put(sw);
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1301  out:
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1302  	mutex_unlock(&tb->lock);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1303  =
+
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1304  	pm_runtime_mark_last_busy=
+(&tb->dev);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1305  	pm_runtime_put_autosuspen=
+d(&tb->dev);
+6ac6faee5d7d7d Mika Westerberg 2020-06-05  1306  =
+
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1307  	kfree(ev);
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1308  }
+d6cc51cd1a4aed Andreas Noever  2014-06-03  1309  =
+
+
+:::::: The code at line 1282 was first introduced by commit
+:::::: 30a4eca69b76c0ed5a2f34dd2a3e195c9bf6bed1 thunderbolt: Add internal x=
+HCI connect flows for Thunderbolt 3 devices
+
+:::::: TO: Mika Westerberg <mika.westerberg@linux.intel.com>
+:::::: CC: Mika Westerberg <mika.westerberg@linux.intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5215934738721735171==--
+--===============3720113876099254568==--
 
