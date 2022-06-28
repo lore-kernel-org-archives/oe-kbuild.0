@@ -1,267 +1,1299 @@
-Content-Type: multipart/mixed; boundary="===============3720113876099254568=="
+Content-Type: multipart/mixed; boundary="===============3055389597355900213=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-tdx:guest-filter 1/28] drivers/thunderbolt/tb.c:1282:37: error: 'struct tb_switch' has no member named 'authorized'
-Date: Tue, 28 Jun 2022 23:17:17 +0800
-Message-ID: <202206282327.40tEMwsL-lkp@intel.com>
+Subject: net/wireless/sysfs.c:46:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides b...
+Date: Tue, 28 Jun 2022 22:54:43 +0800
+Message-ID: <202206282216.q0Hp15SA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3720113876099254568==
+--===============3055389597355900213==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ net/wireless/sysfs.c:46:9: warning: Call to function 'sprintf' is insecure=
+ as it does not provide bounding of the memory buffer or security checks in=
+troduced in the C11 standard. Replace with analogous functions that support=
+ length arguments or provides boundary checks such as 'sprintf_s' in case o=
+f C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling=
+]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.co=
-m>
-CC: Dan Williams <dan.j.williams@intel.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Alex Shi <alexs@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   0a555e67b143701a81612d819e693cf5786de418
-commit: b2b91a2a02f064fb8dd7fda65b2268a714656b3f [1/28] driver core: Move t=
-he "authorized" attribute from USB/Thunderbolt to core
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arc-randconfig-r043-20220627 (https://download.01.org/0day-ci/archi=
-ve/20220628/202206282327.40tEMwsL-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   941e3e7912696b9fbe3586083a7c2e102cee7a87
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
+11
+date:   4 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20220627 (https://download.01.org/0day-ci/archi=
+ve/20220628/202206282216.q0Hp15SA-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 016342=
+e319fd31e41cf5ed16a6140a8ea2de74dd)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/b2b91a2a02f064fb8dd7fda65b226=
-8a714656b3f
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-filter
-        git checkout b2b91a2a02f064fb8dd7fda65b2268a714656b3f
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- W=3D1 O=3Dbuild_dir ARCH=3Darc SHELL=3D/bin/bash drivers/thunderbolt/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
 
-   drivers/thunderbolt/tb.c: In function 'tb_handle_hotplug':
->> drivers/thunderbolt/tb.c:1282:37: error: 'struct tb_switch' has no membe=
-r named 'authorized'
-    1282 |         } else if (!port->port && sw->authorized) {
-         |                                     ^~
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^~~~~~
+   net/can/j1939/socket.c:572:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(addr, 0, J1939_MIN_NAMELEN);
+           ^~~~~~
+   net/can/j1939/socket.c:836:3: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(msg->msg_name, 0, msg->msg_namelen);
+                   ^~~~~~
+   net/can/j1939/socket.c:836:3: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+                   memset(msg->msg_name, 0, msg->msg_namelen);
+                   ^~~~~~
+   net/can/j1939/socket.c:882:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(skcb, 0, sizeof(*skcb));
+           ^~~~~~
+   net/can/j1939/socket.c:882:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(skcb, 0, sizeof(*skcb));
+           ^~~~~~
+   net/can/j1939/socket.c:969:21: warning: Value stored to 'priv' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct j1939_priv *priv =3D session->priv;
+                              ^~~~   ~~~~~~~~~~~~~
+   net/can/j1939/socket.c:969:21: note: Value stored to 'priv' during its i=
+nitialization is never read
+           struct j1939_priv *priv =3D session->priv;
+                              ^~~~   ~~~~~~~~~~~~~
+   net/can/j1939/socket.c:1013:2: warning: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
+y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(serr, 0, sizeof(*serr));
+           ^~~~~~
+   net/can/j1939/socket.c:1013:2: note: Call to function 'memset' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memset_s' in case of C11
+           memset(serr, 0, sizeof(*serr));
+           ^~~~~~
+   Suppressed 86 warnings (85 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   70 warnings generated.
+   net/8021q/vlan_dev.c:593:3: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dev->broadcast, real_dev->broadcast, dev->addr_le=
+n);
+                   ^~~~~~
+   net/8021q/vlan_dev.c:593:3: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+                   memcpy(dev->broadcast, real_dev->broadcast, dev->addr_le=
+n);
+                   ^~~~~~
+   Suppressed 69 warnings (69 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   65 warnings generated.
+   Suppressed 65 warnings (65 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   65 warnings generated.
+   Suppressed 65 warnings (65 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   66 warnings generated.
+   Suppressed 66 warnings (65 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   67 warnings generated.
+   net/wireless/core.c:104:2: warning: Call to function 'sscanf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           sscanf(newname, PHY_NAME "%d%n", &wiphy_idx, &taken);
+           ^~~~~~
+   net/wireless/core.c:104:2: note: Call to function 'sscanf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'sscanf_s' in case of C11
+           sscanf(newname, PHY_NAME "%d%n", &wiphy_idx, &taken);
+           ^~~~~~
+   net/wireless/core.c:800:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(wiphy->perm_addr, wiphy->addresses[0].addr, ETH_A=
+LEN);
+                   ^~~~~~
+   net/wireless/core.c:800:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(wiphy->perm_addr, wiphy->addresses[0].addr, ETH_A=
+LEN);
+                   ^~~~~~
+   Suppressed 65 warnings (65 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   71 warnings generated.
+   net/wireless/sysfs.c:36:1: warning: Call to function 'sprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+   SHOW_FMT(index, "%d", wiphy_idx);
+   ^
+   net/wireless/sysfs.c:32:9: note: expanded from macro 'SHOW_FMT'
+           return sprintf(buf, fmt "\n", dev_to_rdev(dev)->member);        \
+                  ^~~~~~~
+   net/wireless/sysfs.c:36:1: note: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11
+   SHOW_FMT(index, "%d", wiphy_idx);
+   ^
+   net/wireless/sysfs.c:32:9: note: expanded from macro 'SHOW_FMT'
+           return sprintf(buf, fmt "\n", dev_to_rdev(dev)->member);        \
+                  ^~~~~~~
+   net/wireless/sysfs.c:37:1: warning: Call to function 'sprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+   SHOW_FMT(macaddress, "%pM", wiphy.perm_addr);
+   ^
+   net/wireless/sysfs.c:32:9: note: expanded from macro 'SHOW_FMT'
+           return sprintf(buf, fmt "\n", dev_to_rdev(dev)->member);        \
+                  ^~~~~~~
+   net/wireless/sysfs.c:37:1: note: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11
+   SHOW_FMT(macaddress, "%pM", wiphy.perm_addr);
+   ^
+   net/wireless/sysfs.c:32:9: note: expanded from macro 'SHOW_FMT'
+           return sprintf(buf, fmt "\n", dev_to_rdev(dev)->member);        \
+                  ^~~~~~~
+   net/wireless/sysfs.c:38:1: warning: Call to function 'sprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+   SHOW_FMT(address_mask, "%pM", wiphy.addr_mask);
+   ^
+   net/wireless/sysfs.c:32:9: note: expanded from macro 'SHOW_FMT'
+           return sprintf(buf, fmt "\n", dev_to_rdev(dev)->member);        \
+                  ^~~~~~~
+   net/wireless/sysfs.c:38:1: note: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11
+   SHOW_FMT(address_mask, "%pM", wiphy.addr_mask);
+   ^
+   net/wireless/sysfs.c:32:9: note: expanded from macro 'SHOW_FMT'
+           return sprintf(buf, fmt "\n", dev_to_rdev(dev)->member);        \
+                  ^~~~~~~
+>> net/wireless/sysfs.c:46:9: warning: Call to function 'sprintf' is insecu=
+re as it does not provide bounding of the memory buffer or security checks =
+introduced in the C11 standard. Replace with analogous functions that suppo=
+rt length arguments or provides boundary checks such as 'sprintf_s' in case=
+ of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandli=
+ng]
+           return sprintf(buf, "%s\n", wiphy_name(wiphy));
+                  ^~~~~~~
+   net/wireless/sysfs.c:46:9: note: Call to function 'sprintf' is insecure =
+as it does not provide bounding of the memory buffer or security checks int=
+roduced in the C11 standard. Replace with analogous functions that support =
+length arguments or provides boundary checks such as 'sprintf_s' in case of=
+ C11
+           return sprintf(buf, "%s\n", wiphy_name(wiphy));
+                  ^~~~~~~
+   net/wireless/sysfs.c:59:10: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   return sprintf(buf, "%pM\n", wiphy->perm_addr);
+                          ^~~~~~~
+   net/wireless/sysfs.c:59:10: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+                   return sprintf(buf, "%pM\n", wiphy->perm_addr);
+                          ^~~~~~~
+   net/wireless/sysfs.c:62:10: warning: Call to function 'sprintf' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   buf +=3D sprintf(buf, "%pM\n", wiphy->addresses[i].addr);
+                          ^~~~~~~
+   net/wireless/sysfs.c:62:10: note: Call to function 'sprintf' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'sprintf_s' in case of C11
+                   buf +=3D sprintf(buf, "%pM\n", wiphy->addresses[i].addr);
+                          ^~~~~~~
+   Suppressed 65 warnings (65 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+   Suppressed 58 warnings (58 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   66 warnings generated.
+   net/nfc/digital_technology.c:366:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(sel_req->nfcid1, sdd_res->nfcid1, 4);
+           ^~~~~~
+   net/nfc/digital_technology.c:366:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(sel_req->nfcid1, sdd_res->nfcid1, 4);
+           ^~~~~~
+   net/nfc/digital_technology.c:427:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(target->nfcid1 + target->nfcid1_len, sdd_res->nfcid1 + of=
+fset,
+           ^~~~~~
+   net/nfc/digital_technology.c:427:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(target->nfcid1 + target->nfcid1_len, sdd_res->nfcid1 + of=
+fset,
+           ^~~~~~
+   net/nfc/digital_technology.c:627:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(attrib_req->nfcid0, sensb_res->nfcid0,
+           ^~~~~~
+   net/nfc/digital_technology.c:627:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(attrib_req->nfcid0, sensb_res->nfcid0,
+           ^~~~~~
+   net/nfc/digital_technology.c:771:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&target, 0, sizeof(struct nfc_target));
+           ^~~~~~
+   net/nfc/digital_technology.c:771:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(&target, 0, sizeof(struct nfc_target));
+           ^~~~~~
+   net/nfc/digital_technology.c:775:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(target.sensf_res, sensf_res, resp->len);
+           ^~~~~~
+   net/nfc/digital_technology.c:775:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(target.sensf_res, sensf_res, resp->len);
+           ^~~~~~
+   net/nfc/digital_technology.c:778:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(target.nfcid2, sensf_res->nfcid2, NFC_NFCID2_MAXSIZE);
+           ^~~~~~
+   net/nfc/digital_technology.c:778:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(target.nfcid2, sensf_res->nfcid2, NFC_NFCID2_MAXSIZE);
+           ^~~~~~
+   net/nfc/digital_technology.c:874:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(target->iso15693_uid, &res->uid, sizeof(target->iso15693_=
+uid));
+           ^~~~~~
+   net/nfc/digital_technology.c:874:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(target->iso15693_uid, &res->uid, sizeof(target->iso15693_=
+uid));
+           ^~~~~~
+   net/nfc/digital_technology.c:1142:2: warning: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(sensf_res, 0, size);
+           ^~~~~~
+   net/nfc/digital_technology.c:1142:2: note: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11
+           memset(sensf_res, 0, size);
+           ^~~~~~
+   Suppressed 58 warnings (58 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   109 warnings generated.
+   net/bluetooth/hci_event.c:291:2: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(hdev->adv_data, 0, sizeof(hdev->adv_data));
+           ^~~~~~
+   net/bluetooth/hci_event.c:291:2: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+           memset(hdev->adv_data, 0, sizeof(hdev->adv_data));
+           ^~~~~~
+   net/bluetooth/hci_event.c:294:2: warning: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(hdev->scan_rsp_data, 0, sizeof(hdev->scan_rsp_data));
+           ^~~~~~
+   net/bluetooth/hci_event.c:294:2: note: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11
+           memset(hdev->scan_rsp_data, 0, sizeof(hdev->scan_rsp_data));
+           ^~~~~~
+   net/bluetooth/hci_event.c:362:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(hdev->dev_name, sent, HCI_MAX_NAME_LENGTH);
+                   ^~~~~~
+   net/bluetooth/hci_event.c:362:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(hdev->dev_name, sent, HCI_MAX_NAME_LENGTH);
+                   ^~~~~~
+   net/bluetooth/hci_event.c:381:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(hdev->dev_name, rp->name, HCI_MAX_NAME_LENGTH);
+                   ^~~~~~
+   net/bluetooth/hci_event.c:381:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(hdev->dev_name, rp->name, HCI_MAX_NAME_LENGTH);
+                   ^~~~~~
+   net/bluetooth/hci_event.c:517:2: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(hdev->dev_class, rp->dev_class, 3);
+--
+                   ^~~~~~
+   net/ipv4/devinet.c:1159:5: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memcpy(ifa->ifa_label, ifr->ifr_name, IF=
+NAMSIZ);
+                                   ^~~~~~
+   net/ipv4/devinet.c:1159:5: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                   memcpy(ifa->ifa_label, ifr->ifr_name, IF=
+NAMSIZ);
+                                   ^~~~~~
+   net/ipv4/devinet.c:1161:5: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memcpy(ifa->ifa_label, dev->name, IFNAMS=
+IZ);
+                                   ^~~~~~
+   net/ipv4/devinet.c:1161:5: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                   memcpy(ifa->ifa_label, dev->name, IFNAMS=
+IZ);
+                                   ^~~~~~
+   net/ipv4/devinet.c:1268:3: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&ifr, 0, sizeof(struct ifreq));
+                   ^~~~~~
+   net/ipv4/devinet.c:1268:3: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+                   memset(&ifr, 0, sizeof(struct ifreq));
+                   ^~~~~~
+   net/ipv4/devinet.c:1269:3: warning: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(ifr.ifr_name, ifa->ifa_label);
+                   ^~~~~~
+   net/ipv4/devinet.c:1269:3: note: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119
+                   strcpy(ifr.ifr_name, ifa->ifa_label);
+                   ^~~~~~
+   net/ipv4/devinet.c:1488:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(old, ifa->ifa_label, IFNAMSIZ);
+                   ^~~~~~
+   net/ipv4/devinet.c:1488:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(old, ifa->ifa_label, IFNAMSIZ);
+                   ^~~~~~
+   net/ipv4/devinet.c:1489:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(ifa->ifa_label, dev->name, IFNAMSIZ);
+                   ^~~~~~
+   net/ipv4/devinet.c:1489:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(ifa->ifa_label, dev->name, IFNAMSIZ);
+                   ^~~~~~
+   net/ipv4/devinet.c:1494:4: warning: Call to function 'sprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           sprintf(old, ":%d", named);
+                           ^~~~~~~
+   net/ipv4/devinet.c:1494:4: note: Call to function 'sprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'sprintf_s' in case of C11
+                           sprintf(old, ":%d", named);
+                           ^~~~~~~
+   net/ipv4/devinet.c:1498:4: warning: Call to function 'strcat' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(ifa->ifa_label, dot);
+                           ^~~~~~
+   net/ipv4/devinet.c:1498:4: note: Call to function 'strcat' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcat'. CWE-119
+                           strcat(ifa->ifa_label, dot);
+                           ^~~~~~
+   net/ipv4/devinet.c:1500:4: warning: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(ifa->ifa_label + (IFNAMSIZ - strlen(dot) =
+- 1), dot);
+                           ^~~~~~
+   net/ipv4/devinet.c:1500:4: note: Call to function 'strcpy' is insecure a=
+s it does not provide bounding of the memory buffer. Replace unbounded copy=
+ functions with analogous functions that support length arguments such as '=
+strlcpy'. CWE-119
+                           strcpy(ifa->ifa_label + (IFNAMSIZ - strlen(dot) =
+- 1), dot);
+                           ^~~~~~
+   net/ipv4/devinet.c:1542:5: warning: Value stored to 'in_dev' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+                                   in_dev =3D inetdev_init(dev);
+                                   ^        ~~~~~~~~~~~~~~~~~
+   net/ipv4/devinet.c:1542:5: note: Value stored to 'in_dev' is never read
+                                   in_dev =3D inetdev_init(dev);
+                                   ^        ~~~~~~~~~~~~~~~~~
+   net/ipv4/devinet.c:1567:5: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memcpy(ifa->ifa_label, dev->name, IFNAMS=
+IZ);
+                                   ^~~~~~
+   net/ipv4/devinet.c:1567:5: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                   memcpy(ifa->ifa_label, dev->name, IFNAMS=
+IZ);
+                                   ^~~~~~
+   net/ipv4/devinet.c:2683:4: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(all, current->nsproxy->net_ns->ipv4.devco=
+nf_all,
+                           ^~~~~~
+   net/ipv4/devinet.c:2683:4: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                           memcpy(all, current->nsproxy->net_ns->ipv4.devco=
+nf_all,
+                           ^~~~~~
+   net/ipv4/devinet.c:2685:4: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(dflt,
+                           ^~~~~~
+   net/ipv4/devinet.c:2685:4: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                           memcpy(dflt,
+                           ^~~~~~
+   net/ipv4/devinet.c:2691:4: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(all, init_net.ipv4.devconf_all,
+                           ^~~~~~
+   net/ipv4/devinet.c:2691:4: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                           memcpy(all, init_net.ipv4.devconf_all,
+                           ^~~~~~
+   net/ipv4/devinet.c:2693:4: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(dflt, init_net.ipv4.devconf_dflt,
+                           ^~~~~~
+   net/ipv4/devinet.c:2693:4: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                           memcpy(dflt, init_net.ipv4.devconf_dflt,
+                           ^~~~~~
+   Suppressed 90 warnings (89 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   94 warnings generated.
+   net/batman-adv/multicast.c:255:2: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&mla_flags, 0, sizeof(mla_flags));
+           ^~~~~~
+   net/batman-adv/multicast.c:255:2: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+           memset(&mla_flags, 0, sizeof(mla_flags));
+           ^~~~~~
+>> net/batman-adv/multicast.c:811:2: warning: Call to function 'sprintf' is=
+ insecure as it does not provide bounding of the memory buffer or security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuffe=
+rHandling]
+           sprintf(str_old_flags, "[%c%c%c%s%s]",
+           ^~~~~~~
+   net/batman-adv/multicast.c:811:2: note: Call to function 'sprintf' is in=
+secure as it does not provide bounding of the memory buffer or security che=
+cks introduced in the C11 standard. Replace with analogous functions that s=
+upport length arguments or provides boundary checks such as 'sprintf_s' in =
+case of C11
+           sprintf(str_old_flags, "[%c%c%c%s%s]",
+           ^~~~~~~
+   net/batman-adv/multicast.c:849:2: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(mcast_data.reserved, 0, sizeof(mcast_data.reserved));
+           ^~~~~~
+   net/batman-adv/multicast.c:849:2: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+           memset(mcast_data.reserved, 0, sizeof(mcast_data.reserved));
+           ^~~~~~
+   Suppressed 91 warnings (90 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   73 warnings generated.
+   net/batman-adv/netlink.c:1218:32: warning: Access to field 'soft_iface' =
+results in a dereference of a null pointer (loaded from variable 'bat_priv'=
+) [clang-analyzer-core.NullDereference]
+           if (hard_iface->soft_iface !=3D bat_priv->soft_iface)
+                                         ^
+   net/batman-adv/netlink.c:1275:2: note: 'bat_priv' initialized to a null =
+pointer value
+           struct batadv_priv *bat_priv =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/batman-adv/netlink.c:1283:14: note: '?' condition is false
+           if (WARN_ON(hweight8(ops->internal_flags & user_ptr1_flags) > 1))
+                       ^
+   include/asm-generic/bitops/const_hweight.h:26:23: note: expanded from ma=
+cro 'hweight8'
+   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
+_arch_hweight8(w))
+                         ^
+   net/batman-adv/netlink.c:1283:14: note: Assuming the condition is false
+           if (WARN_ON(hweight8(ops->internal_flags & user_ptr1_flags) > 1))
+                       ^
+   include/asm-generic/bitops/const_hweight.h:26:22: note: expanded from ma=
+cro 'hweight8'
+   #define hweight8(w)  (__builtin_constant_p(w) ? __const_hweight8(w)  : _=
+_arch_hweight8(w))
+                        ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   net/batman-adv/netlink.c:1283:2: note: Taking false branch
+           if (WARN_ON(hweight8(ops->internal_flags & user_ptr1_flags) > 1))
+           ^
+   net/batman-adv/netlink.c:1287:15: note: Assuming the condition is false
+           if (WARN_ON((ops->internal_flags & mesh_dep_flags) &&
+                        ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   net/batman-adv/netlink.c:1287:53: note: Left side of '&&' is false
+           if (WARN_ON((ops->internal_flags & mesh_dep_flags) &&
+                                                              ^
+   net/batman-adv/netlink.c:1287:2: note: Taking false branch
+           if (WARN_ON((ops->internal_flags & mesh_dep_flags) &&
+           ^
+   net/batman-adv/netlink.c:1291:6: note: Assuming the condition is false
+           if (ops->internal_flags & BATADV_FLAG_NEED_MESH) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/batman-adv/netlink.c:1291:2: note: Taking false branch
+           if (ops->internal_flags & BATADV_FLAG_NEED_MESH) {
+           ^
+   net/batman-adv/netlink.c:1300:6: note: Assuming the condition is true
+           if (ops->internal_flags & BATADV_FLAG_NEED_HARDIF) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/batman-adv/netlink.c:1300:2: note: Taking true branch
+           if (ops->internal_flags & BATADV_FLAG_NEED_HARDIF) {
+           ^
+   net/batman-adv/netlink.c:1301:44: note: Passing null pointer value via 1=
+st parameter 'bat_priv'
+                   hard_iface =3D batadv_get_hardif_from_info(bat_priv, net=
+, info);
+                                                            ^~~~~~~~
+   net/batman-adv/netlink.c:1301:16: note: Calling 'batadv_get_hardif_from_=
+info'
+                   hard_iface =3D batadv_get_hardif_from_info(bat_priv, net=
+, info);
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   net/batman-adv/netlink.c:1205:6: note: Assuming the condition is false
+           if (!info->attrs[BATADV_ATTR_HARD_IFINDEX])
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/batman-adv/netlink.c:1205:2: note: Taking false branch
+           if (!info->attrs[BATADV_ATTR_HARD_IFINDEX])
+           ^
+   net/batman-adv/netlink.c:1211:6: note: Assuming 'hard_dev' is non-null
+           if (!hard_dev)
+               ^~~~~~~~~
+   net/batman-adv/netlink.c:1211:2: note: Taking false branch
+           if (!hard_dev)
+           ^
+   net/batman-adv/netlink.c:1215:6: note: Assuming 'hard_iface' is non-null
+           if (!hard_iface)
+               ^~~~~~~~~~~
+   net/batman-adv/netlink.c:1215:2: note: Taking false branch
+           if (!hard_iface)
+           ^
+   net/batman-adv/netlink.c:1218:32: note: Access to field 'soft_iface' res=
+ults in a dereference of a null pointer (loaded from variable 'bat_priv')
+           if (hard_iface->soft_iface !=3D bat_priv->soft_iface)
+                                         ^~~~~~~~
+   Suppressed 72 warnings (72 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   71 warnings generated.
+   Suppressed 71 warnings (71 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   134 warnings generated.
+   net/core/skbuff.c:210:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(shinfo, 0, offsetof(struct skb_shared_info, dataref));
+           ^~~~~~
+   net/core/skbuff.c:210:2: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+           memset(shinfo, 0, offsetof(struct skb_shared_info, dataref));
+--
+           ^~~~~~
+   net/openvswitch/flow_netlink.c:2510:2: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+           memset(attrs, 0, sizeof(attrs));
+           ^~~~~~
+   net/openvswitch/flow_netlink.c:2595:2: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(match, 0, sizeof(*match));
+           ^~~~~~
+   net/openvswitch/flow_netlink.c:2595:2: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+           memset(match, 0, sizeof(*match));
+           ^~~~~~
+   net/openvswitch/flow_netlink.c:2600:3: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(key, 0, sizeof(*key));
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2600:3: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+                   memset(key, 0, sizeof(*key));
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2603:3: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&mask->key, 0, sizeof(mask->key));
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2603:3: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+                   memset(&mask->key, 0, sizeof(mask->key));
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2902:3: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(nla_data(at), nla_data(ovs_key), key_len); /* Key=
+. */
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2902:3: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(nla_data(at), nla_data(ovs_key), key_len); /* Key=
+. */
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2903:3: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(nla_data(at) + key_len, 0xff, key_len);    /* Mas=
+k. */
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:2903:3: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+                   memset(nla_data(at) + key_len, 0xff, key_len);    /* Mas=
+k. */
+                   ^~~~~~
+   net/openvswitch/flow_netlink.c:3031:2: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(to, from, totlen);
+           ^~~~~~
+   net/openvswitch/flow_netlink.c:3031:2: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(to, from, totlen);
+           ^~~~~~
+   Suppressed 103 warnings (102 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   80 warnings generated.
+   Suppressed 80 warnings (79 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   91 warnings generated.
+   net/ipv4/inet_fragment.c:547:5: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memset(&fp->rbnode, 0, sizeof(fp->rbnode=
+));
+                                   ^~~~~~
+   net/ipv4/inet_fragment.c:547:5: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+                                   memset(&fp->rbnode, 0, sizeof(fp->rbnode=
+));
+                                   ^~~~~~
+   net/ipv4/inet_fragment.c:591:2: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&head->rbnode, 0, sizeof(head->rbnode));
+           ^~~~~~
+   net/ipv4/inet_fragment.c:591:2: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+           memset(&head->rbnode, 0, sizeof(head->rbnode));
+           ^~~~~~
+   Suppressed 89 warnings (88 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   86 warnings generated.
+   net/core/xdp.c:161:2: warning: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(xdp_rxq, 0, sizeof(*xdp_rxq));
+           ^~~~~~
+   net/core/xdp.c:161:2: note: Call to function 'memset' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memset_s' in case of C11
+           memset(xdp_rxq, 0, sizeof(*xdp_rxq));
+           ^~~~~~
+   net/core/xdp.c:524:2: warning: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(xdpf, 0, sizeof(*xdpf));
+           ^~~~~~
+   net/core/xdp.c:524:2: note: Call to function 'memset' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memset_s' in case of C11
+           memset(xdpf, 0, sizeof(*xdpf));
+           ^~~~~~
+   net/core/xdp.c:528:2: warning: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(addr, data_to_copy, totsize);
+           ^~~~~~
+   net/core/xdp.c:528:2: note: Call to function 'memcpy' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memcpy_s' in case of C11
+           memcpy(addr, data_to_copy, totsize);
+           ^~~~~~
+   net/core/xdp.c:613:2: warning: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(skb, 0, offsetof(struct sk_buff, tail));
+           ^~~~~~
+   net/core/xdp.c:613:2: note: Call to function 'memset' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memset_s' in case of C11
+           memset(skb, 0, offsetof(struct sk_buff, tail));
+           ^~~~~~
+   net/core/xdp.c:636:2: warning: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(addr, xdpf, totalsize);
+           ^~~~~~
+   net/core/xdp.c:636:2: note: Call to function 'memcpy' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memcpy_s' in case of C11
+           memcpy(addr, xdpf, totalsize);
+           ^~~~~~
+   Suppressed 81 warnings (81 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   75 warnings generated.
+   net/wireless/mlme.c:43:2: warning: Call to function 'memset' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memset_s' in case of C11 [clang-analyzer-security.ins=
+ecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&cr, 0, sizeof(cr));
+           ^~~~~~
+   net/wireless/mlme.c:43:2: note: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11
+           memset(&cr, 0, sizeof(cr));
+           ^~~~~~
+>> net/wireless/mlme.c:217:3: warning: Call to function 'sprintf' is insecu=
+re as it does not provide bounding of the memory buffer or security checks =
+introduced in the C11 standard. Replace with analogous functions that suppo=
+rt length arguments or provides boundary checks such as 'sprintf_s' in case=
+ of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandli=
+ng]
+                   sprintf(buf, "MLME-MICHAELMICFAILURE.indication("
+                   ^~~~~~~
+   net/wireless/mlme.c:217:3: note: Call to function 'sprintf' is insecure =
+as it does not provide bounding of the memory buffer or security checks int=
+roduced in the C11 standard. Replace with analogous functions that support =
+length arguments or provides boundary checks such as 'sprintf_s' in case of=
+ C11
+                   sprintf(buf, "MLME-MICHAELMICFAILURE.indication("
+                   ^~~~~~~
+   net/wireless/mlme.c:221:3: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&wrqu, 0, sizeof(wrqu));
+                   ^~~~~~
+   net/wireless/mlme.c:221:3: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+                   memset(&wrqu, 0, sizeof(wrqu));
+                   ^~~~~~
+   net/wireless/mlme.c:286:3: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(ht_capa, 0, sizeof(*ht_capa));
+                   ^~~~~~
+   net/wireless/mlme.c:286:3: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+                   memset(ht_capa, 0, sizeof(*ht_capa));
+                   ^~~~~~
+   net/wireless/mlme.c:303:3: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(vht_capa, 0, sizeof(*vht_capa));
+                   ^~~~~~
+   net/wireless/mlme.c:303:3: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+                   memset(vht_capa, 0, sizeof(*vht_capa));
+                   ^~~~~~
+   net/wireless/mlme.c:426:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(bssid, wdev->current_bss->pub.bssid, ETH_ALEN);
+           ^~~~~~
+   net/wireless/mlme.c:426:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(bssid, wdev->current_bss->pub.bssid, ETH_ALEN);
+           ^~~~~~
+   net/wireless/mlme.c:578:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(nreg->match, match_data, match_len);
+                   ^~~~~~
+   net/wireless/mlme.c:578:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(nreg->match, match_data, match_len);
+                   ^~~~~~
+   net/wireless/mlme.c:929:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&rdev->radar_chandef, chandef, sizeof(struct cfg80211_cha=
+n_def));
+           ^~~~~~
+   net/wireless/mlme.c:929:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(&rdev->radar_chandef, chandef, sizeof(struct cfg80211_cha=
+n_def));
+           ^~~~~~
+   net/wireless/mlme.c:957:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&rdev->cac_done_chandef, chandef,
+                   ^~~~~~
+   net/wireless/mlme.c:957:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(&rdev->cac_done_chandef, chandef,
+                   ^~~~~~
+   net/wireless/mlme.c:997:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&rdev->cac_done_chandef, chandef, sizeof(*chandef=
+));
+                   ^~~~~~
+   net/wireless/mlme.c:997:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(&rdev->cac_done_chandef, chandef, sizeof(*chandef=
+));
+                   ^~~~~~
+   Suppressed 65 warnings (65 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   122 warnings generated.
+   net/wireless/scan.c:292:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(pos, tmp_new, tmp_new[1] + 2);
+                   ^~~~~~
+   net/wireless/scan.c:292:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(pos, tmp_new, tmp_new[1] + 2);
+                   ^~~~~~
+   net/wireless/scan.c:326:5: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memcpy(pos, tmp_old, tmp_old[1] + 2);
+                                   ^~~~~~
+   net/wireless/scan.c:326:5: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                   memcpy(pos, tmp_old, tmp_old[1] + 2);
+                                   ^~~~~~
+   net/wireless/scan.c:342:6: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                           memcpy(pos, tmp, tmp[1] + 2);
+                                           ^~~~~~
+   net/wireless/scan.c:342:6: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                           memcpy(pos, tmp, tmp[1] + 2);
+                                           ^~~~~~
+   net/wireless/scan.c:346:6: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                           memcpy(pos, tmp_old, tmp_old[1] =
++ 2);
+                                           ^~~~~~
+   net/wireless/scan.c:346:6: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                           memcpy(pos, tmp_old, tmp_old[1] =
++ 2);
+                                           ^~~~~~
+   net/wireless/scan.c:351:5: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memcpy(pos, tmp, tmp[1] + 2);
+                                   ^~~~~~
+   net/wireless/scan.c:351:5: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                                   memcpy(pos, tmp, tmp[1] + 2);
+                                   ^~~~~~
+   net/wireless/scan.c:370:4: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(pos, tmp_new, tmp_new[1] + 2);
+                           ^~~~~~
+   net/wireless/scan.c:370:4: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                           memcpy(pos, tmp_new, tmp_new[1] + 2);
+                           ^~~~~~
+   net/wireless/scan.c:540:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(entry->bssid, pos, ETH_ALEN);
+           ^~~~~~
+   net/wireless/scan.c:540:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(entry->bssid, pos, ETH_ALEN);
+           ^~~~~~
+   net/wireless/scan.c:544:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&entry->short_ssid, pos,
+
+vim +46 net/wireless/sysfs.c
+
+ef15aac6073b27f Johannes Berg      2010-01-20  39  =
+
+cfd8e12f42746df Ben Greear         2010-10-11  40  static ssize_t name_show=
+(struct device *dev,
+cfd8e12f42746df Ben Greear         2010-10-11  41  			 struct device_attrib=
+ute *attr,
+5ec71dd7f1b63da Johannes Berg      2017-01-04  42  			 char *buf)
+5ec71dd7f1b63da Johannes Berg      2017-01-04  43  {
+cfd8e12f42746df Ben Greear         2010-10-11  44  	struct wiphy *wiphy =3D=
+ &dev_to_rdev(dev)->wiphy;
+5ec71dd7f1b63da Johannes Berg      2017-01-04  45  =
+
+5ec71dd7f1b63da Johannes Berg      2017-01-04 @46  	return sprintf(buf, "%s=
+\n", wiphy_name(wiphy));
+cfd8e12f42746df Ben Greear         2010-10-11  47  }
+f0bc99c84349ce8 Greg Kroah-Hartman 2013-07-24  48  static DEVICE_ATTR_RO(na=
+me);
+cfd8e12f42746df Ben Greear         2010-10-11  49  =
 
 
-vim +1282 drivers/thunderbolt/tb.c
+:::::: The code at line 46 was first introduced by commit
+:::::: 5ec71dd7f1b63da20fefebabf1e66cb530b9eb4d cfg80211: sysfs: use wiphy_=
+name()
 
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1194  =
-
-877e50b358c88b Lee Jones       2021-01-27  1195  /*
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1196   * tb_handle_hotplug() - h=
-andle hotplug event
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1197   *
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1198   * Executes on tb->wq.
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1199   */
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1200  static void tb_handle_hotp=
-lug(struct work_struct *work)
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1201  {
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1202  	struct tb_hotplug_event *=
-ev =3D container_of(work, typeof(*ev), work);
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1203  	struct tb *tb =3D ev->tb;
-9d3cce0b613689 Mika Westerberg 2017-06-06  1204  	struct tb_cm *tcm =3D tb_=
-priv(tb);
-053596d9e26c86 Andreas Noever  2014-06-03  1205  	struct tb_switch *sw;
-053596d9e26c86 Andreas Noever  2014-06-03  1206  	struct tb_port *port;
-284652a4a49917 Mika Westerberg 2020-04-09  1207  =
-
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1208  	/* Bring the domain back =
-from sleep if it was suspended */
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1209  	pm_runtime_get_sync(&tb->=
-dev);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1210  =
-
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1211  	mutex_lock(&tb->lock);
-9d3cce0b613689 Mika Westerberg 2017-06-06  1212  	if (!tcm->hotplug_active)
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1213  		goto out; /* during init=
-, suspend or shutdown */
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1214  =
-
-8f965efd215a09 Mika Westerberg 2019-03-15  1215  	sw =3D tb_switch_find_by_=
-route(tb, ev->route);
-053596d9e26c86 Andreas Noever  2014-06-03  1216  	if (!sw) {
-053596d9e26c86 Andreas Noever  2014-06-03  1217  		tb_warn(tb,
-053596d9e26c86 Andreas Noever  2014-06-03  1218  			"hotplug event from non=
- existent switch %llx:%x (unplug: %d)\n",
-053596d9e26c86 Andreas Noever  2014-06-03  1219  			ev->route, ev->port, ev=
-->unplug);
-053596d9e26c86 Andreas Noever  2014-06-03  1220  		goto out;
-053596d9e26c86 Andreas Noever  2014-06-03  1221  	}
-053596d9e26c86 Andreas Noever  2014-06-03  1222  	if (ev->port > sw->config=
-.max_port_number) {
-053596d9e26c86 Andreas Noever  2014-06-03  1223  		tb_warn(tb,
-053596d9e26c86 Andreas Noever  2014-06-03  1224  			"hotplug event from non=
- existent port %llx:%x (unplug: %d)\n",
-053596d9e26c86 Andreas Noever  2014-06-03  1225  			ev->route, ev->port, ev=
-->unplug);
-8f965efd215a09 Mika Westerberg 2019-03-15  1226  		goto put_sw;
-053596d9e26c86 Andreas Noever  2014-06-03  1227  	}
-053596d9e26c86 Andreas Noever  2014-06-03  1228  	port =3D &sw->ports[ev->p=
-ort];
-053596d9e26c86 Andreas Noever  2014-06-03  1229  	if (tb_is_upstream_port(p=
-ort)) {
-dfe40ca486f60d Mika Westerberg 2019-03-07  1230  		tb_dbg(tb, "hotplug even=
-t for upstream port %llx:%x (unplug: %d)\n",
-053596d9e26c86 Andreas Noever  2014-06-03  1231  		       ev->route, ev->po=
-rt, ev->unplug);
-8f965efd215a09 Mika Westerberg 2019-03-15  1232  		goto put_sw;
-053596d9e26c86 Andreas Noever  2014-06-03  1233  	}
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1234  =
-
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1235  	pm_runtime_get_sync(&sw->=
-dev);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1236  =
-
-053596d9e26c86 Andreas Noever  2014-06-03  1237  	if (ev->unplug) {
-dacb12877d9222 Kranthi Kuntala 2020-03-05  1238  		tb_retimer_remove_all(po=
-rt);
-dacb12877d9222 Kranthi Kuntala 2020-03-05  1239  =
-
-dfe40ca486f60d Mika Westerberg 2019-03-07  1240  		if (tb_port_has_remote(p=
-ort)) {
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1241  			tb_port_dbg(port, "swit=
-ch unplugged\n");
-aae20bb6b45e06 Lukas Wunner    2016-03-20  1242  			tb_sw_set_unplugged(por=
-t->remote->sw);
-3364f0c1279571 Andreas Noever  2014-06-03  1243  			tb_free_invalid_tunnels=
-(tb);
-8afe909b78e16e Mika Westerberg 2019-03-26  1244  			tb_remove_dp_resources(=
-port->remote->sw);
-cf29b9afb12149 Rajmohan Mani   2019-12-17  1245  			tb_switch_tmu_disable(p=
-ort->remote->sw);
-de462039178651 Mika Westerberg 2020-04-02  1246  			tb_switch_unconfigure_l=
-ink(port->remote->sw);
-91c0c12080d0f4 Mika Westerberg 2019-03-21  1247  			tb_switch_lane_bonding_=
-disable(port->remote->sw);
-bfe778ac49826c Mika Westerberg 2017-06-06  1248  			tb_switch_remove(port->=
-remote->sw);
-053596d9e26c86 Andreas Noever  2014-06-03  1249  			port->remote =3D NULL;
-dfe40ca486f60d Mika Westerberg 2019-03-07  1250  			if (port->dual_link_por=
-t)
-dfe40ca486f60d Mika Westerberg 2019-03-07  1251  				port->dual_link_port->=
-remote =3D NULL;
-8afe909b78e16e Mika Westerberg 2019-03-26  1252  			/* Maybe we can create =
-another DP tunnel */
-8afe909b78e16e Mika Westerberg 2019-03-26  1253  			tb_tunnel_dp(tb);
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1254  		} else if (port->xdomain=
-) {
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1255  			struct tb_xdomain *xd =
-=3D tb_xdomain_get(port->xdomain);
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1256  =
-
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1257  			tb_port_dbg(port, "xdom=
-ain unplugged\n");
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1258  			/*
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1259  			 * Service drivers are =
-unbound during
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1260  			 * tb_xdomain_remove() =
-so setting XDomain as
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1261  			 * unplugged here preve=
-nts deadlock if they call
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1262  			 * tb_xdomain_disable_p=
-aths(). We will tear down
-180b0689425c6f Mika Westerberg 2021-01-08  1263  			 * all the tunnels belo=
-w.
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1264  			 */
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1265  			xd->is_unplugged =3D tr=
-ue;
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1266  			tb_xdomain_remove(xd);
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1267  			port->xdomain =3D NULL;
-180b0689425c6f Mika Westerberg 2021-01-08  1268  			__tb_disconnect_xdomain=
-_paths(tb, xd, -1, -1, -1, -1);
-7ea4cd6b2010ee Mika Westerberg 2018-09-28  1269  			tb_xdomain_put(xd);
-284652a4a49917 Mika Westerberg 2020-04-09  1270  			tb_port_unconfigure_xdo=
-main(port);
-8afe909b78e16e Mika Westerberg 2019-03-26  1271  		} else if (tb_port_is_dp=
-out(port) || tb_port_is_dpin(port)) {
-8afe909b78e16e Mika Westerberg 2019-03-26  1272  			tb_dp_resource_unavaila=
-ble(tb, port);
-30a4eca69b76c0 Mika Westerberg 2022-01-07  1273  		} else if (!port->port) {
-30a4eca69b76c0 Mika Westerberg 2022-01-07  1274  			tb_sw_dbg(sw, "xHCI dis=
-connect request\n");
-30a4eca69b76c0 Mika Westerberg 2022-01-07  1275  			tb_switch_xhci_disconne=
-ct(sw);
-053596d9e26c86 Andreas Noever  2014-06-03  1276  		} else {
-62efe699a7f666 Mika Westerberg 2018-09-17  1277  			tb_port_dbg(port,
-053596d9e26c86 Andreas Noever  2014-06-03  1278  				   "got unplug event f=
-or disconnected port, ignoring\n");
-053596d9e26c86 Andreas Noever  2014-06-03  1279  		}
-053596d9e26c86 Andreas Noever  2014-06-03  1280  	} else if (port->remote) {
-62efe699a7f666 Mika Westerberg 2018-09-17  1281  		tb_port_dbg(port, "got p=
-lug event for connected port, ignoring\n");
-30a4eca69b76c0 Mika Westerberg 2022-01-07 @1282  	} else if (!port->port &&=
- sw->authorized) {
-30a4eca69b76c0 Mika Westerberg 2022-01-07  1283  		tb_sw_dbg(sw, "xHCI conn=
-ect request\n");
-30a4eca69b76c0 Mika Westerberg 2022-01-07  1284  		tb_switch_xhci_connect(s=
-w);
-053596d9e26c86 Andreas Noever  2014-06-03  1285  	} else {
-344e06430a7234 Mika Westerberg 2017-10-11  1286  		if (tb_port_is_null(port=
-)) {
-62efe699a7f666 Mika Westerberg 2018-09-17  1287  			tb_port_dbg(port, "hotp=
-lug: scanning\n");
-053596d9e26c86 Andreas Noever  2014-06-03  1288  			tb_scan_port(port);
-99cabbb006f1eb Mika Westerberg 2018-12-30  1289  			if (!port->remote)
-62efe699a7f666 Mika Westerberg 2018-09-17  1290  				tb_port_dbg(port, "hot=
-plug: no switch found\n");
-8afe909b78e16e Mika Westerberg 2019-03-26  1291  		} else if (tb_port_is_dp=
-out(port) || tb_port_is_dpin(port)) {
-8afe909b78e16e Mika Westerberg 2019-03-26  1292  			tb_dp_resource_availabl=
-e(tb, port);
-053596d9e26c86 Andreas Noever  2014-06-03  1293  		}
-344e06430a7234 Mika Westerberg 2017-10-11  1294  	}
-8f965efd215a09 Mika Westerberg 2019-03-15  1295  =
-
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1296  	pm_runtime_mark_last_busy=
-(&sw->dev);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1297  	pm_runtime_put_autosuspen=
-d(&sw->dev);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1298  =
-
-8f965efd215a09 Mika Westerberg 2019-03-15  1299  put_sw:
-8f965efd215a09 Mika Westerberg 2019-03-15  1300  	tb_switch_put(sw);
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1301  out:
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1302  	mutex_unlock(&tb->lock);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1303  =
-
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1304  	pm_runtime_mark_last_busy=
-(&tb->dev);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1305  	pm_runtime_put_autosuspen=
-d(&tb->dev);
-6ac6faee5d7d7d Mika Westerberg 2020-06-05  1306  =
-
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1307  	kfree(ev);
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1308  }
-d6cc51cd1a4aed Andreas Noever  2014-06-03  1309  =
-
-
-:::::: The code at line 1282 was first introduced by commit
-:::::: 30a4eca69b76c0ed5a2f34dd2a3e195c9bf6bed1 thunderbolt: Add internal x=
-HCI connect flows for Thunderbolt 3 devices
-
-:::::: TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-:::::: CC: Mika Westerberg <mika.westerberg@linux.intel.com>
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3720113876099254568==--
+--===============3055389597355900213==--
 
