@@ -1,67 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============0274301821396605463=="
+Content-Type: multipart/mixed; boundary="===============4141246363269798388=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] dma-direct: use the correct size for dma_set_encrypted()
-Date: Wed, 29 Jun 2022 06:07:43 +0800
-Message-ID: <202206290627.5IxYSe6J-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 29 Jun 2022 01:03:28 +0800
+Message-ID: <202206290101.R8QUpBSX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0274301821396605463==
+--===============4141246363269798388==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: kernel/dm=
-a/direct.c:325:15: warning: Value stored to 'page_order' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to 'ret' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]"
 :::::: =
 
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220622191424.15777-1-decui@microsoft.com>
-References: <20220622191424.15777-1-decui@microsoft.com>
-TO: Dexuan Cui <decui@microsoft.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Stephen Boyd <swboyd@chromium.org>
 
-Hi Dexuan,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[cannot apply to v5.19-rc4 next-20220628]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dexuan-Cui/dma-direc=
-t-use-the-correct-size-for-dma_set_encrypted/20220623-031721
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-de5c208d533a46a074eb46ea17f672cc005a7269
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: s390-randconfig-c005-20220625 (https://download.01.org/0day-ci/arch=
-ive/20220629/202206290627.5IxYSe6J-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b0d6dd=
-3905db145853c7c744ac92d49b00b1fa20)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   941e3e7912696b9fbe3586083a7c2e102cee7a87
+commit: 6874f48bb8b050b695698f1145e6846ba08baa75 drm/msm: make mdp5/dpu dev=
+ices master components
+date:   9 weeks ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 9 weeks ago
+config: riscv-randconfig-c006-20220622 (https://download.01.org/0day-ci/arc=
+hive/20220629/202206290101.R8QUpBSX-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8b8d12=
+6598ce7bd5243da7f94f69fa1104288bee)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/2288b269c064b0b811f=
-cb34ef45a306690456a7a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dexuan-Cui/dma-direct-use-the-corr=
-ect-size-for-dma_set_encrypted/20220623-031721
-        git checkout 2288b269c064b0b811fcb34ef45a306690456a7a
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6874f48bb8b050b695698f1145e6846ba08baa75
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6874f48bb8b050b695698f1145e6846ba08baa75
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -69,21 +61,12 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                   ^~~~~~~~~~~~~~~~
-   mm/memory.c:5465:5: note: Call to function 'memcpy' is insecure as it do=
-es not provide security checks introduced in the C11 standard. Replace with=
- analogous functions that support length arguments or provides boundary che=
-cks such as 'memcpy_s' in case of C11
-                                   copy_to_user_page(vma, page, addr,
-                                   ^
-   include/asm-generic/cacheflush.h:108:3: note: expanded from macro 'copy_=
-to_user_page'
-                   memcpy(dst, src, len); \
-                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+           memcpy(dst, src, n);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
    #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
 fy_memcpy_chk'
            __underlying_##op(p, q, __fortify_size);                        \
            ^~~~~~~~~~~~~~~~~
@@ -92,21 +75,16 @@ fy_memcpy_chk'
 lying_memcpy'
    #define __underlying_memcpy     __builtin_memcpy
                                    ^~~~~~~~~~~~~~~~
-   mm/memory.c:5469:5: warning: Call to function 'memcpy' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureA=
-PI.DeprecatedOrUnsafeBufferHandling]
-                                   copy_from_user_page(vma, page, addr,
-                                   ^
-   include/asm-generic/cacheflush.h:115:2: note: expanded from macro 'copy_=
-from_user_page'
-           memcpy(dst, src, len)
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   drivers/char/xillybus/xillyusb.c:355:2: note: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(dst, src, n);
+           ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
    #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
 fy_memcpy_chk'
            __underlying_##op(p, q, __fortify_size);                        \
            ^~~~~~~~~~~~~~~~~
@@ -115,74 +93,87 @@ fy_memcpy_chk'
 lying_memcpy'
    #define __underlying_memcpy     __builtin_memcpy
                                    ^~~~~~~~~~~~~~~~
-   mm/memory.c:5469:5: note: Call to function 'memcpy' is insecure as it do=
-es not provide security checks introduced in the C11 standard. Replace with=
- analogous functions that support length arguments or provides boundary che=
-cks such as 'memcpy_s' in case of C11
-                                   copy_from_user_page(vma, page, addr,
-                                   ^
-   include/asm-generic/cacheflush.h:115:2: note: expanded from macro 'copy_=
-from_user_page'
-           memcpy(dst, src, len)
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   mm/memory.c:5530:25: warning: Dereference of null pointer [clang-analyze=
-r-core.NullDereference]
-           struct mm_struct *mm =3D current->mm;
-                                  ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   mm/memory.c:5530:25: note: Dereference of null pointer
-           struct mm_struct *mm =3D current->mm;
-                                  ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 65 warnings (53 in non-user code, 12 with check filters).
+   drivers/char/xillybus/xillyusb.c:1153:4: warning: Value stored to 'rc' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           rc =3D wait_event_interruptible_timeout(chan->fl=
+ushq,
+                           ^
+   drivers/char/xillybus/xillyusb.c:1153:4: note: Value stored to 'rc' is n=
+ever read
+   Suppressed 40 warnings (40 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   55 warnings generated.
-   Suppressed 55 warnings (43 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   58 warnings generated.
-   kernel/dma/direct.c:302:2: warning: Call to function 'memset' is insecur=
+   drivers/iommu/iommu.c:420:9: warning: Call to function 'sprintf' is inse=
+cure as it does not provide bounding of the memory buffer or security check=
+s introduced in the C11 standard. Replace with analogous functions that sup=
+port length arguments or provides boundary checks such as 'sprintf_s' in ca=
+se of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHand=
+ling]
+           return sprintf(buf, "%s\n", group->name);
+                  ^~~~~~~
+   drivers/iommu/iommu.c:420:9: note: Call to function 'sprintf' is insecur=
+e as it does not provide bounding of the memory buffer or security checks i=
+ntroduced in the C11 standard. Replace with analogous functions that suppor=
+t length arguments or provides boundary checks such as 'sprintf_s' in case =
+of C11
+           return sprintf(buf, "%s\n", group->name);
+                  ^~~~~~~
+   drivers/iommu/iommu.c:532:10: warning: Call to function 'sprintf' is ins=
+ecure as it does not provide bounding of the memory buffer or security chec=
+ks introduced in the C11 standard. Replace with analogous functions that su=
+pport length arguments or provides boundary checks such as 'sprintf_s' in c=
+ase of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHan=
+dling]
+                   str +=3D sprintf(str, "0x%016llx 0x%016llx %s\n",
+                          ^~~~~~~
+   drivers/iommu/iommu.c:532:10: note: Call to function 'sprintf' is insecu=
+re as it does not provide bounding of the memory buffer or security checks =
+introduced in the C11 standard. Replace with analogous functions that suppo=
+rt length arguments or provides boundary checks such as 'sprintf_s' in case=
+ of C11
+                   str +=3D sprintf(str, "0x%016llx 0x%016llx %s\n",
+                          ^~~~~~~
+   drivers/iommu/iommu.c:569:2: warning: Call to function 'strcpy' is insec=
+ure as it does not provide bounding of the memory buffer. Replace unbounded=
+ copy functions with analogous functions that support length arguments such=
+ as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(buf, type);
+           ^~~~~~
+   drivers/iommu/iommu.c:569:2: note: Call to function 'strcpy' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcpy'. CWE-119
+           strcpy(buf, type);
+           ^~~~~~
+   drivers/iommu/iommu.c:1729:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&gtype, 0, sizeof(gtype));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:1729:2: note: Call to function 'memset' is insecur=
 e as it does not provide security checks introduced in the C11 standard. Re=
 place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(ret, 0, size);
+undary checks such as 'memset_s' in case of C11
+           memset(&gtype, 0, sizeof(gtype));
            ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
    #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
 fy_memset_chk'
            __underlying_memset(p, c, __fortify_size);                      \
            ^~~~~~~~~~~~~~~~~~~
@@ -190,262 +181,413 @@ fy_memset_chk'
 lying_memset'
    #define __underlying_memset     __builtin_memset
                                    ^~~~~~~~~~~~~~~~
-   kernel/dma/direct.c:302:2: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-           memset(ret, 0, size);
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> kernel/dma/direct.c:325:15: warning: Value stored to 'page_order' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int page_order =3D get_order(size);
-                        ^~~~~~~~~~   ~~~~~~~~~~~~~~~
-   kernel/dma/direct.c:325:15: note: Value stored to 'page_order' during it=
-s initialization is never read
-           unsigned int page_order =3D get_order(size);
-                        ^~~~~~~~~~   ~~~~~~~~~~~~~~~
-   kernel/dma/direct.c:383:2: warning: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(ret, 0, size);
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/dma/direct.c:383:2: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-           memset(ret, 0, size);
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 55 warnings (43 in non-user code, 12 with check filters).
+   Suppressed 38 warnings (38 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   85 warnings generated.
-   arch/s390/kernel/diag.c:130:2: warning: Dereference of null pointer [cla=
-ng-analyzer-core.NullDereference]
-           this_cpu_inc(diag_stat.counter[nr]);
-           ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:379:11: note: expanded from macro '__pcpu_si=
-ze_call'
-                   case 4: stem##4(variable, __VA_ARGS__);break;           \
-                           ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+   57 warnings generated.
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:291:3: warning: Value stored t=
+o 'plane' is never read [clang-analyzer-deadcode.DeadStores]
+                   plane =3D pstates[i]->base.plane;
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:291:3: note: Value stored to '=
+plane' is never read
+                   plane =3D pstates[i]->base.plane;
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1056:24: warning: Although the=
+ value stored to 'x' is used in the enclosing expression, the value is neve=
+r actually read from 'x' [clang-analyzer-deadcode.DeadStores]
+           mdp5_crtc->cursor.x =3D x =3D max(x, -(int)mdp5_crtc->cursor.wid=
+th);
                                  ^
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1056:24: note: Although the va=
+lue stored to 'x' is used in the enclosing expression, the value is never a=
+ctually read from 'x'
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1057:24: warning: Although the=
+ value stored to 'y' is used in the enclosing expression, the value is neve=
+r actually read from 'y' [clang-analyzer-deadcode.DeadStores]
+           mdp5_crtc->cursor.y =3D y =3D max(y, -(int)mdp5_crtc->cursor.hei=
+ght);
+                                 ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c:1057:24: note: Although the va=
+lue stored to 'y' is used in the enclosing expression, the value is never a=
+ctually read from 'y'
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   56 warnings generated.
+>> drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: warning: Value stored to=
+ 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:2: note: Value stored to 'r=
+et' is never read
+           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:687:12: warning: 1st function c=
+all argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+                   hwpipe =3D mdp5_pipe_init(pipes[i], offsets[i], caps);
+                            ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:563:8: note: Calling 'mdp5_init'
+           ret =3D mdp5_init(to_platform_device(dev->dev), dev);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:815:6: note: Assuming 'mdp5_kms=
+' is non-null
+           if (!mdp5_kms) {
+               ^~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:815:2: note: Taking false branch
+           if (!mdp5_kms) {
            ^
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^
-   arch/s390/kernel/diag.c:217:2: note: Calling 'diag_stat_inc'
-           diag_stat_inc(DIAG_STAT_X26C);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kernel/diag.c:130:2: note: Loop condition is false.  Exiting l=
-oop
-           this_cpu_inc(diag_stat.counter[nr]);
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:822:2: note: Loop condition is =
+false.  Exiting loop
+           spin_lock_init(&mdp5_kms->resource_lock);
            ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:375:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           __verify_pcpu_ptr(&(variable));                                 \
+   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:828:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:828:2: note: Taking false branch
+           if (ret)
            ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   arch/s390/kernel/diag.c:130:2: note: Control jumps to 'case 4:'  at line=
- 130
-           this_cpu_inc(diag_stat.counter[nr]);
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:832:2: note: Taking false branch
+           if (IS_ERR(mdp5_kms->mmio)) {
            ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:376:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           switch(sizeof(variable)) {                                      \
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:839:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:839:2: note: Taking false branch
+           if (ret)
            ^
-   arch/s390/kernel/diag.c:130:2: note: Loop condition is false.  Exiting l=
-oop
-           this_cpu_inc(diag_stat.counter[nr]);
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:842:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:842:2: note: Taking false branch
+           if (ret)
            ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:379:11: note: expanded from macro '__pcpu_si=
-ze_call'
-                   case 4: stem##4(variable, __VA_ARGS__);break;           \
-                           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   arch/s390/include/asm/percpu.h:33:10: note: expanded from macro 'arch_th=
-is_cpu_to_op_simple'
-           ptr__ =3D raw_cpu_ptr(&(pcp));                                  =
-  \
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:845:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:845:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:848:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:848:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:868:2: note: Taking false branch
+           if (IS_ERR(mdp5_kms->cfg)) {
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:885:6: note: Assuming the condi=
+tion is false
+           if (mdp5_kms->caps & MDP_CAP_SMP) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:885:2: note: Taking false branch
+           if (mdp5_kms->caps & MDP_CAP_SMP) {
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:895:2: note: Taking false branch
+           if (IS_ERR(mdp5_kms->ctlm)) {
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:901:8: note: Calling 'hwpipe_in=
+it'
+           ret =3D hwpipe_init(mdp5_kms);
+                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:723:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:723:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:729:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:729:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:733:8: note: Calling 'construct=
+_pipes'
+           ret =3D construct_pipes(mdp5_kms, hw_cfg->pipe_dma.count, dma_pl=
+anes,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:14: note: Assuming 'i' is <=
+ 'cnt'
+           for (i =3D 0; i < cnt; i++) {
+                       ^~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:2: note: Loop condition is =
+true.  Entering loop body
+           for (i =3D 0; i < cnt; i++) {
+           ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:688:3: note: Taking false branch
+                   if (IS_ERR(hwpipe)) {
                    ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:14: note: Assuming 'i' is <=
+ 'cnt'
+           for (i =3D 0; i < cnt; i++) {
+                       ^~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:684:2: note: Loop condition is =
+true.  Entering loop body
+           for (i =3D 0; i < cnt; i++) {
 
-vim +/page_order +325 kernel/dma/direct.c
+vim +/ret +563 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
 
-a8463d4b0e47d1f lib/dma-noop.c      Christian Borntraeger 2016-02-02  321  =
+6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  551  =
 
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  322  =
-void dma_direct_free(struct device *dev, size_t size,
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  323  =
-		void *cpu_addr, dma_addr_t dma_addr, unsigned long attrs)
-a8463d4b0e47d1f lib/dma-noop.c      Christian Borntraeger 2016-02-02  324  {
-c10f07aa27dadf5 lib/dma-direct.c    Christoph Hellwig     2018-03-19 @325  =
-	unsigned int page_order =3D get_order(size);
-080321d3b3139b3 lib/dma-direct.c    Christoph Hellwig     2017-12-22  326  =
+5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  552  static int mdp5_kms_init(struct drm_device *dev)
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  553  {
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  554  	struct msm_drm_private *priv =3D dev->dev_private;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  555  	struct platform_device *pdev;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  556  	struct mdp5_kms *mdp5_kms;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  557  	struct mdp5_cfg *config;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  558  	struct msm_kms *kms;
+667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2016-09-28  559  	struct msm_gem_address_space *aspace;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  560  	int irq, i, ret;
+518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
+ 2019-07-08  561  	struct device *iommu_dev;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  562  =
 
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  327  =
-	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
-f4111e39a52aa5d kernel/dma/direct.c Claire Chang          2021-06-19  328  =
-	    !force_dma_unencrypted(dev) && !is_swiotlb_for_alloc(dev)) {
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  329  =
-		/* cpu_addr is a struct page cookie, not a kernel address */
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  330  =
-		dma_free_contiguous(dev, cpu_addr, size);
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  331  =
-		return;
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  332  =
-	}
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  333  =
+6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19 @563  	ret =3D mdp5_init(to_platform_device(dev->dev), dev);
+6874f48bb8b050 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  564  =
 
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  334  =
-	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  335  =
-	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  336  =
-	    !IS_ENABLED(CONFIG_DMA_GLOBAL_POOL) &&
-3de18c865f504ab kernel/dma/direct.c Linus Torvalds        2021-09-03  337  =
-	    !dev_is_dma_coherent(dev) &&
-f4111e39a52aa5d kernel/dma/direct.c Claire Chang          2021-06-19  338  =
-	    !is_swiotlb_for_alloc(dev)) {
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  339  =
-		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  340  =
-		return;
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  341  =
-	}
-2f5388a29be82a6 kernel/dma/direct.c Christoph Hellwig     2020-08-17  342  =
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  565  	/* priv->kms would have been populated by the MDP5 drive=
+r */
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  566  	kms =3D priv->kms;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  567  	if (!kms)
+5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  568  		return -ENOMEM;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  569  =
 
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  343  =
-	if (IS_ENABLED(CONFIG_DMA_GLOBAL_POOL) &&
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  344  =
-	    !dev_is_dma_coherent(dev)) {
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  345  =
-		if (!dma_release_from_global_coherent(page_order, cpu_addr))
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  346  =
-			WARN_ON_ONCE(1);
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  347  =
-		return;
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  348  =
-	}
-faf4ef823ac5f3b kernel/dma/direct.c Christoph Hellwig     2021-06-23  349  =
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  570  	mdp5_kms =3D to_mdp5_kms(to_mdp_kms(kms));
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  571  	pdev =3D mdp5_kms->pdev;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  572  =
 
-76a19940bd62a81 kernel/dma/direct.c David Rientjes        2020-04-14  350  =
-	/* If cpu_addr is not from an atomic pool, dma_free_from_pool() fails */
-849facea92fa68d kernel/dma/direct.c Christoph Hellwig     2020-10-07  351  =
-	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
-76a19940bd62a81 kernel/dma/direct.c David Rientjes        2020-04-14  352  =
-	    dma_free_from_pool(dev, cpu_addr, PAGE_ALIGN(size)))
-76a19940bd62a81 kernel/dma/direct.c David Rientjes        2020-04-14  353  =
-		return;
-76a19940bd62a81 kernel/dma/direct.c David Rientjes        2020-04-14  354  =
+ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
+ 2020-10-19  573  	ret =3D mdp_kms_init(&mdp5_kms->base, &kms_funcs);
+ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
+ 2020-10-19  574  	if (ret) {
+ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
+ 2020-10-19  575  		DRM_DEV_ERROR(&pdev->dev, "failed to init kms\n");
+ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
+ 2020-10-19  576  		goto fail;
+ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
+ 2020-10-19  577  	}
+ffe71111f4ab5a drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Rob Clark          =
+ 2020-10-19  578  =
 
-f5ff79fddf0efec kernel/dma/direct.c Christoph Hellwig     2022-02-26  355  =
-	if (is_vmalloc_addr(cpu_addr)) {
-3acac065508f6cc kernel/dma/direct.c Christoph Hellwig     2019-10-29  356  =
-		vunmap(cpu_addr);
-5570449b6876f21 kernel/dma/direct.c Christoph Hellwig     2021-10-21  357  =
-	} else {
-5570449b6876f21 kernel/dma/direct.c Christoph Hellwig     2021-10-21  358  =
-		if (IS_ENABLED(CONFIG_ARCH_HAS_DMA_CLEAR_UNCACHED))
-999a5d1203baa7c kernel/dma/direct.c Christoph Hellwig     2020-02-21  359  =
-			arch_dma_clear_uncached(cpu_addr, size);
-2288b269c064b0b kernel/dma/direct.c Dexuan Cui            2022-06-22  360  =
-		if (dma_set_encrypted(dev, cpu_addr, size))
-a90cf3043748934 kernel/dma/direct.c Christoph Hellwig     2021-11-09  361  =
-			return;
-5570449b6876f21 kernel/dma/direct.c Christoph Hellwig     2021-10-21  362  =
-	}
-3acac065508f6cc kernel/dma/direct.c Christoph Hellwig     2019-10-29  363  =
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  579  	irq =3D irq_of_parse_and_map(pdev->dev.of_node, 0);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  580  	if (irq < 0) {
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  581  		ret =3D irq;
+6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
+ 2018-10-20  582  		DRM_DEV_ERROR(&pdev->dev, "failed to get irq: %d\n", re=
+t);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  583  		goto fail;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  584  	}
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  585  =
 
-f4111e39a52aa5d kernel/dma/direct.c Claire Chang          2021-06-19  364  =
-	__dma_direct_free_pages(dev, dma_direct_to_page(dev, dma_addr), size);
-a8463d4b0e47d1f lib/dma-noop.c      Christian Borntraeger 2016-02-02  365  }
-a8463d4b0e47d1f lib/dma-noop.c      Christian Borntraeger 2016-02-02  366  =
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  586  	kms->irq =3D irq;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  587  =
+
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  588  	config =3D mdp5_cfg_get_config(mdp5_kms->cfg);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  589  =
+
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  590  	/* make sure things are off before attaching iommu (boot=
+loader could
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  591  	 * have left things on, in which case we'll start gettin=
+g faults if
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  592  	 * we don't disable):
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  593  	 */
+d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2017-07-28  594  	pm_runtime_get_sync(&pdev->dev);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  595  	for (i =3D 0; i < MDP5_INTF_NUM_MAX; i++) {
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  596  		if (mdp5_cfg_intf_is_virtual(config->hw->intf.connect[i=
+]) ||
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  597  		    !config->hw->intf.base[i])
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  598  			continue;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  599  		mdp5_write(mdp5_kms, REG_MDP5_INTF_TIMING_ENGINE_EN(i),=
+ 0);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  600  =
+
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  601  		mdp5_write(mdp5_kms, REG_MDP5_INTF_FRAME_LINE_COUNT_EN(=
+i), 0x3);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  602  	}
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  603  	mdelay(16);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  604  =
+
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  605  	if (config->platform.iommu) {
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  606  		struct msm_mmu *mmu;
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  607  =
+
+518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
+ 2019-07-08  608  		iommu_dev =3D &pdev->dev;
+d3e240c4bcf003 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Joerg Roedel       =
+ 2020-03-26  609  		if (!dev_iommu_fwspec_get(iommu_dev))
+518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
+ 2019-07-08  610  			iommu_dev =3D iommu_dev->parent;
+518304cbf3b245 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jeffrey Hugo       =
+ 2019-07-08  611  =
+
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  612  		mmu =3D msm_iommu_new(iommu_dev, config->platform.iommu=
+);
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  613  =
+
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  614  		aspace =3D msm_gem_address_space_create(mmu, "mdp5",
+30480e6ed508e3 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-06-22  615  			0x1000, 0x100000000 - 0x1000);
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  616  =
+
+667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2016-09-28  617  		if (IS_ERR(aspace)) {
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  618  			if (!IS_ERR(mmu))
+ccac7ce373c1b5 drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Jordan Crouse      =
+ 2020-05-22  619  				mmu->funcs->destroy(mmu);
+667ce33e57d0de drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2016-09-28  620  			ret =3D PTR_ERR(aspace);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  621  			goto fail;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  622  		}
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  623  =
+
+f59f62d592a055 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2017-06-13  624  		kms->aspace =3D aspace;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  625  	} else {
+6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
+ 2018-10-20  626  		DRM_DEV_INFO(&pdev->dev,
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  627  			 "no iommu, fallback to phys contig buffers for scanou=
+t\n");
+52a8988de97f5e drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Luis de Bethencourt=
+ 2018-01-17  628  		aspace =3D NULL;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  629  	}
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  630  =
+
+3c352b66905b29 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2017-10-20  631  	pm_runtime_put_sync(&pdev->dev);
+d68fe15b1878ac drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2017-07-28  632  =
+
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  633  	ret =3D modeset_init(mdp5_kms);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  634  	if (ret) {
+6a41da17e87dee drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Mamta Shukla       =
+ 2018-10-20  635  		DRM_DEV_ERROR(&pdev->dev, "modeset_init failed: %d\n", =
+ret);
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  636  		goto fail;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  637  	}
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  638  =
+
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  639  	dev->mode_config.min_width =3D 0;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  640  	dev->mode_config.min_height =3D 0;
+9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2016-11-05  641  	dev->mode_config.max_width =3D 0xffff;
+9708ebbe1728e5 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Rob Clark          =
+ 2016-11-05  642  	dev->mode_config.max_height =3D 0xffff;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  643  =
+
+2bab52af6fe68c drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Brian Masney       =
+ 2019-05-31  644  	dev->max_vblank_count =3D 0; /* max_vblank_count is set =
+on each CRTC */
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  645  	dev->vblank_disable_immediate =3D true;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  646  =
+
+5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  647  	return 0;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  648  fail:
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  649  	if (kms)
+392ae6e0efa5e2 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  650  		mdp5_kms_destroy(kms);
+5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  651  =
+
+5d44531be0982d drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c Dmitry Baryshkov   =
+ 2022-04-19  652  	return ret;
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  653  }
+aec095ecbcc706 drivers/gpu/drm/msm/mdp/mdp5/mdp5_kms.c  Archit Taneja      =
+ 2016-06-14  654  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0274301821396605463==--
+--===============4141246363269798388==--
 
