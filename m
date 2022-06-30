@@ -1,405 +1,258 @@
-Content-Type: multipart/mixed; boundary="===============5709960042071425027=="
+Content-Type: multipart/mixed; boundary="===============5442060937751272598=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [net-next: PATCH 07/12] net: mdio: allow registering non-PHY devices in ACPI world
-Date: Tue, 21 Jun 2022 12:37:54 +0800
-Message-ID: <202206211240.eoGOEICS-lkp@intel.com>
+Subject: drivers/net/ethernet/mediatek/mtk_eth_soc.c:926:17: warning: Parameter 'txd' can be declared with const [constParameter]
+Date: Thu, 30 Jun 2022 08:31:28 +0800
+Message-ID: <202206300807.3lS5ukSd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5709960042071425027==
+--===============5442060937751272598==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/asm-generic/rwonce.h:44:26: warning: dereference of NULL '<unknown=
->' [CWE-476] [-Wanalyzer-null-dereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/n=
+et/ethernet/mediatek/mtk_eth_soc.c:926:17: warning: Parameter 'txd' can be =
+declared with const [constParameter]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220620150225.1307946-8-mw@semihalf.com>
-References: <20220620150225.1307946-8-mw@semihalf.com>
-TO: Marcin Wojtas <mw@semihalf.com>
-TO: linux-kernel(a)vger.kernel.org
-TO: linux-acpi(a)vger.kernel.org
-TO: netdev(a)vger.kernel.org
-CC: rafael(a)kernel.org
-CC: andriy.shevchenko(a)linux.intel.com
-CC: lenb(a)kernel.org
-CC: andrew(a)lunn.ch
-CC: vivien.didelot(a)gmail.com
-CC: f.fainelli(a)gmail.com
-CC: olteanv(a)gmail.com
-CC: davem(a)davemloft.net
-CC: edumazet(a)google.com
-CC: kuba(a)kernel.org
-CC: pabeni(a)redhat.com
-CC: linux(a)armlinux.org.uk
-CC: hkallweit1(a)gmail.com
-CC: gjb(a)semihalf.com
-CC: mw(a)semihalf.com
-CC: jaz(a)semihalf.com
-CC: tn(a)semihalf.com
-CC: Samer.El-Haj-Mahmoud(a)arm.com
-CC: upstream(a)semihalf.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
 
-Hi Marcin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on robh/for-next linus/master v5.19-rc2 next-20220=
-617]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcin-Wojtas/ACPI-s=
-upport-for-DSA/20220620-231646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- linux-next
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-621/202206211240.eoGOEICS-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3971d5dc91ab6b9c21f=
-20cc7c431aca0a8ea6740
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Marcin-Wojtas/ACPI-support-for-DSA=
-/20220620-231646
-        git checkout 3971d5dc91ab6b9c21f20cc7c431aca0a8ea6740
-        # save the config file
-         ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d9b2ba67917c18822c6a09af41c32fa161f1606b
+commit: 7173eca8eeb7d58f885f7506f808f17851f934ce net: ethernet: mtk_eth_soc=
+: convert ring dma pointer to void
+date:   5 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 weeks ago
+compiler: microblaze-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 7173eca8eeb7d58f885f7506f808f17851f934ce
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-       |   65 | int acpi_mdiobus_register(struct mii_bus *mdio, struct fwno=
-de_handle *fwnode)
-       |      |     ^~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'acpi_mdiobus_register.part.0'
-       |
-     'acpi_mdiobus_register.part.0': event 2
-       |
-       |   80 |         fwnode_for_each_child_node(fwnode, child) {
-       |      |                                            ^~~~~
-       |      |                                            |
-       |      |                                            (2) following 't=
-rue' branch (when 'child' is non-NULL)...
-   include/linux/property.h:105:64: note: in definition of macro 'fwnode_fo=
-r_each_child_node'
-       |  105 |         for (child =3D fwnode_get_next_child_node(fwnode, N=
-ULL); child;   \
-       |      |                                                            =
-    ^~~~~
-       |
-     'acpi_mdiobus_register.part.0': event 3
-       |
-       |include/acpi/acpi_bus.h:421:17:
-       |  421 |                 is_acpi_device_node(__to_acpi_device_node_f=
-wnode) ?     \
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
-node'
-       |   48 |                                 acpi_device_handle(to_acpi_=
-device_node(fwnode))
-       |      |                                                    ^~~~~~~~=
-~~~~~~~~~~~
-   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
-NDLE_FWNODE'
-       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
-FWNODE(child), &addr);
-       |      |                                              ^~~~~~~~~~~~~~=
-~~~~
-       |
-     'acpi_mdiobus_register.part.0': events 4-6
-       |
-       |   82 |                 if (ret || addr >=3D PHY_MAX_ADDR)
-       |      |                    ^
-       |      |                    |
-       |      |                    (4) following 'false' branch...
-       |......
-       |   85 |                 if (acpi_mdiobus_child_is_phy(child))
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (5) ...to here
-       |      |                     (6) calling 'acpi_mdiobus_child_is_phy'=
- from 'acpi_mdiobus_register.part.0'
-       |
-       +--> 'acpi_mdiobus_child_is_phy': event 7
-              |
-              |   32 | static bool acpi_mdiobus_child_is_phy(struct fwnode_=
-handle *child)
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) entry to 'acpi_mdiobus_child_is_phy'
-              |
-            'acpi_mdiobus_child_is_phy': event 8
-              |
-              |include/acpi/acpi_bus.h:423:66:
-              |  423 |                                      struct acpi_dev=
-ice, fwnode) :      \
-   drivers/net/mdio/acpi_mdio.c:34:36: note: in expansion of macro 'to_acpi=
-_device_node'
-              |   34 |         struct acpi_device *adev =3D to_acpi_device_=
-node(child);
-              |      |                                    ^~~~~~~~~~~~~~~~~=
-~~
-              |
-            'acpi_mdiobus_child_is_phy': events 9-15
-              |
-              |   37 |         if (fwnode_get_phy_id(child, &phy_id) !=3D -=
-EINVAL)
-              |      |            ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            ||
-              |      |            |(9) ...to here
-              |      |            (10) following 'false' branch...
-              |......
-              |   40 |         if (fwnode_property_match_string(child, "com=
-patible",
-              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-              |      |            ||
-              |      |            |(11) ...to here
-              |      |            (12) following 'false' branch...
-              |   41 |                                          "ethernet-p=
-hy-ieee802.3-c45") =3D=3D 0)
-              |      |                                          ~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~
-              |......
-              |   44 |         if (fwnode_property_match_string(child, "com=
-patible",
-              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-              |      |            ||
-              |      |            |(13) ...to here
-              |      |            (14) following 'false' branch...
-              |   45 |                                          "ethernet-p=
-hy-ieee802.3-c22") =3D=3D 0)
-              |      |                                          ~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~
-              |......
-              |   49 |         if (list_empty(&adev->pnp.ids))
-              |      |                        ~~~~~~~~~~~~~~
-              |      |                        |
-              |      |                        (15) ...to here
-              |
-            'acpi_mdiobus_child_is_phy': event 16
-              |
-              |include/asm-generic/rwonce.h:44:26:
-              |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_s=
-calar_typeof(x) *)&(x))
-              |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                          |
-              |      |                          (16) dereference of NULL '<=
-unknown>'
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
-NCE'
-              |   50 |         __READ_ONCE(x);                             =
-                    \
-              |      |         ^~~~~~~~~~~
-   include/linux/list.h:292:16: note: in expansion of macro 'READ_ONCE'
-              |  292 |         return READ_ONCE(head->next) =3D=3D head;
-              |      |                ^~~~~~~~~
-              |
->> include/asm-generic/rwonce.h:44:26: warning: dereference of NULL '<unkno=
-wn>' [CWE-476] [-Wanalyzer-null-dereference]
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof=
-(x) *)&(x))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
-NCE'
-      50 |         __READ_ONCE(x);                                         =
-        \
-         |         ^~~~~~~~~~~
-   include/linux/list.h:292:16: note: in expansion of macro 'READ_ONCE'
-     292 |         return READ_ONCE(head->next) =3D=3D head;
-         |                ^~~~~~~~~
-     'acpi_mdiobus_register.part.0': event 1
-       |
-       |drivers/net/mdio/acpi_mdio.c:65:5:
-       |   65 | int acpi_mdiobus_register(struct mii_bus *mdio, struct fwno=
-de_handle *fwnode)
-       |      |     ^~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'acpi_mdiobus_register.part.0'
-       |
-     'acpi_mdiobus_register.part.0': event 2
-       |
-       |   80 |         fwnode_for_each_child_node(fwnode, child) {
-       |      |                                            ^~~~~
-       |      |                                            |
-       |      |                                            (2) following 't=
-rue' branch (when 'child' is non-NULL)...
-   include/linux/property.h:105:64: note: in definition of macro 'fwnode_fo=
-r_each_child_node'
-       |  105 |         for (child =3D fwnode_get_next_child_node(fwnode, N=
-ULL); child;   \
-       |      |                                                            =
-    ^~~~~
-       |
-     'acpi_mdiobus_register.part.0': event 3
-       |
-       |include/acpi/acpi_bus.h:421:17:
-       |  421 |                 is_acpi_device_node(__to_acpi_device_node_f=
-wnode) ?     \
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
-node'
-       |   48 |                                 acpi_device_handle(to_acpi_=
-device_node(fwnode))
-       |      |                                                    ^~~~~~~~=
-~~~~~~~~~~~
-   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
-NDLE_FWNODE'
-       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
-FWNODE(child), &addr);
-       |      |                                              ^~~~~~~~~~~~~~=
-~~~~
-       |
-     'acpi_mdiobus_register.part.0': event 4
-       |
-       |include/acpi/acpi_bus.h:423:66:
-       |  423 |                                      struct acpi_device, fw=
-node) :      \
-   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
-node'
-       |   48 |                                 acpi_device_handle(to_acpi_=
-device_node(fwnode))
-       |      |                                                    ^~~~~~~~=
-~~~~~~~~~~~
-   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
-NDLE_FWNODE'
-       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
-FWNODE(child), &addr);
-       |      |                                              ^~~~~~~~~~~~~~=
-~~~~
-       |
-     'acpi_mdiobus_register.part.0': event 5
-       |
-       |include/linux/container_of.h:22:10:
-       |   22 |         ((type *)(__mptr - offsetof(type, member))); })
-       |      |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |          |
-       |      |          (5) ...to here
-   include/acpi/acpi_bus.h:422:25: note: in expansion of macro 'container_o=
-f'
-       |  422 |                         container_of(__to_acpi_device_node_=
-fwnode,      \
-       |      |                         ^~~~~~~~~~~~
-   include/linux/acpi.h:48:52: note: in expansion of macro 'to_acpi_device_=
-node'
-       |   48 |                                 acpi_device_handle(to_acpi_=
-device_node(fwnode))
-       |      |                                                    ^~~~~~~~=
-~~~~~~~~~~~
-   drivers/net/mdio/acpi_mdio.c:81:46: note: in expansion of macro 'ACPI_HA=
-NDLE_FWNODE'
-       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
-FWNODE(child), &addr);
-       |      |                                              ^~~~~~~~~~~~~~=
-~~~~
-       |
-     'acpi_mdiobus_register.part.0': event 6
-       |
-       |include/linux/acpi.h:40:36:
-       |   40 |         return adev ? adev->handle : NULL;
-       |
-     'acpi_mdiobus_register.part.0': events 7-10
-       |
-       |drivers/net/mdio/acpi_mdio.c:81:23:
-       |   81 |                 ret =3D acpi_get_local_address(ACPI_HANDLE_=
-FWNODE(child), &addr);
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (7) ...to here
-       |   82 |                 if (ret || addr >=3D PHY_MAX_ADDR)
-       |      |                    ~   =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-       |      |                    |
-       |      |                    (8) following 'false' branch...
-       |......
-       |   85 |                 if (acpi_mdiobus_child_is_phy(child))
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (9) ...to here
-       |      |                     (10) calling 'acpi_mdiobus_child_is_phy=
-' from 'acpi_mdiobus_register.part.0'
-       |
-       +--> 'acpi_mdiobus_child_is_phy': event 11
-              |
-              |   32 | static bool acpi_mdiobus_child_is_phy(struct fwnode_=
-handle *child)
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (11) entry to 'acpi_mdiobus_child_is_phy'
-              |
-            'acpi_mdiobus_child_is_phy': event 12
-              |
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:926:17: warning: Parameter '=
+txd' can be declared with const [constParameter]
+             void *txd, u32 txd_size)
+                   ^
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:939:55: warning: Parameter '=
+dma' can be declared with const [constParameter]
+   static int txd_to_idx(struct mtk_tx_ring *ring, void *dma, u32 txd_size)
+                                                         ^
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1030:12: warning: Signed int=
+eger overflow for expression '0x7<<29'. [integerOverflow]
+      data |=3D TX_DMA_CHKSUM;
+              ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2054:13: warning: Signed int=
+eger overflow for expression '0x7<<29'. [integerOverflow]
+     if (val & MTK_LRO_RING_RELINQUISH_DONE) {
+               ^
 
-vim +44 include/asm-generic/rwonce.h
+vim +/txd +926 drivers/net/ethernet/mediatek/mtk_eth_soc.c
 
-e506ea451254ab Will Deacon 2019-10-15  28  =
+656e705243fd0c John Crispin     2016-03-08   924  =
 
-e506ea451254ab Will Deacon 2019-10-15  29  /*
-e506ea451254ab Will Deacon 2019-10-15  30   * Yes, this permits 64-bit acce=
-sses on 32-bit architectures. These will
-e506ea451254ab Will Deacon 2019-10-15  31   * actually be atomic in some ca=
-ses (namely Armv7 + LPAE), but for others we
-e506ea451254ab Will Deacon 2019-10-15  32   * rely on the access being spli=
-t into 2x32-bit accesses for a 32-bit quantity
-e506ea451254ab Will Deacon 2019-10-15  33   * (e.g. a virtual address) and =
-a strong prevailing wind.
-e506ea451254ab Will Deacon 2019-10-15  34   */
-e506ea451254ab Will Deacon 2019-10-15  35  #define compiletime_assert_rwonc=
-e_type(t)					\
-e506ea451254ab Will Deacon 2019-10-15  36  	compiletime_assert(__native_wor=
-d(t) || sizeof(t) =3D=3D sizeof(long long),	\
-e506ea451254ab Will Deacon 2019-10-15  37  		"Unsupported access size for {=
-READ,WRITE}_ONCE().")
-e506ea451254ab Will Deacon 2019-10-15  38  =
+c4fd06c2bb82c8 Lorenzo Bianconi 2022-05-20   925  static struct mtk_tx_buf =
+*mtk_desc_to_tx_buf(struct mtk_tx_ring *ring,
+7173eca8eeb7d5 Lorenzo Bianconi 2022-05-20  @926  					     void *txd, u32 =
+txd_size)
+656e705243fd0c John Crispin     2016-03-08   927  {
+7173eca8eeb7d5 Lorenzo Bianconi 2022-05-20   928  	int idx =3D (txd - ring-=
+>dma) / txd_size;
+656e705243fd0c John Crispin     2016-03-08   929  =
 
-e506ea451254ab Will Deacon 2019-10-15  39  /*
-e506ea451254ab Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of =
-READ_ONCE() if you do not require any
-3c9184109e78ea Will Deacon 2019-10-30  41   * atomicity. Note that this may=
- result in tears!
-e506ea451254ab Will Deacon 2019-10-15  42   */
-b78b331a3f5c07 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
-e506ea451254ab Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const =
-volatile __unqual_scalar_typeof(x) *)&(x))
-b78b331a3f5c07 Will Deacon 2019-10-15  45  #endif
-e506ea451254ab Will Deacon 2019-10-15  46  =
+656e705243fd0c John Crispin     2016-03-08   930  	return &ring->buf[idx];
+656e705243fd0c John Crispin     2016-03-08   931  }
+656e705243fd0c John Crispin     2016-03-08   932  =
+
+296c9120752bab Stefan Roese     2019-08-16   933  static struct mtk_tx_dma =
+*qdma_to_pdma(struct mtk_tx_ring *ring,
+296c9120752bab Stefan Roese     2019-08-16   934  				       struct mtk_tx_=
+dma *dma)
+296c9120752bab Stefan Roese     2019-08-16   935  {
+7173eca8eeb7d5 Lorenzo Bianconi 2022-05-20   936  	return ring->dma_pdma - =
+(struct mtk_tx_dma *)ring->dma + dma;
+296c9120752bab Stefan Roese     2019-08-16   937  }
+296c9120752bab Stefan Roese     2019-08-16   938  =
+
+7173eca8eeb7d5 Lorenzo Bianconi 2022-05-20  @939  static int txd_to_idx(str=
+uct mtk_tx_ring *ring, void *dma, u32 txd_size)
+296c9120752bab Stefan Roese     2019-08-16   940  {
+7173eca8eeb7d5 Lorenzo Bianconi 2022-05-20   941  	return (dma - ring->dma)=
+ / txd_size;
+296c9120752bab Stefan Roese     2019-08-16   942  }
+296c9120752bab Stefan Roese     2019-08-16   943  =
+
+c30c4a82739090 Felix Fietkau    2021-04-22   944  static void mtk_tx_unmap(=
+struct mtk_eth *eth, struct mtk_tx_buf *tx_buf,
+c30c4a82739090 Felix Fietkau    2021-04-22   945  			 bool napi)
+656e705243fd0c John Crispin     2016-03-08   946  {
+296c9120752bab Stefan Roese     2019-08-16   947  	if (MTK_HAS_CAPS(eth->so=
+c->caps, MTK_QDMA)) {
+656e705243fd0c John Crispin     2016-03-08   948  		if (tx_buf->flags & MTK=
+_TX_FLAGS_SINGLE0) {
+d776a57e4a284b Felix Fietkau    2022-04-05   949  			dma_unmap_single(eth->=
+dma_dev,
+656e705243fd0c John Crispin     2016-03-08   950  					 dma_unmap_addr(tx_b=
+uf, dma_addr0),
+656e705243fd0c John Crispin     2016-03-08   951  					 dma_unmap_len(tx_bu=
+f, dma_len0),
+656e705243fd0c John Crispin     2016-03-08   952  					 DMA_TO_DEVICE);
+656e705243fd0c John Crispin     2016-03-08   953  		} else if (tx_buf->flag=
+s & MTK_TX_FLAGS_PAGE0) {
+d776a57e4a284b Felix Fietkau    2022-04-05   954  			dma_unmap_page(eth->dm=
+a_dev,
+656e705243fd0c John Crispin     2016-03-08   955  				       dma_unmap_addr=
+(tx_buf, dma_addr0),
+656e705243fd0c John Crispin     2016-03-08   956  				       dma_unmap_len(=
+tx_buf, dma_len0),
+656e705243fd0c John Crispin     2016-03-08   957  				       DMA_TO_DEVICE);
+656e705243fd0c John Crispin     2016-03-08   958  		}
+296c9120752bab Stefan Roese     2019-08-16   959  	} else {
+296c9120752bab Stefan Roese     2019-08-16   960  		if (dma_unmap_len(tx_bu=
+f, dma_len0)) {
+d776a57e4a284b Felix Fietkau    2022-04-05   961  			dma_unmap_page(eth->dm=
+a_dev,
+296c9120752bab Stefan Roese     2019-08-16   962  				       dma_unmap_addr=
+(tx_buf, dma_addr0),
+296c9120752bab Stefan Roese     2019-08-16   963  				       dma_unmap_len(=
+tx_buf, dma_len0),
+296c9120752bab Stefan Roese     2019-08-16   964  				       DMA_TO_DEVICE);
+296c9120752bab Stefan Roese     2019-08-16   965  		}
+296c9120752bab Stefan Roese     2019-08-16   966  =
+
+296c9120752bab Stefan Roese     2019-08-16   967  		if (dma_unmap_len(tx_bu=
+f, dma_len1)) {
+d776a57e4a284b Felix Fietkau    2022-04-05   968  			dma_unmap_page(eth->dm=
+a_dev,
+296c9120752bab Stefan Roese     2019-08-16   969  				       dma_unmap_addr=
+(tx_buf, dma_addr1),
+296c9120752bab Stefan Roese     2019-08-16   970  				       dma_unmap_len(=
+tx_buf, dma_len1),
+296c9120752bab Stefan Roese     2019-08-16   971  				       DMA_TO_DEVICE);
+296c9120752bab Stefan Roese     2019-08-16   972  		}
+296c9120752bab Stefan Roese     2019-08-16   973  	}
+296c9120752bab Stefan Roese     2019-08-16   974  =
+
+656e705243fd0c John Crispin     2016-03-08   975  	tx_buf->flags =3D 0;
+656e705243fd0c John Crispin     2016-03-08   976  	if (tx_buf->skb &&
+c30c4a82739090 Felix Fietkau    2021-04-22   977  	    (tx_buf->skb !=3D (s=
+truct sk_buff *)MTK_DMA_DUMMY_DESC)) {
+c30c4a82739090 Felix Fietkau    2021-04-22   978  		if (napi)
+c30c4a82739090 Felix Fietkau    2021-04-22   979  			napi_consume_skb(tx_bu=
+f->skb, napi);
+c30c4a82739090 Felix Fietkau    2021-04-22   980  		else
+656e705243fd0c John Crispin     2016-03-08   981  			dev_kfree_skb_any(tx_b=
+uf->skb);
+c30c4a82739090 Felix Fietkau    2021-04-22   982  	}
+656e705243fd0c John Crispin     2016-03-08   983  	tx_buf->skb =3D NULL;
+656e705243fd0c John Crispin     2016-03-08   984  }
+656e705243fd0c John Crispin     2016-03-08   985  =
+
+296c9120752bab Stefan Roese     2019-08-16   986  static void setup_tx_buf(=
+struct mtk_eth *eth, struct mtk_tx_buf *tx_buf,
+296c9120752bab Stefan Roese     2019-08-16   987  			 struct mtk_tx_dma *tx=
+d, dma_addr_t mapped_addr,
+296c9120752bab Stefan Roese     2019-08-16   988  			 size_t size, int idx)
+296c9120752bab Stefan Roese     2019-08-16   989  {
+296c9120752bab Stefan Roese     2019-08-16   990  	if (MTK_HAS_CAPS(eth->so=
+c->caps, MTK_QDMA)) {
+296c9120752bab Stefan Roese     2019-08-16   991  		dma_unmap_addr_set(tx_b=
+uf, dma_addr0, mapped_addr);
+296c9120752bab Stefan Roese     2019-08-16   992  		dma_unmap_len_set(tx_bu=
+f, dma_len0, size);
+296c9120752bab Stefan Roese     2019-08-16   993  	} else {
+296c9120752bab Stefan Roese     2019-08-16   994  		if (idx & 1) {
+296c9120752bab Stefan Roese     2019-08-16   995  			txd->txd3 =3D mapped_a=
+ddr;
+296c9120752bab Stefan Roese     2019-08-16   996  			txd->txd2 |=3D TX_DMA_=
+PLEN1(size);
+296c9120752bab Stefan Roese     2019-08-16   997  			dma_unmap_addr_set(tx_=
+buf, dma_addr1, mapped_addr);
+296c9120752bab Stefan Roese     2019-08-16   998  			dma_unmap_len_set(tx_b=
+uf, dma_len1, size);
+296c9120752bab Stefan Roese     2019-08-16   999  		} else {
+296c9120752bab Stefan Roese     2019-08-16  1000  			tx_buf->skb =3D (struc=
+t sk_buff *)MTK_DMA_DUMMY_DESC;
+296c9120752bab Stefan Roese     2019-08-16  1001  			txd->txd1 =3D mapped_a=
+ddr;
+296c9120752bab Stefan Roese     2019-08-16  1002  			txd->txd2 =3D TX_DMA_P=
+LEN0(size);
+296c9120752bab Stefan Roese     2019-08-16  1003  			dma_unmap_addr_set(tx_=
+buf, dma_addr0, mapped_addr);
+296c9120752bab Stefan Roese     2019-08-16  1004  			dma_unmap_len_set(tx_b=
+uf, dma_len0, size);
+296c9120752bab Stefan Roese     2019-08-16  1005  		}
+296c9120752bab Stefan Roese     2019-08-16  1006  	}
+296c9120752bab Stefan Roese     2019-08-16  1007  }
+296c9120752bab Stefan Roese     2019-08-16  1008  =
+
+160d3a9b192985 Lorenzo Bianconi 2022-05-20  1009  static void mtk_tx_set_dm=
+a_desc_v1(struct net_device *dev, void *txd,
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1010  				   struct mtk_tx_dma_=
+desc_info *info)
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1011  {
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1012  	struct mtk_mac *mac =3D =
+netdev_priv(dev);
+160d3a9b192985 Lorenzo Bianconi 2022-05-20  1013  	struct mtk_eth *eth =3D =
+mac->hw;
+160d3a9b192985 Lorenzo Bianconi 2022-05-20  1014  	struct mtk_tx_dma *desc =
+=3D txd;
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1015  	u32 data;
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1016  =
+
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1017  	WRITE_ONCE(desc->txd1, i=
+nfo->addr);
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1018  =
+
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1019  	data =3D TX_DMA_SWC | TX=
+_DMA_PLEN0(info->size);
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1020  	if (info->last)
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1021  		data |=3D TX_DMA_LS0;
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1022  	WRITE_ONCE(desc->txd3, d=
+ata);
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1023  =
+
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1024  	data =3D (mac->id + 1) <=
+< TX_DMA_FPORT_SHIFT; /* forward port */
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1025  	if (info->first) {
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1026  		if (info->gso)
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1027  			data |=3D TX_DMA_TSO;
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1028  		/* tx checksum offload =
+*/
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1029  		if (info->csum)
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20 @1030  			data |=3D TX_DMA_CHKSU=
+M;
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1031  		/* vlan header offload =
+*/
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1032  		if (info->vlan)
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1033  			data |=3D TX_DMA_INS_V=
+LAN | info->vlan_tci;
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1034  	}
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1035  	WRITE_ONCE(desc->txd4, d=
+ata);
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1036  }
+731f3fd6bc879f Lorenzo Bianconi 2022-05-20  1037  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5709960042071425027==--
+--===============5442060937751272598==--
 
