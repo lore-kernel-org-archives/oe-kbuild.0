@@ -1,478 +1,217 @@
-Content-Type: multipart/mixed; boundary="===============0099546433736650893=="
+Content-Type: multipart/mixed; boundary="===============6719878157777981426=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: passing a valid pointer to 'PTR_ERR'
-Date: Sat, 02 Jul 2022 23:41:35 +0800
-Message-ID: <202207022316.M1ACysvG-lkp@intel.com>
+Subject: Re: [PATCH v2 46/68] drm/vc4: hdmi: Protect device resources after removal
+Date: Sat, 02 Jul 2022 23:30:52 +0800
+Message-ID: <202207022342.h9ZM30YW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0099546433736650893==
+--===============6719878157777981426==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
+In-Reply-To: <20220622143209.600298-47-maxime@cerno.tech>
+References: <20220622143209.600298-47-maxime@cerno.tech>
+TO: Maxime Ripard <maxime@cerno.tech>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: Maxime Ripard <maxime@cerno.tech>
+TO: Daniel Vetter <daniel.vetter@intel.com>
+TO: David Airlie <airlied@linux.ie>
+CC: dri-devel(a)lists.freedesktop.org
 
-Hi Mauro,
+Hi Maxime,
 
-First bad commit (maybe !=3D root cause):
+I love your patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   089866061428ec9bf67221247c936792078c41a4
-commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm=
-32/ and sti/ under st/ dir
-date:   4 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 4 months ago
-config: m68k-randconfig-m031-20220702 (https://download.01.org/0day-ci/arch=
-ive/20220702/202207022316.M1ACysvG-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.3.0
+[auto build test WARNING on next-20220622]
+[also build test WARNING on v5.19-rc4]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm-tip/dr=
+m-tip linus/master anholt/for-next v5.19-rc3 v5.19-rc2 v5.19-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-vc=
+4-Fix-hotplug-for-vc4/20220622-223842
+base:    ac0ba5454ca85162c08dc429fef1999e077ca976
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: csky-randconfig-c004-20220629 (https://download.01.org/0day-ci/arch=
+ive/20220702/202207022342.h9ZM30YW-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: pa=
-ssing a valid pointer to 'PTR_ERR'
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:852 bdisp_g_selection() wa=
-rn: passing a valid pointer to 'PTR_ERR'
-
-vim +/PTR_ERR +725 drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  716  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  717  static int bdisp_g_fmt(struct file *file, void *fh, stru=
-ct v4l2_format *f)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  718  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  719  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-bf3881707b6f63 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Colin Ian King=
-  2017-10-29  720  	struct v4l2_pix_format *pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  721  	struct bdisp_frame *frame  =3D ctx_get_frame(ctx, f->ty=
-pe);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  722  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  723  	if (IS_ERR(frame)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  724  		dev_err(ctx->bdisp_dev->dev, "Invalid frame (%p)\n", f=
-rame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12 @725  		return PTR_ERR(frame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  726  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  727  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  728  	pix =3D &f->fmt.pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  729  	pix->width =3D frame->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  730  	pix->height =3D frame->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  731  	pix->pixelformat =3D frame->fmt->pixelformat;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  732  	pix->field =3D frame->field;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  733  	pix->bytesperline =3D frame->bytesperline;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  734  	pix->sizeimage =3D frame->sizeimage;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  735  	pix->colorspace =3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO=
-_OUTPUT) ?
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  736  				frame->colorspace : bdisp_dflt_fmt.colorspace;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  737  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  738  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  739  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  740  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  741  static int bdisp_try_fmt(struct file *file, void *fh, st=
-ruct v4l2_format *f)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  742  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  743  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  744  	struct v4l2_pix_format *pix =3D &f->fmt.pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  745  	const struct bdisp_fmt *format;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  746  	u32 in_w, in_h;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  747  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  748  	format =3D bdisp_find_fmt(pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  749  	if (!format) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  750  		dev_dbg(ctx->bdisp_dev->dev, "Unknown format 0x%x\n",
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  751  			pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  752  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  753  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  754  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  755  	/* YUV420P only supported for VIDEO_OUTPUT */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  756  	if ((format->pixelformat =3D=3D V4L2_PIX_FMT_YUV420) &&
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  757  	    (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  758  		dev_dbg(ctx->bdisp_dev->dev, "No YU12 on capture\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  759  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  760  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  761  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  762  	/* Field (interlaced only supported on OUTPUT) */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  763  	if ((f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  764  	    (pix->field !=3D V4L2_FIELD_INTERLACED))
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  765  		pix->field =3D V4L2_FIELD_NONE;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  766  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  767  	/* Adjust width & height */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  768  	in_w =3D pix->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  769  	in_h =3D pix->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  770  	v4l_bound_align_image(&pix->width,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  771  			      BDISP_MIN_W, BDISP_MAX_W,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  772  			      ffs(format->w_align) - 1,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  773  			      &pix->height,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  774  			      BDISP_MIN_H, BDISP_MAX_H,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  775  			      ffs(format->h_align) - 1,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  776  			      0);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  777  	if ((pix->width !=3D in_w) || (pix->height !=3D in_h))
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  778  		dev_dbg(ctx->bdisp_dev->dev,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  779  			"%s size updated: %dx%d -> %dx%d\n", __func__,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  780  			in_w, in_h, pix->width, pix->height);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  781  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  782  	pix->bytesperline =3D (pix->width * format->bpp_plane0)=
- / 8;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  783  	pix->sizeimage =3D (pix->width * pix->height * format->=
-bpp) / 8;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  784  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  785  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  786  		pix->colorspace =3D bdisp_dflt_fmt.colorspace;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  787  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  788  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  789  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  790  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  791  static int bdisp_s_fmt(struct file *file, void *fh, stru=
-ct v4l2_format *f)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  792  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  793  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  794  	struct vb2_queue *vq;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  795  	struct bdisp_frame *frame;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  796  	struct v4l2_pix_format *pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  797  	int ret;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  798  	u32 state;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  799  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  800  	ret =3D bdisp_try_fmt(file, fh, f);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  801  	if (ret) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  802  		dev_err(ctx->bdisp_dev->dev, "Cannot set format\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  803  		return ret;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  804  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  805  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  806  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  807  	if (vb2_is_streaming(vq)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  808  		dev_err(ctx->bdisp_dev->dev, "queue (%d) busy\n", f->t=
-ype);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  809  		return -EBUSY;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  810  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  811  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  812  	frame =3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT) ?
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  813  			&ctx->src : &ctx->dst;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  814  	pix =3D &f->fmt.pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  815  	frame->fmt =3D bdisp_find_fmt(pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  816  	if (!frame->fmt) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  817  		dev_err(ctx->bdisp_dev->dev, "Unknown format 0x%x\n",
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  818  			pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  819  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  820  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  821  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  822  	frame->width =3D pix->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  823  	frame->height =3D pix->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  824  	frame->bytesperline =3D pix->bytesperline;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  825  	frame->sizeimage =3D pix->sizeimage;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  826  	frame->field =3D pix->field;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  827  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  828  		frame->colorspace =3D pix->colorspace;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  829  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  830  	frame->crop.width =3D frame->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  831  	frame->crop.height =3D frame->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  832  	frame->crop.left =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  833  	frame->crop.top =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  834  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  835  	state =3D BDISP_PARAMS;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  836  	state |=3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)=
- ?
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  837  			BDISP_DST_FMT : BDISP_SRC_FMT;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  838  	bdisp_ctx_state_lock_set(state, ctx);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  839  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  840  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  841  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  842  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  843  static int bdisp_g_selection(struct file *file, void *fh,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  844  			     struct v4l2_selection *s)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  845  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  846  	struct bdisp_frame *frame;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  847  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  848  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  849  	frame =3D ctx_get_frame(ctx, s->type);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  850  	if (IS_ERR(frame)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  851  		dev_err(ctx->bdisp_dev->dev, "Invalid frame (%p)\n", f=
-rame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12 @852  		return PTR_ERR(frame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  853  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  854  =
-
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  855  	switch (s->type) {
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  856  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  857  		switch (s->target) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  858  		case V4L2_SEL_TGT_CROP:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  859  			/* cropped frame */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  860  			s->r =3D frame->crop;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  861  			break;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  862  		case V4L2_SEL_TGT_CROP_DEFAULT:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  863  		case V4L2_SEL_TGT_CROP_BOUNDS:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  864  			/* complete frame */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  865  			s->r.left =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  866  			s->r.top =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  867  			s->r.width =3D frame->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  868  			s->r.height =3D frame->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  869  			break;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  870  		default:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  871  			dev_err(ctx->bdisp_dev->dev, "Invalid target\n");
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  872  			return -EINVAL;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  873  		}
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  874  		break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  875  =
-
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  876  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  877  		switch (s->target) {
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  878  		case V4L2_SEL_TGT_COMPOSE:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  879  		case V4L2_SEL_TGT_COMPOSE_PADDED:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  880  			/* composed (cropped) frame */
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  881  			s->r =3D frame->crop;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  882  			break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  883  		case V4L2_SEL_TGT_COMPOSE_DEFAULT:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  884  		case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  885  			/* complete frame */
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  886  			s->r.left =3D 0;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  887  			s->r.top =3D 0;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  888  			s->r.width =3D frame->width;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  889  			s->r.height =3D frame->height;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  890  			break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  891  		default:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  892  			dev_err(ctx->bdisp_dev->dev, "Invalid target\n");
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  893  			return -EINVAL;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  894  		}
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  895  		break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  896  =
-
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  897  	default:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  898  		dev_err(ctx->bdisp_dev->dev, "Invalid type\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  899  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  900  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  901  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  902  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  903  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  904  =
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-:::::: The code at line 725 was first introduced by commit
-:::::: 28ffeebbb7bdc0dd7899286b63f3c359d43d0a1a [media] bdisp: 2D blitter d=
-river using v4l2 mem2mem framework
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1432:2-8: preceding lock on line 1429
+   drivers/gpu/drm/vc4/vc4_hdmi.c:1402:2-8: preceding lock on line 1399
 
-:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+vim +1432 drivers/gpu/drm/vc4/vc4_hdmi.c
+
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1415  =
+
+8d9147466776c4 Maxime Ripard 2020-12-15  1416  static void vc4_hdmi_encoder=
+_post_crtc_enable(struct drm_encoder *encoder,
+8d9147466776c4 Maxime Ripard 2020-12-15  1417  					      struct drm_atomic=
+_state *state)
+09c438139b8f5b Maxime Ripard 2020-09-03  1418  {
+09c438139b8f5b Maxime Ripard 2020-09-03  1419  	struct vc4_hdmi *vc4_hdmi =
+=3D encoder_to_vc4_hdmi(encoder);
+a2f357f3dbaddb Maxime Ripard 2022-06-22  1420  	struct drm_device *drm =3D =
+vc4_hdmi->connector.dev;
+633be8c3c0c5e0 Maxime Ripard 2021-10-25  1421  	struct drm_display_mode *mo=
+de =3D &vc4_hdmi->saved_adjusted_mode;
+c3c2f38ce532c6 Jos=C3=A9 Exp=C3=B3sito 2022-04-20  1422  	struct drm_displa=
+y_info *display =3D &vc4_hdmi->connector.display_info;
+8b3f90e98e1764 Maxime Ripard 2020-09-03  1423  	bool hsync_pos =3D mode->fl=
+ags & DRM_MODE_FLAG_PHSYNC;
+8b3f90e98e1764 Maxime Ripard 2020-09-03  1424  	bool vsync_pos =3D mode->fl=
+ags & DRM_MODE_FLAG_PVSYNC;
+81fb55e500a82a Maxime Ripard 2021-10-25  1425  	unsigned long flags;
+09c438139b8f5b Maxime Ripard 2020-09-03  1426  	int ret;
+a2f357f3dbaddb Maxime Ripard 2022-06-22  1427  	int idx;
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1428  =
+
+82cb88af12d29e Maxime Ripard 2021-10-25 @1429  	mutex_lock(&vc4_hdmi->mutex=
+);
+82cb88af12d29e Maxime Ripard 2021-10-25  1430  =
+
+a2f357f3dbaddb Maxime Ripard 2022-06-22  1431  	if (!drm_dev_enter(drm, &id=
+x))
+a2f357f3dbaddb Maxime Ripard 2022-06-22 @1432  		return;
+a2f357f3dbaddb Maxime Ripard 2022-06-22  1433  =
+
+81fb55e500a82a Maxime Ripard 2021-10-25  1434  	spin_lock_irqsave(&vc4_hdmi=
+->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  1435  =
+
+311e305fdb4e82 Maxime Ripard 2020-09-03  1436  	HDMI_WRITE(HDMI_VID_CTL,
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1437  		   VC4_HD_VID_CTL_ENABLE |
+0b066a6809d0f8 Tim Gover     2021-06-28  1438  		   VC4_HD_VID_CTL_CLRRGB |
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1439  		   VC4_HD_VID_CTL_UNDERFLO=
+W_ENABLE |
+8b3f90e98e1764 Maxime Ripard 2020-09-03  1440  		   VC4_HD_VID_CTL_FRAME_CO=
+UNTER_RESET |
+8b3f90e98e1764 Maxime Ripard 2020-09-03  1441  		   (vsync_pos ? 0 : VC4_HD=
+_VID_CTL_VSYNC_LOW) |
+8b3f90e98e1764 Maxime Ripard 2020-09-03  1442  		   (hsync_pos ? 0 : VC4_HD=
+_VID_CTL_HSYNC_LOW));
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1443  =
+
+81d830137bdb46 Maxime Ripard 2020-09-03  1444  	HDMI_WRITE(HDMI_VID_CTL,
+81d830137bdb46 Maxime Ripard 2020-09-03  1445  		   HDMI_READ(HDMI_VID_CTL)=
+ & ~VC4_HD_VID_CTL_BLANKPIX);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1446  =
+
+c3c2f38ce532c6 Jos=C3=A9 Exp=C3=B3sito 2022-04-20  1447  	if (display->is_h=
+dmi) {
+311e305fdb4e82 Maxime Ripard 2020-09-03  1448  		HDMI_WRITE(HDMI_SCHEDULER_=
+CONTROL,
+311e305fdb4e82 Maxime Ripard 2020-09-03  1449  			   HDMI_READ(HDMI_SCHEDUL=
+ER_CONTROL) |
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1450  			   VC4_HDMI_SCHEDULER_CON=
+TROL_MODE_HDMI);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1451  =
+
+81fb55e500a82a Maxime Ripard 2021-10-25  1452  		spin_unlock_irqrestore(&vc=
+4_hdmi->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  1453  =
+
+311e305fdb4e82 Maxime Ripard 2020-09-03  1454  		ret =3D wait_for(HDMI_READ=
+(HDMI_SCHEDULER_CONTROL) &
+2b29bf16611a1a Eric Anholt   2016-09-28  1455  			       VC4_HDMI_SCHEDULER=
+_CONTROL_HDMI_ACTIVE, 1000);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1456  		WARN_ONCE(ret, "Timeout wa=
+iting for "
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1457  			  "VC4_HDMI_SCHEDULER_CON=
+TROL_HDMI_ACTIVE\n");
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1458  	} else {
+311e305fdb4e82 Maxime Ripard 2020-09-03  1459  		HDMI_WRITE(HDMI_RAM_PACKET=
+_CONFIG,
+311e305fdb4e82 Maxime Ripard 2020-09-03  1460  			   HDMI_READ(HDMI_RAM_PAC=
+KET_CONFIG) &
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1461  			   ~(VC4_HDMI_RAM_PACKET_=
+ENABLE));
+311e305fdb4e82 Maxime Ripard 2020-09-03  1462  		HDMI_WRITE(HDMI_SCHEDULER_=
+CONTROL,
+311e305fdb4e82 Maxime Ripard 2020-09-03  1463  			   HDMI_READ(HDMI_SCHEDUL=
+ER_CONTROL) &
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1464  			   ~VC4_HDMI_SCHEDULER_CO=
+NTROL_MODE_HDMI);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1465  =
+
+81fb55e500a82a Maxime Ripard 2021-10-25  1466  		spin_unlock_irqrestore(&vc=
+4_hdmi->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  1467  =
+
+311e305fdb4e82 Maxime Ripard 2020-09-03  1468  		ret =3D wait_for(!(HDMI_RE=
+AD(HDMI_SCHEDULER_CONTROL) &
+2b29bf16611a1a Eric Anholt   2016-09-28  1469  				 VC4_HDMI_SCHEDULER_CONT=
+ROL_HDMI_ACTIVE), 1000);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1470  		WARN_ONCE(ret, "Timeout wa=
+iting for "
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1471  			  "!VC4_HDMI_SCHEDULER_CO=
+NTROL_HDMI_ACTIVE\n");
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1472  	}
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1473  =
+
+c3c2f38ce532c6 Jos=C3=A9 Exp=C3=B3sito 2022-04-20  1474  	if (display->is_h=
+dmi) {
+81fb55e500a82a Maxime Ripard 2021-10-25  1475  		spin_lock_irqsave(&vc4_hdm=
+i->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  1476  =
+
+311e305fdb4e82 Maxime Ripard 2020-09-03  1477  		WARN_ON(!(HDMI_READ(HDMI_S=
+CHEDULER_CONTROL) &
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1478  			  VC4_HDMI_SCHEDULER_CONT=
+ROL_HDMI_ACTIVE));
+311e305fdb4e82 Maxime Ripard 2020-09-03  1479  		HDMI_WRITE(HDMI_SCHEDULER_=
+CONTROL,
+311e305fdb4e82 Maxime Ripard 2020-09-03  1480  			   HDMI_READ(HDMI_SCHEDUL=
+ER_CONTROL) |
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1481  			   VC4_HDMI_SCHEDULER_CON=
+TROL_VERT_ALWAYS_KEEPOUT);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1482  =
+
+311e305fdb4e82 Maxime Ripard 2020-09-03  1483  		HDMI_WRITE(HDMI_RAM_PACKET=
+_CONFIG,
+21317b3fba5428 Eric Anholt   2016-09-29  1484  			   VC4_HDMI_RAM_PACKET_EN=
+ABLE);
+21317b3fba5428 Eric Anholt   2016-09-29  1485  =
+
+81fb55e500a82a Maxime Ripard 2021-10-25  1486  		spin_unlock_irqrestore(&vc=
+4_hdmi->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  1487  =
+
+21317b3fba5428 Eric Anholt   2016-09-29  1488  		vc4_hdmi_set_infoframes(en=
+coder);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1489  	}
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1490  =
+
+691456f622a96b Maxime Ripard 2020-09-03  1491  	vc4_hdmi_recenter_fifo(vc4_=
+hdmi);
+c85695a2016e2e Maxime Ripard 2021-05-07  1492  	vc4_hdmi_enable_scrambling(=
+encoder);
+82cb88af12d29e Maxime Ripard 2021-10-25  1493  =
+
+a2f357f3dbaddb Maxime Ripard 2022-06-22  1494  	drm_dev_exit(idx);
+82cb88af12d29e Maxime Ripard 2021-10-25  1495  	mutex_unlock(&vc4_hdmi->mut=
+ex);
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1496  }
+c8b75bca92cbf0 Eric Anholt   2015-03-02  1497  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0099546433736650893==--
+--===============6719878157777981426==--
 
