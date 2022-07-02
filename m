@@ -1,397 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============4646530660838984581=="
+Content-Type: multipart/mixed; boundary="===============2462600567882639844=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:mdev-lifetime 10/14] drivers/s390/cio/vfio_ccw_ops.c:644:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 ...
-Date: Sat, 02 Jul 2022 18:15:06 +0800
-Message-ID: <202207021823.U71SLNgH-lkp@intel.com>
+Subject: Re: [PATCH v4 14/45] mm: kmsan: maintain KMSAN metadata for page operations
+Date: Sat, 02 Jul 2022 16:53:14 +0800
+Message-ID: <202207021659.oyrS3dio-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4646530660838984581==
+--===============2462600567882639844==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/s=
-390/cio/vfio_ccw_ops.c:644:2: warning: Call to function 'strcat' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20220701142310.2188015-15-glider@google.com>
+References: <20220701142310.2188015-15-glider@google.com>
+TO: Alexander Potapenko <glider@google.com>
+TO: glider(a)google.com
+CC: Alexander Viro <viro@zeniv.linux.org.uk>
+CC: Alexei Starovoitov <ast@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Andrey Konovalov <andreyknvl@google.com>
+CC: Andy Lutomirski <luto@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Borislav Petkov <bp@alien8.de>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Christoph Lameter <cl@linux-foundation.org>
+CC: David Rientjes <rientjes@google.com>
+CC: Dmitry Vyukov <dvyukov@google.com>
+CC: Eric Dumazet <edumazet@google.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Ilya Leoshkevich <iii@linux.ibm.com>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+CC: Kees Cook <keescook@chromium.org>
+CC: Marco Elver <elver@google.com>
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: Matthew Wilcox <willy@infradead.org>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Pekka Enberg <penberg@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Petr Mladek <pmladek@suse.com>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   git://git.infradead.org/users/hch/misc.git mdev-lifetime
-head:   0c45b1d321d30baa12d452ecd9fe3686687f1635
-commit: 17da2121f3418759d03109e8efc5f170152df746 [10/14] vfio/mdev: consoli=
-date all the device_api sysfs into the core code
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: s390-randconfig-c005-20220629 (https://download.01.org/0day-ci/arch=
-ive/20220702/202207021823.U71SLNgH-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a91191=
-43a2d1f4d0d0bc1fe0d819e5351b4e0deb)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        git remote add hch-misc git://git.infradead.org/users/hch/misc.git
-        git fetch --no-tags hch-misc mdev-lifetime
-        git checkout 17da2121f3418759d03109e8efc5f170152df746
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+Hi Alexander,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on masahiroy-kbuild/for-next]
+[also build test WARNING on linus/master v5.19-rc4 next-20220701]
+[cannot apply to tip/x86/core tip/x86/mm]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Potapenko/=
+Add-KernelMemorySanitizer-infrastructure/20220701-222712
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
+ild.git for-next
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20702/202207021659.oyrS3dio-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/vmalloc.c:440 __vunmap_range_noflush() warn: bitwise AND condition is fa=
+lse here
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1082:3: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-                   DBF_ERROR("rc:%4x", rc);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1134:2: warning: Call to function 'snprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           DBF_EVENT("qactivate:%4x", schid.sch_no);
-           ^
-   drivers/s390/cio/qdio_debug.h:31:3: note: expanded from macro 'DBF_EVENT'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1134:2: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-           DBF_EVENT("qactivate:%4x", schid.sch_no);
-           ^
-   drivers/s390/cio/qdio_debug.h:31:3: note: expanded from macro 'DBF_EVENT'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1141:3: warning: Call to function 'snprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   DBF_ERROR("%4x NO AQ", schid.sch_no);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1141:3: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-                   DBF_ERROR("%4x NO AQ", schid.sch_no);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1163:3: warning: Call to function 'snprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   DBF_ERROR("%4x act IO ERR", irq_ptr->schid.sch_no);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1163:3: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-                   DBF_ERROR("%4x act IO ERR", irq_ptr->schid.sch_no);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1164:3: warning: Call to function 'snprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   DBF_ERROR("rc:%4x", rc);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1164:3: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-                   DBF_ERROR("rc:%4x", rc);
-                   ^
-   drivers/s390/cio/qdio_debug.h:43:3: note: expanded from macro 'DBF_ERROR'
-                   snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                   ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1233:2: warning: Call to function 'snprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           DBF_DEV_EVENT(DBF_INFO, irq_ptr, "addi b:%02x c:%02x", bufnr, co=
-unt);
-           ^
-   drivers/s390/cio/qdio_debug.h:56:4: note: expanded from macro 'DBF_DEV_E=
-VENT'
-                           snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                           ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1233:2: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-           DBF_DEV_EVENT(DBF_INFO, irq_ptr, "addi b:%02x c:%02x", bufnr, co=
-unt);
-           ^
-   drivers/s390/cio/qdio_debug.h:56:4: note: expanded from macro 'DBF_DEV_E=
-VENT'
-                           snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                           ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1304:2: warning: Call to function 'snprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           DBF_DEV_EVENT(DBF_INFO, irq_ptr, "addo b:%02x c:%02x", bufnr, co=
-unt);
-           ^
-   drivers/s390/cio/qdio_debug.h:56:4: note: expanded from macro 'DBF_DEV_E=
-VENT'
-                           snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                           ^~~~~~~~
-   drivers/s390/cio/qdio_main.c:1304:2: note: Call to function 'snprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'snprintf_s' in case of C11
-           DBF_DEV_EVENT(DBF_INFO, irq_ptr, "addo b:%02x c:%02x", bufnr, co=
-unt);
-           ^
-   drivers/s390/cio/qdio_debug.h:56:4: note: expanded from macro 'DBF_DEV_E=
-VENT'
-                           snprintf(debug_buffer, QDIO_DBF_LEN, text); \
-                           ^~~~~~~~
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   24 warnings generated.
-   drivers/s390/cio/vfio_ccw_ops.c:76:9: warning: Call to function 'sprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyze=
-r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "I/O subchannel (Non-QDIO)\n");
-                  ^~~~~~~
-   drivers/s390/cio/vfio_ccw_ops.c:76:9: note: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "I/O subchannel (Non-QDIO)\n");
-                  ^~~~~~~
-   drivers/s390/cio/vfio_ccw_ops.c:86:9: warning: Call to function 'sprintf=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyze=
-r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", atomic_read(&private->avail));
-                  ^~~~~~~
-   drivers/s390/cio/vfio_ccw_ops.c:86:9: note: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", atomic_read(&private->avail));
-                  ^~~~~~~
->> drivers/s390/cio/vfio_ccw_ops.c:644:2: warning: Call to function 'strcat=
-' is insecure as it does not provide bounding of the memory buffer. Replace=
- unbounded copy functions with analogous functions that support length argu=
-ments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcp=
-y]
-           strcat(sch->mdev_type.sysfs_name, "io");
-           ^~~~~~
-   drivers/s390/cio/vfio_ccw_ops.c:644:2: note: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119
-           strcat(sch->mdev_type.sysfs_name, "io");
-           ^~~~~~
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/soundwire/bus_type.c:56:9: warning: Call to function 'snprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return snprintf(buf, size, "sdw:m%04Xp%04Xv%02Xc%02X\n",
-                  ^~~~~~~~
-   drivers/soundwire/bus_type.c:56:9: note: Call to function 'snprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'snprintf_s' in case of C11
-           return snprintf(buf, size, "sdw:m%04Xp%04Xv%02Xc%02X\n",
-                  ^~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/md/bcache/stats.c:67:2: warning: Call to function 'strcat' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(bypassed,  var(sectors_bypassed) << 9);
-           ^
-   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/stats.c:67:2: note: Call to function 'strcat' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcat'. CWE-119
-           sysfs_hprint(bypassed,  var(sectors_bypassed) << 9);
-           ^
-   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   drivers/md/bcache/bcache.h:955:3: warning: Dereference of null pointer [=
-clang-analyzer-core.NullDereference]
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:208:3: note: expanded from macro 'set_current_stat=
-e'
-                   debug_normal_state_change((state_value));               \
-                   ^
-   include/linux/sched.h:136:3: note: expanded from macro 'debug_normal_sta=
-te_change'
-                   current->task_state_change =3D _THIS_IP_;               =
-  \
-                   ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   drivers/md/bcache/super.c:1017:9: note: Assuming the condition is false
-           while (!kthread_should_stop() && !dc->io_disable) {
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/super.c:1017:32: note: Left side of '&&' is false
-           while (!kthread_should_stop() && !dc->io_disable) {
-                                         ^
-   drivers/md/bcache/super.c:1039:2: note: Calling 'wait_for_kthread_stop'
-           wait_for_kthread_stop();
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/bcache.h:954:9: note: Assuming the condition is true
-           while (!kthread_should_stop()) {
+vim +440 mm/vmalloc.c
 
-vim +644 drivers/s390/cio/vfio_ccw_ops.c
+c2febafc67734a Kirill A. Shutemov  2017-03-09  409  =
 
-3bf1311f351ef2 Jason Gunthorpe   2021-10-26  641  =
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  410  /*
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  411   * vunmap_range_noflush=
+ is similar to vunmap_range, but does not
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  412   * flush caches or TLBs.
+b521c43f58e523 Christoph Hellwig   2020-06-01  413   *
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  414   * The caller is respon=
+sible for calling flush_cache_vmap() before calling
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  415   * this function, and f=
+lush_tlb_kernel_range after it has returned
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  416   * successfully (and be=
+fore the addresses are expected to cause a page fault
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  417   * or be re-mapped for =
+something else, if TLB flushes are being delayed or
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  418   * coalesced).
+b521c43f58e523 Christoph Hellwig   2020-06-01  419   *
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  420   * This is an internal =
+function only. Do not use outside mm/.
+b521c43f58e523 Christoph Hellwig   2020-06-01  421   */
+015e76716e50b4 Alexander Potapenko 2022-07-01  422  void __vunmap_range_nof=
+lush(unsigned long start, unsigned long end)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  423  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  424  	unsigned long next;
+b521c43f58e523 Christoph Hellwig   2020-06-01  425  	pgd_t *pgd;
+2ba3e6947aed9b Joerg Roedel        2020-06-01  426  	unsigned long addr =3D=
+ start;
+2ba3e6947aed9b Joerg Roedel        2020-06-01  427  	pgtbl_mod_mask mask =
+=3D 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  428  =
 
-84cd8fc48478b5 Dong Jia Shi      2017-03-17  642  int vfio_ccw_mdev_reg(str=
-uct subchannel *sch)
-84cd8fc48478b5 Dong Jia Shi      2017-03-17  643  {
-17da2121f34187 Jason Gunthorpe   2022-06-13 @644  	strcat(sch->mdev_type.sy=
-sfs_name, "io");
-10089f2e602cb6 Christoph Hellwig 2022-06-13  645  	sch->mdev_types[0] =3D &=
-sch->mdev_type;
-d8ef3844a60f41 Christoph Hellwig 2022-06-28  646  	return mdev_register_par=
-ent(&sch->parent, &sch->dev,
-10089f2e602cb6 Christoph Hellwig 2022-06-13  647  				    &vfio_ccw_mdev_dr=
-iver, sch->mdev_types,
-10089f2e602cb6 Christoph Hellwig 2022-06-13  648  				    1);
-84cd8fc48478b5 Dong Jia Shi      2017-03-17  649  }
-84cd8fc48478b5 Dong Jia Shi      2017-03-17  650  =
+^1da177e4c3f41 Linus Torvalds      2005-04-16  429  	BUG_ON(addr >=3D end);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  430  	pgd =3D pgd_offset_k(a=
+ddr);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  431  	do {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  432  		next =3D pgd_addr_end=
+(addr, end);
+2ba3e6947aed9b Joerg Roedel        2020-06-01  433  		if (pgd_bad(*pgd))
+2ba3e6947aed9b Joerg Roedel        2020-06-01  434  			mask |=3D PGTBL_PGD_=
+MODIFIED;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  435  		if (pgd_none_or_clear=
+_bad(pgd))
+^1da177e4c3f41 Linus Torvalds      2005-04-16  436  			continue;
+2ba3e6947aed9b Joerg Roedel        2020-06-01  437  		vunmap_p4d_range(pgd,=
+ addr, next, &mask);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  438  	} while (pgd++, addr =
+=3D next, addr !=3D end);
+2ba3e6947aed9b Joerg Roedel        2020-06-01  439  =
+
+2ba3e6947aed9b Joerg Roedel        2020-06-01 @440  	if (mask & ARCH_PAGE_T=
+ABLE_SYNC_MASK)
+2ba3e6947aed9b Joerg Roedel        2020-06-01  441  		arch_sync_kernel_mapp=
+ings(start, end);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  442  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  443  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4646530660838984581==--
+--===============2462600567882639844==--
 
