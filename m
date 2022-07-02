@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4741768662814836843=="
+Content-Type: multipart/mixed; boundary="===============1662019724692853006=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [kdave-btrfs-devel:misc-next 76/116] fs/btrfs/extent_io.c:479:26: warning: Uninitialized variable: entry [uninitvar]
-Date: Sun, 03 Jul 2022 08:31:49 +0800
-Message-ID: <202207030805.svlqdcRx-lkp@intel.com>
+Subject: fs/btrfs/delayed-inode.c:1885:24: warning: Uninitialized variables: delayed_node.inode_id, delayed_node.bytes_reserved, delayed_node.root, delayed_node.n_list, delayed_node.p_list, delayed_node.ins_root, delayed_node.del_root, delayed_node.mutex, delayed_...
+Date: Sun, 03 Jul 2022 07:40:37 +0800
+Message-ID: <202207030701.M1tFEYrd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4741768662814836843==
+--===============1662019724692853006==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,25 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check warning: fs/btrfs/=
-extent_io.c:479:26: warning: Uninitialized variable: entry [uninitvar]"
+delayed-inode.c:1885:24: warning: Uninitialized variables: delayed_node.ino=
+de_id, delayed_node.bytes_reserved, delayed_node.root, delayed_node.n_list,=
+ delayed_node.p_list, delayed_node.ins_root, delayed_node.del_root, delayed=
+_node.mutex, delayed_node.inode_item, delayed_node.index_cnt, delayed_node.=
+flags, delayed_node.count [uninitvar]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: David Sterba <dsterba@suse.com>
+TO: Gabriel Niebler <gniebler@suse.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Nikolay Borisov <nborisov@suse.com>
 
-tree:   https://github.com/kdave/btrfs-devel.git misc-next
-head:   9a4b16cd9e0e63881ab30600f982e2fd49ba3d4e
-commit: dcbe36e23dfcb24bcac106215a24da2221103a60 [76/116] btrfs: open code =
-inexact rbtree search in tree_search
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   69cb6c6556ad89620547318439d6be8bb1629a5a
+commit: 253bf57555e451dec5a7f09dc95d380ce8b10e5b btrfs: turn delayed_nodes_=
+tree into an XArray
+date:   7 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 weeks ago
 compiler: sparc64-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout dcbe36e23dfcb24bcac106215a24da2221103a60
+        git checkout 253bf57555e451dec5a7f09dc95d380ce8b10e5b
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -42,22 +50,239 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 cppcheck warnings: (new ones prefixed by >>)
-   In file included from fs/btrfs/transaction.c:
-   fs/btrfs/extent_io.c:5928:7: warning: Local variable 'ret' shadows outer=
- variable [shadowVariable]
-     int ret;
+   In file included from fs/btrfs/ordered-data.c:
+>> fs/btrfs/zoned.c:117:7: warning: Local variable 'i' shadows outer variab=
+le [shadowVariable]
+     int i;
          ^
-   fs/btrfs/extent_io.c:5907:6: note: Shadowed declaration
-    int ret;
+   fs/btrfs/zoned.c:83:6: note: Shadowed declaration
+    int i;
         ^
-   fs/btrfs/extent_io.c:5928:7: note: Shadow variable
-     int ret;
+   fs/btrfs/zoned.c:117:7: note: Shadow variable
+     int i;
          ^
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   In file included from fs/btrfs/transaction.c:
-   fs/btrfs/tree-log.h:55:28: warning: Uninitialized variables: ordered.fil=
+   In file included from fs/btrfs/ordered-data.c:
+>> fs/btrfs/ordered-data.c:314:7: warning: Local variable 'entry_end' shado=
+ws outer function [shadowFunction]
+     u64 entry_end;
+         ^
+   fs/btrfs/ordered-data.c:23:12: note: Shadowed declaration
+   static u64 entry_end(struct btrfs_ordered_extent *entry)
+              ^
+   fs/btrfs/ordered-data.c:314:7: note: Shadow variable
+     u64 entry_end;
+         ^
+>> fs/btrfs/ordered-data.c:653:28: warning: Uninitialized variables: ordere=
+d.file_offset, ordered.num_bytes, ordered.ram_bytes, ordered.disk_bytenr, o=
+rdered.disk_num_bytes, ordered.offset, ordered.bytes_left, ordered.outstand=
+ing_isize, ordered.truncated_len, ordered.flags, ordered.compress_type, ord=
+ered.qgroup_rsv, ordered.refs, ordered.inode, ordered.list, ordered.log_lis=
+t, ordered.wait, ordered.rb_node, ordered.root_extent_list, ordered.work, o=
+rdered.flush_work, ordered.physical, ordered.bdev [uninitvar]
+     btrfs_put_ordered_extent(ordered);
+                              ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:619:30: note: Assuming condition is false
+    while (!list_empty(&splice) && nr) {
+                                ^
+   fs/btrfs/ordered-data.c:653:28: note: Uninitialized variables: ordered.f=
+ile_offset, ordered.num_bytes, ordered.ram_bytes, ordered.disk_bytenr, orde=
+red.disk_num_bytes, ordered.offset, ordered.bytes_left, ordered.outstanding=
+_isize, ordered.truncated_len, ordered.flags, ordered.compress_type, ordere=
+d.qgroup_rsv, ordered.refs, ordered.inode, ordered.list, ordered.log_list, =
+ordered.wait, ordered.rb_node, ordered.root_extent_list, ordered.work, orde=
+red.flush_work, ordered.physical, ordered.bdev
+     btrfs_put_ordered_extent(ordered);
+                              ^
+>> fs/btrfs/dev-replace.c:564:60: warning: Parameter 'srcdev' can be declar=
+ed with const [constParameter]
+   bool btrfs_finish_block_group_to_copy(struct btrfs_device *srcdev,
+                                                              ^
+   fs/btrfs/dev-replace.c:829:28: warning: Parameter 'srcdev' can be declar=
+ed with const [constParameter]
+         struct btrfs_device *srcdev,
+                              ^
+>> fs/btrfs/zoned.c:336:16: warning: Uninitialized variable: device->bdev [=
+uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:330:6: note: Assuming condition is false
+    if (!btrfs_fs_incompat(fs_info, ZONED))
+        ^
+   fs/btrfs/zoned.c:336:16: note: Uninitialized variable: device->bdev
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:642:16: warning: Uninitialized variable: device->bdev [=
+uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:1984:16: warning: Uninitialized variable: device->bdev =
+[uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:1976:6: note: Assuming condition is false
+    if (!btrfs_is_zoned(fs_info))
+        ^
+   fs/btrfs/zoned.c:1984:16: note: Uninitialized variable: device->bdev
+     if (!device->bdev)
+                  ^
+>> fs/btrfs/zoned.c:2069:15: warning: Uninitialized variable: device->zone_=
+info [uninitvar]
+     if (device->zone_info) {
+                 ^
+   fs/btrfs/zoned.c:2064:6: note: Assuming condition is false
+    if (!btrfs_is_zoned(fs_info))
+        ^
+   fs/btrfs/zoned.c:2069:15: note: Uninitialized variable: device->zone_info
+     if (device->zone_info) {
+                 ^
+   fs/btrfs/zoned.c:2092:16: warning: Uninitialized variable: device->bdev =
+[uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:2087:36: note: Assuming condition is false
+    if (fs_info->bg_reclaim_threshold =3D=3D 0)
+                                      ^
+   fs/btrfs/zoned.c:2092:16: note: Uninitialized variable: device->bdev
+     if (!device->bdev)
+                  ^
+   fs/btrfs/delayed-inode.c:1347:31: warning: Parameter 'disk_key' can be d=
+eclared with const [constParameter]
+          struct btrfs_disk_key *disk_key, u8 type,
+                                 ^
+   fs/btrfs/delayed-inode.c:1577:13: warning: Uninitialized variable: curr-=
+>key [uninitvar]
+     if (curr->key.offset > index)
+               ^
+   fs/btrfs/delayed-inode.c:1613:13: warning: Uninitialized variable: curr-=
+>key [uninitvar]
+     if (curr->key.offset < ctx->pos) {
+               ^
+   fs/btrfs/delayed-inode.c:1602:16: note: Assuming condition is false
+    if (list_empty(ins_list))
+                  ^
+   fs/btrfs/delayed-inode.c:1613:13: note: Uninitialized variable: curr->key
+     if (curr->key.offset < ctx->pos) {
+               ^
+>> fs/btrfs/delayed-inode.c:1885:24: warning: Uninitialized variables: dela=
+yed_node.inode_id, delayed_node.bytes_reserved, delayed_node.root, delayed_=
+node.n_list, delayed_node.p_list, delayed_node.ins_root, delayed_node.del_r=
+oot, delayed_node.mutex, delayed_node.inode_item, delayed_node.index_cnt, d=
+elayed_node.flags, delayed_node.count [uninitvar]
+       delayed_nodes[n] =3D delayed_node;
+                          ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1874:15: note: Assuming condition is false
+     if (xa_empty(&root->delayed_nodes)) {
+                 ^
+   fs/btrfs/delayed-inode.c:1885:24: note: Uninitialized variables: delayed=
+_node.inode_id, delayed_node.bytes_reserved, delayed_node.root, delayed_nod=
+e.n_list, delayed_node.p_list, delayed_node.ins_root, delayed_node.del_root=
+, delayed_node.mutex, delayed_node.inode_item, delayed_node.index_cnt, dela=
+yed_node.flags, delayed_node.count
+       delayed_nodes[n] =3D delayed_node;
+                          ^
+   fs/btrfs/tree-log.h:52:28: warning: Uninitialized variables: ordered.fil=
 e_offset, ordered.num_bytes, ordered.ram_bytes, ordered.disk_bytenr, ordere=
 d.disk_num_bytes, ordered.offset, ordered.bytes_left, ordered.outstanding_i=
 size, ordered.truncated_len, ordered.flags, ordered.compress_type, ordered.=
@@ -67,11 +292,11 @@ red.flush_work, ordered.work_list, ordered.physical, ordered.bdev [uninitva=
 r]
      btrfs_put_ordered_extent(ordered);
                               ^
-   fs/btrfs/transaction.c:179:28: warning: Uninitialized variable: root->co=
+>> fs/btrfs/transaction.c:179:28: warning: Uninitialized variable: root->co=
 mmit_root [uninitvar]
      free_extent_buffer(root->commit_root);
                               ^
-   fs/btrfs/transaction.c:229:30: warning: Uninitialized variable: cache [u=
+>> fs/btrfs/transaction.c:229:30: warning: Uninitialized variable: cache [u=
 ninitvar]
      if (btrfs_block_group_done(cache)) {
                                 ^
@@ -82,178 +307,185 @@ ock_group', assigned value is <Uninit>
    fs/btrfs/transaction.c:229:30: note: Uninitialized variable: cache
      if (btrfs_block_group_done(cache)) {
                                 ^
-   fs/btrfs/transaction.c:927:11: warning: Uninitialized variable: t->state=
+>> fs/btrfs/transaction.c:929:11: warning: Uninitialized variable: t->state=
  [uninitvar]
       if (t->state >=3D TRANS_STATE_COMMIT_START) {
              ^
->> fs/btrfs/transaction.c:1431:25: warning: Uninitialized variables: root.r=
-b_node, root.node, root.commit_root, root.log_root, root.reloc_root, root.s=
-tate, root.root_item, root.fs_info, root.dirty_log_pages, root.objectid_mut=
-ex, root.accounting_lock, root.block_rsv, root.log_mutex, root.log_writer_w=
-ait, root.log_batch, root.log_transid, root.log_transid_committed, root.las=
-t_log_commit, root.log_start_pid, root.last_trans, root.type, root.free_obj=
-ectid, root.defrag_progress, root.defrag_max, root.dirty_list, root.root_li=
-st, root.inode_lock, root.inode_tree, root.delayed_nodes, root.anon_dev, ro=
-ot.root_item_lock, root.refs, root.delalloc_mutex, root.delalloc_lock, root=
-.delalloc_inodes, root.delalloc_root, root.nr_delalloc_inodes, root.ordered=
-_extent_mutex, root.ordered_extent_lock, root.ordered_extents, root.ordered=
-_root, root.nr_ordered_extents, root.reloc_dirty_list, root.send_in_progres=
-s, root.dedupe_in_progress, root.snapshot_lock, root.snapshot_force_cow, ro=
-ot.qgroup_meta_rsv_lock, root.qgroup_meta_rsv_pertrans, root.qgroup_meta_rs=
-v_prealloc, root.qgroup_flush_wait, root.nr_swapfiles, root.swapped_blocks,=
- root.log_csum_range [uninitvar]
-     btrfs_free_log(trans, root);
-                           ^
-   fs/btrfs/transaction.c:1871:40: warning: Uninitialized variables: pendin=
+>> fs/btrfs/transaction.c:1885:40: warning: Uninitialized variables: pendin=
 g.dentry, pending.dir, pending.root, pending.root_item, pending.snap, pendi=
 ng.inherit, pending.path, pending.block_rsv, pending.error, pending.anon_de=
 v, pending.readonly [uninitvar]
      ret =3D create_pending_snapshot(trans, pending);
                                           ^
-   fs/btrfs/transaction.c:1431:25: warning: Uninitialized variables: root.r=
-b_node, root.node, root.commit_root, root.log_root, root.reloc_root, root.s=
-tate, root.root_item, root.fs_info, root.dirty_log_pages, root.objectid_mut=
-ex, root.accounting_lock, root.block_rsv, root.log_mutex, root.log_writer_w=
-ait, root.log_batch, root.log_transid, root.log_transid_committed, root.las=
-t_log_commit, root.log_start_pid, root.last_trans, root.type, root.free_obj=
-ectid, root.defrag_progress, root.defrag_max, root.dirty_list, root.root_li=
-st, root.inode_lock, root.inode_tree, root.delayed_nodes, root.anon_dev, ro=
-ot.root_item_lock, root.refs, root.delalloc_mutex, root.delalloc_lock, root=
-.delalloc_inodes, root.delalloc_root, root.nr_delalloc_inodes, root.ordered=
-_extent_mutex, root.ordered_extent_lock, root.ordered_extents, root.ordered=
-_root, root.nr_ordered_extents, root.reloc_dirty_list, root.send_in_progres=
-s, root.dedupe_in_progress, root.snapshot_lock, root.snapshot_force_cow, ro=
-ot.qgroup_meta_rsv_lock, root.qgroup_meta_rsv_pertrans, root.qgroup_meta_rs=
-v_prealloc, root.qgroup_flush_wait, root.nr_swapfiles, root.swapped_blocks,=
- root.log_csum_range, root.leak_list [uninitvar]
-     btrfs_free_log(trans, root);
-                           ^
-   fs/btrfs/transaction.c:1431:25: warning: Uninitialized variables: root.r=
-b_node, root.node, root.commit_root, root.log_root, root.reloc_root, root.s=
-tate, root.root_item, root.fs_info, root.dirty_log_pages, root.objectid_mut=
-ex, root.accounting_lock, root.block_rsv, root.log_mutex, root.log_writer_w=
-ait, root.log_batch, root.log_transid, root.log_transid_committed, root.las=
-t_log_commit, root.log_start_pid, root.last_trans, root.type, root.free_obj=
-ectid, root.defrag_progress, root.defrag_max, root.dirty_list, root.root_li=
-st, root.inode_lock, root.inode_tree, root.delayed_nodes, root.anon_dev, ro=
-ot.root_item_lock, root.refs, root.delalloc_mutex, root.delalloc_lock, root=
-.delalloc_inodes, root.delalloc_root, root.nr_delalloc_inodes, root.ordered=
-_extent_mutex, root.ordered_extent_lock, root.ordered_extents, root.ordered=
-_root, root.nr_ordered_extents, root.reloc_dirty_list, root.send_in_progres=
-s, root.dedupe_in_progress, root.snapshot_lock, root.snapshot_force_cow, ro=
-ot.qgroup_meta_rsv_lock, root.qgroup_meta_rsv_pertrans, root.qgroup_meta_rs=
-v_prealloc, root.qgroup_flush_wait, root.nr_swapfiles, root.swapped_blocks,=
- root.log_csum_range, root.alloc_bytenr [uninitvar]
-     btrfs_free_log(trans, root);
-                           ^
-   fs/btrfs/scrub.c:1218:13: warning: Parameter 'raid_map' can be declared =
+>> fs/btrfs/scrub.c:1220:13: warning: Parameter 'raid_map' can be declared =
 with const [constParameter]
           u64 *raid_map,
                ^
->> fs/btrfs/scrub.c:3112:9: warning: Uninitialized variable: ret [uninitvar]
-    return ret;
-           ^
-   fs/btrfs/scrub.c:3023:21: note: Assuming condition is false
-    while (cur_logical < logical + map->stripe_len) {
-                       ^
-   fs/btrfs/scrub.c:3112:9: note: Uninitialized variable: ret
-    return ret;
-           ^
-   fs/btrfs/scrub.c:3345:9: warning: Uninitialized variable: ret [uninitvar]
-    return ret;
-           ^
-   fs/btrfs/scrub.c:3250:21: note: Assuming condition is false
-    while (cur_logical < logical_end) {
-                       ^
-   fs/btrfs/scrub.c:3345:9: note: Uninitialized variable: ret
-    return ret;
-           ^
-   fs/btrfs/extent_io.c:1850:30: warning: Parameter 'mapping' can be declar=
-ed with const [constParameter]
-          struct address_space *mapping,
-                                ^
-   fs/btrfs/extent_io.c:1851:40: warning: Parameter 'locked_page' can be de=
-clared with const [constParameter]
-          struct page *page, struct page *locked_page,
-                                          ^
-   fs/btrfs/extent_io.c:6028:16: warning: Parameter 'accessed' can be decla=
-red with const [constParameter]
-     struct page *accessed)
-                  ^
->> fs/btrfs/extent_io.c:479:26: warning: Uninitialized variable: entry [uni=
-nitvar]
-    while (prev && offset > entry->end) {
-                            ^
-   fs/btrfs/extent_io.c:466:9: note: Assuming condition is false
-    while (*node) {
-           ^
-   fs/btrfs/extent_io.c:479:26: note: Uninitialized variable: entry
-    while (prev && offset > entry->end) {
-                            ^
-   fs/btrfs/extent_io.c:7291:7: warning: Uninitialized variable: eb->start =
-[uninitvar]
-     if (in_range(eb->start, page_start, PAGE_SIZE))
+   fs/btrfs/tree-log.h:52:28: warning: Uninitialized variables: ordered.fil=
+e_offset, ordered.num_bytes, ordered.ram_bytes, ordered.disk_bytenr, ordere=
+d.disk_num_bytes, ordered.offset, ordered.bytes_left, ordered.outstanding_i=
+size, ordered.truncated_len, ordered.flags, ordered.compress_type, ordered.=
+qgroup_rsv, ordered.refs, ordered.inode, ordered.list, ordered.wait, ordere=
+d.rb_node, ordered.root_extent_list, ordered.work, ordered.completion, orde=
+red.flush_work, ordered.work_list, ordered.physical, ordered.bdev [uninitva=
+r]
+     btrfs_put_ordered_extent(ordered);
+                              ^
+>> fs/btrfs/ioctl.c:3665:15: warning: Uninitialized variable: device->devid=
+ [uninitvar]
+     if (device->devid > fi_args->max_id)
+                 ^
+   fs/btrfs/ioctl.c:3655:12: note: Assuming condition is false
+    if (IS_ERR(fi_args))
+              ^
+   fs/btrfs/ioctl.c:3665:15: note: Uninitialized variable: device->devid
+     if (device->devid > fi_args->max_id)
+                 ^
+>> fs/btrfs/ioctl.c:3831:38: warning: Uninitialized variable: block_group->=
+length [uninitvar]
+     space->total_bytes +=3D block_group->length;
+                                        ^
+>> fs/btrfs/ioctl.c:3867:13: warning: Uninitialized variable: tmp->flags [u=
+ninitvar]
+      if (tmp->flags =3D=3D types[i]) {
+               ^
+   fs/btrfs/ioctl.c:3920:13: warning: Uninitialized variable: tmp->flags [u=
+ninitvar]
+      if (tmp->flags =3D=3D types[i]) {
+               ^
+   fs/btrfs/ioctl.c:3915:7: note: Assuming condition is false
+     if (!slot_count)
          ^
+   fs/btrfs/ioctl.c:3920:13: note: Uninitialized variable: tmp->flags
+      if (tmp->flags =3D=3D types[i]) {
+               ^
+>> fs/btrfs/send.c:6752:13: warning: Either the condition '*level=3D=3D0' i=
+s redundant or the array 'path->nodes[8]' is accessed at index -1, which is=
+ out of bounds. [negativeIndex]
+    path->nodes[*level - 1] =3D eb;
+               ^
+   fs/btrfs/send.c:6756:13: note: Assuming that condition '*level=3D=3D0' i=
+s not redundant
+    if (*level =3D=3D 0)
+               ^
+   fs/btrfs/send.c:6752:13: note: Negative array index
+    path->nodes[*level - 1] =3D eb;
+               ^
+>> fs/btrfs/send.c:6753:13: warning: Either the condition '*level=3D=3D0' i=
+s redundant or the array 'path->slots[8]' is accessed at index -1, which is=
+ out of bounds. [negativeIndex]
+    path->slots[*level - 1] =3D 0;
+               ^
+   fs/btrfs/send.c:6756:13: note: Assuming that condition '*level=3D=3D0' i=
+s not redundant
+    if (*level =3D=3D 0)
+               ^
+   fs/btrfs/send.c:6753:13: note: Negative array index
+    path->slots[*level - 1] =3D 0;
+               ^
+>> fs/btrfs/send.c:2094:12: warning: Uninitialized variable: cur->ino [unin=
+itvar]
+     if (cur->ino =3D=3D ino && cur->gen =3D=3D gen)
+              ^
+   fs/btrfs/send.c:2090:6: note: Assuming condition is false
+    if (!nce_head)
+        ^
+   fs/btrfs/send.c:2094:12: note: Uninitialized variable: cur->ino
+     if (cur->ino =3D=3D ino && cur->gen =3D=3D gen)
+              ^
+>> fs/btrfs/send.c:3101:17: warning: Uninitialized variables: cur.list, cur=
+.name, cur.full_path, cur.dir, cur.dir_gen, cur.name_len [uninitvar]
+     ret =3D dup_ref(cur, &pm->update_refs);
+                   ^
+   fs/btrfs/send.c:3078:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3078:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3078:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3078:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3078:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3078:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3101:17: note: Uninitialized variables: cur.list, cur.na=
+me, cur.full_path, cur.dir, cur.dir_gen, cur.name_len
+     ret =3D dup_ref(cur, &pm->update_refs);
+                   ^
 
-vim +479 fs/btrfs/extent_io.c
+vim +1885 fs/btrfs/delayed-inode.c
 
-d1310b2e0cd98e Chris Mason               2008-01-24  455  =
+16cdcec736cd21 Miao Xie        2011-04-22  1863  =
 
-dcbe36e23dfcb2 David Sterba              2020-06-25  456  /*
-dcbe36e23dfcb2 David Sterba              2020-06-25  457   * Inexact rb-tre=
-e search, return the next entry if @offset is not found
-dcbe36e23dfcb2 David Sterba              2020-06-25  458   */
-dcbe36e23dfcb2 David Sterba              2020-06-25  459  static inline str=
-uct rb_node *tree_search(struct extent_io_tree *tree, u64 offset)
-12cfbad90e0279 Filipe David Borba Manana 2013-11-26  460  {
-dcbe36e23dfcb2 David Sterba              2020-06-25  461  	struct rb_root *=
-root =3D &tree->state;
-dcbe36e23dfcb2 David Sterba              2020-06-25  462  	struct rb_node *=
-*node =3D &root->rb_node;
-dcbe36e23dfcb2 David Sterba              2020-06-25  463  	struct rb_node *=
-prev =3D NULL;
-dcbe36e23dfcb2 David Sterba              2020-06-25  464  	struct tree_entr=
-y *entry;
-dcbe36e23dfcb2 David Sterba              2020-06-25  465  =
+16cdcec736cd21 Miao Xie        2011-04-22  1864  void btrfs_kill_all_delaye=
+d_nodes(struct btrfs_root *root)
+16cdcec736cd21 Miao Xie        2011-04-22  1865  {
+253bf57555e451 Gabriel Niebler 2022-04-26  1866  	unsigned long index =3D 0;
+253bf57555e451 Gabriel Niebler 2022-04-26  1867  	struct btrfs_delayed_node=
+ *delayed_node;
+16cdcec736cd21 Miao Xie        2011-04-22  1868  	struct btrfs_delayed_node=
+ *delayed_nodes[8];
+16cdcec736cd21 Miao Xie        2011-04-22  1869  =
 
-dcbe36e23dfcb2 David Sterba              2020-06-25  466  	while (*node) {
-dcbe36e23dfcb2 David Sterba              2020-06-25  467  		prev =3D *node;
-dcbe36e23dfcb2 David Sterba              2020-06-25  468  		entry =3D rb_en=
-try(prev, struct tree_entry, rb_node);
-dcbe36e23dfcb2 David Sterba              2020-06-25  469  =
+16cdcec736cd21 Miao Xie        2011-04-22  1870  	while (1) {
+253bf57555e451 Gabriel Niebler 2022-04-26  1871  		int n =3D 0;
+253bf57555e451 Gabriel Niebler 2022-04-26  1872  =
 
-dcbe36e23dfcb2 David Sterba              2020-06-25  470  		if (offset < en=
-try->start)
-dcbe36e23dfcb2 David Sterba              2020-06-25  471  			node =3D &(*no=
-de)->rb_left;
-dcbe36e23dfcb2 David Sterba              2020-06-25  472  		else if (offset=
- > entry->end)
-dcbe36e23dfcb2 David Sterba              2020-06-25  473  			node =3D &(*no=
-de)->rb_right;
-dcbe36e23dfcb2 David Sterba              2020-06-25  474  		else
-dcbe36e23dfcb2 David Sterba              2020-06-25  475  			return *node;
-dcbe36e23dfcb2 David Sterba              2020-06-25  476  	}
-dcbe36e23dfcb2 David Sterba              2020-06-25  477  =
+16cdcec736cd21 Miao Xie        2011-04-22  1873  		spin_lock(&root->inode_l=
+ock);
+253bf57555e451 Gabriel Niebler 2022-04-26  1874  		if (xa_empty(&root->dela=
+yed_nodes)) {
+16cdcec736cd21 Miao Xie        2011-04-22  1875  			spin_unlock(&root->inod=
+e_lock);
+253bf57555e451 Gabriel Niebler 2022-04-26  1876  			return;
+16cdcec736cd21 Miao Xie        2011-04-22  1877  		}
+16cdcec736cd21 Miao Xie        2011-04-22  1878  =
 
-dcbe36e23dfcb2 David Sterba              2020-06-25  478  	/* Search neighb=
-ors until we find the first one past the end */
-dcbe36e23dfcb2 David Sterba              2020-06-25 @479  	while (prev && o=
-ffset > entry->end) {
-dcbe36e23dfcb2 David Sterba              2020-06-25  480  		prev =3D rb_nex=
-t(prev);
-dcbe36e23dfcb2 David Sterba              2020-06-25  481  		entry =3D rb_en=
-try(prev, struct tree_entry, rb_node);
-dcbe36e23dfcb2 David Sterba              2020-06-25  482  	}
-dcbe36e23dfcb2 David Sterba              2020-06-25  483  =
+253bf57555e451 Gabriel Niebler 2022-04-26  1879  		xa_for_each_start(&root-=
+>delayed_nodes, index, delayed_node, index) {
+baf320b9d531f1 Josef Bacik     2019-09-26  1880  			/*
+baf320b9d531f1 Josef Bacik     2019-09-26  1881  			 * Don't increase refs =
+in case the node is dead and
+baf320b9d531f1 Josef Bacik     2019-09-26  1882  			 * about to be removed =
+from the tree in the loop below
+baf320b9d531f1 Josef Bacik     2019-09-26  1883  			 */
+253bf57555e451 Gabriel Niebler 2022-04-26  1884  			if (refcount_inc_not_ze=
+ro(&delayed_node->refs)) {
+253bf57555e451 Gabriel Niebler 2022-04-26 @1885  				delayed_nodes[n] =3D d=
+elayed_node;
+253bf57555e451 Gabriel Niebler 2022-04-26  1886  				n++;
+253bf57555e451 Gabriel Niebler 2022-04-26  1887  			}
+253bf57555e451 Gabriel Niebler 2022-04-26  1888  			if (n >=3D ARRAY_SIZE(d=
+elayed_nodes))
+253bf57555e451 Gabriel Niebler 2022-04-26  1889  				break;
+baf320b9d531f1 Josef Bacik     2019-09-26  1890  		}
+253bf57555e451 Gabriel Niebler 2022-04-26  1891  		index++;
+16cdcec736cd21 Miao Xie        2011-04-22  1892  		spin_unlock(&root->inode=
+_lock);
+16cdcec736cd21 Miao Xie        2011-04-22  1893  =
 
-dcbe36e23dfcb2 David Sterba              2020-06-25  484  	return prev;
-12cfbad90e0279 Filipe David Borba Manana 2013-11-26  485  }
-12cfbad90e0279 Filipe David Borba Manana 2013-11-26  486  =
+253bf57555e451 Gabriel Niebler 2022-04-26  1894  		for (int i =3D 0; i < n;=
+ i++) {
+16cdcec736cd21 Miao Xie        2011-04-22  1895  			__btrfs_kill_delayed_no=
+de(delayed_nodes[i]);
+16cdcec736cd21 Miao Xie        2011-04-22  1896  			btrfs_release_delayed_n=
+ode(delayed_nodes[i]);
+16cdcec736cd21 Miao Xie        2011-04-22  1897  		}
+16cdcec736cd21 Miao Xie        2011-04-22  1898  	}
+16cdcec736cd21 Miao Xie        2011-04-22  1899  }
+67cde3448d951b Miao Xie        2012-06-14  1900  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4741768662814836843==--
+--===============1662019724692853006==--
 
