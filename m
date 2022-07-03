@@ -1,190 +1,154 @@
-Content-Type: multipart/mixed; boundary="===============2348688921698252653=="
+Content-Type: multipart/mixed; boundary="===============1634227664433499807=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2305/7282] drivers/clk/renesas/clk-r8a7778.c:102 r8a7778_cpg_clocks_init() warn: possible memory leak of 'data'
-Date: Sun, 03 Jul 2022 16:21:02 +0800
-Message-ID: <202207031634.JqOyy8RN-lkp@intel.com>
+Subject: [sudeep-holla:for-next/scmi 16/23] drivers/firmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x & !y
+Date: Sun, 03 Jul 2022 14:36:41 +0800
+Message-ID: <202207031457.lWJ2gkod-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2348688921698252653==
+--===============1634227664433499807==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/f=
+irmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x & !y"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Cristian Marussi <cristian.marussi@arm.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   c4185b16aba73929aa76f0d030efbe79ae867808
-commit: 1cfeec24273874ffdc5459ef2f138ab61b7207a7 [2305/7282] clk: renesas: =
-r8a7778: Remove struct r8a7778_cpg
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.=
+git for-next/scmi
+head:   78dd442898d8908535e7d00edcdbcf44593aa71f
+commit: 4eae85df44a2a5cd4c067c2fc297d5f5c02de485 [16/23] firmware: arm_scmi=
+: Add SCMIv3.1 Powercap protocol basic support
 :::::: branch date: 2 days ago
-:::::: commit date: 3 weeks ago
-config: openrisc-randconfig-m031-20220703 (https://download.01.org/0day-ci/=
-archive/20220703/202207031634.JqOyy8RN-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+:::::: commit date: 2 days ago
+config: arm-randconfig-s032-20220703 (https://download.01.org/0day-ci/archi=
+ve/20220703/202207031457.lWJ2gkod-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linu=
+x.git/commit/?id=3D4eae85df44a2a5cd4c067c2fc297d5f5c02de485
+        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/sudeep.holla/linux.git
+        git fetch --no-tags sudeep-holla for-next/scmi
+        git checkout 4eae85df44a2a5cd4c067c2fc297d5f5c02de485
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash arch/arm/kernel/ drivers/firmware/arm_scmi/ drivers/mi=
+sc/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/clk/renesas/clk-r8a7778.c:102 r8a7778_cpg_clocks_init() warn: possi=
-ble memory leak of 'data'
-
-vim +/data +102 drivers/clk/renesas/clk-r8a7778.c
-
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   69  =
-
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   70  =
-
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   71  static void __init r8a7778_cpg_clocks_init(struct device_node *n=
-p)
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   72  {
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08   73  	struct clk_onecell_data *data;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   74  	struct clk **clks;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   75  	unsigned int i;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   76  	int num_clks;
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   77  	u32 mode;
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   78  =
-
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   79  	if (rcar_rst_read_mode_pins(&mode))
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   80  		return;
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   81  =
-
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   82  	BUG_ON(!(mode & BIT(19)));
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   83  =
-
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   84  	cpg_mode_rates =3D (!!(mode & BIT(18)) << 2) |
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   85  			 (!!(mode & BIT(12)) << 1) |
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   86  			 (!!(mode & BIT(11)));
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   87  	cpg_mode_divs =3D (!!(mode & BIT(2)) << 1) |
-578d601cbc514b drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2016-0=
-6-01   88  			(!!(mode & BIT(1)));
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   89  =
-
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   90  	num_clks =3D of_property_count_strings(np, "clock-output-names"=
-);
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   91  	if (num_clks < 0) {
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   92  		pr_err("%s: failed to count clocks\n", __func__);
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   93  		return;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   94  	}
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   95  =
-
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08   96  	data =3D kzalloc(sizeof(*data), GFP_KERNEL);
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   97  	clks =3D kcalloc(num_clks, sizeof(*clks), GFP_KERNEL);
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08   98  	if (data =3D=3D NULL || clks =3D=3D NULL) {
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26   99  		/* We're leaking memory on purpose, there's no point in cleani=
-ng
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  100  		 * up as the system won't boot anyway.
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  101  		 */
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26 @102  		return;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  103  	}
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  104  =
-
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08  105  	data->clks =3D clks;
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08  106  	data->clk_num =3D num_clks;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  107  =
-
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  108  	for (i =3D 0; i < num_clks; ++i) {
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  109  		const char *name;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  110  		struct clk *clk;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  111  =
-
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  112  		of_property_read_string_index(np, "clock-output-names", i,
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  113  					      &name);
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  114  =
-
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08  115  		clk =3D r8a7778_cpg_register_clock(np, name);
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  116  		if (IS_ERR(clk))
-e665f029a283af drivers/clk/renesas/clk-r8a7778.c  Rob Herring        2018-0=
-8-28  117  			pr_err("%s: failed to register %pOFn %s clock (%ld)\n",
-e665f029a283af drivers/clk/renesas/clk-r8a7778.c  Rob Herring        2018-0=
-8-28  118  			       __func__, np, name, PTR_ERR(clk));
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  119  		else
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08  120  			data->clks[i] =3D clk;
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  121  	}
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  122  =
-
-1cfeec24273874 drivers/clk/renesas/clk-r8a7778.c  Geert Uytterhoeven 2022-0=
-6-08  123  	of_clk_add_provider(np, of_clk_src_onecell_get, data);
-8bc964aa25e56b drivers/clk/shmobile/clk-r8a7778.c Geert Uytterhoeven 2015-0=
-8-04  124  =
-
-8bc964aa25e56b drivers/clk/shmobile/clk-r8a7778.c Geert Uytterhoeven 2015-0=
-8-04  125  	cpg_mstp_add_clk_domain(np);
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  126  }
-6232c51cb37091 drivers/clk/shmobile/clk-r8a7778.c Ulrich Hecht       2015-0=
-2-26  127  =
 
 
-:::::: The code at line 102 was first introduced by commit
-:::::: 6232c51cb370919b116e0aea38d12aa33aae2fa9 ARM: shmobile: r8a7778: com=
-mon clock framework CPG driver
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x =
+& !y
+>> drivers/firmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x =
+& !y
 
-:::::: TO: Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
-:::::: CC: Simon Horman <horms+renesas@verge.net.au>
+vim +331 drivers/firmware/arm_scmi/powercap.c
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  307  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  308  static int scmi_powercap_c=
+ap_set(const struct scmi_protocol_handle *ph,
+4eae85df44a2a5 Cristian Marussi 2022-06-27  309  				 u32 domain_id, u32 po=
+wer_cap,
+4eae85df44a2a5 Cristian Marussi 2022-06-27  310  				 bool ignore_dresp)
+4eae85df44a2a5 Cristian Marussi 2022-06-27  311  {
+4eae85df44a2a5 Cristian Marussi 2022-06-27  312  	int ret;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  313  	struct scmi_xfer *t;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  314  	struct scmi_msg_powercap_=
+set_cap_or_pai *msg;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  315  	const struct scmi_powerca=
+p_info *pc;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  316  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  317  	pc =3D scmi_powercap_dom_=
+info_get(ph, domain_id);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  318  	if (!pc || !pc->powercap_=
+cap_config || !power_cap ||
+4eae85df44a2a5 Cristian Marussi 2022-06-27  319  	    power_cap < pc->min_p=
+ower_cap ||
+4eae85df44a2a5 Cristian Marussi 2022-06-27  320  	    power_cap > pc->max_p=
+ower_cap)
+4eae85df44a2a5 Cristian Marussi 2022-06-27  321  		return -EINVAL;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  322  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  323  	ret =3D ph->xops->xfer_ge=
+t_init(ph, POWERCAP_CAP_SET,
+4eae85df44a2a5 Cristian Marussi 2022-06-27  324  				      sizeof(*msg), 0,=
+ &t);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  325  	if (ret)
+4eae85df44a2a5 Cristian Marussi 2022-06-27  326  		return ret;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  327  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  328  	msg =3D t->tx.buf;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  329  	msg->domain =3D cpu_to_le=
+32(domain_id);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  330  	msg->flags =3D
+4eae85df44a2a5 Cristian Marussi 2022-06-27 @331  		cpu_to_le32(FIELD_PREP(C=
+AP_SET_ASYNC, !!pc->async_powercap_cap_set) |
+4eae85df44a2a5 Cristian Marussi 2022-06-27  332  			    FIELD_PREP(CAP_SET_=
+IGNORE_DRESP, !!ignore_dresp));
+4eae85df44a2a5 Cristian Marussi 2022-06-27  333  	msg->value =3D cpu_to_le3=
+2(power_cap);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  334  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  335  	if (!pc->async_powercap_c=
+ap_set || ignore_dresp) {
+4eae85df44a2a5 Cristian Marussi 2022-06-27  336  		ret =3D ph->xops->do_xfe=
+r(ph, t);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  337  	} else {
+4eae85df44a2a5 Cristian Marussi 2022-06-27  338  		ret =3D ph->xops->do_xfe=
+r_with_response(ph, t);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  339  		if (!ret) {
+4eae85df44a2a5 Cristian Marussi 2022-06-27  340  			struct scmi_msg_resp_po=
+wercap_cap_set_complete *resp;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  341  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  342  			resp =3D t->rx.buf;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  343  			if (le32_to_cpu(resp->d=
+omain) =3D=3D domain_id)
+4eae85df44a2a5 Cristian Marussi 2022-06-27  344  				dev_dbg(ph->dev,
+4eae85df44a2a5 Cristian Marussi 2022-06-27  345  					"Powercap ID %d CAP s=
+et async to %u\n",
+4eae85df44a2a5 Cristian Marussi 2022-06-27  346  					domain_id,
+4eae85df44a2a5 Cristian Marussi 2022-06-27  347  					get_unaligned_le32(&r=
+esp->power_cap));
+4eae85df44a2a5 Cristian Marussi 2022-06-27  348  			else
+4eae85df44a2a5 Cristian Marussi 2022-06-27  349  				ret =3D -EPROTO;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  350  		}
+4eae85df44a2a5 Cristian Marussi 2022-06-27  351  	}
+4eae85df44a2a5 Cristian Marussi 2022-06-27  352  =
+
+4eae85df44a2a5 Cristian Marussi 2022-06-27  353  	ph->xops->xfer_put(ph, t);
+4eae85df44a2a5 Cristian Marussi 2022-06-27  354  	return ret;
+4eae85df44a2a5 Cristian Marussi 2022-06-27  355  }
+4eae85df44a2a5 Cristian Marussi 2022-06-27  356  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2348688921698252653==--
+--===============1634227664433499807==--
 
