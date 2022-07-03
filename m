@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6025223161140568576=="
+Content-Type: multipart/mixed; boundary="===============0500754775285151937=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-linked-list 56/61] fs/netfs/truncate.c:177 netfs_prepare_trunc_buffers() error: uninitialized symbol 'from'.
-Date: Sun, 03 Jul 2022 19:34:18 +0800
-Message-ID: <202207031955.5MWchcdz-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-linked-list 55/61] fs/netfs/buffered_flush.c:206 netfs_redirty_range() error: uninitialized symbol 'd2'.
+Date: Sun, 03 Jul 2022 18:53:26 +0800
+Message-ID: <202207031840.9ZeurKY1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6025223161140568576==
+--===============0500754775285151937==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -21,152 +21,276 @@ TO: David Howells <dhowells@redhat.com>
 tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
 linked-list
 head:   ce4670495468b797b0c5927fcb661bc0da48b9ab
-commit: b0af788660145c19754695953b240c9eaa311df8 [56/61] netfs: Implement t=
-runcation
+commit: aab6b81ed98dd0387c82b293f20d0ed5595c2dd3 [55/61] netfs: Implement r=
+edirtying after writeback failure
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+:::::: commit date: 3 days ago
 config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20703/202207031955.5MWchcdz-lkp(a)intel.com/config)
+20703/202207031840.9ZeurKY1-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/netfs/truncate.c:177 netfs_prepare_trunc_buffers() error: uninitialized =
-symbol 'from'.
-fs/netfs/truncate.c:189 netfs_prepare_trunc_buffers() error: uninitialized =
-symbol 'to'.
+New smatch warnings:
+fs/netfs/buffered_flush.c:206 netfs_redirty_range() error: uninitialized sy=
+mbol 'd2'.
 
-vim +/from +177 fs/netfs/truncate.c
+Old smatch warnings:
+fs/netfs/buffered_flush.c:236 netfs_redirty_range() error: uninitialized sy=
+mbol 'd2'.
+fs/netfs/buffered_flush.c:370 netfs_check_dirty_list() warn: ignoring unrea=
+chable code.
+fs/netfs/buffered_flush.c:814 netfs_find_writeback_start() error: uninitial=
+ized symbol 'ret'.
 
-b0af788660145c David Howells 2021-09-30  134  =
+vim +/d2 +206 fs/netfs/buffered_flush.c
 
-b0af788660145c David Howells 2021-09-30  135  /*
-b0af788660145c David Howells 2021-09-30  136   * Set up a pair of buffers w=
-ith which we can perform an RMW cycle to
-b0af788660145c David Howells 2021-09-30  137   * reconstitute the block con=
-taining the EOF marker.  One buffer will hold the
-b0af788660145c David Howells 2021-09-30  138   * proposed modification in u=
-nencrypted form, the other will hold the
-b0af788660145c David Howells 2021-09-30  139   * encrypted/compressed data.
-b0af788660145c David Howells 2021-09-30  140   *
-b0af788660145c David Howells 2021-09-30  141   * We don't want to make our =
-proposed changes to the pagecache yet as we would
-b0af788660145c David Howells 2021-09-30  142   * have to back them out if a=
-n error occurs.
-b0af788660145c David Howells 2021-09-30  143   */
-b0af788660145c David Howells 2021-09-30  144  static int netfs_prepare_trun=
-c_buffers(struct netfs_io_request *treq)
-b0af788660145c David Howells 2021-09-30  145  {
-b0af788660145c David Howells 2021-09-30  146  	struct netfs_inode *ctx =3D =
-netfs_inode(treq->inode);
-b0af788660145c David Howells 2021-09-30  147  	struct iov_iter iter;
-b0af788660145c David Howells 2021-09-30  148  	struct folio *folio;
-b0af788660145c David Howells 2021-09-30  149  	unsigned long long base;
-b0af788660145c David Howells 2021-09-30  150  	pgoff_t from, to, fto;
-b0af788660145c David Howells 2021-09-30  151  	size_t offset, seg;
-b0af788660145c David Howells 2021-09-30  152  	size_t bsize =3D max_t(size_=
-t, 1UL << ctx->min_bshift, PAGE_SIZE);
-b0af788660145c David Howells 2021-09-30  153  	int ret;
-b0af788660145c David Howells 2021-09-30  154  =
+aab6b81ed98dd0 David Howells 2022-06-30  121  =
 
-b0af788660145c David Howells 2021-09-30  155  	/* We want to hold the entir=
-e replacement block, but we round that out
-b0af788660145c David Howells 2021-09-30  156  	 * to a multiple of pages.
-b0af788660145c David Howells 2021-09-30  157  	 */
-b0af788660145c David Howells 2021-09-30  158  	base =3D round_down(treq->tr=
-unc_i_size, bsize);
-b0af788660145c David Howells 2021-09-30  159  	treq->start	=3D base;
-b0af788660145c David Howells 2021-09-30  160  	treq->len	=3D bsize;
-b0af788660145c David Howells 2021-09-30  161  	treq->first	=3D base / PAGE_=
-SIZE;
-b0af788660145c David Howells 2021-09-30  162  	treq->last	=3D (base + bsize=
- + 1) / PAGE_SIZE;
-b0af788660145c David Howells 2021-09-30  163  =
+2dc27084e13c29 David Howells 2021-06-29  122  /*
+2dc27084e13c29 David Howells 2021-06-29  123   * The write failed to some e=
+xtent.  We need to work out which bits we managed
+2dc27084e13c29 David Howells 2021-06-29  124   * to do - for instance, we m=
+ight have managed to write stuff to the cache, but
+2dc27084e13c29 David Howells 2021-06-29  125   * not upload to the server.
+2dc27084e13c29 David Howells 2021-06-29  126   */
+2dc27084e13c29 David Howells 2021-06-29  127  static void netfs_redirty_ran=
+ge(struct netfs_io_request *wreq)
+2dc27084e13c29 David Howells 2021-06-29  128  {
+aab6b81ed98dd0 David Howells 2022-06-30  129  	struct netfs_io_chain *chain;
+aab6b81ed98dd0 David Howells 2022-06-30  130  	struct netfs_dirty_region *d=
+, *d2, *w, *w2, *tmp;
+aab6b81ed98dd0 David Howells 2022-06-30  131  	struct netfs_inode *ctx =3D =
+netfs_inode(wreq->inode);
+aab6b81ed98dd0 David Howells 2022-06-30  132  	unsigned int c;
+aab6b81ed98dd0 David Howells 2022-06-30  133  	bool upload_failed =3D false;
+aab6b81ed98dd0 David Howells 2022-06-30  134  	LIST_HEAD(discards);
+aab6b81ed98dd0 David Howells 2022-06-30  135  =
 
-b0af788660145c David Howells 2021-09-30  164  	ret =3D netfs_add_folios_to_=
-buffer(&treq->buffer, treq->first, treq->last,
-b0af788660145c David Howells 2021-09-30  165  					 GFP_KERNEL);
-b0af788660145c David Howells 2021-09-30  166  	if (ret < 0)
-b0af788660145c David Howells 2021-09-30  167  		return ret;
-b0af788660145c David Howells 2021-09-30  168  =
+2dc27084e13c29 David Howells 2021-06-29  136  	trace_netfs_rreq(wreq, netfs=
+_rreq_trace_redirty);
+aab6b81ed98dd0 David Howells 2022-06-30  137  =
 
-b0af788660145c David Howells 2021-09-30  169  	ret =3D netfs_add_folios_to_=
-buffer(&treq->bounce, treq->first, treq->last,
-b0af788660145c David Howells 2021-09-30  170  					 GFP_KERNEL);
-b0af788660145c David Howells 2021-09-30  171  	if (ret < 0)
-b0af788660145c David Howells 2021-09-30  172  		return ret;
-b0af788660145c David Howells 2021-09-30  173  =
+aab6b81ed98dd0 David Howells 2022-06-30  138  	if (list_empty(&wreq->region=
+s))
+aab6b81ed98dd0 David Howells 2022-06-30  139  		return netfs_clean_dirty_ra=
+nge(wreq);
+aab6b81ed98dd0 David Howells 2022-06-30  140  =
 
-b0af788660145c David Howells 2021-09-30  174  	/* We need to fill the buffe=
-r. */
-b0af788660145c David Howells 2021-09-30  175  	iov_iter_xarray(&iter, READ,=
- &treq->buffer, base, base + bsize);
-b0af788660145c David Howells 2021-09-30  176  	do {
-b0af788660145c David Howells 2021-09-30 @177  		folio =3D read_mapping_foli=
-o(treq->mapping, from, NULL);
-b0af788660145c David Howells 2021-09-30  178  		if (IS_ERR(folio))
-b0af788660145c David Howells 2021-09-30  179  			return PTR_ERR(folio);
-b0af788660145c David Howells 2021-09-30  180  		if (folio->index > from ||
-b0af788660145c David Howells 2021-09-30  181  		    folio->index + folio_nr=
-_pages(folio) <=3D folio->index) {
-b0af788660145c David Howells 2021-09-30  182  			folio_put(folio);
-b0af788660145c David Howells 2021-09-30  183  			kleave("-EIO [unexpected f=
-olio %lx !=3D %lx]", folio->index, from);
-b0af788660145c David Howells 2021-09-30  184  			return -EIO;
-b0af788660145c David Howells 2021-09-30  185  		}
-b0af788660145c David Howells 2021-09-30  186  =
+aab6b81ed98dd0 David Howells 2022-06-30  141  	/* If an upload failed, we n=
+eed to ask the filesystem how it wants to
+aab6b81ed98dd0 David Howells 2022-06-30  142  	 * handle things.  It has tw=
+o choices: redirty everything or leave
+aab6b81ed98dd0 David Howells 2022-06-30  143  	 * everything clean.
+aab6b81ed98dd0 David Howells 2022-06-30  144  	 */
+aab6b81ed98dd0 David Howells 2022-06-30  145  	for (c =3D 0; c < wreq->nr_c=
+hains; c++) {
+aab6b81ed98dd0 David Howells 2022-06-30  146  		chain =3D &wreq->chains[c];
+aab6b81ed98dd0 David Howells 2022-06-30  147  		if (chain->source !=3D NETF=
+S_WRITE_TO_CACHE && chain->error)
+aab6b81ed98dd0 David Howells 2022-06-30  148  			upload_failed =3D true;
+aab6b81ed98dd0 David Howells 2022-06-30  149  	}
+aab6b81ed98dd0 David Howells 2022-06-30  150  =
 
-b0af788660145c David Howells 2021-09-30  187  		offset =3D (from - folio->i=
-ndex);
-b0af788660145c David Howells 2021-09-30  188  		fto =3D folio->index + foli=
-o_nr_pages(folio) - 1;
-b0af788660145c David Howells 2021-09-30 @189  		seg =3D min(to, fto);
-b0af788660145c David Howells 2021-09-30  190  		seg =3D (seg - from) + 1;
-b0af788660145c David Howells 2021-09-30  191  		kdebug("buf=3D%lx-%lx fol=
-=3D%lx-%lx s=3D%lx@%lx",
-b0af788660145c David Howells 2021-09-30  192  		       from, to, folio->ind=
-ex, fto, seg, offset);
-b0af788660145c David Howells 2021-09-30  193  		if (copy_folio_to_iter(foli=
-o, offset * PAGE_SIZE, seg * PAGE_SIZE, &iter)) {
-b0af788660145c David Howells 2021-09-30  194  			folio_put(folio);
-b0af788660145c David Howells 2021-09-30  195  			kleave(" =3D -EIO [copy fa=
-ilure]");
-b0af788660145c David Howells 2021-09-30  196  			return -EIO;
-b0af788660145c David Howells 2021-09-30  197  		}
-b0af788660145c David Howells 2021-09-30  198  =
+aab6b81ed98dd0 David Howells 2022-06-30  151  	if (!upload_failed ||
+aab6b81ed98dd0 David Howells 2022-06-30  152  	    !wreq->netfs_ops->redirt=
+y_on_failure ||
+aab6b81ed98dd0 David Howells 2022-06-30  153  	    !wreq->netfs_ops->redirt=
+y_on_failure(wreq))
+aab6b81ed98dd0 David Howells 2022-06-30  154  		return netfs_clean_dirty_ra=
+nge(wreq);
+aab6b81ed98dd0 David Howells 2022-06-30  155  =
 
-b0af788660145c David Howells 2021-09-30  199  		/* We keep the refs to disc=
-ard later - we don't want read
-b0af788660145c David Howells 2021-09-30  200  		 * interfering with what we=
-'re up to.
-b0af788660145c David Howells 2021-09-30  201  		 */
-b0af788660145c David Howells 2021-09-30  202  		from =3D fto;
-b0af788660145c David Howells 2021-09-30  203  	} while (from < to);
-b0af788660145c David Howells 2021-09-30  204  =
+aab6b81ed98dd0 David Howells 2022-06-30  156  	/* First of all, we step thr=
+ough the list of regions that were to be
+aab6b81ed98dd0 David Howells 2022-06-30  157  	 * written back and see if w=
+e can discard/shorten anything that got
+aab6b81ed98dd0 David Howells 2022-06-30  158  	 * partially stored.
+aab6b81ed98dd0 David Howells 2022-06-30  159  	 *
+aab6b81ed98dd0 David Howells 2022-06-30  160  	 * Don't retry write failure=
+s to the cache.  If the cache got a fatal
+aab6b81ed98dd0 David Howells 2022-06-30  161  	 * error, it will have gone =
+offline and retrying is pointless; if it
+aab6b81ed98dd0 David Howells 2022-06-30  162  	 * ran out of space, it prob=
+ably won't be able to supply us with space
+aab6b81ed98dd0 David Howells 2022-06-30  163  	 * on the second attempt.
+aab6b81ed98dd0 David Howells 2022-06-30  164  	 */
+aab6b81ed98dd0 David Howells 2022-06-30  165  	list_for_each_entry_safe(w, =
+tmp, &wreq->regions, dirty_link) {
+aab6b81ed98dd0 David Howells 2022-06-30  166  		if (w->type =3D=3D NETFS_CO=
+PY_TO_CACHE) {
+aab6b81ed98dd0 David Howells 2022-06-30  167  			list_del_init(&w->dirty_li=
+nk);
+aab6b81ed98dd0 David Howells 2022-06-30  168  			netfs_put_dirty_region(ctx=
+, w, netfs_region_trace_put_clear);
+aab6b81ed98dd0 David Howells 2022-06-30  169  		}
+aab6b81ed98dd0 David Howells 2022-06-30  170  	}
+aab6b81ed98dd0 David Howells 2022-06-30  171  =
 
-b0af788660145c David Howells 2021-09-30  205  	/* Lock the folios and clear=
- the uptodate flag.  Read must wait. */
-b0af788660145c David Howells 2021-09-30  206  =
+aab6b81ed98dd0 David Howells 2022-06-30  172  	if (list_empty(&wreq->region=
+s))
+aab6b81ed98dd0 David Howells 2022-06-30  173  		return;
+aab6b81ed98dd0 David Howells 2022-06-30  174  =
 
-b0af788660145c David Howells 2021-09-30  207  	/* Clear the region after th=
-e new EOF */
-b0af788660145c David Howells 2021-09-30  208  	iov_iter_xarray(&iter, READ,=
- &treq->buffer, base, base + bsize);
-b0af788660145c David Howells 2021-09-30  209  	iov_iter_advance(&iter, treq=
-->trunc_i_size - treq->start);
-b0af788660145c David Howells 2021-09-30  210  	iov_iter_zero(iov_iter_count=
-(&iter), &iter);
-b0af788660145c David Howells 2021-09-30  211  	return 0;
-b0af788660145c David Howells 2021-09-30  212  }
-b0af788660145c David Howells 2021-09-30  213  =
+aab6b81ed98dd0 David Howells 2022-06-30  175  	/* Mark the pages dirty agai=
+n. */
+aab6b81ed98dd0 David Howells 2022-06-30  176  	list_for_each_entry(w, &wreq=
+->regions, dirty_link) {
+aab6b81ed98dd0 David Howells 2022-06-30  177  		netfs_redirty_folios(wreq, =
+w->first, w->last);
+aab6b81ed98dd0 David Howells 2022-06-30  178  	}
+aab6b81ed98dd0 David Howells 2022-06-30  179  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  180  	/* Step through the the unco=
+mpleted regions and reintegrate them into
+aab6b81ed98dd0 David Howells 2022-06-30  181  	 * the dirty list.
+aab6b81ed98dd0 David Howells 2022-06-30  182  	 */
+aab6b81ed98dd0 David Howells 2022-06-30  183  	spin_lock(&ctx->dirty_lock);
+aab6b81ed98dd0 David Howells 2022-06-30  184  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  185  	w =3D list_first_entry(&wreq=
+->regions, struct netfs_dirty_region, dirty_link);
+aab6b81ed98dd0 David Howells 2022-06-30  186  	d =3D list_first_entry_or_nu=
+ll(&ctx->dirty_regions,
+aab6b81ed98dd0 David Howells 2022-06-30  187  				     struct netfs_dirty_r=
+egion, dirty_link);
+aab6b81ed98dd0 David Howells 2022-06-30  188  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  189  	while (d && w) {
+aab6b81ed98dd0 David Howells 2022-06-30  190  		w2 =3D netfs_rreq_next_regi=
+on(wreq, w);
+aab6b81ed98dd0 David Howells 2022-06-30  191  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  192  		/* Dirty region before writ=
+eback region and not touching. */
+aab6b81ed98dd0 David Howells 2022-06-30  193  		if (d->last < w->first && d=
+->last !=3D w->first - 1) {
+aab6b81ed98dd0 David Howells 2022-06-30  194  			d =3D netfs_next_region(ct=
+x, d);
+aab6b81ed98dd0 David Howells 2022-06-30  195  			if (!d)
+aab6b81ed98dd0 David Howells 2022-06-30  196  				break;
+aab6b81ed98dd0 David Howells 2022-06-30  197  			continue;
+aab6b81ed98dd0 David Howells 2022-06-30  198  		}
+aab6b81ed98dd0 David Howells 2022-06-30  199  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  200  		/* Dirty region overlaps wi=
+th writeback region.  If two regions
+aab6b81ed98dd0 David Howells 2022-06-30  201  		 * overlap, they *must* be =
+compatible, otherwise the new
+aab6b81ed98dd0 David Howells 2022-06-30  202  		 * changes would not get ap=
+plied until this request completes.
+aab6b81ed98dd0 David Howells 2022-06-30  203  		 */
+aab6b81ed98dd0 David Howells 2022-06-30  204  		if (d->first <=3D w->last) {
+aab6b81ed98dd0 David Howells 2022-06-30  205  			if (d->last =3D=3D w->firs=
+t - 1 &&
+aab6b81ed98dd0 David Howells 2022-06-30 @206  			    !netfs_are_regions_mer=
+geable(ctx, d, d2)) {
+aab6b81ed98dd0 David Howells 2022-06-30  207  				d =3D netfs_next_region(c=
+tx, d);
+aab6b81ed98dd0 David Howells 2022-06-30  208  				if (!d)
+aab6b81ed98dd0 David Howells 2022-06-30  209  					break;
+aab6b81ed98dd0 David Howells 2022-06-30  210  				continue;
+aab6b81ed98dd0 David Howells 2022-06-30  211  			}
+aab6b81ed98dd0 David Howells 2022-06-30  212  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  213  			d->first =3D min(d->first,=
+ w->first);
+aab6b81ed98dd0 David Howells 2022-06-30  214  			d->last  =3D max(d->last, =
+w->last);
+aab6b81ed98dd0 David Howells 2022-06-30  215  			d->from  =3D min(d->from, =
+w->from);
+aab6b81ed98dd0 David Howells 2022-06-30  216  			d->to    =3D max(d->to, w-=
+>to);
+aab6b81ed98dd0 David Howells 2022-06-30  217  			trace_netfs_dirty(ctx, d, =
+w, netfs_dirty_trace_redirty_merge);
+aab6b81ed98dd0 David Howells 2022-06-30  218  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  219  			while ((d2 =3D netfs_next_=
+region(ctx, d)) &&
+aab6b81ed98dd0 David Howells 2022-06-30  220  			       d->last >=3D d2->fi=
+rst - 1 &&
+aab6b81ed98dd0 David Howells 2022-06-30  221  			       netfs_are_regions_m=
+ergeable(ctx, d, d2)
+aab6b81ed98dd0 David Howells 2022-06-30  222  			       ) {
+aab6b81ed98dd0 David Howells 2022-06-30  223  				d->last =3D d2->last;
+aab6b81ed98dd0 David Howells 2022-06-30  224  				d->to   =3D d2->to;
+aab6b81ed98dd0 David Howells 2022-06-30  225  				list_move(&d2->dirty_link=
+, &discards);
+aab6b81ed98dd0 David Howells 2022-06-30  226  				trace_netfs_dirty(ctx, d,=
+ d2, netfs_dirty_trace_bridged);
+aab6b81ed98dd0 David Howells 2022-06-30  227  			}
+aab6b81ed98dd0 David Howells 2022-06-30  228  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  229  			list_move_tail(&w->dirty_l=
+ink, &discards);
+aab6b81ed98dd0 David Howells 2022-06-30  230  			w =3D w2;
+aab6b81ed98dd0 David Howells 2022-06-30  231  			continue;
+aab6b81ed98dd0 David Howells 2022-06-30  232  		}
+aab6b81ed98dd0 David Howells 2022-06-30  233  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  234  		/* Dirty region after write=
+back region and touching. */
+aab6b81ed98dd0 David Howells 2022-06-30  235  		if (d->first =3D=3D w->last=
+ + 1) {
+aab6b81ed98dd0 David Howells 2022-06-30  236  			if (netfs_are_regions_merg=
+eable(ctx, d, d2)) {
+aab6b81ed98dd0 David Howells 2022-06-30  237  				d->first =3D min(d->first=
+, w->first);
+aab6b81ed98dd0 David Howells 2022-06-30  238  				d->from  =3D min(d->from,=
+ w->from);
+aab6b81ed98dd0 David Howells 2022-06-30  239  				trace_netfs_dirty(ctx, d,=
+ w, netfs_dirty_trace_redirty_merge);
+aab6b81ed98dd0 David Howells 2022-06-30  240  				list_move_tail(&w->dirty_=
+link, &discards);
+aab6b81ed98dd0 David Howells 2022-06-30  241  				w =3D w2;
+aab6b81ed98dd0 David Howells 2022-06-30  242  				continue;
+aab6b81ed98dd0 David Howells 2022-06-30  243  			}
+aab6b81ed98dd0 David Howells 2022-06-30  244  		}
+aab6b81ed98dd0 David Howells 2022-06-30  245  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  246  		/* Dirty region after write=
+back and not touching. */
+aab6b81ed98dd0 David Howells 2022-06-30  247  		list_move_tail(&w->dirty_li=
+nk, &d->dirty_link);
+aab6b81ed98dd0 David Howells 2022-06-30  248  		trace_netfs_dirty(ctx, w, N=
+ULL, netfs_dirty_trace_redirty_insert);
+aab6b81ed98dd0 David Howells 2022-06-30  249  		w =3D w2;
+aab6b81ed98dd0 David Howells 2022-06-30  250  	}
+aab6b81ed98dd0 David Howells 2022-06-30  251  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  252  	if (w && !d) {
+aab6b81ed98dd0 David Howells 2022-06-30  253  		list_for_each_entry_from(w,=
+ &wreq->regions, dirty_link) {
+aab6b81ed98dd0 David Howells 2022-06-30  254  			trace_netfs_dirty(ctx, w, =
+NULL, netfs_dirty_trace_redirty_insert);
+aab6b81ed98dd0 David Howells 2022-06-30  255  		}
+aab6b81ed98dd0 David Howells 2022-06-30  256  		list_splice_tail_init(&wreq=
+->regions, &ctx->dirty_regions);
+aab6b81ed98dd0 David Howells 2022-06-30  257  	}
+aab6b81ed98dd0 David Howells 2022-06-30  258  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  259  	spin_unlock(&ctx->dirty_lock=
+);
+aab6b81ed98dd0 David Howells 2022-06-30  260  =
+
+aab6b81ed98dd0 David Howells 2022-06-30  261  	while ((d =3D list_first_ent=
+ry_or_null(&discards,
+aab6b81ed98dd0 David Howells 2022-06-30  262  					     struct netfs_dirty_=
+region, dirty_link))) {
+aab6b81ed98dd0 David Howells 2022-06-30  263  		list_del_init(&d->dirty_lin=
+k);
+aab6b81ed98dd0 David Howells 2022-06-30  264  		netfs_put_dirty_region(ctx,=
+ d, netfs_region_trace_put_merged);
+aab6b81ed98dd0 David Howells 2022-06-30  265  	}
+2dc27084e13c29 David Howells 2021-06-29  266  }
+2dc27084e13c29 David Howells 2021-06-29  267  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6025223161140568576==--
+--===============0500754775285151937==--
 
