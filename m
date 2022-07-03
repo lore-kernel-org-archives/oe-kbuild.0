@@ -1,154 +1,432 @@
-Content-Type: multipart/mixed; boundary="===============1634227664433499807=="
+Content-Type: multipart/mixed; boundary="===============4059492714289021565=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [sudeep-holla:for-next/scmi 16/23] drivers/firmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x & !y
-Date: Sun, 03 Jul 2022 14:36:41 +0800
-Message-ID: <202207031457.lWJ2gkod-lkp@intel.com>
+Subject: block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Sun, 03 Jul 2022 10:35:02 +0800
+Message-ID: <202207031050.E4jHtLZ9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1634227664433499807==
+--===============4059492714289021565==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/f=
-irmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x & !y"
+:::::: Manual check reason: "low confidence static check warning: block/bfq=
+-cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-u=
+nix.Malloc]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
+TO: Paolo Valente <paolo.valente@linaro.org>
+CC: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.=
-git for-next/scmi
-head:   78dd442898d8908535e7d00edcdbcf44593aa71f
-commit: 4eae85df44a2a5cd4c067c2fc297d5f5c02de485 [16/23] firmware: arm_scmi=
-: Add SCMIv3.1 Powercap protocol basic support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-s032-20220703 (https://download.01.org/0day-ci/archi=
-ve/20220703/202207031457.lWJ2gkod-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   69cb6c6556ad89620547318439d6be8bb1629a5a
+commit: d29bd41428cfff9b582c248db14a47e2be8457a8 block, bfq: reset last_bfq=
+q_created on group change
+date:   9 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20220625 (https://download.01.org/0day-ci/archi=
+ve/20220703/202207031050.E4jHtLZ9-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 42a7dd=
+b428c999229491b0effbb1a4059149fba8)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linu=
-x.git/commit/?id=3D4eae85df44a2a5cd4c067c2fc297d5f5c02de485
-        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/sudeep.holla/linux.git
-        git fetch --no-tags sudeep-holla for-next/scmi
-        git checkout 4eae85df44a2a5cd4c067c2fc297d5f5c02de485
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dd29bd41428cfff9b582c248db14a47e2be8457a8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d29bd41428cfff9b582c248db14a47e2be8457a8
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rm SHELL=3D/bin/bash arch/arm/kernel/ drivers/firmware/arm_scmi/ drivers/mi=
-sc/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x =
-& !y
->> drivers/firmware/arm_scmi/powercap.c:331:17: sparse: sparse: dubious: x =
-& !y
+clang-analyzer warnings: (new ones prefixed by >>)
+            ^
+   include/linux/list.h:838:2: note: Left side of '||' is false
+           WRITE_ONCE(*pprev, next);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/list.h:838:2: note: Left side of '||' is true
+           WRITE_ONCE(*pprev, next);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   include/linux/list.h:838:2: note: Taking false branch
+           WRITE_ONCE(*pprev, next);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/list.h:838:2: note: Loop condition is false.  Exiting loop
+           WRITE_ONCE(*pprev, next);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/list.h:838:2: note: Dereference of null pointer
+           WRITE_ONCE(*pprev, next);
+           ^
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   block/bfq-wf2q.c:263:7: warning: Access to field 'my_sched_data' results=
+ in a dereference of a null pointer (loaded from variable 'entity') [clang-=
+analyzer-core.NullDereference]
+           if (!entity->my_sched_data)
+                ^
+   block/bfq-wf2q.c:1508:2: note: 'entity' initialized to a null pointer va=
+lue
+           struct bfq_entity *entity =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:1512:6: note: Assuming the condition is false
+           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:1512:2: note: Taking false branch
+           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
+           ^
+   block/bfq-wf2q.c:1521:2: note: Loop condition is false. Execution contin=
+ues on line 1582
+           for (; sd ; sd =3D entity->my_sched_data) {
+           ^
+   block/bfq-wf2q.c:1582:28: note: Passing null pointer value via 1st param=
+eter 'entity'
+           bfqq =3D bfq_entity_to_bfqq(entity);
+                                     ^~~~~~
+   block/bfq-wf2q.c:1582:9: note: Calling 'bfq_entity_to_bfqq'
+           bfqq =3D bfq_entity_to_bfqq(entity);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:263:7: note: Access to field 'my_sched_data' results in=
+ a dereference of a null pointer (loaded from variable 'entity')
+           if (!entity->my_sched_data)
+                ^~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clan=
+g-analyzer-unix.Malloc]
+               entity->parent->last_bfqq_created =3D=3D bfqq)
+               ^
+   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&bfqd->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:254:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&bfqd->lock, flags);
+           ^
+   include/linux/spinlock.h:391:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   block/bfq-cgroup.c:894:6: note: Assuming 'entity' is non-null
+           if (!entity) /* root group */
+               ^~~~~~~
+   block/bfq-cgroup.c:894:2: note: Taking false branch
+           if (!entity) /* root group */
+           ^
+   block/bfq-cgroup.c:901:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (i =3D 0; i < BFQ_IOPRIO_CLASSES; i++) {
+           ^
+   block/bfq-cgroup.c:916:3: note: Calling 'bfq_reparent_active_queues'
+                   bfq_reparent_active_queues(bfqd, bfqg, st, i);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:866:2: note: Loop condition is true.  Entering loop b=
+ody
+           while ((entity =3D bfq_entity_of(rb_first(active))))
+           ^
+   block/bfq-cgroup.c:867:3: note: Calling 'bfq_reparent_leaf_entity'
+                   bfq_reparent_leaf_entity(bfqd, entity, ioprio_class);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:836:2: note: Loop condition is false. Execution conti=
+nues on line 848
+           while (child_entity->my_sched_data) { /* leaf not reached yet */
+           ^
+   block/bfq-cgroup.c:849:2: note: Calling 'bfq_bfqq_move'
+           bfq_bfqq_move(bfqd, bfqq, bfqd->root_group);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:659:6: note: Assuming 'bfqq' is not equal to field 'i=
+n_service_queue'
+           if (bfqq =3D=3D bfqd->in_service_queue)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:659:2: note: Taking false branch
+           if (bfqq =3D=3D bfqd->in_service_queue)
+           ^
+   block/bfq-cgroup.c:663:6: note: Assuming the condition is true
+           if (bfq_bfqq_busy(bfqq))
+               ^~~~~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:663:2: note: Taking true branch
+           if (bfq_bfqq_busy(bfqq))
+           ^
+   block/bfq-cgroup.c:667:20: note: Calling 'bfqq_group'
+           bfqg_and_blkg_put(bfqq_group(bfqq));
+                             ^~~~~~~~~~~~~~~~
+   block/bfq-cgroup.c:312:9: note: Assuming 'group_entity' is non-null
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                  ^~~~~~~~~~~~
+   block/bfq-cgroup.c:312:9: note: '?' condition is true
+   block/bfq-cgroup.c:312:24: note: Left side of '&&' is false
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                                 ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   block/bfq-cgroup.c:312:24: note: Taking false branch
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                                 ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   block/bfq-cgroup.c:312:24: note: Loop condition is false.  Exiting loop
+           return group_entity ? container_of(group_entity, struct bfq_grou=
+p,
+                                 ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
 
-vim +331 drivers/firmware/arm_scmi/powercap.c
+vim +670 block/bfq-cgroup.c
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  307  =
+ea25da48086d3b Paolo Valente 2017-04-19  627  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  308  static int scmi_powercap_c=
-ap_set(const struct scmi_protocol_handle *ph,
-4eae85df44a2a5 Cristian Marussi 2022-06-27  309  				 u32 domain_id, u32 po=
-wer_cap,
-4eae85df44a2a5 Cristian Marussi 2022-06-27  310  				 bool ignore_dresp)
-4eae85df44a2a5 Cristian Marussi 2022-06-27  311  {
-4eae85df44a2a5 Cristian Marussi 2022-06-27  312  	int ret;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  313  	struct scmi_xfer *t;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  314  	struct scmi_msg_powercap_=
-set_cap_or_pai *msg;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  315  	const struct scmi_powerca=
-p_info *pc;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  316  =
+ea25da48086d3b Paolo Valente 2017-04-19  628  /**
+ea25da48086d3b Paolo Valente 2017-04-19  629   * bfq_bfqq_move - migrate @b=
+fqq to @bfqg.
+ea25da48086d3b Paolo Valente 2017-04-19  630   * @bfqd: queue descriptor.
+ea25da48086d3b Paolo Valente 2017-04-19  631   * @bfqq: the queue to move.
+ea25da48086d3b Paolo Valente 2017-04-19  632   * @bfqg: the group to move t=
+o.
+ea25da48086d3b Paolo Valente 2017-04-19  633   *
+ea25da48086d3b Paolo Valente 2017-04-19  634   * Move @bfqq to @bfqg, deact=
+ivating it from its old group and reactivating
+ea25da48086d3b Paolo Valente 2017-04-19  635   * it on the new one.  Avoid =
+putting the entity on the old group idle tree.
+ea25da48086d3b Paolo Valente 2017-04-19  636   *
+8f9bebc33dd718 Paolo Valente 2017-06-05  637   * Must be called under the s=
+cheduler lock, to make sure that the blkg
+8f9bebc33dd718 Paolo Valente 2017-06-05  638   * owning @bfqg does not disa=
+ppear (see comments in
+8f9bebc33dd718 Paolo Valente 2017-06-05  639   * bfq_bic_update_cgroup on g=
+uaranteeing the consistency of blkg
+8f9bebc33dd718 Paolo Valente 2017-06-05  640   * objects).
+ea25da48086d3b Paolo Valente 2017-04-19  641   */
+ea25da48086d3b Paolo Valente 2017-04-19  642  void bfq_bfqq_move(struct bfq=
+_data *bfqd, struct bfq_queue *bfqq,
+ea25da48086d3b Paolo Valente 2017-04-19  643  		   struct bfq_group *bfqg)
+ea25da48086d3b Paolo Valente 2017-04-19  644  {
+ea25da48086d3b Paolo Valente 2017-04-19  645  	struct bfq_entity *entity =
+=3D &bfqq->entity;
+ea25da48086d3b Paolo Valente 2017-04-19  646  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  317  	pc =3D scmi_powercap_dom_=
-info_get(ph, domain_id);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  318  	if (!pc || !pc->powercap_=
-cap_config || !power_cap ||
-4eae85df44a2a5 Cristian Marussi 2022-06-27  319  	    power_cap < pc->min_p=
-ower_cap ||
-4eae85df44a2a5 Cristian Marussi 2022-06-27  320  	    power_cap > pc->max_p=
-ower_cap)
-4eae85df44a2a5 Cristian Marussi 2022-06-27  321  		return -EINVAL;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  322  =
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  647  	/*
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  648  	 * Get extra reference to pr=
+event bfqq from being freed in
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  649  	 * next possible expire or d=
+eactivate.
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  650  	 */
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  651  	bfqq->ref++;
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  652  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  323  	ret =3D ph->xops->xfer_ge=
-t_init(ph, POWERCAP_CAP_SET,
-4eae85df44a2a5 Cristian Marussi 2022-06-27  324  				      sizeof(*msg), 0,=
- &t);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  325  	if (ret)
-4eae85df44a2a5 Cristian Marussi 2022-06-27  326  		return ret;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  327  =
+ea25da48086d3b Paolo Valente 2017-04-19  653  	/* If bfqq is empty, then bf=
+q_bfqq_expire also invokes
+ea25da48086d3b Paolo Valente 2017-04-19  654  	 * bfq_del_bfqq_busy, thereb=
+y removing bfqq and its entity
+ea25da48086d3b Paolo Valente 2017-04-19  655  	 * from data structures rela=
+ted to current group. Otherwise we
+ea25da48086d3b Paolo Valente 2017-04-19  656  	 * need to remove bfqq expli=
+citly with bfq_deactivate_bfqq, as
+ea25da48086d3b Paolo Valente 2017-04-19  657  	 * we do below.
+ea25da48086d3b Paolo Valente 2017-04-19  658  	 */
+ea25da48086d3b Paolo Valente 2017-04-19  659  	if (bfqq =3D=3D bfqd->in_ser=
+vice_queue)
+ea25da48086d3b Paolo Valente 2017-04-19  660  		bfq_bfqq_expire(bfqd, bfqd-=
+>in_service_queue,
+ea25da48086d3b Paolo Valente 2017-04-19  661  				false, BFQQE_PREEMPTED);
+ea25da48086d3b Paolo Valente 2017-04-19  662  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  328  	msg =3D t->tx.buf;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  329  	msg->domain =3D cpu_to_le=
-32(domain_id);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  330  	msg->flags =3D
-4eae85df44a2a5 Cristian Marussi 2022-06-27 @331  		cpu_to_le32(FIELD_PREP(C=
-AP_SET_ASYNC, !!pc->async_powercap_cap_set) |
-4eae85df44a2a5 Cristian Marussi 2022-06-27  332  			    FIELD_PREP(CAP_SET_=
-IGNORE_DRESP, !!ignore_dresp));
-4eae85df44a2a5 Cristian Marussi 2022-06-27  333  	msg->value =3D cpu_to_le3=
-2(power_cap);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  334  =
+ea25da48086d3b Paolo Valente 2017-04-19  663  	if (bfq_bfqq_busy(bfqq))
+ea25da48086d3b Paolo Valente 2017-04-19  664  		bfq_deactivate_bfqq(bfqd, b=
+fqq, false, false);
+33a16a9804688b Paolo Valente 2020-02-03  665  	else if (entity->on_st_or_in=
+_serv)
+ea25da48086d3b Paolo Valente 2017-04-19  666  		bfq_put_idle_entity(bfq_ent=
+ity_service_tree(entity), entity);
+8f9bebc33dd718 Paolo Valente 2017-06-05  667  	bfqg_and_blkg_put(bfqq_group=
+(bfqq));
+ea25da48086d3b Paolo Valente 2017-04-19  668  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  335  	if (!pc->async_powercap_c=
-ap_set || ignore_dresp) {
-4eae85df44a2a5 Cristian Marussi 2022-06-27  336  		ret =3D ph->xops->do_xfe=
-r(ph, t);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  337  	} else {
-4eae85df44a2a5 Cristian Marussi 2022-06-27  338  		ret =3D ph->xops->do_xfe=
-r_with_response(ph, t);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  339  		if (!ret) {
-4eae85df44a2a5 Cristian Marussi 2022-06-27  340  			struct scmi_msg_resp_po=
-wercap_cap_set_complete *resp;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  341  =
+d29bd41428cfff Paolo Valente 2021-10-15  669  	if (entity->parent &&
+d29bd41428cfff Paolo Valente 2021-10-15 @670  	    entity->parent->last_bfq=
+q_created =3D=3D bfqq)
+d29bd41428cfff Paolo Valente 2021-10-15  671  		entity->parent->last_bfqq_c=
+reated =3D NULL;
+d29bd41428cfff Paolo Valente 2021-10-15  672  	else if (bfqd->last_bfqq_cre=
+ated =3D=3D bfqq)
+d29bd41428cfff Paolo Valente 2021-10-15  673  		bfqd->last_bfqq_created =3D=
+ NULL;
+d29bd41428cfff Paolo Valente 2021-10-15  674  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  342  			resp =3D t->rx.buf;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  343  			if (le32_to_cpu(resp->d=
-omain) =3D=3D domain_id)
-4eae85df44a2a5 Cristian Marussi 2022-06-27  344  				dev_dbg(ph->dev,
-4eae85df44a2a5 Cristian Marussi 2022-06-27  345  					"Powercap ID %d CAP s=
-et async to %u\n",
-4eae85df44a2a5 Cristian Marussi 2022-06-27  346  					domain_id,
-4eae85df44a2a5 Cristian Marussi 2022-06-27  347  					get_unaligned_le32(&r=
-esp->power_cap));
-4eae85df44a2a5 Cristian Marussi 2022-06-27  348  			else
-4eae85df44a2a5 Cristian Marussi 2022-06-27  349  				ret =3D -EPROTO;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  350  		}
-4eae85df44a2a5 Cristian Marussi 2022-06-27  351  	}
-4eae85df44a2a5 Cristian Marussi 2022-06-27  352  =
+ea25da48086d3b Paolo Valente 2017-04-19  675  	entity->parent =3D bfqg->my_=
+entity;
+ea25da48086d3b Paolo Valente 2017-04-19  676  	entity->sched_data =3D &bfqg=
+->sched_data;
+8f9bebc33dd718 Paolo Valente 2017-06-05  677  	/* pin down bfqg and its ass=
+ociated blkg  */
+8f9bebc33dd718 Paolo Valente 2017-06-05  678  	bfqg_and_blkg_get(bfqg);
+ea25da48086d3b Paolo Valente 2017-04-19  679  =
 
-4eae85df44a2a5 Cristian Marussi 2022-06-27  353  	ph->xops->xfer_put(ph, t);
-4eae85df44a2a5 Cristian Marussi 2022-06-27  354  	return ret;
-4eae85df44a2a5 Cristian Marussi 2022-06-27  355  }
-4eae85df44a2a5 Cristian Marussi 2022-06-27  356  =
+ea25da48086d3b Paolo Valente 2017-04-19  680  	if (bfq_bfqq_busy(bfqq)) {
+8cacc5ab3eacf5 Paolo Valente 2019-03-12  681  		if (unlikely(!bfqd->nonrot_=
+with_queueing))
+ea25da48086d3b Paolo Valente 2017-04-19  682  			bfq_pos_tree_add_move(bfqd=
+, bfqq);
+ea25da48086d3b Paolo Valente 2017-04-19  683  		bfq_activate_bfqq(bfqd, bfq=
+q);
+ea25da48086d3b Paolo Valente 2017-04-19  684  	}
+ea25da48086d3b Paolo Valente 2017-04-19  685  =
+
+ea25da48086d3b Paolo Valente 2017-04-19  686  	if (!bfqd->in_service_queue =
+&& !bfqd->rq_in_driver)
+ea25da48086d3b Paolo Valente 2017-04-19  687  		bfq_schedule_dispatch(bfqd);
+fd1bb3ae54a9a2 Paolo Valente 2020-03-21  688  	/* release extra ref taken a=
+bove, bfqq may happen to be freed now */
+ecedd3d7e19911 Paolo Valente 2020-02-03  689  	bfq_put_queue(bfqq);
+ea25da48086d3b Paolo Valente 2017-04-19  690  }
+ea25da48086d3b Paolo Valente 2017-04-19  691  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1634227664433499807==--
+--===============4059492714289021565==--
 
