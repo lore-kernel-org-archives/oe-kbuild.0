@@ -1,351 +1,220 @@
-Content-Type: multipart/mixed; boundary="===============8561022494606475914=="
+Content-Type: multipart/mixed; boundary="===============2648434611104045731=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/net/netlink.h:1477:32: warning: Null pointer passed as 1st argument to string length function [clang-analyzer-unix.cstring.NullArg]
-Date: Mon, 11 Jul 2022 14:15:23 +0800
-Message-ID: <202207111444.P9b63WMn-lkp@intel.com>
+Subject: kernel/trace/trace_probe.c:1061:30: warning: use of NULL 'event_name' where non-null expected [CWE-476]
+Date: Sun, 03 Jul 2022 10:35:00 +0800
+Message-ID: <202207031004.PznWEg1J-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8561022494606475914==
+--===============2648434611104045731==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/net/netlink.h:1477:32: warning: Null pointer passed as 1st argumen=
-t to string length function [clang-analyzer-unix.cstring.NullArg]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: kernel/tr=
+ace/trace_probe.c:1061:30: warning: use of NULL 'event_name' where non-null=
+ expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Yajun Deng <yajun.deng@linux.dev>
+TO: Masami Hiramatsu <mhiramat@kernel.org>
+CC: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   32346491ddf24599decca06190ebca03ff9de7f8
-commit: b37a466837393af72fe8bcb8f1436410f3f173f3 netdevice: add the case if=
- dev is NULL
+head:   69cb6c6556ad89620547318439d6be8bb1629a5a
+commit: 8e242060c6a4947e8ae7d29794af6a581db08841 tracing/probes: Reject eve=
+nts which have the same name of existing one
 date:   11 months ago
 :::::: branch date: 8 hours ago
 :::::: commit date: 11 months ago
-config: s390-randconfig-c005-20220707 (https://download.01.org/0day-ci/arch=
-ive/20220711/202207111444.P9b63WMn-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 562c34=
-67a6738aa89203f72fc1d1343e5baadf3c)
+config: arm-randconfig-c002-20220702 (https://download.01.org/0day-ci/archi=
+ve/20220703/202207031004.PznWEg1J-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db37a466837393af72fe8bcb8f1436410f3f173f3
+t/commit/?id=3D8e242060c6a4947e8ae7d29794af6a581db08841
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout b37a466837393af72fe8bcb8f1436410f3f173f3
+        git checkout 8e242060c6a4947e8ae7d29794af6a581db08841
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~
-   include/linux/netdevice.h:4163:6: note: Assuming 'dev' is non-null
-           if (dev) {
-               ^~~
-   include/linux/netdevice.h:4163:2: note: Taking true branch
-           if (dev) {
-           ^
-   include/linux/netdevice.h:4165:3: note: Loop condition is false.  Exitin=
-g loop
-                   this_cpu_inc(*dev->pcpu_refcnt);
-                   ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:375:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           __verify_pcpu_ptr(&(variable));                                 \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   include/linux/netdevice.h:4165:3: note: Control jumps to 'case 4:'  at l=
-ine 4165
-                   this_cpu_inc(*dev->pcpu_refcnt);
-                   ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:376:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           switch(sizeof(variable)) {                                      \
-           ^
-   include/linux/netdevice.h:4165:3: note: Loop condition is false.  Exitin=
-g loop
-                   this_cpu_inc(*dev->pcpu_refcnt);
-                   ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:379:11: note: expanded from macro '__pcpu_si=
-ze_call'
-                   case 4: stem##4(variable, __VA_ARGS__);break;           \
-                           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   arch/s390/include/asm/percpu.h:90:34: note: expanded from macro 'this_cp=
-u_add_4'
-   #define this_cpu_add_4(pcp, val) arch_this_cpu_add(pcp, val, "laa", "asi=
-", int)
-                                    ^
-   arch/s390/include/asm/percpu.h:71:2: note: expanded from macro 'arch_thi=
-s_cpu_add'
-           preempt_disable_notrace();                                      \
-           ^
-   include/linux/preempt.h:228:35: note: expanded from macro 'preempt_disab=
-le_notrace'
-   #define preempt_disable_notrace() \
-                                     ^
-   include/linux/netdevice.h:4165:3: note: Loop condition is false.  Exitin=
-g loop
-                   this_cpu_inc(*dev->pcpu_refcnt);
-                   ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:379:11: note: expanded from macro '__pcpu_si=
-ze_call'
-                   case 4: stem##4(variable, __VA_ARGS__);break;           \
-                           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   arch/s390/include/asm/percpu.h:72:10: note: expanded from macro 'arch_th=
-is_cpu_add'
-           ptr__ =3D raw_cpu_ptr(&(pcp));                            \
-                   ^
-   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   include/linux/netdevice.h:4165:3: note: Dereference of null pointer
-                   this_cpu_inc(*dev->pcpu_refcnt);
-                   ^
-   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_=
-inc'
-   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:509:33: note: expanded from macro 'this_cpu_=
-add'
-   #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, =
-pcp, val)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   include/linux/percpu-defs.h:379:11: note: expanded from macro '__pcpu_si=
-ze_call'
-                   case 4: stem##4(variable, __VA_ARGS__);break;           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:188:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^~~~~
->> include/net/netlink.h:1477:32: warning: Null pointer passed as 1st argum=
-ent to string length function [clang-analyzer-unix.cstring.NullArg]
-           return nla_put(skb, attrtype, strlen(str) + 1, str);
-                                         ^
-   net/ieee802154/nl-phy.c:172:2: note: Taking false branch
-           pr_debug("%s\n", __func__);
-           ^
-   include/linux/printk.h:477:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:140:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   net/ieee802154/nl-phy.c:174:6: note: Assuming the condition is false
-           if (!info->attrs[IEEE802154_ATTR_PHY_NAME])
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ieee802154/nl-phy.c:174:2: note: Taking false branch
-           if (!info->attrs[IEEE802154_ATTR_PHY_NAME])
-           ^
-   net/ieee802154/nl-phy.c:178:6: note: Assuming the condition is false
-           if (name[nla_len(info->attrs[IEEE802154_ATTR_PHY_NAME]) - 1] !=
-=3D '\0')
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/ieee802154/nl-phy.c:178:2: note: Taking false branch
-           if (name[nla_len(info->attrs[IEEE802154_ATTR_PHY_NAME]) - 1] !=
-=3D '\0')
-           ^
-   net/ieee802154/nl-phy.c:181:6: note: Assuming the condition is false
-           if (info->attrs[IEEE802154_ATTR_DEV_NAME]) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ieee802154/nl-phy.c:181:2: note: Taking false branch
-           if (info->attrs[IEEE802154_ATTR_DEV_NAME]) {
-           ^
-   net/ieee802154/nl-phy.c:192:2: note: Taking false branch
-           if (strlen(devname) >=3D IFNAMSIZ)
-           ^
-   net/ieee802154/nl-phy.c:196:6: note: Assuming 'phy' is non-null
-           if (!phy)
-               ^~~~
-   net/ieee802154/nl-phy.c:196:2: note: Taking false branch
-           if (!phy)
-           ^
-   net/ieee802154/nl-phy.c:200:6: note: Assuming 'msg' is non-null
-           if (!msg)
-               ^~~~
-   net/ieee802154/nl-phy.c:200:2: note: Taking false branch
-           if (!msg)
-           ^
-   net/ieee802154/nl-phy.c:203:6: note: Assuming pointer value is null
-           if (info->attrs[IEEE802154_ATTR_HW_ADDR] &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ieee802154/nl-phy.c:203:43: note: Left side of '&&' is false
-           if (info->attrs[IEEE802154_ATTR_HW_ADDR] &&
-                                                    ^
-   net/ieee802154/nl-phy.c:210:6: note: Assuming the condition is false
-           if (info->attrs[IEEE802154_ATTR_DEV_TYPE]) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ieee802154/nl-phy.c:210:2: note: Taking false branch
-           if (info->attrs[IEEE802154_ATTR_DEV_TYPE]) {
-           ^
-   net/ieee802154/nl-phy.c:220:2: note: Taking false branch
-           if (IS_ERR(dev)) {
-           ^
-   net/ieee802154/nl-phy.c:226:2: note: Taking false branch
-           if (info->attrs[IEEE802154_ATTR_HW_ADDR]) {
-           ^
-   net/ieee802154/nl-phy.c:243:6: note: Assuming the condition is false
-           if (nla_put_string(msg, IEEE802154_ATTR_PHY_NAME, wpan_phy_name(=
-phy)) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   net/ieee802154/nl-phy.c:243:6: note: Left side of '||' is false
-   net/ieee802154/nl-phy.c:244:52: note: Passing null pointer value via 3rd=
- parameter 'str'
-               nla_put_string(msg, IEEE802154_ATTR_DEV_NAME, dev->name)) {
-                                                             ^~~~~~~~~
-   net/ieee802154/nl-phy.c:244:6: note: Calling 'nla_put_string'
-               nla_put_string(msg, IEEE802154_ATTR_DEV_NAME, dev->name)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1477:32: note: Null pointer passed as 1st argument=
- to string length function
-           return nla_put(skb, attrtype, strlen(str) + 1, str);
-                                         ^      ~~~
-   Suppressed 24 warnings (12 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   arch/s390/include/asm/preempt.h:17:9: warning: Dereference of null point=
-er [clang-analyzer-core.NullDereference]
-           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RES=
-CHED;
-                  ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^
-   net/netlink/af_netlink.c:2537:6: note: Assuming 'group' is 0
-           if (group) {
-               ^~~~~
-   net/netlink/af_netlink.c:2537:2: note: Taking false branch
-           if (group) {
-           ^
-   net/netlink/af_netlink.c:2552:6: note: Assuming 'report' is not equal to=
- 0
-           if (report) {
-               ^~~~~~
-   net/netlink/af_netlink.c:2552:2: note: Taking true branch
-           if (report) {
-           ^
-   net/netlink/af_netlink.c:2555:10: note: Calling 'nlmsg_unicast'
+gcc-analyzer warnings: (new ones prefixed by >>)
+   kernel/trace/trace_probe.c: In function 'find_trace_event_call':
+>> kernel/trace/trace_probe.c:1061:30: warning: use of NULL 'event_name' wh=
+ere non-null expected [CWE-476] [-Wanalyzer-null-argument]
+    1061 |                 if (!name || strcmp(event_name, name))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+     'trace_probe_register_event_call': event 1
+       |
+       | 1069 | int trace_probe_register_event_call(struct trace_probe *tp)
+       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'trace_probe_register_event_call'
+       |
+     'trace_probe_register_event_call': event 2
+       |
+       |include/asm-generic/bug.h:121:29:
+       |  121 |         int __ret_warn_on =3D !!(condition);               =
+               \
+       |      |                             ^~~~~~~~~~~~~
+       |      |                             |
+       |      |                             (2) following 'false' branch...
+   include/linux/lockdep.h:310:17: note: in expansion of macro 'WARN_ON'
+       |  310 |                 WARN_ON(debug_locks &&                     =
+             \
+       |      |                 ^~~~~~~
+   kernel/trace/trace_probe.c:1074:9: note: in expansion of macro 'lockdep_=
+assert_held'
+       | 1074 |         lockdep_assert_held(&event_mutex);
+       |      |         ^~~~~~~~~~~~~~~~~~~
+       |
+     'trace_probe_register_event_call': event 3
+       |
+       |kernel/trace/trace_probe.h:284:18:
+       |  284 |         return tp->event->call.class->system;
+       |      |                ~~^~~~~~~
+       |      |                  |
+       |      |                  (3) ...to here
+       |
+     'trace_probe_register_event_call': event 4
+       |
+       |kernel/trace/trace_probe.c:1076:13:
+       | 1076 |         if (find_trace_event_call(trace_probe_group_name(tp=
+),
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+       |      |             |
+       |      |             (4) calling 'trace_probe_name' from 'trace_prob=
+e_register_event_call'
+       | 1077 |                                   trace_probe_name(tp)))
+       |      |                                   ~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'trace_probe_name': event 5
+              |
+              |kernel/trace/trace_probe.h:277:27:
+              |  277 | static inline const char *trace_probe_name(struct tr=
+ace_probe *tp)
+              |      |                           ^~~~~~~~~~~~~~~~
+              |      |                           |
+              |      |                           (5) entry to 'trace_probe_=
+name'
+              |
+            'trace_probe_name': events 6-7
+              |
+              |include/linux/trace_events.h:439:12:
+              |  439 |         if (call->flags & TRACE_EVENT_FL_TRACEPOINT)
+              |      |            ^
+              |      |            |
+              |      |            (6) following 'true' branch...
+              |  440 |                 return call->tp ? call->tp->name : N=
+ULL;
+              |      |                        ~~~~~~~~
+              |      |                            |
+              |      |                            (7) ...to here
+              |
+            'trace_probe_name': event 8
+              |
+              |  440 |                 return call->tp ? call->tp->name : N=
+ULL;
+              |
+            'trace_probe_name': event 9
+              |
+              |kernel/trace/trace_probe.h:279:16:
+              |  279 |         return trace_event_name(&tp->event->call);
+              |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                |
+              |      |                (9) ...to here
+              |
+       <------+
+       |
+     'trace_probe_register_event_call': events 10-11
+       |
+       |kernel/trace/trace_probe.c:1076:13:
+       | 1076 |         if (find_trace_event_call(trace_probe_group_name(tp=
+),
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+       |      |             |
+       |      |             (10) returning to 'trace_probe_register_event_c=
+all' from 'trace_probe_name'
+       |      |             (11) calling 'find_trace_event_call' from 'trac=
+e_probe_register_event_call'
+       | 1077 |                                   trace_probe_name(tp)))
+       |      |                                   ~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'find_trace_event_call': event 12
+              |
+              | 1051 | find_trace_event_call(const char *system, const char=
+ *event_name)
+              |      | ^~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (12) entry to 'find_trace_event_call'
+              |
+            'find_trace_event_call': event 13
+              |
+              |include/linux/list.h:629:14:
+              |  629 |              !list_entry_is_head(pos, head, member);=
+                    \
+              |      |              ^
+              |      |              |
+              |      |              (13) following 'true' branch...
 
-vim +1477 include/net/netlink.h
+vim +/event_name +1061 kernel/trace/trace_probe.c
 
-4778e0be16c291 Jiri Pirko  2012-07-27  1467  =
+46e5376d404d14 Masami Hiramatsu 2019-06-01  1049  =
 
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1468  /**
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1469   * nla_put_string - Add a stri=
-ng netlink attribute to a socket buffer
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1470   * @skb: socket buffer to add =
-attribute to
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1471   * @attrtype: attribute type
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1472   * @str: NUL terminated string
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1473   */
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1474  static inline int nla_put_stri=
-ng(struct sk_buff *skb, int attrtype,
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1475  				 const char *str)
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1476  {
-bfa83a9e03cf8d Thomas Graf 2005-11-10 @1477  	return nla_put(skb, attrtype,=
- strlen(str) + 1, str);
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1478  }
-bfa83a9e03cf8d Thomas Graf 2005-11-10  1479  =
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1050  static struct trace_event=
+_call *
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1051  find_trace_event_call(con=
+st char *system, const char *event_name)
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1052  {
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1053  	struct trace_event_call =
+*tp_event;
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1054  	const char *name;
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1055  =
 
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1056  	list_for_each_entry(tp_e=
+vent, &ftrace_events, list) {
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1057  		if (!tp_event->class->s=
+ystem ||
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1058  		    strcmp(system, tp_e=
+vent->class->system))
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1059  			continue;
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1060  		name =3D trace_event_na=
+me(tp_event);
+8e242060c6a494 Masami Hiramatsu 2021-08-19 @1061  		if (!name || strcmp(eve=
+nt_name, name))
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1062  			continue;
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1063  		return tp_event;
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1064  	}
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1065  =
 
-:::::: The code at line 1477 was first introduced by commit
-:::::: bfa83a9e03cf8d501c6272999843470afecb32ed [NETLINK]: Type-safe netlin=
-k messages/attributes interface
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1066  	return NULL;
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1067  }
+8e242060c6a494 Masami Hiramatsu 2021-08-19  1068  =
 
-:::::: TO: Thomas Graf <tgraf@suug.ch>
-:::::: CC: Thomas Graf <tgr@axs.localdomain>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8561022494606475914==--
+--===============2648434611104045731==--
 
