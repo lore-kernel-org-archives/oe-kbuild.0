@@ -1,321 +1,145 @@
-Content-Type: multipart/mixed; boundary="===============6610416527568415344=="
+Content-Type: multipart/mixed; boundary="===============0712132892883740885=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/trace/events/ext4.h:1820:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Tue, 05 Jul 2022 12:09:09 +0800
-Message-ID: <202207051222.G2bplCnH-lkp@intel.com>
+Subject: drivers/tty/serial/sifive.c:273:3: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+Date: Tue, 05 Jul 2022 07:44:02 +0800
+Message-ID: <202207050726.89vctbKW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6610416527568415344==
+--===============0712132892883740885==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "commit no functional change"
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- include/trace/events/ext4.h:1820:1: warning: Dereference of null pointer [=
-clang-analyzer-core.NullDereference]"
+ drivers/tty/serial/sifive.c:273:3: warning: Signed integer overflow for ex=
+pression '1<<31'. [integerOverflow]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Wang Jianchao <wangjianchao@kuaishou.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
-CC: Andreas Dilger <adilger@dilger.ca>
-CC: Jan Kara <jack@suse.cz>
+TO: Guenter Roeck <linux@roeck-us.net>
+CC: Palmer Dabbelt <palmerdabbelt@google.com>
+
+Hi Guenter,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c1084b6c5620a743f86947caca66d90f24060f56
-commit: 6920b3913235f517728bb69abe9b39047a987113 ext4: add new helper inter=
-face ext4_try_to_trim_range()
+commit: a18b14d8886614b3c7d290c4cfc33389822b0535 riscv: Disable STACKPROTEC=
+TOR_PER_TASK if GCC_PLUGIN_RANDSTRUCT is enabled
 date:   11 months ago
-:::::: branch date: 10 hours ago
+:::::: branch date: 6 hours ago
 :::::: commit date: 11 months ago
-config: s390-randconfig-c005-20220702 (https://download.01.org/0day-ci/arch=
-ive/20220705/202207051222.G2bplCnH-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5d7876=
-89b14574fe58ba9798563f4a6df6059fbf)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6920b3913235f517728bb69abe9b39047a987113
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 6920b3913235f517728bb69abe9b39047a987113
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+compiler: riscv64-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout a18b14d8886614b3c7d290c4cfc33389822b0535
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/ext4/mballoc.c:6375:3: note: Taking false branch
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                   ^
-   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
-roup'
-                   if (group =3D=3D last_group)
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6387:3: note: Taking false branch
-                   if (group =3D=3D last_group)
-                   ^
-   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is > field 'bb_free'
-                   if (grp->bb_free >=3D minlen) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6390:3: note: Taking false branch
-                   if (grp->bb_free >=3D minlen) {
-                   ^
-   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
-           for (group =3D first_group; group <=3D last_group; group++) {
-                                     ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6372:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (group =3D first_group; group <=3D last_group; group++) {
-           ^
-   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/ext4/mballoc.c:6375:3: note: Taking false branch
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                   ^
-   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
-roup'
-                   if (group =3D=3D last_group)
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6387:3: note: Taking false branch
-                   if (group =3D=3D last_group)
-                   ^
-   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is <=3D field 'bb_free'
-                   if (grp->bb_free >=3D minlen) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6390:3: note: Taking true branch
-                   if (grp->bb_free >=3D minlen) {
-                   ^
-   fs/ext4/mballoc.c:6391:10: note: Calling 'ext4_trim_all_free'
-                           cnt =3D ext4_trim_all_free(sb, group, first_clus=
-ter,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   fs/ext4/mballoc.c:6298:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   fs/ext4/mballoc.c:6298:2: note: Taking false branch
-           if (ret) {
-           ^
-   fs/ext4/mballoc.c:6306:6: note: Assuming the condition is true
-           if (!EXT4_MB_GRP_WAS_TRIMMED(e4b.bd_info) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6306:44: note: Left side of '||' is true
-           if (!EXT4_MB_GRP_WAS_TRIMMED(e4b.bd_info) ||
-                                                     ^
-   fs/ext4/mballoc.c:6308:9: note: Calling 'ext4_try_to_trim_range'
-                   ret =3D ext4_try_to_trim_range(sb, &e4b, start, max, min=
-blocks);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   fs/ext4/mballoc.c:6230:11: note: Assuming 'start' is >=3D field 'bb_firs=
-t_free'
-           start =3D (e4b->bd_info->bb_first_free > start) ?
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6230:10: note: '?' condition is false
-           start =3D (e4b->bd_info->bb_first_free > start) ?
-                   ^
-   fs/ext4/mballoc.c:6235:9: note: Assuming 'start' is <=3D 'max'
-           while (start <=3D max) {
-                  ^~~~~~~~~~~~
-   fs/ext4/mballoc.c:6235:2: note: Loop condition is true.  Entering loop b=
-ody
-           while (start <=3D max) {
-           ^
-   fs/ext4/mballoc.c:6237:7: note: Assuming 'start' is <=3D 'max'
-                   if (start > max)
-                       ^~~~~~~~~~~
-   fs/ext4/mballoc.c:6237:3: note: Taking false branch
-                   if (start > max)
-                   ^
-   fs/ext4/mballoc.c:6241:7: note: Assuming the condition is false
-                   if ((next - start) >=3D minblocks) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6241:3: note: Taking false branch
-                   if ((next - start) >=3D minblocks) {
-                   ^
-   fs/ext4/mballoc.c:6251:28: note: Dereference of null pointer
-                   if (fatal_signal_pending(current)) {
-                                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
->> include/trace/events/ext4.h:1820:1: warning: Dereference of null pointer=
- [clang-analyzer-core.NullDereference]
-   DEFINE_EVENT(ext4__trim, ext4_trim_extent,
-   ^
-   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
-T'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-                                      ^
-   arch/s390/include/asm/smp.h:15:32: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
-                                   ^
-   fs/ext4/mballoc.c:6352:6: note: Assuming 'minlen' is <=3D field 's_clust=
-ers_per_group'
-           if (minlen > EXT4_CLUSTERS_PER_GROUP(sb) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6352:6: note: Left side of '||' is false
-   fs/ext4/mballoc.c:6353:6: note: Assuming 'start' is < 'max_blks'
-               start >=3D max_blks ||
-               ^~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6352:6: note: Left side of '||' is false
-           if (minlen > EXT4_CLUSTERS_PER_GROUP(sb) ||
-               ^
-   fs/ext4/mballoc.c:6354:6: note: Assuming field 'len' is >=3D field 's_bl=
-ocksize'
-               range->len < sb->s_blocksize)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6352:2: note: Taking false branch
-           if (minlen > EXT4_CLUSTERS_PER_GROUP(sb) ||
-           ^
-   fs/ext4/mballoc.c:6356:6: note: Assuming 'end' is < 'max_blks'
-           if (end >=3D max_blks)
-               ^~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6356:2: note: Taking false branch
-           if (end >=3D max_blks)
-           ^
-   fs/ext4/mballoc.c:6358:6: note: Assuming 'end' is > 'first_data_blk'
-           if (end <=3D first_data_blk)
-               ^~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6358:2: note: Taking false branch
-           if (end <=3D first_data_blk)
-           ^
-   fs/ext4/mballoc.c:6360:6: note: Assuming 'start' is >=3D 'first_data_blk'
-           if (start < first_data_blk)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6360:2: note: Taking false branch
-           if (start < first_data_blk)
-           ^
-   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
-           for (group =3D first_group; group <=3D last_group; group++) {
-                                     ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6372:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (group =3D first_group; group <=3D last_group; group++) {
-           ^
-   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/ext4/mballoc.c:6375:3: note: Taking false branch
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                   ^
-   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
-roup'
-                   if (group =3D=3D last_group)
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6387:3: note: Taking false branch
-                   if (group =3D=3D last_group)
-                   ^
-   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is > field 'bb_free'
-                   if (grp->bb_free >=3D minlen) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6390:3: note: Taking false branch
-                   if (grp->bb_free >=3D minlen) {
-                   ^
-   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
-           for (group =3D first_group; group <=3D last_group; group++) {
-                                     ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6372:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (group =3D first_group; group <=3D last_group; group++) {
-           ^
-   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/ext4/mballoc.c:6375:3: note: Taking false branch
-                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
-                   ^
-   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
-roup'
-                   if (group =3D=3D last_group)
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6387:3: note: Taking false branch
-                   if (group =3D=3D last_group)
-                   ^
-   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is > field 'bb_free'
-                   if (grp->bb_free >=3D minlen) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/mballoc.c:6390:3: note: Taking false branch
-                   if (grp->bb_free >=3D minlen) {
-                   ^
-   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +1820 include/trace/events/ext4.h
+   drivers/tty/serial/sifive.c:273:3: warning: Shifting signed 32-bit value=
+ by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+     SIFIVE_SERIAL_TXDATA_FULL_MASK;
+     ^
+   drivers/tty/serial/sifive.c:418:20: warning: Shifting signed 32-bit valu=
+e by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+     *is_empty =3D (v & SIFIVE_SERIAL_RXDATA_EMPTY_MASK) >>
+                      ^
+>> drivers/tty/serial/sifive.c:273:3: warning: Signed integer overflow for =
+expression '1<<31'. [integerOverflow]
+     SIFIVE_SERIAL_TXDATA_FULL_MASK;
+     ^
+   drivers/tty/serial/sifive.c:418:20: warning: Signed integer overflow for=
+ expression '1<<31'. [integerOverflow]
+     *is_empty =3D (v & SIFIVE_SERIAL_RXDATA_EMPTY_MASK) >>
+                      ^
+   drivers/tty/serial/sifive.c:762:9: warning: Shifting signed 32-bit value=
+ by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+           SIFIVE_SERIAL_TXDATA_FULL_MASK)
+           ^
+   drivers/tty/serial/sifive.c:762:9: warning: Signed integer overflow for =
+expression '1<<31'. [integerOverflow]
+           SIFIVE_SERIAL_TXDATA_FULL_MASK)
+           ^
+--
+>> drivers/tty/synclink_gt.c:550:50: warning: Parameter 'info' can be decla=
+red with const [constParameter]
+   static inline int sanity_check(struct slgt_info *info, char *devname, co=
+nst char *name)
+                                                    ^
+--
+>> drivers/video/fbdev/core/fbcon.c:2766:19: warning: Local variable 'info'=
+ shadows outer argument [shadowArgument]
+     struct fb_info *info =3D registered_fb[idx];
+                     ^
+   drivers/video/fbdev/core/fbcon.c:2742:38: note: Shadowed declaration
+   void fbcon_fb_unbind(struct fb_info *info)
+                                        ^
+   drivers/video/fbdev/core/fbcon.c:2766:19: note: Shadow variable
+     struct fb_info *info =3D registered_fb[idx];
+                     ^
+>> drivers/video/fbdev/core/fbcon.c:2700:40: warning: Parameter 'info' can =
+be declared with const [constParameter]
+   int fbcon_mode_deleted(struct fb_info *info,
+                                          ^
 
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1819  =
+vim +273 drivers/tty/serial/sifive.c
 
-b3d4c2b10b68d2 Tao Ma 2011-07-11 @1820  DEFINE_EVENT(ext4__trim, ext4_trim_=
-extent,
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1821  =
+45c054d0815b15 Paul Walmsley 2019-04-12  258  =
 
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1822  	TP_PROTO(struct super_block *sb,
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1823  		 ext4_group_t group,
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1824  		 ext4_grpblk_t start,
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1825  		 ext4_grpblk_t len),
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1826  =
-
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1827  	TP_ARGS(sb, group, start, len)
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1828  );
-b3d4c2b10b68d2 Tao Ma 2011-07-11  1829  =
+45c054d0815b15 Paul Walmsley 2019-04-12  259  /**
+45c054d0815b15 Paul Walmsley 2019-04-12  260   * sifive_serial_is_txfifo_fu=
+ll() - is the TXFIFO full?
+45c054d0815b15 Paul Walmsley 2019-04-12  261   * @ssp: pointer to a struct =
+sifive_serial_port
+45c054d0815b15 Paul Walmsley 2019-04-12  262   *
+45c054d0815b15 Paul Walmsley 2019-04-12  263   * Read the transmit FIFO "fu=
+ll" bit, returning a non-zero value if the
+45c054d0815b15 Paul Walmsley 2019-04-12  264   * TX FIFO is full, or zero i=
+f space remains.  Intended to be used to prevent
+45c054d0815b15 Paul Walmsley 2019-04-12  265   * writes to the TX FIFO when=
+ it's full.
+45c054d0815b15 Paul Walmsley 2019-04-12  266   *
+45c054d0815b15 Paul Walmsley 2019-04-12  267   * Returns: SIFIVE_SERIAL_TXD=
+ATA_FULL_MASK (non-zero) if the transmit FIFO
+45c054d0815b15 Paul Walmsley 2019-04-12  268   * is full, or 0 if space rem=
+ains.
+45c054d0815b15 Paul Walmsley 2019-04-12  269   */
+45c054d0815b15 Paul Walmsley 2019-04-12  270  static int sifive_serial_is_t=
+xfifo_full(struct sifive_serial_port *ssp)
+45c054d0815b15 Paul Walmsley 2019-04-12  271  {
+45c054d0815b15 Paul Walmsley 2019-04-12  272  	return __ssp_readl(ssp, SIFI=
+VE_SERIAL_TXDATA_OFFS) &
+45c054d0815b15 Paul Walmsley 2019-04-12 @273  		SIFIVE_SERIAL_TXDATA_FULL_M=
+ASK;
+45c054d0815b15 Paul Walmsley 2019-04-12  274  }
+45c054d0815b15 Paul Walmsley 2019-04-12  275  =
 
 
-:::::: The code@line 1820 was first introduced by commit
-:::::: b3d4c2b10b68d205d3eb1b5c17dcb4649a502798 ext4: Add new ext4 trim tra=
-cepoints
+:::::: The code at line 273 was first introduced by commit
+:::::: 45c054d0815b1530d7c7ff8441389a0421dd05e7 tty: serial: add driver for=
+ the SiFive UART
 
-:::::: TO: Tao Ma <boyu.mt@taobao.com>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+:::::: TO: Paul Walmsley <paul.walmsley@sifive.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6610416527568415344==--
+--===============0712132892883740885==--
 
