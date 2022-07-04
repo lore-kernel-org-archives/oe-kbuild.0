@@ -1,410 +1,710 @@
-Content-Type: multipart/mixed; boundary="===============4943207987611764043=="
+Content-Type: multipart/mixed; boundary="===============7093050032715996982=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10578:9: warning: use of NULL 'data' where non-null expected [CWE-476]
-Date: Mon, 04 Jul 2022 17:18:51 +0800
-Message-ID: <202207041717.tpv41kQH-lkp@intel.com>
+Subject: fs/hfs/bnode.c:50:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Mon, 04 Jul 2022 17:08:28 +0800
+Message-ID: <202207041621.fRTGGuDO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4943207987611764043==
+--===============7093050032715996982==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10578:9: warni=
-ng: use of NULL 'data' where non-null expected [CWE-476] [-Wanalyzer-null-a=
-rgument]"
+:::::: Manual check reason: "low confidence static check warning: fs/hfs/bn=
+ode.c:50:2: warning: Undefined or garbage value returned to caller [clang-a=
+nalyzer-core.uninitialized.UndefReturn]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Stylon Wang <stylon.wang@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+TO: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+CC: Viacheslav Dubeyko <slava@dubeyko.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   88084a3df1672e131ddc1b4e39eeacfd39864acf
-commit: 46db138dc83ae16e188038358c925c560110f804 drm/amd/display: Add Frees=
-ync HDMI support to DM with DMUB
+commit: 54a5ead6f5e2b47131a7385d0c0af18e7b89cb02 hfs: fix high memory mappi=
+ng in hfs_bnode_read
 date:   12 months ago
-:::::: branch date: 11 hours ago
+:::::: branch date: 10 hours ago
 :::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220703 (https://download.01.org/0day-ci/archi=
-ve/20220704/202207041717.tpv41kQH-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+config: s390-randconfig-c005-20220702 (https://download.01.org/0day-ci/arch=
+ive/20220704/202207041621.fRTGGuDO-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5d7876=
+89b14574fe58ba9798563f4a6df6059fbf)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D46db138dc83ae16e188038358c925c560110f804
+t/commit/?id=3D54a5ead6f5e2b47131a7385d0c0af18e7b89cb02
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 46db138dc83ae16e188038358c925c560110f804
+        git checkout 54a5ead6f5e2b47131a7385d0c0af18e7b89cb02
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-       |      |                    ~
-       |      |                    |
-       |      |                    (8) ...to here
-       |      |                    (9) following 'false' branch (when 'old_=
-plane_crtc' is non-NULL)...
-       |
-     'dm_update_plane_state': event 10
-       |
-       |include/drm/drm_atomic.h:542:21:
-       |  542 |         return state->crtcs[drm_crtc_index(crtc)].old_state;
-       |      |                ~~~~~^~~~~~~
-       |      |                     |
-       |      |                     (10) ...to here
-       |
-     'dm_update_plane_state': event 11
-       |
-       |drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9953:20:
-       | 9953 |                 if (!dm_old_crtc_state->stream)
-       |      |                    ^
-       |      |                    |
-       |      |                    (11) following 'false' branch...
-       |
-     'dm_update_plane_state': event 12
-       |
-       |include/drm/drm_print.h:516:9:
-       |  516 |         __drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (12) ...to here
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9956:17: not=
-e: in expansion of macro 'DRM_DEBUG_ATOMIC'
-       | 9956 |                 DRM_DEBUG_ATOMIC("Disabling DRM plane: %d o=
-n DRM crtc %d\n",
-       |      |                 ^~~~~~~~~~~~~~~~
-       |
-     'dm_update_plane_state': event 13
-       |
-       | 9959 |                 ret =3D dm_atomic_get_state(state, &dm_stat=
-e);
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (13) calling 'dm_atomic_get_state' fr=
-om 'dm_update_plane_state'
-       |
-       +--> 'dm_atomic_get_state': events 14-18
-              |
-              | 3287 | static int dm_atomic_get_state(struct drm_atomic_sta=
-te *state,
-              |      |            ^~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (14) entry to 'dm_atomic_get_state'
-              |......
-              | 3295 |         if (*dm_state)
-              |      |            ~~~~~~~~~~
-              |      |            ||
-              |      |            |(15) 'dm_state' is NULL
-              |      |            (16) following 'false' branch...
-              |......
-              | 3298 |         priv_state =3D drm_atomic_get_private_obj_st=
-ate(state, &dm->atomic_obj);
-              |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                      |
-              |      |                      (17) ...to here
-              | 3299 |         if (IS_ERR(priv_state))
-              |      |            ~
-              |      |            |
-              |      |            (18) following 'true' branch...
-              |
-            'dm_atomic_get_state': event 19
-              |
-              |include/linux/err.h:31:16:
-              |   31 |         return (long) ptr;
-              |      |                ^~~~~~~~~~
-              |      |                |
-              |      |                (19) ...to here
-              |
-       <------+
-       |
-     'dm_update_plane_state': events 20-24
-       |
-       |drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9959:23:
-       | 9959 |                 ret =3D dm_atomic_get_state(state, &dm_stat=
-e);
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (20) returning to 'dm_update_plane_st=
-ate' from 'dm_atomic_get_state'
-       | 9960 |                 if (ret)
-       |      |                    ~   =
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^
+   fs/udf/namei.c:361:7: note: Assuming 'namelen' is not equal to 0
+                   if (!namelen) {
+                       ^~~~~~~~
+   fs/udf/namei.c:361:3: note: Taking false branch
+                   if (!namelen) {
+                   ^
+   fs/udf/namei.c:375:13: note: Field 'i_alloc_type' is not equal to ICBTAG=
+_FLAG_AD_IN_ICB
+           if (dinfo->i_alloc_type !=3D ICBTAG_FLAG_AD_IN_ICB) {
+                      ^
+   fs/udf/namei.c:375:2: note: Taking true branch
+           if (dinfo->i_alloc_type !=3D ICBTAG_FLAG_AD_IN_ICB) {
+           ^
+   fs/udf/namei.c:376:7: note: Assuming the condition is true
+                   if (inode_bmap(dir, f_pos >> dir->i_sb->s_blocksize_bits=
+, &epos,
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   fs/udf/namei.c:376:3: note: Taking true branch
+                   if (inode_bmap(dir, f_pos >> dir->i_sb->s_blocksize_bits=
+, &epos,
+                   ^
+   fs/udf/namei.c:381:4: note: Control jumps to line 429
+                           goto add;
+                           ^
+   fs/udf/namei.c:431:6: note: Assuming field 'i_alloc_type' is not equal t=
+o ICBTAG_FLAG_AD_IN_ICB
+           if (dinfo->i_alloc_type =3D=3D ICBTAG_FLAG_AD_IN_ICB &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/udf/namei.c:431:51: note: Left side of '&&' is false
+           if (dinfo->i_alloc_type =3D=3D ICBTAG_FLAG_AD_IN_ICB &&
+                                                            ^
+   fs/udf/namei.c:452:6: note: Assuming the condition is true
+           if (sb->s_blocksize - fibh->eoffset >=3D nfidlen) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/udf/namei.c:452:2: note: Taking true branch
+           if (sb->s_blocksize - fibh->eoffset >=3D nfidlen) {
+           ^
+   fs/udf/namei.c:455:13: note: Field 'sbh' is equal to field 'ebh'
+                   if (fibh->sbh !=3D fibh->ebh) {
+                             ^
+   fs/udf/namei.c:455:3: note: Taking false branch
+                   if (fibh->sbh !=3D fibh->ebh) {
+                   ^
+   fs/udf/namei.c:460:14: note: Field 'i_alloc_type' is not equal to ICBTAG=
+_FLAG_AD_IN_ICB
+                   if (dinfo->i_alloc_type =3D=3D ICBTAG_FLAG_AD_IN_ICB) {
+                              ^
+   fs/udf/namei.c:460:3: note: Taking false branch
+                   if (dinfo->i_alloc_type =3D=3D ICBTAG_FLAG_AD_IN_ICB) {
+                   ^
+   fs/udf/namei.c:471:6: note: Access to field 'b_data' results in a derefe=
+rence of a null pointer (loaded from field 'sbh')
+                                   (fibh->sbh->b_data + fibh->soffset);
+                                    ^     ~~~
+   fs/udf/udfend.h:12:24: warning: 1st function call argument is an uniniti=
+alized value [clang-analyzer-core.CallAndMessage]
+           out.logicalBlockNum =3D le32_to_cpu(in.logicalBlockNum);
+                                 ^
+   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32=
+_to_cpu'
+   #define le32_to_cpu __le32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/big_endian.h:34:26: note: expanded from mac=
+ro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                            ^
+   include/uapi/linux/swab.h:115:28: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                              ^
+   fs/udf/namei.c:1225:2: note: Taking false branch
+           if (!udf_find_entry(d_inode(child), &dotdot_name, &fibh, &cfi))
+           ^
+   fs/udf/namei.c:1228:11: note: Field 'sbh' is equal to field 'ebh'
+           if (fibh.sbh !=3D fibh.ebh)
+                    ^
+   fs/udf/namei.c:1228:2: note: Taking false branch
+           if (fibh.sbh !=3D fibh.ebh)
+           ^
+   fs/udf/namei.c:1232:9: note: Uninitialized value stored to 'in.logicalBl=
+ockNum'
+           tloc =3D lelb_to_cpu(cfi.icb.extLocation);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/udf/namei.c:1232:9: note: Calling 'lelb_to_cpu'
+           tloc =3D lelb_to_cpu(cfi.icb.extLocation);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/udf/udfend.h:12:24: note: 1st function call argument is an uninitiali=
+zed value
+           out.logicalBlockNum =3D le32_to_cpu(in.logicalBlockNum);
+                                 ^
+   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32=
+_to_cpu'
+   #define le32_to_cpu __le32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/big_endian.h:34:26: note: expanded from mac=
+ro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/swab.h:115:28: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                              ^                 ~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   fs/hfs/bfind.c:111:2: warning: Value stored to 'res' is never read [clan=
+g-analyzer-deadcode.DeadStores]
+           res =3D 0;
+           ^     ~
+   fs/hfs/bfind.c:111:2: note: Value stored to 'res' is never read
+           res =3D 0;
+           ^     ~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   23 warnings generated.
+>> fs/hfs/bnode.c:50:2: warning: Undefined or garbage value returned to cal=
+ler [clang-analyzer-core.uninitialized.UndefReturn]
+           return be16_to_cpu(data);
+           ^
+   fs/hfs/bnode.c:193:6: note: Assuming field 'prev' is not equal to 0
+           if (node->prev) {
+               ^~~~~~~~~~
+   fs/hfs/bnode.c:193:2: note: Taking true branch
+           if (node->prev) {
+           ^
+   fs/hfs/bnode.c:194:9: note: Calling 'hfs_bnode_find'
+                   tmp =3D hfs_bnode_find(tree, node->prev);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:336:6: note: Assuming 'node' is null
+           if (node) {
+               ^~~~
+   fs/hfs/bnode.c:336:2: note: Taking false branch
+           if (node) {
+           ^
+   fs/hfs/bnode.c:346:6: note: Assuming 'node' is non-null
+           if (!node)
+               ^~~~~
+   fs/hfs/bnode.c:346:2: note: Taking false branch
+           if (!node)
+           ^
+   fs/hfs/bnode.c:348:6: note: Assuming the condition is false
+           if (test_bit(HFS_BNODE_ERROR, &node->flags))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:348:2: note: Taking false branch
+           if (test_bit(HFS_BNODE_ERROR, &node->flags))
+           ^
+   fs/hfs/bnode.c:350:6: note: Assuming the condition is false
+           if (!test_bit(HFS_BNODE_NEW, &node->flags))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:350:2: note: Taking false branch
+           if (!test_bit(HFS_BNODE_NEW, &node->flags))
+           ^
+   fs/hfs/bnode.c:361:2: note: Control jumps to 'case 255:'  at line 367
+           switch (node->type) {
+           ^
+   fs/hfs/bnode.c:368:7: note: Assuming field 'height' is equal to 1
+                   if (node->height !=3D 1)
+                       ^~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:368:3: note: Taking false branch
+                   if (node->height !=3D 1)
+                   ^
+   fs/hfs/bnode.c:370:3: note:  Execution continues on line 379
+                   break;
+                   ^
+   fs/hfs/bnode.c:380:8: note: Calling 'hfs_bnode_read_u16'
+           off =3D hfs_bnode_read_u16(node, rec_off);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:47:2: note: 'data' declared without an initial value
+           __be16 data;
+           ^~~~~~~~~~~
+   fs/hfs/bnode.c:49:2: note: Calling 'hfs_bnode_read'
+           hfs_bnode_read(node, &data, off, 2);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:30:2: note: Loop condition is true.  Entering loop body
+           for (bytes_read =3D 0; bytes_read < len; bytes_read +=3D bytes_t=
+o_read) {
+           ^
+   fs/hfs/bnode.c:31:7: note: Assuming 'pagenum' is >=3D field 'pages_per_b=
+node'
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:31:3: note: Taking true branch
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                   ^
+   fs/hfs/bnode.c:32:4: note:  Execution continues on line 31
+                           break;
+                           ^
+   fs/hfs/bnode.c:43:1: note: Returning without writing to '*buf'
+   }
+   ^
+   fs/hfs/bnode.c:49:2: note: Returning from 'hfs_bnode_read'
+           hfs_bnode_read(node, &data, off, 2);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:50:2: note: Undefined or garbage value returned to caller
+           return be16_to_cpu(data);
+           ^
+   fs/hfs/bnode.c:58:2: warning: Undefined or garbage value returned to cal=
+ler [clang-analyzer-core.uninitialized.UndefReturn]
+           return data;
+           ^
+   fs/hfs/bnode.c:67:6: note: Assuming field 'type' is equal to HFS_NODE_LE=
+AF
+           if (node->type =3D=3D HFS_NODE_LEAF ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:67:34: note: Left side of '||' is true
+           if (node->type =3D=3D HFS_NODE_LEAF ||
+                                           ^
+   fs/hfs/bnode.c:69:13: note: Calling 'hfs_bnode_read_u8'
+                   key_len =3D hfs_bnode_read_u8(node, off) + 1;
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:55:2: note: 'data' declared without an initial value
+           u8 data;
+           ^~~~~~~
+   fs/hfs/bnode.c:57:2: note: Calling 'hfs_bnode_read'
+           hfs_bnode_read(node, &data, off, 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:30:2: note: Loop condition is true.  Entering loop body
+           for (bytes_read =3D 0; bytes_read < len; bytes_read +=3D bytes_t=
+o_read) {
+           ^
+   fs/hfs/bnode.c:31:7: note: Assuming 'pagenum' is >=3D field 'pages_per_b=
+node'
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:31:3: note: Taking true branch
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                   ^
+   fs/hfs/bnode.c:32:4: note:  Execution continues on line 31
+                           break;
+                           ^
+   fs/hfs/bnode.c:43:1: note: Returning without writing to '*buf'
+   }
+   ^
+   fs/hfs/bnode.c:57:2: note: Returning from 'hfs_bnode_read'
+           hfs_bnode_read(node, &data, off, 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:58:2: note: Undefined or garbage value returned to caller
+           return data;
+           ^      ~~~~
+>> fs/hfs/bnode.c:162:9: warning: Assigned value is garbage or undefined [c=
+lang-analyzer-core.uninitialized.Assign]
+           for (i =3D be16_to_cpu(desc.num_recs); i >=3D 0; off -=3D 2, i--=
+) {
+                  ^
+   fs/hfs/bnode.c:155:2: note: Taking false branch
+           hfs_dbg(BNODE_MOD, "bnode: %d\n", node->this);
+           ^
+   fs/hfs/hfs_fs.h:45:2: note: expanded from macro 'hfs_dbg'
+           if (DBG_##flg & DBG_MASK)                               \
+           ^
+   fs/hfs/bnode.c:155:2: note: Loop condition is false.  Exiting loop
+           hfs_dbg(BNODE_MOD, "bnode: %d\n", node->this);
+           ^
+   fs/hfs/hfs_fs.h:43:36: note: expanded from macro 'hfs_dbg'
+   #define hfs_dbg(flg, fmt, ...)                                  \
+                                                                   ^
+   fs/hfs/bnode.c:156:2: note: Calling 'hfs_bnode_read'
+           hfs_bnode_read(node, &desc, 0, sizeof(desc));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:30:2: note: Loop condition is true.  Entering loop body
+           for (bytes_read =3D 0; bytes_read < len; bytes_read +=3D bytes_t=
+o_read) {
+           ^
+   fs/hfs/bnode.c:31:7: note: Assuming 'pagenum' is >=3D field 'pages_per_b=
+node'
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:31:3: note: Taking true branch
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                   ^
+   fs/hfs/bnode.c:32:4: note:  Execution continues on line 31
+                           break;
+                           ^
+   fs/hfs/bnode.c:43:1: note: Returning without writing to 'buf->num_recs'
+   }
+   ^
+   fs/hfs/bnode.c:156:2: note: Returning from 'hfs_bnode_read'
+           hfs_bnode_read(node, &desc, 0, sizeof(desc));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:157:2: note: Taking false branch
+           hfs_dbg(BNODE_MOD, "%d, %d, %d, %d, %d\n",
+           ^
+   fs/hfs/hfs_fs.h:45:2: note: expanded from macro 'hfs_dbg'
+           if (DBG_##flg & DBG_MASK)                               \
+           ^
+   fs/hfs/bnode.c:157:2: note: Loop condition is false.  Exiting loop
+           hfs_dbg(BNODE_MOD, "%d, %d, %d, %d, %d\n",
+           ^
+   fs/hfs/hfs_fs.h:43:36: note: expanded from macro 'hfs_dbg'
+   #define hfs_dbg(flg, fmt, ...)                                  \
+                                                                   ^
+   fs/hfs/bnode.c:162:9: note: Assigned value is garbage or undefined
+           for (i =3D be16_to_cpu(desc.num_recs); i >=3D 0; off -=3D 2, i--=
+) {
+                  ^
+   fs/hfs/bnode.c:179:4: warning: Value stored to 'tmp' is never read [clan=
+g-analyzer-deadcode.DeadStores]
+                           tmp =3D hfs_bnode_read_u8(node, key_off);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:179:4: note: Value stored to 'tmp' is never read
+                           tmp =3D hfs_bnode_read_u8(node, key_off);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:229:2: warning: Dereference of null pointer [cla=
+ng-analyzer-core.NullDereference]
+           current->pagefault_disabled++;
+           ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   fs/hfs/bnode.c:155:2: note: Taking false branch
+           hfs_dbg(BNODE_MOD, "bnode: %d\n", node->this);
+           ^
+   fs/hfs/hfs_fs.h:45:2: note: expanded from macro 'hfs_dbg'
+           if (DBG_##flg & DBG_MASK)                               \
+           ^
+   fs/hfs/bnode.c:155:2: note: Loop condition is false.  Exiting loop
+           hfs_dbg(BNODE_MOD, "bnode: %d\n", node->this);
+           ^
+   fs/hfs/hfs_fs.h:43:36: note: expanded from macro 'hfs_dbg'
+   #define hfs_dbg(flg, fmt, ...)                                  \
+                                                                   ^
+   fs/hfs/bnode.c:156:2: note: Calling 'hfs_bnode_read'
+           hfs_bnode_read(node, &desc, 0, sizeof(desc));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:30:2: note: Loop condition is true.  Entering loop body
+           for (bytes_read =3D 0; bytes_read < len; bytes_read +=3D bytes_t=
+o_read) {
+           ^
+   fs/hfs/bnode.c:31:7: note: Assuming 'pagenum' is < field 'pages_per_bnod=
+e'
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c:31:3: note: Taking false branch
+                   if (pagenum >=3D node->tree->pages_per_bnode)
+                   ^
+   fs/hfs/bnode.c:34:19: note: Assuming '__UNIQUE_ID___x324' is >=3D '__UNI=
+QUE_ID___y325'
+                   bytes_to_read =3D min_t(int, len - bytes_read, PAGE_SIZE=
+ - off);
+                                   ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
 
-       |      |                    |
-       |      |                    (21) following 'false' branch (when 'ret=
- =3D=3D 0')...
-       |......
-       | 9963 |                 if (!dc_remove_plane_from_context(
-       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                      |
-       |      |                      (22) ...to here
-       |      |                      (24) dereference of NULL 'dm_state'
-       | 9964 |                                 dc,
-       |      |                                 ~~~
-       | 9965 |                                 dm_old_crtc_state->stream,
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       | 9966 |                                 dm_old_plane_state->dc_stat=
-e,
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       | 9967 |                                 dm_state->context)) {
-       |      |                                 ~~~~~~~~~~~~~~~~~~
-       |      |                                         |
-       |      |                                         (23) 'dm_state' is =
-NULL
-       |
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function=
- 'dm_edid_parser_send_cea':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10578:9: war=
-ning: use of NULL 'data' where non-null expected [CWE-476] [-Wanalyzer-null=
--argument]
-   10578 |         memcpy(input->payload, data, length);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'parse_hdmi_amd_vsdb': events 1-2
-       |
-       |10678 | static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *=
-aconnector,
-       |      |            ^~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'parse_hdmi_amd_vsdb'
-       |......
-       |10687 |         if (edid =3D=3D NULL || edid->extensions =3D=3D 0)
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |
-     'parse_hdmi_amd_vsdb': event 3
-       |
-       |cc1:
-       | (3): ...to here
-       |
-     'parse_hdmi_amd_vsdb': events 4-10
-       |
-       |10691 |         for (i =3D 0; i < edid->extensions; i++) {
-       |      |                     ~~^~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (4) following 'false' branch...
-       |......
-       |10697 |         if (i =3D=3D edid->extensions)
-       |      |            ~           =
+vim +50 fs/hfs/bnode.c
 
-       |      |            |
-       |      |            (5) ...to here
-       |      |            (6) following 'false' branch...
-       |......
-       |10701 |         if (edid_ext[0] !=3D CEA_EXT)
-       |      |            ~~~~~~~~~~~~
-       |      |            |        |
-       |      |            |        (7) ...to here
-       |      |            (8) following 'false' branch...
-       |......
-       |10704 |         valid_vsdb_found =3D parse_edid_cea(aconnector, edi=
-d_ext, EDID_LENGTH, vsdb_info);
-       |      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                            |
-       |      |                            (9) ...to here
-       |      |                            (10) calling 'parse_edid_cea' fr=
-om 'parse_hdmi_amd_vsdb'
-       |
-       +--> 'parse_edid_cea': events 11-14
-              |
-              |10666 | static bool parse_edid_cea(struct amdgpu_dm_connecto=
-r *aconnector,
-              |      |             ^~~~~~~~~~~~~~
-              |      |             |
-              |      |             (11) entry to 'parse_edid_cea'
-              |......
-              |10672 |         if (adev->dm.dmub_srv)
-              |      |            ~ =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   17  =
 
-              |      |            |
-              |      |            (12) following 'true' branch...
-              |10673 |                 return parse_edid_cea_dmub(&adev->dm=
-, edid_ext, len, vsdb_info);
-              |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                        |
-              |      |                        (13) ...to here
-              |      |                        (14) calling 'parse_edid_cea_=
-dmub' from 'parse_edid_cea'
-              |
-              +--> 'parse_edid_cea_dmub': events 15-20
-                     |
-                     |10650 | static bool parse_edid_cea_dmub(struct amdgpu=
-_display_manager *dm,
-                     |      |             ^~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (15) entry to 'parse_edid_cea_dmu=
-b'
-                     |......
-                     |10657 |         for (i =3D 0; i < len; i +=3D 8) {
-                     |      |                     ~~~~~~~
-                     |      |                       |
-                     |      |                       (16) following 'true' b=
-ranch (when 'i < len')...
-                     |10658 |                 /* send 8 bytes a time */
-                     |10659 |                 if (!dm_edid_parser_send_cea(=
-dm, i, len, &edid_ext[i], 8, vsdb_info))
-                     |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                      |
-                     |      |                      (17) ...to here
-                     |      |                      (18) 'edid_ext' is NULL
-                     |      |                      (19) 'edid_ext' is NULL
-                     |      |                      (20) calling 'dm_edid_pa=
-rser_send_cea' from 'parse_edid_cea_dmub'
-                     |
-                     +--> 'dm_edid_parser_send_cea': events 21-24
-                            |
-                            |10552 | static bool dm_edid_parser_send_cea(st=
-ruct amdgpu_display_manager *dm,
-                            |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-                            |      |             |
-                            |      |             (21) entry to 'dm_edid_par=
-ser_send_cea'
-                            |......
-                            |10564 |         if (length > DMUB_EDID_CEA_DAT=
-A_CHUNK_BYTES)
-                            |      |            ~ =
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   18  void hfs_bnode_read(s=
+truct hfs_bnode *node, void *buf, int off, int len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   19  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   20  	struct page *page;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   21  	int pagenum;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   22  	int bytes_read;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   23  	int bytes_to_read;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   24  	void *vaddr;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   25  =
 
-                            |      |            |
-                            |      |            (22) following 'false' bran=
-ch (when 'length <=3D 8')...
-                            |......
-                            |10571 |         cmd.edid_cea.header.type =3D D=
-MUB_CMD__EDID_CEA;
-                            |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-                            |      |                                  |
-                            |      |                                  (23) =
-...to here
-                            |......
-                            |10578 |         memcpy(input->payload, data, l=
-ength);
-                            |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
+^1da177e4c3f41 Linus Torvalds        2005-04-16   26  	off +=3D node->page_=
+offset;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   27  	pagenum =3D off >> P=
+AGE_SHIFT;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   28  	off &=3D ~PAGE_MASK;=
+ /* compute page offset for the first page */
+^1da177e4c3f41 Linus Torvalds        2005-04-16   29  =
 
-vim +/data +10578 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm=
-.c
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   30  	for (bytes_read =3D =
+0; bytes_read < len; bytes_read +=3D bytes_to_read) {
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   31  		if (pagenum >=3D no=
+de->tree->pages_per_bnode)
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   32  			break;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   33  		page =3D node->page=
+[pagenum];
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   34  		bytes_to_read =3D m=
+in_t(int, len - bytes_read, PAGE_SIZE - off);
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   35  =
 
-f9b4f20c4777bd Stylon Wang 2020-12-04  10551  =
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   36  		vaddr =3D kmap_atom=
+ic(page);
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   37  		memcpy(buf + bytes_=
+read, vaddr + off, bytes_to_read);
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   38  		kunmap_atomic(vaddr=
+);
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   39  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10552  static bool dm_edid_parser_se=
-nd_cea(struct amdgpu_display_manager *dm,
-46db138dc83ae1 Stylon Wang 2021-05-29  10553  		unsigned int offset,
-46db138dc83ae1 Stylon Wang 2021-05-29  10554  		unsigned int total_length,
-46db138dc83ae1 Stylon Wang 2021-05-29  10555  		uint8_t *data,
-46db138dc83ae1 Stylon Wang 2021-05-29  10556  		unsigned int length,
-46db138dc83ae1 Stylon Wang 2021-05-29  10557  		struct amdgpu_hdmi_vsdb_inf=
-o *vsdb)
-46db138dc83ae1 Stylon Wang 2021-05-29  10558  {
-46db138dc83ae1 Stylon Wang 2021-05-29  10559  	bool res;
-46db138dc83ae1 Stylon Wang 2021-05-29  10560  	union dmub_rb_cmd cmd;
-46db138dc83ae1 Stylon Wang 2021-05-29  10561  	struct dmub_cmd_send_edid_ce=
-a *input;
-46db138dc83ae1 Stylon Wang 2021-05-29  10562  	struct dmub_cmd_edid_cea_out=
-put *output;
-46db138dc83ae1 Stylon Wang 2021-05-29  10563  =
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   40  		pagenum++;
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   41  		off =3D 0; /* page =
+offset only applies to the first page */
+54a5ead6f5e2b4 Desmond Cheong Zhi Xi 2021-07-14   42  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  @43  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16   44  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10564  	if (length > DMUB_EDID_CEA_D=
-ATA_CHUNK_BYTES)
-46db138dc83ae1 Stylon Wang 2021-05-29  10565  		return false;
-46db138dc83ae1 Stylon Wang 2021-05-29  10566  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   45  u16 hfs_bnode_read_u1=
+6(struct hfs_bnode *node, int off)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   46  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   47  	__be16 data;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   48  	// optimize later...
+^1da177e4c3f41 Linus Torvalds        2005-04-16   49  	hfs_bnode_read(node,=
+ &data, off, 2);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  @50  	return be16_to_cpu(d=
+ata);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   51  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16   52  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10567  	memset(&cmd, 0, sizeof(cmd));
-46db138dc83ae1 Stylon Wang 2021-05-29  10568  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   53  u8 hfs_bnode_read_u8(=
+struct hfs_bnode *node, int off)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   54  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   55  	u8 data;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   56  	// optimize later...
+^1da177e4c3f41 Linus Torvalds        2005-04-16   57  	hfs_bnode_read(node,=
+ &data, off, 1);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   58  	return data;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   59  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16   60  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10569  	input =3D &cmd.edid_cea.data=
-.input;
-46db138dc83ae1 Stylon Wang 2021-05-29  10570  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   61  void hfs_bnode_read_k=
+ey(struct hfs_bnode *node, void *key, int off)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   62  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   63  	struct hfs_btree *tr=
+ee;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   64  	int key_len;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   65  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10571  	cmd.edid_cea.header.type =3D=
- DMUB_CMD__EDID_CEA;
-46db138dc83ae1 Stylon Wang 2021-05-29  10572  	cmd.edid_cea.header.sub_type=
- =3D 0;
-46db138dc83ae1 Stylon Wang 2021-05-29  10573  	cmd.edid_cea.header.payload_=
-bytes =3D
-46db138dc83ae1 Stylon Wang 2021-05-29  10574  		sizeof(cmd.edid_cea) - size=
-of(cmd.edid_cea.header);
-46db138dc83ae1 Stylon Wang 2021-05-29  10575  	input->offset =3D offset;
-46db138dc83ae1 Stylon Wang 2021-05-29  10576  	input->length =3D length;
-46db138dc83ae1 Stylon Wang 2021-05-29  10577  	input->total_length =3D tota=
-l_length;
-46db138dc83ae1 Stylon Wang 2021-05-29 @10578  	memcpy(input->payload, data,=
- length);
-46db138dc83ae1 Stylon Wang 2021-05-29  10579  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   66  	tree =3D node->tree;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   67  	if (node->type =3D=
+=3D HFS_NODE_LEAF ||
+^1da177e4c3f41 Linus Torvalds        2005-04-16   68  	    tree->attributes=
+ & HFS_TREE_VARIDXKEYS)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   69  		key_len =3D hfs_bno=
+de_read_u8(node, off) + 1;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   70  	else
+^1da177e4c3f41 Linus Torvalds        2005-04-16   71  		key_len =3D tree->m=
+ax_key_len + 1;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   72  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10580  	res =3D dc_dmub_srv_cmd_with=
-_reply_data(dm->dc->ctx->dmub_srv, &cmd);
-46db138dc83ae1 Stylon Wang 2021-05-29  10581  	if (!res) {
-46db138dc83ae1 Stylon Wang 2021-05-29  10582  		DRM_ERROR("EDID CEA parser =
-failed\n");
-46db138dc83ae1 Stylon Wang 2021-05-29  10583  		return false;
-46db138dc83ae1 Stylon Wang 2021-05-29  10584  	}
-46db138dc83ae1 Stylon Wang 2021-05-29  10585  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   73  	hfs_bnode_read(node,=
+ key, off, key_len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   74  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16   75  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10586  	output =3D &cmd.edid_cea.dat=
-a.output;
-46db138dc83ae1 Stylon Wang 2021-05-29  10587  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   76  void hfs_bnode_write(=
+struct hfs_bnode *node, void *buf, int off, int len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   77  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   78  	struct page *page;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   79  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10588  	if (output->type =3D=3D DMUB=
-_CMD__EDID_CEA_ACK) {
-46db138dc83ae1 Stylon Wang 2021-05-29  10589  		if (!output->ack.success) {
-46db138dc83ae1 Stylon Wang 2021-05-29  10590  			DRM_ERROR("EDID CEA ack fa=
-iled at offset %d\n",
-46db138dc83ae1 Stylon Wang 2021-05-29  10591  					output->ack.offset);
-46db138dc83ae1 Stylon Wang 2021-05-29  10592  		}
-46db138dc83ae1 Stylon Wang 2021-05-29  10593  	} else if (output->type =3D=
-=3D DMUB_CMD__EDID_CEA_AMD_VSDB) {
-46db138dc83ae1 Stylon Wang 2021-05-29  10594  		if (!output->amd_vsdb.vsdb_=
-found)
-46db138dc83ae1 Stylon Wang 2021-05-29  10595  			return false;
-46db138dc83ae1 Stylon Wang 2021-05-29  10596  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   80  	off +=3D node->page_=
+offset;
+^1da177e4c3f41 Linus Torvalds        2005-04-16   81  	page =3D node->page[=
+0];
+^1da177e4c3f41 Linus Torvalds        2005-04-16   82  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10597  		vsdb->freesync_supported =
-=3D output->amd_vsdb.freesync_supported;
-46db138dc83ae1 Stylon Wang 2021-05-29  10598  		vsdb->amd_vsdb_version =3D =
-output->amd_vsdb.amd_vsdb_version;
-46db138dc83ae1 Stylon Wang 2021-05-29  10599  		vsdb->min_refresh_rate_hz =
-=3D output->amd_vsdb.min_frame_rate;
-46db138dc83ae1 Stylon Wang 2021-05-29  10600  		vsdb->max_refresh_rate_hz =
-=3D output->amd_vsdb.max_frame_rate;
-46db138dc83ae1 Stylon Wang 2021-05-29  10601  	} else {
-46db138dc83ae1 Stylon Wang 2021-05-29  10602  		DRM_ERROR("Unknown EDID CEA=
- parser results\n");
-46db138dc83ae1 Stylon Wang 2021-05-29  10603  		return false;
-46db138dc83ae1 Stylon Wang 2021-05-29  10604  	}
-46db138dc83ae1 Stylon Wang 2021-05-29  10605  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   83  	memcpy(kmap(page) + =
+off, buf, len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   84  	kunmap(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   85  	set_page_dirty(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   86  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16   87  =
 
-46db138dc83ae1 Stylon Wang 2021-05-29  10606  	return true;
-46db138dc83ae1 Stylon Wang 2021-05-29  10607  }
-46db138dc83ae1 Stylon Wang 2021-05-29  10608  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16   88  void hfs_bnode_write_=
+u16(struct hfs_bnode *node, int off, u16 data)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   89  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   90  	__be16 v =3D cpu_to_=
+be16(data);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   91  	// optimize later...
+^1da177e4c3f41 Linus Torvalds        2005-04-16   92  	hfs_bnode_write(node=
+, &v, off, 2);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   93  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16   94  =
 
+^1da177e4c3f41 Linus Torvalds        2005-04-16   95  void hfs_bnode_write_=
+u8(struct hfs_bnode *node, int off, u8 data)
+^1da177e4c3f41 Linus Torvalds        2005-04-16   96  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16   97  	// optimize later...
+^1da177e4c3f41 Linus Torvalds        2005-04-16   98  	hfs_bnode_write(node=
+, &data, off, 1);
+^1da177e4c3f41 Linus Torvalds        2005-04-16   99  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  100  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  101  void hfs_bnode_clear(=
+struct hfs_bnode *node, int off, int len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  102  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  103  	struct page *page;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  104  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  105  	off +=3D node->page_=
+offset;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  106  	page =3D node->page[=
+0];
+^1da177e4c3f41 Linus Torvalds        2005-04-16  107  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  108  	memset(kmap(page) + =
+off, 0, len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  109  	kunmap(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  110  	set_page_dirty(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  111  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  112  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  113  void hfs_bnode_copy(s=
+truct hfs_bnode *dst_node, int dst,
+^1da177e4c3f41 Linus Torvalds        2005-04-16  114  		struct hfs_bnode *s=
+rc_node, int src, int len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  115  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  116  	struct page *src_pag=
+e, *dst_page;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  117  =
+
+c2b3e1f76e5c90 Joe Perches           2013-04-30  118  	hfs_dbg(BNODE_MOD, "=
+copybytes: %u,%u,%u\n", dst, src, len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  119  	if (!len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  120  		return;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  121  	src +=3D src_node->p=
+age_offset;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  122  	dst +=3D dst_node->p=
+age_offset;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  123  	src_page =3D src_nod=
+e->page[0];
+^1da177e4c3f41 Linus Torvalds        2005-04-16  124  	dst_page =3D dst_nod=
+e->page[0];
+^1da177e4c3f41 Linus Torvalds        2005-04-16  125  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  126  	memcpy(kmap(dst_page=
+) + dst, kmap(src_page) + src, len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  127  	kunmap(src_page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  128  	kunmap(dst_page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  129  	set_page_dirty(dst_p=
+age);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  130  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  131  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  132  void hfs_bnode_move(s=
+truct hfs_bnode *node, int dst, int src, int len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  133  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  134  	struct page *page;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  135  	void *ptr;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  136  =
+
+c2b3e1f76e5c90 Joe Perches           2013-04-30  137  	hfs_dbg(BNODE_MOD, "=
+movebytes: %u,%u,%u\n", dst, src, len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  138  	if (!len)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  139  		return;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  140  	src +=3D node->page_=
+offset;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  141  	dst +=3D node->page_=
+offset;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  142  	page =3D node->page[=
+0];
+^1da177e4c3f41 Linus Torvalds        2005-04-16  143  	ptr =3D kmap(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  144  	memmove(ptr + dst, p=
+tr + src, len);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  145  	kunmap(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  146  	set_page_dirty(page);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  147  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  148  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  149  void hfs_bnode_dump(s=
+truct hfs_bnode *node)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  150  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  151  	struct hfs_bnode_des=
+c desc;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  152  	__be32 cnid;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  153  	int i, off, key_off;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  154  =
+
+c2b3e1f76e5c90 Joe Perches           2013-04-30  155  	hfs_dbg(BNODE_MOD, "=
+bnode: %d\n", node->this);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  156  	hfs_bnode_read(node,=
+ &desc, 0, sizeof(desc));
+c2b3e1f76e5c90 Joe Perches           2013-04-30  157  	hfs_dbg(BNODE_MOD, "=
+%d, %d, %d, %d, %d\n",
+^1da177e4c3f41 Linus Torvalds        2005-04-16  158  		be32_to_cpu(desc.ne=
+xt), be32_to_cpu(desc.prev),
+^1da177e4c3f41 Linus Torvalds        2005-04-16  159  		desc.type, desc.hei=
+ght, be16_to_cpu(desc.num_recs));
+^1da177e4c3f41 Linus Torvalds        2005-04-16  160  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  161  	off =3D node->tree->=
+node_size - 2;
+^1da177e4c3f41 Linus Torvalds        2005-04-16 @162  	for (i =3D be16_to_c=
+pu(desc.num_recs); i >=3D 0; off -=3D 2, i--) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  163  		key_off =3D hfs_bno=
+de_read_u16(node, off);
+c2b3e1f76e5c90 Joe Perches           2013-04-30  164  		hfs_dbg_cont(BNODE_=
+MOD, " %d", key_off);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  165  		if (i && node->type=
+ =3D=3D HFS_NODE_INDEX) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  166  			int tmp;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  167  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  168  			if (node->tree->at=
+tributes & HFS_TREE_VARIDXKEYS)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  169  				tmp =3D (hfs_bnod=
+e_read_u8(node, key_off) | 1) + 1;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  170  			else
+^1da177e4c3f41 Linus Torvalds        2005-04-16  171  				tmp =3D node->tre=
+e->max_key_len + 1;
+c2b3e1f76e5c90 Joe Perches           2013-04-30  172  			hfs_dbg_cont(BNODE=
+_MOD, " (%d,%d",
+c2b3e1f76e5c90 Joe Perches           2013-04-30  173  				     tmp, hfs_bno=
+de_read_u8(node, key_off));
+^1da177e4c3f41 Linus Torvalds        2005-04-16  174  			hfs_bnode_read(nod=
+e, &cnid, key_off + tmp, 4);
+c2b3e1f76e5c90 Joe Perches           2013-04-30  175  			hfs_dbg_cont(BNODE=
+_MOD, ",%d)", be32_to_cpu(cnid));
+^1da177e4c3f41 Linus Torvalds        2005-04-16  176  		} else if (i && nod=
+e->type =3D=3D HFS_NODE_LEAF) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  177  			int tmp;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  178  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  179  			tmp =3D hfs_bnode_=
+read_u8(node, key_off);
+c2b3e1f76e5c90 Joe Perches           2013-04-30  180  			hfs_dbg_cont(BNODE=
+_MOD, " (%d)", tmp);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  181  		}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  182  	}
+c2b3e1f76e5c90 Joe Perches           2013-04-30  183  	hfs_dbg_cont(BNODE_M=
+OD, "\n");
+^1da177e4c3f41 Linus Torvalds        2005-04-16  184  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  185  =
+
+
+:::::: The code at line 50 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4943207987611764043==--
+--===============7093050032715996982==--
 
