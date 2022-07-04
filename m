@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0308058619431462017=="
+Content-Type: multipart/mixed; boundary="===============4943207987611764043=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 6818/7943] kernel/kexec_core.c:827:25: warning: use of NULL 'kbuf' where non-null expected [CWE-476]
-Date: Mon, 04 Jul 2022 18:51:33 +0800
-Message-ID: <202207041805.1C2cmqWt-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10578:9: warning: use of NULL 'data' where non-null expected [CWE-476]
+Date: Mon, 04 Jul 2022 17:18:51 +0800
+Message-ID: <202207041717.tpv41kQH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0308058619431462017==
+--===============4943207987611764043==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,38 +16,40 @@ Content-Transfer-Encoding: quoted-printable
 
 :::::: Manual check reason: "low confidence bisect report"
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- kernel/kexec_core.c:827:25: warning: use of NULL 'kbuf' where non-null exp=
-ected [CWE-476] [-Wanalyzer-null-argument]"
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10578:9: warni=
+ng: use of NULL 'data' where non-null expected [CWE-476] [-Wanalyzer-null-a=
+rgument]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-CC: Yury Norov <yury.norov@gmail.com>
-CC: Marco Elver <elver@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Stylon Wang <stylon.wang@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   b6f1f2fa2bddd69ff46a190b8120bd440fd50563
-commit: b03fc1173c0c2bb8fad61902a862985cecdc4b1b [6818/7943] bitops: let op=
-timize out non-atomic bitops on compile-time constants
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   88084a3df1672e131ddc1b4e39eeacfd39864acf
+commit: 46db138dc83ae16e188038358c925c560110f804 drm/amd/display: Add Frees=
+ync HDMI support to DM with DMUB
+date:   12 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 12 months ago
 config: arm-randconfig-c002-20220703 (https://download.01.org/0day-ci/archi=
-ve/20220704/202207041805.1C2cmqWt-lkp(a)intel.com/config)
+ve/20220704/202207041717.tpv41kQH-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Db03fc1173c0c2bb8fad61902a862985cecdc4b1b
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b03fc1173c0c2bb8fad61902a862985cecdc4b1b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D46db138dc83ae16e188038358c925c560110f804
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 46db138dc83ae16e188038358c925c560110f804
         # save the config file
          ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
@@ -57,238 +59,352 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   kernel/kexec_core.c: In function 'kimage_load_normal_segment':
->> kernel/kexec_core.c:827:25: warning: use of NULL 'kbuf' where non-null e=
-xpected [CWE-476] [-Wanalyzer-null-argument]
-     827 |                         memcpy(ptr, kbuf, uchunk);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-     'kimage_load_segment': events 1-4
+       |      |                    ~
+       |      |                    |
+       |      |                    (8) ...to here
+       |      |                    (9) following 'false' branch (when 'old_=
+plane_crtc' is non-NULL)...
        |
-       |  917 | int kimage_load_segment(struct kimage *image,
-       |      |     ^~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'kimage_load_segment'
-       |......
-       |  922 |         switch (image->type) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'false' branch...
-       |  923 |         case KEXEC_TYPE_DEFAULT:
-       |      |         ~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |  924 |                 result =3D kimage_load_normal_segment(image=
-, segment);
-       |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |      |                          |
-       |      |                          (4) calling 'kimage_load_normal_se=
-gment' from 'kimage_load_segment'
+     'dm_update_plane_state': event 10
        |
-       +--> 'kimage_load_normal_segment': events 5-8
+       |include/drm/drm_atomic.h:542:21:
+       |  542 |         return state->crtcs[drm_crtc_index(crtc)].old_state;
+       |      |                ~~~~~^~~~~~~
+       |      |                     |
+       |      |                     (10) ...to here
+       |
+     'dm_update_plane_state': event 11
+       |
+       |drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9953:20:
+       | 9953 |                 if (!dm_old_crtc_state->stream)
+       |      |                    ^
+       |      |                    |
+       |      |                    (11) following 'false' branch...
+       |
+     'dm_update_plane_state': event 12
+       |
+       |include/drm/drm_print.h:516:9:
+       |  516 |         __drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (12) ...to here
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9956:17: not=
+e: in expansion of macro 'DRM_DEBUG_ATOMIC'
+       | 9956 |                 DRM_DEBUG_ATOMIC("Disabling DRM plane: %d o=
+n DRM crtc %d\n",
+       |      |                 ^~~~~~~~~~~~~~~~
+       |
+     'dm_update_plane_state': event 13
+       |
+       | 9959 |                 ret =3D dm_atomic_get_state(state, &dm_stat=
+e);
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (13) calling 'dm_atomic_get_state' fr=
+om 'dm_update_plane_state'
+       |
+       +--> 'dm_atomic_get_state': events 14-18
               |
-              |  567 |         result =3D kimage_add_entry(image, destinati=
-on | IND_DESTINATION);
-              |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-              |      |                  |
-              |      |                  (8) calling 'kimage_add_entry' from=
- 'kimage_load_normal_segment'
-              |......
-              |  781 | static int kimage_load_normal_segment(struct kimage =
-*image,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              | 3287 | static int dm_atomic_get_state(struct drm_atomic_sta=
+te *state,
+              |      |            ^~~~~~~~~~~~~~~~~~~
               |      |            |
-              |      |            (5) entry to 'kimage_load_normal_segment'
+              |      |            (14) entry to 'dm_atomic_get_state'
               |......
-              |  790 |         if (image->file_mode)
+              | 3295 |         if (*dm_state)
+              |      |            ~~~~~~~~~~
+              |      |            ||
+              |      |            |(15) 'dm_state' is NULL
+              |      |            (16) following 'false' branch...
+              |......
+              | 3298 |         priv_state =3D drm_atomic_get_private_obj_st=
+ate(state, &dm->atomic_obj);
+              |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                      |
+              |      |                      (17) ...to here
+              | 3299 |         if (IS_ERR(priv_state))
               |      |            ~
               |      |            |
-              |      |            (6) following 'false' branch...
+              |      |            (18) following 'true' branch...
+              |
+            'dm_atomic_get_state': event 19
+              |
+              |include/linux/err.h:31:16:
+              |   31 |         return (long) ptr;
+              |      |                ^~~~~~~~~~
+              |      |                |
+              |      |                (19) ...to here
+              |
+       <------+
+       |
+     'dm_update_plane_state': events 20-24
+       |
+       |drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9959:23:
+       | 9959 |                 ret =3D dm_atomic_get_state(state, &dm_stat=
+e);
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (20) returning to 'dm_update_plane_st=
+ate' from 'dm_atomic_get_state'
+       | 9960 |                 if (ret)
+       |      |                    ~   =
+
+       |      |                    |
+       |      |                    (21) following 'false' branch (when 'ret=
+ =3D=3D 0')...
+       |......
+       | 9963 |                 if (!dc_remove_plane_from_context(
+       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                      |
+       |      |                      (22) ...to here
+       |      |                      (24) dereference of NULL 'dm_state'
+       | 9964 |                                 dc,
+       |      |                                 ~~~
+       | 9965 |                                 dm_old_crtc_state->stream,
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       | 9966 |                                 dm_old_plane_state->dc_stat=
+e,
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+       | 9967 |                                 dm_state->context)) {
+       |      |                                 ~~~~~~~~~~~~~~~~~~
+       |      |                                         |
+       |      |                                         (23) 'dm_state' is =
+NULL
+       |
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function=
+ 'dm_edid_parser_send_cea':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10578:9: war=
+ning: use of NULL 'data' where non-null expected [CWE-476] [-Wanalyzer-null=
+-argument]
+   10578 |         memcpy(input->payload, data, length);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'parse_hdmi_amd_vsdb': events 1-2
+       |
+       |10678 | static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *=
+aconnector,
+       |      |            ^~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'parse_hdmi_amd_vsdb'
+       |......
+       |10687 |         if (edid =3D=3D NULL || edid->extensions =3D=3D 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |
+     'parse_hdmi_amd_vsdb': event 3
+       |
+       |cc1:
+       | (3): ...to here
+       |
+     'parse_hdmi_amd_vsdb': events 4-10
+       |
+       |10691 |         for (i =3D 0; i < edid->extensions; i++) {
+       |      |                     ~~^~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (4) following 'false' branch...
+       |......
+       |10697 |         if (i =3D=3D edid->extensions)
+       |      |            ~           =
+
+       |      |            |
+       |      |            (5) ...to here
+       |      |            (6) following 'false' branch...
+       |......
+       |10701 |         if (edid_ext[0] !=3D CEA_EXT)
+       |      |            ~~~~~~~~~~~~
+       |      |            |        |
+       |      |            |        (7) ...to here
+       |      |            (8) following 'false' branch...
+       |......
+       |10704 |         valid_vsdb_found =3D parse_edid_cea(aconnector, edi=
+d_ext, EDID_LENGTH, vsdb_info);
+       |      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                            |
+       |      |                            (9) ...to here
+       |      |                            (10) calling 'parse_edid_cea' fr=
+om 'parse_hdmi_amd_vsdb'
+       |
+       +--> 'parse_edid_cea': events 11-14
+              |
+              |10666 | static bool parse_edid_cea(struct amdgpu_dm_connecto=
+r *aconnector,
+              |      |             ^~~~~~~~~~~~~~
+              |      |             |
+              |      |             (11) entry to 'parse_edid_cea'
               |......
-              |  793 |                 buf =3D segment->buf;
-              |      |                 ~~~~~~~~~~~~~~~~~~
-              |      |                     |
-              |      |                     (7) ...to here
-              |
-              +--> 'kimage_add_entry': events 9-11
-                     |
-                     |  535 | static int kimage_add_entry(struct kimage *im=
-age, kimage_entry_t entry)
-                     |      |            ^~~~~~~~~~~~~~~~
-                     |      |            |
-                     |      |            (9) entry to 'kimage_add_entry'
-                     |......
-                     |  540 |         if (image->entry =3D=3D image->last_e=
-ntry) {
-                     |      |            ~
-                     |      |            |
-                     |      |            (10) following 'false' branch...
-                     |......
-                     |  554 |         *image->entry =3D entry;
-                     |      |          ~~~~~~~~~~~~
-                     |      |               |
-                     |      |               (11) ...to here
-                     |
-              <------+
-              |
-            'kimage_load_normal_segment': events 12-13
-              |
-              |  567 |         result =3D kimage_add_entry(image, destinati=
-on | IND_DESTINATION);
-              |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-              |      |                  |
-              |      |                  (12) returning to 'kimage_load_norm=
-al_segment' from 'kimage_add_entry'
-              |......
-              |  799 |         if (result < 0)
-              |      |            ~      =
+              |10672 |         if (adev->dm.dmub_srv)
+              |      |            ~ =
 
               |      |            |
-              |      |            (13) following 'false' branch (when 'resu=
-lt >=3D 0')...
-              |
-            'kimage_load_normal_segment': event 14
-              |
-              |cc1:
-              | (14): ...to here
-              |
-            'kimage_load_normal_segment': events 15-17
-              |
-              |  802 |         while (mbytes) {
-              |      |                ^~~~~~
-              |      |                |
-              |      |                (15) following 'true' branch (when 'm=
-bytes !=3D 0')...
-              |......
-              |  807 |                 page =3D kimage_alloc_page(image, GF=
-P_HIGHUSER, maddr);
+              |      |            (12) following 'true' branch...
+              |10673 |                 return parse_edid_cea_dmub(&adev->dm=
+, edid_ext, len, vsdb_info);
               |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
               |      |                        |
-              |      |                        (16) ...to here
-              |      |                        (17) calling 'kimage_alloc_pa=
-ge' from 'kimage_load_normal_segment'
+              |      |                        (13) ...to here
+              |      |                        (14) calling 'parse_edid_cea_=
+dmub' from 'parse_edid_cea'
               |
-              +--> 'kimage_alloc_page': event 18
+              +--> 'parse_edid_cea_dmub': events 15-20
                      |
-                     |  685 | static struct page *kimage_alloc_page(struct =
-kimage *image,
-                     |      |                     ^~~~~~~~~~~~~~~~~
-                     |      |                     |
-                     |      |                     (18) entry to 'kimage_all=
-oc_page'
+                     |10650 | static bool parse_edid_cea_dmub(struct amdgpu=
+_display_manager *dm,
+                     |      |             ^~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (15) entry to 'parse_edid_cea_dmu=
+b'
+                     |......
+                     |10657 |         for (i =3D 0; i < len; i +=3D 8) {
+                     |      |                     ~~~~~~~
+                     |      |                       |
+                     |      |                       (16) following 'true' b=
+ranch (when 'i < len')...
+                     |10658 |                 /* send 8 bytes a time */
+                     |10659 |                 if (!dm_edid_parser_send_cea(=
+dm, i, len, &edid_ext[i], 8, vsdb_info))
+                     |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                      |
+                     |      |                      (17) ...to here
+                     |      |                      (18) 'edid_ext' is NULL
+                     |      |                      (19) 'edid_ext' is NULL
+                     |      |                      (20) calling 'dm_edid_pa=
+rser_send_cea' from 'parse_edid_cea_dmub'
                      |
+                     +--> 'dm_edid_parser_send_cea': events 21-24
+                            |
+                            |10552 | static bool dm_edid_parser_send_cea(st=
+ruct amdgpu_display_manager *dm,
+                            |      |             ^~~~~~~~~~~~~~~~~~~~~~~
+                            |      |             |
+                            |      |             (21) entry to 'dm_edid_par=
+ser_send_cea'
+                            |......
+                            |10564 |         if (length > DMUB_EDID_CEA_DAT=
+A_CHUNK_BYTES)
+                            |      |            ~ =
 
-vim +/kbuf +827 kernel/kexec_core.c
+                            |      |            |
+                            |      |            (22) following 'false' bran=
+ch (when 'length <=3D 8')...
+                            |......
+                            |10571 |         cmd.edid_cea.header.type =3D D=
+MUB_CMD__EDID_CEA;
+                            |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+                            |      |                                  |
+                            |      |                                  (23) =
+...to here
+                            |......
+                            |10578 |         memcpy(input->payload, data, l=
+ength);
+                            |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
 
-2965faa5e03d1e Dave Young        2015-09-09  780  =
+vim +/data +10578 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm=
+.c
 
-2965faa5e03d1e Dave Young        2015-09-09  781  static int kimage_load_no=
-rmal_segment(struct kimage *image,
-2965faa5e03d1e Dave Young        2015-09-09  782  					 struct kexec_segmen=
-t *segment)
-2965faa5e03d1e Dave Young        2015-09-09  783  {
-2965faa5e03d1e Dave Young        2015-09-09  784  	unsigned long maddr;
-2965faa5e03d1e Dave Young        2015-09-09  785  	size_t ubytes, mbytes;
-2965faa5e03d1e Dave Young        2015-09-09  786  	int result;
-2965faa5e03d1e Dave Young        2015-09-09  787  	unsigned char __user *bu=
-f =3D NULL;
-2965faa5e03d1e Dave Young        2015-09-09  788  	unsigned char *kbuf =3D =
-NULL;
-2965faa5e03d1e Dave Young        2015-09-09  789  =
+f9b4f20c4777bd Stylon Wang 2020-12-04  10551  =
 
-2965faa5e03d1e Dave Young        2015-09-09  790  	if (image->file_mode)
-2965faa5e03d1e Dave Young        2015-09-09  791  		kbuf =3D segment->kbuf;
-2965faa5e03d1e Dave Young        2015-09-09  792  	else
-2965faa5e03d1e Dave Young        2015-09-09  793  		buf =3D segment->buf;
-2965faa5e03d1e Dave Young        2015-09-09  794  	ubytes =3D segment->bufs=
-z;
-2965faa5e03d1e Dave Young        2015-09-09  795  	mbytes =3D segment->mems=
-z;
-2965faa5e03d1e Dave Young        2015-09-09  796  	maddr =3D segment->mem;
-2965faa5e03d1e Dave Young        2015-09-09  797  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10552  static bool dm_edid_parser_se=
+nd_cea(struct amdgpu_display_manager *dm,
+46db138dc83ae1 Stylon Wang 2021-05-29  10553  		unsigned int offset,
+46db138dc83ae1 Stylon Wang 2021-05-29  10554  		unsigned int total_length,
+46db138dc83ae1 Stylon Wang 2021-05-29  10555  		uint8_t *data,
+46db138dc83ae1 Stylon Wang 2021-05-29  10556  		unsigned int length,
+46db138dc83ae1 Stylon Wang 2021-05-29  10557  		struct amdgpu_hdmi_vsdb_inf=
+o *vsdb)
+46db138dc83ae1 Stylon Wang 2021-05-29  10558  {
+46db138dc83ae1 Stylon Wang 2021-05-29  10559  	bool res;
+46db138dc83ae1 Stylon Wang 2021-05-29  10560  	union dmub_rb_cmd cmd;
+46db138dc83ae1 Stylon Wang 2021-05-29  10561  	struct dmub_cmd_send_edid_ce=
+a *input;
+46db138dc83ae1 Stylon Wang 2021-05-29  10562  	struct dmub_cmd_edid_cea_out=
+put *output;
+46db138dc83ae1 Stylon Wang 2021-05-29  10563  =
 
-2965faa5e03d1e Dave Young        2015-09-09  798  	result =3D kimage_set_de=
-stination(image, maddr);
-2965faa5e03d1e Dave Young        2015-09-09  799  	if (result < 0)
-2965faa5e03d1e Dave Young        2015-09-09  800  		goto out;
-2965faa5e03d1e Dave Young        2015-09-09  801  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10564  	if (length > DMUB_EDID_CEA_D=
+ATA_CHUNK_BYTES)
+46db138dc83ae1 Stylon Wang 2021-05-29  10565  		return false;
+46db138dc83ae1 Stylon Wang 2021-05-29  10566  =
 
-2965faa5e03d1e Dave Young        2015-09-09  802  	while (mbytes) {
-2965faa5e03d1e Dave Young        2015-09-09  803  		struct page *page;
-2965faa5e03d1e Dave Young        2015-09-09  804  		char *ptr;
-2965faa5e03d1e Dave Young        2015-09-09  805  		size_t uchunk, mchunk;
-2965faa5e03d1e Dave Young        2015-09-09  806  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10567  	memset(&cmd, 0, sizeof(cmd));
+46db138dc83ae1 Stylon Wang 2021-05-29  10568  =
 
-2965faa5e03d1e Dave Young        2015-09-09  807  		page =3D kimage_alloc_p=
-age(image, GFP_HIGHUSER, maddr);
-2965faa5e03d1e Dave Young        2015-09-09  808  		if (!page) {
-2965faa5e03d1e Dave Young        2015-09-09  809  			result  =3D -ENOMEM;
-2965faa5e03d1e Dave Young        2015-09-09  810  			goto out;
-2965faa5e03d1e Dave Young        2015-09-09  811  		}
-43546d8669d62d Russell King      2016-08-02  812  		result =3D kimage_add_p=
-age(image, page_to_boot_pfn(page)
-2965faa5e03d1e Dave Young        2015-09-09  813  								<< PAGE_SHIFT);
-2965faa5e03d1e Dave Young        2015-09-09  814  		if (result < 0)
-2965faa5e03d1e Dave Young        2015-09-09  815  			goto out;
-2965faa5e03d1e Dave Young        2015-09-09  816  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10569  	input =3D &cmd.edid_cea.data=
+.input;
+46db138dc83ae1 Stylon Wang 2021-05-29  10570  =
 
-2965faa5e03d1e Dave Young        2015-09-09  817  		ptr =3D kmap(page);
-2965faa5e03d1e Dave Young        2015-09-09  818  		/* Start with a clear p=
-age */
-2965faa5e03d1e Dave Young        2015-09-09  819  		clear_page(ptr);
-2965faa5e03d1e Dave Young        2015-09-09  820  		ptr +=3D maddr & ~PAGE_=
-MASK;
-2965faa5e03d1e Dave Young        2015-09-09  821  		mchunk =3D min_t(size_t=
-, mbytes,
-2965faa5e03d1e Dave Young        2015-09-09  822  				PAGE_SIZE - (maddr & =
-~PAGE_MASK));
-2965faa5e03d1e Dave Young        2015-09-09  823  		uchunk =3D min(ubytes, =
-mchunk);
-2965faa5e03d1e Dave Young        2015-09-09  824  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10571  	cmd.edid_cea.header.type =3D=
+ DMUB_CMD__EDID_CEA;
+46db138dc83ae1 Stylon Wang 2021-05-29  10572  	cmd.edid_cea.header.sub_type=
+ =3D 0;
+46db138dc83ae1 Stylon Wang 2021-05-29  10573  	cmd.edid_cea.header.payload_=
+bytes =3D
+46db138dc83ae1 Stylon Wang 2021-05-29  10574  		sizeof(cmd.edid_cea) - size=
+of(cmd.edid_cea.header);
+46db138dc83ae1 Stylon Wang 2021-05-29  10575  	input->offset =3D offset;
+46db138dc83ae1 Stylon Wang 2021-05-29  10576  	input->length =3D length;
+46db138dc83ae1 Stylon Wang 2021-05-29  10577  	input->total_length =3D tota=
+l_length;
+46db138dc83ae1 Stylon Wang 2021-05-29 @10578  	memcpy(input->payload, data,=
+ length);
+46db138dc83ae1 Stylon Wang 2021-05-29  10579  =
 
-2965faa5e03d1e Dave Young        2015-09-09  825  		/* For file based kexec=
-, source pages are in kernel memory */
-2965faa5e03d1e Dave Young        2015-09-09  826  		if (image->file_mode)
-2965faa5e03d1e Dave Young        2015-09-09 @827  			memcpy(ptr, kbuf, uchu=
-nk);
-2965faa5e03d1e Dave Young        2015-09-09  828  		else
-2965faa5e03d1e Dave Young        2015-09-09  829  			result =3D copy_from_u=
-ser(ptr, buf, uchunk);
-2965faa5e03d1e Dave Young        2015-09-09  830  		kunmap(page);
-2965faa5e03d1e Dave Young        2015-09-09  831  		if (result) {
-2965faa5e03d1e Dave Young        2015-09-09  832  			result =3D -EFAULT;
-2965faa5e03d1e Dave Young        2015-09-09  833  			goto out;
-2965faa5e03d1e Dave Young        2015-09-09  834  		}
-2965faa5e03d1e Dave Young        2015-09-09  835  		ubytes -=3D uchunk;
-2965faa5e03d1e Dave Young        2015-09-09  836  		maddr  +=3D mchunk;
-2965faa5e03d1e Dave Young        2015-09-09  837  		if (image->file_mode)
-2965faa5e03d1e Dave Young        2015-09-09  838  			kbuf +=3D mchunk;
-2965faa5e03d1e Dave Young        2015-09-09  839  		else
-2965faa5e03d1e Dave Young        2015-09-09  840  			buf +=3D mchunk;
-2965faa5e03d1e Dave Young        2015-09-09  841  		mbytes -=3D mchunk;
-a8311f647e4196 Jarrett Farnitano 2018-06-14  842  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10580  	res =3D dc_dmub_srv_cmd_with=
+_reply_data(dm->dc->ctx->dmub_srv, &cmd);
+46db138dc83ae1 Stylon Wang 2021-05-29  10581  	if (!res) {
+46db138dc83ae1 Stylon Wang 2021-05-29  10582  		DRM_ERROR("EDID CEA parser =
+failed\n");
+46db138dc83ae1 Stylon Wang 2021-05-29  10583  		return false;
+46db138dc83ae1 Stylon Wang 2021-05-29  10584  	}
+46db138dc83ae1 Stylon Wang 2021-05-29  10585  =
 
-a8311f647e4196 Jarrett Farnitano 2018-06-14  843  		cond_resched();
-2965faa5e03d1e Dave Young        2015-09-09  844  	}
-2965faa5e03d1e Dave Young        2015-09-09  845  out:
-2965faa5e03d1e Dave Young        2015-09-09  846  	return result;
-2965faa5e03d1e Dave Young        2015-09-09  847  }
-2965faa5e03d1e Dave Young        2015-09-09  848  =
+46db138dc83ae1 Stylon Wang 2021-05-29  10586  	output =3D &cmd.edid_cea.dat=
+a.output;
+46db138dc83ae1 Stylon Wang 2021-05-29  10587  =
 
+46db138dc83ae1 Stylon Wang 2021-05-29  10588  	if (output->type =3D=3D DMUB=
+_CMD__EDID_CEA_ACK) {
+46db138dc83ae1 Stylon Wang 2021-05-29  10589  		if (!output->ack.success) {
+46db138dc83ae1 Stylon Wang 2021-05-29  10590  			DRM_ERROR("EDID CEA ack fa=
+iled at offset %d\n",
+46db138dc83ae1 Stylon Wang 2021-05-29  10591  					output->ack.offset);
+46db138dc83ae1 Stylon Wang 2021-05-29  10592  		}
+46db138dc83ae1 Stylon Wang 2021-05-29  10593  	} else if (output->type =3D=
+=3D DMUB_CMD__EDID_CEA_AMD_VSDB) {
+46db138dc83ae1 Stylon Wang 2021-05-29  10594  		if (!output->amd_vsdb.vsdb_=
+found)
+46db138dc83ae1 Stylon Wang 2021-05-29  10595  			return false;
+46db138dc83ae1 Stylon Wang 2021-05-29  10596  =
 
-:::::: The code at line 827 was first introduced by commit
-:::::: 2965faa5e03d1e71e9ff9aa143fff39e0a77543a kexec: split kexec_load sys=
-call from kexec core code
+46db138dc83ae1 Stylon Wang 2021-05-29  10597  		vsdb->freesync_supported =
+=3D output->amd_vsdb.freesync_supported;
+46db138dc83ae1 Stylon Wang 2021-05-29  10598  		vsdb->amd_vsdb_version =3D =
+output->amd_vsdb.amd_vsdb_version;
+46db138dc83ae1 Stylon Wang 2021-05-29  10599  		vsdb->min_refresh_rate_hz =
+=3D output->amd_vsdb.min_frame_rate;
+46db138dc83ae1 Stylon Wang 2021-05-29  10600  		vsdb->max_refresh_rate_hz =
+=3D output->amd_vsdb.max_frame_rate;
+46db138dc83ae1 Stylon Wang 2021-05-29  10601  	} else {
+46db138dc83ae1 Stylon Wang 2021-05-29  10602  		DRM_ERROR("Unknown EDID CEA=
+ parser results\n");
+46db138dc83ae1 Stylon Wang 2021-05-29  10603  		return false;
+46db138dc83ae1 Stylon Wang 2021-05-29  10604  	}
+46db138dc83ae1 Stylon Wang 2021-05-29  10605  =
 
-:::::: TO: Dave Young <dyoung@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+46db138dc83ae1 Stylon Wang 2021-05-29  10606  	return true;
+46db138dc83ae1 Stylon Wang 2021-05-29  10607  }
+46db138dc83ae1 Stylon Wang 2021-05-29  10608  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0308058619431462017==--
+--===============4943207987611764043==--
 
