@@ -1,145 +1,140 @@
-Content-Type: multipart/mixed; boundary="===============0712132892883740885=="
+Content-Type: multipart/mixed; boundary="===============5970760615736816404=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/tty/serial/sifive.c:273:3: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-Date: Tue, 05 Jul 2022 07:44:02 +0800
-Message-ID: <202207050726.89vctbKW-lkp@intel.com>
+Subject: [cxl:preview 47/51] drivers/cxl/core/region.c:192 cxl_region_decode_commit() error: uninitialized symbol 'rc'.
+Date: Tue, 05 Jul 2022 07:23:22 +0800
+Message-ID: <202207050730.3wxXhWGw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0712132892883740885==
+--===============5970760615736816404==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/tty/serial/sifive.c:273:3: warning: Signed integer overflow for ex=
-pression '1<<31'. [integerOverflow]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Guenter Roeck <linux@roeck-us.net>
-CC: Palmer Dabbelt <palmerdabbelt@google.com>
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 
-Hi Guenter,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c1084b6c5620a743f86947caca66d90f24060f56
-commit: a18b14d8886614b3c7d290c4cfc33389822b0535 riscv: Disable STACKPROTEC=
-TOR_PER_TASK if GCC_PLUGIN_RANDSTRUCT is enabled
-date:   11 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 11 months ago
-compiler: riscv64-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout a18b14d8886614b3c7d290c4cfc33389822b0535
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
+head:   1985cf58850562e4b960e19d46f0d8f19d6c7cbd
+commit: 9ca045c484e85341c26fe26881e528f7624bdaea [47/51] cxl/hdm: Commit de=
+coder state to hardware
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: i386-randconfig-m021-20220704 (https://download.01.org/0day-ci/arch=
+ive/20220705/202207050730.3wxXhWGw-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/cxl/core/region.c:192 cxl_region_decode_commit() error: uninitializ=
+ed symbol 'rc'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/cxl/core/region.c:201 cxl_region_decode_commit() error: uninitializ=
+ed symbol 'rc'.
+drivers/cxl/core/region.c:443 alloc_hpa() error: uninitialized symbol 'res'.
+drivers/cxl/core/region.c:964 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peig'.
+drivers/cxl/core/region.c:964 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peiw'.
+drivers/cxl/core/region.c:964 cxl_port_setup_targets() error: uninitialized=
+ symbol 'eiw'.
+drivers/cxl/core/region.c:968 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peiw'.
+drivers/cxl/core/region.c:969 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peig'.
+drivers/cxl/core/region.c:1557 create_pmem_region_store() warn: unsigned 'r=
+c' is never less than zero.
 
-   drivers/tty/serial/sifive.c:273:3: warning: Shifting signed 32-bit value=
- by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-     SIFIVE_SERIAL_TXDATA_FULL_MASK;
-     ^
-   drivers/tty/serial/sifive.c:418:20: warning: Shifting signed 32-bit valu=
-e by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-     *is_empty =3D (v & SIFIVE_SERIAL_RXDATA_EMPTY_MASK) >>
-                      ^
->> drivers/tty/serial/sifive.c:273:3: warning: Signed integer overflow for =
-expression '1<<31'. [integerOverflow]
-     SIFIVE_SERIAL_TXDATA_FULL_MASK;
-     ^
-   drivers/tty/serial/sifive.c:418:20: warning: Signed integer overflow for=
- expression '1<<31'. [integerOverflow]
-     *is_empty =3D (v & SIFIVE_SERIAL_RXDATA_EMPTY_MASK) >>
-                      ^
-   drivers/tty/serial/sifive.c:762:9: warning: Shifting signed 32-bit value=
- by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-           SIFIVE_SERIAL_TXDATA_FULL_MASK)
-           ^
-   drivers/tty/serial/sifive.c:762:9: warning: Signed integer overflow for =
-expression '1<<31'. [integerOverflow]
-           SIFIVE_SERIAL_TXDATA_FULL_MASK)
-           ^
---
->> drivers/tty/synclink_gt.c:550:50: warning: Parameter 'info' can be decla=
-red with const [constParameter]
-   static inline int sanity_check(struct slgt_info *info, char *devname, co=
-nst char *name)
-                                                    ^
---
->> drivers/video/fbdev/core/fbcon.c:2766:19: warning: Local variable 'info'=
- shadows outer argument [shadowArgument]
-     struct fb_info *info =3D registered_fb[idx];
-                     ^
-   drivers/video/fbdev/core/fbcon.c:2742:38: note: Shadowed declaration
-   void fbcon_fb_unbind(struct fb_info *info)
-                                        ^
-   drivers/video/fbdev/core/fbcon.c:2766:19: note: Shadow variable
-     struct fb_info *info =3D registered_fb[idx];
-                     ^
->> drivers/video/fbdev/core/fbcon.c:2700:40: warning: Parameter 'info' can =
-be declared with const [constParameter]
-   int fbcon_mode_deleted(struct fb_info *info,
-                                          ^
+vim +/rc +192 drivers/cxl/core/region.c
 
-vim +273 drivers/tty/serial/sifive.c
+9ca045c484e853 Dan Williams 2022-06-08  155  =
 
-45c054d0815b15 Paul Walmsley 2019-04-12  258  =
+9ca045c484e853 Dan Williams 2022-06-08  156  static int cxl_region_decode_c=
+ommit(struct cxl_region *cxlr)
+9ca045c484e853 Dan Williams 2022-06-08  157  {
+9ca045c484e853 Dan Williams 2022-06-08  158  	struct cxl_region_params *p =
+=3D &cxlr->params;
+9ca045c484e853 Dan Williams 2022-06-08  159  	int i, rc;
+9ca045c484e853 Dan Williams 2022-06-08  160  =
 
-45c054d0815b15 Paul Walmsley 2019-04-12  259  /**
-45c054d0815b15 Paul Walmsley 2019-04-12  260   * sifive_serial_is_txfifo_fu=
-ll() - is the TXFIFO full?
-45c054d0815b15 Paul Walmsley 2019-04-12  261   * @ssp: pointer to a struct =
-sifive_serial_port
-45c054d0815b15 Paul Walmsley 2019-04-12  262   *
-45c054d0815b15 Paul Walmsley 2019-04-12  263   * Read the transmit FIFO "fu=
-ll" bit, returning a non-zero value if the
-45c054d0815b15 Paul Walmsley 2019-04-12  264   * TX FIFO is full, or zero i=
-f space remains.  Intended to be used to prevent
-45c054d0815b15 Paul Walmsley 2019-04-12  265   * writes to the TX FIFO when=
- it's full.
-45c054d0815b15 Paul Walmsley 2019-04-12  266   *
-45c054d0815b15 Paul Walmsley 2019-04-12  267   * Returns: SIFIVE_SERIAL_TXD=
-ATA_FULL_MASK (non-zero) if the transmit FIFO
-45c054d0815b15 Paul Walmsley 2019-04-12  268   * is full, or 0 if space rem=
-ains.
-45c054d0815b15 Paul Walmsley 2019-04-12  269   */
-45c054d0815b15 Paul Walmsley 2019-04-12  270  static int sifive_serial_is_t=
-xfifo_full(struct sifive_serial_port *ssp)
-45c054d0815b15 Paul Walmsley 2019-04-12  271  {
-45c054d0815b15 Paul Walmsley 2019-04-12  272  	return __ssp_readl(ssp, SIFI=
-VE_SERIAL_TXDATA_OFFS) &
-45c054d0815b15 Paul Walmsley 2019-04-12 @273  		SIFIVE_SERIAL_TXDATA_FULL_M=
-ASK;
-45c054d0815b15 Paul Walmsley 2019-04-12  274  }
-45c054d0815b15 Paul Walmsley 2019-04-12  275  =
+9ca045c484e853 Dan Williams 2022-06-08  161  	for (i =3D 0; i < p->nr_targe=
+ts; i++) {
+9ca045c484e853 Dan Williams 2022-06-08  162  		struct cxl_endpoint_decoder =
+*cxled =3D p->targets[i];
+9ca045c484e853 Dan Williams 2022-06-08  163  		struct cxl_memdev *cxlmd =3D=
+ cxled_to_memdev(cxled);
+9ca045c484e853 Dan Williams 2022-06-08  164  		struct cxl_region_ref *cxl_r=
+r;
+9ca045c484e853 Dan Williams 2022-06-08  165  		struct cxl_decoder *cxld;
+9ca045c484e853 Dan Williams 2022-06-08  166  		struct cxl_port *iter;
+9ca045c484e853 Dan Williams 2022-06-08  167  		struct cxl_ep *ep;
+9ca045c484e853 Dan Williams 2022-06-08  168  =
 
+9ca045c484e853 Dan Williams 2022-06-08  169  		/* commit bottom up */
+9ca045c484e853 Dan Williams 2022-06-08  170  		for (iter =3D cxled_to_port(=
+cxled); !is_cxl_root(iter);
+9ca045c484e853 Dan Williams 2022-06-08  171  		     iter =3D to_cxl_port(it=
+er->dev.parent)) {
+9ca045c484e853 Dan Williams 2022-06-08  172  			cxl_rr =3D cxl_rr_load(iter=
+, cxlr);
+9ca045c484e853 Dan Williams 2022-06-08  173  			cxld =3D cxl_rr->decoder;
+9ca045c484e853 Dan Williams 2022-06-08  174  			rc =3D cxld->commit(cxld);
+9ca045c484e853 Dan Williams 2022-06-08  175  			if (rc)
+9ca045c484e853 Dan Williams 2022-06-08  176  				break;
+9ca045c484e853 Dan Williams 2022-06-08  177  		}
+9ca045c484e853 Dan Williams 2022-06-08  178  =
 
-:::::: The code at line 273 was first introduced by commit
-:::::: 45c054d0815b1530d7c7ff8441389a0421dd05e7 tty: serial: add driver for=
- the SiFive UART
+9ca045c484e853 Dan Williams 2022-06-08  179  		if (is_cxl_root(iter))
+9ca045c484e853 Dan Williams 2022-06-08  180  			continue;
+9ca045c484e853 Dan Williams 2022-06-08  181  =
 
-:::::: TO: Paul Walmsley <paul.walmsley@sifive.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+9ca045c484e853 Dan Williams 2022-06-08  182  		/* teardown top down */
+9ca045c484e853 Dan Williams 2022-06-08  183  		for (ep =3D cxl_ep_load(iter=
+, cxlmd); ep && iter;
+9ca045c484e853 Dan Williams 2022-06-08  184  		     iter =3D ep->next, ep =
+=3D cxl_ep_load(iter, cxlmd)) {
+9ca045c484e853 Dan Williams 2022-06-08  185  			cxl_rr =3D cxl_rr_load(iter=
+, cxlr);
+9ca045c484e853 Dan Williams 2022-06-08  186  			cxld =3D cxl_rr->decoder;
+9ca045c484e853 Dan Williams 2022-06-08  187  			cxld->reset(cxld);
+9ca045c484e853 Dan Williams 2022-06-08  188  		}
+9ca045c484e853 Dan Williams 2022-06-08  189  =
+
+9ca045c484e853 Dan Williams 2022-06-08  190  		cxled->cxld.reset(&cxled->cx=
+ld);
+9ca045c484e853 Dan Williams 2022-06-08  191  		if (i =3D=3D 0)
+9ca045c484e853 Dan Williams 2022-06-08 @192  			return rc;
+9ca045c484e853 Dan Williams 2022-06-08  193  		break;
+9ca045c484e853 Dan Williams 2022-06-08  194  	}
+9ca045c484e853 Dan Williams 2022-06-08  195  =
+
+9ca045c484e853 Dan Williams 2022-06-08  196  	if (i >=3D p->nr_targets)
+9ca045c484e853 Dan Williams 2022-06-08  197  		return 0;
+9ca045c484e853 Dan Williams 2022-06-08  198  =
+
+9ca045c484e853 Dan Williams 2022-06-08  199  	/* undo the targets that were=
+ successfully committed */
+9ca045c484e853 Dan Williams 2022-06-08  200  	cxl_region_decode_reset(cxlr,=
+ i);
+9ca045c484e853 Dan Williams 2022-06-08  201  	return rc;
+9ca045c484e853 Dan Williams 2022-06-08  202  }
+9ca045c484e853 Dan Williams 2022-06-08  203  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0712132892883740885==--
+--===============5970760615736816404==--
 
