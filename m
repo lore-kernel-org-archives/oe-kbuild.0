@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1995323988385242841=="
+Content-Type: multipart/mixed; boundary="===============7427021822479670271=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: drivers/devfreq/governor_passive.c:44:24: warning: Uninitialized variable: parent_cpu_data->opp_table [uninitvar]
-Date: Mon, 04 Jul 2022 23:45:22 +0800
-Message-ID: <202207042315.qeZ4qEvs-lkp@intel.com>
+Date: Mon, 04 Jul 2022 20:14:24 +0800
+Message-ID: <202207042022.XYuGdExy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1995323988385242841==
+--===============7427021822479670271==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -32,9 +32,9 @@ head:   88084a3df1672e131ddc1b4e39eeacfd39864acf
 commit: 0cca7e8dcfa9e6fe7ba697e534a732571f1689d0 PM / devfreq: Fix cpufreq =
 passive unregister erroring on PROBE_DEFER
 date:   5 days ago
-:::::: branch date: 17 hours ago
+:::::: branch date: 14 hours ago
 :::::: commit date: 5 days ago
-compiler: or1k-linux-gcc (GCC) 11.3.0
+compiler: sparc64-linux-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
         git checkout 0cca7e8dcfa9e6fe7ba697e534a732571f1689d0
@@ -51,6 +51,59 @@ cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 e: parent_cpu_data->opp_table [uninitvar]
      if (parent_cpu_data->opp_table)
                           ^
+--
+>> drivers/gpu/drm/drm_of.c:30:28: warning: Parameter 'port' can be declare=
+d with const [constParameter]
+          struct device_node *port)
+                              ^
+--
+>> drivers/gpu/drm/arm/display/komeda/komeda_plane.c:199:34: warning: Param=
+eter 'pipe' can be declared with const [constParameter]
+            struct komeda_pipeline *pipe)
+                                    ^
+   drivers/gpu/drm/arm/display/komeda/komeda_plane.c:217:31: warning: Param=
+eter 'pipe' can be declared with const [constParameter]
+         struct komeda_pipeline *pipe,
+                                 ^
+--
+>> drivers/gpu/drm/arm/malidp_planes.c:407:18: warning: Redundant condition=
+: afbc. '!afbc || (afbc && sparse)' is equivalent to '!afbc || sparse' [red=
+undantCondition]
+     return (!afbc) || (afbc && sparse);
+                    ^
+--
+>> drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:155:6: warning: The if cond=
+ition is the same as the previous if condition [duplicateCondition]
+    if (enable)
+        ^
+   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:144:6: note: First condition
+    if (enable) {
+        ^
+   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:155:6: note: Second conditi=
+on
+    if (enable)
+        ^
+>> drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:263:16: warning: Uninitiali=
+zed variable: config.csc_coefficents [uninitvar]
+           config.csc_coefficents,
+                  ^
+   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:218:6: note: Assuming condi=
+tion is true
+    if (rgb) {
+        ^
+   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:263:16: note: Uninitialized=
+ variable: config.csc_coefficents
+           config.csc_coefficents,
+                  ^
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:1114:10: warning: Pa=
+rameter 'before_cr' can be declared with const [constParameter]
+         u8 before_cr[CDNS_DP_MAX_NUM_LANES],
+            ^
+--
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:5128:34: warning: Paramete=
+r 'branch' can be declared with const [constParameter]
+          struct drm_dp_mst_branch *branch)
+                                    ^
 
 vim +44 drivers/devfreq/governor_passive.c
 
@@ -85,5 +138,5 @@ e(parent_cpu_data->opp_table);
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1995323988385242841==--
+--===============7427021822479670271==--
 
