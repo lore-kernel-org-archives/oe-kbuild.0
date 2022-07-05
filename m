@@ -1,22 +1,23 @@
-Content-Type: multipart/mixed; boundary="===============6773292573823680536=="
+Content-Type: multipart/mixed; boundary="===============6610416527568415344=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/i2c/busses/i2c-qcom-geni.c:683:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 06 Jul 2022 00:56:00 +0800
-Message-ID: <202207060024.lH3g0gCI-lkp@intel.com>
+Subject: include/trace/events/ext4.h:1820:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Tue, 05 Jul 2022 12:09:09 +0800
+Message-ID: <202207051222.G2bplCnH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6773292573823680536==
+--===============6610416527568415344==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-2c/busses/i2c-qcom-geni.c:683:3: warning: Value stored to 'ret' is never re=
-ad [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/trace/events/ext4.h:1820:1: warning: Dereference of null pointer [=
+clang-analyzer-core.NullDereference]"
 :::::: =
 
 
@@ -24,37 +25,38 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Vinod Koul <vkoul@kernel.org>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+TO: Wang Jianchao <wangjianchao@kuaishou.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Andreas Dilger <adilger@dilger.ca>
+CC: Jan Kara <jack@suse.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c1084b6c5620a743f86947caca66d90f24060f56
-commit: d8703554f4dea9775417525b22b3d65ed1c6b16e i2c: qcom-geni: Add suppor=
-t for GPI DMA
-date:   4 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 4 months ago
-config: riscv-randconfig-c006-20220703 (https://download.01.org/0day-ci/arc=
-hive/20220706/202207060024.lH3g0gCI-lkp(a)intel.com/config)
+commit: 6920b3913235f517728bb69abe9b39047a987113 ext4: add new helper inter=
+face ext4_try_to_trim_range()
+date:   11 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-c005-20220702 (https://download.01.org/0day-ci/arch=
+ive/20220705/202207051222.G2bplCnH-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5d7876=
 89b14574fe58ba9798563f4a6df6059fbf)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd8703554f4dea9775417525b22b3d65ed1c6b16e
+t/commit/?id=3D6920b3913235f517728bb69abe9b39047a987113
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout d8703554f4dea9775417525b22b3d65ed1c6b16e
+        git checkout 6920b3913235f517728bb69abe9b39047a987113
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Ds390 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -62,309 +64,258 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:592:3: note: Taking false branch
-                   if (i < num - 1)
+           ^
+   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
+                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   fs/ext4/mballoc.c:6375:3: note: Taking false branch
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:597:7: note: Assuming the condition i=
-s false
-                   if (msgs[i].flags & I2C_M_RD) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:597:3: note: Taking false branch
-                   if (msgs[i].flags & I2C_M_RD) {
+   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
+roup'
+                   if (group =3D=3D last_group)
+                       ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6387:3: note: Taking false branch
+                   if (group =3D=3D last_group)
                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:604:10: note: Calling 'geni_i2c_gpi'
-                   ret =3D  geni_i2c_gpi(gi2c, &msgs[i], &config,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:512:6: note: Assuming 'dma_buf' is no=
-n-null
-           if (!dma_buf)
-               ^~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:512:2: note: Taking false branch
-           if (!dma_buf)
+   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is > field 'bb_free'
+                   if (grp->bb_free >=3D minlen) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6390:3: note: Taking false branch
+                   if (grp->bb_free >=3D minlen) {
+                   ^
+   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
+           for (group =3D first_group; group <=3D last_group; group++) {
+                                     ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6372:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (group =3D first_group; group <=3D last_group; group++) {
            ^
-   drivers/i2c/busses/i2c-qcom-geni.c:515:6: note: 'op' is equal to I2C_WRI=
-TE
-           if (op =3D=3D I2C_WRITE)
-               ^~
-   drivers/i2c/busses/i2c-qcom-geni.c:515:2: note: Taking true branch
-           if (op =3D=3D I2C_WRITE)
-           ^
-   drivers/i2c/busses/i2c-qcom-geni.c:521:2: note: Taking false branch
-           if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
-           ^
-   drivers/i2c/busses/i2c-qcom-geni.c:531:6: note: Assuming 'ret' is 0
+   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
+                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   fs/ext4/mballoc.c:6375:3: note: Taking false branch
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
+                   ^
+   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
+roup'
+                   if (group =3D=3D last_group)
+                       ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6387:3: note: Taking false branch
+                   if (group =3D=3D last_group)
+                   ^
+   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is <=3D field 'bb_free'
+                   if (grp->bb_free >=3D minlen) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6390:3: note: Taking true branch
+                   if (grp->bb_free >=3D minlen) {
+                   ^
+   fs/ext4/mballoc.c:6391:10: note: Calling 'ext4_trim_all_free'
+                           cnt =3D ext4_trim_all_free(sb, group, first_clus=
+ter,
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/ext4/mballoc.c:6298:6: note: Assuming 'ret' is 0
            if (ret) {
                ^~~
-   drivers/i2c/busses/i2c-qcom-geni.c:531:2: note: Taking false branch
+   fs/ext4/mballoc.c:6298:2: note: Taking false branch
            if (ret) {
            ^
-   drivers/i2c/busses/i2c-qcom-geni.c:540:6: note: 'op' is equal to I2C_WRI=
-TE
-           if (op =3D=3D I2C_WRITE)
-               ^~
-   drivers/i2c/busses/i2c-qcom-geni.c:540:2: note: Taking true branch
-           if (op =3D=3D I2C_WRITE)
-           ^
-   drivers/i2c/busses/i2c-qcom-geni.c:546:6: note: Assuming 'desc' is non-n=
-ull
-           if (!desc) {
-               ^~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:546:2: note: Taking false branch
-           if (!desc) {
-           ^
-   drivers/i2c/busses/i2c-qcom-geni.c:558:2: note: Returning zero, which pa=
-rticipates in a condition later
-           return 0;
-           ^~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:604:10: note: Returning from 'geni_i2=
-c_gpi'
-                   ret =3D  geni_i2c_gpi(gi2c, &msgs[i], &config,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:606:7: note: 'ret' is 0
-                   if (ret)
-                       ^~~
-   drivers/i2c/busses/i2c-qcom-geni.c:606:3: note: Taking false branch
-                   if (ret)
+   fs/ext4/mballoc.c:6306:6: note: Assuming the condition is true
+           if (!EXT4_MB_GRP_WAS_TRIMMED(e4b.bd_info) ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6306:44: note: Left side of '||' is true
+           if (!EXT4_MB_GRP_WAS_TRIMMED(e4b.bd_info) ||
+                                                     ^
+   fs/ext4/mballoc.c:6308:9: note: Calling 'ext4_try_to_trim_range'
+                   ret =3D ext4_try_to_trim_range(sb, &e4b, start, max, min=
+blocks);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   fs/ext4/mballoc.c:6230:11: note: Assuming 'start' is >=3D field 'bb_firs=
+t_free'
+           start =3D (e4b->bd_info->bb_first_free > start) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6230:10: note: '?' condition is false
+           start =3D (e4b->bd_info->bb_first_free > start) ?
                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:609:7: note: Assuming the condition i=
-s false
-                   if (msgs[i].flags & I2C_M_RD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:609:3: note: Taking false branch
-                   if (msgs[i].flags & I2C_M_RD)
+   fs/ext4/mballoc.c:6235:9: note: Assuming 'start' is <=3D 'max'
+           while (start <=3D max) {
+                  ^~~~~~~~~~~~
+   fs/ext4/mballoc.c:6235:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (start <=3D max) {
+           ^
+   fs/ext4/mballoc.c:6237:7: note: Assuming 'start' is <=3D 'max'
+                   if (start > max)
+                       ^~~~~~~~~~~
+   fs/ext4/mballoc.c:6237:3: note: Taking false branch
+                   if (start > max)
                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:614:7: note: Assuming 'timeout' is no=
-t equal to 0
-                   if (!timeout) {
-                       ^~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:614:3: note: Taking false branch
-                   if (!timeout) {
+   fs/ext4/mballoc.c:6241:7: note: Assuming the condition is false
+                   if ((next - start) >=3D minblocks) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6241:3: note: Taking false branch
+                   if ((next - start) >=3D minblocks) {
                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:621:7: note: Assuming field 'err' is =
-not equal to 0
-                   if (gi2c->err) {
-                       ^~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:621:3: note: Taking true branch
-                   if (gi2c->err) {
+   fs/ext4/mballoc.c:6251:28: note: Dereference of null pointer
+                   if (fatal_signal_pending(current)) {
+                                            ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+>> include/trace/events/ext4.h:1820:1: warning: Dereference of null pointer=
+ [clang-analyzer-core.NullDereference]
+   DEFINE_EVENT(ext4__trim, ext4_trim_extent,
+   ^
+   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
+T'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
+ACE'
+                           cpu_online(raw_smp_processor_id()),             \
+                                      ^
+   arch/s390/include/asm/smp.h:15:32: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   fs/ext4/mballoc.c:6352:6: note: Assuming 'minlen' is <=3D field 's_clust=
+ers_per_group'
+           if (minlen > EXT4_CLUSTERS_PER_GROUP(sb) ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6352:6: note: Left side of '||' is false
+   fs/ext4/mballoc.c:6353:6: note: Assuming 'start' is < 'max_blks'
+               start >=3D max_blks ||
+               ^~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6352:6: note: Left side of '||' is false
+           if (minlen > EXT4_CLUSTERS_PER_GROUP(sb) ||
+               ^
+   fs/ext4/mballoc.c:6354:6: note: Assuming field 'len' is >=3D field 's_bl=
+ocksize'
+               range->len < sb->s_blocksize)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6352:2: note: Taking false branch
+           if (minlen > EXT4_CLUSTERS_PER_GROUP(sb) ||
+           ^
+   fs/ext4/mballoc.c:6356:6: note: Assuming 'end' is < 'max_blks'
+           if (end >=3D max_blks)
+               ^~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6356:2: note: Taking false branch
+           if (end >=3D max_blks)
+           ^
+   fs/ext4/mballoc.c:6358:6: note: Assuming 'end' is > 'first_data_blk'
+           if (end <=3D first_data_blk)
+               ^~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6358:2: note: Taking false branch
+           if (end <=3D first_data_blk)
+           ^
+   fs/ext4/mballoc.c:6360:6: note: Assuming 'start' is >=3D 'first_data_blk'
+           if (start < first_data_blk)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6360:2: note: Taking false branch
+           if (start < first_data_blk)
+           ^
+   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
+           for (group =3D first_group; group <=3D last_group; group++) {
+                                     ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6372:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (group =3D first_group; group <=3D last_group; group++) {
+           ^
+   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
+                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   fs/ext4/mballoc.c:6375:3: note: Taking false branch
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:623:4: note: Control jumps to line 632
-                           goto err;
-                           ^
-   drivers/i2c/busses/i2c-qcom-geni.c:632:2: note: Loop condition is false.=
-  Exiting loop
-           dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
-           ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
+   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
+roup'
+                   if (group =3D=3D last_group)
+                       ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6387:3: note: Taking false branch
+                   if (group =3D=3D last_group)
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/i2c/busses/i2c-qcom-geni.c:635:2: note: 6th function call argume=
-nt is an uninitialized value
-           geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_a=
-ddr);
-           ^                                                           ~~~~=
-~~~
->> drivers/i2c/busses/i2c-qcom-geni.c:683:3: warning: Value stored to 'ret'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D geni_i2c_gpi_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:683:3: note: Value stored to 'ret' is=
- never read
-                   ret =3D geni_i2c_gpi_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:685:3: warning: Value stored to 'ret'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D geni_i2c_fifo_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:685:3: note: Value stored to 'ret' is=
- never read
-                   ret =3D geni_i2c_fifo_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/usb/typec/class.c:528:13: warning: Assigned value is garbage or =
-undefined [clang-analyzer-core.uninitialized.Assign]
-           alt->roles =3D desc->roles;
-                      ^
-   drivers/usb/typec/class.c:1940:6: note: Assuming 'altmodes_node' is non-=
-null
-           if (!altmodes_node)
-               ^~~~~~~~~~~~~~
-   drivers/usb/typec/class.c:1940:2: note: Taking false branch
-           if (!altmodes_node)
-           ^
-   drivers/usb/typec/class.c:1943:2: note: Loop condition is true.  Enterin=
-g loop body
-           fwnode_for_each_child_node(altmodes_node, child) {
-           ^
-   include/linux/property.h:101:2: note: expanded from macro 'fwnode_for_ea=
-ch_child_node'
-           for (child =3D fwnode_get_next_child_node(fwnode, NULL); child; =
-  \
-           ^
-   drivers/usb/typec/class.c:1945:7: note: Assuming 'ret' is 0
-                   if (ret) {
-                       ^~~
-   drivers/usb/typec/class.c:1945:3: note: Taking false branch
-                   if (ret) {
+   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is > field 'bb_free'
+                   if (grp->bb_free >=3D minlen) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6390:3: note: Taking false branch
+                   if (grp->bb_free >=3D minlen) {
                    ^
-   drivers/usb/typec/class.c:1952:7: note: Assuming 'ret' is 0
-                   if (ret) {
-                       ^~~
-   drivers/usb/typec/class.c:1952:3: note: Taking false branch
-                   if (ret) {
+   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
+           for (group =3D first_group; group <=3D last_group; group++) {
+                                     ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6372:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (group =3D first_group; group <=3D last_group; group++) {
+           ^
+   fs/ext4/mballoc.c:6375:7: note: Assuming the condition is true
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
+                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   fs/ext4/mballoc.c:6375:3: note: Taking false branch
+                   if (unlikely(EXT4_MB_GRP_NEED_INIT(grp))) {
                    ^
-   drivers/usb/typec/class.c:1958:7: note: Assuming 'index' is < 'n'
-                   if (index >=3D n) {
-                       ^~~~~~~~~~
-   drivers/usb/typec/class.c:1958:3: note: Taking false branch
-                   if (index >=3D n) {
+   fs/ext4/mballoc.c:6387:7: note: Assuming 'group' is not equal to 'last_g=
+roup'
+                   if (group =3D=3D last_group)
+                       ^~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6387:3: note: Taking false branch
+                   if (group =3D=3D last_group)
                    ^
-   drivers/usb/typec/class.c:1967:9: note: Calling 'typec_port_register_alt=
-mode'
-                   alt =3D typec_port_register_altmode(port, &desc);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/typec/class.c:1915:2: note: Taking false branch
-           if (IS_ERR(mux))
-           ^
-   drivers/usb/typec/class.c:1918:9: note: Calling 'typec_register_altmode'
-           adev =3D typec_register_altmode(&port->dev, desc);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/typec/class.c:519:8: note: Calling 'kzalloc'
-           alt =3D kzalloc(sizeof(*alt), GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:715:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:569:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:586:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:715:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:715:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/typec/class.c:519:8: note: Returning from 'kzalloc'
-           alt =3D kzalloc(sizeof(*alt), GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/typec/class.c:520:6: note: Assuming 'alt' is non-null
-           if (!alt) {
-               ^~~~
-   drivers/usb/typec/class.c:520:2: note: Taking false branch
-           if (!alt) {
-           ^
-   drivers/usb/typec/class.c:528:13: note: Assigned value is garbage or und=
-efined
-           alt->roles =3D desc->roles;
-                      ^ ~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/media/tuners/fc0011.c:252:3: warning: Value stored to 'bandwidth=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   bandwidth =3D 6000;
-                   ^           ~~~~
-   drivers/media/tuners/fc0011.c:252:3: note: Value stored to 'bandwidth' i=
-s never read
-                   bandwidth =3D 6000;
-                   ^           ~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   fs/ext4/mballoc.c:6390:7: note: Assuming 'minlen' is > field 'bb_free'
+                   if (grp->bb_free >=3D minlen) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/mballoc.c:6390:3: note: Taking false branch
+                   if (grp->bb_free >=3D minlen) {
+                   ^
+   fs/ext4/mballoc.c:6372:28: note: Assuming 'group' is <=3D 'last_group'
 
-vim +/ret +683 drivers/i2c/busses/i2c-qcom-geni.c
+vim +1820 include/trace/events/ext4.h
 
-d8703554f4dea9 Vinod Koul                  2022-02-21  661  =
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1819  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  662  static int geni=
-_i2c_xfer(struct i2c_adapter *adap,
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  663  			 struct i2c_=
-msg msgs[],
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  664  			 int num)
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  665  {
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  666  	struct geni_i2=
-c_dev *gi2c =3D i2c_get_adapdata(adap);
-d8703554f4dea9 Vinod Koul                  2022-02-21  667  	int ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  668  =
+b3d4c2b10b68d2 Tao Ma 2011-07-11 @1820  DEFINE_EVENT(ext4__trim, ext4_trim_=
+extent,
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1821  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  669  	gi2c->err =3D =
-0;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  670  	reinit_complet=
-ion(&gi2c->done);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  671  	ret =3D pm_run=
-time_get_sync(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  672  	if (ret < 0) {
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  673  		dev_err(gi2c-=
->se.dev, "error turning SE resources:%d\n", ret);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  674  		pm_runtime_pu=
-t_noidle(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  675  		/* Set device=
- in suspended since resume failed */
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  676  		pm_runtime_se=
-t_suspended(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  677  		return ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  678  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  679  =
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1822  	TP_PROTO(struct super_block *sb,
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1823  		 ext4_group_t group,
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1824  		 ext4_grpblk_t start,
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1825  		 ext4_grpblk_t len),
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1826  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  680  	qcom_geni_i2c_=
-conf(gi2c);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  681  =
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1827  	TP_ARGS(sb, group, start, len)
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1828  );
+b3d4c2b10b68d2 Tao Ma 2011-07-11  1829  =
 
-d8703554f4dea9 Vinod Koul                  2022-02-21  682  	if (gi2c->gpi_=
-mode)
-d8703554f4dea9 Vinod Koul                  2022-02-21 @683  		ret =3D geni_=
-i2c_gpi_xfer(gi2c, msgs, num);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  684  	else
-d8703554f4dea9 Vinod Koul                  2022-02-21  685  		ret =3D geni_=
-i2c_fifo_xfer(gi2c, msgs, num);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  686  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  687  	pm_runtime_mar=
-k_last_busy(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  688  	pm_runtime_put=
-_autosuspend(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  689  	gi2c->cur =3D =
-NULL;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  690  	gi2c->err =3D =
-0;
-d8703554f4dea9 Vinod Koul                  2022-02-21  691  	return num;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  692  }
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  693  =
+:::::: The code@line 1820 was first introduced by commit
+:::::: b3d4c2b10b68d205d3eb1b5c17dcb4649a502798 ext4: Add new ext4 trim tra=
+cepoints
 
+:::::: TO: Tao Ma <boyu.mt@taobao.com>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6773292573823680536==--
+--===============6610416527568415344==--
 
