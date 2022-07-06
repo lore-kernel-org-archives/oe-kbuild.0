@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1793562831174270837=="
+Content-Type: multipart/mixed; boundary="===============7370977245992631744=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7600/8197] drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
-Date: Thu, 07 Jul 2022 03:12:49 +0800
-Message-ID: <202207070341.YLD8BfwB-lkp@intel.com>
+Subject: [arm-integrator:kernel-in-vmalloc-v5.19-rc1 21/35] arch/hexagon/include/asm/page.h: asm/mem-layout.h is included more than once.
+Date: Wed, 06 Jul 2022 19:44:56 +0800
+Message-ID: <202207061920.z89bMMgl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1793562831174270837==
+--===============7370977245992631744==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,17 +20,16 @@ Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Harry Wentland <harry.wentland@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Linus Walleij <linus.walleij@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   088b9c375534d905a4d337c78db3b3bfbb52c4a0
-commit: 09de5cd2c170b19e04e37439a712da52a0535015 [7600/8197] drm/amd/displa=
-y: Move all linux includes into OS types
-:::::: branch date: 11 hours ago
-:::::: commit date: 23 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integr=
+ator.git kernel-in-vmalloc-v5.19-rc1
+head:   144435741b0a6f31403d3084103678da3b4f9d11
+commit: 5f1754f29aba0e4910d757ab7c318abc9d22b66b [21/35] Hexagon: Make virt=
+_to_pfn() a static inline
+:::::: branch date: 2 days ago
+:::::: commit date: 6 days ago
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -38,12 +37,12 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 includecheck warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included m=
-ore than once.
+>> arch/hexagon/include/asm/page.h: asm/mem-layout.h is included more than =
+once.
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1793562831174270837==--
+--===============7370977245992631744==--
 
