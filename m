@@ -1,154 +1,411 @@
-Content-Type: multipart/mixed; boundary="===============2951831593691055435=="
+Content-Type: multipart/mixed; boundary="===============1110654459223772603=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 3/4] powerpc: Remove asm/prom.h from asm/mpc52xx.h and asm/pci.h
-Date: Fri, 08 Jul 2022 02:36:20 +0800
-Message-ID: <202207080257.3FTiq7CK-lkp@intel.com>
+Subject: drivers/scsi/qedi/qedi_fw.c:932:40: sparse: sparse: incorrect type in assignment (different base types)
+Date: Thu, 07 Jul 2022 19:34:04 +0800
+Message-ID: <202207071953.Oa5Td2nO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2951831593691055435==
+--===============1110654459223772603==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/powerpc/kernel/prom.c:891:5: warning: no previous prototype for 'of_g=
-et_ibm_chip_id' [-Wmissing-prototypes]"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <22ac0b64b6c6ef6cc6a74739eb213a81372835ed.1657204012.git.chris=
-tophe.leroy@csgroup.eu>
-References: <22ac0b64b6c6ef6cc6a74739eb213a81372835ed.1657204012.git.christ=
-ophe.leroy@csgroup.eu>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-TO: Paul Mackerras <paulus@samba.org>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-CC: linuxppc-dev(a)lists.ozlabs.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Shai Malin <smalin@marvell.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Manish Rangankar <mrangankar@marvell.com>
 
-Hi Christophe,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on mkp-scsi/for-next jejb-scsi/for-next linus/mast=
-er v5.19-rc5 next-20220707]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/vid=
-eo-fbdev-offb-Include-missing-linux-platform_device-h/20220707-222906
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git n=
-ext
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: powerpc-randconfig-s032-20220707 (https://download.01.org/0day-ci/a=
-rchive/20220708/202207080257.3FTiq7CK-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9f09069cde34dcd86f5ecf3a3139fd752020812f
+commit: 9757f8af04423f60b6ecbd6802ff4e3f618fbb44 scsi: qedi: Add support fo=
+r fastpath doorbell recovery
+date:   11 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 11 months ago
+config: m68k-randconfig-s032-20220707 (https://download.01.org/0day-ci/arch=
+ive/20220707/202207071953.Oa5Td2nO-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.3.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/0e553b9abdcfd7c1f63=
-b072e9d9280ce759c0c3c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christophe-Leroy/video-fbdev-offb-=
-Include-missing-linux-platform_device-h/20220707-222906
-        git checkout 0e553b9abdcfd7c1f63b072e9d9280ce759c0c3c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9757f8af04423f60b6ecbd6802ff4e3f618fbb44
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9757f8af04423f60b6ecbd6802ff4e3f618fbb44
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-owerpc SHELL=3D/bin/bash arch/powerpc/kernel/
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
+68k SHELL=3D/bin/bash drivers/scsi/qedi/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
 
->> arch/powerpc/kernel/prom.c:891:5: warning: no previous prototype for 'of=
-_get_ibm_chip_id' [-Wmissing-prototypes]
-     891 | int of_get_ibm_chip_id(struct device_node *np)
-         |     ^~~~~~~~~~~~~~~~~~
+sparse warnings: (new ones prefixed by >>)
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted =
+__le32
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted =
+__le32
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted =
+__le16
+   drivers/scsi/qedi/qedi_fw.c:55:26: sparse: sparse: incorrect type in ass=
+ignment (different base types) @@     expected restricted __be16 [usertype]=
+ t2wait @@     got restricted __be32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:55:26: sparse:     expected restricted __be1=
+6 [usertype] t2wait
+   drivers/scsi/qedi/qedi_fw.c:55:26: sparse:     got restricted __be32 [us=
+ertype]
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted =
+__le16
+   drivers/scsi/qedi/qedi_fw.c:56:28: sparse: sparse: incorrect type in ass=
+ignment (different base types) @@     expected restricted __be16 [usertype]=
+ t2retain @@     got restricted __be32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:56:28: sparse:     expected restricted __be1=
+6 [usertype] t2retain
+   drivers/scsi/qedi/qedi_fw.c:56:28: sparse:     got restricted __be32 [us=
+ertype]
+   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:109:29: sparse: sparse: restricted __le16 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:111:27: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected restricted __be32 [usertype=
+] ttt @@     got restricted __le32 [usertype] ttt @@
+   drivers/scsi/qedi/qedi_fw.c:111:27: sparse:     expected restricted __be=
+32 [usertype] ttt
+   drivers/scsi/qedi/qedi_fw.c:111:27: sparse:     got restricted __le32 [u=
+sertype] ttt
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:116:36: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:214:29: sparse: sparse: restricted __le16 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:285:29: sparse: sparse: restricted __le16 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:287:28: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected restricted __be16 [usertype=
+] tsih @@     got restricted __le16 [usertype] tsih @@
+   drivers/scsi/qedi/qedi_fw.c:287:28: sparse:     expected restricted __be=
+16 [usertype] tsih
+   drivers/scsi/qedi/qedi_fw.c:287:28: sparse:     got restricted __le16 [u=
+sertype] tsih
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:289:35: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:290:35: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:293:37: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:331:13: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned short [usertype] i=
+dx @@     got restricted __le16 [usertype] rqe_opaque @@
+   drivers/scsi/qedi/qedi_fw.c:331:13: sparse:     expected unsigned short =
+[usertype] idx
+   drivers/scsi/qedi/qedi_fw.c:331:13: sparse:     got restricted __le16 [u=
+sertype] rqe_opaque
+   drivers/scsi/qedi/qedi_fw.c:366:13: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned short [usertype] i=
+dx @@     got restricted __le16 [usertype] rqe_opaque @@
+   drivers/scsi/qedi/qedi_fw.c:366:13: sparse:     expected unsigned short =
+[usertype] idx
+   drivers/scsi/qedi/qedi_fw.c:366:13: sparse:     got restricted __le16 [u=
+sertype] rqe_opaque
+   drivers/scsi/qedi/qedi_fw.c:384:41: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected restricted __le16 [usertype=
+] opaque @@     got restricted __le32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:384:41: sparse:     expected restricted __le=
+16 [usertype] opaque
+   drivers/scsi/qedi/qedi_fw.c:384:41: sparse:     got restricted __le32 [u=
+sertype]
+   drivers/scsi/qedi/qedi_fw.c:427:29: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:434:26: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:435:26: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:436:23: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:437:20: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:453:28: sparse: sparse: restricted __le16 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:497:32: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:513:18: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:513:16: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int @@     got res=
+tricted __be32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:513:16: sparse:     expected unsigned int
+   drivers/scsi/qedi/qedi_fw.c:513:16: sparse:     got restricted __be32 [u=
+sertype]
+   drivers/scsi/qedi/qedi_fw.c:514:18: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:514:16: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int @@     got res=
+tricted __be32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:514:16: sparse:     expected unsigned int
+   drivers/scsi/qedi/qedi_fw.c:514:16: sparse:     got restricted __be32 [u=
+sertype]
+   drivers/scsi/qedi/qedi_fw.c:516:31: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:517:31: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:518:28: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:523:28: sparse: sparse: cast from restricted=
+ __le16
+   drivers/scsi/qedi/qedi_fw.c:524:28: sparse: sparse: cast from restricted=
+ __le16
+   drivers/scsi/qedi/qedi_fw.c:525:28: sparse: sparse: cast from restricted=
+ __le16
+   drivers/scsi/qedi/qedi_fw.c:548:29: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:563:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:563:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:563:9: sparse: sparse: restricted __le32 deg=
+rades to integer
+   drivers/scsi/qedi/qedi_fw.c:565:26: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:566:26: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:567:23: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:590:20: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int [usertype] isc=
+si_cid @@     got restricted __le16 [usertype] conn_id @@
+   drivers/scsi/qedi/qedi_fw.c:590:20: sparse:     expected unsigned int [u=
+sertype] iscsi_cid
+   drivers/scsi/qedi/qedi_fw.c:590:20: sparse:     got restricted __le16 [u=
+sertype] conn_id
+   drivers/scsi/qedi/qedi_fw.c:623:26: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:624:26: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:625:20: sparse: sparse: restricted __le16 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:629:31: sparse: sparse: cast from restricted=
+ __le32
+   drivers/scsi/qedi/qedi_fw.c:632:38: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:734:28: sparse: sparse: incorrect type in in=
+itializer (different base types) @@     expected unsigned int [usertype] pr=
+oto_itt @@     got restricted __le16 [usertype] itid @@
+   drivers/scsi/qedi/qedi_fw.c:734:28: sparse:     expected unsigned int [u=
+sertype] proto_itt
+   drivers/scsi/qedi/qedi_fw.c:734:28: sparse:     got restricted __le16 [u=
+sertype] itid
+   drivers/scsi/qedi/qedi_fw.c:744:19: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int [usertype] isc=
+si_cid @@     got restricted __le16 [usertype] conn_id @@
+   drivers/scsi/qedi/qedi_fw.c:744:19: sparse:     expected unsigned int [u=
+sertype] iscsi_cid
+   drivers/scsi/qedi/qedi_fw.c:744:19: sparse:     got restricted __le16 [u=
+sertype] conn_id
+   drivers/scsi/qedi/qedi_fw.c:795:9: sparse: sparse: cast to restricted it=
+t_t
+   drivers/scsi/qedi/qedi_fw.c:857:20: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int [usertype] isc=
+si_cid @@     got restricted __le16 [usertype] conn_id @@
+   drivers/scsi/qedi/qedi_fw.c:857:20: sparse:     expected unsigned int [u=
+sertype] iscsi_cid
+   drivers/scsi/qedi/qedi_fw.c:857:20: sparse:     got restricted __le16 [u=
+sertype] conn_id
+   drivers/scsi/qedi/qedi_fw.c:888:50: sparse: sparse: cast from restricted=
+ itt_t
+   drivers/scsi/qedi/qedi_fw.c:888:40: sparse: sparse: restricted __le16 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:893:48: sparse: sparse: restricted __le32 de=
+grades to integer
+   drivers/scsi/qedi/qedi_fw.c:892:49: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected restricted __le16 [usertype=
+] itid @@     got unsigned int @@
+   drivers/scsi/qedi/qedi_fw.c:892:49: sparse:     expected restricted __le=
+16 [usertype] itid
+   drivers/scsi/qedi/qedi_fw.c:892:49: sparse:     got unsigned int
+>> drivers/scsi/qedi/qedi_fw.c:932:40: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected restricted __le16 [usertype=
+] sq_prod @@     got unsigned short [usertype] fw_sq_prod_idx @@
+   drivers/scsi/qedi/qedi_fw.c:932:40: sparse:     expected restricted __le=
+16 [usertype] sq_prod
+   drivers/scsi/qedi/qedi_fw.c:932:40: sparse:     got unsigned short [user=
+type] fw_sq_prod_idx
+   drivers/scsi/qedi/qedi_fw.c:1008:40: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] isid_tabc @@     got unsigned int @@
+   drivers/scsi/qedi/qedi_fw.c:1008:40: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] isid_tabc
+   drivers/scsi/qedi/qedi_fw.c:1008:40: sparse:     got unsigned int
+   drivers/scsi/qedi/qedi_fw.c:1009:37: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le16 [address=
+able] [assigned] [usertype] isid_d @@     got unsigned short @@
+   drivers/scsi/qedi/qedi_fw.c:1009:37: sparse:     expected restricted __l=
+e16 [addressable] [assigned] [usertype] isid_d
+   drivers/scsi/qedi/qedi_fw.c:1009:37: sparse:     got unsigned short
+   drivers/scsi/qedi/qedi_fw.c:1011:35: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le16 [address=
+able] [assigned] [usertype] tsih @@     got restricted __be16 [usertype] ts=
+ih @@
+   drivers/scsi/qedi/qedi_fw.c:1011:35: sparse:     expected restricted __l=
+e16 [addressable] [assigned] [usertype] tsih
+   drivers/scsi/qedi/qedi_fw.c:1011:35: sparse:     got restricted __be16 [=
+usertype] tsih
+   drivers/scsi/qedi/qedi_fw.c:1012:47: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] hdr_second_dword @@     got int @@
+   drivers/scsi/qedi/qedi_fw.c:1012:47: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] hdr_second_dword
+   drivers/scsi/qedi/qedi_fw.c:1012:47: sparse:     got int
+   drivers/scsi/qedi/qedi_fw.c:1015:36: sparse: sparse: cast to restricted =
+itt_t
+   drivers/scsi/qedi/qedi_fw.c:1015:34: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] itt @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1015:34: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] itt
+   drivers/scsi/qedi/qedi_fw.c:1015:34: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1016:34: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le16 [address=
+able] [assigned] [usertype] cid @@     got unsigned int [usertype] iscsi_co=
+nn_id @@
+   drivers/scsi/qedi/qedi_fw.c:1016:34: sparse:     expected restricted __l=
+e16 [addressable] [assigned] [usertype] cid
+   drivers/scsi/qedi/qedi_fw.c:1016:34: sparse:     got unsigned int [usert=
+ype] iscsi_conn_id
+   drivers/scsi/qedi/qedi_fw.c:1017:37: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] cmd_sn @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1017:37: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:1017:37: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1018:42: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] exp_stat_sn @@     got unsigned int [usertype] =
+@@
+   drivers/scsi/qedi/qedi_fw.c:1018:42: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] exp_stat_sn
+   drivers/scsi/qedi/qedi_fw.c:1018:42: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1024:45: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] lo @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1024:45: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] lo
+   drivers/scsi/qedi/qedi_fw.c:1024:45: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1026:45: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] hi @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1026:45: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] hi
+   drivers/scsi/qedi/qedi_fw.c:1026:45: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1033:45: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] lo @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1033:45: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] lo
+   drivers/scsi/qedi/qedi_fw.c:1033:45: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1035:45: sparse: sparse: incorrect type in a=
+ssignment (different base types) @@     expected restricted __le32 [address=
+able] [assigned] [usertype] hi @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1035:45: sparse:     expected restricted __l=
+e32 [addressable] [assigned] [usertype] hi
+   drivers/scsi/qedi/qedi_fw.c:1035:45: sparse:     got unsigned int [usert=
+ype]
+   drivers/scsi/qedi/qedi_fw.c:1037:46: sparse: sparse: too many warnings
 
+vim +932 drivers/scsi/qedi/qedi_fw.c
 
-vim +/of_get_ibm_chip_id +891 arch/powerpc/kernel/prom.c
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  929  =
 
-b27652dd2174df1 Kevin Hao              2013-12-24  871  =
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  930  static void qedi_ring_doo=
+rbell(struct qedi_conn *qedi_conn)
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  931  {
+9757f8af04423f6 Shai Malin       2021-08-05 @932  	qedi_conn->ep->db_data.s=
+q_prod =3D qedi_conn->ep->fw_sq_prod_idx;
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  933  =
 
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  872  /*******
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  873   *
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  874   * New implementati=
-on of the OF "find" APIs, return a refcounted
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  875   * object, call of_=
-node_put() when done.  The device tree and list
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  876   * are protected by=
- a rw_lock.
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  877   *
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  878   * Note that proper=
-ty management will need some locking as well,
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  879   * this isn't dealt=
- with yet.
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  880   *
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  881   *******/
-9b6b563c0d2d25e Paul Mackerras         2005-10-06  882  =
+9757f8af04423f6 Shai Malin       2021-08-05  934  	/* wmb - Make sure fw id=
+x is coherent */
+9757f8af04423f6 Shai Malin       2021-08-05  935  	wmb();
+9757f8af04423f6 Shai Malin       2021-08-05  936  	writel(*(u32 *)&qedi_con=
+n->ep->db_data, qedi_conn->ep->p_doorbell);
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  937  =
 
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  883  /**
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  884   * of_get_ibm_chip_=
-id - Returns the IBM "chip-id" of a device
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  885   * @np: device node=
- of the device
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  886   *
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  887   * This looks for a=
- property "ibm,chip-id" in the node or any
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  888   * of its parents a=
-nd returns its content, or -1 if it cannot
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  889   * be found.
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  890   */
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15 @891  int of_get_ibm_chip=
-_id(struct device_node *np)
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  892  {
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  893  	of_node_get(np);
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  894  	while (np) {
-1856f50c66dff0a Christophe Jaillet     2015-10-16  895  		u32 chip_id;
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  896  =
-
-1856f50c66dff0a Christophe Jaillet     2015-10-16  897  		/*
-1856f50c66dff0a Christophe Jaillet     2015-10-16  898  		 * Skiboot may pr=
-oduce memory nodes that contain more than one
-1856f50c66dff0a Christophe Jaillet     2015-10-16  899  		 * cell in chip-i=
-d, we only read the first one here.
-1856f50c66dff0a Christophe Jaillet     2015-10-16  900  		 */
-1856f50c66dff0a Christophe Jaillet     2015-10-16  901  		if (!of_property_=
-read_u32(np, "ibm,chip-id", &chip_id)) {
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  902  			of_node_put(np);
-1856f50c66dff0a Christophe Jaillet     2015-10-16  903  			return chip_id;
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  904  		}
-16c1d606263ea37 Michael Ellerman       2015-10-26  905  =
-
-16c1d606263ea37 Michael Ellerman       2015-10-26  906  		np =3D of_get_nex=
-t_parent(np);
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  907  	}
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  908  	return -1;
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  909  }
-b130e7c04f1130f Dan Streetman          2015-05-07  910  EXPORT_SYMBOL(of_ge=
-t_ibm_chip_id);
-b37193b71846858 Benjamin Herrenschmidt 2013-07-15  911  =
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  938  	/* Make sure fw write id=
+x is coherent, and include both memory barriers
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  939  	 * as a failsafe as for =
+some architectures the call is the same but on
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  940  	 * others they are two d=
+ifferent assembly operations.
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  941  	 */
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  942  	wmb();
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  943  	QEDI_INFO(&qedi_conn->qe=
+di->dbg_ctx, QEDI_LOG_MP_REQ,
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  944  		  "prod_idx=3D0x%x, fw_=
+prod_idx=3D0x%x, cid=3D0x%x\n",
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  945  		  qedi_conn->ep->sq_pro=
+d_idx, qedi_conn->ep->fw_sq_prod_idx,
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  946  		  qedi_conn->iscsi_conn=
+_id);
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  947  }
+ace7f46ba5fde72 Manish Rangankar 2016-12-01  948  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2951831593691055435==--
+--===============1110654459223772603==--
 
