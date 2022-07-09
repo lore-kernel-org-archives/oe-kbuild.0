@@ -1,146 +1,545 @@
-Content-Type: multipart/mixed; boundary="===============2812769974994152347=="
+Content-Type: multipart/mixed; boundary="===============4950449366395953098=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-linked-list 15/61] fs/netfs/buffered_read.c:261:12-13: WARNING opportunity for min()
-Date: Sat, 09 Jul 2022 22:32:32 +0800
-Message-ID: <202207092231.QXWW4ouN-lkp@intel.com>
+Subject: drivers/block/null_blk/zoned.c:16:21: warning: shift by negative count ('-1')
+Date: Sat, 09 Jul 2022 22:22:03 +0800
+Message-ID: <202207092200.0OKuJw14-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2812769974994152347==
+--===============4950449366395953098==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/block/null_blk/zoned.c:16:21: warning: shift by negative count ('-=
+1') [-Wanalyzer-shift-count-negative]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
-linked-list
-head:   ce4670495468b797b0c5927fcb661bc0da48b9ab
-commit: 44acd768fad13579d00524cf853d6ba6e682caba [15/61] netfs: Implement s=
-upport for DIO read
-:::::: branch date: 8 days ago
-:::::: commit date: 9 days ago
-config: openrisc-randconfig-c024-20220707 (https://download.01.org/0day-ci/=
-archive/20220709/202207092231.QXWW4ouN-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e5524c2a1fc4002a52e16236659e779767617a4f
+commit: f334f5668bedf7307f6df1d98b14f55902931926 ilog2: force inlining of _=
+_ilog2_u32() and __ilog2_u64()
+date:   4 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20220707 (https://download.01.org/0day-ci/archi=
+ve/20220709/202207092200.0OKuJw14-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df334f5668bedf7307f6df1d98b14f55902931926
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f334f5668bedf7307f6df1d98b14f55902931926
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> fs/netfs/buffered_read.c:261:12-13: WARNING opportunity for min()
+gcc-analyzer warnings: (new ones prefixed by >>)
+   include/linux/log2.h: In function 'null_zone_no':
+>> drivers/block/null_blk/zoned.c:16:21: warning: shift by negative count (=
+'-1') [-Wanalyzer-shift-count-negative]
+      16 |         return sect >> ilog2(dev->zone_size_sects);
+     'null_process_zoned_cmd': events 1-4
+       |
+       |  653 | blk_status_t null_process_zoned_cmd(struct nullb_cmd *cmd, =
+enum req_opf op,
+       |      |              ^~~~~~~~~~~~~~~~~~~~~~
+       |      |              |
+       |      |              (1) entry to 'null_process_zoned_cmd'
+       |......
+       |  660 |         switch (op) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 10 ... 12:' branch...
+       |......
+       |  665 |         case REQ_OP_ZONE_RESET:
+       |      |         ~~~~  =
 
-vim +261 fs/netfs/buffered_read.c
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       |  670 |                 return null_zone_mgmt(cmd, op, sector);
+       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                        |
+       |      |                        (4) calling 'null_zone_mgmt' from 'n=
+ull_process_zoned_cmd'
+       |
+       +--> 'null_zone_mgmt': event 5
+              |
+              |  600 | static blk_status_t null_zone_mgmt(struct nullb_cmd =
+*cmd, enum req_opf op,
+              |      |                     ^~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (5) entry to 'null_zone_mgmt'
+              |
+            'null_zone_mgmt': event 6
+              |
+              |include/linux/compiler.h:58:30:
+              |   58 | #define __trace_if_var(cond) (__builtin_constant_p(c=
+ond) ? (cond) : __trace_if_value(cond))
+              |      |                              ^
+              |      |                              |
+              |      |                              (6) following 'false' b=
+ranch...
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+              |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond ,=
+ ## __VA_ARGS__) ) )
+              |      |                            ^~~~~~~~~~~~~~
+   drivers/block/null_blk/zoned.c:609:9: note: in expansion of macro 'if'
+              |  609 |         if (op =3D=3D REQ_OP_ZONE_RESET_ALL) {
+              |      |         ^~
+              |
+            'null_zone_mgmt': events 7-8
+              |
+              |  622 |         zone_no =3D null_zone_no(dev, sector);
+              |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                   |
+              |      |                   (7) ...to here
+              |      |                   (8) calling 'null_zone_no' from 'n=
+ull_zone_mgmt'
+              |
+              +--> 'null_zone_no': event 9
+                     |
+                     |   14 | static inline unsigned int null_zone_no(struc=
+t nullb_device *dev, sector_t sect)
+                     |      |                            ^~~~~~~~~~~~
+                     |      |                            |
+                     |      |                            (9) entry to 'null=
+_zone_no'
+                     |
+                   'null_zone_no': event 10
+                     |
+                     |include/linux/log2.h:160:35:
+                     |  157 | ( \
+                     |      | ~~~                                =
 
-16211268fcb3667 David Howells           2022-03-01  214  =
+                     |  158 |         __builtin_constant_p(n) ?       \
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |  159 |         ((n) < 2 ? 0 :                  \
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |  160 |          63 - __builtin_clzll(n)) :     \
+                     |      |          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+                     |      |                                   |
+                     |      |                                   (10) follow=
+ing 'false' branch...
+                     |  161 |         (sizeof(n) <=3D 4) ?              \
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |  162 |         __ilog2_u32(n) :                \
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |  163 |         __ilog2_u64(n)                  \
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |  164 |  )
+                     |      |  ~                                 =
 
-16211268fcb3667 David Howells           2022-03-01  215  /**
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  216)  * netfs_read_foli=
-o - Helper to manage a read_folio request
-16211268fcb3667 David Howells           2022-03-01  217   * @file: The file=
- to read from
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  218)  * @folio: The fol=
-io to read
-16211268fcb3667 David Howells           2022-03-01  219   *
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  220)  * Fulfil a read_f=
-olio request by drawing data from the cache if
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  221)  * possible, or th=
-e netfs if not.  Space beyond the EOF is zero-filled.
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  222)  * Multiple I/O re=
-quests from different sources will get munged together.
-16211268fcb3667 David Howells           2022-03-01  223   *
-16211268fcb3667 David Howells           2022-03-01  224   * The calling net=
-fs must initialise a netfs context contiguous to the vfs
-16211268fcb3667 David Howells           2022-03-01  225   * inode before ca=
-lling this.
-16211268fcb3667 David Howells           2022-03-01  226   *
-16211268fcb3667 David Howells           2022-03-01  227   * This is usable =
-whether or not caching is enabled.
-16211268fcb3667 David Howells           2022-03-01  228   */
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  229) int netfs_read_fol=
-io(struct file *file, struct folio *folio)
-16211268fcb3667 David Howells           2022-03-01  230  {
-16211268fcb3667 David Howells           2022-03-01  231  	struct address_sp=
-ace *mapping =3D folio_file_mapping(folio);
-16211268fcb3667 David Howells           2022-03-01  232  	struct netfs_io_r=
-equest *rreq;
-874c8ca1e60b2c5 David Howells           2022-06-09  233  	struct netfs_inod=
-e *ctx =3D netfs_inode(mapping->host);
-44acd768fad1357 David Howells           2022-01-14  234  	ssize_t ret;
-16211268fcb3667 David Howells           2022-03-01  235  =
+   drivers/block/null_blk/zoned.c:16:24: note: in expansion of macro 'ilog2'
+                     |   16 |         return sect >> ilog2(dev->zone_size_s=
+ects);
+                     |      |                        ^~~~~
+                     |
+                   'null_zone_no': event 11
+                     |
+                     |include/asm-generic/bitops/fls64.h:21:21:
+                     |   21 |         __u32 h =3D x >> 32;
+                     |      |                   ~~^~~~~
+                     |      |                     |
+                     |      |                     (11) ...to here
+                     |
+                   'null_zone_no': event 12
+                     |
+                     |include/linux/compiler.h:58:30:
+                     |   58 | #define __trace_if_var(cond) (__builtin_const=
+ant_p(cond) ? (cond) : __trace_if_value(cond))
+                     |      |                              ^
+                     |      |                              |
+                     |      |                              (12) following '=
+false' branch...
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+--
+   In file included from include/linux/kernel.h:26,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/blkdev.h:5,
+                    from drivers/nvme/host/zns.c:6:
+   include/linux/log2.h: In function 'nvme_zns_alloc_report_buffer':
+>> drivers/nvme/host/zns.c:132:49: warning: shift by negative count ('-1') =
+[-Wanalyzer-shift-count-negative]
+     132 |                          get_capacity(ns->disk) >> ilog2(ns->zsz=
+e));
+   include/linux/minmax.h:32:39: note: in definition of macro '__cmp_once'
+      32 |                 typeof(y) unique_y =3D (y);               \
+         |                                       ^
+   include/linux/minmax.h:104:33: note: in expansion of macro '__careful_cm=
+p'
+     104 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(=
+y), <)
+         |                                 ^~~~~~~~~~~~~
+   drivers/nvme/host/zns.c:131:20: note: in expansion of macro 'min_t'
+     131 |         nr_zones =3D min_t(unsigned int, nr_zones,
+         |                    ^~~~~
+     'nvme_ns_report_zones': event 1
+       |
+       |  177 | int nvme_ns_report_zones(struct nvme_ns *ns, sector_t secto=
+r,
+       |      |     ^~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'nvme_ns_report_zones'
+       |
+     'nvme_ns_report_zones': event 2
+       |
+       |include/linux/compiler.h:58:30:
+       |   58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? =
+(cond) : __trace_if_value(cond))
+       |      |                              ^
+       |      |                              |
+       |      |                              (2) following 'false' branch...
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                            ^~~~~~~~~~~~~~
+   drivers/nvme/host/zns.c:186:9: note: in expansion of macro 'if'
+       |  186 |         if (ns->head->ids.csi !=3D NVME_CSI_ZNS)
+       |      |         ^~
+       |
+     'nvme_ns_report_zones': events 3-4
+       |
+       |  189 |         report =3D nvme_zns_alloc_report_buffer(ns, nr_zone=
+s, &buflen);
+       |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+       |      |                  |
+       |      |                  (3) ...to here
+       |      |                  (4) calling 'nvme_zns_alloc_report_buffer'=
+ from 'nvme_ns_report_zones'
+       |
+       +--> 'nvme_zns_alloc_report_buffer': event 5
+              |
+              |  121 | static void *nvme_zns_alloc_report_buffer(struct nvm=
+e_ns *ns,
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (5) entry to 'nvme_zns_alloc_report_buf=
+fer'
+              |
+            'nvme_zns_alloc_report_buffer': event 6
+              |
+              |include/linux/log2.h:160:35:
+              |  157 | ( \
+              |      | ~~~                                =
 
-16211268fcb3667 David Howells           2022-03-01  236  	_enter("%lx", fol=
-io_index(folio));
-16211268fcb3667 David Howells           2022-03-01  237  =
+              |  158 |         __builtin_constant_p(n) ?       \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  159 |         ((n) < 2 ? 0 :                  \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  160 |          63 - __builtin_clzll(n)) :     \
+              |      |          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+              |      |                                   |
+              |      |                                   (6) following 'fal=
+se' branch...
+              |  161 |         (sizeof(n) <=3D 4) ?              \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  162 |         __ilog2_u32(n) :                \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  163 |         __ilog2_u64(n)                  \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |  164 |  )
+              |      |  ~                                 =
 
-16211268fcb3667 David Howells           2022-03-01  238  	rreq =3D netfs_al=
-loc_request(mapping, file,
-16211268fcb3667 David Howells           2022-03-01  239  				   folio_file_=
-pos(folio), folio_size(folio),
-16211268fcb3667 David Howells           2022-03-01  240  				   NETFS_READP=
-AGE);
-16211268fcb3667 David Howells           2022-03-01  241  	if (IS_ERR(rreq))=
- {
-16211268fcb3667 David Howells           2022-03-01  242  		ret =3D PTR_ERR(=
-rreq);
-16211268fcb3667 David Howells           2022-03-01  243  		goto alloc_error;
-16211268fcb3667 David Howells           2022-03-01  244  	}
-16211268fcb3667 David Howells           2022-03-01  245  =
+   include/linux/minmax.h:32:39: note: in definition of macro '__cmp_once'
+              |   32 |                 typeof(y) unique_y =3D (y);         =
+      \
+              |      |                                       ^
+   include/linux/minmax.h:104:33: note: in expansion of macro '__careful_cm=
+p'
+              |  104 | #define min_t(type, x, y)       __careful_cmp((type)=
+(x), (type)(y), <)
+              |      |                                 ^~~~~~~~~~~~~
+   drivers/nvme/host/zns.c:131:20: note: in expansion of macro 'min_t'
+              |  131 |         nr_zones =3D min_t(unsigned int, nr_zones,
+              |      |                    ^~~~~
+   drivers/nvme/host/zns.c:132:52: note: in expansion of macro 'ilog2'
+              |  132 |                          get_capacity(ns->disk) >> i=
+log2(ns->zsze));
+              |      |                                                    ^=
+~~~~
+              |
+            'nvme_zns_alloc_report_buffer': event 7
+              |
+              |include/asm-generic/bitops/fls64.h:21:21:
+              |   21 |         __u32 h =3D x >> 32;
+              |      |                   ~~^~~~~
+              |      |                     |
+              |      |                     (7) ...to here
+              |
+            'nvme_zns_alloc_report_buffer': event 8
+              |
+              |include/linux/compiler.h:58:30:
+              |   58 | #define __trace_if_var(cond) (__builtin_constant_p(c=
+ond) ? (cond) : __trace_if_value(cond))
+              |      |                              ^
+              |      |                              |
+              |      |                              (8) following 'false' b=
+ranch...
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+              |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond ,=
+ ## __VA_ARGS__) ) )
+              |      |                            ^~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls64.h:22:9: note: in expansion of macro 'if'
+              |   22 |         if (h)
+--
+   In file included from block/blk-zoned.c:15:
+   include/linux/log2.h: In function 'blk_queue_zone_no.part.0':
+   include/linux/blkdev.h:522:23: warning: shift by negative count ('-1') [=
+-Wanalyzer-shift-count-negative]
+     522 |         return sector >> ilog2(q->limits.chunk_sectors);
+     'blk_queue_zone_no.part.0': event 1
+       |
+       |include/linux/log2.h:160:35:
+       |  157 | ( \
+       |      | ~~~                                =
 
-2dc0ef9af0bb9de David Howells           2021-08-10  246  	ret =3D netfs_beg=
-in_cache_operation(rreq, ctx);
-16211268fcb3667 David Howells           2022-03-01  247  	if (ret =3D=3D -E=
-NOMEM || ret =3D=3D -EINTR || ret =3D=3D -ERESTARTSYS)
-16211268fcb3667 David Howells           2022-03-01  248  		goto discard;
-16211268fcb3667 David Howells           2022-03-01  249  =
+       |  158 |         __builtin_constant_p(n) ?       \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |  159 |         ((n) < 2 ? 0 :                  \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |  160 |          63 - __builtin_clzll(n)) :     \
+       |      |          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+       |      |                                   |
+       |      |                                   (1) following 'false' bra=
+nch...
+       |  161 |         (sizeof(n) <=3D 4) ?              \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |  162 |         __ilog2_u32(n) :                \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |  163 |         __ilog2_u64(n)                  \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |  164 |  )
+       |      |  ~                                 =
 
-16211268fcb3667 David Howells           2022-03-01  250  	netfs_stat(&netfs=
-_n_rh_readpage);
-16211268fcb3667 David Howells           2022-03-01  251  	trace_netfs_read(=
-rreq, rreq->start, rreq->len, netfs_read_trace_readpage);
-6e7e799136cd274 David Howells           2021-07-09  252  =
+   include/linux/blkdev.h:522:26: note: in expansion of macro 'ilog2'
+       |  522 |         return sector >> ilog2(q->limits.chunk_sectors);
+       |      |                          ^~~~~
+       |
+     'blk_queue_zone_no.part.0': events 2-3
+       |
+       |include/asm-generic/bitops/builtin-fls.h:14:53:
+       |   14 |         return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+       |      |                                                     |
+       |      |                                                     (2) ...=
+to here
+       |      |                                                     (3) fol=
+lowing 'false' branch...
+       |
+     'blk_queue_zone_no.part.0': event 4
+       |
+       |include/linux/log2.h:24:23:
+       |   24 |         return fls(n) - 1;
+       |      |                ~~~~~~~^~~
+       |      |                       |
+       |      |                       (4) ...to here
+       |
+     'blk_queue_zone_no.part.0': event 5
+       |
+       |include/linux/blkdev.h:522:23:
+       |  522 |         return sector >> ilog2(q->limits.chunk_sectors);
+       |
+   include/linux/log2.h: In function 'blk_revalidate_zone_cb':
+>> block/blk-zoned.c:500:61: warning: shift by negative count ('-1') [-Wana=
+lyzer-shift-count-negative]
+     500 |                 args->nr_zones =3D (capacity + zone->len - 1) >>=
+ ilog2(zone->len);
+     'blk_revalidate_zone_cb': event 1
+       |
+       |include/linux/compiler.h:70:46:
+       |   69 |         (cond) ?                                        \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |   70 |                 (__if_trace.miss_hit[1]++,1) :          \
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+       |      |                                              |
+       |      |                                              (1) following =
+'true' branch...
+       |   71 |                 (__if_trace.miss_hit[0]++,0);           \
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~  =
 
-6e7e799136cd274 David Howells           2021-07-09  253  	/* Set up the out=
-put buffer */
-6e7e799136cd274 David Howells           2021-07-09  254  	rreq->buffering =
-=3D NETFS_BUFFER;
-6e7e799136cd274 David Howells           2021-07-09  255  	ret =3D netfs_set=
-_up_buffer(&rreq->buffer, rreq->mapping, NULL, folio,
-6e7e799136cd274 David Howells           2021-07-09  256  				  folio_index(=
-folio), folio_nr_pages(folio));
-6e7e799136cd274 David Howells           2021-07-09  257  	if (ret < 0)
-6e7e799136cd274 David Howells           2021-07-09  258  		goto discard;
-6e7e799136cd274 David Howells           2021-07-09  259  =
+   include/linux/compiler.h:58:69: note: in expansion of macro '__trace_if_=
+value'
+       |   58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? =
+(cond) : __trace_if_value(cond))
+       |      |                                                            =
+         ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                            ^~~~~~~~~~~~~~
+   block/blk-zoned.c:492:9: note: in expansion of macro 'if'
+       |  492 |         if (zone->start =3D=3D 0) {
+       |      |         ^~
+       |
+     'blk_revalidate_zone_cb': event 2
+       |
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                     ~~~~^~~~~
+       |      |                         |
+       |      |                         (2) ...to here
+   include/linux/compiler.h:58:52: note: in definition of macro '__trace_if=
+_var'
+       |   58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? =
+(cond) : __trace_if_value(cond))
+       |      |                                                    ^~~~
+   block/blk-zoned.c:493:17: note: in expansion of macro 'if'
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                 ^~
+       |
+     'blk_revalidate_zone_cb': event 3
+       |
+       |include/linux/compiler.h:58:30:
+       |   58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? =
+(cond) : __trace_if_value(cond))
+       |      |                              ^
+       |      |                              |
+       |      |                              (3) following 'false' branch...
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                            ^~~~~~~~~~~~~~
+   block/blk-zoned.c:493:17: note: in expansion of macro 'if'
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                 ^~
+       |
+     'blk_revalidate_zone_cb': event 4
+       |
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                                        ^~~~~~~~~~~~~~~~~~~~=
+~~~~
+       |      |                                        |
+       |      |                                        (4) ...to here
+   include/linux/compiler.h:69:10: note: in definition of macro '__trace_if=
+_value'
+       |   69 |         (cond) ?                                        \
+       |      |          ^~~~
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                            ^~~~~~~~~~~~~~
+   block/blk-zoned.c:493:17: note: in expansion of macro 'if'
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                 ^~
+       |
+     'blk_revalidate_zone_cb': event 5
+       |
+       |include/linux/compiler.h:56:44:
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                                            ^
+       |      |                                            |
+       |      |                                            (5) following 't=
+rue' branch...
+   include/linux/compiler.h:69:10: note: in definition of macro '__trace_if=
+_value'
+       |   69 |         (cond) ?                                        \
+       |      |          ^~~~
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                            ^~~~~~~~~~~~~~
+   block/blk-zoned.c:493:17: note: in expansion of macro 'if'
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                 ^~
+       |
+     'blk_revalidate_zone_cb': event 6
+       |
+       |include/linux/compiler.h:71:37:
+       |   71 |                 (__if_trace.miss_hit[0]++,0);           \
+       |      |                  ~~~~~~~~~~~~~~~~~~~^~~
+       |      |                                     |
+       |      |                                     (6) ...to here
+   include/linux/compiler.h:58:69: note: in expansion of macro '__trace_if_=
+value'
+       |   58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? =
+(cond) : __trace_if_value(cond))
+       |      |                                                            =
+         ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_=
+var'
+       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __V=
+A_ARGS__) ) )
+       |      |                            ^~~~~~~~~~~~~~
+   block/blk-zoned.c:493:17: note: in expansion of macro 'if'
+       |  493 |                 if (zone->len =3D=3D 0 || !is_power_of_2(zo=
+ne->len)) {
+       |      |                 ^~
+       |
+     'blk_revalidate_zone_cb': event 7
 
-44acd768fad1357 David Howells           2022-01-14  260  	ret =3D netfs_beg=
-in_read(rreq, true);
-44acd768fad1357 David Howells           2022-01-14 @261  	return ret < 0 ? =
-ret : 0;
-16211268fcb3667 David Howells           2022-03-01  262  =
+vim +16 drivers/block/null_blk/zoned.c
 
-16211268fcb3667 David Howells           2022-03-01  263  discard:
-16211268fcb3667 David Howells           2022-03-01  264  	netfs_put_request=
-(rreq, false, netfs_rreq_trace_put_discard);
-16211268fcb3667 David Howells           2022-03-01  265  alloc_error:
-16211268fcb3667 David Howells           2022-03-01  266  	folio_unlock(foli=
-o);
-16211268fcb3667 David Howells           2022-03-01  267  	return ret;
-16211268fcb3667 David Howells           2022-03-01  268  }
-6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  269) EXPORT_SYMBOL(netf=
-s_read_folio);
-16211268fcb3667 David Howells           2022-03-01  270  =
+ca4b2a011948fae drivers/block/null_blk_zoned.c Matias Bj=C3=B8rling 2018-07=
+-06  13  =
 
+ca4b2a011948fae drivers/block/null_blk_zoned.c Matias Bj=C3=B8rling 2018-07=
+-06  14  static inline unsigned int null_zone_no(struct nullb_device *dev, =
+sector_t sect)
+ca4b2a011948fae drivers/block/null_blk_zoned.c Matias Bj=C3=B8rling 2018-07=
+-06  15  {
+ca4b2a011948fae drivers/block/null_blk_zoned.c Matias Bj=C3=B8rling 2018-07=
+-06 @16  	return sect >> ilog2(dev->zone_size_sects);
+ca4b2a011948fae drivers/block/null_blk_zoned.c Matias Bj=C3=B8rling 2018-07=
+-06  17  }
+ca4b2a011948fae drivers/block/null_blk_zoned.c Matias Bj=C3=B8rling 2018-07=
+-06  18  =
+
+
+:::::: The code at line 16 was first introduced by commit
+:::::: ca4b2a011948fae4e4d31490107db4926385a983 null_blk: add zone support
+
+:::::: TO: Matias Bj=C3=B8rling <matias.bjorling@wdc.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2812769974994152347==--
+--===============4950449366395953098==--
 
