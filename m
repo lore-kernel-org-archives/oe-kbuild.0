@@ -1,161 +1,146 @@
-Content-Type: multipart/mixed; boundary="===============4194605974592167279=="
+Content-Type: multipart/mixed; boundary="===============2812769974994152347=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/madvise.c:1438:6: warning: Redundant assignment of 'ret' to itself. [selfAssignment]
-Date: Mon, 11 Jul 2022 23:23:52 +0800
-Message-ID: <202207112301.utyklkHj-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-linked-list 15/61] fs/netfs/buffered_read.c:261:12-13: WARNING opportunity for min()
+Date: Sat, 09 Jul 2022 22:32:32 +0800
+Message-ID: <202207092231.QXWW4ouN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4194605974592167279==
+--===============2812769974994152347==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: mm/madvis=
-e.c:1438:6: warning: Redundant assignment of 'ret' to itself. [selfAssignme=
-nt]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Charan Teja Kalla <quic_charante@quicinc.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   32346491ddf24599decca06190ebca03ff9de7f8
-commit: 5bd009c7c9a9e888077c07535dc0c70aeab242c3 mm: madvise: return correc=
-t bytes advised with process_madvise
-date:   4 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 months ago
-compiler: nios2-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 5bd009c7c9a9e888077c07535dc0c70aeab242c3
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
+linked-list
+head:   ce4670495468b797b0c5927fcb661bc0da48b9ab
+commit: 44acd768fad13579d00524cf853d6ba6e682caba [15/61] netfs: Implement s=
+upport for DIO read
+:::::: branch date: 8 days ago
+:::::: commit date: 9 days ago
+config: openrisc-randconfig-c024-20220707 (https://download.01.org/0day-ci/=
+archive/20220709/202207092231.QXWW4ouN-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> fs/netfs/buffered_read.c:261:12-13: WARNING opportunity for min()
 
->> mm/madvise.c:1438:6: warning: Redundant assignment of 'ret' to itself. [=
-selfAssignment]
-    ret =3D (total_len - iov_iter_count(&iter)) ? : ret;
-        ^
-   mm/madvise.c:123:28: warning: Parameter 'anon_name' can be declared with=
- const [constParameter]
-        struct anon_vma_name *anon_name)
-                              ^
+vim +261 fs/netfs/buffered_read.c
 
-vim +/ret +1438 mm/madvise.c
+16211268fcb3667 David Howells           2022-03-01  214  =
 
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1378  =
+16211268fcb3667 David Howells           2022-03-01  215  /**
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  216)  * netfs_read_foli=
+o - Helper to manage a read_folio request
+16211268fcb3667 David Howells           2022-03-01  217   * @file: The file=
+ to read from
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  218)  * @folio: The fol=
+io to read
+16211268fcb3667 David Howells           2022-03-01  219   *
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  220)  * Fulfil a read_f=
+olio request by drawing data from the cache if
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  221)  * possible, or th=
+e netfs if not.  Space beyond the EOF is zero-filled.
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  222)  * Multiple I/O re=
+quests from different sources will get munged together.
+16211268fcb3667 David Howells           2022-03-01  223   *
+16211268fcb3667 David Howells           2022-03-01  224   * The calling net=
+fs must initialise a netfs context contiguous to the vfs
+16211268fcb3667 David Howells           2022-03-01  225   * inode before ca=
+lling this.
+16211268fcb3667 David Howells           2022-03-01  226   *
+16211268fcb3667 David Howells           2022-03-01  227   * This is usable =
+whether or not caching is enabled.
+16211268fcb3667 David Howells           2022-03-01  228   */
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  229) int netfs_read_fol=
+io(struct file *file, struct folio *folio)
+16211268fcb3667 David Howells           2022-03-01  230  {
+16211268fcb3667 David Howells           2022-03-01  231  	struct address_sp=
+ace *mapping =3D folio_file_mapping(folio);
+16211268fcb3667 David Howells           2022-03-01  232  	struct netfs_io_r=
+equest *rreq;
+874c8ca1e60b2c5 David Howells           2022-06-09  233  	struct netfs_inod=
+e *ctx =3D netfs_inode(mapping->host);
+44acd768fad1357 David Howells           2022-01-14  234  	ssize_t ret;
+16211268fcb3667 David Howells           2022-03-01  235  =
 
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1379  SYSCALL_DEFINE5(process=
-_madvise, int, pidfd, const struct iovec __user *, vec,
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1380  		size_t, vlen, int, be=
-havior, unsigned int, flags)
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1381  {
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1382  	ssize_t ret;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1383  	struct iovec iovstack[=
-UIO_FASTIOV], iovec;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1384  	struct iovec *iov =3D =
-iovstack;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1385  	struct iov_iter iter;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1386  	struct task_struct *ta=
-sk;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1387  	struct mm_struct *mm;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1388  	size_t total_len;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1389  	unsigned int f_flags;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1390  =
+16211268fcb3667 David Howells           2022-03-01  236  	_enter("%lx", fol=
+io_index(folio));
+16211268fcb3667 David Howells           2022-03-01  237  =
 
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1391  	if (flags !=3D 0) {
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1392  		ret =3D -EINVAL;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1393  		goto out;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1394  	}
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1395  =
+16211268fcb3667 David Howells           2022-03-01  238  	rreq =3D netfs_al=
+loc_request(mapping, file,
+16211268fcb3667 David Howells           2022-03-01  239  				   folio_file_=
+pos(folio), folio_size(folio),
+16211268fcb3667 David Howells           2022-03-01  240  				   NETFS_READP=
+AGE);
+16211268fcb3667 David Howells           2022-03-01  241  	if (IS_ERR(rreq))=
+ {
+16211268fcb3667 David Howells           2022-03-01  242  		ret =3D PTR_ERR(=
+rreq);
+16211268fcb3667 David Howells           2022-03-01  243  		goto alloc_error;
+16211268fcb3667 David Howells           2022-03-01  244  	}
+16211268fcb3667 David Howells           2022-03-01  245  =
 
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1396  	ret =3D import_iovec(R=
-EAD, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1397  	if (ret < 0)
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1398  		goto out;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1399  =
+2dc0ef9af0bb9de David Howells           2021-08-10  246  	ret =3D netfs_beg=
+in_cache_operation(rreq, ctx);
+16211268fcb3667 David Howells           2022-03-01  247  	if (ret =3D=3D -E=
+NOMEM || ret =3D=3D -EINTR || ret =3D=3D -ERESTARTSYS)
+16211268fcb3667 David Howells           2022-03-01  248  		goto discard;
+16211268fcb3667 David Howells           2022-03-01  249  =
 
-ee9955d61a0a77 Christian Brauner  2021-10-11  1400  	task =3D pidfd_get_tas=
-k(pidfd, &f_flags);
-ee9955d61a0a77 Christian Brauner  2021-10-11  1401  	if (IS_ERR(task)) {
-ee9955d61a0a77 Christian Brauner  2021-10-11  1402  		ret =3D PTR_ERR(task);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1403  		goto free_iov;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1404  	}
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1405  =
+16211268fcb3667 David Howells           2022-03-01  250  	netfs_stat(&netfs=
+_n_rh_readpage);
+16211268fcb3667 David Howells           2022-03-01  251  	trace_netfs_read(=
+rreq, rreq->start, rreq->len, netfs_read_trace_readpage);
+6e7e799136cd274 David Howells           2021-07-09  252  =
 
-a68a0262abdaa2 Minchan Kim        2020-12-08  1406  	if (!process_madvise_b=
-ehavior_valid(behavior)) {
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1407  		ret =3D -EINVAL;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1408  		goto release_task;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1409  	}
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1410  =
+6e7e799136cd274 David Howells           2021-07-09  253  	/* Set up the out=
+put buffer */
+6e7e799136cd274 David Howells           2021-07-09  254  	rreq->buffering =
+=3D NETFS_BUFFER;
+6e7e799136cd274 David Howells           2021-07-09  255  	ret =3D netfs_set=
+_up_buffer(&rreq->buffer, rreq->mapping, NULL, folio,
+6e7e799136cd274 David Howells           2021-07-09  256  				  folio_index(=
+folio), folio_nr_pages(folio));
+6e7e799136cd274 David Howells           2021-07-09  257  	if (ret < 0)
+6e7e799136cd274 David Howells           2021-07-09  258  		goto discard;
+6e7e799136cd274 David Howells           2021-07-09  259  =
 
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1411  	/* Require PTRACE_MODE=
-_READ to avoid leaking ASLR metadata. */
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1412  	mm =3D mm_access(task,=
- PTRACE_MODE_READ_FSCREDS);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1413  	if (IS_ERR_OR_NULL(mm)=
-) {
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1414  		ret =3D IS_ERR(mm) ? =
-PTR_ERR(mm) : -ESRCH;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1415  		goto release_task;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1416  	}
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1417  =
+44acd768fad1357 David Howells           2022-01-14  260  	ret =3D netfs_beg=
+in_read(rreq, true);
+44acd768fad1357 David Howells           2022-01-14 @261  	return ret < 0 ? =
+ret : 0;
+16211268fcb3667 David Howells           2022-03-01  262  =
 
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1418  	/*
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1419  	 * Require CAP_SYS_NIC=
-E for influencing process performance. Note that
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1420  	 * only non-destructiv=
-e hints are currently supported.
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1421  	 */
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1422  	if (!capable(CAP_SYS_N=
-ICE)) {
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1423  		ret =3D -EPERM;
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1424  		goto release_mm;
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1425  	}
-96cfe2c0fd23ea Suren Baghdasaryan 2021-03-12  1426  =
+16211268fcb3667 David Howells           2022-03-01  263  discard:
+16211268fcb3667 David Howells           2022-03-01  264  	netfs_put_request=
+(rreq, false, netfs_rreq_trace_put_discard);
+16211268fcb3667 David Howells           2022-03-01  265  alloc_error:
+16211268fcb3667 David Howells           2022-03-01  266  	folio_unlock(foli=
+o);
+16211268fcb3667 David Howells           2022-03-01  267  	return ret;
+16211268fcb3667 David Howells           2022-03-01  268  }
+6c62371b7fd7762 Matthew Wilcox (Oracle  2022-04-29  269) EXPORT_SYMBOL(netf=
+s_read_folio);
+16211268fcb3667 David Howells           2022-03-01  270  =
 
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1427  	total_len =3D iov_iter=
-_count(&iter);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1428  =
-
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1429  	while (iov_iter_count(=
-&iter)) {
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1430  		iovec =3D iov_iter_io=
-vec(&iter);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1431  		ret =3D do_madvise(mm=
-, (unsigned long)iovec.iov_base,
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1432  					iovec.iov_len, beh=
-avior);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1433  		if (ret < 0)
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1434  			break;
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1435  		iov_iter_advance(&ite=
-r, iovec.iov_len);
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1436  	}
-ecb8ac8b1f1469 Minchan Kim        2020-10-17  1437  =
-
-5bd009c7c9a9e8 Charan Teja Kalla  2022-03-22 @1438  	ret =3D (total_len - i=
-ov_iter_count(&iter)) ? : ret;
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4194605974592167279==--
+--===============2812769974994152347==--
 
