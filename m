@@ -1,107 +1,186 @@
-Content-Type: multipart/mixed; boundary="===============4859978629722403693=="
+Content-Type: multipart/mixed; boundary="===============3940177260408428604=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [asahilinux:bits/050-nvme 4/10] drivers/soc/apple/sart.c:193:2-8: ERROR: missing put_device; call of_find_device_by_node on line 178, but without a corresponding object release within this function.
-Date: Sat, 09 Jul 2022 15:00:36 +0800
-Message-ID: <202207091443.dnYp2Tfr-lkp@intel.com>
+Subject: [linux-next:master 7460/8914] drivers/iommu/iommu.c:2021:47: warning: Parameter 'domain' can be declared with const [constParameter]
+Date: Sat, 09 Jul 2022 08:23:37 +0800
+Message-ID: <202207090832.w2AeFCw4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4859978629722403693==
+--===============3940177260408428604==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/i=
+ommu/iommu.c:2021:47: warning: Parameter 'domain' can be declared with cons=
+t [constParameter]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Sven Peter <sven@svenpeter.dev>
-CC: Hector Martin <marcan@marcan.st>
-CC: Arnd Bergmann <arnd@arndb.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Christoph Hellwig <hch@lst.de>
 
-tree:   https://github.com/AsahiLinux/linux bits/050-nvme
-head:   5b3910635863df45900af347c932d5468e7541fc
-commit: 96470149f537ee4410acef69bb8a38d806fc98c1 [4/10] soc: apple: Add SAR=
-T driver
-:::::: branch date: 9 days ago
-:::::: commit date: 7 weeks ago
-config: sparc64-randconfig-c024-20220707 (https://download.01.org/0day-ci/a=
-rchive/20220709/202207091443.dnYp2Tfr-lkp(a)intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f2528c29385819a84480cacef4886b049761e2c5
+commit: 3b7e2482f9a3f2e99628048b945c9c6cc53bd38e [7460/8914] iommu: Introdu=
+ce a callback to struct iommu_resv_region
+:::::: branch date: 14 hours ago
+:::::: commit date: 3 days ago
+compiler: microblaze-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 3b7e2482f9a3f2e99628048b945c9c6cc53bd38e
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/soc/apple/sart.c:193:2-8: ERROR: missing put_device; call of_fin=
-d_device_by_node on line 178, but without a corresponding object release wi=
-thin this function.
-   drivers/soc/apple/sart.c:198:1-7: ERROR: missing put_device; call of_fin=
-d_device_by_node on line 178, but without a corresponding object release wi=
-thin this function.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +193 drivers/soc/apple/sart.c
+>> drivers/iommu/iommu.c:2021:47: warning: Parameter 'domain' can be declar=
+ed with const [constParameter]
+   void iommu_detach_device(struct iommu_domain *domain, struct device *dev)
+                                                 ^
+>> drivers/iommu/iommu.c:2651:69: warning: Parameter 'fwnode' can be declar=
+ed with const [constParameter]
+   const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwno=
+de)
+                                                                       ^
+>> drivers/iommu/iommu.c:518:16: warning: Uninitialized variable: device->d=
+ev [uninitvar]
+     if (!device->dev->iommu)
+                  ^
+>> drivers/iommu/iommu.c:958:19: warning: Uninitialized variable: tmp_devic=
+e->dev [uninitvar]
+     if (tmp_device->dev =3D=3D dev) {
+                     ^
+   drivers/iommu/iommu.c:951:6: note: Assuming condition is false
+    if (!group)
+        ^
+   drivers/iommu/iommu.c:958:19: note: Uninitialized variable: tmp_device->=
+dev
+     if (tmp_device->dev =3D=3D dev) {
+                     ^
+>> drivers/iommu/iommu.c:1753:35: warning: Uninitialized variables: group.k=
+obj, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_=
+release, group.name, group.id, group.default_domain, group.blocking_domain,=
+ group.domain, group.owner_cnt, group.owner [uninitvar]
+     probe_alloc_default_domain(bus, group);
+                                     ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1743:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1753:35: note: Uninitialized variables: group.kobj=
+, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_rel=
+ease, group.name, group.id, group.default_domain, group.blocking_domain, gr=
+oup.domain, group.owner_cnt, group.owner
+     probe_alloc_default_domain(bus, group);
+                                     ^
 
-96470149f537ee4 Sven Peter 2022-04-26  166  =
+vim +/domain +2021 drivers/iommu/iommu.c
 
-96470149f537ee4 Sven Peter 2022-04-26  167  struct apple_sart *devm_apple_s=
-art_get(struct device *dev)
-96470149f537ee4 Sven Peter 2022-04-26  168  {
-96470149f537ee4 Sven Peter 2022-04-26  169  	struct device_node *sart_node;
-96470149f537ee4 Sven Peter 2022-04-26  170  	struct platform_device *sart_p=
-dev;
-96470149f537ee4 Sven Peter 2022-04-26  171  	struct apple_sart *sart;
-96470149f537ee4 Sven Peter 2022-04-26  172  	int ret;
-96470149f537ee4 Sven Peter 2022-04-26  173  =
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2020  =
 
-96470149f537ee4 Sven Peter 2022-04-26  174  	sart_node =3D of_parse_phandle=
-(dev->of_node, "apple,sart", 0);
-96470149f537ee4 Sven Peter 2022-04-26  175  	if (!sart_node)
-96470149f537ee4 Sven Peter 2022-04-26  176  		return ERR_PTR(-ENODEV);
-96470149f537ee4 Sven Peter 2022-04-26  177  =
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+@2021  void iommu_detach_device(struct iommu_domain *domain, struct device =
+*dev)
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2022  {
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2023  	struct iommu_group *group;
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2024  =
 
-96470149f537ee4 Sven Peter 2022-04-26 @178  	sart_pdev =3D of_find_device_b=
-y_node(sart_node);
-96470149f537ee4 Sven Peter 2022-04-26  179  	of_node_put(sart_node);
-96470149f537ee4 Sven Peter 2022-04-26  180  =
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2025  	group =3D iommu_group_get(dev);
+9ae9df035c274c8 drivers/iommu/iommu.c Jordan Crouse             2017-12-20 =
+ 2026  	if (!group)
+9ae9df035c274c8 drivers/iommu/iommu.c Jordan Crouse             2017-12-20 =
+ 2027  		return;
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2028  =
 
-96470149f537ee4 Sven Peter 2022-04-26  181  	if (!sart_pdev)
-96470149f537ee4 Sven Peter 2022-04-26  182  		return ERR_PTR(-ENODEV);
-96470149f537ee4 Sven Peter 2022-04-26  183  =
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2029  	mutex_lock(&group->mutex);
+0286300e6045553 drivers/iommu/iommu.c Jason Gunthorpe via iommu 2022-05-09 =
+ 2030  	if (WARN_ON(domain !=3D group->domain) ||
+0286300e6045553 drivers/iommu/iommu.c Jason Gunthorpe via iommu 2022-05-09 =
+ 2031  	    WARN_ON(iommu_group_device_count(group) !=3D 1))
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2032  		goto out_unlock;
+0286300e6045553 drivers/iommu/iommu.c Jason Gunthorpe via iommu 2022-05-09 =
+ 2033  	__iommu_group_set_core_domain(group);
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2034  =
 
-96470149f537ee4 Sven Peter 2022-04-26  184  	sart =3D dev_get_drvdata(&sart=
-_pdev->dev);
-96470149f537ee4 Sven Peter 2022-04-26  185  	if (!sart) {
-96470149f537ee4 Sven Peter 2022-04-26  186  		put_device(&sart_pdev->dev);
-96470149f537ee4 Sven Peter 2022-04-26  187  		return ERR_PTR(-EPROBE_DEFER);
-96470149f537ee4 Sven Peter 2022-04-26  188  	}
-96470149f537ee4 Sven Peter 2022-04-26  189  =
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2035  out_unlock:
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2036  	mutex_unlock(&group->mutex);
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2037  	iommu_group_put(group);
+426a273834eae65 drivers/iommu/iommu.c Joerg Roedel              2015-05-28 =
+ 2038  }
+fc2100eb4d0960b drivers/base/iommu.c  Joerg Roedel              2008-11-26 =
+ 2039  EXPORT_SYMBOL_GPL(iommu_detach_device);
+fc2100eb4d0960b drivers/base/iommu.c  Joerg Roedel              2008-11-26 =
+ 2040  =
 
-96470149f537ee4 Sven Peter 2022-04-26  190  	ret =3D devm_add_action_or_res=
-et(dev, (void (*)(void *))put_device,
-96470149f537ee4 Sven Peter 2022-04-26  191  				       &sart_pdev->dev);
-96470149f537ee4 Sven Peter 2022-04-26  192  	if (ret)
-96470149f537ee4 Sven Peter 2022-04-26 @193  		return ERR_PTR(ret);
-96470149f537ee4 Sven Peter 2022-04-26  194  =
 
-96470149f537ee4 Sven Peter 2022-04-26  195  	device_link_add(dev, &sart_pde=
-v->dev,
-96470149f537ee4 Sven Peter 2022-04-26  196  			DL_FLAG_PM_RUNTIME | DL_FLAG=
-_AUTOREMOVE_SUPPLIER);
-96470149f537ee4 Sven Peter 2022-04-26  197  =
+:::::: The code at line 2021 was first introduced by commit
+:::::: 426a273834eae65abcfc7132a21a85b3151e0bce iommu: Limit iommu_attach/d=
+etach_device to devices with their own group
 
-96470149f537ee4 Sven Peter 2022-04-26  198  	return sart;
-96470149f537ee4 Sven Peter 2022-04-26  199  }
-96470149f537ee4 Sven Peter 2022-04-26  200  EXPORT_SYMBOL(devm_apple_sart_g=
-et);
-96470149f537ee4 Sven Peter 2022-04-26  201  =
-
+:::::: TO: Joerg Roedel <jroedel@suse.de>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4859978629722403693==--
+--===============3940177260408428604==--
 
