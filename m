@@ -1,341 +1,362 @@
-Content-Type: multipart/mixed; boundary="===============5103785534406576691=="
+Content-Type: multipart/mixed; boundary="===============7931022210807796390=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:ddn3j 13/21] lib/dynamic_debug.c:1070:44: warning: Subtracting pointers that point to different objects [comparePointers]
-Date: Sun, 10 Jul 2022 22:35:41 +0800
-Message-ID: <202207102258.SscySmlD-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15 1095/1208] drivers/clk/clk-xlnx-clock-wizard-v.c:668:16-24: ERROR: reference preceded by free on line 650
+Date: Sun, 10 Jul 2022 21:25:02 +0800
+Message-ID: <202207102112.zjlU3igG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5103785534406576691==
+--===============7931022210807796390==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: lib/dynam=
-ic_debug.c:1070:44: warning: Subtracting pointers that point to different o=
-bjects [comparePointers]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Jim Cromie <jim.cromie@gmail.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://github.com/jimc/linux.git ddn3j
-head:   717a666bd3fa45056435727f971badceaaebbed0
-commit: 97c4bd16cf4cf6a091996f8e5b2d4af84697c7d4 [13/21] kernel/module: add=
- __dyndbg_classes section
-:::::: branch date: 13 days ago
-:::::: commit date: 3 weeks ago
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 97c4bd16cf4cf6a091996f8e5b2d4af84697c7d4
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
+head:   e7187edf49c883a9b51f102175d5b6b135a5c11e
+commit: 94e73979d5943bc6494bdea22c5a0f295d2dde83 [1095/1208] clk: clk-xlnx-=
+clock-wizard-v: fix missing bitfield include
+:::::: branch date: 10 days ago
+:::::: commit date: 3 months ago
+config: h8300-randconfig-c023-20220710 (https://download.01.org/0day-ci/arc=
+hive/20220710/202207102112.zjlU3igG-lkp(a)intel.com/config)
+compiler: h8300-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/clk-xlnx-clock-wizard-v.c:668:16-24: ERROR: reference preced=
+ed by free on line 650
 
->> lib/dynamic_debug.c:1070:44: warning: Subtracting pointers that point to=
- different objects [comparePointers]
-    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
-                                              ^
-   lib/dynamic_debug.c:45:32: note: Variable declared here.
-   extern struct ddebug_class_map __stop___dyndbg_classes[];
-                                  ^
-   lib/dynamic_debug.c:1070:20: note: Array decayed to pointer here.
-    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
-                      ^
-   lib/dynamic_debug.c:44:32: note: Variable declared here.
-   extern struct ddebug_class_map __start___dyndbg_classes[];
-                                  ^
-   lib/dynamic_debug.c:1070:46: note: Array decayed to pointer here.
-    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
-                                                ^
-   lib/dynamic_debug.c:1070:44: note: Subtracting pointers that point to di=
-fferent objects
-    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
-                                              ^
-   lib/dynamic_debug.c:1084:14: warning: Comparing pointers that point to d=
-ifferent objects [comparePointers]
-    for (; iter < __stop___dyndbg; iter++) {
-                ^
-   lib/dynamic_debug.c:42:23: note: Variable declared here.
-   extern struct _ddebug __start___dyndbg[];
-                         ^
-   lib/dynamic_debug.c:1081:9: note: Array decayed to pointer here.
-    iter =3D __start___dyndbg;
-           ^
-   lib/dynamic_debug.c:43:23: note: Variable declared here.
-   extern struct _ddebug __stop___dyndbg[];
-                         ^
-   lib/dynamic_debug.c:1084:16: note: Array decayed to pointer here.
-    for (; iter < __stop___dyndbg; iter++) {
-                  ^
-   lib/dynamic_debug.c:1084:14: note: Comparing pointers that point to diff=
-erent objects
-    for (; iter < __stop___dyndbg; iter++) {
-                ^
-   lib/dynamic_debug.c:821:60: warning: Parameter 'pos' can be declared wit=
-h const [constParameter]
-   static void *ddebug_proc_start(struct seq_file *m, loff_t *pos)
-                                                              ^
-   lib/dynamic_debug.c:844:57: warning: Parameter 'p' can be declared with =
-const [constParameter]
-   static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
-                                                           ^
-   lib/dynamic_debug.c:172:23: warning: Uninitialized variable: dt->num_dde=
-bugs [uninitvar]
-     for (i =3D 0; i < dt->num_ddebugs; i++) {
-                         ^
-   lib/dynamic_debug.c:168:21: note: Assuming condition is false
-     if (query->module &&
-                       ^
-   lib/dynamic_debug.c:172:23: note: Uninitialized variable: dt->num_ddebugs
-     for (i =3D 0; i < dt->num_ddebugs; i++) {
-                         ^
->> lib/dynamic_debug.c:1014:11: warning: Uninitialized variable: dt->mod_na=
-me [uninitvar]
-     if (dt->mod_name =3D=3D mod_name) {
-             ^
->> lib/dynamic_debug.c:104:12: warning: Using argument fb that points at un=
-initialized variable flags [ctuuninitvar]
-    char *p =3D fb->buf;
-              ^
-   lib/dynamic_debug.c:878:27: note: Calling function ddebug_describe_flags=
-, 2nd argument is uninitialized
-        ddebug_describe_flags(dp->flags, &flags));
-                             ^
-   lib/dynamic_debug.c:104:12: note: Using argument fb
-    char *p =3D fb->buf;
-              ^
+vim +668 drivers/clk/clk-xlnx-clock-wizard-v.c
 
-vim +1070 lib/dynamic_debug.c
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  540  =
 
-e9d376f0fa66bd Jason Baron        2009-02-05  1002  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  541  static SIMPLE_DEV_PM_OPS=
+(clk_wzrd_dev_pm_ops, clk_wzrd_suspend,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  542  			 clk_wzrd_resume);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  543  =
 
-e9d376f0fa66bd Jason Baron        2009-02-05  1003  /*
-e9d376f0fa66bd Jason Baron        2009-02-05  1004   * Called in response t=
-o a module being unloaded.  Removes
-e9d376f0fa66bd Jason Baron        2009-02-05  1005   * any ddebug_table's w=
-hich point at the module.
-e9d376f0fa66bd Jason Baron        2009-02-05  1006   */
-ff49d74ad383f5 Yehuda Sadeh       2010-07-03  1007  int ddebug_remove_modul=
-e(const char *mod_name)
-e9d376f0fa66bd Jason Baron        2009-02-05  1008  {
-e9d376f0fa66bd Jason Baron        2009-02-05  1009  	struct ddebug_table *d=
-t, *nextdt;
-e9d376f0fa66bd Jason Baron        2009-02-05  1010  	int ret =3D -ENOENT;
-e9d376f0fa66bd Jason Baron        2009-02-05  1011  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  544  static int clk_wzrd_prob=
+e(struct platform_device *pdev)
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  545  {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  546  	int i, ret;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  547  	u32 regl, regh, edge, m=
+ult;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  548  	u32 regld, reghd, edged=
+, div;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  549  	unsigned long rate;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  550  	const char *clk_name;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  551  	struct clk_wzrd *clk_wz=
+rd;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  552  	struct resource *mem;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  553  	int outputs;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  554  	struct device_node *np =
+=3D pdev->dev.of_node;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  555  =
 
-e9d376f0fa66bd Jason Baron        2009-02-05  1012  	mutex_lock(&ddebug_loc=
-k);
-e9d376f0fa66bd Jason Baron        2009-02-05  1013  	list_for_each_entry_sa=
-fe(dt, nextdt, &ddebug_tables, link) {
-4573fe15437c90 Rasmus Villemoes   2019-03-07 @1014  		if (dt->mod_name =3D=
-=3D mod_name) {
-e9d376f0fa66bd Jason Baron        2009-02-05  1015  			ddebug_table_free(dt=
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  556  	clk_wzrd =3D devm_kzall=
+oc(&pdev->dev, sizeof(*clk_wzrd), GFP_KERNEL);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  557  	if (!clk_wzrd)
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  558  		return -ENOMEM;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  559  	platform_set_drvdata(pd=
+ev, clk_wzrd);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  560  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  561  	mem =3D platform_get_re=
+source(pdev, IORESOURCE_MEM, 0);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  562  	clk_wzrd->base =3D devm=
+_ioremap_resource(&pdev->dev, mem);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  563  	if (IS_ERR(clk_wzrd->ba=
+se))
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  564  		return PTR_ERR(clk_wzr=
+d->base);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  565  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  566  	clk_wzrd->clk_in1 =3D d=
+evm_clk_get(&pdev->dev, "clk_in1");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  567  	if (IS_ERR(clk_wzrd->cl=
+k_in1)) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  568  		if (clk_wzrd->clk_in1 =
+!=3D ERR_PTR(-EPROBE_DEFER))
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  569  			dev_err(&pdev->dev, "=
+clk_in1 not found\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  570  		return PTR_ERR(clk_wzr=
+d->clk_in1);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  571  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  572  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  573  	clk_wzrd->axi_clk =3D d=
+evm_clk_get(&pdev->dev, "s_axi_aclk");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  574  	if (IS_ERR(clk_wzrd->ax=
+i_clk)) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  575  		if (clk_wzrd->axi_clk =
+!=3D ERR_PTR(-EPROBE_DEFER))
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  576  			dev_err(&pdev->dev, "=
+s_axi_aclk not found\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  577  		return PTR_ERR(clk_wzr=
+d->axi_clk);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  578  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  579  	ret =3D clk_prepare_ena=
+ble(clk_wzrd->axi_clk);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  580  	if (ret) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  581  		dev_err(&pdev->dev, "e=
+nabling s_axi_aclk failed\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  582  		return ret;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  583  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  584  	rate =3D clk_get_rate(c=
+lk_wzrd->axi_clk);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  585  	if (rate > WZRD_ACLK_MA=
+X_FREQ) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  586  		dev_err(&pdev->dev, "s=
+_axi_aclk frequency (%lu) too high\n",
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  587  			rate);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  588  		ret =3D -EINVAL;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  589  		goto err_disable_clk;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  590  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  591  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  592  	outputs =3D of_property=
+_count_strings(np, "clock-output-names");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  593  	clk_name =3D kasprintf(=
+GFP_KERNEL, "%s_mul_div", dev_name(&pdev->dev));
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  594  	if (!clk_name) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  595  		ret =3D -ENOMEM;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  596  		goto err_rm_int_clk;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  597  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  598  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  599  	if (outputs =3D=3D 1) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  600  		const char *clkout_nam=
+e;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  601  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  602  		if (of_property_read_s=
+tring_index(np, "clock-output-names", i,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  603  						  &clkout_name)) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  604  			dev_err(&pdev->dev,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  605  				"clock output name n=
+ot specified\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  606  			ret =3D -EINVAL;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  607  			goto err_rm_int_clks;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  608  		}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  609  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  610  		clk_wzrd->clkout[0] =
+=3D clk_wzrd_register_divider
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  611  				(&pdev->dev, clkout_=
+name,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  612  				__clk_get_name(clk_w=
+zrd->clk_in1), 0,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  613  				clk_wzrd->base, WZRD=
+_CLK_CFG_REG(3),
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  614  				WZRD_CLKOUT_DIVIDE_S=
+HIFT,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  615  				WZRD_CLKOUT_DIVIDE_W=
+IDTH,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  616  				CLK_DIVIDER_ONE_BASE=
+D | CLK_DIVIDER_ALLOW_ZERO,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  617  				DIV_ALL, &clkwzrd_lo=
+ck);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  618  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  619  		goto out;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  620  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  621  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  622  	/* register multiplier =
+*/
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  623  	edge =3D !!(readl(clk_w=
+zrd->base + WZRD_CLK_CFG_REG(0)) & BIT(8));
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  624  	regl =3D (readl(clk_wzr=
+d->base + WZRD_CLK_CFG_REG(1)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  625  		     WZRD_CLKFBOUT_L_M=
+ASK) >> WZRD_CLKFBOUT_L_SHIFT;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  626  	regh =3D (readl(clk_wzr=
+d->base + WZRD_CLK_CFG_REG(1)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  627  		     WZRD_CLKFBOUT_H_M=
+ASK) >> WZRD_CLKFBOUT_H_SHIFT;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  628  	mult =3D (regl  + regh =
++ edge);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  629  	if (!mult)
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  630  		mult =3D 1;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  631  	mult =3D mult * 64;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  632  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  633  	regl =3D readl(clk_wzrd=
+->base + WZRD_CLK_CFG_REG(51)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  634  		     WZRD_CLKFBOUT_FRA=
+C_EN;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  635  	if (regl) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  636  		regl =3D readl(clk_wzr=
+d->base + WZRD_CLK_CFG_REG(48)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  637  			WZRD_CLKFBOUT_FRAC_MA=
+SK;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  638  		mult =3D mult + regl;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  639  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  640  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  641  	clk_name =3D kasprintf(=
+GFP_KERNEL, "%s_mul", dev_name(&pdev->dev));
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  642  	if (!clk_name) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  643  		ret =3D -ENOMEM;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  644  		goto err_disable_clk;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  645  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  646  	clk_wzrd->clks_internal=
+[wzrd_clk_mul] =3D clk_register_fixed_factor
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  647  			(&pdev->dev, clk_name,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  648  			 __clk_get_name(clk_w=
+zrd->clk_in1),
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  649  			0, mult, 64);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31 @650  	kfree(clk_name);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  651  	if (IS_ERR(clk_wzrd->cl=
+ks_internal[wzrd_clk_mul])) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  652  		dev_err(&pdev->dev, "u=
+nable to register fixed-factor clock\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  653  		ret =3D PTR_ERR(clk_wz=
+rd->clks_internal[wzrd_clk_mul]);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  654  		goto err_disable_clk;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  655  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  656  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  657  	/* register div */
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  658  	edged =3D !!(readl(clk_=
+wzrd->base + WZRD_CLK_CFG_REG(20)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  659  		     BIT(10));
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  660  	regld =3D (readl(clk_wz=
+rd->base + WZRD_CLK_CFG_REG(21)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  661  		     WZRD_CLKFBOUT_L_M=
+ASK) >> WZRD_CLKFBOUT_L_SHIFT;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  662  	reghd =3D (readl(clk_wz=
+rd->base + WZRD_CLK_CFG_REG(21)) &
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  663  		     WZRD_CLKFBOUT_H_M=
+ASK) >> WZRD_CLKFBOUT_H_SHIFT;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  664  	div =3D (regld  + reghd=
+ + edged);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  665  	if (!div)
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  666  		div =3D 1;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  667  	clk_wzrd->clks_internal=
+[wzrd_clk_mul_div] =3D clk_register_fixed_factor
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31 @668  			(&pdev->dev, clk_name,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  669  			 __clk_get_name(clk_w=
+zrd->clks_internal[wzrd_clk_mul]),
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  670  			0, 1, div);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  671  	if (IS_ERR(clk_wzrd->cl=
+ks_internal[wzrd_clk_mul_div])) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  672  		dev_err(&pdev->dev, "u=
+nable to register divider clock\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  673  		ret =3D PTR_ERR(clk_wz=
+rd->clks_internal[wzrd_clk_mul_div]);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  674  		goto err_rm_int_clk;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  675  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  676  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  677  	/* register div per out=
+put */
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  678  	for (i =3D outputs - 1;=
+ i >=3D 0 ; i--) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  679  		const char *clkout_nam=
+e;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  680  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  681  		if (of_property_read_s=
+tring_index(np, "clock-output-names", i,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  682  						  &clkout_name)) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  683  			dev_err(&pdev->dev,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  684  				"clock output name n=
+ot specified\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  685  			ret =3D -EINVAL;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  686  			goto err_rm_int_clks;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  687  		}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  688  =
+
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  689  			clk_wzrd->clkout[i] =
+=3D clk_wzrd_register_divider
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  690  				(&pdev->dev, clkout_=
+name,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  691  				clk_name, 0,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  692  				clk_wzrd->base, (WZR=
+D_CLK_CFG_REG(3) + i * 8),
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  693  				WZRD_CLKOUT_DIVIDE_S=
+HIFT,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  694  				WZRD_CLKOUT_DIVIDE_W=
+IDTH,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  695  				CLK_DIVIDER_ONE_BASE=
+D | CLK_DIVIDER_ALLOW_ZERO,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  696  				DIV_O, &clkwzrd_lock=
 );
-e9d376f0fa66bd Jason Baron        2009-02-05  1016  			ret =3D 0;
-4573fe15437c90 Rasmus Villemoes   2019-03-07  1017  			break;
-e9d376f0fa66bd Jason Baron        2009-02-05  1018  		}
-e9d376f0fa66bd Jason Baron        2009-02-05  1019  	}
-e9d376f0fa66bd Jason Baron        2009-02-05  1020  	mutex_unlock(&ddebug_l=
-ock);
-7a5e202dfb8ab7 Jim Cromie         2021-10-13  1021  	if (!ret)
-7a5e202dfb8ab7 Jim Cromie         2021-10-13  1022  		v2pr_info("removed mo=
-dule \"%s\"\n", mod_name);
-e9d376f0fa66bd Jason Baron        2009-02-05  1023  	return ret;
-e9d376f0fa66bd Jason Baron        2009-02-05  1024  }
-e9d376f0fa66bd Jason Baron        2009-02-05  1025  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  697  =
 
-e9d376f0fa66bd Jason Baron        2009-02-05  1026  static void ddebug_remo=
-ve_all_tables(void)
-e9d376f0fa66bd Jason Baron        2009-02-05  1027  {
-e9d376f0fa66bd Jason Baron        2009-02-05  1028  	mutex_lock(&ddebug_loc=
-k);
-e9d376f0fa66bd Jason Baron        2009-02-05  1029  	while (!list_empty(&dd=
-ebug_tables)) {
-e9d376f0fa66bd Jason Baron        2009-02-05  1030  		struct ddebug_table *=
-dt =3D list_entry(ddebug_tables.next,
-e9d376f0fa66bd Jason Baron        2009-02-05  1031  						      struct ddeb=
-ug_table,
-e9d376f0fa66bd Jason Baron        2009-02-05  1032  						      link);
-e9d376f0fa66bd Jason Baron        2009-02-05  1033  		ddebug_table_free(dt);
-e9d376f0fa66bd Jason Baron        2009-02-05  1034  	}
-e9d376f0fa66bd Jason Baron        2009-02-05  1035  	mutex_unlock(&ddebug_l=
-ock);
-e9d376f0fa66bd Jason Baron        2009-02-05  1036  }
-e9d376f0fa66bd Jason Baron        2009-02-05  1037  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  698  		if (IS_ERR(clk_wzrd->c=
+lkout[i])) {
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  699  			int j;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  700  =
 
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1038  static __initdata int d=
-debug_init_success;
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1039  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  701  			for (j =3D i + 1; j <=
+ outputs; j++)
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  702  				clk_unregister(clk_w=
+zrd->clkout[j]);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  703  			dev_err(&pdev->dev,
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  704  				"unable to register =
+divider clock\n");
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  705  			ret =3D PTR_ERR(clk_w=
+zrd->clkout[i]);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  706  			goto err_rm_int_clks;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  707  		}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  708  	}
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  709  =
 
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1040  static int __init dynam=
-ic_debug_init_control(void)
-e9d376f0fa66bd Jason Baron        2009-02-05  1041  {
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1042  	struct proc_dir_entry =
-*procfs_dir;
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1043  	struct dentry *debugfs=
-_dir;
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1044  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  710  	kfree(clk_name);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  711  =
 
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1045  	if (!ddebug_init_succe=
-ss)
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1046  		return -ENODEV;
-e9d376f0fa66bd Jason Baron        2009-02-05  1047  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  712  out:
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  713  	clk_wzrd->clk_data.clks=
+ =3D clk_wzrd->clkout;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  714  	clk_wzrd->clk_data.clk_=
+num =3D ARRAY_SIZE(clk_wzrd->clkout);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  715  	of_clk_add_provider(np,=
+ of_clk_src_onecell_get, &clk_wzrd->clk_data);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  716  =
 
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1048  	/* Create the control =
-file in debugfs if it is enabled */
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1049  	if (debugfs_initialize=
-d()) {
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1050  		debugfs_dir =3D debug=
-fs_create_dir("dynamic_debug", NULL);
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1051  		debugfs_create_file("=
-control", 0644, debugfs_dir, NULL,
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1052  				    &ddebug_proc_fo=
-ps);
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1053  	}
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1054  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  717  	return 0;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  718  =
 
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1055  	/* Also create the con=
-trol file in procfs */
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1056  	procfs_dir =3D proc_mk=
-dir("dynamic_debug", NULL);
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1057  	if (procfs_dir)
-239a5791ffd555 Greg Kroah-Hartman 2020-02-10  1058  		proc_create("control"=
-, 0644, procfs_dir, &proc_fops);
-9fd714cd7f4676 Greg Kroah-Hartman 2019-06-12  1059  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  719  err_rm_int_clks:
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  720  	clk_unregister(clk_wzrd=
+->clks_internal[1]);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  721  err_rm_int_clk:
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  722  	kfree(clk_name);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  723  	clk_unregister(clk_wzrd=
+->clks_internal[0]);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  724  err_disable_clk:
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  725  	clk_disable_unprepare(c=
+lk_wzrd->axi_clk);
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  726  =
 
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1060  	return 0;
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1061  }
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1062  =
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  727  	return ret;
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  728  }
+8b5383767cb4c8 Shubhrajyoti Datta 2020-03-31  729  =
 
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1063  static int __init dynam=
-ic_debug_init(void)
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1064  {
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1065  	struct _ddebug *iter, =
-*iter_start;
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1066  	const char *modname =
-=3D NULL;
-b48420c1d3019c Jim Cromie         2012-04-27  1067  	char *cmdline;
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1068  	int ret =3D 0;
-4107692760db81 Jim Cromie         2012-04-27  1069  	int n =3D 0, entries =
-=3D 0, modct =3D 0;
-97c4bd16cf4cf6 Jim Cromie         2022-06-01 @1070  	int num_classes =3D __=
-stop___dyndbg_classes - __start___dyndbg_classes;
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1071  =
 
-e5ebffe18e5add Jim Cromie         2020-07-19  1072  	if (&__start___dyndbg =
-=3D=3D &__stop___dyndbg) {
-ceabef7dd71720 Orson Zhai         2020-06-07  1073  		if (IS_ENABLED(CONFIG=
-_DYNAMIC_DEBUG)) {
-f657fd21e16e3a Joe Perches        2012-12-05  1074  			pr_warn("_ddebug tab=
-le is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-b5b78f83854af1 Jim Cromie         2011-12-19  1075  			return 1;
-b5b78f83854af1 Jim Cromie         2011-12-19  1076  		}
-ceabef7dd71720 Orson Zhai         2020-06-07  1077  		pr_info("Ignore empty=
- _ddebug table in a CONFIG_DYNAMIC_DEBUG_CORE build\n");
-ceabef7dd71720 Orson Zhai         2020-06-07  1078  		ddebug_init_success =
-=3D 1;
-ceabef7dd71720 Orson Zhai         2020-06-07  1079  		return 0;
-ceabef7dd71720 Orson Zhai         2020-06-07  1080  	}
-e5ebffe18e5add Jim Cromie         2020-07-19  1081  	iter =3D __start___dyn=
-dbg;
-e9d376f0fa66bd Jason Baron        2009-02-05  1082  	modname =3D iter->modn=
-ame;
-e9d376f0fa66bd Jason Baron        2009-02-05  1083  	iter_start =3D iter;
-e5ebffe18e5add Jim Cromie         2020-07-19  1084  	for (; iter < __stop__=
-_dyndbg; iter++) {
-4107692760db81 Jim Cromie         2012-04-27  1085  		entries++;
-e9d376f0fa66bd Jason Baron        2009-02-05  1086  		if (strcmp(modname, i=
-ter->modname)) {
-4107692760db81 Jim Cromie         2012-04-27  1087  			modct++;
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1088  			ret =3D ddebug_add_m=
-odule(iter_start, n,
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1089  						__start___dyndbg_=
-classes, num_classes,
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1090  						modname);
-e9d376f0fa66bd Jason Baron        2009-02-05  1091  			if (ret)
-af442399fcf378 Jim Cromie         2012-04-27  1092  				goto out_err;
-e9d376f0fa66bd Jason Baron        2009-02-05  1093  			n =3D 0;
-e9d376f0fa66bd Jason Baron        2009-02-05  1094  			modname =3D iter->mo=
-dname;
-e9d376f0fa66bd Jason Baron        2009-02-05  1095  			iter_start =3D iter;
-e9d376f0fa66bd Jason Baron        2009-02-05  1096  		}
-e9d376f0fa66bd Jason Baron        2009-02-05  1097  		n++;
-e9d376f0fa66bd Jason Baron        2009-02-05  1098  	}
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1099  	ret =3D ddebug_add_mod=
-ule(iter_start, n,
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1100  				__start___dyndbg_cl=
-asses, num_classes, modname);
-b5b78f83854af1 Jim Cromie         2011-12-19  1101  	if (ret)
-af442399fcf378 Jim Cromie         2012-04-27  1102  		goto out_err;
-a648ec05bb950f Thomas Renninger   2010-08-06  1103  =
+:::::: The code at line 668 was first introduced by commit
+:::::: 8b5383767cb4c856283824baee568f4286ecc0db clocking-wizard: Add versal=
+ clocking wizard support
 
-af442399fcf378 Jim Cromie         2012-04-27  1104  	ddebug_init_success =
-=3D 1;
-7af5662826f7b1 Jim Cromie         2021-05-24  1105  	vpr_info("%d prdebugs =
-in %d modules, %d KiB in ddebug tables, %d kiB in __dyndbg section\n",
-7af5662826f7b1 Jim Cromie         2021-05-24  1106  		 entries, modct, (int=
-)((modct * sizeof(struct ddebug_table)) >> 10),
-7af5662826f7b1 Jim Cromie         2021-05-24  1107  		 (int)((entries * siz=
-eof(struct _ddebug)) >> 10));
-af442399fcf378 Jim Cromie         2012-04-27  1108  =
-
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1109  	if (num_classes)
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1110  		v2pr_info("  %d built=
-in ddebug class-maps\n", num_classes);
-97c4bd16cf4cf6 Jim Cromie         2022-06-01  1111  =
-
-b48420c1d3019c Jim Cromie         2012-04-27  1112  	/* now that ddebug tab=
-les are loaded, process all boot args
-b48420c1d3019c Jim Cromie         2012-04-27  1113  	 * again to find and a=
-ctivate queries given in dyndbg params.
-b48420c1d3019c Jim Cromie         2012-04-27  1114  	 * While this has alre=
-ady been done for known boot params, it
-b48420c1d3019c Jim Cromie         2012-04-27  1115  	 * ignored the unknown=
- ones (dyndbg in particular).  Reusing
-b48420c1d3019c Jim Cromie         2012-04-27  1116  	 * parse_args avoids a=
-d-hoc parsing.  This will also attempt
-b48420c1d3019c Jim Cromie         2012-04-27  1117  	 * to activate queries=
- for not-yet-loaded modules, which is
-b48420c1d3019c Jim Cromie         2012-04-27  1118  	 * slightly noisy if v=
-erbose, but harmless.
-b48420c1d3019c Jim Cromie         2012-04-27  1119  	 */
-b48420c1d3019c Jim Cromie         2012-04-27  1120  	cmdline =3D kstrdup(sa=
-ved_command_line, GFP_KERNEL);
-b48420c1d3019c Jim Cromie         2012-04-27  1121  	parse_args("dyndbg par=
-ams", cmdline, NULL,
-ecc8617053e0a9 Luis R. Rodriguez  2015-03-30  1122  		   0, 0, 0, NULL, &dd=
-ebug_dyndbg_boot_param_cb);
-b48420c1d3019c Jim Cromie         2012-04-27  1123  	kfree(cmdline);
-af442399fcf378 Jim Cromie         2012-04-27  1124  	return 0;
-a648ec05bb950f Thomas Renninger   2010-08-06  1125  =
-
-af442399fcf378 Jim Cromie         2012-04-27  1126  out_err:
-e9d376f0fa66bd Jason Baron        2009-02-05  1127  	ddebug_remove_all_tabl=
-es();
-e9d376f0fa66bd Jason Baron        2009-02-05  1128  	return 0;
-e9d376f0fa66bd Jason Baron        2009-02-05  1129  }
-6a5c083de2f5fb Thomas Renninger   2010-08-06  1130  /* Allow early initiali=
-zation for boot messages via boot param */
-3ec5652ab70f6e Jim Cromie         2012-04-27  1131  early_initcall(dynamic_=
-debug_init);
-b48420c1d3019c Jim Cromie         2012-04-27  1132  =
-
+:::::: TO: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@xilinx.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5103785534406576691==--
+--===============7931022210807796390==--
 
