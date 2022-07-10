@@ -1,394 +1,311 @@
-Content-Type: multipart/mixed; boundary="===============3375695245584136204=="
+Content-Type: multipart/mixed; boundary="===============0177339555422679905=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/md/dm-thin-metadata.c:950:7: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Mon, 11 Jul 2022 09:31:43 +0800
-Message-ID: <202207110444.Bq2uzASc-lkp@intel.com>
+Subject: [jimc:ddn3j 15/21] lib/dynamic_debug.c:194:34: warning: Uninitialized variables: dt.link, dt.maps, dt.num_ddebugs, dt.ddebugs [uninitvar]
+Date: Mon, 11 Jul 2022 00:07:49 +0800
+Message-ID: <202207110006.XaM1C2oB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3375695245584136204==
+--===============0177339555422679905==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/md/dm-thin-metadata.c:950:7: warning: Use of memory after it is fr=
-eed [clang-analyzer-unix.Malloc]"
+:::::: Manual check reason: "low confidence static check warning: lib/dynam=
+ic_debug.c:194:34: warning: Uninitialized variables: dt.link, dt.maps, dt.n=
+um_ddebugs, dt.ddebugs [uninitvar]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jim Cromie <jim.cromie@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   952c53cd357c71338a59d444933ed48a879229e1
-commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
-ch to static_assert
-date:   8 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 8 months ago
-config: riscv-randconfig-c006-20220707 (https://download.01.org/0day-ci/arc=
-hive/20220711/202207110444.Bq2uzASc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 77a38f=
-6839980bfac61babb40d83772c51427011)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://github.com/jimc/linux.git ddn3j
+head:   717a666bd3fa45056435727f971badceaaebbed0
+commit: abdeb5614def0bda0a11028e2b77731727d34c3e [15/21] dyndbg: validate c=
+lass FOO by checking with module
+:::::: branch date: 13 days ago
+:::::: commit date: 3 weeks ago
+compiler: s390-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout abdeb5614def0bda0a11028e2b77731727d34c3e
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-            ^~~~
-   drivers/interconnect/core.c:388:3: note: '?' condition is false
-                   if (!data)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/interconnect/core.c:388:3: note: Taking false branch
-                   if (!data)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/interconnect/core.c:485:13: note: Returning from 'of_icc_get_fro=
-m_provider'
-           dst_data =3D of_icc_get_from_provider(&dst_args);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/interconnect/core.c:487:2: note: '?' condition is false
-           if (IS_ERR(dst_data)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/interconnect/core.c:487:2: note: '?' condition is false
-           if (IS_ERR(dst_data)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/interconnect/core.c:487:2: note: Taking false branch
-           if (IS_ERR(dst_data)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/interconnect/core.c:496:2: note: '?' condition is false
-           if (IS_ERR(path)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/interconnect/core.c:496:2: note: '?' condition is false
-           if (IS_ERR(path)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/interconnect/core.c:496:2: note: Taking false branch
-           if (IS_ERR(path)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/interconnect/core.c:501:6: note: Assuming field 'tag' is not equ=
-al to 0
-           if (src_data->tag && src_data->tag =3D=3D dst_data->tag)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/interconnect/core.c:501:6: note: Left side of '&&' is true
-           if (src_data->tag && src_data->tag =3D=3D dst_data->tag)
-               ^
-   drivers/interconnect/core.c:501:37: note: The right operand of '=3D=3D' =
-is a garbage value
-           if (src_data->tag && src_data->tag =3D=3D dst_data->tag)
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+   lib/dynamic_debug.c:1162:44: warning: Subtracting pointers that point to=
+ different objects [comparePointers]
+    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
                                               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/md/dm-thin-metadata.c:950:7: warning: Use of memory after it is =
-freed [clang-analyzer-unix.Malloc]
-                   if (dm_pool_metadata_close(pmd) < 0)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/md/dm-thin-metadata.c:927:6: note: Assuming 'pmd' is non-null
-           if (!pmd) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-thin-metadata.c:927:2: note: '?' condition is false
-           if (!pmd) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/md/dm-thin-metadata.c:927:7: note: 'pmd' is non-null
-           if (!pmd) {
+   lib/dynamic_debug.c:45:32: note: Variable declared here.
+   extern struct ddebug_class_map __stop___dyndbg_classes[];
+                                  ^
+   lib/dynamic_debug.c:1162:20: note: Array decayed to pointer here.
+    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
+                      ^
+   lib/dynamic_debug.c:44:32: note: Variable declared here.
+   extern struct ddebug_class_map __start___dyndbg_classes[];
+                                  ^
+   lib/dynamic_debug.c:1162:46: note: Array decayed to pointer here.
+    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
+                                                ^
+   lib/dynamic_debug.c:1162:44: note: Subtracting pointers that point to di=
+fferent objects
+    int num_classes =3D __stop___dyndbg_classes - __start___dyndbg_classes;
+                                              ^
+   lib/dynamic_debug.c:1176:14: warning: Comparing pointers that point to d=
+ifferent objects [comparePointers]
+    for (; iter < __stop___dyndbg; iter++) {
                 ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/md/dm-thin-metadata.c:927:2: note: '?' condition is false
-           if (!pmd) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/md/dm-thin-metadata.c:927:2: note: Taking false branch
-           if (!pmd) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+   lib/dynamic_debug.c:42:23: note: Variable declared here.
+   extern struct _ddebug __start___dyndbg[];
                          ^
-   drivers/md/dm-thin-metadata.c:932:2: note: Loop condition is false.  Exi=
-ting loop
-           init_rwsem(&pmd->root_lock);
+   lib/dynamic_debug.c:1173:9: note: Array decayed to pointer here.
+    iter =3D __start___dyndbg;
            ^
-   include/linux/rwsem.h:106:30: note: expanded from macro 'init_rwsem'
-   #define init_rwsem(sem)                                         \
-                                                                   ^
-   drivers/md/dm-thin-metadata.c:943:2: note: '?' condition is false
-           if (r) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/md/dm-thin-metadata.c:943:6: note: 'r' is 0
-           if (r) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/md/dm-thin-metadata.c:943:2: note: '?' condition is false
-           if (r) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/md/dm-thin-metadata.c:943:2: note: Taking false branch
-           if (r) {
+   lib/dynamic_debug.c:43:23: note: Variable declared here.
+   extern struct _ddebug __stop___dyndbg[];
+                         ^
+   lib/dynamic_debug.c:1176:16: note: Array decayed to pointer here.
+    for (; iter < __stop___dyndbg; iter++) {
+                  ^
+   lib/dynamic_debug.c:1176:14: note: Comparing pointers that point to diff=
+erent objects
+    for (; iter < __stop___dyndbg; iter++) {
+                ^
+   lib/dynamic_debug.c:857:60: warning: Parameter 'pos' can be declared wit=
+h const [constParameter]
+   static void *ddebug_proc_start(struct seq_file *m, loff_t *pos)
+                                                              ^
+   lib/dynamic_debug.c:880:57: warning: Parameter 'p' can be declared with =
+const [constParameter]
+   static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+                                                           ^
+>> lib/dynamic_debug.c:194:34: warning: Uninitialized variables: dt.link, d=
+t.maps, dt.num_ddebugs, dt.ddebugs [uninitvar]
+      map =3D ddebug_find_valid_class(dt, query->class_string, &valid_class=
+);
+                                    ^
+   lib/dynamic_debug.c:189:21: note: Assuming condition is false
+     if (query->module &&
+                       ^
+   lib/dynamic_debug.c:189:21: note: Assuming condition is false
+     if (query->module &&
+                       ^
+   lib/dynamic_debug.c:189:21: note: Assuming condition is false
+     if (query->module &&
+                       ^
+   lib/dynamic_debug.c:189:21: note: Assuming condition is false
+     if (query->module &&
+                       ^
+   lib/dynamic_debug.c:194:34: note: Uninitialized variables: dt.link, dt.m=
+aps, dt.num_ddebugs, dt.ddebugs
+      map =3D ddebug_find_valid_class(dt, query->class_string, &valid_class=
+);
+                                    ^
+   lib/dynamic_debug.c:1106:11: warning: Uninitialized variable: dt->mod_na=
+me [uninitvar]
+     if (dt->mod_name =3D=3D mod_name) {
+             ^
+   lib/dynamic_debug.c:105:12: warning: Using argument fb that points at un=
+initialized variable flags [ctuuninitvar]
+    char *p =3D fb->buf;
+              ^
+   lib/dynamic_debug.c:929:27: note: Calling function ddebug_describe_flags=
+, 2nd argument is uninitialized
+        ddebug_describe_flags(dp->flags, &flags));
+                             ^
+   lib/dynamic_debug.c:105:12: note: Using argument fb
+    char *p =3D fb->buf;
+              ^
 
-vim +950 drivers/md/dm-thin-metadata.c
+vim +194 lib/dynamic_debug.c
 
-3ab91828166895 Joe Thornber   2018-09-10  918  =
+abdeb5614def0b Jim Cromie      2022-04-01  165  =
 
-991d9fa02da0dd Joe Thornber   2011-10-31  919  struct dm_pool_metadata *dm_=
-pool_metadata_open(struct block_device *bdev,
-66b1edc05e3f4c Joe Thornber   2012-07-27  920  					       sector_t data_bl=
-ock_size,
-66b1edc05e3f4c Joe Thornber   2012-07-27  921  					       bool format_devi=
-ce)
-991d9fa02da0dd Joe Thornber   2011-10-31  922  {
-991d9fa02da0dd Joe Thornber   2011-10-31  923  	int r;
-991d9fa02da0dd Joe Thornber   2011-10-31  924  	struct dm_pool_metadata *pm=
-d;
-991d9fa02da0dd Joe Thornber   2011-10-31  925  =
+abdeb5614def0b Jim Cromie      2022-04-01  166  #define __outvar /* filled =
+by callee */
+e9d376f0fa66bd Jason Baron     2009-02-05  167  /*
+85f7f6c0edb841 Jim Cromie      2011-12-19  168   * Search the tables for _d=
+debug's which match the given `query' and
+85f7f6c0edb841 Jim Cromie      2011-12-19  169   * apply the `flags' and `m=
+ask' to them.  Returns number of matching
+85f7f6c0edb841 Jim Cromie      2011-12-19  170   * callsites, normally the =
+same as number of changes.  If verbose,
+85f7f6c0edb841 Jim Cromie      2011-12-19  171   * logs the changes.  Takes=
+ ddebug_lock.
+e9d376f0fa66bd Jason Baron     2009-02-05  172   */
+85f7f6c0edb841 Jim Cromie      2011-12-19  173  static int ddebug_change(co=
+nst struct ddebug_query *query,
+84da83a6ffc0b7 Jim Cromie      2020-07-19  174  			 struct flag_settings *m=
+odifiers)
+e9d376f0fa66bd Jason Baron     2009-02-05  175  {
+e9d376f0fa66bd Jason Baron     2009-02-05  176  	int i;
+e9d376f0fa66bd Jason Baron     2009-02-05  177  	struct ddebug_table *dt;
+e9d376f0fa66bd Jason Baron     2009-02-05  178  	unsigned int newflags;
+e9d376f0fa66bd Jason Baron     2009-02-05  179  	unsigned int nfound =3D 0;
+90686c5cb845e7 Jim Cromie      2022-01-31  180  	struct flagsbuf fbuf, nbuf;
+abdeb5614def0b Jim Cromie      2022-04-01  181  	struct ddebug_class_map *m=
+ap =3D NULL;
+abdeb5614def0b Jim Cromie      2022-04-01  182  	int __outvar valid_class;
+e9d376f0fa66bd Jason Baron     2009-02-05  183  =
 
-991d9fa02da0dd Joe Thornber   2011-10-31  926  	pmd =3D kmalloc(sizeof(*pmd=
-), GFP_KERNEL);
-991d9fa02da0dd Joe Thornber   2011-10-31  927  	if (!pmd) {
-991d9fa02da0dd Joe Thornber   2011-10-31  928  		DMERR("could not allocate =
-metadata struct");
-991d9fa02da0dd Joe Thornber   2011-10-31  929  		return ERR_PTR(-ENOMEM);
-991d9fa02da0dd Joe Thornber   2011-10-31  930  	}
-991d9fa02da0dd Joe Thornber   2011-10-31  931  =
+e9d376f0fa66bd Jason Baron     2009-02-05  184  	/* search for matching dde=
+bugs */
+e9d376f0fa66bd Jason Baron     2009-02-05  185  	mutex_lock(&ddebug_lock);
+e9d376f0fa66bd Jason Baron     2009-02-05  186  	list_for_each_entry(dt, &d=
+debug_tables, link) {
+e9d376f0fa66bd Jason Baron     2009-02-05  187  =
 
-6a0ebd31b6b504 Joe Thornber   2012-07-27  932  	init_rwsem(&pmd->root_lock);
-6a0ebd31b6b504 Joe Thornber   2012-07-27  933  	pmd->time =3D 0;
-6a0ebd31b6b504 Joe Thornber   2012-07-27  934  	INIT_LIST_HEAD(&pmd->thin_d=
-evices);
-da105ed5fd7edc Joe Thornber   2012-07-27  935  	pmd->fail_io =3D false;
-873f258becca87 Mike Snitzer   2019-04-18  936  	pmd->in_service =3D false;
-332627db00a982 Joe Thornber   2012-07-27  937  	pmd->bdev =3D bdev;
-9cb6653f9a515f Joe Thornber   2012-07-27  938  	pmd->data_block_size =3D da=
-ta_block_size;
-ecda7c0280e6b3 Nikos Tsironis 2019-12-04  939  	pmd->pre_commit_fn =3D NULL;
-ecda7c0280e6b3 Nikos Tsironis 2019-12-04  940  	pmd->pre_commit_context =3D=
- NULL;
-991d9fa02da0dd Joe Thornber   2011-10-31  941  =
+e9d376f0fa66bd Jason Baron     2009-02-05  188  		/* match against the modu=
+le name */
+578b1e0701af34 Changbin Du     2014-01-23  189  		if (query->module &&
+578b1e0701af34 Changbin Du     2014-01-23  190  		    !match_wildcard(query=
+->module, dt->mod_name))
+e9d376f0fa66bd Jason Baron     2009-02-05  191  			continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  192  =
 
-66b1edc05e3f4c Joe Thornber   2012-07-27  942  	r =3D __create_persistent_d=
-ata_objects(pmd, format_device);
-991d9fa02da0dd Joe Thornber   2011-10-31  943  	if (r) {
-991d9fa02da0dd Joe Thornber   2011-10-31  944  		kfree(pmd);
-991d9fa02da0dd Joe Thornber   2011-10-31  945  		return ERR_PTR(r);
-991d9fa02da0dd Joe Thornber   2011-10-31  946  	}
-991d9fa02da0dd Joe Thornber   2011-10-31  947  =
+abdeb5614def0b Jim Cromie      2022-04-01  193  		if (query->class_string) {
+abdeb5614def0b Jim Cromie      2022-04-01 @194  			map =3D ddebug_find_vali=
+d_class(dt, query->class_string, &valid_class);
+abdeb5614def0b Jim Cromie      2022-04-01  195  			if (!map)
+abdeb5614def0b Jim Cromie      2022-04-01  196  				continue;
+abdeb5614def0b Jim Cromie      2022-04-01  197  		} else {
+abdeb5614def0b Jim Cromie      2022-04-01  198  			/* constrain query, do n=
+ot touch class'd callsites */
+abdeb5614def0b Jim Cromie      2022-04-01  199  			valid_class =3D _DPRINTK=
+_CLASS_DFLT;
+abdeb5614def0b Jim Cromie      2022-04-01  200  		}
+abdeb5614def0b Jim Cromie      2022-04-01  201  =
 
-991d9fa02da0dd Joe Thornber   2011-10-31  948  	r =3D __begin_transaction(p=
-md);
-991d9fa02da0dd Joe Thornber   2011-10-31  949  	if (r < 0) {
-9cb6653f9a515f Joe Thornber   2012-07-27 @950  		if (dm_pool_metadata_close=
-(pmd) < 0)
-9cb6653f9a515f Joe Thornber   2012-07-27  951  			DMWARN("%s: dm_pool_metad=
-ata_close() failed.", __func__);
-9cb6653f9a515f Joe Thornber   2012-07-27  952  		return ERR_PTR(r);
-991d9fa02da0dd Joe Thornber   2011-10-31  953  	}
-991d9fa02da0dd Joe Thornber   2011-10-31  954  =
+e9d376f0fa66bd Jason Baron     2009-02-05  202  		for (i =3D 0; i < dt->num=
+_ddebugs; i++) {
+e9d376f0fa66bd Jason Baron     2009-02-05  203  			struct _ddebug *dp =3D &=
+dt->ddebugs[i];
+e9d376f0fa66bd Jason Baron     2009-02-05  204  =
 
-3ab91828166895 Joe Thornber   2018-09-10  955  	__set_metadata_reserve(pmd);
-3ab91828166895 Joe Thornber   2018-09-10  956  =
+abdeb5614def0b Jim Cromie      2022-04-01  205  			/* match site against qu=
+ery-class */
+abdeb5614def0b Jim Cromie      2022-04-01  206  			if (dp->class_id !=3D va=
+lid_class)
+abdeb5614def0b Jim Cromie      2022-04-01  207  			    continue;
+abdeb5614def0b Jim Cromie      2022-04-01  208  =
 
-991d9fa02da0dd Joe Thornber   2011-10-31  957  	return pmd;
-991d9fa02da0dd Joe Thornber   2011-10-31  958  }
-991d9fa02da0dd Joe Thornber   2011-10-31  959  =
+e9d376f0fa66bd Jason Baron     2009-02-05  209  			/* match against the sou=
+rce filename */
+d6a238d25014d0 Jim Cromie      2011-12-19  210  			if (query->filename &&
+578b1e0701af34 Changbin Du     2014-01-23  211  			    !match_wildcard(quer=
+y->filename, dp->filename) &&
+578b1e0701af34 Changbin Du     2014-01-23  212  			    !match_wildcard(quer=
+y->filename,
+578b1e0701af34 Changbin Du     2014-01-23  213  					   kbasename(dp->filen=
+ame)) &&
+578b1e0701af34 Changbin Du     2014-01-23  214  			    !match_wildcard(quer=
+y->filename,
+578b1e0701af34 Changbin Du     2014-01-23  215  					   trim_prefix(dp->fil=
+ename)))
+e9d376f0fa66bd Jason Baron     2009-02-05  216  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  217  =
 
+e9d376f0fa66bd Jason Baron     2009-02-05  218  			/* match against the fun=
+ction */
+d6a238d25014d0 Jim Cromie      2011-12-19  219  			if (query->function &&
+578b1e0701af34 Changbin Du     2014-01-23  220  			    !match_wildcard(quer=
+y->function, dp->function))
+e9d376f0fa66bd Jason Baron     2009-02-05  221  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  222  =
 
-:::::: The code@line 950 was first introduced by commit
-:::::: 9cb6653f9a515f6cb0eaabfb27a2204b0aaf4e48 dm thin metadata: factor ou=
-t __write_initial_superblock
+e9d376f0fa66bd Jason Baron     2009-02-05  223  			/* match against the for=
+mat */
+4b334484fa7f44 Jim Cromie      2020-07-19  224  			if (query->format) {
+4b334484fa7f44 Jim Cromie      2020-07-19  225  				if (*query->format =3D=
+=3D '^') {
+4b334484fa7f44 Jim Cromie      2020-07-19  226  					char *p;
+4b334484fa7f44 Jim Cromie      2020-07-19  227  					/* anchored search. ma=
+tch must be at beginning */
+4b334484fa7f44 Jim Cromie      2020-07-19  228  					p =3D strstr(dp->forma=
+t, query->format+1);
+4b334484fa7f44 Jim Cromie      2020-07-19  229  					if (p !=3D dp->format)
+4b334484fa7f44 Jim Cromie      2020-07-19  230  						continue;
+4b334484fa7f44 Jim Cromie      2020-07-19  231  				} else if (!strstr(dp->=
+format, query->format))
+e9d376f0fa66bd Jason Baron     2009-02-05  232  					continue;
+4b334484fa7f44 Jim Cromie      2020-07-19  233  			}
+e9d376f0fa66bd Jason Baron     2009-02-05  234  =
 
-:::::: TO: Joe Thornber <ejt@redhat.com>
-:::::: CC: Alasdair G Kergon <agk@redhat.com>
+e9d376f0fa66bd Jason Baron     2009-02-05  235  			/* match against the lin=
+e number range */
+e9d376f0fa66bd Jason Baron     2009-02-05  236  			if (query->first_lineno =
+&&
+e9d376f0fa66bd Jason Baron     2009-02-05  237  			    dp->lineno < query->=
+first_lineno)
+e9d376f0fa66bd Jason Baron     2009-02-05  238  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  239  			if (query->last_lineno &&
+e9d376f0fa66bd Jason Baron     2009-02-05  240  			    dp->lineno > query->=
+last_lineno)
+e9d376f0fa66bd Jason Baron     2009-02-05  241  				continue;
+e9d376f0fa66bd Jason Baron     2009-02-05  242  =
+
+e9d376f0fa66bd Jason Baron     2009-02-05  243  			nfound++;
+e9d376f0fa66bd Jason Baron     2009-02-05  244  =
+
+84da83a6ffc0b7 Jim Cromie      2020-07-19  245  			newflags =3D (dp->flags =
+& modifiers->mask) | modifiers->flags;
+e9d376f0fa66bd Jason Baron     2009-02-05  246  			if (newflags =3D=3D dp->=
+flags)
+e9d376f0fa66bd Jason Baron     2009-02-05  247  				continue;
+e9666d10a5677a Masahiro Yamada 2018-12-31  248  #ifdef CONFIG_JUMP_LABEL
+9049fc745300c5 Jason Baron     2016-08-03  249  			if (dp->flags & _DPRINTK=
+_FLAGS_PRINT) {
+4e833e8f218649 Jim Cromie      2022-01-31  250  				if (!(newflags & _DPRIN=
+TK_FLAGS_PRINT))
+9049fc745300c5 Jason Baron     2016-08-03  251  					static_branch_disable(=
+&dp->key.dd_key_true);
+4e833e8f218649 Jim Cromie      2022-01-31  252  			} else if (newflags & _D=
+PRINTK_FLAGS_PRINT) {
+9049fc745300c5 Jason Baron     2016-08-03  253  				static_branch_enable(&d=
+p->key.dd_key_true);
+4e833e8f218649 Jim Cromie      2022-01-31  254  			}
+9049fc745300c5 Jason Baron     2016-08-03  255  #endif
+90686c5cb845e7 Jim Cromie      2022-01-31  256  			v4pr_info("changed %s:%d=
+ [%s]%s %s =3D> %s\n",
+2b6783191da721 Jim Cromie      2011-12-19  257  				  trim_prefix(dp->filen=
+ame), dp->lineno,
+e9d376f0fa66bd Jason Baron     2009-02-05  258  				  dt->mod_name, dp->fun=
+ction,
+90686c5cb845e7 Jim Cromie      2022-01-31  259  				  ddebug_describe_flags=
+(dp->flags, &fbuf),
+90686c5cb845e7 Jim Cromie      2022-01-31  260  				  ddebug_describe_flags=
+(newflags, &nbuf));
+90686c5cb845e7 Jim Cromie      2022-01-31  261  			dp->flags =3D newflags;
+e9d376f0fa66bd Jason Baron     2009-02-05  262  		}
+e9d376f0fa66bd Jason Baron     2009-02-05  263  	}
+e9d376f0fa66bd Jason Baron     2009-02-05  264  	mutex_unlock(&ddebug_lock);
+e9d376f0fa66bd Jason Baron     2009-02-05  265  =
+
+e9d376f0fa66bd Jason Baron     2009-02-05  266  	if (!nfound && verbose)
+4ad275e5cb576f Joe Perches     2011-08-11  267  		pr_info("no matches for q=
+uery\n");
+85f7f6c0edb841 Jim Cromie      2011-12-19  268  =
+
+85f7f6c0edb841 Jim Cromie      2011-12-19  269  	return nfound;
+e9d376f0fa66bd Jason Baron     2009-02-05  270  }
+e9d376f0fa66bd Jason Baron     2009-02-05  271  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3375695245584136204==--
+--===============0177339555422679905==--
 
