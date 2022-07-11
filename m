@@ -1,268 +1,346 @@
-Content-Type: multipart/mixed; boundary="===============1023352041768429108=="
+Content-Type: multipart/mixed; boundary="===============7782728840938302034=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:for-linux-next-fixes 1/1] drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:405 amdgpu_vram_mgr_new() warn: Please consider using kvzalloc instead of kvmalloc
-Date: Sun, 10 Jul 2022 12:15:43 +0800
-Message-ID: <202207101212.IUo5OvzJ-lkp@intel.com>
+Subject: crypto/asymmetric_keys/selftest.c:186:39: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Tue, 12 Jul 2022 00:05:59 +0800
+Message-ID: <202207120035.QiJnYKqJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1023352041768429108==
+--===============7782728840938302034==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: crypto/as=
+ymmetric_keys/selftest.c:186:39: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]"
+:::::: =
+
+
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: dri-devel(a)lists.freedesktop.org
-TO: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: David Howells <dhowells@redhat.com>
+CC: Simo Sorce <simo@redhat.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next-fixes
-head:   925b6e59138cefa47275c67891c65d48d3266d57
-commit: 925b6e59138cefa47275c67891c65d48d3266d57 [1/1] Revert "drm/amdgpu: =
-add drm buddy support to amdgpu"
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arc-randconfig-m031-20220707 (https://download.01.org/0day-ci/archi=
-ve/20220710/202207101212.IUo5OvzJ-lkp(a)intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   32346491ddf24599decca06190ebca03ff9de7f8
+commit: 3cde3174eb910513d32a9ec8a9b95ea59be833df certs: Add FIPS selftests
+date:   3 weeks ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-c005-20220710 (https://download.01.org/0day-ci/arch=
+ive/20220712/202207120035.QiJnYKqJ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6ce63e=
+267aab79ca87bf63453d34dd3909ab978d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D3cde3174eb910513d32a9ec8a9b95ea59be833df
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 3cde3174eb910513d32a9ec8a9b95ea59be833df
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:405 amdgpu_vram_mgr_new() warn=
-: Please consider using kvzalloc instead of kvmalloc
 
-vim +405 drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                                                   ^
+   include/linux/spinlock_api_smp.h:134:44: note: Calling 'do_raw_spin_lock'
+           LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
+                                                     ^
+   include/linux/lockdep.h:477:2: note: expanded from macro 'LOCK_CONTENDED'
+           lock(_lock)
+           ^~~~~~~~~~~
+   include/linux/spinlock.h:185:2: note: Calling 'arch_spin_lock'
+           arch_spin_lock(&lock->raw_lock);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/spinlock.h:66:7: note: Calling 'arch_spin_trylock_=
+once'
+           if (!arch_spin_trylock_once(lp))
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   arch/s390/include/asm/spinlock.h:61:52: note: Dereference of null pointer
+           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKV=
+AL));
+                                                             ^
+   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINL=
+OCK_LOCKVAL'
+   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
+                            ^
+   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   fs/xfs/xfs_aops.c:496:19: warning: Dereference of null pointer [clang-an=
+alyzer-core.NullDereference]
+           if (WARN_ON_ONCE(current->journal_info))
+                            ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/xfs_aops.c:496:19: note: Dereference of null pointer
+           if (WARN_ON_ONCE(current->journal_info))
+                            ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/linux/sched/mm.h:321:23: warning: Dereference of null pointer [c=
+lang-analyzer-core.NullDereference]
+           unsigned int flags =3D current->flags & PF_MEMALLOC_NOFS;
+                                ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   fs/xfs/xfs_aops.c:425:14: note: Calling 'memalloc_nofs_save'
+           nofs_flag =3D memalloc_nofs_save();
+                       ^~~~~~~~~~~~~~~~~~~~
+   include/linux/sched/mm.h:321:23: note: Dereference of null pointer
+           unsigned int flags =3D current->flags & PF_MEMALLOC_NOFS;
+                                ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 47 warnings (47 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   crypto/asymmetric_keys/x509_public_key.c:191:6: warning: Call to functio=
+n 'memcpy' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'memcpy_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           p =3D memcpy(desc, cert->subject, sulen);
+               ^~~~~~
+   crypto/asymmetric_keys/x509_public_key.c:191:6: note: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11
+           p =3D memcpy(desc, cert->subject, sulen);
+               ^~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+>> crypto/asymmetric_keys/selftest.c:186:39: warning: Dereference of null p=
+ointer [clang-analyzer-core.NullDereference]
+                                   GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, curren=
+t_cred(),
+                                                                     ^
+   include/linux/cred.h:299:28: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/rcupdate.h:595:31: note: expanded from macro 'rcu_derefere=
+nce_protected'
+           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:401:35: note: expanded from macro '__rcu_derefe=
+rence_protected'
+           ((typeof(*p) __force __kernel *)(p)); \
+                                            ^
+   crypto/asymmetric_keys/selftest.c:183:2: note: Left side of '&&' is true
+           pr_notice("Running certificate verification selftests\n");
+           ^
+   include/linux/printk.h:538:2: note: expanded from macro 'pr_notice'
+           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:475:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:399:7: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                       ^
+   crypto/asymmetric_keys/selftest.c:183:2: note: '?' condition is true
+           pr_notice("Running certificate verification selftests\n");
+           ^
+   include/linux/printk.h:538:2: note: expanded from macro 'pr_notice'
+           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:475:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:399:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   crypto/asymmetric_keys/selftest.c:183:2: note: Left side of '&&' is true
+           pr_notice("Running certificate verification selftests\n");
+           ^
+   include/linux/printk.h:538:2: note: expanded from macro 'pr_notice'
+           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:475:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:399:7: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                       ^
+   crypto/asymmetric_keys/selftest.c:183:2: note: Taking true branch
+           pr_notice("Running certificate verification selftests\n");
+           ^
+   include/linux/printk.h:538:2: note: expanded from macro 'pr_notice'
+           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:475:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:399:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   crypto/asymmetric_keys/selftest.c:183:2: note: '?' condition is true
+           pr_notice("Running certificate verification selftests\n");
+           ^
+   include/linux/printk.h:538:2: note: expanded from macro 'pr_notice'
+           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:475:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:408:12: note: expanded from macro '__printk_index=
+_emit'
+                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
+fmt) : NULL, \
 
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  355  =
+vim +186 crypto/asymmetric_keys/selftest.c
 
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  356  /**
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  357   * amdgpu_vra=
-m_mgr_new - allocate new ranges
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  358   *
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  359   * @man: TTM =
-memory type manager
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  360   * @tbo: TTM =
-BO we need this range for
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  361   * @place: pl=
-acement flags and restrictions
-6333a495f53347 Yifan Zhang              2021-08-26  362   * @res: the resul=
-ting mem object
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  363   *
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  364   * Allocate V=
-RAM for the given BO.
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  365   */
-9de59bc201496f Dave Airlie              2020-08-04  366  static int amdgpu_=
-vram_mgr_new(struct ttm_resource_manager *man,
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  367  			       str=
-uct ttm_buffer_object *tbo,
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  368  			       con=
-st struct ttm_place *place,
-cb1c81467af355 Christian K=C3=B6nig          2021-04-30  369  			       str=
-uct ttm_resource **res)
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  370  {
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  371  	unsigned long lpf=
-n, num_nodes, pages_per_node, pages_left, pages;
-0af135b892bf06 Dave Airlie              2020-08-04  372  	struct amdgpu_vra=
-m_mgr *mgr =3D to_vram_mgr(man);
-373627930f0208 Dave Airlie              2020-08-07  373  	struct amdgpu_dev=
-ice *adev =3D to_amdgpu_device(mgr);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  374  	uint64_t vis_usag=
-e =3D 0, mem_bytes, max_bytes;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  375  	struct ttm_range_=
-mgr_node *node;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  376  	struct drm_mm *mm=
- =3D &mgr->mm;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  377  	enum drm_mm_inser=
-t_mode mode;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  378  	unsigned i;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  379  	int r;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  380  =
+3cde3174eb9105 David Howells 2022-05-18  177  =
 
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  381  	lpfn =3D place->l=
-pfn;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  382  	if (!lpfn)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  383  		lpfn =3D man->si=
-ze >> PAGE_SHIFT;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  384  =
+3cde3174eb9105 David Howells 2022-05-18  178  int __init fips_signature_sel=
+ftest(void)
+3cde3174eb9105 David Howells 2022-05-18  179  {
+3cde3174eb9105 David Howells 2022-05-18  180  	struct key *keyring;
+3cde3174eb9105 David Howells 2022-05-18  181  	int ret, i;
+3cde3174eb9105 David Howells 2022-05-18  182  =
 
-9d1b3c78052e87 Christian K=C3=B6nig          2019-08-30  385  	max_bytes =
-=3D adev->gmc.mc_vram_size;
-9d1b3c78052e87 Christian K=C3=B6nig          2019-08-30  386  	if (tbo->typ=
-e !=3D ttm_bo_type_kernel)
-9d1b3c78052e87 Christian K=C3=B6nig          2019-08-30  387  		max_bytes -=
-=3D AMDGPU_VM_RESERVED_VRAM;
-9d1b3c78052e87 Christian K=C3=B6nig          2019-08-30  388  =
+3cde3174eb9105 David Howells 2022-05-18  183  	pr_notice("Running certifica=
+te verification selftests\n");
+3cde3174eb9105 David Howells 2022-05-18  184  =
 
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  389  	mem_bytes =3D tbo=
-->base.size;
-b4559a16467a13 Tom St Denis             2019-06-04  390  	if (place->flags =
-& TTM_PL_FLAG_CONTIGUOUS) {
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  391  		pages_per_node =
-=3D ~0ul;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  392  		num_nodes =3D 1;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  393  	} else {
-b4559a16467a13 Tom St Denis             2019-06-04  394  #ifdef CONFIG_TRAN=
-SPARENT_HUGEPAGE
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  395  		pages_per_node =
-=3D HPAGE_PMD_NR;
-b4559a16467a13 Tom St Denis             2019-06-04  396  #else
-b4559a16467a13 Tom St Denis             2019-06-04  397  		/* default to 2M=
-B */
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  398  		pages_per_node =
-=3D 2UL << (20UL - PAGE_SHIFT);
-b4559a16467a13 Tom St Denis             2019-06-04  399  #endif
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  400  		pages_per_node =
-=3D max_t(uint32_t, pages_per_node,
-c777dc9e793342 Christian K=C3=B6nig          2021-02-05  401  				       tb=
-o->page_alignment);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  402  		num_nodes =3D DI=
-V_ROUND_UP_ULL(PFN_UP(mem_bytes), pages_per_node);
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  403  	}
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  404  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08 @405  	node =3D kvmalloc=
-(struct_size(node, mm_nodes, num_nodes),
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  406  			GFP_KERNEL | __=
-GFP_ZERO);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  407  	if (!node)
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  408  		return -ENO=
-MEM;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  409  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  410  	ttm_resource_init=
-(tbo, place, &node->base);
-267501ec2b9cfa Christian K=C3=B6nig          2021-04-26  411  =
-
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  412  	/* bail out =
-quickly if there's likely not enough VRAM for this BO */
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  413  	if (ttm_reso=
-urce_manager_usage(man) > max_bytes) {
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  414  		r =3D -ENOS=
-PC;
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  415  		goto error_=
-fini;
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  416  	}
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  417  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  418  	mode =3D DRM_MM_I=
-NSERT_BEST;
-4e64e5539d152e Chris Wilson             2017-02-02  419  	if (place->flags =
-& TTM_PL_FLAG_TOPDOWN)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  420  		mode =3D DRM_MM_=
-INSERT_HIGH;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  421  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  422  	pages_left =3D no=
-de->base.num_pages;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  423  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  424  	/* Limit maximum =
-size to 2GB due to SG table limitations */
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  425  	pages =3D min(pag=
-es_left, 2UL << (30 - PAGE_SHIFT));
-433ca054949a6c Christian K=C3=B6nig          2018-09-07  426  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  427  	i =3D 0;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  428  	spin_lock(&mgr->l=
-ock);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  429  	while (pages_left=
-) {
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  430  		uint32_t alignme=
-nt =3D tbo->page_alignment;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  431  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  432  		if (pages >=3D p=
-ages_per_node)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  433  			alignment =3D p=
-ages_per_node;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  434  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  435  		r =3D drm_mm_ins=
-ert_node_in_range(mm, &node->mm_nodes[i], pages,
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  436  						alignment, 0=
-, place->fpfn,
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  437  						lpfn, mode);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  438  		if (unlikely(r))=
- {
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  439  			if (pages > pag=
-es_per_node) {
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  440  				if (is_power_o=
-f_2(pages))
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  441  					pages =3D pag=
-es / 2;
-dd03daec0ff170 Christian K=C3=B6nig          2021-04-26  442  				else
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  443  					pages =3D rou=
-nddown_pow_of_two(pages);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  444  				continue;
-dd03daec0ff170 Christian K=C3=B6nig          2021-04-26  445  			}
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  446  			goto error_free;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  447  		}
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  448  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  449  		vis_usage +=3D a=
-mdgpu_vram_mgr_vis_size(adev, &node->mm_nodes[i]);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  450  		amdgpu_vram_mgr_=
-virt_start(&node->base, &node->mm_nodes[i]);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  451  		pages_left -=3D =
-pages;
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  452  		++i;
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  453  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  454  		if (pages > page=
-s_left)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  455  			pages =3D pages=
-_left;
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  456  	}
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  457  	spin_unlock(&mgr-=
->lock);
-c9cad937c0c586 Arunpravin Paneer Selvam 2022-04-08  458  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  459  	if (i =3D=3D 1)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  460  		node->base.place=
-ment |=3D TTM_PL_FLAG_CONTIGUOUS;
-3c848bb38aca1f Christian K=C3=B6nig          2017-08-07  461  =
-
-8dbe43e99f0f62 Oak Zeng                 2021-06-28  462  	if (adev->gmc.xgm=
-i.connected_to_cpu)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  463  		node->base.bus.c=
-aching =3D ttm_cached;
-8dbe43e99f0f62 Oak Zeng                 2021-06-28  464  	else
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  465  		node->base.bus.c=
-aching =3D ttm_write_combined;
-8dbe43e99f0f62 Oak Zeng                 2021-06-28  466  =
-
-abf91e0d33166b Christian K=C3=B6nig          2021-04-27  467  	atomic64_add=
-(vis_usage, &mgr->vis_usage);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  468  	*res =3D &node->b=
-ase;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  469  	return 0;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  470  =
-
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  471  error_free:
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  472  	while (i--)
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  473  		drm_mm_remove_no=
-de(&node->mm_nodes[i]);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  474  	spin_unlock(&mgr-=
->lock);
-7db47b838896ec Christian K=C3=B6nig          2021-07-12  475  error_fini:
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  476  	ttm_resource_fini=
-(man, &node->base);
-925b6e59138cef Arunpravin Paneer Selvam 2022-07-08  477  	kvfree(node);
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  478  =
-
-58e4d686d456c3 Christian K=C3=B6nig          2020-06-16  479  	return r;
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  480  }
-6a7f76e70fac0b Christian K=C3=B6nig          2016-08-24  481  =
-
+3cde3174eb9105 David Howells 2022-05-18  185  	keyring =3D keyring_alloc(".=
+certs_selftest",
+3cde3174eb9105 David Howells 2022-05-18 @186  				GLOBAL_ROOT_UID, GLOBAL_R=
+OOT_GID, current_cred(),
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1023352041768429108==--
+--===============7782728840938302034==--
 
