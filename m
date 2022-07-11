@@ -1,57 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============5400124077250244207=="
+Content-Type: multipart/mixed; boundary="===============0787932734255916911=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7804/9472] drivers/md/dm-table.c:1601:21: warning: Value stored to 'ti' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 12 Jul 2022 05:00:58 +0800
-Message-ID: <202207120400.SvvYq0nk-lkp@intel.com>
+Subject: net/sched/sch_ets.c:680:23: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Mon, 11 Jul 2022 10:52:59 +0800
+Message-ID: <202207111005.dzzNPyUa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5400124077250244207==
+--===============0787932734255916911==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-d/dm-table.c:1601:21: warning: Value stored to 'ti' during its initializati=
-on is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: net/sched=
+/sch_ets.c:680:23: warning: Assigned value is garbage or undefined [clang-a=
+nalyzer-core.uninitialized.Assign]"
 :::::: =
 
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Mike Snitzer <snitzer@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Davide Caratti <dcaratti@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   4112a8699ae2eac797415b9be1d7901b3f79e772
-commit: 564b5c5476cdb71b717340897b2b50f9c45df158 [7804/9472] dm table: audi=
-t all dm_table_get_target() callers
-:::::: branch date: 10 hours ago
-:::::: commit date: 4 days ago
-config: s390-randconfig-c005-20220710 (https://download.01.org/0day-ci/arch=
-ive/20220712/202207120400.SvvYq0nk-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6ce63e=
-267aab79ca87bf63453d34dd3909ab978d)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   32346491ddf24599decca06190ebca03ff9de7f8
+commit: cd9b50adc6bb9ad3f7d244590a389522215865c4 net/sched: ets: fix crash =
+when flipping from 'strict' to 'quantum'
+date:   11 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220702 (https://download.01.org/0day-ci/archi=
+ve/20220711/202207111005.dzzNPyUa-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f7a80c=
+3d08d4821e621fc88d6a2e435291f82dff)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D564b5c5476cdb71b717340897b2b50f9c45df158
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 564b5c5476cdb71b717340897b2b50f9c45df158
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dcd9b50adc6bb9ad3f7d244590a389522215865c4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout cd9b50adc6bb9ad3f7d244590a389522215865c4
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
@@ -59,348 +60,667 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                                   ^
-   include/linux/lockdep.h:518:48: note: expanded from macro 'lock_acquire_=
-exclusive'
-   #define lock_acquire_exclusive(l, s, t, n, i)           lock_acquire(l, =
-s, t, 0, 1, n, i)
-                                                           ^
-   include/linux/lockdep.h:356:44: note: expanded from macro 'lock_acquire'
-   # define lock_acquire(l, s, t, r, c, n, i)      do { } while (0)
-                                                   ^
-   include/linux/spinlock_api_smp.h:111:44: note: Calling 'do_raw_spin_lock'
-           LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
-                                                     ^
-   include/linux/lockdep.h:477:2: note: expanded from macro 'LOCK_CONTENDED'
-           lock(_lock)
-           ^~~~~~~~~~~
-   include/linux/spinlock.h:185:2: note: Calling 'arch_spin_lock'
-           arch_spin_lock(&lock->raw_lock);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/spinlock.h:66:7: note: Calling 'arch_spin_trylock_=
-once'
-           if (!arch_spin_trylock_once(lp))
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   arch/s390/include/asm/spinlock.h:61:52: note: Dereference of null pointer
-           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKV=
-AL));
-                                                             ^
-   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINL=
-OCK_LOCKVAL'
-   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
-                            ^
-   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   Suppressed 49 warnings (49 in non-user code).
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   net/bluetooth/hci_request.c:3109:25: note: Taking false branch
+           struct hci_dev *hdev =3D container_of(work, struct hci_dev,
+                                  ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/bluetooth/hci_request.c:3109:25: note: Loop condition is false.  Exi=
+ting loop
+           struct hci_dev *hdev =3D container_of(work, struct hci_dev,
+                                  ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   net/bluetooth/hci_request.c:3112:2: note: 'status' declared without an i=
+nitial value
+           u8 status;
+           ^~~~~~~~~
+   net/bluetooth/hci_request.c:3116:2: note: Calling 'hci_req_sync'
+           hci_req_sync(hdev, le_scan_restart, 0, HCI_CMD_TIMEOUT, &status);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_request.c:281:6: note: Assuming the condition is false
+           if (test_bit(HCI_UP, &hdev->flags))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_request.c:281:2: note: Taking false branch
+           if (test_bit(HCI_UP, &hdev->flags))
+           ^
+   net/bluetooth/hci_request.c:287:2: note: Returning without writing to '*=
+hci_status'
+           return ret;
+           ^
+   net/bluetooth/hci_request.c:3116:2: note: Returning from 'hci_req_sync'
+           hci_req_sync(hdev, le_scan_restart, 0, HCI_CMD_TIMEOUT, &status);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_request.c:3117:6: note: Branch condition evaluates to =
+a garbage value
+           if (status) {
+               ^~~~~~
+   Suppressed 17 warnings (17 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   75 warnings generated.
-   drivers/md/dm-table.c:118:2: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(n_highs, -1, sizeof(*n_highs) * num);
-           ^~~~~~
-   drivers/md/dm-table.c:118:2: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-           memset(n_highs, -1, sizeof(*n_highs) * num);
-           ^~~~~~
-   drivers/md/dm-table.c:357:6: warning: Call to function 'sscanf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           if (sscanf(path, "%u:%u%c", &major, &minor, &dummy) =3D=3D 2) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-table.c:357:6: note: Call to function 'sscanf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'sscanf_s' in case of C11
-           if (sscanf(path, "%u:%u%c", &major, &minor, &dummy) =3D=3D 2) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-table.c:488:3: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(argv, old_argv, *size * sizeof(*argv));
-                   ^~~~~~
-   drivers/md/dm-table.c:488:3: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-                   memcpy(argv, old_argv, *size * sizeof(*argv));
-                   ^~~~~~
-   drivers/md/dm-table.c:649:2: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(tgt, 0, sizeof(*tgt));
-           ^~~~~~
-   drivers/md/dm-table.c:649:2: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-           memset(tgt, 0, sizeof(*tgt));
-           ^~~~~~
-   drivers/md/dm-table.c:743:7: warning: Call to function 'sscanf' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-               (sscanf(arg_str, "%u%c", value, &dummy) !=3D 1) ||
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-table.c:743:7: note: Call to function 'sscanf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'sscanf_s' in case of C11
-               (sscanf(arg_str, "%u%c", value, &dummy) !=3D 1) ||
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-table.c:1310:2: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(profile->modes_supported, 0xFF,
-           ^~~~~~
-   drivers/md/dm-table.c:1310:2: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-           memset(profile->modes_supported, 0xFF,
-           ^~~~~~
->> drivers/md/dm-table.c:1601:21: warning: Value stored to 'ti' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   struct dm_target *ti =3D dm_table_get_target(t, i);
-                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-table.c:1601:21: note: Value stored to 'ti' during its ini=
-tialization is never read
-                   struct dm_target *ti =3D dm_table_get_target(t, i);
-                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 64 warnings (52 in non-user code, 12 with check filters).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   58 warnings generated.
-   arch/s390/include/asm/spinlock.h:61:52: warning: Dereference of null poi=
-nter [clang-analyzer-core.NullDereference]
-           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKV=
-AL));
-                                                             ^
-   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINL=
-OCK_LOCKVAL'
-   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
-                            ^
-   drivers/md/bcache/alloc.c:625:2: note: Calling 'spin_lock'
-           spin_lock(&c->data_bucket_lock);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:349:2: note: Calling '__raw_spin_lock'
-           raw_spin_lock(&lock->rlock);
+   17 warnings generated.
+   net/sched/sch_teql.c:249:4: warning: Value stored to 'err' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   net/sched/sch_teql.c:249:4: note: Value stored to 'err' is never read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   net/sched/sch_atm.c:89:25: warning: Value stored to 'p' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   net/sched/sch_atm.c:89:25: note: Value stored to 'p' during its initiali=
+zation is never read
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   net/sched/sch_atm.c:388:2: warning: Value stored to 'result' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           result =3D TC_ACT_OK;     /* be nice to gcc */
            ^
-   include/linux/spinlock.h:215:29: note: expanded from macro 'raw_spin_loc=
-k'
-   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-                                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_api_smp.h:47:30: note: expanded from macro '_raw_=
-spin_lock'
-   #define _raw_spin_lock(lock) __raw_spin_lock(lock)
-                                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_api_smp.h:133:2: note: Loop condition is false.  =
-Exiting loop
-           spin_acquire(&lock->dep_map, 0, 0, _RET_IP_);
+   net/sched/sch_atm.c:388:2: note: Value stored to 'result' is never read
+   net/sched/sch_atm.c:604:25: warning: Value stored to 'p' during its init=
+ialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   net/sched/sch_atm.c:604:25: note: Value stored to 'p' during its initial=
+ization is never read
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> net/sched/sch_ets.c:680:23: warning: Assigned value is garbage or undefi=
+ned [clang-analyzer-core.uninitialized.Assign]
+                   q->classes[i].qdisc =3D queues[i];
+                                       ^
+   net/sched/sch_ets.c:701:6: note: Assuming 'opt' is non-null
+           if (!opt)
+               ^~~~
+   net/sched/sch_ets.c:701:2: note: Taking false branch
+           if (!opt)
            ^
-   include/linux/lockdep.h:522:35: note: expanded from macro 'spin_acquire'
-   #define spin_acquire(l, s, t, i)                lock_acquire_exclusive(l=
-, s, t, NULL, i)
-                                                   ^
-   include/linux/lockdep.h:518:48: note: expanded from macro 'lock_acquire_=
-exclusive'
-   #define lock_acquire_exclusive(l, s, t, n, i)           lock_acquire(l, =
-s, t, 0, 1, n, i)
-                                                           ^
-   include/linux/lockdep.h:356:44: note: expanded from macro 'lock_acquire'
-   # define lock_acquire(l, s, t, r, c, n, i)      do { } while (0)
-                                                   ^
-   include/linux/spinlock_api_smp.h:134:44: note: Calling 'do_raw_spin_lock'
-           LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
-                                                     ^
-   include/linux/lockdep.h:477:2: note: expanded from macro 'LOCK_CONTENDED'
-           lock(_lock)
-           ^~~~~~~~~~~
-   include/linux/spinlock.h:185:2: note: Calling 'arch_spin_lock'
-           arch_spin_lock(&lock->raw_lock);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/spinlock.h:66:7: note: Calling 'arch_spin_trylock_=
-once'
-           if (!arch_spin_trylock_once(lp))
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   arch/s390/include/asm/spinlock.h:61:52: note: Dereference of null pointer
-           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKV=
-AL));
-                                                             ^
-   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINL=
-OCK_LOCKVAL'
-   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
-                            ^
-   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   drivers/md/bcache/alloc.c:192:30: warning: Access to field 'prio' result=
-s in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-                   else if (bucket_max_cmp(b, heap_peek(&ca->heap))) {
-                                              ^
-   drivers/md/bcache/util.h:110:22: note: expanded from macro 'heap_peek'
-   #define heap_peek(h)    ((h)->used ? (h)->data[0] : NULL)
-                           ^
-   drivers/md/bcache/alloc.c:176:60: note: expanded from macro 'bucket_max_=
-cmp'
-   #define bucket_max_cmp(l, r)    (bucket_prio(l) < bucket_prio(r))
-                                                                 ^
-   drivers/md/bcache/alloc.c:173:3: note: expanded from macro 'bucket_prio'
-           (b->prio - ca->set->min_prio + min_prio) * GC_SECTORS_USED(b);  \
-            ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/bcache/alloc.c:186:18: note: Assuming the condition is true
-           for_each_bucket(b, ca) {
-                           ^
-   drivers/md/bcache/bcache.h:889:7: note: expanded from macro 'for_each_bu=
-cket'
-                b < (ca)->buckets + (ca)->sb.nbuckets; b++)
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/alloc.c:186:2: note: Loop condition is true.  Entering=
- loop body
-           for_each_bucket(b, ca) {
+   net/sched/sch_ets.c:704:8: note: Value assigned to field 'nbands'
+           err =3D tcf_block_get(&q->block, &q->filter_list, sch, extack);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:705:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   net/sched/sch_ets.c:705:2: note: Taking false branch
+           if (err)
            ^
-   drivers/md/bcache/bcache.h:888:2: note: expanded from macro 'for_each_bu=
-cket'
-           for (b =3D (ca)->buckets + (ca)->sb.first_bucket;               =
-  \
+   net/sched/sch_ets.c:709:9: note: Calling 'ets_qdisc_change'
+           return ets_qdisc_change(sch, opt, extack);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:591:2: note: 'oldbands' initialized here
+           unsigned int oldbands =3D q->nbands;
+           ^~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:598:7: note: 'opt' is non-null
+           if (!opt) {
+                ^~~
+   net/sched/sch_ets.c:598:2: note: Taking false branch
+           if (!opt) {
            ^
-   drivers/md/bcache/alloc.c:187:7: note: Assuming the condition is false
-                   if (!bch_can_invalidate_bucket(ca, b))
+   net/sched/sch_ets.c:603:8: note: Calling 'nla_parse_nested'
+           err =3D nla_parse_nested(tb, TCA_ETS_MAX, opt, ets_policy, extac=
+k);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1207:6: note: Assuming the condition is false
+           if (!(nla->nla_type & NLA_F_NESTED)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1207:2: note: Taking false branch
+           if (!(nla->nla_type & NLA_F_NESTED)) {
+           ^
+   include/net/netlink.h:1212:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/sch_ets.c:603:8: note: Returning from 'nla_parse_nested'
+           err =3D nla_parse_nested(tb, TCA_ETS_MAX, opt, ets_policy, extac=
+k);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:604:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/sch_ets.c:604:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/sch_ets.c:607:6: note: Assuming the condition is false
+           if (!tb[TCA_ETS_NBANDS]) {
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:607:2: note: Taking false branch
+           if (!tb[TCA_ETS_NBANDS]) {
+           ^
+   net/sched/sch_ets.c:612:6: note: Assuming 'nbands' is >=3D 1
+           if (nbands < 1 || nbands > TCQ_ETS_MAX_BANDS) {
+               ^~~~~~~~~~
+   net/sched/sch_ets.c:612:6: note: Left side of '||' is false
+   net/sched/sch_ets.c:612:20: note: Assuming 'nbands' is <=3D TCQ_ETS_MAX_=
+BANDS
+           if (nbands < 1 || nbands > TCQ_ETS_MAX_BANDS) {
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:612:2: note: Taking false branch
+           if (nbands < 1 || nbands > TCQ_ETS_MAX_BANDS) {
+           ^
+   net/sched/sch_ets.c:619:6: note: Assuming the condition is false
+           if (tb[TCA_ETS_NSTRICT]) {
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:619:2: note: Taking false branch
+           if (tb[TCA_ETS_NSTRICT]) {
+           ^
+   net/sched/sch_ets.c:627:6: note: Assuming the condition is false
+           if (tb[TCA_ETS_PRIOMAP]) {
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:627:2: note: Taking false branch
+           if (tb[TCA_ETS_PRIOMAP]) {
+           ^
+   net/sched/sch_ets.c:634:6: note: Assuming the condition is false
+           if (tb[TCA_ETS_QUANTA]) {
+               ^~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:634:2: note: Taking false branch
+           if (tb[TCA_ETS_QUANTA]) {
+           ^
+   net/sched/sch_ets.c:643:20: note: 'i' is < 'nbands'
+           for (i =3D nstrict; i < nbands; i++) {
+                             ^
+   net/sched/sch_ets.c:643:2: note: Loop condition is true.  Entering loop =
+body
+           for (i =3D nstrict; i < nbands; i++) {
+           ^
+   net/sched/sch_ets.c:644:3: note: Taking true branch
+                   if (!quanta[i])
+                   ^
+   net/sched/sch_ets.c:643:20: note: Assuming 'i' is >=3D 'nbands'
+           for (i =3D nstrict; i < nbands; i++) {
+                             ^~~~~~~~~~
+   net/sched/sch_ets.c:643:2: note: Loop condition is false. Execution cont=
+inues on line 649
+           for (i =3D nstrict; i < nbands; i++) {
+           ^
+   net/sched/sch_ets.c:649:21: note: Assuming 'i' is >=3D 'nbands'
+--
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   net/bluetooth/hci_request.c:3109:25: note: Taking false branch
+           struct hci_dev *hdev =3D container_of(work, struct hci_dev,
+                                  ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/bluetooth/hci_request.c:3109:25: note: Loop condition is false.  Exi=
+ting loop
+           struct hci_dev *hdev =3D container_of(work, struct hci_dev,
+                                  ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   net/bluetooth/hci_request.c:3112:2: note: 'status' declared without an i=
+nitial value
+           u8 status;
+           ^~~~~~~~~
+   net/bluetooth/hci_request.c:3116:2: note: Calling 'hci_req_sync'
+           hci_req_sync(hdev, le_scan_restart, 0, HCI_CMD_TIMEOUT, &status);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_request.c:281:6: note: Assuming the condition is false
+           if (test_bit(HCI_UP, &hdev->flags))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_request.c:281:2: note: Taking false branch
+           if (test_bit(HCI_UP, &hdev->flags))
+           ^
+   net/bluetooth/hci_request.c:287:2: note: Returning without writing to '*=
+hci_status'
+           return ret;
+           ^
+   net/bluetooth/hci_request.c:3116:2: note: Returning from 'hci_req_sync'
+           hci_req_sync(hdev, le_scan_restart, 0, HCI_CMD_TIMEOUT, &status);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_request.c:3117:6: note: Branch condition evaluates to =
+a garbage value
+           if (status) {
+               ^~~~~~
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   net/sched/sch_teql.c:249:4: warning: Value stored to 'err' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   net/sched/sch_teql.c:249:4: note: Value stored to 'err' is never read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   net/sched/sch_atm.c:89:25: warning: Value stored to 'p' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   net/sched/sch_atm.c:89:25: note: Value stored to 'p' during its initiali=
+zation is never read
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   net/sched/sch_atm.c:388:2: warning: Value stored to 'result' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           result =3D TC_ACT_OK;     /* be nice to gcc */
+           ^
+   net/sched/sch_atm.c:388:2: note: Value stored to 'result' is never read
+   net/sched/sch_atm.c:604:25: warning: Value stored to 'p' during its init=
+ialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   net/sched/sch_atm.c:604:25: note: Value stored to 'p' during its initial=
+ization is never read
+           struct atm_qdisc_data *p =3D qdisc_priv(sch);
+                                  ^   ~~~~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> net/sched/sch_ets.c:680:23: warning: Assigned value is garbage or undefi=
+ned [clang-analyzer-core.uninitialized.Assign]
+                   q->classes[i].qdisc =3D queues[i];
+                                       ^
+   net/sched/sch_ets.c:701:6: note: Assuming 'opt' is non-null
+           if (!opt)
+               ^~~~
+   net/sched/sch_ets.c:701:2: note: Taking false branch
+           if (!opt)
+           ^
+   net/sched/sch_ets.c:704:8: note: Value assigned to field 'nbands'
+           err =3D tcf_block_get(&q->block, &q->filter_list, sch, extack);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:705:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   net/sched/sch_ets.c:705:2: note: Taking false branch
+           if (err)
+           ^
+   net/sched/sch_ets.c:709:9: note: Calling 'ets_qdisc_change'
+           return ets_qdisc_change(sch, opt, extack);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:591:2: note: 'oldbands' initialized here
+           unsigned int oldbands =3D q->nbands;
+           ^~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:598:7: note: 'opt' is non-null
+           if (!opt) {
+                ^~~
+   net/sched/sch_ets.c:598:2: note: Taking false branch
+           if (!opt) {
+           ^
+   net/sched/sch_ets.c:603:8: note: Calling 'nla_parse_nested'
+           err =3D nla_parse_nested(tb, TCA_ETS_MAX, opt, ets_policy, extac=
+k);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1207:6: note: Assuming the condition is false
+           if (!(nla->nla_type & NLA_F_NESTED)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1207:2: note: Taking false branch
+           if (!(nla->nla_type & NLA_F_NESTED)) {
+           ^
+   include/net/netlink.h:1212:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/sch_ets.c:603:8: note: Returning from 'nla_parse_nested'
+           err =3D nla_parse_nested(tb, TCA_ETS_MAX, opt, ets_policy, extac=
+k);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:604:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/sch_ets.c:604:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/sch_ets.c:607:6: note: Assuming the condition is false
+           if (!tb[TCA_ETS_NBANDS]) {
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:607:2: note: Taking false branch
+           if (!tb[TCA_ETS_NBANDS]) {
+           ^
+   net/sched/sch_ets.c:612:6: note: Assuming 'nbands' is >=3D 1
+           if (nbands < 1 || nbands > TCQ_ETS_MAX_BANDS) {
+               ^~~~~~~~~~
+   net/sched/sch_ets.c:612:6: note: Left side of '||' is false
+   net/sched/sch_ets.c:612:20: note: Assuming 'nbands' is <=3D TCQ_ETS_MAX_=
+BANDS
+           if (nbands < 1 || nbands > TCQ_ETS_MAX_BANDS) {
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:612:2: note: Taking false branch
+           if (nbands < 1 || nbands > TCQ_ETS_MAX_BANDS) {
+           ^
+   net/sched/sch_ets.c:619:6: note: Assuming the condition is false
+           if (tb[TCA_ETS_NSTRICT]) {
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:619:2: note: Taking false branch
+           if (tb[TCA_ETS_NSTRICT]) {
+           ^
+   net/sched/sch_ets.c:627:6: note: Assuming the condition is false
+           if (tb[TCA_ETS_PRIOMAP]) {
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:627:2: note: Taking false branch
+           if (tb[TCA_ETS_PRIOMAP]) {
+           ^
+   net/sched/sch_ets.c:634:6: note: Assuming the condition is false
+           if (tb[TCA_ETS_QUANTA]) {
+               ^~~~~~~~~~~~~~~~~~
+   net/sched/sch_ets.c:634:2: note: Taking false branch
+           if (tb[TCA_ETS_QUANTA]) {
+           ^
+   net/sched/sch_ets.c:643:20: note: 'i' is < 'nbands'
+           for (i =3D nstrict; i < nbands; i++) {
+                             ^
+   net/sched/sch_ets.c:643:2: note: Loop condition is true.  Entering loop =
+body
+           for (i =3D nstrict; i < nbands; i++) {
+           ^
+   net/sched/sch_ets.c:644:3: note: Taking true branch
+                   if (!quanta[i])
+                   ^
+   net/sched/sch_ets.c:643:20: note: Assuming 'i' is >=3D 'nbands'
+           for (i =3D nstrict; i < nbands; i++) {
+                             ^~~~~~~~~~
+   net/sched/sch_ets.c:643:2: note: Loop condition is false. Execution cont=
+inues on line 649
+           for (i =3D nstrict; i < nbands; i++) {
+           ^
+   net/sched/sch_ets.c:649:21: note: Assuming 'i' is >=3D 'nbands'
 
-vim +/ti +1601 drivers/md/dm-table.c
+vim +680 net/sched/sch_ets.c
 
-dd88d313bef027 Damien Le Moal       2017-05-08  1589  =
+dcc68b4d8084e1 Petr Machata   2019-12-18  583  =
 
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1590  /*
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1591   * Check the device z=
-oned model based on the target feature flag. If the target
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1592   * has the DM_TARGET_=
-ZONED_HM feature flag set, host-managed zoned devices are
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1593   * also accepted but =
-all devices must have the same zoned model. If the target
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1594   * has the DM_TARGET_=
-MIXED_ZONED_MODEL feature set, the devices can have any
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1595   * zoned model with a=
-ll zoned devices having the same zone size.
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1596   */
-dd88d313bef027 Damien Le Moal       2017-05-08  1597  static bool dm_table_=
-supports_zoned_model(struct dm_table *t,
-dd88d313bef027 Damien Le Moal       2017-05-08  1598  					  enum blk_zoned=
-_model zoned_model)
-dd88d313bef027 Damien Le Moal       2017-05-08  1599  {
-564b5c5476cdb7 Mike Snitzer         2022-07-05  1600  	for (unsigned int i =
-=3D 0; i < t->num_targets; i++) {
-564b5c5476cdb7 Mike Snitzer         2022-07-05 @1601  		struct dm_target *t=
-i =3D dm_table_get_target(t, i);
-dd88d313bef027 Damien Le Moal       2017-05-08  1602  =
+dcc68b4d8084e1 Petr Machata   2019-12-18  584  static int ets_qdisc_change(=
+struct Qdisc *sch, struct nlattr *opt,
+dcc68b4d8084e1 Petr Machata   2019-12-18  585  			    struct netlink_ext_ac=
+k *extack)
+dcc68b4d8084e1 Petr Machata   2019-12-18  586  {
+dcc68b4d8084e1 Petr Machata   2019-12-18  587  	unsigned int quanta[TCQ_ETS=
+_MAX_BANDS] =3D {0};
+dcc68b4d8084e1 Petr Machata   2019-12-18  588  	struct Qdisc *queues[TCQ_ET=
+S_MAX_BANDS];
+dcc68b4d8084e1 Petr Machata   2019-12-18  589  	struct ets_sched *q =3D qdi=
+sc_priv(sch);
+dcc68b4d8084e1 Petr Machata   2019-12-18  590  	struct nlattr *tb[TCA_ETS_M=
+AX + 1];
+dcc68b4d8084e1 Petr Machata   2019-12-18  591  	unsigned int oldbands =3D q=
+->nbands;
+dcc68b4d8084e1 Petr Machata   2019-12-18  592  	u8 priomap[TC_PRIO_MAX + 1];
+dcc68b4d8084e1 Petr Machata   2019-12-18  593  	unsigned int nstrict =3D 0;
+dcc68b4d8084e1 Petr Machata   2019-12-18  594  	unsigned int nbands;
+dcc68b4d8084e1 Petr Machata   2019-12-18  595  	unsigned int i;
+dcc68b4d8084e1 Petr Machata   2019-12-18  596  	int err;
+dcc68b4d8084e1 Petr Machata   2019-12-18  597  =
 
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1603  		if (dm_target_suppo=
-rts_zoned_hm(ti->type)) {
-dd88d313bef027 Damien Le Moal       2017-05-08  1604  			if (!ti->type->ite=
-rate_devices ||
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1605  			    ti->type->iter=
-ate_devices(ti, device_not_zoned_model,
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1606  						      &zoned_mo=
-del))
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1607  				return false;
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1608  		} else if (!dm_targ=
-et_supports_mixed_zoned_model(ti->type)) {
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1609  			if (zoned_model =
-=3D=3D BLK_ZONED_HM)
-dd88d313bef027 Damien Le Moal       2017-05-08  1610  				return false;
-dd88d313bef027 Damien Le Moal       2017-05-08  1611  		}
-2d669ceb69c276 Shin'ichiro Kawasaki 2021-03-16  1612  	}
-dd88d313bef027 Damien Le Moal       2017-05-08  1613  =
+dcc68b4d8084e1 Petr Machata   2019-12-18  598  	if (!opt) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  599  		NL_SET_ERR_MSG(extack, "ET=
+S options are required for this operation");
+dcc68b4d8084e1 Petr Machata   2019-12-18  600  		return -EINVAL;
+dcc68b4d8084e1 Petr Machata   2019-12-18  601  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  602  =
 
-dd88d313bef027 Damien Le Moal       2017-05-08  1614  	return true;
-dd88d313bef027 Damien Le Moal       2017-05-08  1615  }
-dd88d313bef027 Damien Le Moal       2017-05-08  1616  =
+dcc68b4d8084e1 Petr Machata   2019-12-18  603  	err =3D nla_parse_nested(tb=
+, TCA_ETS_MAX, opt, ets_policy, extack);
+dcc68b4d8084e1 Petr Machata   2019-12-18  604  	if (err < 0)
+dcc68b4d8084e1 Petr Machata   2019-12-18  605  		return err;
+dcc68b4d8084e1 Petr Machata   2019-12-18  606  =
 
+dcc68b4d8084e1 Petr Machata   2019-12-18  607  	if (!tb[TCA_ETS_NBANDS]) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  608  		NL_SET_ERR_MSG_MOD(extack,=
+ "Number of bands is a required argument");
+dcc68b4d8084e1 Petr Machata   2019-12-18  609  		return -EINVAL;
+dcc68b4d8084e1 Petr Machata   2019-12-18  610  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  611  	nbands =3D nla_get_u8(tb[TC=
+A_ETS_NBANDS]);
+dcc68b4d8084e1 Petr Machata   2019-12-18  612  	if (nbands < 1 || nbands > =
+TCQ_ETS_MAX_BANDS) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  613  		NL_SET_ERR_MSG_MOD(extack,=
+ "Invalid number of bands");
+dcc68b4d8084e1 Petr Machata   2019-12-18  614  		return -EINVAL;
+dcc68b4d8084e1 Petr Machata   2019-12-18  615  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  616  	/* Unless overridden, traff=
+ic goes to the last band. */
+dcc68b4d8084e1 Petr Machata   2019-12-18  617  	memset(priomap, nbands - 1,=
+ sizeof(priomap));
+dcc68b4d8084e1 Petr Machata   2019-12-18  618  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  619  	if (tb[TCA_ETS_NSTRICT]) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  620  		nstrict =3D nla_get_u8(tb[=
+TCA_ETS_NSTRICT]);
+dcc68b4d8084e1 Petr Machata   2019-12-18  621  		if (nstrict > nbands) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  622  			NL_SET_ERR_MSG_MOD(extack=
+, "Invalid number of strict bands");
+dcc68b4d8084e1 Petr Machata   2019-12-18  623  			return -EINVAL;
+dcc68b4d8084e1 Petr Machata   2019-12-18  624  		}
+dcc68b4d8084e1 Petr Machata   2019-12-18  625  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  626  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  627  	if (tb[TCA_ETS_PRIOMAP]) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  628  		err =3D ets_qdisc_priomap_=
+parse(tb[TCA_ETS_PRIOMAP],
+dcc68b4d8084e1 Petr Machata   2019-12-18  629  					      nbands, priomap, =
+extack);
+dcc68b4d8084e1 Petr Machata   2019-12-18  630  		if (err)
+dcc68b4d8084e1 Petr Machata   2019-12-18  631  			return err;
+dcc68b4d8084e1 Petr Machata   2019-12-18  632  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  633  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  634  	if (tb[TCA_ETS_QUANTA]) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  635  		err =3D ets_qdisc_quanta_p=
+arse(sch, tb[TCA_ETS_QUANTA],
+dcc68b4d8084e1 Petr Machata   2019-12-18  636  					     nbands, nstrict, q=
+uanta, extack);
+dcc68b4d8084e1 Petr Machata   2019-12-18  637  		if (err)
+dcc68b4d8084e1 Petr Machata   2019-12-18  638  			return err;
+dcc68b4d8084e1 Petr Machata   2019-12-18  639  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  640  	/* If there are more bands =
+than strict + quanta provided, the remaining
+dcc68b4d8084e1 Petr Machata   2019-12-18  641  	 * ones are ETS with quantu=
+m of MTU. Initialize the missing values here.
+dcc68b4d8084e1 Petr Machata   2019-12-18  642  	 */
+dcc68b4d8084e1 Petr Machata   2019-12-18  643  	for (i =3D nstrict; i < nba=
+nds; i++) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  644  		if (!quanta[i])
+dcc68b4d8084e1 Petr Machata   2019-12-18  645  			quanta[i] =3D psched_mtu(=
+qdisc_dev(sch));
+dcc68b4d8084e1 Petr Machata   2019-12-18  646  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  647  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  648  	/* Before commit, make sure=
+ we can allocate all new qdiscs */
+dcc68b4d8084e1 Petr Machata   2019-12-18  649  	for (i =3D oldbands; i < nb=
+ands; i++) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  650  		queues[i] =3D qdisc_create=
+_dflt(sch->dev_queue, &pfifo_qdisc_ops,
+dcc68b4d8084e1 Petr Machata   2019-12-18  651  					      ets_class_id(sch,=
+ &q->classes[i]),
+dcc68b4d8084e1 Petr Machata   2019-12-18  652  					      extack);
+dcc68b4d8084e1 Petr Machata   2019-12-18  653  		if (!queues[i]) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  654  			while (i > oldbands)
+dcc68b4d8084e1 Petr Machata   2019-12-18  655  				qdisc_put(queues[--i]);
+dcc68b4d8084e1 Petr Machata   2019-12-18  656  			return -ENOMEM;
+dcc68b4d8084e1 Petr Machata   2019-12-18  657  		}
+dcc68b4d8084e1 Petr Machata   2019-12-18  658  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  659  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  660  	sch_tree_lock(sch);
+dcc68b4d8084e1 Petr Machata   2019-12-18  661  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  662  	q->nbands =3D nbands;
+cd9b50adc6bb9a Davide Caratti 2021-08-25  663  	for (i =3D nstrict; i < q->=
+nstrict; i++) {
+cd9b50adc6bb9a Davide Caratti 2021-08-25  664  		INIT_LIST_HEAD(&q->classes=
+[i].alist);
+cd9b50adc6bb9a Davide Caratti 2021-08-25  665  		if (q->classes[i].qdisc->q=
+.qlen) {
+cd9b50adc6bb9a Davide Caratti 2021-08-25  666  			list_add_tail(&q->classes=
+[i].alist, &q->active);
+cd9b50adc6bb9a Davide Caratti 2021-08-25  667  			q->classes[i].deficit =3D=
+ quanta[i];
+cd9b50adc6bb9a Davide Caratti 2021-08-25  668  		}
+cd9b50adc6bb9a Davide Caratti 2021-08-25  669  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  670  	q->nstrict =3D nstrict;
+dcc68b4d8084e1 Petr Machata   2019-12-18  671  	memcpy(q->prio2band, prioma=
+p, sizeof(priomap));
+dcc68b4d8084e1 Petr Machata   2019-12-18  672  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  673  	for (i =3D q->nbands; i < o=
+ldbands; i++)
+dcc68b4d8084e1 Petr Machata   2019-12-18  674  		qdisc_tree_flush_backlog(q=
+->classes[i].qdisc);
+dcc68b4d8084e1 Petr Machata   2019-12-18  675  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  676  	for (i =3D 0; i < q->nbands=
+; i++)
+dcc68b4d8084e1 Petr Machata   2019-12-18  677  		q->classes[i].quantum =3D =
+quanta[i];
+dcc68b4d8084e1 Petr Machata   2019-12-18  678  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  679  	for (i =3D oldbands; i < q-=
+>nbands; i++) {
+dcc68b4d8084e1 Petr Machata   2019-12-18 @680  		q->classes[i].qdisc =3D qu=
+eues[i];
+dcc68b4d8084e1 Petr Machata   2019-12-18  681  		if (q->classes[i].qdisc !=
+=3D &noop_qdisc)
+dcc68b4d8084e1 Petr Machata   2019-12-18  682  			qdisc_hash_add(q->classes=
+[i].qdisc, true);
+dcc68b4d8084e1 Petr Machata   2019-12-18  683  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  684  =
+
+dcc68b4d8084e1 Petr Machata   2019-12-18  685  	sch_tree_unlock(sch);
+dcc68b4d8084e1 Petr Machata   2019-12-18  686  =
+
+d35eb52bd2ac75 Petr Machata   2019-12-18  687  	ets_offload_change(sch);
+dcc68b4d8084e1 Petr Machata   2019-12-18  688  	for (i =3D q->nbands; i < o=
+ldbands; i++) {
+dcc68b4d8084e1 Petr Machata   2019-12-18  689  		qdisc_put(q->classes[i].qd=
+isc);
+dcc68b4d8084e1 Petr Machata   2019-12-18  690  		memset(&q->classes[i], 0, =
+sizeof(q->classes[i]));
+dcc68b4d8084e1 Petr Machata   2019-12-18  691  	}
+dcc68b4d8084e1 Petr Machata   2019-12-18  692  	return 0;
+dcc68b4d8084e1 Petr Machata   2019-12-18  693  }
+dcc68b4d8084e1 Petr Machata   2019-12-18  694  =
+
+
+:::::: The code at line 680 was first introduced by commit
+:::::: dcc68b4d8084e1ac9af0d4022d6b1aff6a139a33 net: sch_ets: Add a new Qdi=
+sc
+
+:::::: TO: Petr Machata <petrm@mellanox.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5400124077250244207==--
+--===============0787932734255916911==--
 
