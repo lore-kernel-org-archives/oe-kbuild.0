@@ -1,450 +1,173 @@
-Content-Type: multipart/mixed; boundary="===============2956835745554003063=="
+Content-Type: multipart/mixed; boundary="===============6926248475048156541=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/kunit/executor.c:80:10: warning: Potential leak of memory pointed to by 'copy' [clang-analyzer-unix.Malloc]
-Date: Tue, 12 Jul 2022 08:23:42 +0800
-Message-ID: <202207120840.9F6TBqZD-lkp@intel.com>
+Subject: [hch-misc:mdev-lifetime 14/14] drivers/vfio/mdev/mdev_core.c:152:6-25: atomic_dec_and_test variation before object free at line 206.
+Date: Tue, 12 Jul 2022 08:23:41 +0800
+Message-ID: <202207120849.HZLcpDXA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2956835745554003063==
+--===============6926248475048156541==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: lib/kunit=
-/executor.c:80:10: warning: Potential leak of memory pointed to by 'copy' [=
-clang-analyzer-unix.Malloc]"
-:::::: =
-
-
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Latypov <dlatypov@google.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: Brendan Higgins <brendanhiggins@google.com>
+TO: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5a29232d870d9e63fe5ff30b081be6ea7cc2465d
-commit: a02353f491622e49c7ddedc6a6dc4f1d6ed2150a kunit: bail out of test fi=
-ltering logic quicker if OOM
-date:   9 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-c006-20220707 (https://download.01.org/0day-ci/arc=
-hive/20220712/202207120840.9F6TBqZD-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 77a38f=
-6839980bfac61babb40d83772c51427011)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da02353f491622e49c7ddedc6a6dc4f1d6ed2150a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a02353f491622e49c7ddedc6a6dc4f1d6ed2150a
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   git://git.infradead.org/users/hch/misc.git mdev-lifetime
+head:   03b6aa0be2bb8ac3cd69a3078a27d454a5f948f4
+commit: 03b6aa0be2bb8ac3cd69a3078a27d454a5f948f4 [14/14] vfio/mdev: add mde=
+v available instance checking to the core
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: nios2-randconfig-c023-20220710 (https://download.01.org/0day-ci/arc=
+hive/20220712/202207120849.HZLcpDXA-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~
-   crypto/gcm.c:946:2: note: Call to function 'memcpy' is insecure as it do=
-es not provide security checks introduced in the C11 standard. Replace with=
- analogous functions that support length arguments or provides boundary che=
-cks such as 'memcpy_s' in case of C11
-           memcpy(iv + 4, req->iv, 8);
-           ^~~~~~
-   crypto/gcm.c:1078:6: warning: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-           if (snprintf(inst->alg.base.cra_name, CRYPTO_MAX_ALG_NAME,
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/gcm.c:1078:6: note: Call to function 'snprintf' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'snprintf_s' in case of C11
-           if (snprintf(inst->alg.base.cra_name, CRYPTO_MAX_ALG_NAME,
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/gcm.c:1081:6: warning: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.inse=
-cureAPI.DeprecatedOrUnsafeBufferHandling]
-               snprintf(inst->alg.base.cra_driver_name, CRYPTO_MAX_ALG_NAME,
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/gcm.c:1081:6: note: Call to function 'snprintf' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'snprintf_s' in case of C11
-               snprintf(inst->alg.base.cra_driver_name, CRYPTO_MAX_ALG_NAME,
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   Suppressed 46 warnings (46 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   lib/kunit/string-stream.c:85:8: warning: Call to function 'vsnprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len =3D vsnprintf(NULL, 0, fmt, args_for_counting) + 1;
-                 ^~~~~~~~~
-   lib/kunit/string-stream.c:85:8: note: Call to function 'vsnprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'vsnprintf_s' in case of C11
-           len =3D vsnprintf(NULL, 0, fmt, args_for_counting) + 1;
-                 ^~~~~~~~~
-   lib/kunit/string-stream.c:95:8: warning: Call to function 'vsnprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'vsnprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len =3D vsnprintf(frag_container->fragment, len, fmt, args);
-                 ^~~~~~~~~
-   lib/kunit/string-stream.c:95:8: note: Call to function 'vsnprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'vsnprintf_s' in case of C11
-           len =3D vsnprintf(frag_container->fragment, len, fmt, args);
-                 ^~~~~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   lib/kunit/assert.c:99:8: warning: Call to function 'snprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           len =3D snprintf(NULL, 0, "%lld", value);
-                 ^~~~~~~~
-   lib/kunit/assert.c:99:8: note: Call to function 'snprintf' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'snprintf_s' in case of C11
-           len =3D snprintf(NULL, 0, "%lld", value);
-                 ^~~~~~~~
-   lib/kunit/assert.c:107:2: warning: Call to function 'snprintf' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(buffer, len+1, "%lld", value);
-           ^~~~~~~~
-   lib/kunit/assert.c:107:2: note: Call to function 'snprintf' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'snprintf_s' in case of C11
-           snprintf(buffer, len+1, "%lld", value);
-           ^~~~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   lib/kunit/executor.c:45:3: warning: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(parsed->suite_glob, filter_glob);
-                   ^~~~~~
-   lib/kunit/executor.c:45:3: note: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119
-                   strcpy(parsed->suite_glob, filter_glob);
-                   ^~~~~~
-   lib/kunit/executor.c:52:2: warning: Call to function 'strncpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(parsed->suite_glob, filter_glob, period - filter_glob);
-           ^~~~~~~
-   lib/kunit/executor.c:52:2: note: Call to function 'strncpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'strncpy_s' in case of C11
-           strncpy(parsed->suite_glob, filter_glob, period - filter_glob);
-           ^~~~~~~
-   lib/kunit/executor.c:53:2: warning: Call to function 'strncpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(parsed->test_glob, period + 1, len - (period - filter_gl=
-ob));
-           ^~~~~~~
-   lib/kunit/executor.c:53:2: note: Call to function 'strncpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'strncpy_s' in case of C11
-           strncpy(parsed->test_glob, period + 1, len - (period - filter_gl=
-ob));
-           ^~~~~~~
-   lib/kunit/executor.c:76:2: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(copy, suite, sizeof(*copy));
-           ^~~~~~
-   lib/kunit/executor.c:76:2: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-           memcpy(copy, suite, sizeof(*copy));
-           ^~~~~~
->> lib/kunit/executor.c:80:10: warning: Potential leak of memory pointed to=
- by 'copy' [clang-analyzer-unix.Malloc]
-                   return ERR_PTR(-ENOMEM);
-                          ^
-   lib/kunit/executor.c:252:2: note: Assuming 'filter_glob_param' is non-nu=
-ll
-           if (filter_glob_param) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   lib/kunit/executor.c:252:2: note: '?' condition is false
-           if (filter_glob_param) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   lib/kunit/executor.c:252:6: note: 'filter_glob_param' is non-null
-           if (filter_glob_param) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   lib/kunit/executor.c:252:2: note: '?' condition is true
-           if (filter_glob_param) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   lib/kunit/executor.c:252:2: note: Taking true branch
-           if (filter_glob_param) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   lib/kunit/executor.c:253:15: note: Calling 'kunit_filter_suites'
-                   suite_set =3D kunit_filter_suites(&suite_set, filter_glo=
-b_param, &err);
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   lib/kunit/executor.c:167:6: note: Assuming 'copy' is non-null
-           if (!copy) { /* won't be able to run anything, return an empty s=
-et */
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   lib/kunit/executor.c:167:2: note: '?' condition is false
-           if (!copy) { /* won't be able to run anything, return an empty s=
-et */
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   lib/kunit/executor.c:167:7: note: 'copy' is non-null
-           if (!copy) { /* won't be able to run anything, return an empty s=
-et */
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   lib/kunit/executor.c:167:2: note: '?' condition is false
-           if (!copy) { /* won't be able to run anything, return an empty s=
-et */
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   lib/kunit/executor.c:167:2: note: Taking false branch
-           if (!copy) { /* won't be able to run anything, return an empty s=
-et */
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+cocci warnings: (new ones prefixed by >>)
+>> drivers/vfio/mdev/mdev_core.c:152:6-25: atomic_dec_and_test variation be=
+fore object free at line 206.
 
-vim +/copy +80 lib/kunit/executor.c
+vim +152 drivers/vfio/mdev/mdev_core.c
 
-a127b154a8f231 Daniel Latypov 2021-09-14  55  =
+7b96953bc640b6 Kirti Wankhede  2016-11-17  133  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  56  /* Create a copy of suite wit=
-h only tests that match test_glob. */
-a127b154a8f231 Daniel Latypov 2021-09-14  57  static struct kunit_suite *
-a127b154a8f231 Daniel Latypov 2021-09-14  58  kunit_filter_tests(struct kun=
-it_suite *const suite, const char *test_glob)
-a127b154a8f231 Daniel Latypov 2021-09-14  59  {
-a127b154a8f231 Daniel Latypov 2021-09-14  60  	int n =3D 0;
-a127b154a8f231 Daniel Latypov 2021-09-14  61  	struct kunit_case *filtered,=
- *test_case;
-a127b154a8f231 Daniel Latypov 2021-09-14  62  	struct kunit_suite *copy;
-a127b154a8f231 Daniel Latypov 2021-09-14  63  =
+417fd5bf242d76 Jason Gunthorpe 2021-04-06  134  int mdev_device_create(stru=
+ct mdev_type *type, const guid_t *uuid)
+7b96953bc640b6 Kirti Wankhede  2016-11-17  135  {
+7b96953bc640b6 Kirti Wankhede  2016-11-17  136  	int ret;
+002fe996f67f4f Alex Williamson 2018-05-15  137  	struct mdev_device *mdev, =
+*tmp;
+a9f8111d0b5f44 Jason Gunthorpe 2021-04-06  138  	struct mdev_parent *parent=
+ =3D type->parent;
+6b42f491e17ce1 Jason Gunthorpe 2022-04-11  139  	struct mdev_driver *drv =
+=3D parent->mdev_driver;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  140  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  64  	kunit_suite_for_each_test_ca=
-se(suite, test_case) {
-a127b154a8f231 Daniel Latypov 2021-09-14  65  		if (!test_glob || glob_matc=
-h(test_glob, test_case->name))
-a127b154a8f231 Daniel Latypov 2021-09-14  66  			++n;
-a127b154a8f231 Daniel Latypov 2021-09-14  67  	}
-a127b154a8f231 Daniel Latypov 2021-09-14  68  =
+002fe996f67f4f Alex Williamson 2018-05-15  141  	mutex_lock(&mdev_list_lock=
+);
+7b96953bc640b6 Kirti Wankhede  2016-11-17  142  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  69  	if (n =3D=3D 0)
-a127b154a8f231 Daniel Latypov 2021-09-14  70  		return NULL;
-a127b154a8f231 Daniel Latypov 2021-09-14  71  =
+7b96953bc640b6 Kirti Wankhede  2016-11-17  143  	/* Check for duplicate */
+002fe996f67f4f Alex Williamson 2018-05-15  144  	list_for_each_entry(tmp, &=
+mdev_list, next) {
+278bca7f318e6a Andy Shevchenko 2019-01-10  145  		if (guid_equal(&tmp->uuid=
+, uuid)) {
+002fe996f67f4f Alex Williamson 2018-05-15  146  			mutex_unlock(&mdev_list_=
+lock);
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  147  			return -EEXIST;
+002fe996f67f4f Alex Williamson 2018-05-15  148  		}
+7b96953bc640b6 Kirti Wankhede  2016-11-17  149  	}
+7b96953bc640b6 Kirti Wankhede  2016-11-17  150  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  72  	/* Use memcpy to workaround =
-copy->name being const. */
-a127b154a8f231 Daniel Latypov 2021-09-14  73  	copy =3D kmalloc(sizeof(*cop=
-y), GFP_KERNEL);
-a02353f491622e Daniel Latypov 2022-05-11  74  	if (!copy)
-a02353f491622e Daniel Latypov 2022-05-11  75  		return ERR_PTR(-ENOMEM);
-a127b154a8f231 Daniel Latypov 2021-09-14  76  	memcpy(copy, suite, sizeof(*=
-copy));
-a127b154a8f231 Daniel Latypov 2021-09-14  77  =
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08  151  	if (!drv->get_available) {
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08 @152  		if (atomic_dec_and_test(&=
+parent->available_instances)) {
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08  153  			mutex_unlock(&mdev_list_=
+lock);
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08  154  			return -EUSERS;
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08  155  		}
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08  156  	}
+03b6aa0be2bb8a Jason Gunthorpe 2022-07-08  157  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  78  	filtered =3D kcalloc(n + 1, =
-sizeof(*filtered), GFP_KERNEL);
-a02353f491622e Daniel Latypov 2022-05-11  79  	if (!filtered)
-a02353f491622e Daniel Latypov 2022-05-11 @80  		return ERR_PTR(-ENOMEM);
-a127b154a8f231 Daniel Latypov 2021-09-14  81  =
+7b96953bc640b6 Kirti Wankhede  2016-11-17  158  	mdev =3D kzalloc(sizeof(*m=
+dev), GFP_KERNEL);
+7b96953bc640b6 Kirti Wankhede  2016-11-17  159  	if (!mdev) {
+002fe996f67f4f Alex Williamson 2018-05-15  160  		mutex_unlock(&mdev_list_l=
+ock);
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  161  		return -ENOMEM;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  162  	}
+7b96953bc640b6 Kirti Wankhede  2016-11-17  163  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  82  	n =3D 0;
-a127b154a8f231 Daniel Latypov 2021-09-14  83  	kunit_suite_for_each_test_ca=
-se(suite, test_case) {
-a127b154a8f231 Daniel Latypov 2021-09-14  84  		if (!test_glob || glob_matc=
-h(test_glob, test_case->name))
-a127b154a8f231 Daniel Latypov 2021-09-14  85  			filtered[n++] =3D *test_ca=
-se;
-a127b154a8f231 Daniel Latypov 2021-09-14  86  	}
-a127b154a8f231 Daniel Latypov 2021-09-14  87  =
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  164  	device_initialize(&mdev->d=
+ev);
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  165  	mdev->dev.parent  =3D pare=
+nt->dev;
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  166  	mdev->dev.bus =3D &mdev_bu=
+s_type;
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  167  	mdev->dev.release =3D mdev=
+_device_release;
+2aa72ec97ce9eb Jason Gunthorpe 2022-04-11  168  	mdev->dev.groups =3D mdev_=
+device_groups;
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  169  	mdev->type =3D type;
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  170  	/* Pairs with the put in m=
+dev_device_release() */
+fbea43239074e1 Jason Gunthorpe 2021-04-06  171  	kobject_get(&type->kobj);
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  172  =
 
-a127b154a8f231 Daniel Latypov 2021-09-14  88  	copy->test_cases =3D filtere=
-d;
-a127b154a8f231 Daniel Latypov 2021-09-14  89  	return copy;
-a127b154a8f231 Daniel Latypov 2021-09-14  90  }
-5d31f71efcb6bc Daniel Latypov 2021-02-05  91  =
+278bca7f318e6a Andy Shevchenko 2019-01-10  173  	guid_copy(&mdev->uuid, uui=
+d);
+002fe996f67f4f Alex Williamson 2018-05-15  174  	list_add(&mdev->next, &mde=
+v_list);
+002fe996f67f4f Alex Williamson 2018-05-15  175  	mutex_unlock(&mdev_list_lo=
+ck);
+002fe996f67f4f Alex Williamson 2018-05-15  176  =
+
+18d731242d5c67 Jason Gunthorpe 2021-04-06  177  	ret =3D dev_set_name(&mdev=
+->dev, "%pUl", uuid);
+18d731242d5c67 Jason Gunthorpe 2021-04-06  178  	if (ret)
+18d731242d5c67 Jason Gunthorpe 2021-04-06  179  		goto out_put_device;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  180  =
+
+5715c4dd66a315 Parav Pandit    2019-06-06  181  	/* Check if parent unregis=
+tration has started */
+5715c4dd66a315 Parav Pandit    2019-06-06  182  	if (!down_read_trylock(&pa=
+rent->unreg_sem)) {
+5715c4dd66a315 Parav Pandit    2019-06-06  183  		ret =3D -ENODEV;
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  184  		goto out_put_device;
+5715c4dd66a315 Parav Pandit    2019-06-06  185  	}
+5715c4dd66a315 Parav Pandit    2019-06-06  186  =
+
+522ecce08ab20b Parav Pandit    2019-06-06  187  	ret =3D device_add(&mdev->=
+dev);
+7b96953bc640b6 Kirti Wankhede  2016-11-17  188  	if (ret)
+6c7f98b334a32d Jason Gunthorpe 2022-04-11  189  		goto out_unlock;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  190  =
+
+88a21f265ce50a Jason Gunthorpe 2021-06-17  191  	ret =3D device_driver_atta=
+ch(&drv->driver, &mdev->dev);
+88a21f265ce50a Jason Gunthorpe 2021-06-17  192  	if (ret)
+88a21f265ce50a Jason Gunthorpe 2021-06-17  193  		goto out_del;
+88a21f265ce50a Jason Gunthorpe 2021-06-17  194  =
+
+417fd5bf242d76 Jason Gunthorpe 2021-04-06  195  	ret =3D mdev_create_sysfs_=
+files(mdev);
+522ecce08ab20b Parav Pandit    2019-06-06  196  	if (ret)
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  197  		goto out_del;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  198  =
+
+002fe996f67f4f Alex Williamson 2018-05-15  199  	mdev->active =3D true;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  200  	dev_dbg(&mdev->dev, "MDEV:=
+ created\n");
+5715c4dd66a315 Parav Pandit    2019-06-06  201  	up_read(&parent->unreg_sem=
+);
+7b96953bc640b6 Kirti Wankhede  2016-11-17  202  =
+
+002fe996f67f4f Alex Williamson 2018-05-15  203  	return 0;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  204  =
+
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  205  out_del:
+522ecce08ab20b Parav Pandit    2019-06-06 @206  	device_del(&mdev->dev);
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  207  out_unlock:
+5715c4dd66a315 Parav Pandit    2019-06-06  208  	up_read(&parent->unreg_sem=
+);
+fbd0e2b0c3d0b2 Jason Gunthorpe 2021-04-06  209  out_put_device:
+522ecce08ab20b Parav Pandit    2019-06-06  210  	put_device(&mdev->dev);
+7b96953bc640b6 Kirti Wankhede  2016-11-17  211  	return ret;
+7b96953bc640b6 Kirti Wankhede  2016-11-17  212  }
+7b96953bc640b6 Kirti Wankhede  2016-11-17  213  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2956835745554003063==--
+--===============6926248475048156541==--
 
