@@ -1,172 +1,289 @@
-Content-Type: multipart/mixed; boundary="===============5557123038516349954=="
+Content-Type: multipart/mixed; boundary="===============9130535849840540951=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/target/target_core_device.c:846:47: warning: shift by negative count ('-10')
-Date: Wed, 13 Jul 2022 11:02:58 +0800
-Message-ID: <202207131039.g45Ubajt-lkp@intel.com>
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_context_cmd_dtype) == 2"
+Date: Wed, 13 Jul 2022 06:39:40 +0800
+Message-ID: <202207130653.LoDitT3R-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5557123038516349954==
+--===============9130535849840540951==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/t=
-arget/target_core_device.c:846:47: warning: shift by negative count ('-10')=
- [-Wanalyzer-shift-count-negative]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(s=
+truct gve_tx_context_cmd_dtype) =3D=3D 2""
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Chaitanya Kulkarni <kch@nvidia.com>
+TO: Arnd Bergmann <arnd@arndb.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   b047602d579b4fb028128a525f056bbdc890e7f0
-commit: 817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b target: pass a block_devic=
-e to target_configure_unmap_from_queue
-date:   3 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220712 (https://download.01.org/0day-ci/archi=
-ve/20220713/202207131039.g45Ubajt-lkp(a)intel.com/config)
+head:   72a8e05d4f66b5af7854df4490e3135168694b6b
+commit: 7036440eab3e2d47a775d4616909f8235488d714 ARM: omap1: enable multipl=
+atform
+date:   6 weeks ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-s031-20220712 (https://download.01.org/0day-ci/archi=
+ve/20220713/202207130653.LoDitT3R-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (this is a W=3D1 build):
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b
+t/commit/?id=3D7036440eab3e2d47a775d4616909f8235488d714
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b
+        git checkout 7036440eab3e2d47a775d4616909f8235488d714
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.3.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash arch/arm/mach-iop32x/ arch/arm/mach-mmp/ arch/arm/mach=
+-mv78xx0/ arch/arm/mach-orion5x/ arch/arm/mach-spear/ arch/arm/mm/ drivers/=
+clk/spear/ drivers/isdn/hardware/mISDN/ drivers/net/ethernet/google/gve/ dr=
+ivers/scsi/ sound/soc/codecs/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+All error/warnings (new ones prefixed by >>):
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/target/target_core_device.c: In function 'target_configure_unmap=
-_from_queue':
->> drivers/target/target_core_device.c:846:47: warning: shift by negative c=
-ount ('-10') [-Wanalyzer-shift-count-negative]
-     846 |                 q->limits.max_discard_sectors >> (ilog2(block_si=
-ze) - 9);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-     'target_configure_unmap_from_queue': events 1-3
-       |
-       |  842 |         if (!blk_queue_discard(q))
-       |      |            ^
-       |      |            |
-       |      |            (1) following 'false' branch...
-       |......
-       |  846 |                 q->limits.max_discard_sectors >> (ilog2(blo=
-ck_size) - 9);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    ~~~~~~~~~~=
-~~~~~~~~~~~~~
-       |      |                          |                                 =
-         |
-       |      |                          (2) ...to here                    =
-         (3) following 'false' branch...
-       |
-     'target_configure_unmap_from_queue': events 4-5
-       |
-       |include/asm-generic/bitops/fls.h:17:12:
-       |   17 |         if (!x)
-       |      |            ^
-       |      |            |
-       |      |            (4) ...to here
-       |      |            (5) following 'true' branch...
-       |
-     'target_configure_unmap_from_queue': events 6-7
-       |
-       |drivers/target/target_core_device.c:846:69:
-       |  846 |                 q->limits.max_discard_sectors >> (ilog2(blo=
-ck_size) - 9);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~^~~~
-       |      |                                               |            =
-         |
-       |      |                                               |            =
-         (6) ...to here
-       |      |                                               (7) shift by =
-negative amount here ('-10')
-       |
-
-vim +846 drivers/target/target_core_device.c
-
-0fd97ccf45be26 Christoph Hellwig 2012-10-08  830  =
-
-8a9ebe717a133b Mike Christie     2016-01-18  831  /*
-8a9ebe717a133b Mike Christie     2016-01-18  832   * Check if the underlyin=
-g struct block_device request_queue supports
-8a9ebe717a133b Mike Christie     2016-01-18  833   * the QUEUE_FLAG_DISCARD=
- bit for UNMAP/WRITE_SAME in SCSI + TRIM
-8a9ebe717a133b Mike Christie     2016-01-18  834   * in ATA and we need to =
-set TPE=3D1
-8a9ebe717a133b Mike Christie     2016-01-18  835   */
-8a9ebe717a133b Mike Christie     2016-01-18  836  bool target_configure_unm=
-ap_from_queue(struct se_dev_attrib *attrib,
-817e8b51eb3d92 Christoph Hellwig 2022-04-15  837  				       struct block_d=
-evice *bdev)
-8a9ebe717a133b Mike Christie     2016-01-18  838  {
-817e8b51eb3d92 Christoph Hellwig 2022-04-15  839  	struct request_queue *q =
-=3D bdev_get_queue(bdev);
-817e8b51eb3d92 Christoph Hellwig 2022-04-15  840  	int block_size =3D bdev_=
-logical_block_size(bdev);
-ea263c7fada4af Mike Christie     2016-06-02  841  =
-
-8a9ebe717a133b Mike Christie     2016-01-18  842  	if (!blk_queue_discard(q=
-))
-8a9ebe717a133b Mike Christie     2016-01-18  843  		return false;
-8a9ebe717a133b Mike Christie     2016-01-18  844  =
-
-ea263c7fada4af Mike Christie     2016-06-02  845  	attrib->max_unmap_lba_co=
-unt =3D
-ea263c7fada4af Mike Christie     2016-06-02 @846  		q->limits.max_discard_s=
-ectors >> (ilog2(block_size) - 9);
-8a9ebe717a133b Mike Christie     2016-01-18  847  	/*
-8a9ebe717a133b Mike Christie     2016-01-18  848  	 * Currently hardcoded t=
-o 1 in Linux/SCSI code..
-8a9ebe717a133b Mike Christie     2016-01-18  849  	 */
-8a9ebe717a133b Mike Christie     2016-01-18  850  	attrib->max_unmap_block_=
-desc_count =3D 1;
-8a9ebe717a133b Mike Christie     2016-01-18  851  	attrib->unmap_granularit=
-y =3D q->limits.discard_granularity / block_size;
-8a9ebe717a133b Mike Christie     2016-01-18  852  	attrib->unmap_granularit=
-y_alignment =3D q->limits.discard_alignment /
-8a9ebe717a133b Mike Christie     2016-01-18  853  								block_size;
-8a9ebe717a133b Mike Christie     2016-01-18  854  	return true;
-8a9ebe717a133b Mike Christie     2016-01-18  855  }
-8a9ebe717a133b Mike Christie     2016-01-18  856  EXPORT_SYMBOL(target_conf=
-igure_unmap_from_queue);
-8a9ebe717a133b Mike Christie     2016-01-18  857  =
+>> arch/arm/mach-iop32x/em7210.c:64:13: warning: no previous prototype for =
+'em7210_map_io' [-Wmissing-prototypes]
+      64 | void __init em7210_map_io(void)
+         |             ^~~~~~~~~~~~~
+>> arch/arm/mach-iop32x/em7210.c:180:6: warning: no previous prototype for =
+'em7210_power_off' [-Wmissing-prototypes]
+     180 | void em7210_power_off(void)
+         |      ^~~~~~~~~~~~~~~~
+--
+>> drivers/clk/spear/spear3xx_clock.c:390:13: warning: no previous prototyp=
+e for 'spear3xx_clk_init' [-Wmissing-prototypes]
+     390 | void __init spear3xx_clk_init(void __iomem *misc_base, void __io=
+mem *soc_config_base)
+         |             ^~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from drivers/net/ethernet/google/gve/gve_main.c:7:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof=
+(struct gve_tx_context_cmd_dtype) =3D=3D 2"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_a=
+ssert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:68:1: note: in expansion =
+of macro 'static_assert'
+      68 | static_assert(sizeof(struct gve_tx_context_cmd_dtype) =3D=3D 2);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof=
+(struct gve_tx_tso_context_desc_dqo) =3D=3D 16"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_a=
+ssert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:93:1: note: in expansion =
+of macro 'static_assert'
+      93 | static_assert(sizeof(struct gve_tx_tso_context_desc_dqo) =3D=3D =
+16);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof=
+(struct gve_tx_general_context_desc_dqo) =3D=3D 16"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_a=
+ssert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:114:1: note: in expansion=
+ of macro 'static_assert'
+     114 | static_assert(sizeof(struct gve_tx_general_context_desc_dqo) =3D=
+=3D 16);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof=
+(struct gve_tx_compl_desc) =3D=3D 8"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_a=
+ssert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:172:1: note: in expansion=
+ of macro 'static_assert'
+     172 | static_assert(sizeof(struct gve_tx_compl_desc) =3D=3D 8);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof=
+(struct gve_rx_compl_desc_dqo) =3D=3D 32"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_a=
+ssert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:248:1: note: in expansion=
+ of macro 'static_assert'
+     248 | static_assert(sizeof(struct gve_rx_compl_desc_dqo) =3D=3D 32);
+         | ^~~~~~~~~~~~~
 
 
-:::::: The code at line 846 was first introduced by commit
-:::::: ea263c7fada4af8ec7fe5fcfd6e7d7705a89351b target: Fix max_unmap_lba_c=
-ount calc overflow
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm/mm/copypage-v4wb.c:47:6: sparse: sparse: symbol 'v4wb_copy_user=
+_highpage' was not declared. Should it be static?
+>> arch/arm/mm/copypage-v4wb.c:65:6: sparse: sparse: symbol 'v4wb_clear_use=
+r_highpage' was not declared. Should it be static?
+--
+>> arch/arm/mm/copypage-feroceon.c:65:6: sparse: sparse: symbol 'feroceon_c=
+opy_user_highpage' was not declared. Should it be static?
+>> arch/arm/mm/copypage-feroceon.c:78:6: sparse: sparse: symbol 'feroceon_c=
+lear_user_highpage' was not declared. Should it be static?
+--
+>> arch/arm/mach-iop32x/irq.c:55:17: sparse: sparse: symbol 'ext_chip' was =
+not declared. Should it be static?
+--
+>> arch/arm/mach-iop32x/iq31244.c:89:13: sparse: sparse: symbol 'iq31244_ma=
+p_io' was not declared. Should it be static?
+>> arch/arm/mach-iop32x/iq31244.c:217:36: sparse: sparse: incorrect type in=
+ initializer (different address spaces) @@     expected void [noderef] __io=
+mem *membase @@     got char * @@
+   arch/arm/mach-iop32x/iq31244.c:217:36: sparse:     expected void [nodere=
+f] __iomem *membase
+   arch/arm/mach-iop32x/iq31244.c:217:36: sparse:     got char *
+>> arch/arm/mach-iop32x/iq31244.c:248:6: sparse: sparse: symbol 'ep80219_po=
+wer_off' was not declared. Should it be static?
+--
+>> arch/arm/mach-iop32x/em7210.c:64:13: sparse: sparse: symbol 'em7210_map_=
+io' was not declared. Should it be static?
+>> arch/arm/mach-iop32x/em7210.c:152:36: sparse: sparse: incorrect type in =
+initializer (different address spaces) @@     expected void [noderef] __iom=
+em *membase @@     got char * @@
+   arch/arm/mach-iop32x/em7210.c:152:36: sparse:     expected void [noderef=
+] __iomem *membase
+   arch/arm/mach-iop32x/em7210.c:152:36: sparse:     got char *
+>> arch/arm/mach-iop32x/em7210.c:180:6: sparse: sparse: symbol 'em7210_powe=
+r_off' was not declared. Should it be static?
+--
+>> arch/arm/mach-iop32x/pci.c:217:13: sparse: sparse: symbol 'iop3xx_atu_se=
+tup' was not declared. Should it be static?
+>> arch/arm/mach-iop32x/pci.c:268:13: sparse: sparse: symbol 'iop3xx_atu_di=
+sable' was not declared. Should it be static?
+--
+>> arch/arm/mach-iop32x/iq80321.c:57:13: sparse: sparse: symbol 'iq80321_ma=
+p_io' was not declared. Should it be static?
+>> arch/arm/mach-iop32x/iq80321.c:143:36: sparse: sparse: incorrect type in=
+ initializer (different address spaces) @@     expected void [noderef] __io=
+mem *membase @@     got char * @@
+   arch/arm/mach-iop32x/iq80321.c:143:36: sparse:     expected void [nodere=
+f] __iomem *membase
+   arch/arm/mach-iop32x/iq80321.c:143:36: sparse:     got char *
+--
+>> arch/arm/mach-mmp/devices.c:241:17: sparse: sparse: symbol 'pxa168_usb_p=
+hy_resources' was not declared. Should it be static?
+>> arch/arm/mach-mmp/devices.c:262:17: sparse: sparse: symbol 'pxa168_u2o_r=
+esources' was not declared. Should it be static?
+--
+>> arch/arm/mach-mv78xx0/pcie.c:46:5: sparse: sparse: symbol 'pcie_port_siz=
+e' was not declared. Should it be static?
+--
+>> arch/arm/mach-orion5x/tsx09-common.c:120:26: sparse: sparse: incorrect t=
+ype in assignment (different address spaces) @@     expected char *nor_page=
+ @@     got void [noderef] __iomem * @@
+   arch/arm/mach-orion5x/tsx09-common.c:120:26: sparse:     expected char *=
+nor_page
+   arch/arm/mach-orion5x/tsx09-common.c:120:26: sparse:     got void [noder=
+ef] __iomem *
+   arch/arm/mach-orion5x/tsx09-common.c:123:33: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void volatile =
+[noderef] __iomem *iomem_cookie @@     got char *nor_page @@
+   arch/arm/mach-orion5x/tsx09-common.c:123:33: sparse:     expected void v=
+olatile [noderef] __iomem *iomem_cookie
+   arch/arm/mach-orion5x/tsx09-common.c:123:33: sparse:     got char *nor_p=
+age
+--
+>> arch/arm/mach-spear/spear3xx.c:53:17: sparse: sparse: symbol 'spear3xx_i=
+o_desc' was not declared. Should it be static?
+--
+>> arch/arm/mach-spear/spear6xx.c:345:17: sparse: sparse: symbol 'spear6xx_=
+io_desc' was not declared. Should it be static?
+>> arch/arm/mach-spear/spear6xx.c:365:13: sparse: sparse: symbol 'spear6xx_=
+map_io' was not declared. Should it be static?
+>> arch/arm/mach-spear/spear6xx.c:370:13: sparse: sparse: symbol 'spear6xx_=
+timer_init' was not declared. Should it be static?
+>> arch/arm/mach-spear/spear6xx.c:400:23: sparse: sparse: symbol 'spear6xx_=
+auxdata_lookup' was not declared. Should it be static?
+--
+>> arch/arm/mach-spear/spear310.c:30:27: sparse: sparse: symbol 'spear310_d=
+ma_info' was not declared. Should it be static?
 
-:::::: TO: Mike Christie <mchristi@redhat.com>
-:::::: CC: Nicholas Bellinger <nab@linux-iscsi.org>
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  =
+
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check in=
+teger constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wra=
+pper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to ma=
+ke the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the t=
+ested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON=
+(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the =
+expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is =
+not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG=
+_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_asser=
+t() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr,=
+ ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(exp=
+r, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  =
+
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper fo=
+r _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5557123038516349954==--
+--===============9130535849840540951==--
 
