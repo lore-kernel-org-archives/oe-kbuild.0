@@ -1,148 +1,133 @@
-Content-Type: multipart/mixed; boundary="===============0885594717376684614=="
+Content-Type: multipart/mixed; boundary="===============3543299756672132992=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 9109/10347] drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid reference to the index variable of the iterator on line 152
-Date: Wed, 13 Jul 2022 23:59:01 +0800
-Message-ID: <202207132354.l8ptrM2g-lkp@intel.com>
+Subject: drivers/net/phy/micrel.c:2613 lan8814_ptp_probe_once() warn: passing zero to 'PTR_ERR'
+Date: Wed, 13 Jul 2022 23:08:03 +0800
+Message-ID: <202207132330.qoXbH2DO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0885594717376684614==
+--===============3543299756672132992==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Ma=C3=ADra Canal" <maira.canal@usp.br>
-CC: Javier Martinez Canillas <javierm@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Divya Koppera <Divya.Koppera@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   4662b7adea50bb62e993a67f611f3be625d3df0d
-commit: 932da861956ac425ba4e65f7696458f96d833883 [9109/10347] drm: selftest=
-: convert drm_buddy selftest to KUnit
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c023-20220712 (https://download.01.org/0day-ci/archi=
-ve/20220713/202207132354.l8ptrM2g-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b047602d579b4fb028128a525f056bbdc890e7f0
+commit: ece19502834d84ece2e056db28257ca2aa6e4d48 net: phy: micrel: 1588 sup=
+port for LAN8814 phy
+date:   4 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 4 months ago
+config: openrisc-randconfig-m031-20220712 (https://download.01.org/0day-ci/=
+archive/20220713/202207132330.qoXbH2DO-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/phy/micrel.c:2613 lan8814_ptp_probe_once() warn: passing zero t=
+o 'PTR_ERR'
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid referen=
-ce to the index variable of the iterator on line 152
+Old smatch warnings:
+drivers/net/phy/micrel.c:1750 ksz886x_cable_test_get_status() error: uninit=
+ialized symbol 'ret'.
 
-vim +197 drivers/gpu/drm/tests/drm_buddy_test.c
+vim +/PTR_ERR +2613 drivers/net/phy/micrel.c
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  139  =
+ece19502834d84 Divya Koppera 2022-03-04  2588  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  140  static int igt_check_bloc=
-ks(struct kunit *test, struct drm_buddy *mm,
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  141  			    struct list_head *=
-blocks, u64 expected_size, bool is_contiguous)
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  142  {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  143  	struct drm_buddy_block *=
-block;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  144  	struct drm_buddy_block *=
-prev;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  145  	u64 total;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  146  	int err =3D 0;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  147  =
+ece19502834d84 Divya Koppera 2022-03-04  2589  static int lan8814_ptp_probe=
+_once(struct phy_device *phydev)
+ece19502834d84 Divya Koppera 2022-03-04  2590  {
+ece19502834d84 Divya Koppera 2022-03-04  2591  	struct lan8814_shared_priv =
+*shared =3D phydev->shared->priv;
+ece19502834d84 Divya Koppera 2022-03-04  2592  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  148  	block =3D NULL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  149  	prev =3D NULL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  150  	total =3D 0;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  151  =
+ece19502834d84 Divya Koppera 2022-03-04  2593  	/* Initialise shared lock f=
+or clock*/
+ece19502834d84 Divya Koppera 2022-03-04  2594  	mutex_init(&shared->shared_=
+lock);
+ece19502834d84 Divya Koppera 2022-03-04  2595  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08 @152  	list_for_each_entry(bloc=
-k, blocks, link) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  153  		err =3D igt_check_block=
-(test, mm, block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  154  =
+ece19502834d84 Divya Koppera 2022-03-04  2596  	shared->ptp_clock_info.owne=
+r =3D THIS_MODULE;
+ece19502834d84 Divya Koppera 2022-03-04  2597  	snprintf(shared->ptp_clock_=
+info.name, 30, "%s", phydev->drv->name);
+ece19502834d84 Divya Koppera 2022-03-04  2598  	shared->ptp_clock_info.max_=
+adj =3D 31249999;
+ece19502834d84 Divya Koppera 2022-03-04  2599  	shared->ptp_clock_info.n_al=
+arm =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2600  	shared->ptp_clock_info.n_ex=
+t_ts =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2601  	shared->ptp_clock_info.n_pi=
+ns =3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2602  	shared->ptp_clock_info.pps =
+=3D 0;
+ece19502834d84 Divya Koppera 2022-03-04  2603  	shared->ptp_clock_info.pin_=
+config =3D NULL;
+ece19502834d84 Divya Koppera 2022-03-04  2604  	shared->ptp_clock_info.adjf=
+ine =3D lan8814_ptpci_adjfine;
+ece19502834d84 Divya Koppera 2022-03-04  2605  	shared->ptp_clock_info.adjt=
+ime =3D lan8814_ptpci_adjtime;
+ece19502834d84 Divya Koppera 2022-03-04  2606  	shared->ptp_clock_info.gett=
+ime64 =3D lan8814_ptpci_gettime64;
+ece19502834d84 Divya Koppera 2022-03-04  2607  	shared->ptp_clock_info.sett=
+ime64 =3D lan8814_ptpci_settime64;
+ece19502834d84 Divya Koppera 2022-03-04  2608  	shared->ptp_clock_info.getc=
+rosststamp =3D NULL;
+ece19502834d84 Divya Koppera 2022-03-04  2609  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  155  		if (!drm_buddy_block_is=
-_allocated(block)) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  156  			kunit_err(test, "block=
- not allocated\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  157  			err =3D -EINVAL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  158  		}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  159  =
+ece19502834d84 Divya Koppera 2022-03-04  2610  	shared->ptp_clock =3D ptp_c=
+lock_register(&shared->ptp_clock_info,
+ece19502834d84 Divya Koppera 2022-03-04  2611  					       &phydev->mdio.de=
+v);
+ece19502834d84 Divya Koppera 2022-03-04  2612  	if (IS_ERR_OR_NULL(shared->=
+ptp_clock)) {
+ece19502834d84 Divya Koppera 2022-03-04 @2613  		phydev_err(phydev, "ptp_cl=
+ock_register failed %lu\n",
+ece19502834d84 Divya Koppera 2022-03-04  2614  			   PTR_ERR(shared->ptp_cl=
+ock));
+ece19502834d84 Divya Koppera 2022-03-04  2615  		return -EINVAL;
+ece19502834d84 Divya Koppera 2022-03-04  2616  	}
+ece19502834d84 Divya Koppera 2022-03-04  2617  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  160  		if (is_contiguous && pr=
-ev) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  161  			u64 prev_block_size;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  162  			u64 prev_offset;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  163  			u64 offset;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  164  =
+ece19502834d84 Divya Koppera 2022-03-04  2618  	phydev_dbg(phydev, "success=
+fully registered ptp clock\n");
+ece19502834d84 Divya Koppera 2022-03-04  2619  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  165  			prev_offset =3D drm_bu=
-ddy_block_offset(prev);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  166  			prev_block_size =3D dr=
-m_buddy_block_size(mm, prev);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  167  			offset =3D drm_buddy_b=
-lock_offset(block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  168  =
+ece19502834d84 Divya Koppera 2022-03-04  2620  	shared->phydev =3D phydev;
+ece19502834d84 Divya Koppera 2022-03-04  2621  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  169  			if (offset !=3D (prev_=
-offset + prev_block_size)) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  170  				kunit_err(test, "bloc=
-k offset mismatch\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  171  				err =3D -EINVAL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  172  			}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  173  		}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  174  =
+ece19502834d84 Divya Koppera 2022-03-04  2622  	/* The EP.4 is shared betwe=
+en all the PHYs in the package and also it
+ece19502834d84 Divya Koppera 2022-03-04  2623  	 * can be accessed by any o=
+f the PHYs
+ece19502834d84 Divya Koppera 2022-03-04  2624  	 */
+ece19502834d84 Divya Koppera 2022-03-04  2625  	lanphy_write_page_reg(phyde=
+v, 4, LTC_HARD_RESET, LTC_HARD_RESET_);
+ece19502834d84 Divya Koppera 2022-03-04  2626  	lanphy_write_page_reg(phyde=
+v, 4, PTP_OPERATING_MODE,
+ece19502834d84 Divya Koppera 2022-03-04  2627  			      PTP_OPERATING_MODE_=
+STANDALONE_);
+ece19502834d84 Divya Koppera 2022-03-04  2628  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  175  		if (err)
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  176  			break;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  177  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  178  		total +=3D drm_buddy_bl=
-ock_size(mm, block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  179  		prev =3D block;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  180  	}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  181  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  182  	if (!err) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  183  		if (total !=3D expected=
-_size) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  184  			kunit_err(test, "size =
-mismatch, expected=3D%llx, found=3D%llx\n",
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  185  				  expected_size, tota=
-l);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  186  			err =3D -EINVAL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  187  		}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  188  		return err;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  189  	}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  190  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  191  	if (prev) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  192  		kunit_err(test, "prev b=
-lock, dump:\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  193  		igt_dump_block(test, mm=
-, prev);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  194  	}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  195  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  196  	kunit_err(test, "bad blo=
-ck, dump:\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08 @197  	igt_dump_block(test, mm,=
- block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  198  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  199  	return err;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  200  }
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  201  =
+ece19502834d84 Divya Koppera 2022-03-04  2629  	return 0;
+ece19502834d84 Divya Koppera 2022-03-04  2630  }
+ece19502834d84 Divya Koppera 2022-03-04  2631  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0885594717376684614==--
+--===============3543299756672132992==--
 
