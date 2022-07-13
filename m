@@ -1,43 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============5179121070520156063=="
+Content-Type: multipart/mixed; boundary="===============5358390167331055089=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 9612/10347] mm/madvise.c:1174:66: warning: Parameter 'task' can be declared with const [constParameter]
-Date: Thu, 14 Jul 2022 04:12:13 +0800
-Message-ID: <202207140439.hkdcvwSl-lkp@intel.com>
+Subject: block/holder.c:10:72: warning: Parameter 'bdev' can be declared with const [constParameter]
+Date: Thu, 14 Jul 2022 02:30:48 +0800
+Message-ID: <202207140208.FRDaTv9L-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5179121070520156063==
+--===============5358390167331055089==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: mm/madvis=
-e.c:1174:66: warning: Parameter 'task' can be declared with const [constPar=
+:::::: Manual check reason: "low confidence static check warning: block/hol=
+der.c:10:72: warning: Parameter 'bdev' can be declared with const [constPar=
 ameter]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Zach O'Keefe" <zokeefe@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   4662b7adea50bb62e993a67f611f3be625d3df0d
-commit: 5e4507b87649326c597b9804979705c8269ed0b4 [9612/10347] mm/madvise: a=
-dd MADV_COLLAPSE to process_madvise()
-:::::: branch date: 8 hours ago
-:::::: commit date: 2 days ago
-compiler: powerpc-linux-gcc (GCC) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b047602d579b4fb028128a525f056bbdc890e7f0
+commit: 0dbcfe247f22a6d73302dfa691c48b3c14d31c4c block: look up holders by =
+bdev
+date:   11 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 11 months ago
+compiler: arceb-elf-gcc (GCC) 11.3.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 5e4507b87649326c597b9804979705c8269ed0b4
+        git checkout 0dbcfe247f22a6d73302dfa691c48b3c14d31c4c
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -47,45 +47,45 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   mm/madvise.c:1492:6: warning: Redundant assignment of 'ret' to itself. [=
-selfAssignment]
-    ret =3D (total_len - iov_iter_count(&iter)) ? : ret;
-        ^
-   mm/madvise.c:126:28: warning: Parameter 'anon_name' can be declared with=
- const [constParameter]
-        struct anon_vma_name *anon_name)
-                              ^
->> mm/madvise.c:1174:66: warning: Parameter 'task' can be declared with con=
+>> block/holder.c:10:72: warning: Parameter 'bdev' can be declared with con=
 st [constParameter]
-   process_madvise_behavior_valid(int behavior, struct task_struct *task)
-                                                                    ^
+   static struct bd_holder_disk *bd_find_holder_disk(struct block_device *b=
+dev,
+                                                                          ^
 
-vim +/task +1174 mm/madvise.c
+vim +/bdev +10 block/holder.c
 
-3866ea90d3635d Hugh Dickins 2009-09-21  1172  =
+c66fd019713e9c Christoph Hellwig 2021-08-04   9  =
 
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1173  static bool
-5e4507b8764932 Zach O'Keefe 2022-07-06 @1174  process_madvise_behavior_vali=
-d(int behavior, struct task_struct *task)
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1175  {
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1176  	switch (behavior) {
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1177  	case MADV_COLD:
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1178  	case MADV_PAGEOUT:
-d5fffc5aff2697 zhangkui     2021-09-02  1179  	case MADV_WILLNEED:
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1180  		return true;
-5e4507b8764932 Zach O'Keefe 2022-07-06  1181  	case MADV_COLLAPSE:
-5e4507b8764932 Zach O'Keefe 2022-07-06  1182  		return task =3D=3D current =
-|| capable(CAP_SYS_ADMIN);
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1183  	default:
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1184  		return false;
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1185  	}
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1186  }
-ecb8ac8b1f1469 Minchan Kim  2020-10-17  1187  =
+c66fd019713e9c Christoph Hellwig 2021-08-04 @10  static struct bd_holder_di=
+sk *bd_find_holder_disk(struct block_device *bdev,
+c66fd019713e9c Christoph Hellwig 2021-08-04  11  						  struct gendisk *di=
+sk)
+c66fd019713e9c Christoph Hellwig 2021-08-04  12  {
+c66fd019713e9c Christoph Hellwig 2021-08-04  13  	struct bd_holder_disk *ho=
+lder;
+c66fd019713e9c Christoph Hellwig 2021-08-04  14  =
 
+0dbcfe247f22a6 Christoph Hellwig 2021-08-04  15  	list_for_each_entry(holde=
+r, &disk->slave_bdevs, list)
+0dbcfe247f22a6 Christoph Hellwig 2021-08-04  16  		if (holder->bdev =3D=3D =
+bdev)
+c66fd019713e9c Christoph Hellwig 2021-08-04  17  			return holder;
+c66fd019713e9c Christoph Hellwig 2021-08-04  18  	return NULL;
+c66fd019713e9c Christoph Hellwig 2021-08-04  19  }
+c66fd019713e9c Christoph Hellwig 2021-08-04  20  =
+
+
+:::::: The code at line 10 was first introduced by commit
+:::::: c66fd019713e9cf7d6f1243c378cd177d01fe18a block: make the block holde=
+r code optional
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5179121070520156063==--
+--===============5358390167331055089==--
 
