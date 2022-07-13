@@ -1,802 +1,390 @@
-Content-Type: multipart/mixed; boundary="===============3983722820516489887=="
+Content-Type: multipart/mixed; boundary="===============6721691832671347714=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/kfence/kfence_test.c:160:2: warning: Value stored to 'cur' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 18 Jul 2022 23:28:49 +0800
-Message-ID: <202207182352.JAnLryQa-lkp@intel.com>
+Subject: drivers/spi/spidev.c:577:13: warning: Uninitialized variable: iter->devt [uninitvar]
+Date: Wed, 13 Jul 2022 15:04:50 +0800
+Message-ID: <202207131518.oElZIPR6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3983722820516489887==
+--===============6721691832671347714==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- mm/kfence/kfence_test.c:160:2: warning: Value stored to 'cur' is never rea=
-d [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: drivers/s=
+pi/spidev.c:577:13: warning: Uninitialized variable: iter->devt [uninitvar]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Sven Schnelle <svens@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
+TO: Jakob Koschel <jakobkoschel@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   ff6992735ade75aae3e35d16b17da1008d753d28
-commit: e41ba1115a351dd037c21ac75660638219d51485 s390: add support for KFEN=
-CE
-date:   12 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 12 months ago
-config: s390-randconfig-c005-20220717 (https://download.01.org/0day-ci/arch=
-ive/20220718/202207182352.JAnLryQa-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 45067f=
-8fbf61284839c739807c2da2e2505661eb)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De41ba1115a351dd037c21ac75660638219d51485
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e41ba1115a351dd037c21ac75660638219d51485
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+head:   b047602d579b4fb028128a525f056bbdc890e7f0
+commit: d50d7e91c6e5ccd71f21ba1aec3fef7ee4229fd6 spi: spidev: replace usage=
+ of found with dedicated list iterator variable
+date:   3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 months ago
+compiler: powerpc-linux-gcc (GCC) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout d50d7e91c6e5ccd71f21ba1aec3fef7ee4229fd6
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                  ^
-   mm/kfence/report.c:189:43: note: Left side of '&&' is false
-           if (WARN_ON(type !=3D KFENCE_ERROR_INVALID && !meta))
-                                                    ^
-   mm/kfence/report.c:189:6: note: Taking false branch
-           if (WARN_ON(type !=3D KFENCE_ERROR_INVALID && !meta))
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/usb/misc/ftdi-elan.c:994:8: warning: Local variable 'c' shadows =
+outer variable [shadowVariable]
+      u8 *c =3D 4 + ftdi->response;
+          ^
+   drivers/usb/misc/ftdi-elan.c:976:6: note: Shadowed declaration
+     u8 c =3D ftdi->bulk_in_buffer[++ftdi->bulk_in_last];
+        ^
+   drivers/usb/misc/ftdi-elan.c:994:8: note: Shadow variable
+      u8 *c =3D 4 + ftdi->response;
+          ^
+
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/usb/mon/mon_bin.c:432:4: warning: Assignment of function paramet=
+er has no effect outside the function. [uselessAssignmentArg]
+      offset =3D mon_copy_to_buff(rp, offset, sg_virt(sg),
+      ^
+   drivers/usb/mon/mon_bin.c:848:3: warning: Assignment of function paramet=
+er has no effect outside the function. [uselessAssignmentArg]
+     nbytes -=3D step_len;
+     ^
+>> drivers/usb/mon/mon_bin.c:849:3: warning: Assignment of function paramet=
+er has no effect outside the function. Did you forget dereferencing it? [us=
+elessAssignmentPtrArg]
+     buf +=3D step_len;
+     ^
+>> drivers/spi/spidev.c:577:13: warning: Uninitialized variable: iter->devt=
+ [uninitvar]
+     if (iter->devt =3D=3D inode->i_rdev) {
                ^
-   arch/s390/include/asm/bug.h:54:2: note: expanded from macro 'WARN_ON'
-           if (__builtin_constant_p(__ret_warn_on)) {      \
+--
+>> drivers/staging/pi433/pi433_if.c:1066:9: warning: Redundant initializati=
+on for 'retval'. The initialized value is overwritten before it is read. [r=
+edundantInitialization]
+    retval =3D idr_alloc(&pi433_idr, device, 0, N_PI433_MINORS, GFP_KERNEL);
            ^
-   mm/kfence/report.c:189:6: note: Taking false branch
-           if (WARN_ON(type !=3D KFENCE_ERROR_INVALID && !meta))
+   drivers/staging/pi433/pi433_if.c:1063:13: note: retval is initialized
+    int retval =3D -ENOMEM;
                ^
-   arch/s390/include/asm/bug.h:58:3: note: expanded from macro 'WARN_ON'
-                   if (unlikely(__ret_warn_on))            \
-                   ^
-   mm/kfence/report.c:189:2: note: Taking false branch
-           if (WARN_ON(type !=3D KFENCE_ERROR_INVALID && !meta))
+   drivers/staging/pi433/pi433_if.c:1066:9: note: retval is overwritten
+    retval =3D idr_alloc(&pi433_idr, device, 0, N_PI433_MINORS, GFP_KERNEL);
            ^
-   mm/kfence/report.c:192:6: note: 'meta' is null
-           if (meta)
-               ^~~~
-   mm/kfence/report.c:192:2: note: Taking false branch
-           if (meta)
-           ^
-   mm/kfence/report.c:203:2: note: Dereference of null pointer
-           lockdep_off();
-           ^
-   include/linux/lockdep.h:171:2: note: expanded from macro 'lockdep_off'
-           current->lockdep_recursion +=3D LOCKDEP_OFF;      \
-           ^~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   arch/s390/include/asm/preempt.h:100:29: warning: Dereference of null poi=
-nter [clang-analyzer-core.NullDereference]
-           S390_lowcore.preempt_count +=3D val;
-                                      ^
-   mm/kfence/kfence_test.c:662:2: note: Assuming 'test_cache' is non-null
-           KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
-           ^
-   include/kunit/test.h:1313:2: note: expanded from macro 'KUNIT_EXPECT_TRU=
-E'
-           KUNIT_TRUE_ASSERTION(test, KUNIT_EXPECTATION, condition)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:829:2: note: expanded from macro 'KUNIT_TRUE_ASSERT=
-ION'
-           KUNIT_TRUE_MSG_ASSERTION(test, assert_type, condition, NULL)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:821:2: note: expanded from macro 'KUNIT_TRUE_MSG_AS=
-SERTION'
-           KUNIT_UNARY_ASSERTION(test,                                     =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:811:5: note: expanded from macro 'KUNIT_UNARY_ASSER=
-TION'
-                           !!(condition) =3D=3D !!expected_true,           =
-           \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:773:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   mm/kfence/kfence_test.c:662:2: note: Loop condition is false.  Exiting l=
-oop
-           KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
-           ^
-   include/kunit/test.h:1313:2: note: expanded from macro 'KUNIT_EXPECT_TRU=
-E'
-           KUNIT_TRUE_ASSERTION(test, KUNIT_EXPECTATION, condition)
-           ^
-   include/kunit/test.h:829:2: note: expanded from macro 'KUNIT_TRUE_ASSERT=
-ION'
-           KUNIT_TRUE_MSG_ASSERTION(test, assert_type, condition, NULL)
-           ^
-   include/kunit/test.h:821:2: note: expanded from macro 'KUNIT_TRUE_MSG_AS=
-SERTION'
-           KUNIT_UNARY_ASSERTION(test,                                     =
-       \
-           ^
-   include/kunit/test.h:810:2: note: expanded from macro 'KUNIT_UNARY_ASSER=
-TION'
-           KUNIT_ASSERTION(test,                                           =
-       \
-           ^
-   include/kunit/test.h:769:74: note: expanded from macro 'KUNIT_ASSERTION'
-   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
- do {  \
-                                                                           =
- ^
-   mm/kfence/kfence_test.c:667:2: note: Calling 'rcu_read_lock'
-           rcu_read_lock();
-           ^~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:685:2: note: Calling '__rcu_read_lock'
-           __rcu_read_lock();
-           ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:68:2: note: Calling '__preempt_count_add'
-           preempt_disable();
-           ^
-   include/linux/preempt.h:177:2: note: expanded from macro 'preempt_disabl=
-e'
-           preempt_count_inc(); \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:170:29: note: expanded from macro 'preempt_count=
-_inc'
-   #define preempt_count_inc() preempt_count_add(1)
-                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:162:32: note: expanded from macro 'preempt_count=
-_add'
-   #define preempt_count_add(val)  __preempt_count_add(val)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/preempt.h:100:29: note: Dereference of null pointer
-           S390_lowcore.preempt_count +=3D val;
-                                      ^
->> mm/kfence/kfence_test.c:160:2: warning: Value stored to 'cur' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:160:2: note: Value stored to 'cur' is never read
-           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/kfence/kfence_test.c:160:9: warning: Use of memory after it is freed =
-[clang-analyzer-unix.Malloc]
-           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
-                  ^
-   mm/kfence/kfence_test.c:391:2: note: Calling 'test_free'
-           test_free(expect.addr); /* Double-free. */
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:217:6: note: Assuming 'test_cache' is null
-           if (test_cache)
-               ^~~~~~~~~~
-   mm/kfence/kfence_test.c:217:2: note: Taking false branch
-           if (test_cache)
-           ^
-   mm/kfence/kfence_test.c:220:3: note: Memory is released
-                   kfree(ptr);
-                   ^~~~~~~~~~
-   mm/kfence/kfence_test.c:391:2: note: Returning; memory was released via =
-1st parameter
-           test_free(expect.addr); /* Double-free. */
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:392:26: note: Calling 'report_matches'
-           KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-                                   ^
-   include/kunit/test.h:1313:48: note: expanded from macro 'KUNIT_EXPECT_TR=
-UE'
-           KUNIT_TRUE_ASSERTION(test, KUNIT_EXPECTATION, condition)
-                                                         ^~~~~~~~~
-   include/kunit/test.h:829:46: note: expanded from macro 'KUNIT_TRUE_ASSER=
-TION'
-           KUNIT_TRUE_MSG_ASSERTION(test, assert_type, condition, NULL)
-                                                       ^~~~~~~~~
-   include/kunit/test.h:823:10: note: expanded from macro 'KUNIT_TRUE_MSG_A=
-SSERTION'
-                                 condition,                                =
-       \
-                                 ^~~~~~~~~
-   include/kunit/test.h:811:7: note: expanded from macro 'KUNIT_UNARY_ASSER=
-TION'
-                           !!(condition) =3D=3D !!expected_true,           =
-           \
-                              ^~~~~~~~~
-   include/kunit/test.h:773:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   mm/kfence/kfence_test.c:100:2: note: Taking false branch
-           if (!report_available())
-           ^
-   mm/kfence/kfence_test.c:108:2: note: Control jumps to 'case KFENCE_ERROR=
-_INVALID_FREE:'  at line 124
-           switch (r->type) {
-           ^
-   mm/kfence/kfence_test.c:126:3: note:  Execution continues on line 129
-                   break;
-                   ^
-   mm/kfence/kfence_test.c:132:6: note: Assuming 'cur' is null
-           if (cur)
-               ^~~
-   mm/kfence/kfence_test.c:132:2: note: Taking false branch
-           if (cur)
-           ^
-   mm/kfence/kfence_test.c:139:2: note: Control jumps to 'case KFENCE_ERROR=
-_INVALID_FREE:'  at line 155
-           switch (r->type) {
-           ^
-   mm/kfence/kfence_test.c:157:3: note:  Execution continues on line 160
-                   break;
-                   ^
-   mm/kfence/kfence_test.c:160:9: note: Use of memory after it is freed
-           cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
-                  ^                                  ~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:376:2: warning: Use of memory after it is freed =
-[clang-analyzer-unix.Malloc]
-           READ_ONCE(*expect.addr);
-           ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   mm/kfence/kfence_test.c:375:2: note: Calling 'test_free'
-           test_free(expect.addr);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:217:6: note: Assuming 'test_cache' is null
-           if (test_cache)
-               ^~~~~~~~~~
-   mm/kfence/kfence_test.c:217:2: note: Taking false branch
-           if (test_cache)
-           ^
-   mm/kfence/kfence_test.c:220:3: note: Memory is released
-                   kfree(ptr);
-                   ^~~~~~~~~~
-   mm/kfence/kfence_test.c:375:2: note: Returning; memory was released via =
-1st parameter
-           test_free(expect.addr);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:376:2: note: Left side of '||' is true
-           READ_ONCE(*expect.addr);
-           ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
+>> kernel/relay.c:360:2: warning: %d in format string (no. 2) requires 'int=
+' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+    snprintf(tmpname, NAME_MAX, "%s%d", chan->base_filename, cpu);
+    ^
+>> drivers/vfio/vfio.c:316:49: warning: Parameter 'iommu_group' can be decl=
+ared with const [constParameter]
+   __vfio_group_get_from_iommu(struct iommu_group *iommu_group)
+                                                   ^
+>> drivers/vfio/vfio.c:508:23: warning: Parameter 'dev' can be declared wit=
+h const [constParameter]
+          struct device *dev)
+                         ^
+   drivers/vfio/vfio.c:1995:56: warning: Parameter 'test_group' can be decl=
+ared with const [constParameter]
+   bool vfio_external_group_match_file(struct vfio_group *test_group,
+                                                          ^
+>> drivers/vfio/vfio.c:252:12: warning: Uninitialized variable: tmp->ops [u=
+ninitvar]
+     if (tmp->ops =3D=3D ops) {
+              ^
+   drivers/vfio/vfio.c:243:6: note: Assuming condition is false
+    if (!driver)
+        ^
+   drivers/vfio/vfio.c:252:12: note: Uninitialized variable: tmp->ops
+     if (tmp->ops =3D=3D ops) {
+              ^
+>> drivers/vfio/vfio.c:273:15: warning: Uninitialized variable: driver->ops=
+ [uninitvar]
+     if (driver->ops =3D=3D ops) {
+                 ^
+>> drivers/vfio/vfio.c:321:14: warning: Uninitialized variable: group->iomm=
+u_group [uninitvar]
+     if (group->iommu_group =3D=3D iommu_group) {
+                ^
+   drivers/vfio/vfio.c:579:23: warning: Uninitialized variable: unbound->de=
+v [uninitvar]
+     if (dev =3D=3D unbound->dev) {
+                         ^
+>> drivers/vfio/vfio.c:1071:45: warning: Uninitialized variables: driver.op=
+s, driver.vfio_next [uninitvar]
+     if (!vfio_iommu_driver_allowed(container, driver))
+                                               ^
+   drivers/vfio/vfio.c:1062:41: note: Assuming condition is false
+    if (list_empty(&container->group_list) || container->iommu_driver) {
+                                           ^
+   drivers/vfio/vfio.c:1062:41: note: Assuming condition is false
+    if (list_empty(&container->group_list) || container->iommu_driver) {
+                                           ^
+   drivers/vfio/vfio.c:1071:45: note: Uninitialized variables: driver.ops, =
+driver.vfio_next
+     if (!vfio_iommu_driver_allowed(container, driver))
+                                               ^
+--
+>> fs/overlayfs/copy_up.c:417:57: warning: Possible null pointer dereferenc=
+e: fh [nullPointer]
+    err =3D ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+                                                           ^
+   fs/overlayfs/copy_up.c:400:28: note: Assignment 'fh=3DNULL', assigned va=
+lue is 0
+    const struct ovl_fh *fh =3D NULL;
                               ^
-   include/linux/compiler_types.h:290:29: note: expanded from macro '__nati=
-ve_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-                                      ^
-   mm/kfence/kfence_test.c:376:2: note: Taking false branch
-           READ_ONCE(*expect.addr);
-           ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   mm/kfence/kfence_test.c:376:2: note: Loop condition is false.  Exiting l=
-oop
-           READ_ONCE(*expect.addr);
-           ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   mm/kfence/kfence_test.c:376:2: note: Use of memory after it is freed
-           READ_ONCE(*expect.addr);
-           ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   mm/kfence/kfence_test.c:391:2: warning: Use of memory after it is freed =
-[clang-analyzer-unix.Malloc]
-           test_free(expect.addr); /* Double-free. */
-           ^         ~~~~~~~~~~~
-   mm/kfence/kfence_test.c:390:2: note: Calling 'test_free'
-           test_free(expect.addr);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:217:6: note: Assuming 'test_cache' is null
-           if (test_cache)
-               ^~~~~~~~~~
-   mm/kfence/kfence_test.c:217:2: note: Taking false branch
-           if (test_cache)
-           ^
-   mm/kfence/kfence_test.c:220:3: note: Memory is released
-                   kfree(ptr);
-                   ^~~~~~~~~~
-   mm/kfence/kfence_test.c:390:2: note: Returning; memory was released via =
-1st parameter
-           test_free(expect.addr);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:391:2: note: Use of memory after it is freed
-           test_free(expect.addr); /* Double-free. */
-           ^         ~~~~~~~~~~~
-   mm/kfence/kfence_test.c:408:2: warning: Use of memory after it is freed =
-[clang-analyzer-unix.Malloc]
-           test_free(buf); /* No error. */
-           ^         ~~~
-   mm/kfence/kfence_test.c:407:2: note: Calling 'test_free'
-           test_free(expect.addr); /* Invalid address free. */
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:217:6: note: Assuming 'test_cache' is null
-           if (test_cache)
-               ^~~~~~~~~~
-   mm/kfence/kfence_test.c:217:2: note: Taking false branch
-           if (test_cache)
-           ^
-   mm/kfence/kfence_test.c:220:3: note: Memory is released
-                   kfree(ptr);
-                   ^~~~~~~~~~
-   mm/kfence/kfence_test.c:407:2: note: Returning; memory was released
-           test_free(expect.addr); /* Invalid address free. */
-           ^~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:408:2: note: Use of memory after it is freed
-           test_free(buf); /* No error. */
-           ^         ~~~
->> mm/kfence/kfence_test.c:703:10: warning: Array access (from variable 'bu=
-f') results in a null pointer dereference [clang-analyzer-core.NullDerefere=
-nce]
-                   buf[i] =3D i + 1;
-                   ~~~    ^
-   mm/kfence/kfence_test.c:691:2: note: 'expect.addr' initialized to a null=
- pointer value
-           const struct expect_report expect =3D {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/kfence/kfence_test.c:697:2: note: 'buf' initialized to a null pointer=
- value
-           char *buf =3D expect.addr;
-           ^~~~~~~~~
-   mm/kfence/kfence_test.c:700:2: note: Assuming 'test_cache' is non-null
-           KUNIT_EXPECT_FALSE(test, test_cache);
-           ^
-   include/kunit/test.h:1332:2: note: expanded from macro 'KUNIT_EXPECT_FAL=
-SE'
-           KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:840:2: note: expanded from macro 'KUNIT_FALSE_ASSER=
-TION'
-           KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:832:2: note: expanded from macro 'KUNIT_FALSE_MSG_A=
-SSERTION'
-           KUNIT_UNARY_ASSERTION(test,                                     =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:811:5: note: expanded from macro 'KUNIT_UNARY_ASSER=
-TION'
-                           !!(condition) =3D=3D !!expected_true,           =
-           \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:773:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   mm/kfence/kfence_test.c:700:2: note: Loop condition is false.  Exiting l=
-oop
-           KUNIT_EXPECT_FALSE(test, test_cache);
-           ^
-   include/kunit/test.h:1332:2: note: expanded from macro 'KUNIT_EXPECT_FAL=
-SE'
-           KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
-           ^
-   include/kunit/test.h:840:2: note: expanded from macro 'KUNIT_FALSE_ASSER=
-TION'
-           KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
-           ^
-   include/kunit/test.h:832:2: note: expanded from macro 'KUNIT_FALSE_MSG_A=
-SSERTION'
-           KUNIT_UNARY_ASSERTION(test,                                     =
-       \
-           ^
-   include/kunit/test.h:810:2: note: expanded from macro 'KUNIT_UNARY_ASSER=
-TION'
-           KUNIT_ASSERTION(test,                                           =
-       \
-           ^
-   include/kunit/test.h:769:74: note: expanded from macro 'KUNIT_ASSERTION'
-   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
- do {  \
-                                                                           =
- ^
-   mm/kfence/kfence_test.c:701:2: note: Assuming '__left' is not equal to '=
-__right'
-           KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match a=
-fter KFENCE alloc. */
-           ^
-   include/kunit/test.h:1353:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
-           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:990:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
-SSERTION'
-           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:980:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
-SG_ASSERTION'
-           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:891:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
-_ASSERTION'
-           KUNIT_BASE_BINARY_ASSERTION(test,                               =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:870:4: note: expanded from macro 'KUNIT_BASE_BINARY=
-_ASSERTION'
-                           __left op __right,                              =
-       \
-   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:773:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   mm/kfence/kfence_test.c:701:2: note: Loop condition is false.  Exiting l=
-oop
-           KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match a=
-fter KFENCE alloc. */
-           ^
-   include/kunit/test.h:1353:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
-           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
-           ^
-   include/kunit/test.h:990:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
-SSERTION'
-           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
-       \
-           ^
-   include/kunit/test.h:980:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
-SG_ASSERTION'
-           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
-       \
-           ^
-   include/kunit/test.h:891:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
-_ASSERTION'
-           KUNIT_BASE_BINARY_ASSERTION(test,                               =
-       \
-           ^
-   include/kunit/test.h:869:2: note: expanded from macro 'KUNIT_BASE_BINARY=
-_ASSERTION'
-           KUNIT_ASSERTION(test,                                           =
-       \
-           ^
-   include/kunit/test.h:769:74: note: expanded from macro 'KUNIT_ASSERTION'
-   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
- do {  \
-                                                                           =
- ^
-   mm/kfence/kfence_test.c:701:2: note: Loop condition is false.  Exiting l=
-oop
-           KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match a=
-fter KFENCE alloc. */
-           ^
-   include/kunit/test.h:1353:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
-           KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
-           ^
-   include/kunit/test.h:990:2: note: expanded from macro 'KUNIT_BINARY_EQ_A=
-SSERTION'
-           KUNIT_BINARY_EQ_MSG_ASSERTION(test,                             =
-       \
-           ^
-   include/kunit/test.h:980:2: note: expanded from macro 'KUNIT_BINARY_EQ_M=
-SG_ASSERTION'
-           KUNIT_BASE_EQ_MSG_ASSERTION(test,                               =
-       \
-           ^
-   include/kunit/test.h:891:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG=
-_ASSERTION'
-           KUNIT_BASE_BINARY_ASSERTION(test,                               =
-       \
+   fs/overlayfs/copy_up.c:408:23: note: Assuming condition is false
+    if (ovl_can_decode_fh(lower->d_sb)) {
+                         ^
+   fs/overlayfs/copy_up.c:417:57: note: Null pointer dereference
+    err =3D ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+                                                           ^
+>> fs/overlayfs/copy_up.c:107:10: warning: Local variable 'new' shadows out=
+er argument [shadowArgument]
+      void *new;
+            ^
+   fs/overlayfs/copy_up.c:48:21: note: Shadowed declaration
+        struct dentry *new)
+                       ^
+   fs/overlayfs/copy_up.c:107:10: note: Shadow variable
+      void *new;
+            ^
+--
+>> fs/coredump.c:401:15: warning: Redundant initialization for 'core_waiter=
+s'. The initialized value is overwritten before it is read. [redundantIniti=
+alization]
+    core_waiters =3D zap_threads(tsk, core_state, exit_code);
+                 ^
+   fs/coredump.c:395:19: note: core_waiters is initialized
+    int core_waiters =3D -EBUSY;
+                     ^
+   fs/coredump.c:401:15: note: core_waiters is overwritten
+    core_waiters =3D zap_threads(tsk, core_state, exit_code);
+                 ^
+>> kernel/bpf/bpf_iter.c:457:12: warning: Boolean result is used in bitwise=
+ operation. Clarify expression with parentheses. [clarifyCondition]
+    if (!ulen ^ !ubuf)
+              ^
+   kernel/bpf/bpf_iter.c:518:29: warning: Boolean result is used in bitwise=
+ operation. Clarify expression with parentheses. [clarifyCondition]
+    if (bpfptr_is_null(ulinfo) ^ !linfo_len)
+                               ^
+>> kernel/bpf/bpf_iter.c:312:26: warning: Uninitialized variable: tinfo->re=
+g_info [uninitvar]
+     if (reg_info =3D=3D tinfo->reg_info) {
+                            ^
+>> kernel/bpf/bpf_iter.c:344:14: warning: Uninitialized variable: tinfo->bt=
+f_id [uninitvar]
+     if (tinfo->btf_id && tinfo->btf_id =3D=3D prog_btf_id) {
+                ^
+   kernel/bpf/bpf_iter.c:339:13: note: Assuming condition is false
+    if (strncmp(attach_fname, prefix, prefix_len))
+               ^
+   kernel/bpf/bpf_iter.c:344:14: note: Uninitialized variable: tinfo->btf_id
+     if (tinfo->btf_id && tinfo->btf_id =3D=3D prog_btf_id) {
+                ^
+   kernel/bpf/bpf_iter.c:372:14: warning: Uninitialized variable: tinfo->bt=
+f_id [uninitvar]
+     if (tinfo->btf_id =3D=3D prog->aux->attach_btf_id) {
+                ^
+>> kernel/bpf/bpf_iter.c:376:8: warning: Uninitialized variable: reg_info [=
+uninitvar]
+      if (reg_info->get_func_proto)
+          ^
+   kernel/bpf/bpf_iter.c:375:20: note: Assignment 'reg_info=3Dtinfo->reg_in=
+fo', assigned value is <Uninit>
+      reg_info =3D tinfo->reg_info;
+                      ^
+   kernel/bpf/bpf_iter.c:376:8: note: Uninitialized variable: reg_info
+      if (reg_info->get_func_proto)
+          ^
+>> drivers/tty/tty_io.c:545:61: warning: Parameter 'tty' can be declared wi=
+th const [constParameter]
+   static struct file *tty_release_redirect(struct tty_struct *tty)
+                                                               ^
+--
+>> fs/pipe.c:1071:73: warning: Parameter 'cnt' can be declared with const [=
+constParameter]
+   static int wait_for_partner(struct pipe_inode_info *pipe, unsigned int *=
+cnt)
+                                                                           ^
+--
+>> drivers/usb/misc/ftdi-elan.c:2206:6: warning: Local variable 'roothub_a'=
+ shadows outer function [shadowFunction]
+    u32 roothub_a;
+        ^
+   drivers/usb/host/ohci.h:718:19: note: Shadowed declaration
+   static inline u32 roothub_a (struct ohci_hcd *hc)
+                     ^
+   drivers/usb/misc/ftdi-elan.c:2206:6: note: Shadow variable
+    u32 roothub_a;
+        ^
+>> drivers/usb/host/ohci.h:697:56: warning: Shifting signed 32-bit value by=
+ 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    u32 fit =3D ohci_readl(ohci, &ohci->regs->fminterval) & FIT;
+                                                          ^
+   drivers/usb/host/ohci.h:699:2: warning: Shifting signed 32-bit value by =
+31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    ohci_writel (ohci, (fit ^ FIT) | ohci->fminterval,
+    ^
+>> drivers/usb/misc/ftdi-elan.c:2207:13: warning: Shifting signed 32-bit va=
+lue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    int mask =3D OHCI_INTR_INIT;
+               ^
+   drivers/usb/misc/ftdi-elan.c:2211:11: warning: Shifting signed 32-bit va=
+lue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    retval =3D ftdi_write_pcimem(ftdi, intrdisable, OHCI_INTR_MIE);
+             ^
+   drivers/usb/misc/ftdi-elan.c:2308:11: warning: Shifting signed 32-bit va=
+lue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    retval =3D ftdi_write_pcimem(ftdi, fminterval,
+             ^
+   drivers/usb/misc/ftdi-elan.c:2350:11: warning: Shifting signed 32-bit va=
+lue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    retval =3D ftdi_write_pcimem(ftdi, intrdisable,
+             ^
+>> drivers/usb/host/ohci.h:697:56: warning: Signed integer overflow for exp=
+ression '1<<31'. [integerOverflow]
+    u32 fit =3D ohci_readl(ohci, &ohci->regs->fminterval) & FIT;
+                                                          ^
+   drivers/usb/host/ohci.h:699:2: warning: Signed integer overflow for expr=
+ession '1<<31'. [integerOverflow]
+    ohci_writel (ohci, (fit ^ FIT) | ohci->fminterval,
+    ^
+>> drivers/usb/misc/ftdi-elan.c:2207:13: warning: Signed integer overflow f=
+or expression '1<<31'. [integerOverflow]
+    int mask =3D OHCI_INTR_INIT;
+               ^
+   drivers/usb/misc/ftdi-elan.c:2211:11: warning: Signed integer overflow f=
+or expression '1<<31'. [integerOverflow]
+    retval =3D ftdi_write_pcimem(ftdi, intrdisable, OHCI_INTR_MIE);
+             ^
+   drivers/usb/misc/ftdi-elan.c:2308:11: warning: Signed integer overflow f=
+or expression '1<<31'. [integerOverflow]
+    retval =3D ftdi_write_pcimem(ftdi, fminterval,
+             ^
+   drivers/usb/misc/ftdi-elan.c:2350:11: warning: Signed integer overflow f=
+or expression '1<<31'. [integerOverflow]
+    retval =3D ftdi_write_pcimem(ftdi, intrdisable,
+             ^
+   drivers/usb/misc/ftdi-elan.c:2362:18: warning: Signed integer overflow f=
+or expression '0xff<<24'. [integerOverflow]
+     roothub_a &=3D ~(RH_A_POTPGT | RH_A_NPS);
+                    ^
+>> drivers/usb/misc/ftdi-elan.c:2781:27: warning: Uninitialized variables: =
+ftdi.ftdi_list, ftdi.u132_lock, ftdi.command_next, ftdi.command_head, ftdi.=
+respond_next, ftdi.respond_head, ftdi.synchronized, ftdi.enumerated, ftdi.r=
+egistered, ftdi.initialized, ftdi.card_ejected, ftdi.function, ftdi.sequenc=
+e_num, ftdi.disconnected, ftdi.gone_away, ftdi.stuck_status, ftdi.status_qu=
+eue_delay, ftdi.sw_lock, ftdi.udev, ftdi.interface, ftdi.class, ftdi.status=
+_work, ftdi.command_work, ftdi.respond_work, ftdi.platform_data, ftdi.platf=
+orm_dev, ftdi.bulk_in_buffer, ftdi.bulk_in_size, ftdi.bulk_in_last, ftdi.bu=
+lk_in_left, ftdi.bulk_in_endpointAddr, ftdi.bulk_out_endpointAddr, ftdi.kre=
+f, ftdi.controlreg, ftdi.expected, ftdi.received, ftdi.ed_found [uninitvar]
+     ftdi_status_cancel_work(ftdi);
+                             ^
 
-vim +/cur +160 mm/kfence/kfence_test.c
+vim +577 drivers/spi/spidev.c
 
-bc8fbc5f305aec Marco Elver   2021-02-25   88  =
+7d48ec3698e7b7 Bernhard Walle    2011-02-03  568  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25   89  /* Check observed report matc=
-hes information in @r. */
-bc8fbc5f305aec Marco Elver   2021-02-25   90  static bool report_matches(co=
-nst struct expect_report *r)
-bc8fbc5f305aec Marco Elver   2021-02-25   91  {
-f99e12b21b84fe Sven Schnelle 2021-07-28   92  	unsigned long addr =3D (unsi=
-gned long)r->addr;
-bc8fbc5f305aec Marco Elver   2021-02-25   93  	bool ret =3D false;
-bc8fbc5f305aec Marco Elver   2021-02-25   94  	unsigned long flags;
-bc8fbc5f305aec Marco Elver   2021-02-25   95  	typeof(observed.lines) expec=
-t;
-bc8fbc5f305aec Marco Elver   2021-02-25   96  	const char *end;
-bc8fbc5f305aec Marco Elver   2021-02-25   97  	char *cur;
-bc8fbc5f305aec Marco Elver   2021-02-25   98  =
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  569  static int spidev_open(st=
+ruct inode *inode, struct file *filp)
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  570  {
+d50d7e91c6e5cc Jakob Koschel     2022-03-24  571  	struct spidev_data	*spid=
+ev =3D NULL, *iter;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  572  	int			status =3D -ENXIO;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  573  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25   99  	/* Doubled-checked locking. =
-*/
-bc8fbc5f305aec Marco Elver   2021-02-25  100  	if (!report_available())
-bc8fbc5f305aec Marco Elver   2021-02-25  101  		return false;
-bc8fbc5f305aec Marco Elver   2021-02-25  102  =
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  574  	mutex_lock(&device_list_=
+lock);
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  575  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  103  	/* Generate expected report =
-contents. */
-bc8fbc5f305aec Marco Elver   2021-02-25  104  =
+d50d7e91c6e5cc Jakob Koschel     2022-03-24  576  	list_for_each_entry(iter=
+, &device_list, device_entry) {
+d50d7e91c6e5cc Jakob Koschel     2022-03-24 @577  		if (iter->devt =3D=3D i=
+node->i_rdev) {
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  578  			status =3D 0;
+d50d7e91c6e5cc Jakob Koschel     2022-03-24  579  			spidev =3D iter;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  580  			break;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  581  		}
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  582  	}
+865f6d1974ddd9 Ray Jui           2014-10-09  583  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  105  	/* Title */
-bc8fbc5f305aec Marco Elver   2021-02-25  106  	cur =3D expect[0];
-bc8fbc5f305aec Marco Elver   2021-02-25  107  	end =3D &expect[0][sizeof(ex=
-pect[0]) - 1];
-bc8fbc5f305aec Marco Elver   2021-02-25  108  	switch (r->type) {
-bc8fbc5f305aec Marco Elver   2021-02-25  109  	case KFENCE_ERROR_OOB:
-bc8fbc5f305aec Marco Elver   2021-02-25  110  		cur +=3D scnprintf(cur, end=
- - cur, "BUG: KFENCE: out-of-bounds %s",
-bc8fbc5f305aec Marco Elver   2021-02-25  111  				 get_access_type(r));
-bc8fbc5f305aec Marco Elver   2021-02-25  112  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  113  	case KFENCE_ERROR_UAF:
-bc8fbc5f305aec Marco Elver   2021-02-25  114  		cur +=3D scnprintf(cur, end=
- - cur, "BUG: KFENCE: use-after-free %s",
-bc8fbc5f305aec Marco Elver   2021-02-25  115  				 get_access_type(r));
-bc8fbc5f305aec Marco Elver   2021-02-25  116  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  117  	case KFENCE_ERROR_CORRUPTION:
-bc8fbc5f305aec Marco Elver   2021-02-25  118  		cur +=3D scnprintf(cur, end=
- - cur, "BUG: KFENCE: memory corruption");
-bc8fbc5f305aec Marco Elver   2021-02-25  119  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  120  	case KFENCE_ERROR_INVALID:
-bc8fbc5f305aec Marco Elver   2021-02-25  121  		cur +=3D scnprintf(cur, end=
- - cur, "BUG: KFENCE: invalid %s",
-bc8fbc5f305aec Marco Elver   2021-02-25  122  				 get_access_type(r));
-bc8fbc5f305aec Marco Elver   2021-02-25  123  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  124  	case KFENCE_ERROR_INVALID_FR=
-EE:
-bc8fbc5f305aec Marco Elver   2021-02-25  125  		cur +=3D scnprintf(cur, end=
- - cur, "BUG: KFENCE: invalid free");
-bc8fbc5f305aec Marco Elver   2021-02-25  126  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  127  	}
-bc8fbc5f305aec Marco Elver   2021-02-25  128  =
+d50d7e91c6e5cc Jakob Koschel     2022-03-24  584  	if (!spidev) {
+865f6d1974ddd9 Ray Jui           2014-10-09  585  		pr_debug("spidev: nothi=
+ng for minor %d\n", iminor(inode));
+865f6d1974ddd9 Ray Jui           2014-10-09  586  		goto err_find_dev;
+865f6d1974ddd9 Ray Jui           2014-10-09  587  	}
+865f6d1974ddd9 Ray Jui           2014-10-09  588  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  129  	scnprintf(cur, end - cur, " =
-in %pS", r->fn);
-bc8fbc5f305aec Marco Elver   2021-02-25  130  	/* The exact offset won't ma=
-tch, remove it; also strip module name. */
-bc8fbc5f305aec Marco Elver   2021-02-25  131  	cur =3D strchr(expect[0], '+=
-');
-bc8fbc5f305aec Marco Elver   2021-02-25  132  	if (cur)
-bc8fbc5f305aec Marco Elver   2021-02-25  133  		*cur =3D '\0';
-bc8fbc5f305aec Marco Elver   2021-02-25  134  =
+865f6d1974ddd9 Ray Jui           2014-10-09  589  	if (!spidev->tx_buffer) {
+865f6d1974ddd9 Ray Jui           2014-10-09  590  		spidev->tx_buffer =3D k=
+malloc(bufsiz, GFP_KERNEL);
+865f6d1974ddd9 Ray Jui           2014-10-09  591  		if (!spidev->tx_buffer)=
+ {
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  592  			dev_dbg(&spidev->spi->=
+dev, "open/ENOMEM\n");
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  593  			status =3D -ENOMEM;
+865f6d1974ddd9 Ray Jui           2014-10-09  594  			goto err_find_dev;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  595  		}
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  596  	}
+865f6d1974ddd9 Ray Jui           2014-10-09  597  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  135  	/* Access information */
-bc8fbc5f305aec Marco Elver   2021-02-25  136  	cur =3D expect[1];
-bc8fbc5f305aec Marco Elver   2021-02-25  137  	end =3D &expect[1][sizeof(ex=
-pect[1]) - 1];
-bc8fbc5f305aec Marco Elver   2021-02-25  138  =
+865f6d1974ddd9 Ray Jui           2014-10-09  598  	if (!spidev->rx_buffer) {
+865f6d1974ddd9 Ray Jui           2014-10-09  599  		spidev->rx_buffer =3D k=
+malloc(bufsiz, GFP_KERNEL);
+865f6d1974ddd9 Ray Jui           2014-10-09  600  		if (!spidev->rx_buffer)=
+ {
+865f6d1974ddd9 Ray Jui           2014-10-09  601  			dev_dbg(&spidev->spi->=
+dev, "open/ENOMEM\n");
+865f6d1974ddd9 Ray Jui           2014-10-09  602  			status =3D -ENOMEM;
+865f6d1974ddd9 Ray Jui           2014-10-09  603  			goto err_alloc_rx_buf;
+865f6d1974ddd9 Ray Jui           2014-10-09  604  		}
+865f6d1974ddd9 Ray Jui           2014-10-09  605  	}
+865f6d1974ddd9 Ray Jui           2014-10-09  606  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  139  	switch (r->type) {
-bc8fbc5f305aec Marco Elver   2021-02-25  140  	case KFENCE_ERROR_OOB:
-bc8fbc5f305aec Marco Elver   2021-02-25  141  		cur +=3D scnprintf(cur, end=
- - cur, "Out-of-bounds %s at", get_access_type(r));
-f99e12b21b84fe Sven Schnelle 2021-07-28  142  		addr =3D arch_kfence_test_a=
-ddress(addr);
-bc8fbc5f305aec Marco Elver   2021-02-25  143  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  144  	case KFENCE_ERROR_UAF:
-bc8fbc5f305aec Marco Elver   2021-02-25  145  		cur +=3D scnprintf(cur, end=
- - cur, "Use-after-free %s at", get_access_type(r));
-f99e12b21b84fe Sven Schnelle 2021-07-28  146  		addr =3D arch_kfence_test_a=
-ddress(addr);
-bc8fbc5f305aec Marco Elver   2021-02-25  147  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  148  	case KFENCE_ERROR_CORRUPTION:
-bc8fbc5f305aec Marco Elver   2021-02-25  149  		cur +=3D scnprintf(cur, end=
- - cur, "Corrupted memory at");
-bc8fbc5f305aec Marco Elver   2021-02-25  150  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  151  	case KFENCE_ERROR_INVALID:
-bc8fbc5f305aec Marco Elver   2021-02-25  152  		cur +=3D scnprintf(cur, end=
- - cur, "Invalid %s at", get_access_type(r));
-f99e12b21b84fe Sven Schnelle 2021-07-28  153  		addr =3D arch_kfence_test_a=
-ddress(addr);
-bc8fbc5f305aec Marco Elver   2021-02-25  154  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  155  	case KFENCE_ERROR_INVALID_FR=
-EE:
-bc8fbc5f305aec Marco Elver   2021-02-25  156  		cur +=3D scnprintf(cur, end=
- - cur, "Invalid free of");
-bc8fbc5f305aec Marco Elver   2021-02-25  157  		break;
-bc8fbc5f305aec Marco Elver   2021-02-25  158  	}
-bc8fbc5f305aec Marco Elver   2021-02-25  159  =
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  607  	spidev->users++;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  608  	filp->private_data =3D s=
+pidev;
+c5bf68fe0c86a5 Kirill Smelkov    2019-03-26  609  	stream_open(inode, filp);
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  610  =
 
-f99e12b21b84fe Sven Schnelle 2021-07-28 @160  	cur +=3D scnprintf(cur, end =
-- cur, " 0x%p", (void *)addr);
-bc8fbc5f305aec Marco Elver   2021-02-25  161  =
+865f6d1974ddd9 Ray Jui           2014-10-09  611  	mutex_unlock(&device_lis=
+t_lock);
+865f6d1974ddd9 Ray Jui           2014-10-09  612  	return 0;
+865f6d1974ddd9 Ray Jui           2014-10-09  613  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  162  	spin_lock_irqsave(&observed.=
-lock, flags);
-bc8fbc5f305aec Marco Elver   2021-02-25  163  	if (!report_available())
-bc8fbc5f305aec Marco Elver   2021-02-25  164  		goto out; /* A new report i=
-s being captured. */
-bc8fbc5f305aec Marco Elver   2021-02-25  165  =
+865f6d1974ddd9 Ray Jui           2014-10-09  614  err_alloc_rx_buf:
+865f6d1974ddd9 Ray Jui           2014-10-09  615  	kfree(spidev->tx_buffer);
+865f6d1974ddd9 Ray Jui           2014-10-09  616  	spidev->tx_buffer =3D NU=
+LL;
+865f6d1974ddd9 Ray Jui           2014-10-09  617  err_find_dev:
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  618  	mutex_unlock(&device_lis=
+t_lock);
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  619  	return status;
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  620  }
+814a8d50eb1d88 Andrea Paterniani 2007-05-08  621  =
 
-bc8fbc5f305aec Marco Elver   2021-02-25  166  	/* Finally match expected ou=
-tput to what we actually observed. */
-bc8fbc5f305aec Marco Elver   2021-02-25  167  	ret =3D strstr(observed.line=
-s[0], expect[0]) && strstr(observed.lines[1], expect[1]);
-bc8fbc5f305aec Marco Elver   2021-02-25  168  out:
-bc8fbc5f305aec Marco Elver   2021-02-25  169  	spin_unlock_irqrestore(&obse=
-rved.lock, flags);
-bc8fbc5f305aec Marco Elver   2021-02-25  170  	return ret;
-bc8fbc5f305aec Marco Elver   2021-02-25  171  }
-bc8fbc5f305aec Marco Elver   2021-02-25  172  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  173  /* =3D=3D=3D=3D=3D Test cases=
- =3D=3D=3D=3D=3D */
-bc8fbc5f305aec Marco Elver   2021-02-25  174  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  175  #define TEST_PRIV_WANT_MEMCAC=
-HE ((void *)1)
-bc8fbc5f305aec Marco Elver   2021-02-25  176  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  177  /* Cache used by tests; if NU=
-LL, allocate from kmalloc instead. */
-bc8fbc5f305aec Marco Elver   2021-02-25  178  static struct kmem_cache *tes=
-t_cache;
-bc8fbc5f305aec Marco Elver   2021-02-25  179  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  180  static size_t setup_test_cach=
-e(struct kunit *test, size_t size, slab_flags_t flags,
-bc8fbc5f305aec Marco Elver   2021-02-25  181  			       void (*ctor)(void *=
-))
-bc8fbc5f305aec Marco Elver   2021-02-25  182  {
-bc8fbc5f305aec Marco Elver   2021-02-25  183  	if (test->priv !=3D TEST_PRI=
-V_WANT_MEMCACHE)
-bc8fbc5f305aec Marco Elver   2021-02-25  184  		return size;
-bc8fbc5f305aec Marco Elver   2021-02-25  185  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  186  	kunit_info(test, "%s: size=
-=3D%zu, ctor=3D%ps\n", __func__, size, ctor);
-bc8fbc5f305aec Marco Elver   2021-02-25  187  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  188  	/*
-bc8fbc5f305aec Marco Elver   2021-02-25  189  	 * Use SLAB_NOLEAKTRACE to p=
-revent merging with existing caches. Any
-bc8fbc5f305aec Marco Elver   2021-02-25  190  	 * other flag in SLAB_NEVER_=
-MERGE also works. Use SLAB_ACCOUNT to
-bc8fbc5f305aec Marco Elver   2021-02-25  191  	 * allocate via memcg, if en=
-abled.
-bc8fbc5f305aec Marco Elver   2021-02-25  192  	 */
-bc8fbc5f305aec Marco Elver   2021-02-25  193  	flags |=3D SLAB_NOLEAKTRACE =
-| SLAB_ACCOUNT;
-bc8fbc5f305aec Marco Elver   2021-02-25  194  	test_cache =3D kmem_cache_cr=
-eate("test", size, 1, flags, ctor);
-bc8fbc5f305aec Marco Elver   2021-02-25  195  	KUNIT_ASSERT_TRUE_MSG(test, =
-test_cache, "could not create cache");
-bc8fbc5f305aec Marco Elver   2021-02-25  196  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  197  	return size;
-bc8fbc5f305aec Marco Elver   2021-02-25  198  }
-bc8fbc5f305aec Marco Elver   2021-02-25  199  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  200  static void test_cache_destro=
-y(void)
-bc8fbc5f305aec Marco Elver   2021-02-25  201  {
-bc8fbc5f305aec Marco Elver   2021-02-25  202  	if (!test_cache)
-bc8fbc5f305aec Marco Elver   2021-02-25  203  		return;
-bc8fbc5f305aec Marco Elver   2021-02-25  204  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  205  	kmem_cache_destroy(test_cach=
-e);
-bc8fbc5f305aec Marco Elver   2021-02-25  206  	test_cache =3D NULL;
-bc8fbc5f305aec Marco Elver   2021-02-25  207  }
-bc8fbc5f305aec Marco Elver   2021-02-25  208  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  209  static inline size_t kmalloc_=
-cache_alignment(size_t size)
-bc8fbc5f305aec Marco Elver   2021-02-25  210  {
-588c7fa022d7b2 Hyeonggon Yoo 2021-06-28  211  	return kmalloc_caches[kmallo=
-c_type(GFP_KERNEL)][__kmalloc_index(size, false)]->align;
-bc8fbc5f305aec Marco Elver   2021-02-25  212  }
-bc8fbc5f305aec Marco Elver   2021-02-25  213  =
-
-bc8fbc5f305aec Marco Elver   2021-02-25  214  /* Must always inline to matc=
-h stack trace against caller. */
-bc8fbc5f305aec Marco Elver   2021-02-25  215  static __always_inline void t=
-est_free(void *ptr)
-bc8fbc5f305aec Marco Elver   2021-02-25  216  {
-bc8fbc5f305aec Marco Elver   2021-02-25  217  	if (test_cache)
-bc8fbc5f305aec Marco Elver   2021-02-25  218  		kmem_cache_free(test_cache,=
- ptr);
-bc8fbc5f305aec Marco Elver   2021-02-25  219  	else
-bc8fbc5f305aec Marco Elver   2021-02-25 @220  		kfree(ptr);
-bc8fbc5f305aec Marco Elver   2021-02-25  221  }
-bc8fbc5f305aec Marco Elver   2021-02-25  222  =
-
-
-:::::: The code at line 160 was first introduced by commit
-:::::: f99e12b21b84feb1fd9d845a15096772f1659461 kfence: add function to mas=
-k address bits
-
-:::::: TO: Sven Schnelle <svens@linux.ibm.com>
-:::::: CC: Heiko Carstens <hca@linux.ibm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3983722820516489887==--
+--===============6721691832671347714==--
 
