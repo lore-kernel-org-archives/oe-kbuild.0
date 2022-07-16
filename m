@@ -1,79 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============7510876797254712830=="
+Content-Type: multipart/mixed; boundary="===============3782009270028496002=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 20/28] cxl/region: Allocate HPA capacity to regions
-Date: Sun, 17 Jul 2022 01:53:02 +0800
-Message-ID: <202207170105.VdsjG4YU-lkp@intel.com>
+Subject: Re: [PATCH v1 1/1] ALSA: isa: Use INVALID_HWIRQ definition
+Date: Sun, 17 Jul 2022 01:42:43 +0800
+Message-ID: <202207170129.eH1SH9ub-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7510876797254712830==
+--===============3782009270028496002==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "commit no functional change"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <165784335630.1758207.420216490941955417.stgit@dwillia2-xfh.=
-jf.intel.com>
-References: <165784335630.1758207.420216490941955417.stgit@dwillia2-xfh.j=
-f.intel.com>
-TO: Dan Williams <dan.j.williams@intel.com>
+In-Reply-To: <20220715205737.83076-1-andriy.shevchenko@linux.intel.com>
+References: <20220715205737.83076-1-andriy.shevchenko@linux.intel.com>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: Takashi Iwai <tiwai@suse.de>
+TO: alsa-devel(a)alsa-project.org
+TO: linux-kernel(a)vger.kernel.org
+CC: Jaroslav Kysela <perex@perex.cz>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Hi Dan,
+Hi Andy,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on b060edfd8cdd52bc8648392500bf152a8dd6d4c5]
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on linus/master v5.19-rc6 next-20220715]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/CXL-PME=
-M-Region-Provisioning/20220715-080748
-base:   b060edfd8cdd52bc8648392500bf152a8dd6d4c5
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-717/202207170105.VdsjG4YU-lkp(a)intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/ALSA=
+-isa-Use-INVALID_HWIRQ-definition/20220716-230943
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for=
+-next
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220=
+717/202207170129.eH1SH9ub-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=3D1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/6549abbad6209d1e2c6=
+0aa1ed28231649b5cffd8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Shevchenko/ALSA-isa-Use-INVAL=
+ID_HWIRQ-definition/20220716-230943
+        git checkout 6549abbad6209d1e2c60aa1ed28231649b5cffd8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/cxl/core/port.c:327 cxl_root_decoder_visible() error: we previously=
- assumed 'a' could be null (see line 324)
+All errors (new ones prefixed by >>):
 
-vim +/a +327 drivers/cxl/core/port.c
+   sound/isa/sscape.c: In function 'get_irq_config':
+>> sound/isa/sscape.c:143:33: error: 'INVALID_HWIRQ' undeclared (first use =
+in this function); did you mean 'INVALID_IRQ'?
+     143 | #define INVALID_IRQ  ((unsigned)INVALID_HWIRQ)
+         |                                 ^~~~~~~~~~~~~
+   sound/isa/sscape.c:678:16: note: in expansion of macro 'INVALID_IRQ'
+     678 |         return INVALID_IRQ;
+         |                ^~~~~~~~~~~
+   sound/isa/sscape.c:143:33: note: each undeclared identifier is reported =
+only once for each function it appears in
+     143 | #define INVALID_IRQ  ((unsigned)INVALID_HWIRQ)
+         |                                 ^~~~~~~~~~~~~
+   sound/isa/sscape.c:678:16: note: in expansion of macro 'INVALID_IRQ'
+     678 |         return INVALID_IRQ;
+         |                ^~~~~~~~~~~
+   sound/isa/sscape.c: In function 'create_sscape':
+>> sound/isa/sscape.c:143:33: error: 'INVALID_HWIRQ' undeclared (first use =
+in this function); did you mean 'INVALID_IRQ'?
+     143 | #define INVALID_IRQ  ((unsigned)INVALID_HWIRQ)
+         |                                 ^~~~~~~~~~~~~
+   sound/isa/sscape.c:994:24: note: in expansion of macro 'INVALID_IRQ'
+     994 |         if (irq_cfg =3D=3D INVALID_IRQ) {
+         |                        ^~~~~~~~~~~
+   sound/isa/sscape.c: In function 'get_irq_config':
+   sound/isa/sscape.c:679:1: error: control reaches end of non-void functio=
+n [-Werror=3Dreturn-type]
+     679 | }
+         | ^
+   cc1: some warnings being treated as errors
 
-ab57dfd9fe879b Ben Widawsky 2022-07-14  315  =
 
-ab57dfd9fe879b Ben Widawsky 2022-07-14  316  static umode_t cxl_root_decode=
-r_visible(struct kobject *kobj, struct attribute *a, int n)
-ab57dfd9fe879b Ben Widawsky 2022-07-14  317  {
-ab57dfd9fe879b Ben Widawsky 2022-07-14  318  	struct device *dev =3D kobj_t=
-o_dev(kobj);
-ab57dfd9fe879b Ben Widawsky 2022-07-14  319  	struct cxl_root_decoder *cxlr=
-d =3D to_cxl_root_decoder(dev);
-ab57dfd9fe879b Ben Widawsky 2022-07-14  320  =
+vim +143 sound/isa/sscape.c
 
-ab57dfd9fe879b Ben Widawsky 2022-07-14  321  	if (a =3D=3D CXL_REGION_ATTR(=
-create_pmem_region) && !can_create_pmem(cxlrd))
-ab57dfd9fe879b Ben Widawsky 2022-07-14  322  		return 0;
-ab57dfd9fe879b Ben Widawsky 2022-07-14  323  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  142  =
 
-ab57dfd9fe879b Ben Widawsky 2022-07-14 @324  	if (a =3D=3D CXL_REGION_ATTR(=
-delete_region) && !can_create_pmem(cxlrd))
-ab57dfd9fe879b Ben Widawsky 2022-07-14  325  		return 0;
-ab57dfd9fe879b Ben Widawsky 2022-07-14  326  =
-
-ab57dfd9fe879b Ben Widawsky 2022-07-14 @327  	return a->mode;
-ab57dfd9fe879b Ben Widawsky 2022-07-14  328  }
-ab57dfd9fe879b Ben Widawsky 2022-07-14  329  =
+6549abbad6209d Andy Shevchenko 2022-07-15 @143  #define INVALID_IRQ  ((unsi=
+gned)INVALID_HWIRQ)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  144  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7510876797254712830==--
+--===============3782009270028496002==--
 
