@@ -1,130 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============8090600133905214877=="
+Content-Type: multipart/mixed; boundary="===============4532311409635061593=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: block/bdev.c:543:11: warning: Parameter 'holder' can be declared with const [constParameter]
-Date: Sun, 17 Jul 2022 07:31:06 +0800
-Message-ID: <202207170734.OcTj3YSp-lkp@intel.com>
+Subject: Re: [PATCH v2 25/28] cxl/hdm: Commit decoder state to hardware
+Date: Sun, 17 Jul 2022 05:58:22 +0800
+Message-ID: <202207170530.EyDKrQwG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8090600133905214877==
+--===============4532311409635061593==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- block/bdev.c:543:11: warning: Parameter 'holder' can be declared with cons=
-t [constParameter]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <165784338418.1758207.14659830845389904356.stgit@dwillia2-xf=
+h.jf.intel.com>
+References: <165784338418.1758207.14659830845389904356.stgit@dwillia2-xfh=
+.jf.intel.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c5fe7a97f20c7f3070ac870144515c0fabc6b999
-commit: e4a19f7289f3fa9b2a4e65d0f4b3a7816e8e445b block: don't include blk-m=
-q.h in blk.h
-date:   8 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 months ago
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout e4a19f7289f3fa9b2a4e65d0f4b3a7816e8e445b
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Dan,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on b060edfd8cdd52bc8648392500bf152a8dd6d4c5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/CXL-PME=
+M-Region-Provisioning/20220715-080748
+base:   b060edfd8cdd52bc8648392500bf152a8dd6d4c5
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+717/202207170530.EyDKrQwG-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/cxl/core/hdm.c:475 cxld_set_interleave() error: uninitialized symbo=
+l 'eig'.
+drivers/cxl/core/hdm.c:476 cxld_set_interleave() error: uninitialized symbo=
+l 'eiw'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/cxl/core/hdm.c:344 cxl_dpa_free() error: uninitialized symbol 'rc'.
+drivers/cxl/core/hdm.c:461 cxl_dpa_alloc() error: uninitialized symbol 'rc'.
 
->> block/bdev.c:543:11: warning: Parameter 'holder' can be declared with co=
-nst [constParameter]
-       void *holder)
-             ^
-   block/bdev.c:605:65: warning: Parameter 'holder' can be declared with co=
-nst [constParameter]
-   static void bd_clear_claiming(struct block_device *whole, void *holder)
-                                                                   ^
+vim +/eig +475 drivers/cxl/core/hdm.c
 
-vim +/holder +543 block/bdev.c
+5ccc075e8e0da0 Dan Williams 2022-07-14  466  =
 
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  527  =
+4eeba6d677001b Dan Williams 2022-07-14  467  static void cxld_set_interleav=
+e(struct cxl_decoder *cxld, u32 *ctrl)
+4eeba6d677001b Dan Williams 2022-07-14  468  {
+4eeba6d677001b Dan Williams 2022-07-14  469  	u16 eig;
+4eeba6d677001b Dan Williams 2022-07-14  470  	u8 eiw;
+4eeba6d677001b Dan Williams 2022-07-14  471  =
 
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  528  /**
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  529   * bd_may_cl=
-aim - test whether a block device can be claimed
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  530   * @bdev: bl=
-ock device of interest
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  531   * @whole: w=
-hole block device containing @bdev, may equal @bdev
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  532   * @holder: =
-holder trying to claim @bdev
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  533   *
-25985edcedea63 fs/block_dev.c Lucas De Marchi 2011-03-30  534   * Test whet=
-her @bdev can be claimed by @holder.
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  535   *
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  536   * CONTEXT:
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  537   * spin_lock=
-(&bdev_lock).
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  538   *
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  539   * RETURNS:
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  540   * %true if =
-@bdev can be claimed, %false otherwise.
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  541   */
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  542  static bool =
-bd_may_claim(struct block_device *bdev, struct block_device *whole,
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07 @543  			 void *ho=
-lder)
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  544  {
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  545  	if (bdev->b=
-d_holder =3D=3D holder)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  546  		return tru=
-e;	 /* already a holder */
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  547  	else if (bd=
-ev->bd_holder !=3D NULL)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  548  		return fal=
-se; 	 /* held by someone else */
-bcc7f5b4bee8e3 fs/block_dev.c NeilBrown       2016-12-12  549  	else if (wh=
-ole =3D=3D bdev)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  550  		return tru=
-e;  	 /* is a whole device which isn't held */
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  551  =
+4eeba6d677001b Dan Williams 2022-07-14  472  	ways_to_cxl(cxld->interleave_=
+ways, &eiw);
+4eeba6d677001b Dan Williams 2022-07-14  473  	granularity_to_cxl(cxld->inte=
+rleave_granularity, &eig);
+4eeba6d677001b Dan Williams 2022-07-14  474  =
 
-e525fd89d380c4 fs/block_dev.c Tejun Heo       2010-11-13  552  	else if (wh=
-ole->bd_holder =3D=3D bd_may_claim)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  553  		return tru=
-e; 	 /* is a partition of a device that is being partitioned */
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  554  	else if (wh=
-ole->bd_holder !=3D NULL)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  555  		return fal=
-se;	 /* is a partition of a held device */
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  556  	else
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  557  		return tru=
-e;	 /* is a partition of an un-held device */
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  558  }
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  559  =
+4eeba6d677001b Dan Williams 2022-07-14 @475  	u32p_replace_bits(ctrl, eig, =
+CXL_HDM_DECODER0_CTRL_IG_MASK);
+4eeba6d677001b Dan Williams 2022-07-14 @476  	u32p_replace_bits(ctrl, eiw, =
+CXL_HDM_DECODER0_CTRL_IW_MASK);
+4eeba6d677001b Dan Williams 2022-07-14  477  	*ctrl |=3D CXL_HDM_DECODER0_C=
+TRL_COMMIT;
+4eeba6d677001b Dan Williams 2022-07-14  478  }
+4eeba6d677001b Dan Williams 2022-07-14  479  =
 
-
-:::::: The code at line 543 was first introduced by commit
-:::::: 1a3cbbc5a5e8a66934aa0947896a4aca6fd77298 block: factor out bd_may_cl=
-aim()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8090600133905214877==--
+--===============4532311409635061593==--
 
