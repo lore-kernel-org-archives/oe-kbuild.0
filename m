@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8094919707704874283=="
+Content-Type: multipart/mixed; boundary="===============4541932589802602379=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/bpf/preload/iterators/iterators.lskel.h:323:9: sparse: sparse: string too long (16658 bytes, 8191 bytes max)
-Date: Tue, 19 Jul 2022 07:16:43 +0800
-Message-ID: <202207190707.Bb3GTovA-lkp@intel.com>
+Subject: fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the local variable 'dev', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
+Date: Sun, 17 Jul 2022 16:15:35 +0800
+Message-ID: <202207171606.L3ygjf9G-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8094919707704874283==
+--===============4541932589802602379==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,675 +15,450 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- kernel/bpf/preload/iterators/iterators.lskel.h:323:9: sparse: sparse: stri=
-ng too long (16658 bytes, 8191 bytes max)"
+ fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the lo=
+cal variable 'dev', which is not memory allocated by malloc() [clang-analyz=
+er-unix.Malloc]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   80e19f34c2887a8881084b7bb7480e9544d56b91
-commit: cb80ddc67152e72f28ff6ea8517acdf875d7381d bpf: Convert bpf_preload.k=
-o to use light skeleton.
-date:   5 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-s052-20220718 (https://download.01.org/0day-ci/ar=
-chive/20220719/202207190707.Bb3GTovA-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
+head:   972a278fe60c361eb8f37619f562f092e8786d7c
+commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
+ndexing support
+date:   12 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 12 months ago
+config: s390-randconfig-c005-20220715 (https://download.01.org/0day-ci/arch=
+ive/20220717/202207171606.L3ygjf9G-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 2da550=
+140aa98cf6a3e96417c87f1e89e3a26047)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dcb80ddc67152e72f28ff6ea8517acdf875d7381d
+t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout cb80ddc67152e72f28ff6ea8517acdf875d7381d
+        git checkout 337015573718b161891a3473d25f59273f2e626b
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash kernel/bpf/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/preload/bpf_preload_kern.c: note: in included file:
->> kernel/bpf/preload/iterators/iterators.lskel.h:323:9: sparse: sparse: st=
-ring too long (16658 bytes, 8191 bytes max)
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/jffs2/gc.c:310:2: note: 0 is < 1
+           jffs2_dbg(1, "Going to garbage collect node@0x%08x\n",
+           ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:310:2: note: Taking false branch
+           jffs2_dbg(1, "Going to garbage collect node at 0x%08x\n",
+           ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:310:2: note: Loop condition is false.  Exiting loop
+           jffs2_dbg(1, "Going to garbage collect node at 0x%08x\n",
+           ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:313:6: note: Assuming field 'next_in_ino' is non-null
+           if (!raw->next_in_ino) {
+               ^~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:313:2: note: Taking false branch
+           if (!raw->next_in_ino) {
+           ^
+   fs/jffs2/gc.c:332:6: note: Assuming field 'class' is not equal to RAWNOD=
+E_CLASS_XATTR_DATUM
+           if (ic->class =3D=3D RAWNODE_CLASS_XATTR_DATUM
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:332:6: note: Left side of '||' is false
+   fs/jffs2/gc.c:333:9: note: Assuming field 'class' is not equal to RAWNOD=
+E_CLASS_XATTR_REF
+               || ic->class =3D=3D RAWNODE_CLASS_XATTR_REF) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:332:2: note: Taking false branch
+           if (ic->class =3D=3D RAWNODE_CLASS_XATTR_DATUM
+           ^
+   fs/jffs2/gc.c:352:2: note: 0 is < 1
+           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
+%d), ino #%u\n",
+           ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:352:2: note: Taking false branch
+           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
+%d), ino #%u\n",
+           ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:352:2: note: Loop condition is false.  Exiting loop
+           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
+%d), ino #%u\n",
+           ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:365:2: note: Control jumps to 'case 5:'  at line 397
+           switch(ic->state) {
+           ^
+   fs/jffs2/gc.c:405:3: note: 0 is < 1
+                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
+                   ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:405:3: note: Taking false branch
+                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
+                   ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:405:3: note: Loop condition is false.  Exiting loop
+                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
+                   ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:407:3: note: Dereference of null pointer
+                   sleep_on_spinunlock(&c->inocache_wq, &c->inocache_lock);
+                   ^
+   fs/jffs2/os-linux.h:43:29: note: expanded from macro 'sleep_on_spinunloc=
+k'
+                   DECLARE_WAITQUEUE(__wait, current);             \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/wait.h:55:63: note: expanded from macro 'DECLARE_WAITQUEUE'
+           struct wait_queue_entry name =3D __WAITQUEUE_INITIALIZER(name, t=
+sk)
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/wait.h:50:13: note: expanded from macro '__WAITQUEUE_INITI=
+ALIZER'
+           .private        =3D tsk,                                        =
+          \
+                             ^~~
+>> fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the =
+local variable 'dev', which is not memory allocated by malloc() [clang-anal=
+yzer-unix.Malloc]
+                   kfree(mdata);
+                   ^     ~~~~~
+   fs/jffs2/gc.c:770:6: note: Assuming the condition is true
+           if (S_ISBLK(JFFS2_F_I_MODE(f)) ||
+               ^
+   include/uapi/linux/stat.h:25:21: note: expanded from macro 'S_ISBLK'
+   #define S_ISBLK(m)      (((m) & S_IFMT) =3D=3D S_IFBLK)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:770:33: note: Left side of '||' is true
+           if (S_ISBLK(JFFS2_F_I_MODE(f)) ||
+                                          ^
+   fs/jffs2/gc.c:775:3: note: 0 is < 1
+                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
+                   ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:775:3: note: Taking false branch
+                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
+                   ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:775:3: note: Loop condition is false.  Exiting loop
+                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
+                   ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:798:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   fs/jffs2/gc.c:798:2: note: Taking false branch
+           if (ret) {
+           ^
+   fs/jffs2/gc.c:805:6: note: 'last_frag' is null
+           if (last_frag)
+               ^~~~~~~~~
+   fs/jffs2/gc.c:805:2: note: Taking false branch
+           if (last_frag)
+           ^
+   fs/jffs2/gc.c:824:25: note: Assuming '__UNIQUE_ID___x281' is <=3D '__UNI=
+QUE_ID___y282'
+           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
+                                  ^
+   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
+   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
+                              ^
+   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
+   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
+                     ^
+   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
+   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
+))
+                                          ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                              ^
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   fs/jffs2/nodelist.h:37:36: note: expanded from macro 'cpu_to_je32'
+   #define cpu_to_je32(x) ((jint32_t){x})
+                                      ^
+   fs/jffs2/gc.c:824:25: note: '?' condition is false
+           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
+                                  ^
+   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
+   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
+                              ^
+   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
+   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
+                     ^
+   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
+   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
+))
+                                          ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/jffs2/gc.c:824:25: note: '__UNIQUE_ID___x283' is < '__UNIQUE_ID___y28=
+4'
+           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
+                                  ^
+   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
+   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
+                              ^
+   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
+   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
+                     ^
+   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
+   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
+))
+                                          ^
 
-vim +323 kernel/bpf/preload/iterators/iterators.lskel.h
+vim +/dev +846 fs/jffs2/gc.c
 
-79b203926d18cb Alexei Starovoitov 2022-01-31   98  =
+^1da177e4c3f415 Linus Torvalds     2005-04-16  757  =
 
-79b203926d18cb Alexei Starovoitov 2022-01-31   99  static inline int
-79b203926d18cb Alexei Starovoitov 2022-01-31  100  iterators_bpf__load(stru=
-ct iterators_bpf *skel)
-79b203926d18cb Alexei Starovoitov 2022-01-31  101  {
-79b203926d18cb Alexei Starovoitov 2022-01-31  102  	struct bpf_load_and_run=
-_opts opts =3D {};
-79b203926d18cb Alexei Starovoitov 2022-01-31  103  	int err;
-79b203926d18cb Alexei Starovoitov 2022-01-31  104  =
+^1da177e4c3f415 Linus Torvalds     2005-04-16  758  static int jffs2_garbag=
+e_collect_metadata(struct jffs2_sb_info *c, struct jffs2_eraseblock *jeb,
+^1da177e4c3f415 Linus Torvalds     2005-04-16  759  					struct jffs2_inode=
+_info *f, struct jffs2_full_dnode *fn)
+^1da177e4c3f415 Linus Torvalds     2005-04-16  760  {
+^1da177e4c3f415 Linus Torvalds     2005-04-16  761  	struct jffs2_full_dnod=
+e *new_fn;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  762  	struct jffs2_raw_inode=
+ ri;
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  763  	struct jffs2_node_frag=
+ *last_frag;
+aef9ab47841af45 David Woodhouse    2006-05-19  764  	union jffs2_device_nod=
+e dev;
+2e16cfca6e17ae3 David Woodhouse    2009-12-16  765  	char *mdata =3D NULL;
+2e16cfca6e17ae3 David Woodhouse    2009-12-16  766  	int mdatalen =3D 0;
+9fe4854cd1f6027 David Woodhouse    2006-05-23  767  	uint32_t alloclen, ile=
+n;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  768  	int ret;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  769  =
 
-79b203926d18cb Alexei Starovoitov 2022-01-31  105  	opts.ctx =3D (struct bp=
-f_loader_ctx *)skel;
-79b203926d18cb Alexei Starovoitov 2022-01-31  106  	opts.data_sz =3D 6056;
-79b203926d18cb Alexei Starovoitov 2022-01-31  107  	opts.data =3D (void *)"\
-79b203926d18cb Alexei Starovoitov 2022-01-31  108  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  109  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  110  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  111  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  112  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  113  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  114  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  115  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  116  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  117  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  118  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  119  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  120  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  121  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  122  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  123  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  124  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  125  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  126  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  127  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  128  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  129  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  130  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  131  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  132  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  133  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  134  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  135  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  136  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  137  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  138  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  139  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  140  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x9f\xeb\x01\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  141  \x18\0\0\0\0\0\0\0\x1c\x=
-04\0\0\x1c\x04\0\0\xf9\x04\0\0\0\0\0\0\0\0\0\x02\x02\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  142  \0\0\x01\0\0\0\x02\0\0\x=
-04\x10\0\0\0\x13\0\0\0\x03\0\0\0\0\0\0\0\x18\0\0\0\x04\
-79b203926d18cb Alexei Starovoitov 2022-01-31  143  \0\0\0\x40\0\0\0\0\0\0\0=
-\0\0\0\x02\x08\0\0\0\0\0\0\0\0\0\0\x02\x0d\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  144  \0\x01\0\0\x0d\x06\0\0\0=
-\x1c\0\0\0\x01\0\0\0\x20\0\0\0\0\0\0\x01\x04\0\0\0\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  145  \0\0\x01\x24\0\0\0\x01\0=
-\0\x0c\x05\0\0\0\xa3\0\0\0\x03\0\0\x04\x18\0\0\0\xb1\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  146  \0\0\x09\0\0\0\0\0\0\0\x=
-b5\0\0\0\x0b\0\0\0\x40\0\0\0\xc0\0\0\0\x0b\0\0\0\x80\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  147  \0\0\0\0\0\0\0\0\0\x02\x=
-0a\0\0\0\xc8\0\0\0\0\0\0\x07\0\0\0\0\xd1\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  148  \x08\x0c\0\0\0\xd7\0\0\0=
-\0\0\0\x01\x08\0\0\0\x40\0\0\0\x94\x01\0\0\x03\0\0\x04\
-79b203926d18cb Alexei Starovoitov 2022-01-31  149  \x18\0\0\0\x9c\x01\0\0\x=
-0e\0\0\0\0\0\0\0\x9f\x01\0\0\x11\0\0\0\x20\0\0\0\xa4\
-79b203926d18cb Alexei Starovoitov 2022-01-31  150  \x01\0\0\x0e\0\0\0\xa0\0=
-\0\0\xb0\x01\0\0\0\0\0\x08\x0f\0\0\0\xb6\x01\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  151  \x01\x04\0\0\0\x20\0\0\0=
-\xc3\x01\0\0\0\0\0\x01\x01\0\0\0\x08\0\0\x01\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  152  \0\0\x03\0\0\0\0\x10\0\0=
-\0\x12\0\0\0\x10\0\0\0\xc8\x01\0\0\0\0\0\x01\x04\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  153  \x20\0\0\0\0\0\0\0\0\0\0=
-\x02\x14\0\0\0\x2c\x02\0\0\x02\0\0\x04\x10\0\0\0\x13\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  154  \0\0\x03\0\0\0\0\0\0\0\x=
-3f\x02\0\0\x15\0\0\0\x40\0\0\0\0\0\0\0\0\0\0\x02\x18\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  155  \0\0\0\0\0\0\x01\0\0\x0d=
-\x06\0\0\0\x1c\0\0\0\x13\0\0\0\x44\x02\0\0\x01\0\0\x0c\
-79b203926d18cb Alexei Starovoitov 2022-01-31  156  \x16\0\0\0\x90\x02\0\0\x=
-01\0\0\x04\x08\0\0\0\x99\x02\0\0\x19\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  157  \0\0\0\0\0\x02\x1a\0\0\0=
-\xea\x02\0\0\x06\0\0\x04\x38\0\0\0\x9c\x01\0\0\x0e\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  158  \0\0\0\0\0\x9f\x01\0\0\x=
-11\0\0\0\x20\0\0\0\xf7\x02\0\0\x1b\0\0\0\xc0\0\0\0\x08\
-79b203926d18cb Alexei Starovoitov 2022-01-31  159  \x03\0\0\x15\0\0\0\0\x01=
-\0\0\x11\x03\0\0\x1d\0\0\0\x40\x01\0\0\x1b\x03\0\0\x1e\
-79b203926d18cb Alexei Starovoitov 2022-01-31  160  \0\0\0\x80\x01\0\0\0\0\0=
-\0\0\0\0\x02\x1c\0\0\0\0\0\0\0\0\0\0\x0a\x10\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  161  \0\0\0\0\0\x02\x1f\0\0\0=
-\0\0\0\0\0\0\0\x02\x20\0\0\0\x65\x03\0\0\x02\0\0\x04\
-79b203926d18cb Alexei Starovoitov 2022-01-31  162  \x08\0\0\0\x73\x03\0\0\x=
-0e\0\0\0\0\0\0\0\x7c\x03\0\0\x0e\0\0\0\x20\0\0\0\x1b\
-79b203926d18cb Alexei Starovoitov 2022-01-31  163  \x03\0\0\x03\0\0\x04\x18=
-\0\0\0\x86\x03\0\0\x1b\0\0\0\0\0\0\0\x8e\x03\0\0\x21\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  164  \0\0\x40\0\0\0\x94\x03\0=
-\0\x23\0\0\0\x80\0\0\0\0\0\0\0\0\0\0\x02\x22\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  165  \0\0\0\0\0\x02\x24\0\0\0=
-\x98\x03\0\0\x01\0\0\x04\x04\0\0\0\xa3\x03\0\0\x0e\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  166  \0\0\0\0\0\x0c\x04\0\0\x=
-01\0\0\x04\x04\0\0\0\x15\x04\0\0\x0e\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  167  \0\0\0\0\0\x03\0\0\0\0\x=
-1c\0\0\0\x12\0\0\0\x23\0\0\0\x8b\x04\0\0\0\0\0\x0e\x25\
-79b203926d18cb Alexei Starovoitov 2022-01-31  168  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\x03\0\0\0\0\x1c\0\0\0\x12\0\0\0\x0e\0\0\0\x9f\x04\
-79b203926d18cb Alexei Starovoitov 2022-01-31  169  \0\0\0\0\0\x0e\x27\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\x03\0\0\0\0\x1c\0\0\0\x12\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  170  \x20\0\0\0\xb5\x04\0\0\0=
-\0\0\x0e\x29\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  171  \x1c\0\0\0\x12\0\0\0\x11=
-\0\0\0\xca\x04\0\0\0\0\0\x0e\x2b\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  172  \0\0\0\x03\0\0\0\0\x10\0=
-\0\0\x12\0\0\0\x04\0\0\0\xe1\x04\0\0\0\0\0\x0e\x2d\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  173  \0\x01\0\0\0\xe9\x04\0\0=
-\x04\0\0\x0f\x62\0\0\0\x26\0\0\0\0\0\0\0\x23\0\0\0\x28\
-79b203926d18cb Alexei Starovoitov 2022-01-31  174  \0\0\0\x23\0\0\0\x0e\0\0=
-\0\x2a\0\0\0\x31\0\0\0\x20\0\0\0\x2c\0\0\0\x51\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  175  \x11\0\0\0\xf1\x04\0\0\x=
-01\0\0\x0f\x04\0\0\0\x2e\0\0\0\0\0\0\0\x04\0\0\0\0\x62\
-79b203926d18cb Alexei Starovoitov 2022-01-31  176  \x70\x66\x5f\x69\x74\x65=
-\x72\x5f\x5f\x62\x70\x66\x5f\x6d\x61\x70\0\x6d\x65\x74\
-79b203926d18cb Alexei Starovoitov 2022-01-31  177  \x61\0\x6d\x61\x70\0\x63=
-\x74\x78\0\x69\x6e\x74\0\x64\x75\x6d\x70\x5f\x62\x70\
-79b203926d18cb Alexei Starovoitov 2022-01-31  178  \x66\x5f\x6d\x61\x70\0\x=
-69\x74\x65\x72\x2f\x62\x70\x66\x5f\x6d\x61\x70\0\x30\
-79b203926d18cb Alexei Starovoitov 2022-01-31  179  \x3a\x30\0\x2f\x77\x2f\x=
-6e\x65\x74\x2d\x6e\x65\x78\x74\x2f\x6b\x65\x72\x6e\x65\
-79b203926d18cb Alexei Starovoitov 2022-01-31  180  \x6c\x2f\x62\x70\x66\x2f=
-\x70\x72\x65\x6c\x6f\x61\x64\x2f\x69\x74\x65\x72\x61\
-79b203926d18cb Alexei Starovoitov 2022-01-31  181  \x74\x6f\x72\x73\x2f\x69=
-\x74\x65\x72\x61\x74\x6f\x72\x73\x2e\x62\x70\x66\x2e\
-79b203926d18cb Alexei Starovoitov 2022-01-31  182  \x63\0\x09\x73\x74\x72\x=
-75\x63\x74\x20\x73\x65\x71\x5f\x66\x69\x6c\x65\x20\x2a\
-79b203926d18cb Alexei Starovoitov 2022-01-31  183  \x73\x65\x71\x20\x3d\x20=
-\x63\x74\x78\x2d\x3e\x6d\x65\x74\x61\x2d\x3e\x73\x65\
-79b203926d18cb Alexei Starovoitov 2022-01-31  184  \x71\x3b\0\x62\x70\x66\x=
-5f\x69\x74\x65\x72\x5f\x6d\x65\x74\x61\0\x73\x65\x71\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  185  \x73\x65\x73\x73\x69\x6f=
-\x6e\x5f\x69\x64\0\x73\x65\x71\x5f\x6e\x75\x6d\0\x73\
-79b203926d18cb Alexei Starovoitov 2022-01-31  186  \x65\x71\x5f\x66\x69\x6c=
-\x65\0\x5f\x5f\x75\x36\x34\0\x75\x6e\x73\x69\x67\x6e\
-79b203926d18cb Alexei Starovoitov 2022-01-31  187  \x65\x64\x20\x6c\x6f\x6e=
-\x67\x20\x6c\x6f\x6e\x67\0\x30\x3a\x31\0\x09\x73\x74\
-79b203926d18cb Alexei Starovoitov 2022-01-31  188  \x72\x75\x63\x74\x20\x62=
-\x70\x66\x5f\x6d\x61\x70\x20\x2a\x6d\x61\x70\x20\x3d\
-79b203926d18cb Alexei Starovoitov 2022-01-31  189  \x20\x63\x74\x78\x2d\x3e=
-\x6d\x61\x70\x3b\0\x09\x69\x66\x20\x28\x21\x6d\x61\x70\
-79b203926d18cb Alexei Starovoitov 2022-01-31  190  \x29\0\x09\x5f\x5f\x75\x=
-36\x34\x20\x73\x65\x71\x5f\x6e\x75\x6d\x20\x3d\x20\x63\
-79b203926d18cb Alexei Starovoitov 2022-01-31  191  \x74\x78\x2d\x3e\x6d\x65=
-\x74\x61\x2d\x3e\x73\x65\x71\x5f\x6e\x75\x6d\x3b\0\x30\
-79b203926d18cb Alexei Starovoitov 2022-01-31  192  \x3a\x32\0\x09\x69\x66\x=
-20\x28\x73\x65\x71\x5f\x6e\x75\x6d\x20\x3d\x3d\x20\x30\
-79b203926d18cb Alexei Starovoitov 2022-01-31  193  \x29\0\x09\x09\x42\x50\x=
-46\x5f\x53\x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\x73\
-79b203926d18cb Alexei Starovoitov 2022-01-31  194  \x65\x71\x2c\x20\x22\x20=
-\x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  195  \x20\x20\x20\x20\x20\x20=
-\x20\x20\x6d\x61\x78\x5f\x65\x6e\x74\x72\x69\x65\x73\
-79b203926d18cb Alexei Starovoitov 2022-01-31  196  \x5c\x6e\x22\x29\x3b\0\x=
-62\x70\x66\x5f\x6d\x61\x70\0\x69\x64\0\x6e\x61\x6d\x65\
-79b203926d18cb Alexei Starovoitov 2022-01-31  197  \0\x6d\x61\x78\x5f\x65\x=
-6e\x74\x72\x69\x65\x73\0\x5f\x5f\x75\x33\x32\0\x75\x6e\
-79b203926d18cb Alexei Starovoitov 2022-01-31  198  \x73\x69\x67\x6e\x65\x64=
-\x20\x69\x6e\x74\0\x63\x68\x61\x72\0\x5f\x5f\x41\x52\
-79b203926d18cb Alexei Starovoitov 2022-01-31  199  \x52\x41\x59\x5f\x53\x49=
-\x5a\x45\x5f\x54\x59\x50\x45\x5f\x5f\0\x09\x42\x50\x46\
-79b203926d18cb Alexei Starovoitov 2022-01-31  200  \x5f\x53\x45\x51\x5f\x50=
-\x52\x49\x4e\x54\x46\x28\x73\x65\x71\x2c\x20\x22\x25\
-79b203926d18cb Alexei Starovoitov 2022-01-31  201  \x34\x75\x20\x25\x2d\x31=
-\x36\x73\x25\x36\x64\x5c\x6e\x22\x2c\x20\x6d\x61\x70\
-79b203926d18cb Alexei Starovoitov 2022-01-31  202  \x2d\x3e\x69\x64\x2c\x20=
-\x6d\x61\x70\x2d\x3e\x6e\x61\x6d\x65\x2c\x20\x6d\x61\
-79b203926d18cb Alexei Starovoitov 2022-01-31  203  \x70\x2d\x3e\x6d\x61\x78=
-\x5f\x65\x6e\x74\x72\x69\x65\x73\x29\x3b\0\x7d\0\x62\
-79b203926d18cb Alexei Starovoitov 2022-01-31  204  \x70\x66\x5f\x69\x74\x65=
-\x72\x5f\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\x70\x72\
-79b203926d18cb Alexei Starovoitov 2022-01-31  205  \x6f\x67\0\x64\x75\x6d\x=
-70\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\x69\x74\x65\
-79b203926d18cb Alexei Starovoitov 2022-01-31  206  \x72\x2f\x62\x70\x66\x5f=
-\x70\x72\x6f\x67\0\x09\x73\x74\x72\x75\x63\x74\x20\x62\
-79b203926d18cb Alexei Starovoitov 2022-01-31  207  \x70\x66\x5f\x70\x72\x6f=
-\x67\x20\x2a\x70\x72\x6f\x67\x20\x3d\x20\x63\x74\x78\
-79b203926d18cb Alexei Starovoitov 2022-01-31  208  \x2d\x3e\x70\x72\x6f\x67=
-\x3b\0\x09\x69\x66\x20\x28\x21\x70\x72\x6f\x67\x29\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  209  \x62\x70\x66\x5f\x70\x72=
-\x6f\x67\0\x61\x75\x78\0\x09\x61\x75\x78\x20\x3d\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  210  \x70\x72\x6f\x67\x2d\x3e=
-\x61\x75\x78\x3b\0\x09\x09\x42\x50\x46\x5f\x53\x45\x51\
-79b203926d18cb Alexei Starovoitov 2022-01-31  211  \x5f\x50\x52\x49\x4e\x54=
-\x46\x28\x73\x65\x71\x2c\x20\x22\x20\x20\x69\x64\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  212  \x6e\x61\x6d\x65\x20\x20=
-\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x61\x74\
-79b203926d18cb Alexei Starovoitov 2022-01-31  213  \x74\x61\x63\x68\x65\x64=
-\x5c\x6e\x22\x29\x3b\0\x62\x70\x66\x5f\x70\x72\x6f\x67\
-79b203926d18cb Alexei Starovoitov 2022-01-31  214  \x5f\x61\x75\x78\0\x61\x=
-74\x74\x61\x63\x68\x5f\x66\x75\x6e\x63\x5f\x6e\x61\x6d\
-79b203926d18cb Alexei Starovoitov 2022-01-31  215  \x65\0\x64\x73\x74\x5f\x=
-70\x72\x6f\x67\0\x66\x75\x6e\x63\x5f\x69\x6e\x66\x6f\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  216  \x62\x74\x66\0\x09\x42\x=
-50\x46\x5f\x53\x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\
-79b203926d18cb Alexei Starovoitov 2022-01-31  217  \x73\x65\x71\x2c\x20\x22=
-\x25\x34\x75\x20\x25\x2d\x31\x36\x73\x20\x25\x73\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  218  \x25\x73\x5c\x6e\x22\x2c=
-\x20\x61\x75\x78\x2d\x3e\x69\x64\x2c\0\x30\x3a\x34\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  219  \x30\x3a\x35\0\x09\x69\x=
-66\x20\x28\x21\x62\x74\x66\x29\0\x62\x70\x66\x5f\x66\
-79b203926d18cb Alexei Starovoitov 2022-01-31  220  \x75\x6e\x63\x5f\x69\x6e=
-\x66\x6f\0\x69\x6e\x73\x6e\x5f\x6f\x66\x66\0\x74\x79\
-79b203926d18cb Alexei Starovoitov 2022-01-31  221  \x70\x65\x5f\x69\x64\0\x=
-30\0\x73\x74\x72\x69\x6e\x67\x73\0\x74\x79\x70\x65\x73\
-79b203926d18cb Alexei Starovoitov 2022-01-31  222  \0\x68\x64\x72\0\x62\x74=
-\x66\x5f\x68\x65\x61\x64\x65\x72\0\x73\x74\x72\x5f\x6c\
-79b203926d18cb Alexei Starovoitov 2022-01-31  223  \x65\x6e\0\x09\x74\x79\x=
-70\x65\x73\x20\x3d\x20\x62\x74\x66\x2d\x3e\x74\x79\x70\
-79b203926d18cb Alexei Starovoitov 2022-01-31  224  \x65\x73\x3b\0\x09\x62\x=
-70\x66\x5f\x70\x72\x6f\x62\x65\x5f\x72\x65\x61\x64\x5f\
-79b203926d18cb Alexei Starovoitov 2022-01-31  225  \x6b\x65\x72\x6e\x65\x6c=
-\x28\x26\x74\x2c\x20\x73\x69\x7a\x65\x6f\x66\x28\x74\
-79b203926d18cb Alexei Starovoitov 2022-01-31  226  \x29\x2c\x20\x74\x79\x70=
-\x65\x73\x20\x2b\x20\x62\x74\x66\x5f\x69\x64\x29\x3b\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  227  \x09\x73\x74\x72\x20\x3d=
-\x20\x62\x74\x66\x2d\x3e\x73\x74\x72\x69\x6e\x67\x73\
-79b203926d18cb Alexei Starovoitov 2022-01-31  228  \x3b\0\x62\x74\x66\x5f\x=
-74\x79\x70\x65\0\x6e\x61\x6d\x65\x5f\x6f\x66\x66\0\x09\
-79b203926d18cb Alexei Starovoitov 2022-01-31  229  \x6e\x61\x6d\x65\x5f\x6f=
-\x66\x66\x20\x3d\x20\x42\x50\x46\x5f\x43\x4f\x52\x45\
-79b203926d18cb Alexei Starovoitov 2022-01-31  230  \x5f\x52\x45\x41\x44\x28=
-\x74\x2c\x20\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x29\x3b\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  231  \x30\x3a\x32\x3a\x30\0\x=
-09\x69\x66\x20\x28\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  232  \x3e\x3d\x20\x62\x74\x66=
-\x2d\x3e\x68\x64\x72\x2e\x73\x74\x72\x5f\x6c\x65\x6e\
-79b203926d18cb Alexei Starovoitov 2022-01-31  233  \x29\0\x09\x72\x65\x74\x=
-75\x72\x6e\x20\x73\x74\x72\x20\x2b\x20\x6e\x61\x6d\x65\
-79b203926d18cb Alexei Starovoitov 2022-01-31  234  \x5f\x6f\x66\x66\x3b\0\x=
-30\x3a\x33\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\
-79b203926d18cb Alexei Starovoitov 2022-01-31  235  \x61\x70\x2e\x5f\x5f\x5f=
-\x66\x6d\x74\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\
-79b203926d18cb Alexei Starovoitov 2022-01-31  236  \x61\x70\x2e\x5f\x5f\x5f=
-\x66\x6d\x74\x2e\x31\0\x64\x75\x6d\x70\x5f\x62\x70\x66\
-79b203926d18cb Alexei Starovoitov 2022-01-31  237  \x5f\x70\x72\x6f\x67\x2e=
-\x5f\x5f\x5f\x66\x6d\x74\0\x64\x75\x6d\x70\x5f\x62\x70\
-79b203926d18cb Alexei Starovoitov 2022-01-31  238  \x66\x5f\x70\x72\x6f\x67=
-\x2e\x5f\x5f\x5f\x66\x6d\x74\x2e\x32\0\x4c\x49\x43\x45\
-79b203926d18cb Alexei Starovoitov 2022-01-31  239  \x4e\x53\x45\0\x2e\x72\x=
-6f\x64\x61\x74\x61\0\x6c\x69\x63\x65\x6e\x73\x65\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  240  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\x2d\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  241  \0\x04\0\0\0\x62\0\0\0\x=
-01\0\0\0\x80\x04\0\0\0\0\0\0\0\0\0\0\x69\x74\x65\x72\
-79b203926d18cb Alexei Starovoitov 2022-01-31  242  \x61\x74\x6f\x72\x2e\x72=
-\x6f\x64\x61\x74\x61\0\0\0\0\0\0\0\0\0\0\0\0\0\x2f\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  243  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\x20\x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  244  \x20\x20\x20\x20\x20\x20=
-\x20\x20\x20\x6d\x61\x78\x5f\x65\x6e\x74\x72\x69\x65\
-79b203926d18cb Alexei Starovoitov 2022-01-31  245  \x73\x0a\0\x25\x34\x75\x=
-20\x25\x2d\x31\x36\x73\x25\x36\x64\x0a\0\x20\x20\x69\
-79b203926d18cb Alexei Starovoitov 2022-01-31  246  \x64\x20\x6e\x61\x6d\x65=
-\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  247  \x61\x74\x74\x61\x63\x68=
-\x65\x64\x0a\0\x25\x34\x75\x20\x25\x2d\x31\x36\x73\x20\
-79b203926d18cb Alexei Starovoitov 2022-01-31  248  \x25\x73\x20\x25\x73\x0a=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  249  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x47\x50\x4c\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  250  \x79\x12\0\0\0\0\0\0\x79=
-\x26\0\0\0\0\0\0\x79\x17\x08\0\0\0\0\0\x15\x07\x1b\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  251  \0\0\0\x79\x11\0\0\0\0\0=
-\0\x79\x11\x10\0\0\0\0\0\x55\x01\x08\0\0\0\0\0\xbf\xa4\
-79b203926d18cb Alexei Starovoitov 2022-01-31  252  \0\0\0\0\0\0\x07\x04\0\0=
-\xe8\xff\xff\xff\xbf\x61\0\0\0\0\0\0\x18\x62\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  253  \0\0\0\0\0\0\0\0\0\xb7\x=
-03\0\0\x23\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x7e\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  254  \0\x61\x71\0\0\0\0\0\0\x=
-7b\x1a\xe8\xff\0\0\0\0\xb7\x01\0\0\x04\0\0\0\xbf\x72\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  255  \0\0\0\0\0\x0f\x12\0\0\0=
-\0\0\0\x7b\x2a\xf0\xff\0\0\0\0\x61\x71\x14\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  256  \x7b\x1a\xf8\xff\0\0\0\0=
-\xbf\xa4\0\0\0\0\0\0\x07\x04\0\0\xe8\xff\xff\xff\xbf\
-79b203926d18cb Alexei Starovoitov 2022-01-31  257  \x61\0\0\0\0\0\0\x18\x62=
-\0\0\0\0\0\0\0\0\0\0\x23\0\0\0\xb7\x03\0\0\x0e\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  258  \xb7\x05\0\0\x18\0\0\0\x=
-85\0\0\0\x7e\0\0\0\xb7\0\0\0\0\0\0\0\x95\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  259  \0\0\0\0\x07\0\0\0\0\0\0=
-\0\x42\0\0\0\x7b\0\0\0\x1e\x3c\x01\0\x01\0\0\0\x42\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  260  \0\x7b\0\0\0\x24\x3c\x01=
-\0\x02\0\0\0\x42\0\0\0\xee\0\0\0\x1d\x44\x01\0\x03\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  261  \0\x42\0\0\0\x0f\x01\0\0=
-\x06\x4c\x01\0\x04\0\0\0\x42\0\0\0\x1a\x01\0\0\x17\x40\
-79b203926d18cb Alexei Starovoitov 2022-01-31  262  \x01\0\x05\0\0\0\x42\0\0=
-\0\x1a\x01\0\0\x1d\x40\x01\0\x06\0\0\0\x42\0\0\0\x43\
-79b203926d18cb Alexei Starovoitov 2022-01-31  263  \x01\0\0\x06\x58\x01\0\x=
-08\0\0\0\x42\0\0\0\x56\x01\0\0\x03\x5c\x01\0\x0f\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  264  \x42\0\0\0\xdc\x01\0\0\x=
-02\x64\x01\0\x1f\0\0\0\x42\0\0\0\x2a\x02\0\0\x01\x6c\
-79b203926d18cb Alexei Starovoitov 2022-01-31  265  \x01\0\0\0\0\0\x02\0\0\0=
-\x3e\0\0\0\0\0\0\0\x08\0\0\0\x08\0\0\0\x3e\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  266  \0\x10\0\0\0\x02\0\0\0\x=
-ea\0\0\0\0\0\0\0\x20\0\0\0\x02\0\0\0\x3e\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  267  \x28\0\0\0\x08\0\0\0\x3f=
-\x01\0\0\0\0\0\0\x78\0\0\0\x0d\0\0\0\x3e\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  268  \x88\0\0\0\x0d\0\0\0\xea=
-\0\0\0\0\0\0\0\xa8\0\0\0\x0d\0\0\0\x3f\x01\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  269  \x1a\0\0\0\x21\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  270  \0\0\0\0\0\0\0\0\0\0\0\x=
-64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\x61\x70\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  271  \0\0\0\0\x1c\0\0\0\0\0\0=
-\0\x08\0\0\0\0\0\0\0\0\0\0\0\x01\0\0\0\x10\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  272  \0\0\0\0\0\x0a\0\0\0\x01=
-\0\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  273  \0\x10\0\0\0\0\0\0\0\x62=
-\x70\x66\x5f\x69\x74\x65\x72\x5f\x62\x70\x66\x5f\x6d\
-79b203926d18cb Alexei Starovoitov 2022-01-31  274  \x61\x70\0\0\0\0\0\0\0\0=
-\x47\x50\x4c\0\0\0\0\0\x79\x12\0\0\0\0\0\0\x79\x26\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  275  \0\0\0\0\x79\x12\x08\0\0=
-\0\0\0\x15\x02\x3c\0\0\0\0\0\x79\x11\0\0\0\0\0\0\x79\
-79b203926d18cb Alexei Starovoitov 2022-01-31  276  \x27\0\0\0\0\0\0\x79\x11=
-\x10\0\0\0\0\0\x55\x01\x08\0\0\0\0\0\xbf\xa4\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  277  \0\x07\x04\0\0\xd0\xff\x=
-ff\xff\xbf\x61\0\0\0\0\0\0\x18\x62\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  278  \x31\0\0\0\xb7\x03\0\0\x=
-20\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x7e\0\0\0\x7b\
-79b203926d18cb Alexei Starovoitov 2022-01-31  279  \x6a\xc8\xff\0\0\0\0\x61=
-\x71\0\0\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xb7\x03\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  280  \x04\0\0\0\xbf\x79\0\0\0=
-\0\0\0\x0f\x39\0\0\0\0\0\0\x79\x71\x28\0\0\0\0\0\x79\
-79b203926d18cb Alexei Starovoitov 2022-01-31  281  \x78\x30\0\0\0\0\0\x15\x=
-08\x18\0\0\0\0\0\xb7\x02\0\0\0\0\0\0\x0f\x21\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  282  \0\x61\x11\x04\0\0\0\0\0=
-\x79\x83\x08\0\0\0\0\0\x67\x01\0\0\x03\0\0\0\x0f\x13\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  283  \0\0\0\0\0\x79\x86\0\0\0=
-\0\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\xf8\xff\xff\xff\
-79b203926d18cb Alexei Starovoitov 2022-01-31  284  \xb7\x02\0\0\x08\0\0\0\x=
-85\0\0\0\x71\0\0\0\xb7\x01\0\0\0\0\0\0\x79\xa3\xf8\xff\
-79b203926d18cb Alexei Starovoitov 2022-01-31  285  \0\0\0\0\x0f\x13\0\0\0\0=
-\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\xf4\xff\xff\xff\
-79b203926d18cb Alexei Starovoitov 2022-01-31  286  \xb7\x02\0\0\x04\0\0\0\x=
-85\0\0\0\x71\0\0\0\xb7\x03\0\0\x04\0\0\0\x61\xa1\xf4\
-79b203926d18cb Alexei Starovoitov 2022-01-31  287  \xff\0\0\0\0\x61\x82\x10=
-\0\0\0\0\0\x3d\x21\x02\0\0\0\0\0\x0f\x16\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  288  \xbf\x69\0\0\0\0\0\0\x7b=
-\x9a\xd8\xff\0\0\0\0\x79\x71\x18\0\0\0\0\0\x7b\x1a\xe0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  289  \xff\0\0\0\0\x79\x71\x20=
-\0\0\0\0\0\x79\x11\0\0\0\0\0\0\x0f\x31\0\0\0\0\0\0\x7b\
-79b203926d18cb Alexei Starovoitov 2022-01-31  290  \x1a\xe8\xff\0\0\0\0\xbf=
-\xa4\0\0\0\0\0\0\x07\x04\0\0\xd0\xff\xff\xff\x79\xa1\
-79b203926d18cb Alexei Starovoitov 2022-01-31  291  \xc8\xff\0\0\0\0\x18\x62=
-\0\0\0\0\0\0\0\0\0\0\x51\0\0\0\xb7\x03\0\0\x11\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  292  \xb7\x05\0\0\x20\0\0\0\x=
-85\0\0\0\x7e\0\0\0\xb7\0\0\0\0\0\0\0\x95\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  293  \0\0\0\0\x17\0\0\0\0\0\0=
-\0\x42\0\0\0\x7b\0\0\0\x1e\x80\x01\0\x01\0\0\0\x42\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  294  \0\x7b\0\0\0\x24\x80\x01=
-\0\x02\0\0\0\x42\0\0\0\x60\x02\0\0\x1f\x88\x01\0\x03\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  295  \0\0\x42\0\0\0\x84\x02\0=
-\0\x06\x94\x01\0\x04\0\0\0\x42\0\0\0\x1a\x01\0\0\x17\
-79b203926d18cb Alexei Starovoitov 2022-01-31  296  \x84\x01\0\x05\0\0\0\x42=
-\0\0\0\x9d\x02\0\0\x0e\xa0\x01\0\x06\0\0\0\x42\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  297  \x1a\x01\0\0\x1d\x84\x01=
-\0\x07\0\0\0\x42\0\0\0\x43\x01\0\0\x06\xa4\x01\0\x09\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  298  \0\0\x42\0\0\0\xaf\x02\0=
-\0\x03\xa8\x01\0\x11\0\0\0\x42\0\0\0\x1f\x03\0\0\x02\
-79b203926d18cb Alexei Starovoitov 2022-01-31  299  \xb0\x01\0\x18\0\0\0\x42=
-\0\0\0\x5a\x03\0\0\x06\x04\x01\0\x1b\0\0\0\x42\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  300  \0\0\0\0\0\0\0\x1c\0\0\0=
-\x42\0\0\0\xab\x03\0\0\x0f\x10\x01\0\x1d\0\0\0\x42\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  301  \0\xc0\x03\0\0\x2d\x14\x=
-01\0\x1f\0\0\0\x42\0\0\0\xf7\x03\0\0\x0d\x0c\x01\0\x21\
-79b203926d18cb Alexei Starovoitov 2022-01-31  302  \0\0\0\x42\0\0\0\0\0\0\0=
-\0\0\0\0\x22\0\0\0\x42\0\0\0\xc0\x03\0\0\x02\x14\x01\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  303  \x25\0\0\0\x42\0\0\0\x1e=
-\x04\0\0\x0d\x18\x01\0\x28\0\0\0\x42\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  304  \0\0\x29\0\0\0\x42\0\0\0=
-\x1e\x04\0\0\x0d\x18\x01\0\x2c\0\0\0\x42\0\0\0\x1e\x04\
-79b203926d18cb Alexei Starovoitov 2022-01-31  305  \0\0\x0d\x18\x01\0\x2d\0=
-\0\0\x42\0\0\0\x4c\x04\0\0\x1b\x1c\x01\0\x2e\0\0\0\x42\
-79b203926d18cb Alexei Starovoitov 2022-01-31  306  \0\0\0\x4c\x04\0\0\x06\x=
-1c\x01\0\x2f\0\0\0\x42\0\0\0\x6f\x04\0\0\x0d\x24\x01\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  307  \x31\0\0\0\x42\0\0\0\x1f=
-\x03\0\0\x02\xb0\x01\0\x40\0\0\0\x42\0\0\0\x2a\x02\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  308  \x01\xc0\x01\0\0\0\0\0\x=
-14\0\0\0\x3e\0\0\0\0\0\0\0\x08\0\0\0\x08\0\0\0\x3e\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  309  \0\0\0\0\0\x10\0\0\0\x14=
-\0\0\0\xea\0\0\0\0\0\0\0\x20\0\0\0\x14\0\0\0\x3e\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  310  \0\0\0\0\x28\0\0\0\x18\0=
-\0\0\x3e\0\0\0\0\0\0\0\x30\0\0\0\x08\0\0\0\x3f\x01\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  311  \0\0\0\0\x88\0\0\0\x1a\0=
-\0\0\x3e\0\0\0\0\0\0\0\x98\0\0\0\x1a\0\0\0\xea\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  312  \0\0\0\xb0\0\0\0\x1a\0\0=
-\0\x52\x03\0\0\0\0\0\0\xb8\0\0\0\x1a\0\0\0\x56\x03\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  313  \0\0\0\0\xc8\0\0\0\x1f\0=
-\0\0\x84\x03\0\0\0\0\0\0\xe0\0\0\0\x20\0\0\0\xea\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  314  \0\0\0\0\xf8\0\0\0\x20\0=
-\0\0\x3e\0\0\0\0\0\0\0\x20\x01\0\0\x24\0\0\0\x3e\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  315  \0\0\0\0\x58\x01\0\0\x1a=
-\0\0\0\xea\0\0\0\0\0\0\0\x68\x01\0\0\x20\0\0\0\x46\x04\
-79b203926d18cb Alexei Starovoitov 2022-01-31  316  \0\0\0\0\0\0\x90\x01\0\0=
-\x1a\0\0\0\x3f\x01\0\0\0\0\0\0\xa0\x01\0\0\x1a\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  317  \x87\x04\0\0\0\0\0\0\xa8=
-\x01\0\0\x18\0\0\0\x3e\0\0\0\0\0\0\0\x1a\0\0\0\x42\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  318  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  319  \0\0\x64\x75\x6d\x70\x5f=
-\x62\x70\x66\x5f\x70\x72\x6f\x67\0\0\0\0\0\0\0\x1c\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  320  \0\0\0\0\0\x08\0\0\0\0\0=
-\0\0\0\0\0\0\x01\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\x1a\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  321  \0\0\x01\0\0\0\0\0\0\0\x=
-13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  322  \0\0\x62\x70\x66\x5f\x69=
-\x74\x65\x72\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31 @323  \0\0\0\0";
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  324  	opts.insns_sz =3D 2216;
-79b203926d18cb Alexei Starovoitov 2022-01-31  325  	opts.insns =3D (void *)=
-"\
-79b203926d18cb Alexei Starovoitov 2022-01-31  326  \xbf\x16\0\0\0\0\0\0\xbf=
-\xa1\0\0\0\0\0\0\x07\x01\0\0\x78\xff\xff\xff\xb7\x02\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  327  \0\x88\0\0\0\xb7\x03\0\0=
-\0\0\0\0\x85\0\0\0\x71\0\0\0\x05\0\x14\0\0\0\0\0\x61\
-79b203926d18cb Alexei Starovoitov 2022-01-31  328  \xa1\x78\xff\0\0\0\0\xd5=
-\x01\x01\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\x61\xa1\x7c\xff\
-79b203926d18cb Alexei Starovoitov 2022-01-31  329  \0\0\0\0\xd5\x01\x01\0\0=
-\0\0\0\x85\0\0\0\xa8\0\0\0\x61\xa1\x80\xff\0\0\0\0\xd5\
-79b203926d18cb Alexei Starovoitov 2022-01-31  330  \x01\x01\0\0\0\0\0\x85\0=
-\0\0\xa8\0\0\0\x61\xa1\x84\xff\0\0\0\0\xd5\x01\x01\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  331  \0\0\0\x85\0\0\0\xa8\0\0=
-\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x61\x01\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  332  \0\0\xd5\x01\x02\0\0\0\0=
-\0\xbf\x19\0\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\xbf\x70\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  333  \0\0\0\0\x95\0\0\0\0\0\0=
-\0\x61\x60\x08\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  334  \x48\x0e\0\0\x63\x01\0\0=
-\0\0\0\0\x61\x60\x0c\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  335  \0\0\x44\x0e\0\0\x63\x01=
-\0\0\0\0\0\0\x79\x60\x10\0\0\0\0\0\x18\x61\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  336  \0\0\0\0\x38\x0e\0\0\x7b=
-\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\x05\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  337  \x18\x61\0\0\0\0\0\0\0\0=
-\0\0\x30\x0e\0\0\x7b\x01\0\0\0\0\0\0\xb7\x01\0\0\x12\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  338  \0\0\x18\x62\0\0\0\0\0\0=
-\0\0\0\0\x30\x0e\0\0\xb7\x03\0\0\x1c\0\0\0\x85\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  339  \xa6\0\0\0\xbf\x07\0\0\0=
-\0\0\0\xc5\x07\xd4\xff\0\0\0\0\x63\x7a\x78\xff\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  340  \x61\xa0\x78\xff\0\0\0\0=
-\x18\x61\0\0\0\0\0\0\0\0\0\0\x80\x0e\0\0\x63\x01\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  341  \0\0\0\x61\x60\x1c\0\0\0=
-\0\0\x15\0\x03\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  342  \x5c\x0e\0\0\x63\x01\0\0=
-\0\0\0\0\xb7\x01\0\0\0\0\0\0\x18\x62\0\0\0\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  343  \0\x50\x0e\0\0\xb7\x03\0=
-\0\x48\0\0\0\x85\0\0\0\xa6\0\0\0\xbf\x07\0\0\0\0\0\0\
-79b203926d18cb Alexei Starovoitov 2022-01-31  344  \xc5\x07\xc3\xff\0\0\0\0=
-\x18\x61\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x63\x71\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  345  \0\x79\x63\x20\0\0\0\0\0=
-\x15\x03\x08\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x98\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  346  \x0e\0\0\xb7\x02\0\0\x62=
-\0\0\0\x61\x60\x04\0\0\0\0\0\x45\0\x02\0\x01\0\0\0\x85\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  347  \0\0\0\x94\0\0\0\x05\0\x=
-01\0\0\0\0\0\x85\0\0\0\x71\0\0\0\x18\x62\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  348  \0\0\0\0\0\0\0\x61\x20\0=
-\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x08\x0f\0\0\x63\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  349  \x01\0\0\0\0\0\0\x18\x60=
-\0\0\0\0\0\0\0\0\0\0\0\x0f\0\0\x18\x61\0\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  350  \0\0\x10\x0f\0\0\x7b\x01=
-\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x98\x0e\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  351  \x18\x61\0\0\0\0\0\0\0\0=
-\0\0\x18\x0f\0\0\x7b\x01\0\0\0\0\0\0\xb7\x01\0\0\x02\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  352  \0\0\x18\x62\0\0\0\0\0\0=
-\0\0\0\0\x08\x0f\0\0\xb7\x03\0\0\x20\0\0\0\x85\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  353  \xa6\0\0\0\xbf\x07\0\0\0=
-\0\0\0\xc5\x07\x9f\xff\0\0\0\0\x18\x62\0\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  354  \0\0\0\0\0\0\x61\x20\0\0=
-\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x28\x0f\0\0\x63\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  355  \x01\0\0\0\0\0\0\xb7\x01=
-\0\0\x16\0\0\0\x18\x62\0\0\0\0\0\0\0\0\0\0\x28\x0f\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  356  \xb7\x03\0\0\x04\0\0\0\x=
-85\0\0\0\xa6\0\0\0\xbf\x07\0\0\0\0\0\0\xc5\x07\x92\xff\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  357  \0\0\0\0\x18\x60\0\0\0\0=
-\0\0\0\0\0\0\x30\x0f\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  358  \x78\x11\0\0\x7b\x01\0\0=
-\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x38\x0f\0\0\x18\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  359  \x61\0\0\0\0\0\0\0\0\0\0=
-\x70\x11\0\0\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  360  \0\0\0\x40\x10\0\0\x18\x=
-61\0\0\0\0\0\0\0\0\0\0\xb8\x11\0\0\x7b\x01\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  361  \x18\x60\0\0\0\0\0\0\0\0=
-\0\0\x48\x10\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\xc8\x11\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  362  \0\x7b\x01\0\0\0\0\0\0\x=
-18\x60\0\0\0\0\0\0\0\0\0\0\xe8\x10\0\0\x18\x61\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  363  \0\0\0\0\0\0\xe8\x11\0\0=
-\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  364  \0\x18\x61\0\0\0\0\0\0\0=
-\0\0\0\xe0\x11\0\0\x7b\x01\0\0\0\0\0\0\x61\x60\x08\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  365  \0\0\0\x18\x61\0\0\0\0\0=
-\0\0\0\0\0\x80\x11\0\0\x63\x01\0\0\0\0\0\0\x61\x60\x0c\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  366  \0\0\0\0\0\x18\x61\0\0\0=
-\0\0\0\0\0\0\0\x84\x11\0\0\x63\x01\0\0\0\0\0\0\x79\x60\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  367  \x10\0\0\0\0\0\x18\x61\0=
-\0\0\0\0\0\0\0\0\0\x88\x11\0\0\x7b\x01\0\0\0\0\0\0\x61\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  368  \xa0\x78\xff\0\0\0\0\x18=
-\x61\0\0\0\0\0\0\0\0\0\0\xb0\x11\0\0\x63\x01\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  369  \0\x18\x61\0\0\0\0\0\0\0=
-\0\0\0\xf8\x11\0\0\xb7\x02\0\0\x11\0\0\0\xb7\x03\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  370  \x0c\0\0\0\xb7\x04\0\0\0=
-\0\0\0\x85\0\0\0\xa7\0\0\0\xbf\x07\0\0\0\0\0\0\xc5\x07\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  371  \x5c\xff\0\0\0\0\x18\x60=
-\0\0\0\0\0\0\0\0\0\0\x68\x11\0\0\x63\x70\x6c\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  372  \x77\x07\0\0\x20\0\0\0\x=
-63\x70\x70\0\0\0\0\0\xb7\x01\0\0\x05\0\0\0\x18\x62\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  373  \0\0\0\0\0\0\0\0\x68\x11=
-\0\0\xb7\x03\0\0\x8c\0\0\0\x85\0\0\0\xa6\0\0\0\xbf\x07\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  374  \0\0\0\0\0\0\x18\x60\0\0=
-\0\0\0\0\0\0\0\0\xd8\x11\0\0\x61\x01\0\0\0\0\0\0\xd5\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  375  \x01\x02\0\0\0\0\0\xbf\x=
-19\0\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\xc5\x07\x4a\xff\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  376  \0\0\x63\x7a\x80\xff\0\0=
-\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x10\x12\0\0\x18\x61\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  377  \0\0\0\0\0\0\0\0\0\x10\x=
-17\0\0\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  378  \x18\x12\0\0\x18\x61\0\0=
-\0\0\0\0\0\0\0\0\x08\x17\0\0\x7b\x01\0\0\0\0\0\0\x18\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  379  \x60\0\0\0\0\0\0\0\0\0\0=
-\x28\x14\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x50\x17\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  380  \x7b\x01\0\0\0\0\0\0\x18=
-\x60\0\0\0\0\0\0\0\0\0\0\x30\x14\0\0\x18\x61\0\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  381  \0\0\0\0\0\x60\x17\0\0\x=
-7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\xd0\x15\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  382  \0\0\x18\x61\0\0\0\0\0\0=
-\0\0\0\0\x80\x17\0\0\x7b\x01\0\0\0\0\0\0\x18\x60\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  383  \0\0\0\0\0\0\0\0\0\0\0\x=
-18\x61\0\0\0\0\0\0\0\0\0\0\x78\x17\0\0\x7b\x01\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  384  \0\0\x61\x60\x08\0\0\0\0=
-\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x18\x17\0\0\x63\x01\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  385  \0\0\0\0\x61\x60\x0c\0\0=
-\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x1c\x17\0\0\x63\x01\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  386  \0\0\0\0\0\0\x79\x60\x10=
-\0\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x20\x17\0\0\x7b\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  387  \x01\0\0\0\0\0\0\x61\xa0=
-\x78\xff\0\0\0\0\x18\x61\0\0\0\0\0\0\0\0\0\0\x48\x17\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  388  \0\x63\x01\0\0\0\0\0\0\x=
-18\x61\0\0\0\0\0\0\0\0\0\0\x90\x17\0\0\xb7\x02\0\0\x12\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  389  \0\0\0\xb7\x03\0\0\x0c\0=
-\0\0\xb7\x04\0\0\0\0\0\0\x85\0\0\0\xa7\0\0\0\xbf\x07\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  390  \0\0\0\0\0\xc5\x07\x13\x=
-ff\0\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\0\x17\0\0\x63\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  391  \x70\x6c\0\0\0\0\0\x77\x=
-07\0\0\x20\0\0\0\x63\x70\x70\0\0\0\0\0\xb7\x01\0\0\x05\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  392  \0\0\0\x18\x62\0\0\0\0\0=
-\0\0\0\0\0\0\x17\0\0\xb7\x03\0\0\x8c\0\0\0\x85\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  393  \xa6\0\0\0\xbf\x07\0\0\0=
-\0\0\0\x18\x60\0\0\0\0\0\0\0\0\0\0\x70\x17\0\0\x61\x01\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  394  \0\0\0\0\0\0\xd5\x01\x02=
-\0\0\0\0\0\xbf\x19\0\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\xc5\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  395  \x07\x01\xff\0\0\0\0\x63=
-\x7a\x84\xff\0\0\0\0\x61\xa1\x78\xff\0\0\0\0\xd5\x01\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  396  \x02\0\0\0\0\0\xbf\x19\0=
-\0\0\0\0\0\x85\0\0\0\xa8\0\0\0\x61\xa0\x80\xff\0\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  397  \x63\x06\x28\0\0\0\0\0\x=
-61\xa0\x84\xff\0\0\0\0\x63\x06\x2c\0\0\0\0\0\x18\x61\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  398  \0\0\0\0\0\0\0\0\0\0\0\0=
-\0\x61\x10\0\0\0\0\0\0\x63\x06\x18\0\0\0\0\0\xb7\0\0\0\
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  399  \0\0\0\0\x95\0\0\0\0\0\0=
-\0";
-79b203926d18cb Alexei Starovoitov 2022-01-31  400  	err =3D bpf_load_and_ru=
-n(&opts);
-79b203926d18cb Alexei Starovoitov 2022-01-31  401  	if (err < 0)
-79b203926d18cb Alexei Starovoitov 2022-01-31  402  		return err;
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  403  	skel->rodata =3D skel_f=
-inalize_map_data(&skel->maps.rodata.initial_value,
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  404  					4096, PROT_READ, sk=
-el->maps.rodata.map_fd);
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  405  	if (!skel->rodata)
-d7beb3d6aba394 Alexei Starovoitov 2022-02-09  406  		return -ENOMEM;
-79b203926d18cb Alexei Starovoitov 2022-01-31  407  	return 0;
-79b203926d18cb Alexei Starovoitov 2022-01-31  408  }
-79b203926d18cb Alexei Starovoitov 2022-01-31  409  =
+^1da177e4c3f415 Linus Torvalds     2005-04-16  770  	if (S_ISBLK(JFFS2_F_I_=
+MODE(f)) ||
+^1da177e4c3f415 Linus Torvalds     2005-04-16  771  	    S_ISCHR(JFFS2_F_I_=
+MODE(f)) ) {
+^1da177e4c3f415 Linus Torvalds     2005-04-16  772  		/* For these, we don'=
+t actually need to read the old node */
+aef9ab47841af45 David Woodhouse    2006-05-19  773  		mdatalen =3D jffs2_en=
+code_dev(&dev, JFFS2_F_I_RDEV(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  774  		mdata =3D (char *)&de=
+v;
+9c261b33a9c417c Joe Perches        2012-02-15  775  		jffs2_dbg(1, "%s(): W=
+riting %d bytes of kdev_t\n",
+9c261b33a9c417c Joe Perches        2012-02-15  776  			  __func__, mdatalen=
+);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  777  	} else if (S_ISLNK(JFF=
+S2_F_I_MODE(f))) {
+^1da177e4c3f415 Linus Torvalds     2005-04-16  778  		mdatalen =3D fn->size;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  779  		mdata =3D kmalloc(fn-=
+>size, GFP_KERNEL);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  780  		if (!mdata) {
+da320f055a88182 Joe Perches        2012-02-15  781  			pr_warn("kmalloc of =
+mdata failed in jffs2_garbage_collect_metadata()\n");
+^1da177e4c3f415 Linus Torvalds     2005-04-16  782  			return -ENOMEM;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  783  		}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  784  		ret =3D jffs2_read_dn=
+ode(c, f, fn, mdata, 0, mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  785  		if (ret) {
+da320f055a88182 Joe Perches        2012-02-15  786  			pr_warn("read of old=
+ metadata failed in jffs2_garbage_collect_metadata(): %d\n",
+da320f055a88182 Joe Perches        2012-02-15  787  				ret);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  788  			kfree(mdata);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  789  			return ret;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  790  		}
+9c261b33a9c417c Joe Perches        2012-02-15  791  		jffs2_dbg(1, "%s(): W=
+riting %d bites of symlink target\n",
+9c261b33a9c417c Joe Perches        2012-02-15  792  			  __func__, mdatalen=
+);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  793  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  794  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  795  =
+
+9fe4854cd1f6027 David Woodhouse    2006-05-23  796  	ret =3D jffs2_reserve_=
+space_gc(c, sizeof(ri) + mdatalen, &alloclen,
+e631ddba588783e Ferenc Havasi      2005-09-07  797  				JFFS2_SUMMARY_INODE=
+_SIZE);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  798  	if (ret) {
+da320f055a88182 Joe Perches        2012-02-15  799  		pr_warn("jffs2_reserv=
+e_space_gc of %zd bytes for garbage_collect_metadata failed: %d\n",
+^1da177e4c3f415 Linus Torvalds     2005-04-16  800  			sizeof(ri) + mdatale=
+n, ret);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  801  		goto out;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  802  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  803  =
+
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  804  	last_frag =3D frag_las=
+t(&f->fragtree);
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  805  	if (last_frag)
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  806  		/* Fetch the inode le=
+ngth from the fragtree rather then
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  807  		 * from i_size since =
+i_size may have not been updated yet */
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  808  		ilen =3D last_frag->o=
+fs + last_frag->size;
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  809  	else
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  810  		ilen =3D JFFS2_F_I_SI=
+ZE(f);
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  811  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  812  	memset(&ri, 0, sizeof(=
+ri));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  813  	ri.magic =3D cpu_to_je=
+16(JFFS2_MAGIC_BITMASK);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  814  	ri.nodetype =3D cpu_to=
+_je16(JFFS2_NODETYPE_INODE);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  815  	ri.totlen =3D cpu_to_j=
+e32(sizeof(ri) + mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  816  	ri.hdr_crc =3D cpu_to_=
+je32(crc32(0, &ri, sizeof(struct jffs2_unknown_node)-4));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  817  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  818  	ri.ino =3D cpu_to_je32=
+(f->inocache->ino);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  819  	ri.version =3D cpu_to_=
+je32(++f->highest_version);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  820  	ri.mode =3D cpu_to_jem=
+ode(JFFS2_F_I_MODE(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  821  	ri.uid =3D cpu_to_je16=
+(JFFS2_F_I_UID(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  822  	ri.gid =3D cpu_to_je16=
+(JFFS2_F_I_GID(f));
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  823  	ri.isize =3D cpu_to_je=
+32(ilen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  824  	ri.atime =3D cpu_to_je=
+32(JFFS2_F_I_ATIME(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  825  	ri.ctime =3D cpu_to_je=
+32(JFFS2_F_I_CTIME(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  826  	ri.mtime =3D cpu_to_je=
+32(JFFS2_F_I_MTIME(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  827  	ri.offset =3D cpu_to_j=
+e32(0);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  828  	ri.csize =3D cpu_to_je=
+32(mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  829  	ri.dsize =3D cpu_to_je=
+32(mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  830  	ri.compr =3D JFFS2_COM=
+PR_NONE;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  831  	ri.node_crc =3D cpu_to=
+_je32(crc32(0, &ri, sizeof(ri)-8));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  832  	ri.data_crc =3D cpu_to=
+_je32(crc32(0, mdata, mdatalen));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  833  =
+
+9fe4854cd1f6027 David Woodhouse    2006-05-23  834  	new_fn =3D jffs2_write=
+_dnode(c, f, &ri, mdata, mdatalen, ALLOC_GC);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  835  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  836  	if (IS_ERR(new_fn)) {
+da320f055a88182 Joe Perches        2012-02-15  837  		pr_warn("Error writin=
+g new dnode: %ld\n", PTR_ERR(new_fn));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  838  		ret =3D PTR_ERR(new_f=
+n);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  839  		goto out;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  840  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  841  	jffs2_mark_node_obsole=
+te(c, fn->raw);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  842  	jffs2_free_full_dnode(=
+fn);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  843  	f->metadata =3D new_fn;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  844   out:
+^1da177e4c3f415 Linus Torvalds     2005-04-16  845  	if (S_ISLNK(JFFS2_F_I_=
+MODE(f)))
+^1da177e4c3f415 Linus Torvalds     2005-04-16 @846  		kfree(mdata);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  847  	return ret;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  848  }
+^1da177e4c3f415 Linus Torvalds     2005-04-16  849  =
 
 
-:::::: The code at line 323 was first introduced by commit
-:::::: 79b203926d18cb8c110564d8a09ff646691de9e7 bpf: Convert bpf preload to=
- light skeleton.
+:::::: The code at line 846 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Alexei Starovoitov <ast@kernel.org>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8094919707704874283==--
+--===============4541932589802602379==--
 
