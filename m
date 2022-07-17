@@ -1,370 +1,317 @@
-Content-Type: multipart/mixed; boundary="===============0769716131078155308=="
+Content-Type: multipart/mixed; boundary="===============2076267522779865932=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/rculist.h:167:14: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Mon, 18 Jul 2022 03:06:42 +0800
-Message-ID: <202207180308.ZI5Y0xuG-lkp@intel.com>
+Subject: [linux-next:master 7182/10906] drivers/soundwire/qcom.c:1319 qcom_swrm_probe() warn: passing zero to 'PTR_ERR'
+Date: Mon, 18 Jul 2022 02:56:19 +0800
+Message-ID: <202207180216.4ofOSQGA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0769716131078155308==
+--===============2076267522779865932==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/rculist.h:167:14: warning: Use of memory after it is freed [=
-clang-analyzer-unix.Malloc]"
-:::::: =
-
-
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Paolo Abeni <pabeni@redhat.com>
-CC: Mat Martineau <mathew.j.martineau@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2b18593e4b9f5781a7683fca256036515bd9b946
-commit: a0eea5f10eeb5180d115452b0d77afa6603dfe18 mptcp: fix memory leak on =
-address flush
-date:   11 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-c005-20220715 (https://download.01.org/0day-ci/arch=
-ive/20220718/202207180308.ZI5Y0xuG-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 2da550=
-140aa98cf6a3e96417c87f1e89e3a26047)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da0eea5f10eeb5180d115452b0d77afa6603dfe18
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a0eea5f10eeb5180d115452b0d77afa6603dfe18
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   6014cfa5bf32cf8c5c58b3cfd5ee0e1542c8a825
+commit: 1fd0d85affe4d64e54b81d04bf9577e57172a341 [7182/10906] soundwire: qc=
+om: Add flag for software clock gating check
+:::::: branch date: 2 days ago
+:::::: commit date: 12 days ago
+config: arm-randconfig-m031-20220717 (https://download.01.org/0day-ci/archi=
+ve/20220718/202207180216.4ofOSQGA-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/soundwire/qcom.c:1319 qcom_swrm_probe() warn: passing zero to 'PTR_=
+ERR'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/mptcp/pm_netlink.c:1286:3: note: Calling '__mptcp_pm_release_addr_en=
-try'
-                   __mptcp_pm_release_addr_entry(cur);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1141:6: note: Assuming field 'lsk' is null
-           if (entry->lsk)
-               ^~~~~~~~~~
-   net/mptcp/pm_netlink.c:1141:2: note: Taking false branch
-           if (entry->lsk)
-           ^
-   net/mptcp/pm_netlink.c:1143:2: note: Memory is released
-           kfree(entry);
-           ^~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1286:3: note: Returning; memory was released via =
-1st parameter
-                   __mptcp_pm_release_addr_entry(cur);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1280:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(list)) {
-           ^
-   net/mptcp/pm_netlink.c:1283:9: note: Left side of '&&' is false
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/mptcp/pm_netlink.c:1283:9: note: Taking false branch
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   net/mptcp/pm_netlink.c:1283:9: note: Loop condition is false.  Exiting l=
-oop
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/mptcp/pm_netlink.c:1285:3: note: Calling 'list_del_rcu'
-                   list_del_rcu(&cur->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:166:2: note: Calling '__list_del_entry'
-           __list_del_entry(entry);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:132:6: note: Assuming the condition is false
-           if (!__list_del_entry_valid(entry))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:132:2: note: Taking false branch
-           if (!__list_del_entry_valid(entry))
-           ^
-   include/linux/list.h:135:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
->> include/linux/rculist.h:167:14: warning: Use of memory after it is freed=
- [clang-analyzer-unix.Malloc]
-           entry->prev =3D LIST_POISON2;
-                       ^
-   net/mptcp/pm_netlink.c:1311:2: note: Calling '__flush_addrs'
-           __flush_addrs(&free_list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1280:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(list)) {
-           ^
-   net/mptcp/pm_netlink.c:1283:9: note: Left side of '&&' is false
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/mptcp/pm_netlink.c:1283:9: note: Taking false branch
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   net/mptcp/pm_netlink.c:1283:9: note: Loop condition is false.  Exiting l=
-oop
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/mptcp/pm_netlink.c:1286:3: note: Calling '__mptcp_pm_release_addr_en=
-try'
-                   __mptcp_pm_release_addr_entry(cur);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1141:6: note: Assuming field 'lsk' is null
-           if (entry->lsk)
-               ^~~~~~~~~~
-   net/mptcp/pm_netlink.c:1141:2: note: Taking false branch
-           if (entry->lsk)
-           ^
-   net/mptcp/pm_netlink.c:1143:2: note: Memory is released
-           kfree(entry);
-           ^~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1286:3: note: Returning; memory was released via =
-1st parameter
-                   __mptcp_pm_release_addr_entry(cur);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/pm_netlink.c:1280:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(list)) {
-           ^
-   net/mptcp/pm_netlink.c:1283:9: note: Left side of '&&' is false
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/mptcp/pm_netlink.c:1283:9: note: Taking false branch
-                   cur =3D list_entry(list->next,
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+vim +/PTR_ERR +1319 drivers/soundwire/qcom.c
 
-vim +167 include/linux/rculist.h
+abd9a6049bb59a Srinivas Kandagatla     2021-09-07  1279  =
 
-82524746c27fa41 Franck Bui-Huu 2008-05-12  139  =
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1280  static int qcom_sw=
+rm_probe(struct platform_device *pdev)
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1281  {
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1282  	struct device *de=
+v =3D &pdev->dev;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1283  	struct sdw_master=
+_prop *prop;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1284  	struct sdw_bus_pa=
+rams *params;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1285  	struct qcom_swrm_=
+ctrl *ctrl;
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1286  	const struct qcom=
+_swrm_data *data;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1287  	int ret;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1288  	u32 val;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1289  =
 
-82524746c27fa41 Franck Bui-Huu 2008-05-12  140  /**
-82524746c27fa41 Franck Bui-Huu 2008-05-12  141   * list_del_rcu - deletes e=
-ntry from list without re-initialization
-82524746c27fa41 Franck Bui-Huu 2008-05-12  142   * @entry: the element to d=
-elete from the list.
-82524746c27fa41 Franck Bui-Huu 2008-05-12  143   *
-82524746c27fa41 Franck Bui-Huu 2008-05-12  144   * Note: list_empty() on en=
-try does not return true after this,
-82524746c27fa41 Franck Bui-Huu 2008-05-12  145   * the entry is in an undef=
-ined state. It is useful for RCU based
-82524746c27fa41 Franck Bui-Huu 2008-05-12  146   * lockfree traversal.
-82524746c27fa41 Franck Bui-Huu 2008-05-12  147   *
-82524746c27fa41 Franck Bui-Huu 2008-05-12  148   * In particular, it means =
-that we can not poison the forward
-82524746c27fa41 Franck Bui-Huu 2008-05-12  149   * pointers that may still =
-be used for walking the list.
-82524746c27fa41 Franck Bui-Huu 2008-05-12  150   *
-82524746c27fa41 Franck Bui-Huu 2008-05-12  151   * The caller must take wha=
-tever precautions are necessary
-82524746c27fa41 Franck Bui-Huu 2008-05-12  152   * (such as holding appropr=
-iate locks) to avoid racing
-82524746c27fa41 Franck Bui-Huu 2008-05-12  153   * with another list-mutati=
-on primitive, such as list_del_rcu()
-82524746c27fa41 Franck Bui-Huu 2008-05-12  154   * or list_add_rcu(), runni=
-ng on this same list.
-82524746c27fa41 Franck Bui-Huu 2008-05-12  155   * However, it is perfectly=
- legal to run concurrently with
-82524746c27fa41 Franck Bui-Huu 2008-05-12  156   * the _rcu list-traversal =
-primitives, such as
-82524746c27fa41 Franck Bui-Huu 2008-05-12  157   * list_for_each_entry_rcu(=
-).
-82524746c27fa41 Franck Bui-Huu 2008-05-12  158   *
-82524746c27fa41 Franck Bui-Huu 2008-05-12  159   * Note that the caller is =
-not permitted to immediately free
-82524746c27fa41 Franck Bui-Huu 2008-05-12  160   * the newly deleted entry.=
-  Instead, either synchronize_rcu()
-82524746c27fa41 Franck Bui-Huu 2008-05-12  161   * or call_rcu() must be us=
-ed to defer freeing until an RCU
-82524746c27fa41 Franck Bui-Huu 2008-05-12  162   * grace period has elapsed.
-82524746c27fa41 Franck Bui-Huu 2008-05-12  163   */
-82524746c27fa41 Franck Bui-Huu 2008-05-12  164  static inline void list_del=
-_rcu(struct list_head *entry)
-82524746c27fa41 Franck Bui-Huu 2008-05-12  165  {
-559f9badd11ddf3 Dave Jones     2012-03-14  166  	__list_del_entry(entry);
-82524746c27fa41 Franck Bui-Huu 2008-05-12 @167  	entry->prev =3D LIST_POISO=
-N2;
-82524746c27fa41 Franck Bui-Huu 2008-05-12  168  }
-82524746c27fa41 Franck Bui-Huu 2008-05-12  169  =
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1290  	ctrl =3D devm_kza=
+lloc(dev, sizeof(*ctrl), GFP_KERNEL);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1291  	if (!ctrl)
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1292  		return -ENOMEM;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1293  =
 
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1294  	data =3D of_devic=
+e_get_match_data(dev);
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1295  	ctrl->rows_index =
+=3D sdw_find_row_index(data->default_rows);
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1296  	ctrl->cols_index =
+=3D sdw_find_col_index(data->default_cols);
+47edc0104c61d6 Vinod Koul              2020-11-25  1297  #if IS_REACHABLE(C=
+ONFIG_SLIMBUS)
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1298  	if (dev->parent->=
+bus =3D=3D &slimbus_bus) {
+5bd773242f75da Jonathan Marek          2020-09-05  1299  #else
+5bd773242f75da Jonathan Marek          2020-09-05  1300  	if (false) {
+5bd773242f75da Jonathan Marek          2020-09-05  1301  #endif
+d1df23fe688b58 Jonathan Marek          2020-09-05  1302  		ctrl->reg_read =
+=3D qcom_swrm_ahb_reg_read;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1303  		ctrl->reg_write =
+=3D qcom_swrm_ahb_reg_write;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1304  		ctrl->regmap =3D=
+ dev_get_regmap(dev->parent, NULL);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1305  		if (!ctrl->regma=
+p)
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1306  			return -EINVAL;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1307  	} else {
+82f5c70c26511b Jonathan Marek          2020-09-05  1308  		ctrl->reg_read =
+=3D qcom_swrm_cpu_reg_read;
+82f5c70c26511b Jonathan Marek          2020-09-05  1309  		ctrl->reg_write =
+=3D qcom_swrm_cpu_reg_write;
+82f5c70c26511b Jonathan Marek          2020-09-05  1310  		ctrl->mmio =3D d=
+evm_platform_ioremap_resource(pdev, 0);
+82f5c70c26511b Jonathan Marek          2020-09-05  1311  		if (IS_ERR(ctrl-=
+>mmio))
+82f5c70c26511b Jonathan Marek          2020-09-05  1312  			return PTR_ERR(=
+ctrl->mmio);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1313  	}
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1314  =
 
-:::::: The code at line 167 was first introduced by commit
-:::::: 82524746c27fa418c250a56dd7606b9d3fc79826 rcu: split list.h and move =
-rcu-protected lists into rculist.h
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1315  	if (data->sw_clk_=
+gate_required) {
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1316  		ctrl->audio_cgcr=
+ =3D devm_reset_control_get_exclusive(dev, "swr_audio_cgcr");
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1317  		if (IS_ERR_OR_NU=
+LL(ctrl->audio_cgcr)) {
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1318  			dev_err(dev, "F=
+ailed to get cgcr reset ctrl required for SW gating\n");
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01 @1319  			ret =3D PTR_ERR=
+(ctrl->audio_cgcr);
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1320  			goto err_init;
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1321  		}
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1322  	}
+1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1323  =
 
-:::::: TO: Franck Bui-Huu <fbuihuu@gmail.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1324  	ctrl->irq =3D of_=
+irq_get(dev->of_node, 0);
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1325  	if (ctrl->irq < 0=
+) {
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1326  		ret =3D ctrl->ir=
+q;
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1327  		goto err_init;
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1328  	}
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1329  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1330  	ctrl->hclk =3D de=
+vm_clk_get(dev, "iface");
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1331  	if (IS_ERR(ctrl->=
+hclk)) {
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1332  		ret =3D PTR_ERR(=
+ctrl->hclk);
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1333  		goto err_init;
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1334  	}
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1335  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1336  	clk_prepare_enabl=
+e(ctrl->hclk);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1337  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1338  	ctrl->dev =3D dev;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1339  	dev_set_drvdata(&=
+pdev->dev, ctrl);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1340  	mutex_init(&ctrl-=
+>port_lock);
+ddea6cf7b619ec Srinivas Kandagatla     2021-03-30  1341  	init_completion(&=
+ctrl->broadcast);
+06dd96738d6183 Srinivas Kandagatla     2021-03-30  1342  	init_completion(&=
+ctrl->enumeration);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1343  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1344  	ctrl->bus.ops =3D=
+ &qcom_swrm_ops;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1345  	ctrl->bus.port_op=
+s =3D &qcom_swrm_port_ops;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1346  	ctrl->bus.compute=
+_params =3D &qcom_swrm_compute_params;
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1347  	ctrl->bus.clk_sto=
+p_timeout =3D 300;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1348  =
+
+33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1349  	ctrl->audio_cgcr =
+=3D devm_reset_control_get_exclusive(dev, "swr_audio_cgcr");
+33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1350  	if (IS_ERR(ctrl->=
+audio_cgcr))
+33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1351  		dev_err(dev, "Fa=
+iled to get audio_cgcr reset required for soundwire-v1.6.0\n");
+33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1352  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1353  	ret =3D qcom_swrm=
+_get_port_config(ctrl);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1354  	if (ret)
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1355  		goto err_clk;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1356  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1357  	params =3D &ctrl-=
+>bus.params;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1358  	params->max_dr_fr=
+eq =3D DEFAULT_CLK_FREQ;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1359  	params->curr_dr_f=
+req =3D DEFAULT_CLK_FREQ;
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1360  	params->col =3D d=
+ata->default_cols;
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1361  	params->row =3D d=
+ata->default_rows;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1362  	ctrl->reg_read(ct=
+rl, SWRM_MCP_STATUS, &val);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1363  	params->curr_bank=
+ =3D val & SWRM_MCP_STATUS_BANK_NUM_MASK;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1364  	params->next_bank=
+ =3D !params->curr_bank;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1365  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1366  	prop =3D &ctrl->b=
+us.prop;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1367  	prop->max_clk_fre=
+q =3D DEFAULT_CLK_FREQ;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1368  	prop->num_clk_gea=
+rs =3D 0;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1369  	prop->num_clk_fre=
+q =3D MAX_FREQ_NUM;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1370  	prop->clk_freq =
+=3D &qcom_swrm_freq_tbl[0];
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1371  	prop->default_col=
+ =3D data->default_cols;
+8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1372  	prop->default_row=
+ =3D data->default_rows;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1373  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1374  	ctrl->reg_read(ct=
+rl, SWRM_COMP_HW_VERSION, &ctrl->version);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1375  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1376  	ret =3D devm_requ=
+est_threaded_irq(dev, ctrl->irq, NULL,
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1377  					qcom_swrm_irq=
+_handler,
+4f1738f4c24b44 Samuel Zou              2020-05-06  1378  					IRQF_TRIGGER_=
+RISING |
+4f1738f4c24b44 Samuel Zou              2020-05-06  1379  					IRQF_ONESHOT,
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1380  					"soundwire", =
+ctrl);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1381  	if (ret) {
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1382  		dev_err(dev, "Fa=
+iled to request soundwire irq\n");
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1383  		goto err_clk;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1384  	}
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1385  =
+
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1386  	ctrl->wake_irq =
+=3D of_irq_get(dev->of_node, 1);
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1387  	if (ctrl->wake_ir=
+q > 0) {
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1388  		ret =3D devm_req=
+uest_threaded_irq(dev, ctrl->wake_irq, NULL,
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1389  						qcom_swrm_wa=
+ke_irq_handler,
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1390  						IRQF_TRIGGER=
+_HIGH | IRQF_ONESHOT,
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1391  						"swr_wake_ir=
+q", ctrl);
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1392  		if (ret) {
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1393  			dev_err(dev, "F=
+ailed to request soundwire wake irq\n");
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1394  			goto err_init;
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1395  		}
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1396  	}
+04d46a7b38375a Srinivas Kandagatla     2022-02-28  1397  =
+
+5cab3ff2489ede Pierre-Louis Bossart    2020-05-19  1398  	ret =3D sdw_bus_m=
+aster_add(&ctrl->bus, dev, dev->fwnode);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1399  	if (ret) {
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1400  		dev_err(dev, "Fa=
+iled to register Soundwire controller (%d)\n",
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1401  			ret);
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1402  		goto err_clk;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1403  	}
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1404  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1405  	qcom_swrm_init(ct=
+rl);
+06dd96738d6183 Srinivas Kandagatla     2021-03-30  1406  	wait_for_completi=
+on_timeout(&ctrl->enumeration,
+06dd96738d6183 Srinivas Kandagatla     2021-03-30  1407  				    msecs_to_j=
+iffies(TIMEOUT_MS));
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1408  	ret =3D qcom_swrm=
+_register_dais(ctrl);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1409  	if (ret)
+91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1410  		goto err_master_=
+add;
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1411  =
+
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1412  	dev_info(dev, "Qu=
+alcomm Soundwire controller v%x.%x.%x Registered\n",
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1413  		 (ctrl->version =
+>> 24) & 0xff, (ctrl->version >> 16) & 0xff,
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1414  		 ctrl->version &=
+ 0xffff);
+02efb49aa805ce Srinivas Kandagatla     2020-01-13  1415  =
+
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1416  	pm_runtime_set_au=
+tosuspend_delay(dev, 3000);
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1417  	pm_runtime_use_au=
+tosuspend(dev);
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1418  	pm_runtime_mark_l=
+ast_busy(dev);
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1419  	pm_runtime_set_ac=
+tive(dev);
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1420  	pm_runtime_enable=
+(dev);
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1421  =
+
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1422  	/* Clk stop is no=
+t supported on WSA Soundwire masters */
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1423  	if (ctrl->version=
+ <=3D 0x01030000) {
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1424  		ctrl->clock_stop=
+_not_supported =3D true;
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1425  	} else {
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1426  		ctrl->reg_read(c=
+trl, SWRM_COMP_MASTER_ID, &val);
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1427  		if (val =3D=3D M=
+ASTER_ID_WSA)
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1428  			ctrl->clock_sto=
+p_not_supported =3D true;
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1429  	}
+74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1430  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0769716131078155308==--
+--===============2076267522779865932==--
 
