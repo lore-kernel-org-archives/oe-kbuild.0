@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4541932589802602379=="
+Content-Type: multipart/mixed; boundary="===============7583370637698537605=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the local variable 'dev', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-Date: Sun, 17 Jul 2022 16:15:35 +0800
-Message-ID: <202207171606.L3ygjf9G-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.19-rc5 77/104] drivers/iommu/iommufd/io_pagetable.c:492:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Sun, 17 Jul 2022 14:23:13 +0800
+Message-ID: <202207171431.nz0q9n34-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4541932589802602379==
+--===============7583370637698537605==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,43 +15,37 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the lo=
-cal variable 'dev', which is not memory allocated by malloc() [clang-analyz=
-er-unix.Malloc]"
+ drivers/iommu/iommufd/io_pagetable.c:492:2: warning: Undefined or garbage =
+value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Down <chris@chrisdown.name>
-CC: Petr Mladek <pmladek@suse.com>
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   972a278fe60c361eb8f37619f562f092e8786d7c
-commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
-ndexing support
-date:   12 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 12 months ago
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.19-rc5
+head:   f200d9a1de755f3bb98e21535e22b9adf6ba83f7
+commit: a636dff3ade41bd1c61e16bc697af82ffe07f8c6 [77/104] vfio: Add iommufd=
+ VFIO compat support to group_fd
+:::::: branch date: 3 days ago
+:::::: commit date: 6 days ago
 config: s390-randconfig-c005-20220715 (https://download.01.org/0day-ci/arch=
-ive/20220717/202207171606.L3ygjf9G-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 2da550=
-140aa98cf6a3e96417c87f1e89e3a26047)
+ive/20220717/202207171431.nz0q9n34-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 07022e=
+6cf9b5b3baa642be53d0b3c3f1c403dbfd)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install s390 cross compiling tool for clang build
         # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 337015573718b161891a3473d25f59273f2e626b
+        # https://github.com/luxis1999/iommufd/commit/a636dff3ade41bd1c61e1=
+6bc697af82ffe07f8c6
+        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
+fd
+        git fetch --no-tags luxis1999-iommufd iommufd-v5.19-rc5
+        git checkout a636dff3ade41bd1c61e16bc697af82ffe07f8c6
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Ds390 clang-analyzer =
@@ -62,403 +56,1041 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/jffs2/gc.c:310:2: note: 0 is < 1
-           jffs2_dbg(1, "Going to garbage collect node@0x%08x\n",
+                                   ^
+   include/linux/tracepoint.h:250:18: note: expanded from macro '__DECLARE_=
+TRACE'
+                                   TP_CONDITION(cond), 0);                 \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITI=
+ON'
+   #define TP_CONDITION(args...)   args
+                                   ^
+   include/linux/tracepoint.h:188:9: note: expanded from macro '__DO_TRACE'
+                   if (!(cond))                                            \
+                         ^~~~
+   Suppressed 113 warnings (101 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   drivers/pps/sysfs.c:26:9: warning: Call to function 'sprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lld.%09d#%d\n",
+                  ^~~~~~~
+   drivers/pps/sysfs.c:26:9: note: Call to function 'sprintf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lld.%09d#%d\n",
+                  ^~~~~~~
+   drivers/pps/sysfs.c:40:9: warning: Call to function 'sprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%lld.%09d#%d\n",
+                  ^~~~~~~
+   drivers/pps/sysfs.c:40:9: note: Call to function 'sprintf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%lld.%09d#%d\n",
+                  ^~~~~~~
+   drivers/pps/sysfs.c:51:9: warning: Call to function 'sprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%4x\n", pps->info.mode);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:51:9: note: Call to function 'sprintf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%4x\n", pps->info.mode);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:60:9: warning: Call to function 'sprintf' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", !!pps->info.echo);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:60:9: note: Call to function 'sprintf' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", !!pps->info.echo);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:69:9: warning: Call to function 'sprintf' is insecur=
+e as it does not provide bounding of the memory buffer or security checks i=
+ntroduced in the C11 standard. Replace with analogous functions that suppor=
+t length arguments or provides boundary checks such as 'sprintf_s' in case =
+of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandlin=
+g]
+           return sprintf(buf, "%s\n", pps->info.name);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:69:9: note: Call to function 'sprintf' is insecure a=
+s it does not provide bounding of the memory buffer or security checks intr=
+oduced in the C11 standard. Replace with analogous functions that support l=
+ength arguments or provides boundary checks such as 'sprintf_s' in case of =
+C11
+           return sprintf(buf, "%s\n", pps->info.name);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:78:9: warning: Call to function 'sprintf' is insecur=
+e as it does not provide bounding of the memory buffer or security checks i=
+ntroduced in the C11 standard. Replace with analogous functions that suppor=
+t length arguments or provides boundary checks such as 'sprintf_s' in case =
+of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandlin=
+g]
+           return sprintf(buf, "%s\n", pps->info.path);
+                  ^~~~~~~
+   drivers/pps/sysfs.c:78:9: note: Call to function 'sprintf' is insecure a=
+s it does not provide bounding of the memory buffer or security checks intr=
+oduced in the C11 standard. Replace with analogous functions that support l=
+ength arguments or provides boundary checks such as 'sprintf_s' in case of =
+C11
+           return sprintf(buf, "%s\n", pps->info.path);
+                  ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   53 warnings generated.
+   Suppressed 53 warnings (53 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   53 warnings generated.
+   drivers/i2c/i2c-core-of.c:28:2: warning: Call to function 'memset' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(info, 0, sizeof(*info));
            ^
-   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-core-of.c:28:2: note: Call to function 'memset' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memset_s' in case of C11
+           memset(info, 0, sizeof(*info));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   53 warnings generated.
+   drivers/i2c/i2c-dev.c:607:2: warning: Call to function 'snprintf' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(client->name, I2C_NAME_SIZE, "i2c-dev %d", adap->nr);
+           ^~~~~~~~
+   drivers/i2c/i2c-dev.c:607:2: note: Call to function 'snprintf' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'snprintf_s' in case of C11
+           snprintf(client->name, I2C_NAME_SIZE, "i2c-dev %d", adap->nr);
+           ^~~~~~~~
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+>> drivers/iommu/iommufd/io_pagetable.c:492:2: warning: Undefined or garbag=
+e value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return rc;
+           ^      ~~
+   drivers/iommu/iommufd/io_pagetable.c:430:2: note: 'rc' declared without =
+an initial value
+           int rc;
+           ^~~~~~
+   drivers/iommu/iommufd/io_pagetable.c:432:6: note: Assuming 'length' is n=
+ot equal to 0
+           if (!length)
+               ^~~~~~~
+   drivers/iommu/iommufd/io_pagetable.c:432:2: note: Taking false branch
+           if (!length)
+           ^
+   drivers/iommu/iommufd/io_pagetable.c:434:2: note: Taking false branch
+           if (check_add_overflow(iova, length - 1, &last_iova))
+           ^
+   drivers/iommu/iommufd/io_pagetable.c:438:2: note: Loop condition is fals=
+e. Execution continues on line 482
+           for (area =3D iopt_area_iter_first(iopt, iova, last_iova); area;
+           ^
+   drivers/iommu/iommufd/io_pagetable.c:482:6: note: Assuming 'cur_iova' is=
+ not equal to 'last_iova'
+           if (cur_iova !=3D last_iova)
                ^~~~~~~~~~~~~~~~~~~~~
-   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
-_JFFS2_FS_DEBUG'
-   #define CONFIG_JFFS2_FS_DEBUG 0
+   drivers/iommu/iommufd/io_pagetable.c:482:2: note: Taking true branch
+           if (cur_iova !=3D last_iova)
+           ^
+   drivers/iommu/iommufd/io_pagetable.c:483:3: note: Control jumps to line =
+489
+                   goto out_remove;
+                   ^
+   drivers/iommu/iommufd/io_pagetable.c:489:6: note: 'cur_iova' is equal to=
+ 'iova'
+           if (cur_iova !=3D iova)
+               ^~~~~~~~
+   drivers/iommu/iommufd/io_pagetable.c:489:2: note: Taking false branch
+           if (cur_iova !=3D iova)
+           ^
+   drivers/iommu/iommufd/io_pagetable.c:492:2: note: Undefined or garbage v=
+alue returned to caller
+           return rc;
+           ^      ~~
+   Suppressed 57 warnings (45 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   57 warnings generated.
+   Suppressed 57 warnings (45 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   63 warnings generated.
+>> drivers/iommu/iommufd/pages.c:91:2: warning: Value stored to 'rc' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           rc =3D check_add_overflow(pages->npinned, npages, &pages->npinne=
+d);
+           ^
+   drivers/iommu/iommufd/pages.c:91:2: note: Value stored to 'rc' is never =
+read
+   drivers/iommu/iommufd/pages.c:100:2: warning: Value stored to 'rc' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           rc =3D check_sub_overflow(pages->npinned, npages, &pages->npinne=
+d);
+           ^
+   drivers/iommu/iommufd/pages.c:100:2: note: Value stored to 'rc' is never=
+ read
+   drivers/iommu/iommufd/pages.c:413:25: warning: The left operand of '>' i=
+s a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if (batch->npfns[cur] > offset)
+                                         ^
+   drivers/iommu/iommufd/pages.c:1310:15: note: 'user' is non-null
+           if (WARN_ON(!user))
+                        ^
+   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(x);                      \
+                                  ^
+   drivers/iommu/iommufd/pages.c:1310:6: note: Taking false branch
+           if (WARN_ON(!user))
+               ^
+   arch/s390/include/asm/bug.h:55:2: note: expanded from macro 'WARN_ON'
+           if (__builtin_constant_p(__ret_warn_on)) {      \
+           ^
+   drivers/iommu/iommufd/pages.c:1310:6: note: Taking false branch
+           if (WARN_ON(!user))
+               ^
+   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
+                   if (unlikely(__ret_warn_on))            \
+                   ^
+   drivers/iommu/iommufd/pages.c:1310:2: note: Taking false branch
+           if (WARN_ON(!user))
+           ^
+   drivers/iommu/iommufd/pages.c:1313:2: note: Taking false branch
+           if (!refcount_dec_and_test(&user->refcount))
+           ^
+   drivers/iommu/iommufd/pages.c:1317:2: note: Calling 'iopt_pages_unfill_x=
+array'
+           iopt_pages_unfill_xarray(pages, start, last);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:1090:2: note: Assuming 'debug_locks' is 0
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:309:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(x);                      \
+                                  ^
+   drivers/iommu/iommufd/pages.c:1090:2: note: Left side of '&&' is false
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   drivers/iommu/iommufd/pages.c:1090:2: note: Taking false branch
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:55:2: note: expanded from macro 'WARN_ON'
+           if (__builtin_constant_p(__ret_warn_on)) {      \
+           ^
+   drivers/iommu/iommufd/pages.c:1090:2: note: Taking false branch
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
+                   if (unlikely(__ret_warn_on))            \
+                   ^
+   drivers/iommu/iommufd/pages.c:1090:2: note: Loop condition is false.  Ex=
+iting loop
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   drivers/iommu/iommufd/pages.c:1092:2: note: Taking false branch
+           if (interval_tree_fully_covers(&pages->domains_itree, start, las=
+t))
+           ^
+   drivers/iommu/iommufd/pages.c:1095:2: note: Calling 'batch_init_backup'
+           batch_init_backup(&batch, last + 1, backup, sizeof(backup));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:216:2: note: Calling '__batch_init'
+           __batch_init(batch, max_pages, backup, backup_len);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+           ^
+   include/linux/lockdep.h:309:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:55:2: note: expanded from macro 'WARN_ON'
+           if (__builtin_constant_p(__ret_warn_on)) {      \
+           ^
+   drivers/iommu/iommufd/pages.c:572:2: note: Taking false branch
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
+                   if (unlikely(__ret_warn_on))            \
+                   ^
+   drivers/iommu/iommufd/pages.c:572:2: note: Loop condition is false.  Exi=
+ting loop
+           lockdep_assert_held(&pages->mutex);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   drivers/iommu/iommufd/pages.c:576:8: note: Calling 'interval_tree_span_i=
+ter_done'
+                !interval_tree_span_iter_done(&user_span);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/interval_tree.h:68:9: note: Assuming the condition is false
+           return state->is_hole =3D=3D -1;
+                  ^~~~~~~~~~~~~~~~~~~~
+   include/linux/interval_tree.h:68:2: note: Returning without writing to '=
+state->is_hole', which participates in a condition later
+           return state->is_hole =3D=3D -1;
+           ^
+   drivers/iommu/iommufd/pages.c:576:8: note: Returning from 'interval_tree=
+_span_iter_done'
+                !interval_tree_span_iter_done(&user_span);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:574:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (interval_tree_span_iter_first(&user_span, &pages->users_itr=
+ee, 0,
+           ^
+   drivers/iommu/iommufd/pages.c:578:7: note: Assuming field 'is_hole' is n=
+ot equal to 0
+                   if (!user_span.is_hole)
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:578:3: note: Taking false branch
+                   if (!user_span.is_hole)
+                   ^
+   drivers/iommu/iommufd/pages.c:584:9: note: Calling 'interval_tree_span_i=
+ter_done'
+                        !interval_tree_span_iter_done(&area_span);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/interval_tree.h:68:9: note: Assuming the condition is false
+           return state->is_hole =3D=3D -1;
+                  ^~~~~~~~~~~~~~~~~~~~
+   include/linux/interval_tree.h:68:2: note: Returning without writing to '=
+state->is_hole', which participates in a condition later
+           return state->is_hole =3D=3D -1;
+           ^
+   drivers/iommu/iommufd/pages.c:584:9: note: Returning from 'interval_tree=
+_span_iter_done'
+                        !interval_tree_span_iter_done(&area_span);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:581:3: note: Loop condition is true.  Ente=
+ring loop body
+                   for (interval_tree_span_iter_first(
+                   ^
+   drivers/iommu/iommufd/pages.c:586:8: note: Assuming field 'is_hole' is n=
+ot equal to 0
+                           if (!area_span.is_hole)
+                               ^~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:586:4: note: Taking false branch
+                           if (!area_span.is_hole)
+                           ^
+   drivers/iommu/iommufd/pages.c:589:4: note: Calling 'batch_unpin'
+                           batch_unpin(batch, pages, area_span.start_hole -=
+ index,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/iommu/iommufd/pages.c:412:2: note: Loop condition is true.  Ente=
+ring loop body
+           while (offset) {
+           ^
+   drivers/iommu/iommufd/pages.c:413:3: note: Taking false branch
+                   if (batch->npfns[cur] > offset)
+                   ^
+   drivers/iommu/iommufd/pages.c:416:3: note: The value 1 is assigned to 'c=
+ur'
+                   cur++;
+                   ^~~~~
+   drivers/iommu/iommufd/pages.c:412:2: note: Loop condition is false. Exec=
+ution continues on line 419
+           while (offset) {
+           ^
+   drivers/iommu/iommufd/pages.c:419:2: note: Loop condition is true.  Ente=
+ring loop body
+           while (npages) {
+           ^
+   drivers/iommu/iommufd/pages.c:421:44: note: The left operand of '-' is a=
+ garbage value
+                           min_t(size_t, npages, batch->npfns[cur] - offset=
+);
+                                                                   ^
+   include/linux/minmax.h:104:59: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                                                   ^
+   include/linux/minmax.h:38:17: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                                  ^
-   fs/jffs2/gc.c:310:2: note: Taking false branch
-           jffs2_dbg(1, "Going to garbage collect node at 0x%08x\n",
-           ^
-   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
-           ^
-   fs/jffs2/gc.c:310:2: note: Loop condition is false.  Exiting loop
-           jffs2_dbg(1, "Going to garbage collect node at 0x%08x\n",
-           ^
-   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
-   #define jffs2_dbg(level, fmt, ...)              \
-                                                   ^
-   fs/jffs2/gc.c:313:6: note: Assuming field 'next_in_ino' is non-null
-           if (!raw->next_in_ino) {
-               ^~~~~~~~~~~~~~~~~
-   fs/jffs2/gc.c:313:2: note: Taking false branch
-           if (!raw->next_in_ino) {
-           ^
-   fs/jffs2/gc.c:332:6: note: Assuming field 'class' is not equal to RAWNOD=
-E_CLASS_XATTR_DATUM
-           if (ic->class =3D=3D RAWNODE_CLASS_XATTR_DATUM
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jffs2/gc.c:332:6: note: Left side of '||' is false
-   fs/jffs2/gc.c:333:9: note: Assuming field 'class' is not equal to RAWNOD=
-E_CLASS_XATTR_REF
-               || ic->class =3D=3D RAWNODE_CLASS_XATTR_REF) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jffs2/gc.c:332:2: note: Taking false branch
-           if (ic->class =3D=3D RAWNODE_CLASS_XATTR_DATUM
-           ^
-   fs/jffs2/gc.c:352:2: note: 0 is < 1
-           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
-%d), ino #%u\n",
-           ^
-   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
-               ^~~~~~~~~~~~~~~~~~~~~
-   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
-_JFFS2_FS_DEBUG'
-   #define CONFIG_JFFS2_FS_DEBUG 0
-                                 ^
-   fs/jffs2/gc.c:352:2: note: Taking false branch
-           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
-%d), ino #%u\n",
-           ^
-   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
-           ^
-   fs/jffs2/gc.c:352:2: note: Loop condition is false.  Exiting loop
-           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
-%d), ino #%u\n",
-           ^
-   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
-   #define jffs2_dbg(level, fmt, ...)              \
-                                                   ^
-   fs/jffs2/gc.c:365:2: note: Control jumps to 'case 5:'  at line 397
-           switch(ic->state) {
-           ^
-   fs/jffs2/gc.c:405:3: note: 0 is < 1
-                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
-                   ^
-   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
-               ^~~~~~~~~~~~~~~~~~~~~
-   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
-_JFFS2_FS_DEBUG'
-   #define CONFIG_JFFS2_FS_DEBUG 0
-                                 ^
-   fs/jffs2/gc.c:405:3: note: Taking false branch
-                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
-                   ^
-   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
-           ^
-   fs/jffs2/gc.c:405:3: note: Loop condition is false.  Exiting loop
-                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
-                   ^
-   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
-   #define jffs2_dbg(level, fmt, ...)              \
-                                                   ^
-   fs/jffs2/gc.c:407:3: note: Dereference of null pointer
-                   sleep_on_spinunlock(&c->inocache_wq, &c->inocache_lock);
-                   ^
-   fs/jffs2/os-linux.h:43:29: note: expanded from macro 'sleep_on_spinunloc=
-k'
-                   DECLARE_WAITQUEUE(__wait, current);             \
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/minmax.h:32:25: note: expanded from macro '__cmp_once'
+                   typeof(y) unique_y =3D (y);               \
+                                         ^
+>> drivers/iommu/iommufd/pages.c:760:21: warning: Dereference of null point=
+er [clang-analyzer-core.NullDereference]
+           pages->source_mm =3D current->mm;
+                              ^
    arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
 t'
    #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
 lowcore'
    #define S390_lowcore (*((struct lowcore *) 0))
                         ^
-   include/linux/wait.h:55:63: note: expanded from macro 'DECLARE_WAITQUEUE'
-           struct wait_queue_entry name =3D __WAITQUEUE_INITIALIZER(name, t=
-sk)
-                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   include/linux/wait.h:50:13: note: expanded from macro '__WAITQUEUE_INITI=
-ALIZER'
-           .private        =3D tsk,                                        =
-          \
-                             ^~~
->> fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the =
-local variable 'dev', which is not memory allocated by malloc() [clang-anal=
-yzer-unix.Malloc]
-                   kfree(mdata);
-                   ^     ~~~~~
-   fs/jffs2/gc.c:770:6: note: Assuming the condition is true
-           if (S_ISBLK(JFFS2_F_I_MODE(f)) ||
-               ^
-   include/uapi/linux/stat.h:25:21: note: expanded from macro 'S_ISBLK'
-   #define S_ISBLK(m)      (((m) & S_IFMT) =3D=3D S_IFBLK)
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jffs2/gc.c:770:33: note: Left side of '||' is true
-           if (S_ISBLK(JFFS2_F_I_MODE(f)) ||
-                                          ^
-   fs/jffs2/gc.c:775:3: note: 0 is < 1
-                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
-                   ^
-   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
-               ^~~~~~~~~~~~~~~~~~~~~
-   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
-_JFFS2_FS_DEBUG'
-   #define CONFIG_JFFS2_FS_DEBUG 0
-                                 ^
-   fs/jffs2/gc.c:775:3: note: Taking false branch
-                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
-                   ^
-   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
-           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+   drivers/iommu/iommufd/pages.c:750:6: note: Assuming the condition is fal=
+se
+           if (length > SIZE_MAX - PAGE_SIZE || length =3D=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:750:6: note: Left side of '||' is false
+   drivers/iommu/iommufd/pages.c:750:39: note: Assuming 'length' is not equ=
+al to 0
+           if (length > SIZE_MAX - PAGE_SIZE || length =3D=3D 0)
+                                                ^~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:750:2: note: Taking false branch
+           if (length > SIZE_MAX - PAGE_SIZE || length =3D=3D 0)
            ^
-   fs/jffs2/gc.c:775:3: note: Loop condition is false.  Exiting loop
-                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
-                   ^
-   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
-   #define jffs2_dbg(level, fmt, ...)              \
-                                                   ^
-   fs/jffs2/gc.c:798:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   fs/jffs2/gc.c:798:2: note: Taking false branch
-           if (ret) {
+   drivers/iommu/iommufd/pages.c:753:10: note: Calling 'kzalloc'
+           pages =3D kzalloc(sizeof(*pages), GFP_KERNEL_ACCOUNT);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:733:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:588:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   fs/jffs2/gc.c:805:6: note: 'last_frag' is null
-           if (last_frag)
-               ^~~~~~~~~
-   fs/jffs2/gc.c:805:2: note: Taking false branch
-           if (last_frag)
+   include/linux/slab.h:605:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:733:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:733:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:753:10: note: Returning from 'kzalloc'
+           pages =3D kzalloc(sizeof(*pages), GFP_KERNEL_ACCOUNT);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:754:6: note: Assuming 'pages' is non-null
+           if (!pages)
+               ^~~~~~
+   drivers/iommu/iommufd/pages.c:754:2: note: Taking false branch
+           if (!pages)
            ^
-   fs/jffs2/gc.c:824:25: note: Assuming '__UNIQUE_ID___x281' is <=3D '__UNI=
-QUE_ID___y282'
-           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
+   drivers/iommu/iommufd/pages.c:759:2: note: Loop condition is false.  Exi=
+ting loop
+           mutex_init(&pages->mutex);
+           ^
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
+   #define mutex_init(mutex)                                               \
+                                                                           ^
+   drivers/iommu/iommufd/pages.c:760:21: note: Dereference of null pointer
+           pages->source_mm =3D current->mm;
+                              ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/iommu/iommufd/pages.c:995:19: warning: The right operand of '<=
+=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if (unmap_index <=3D index)
+                                   ^  ~~~~~
+   drivers/iommu/iommufd/pages.c:957:2: note: 'index' declared without an i=
+nitial value
+           unsigned long index;
+           ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:960:2: note: Assuming 'debug_locks' is 0
+           lockdep_assert_held(&area->iopt->domains_rwsem);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:309:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(x);                      \
                                   ^
-   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
-   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
-                              ^
-   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
-   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
-                     ^
-   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
-   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
-))
-                                          ^
-   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                              ^
-   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x =3D (x);               \
-                                         ^
-   fs/jffs2/nodelist.h:37:36: note: expanded from macro 'cpu_to_je32'
-   #define cpu_to_je32(x) ((jint32_t){x})
-                                      ^
-   fs/jffs2/gc.c:824:25: note: '?' condition is false
-           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
-                                  ^
-   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
-   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
-                              ^
-   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
-   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
-                     ^
-   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
-   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
-))
-                                          ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+   drivers/iommu/iommufd/pages.c:960:2: note: Left side of '&&' is false
+           lockdep_assert_held(&area->iopt->domains_rwsem);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   drivers/iommu/iommufd/pages.c:960:2: note: Taking false branch
+           lockdep_assert_held(&area->iopt->domains_rwsem);
+           ^
+   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:309:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:55:2: note: expanded from macro 'WARN_ON'
+           if (__builtin_constant_p(__ret_warn_on)) {      \
+           ^
+   drivers/iommu/iommufd/pages.c:960:2: note: Taking false branch
+--
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/ipv4/proc.c:436:2: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(buff, 0, TCPUDP_MIB_MAX * sizeof(unsigned long));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/ipv4/proc.c:436:2: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+           memset(buff, 0, TCPUDP_MIB_MAX * sizeof(unsigned long));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/ipv4/proc.c:501:3: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(buff64, 0, ip_cnt * sizeof(u64));
                    ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   net/ipv4/proc.c:501:3: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+                   memset(buff64, 0, ip_cnt * sizeof(u64));
                    ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/jffs2/gc.c:824:25: note: '__UNIQUE_ID___x283' is < '__UNIQUE_ID___y28=
-4'
-           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
-                                  ^
-   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
-   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
-                              ^
-   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
-   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
-                     ^
-   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
-   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
-))
-                                          ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 133 warnings (121 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   drivers/power/supply/sbs-battery.c:419:2: warning: Call to function 'mem=
+cpy' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analy=
+zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(values, block_buffer + 1, block_length);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/power/supply/sbs-battery.c:419:2: note: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(values, block_buffer + 1, block_length);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/power/supply/sbs-battery.c:833:2: warning: Call to function 'spr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'sprintf_s' in case of C11 [clang-ana=
+lyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(sbs_serial, "%04x", ret);
+           ^~~~~~~
+   drivers/power/supply/sbs-battery.c:833:2: note: Call to function 'sprint=
+f' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(sbs_serial, "%04x", ret);
+           ^~~~~~~
+   Suppressed 52 warnings (52 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   68 warnings generated.
+   Suppressed 68 warnings (56 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+>> drivers/iommu/iommufd/vfio_compat.c:362:3: warning: Value stored to 'rc'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D -EFAULT;
+                   ^    ~~~~~~~
+   drivers/iommu/iommufd/vfio_compat.c:362:3: note: Value stored to 'rc' is=
+ never read
+                   rc =3D -EFAULT;
+                   ^    ~~~~~~~
+   Suppressed 57 warnings (45 in non-user code, 12 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   71 warnings generated.
+   drivers/iommu/iommu.c:449:9: warning: Call to function 'sprintf' is inse=
+cure as it does not provide bounding of the memory buffer or security check=
+s introduced in the C11 standard. Replace with analogous functions that sup=
+port length arguments or provides boundary checks such as 'sprintf_s' in ca=
+se of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHand=
+ling]
+           return sprintf(buf, "%s\n", group->name);
+                  ^~~~~~~
+   drivers/iommu/iommu.c:449:9: note: Call to function 'sprintf' is insecur=
+e as it does not provide bounding of the memory buffer or security checks i=
+ntroduced in the C11 standard. Replace with analogous functions that suppor=
+t length arguments or provides boundary checks such as 'sprintf_s' in case =
+of C11
+           return sprintf(buf, "%s\n", group->name);
+                  ^~~~~~~
+   drivers/iommu/iommu.c:568:10: warning: Call to function 'sprintf' is ins=
+ecure as it does not provide bounding of the memory buffer or security chec=
+ks introduced in the C11 standard. Replace with analogous functions that su=
+pport length arguments or provides boundary checks such as 'sprintf_s' in c=
+ase of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHan=
+dling]
+                   str +=3D sprintf(str, "0x%016llx 0x%016llx %s\n",
+                          ^~~~~~~
+   drivers/iommu/iommu.c:568:10: note: Call to function 'sprintf' is insecu=
+re as it does not provide bounding of the memory buffer or security checks =
+introduced in the C11 standard. Replace with analogous functions that suppo=
+rt length arguments or provides boundary checks such as 'sprintf_s' in case=
+ of C11
+                   str +=3D sprintf(str, "0x%016llx 0x%016llx %s\n",
+                          ^~~~~~~
+   drivers/iommu/iommu.c:605:2: warning: Call to function 'strcpy' is insec=
+ure as it does not provide bounding of the memory buffer. Replace unbounded=
+ copy functions with analogous functions that support length arguments such=
+ as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(buf, type);
+           ^~~~~~
+   drivers/iommu/iommu.c:605:2: note: Call to function 'strcpy' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcpy'. CWE-119
+           strcpy(buf, type);
+           ^~~~~~
+   drivers/iommu/iommu.c:1695:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&gtype, 0, sizeof(gtype));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:1695:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(&gtype, 0, sizeof(gtype));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   include/linux/iommu.h:437:9: warning: Access to field 'iommu_dev' result=
+s in a dereference of a null pointer (loaded from field 'iommu') [clang-ana=
+lyzer-core.NullDereference]
+           return dev->iommu->iommu_dev->ops;
+                  ^
+   drivers/iommu/iommu.c:1649:6: note: Assuming 'action' is equal to BUS_NO=
+TIFY_ADD_DEVICE
+           if (action =3D=3D BUS_NOTIFY_ADD_DEVICE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:1649:2: note: Taking true branch
+           if (action =3D=3D BUS_NOTIFY_ADD_DEVICE) {
+           ^
+   drivers/iommu/iommu.c:1652:9: note: Calling 'iommu_probe_device'
+                   ret =3D iommu_probe_device(dev);
+                         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:303:8: note: Calling '__iommu_probe_device'
+           ret =3D __iommu_probe_device(dev, NULL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:251:6: note: Assuming 'ops' is non-null
+           if (!ops)
+               ^~~~
+   drivers/iommu/iommu.c:251:2: note: Taking false branch
+           if (!ops)
+           ^
+   drivers/iommu/iommu.c:254:7: note: Calling 'dev_iommu_get'
+           if (!dev_iommu_get(dev))
+                ^~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:202:6: note: Assuming 'param' is non-null
+           if (param)
+               ^~~~~
+   drivers/iommu/iommu.c:202:2: note: Taking true branch
+           if (param)
+           ^
+   drivers/iommu/iommu.c:203:3: note: Returning without writing to 'dev->io=
+mmu'
+                   return param;
+                   ^
+   drivers/iommu/iommu.c:254:7: note: Returning from 'dev_iommu_get'
+           if (!dev_iommu_get(dev))
+                ^~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:254:2: note: Taking false branch
+           if (!dev_iommu_get(dev))
+           ^
+   drivers/iommu/iommu.c:257:2: note: Taking false branch
+           if (!try_module_get(ops->owner)) {
+           ^
+   drivers/iommu/iommu.c:263:2: note: Taking true branch
+           if (IS_ERR(iommu_dev)) {
+           ^
+   drivers/iommu/iommu.c:265:3: note: Control jumps to line 289
+                   goto out_module_put;
+                   ^
+   drivers/iommu/iommu.c:292:2: note: Calling 'dev_iommu_free'
+           dev_iommu_free(dev);
 
-vim +/dev +846 fs/jffs2/gc.c
+vim +492 drivers/iommu/iommufd/io_pagetable.c
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  757  =
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  403  =
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  758  static int jffs2_garbag=
-e_collect_metadata(struct jffs2_sb_info *c, struct jffs2_eraseblock *jeb,
-^1da177e4c3f415 Linus Torvalds     2005-04-16  759  					struct jffs2_inode=
-_info *f, struct jffs2_full_dnode *fn)
-^1da177e4c3f415 Linus Torvalds     2005-04-16  760  {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  761  	struct jffs2_full_dnod=
-e *new_fn;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  762  	struct jffs2_raw_inode=
- ri;
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  763  	struct jffs2_node_frag=
- *last_frag;
-aef9ab47841af45 David Woodhouse    2006-05-19  764  	union jffs2_device_nod=
-e dev;
-2e16cfca6e17ae3 David Woodhouse    2009-12-16  765  	char *mdata =3D NULL;
-2e16cfca6e17ae3 David Woodhouse    2009-12-16  766  	int mdatalen =3D 0;
-9fe4854cd1f6027 David Woodhouse    2006-05-23  767  	uint32_t alloclen, ile=
-n;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  768  	int ret;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  769  =
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  404  /**
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  405   * iopt_access_pages() - R=
+eturn a list of pages under the iova
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  406   * @iopt: io_pagetable to =
+act on
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  407   * @iova: Starting IOVA
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  408   * @length: Number of byte=
+s to access
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  409   * @out_pages: Output page=
+ list
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  410   * @write: True if access =
+is for writing
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  411   *
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  412   * Reads @npages starting =
+at iova and returns the struct page * pointers. These
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  413   * can be kmap'd by the ca=
+ller for CPU access.
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  414   *
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  415   * The caller must perform=
+ iopt_unaccess_pages() when done to balance this.
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  416   *
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  417   * iova can be unaligned f=
+rom PAGE_SIZE. The first returned byte starts at
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  418   * page_to_phys(out_pages[=
+0]) + (iova % PAGE_SIZE). The caller promises not to
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  419   * touch memory outside th=
+e requested iova slice.
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  420   *
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  421   * FIXME: callers that nee=
+d a DMA mapping via a sgl should create another
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  422   * interface to build the =
+SGL efficiently
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  423   */
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  424  int iopt_access_pages(stru=
+ct io_pagetable *iopt, unsigned long iova,
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  425  		      unsigned long leng=
+th, struct page **out_pages, bool write)
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  426  {
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  427  	unsigned long cur_iova =
+=3D iova;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  428  	unsigned long last_iova;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  429  	struct iopt_area *area;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  430  	int rc;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  431  =
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  770  	if (S_ISBLK(JFFS2_F_I_=
-MODE(f)) ||
-^1da177e4c3f415 Linus Torvalds     2005-04-16  771  	    S_ISCHR(JFFS2_F_I_=
-MODE(f)) ) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  772  		/* For these, we don'=
-t actually need to read the old node */
-aef9ab47841af45 David Woodhouse    2006-05-19  773  		mdatalen =3D jffs2_en=
-code_dev(&dev, JFFS2_F_I_RDEV(f));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  774  		mdata =3D (char *)&de=
-v;
-9c261b33a9c417c Joe Perches        2012-02-15  775  		jffs2_dbg(1, "%s(): W=
-riting %d bytes of kdev_t\n",
-9c261b33a9c417c Joe Perches        2012-02-15  776  			  __func__, mdatalen=
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  432  	if (!length)
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  433  		return -EINVAL;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  434  	if (check_add_overflow(io=
+va, length - 1, &last_iova))
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  435  		return -EOVERFLOW;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  436  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  437  	down_read(&iopt->iova_rws=
+em);
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  438  	for (area =3D iopt_area_i=
+ter_first(iopt, iova, last_iova); area;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  439  	     area =3D iopt_area_i=
+ter_next(area, iova, last_iova)) {
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  440  		unsigned long last =3D m=
+in(last_iova, iopt_area_last_iova(area));
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  441  		unsigned long last_index;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  442  		unsigned long index;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  443  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  444  		/* Need contiguous areas=
+ in the access */
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  445  		if (iopt_area_iova(area)=
+ > cur_iova || !area->pages) {
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  446  			rc =3D -EINVAL;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  447  			goto out_remove;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  448  		}
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  449  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  450  		index =3D iopt_area_iova=
+_to_index(area, cur_iova);
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  451  		last_index =3D iopt_area=
+_iova_to_index(area, last);
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  452  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  453  		/*
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  454  		 * The API can only retu=
+rn aligned pages, so the starting point
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  455  		 * must be at a page bou=
+ndary.
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  456  		 */
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  457  		if ((cur_iova - (iopt_ar=
+ea_iova(area) - area->page_offset)) %
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  458  		    PAGE_SIZE) {
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  459  			rc =3D -EINVAL;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  460  			goto out_remove;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  461  		}
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  462  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  463  		/*
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  464  		 * and an interior endin=
+g point must be at a page boundary
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  465  		 */
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  466  		if (last !=3D last_iova =
+&&
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  467  		    (iopt_area_last_iova=
+(area) - cur_iova + 1) % PAGE_SIZE) {
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  468  			rc =3D -EINVAL;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  469  			goto out_remove;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  470  		}
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  471  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  472  		rc =3D iopt_pages_add_us=
+er(area->pages, index, last_index,
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  473  					 out_pages, write);
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  474  		if (rc)
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  475  			goto out_remove;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  476  		if (last =3D=3D last_iov=
+a)
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  477  			break;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  478  		cur_iova =3D last + 1;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  479  		out_pages +=3D last_inde=
+x - index;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  480  		atomic_inc(&area->num_us=
+ers);
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  481  	}
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  482  	if (cur_iova !=3D last_io=
+va)
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  483  		goto out_remove;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  484  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  485  	up_read(&iopt->iova_rwsem=
 );
-^1da177e4c3f415 Linus Torvalds     2005-04-16  777  	} else if (S_ISLNK(JFF=
-S2_F_I_MODE(f))) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  778  		mdatalen =3D fn->size;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  779  		mdata =3D kmalloc(fn-=
->size, GFP_KERNEL);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  780  		if (!mdata) {
-da320f055a88182 Joe Perches        2012-02-15  781  			pr_warn("kmalloc of =
-mdata failed in jffs2_garbage_collect_metadata()\n");
-^1da177e4c3f415 Linus Torvalds     2005-04-16  782  			return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  783  		}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  784  		ret =3D jffs2_read_dn=
-ode(c, f, fn, mdata, 0, mdatalen);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  785  		if (ret) {
-da320f055a88182 Joe Perches        2012-02-15  786  			pr_warn("read of old=
- metadata failed in jffs2_garbage_collect_metadata(): %d\n",
-da320f055a88182 Joe Perches        2012-02-15  787  				ret);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  788  			kfree(mdata);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  789  			return ret;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  790  		}
-9c261b33a9c417c Joe Perches        2012-02-15  791  		jffs2_dbg(1, "%s(): W=
-riting %d bites of symlink target\n",
-9c261b33a9c417c Joe Perches        2012-02-15  792  			  __func__, mdatalen=
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  486  	return 0;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  487  =
+
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  488  out_remove:
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  489  	if (cur_iova !=3D iova)
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  490  		iopt_unaccess_pages(iopt=
+, iova, cur_iova - iova);
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  491  	up_read(&iopt->iova_rwsem=
 );
-^1da177e4c3f415 Linus Torvalds     2005-04-16  793  =
-
-^1da177e4c3f415 Linus Torvalds     2005-04-16  794  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  795  =
-
-9fe4854cd1f6027 David Woodhouse    2006-05-23  796  	ret =3D jffs2_reserve_=
-space_gc(c, sizeof(ri) + mdatalen, &alloclen,
-e631ddba588783e Ferenc Havasi      2005-09-07  797  				JFFS2_SUMMARY_INODE=
-_SIZE);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  798  	if (ret) {
-da320f055a88182 Joe Perches        2012-02-15  799  		pr_warn("jffs2_reserv=
-e_space_gc of %zd bytes for garbage_collect_metadata failed: %d\n",
-^1da177e4c3f415 Linus Torvalds     2005-04-16  800  			sizeof(ri) + mdatale=
-n, ret);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  801  		goto out;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  802  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  803  =
-
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  804  	last_frag =3D frag_las=
-t(&f->fragtree);
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  805  	if (last_frag)
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  806  		/* Fetch the inode le=
-ngth from the fragtree rather then
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  807  		 * from i_size since =
-i_size may have not been updated yet */
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  808  		ilen =3D last_frag->o=
-fs + last_frag->size;
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  809  	else
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  810  		ilen =3D JFFS2_F_I_SI=
-ZE(f);
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  811  =
-
-^1da177e4c3f415 Linus Torvalds     2005-04-16  812  	memset(&ri, 0, sizeof(=
-ri));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  813  	ri.magic =3D cpu_to_je=
-16(JFFS2_MAGIC_BITMASK);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  814  	ri.nodetype =3D cpu_to=
-_je16(JFFS2_NODETYPE_INODE);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  815  	ri.totlen =3D cpu_to_j=
-e32(sizeof(ri) + mdatalen);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  816  	ri.hdr_crc =3D cpu_to_=
-je32(crc32(0, &ri, sizeof(struct jffs2_unknown_node)-4));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  817  =
-
-^1da177e4c3f415 Linus Torvalds     2005-04-16  818  	ri.ino =3D cpu_to_je32=
-(f->inocache->ino);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  819  	ri.version =3D cpu_to_=
-je32(++f->highest_version);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  820  	ri.mode =3D cpu_to_jem=
-ode(JFFS2_F_I_MODE(f));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  821  	ri.uid =3D cpu_to_je16=
-(JFFS2_F_I_UID(f));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  822  	ri.gid =3D cpu_to_je16=
-(JFFS2_F_I_GID(f));
-8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  823  	ri.isize =3D cpu_to_je=
-32(ilen);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  824  	ri.atime =3D cpu_to_je=
-32(JFFS2_F_I_ATIME(f));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  825  	ri.ctime =3D cpu_to_je=
-32(JFFS2_F_I_CTIME(f));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  826  	ri.mtime =3D cpu_to_je=
-32(JFFS2_F_I_MTIME(f));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  827  	ri.offset =3D cpu_to_j=
-e32(0);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  828  	ri.csize =3D cpu_to_je=
-32(mdatalen);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  829  	ri.dsize =3D cpu_to_je=
-32(mdatalen);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  830  	ri.compr =3D JFFS2_COM=
-PR_NONE;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  831  	ri.node_crc =3D cpu_to=
-_je32(crc32(0, &ri, sizeof(ri)-8));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  832  	ri.data_crc =3D cpu_to=
-_je32(crc32(0, mdata, mdatalen));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  833  =
-
-9fe4854cd1f6027 David Woodhouse    2006-05-23  834  	new_fn =3D jffs2_write=
-_dnode(c, f, &ri, mdata, mdatalen, ALLOC_GC);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  835  =
-
-^1da177e4c3f415 Linus Torvalds     2005-04-16  836  	if (IS_ERR(new_fn)) {
-da320f055a88182 Joe Perches        2012-02-15  837  		pr_warn("Error writin=
-g new dnode: %ld\n", PTR_ERR(new_fn));
-^1da177e4c3f415 Linus Torvalds     2005-04-16  838  		ret =3D PTR_ERR(new_f=
-n);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  839  		goto out;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  840  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  841  	jffs2_mark_node_obsole=
-te(c, fn->raw);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  842  	jffs2_free_full_dnode(=
-fn);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  843  	f->metadata =3D new_fn;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  844   out:
-^1da177e4c3f415 Linus Torvalds     2005-04-16  845  	if (S_ISLNK(JFFS2_F_I_=
-MODE(f)))
-^1da177e4c3f415 Linus Torvalds     2005-04-16 @846  		kfree(mdata);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  847  	return ret;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  848  }
-^1da177e4c3f415 Linus Torvalds     2005-04-16  849  =
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11 @492  	return rc;
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  493  }
+a60b4da80cbd4b3 Jason Gunthorpe 2021-11-11  494  =
 
 
-:::::: The code at line 846 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 492 was first introduced by commit
+:::::: a60b4da80cbd4b3c7db5414158d16c6374d6707e iommufd: Data structure to =
+provide IOVA to PFN mapping
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Yi Liu <yi.l.liu@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4541932589802602379==--
+--===============7583370637698537605==--
 
