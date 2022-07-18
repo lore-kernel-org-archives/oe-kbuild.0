@@ -1,47 +1,334 @@
-Content-Type: multipart/mixed; boundary="===============4360968974118645882=="
+Content-Type: multipart/mixed; boundary="===============2715829850357704134=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [atishp04:kvm_perf_rfc 20/24] arch/riscv/kvm/vcpu_pmu.c: linux/kvm_host.h is included more than once.
-Date: Sun, 17 Jul 2022 00:31:33 +0800
-Message-ID: <202207170053.sH7IEl7J-lkp@intel.com>
+Subject: Re: [PATCH] i2c: Use u8 type in i2c transfer calls
+Date: Tue, 19 Jul 2022 06:15:38 +0800
+Message-ID: <202207190634.ToyhlXSz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4360968974118645882==
+--===============2715829850357704134==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "commit no functional change"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Atish Patra <Atish.Patra@wdc.com>
-CC: linux-kernel(a)vger.kernel.org
-TO: Atish Patra <atishp@rivosinc.com>
+In-Reply-To: <20220718153448.173652-1-jason.gerecke@wacom.com>
+References: <20220718153448.173652-1-jason.gerecke@wacom.com>
+TO: Jason Gerecke <killertofu@gmail.com>
+TO: linux-i2c(a)vger.kernel.org
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: Ping Cheng <pinglinux@gmail.com>
+CC: "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>
+CC: Jason Gerecke <jason.gerecke@wacom.com>
 
-tree:   https://github.com/atishp04/linux kvm_perf_rfc
-head:   84a3fd7f92957f64c411595a9efcc2eed18db2be
-commit: bb00c153861bc5d86bab2b4335f3f0e1ca970925 [20/24] RISC-V: KVM: Add s=
-keleton support for perf
-:::::: branch date: 14 hours ago
-:::::: commit date: 15 hours ago
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+Hi Jason,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on linus/master v5.19-rc7 next-20220718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gerecke/i2c-Us=
+e-u8-type-in-i2c-transfer-calls/20220718-233658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/f=
+or-next
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: hexagon-randconfig-r026-20220718 (https://download.01.org/0day-ci/a=
+rchive/20220719/202207190634.ToyhlXSz-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d74b88=
+c69dc2644bd0dc5d64e2d7413a0d4040e5)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9732240c23a365c0590=
+f05ce83196869235a2ea7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jason-Gerecke/i2c-Use-u8-type-in-i=
+2c-transfer-calls/20220718-233658
+        git checkout 9732240c23a365c0590f05ce83196869235a2ea7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
+1 O=3Dbuild_dir ARCH=3Dhexagon SHELL=3D/bin/bash drivers/iio/adc/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/riscv/kvm/vcpu_pmu.c: linux/kvm_host.h is included more than once.
+>> drivers/iio/adc/max1363.c:1645:12: error: incompatible function pointer =
+types assigning to 'int (*)(const struct i2c_client *, const char *, int)' =
+from 'int (const struct i2c_client *, const u8 *, int)' (aka 'int (const st=
+ruct i2c_client *, const unsigned char *, int)') [-Werror,-Wincompatible-fu=
+nction-pointer-types]
+                   st->send =3D i2c_master_send;
+                            ^ ~~~~~~~~~~~~~~~
+>> drivers/iio/adc/max1363.c:1646:12: error: incompatible function pointer =
+types assigning to 'int (*)(const struct i2c_client *, char *, int)' from '=
+int (const struct i2c_client *, u8 *, int)' (aka 'int (const struct i2c_cli=
+ent *, unsigned char *, int)') [-Werror,-Wincompatible-function-pointer-typ=
+es]
+                   st->recv =3D i2c_master_recv;
+                            ^ ~~~~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +1645 drivers/iio/adc/max1363.c
+
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1584  =
+
+fc52692c49969e drivers/iio/adc/max1363.c              Greg Kroah-Hartman 20=
+12-12-21  1585  static int max1363_probe(struct i2c_client *client,
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1586  			 const struct i2c_device_id *id)
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1587  {
+cd4361c7e2e077 drivers/staging/iio/adc/max1363_core.c Michael Hennerich  20=
+12-02-22  1588  	int ret;
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1589  	struct max1363_state *st;
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1590  	struct iio_dev *indio_dev;
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1591  	struct regulator *vref;
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1592  =
+
+6917e1d9af2c50 drivers/iio/adc/max1363.c              Sachin Kamat       20=
+13-07-22  1593  	indio_dev =3D devm_iio_device_alloc(&client->dev,
+6917e1d9af2c50 drivers/iio/adc/max1363.c              Sachin Kamat       20=
+13-07-22  1594  					  sizeof(struct max1363_state));
+6917e1d9af2c50 drivers/iio/adc/max1363.c              Sachin Kamat       20=
+13-07-22  1595  	if (!indio_dev)
+6917e1d9af2c50 drivers/iio/adc/max1363.c              Sachin Kamat       20=
+13-07-22  1596  		return -ENOMEM;
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1597  =
+
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1598  	ret =3D devm_iio_map_array_register(&client->dev, indio_de=
+v,
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1599  					  client->dev.platform_data);
+0b27d678c7fbeb drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+12-04-10  1600  	if (ret < 0)
+6917e1d9af2c50 drivers/iio/adc/max1363.c              Sachin Kamat       20=
+13-07-22  1601  		return ret;
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1602  =
+
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1603  	st =3D iio_priv(indio_dev);
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1604  =
+
+bf09cddb2cd402 drivers/iio/adc/max1363.c              Rohit Sarkar       20=
+20-03-15  1605  	mutex_init(&st->lock);
+7c3e8675f37503 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1606  	st->reg =3D devm_regulator_get(&client->dev, "vcc");
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1607  	if (IS_ERR(st->reg))
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1608  		return PTR_ERR(st->reg);
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1609  =
+
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1610  	ret =3D regulator_enable(st->reg);
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1611  	if (ret)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1612  		return ret;
+b77b8f8c20c83c drivers/staging/iio/adc/max1363.c      Jonathan Cameron   20=
+12-10-06  1613  =
+
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1614  	ret =3D devm_add_action_or_reset(&client->dev, max1363_reg=
+_disable, st->reg);
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1615  	if (ret)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1616  		return ret;
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1617  =
+
+f84ff467c0ce5b drivers/iio/adc/max1363.c              Jonathan Cameron   20=
+20-06-28  1618  	st->chip_info =3D device_get_match_data(&client->dev);
+794ac821cc44e4 drivers/iio/adc/max1363.c              Julia Lawall       20=
+18-05-21  1619  	if (!st->chip_info)
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1620  		st->chip_info =3D &max1363_chip_info_tbl[id->driver_data];
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1621  	st->client =3D client;
+3dba81ba803ca0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-04-15  1622  =
+
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1623  	st->vref_uv =3D st->chip_info->int_vref_mv * 1000;
+55b40d37311807 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+14-01-27  1624  	vref =3D devm_regulator_get_optional(&client->dev, "vref");
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1625  	if (!IS_ERR(vref)) {
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1626  		int vref_uv;
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1627  =
+
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1628  		ret =3D regulator_enable(vref);
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1629  		if (ret)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1630  			return ret;
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1631  =
+
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1632  		ret =3D devm_add_action_or_reset(&client->dev, max1363_re=
+g_disable, vref);
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1633  		if (ret)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1634  			return ret;
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1635  =
+
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1636  		st->vref =3D vref;
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1637  		vref_uv =3D regulator_get_voltage(vref);
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1638  		if (vref_uv <=3D 0)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1639  			return -EINVAL;
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1640  =
+
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1641  		st->vref_uv =3D vref_uv;
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1642  	}
+a405b00e4470b1 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1643  =
+
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1644  	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C)=
+) {
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20 @1645  		st->send =3D i2c_master_send;
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20 @1646  		st->recv =3D i2c_master_recv;
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1647  	} else if (i2c_check_functionality(client->adapter, I2C_FU=
+NC_SMBUS_BYTE)
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1648  			&& st->chip_info->bits =3D=3D 8) {
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1649  		st->send =3D max1363_smbus_send;
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1650  		st->recv =3D max1363_smbus_recv;
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1651  	} else {
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1652  		return -EOPNOTSUPP;
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1653  	}
+61bdda69222c09 drivers/iio/adc/max1363.c              Vivien Didelot     20=
+13-10-20  1654  =
+
+cd4361c7e2e077 drivers/staging/iio/adc/max1363_core.c Michael Hennerich  20=
+12-02-22  1655  	ret =3D max1363_alloc_scan_masks(indio_dev);
+cd4361c7e2e077 drivers/staging/iio/adc/max1363_core.c Michael Hennerich  20=
+12-02-22  1656  	if (ret)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1657  		return ret;
+82020b0ef15de0 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+10-05-04  1658  =
+
+845bd12ac78f92 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1659  	indio_dev->name =3D id->name;
+8e7d967244a8ee drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-08-30  1660  	indio_dev->channels =3D st->chip_info->channels;
+8e7d967244a8ee drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-08-30  1661  	indio_dev->num_channels =3D st->chip_info->num_channels;
+6fe8135fccd66a drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1662  	indio_dev->info =3D st->chip_info->info;
+6fe8135fccd66a drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1663  	indio_dev->modes =3D INDIO_DIRECT_MODE;
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1664  	ret =3D max1363_initial_setup(st);
+58f0a255454dc2 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1665  	if (ret < 0)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1666  		return ret;
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1667  =
+
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1668  	ret =3D devm_iio_triggered_buffer_setup(&client->dev, indi=
+o_dev, NULL,
+7a1aeba7ed0d5a drivers/iio/adc/max1363.c              Lars-Peter Clausen 20=
+13-09-16  1669  					      &max1363_trigger_handler, NULL);
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1670  	if (ret)
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1671  		return ret;
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1672  =
+
+6fe8135fccd66a drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1673  	if (client->irq) {
+7c3e8675f37503 drivers/iio/adc/max1363.c              Guenter Roeck      20=
+13-02-03  1674  		ret =3D devm_request_threaded_irq(&client->dev, st->clien=
+t->irq,
+aaf370db7dad57 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1675  					   NULL,
+aaf370db7dad57 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1676  					   &max1363_event_handler,
+aaf370db7dad57 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1677  					   IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+aaf370db7dad57 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1678  					   "max1363_event",
+aaf370db7dad57 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1679  					   indio_dev);
+298cd976e07f1a drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+11-05-18  1680  =
+
+440a5200347734 drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+10-06-26  1681  		if (ret)
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1682  			return ret;
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1683  	}
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1684  =
+
+a1ff6d25261315 drivers/iio/adc/max1363.c              Alexandru Ardelean 20=
+21-09-26  1685  	return devm_iio_device_register(&client->dev, indio_dev);
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1686  }
+d1325cf45077bd drivers/staging/iio/adc/max1363_core.c Jonathan Cameron   20=
+09-08-18  1687  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4360968974118645882==--
+--===============2715829850357704134==--
 
