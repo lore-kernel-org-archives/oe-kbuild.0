@@ -1,113 +1,167 @@
-Content-Type: multipart/mixed; boundary="===============4797700837866265915=="
+Content-Type: multipart/mixed; boundary="===============0172859745337766376=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/4] of: add struct page support to rmem
-Date: Mon, 18 Jul 2022 17:26:43 +0800
-Message-ID: <202207181758.YyEzUSPl-lkp@intel.com>
+Subject: fs/btrfs/zoned.c:2039:15: warning: Uninitialized variable: device->zone_info [uninitvar]
+Date: Mon, 18 Jul 2022 14:41:11 +0800
+Message-ID: <202207181459.tULJY4Z6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4797700837866265915==
+--===============0172859745337766376==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: fs/btrfs/=
+zoned.c:2039:15: warning: Uninitialized variable: device->zone_info [uninit=
+var]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220711122459.13773-2-me@linux.beauty>
-References: <20220711122459.13773-2-me@linux.beauty>
-TO: Li Chen <me@linux.beauty>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-TO: Will Deacon <will@kernel.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Frank Rowand <frowand.list@gmail.com>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Li Chen <lchen@ambarella.com>
-CC: linux-arm-kernel(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
-CC: devicetree(a)vger.kernel.org
+TO: Naohiro Aota <naohiro.aota@wdc.com>
+CC: David Sterba <dsterba@suse.com>
 
-Hi Li,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on arm64/for-next/core arm-perf/for-next/perf linu=
-s/master v5.19-rc7 next-20220715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Chen/add-struct-p=
-age-and-Direct-I-O-support-to-reserved-memory/20220711-202957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
-next
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: nios2-randconfig-m031-20220717 (https://download.01.org/0day-ci/arc=
-hive/20220718/202207181758.YyEzUSPl-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ff6992735ade75aae3e35d16b17da1008d753d28
+commit: 16beac87e95e2fb278b552397c8260637f8a63f7 btrfs: zoned: cache report=
+ed zone during mount
+date:   7 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 months ago
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 16beac87e95e2fb278b552397c8260637f8a63f7
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/of/of_reserved_mem.c:472 get_reserved_mem_from_dev() error: passing=
- non negative 22 to ERR_PTR
 
-vim +472 drivers/of/of_reserved_mem.c
+cppcheck warnings: (new ones prefixed by >>)
+   fs/btrfs/zoned.c:117:7: warning: Local variable 'i' shadows outer variab=
+le [shadowVariable]
+     int i;
+         ^
+   fs/btrfs/zoned.c:83:6: note: Shadowed declaration
+    int i;
+        ^
+   fs/btrfs/zoned.c:117:7: note: Shadow variable
+     int i;
+         ^
 
-8b66b4b9614f1c7 Li Chen 2022-07-11  448  =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-8b66b4b9614f1c7 Li Chen 2022-07-11  449  /**
-8b66b4b9614f1c7 Li Chen 2022-07-11  450   * get_reserved_mem_from_dev() - g=
-et reserved_mem from a device node
-8b66b4b9614f1c7 Li Chen 2022-07-11  451   * @dev: device pointer
-8b66b4b9614f1c7 Li Chen 2022-07-11  452   *
-8b66b4b9614f1c7 Li Chen 2022-07-11  453   * This function look for reserved=
-_mem from given device.
-8b66b4b9614f1c7 Li Chen 2022-07-11  454   *
-8b66b4b9614f1c7 Li Chen 2022-07-11  455   * Returns a reserved_mem pointer,=
- or NULL on error.
-8b66b4b9614f1c7 Li Chen 2022-07-11  456   */
-8b66b4b9614f1c7 Li Chen 2022-07-11  457  struct reserved_mem *get_reserved_=
-mem_from_dev(struct device *dev)
-8b66b4b9614f1c7 Li Chen 2022-07-11  458  {
-8b66b4b9614f1c7 Li Chen 2022-07-11  459  	struct device_node *np =3D dev_of=
-_node(dev);
-8b66b4b9614f1c7 Li Chen 2022-07-11  460  	struct device_node *rmem_np;
-8b66b4b9614f1c7 Li Chen 2022-07-11  461  	struct reserved_mem *rmem =3D NUL=
-L;
-8b66b4b9614f1c7 Li Chen 2022-07-11  462  =
+   fs/btrfs/zoned.c:658:14: warning: Redundant initialization for 'zone_inf=
+o'. The initialized value is overwritten before it is read. [redundantIniti=
+alization]
+      zone_info =3D device->zone_info;
+                ^
+   fs/btrfs/zoned.c:655:46: note: zone_info is initialized
+      struct btrfs_zoned_device_info *zone_info =3D
+                                                ^
+   fs/btrfs/zoned.c:658:14: note: zone_info is overwritten
+      zone_info =3D device->zone_info;
+                ^
+   fs/btrfs/zoned.c:336:16: warning: Uninitialized variable: device->bdev [=
+uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:330:6: note: Assuming condition is false
+    if (!btrfs_fs_incompat(fs_info, ZONED))
+        ^
+   fs/btrfs/zoned.c:336:16: note: Uninitialized variable: device->bdev
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:642:16: warning: Uninitialized variable: device->bdev [=
+uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:661:17: warning: Uninitialized variable: zone_info [uni=
+nitvar]
+       zone_size =3D zone_info->zone_size;
+                   ^
+   fs/btrfs/zoned.c:642:7: note: Assuming condition is false
+     if (!device->bdev)
+         ^
+   fs/btrfs/zoned.c:658:22: note: Assignment 'zone_info=3Ddevice->zone_info=
+', assigned value is <Uninit>
+      zone_info =3D device->zone_info;
+                        ^
+   fs/btrfs/zoned.c:661:17: note: Uninitialized variable: zone_info
+       zone_size =3D zone_info->zone_size;
+                   ^
+>> fs/btrfs/zoned.c:2039:15: warning: Uninitialized variable: device->zone_=
+info [uninitvar]
+     if (device->zone_info) {
+                 ^
+   fs/btrfs/zoned.c:2034:6: note: Assuming condition is false
+    if (!btrfs_is_zoned(fs_info))
+        ^
+   fs/btrfs/zoned.c:2039:15: note: Uninitialized variable: device->zone_info
+     if (device->zone_info) {
+                 ^
+>> kernel/time/posix-timers.c:119:32: warning: Parameter 'sig' can be decla=
+red with const [constParameter]
+            struct signal_struct *sig,
+                                  ^
+>> kernel/time/posix-timers.c:318:9: warning: Uninitialized variable: __tim=
+r [uninitvar]
+    timr =3D lock_timer(info->si_tid, &flags);
+           ^
+   kernel/time/posix-timers.c:722:9: warning: Uninitialized variable: __tim=
+r [uninitvar]
+    timr =3D lock_timer(timer_id, &flags);
+           ^
+   kernel/time/posix-timers.c:783:9: warning: Uninitialized variable: __tim=
+r [uninitvar]
+    timr =3D lock_timer(timer_id, &flags);
+           ^
+   kernel/time/posix-timers.c:854:9: warning: Uninitialized variable: __tim=
+r [uninitvar]
+    return lock_timer(timer_id, flags);
+           ^
+   kernel/time/posix-timers.c:914:9: warning: Uninitialized variable: __tim=
+r [uninitvar]
+    timr =3D lock_timer(timer_id, &flags);
+           ^
+   kernel/time/posix-timers.c:1009:10: warning: Uninitialized variable: __t=
+imr [uninitvar]
+    timer =3D lock_timer(timer_id, &flags);
+            ^
 
-8b66b4b9614f1c7 Li Chen 2022-07-11  463  	rmem_np =3D of_parse_phandle(np, =
-"memory-region", 0);
-8b66b4b9614f1c7 Li Chen 2022-07-11  464  	if (!rmem_np) {
-8b66b4b9614f1c7 Li Chen 2022-07-11  465  		dev_err(dev, "failed to get memo=
-ry region node\n");
-8b66b4b9614f1c7 Li Chen 2022-07-11  466  		return ERR_PTR(-ENODEV);
-8b66b4b9614f1c7 Li Chen 2022-07-11  467  	}
-8b66b4b9614f1c7 Li Chen 2022-07-11  468  =
+vim +2039 fs/btrfs/zoned.c
 
-8b66b4b9614f1c7 Li Chen 2022-07-11  469  	rmem =3D of_reserved_mem_lookup(r=
-mem_np);
-8b66b4b9614f1c7 Li Chen 2022-07-11  470  	if (!rmem) {
-8b66b4b9614f1c7 Li Chen 2022-07-11  471  		dev_err(dev, "Failed to lookup r=
-eserved memory\n");
-8b66b4b9614f1c7 Li Chen 2022-07-11 @472  		return ERR_PTR(EINVAL);
-8b66b4b9614f1c7 Li Chen 2022-07-11  473  	}
-8b66b4b9614f1c7 Li Chen 2022-07-11  474  	return rmem;
-8b66b4b9614f1c7 Li Chen 2022-07-11  475  }
-8b66b4b9614f1c7 Li Chen 2022-07-11  476  EXPORT_SYMBOL_GPL(get_reserved_mem=
-_from_dev);
-8b66b4b9614f1c7 Li Chen 2022-07-11  477  =
+16beac87e95e2f Naohiro Aota 2021-11-11  2028  =
 
+16beac87e95e2f Naohiro Aota 2021-11-11  2029  void btrfs_free_zone_cache(st=
+ruct btrfs_fs_info *fs_info)
+16beac87e95e2f Naohiro Aota 2021-11-11  2030  {
+16beac87e95e2f Naohiro Aota 2021-11-11  2031  	struct btrfs_fs_devices *fs_=
+devices =3D fs_info->fs_devices;
+16beac87e95e2f Naohiro Aota 2021-11-11  2032  	struct btrfs_device *device;
+16beac87e95e2f Naohiro Aota 2021-11-11  2033  =
+
+16beac87e95e2f Naohiro Aota 2021-11-11  2034  	if (!btrfs_is_zoned(fs_info))
+16beac87e95e2f Naohiro Aota 2021-11-11  2035  		return;
+16beac87e95e2f Naohiro Aota 2021-11-11  2036  =
+
+16beac87e95e2f Naohiro Aota 2021-11-11  2037  	mutex_lock(&fs_devices->devi=
+ce_list_mutex);
+16beac87e95e2f Naohiro Aota 2021-11-11  2038  	list_for_each_entry(device, =
+&fs_devices->devices, dev_list) {
+16beac87e95e2f Naohiro Aota 2021-11-11 @2039  		if (device->zone_info) {
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4797700837866265915==--
+--===============0172859745337766376==--
 
