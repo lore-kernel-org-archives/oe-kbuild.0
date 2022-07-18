@@ -1,51 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============3822010119188719884=="
+Content-Type: multipart/mixed; boundary="===============3881457693272864025=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [luxis1999-iommufd:iommufd-v5.19-rc5 99/104] drivers/iommu/iommufd/main.c:177:19: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Mon, 18 Jul 2022 12:47:40 +0800
-Message-ID: <202207181218.7ovPKqx2-lkp@intel.com>
+Subject: fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the local variable 'dev', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
+Date: Mon, 18 Jul 2022 09:44:41 +0800
+Message-ID: <202207180916.PptAVyap-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3822010119188719884==
+--===============3881457693272864025==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-ommu/iommufd/main.c:177:19: warning: Dereference of null pointer [clang-ana=
-lyzer-core.NullDereference]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the lo=
+cal variable 'dev', which is not memory allocated by malloc() [clang-analyz=
+er-unix.Malloc]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Liu Yi L <yi.l.liu@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
-tree:   https://github.com/luxis1999/iommufd iommufd-v5.19-rc5
-head:   f200d9a1de755f3bb98e21535e22b9adf6ba83f7
-commit: de2f3eed0a9ab31214f0084a53446cec254e7a07 [99/104] iommufd: Add IOMM=
-U_ALLOC_PASID
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ff6992735ade75aae3e35d16b17da1008d753d28
+commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
+ndexing support
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
 config: s390-randconfig-c005-20220715 (https://download.01.org/0day-ci/arch=
-ive/20220718/202207181218.7ovPKqx2-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 07022e=
-6cf9b5b3baa642be53d0b3c3f1c403dbfd)
+ive/20220718/202207180916.PptAVyap-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 2da550=
+140aa98cf6a3e96417c87f1e89e3a26047)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install s390 cross compiling tool for clang build
         # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/luxis1999/iommufd/commit/de2f3eed0a9ab31214f00=
-84a53446cec254e7a07
-        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
-fd
-        git fetch --no-tags luxis1999-iommufd iommufd-v5.19-rc5
-        git checkout de2f3eed0a9ab31214f0084a53446cec254e7a07
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 337015573718b161891a3473d25f59273f2e626b
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Ds390 clang-analyzer =
@@ -56,297 +62,403 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/comedi/drivers/comedi_8254.c:309:6: note: Left side of '||' is f=
-alse
-   drivers/comedi/drivers/comedi_8254.c:309:22: note: Assuming 'counter2' i=
-s <=3D 2
-           if (counter1 > 2 || counter2 > 2 || counter1 =3D=3D counter2)
-                               ^~~~~~~~~~~~
-   drivers/comedi/drivers/comedi_8254.c:309:6: note: Left side of '||' is f=
-alse
-           if (counter1 > 2 || counter2 > 2 || counter1 =3D=3D counter2)
+   fs/jffs2/gc.c:310:2: note: 0 is < 1
+           jffs2_dbg(1, "Going to garbage collect node@0x%08x\n",
+           ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:310:2: note: Taking false branch
+           jffs2_dbg(1, "Going to garbage collect node at 0x%08x\n",
+           ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:310:2: note: Loop condition is false.  Exiting loop
+           jffs2_dbg(1, "Going to garbage collect node at 0x%08x\n",
+           ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:313:6: note: Assuming field 'next_in_ino' is non-null
+           if (!raw->next_in_ino) {
+               ^~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:313:2: note: Taking false branch
+           if (!raw->next_in_ino) {
+           ^
+   fs/jffs2/gc.c:332:6: note: Assuming field 'class' is not equal to RAWNOD=
+E_CLASS_XATTR_DATUM
+           if (ic->class =3D=3D RAWNODE_CLASS_XATTR_DATUM
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:332:6: note: Left side of '||' is false
+   fs/jffs2/gc.c:333:9: note: Assuming field 'class' is not equal to RAWNOD=
+E_CLASS_XATTR_REF
+               || ic->class =3D=3D RAWNODE_CLASS_XATTR_REF) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:332:2: note: Taking false branch
+           if (ic->class =3D=3D RAWNODE_CLASS_XATTR_DATUM
+           ^
+   fs/jffs2/gc.c:352:2: note: 0 is < 1
+           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
+%d), ino #%u\n",
+           ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:352:2: note: Taking false branch
+           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
+%d), ino #%u\n",
+           ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:352:2: note: Loop condition is false.  Exiting loop
+           jffs2_dbg(1, "%s(): collecting from block @0x%08x. Node @0x%08x(=
+%d), ino #%u\n",
+           ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:365:2: note: Control jumps to 'case 5:'  at line 397
+           switch(ic->state) {
+           ^
+   fs/jffs2/gc.c:405:3: note: 0 is < 1
+                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
+                   ^
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:405:3: note: Taking false branch
+                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
+                   ^
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+           ^
+   fs/jffs2/gc.c:405:3: note: Loop condition is false.  Exiting loop
+                   jffs2_dbg(1, "%s(): waiting for ino #%u in state %d\n",
+                   ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:407:3: note: Dereference of null pointer
+                   sleep_on_spinunlock(&c->inocache_wq, &c->inocache_lock);
+                   ^
+   fs/jffs2/os-linux.h:43:29: note: expanded from macro 'sleep_on_spinunloc=
+k'
+                   DECLARE_WAITQUEUE(__wait, current);             \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:200:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/wait.h:55:63: note: expanded from macro 'DECLARE_WAITQUEUE'
+           struct wait_queue_entry name =3D __WAITQUEUE_INITIALIZER(name, t=
+sk)
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/wait.h:50:13: note: expanded from macro '__WAITQUEUE_INITI=
+ALIZER'
+           .private        =3D tsk,                                        =
+          \
+                             ^~~
+>> fs/jffs2/gc.c:846:3: warning: Argument to kfree() is the address of the =
+local variable 'dev', which is not memory allocated by malloc() [clang-anal=
+yzer-unix.Malloc]
+                   kfree(mdata);
+                   ^     ~~~~~
+   fs/jffs2/gc.c:770:6: note: Assuming the condition is true
+           if (S_ISBLK(JFFS2_F_I_MODE(f)) ||
                ^
-   drivers/comedi/drivers/comedi_8254.c:309:38: note: Assuming 'counter1' i=
-s not equal to 'counter2'
-           if (counter1 > 2 || counter2 > 2 || counter1 =3D=3D counter2)
-                                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/comedi/drivers/comedi_8254.c:309:2: note: Taking false branch
-           if (counter1 > 2 || counter2 > 2 || counter1 =3D=3D counter2)
-           ^
-   drivers/comedi/drivers/comedi_8254.c:312:6: note: Assuming 'enable' is f=
-alse
-           if (enable)
-               ^~~~~~
-   drivers/comedi/drivers/comedi_8254.c:312:2: note: Taking false branch
-           if (enable)
-           ^
-   drivers/comedi/drivers/comedi_8254.c:317:2: note: Calling 'comedi_8254_s=
-et_mode'
-           comedi_8254_set_mode(i8254, counter1, mode);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/comedi/drivers/comedi_8254.c:257:6: note: 'counter' is <=3D 2
-           if (counter > 2)
-               ^~~~~~~
-   drivers/comedi/drivers/comedi_8254.c:257:2: note: Taking false branch
-           if (counter > 2)
-           ^
-   drivers/comedi/drivers/comedi_8254.c:259:2: note: Taking false branch
-           if (mode > (I8254_MODE5 | I8254_BCD))
-           ^
-   drivers/comedi/drivers/comedi_8254.c:265:2: note: Calling '__i8254_write'
-           __i8254_write(i8254, byte, I8254_CTRL_REG);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/comedi/drivers/comedi_8254.c:156:2: note: Control jumps to 'case=
- 4:'  at line 170
-           switch (i8254->iosize) {
-           ^
-   drivers/comedi/drivers/comedi_8254.c:171:7: note: Assuming field 'mmio' =
-is null
-                   if (i8254->mmio)
-                       ^~~~~~~~~~~
-   drivers/comedi/drivers/comedi_8254.c:171:3: note: Taking false branch
-                   if (i8254->mmio)
+   include/uapi/linux/stat.h:25:21: note: expanded from macro 'S_ISBLK'
+   #define S_ISBLK(m)      (((m) & S_IFMT) =3D=3D S_IFBLK)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jffs2/gc.c:770:33: note: Left side of '||' is true
+           if (S_ISBLK(JFFS2_F_I_MODE(f)) ||
+                                          ^
+   fs/jffs2/gc.c:775:3: note: 0 is < 1
+                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
                    ^
-   drivers/comedi/drivers/comedi_8254.c:174:4: note: Calling '_outl'
-                           outl(val, i8254->iobase + reg_offset);
-                           ^
-   include/asm-generic/io.h:549:14: note: expanded from macro 'outl'
-   #define outl _outl
-                ^
-   include/asm-generic/io.h:517:15: note: expanded from macro '_outl'
-   #define _outl _outl
-                 ^
-   include/asm-generic/io.h:520:2: note: Loop condition is false.  Exiting =
-loop
-           __io_pbw();
-           ^
-   include/asm-generic/io.h:49:24: note: expanded from macro '__io_pbw'
-   #define __io_pbw()     __io_bw()
-                          ^
-   include/asm-generic/io.h:37:24: note: expanded from macro '__io_bw'
-   #define __io_bw()      wmb()
-                          ^
-   include/asm-generic/barrier.h:38:20: note: expanded from macro 'wmb'
-   #define wmb()   do { kcsan_wmb(); __wmb(); } while (0)
-                        ^
-   include/linux/kcsan-checks.h:255:21: note: expanded from macro 'kcsan_wm=
-b'
-   #define kcsan_wmb()     __KCSAN_BARRIER_TO_SIGNAL_FENCE(wmb)
-                           ^
-   include/linux/kcsan-checks.h:249:2: note: expanded from macro '__KCSAN_B=
-ARRIER_TO_SIGNAL_FENCE'
-           do {                                                            =
-        \
-           ^
-   include/asm-generic/io.h:520:2: note: Loop condition is false.  Exiting =
-loop
-           __io_pbw();
-           ^
-   include/asm-generic/io.h:49:24: note: expanded from macro '__io_pbw'
-   #define __io_pbw()     __io_bw()
-                          ^
-   include/asm-generic/io.h:37:24: note: expanded from macro '__io_bw'
-   #define __io_bw()      wmb()
-                          ^
-   include/asm-generic/barrier.h:38:15: note: expanded from macro 'wmb'
-   #define wmb()   do { kcsan_wmb(); __wmb(); } while (0)
+   fs/jffs2/debug.h:69:6: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
+               ^~~~~~~~~~~~~~~~~~~~~
+   ./include/generated/autoconf.h:384:31: note: expanded from macro 'CONFIG=
+_JFFS2_FS_DEBUG'
+   #define CONFIG_JFFS2_FS_DEBUG 0
+                                 ^
+   fs/jffs2/gc.c:775:3: note: Taking false branch
+                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
                    ^
-   include/asm-generic/io.h:521:48: note: Passing null pointer value via 2n=
-d parameter 'addr'
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ^
-   include/asm-generic/io.h:444:20: note: expanded from macro 'PCI_IOBASE'
-   #define PCI_IOBASE ((void __iomem *)0)
-                      ^
-   include/asm-generic/io.h:521:2: note: Calling '__raw_writel'
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+   fs/jffs2/debug.h:69:2: note: expanded from macro 'jffs2_dbg'
+           if (CONFIG_JFFS2_FS_DEBUG >=3D level)     \
            ^
-   include/asm-generic/io.h:124:22: note: expanded from macro '__raw_writel'
-   #define __raw_writel __raw_writel
-                        ^
-   include/asm-generic/io.h:127:32: note: Dereference of null pointer
-           *(volatile u32 __force *)addr =3D value;
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   Suppressed 57 warnings (45 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
->> drivers/iommu/iommufd/main.c:177:19: warning: Dereference of null pointe=
-r [clang-analyzer-core.NullDereference]
-           mm =3D get_task_mm(current);
-                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   drivers/iommu/iommufd/main.c:168:9: note: Calling 'kzalloc'
-           ictx =3D kzalloc(sizeof(*ictx), GFP_KERNEL_ACCOUNT);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:733:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:588:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
+   fs/jffs2/gc.c:775:3: note: Loop condition is false.  Exiting loop
+                   jffs2_dbg(1, "%s(): Writing %d bytes of kdev_t\n",
+                   ^
+   fs/jffs2/debug.h:67:37: note: expanded from macro 'jffs2_dbg'
+   #define jffs2_dbg(level, fmt, ...)              \
+                                                   ^
+   fs/jffs2/gc.c:798:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   fs/jffs2/gc.c:798:2: note: Taking false branch
+           if (ret) {
            ^
-   include/linux/slab.h:605:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:733:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:733:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/main.c:168:9: note: Returning from 'kzalloc'
-           ictx =3D kzalloc(sizeof(*ictx), GFP_KERNEL_ACCOUNT);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/main.c:169:6: note: Assuming 'ictx' is non-null
-           if (!ictx)
-               ^~~~~
-   drivers/iommu/iommufd/main.c:169:2: note: Taking false branch
-           if (!ictx)
+   fs/jffs2/gc.c:805:6: note: 'last_frag' is null
+           if (last_frag)
+               ^~~~~~~~~
+   fs/jffs2/gc.c:805:2: note: Taking false branch
+           if (last_frag)
            ^
-   drivers/iommu/iommufd/main.c:174:2: note: Loop condition is false.  Exit=
-ing loop
-           mutex_init(&ictx->vfio_compat);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/iommu/iommufd/main.c:177:19: note: Dereference of null pointer
-           mm =3D get_task_mm(current);
-                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   63 warnings generated.
-   drivers/iommu/iommufd/pages.c:91:2: warning: Value stored to 'rc' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           rc =3D check_add_overflow(pages->npinned, npages, &pages->npinne=
-d);
-           ^
-   drivers/iommu/iommufd/pages.c:91:2: note: Value stored to 'rc' is never =
-read
-   drivers/iommu/iommufd/pages.c:100:2: warning: Value stored to 'rc' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           rc =3D check_sub_overflow(pages->npinned, npages, &pages->npinne=
-d);
-           ^
-   drivers/iommu/iommufd/pages.c:100:2: note: Value stored to 'rc' is never=
- read
-   drivers/iommu/iommufd/pages.c:413:25: warning: The left operand of '>' i=
-s a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   if (batch->npfns[cur] > offset)
-                                         ^
-   drivers/iommu/iommufd/pages.c:1310:15: note: 'user' is non-null
-           if (WARN_ON(!user))
-                        ^
-   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(x);                      \
+   fs/jffs2/gc.c:824:25: note: Assuming '__UNIQUE_ID___x281' is <=3D '__UNI=
+QUE_ID___y282'
+           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
                                   ^
-   drivers/iommu/iommufd/pages.c:1310:6: note: Taking false branch
-           if (WARN_ON(!user))
-               ^
-   arch/s390/include/asm/bug.h:55:2: note: expanded from macro 'WARN_ON'
-           if (__builtin_constant_p(__ret_warn_on)) {      \
-           ^
-   drivers/iommu/iommufd/pages.c:1310:6: note: Taking false branch
-           if (WARN_ON(!user))
-               ^
-   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
-                   if (unlikely(__ret_warn_on))            \
-                   ^
-   drivers/iommu/iommufd/pages.c:1310:2: note: Taking false branch
-           if (WARN_ON(!user))
-           ^
-   drivers/iommu/iommufd/pages.c:1313:2: note: Taking false branch
-           if (!refcount_dec_and_test(&user->refcount))
-           ^
-   drivers/iommu/iommufd/pages.c:1317:2: note: Calling 'iopt_pages_unfill_x=
-array'
-           iopt_pages_unfill_xarray(pages, start, last);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/pages.c:1090:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&pages->mutex);
-           ^
-   include/linux/lockdep.h:315:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:309:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-
-vim +177 drivers/iommu/iommufd/main.c
-
-f4254b5e76181e Jason Gunthorpe 2021-11-11  161  =
-
-f4254b5e76181e Jason Gunthorpe 2021-11-11  162  static int iommufd_fops_ope=
-n(struct inode *inode, struct file *filp)
-f4254b5e76181e Jason Gunthorpe 2021-11-11  163  {
-f4254b5e76181e Jason Gunthorpe 2021-11-11  164  	struct iommufd_ctx *ictx;
-de2f3eed0a9ab3 Yi Liu          2022-05-25  165  	struct mm_struct *mm;
-de2f3eed0a9ab3 Yi Liu          2022-05-25  166  	int ret =3D 0;
-f4254b5e76181e Jason Gunthorpe 2021-11-11  167  =
-
-f4254b5e76181e Jason Gunthorpe 2021-11-11  168  	ictx =3D kzalloc(sizeof(*i=
-ctx), GFP_KERNEL_ACCOUNT);
-f4254b5e76181e Jason Gunthorpe 2021-11-11  169  	if (!ictx)
-f4254b5e76181e Jason Gunthorpe 2021-11-11  170  		return -ENOMEM;
-f4254b5e76181e Jason Gunthorpe 2021-11-11  171  =
-
-f4254b5e76181e Jason Gunthorpe 2021-11-11  172  	xa_init_flags(&ictx->objec=
-ts, XA_FLAGS_ALLOC1 | XA_FLAGS_ACCOUNT);
-f4254b5e76181e Jason Gunthorpe 2021-11-11  173  	ictx->filp =3D filp;
-44c9be5e8f584d Nicolin Chen    2022-01-31  174  	mutex_init(&ictx->vfio_com=
-pat);
-f4254b5e76181e Jason Gunthorpe 2021-11-11  175  	filp->private_data =3D ict=
-x;
-de2f3eed0a9ab3 Yi Liu          2022-05-25  176  =
-
-de2f3eed0a9ab3 Yi Liu          2022-05-25 @177  	mm =3D get_task_mm(current=
-);
-de2f3eed0a9ab3 Yi Liu          2022-05-25  178  	/* REVISIT: IOASID set quo=
-ta must be enforced at per mm level, but
-de2f3eed0a9ab3 Yi Liu          2022-05-25  179  	 * users should be able to=
- open iommufd multiple times. For now we
-de2f3eed0a9ab3 Yi Liu          2022-05-25  180  	 * just prevent multi-open=
-. TODO: find a more explicit token
-de2f3eed0a9ab3 Yi Liu          2022-05-25  181  	 * than mm.
-de2f3eed0a9ab3 Yi Liu          2022-05-25  182  	 */
-de2f3eed0a9ab3 Yi Liu          2022-05-25  183  	ictx->pasid_set =3D ioasid=
-_set_alloc_with_mm(mm, 1000);
-de2f3eed0a9ab3 Yi Liu          2022-05-25  184  	/* IOASID core will mmgrab=
- to ensure life time alignment */
-de2f3eed0a9ab3 Yi Liu          2022-05-25  185  	if (IS_ERR(ictx->pasid_set=
+   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
+   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
+                              ^
+   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
+   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
+                     ^
+   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
+   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
 ))
-de2f3eed0a9ab3 Yi Liu          2022-05-25  186  		ret =3D -EBUSY;
-de2f3eed0a9ab3 Yi Liu          2022-05-25  187  	mmput(mm);
-de2f3eed0a9ab3 Yi Liu          2022-05-25  188  =
+                                          ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                              ^
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   fs/jffs2/nodelist.h:37:36: note: expanded from macro 'cpu_to_je32'
+   #define cpu_to_je32(x) ((jint32_t){x})
+                                      ^
+   fs/jffs2/gc.c:824:25: note: '?' condition is false
+           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
+                                  ^
+   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
+   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
+                              ^
+   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
+   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
+                     ^
+   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
+   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
+))
+                                          ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/jffs2/gc.c:824:25: note: '__UNIQUE_ID___x283' is < '__UNIQUE_ID___y28=
+4'
+           ri.atime =3D cpu_to_je32(JFFS2_F_I_ATIME(f));
+                                  ^
+   fs/jffs2/os-linux.h:40:28: note: expanded from macro 'JFFS2_F_I_ATIME'
+   #define JFFS2_F_I_ATIME(f) I_SEC(OFNI_EDONI_2SFFJ(f)->i_atime)
+                              ^
+   fs/jffs2/os-linux.h:37:19: note: expanded from macro 'I_SEC'
+   #define I_SEC(tv) JFFS2_CLAMP_TIME((tv).tv_sec)
+                     ^
+   fs/jffs2/os-linux.h:34:40: note: expanded from macro 'JFFS2_CLAMP_TIME'
+   #define JFFS2_CLAMP_TIME(t) ((uint32_t)clamp_t(time64_t, (t), 0, U32_MAX=
+))
+                                          ^
 
-de2f3eed0a9ab3 Yi Liu          2022-05-25  189  	return ret;
-f4254b5e76181e Jason Gunthorpe 2021-11-11  190  }
-f4254b5e76181e Jason Gunthorpe 2021-11-11  191  =
+vim +/dev +846 fs/jffs2/gc.c
 
+^1da177e4c3f415 Linus Torvalds     2005-04-16  757  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  758  static int jffs2_garbag=
+e_collect_metadata(struct jffs2_sb_info *c, struct jffs2_eraseblock *jeb,
+^1da177e4c3f415 Linus Torvalds     2005-04-16  759  					struct jffs2_inode=
+_info *f, struct jffs2_full_dnode *fn)
+^1da177e4c3f415 Linus Torvalds     2005-04-16  760  {
+^1da177e4c3f415 Linus Torvalds     2005-04-16  761  	struct jffs2_full_dnod=
+e *new_fn;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  762  	struct jffs2_raw_inode=
+ ri;
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  763  	struct jffs2_node_frag=
+ *last_frag;
+aef9ab47841af45 David Woodhouse    2006-05-19  764  	union jffs2_device_nod=
+e dev;
+2e16cfca6e17ae3 David Woodhouse    2009-12-16  765  	char *mdata =3D NULL;
+2e16cfca6e17ae3 David Woodhouse    2009-12-16  766  	int mdatalen =3D 0;
+9fe4854cd1f6027 David Woodhouse    2006-05-23  767  	uint32_t alloclen, ile=
+n;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  768  	int ret;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  769  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  770  	if (S_ISBLK(JFFS2_F_I_=
+MODE(f)) ||
+^1da177e4c3f415 Linus Torvalds     2005-04-16  771  	    S_ISCHR(JFFS2_F_I_=
+MODE(f)) ) {
+^1da177e4c3f415 Linus Torvalds     2005-04-16  772  		/* For these, we don'=
+t actually need to read the old node */
+aef9ab47841af45 David Woodhouse    2006-05-19  773  		mdatalen =3D jffs2_en=
+code_dev(&dev, JFFS2_F_I_RDEV(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  774  		mdata =3D (char *)&de=
+v;
+9c261b33a9c417c Joe Perches        2012-02-15  775  		jffs2_dbg(1, "%s(): W=
+riting %d bytes of kdev_t\n",
+9c261b33a9c417c Joe Perches        2012-02-15  776  			  __func__, mdatalen=
+);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  777  	} else if (S_ISLNK(JFF=
+S2_F_I_MODE(f))) {
+^1da177e4c3f415 Linus Torvalds     2005-04-16  778  		mdatalen =3D fn->size;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  779  		mdata =3D kmalloc(fn-=
+>size, GFP_KERNEL);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  780  		if (!mdata) {
+da320f055a88182 Joe Perches        2012-02-15  781  			pr_warn("kmalloc of =
+mdata failed in jffs2_garbage_collect_metadata()\n");
+^1da177e4c3f415 Linus Torvalds     2005-04-16  782  			return -ENOMEM;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  783  		}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  784  		ret =3D jffs2_read_dn=
+ode(c, f, fn, mdata, 0, mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  785  		if (ret) {
+da320f055a88182 Joe Perches        2012-02-15  786  			pr_warn("read of old=
+ metadata failed in jffs2_garbage_collect_metadata(): %d\n",
+da320f055a88182 Joe Perches        2012-02-15  787  				ret);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  788  			kfree(mdata);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  789  			return ret;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  790  		}
+9c261b33a9c417c Joe Perches        2012-02-15  791  		jffs2_dbg(1, "%s(): W=
+riting %d bites of symlink target\n",
+9c261b33a9c417c Joe Perches        2012-02-15  792  			  __func__, mdatalen=
+);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  793  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  794  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  795  =
+
+9fe4854cd1f6027 David Woodhouse    2006-05-23  796  	ret =3D jffs2_reserve_=
+space_gc(c, sizeof(ri) + mdatalen, &alloclen,
+e631ddba588783e Ferenc Havasi      2005-09-07  797  				JFFS2_SUMMARY_INODE=
+_SIZE);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  798  	if (ret) {
+da320f055a88182 Joe Perches        2012-02-15  799  		pr_warn("jffs2_reserv=
+e_space_gc of %zd bytes for garbage_collect_metadata failed: %d\n",
+^1da177e4c3f415 Linus Torvalds     2005-04-16  800  			sizeof(ri) + mdatale=
+n, ret);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  801  		goto out;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  802  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  803  =
+
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  804  	last_frag =3D frag_las=
+t(&f->fragtree);
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  805  	if (last_frag)
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  806  		/* Fetch the inode le=
+ngth from the fragtree rather then
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  807  		 * from i_size since =
+i_size may have not been updated yet */
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  808  		ilen =3D last_frag->o=
+fs + last_frag->size;
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  809  	else
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  810  		ilen =3D JFFS2_F_I_SI=
+ZE(f);
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  811  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  812  	memset(&ri, 0, sizeof(=
+ri));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  813  	ri.magic =3D cpu_to_je=
+16(JFFS2_MAGIC_BITMASK);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  814  	ri.nodetype =3D cpu_to=
+_je16(JFFS2_NODETYPE_INODE);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  815  	ri.totlen =3D cpu_to_j=
+e32(sizeof(ri) + mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  816  	ri.hdr_crc =3D cpu_to_=
+je32(crc32(0, &ri, sizeof(struct jffs2_unknown_node)-4));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  817  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  818  	ri.ino =3D cpu_to_je32=
+(f->inocache->ino);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  819  	ri.version =3D cpu_to_=
+je32(++f->highest_version);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  820  	ri.mode =3D cpu_to_jem=
+ode(JFFS2_F_I_MODE(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  821  	ri.uid =3D cpu_to_je16=
+(JFFS2_F_I_UID(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  822  	ri.gid =3D cpu_to_je16=
+(JFFS2_F_I_GID(f));
+8557fd51c22e4c2 Artem B. Bityuckiy 2005-04-09  823  	ri.isize =3D cpu_to_je=
+32(ilen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  824  	ri.atime =3D cpu_to_je=
+32(JFFS2_F_I_ATIME(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  825  	ri.ctime =3D cpu_to_je=
+32(JFFS2_F_I_CTIME(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  826  	ri.mtime =3D cpu_to_je=
+32(JFFS2_F_I_MTIME(f));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  827  	ri.offset =3D cpu_to_j=
+e32(0);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  828  	ri.csize =3D cpu_to_je=
+32(mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  829  	ri.dsize =3D cpu_to_je=
+32(mdatalen);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  830  	ri.compr =3D JFFS2_COM=
+PR_NONE;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  831  	ri.node_crc =3D cpu_to=
+_je32(crc32(0, &ri, sizeof(ri)-8));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  832  	ri.data_crc =3D cpu_to=
+_je32(crc32(0, mdata, mdatalen));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  833  =
+
+9fe4854cd1f6027 David Woodhouse    2006-05-23  834  	new_fn =3D jffs2_write=
+_dnode(c, f, &ri, mdata, mdatalen, ALLOC_GC);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  835  =
+
+^1da177e4c3f415 Linus Torvalds     2005-04-16  836  	if (IS_ERR(new_fn)) {
+da320f055a88182 Joe Perches        2012-02-15  837  		pr_warn("Error writin=
+g new dnode: %ld\n", PTR_ERR(new_fn));
+^1da177e4c3f415 Linus Torvalds     2005-04-16  838  		ret =3D PTR_ERR(new_f=
+n);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  839  		goto out;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  840  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  841  	jffs2_mark_node_obsole=
+te(c, fn->raw);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  842  	jffs2_free_full_dnode(=
+fn);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  843  	f->metadata =3D new_fn;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  844   out:
+^1da177e4c3f415 Linus Torvalds     2005-04-16  845  	if (S_ISLNK(JFFS2_F_I_=
+MODE(f)))
+^1da177e4c3f415 Linus Torvalds     2005-04-16 @846  		kfree(mdata);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  847  	return ret;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  848  }
+^1da177e4c3f415 Linus Torvalds     2005-04-16  849  =
+
+
+:::::: The code at line 846 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3822010119188719884==--
+--===============3881457693272864025==--
 
