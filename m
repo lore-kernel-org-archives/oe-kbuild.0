@@ -1,373 +1,161 @@
-Content-Type: multipart/mixed; boundary="===============4225099348156914555=="
+Content-Type: multipart/mixed; boundary="===============4356062312814996278=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/zstd/decompress/zstd_decompress.c:1252:44: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Wed, 20 Jul 2022 01:26:06 +0800
-Message-ID: <202207200107.DpM7d7hO-lkp@intel.com>
+Subject: drivers/net/phy/phy_device.c:1772 phy_detach() error: we previously assumed 'dev' could be null (see line 1752)
+Date: Wed, 20 Jul 2022 00:55:29 +0800
+Message-ID: <202207200005.1kAdinkP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4225099348156914555==
+--===============4356062312814996278==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: lib/zstd/=
-decompress/zstd_decompress.c:1252:44: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nick Terrell <terrelln@fb.com>
+TO: Dongjin Kim <tobetter@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ca85855bdcae8f84f1512e88b4c75009ea17ea2f
-commit: e0c1b49f5b674cca7b10549c53b3791d0bbc90a8 lib: zstd: Upgrade to late=
-st upstream zstd version 1.4.10
-date:   8 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220720/202207200107.DpM7d7hO-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De0c1b49f5b674cca7b10549c53b3791d0bbc90a8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e0c1b49f5b674cca7b10549c53b3791d0bbc90a8
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://github.com/tobetter/linux odroid-5.19.y
+head:   0569e1291a824471ea27c9e90132881c0232a3a0
+commit: 898624b63a33622330468fd8007048dc1981492d ODROID-COMMON: phy/realtek=
+: add Wake-on-Lan to Realtek PHY
+date:   8 days ago
+:::::: branch date: 7 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-m021-20220718 (https://download.01.org/0day-ci/arch=
+ive/20220720/202207200005.1kAdinkP-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/net/phy/phy_device.c:1772 phy_detach() error: we previously assumed=
+ 'dev' could be null (see line 1752)
+drivers/net/phy/phy_device.c:1784 phy_detach() warn: variable dereferenced =
+before check 'dev' (see line 1772)
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   lib/zstd/decompress/zstd_decompress.c: In function 'ZSTD_loadDEntropy':
->> lib/zstd/decompress/zstd_decompress.c:1252:44: warning: use of uninitial=
-ized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1252 |         unsigned offcodeMaxValue =3D MaxOff, offcodeLog;
-         |                                            ^~~~~~~~~~
-     'ZSTD_decompressBegin_usingDict.part.0': events 1-2
-       |
-       | 1354 | size_t ZSTD_decompressBegin_usingDict(ZSTD_DCtx* dctx, cons=
-t void* dict, size_t dictSize)
-       |      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |        |
-       |      |        (1) entry to 'ZSTD_decompressBegin_usingDict.part.0'
-       |......
-       | 1357 |     if (dict && dictSize)
-       |      |        ~
-       |      |        |
-       |      |        (2) following 'true' branch...
-       |
-     'ZSTD_decompressBegin_usingDict.part.0': event 3
-       |
-       |lib/zstd/decompress/../common/zstd_internal.h:38:22:
-       |   38 | #define ZSTD_isError ERR_isError   /* for inlining */
-   lib/zstd/decompress/../common/zstd_internal.h:84:7: note: in definition =
-of macro 'RETURN_ERROR_IF'
-       |   84 |   if (cond) { \
-       |      |       ^~~~
-   lib/zstd/decompress/zstd_decompress.c:1359:13: note: in expansion of mac=
-ro 'ZSTD_isError'
-       | 1359 |             ZSTD_isError(ZSTD_decompress_insertDictionary(d=
-ctx, dict, dictSize)),
-       |      |             ^~~~~~~~~~~~
-       |
-     'ZSTD_decompressBegin_usingDict.part.0': event 4
-       |
-       |lib/zstd/decompress/../common/zstd_internal.h:38:22:
-       |   38 | #define ZSTD_isError ERR_isError   /* for inlining */
-   lib/zstd/decompress/../common/zstd_internal.h:84:7: note: in definition =
-of macro 'RETURN_ERROR_IF'
-       |   84 |   if (cond) { \
-       |      |       ^~~~
-   lib/zstd/decompress/zstd_decompress.c:1359:13: note: in expansion of mac=
-ro 'ZSTD_isError'
-       | 1359 |             ZSTD_isError(ZSTD_decompress_insertDictionary(d=
-ctx, dict, dictSize)),
-       |      |             ^~~~~~~~~~~~
-       |
-       +--> 'ZSTD_decompress_insertDictionary': events 5-6
-              |
-              | 1309 | static size_t ZSTD_decompress_insertDictionary(ZSTD_=
-DCtx* dctx, const void* dict, size_t dictSize)
-              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |               |
-              |      |               (5) entry to 'ZSTD_decompress_insertDi=
-ctionary'
-              | 1310 | {
-              | 1311 |     if (dictSize < 8) return ZSTD_refDictContent(dct=
-x, dict, dictSize);
-              |      |        ~       =
+vim +/dev +1772 drivers/net/phy/phy_device.c
 
-              |      |        |
-              |      |        (6) following 'false' branch (when 'dictSize =
-> 7')...
-              |
-            'ZSTD_decompress_insertDictionary': event 7
-              |
-              |include/asm-generic/unaligned.h:14:15:
-              |   14 |         __pptr->x;                                  =
-                            \
-              |      |         ~~~~~~^~~
-              |      |               |
-              |      |               (7) ...to here
-   include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition =
-of macro '__le32_to_cpu'
-              |   34 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-              |      |                                                   ^
-   include/asm-generic/unaligned.h:32:28: note: in expansion of macro '__ge=
-t_unaligned_t'
-              |   32 |         return le32_to_cpu(__get_unaligned_t(__le32,=
- p));
-              |      |                            ^~~~~~~~~~~~~~~~~
-              |
-            'ZSTD_decompress_insertDictionary': event 8
-              |
-              |lib/zstd/decompress/zstd_decompress.c:1313:12:
-              | 1313 |         if (magic !=3D ZSTD_MAGIC_DICTIONARY) {
-              |      |            ^
-              |      |            |
-              |      |            (8) following 'false' branch...
-              |
-            'ZSTD_decompress_insertDictionary': event 9
-              |
-              |include/asm-generic/unaligned.h:14:15:
-              |   14 |         __pptr->x;                                  =
-                            \
-              |      |         ~~~~~~^~~
-              |      |               |
-              |      |               (9) ...to here
-   include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition =
-of macro '__le32_to_cpu'
-              |   34 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-              |      |                                                   ^
-   include/asm-generic/unaligned.h:32:28: note: in expansion of macro '__ge=
-t_unaligned_t'
-              |   32 |         return le32_to_cpu(__get_unaligned_t(__le32,=
- p));
-              |      |                            ^~~~~~~~~~~~~~~~~
-              |
-            'ZSTD_decompress_insertDictionary': event 10
-              |
-              |lib/zstd/decompress/zstd_decompress.c:1319:30:
-              | 1319 |     {   size_t const eSize =3D ZSTD_loadDEntropy(&dc=
-tx->entropy, dict, dictSize);
-              |      |                              ^~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                              |
-              |      |                              (10) calling 'ZSTD_load=
-DEntropy' from 'ZSTD_decompress_insertDictionary'
-              |
-              +--> 'ZSTD_loadDEntropy': event 11
-                     |
-                     | 1222 | ZSTD_loadDEntropy(ZSTD_entropyDTables_t* entr=
-opy,
-                     |      | ^~~~~~~~~~~~~~~~~
-                     |      | |
-                     |      | (11) entry to 'ZSTD_loadDEntropy'
-                     |
-                   'ZSTD_loadDEntropy': event 12
+6349084746ff4f Michael Walle      2020-05-06  1727  =
 
-vim +1252 lib/zstd/decompress/zstd_decompress.c
+b3df0da886ffdb Randy Dunlap       2007-03-06  1728  /**
+b3df0da886ffdb Randy Dunlap       2007-03-06  1729   * phy_detach - detach =
+a PHY device from its network device
+b3df0da886ffdb Randy Dunlap       2007-03-06  1730   * @phydev: target phy_=
+device struct
+7322967bc1bd97 Russell King       2015-09-24  1731   *
+7322967bc1bd97 Russell King       2015-09-24  1732   * This detaches the ph=
+y device from its network device and the phy
+7322967bc1bd97 Russell King       2015-09-24  1733   * driver, and drops th=
+e reference count taken in phy_attach_direct().
+b3df0da886ffdb Randy Dunlap       2007-03-06  1734   */
+e13934563db047 Andy Fleming       2005-08-24  1735  void phy_detach(struct =
+phy_device *phydev)
+e13934563db047 Andy Fleming       2005-08-24  1736  {
+ec988ad78ed6d1 Florian Fainelli   2016-12-06  1737  	struct net_device *dev=
+ =3D phydev->attached_dev;
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1738  	struct module *ndev_ow=
+ner =3D NULL;
+3e3aaf64941698 Russell King       2015-09-24  1739  	struct mii_bus *bus;
+b3565f278a9bab Ezequiel Garcia    2014-07-23  1740  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1217  =
+a3995460491d45 Florian Fainelli   2017-05-27  1741  	if (phydev->sysfs_link=
+s) {
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1742  		if (dev)
+5568363f0cb358 Florian Fainelli   2017-05-25  1743  			sysfs_remove_link(&d=
+ev->dev.kobj, "phydev");
+5568363f0cb358 Florian Fainelli   2017-05-25  1744  		sysfs_remove_link(&ph=
+ydev->mdio.dev.kobj, "attached_dev");
+a3995460491d45 Florian Fainelli   2017-05-27  1745  	}
+c920f745f45d46 Ioana Ciornei      2019-05-28  1746  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1218  /*! ZSTD_loadDEntropy() :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1219   *  dict : must point at begi=
-nning of a valid zstd dictionary.
-e0c1b49f5b674c Nick Terrell 2020-09-11  1220   * @return : size of entropy =
-tables read */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1221  size_t
-e0c1b49f5b674c Nick Terrell 2020-09-11  1222  ZSTD_loadDEntropy(ZSTD_entrop=
-yDTables_t* entropy,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1223                    const void*=
- const dict, size_t const dictSize)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1224  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1225      const BYTE* dictPtr =3D (=
-const BYTE*)dict;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1226      const BYTE* const dictEnd=
- =3D dictPtr + dictSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1227  =
+c920f745f45d46 Ioana Ciornei      2019-05-28  1747  	if (!phydev->attached_=
+dev)
+c920f745f45d46 Ioana Ciornei      2019-05-28  1748  		sysfs_remove_file(&ph=
+ydev->mdio.dev.kobj,
+c920f745f45d46 Ioana Ciornei      2019-05-28  1749  				  &dev_attr_phy_sta=
+ndalone.attr);
+c920f745f45d46 Ioana Ciornei      2019-05-28  1750  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1228      RETURN_ERROR_IF(dictSize =
-<=3D 8, dictionary_corrupted, "dict is too small");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1229      assert(MEM_readLE32(dict)=
- =3D=3D ZSTD_MAGIC_DICTIONARY);   /* dict must be valid */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1230      dictPtr +=3D 8;   /* skip=
- header =3D magic + dictID */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1231  =
+93f41e67dc8ff0 Heiner Kallweit    2018-09-24  1751  	phy_suspend(phydev);
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28 @1752  	if (dev) {
+c1f19b51d1d87f Richard Cochran    2010-07-17  1753  		phydev->attached_dev-=
+>phydev =3D NULL;
+e13934563db047 Andy Fleming       2005-08-24  1754  		phydev->attached_dev =
+=3D NULL;
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1755  	}
+9525ae83959b60 Russell King       2017-07-25  1756  	phydev->phylink =3D NU=
+LL;
+e13934563db047 Andy Fleming       2005-08-24  1757  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1232      ZSTD_STATIC_ASSERT(offset=
-of(ZSTD_entropyDTables_t, OFTable) =3D=3D offsetof(ZSTD_entropyDTables_t, L=
-LTable) + sizeof(entropy->LLTable));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1233      ZSTD_STATIC_ASSERT(offset=
-of(ZSTD_entropyDTables_t, MLTable) =3D=3D offsetof(ZSTD_entropyDTables_t, O=
-FTable) + sizeof(entropy->OFTable));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1234      ZSTD_STATIC_ASSERT(sizeof=
-(entropy->LLTable) + sizeof(entropy->OFTable) + sizeof(entropy->MLTable) >=
-=3D HUF_DECOMPRESS_WORKSPACE_SIZE);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1235      {   void* const workspace=
- =3D &entropy->LLTable;   /* use fse tables as temporary workspace; implies=
- fse tables are grouped together */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1236          size_t const workspac=
-eSize =3D sizeof(entropy->LLTable) + sizeof(entropy->OFTable) + sizeof(entr=
-opy->MLTable);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1237  #ifdef HUF_FORCE_DECOMPRESS_X1
-e0c1b49f5b674c Nick Terrell 2020-09-11  1238          /* in minimal huffman=
-, we always use X1 variants */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1239          size_t const hSize =
-=3D HUF_readDTableX1_wksp(entropy->hufTable,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1240                               =
-                   dictPtr, dictEnd - dictPtr,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1241                               =
-                   workspace, workspaceSize);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1242  #else
-e0c1b49f5b674c Nick Terrell 2020-09-11  1243          size_t const hSize =
-=3D HUF_readDTableX2_wksp(entropy->hufTable,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1244                               =
-                   dictPtr, (size_t)(dictEnd - dictPtr),
-e0c1b49f5b674c Nick Terrell 2020-09-11  1245                               =
-                   workspace, workspaceSize);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1246  #endif
-e0c1b49f5b674c Nick Terrell 2020-09-11  1247          RETURN_ERROR_IF(HUF_i=
-sError(hSize), dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1248          dictPtr +=3D hSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1249      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1250  =
+0075bd692dca03 Geert Uytterhoeven 2016-11-28  1758  	phy_led_triggers_unreg=
+ister(phydev);
+0075bd692dca03 Geert Uytterhoeven 2016-11-28  1759  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1251      {   short offcodeNCount[M=
-axOff+1];
-e0c1b49f5b674c Nick Terrell 2020-09-11 @1252          unsigned offcodeMaxVa=
-lue =3D MaxOff, offcodeLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1253          size_t const offcodeH=
-eaderSize =3D FSE_readNCount(offcodeNCount, &offcodeMaxValue, &offcodeLog, =
-dictPtr, (size_t)(dictEnd-dictPtr));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1254          RETURN_ERROR_IF(FSE_i=
-sError(offcodeHeaderSize), dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1255          RETURN_ERROR_IF(offco=
-deMaxValue > MaxOff, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1256          RETURN_ERROR_IF(offco=
-deLog > OffFSELog, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1257          ZSTD_buildFSETable( e=
-ntropy->OFTable,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1258                              o=
-ffcodeNCount, offcodeMaxValue,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1259                              O=
-F_base, OF_bits,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1260                              o=
-ffcodeLog,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1261                              e=
-ntropy->workspace, sizeof(entropy->workspace),
-e0c1b49f5b674c Nick Terrell 2020-09-11  1262                              /=
-* bmi2 */0);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1263          dictPtr +=3D offcodeH=
-eaderSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1264      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1265  =
+c2b727df7caa33 Florian Fainelli   2020-09-16  1760  	if (phydev->mdio.dev.d=
+river)
+6d9f66ac7fec2a Florian Fainelli   2017-02-08  1761  		module_put(phydev->md=
+io.dev.driver->owner);
+6d9f66ac7fec2a Florian Fainelli   2017-02-08  1762  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1266      {   short matchlengthNCou=
-nt[MaxML+1];
-e0c1b49f5b674c Nick Terrell 2020-09-11  1267          unsigned matchlengthM=
-axValue =3D MaxML, matchlengthLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1268          size_t const matchlen=
-gthHeaderSize =3D FSE_readNCount(matchlengthNCount, &matchlengthMaxValue, &=
-matchlengthLog, dictPtr, (size_t)(dictEnd-dictPtr));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1269          RETURN_ERROR_IF(FSE_i=
-sError(matchlengthHeaderSize), dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1270          RETURN_ERROR_IF(match=
-lengthMaxValue > MaxML, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1271          RETURN_ERROR_IF(match=
-lengthLog > MLFSELog, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1272          ZSTD_buildFSETable( e=
-ntropy->MLTable,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1273                              m=
-atchlengthNCount, matchlengthMaxValue,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1274                              M=
-L_base, ML_bits,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1275                              m=
-atchlengthLog,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1276                              e=
-ntropy->workspace, sizeof(entropy->workspace),
-e0c1b49f5b674c Nick Terrell 2020-09-11  1277                              /=
-* bmi2 */ 0);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1278          dictPtr +=3D matchlen=
-gthHeaderSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1279      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1280  =
+e13934563db047 Andy Fleming       2005-08-24  1763  	/* If the device had n=
+o specific driver before (i.e. - it
+e13934563db047 Andy Fleming       2005-08-24  1764  	 * was using the gener=
+ic driver), we unbind the device
+e13934563db047 Andy Fleming       2005-08-24  1765  	 * from the generic dr=
+iver so that there's a chance a
+2f53e9047e79b6 Sergei Shtylyov    2014-01-05  1766  	 * real driver could b=
+e loaded
+2f53e9047e79b6 Sergei Shtylyov    2014-01-05  1767  	 */
+5db5ea995fc2fa Florian Fainelli   2019-01-15  1768  	if (phy_driver_is_genp=
+hy(phydev) ||
+5db5ea995fc2fa Florian Fainelli   2019-01-15  1769  	    phy_driver_is_genp=
+hy_10g(phydev))
+e5a03bfd873c29 Andrew Lunn        2016-01-06  1770  		device_release_driver=
+(&phydev->mdio.dev);
+3e3aaf64941698 Russell King       2015-09-24  1771  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1281      {   short litlengthNCount=
-[MaxLL+1];
-e0c1b49f5b674c Nick Terrell 2020-09-11  1282          unsigned litlengthMax=
-Value =3D MaxLL, litlengthLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1283          size_t const litlengt=
-hHeaderSize =3D FSE_readNCount(litlengthNCount, &litlengthMaxValue, &litlen=
-gthLog, dictPtr, (size_t)(dictEnd-dictPtr));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1284          RETURN_ERROR_IF(FSE_i=
-sError(litlengthHeaderSize), dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1285          RETURN_ERROR_IF(litle=
-ngthMaxValue > MaxLL, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1286          RETURN_ERROR_IF(litle=
-ngthLog > LLFSELog, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1287          ZSTD_buildFSETable( e=
-ntropy->LLTable,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1288                              l=
-itlengthNCount, litlengthMaxValue,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1289                              L=
-L_base, LL_bits,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1290                              l=
-itlengthLog,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1291                              e=
-ntropy->workspace, sizeof(entropy->workspace),
-e0c1b49f5b674c Nick Terrell 2020-09-11  1292                              /=
-* bmi2 */ 0);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1293          dictPtr +=3D litlengt=
-hHeaderSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1294      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1295  =
-
-e0c1b49f5b674c Nick Terrell 2020-09-11  1296      RETURN_ERROR_IF(dictPtr+1=
-2 > dictEnd, dictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1297      {   int i;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1298          size_t const dictCont=
-entSize =3D (size_t)(dictEnd - (dictPtr+12));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1299          for (i=3D0; i<3; i++)=
+898624b63a3362 Dongjin Kim        2021-11-17 @1772  	if (!dev->wol_enabled)=
  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1300              U32 const rep =3D=
- MEM_readLE32(dictPtr); dictPtr +=3D 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1301              RETURN_ERROR_IF(r=
-ep=3D=3D0 || rep > dictContentSize,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1302                              d=
-ictionary_corrupted, "");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1303              entropy->rep[i] =
-=3D rep;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1304      }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1305  =
+cbda1b16687580 Marek Beh=C3=BAn        2022-01-19  1773  		/* Assert the re=
+set signal */
+cbda1b16687580 Marek Beh=C3=BAn        2022-01-19  1774  		phy_device_reset=
+(phydev, 1);
+898624b63a3362 Dongjin Kim        2021-11-17  1775  	}
+cbda1b16687580 Marek Beh=C3=BAn        2022-01-19  1776  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  1306      return (size_t)(dictPtr -=
- (const BYTE*)dict);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1307  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1308  =
+7322967bc1bd97 Russell King       2015-09-24  1777  	/*
+7322967bc1bd97 Russell King       2015-09-24  1778  	 * The phydev might go=
+ away on the put_device() below, so avoid
+7322967bc1bd97 Russell King       2015-09-24  1779  	 * a use-after-free bu=
+g by reading the underlying bus first.
+7322967bc1bd97 Russell King       2015-09-24  1780  	 */
+e5a03bfd873c29 Andrew Lunn        2016-01-06  1781  	bus =3D phydev->mdio.b=
+us;
+3e3aaf64941698 Russell King       2015-09-24  1782  =
+
+e5a03bfd873c29 Andrew Lunn        2016-01-06  1783  	put_device(&phydev->md=
+io.dev);
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28 @1784  	if (dev)
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1785  		ndev_owner =3D dev->d=
+ev.parent->driver->owner;
+ec988ad78ed6d1 Florian Fainelli   2016-12-06  1786  	if (ndev_owner !=3D bu=
+s->owner)
+3e3aaf64941698 Russell King       2015-09-24  1787  		module_put(bus->owner=
+);
+e13934563db047 Andy Fleming       2005-08-24  1788  }
+e13934563db047 Andy Fleming       2005-08-24  1789  EXPORT_SYMBOL(phy_detac=
+h);
+e13934563db047 Andy Fleming       2005-08-24  1790  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4225099348156914555==--
+--===============4356062312814996278==--
 
