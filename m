@@ -1,138 +1,373 @@
-Content-Type: multipart/mixed; boundary="===============5880331567016725345=="
+Content-Type: multipart/mixed; boundary="===============4225099348156914555=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2009/11568] drivers/iio/accel/bma400_core.c:1091 bma400_activity_event_en() error: uninitialized symbol 'field_value'.
-Date: Wed, 20 Jul 2022 01:36:21 +0800
-Message-ID: <202207200113.NBRK82vS-lkp@intel.com>
+Subject: lib/zstd/decompress/zstd_decompress.c:1252:44: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Wed, 20 Jul 2022 01:26:06 +0800
+Message-ID: <202207200107.DpM7d7hO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5880331567016725345==
+--===============4225099348156914555==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: lib/zstd/=
+decompress/zstd_decompress.c:1252:44: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jagath Jog J <jagathjog1996@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Nick Terrell <terrelln@fb.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   3b87ed7ea4d598c81a03317a92dfbd59102224fd
-commit: 3cf122c20bf835b53e8d2074611d68b7822be782 [2009/11568] iio: accel: b=
-ma400: Add support for activity and inactivity events
-:::::: branch date: 8 hours ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-m041-20220718 (https://download.01.org/0day-ci/arch=
-ive/20220720/202207200113.NBRK82vS-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ca85855bdcae8f84f1512e88b4c75009ea17ea2f
+commit: e0c1b49f5b674cca7b10549c53b3791d0bbc90a8 lib: zstd: Upgrade to late=
+st upstream zstd version 1.4.10
+date:   8 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
+ve/20220720/202207200107.DpM7d7hO-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De0c1b49f5b674cca7b10549c53b3791d0bbc90a8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e0c1b49f5b674cca7b10549c53b3791d0bbc90a8
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/accel/bma400_core.c:1091 bma400_activity_event_en() error: unin=
-itialized symbol 'field_value'.
 
-vim +/field_value +1091 drivers/iio/accel/bma400_core.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   lib/zstd/decompress/zstd_decompress.c: In function 'ZSTD_loadDEntropy':
+>> lib/zstd/decompress/zstd_decompress.c:1252:44: warning: use of uninitial=
+ized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1252 |         unsigned offcodeMaxValue =3D MaxOff, offcodeLog;
+         |                                            ^~~~~~~~~~
+     'ZSTD_decompressBegin_usingDict.part.0': events 1-2
+       |
+       | 1354 | size_t ZSTD_decompressBegin_usingDict(ZSTD_DCtx* dctx, cons=
+t void* dict, size_t dictSize)
+       |      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |        |
+       |      |        (1) entry to 'ZSTD_decompressBegin_usingDict.part.0'
+       |......
+       | 1357 |     if (dict && dictSize)
+       |      |        ~
+       |      |        |
+       |      |        (2) following 'true' branch...
+       |
+     'ZSTD_decompressBegin_usingDict.part.0': event 3
+       |
+       |lib/zstd/decompress/../common/zstd_internal.h:38:22:
+       |   38 | #define ZSTD_isError ERR_isError   /* for inlining */
+   lib/zstd/decompress/../common/zstd_internal.h:84:7: note: in definition =
+of macro 'RETURN_ERROR_IF'
+       |   84 |   if (cond) { \
+       |      |       ^~~~
+   lib/zstd/decompress/zstd_decompress.c:1359:13: note: in expansion of mac=
+ro 'ZSTD_isError'
+       | 1359 |             ZSTD_isError(ZSTD_decompress_insertDictionary(d=
+ctx, dict, dictSize)),
+       |      |             ^~~~~~~~~~~~
+       |
+     'ZSTD_decompressBegin_usingDict.part.0': event 4
+       |
+       |lib/zstd/decompress/../common/zstd_internal.h:38:22:
+       |   38 | #define ZSTD_isError ERR_isError   /* for inlining */
+   lib/zstd/decompress/../common/zstd_internal.h:84:7: note: in definition =
+of macro 'RETURN_ERROR_IF'
+       |   84 |   if (cond) { \
+       |      |       ^~~~
+   lib/zstd/decompress/zstd_decompress.c:1359:13: note: in expansion of mac=
+ro 'ZSTD_isError'
+       | 1359 |             ZSTD_isError(ZSTD_decompress_insertDictionary(d=
+ctx, dict, dictSize)),
+       |      |             ^~~~~~~~~~~~
+       |
+       +--> 'ZSTD_decompress_insertDictionary': events 5-6
+              |
+              | 1309 | static size_t ZSTD_decompress_insertDictionary(ZSTD_=
+DCtx* dctx, const void* dict, size_t dictSize)
+              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (5) entry to 'ZSTD_decompress_insertDi=
+ctionary'
+              | 1310 | {
+              | 1311 |     if (dictSize < 8) return ZSTD_refDictContent(dct=
+x, dict, dictSize);
+              |      |        ~       =
 
-d024af5b3970b9 Jagath Jog J 2022-05-05  1044  =
+              |      |        |
+              |      |        (6) following 'false' branch (when 'dictSize =
+> 7')...
+              |
+            'ZSTD_decompress_insertDictionary': event 7
+              |
+              |include/asm-generic/unaligned.h:14:15:
+              |   14 |         __pptr->x;                                  =
+                            \
+              |      |         ~~~~~~^~~
+              |      |               |
+              |      |               (7) ...to here
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition =
+of macro '__le32_to_cpu'
+              |   34 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+              |      |                                                   ^
+   include/asm-generic/unaligned.h:32:28: note: in expansion of macro '__ge=
+t_unaligned_t'
+              |   32 |         return le32_to_cpu(__get_unaligned_t(__le32,=
+ p));
+              |      |                            ^~~~~~~~~~~~~~~~~
+              |
+            'ZSTD_decompress_insertDictionary': event 8
+              |
+              |lib/zstd/decompress/zstd_decompress.c:1313:12:
+              | 1313 |         if (magic !=3D ZSTD_MAGIC_DICTIONARY) {
+              |      |            ^
+              |      |            |
+              |      |            (8) following 'false' branch...
+              |
+            'ZSTD_decompress_insertDictionary': event 9
+              |
+              |include/asm-generic/unaligned.h:14:15:
+              |   14 |         __pptr->x;                                  =
+                            \
+              |      |         ~~~~~~^~~
+              |      |               |
+              |      |               (9) ...to here
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition =
+of macro '__le32_to_cpu'
+              |   34 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+              |      |                                                   ^
+   include/asm-generic/unaligned.h:32:28: note: in expansion of macro '__ge=
+t_unaligned_t'
+              |   32 |         return le32_to_cpu(__get_unaligned_t(__le32,=
+ p));
+              |      |                            ^~~~~~~~~~~~~~~~~
+              |
+            'ZSTD_decompress_insertDictionary': event 10
+              |
+              |lib/zstd/decompress/zstd_decompress.c:1319:30:
+              | 1319 |     {   size_t const eSize =3D ZSTD_loadDEntropy(&dc=
+tx->entropy, dict, dictSize);
+              |      |                              ^~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (10) calling 'ZSTD_load=
+DEntropy' from 'ZSTD_decompress_insertDictionary'
+              |
+              +--> 'ZSTD_loadDEntropy': event 11
+                     |
+                     | 1222 | ZSTD_loadDEntropy(ZSTD_entropyDTables_t* entr=
+opy,
+                     |      | ^~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (11) entry to 'ZSTD_loadDEntropy'
+                     |
+                   'ZSTD_loadDEntropy': event 12
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1045  static int bma400_activity_ev=
-ent_en(struct bma400_data *data,
-3cf122c20bf835 Jagath Jog J 2022-05-05  1046  				    enum iio_event_direct=
-ion dir,
-3cf122c20bf835 Jagath Jog J 2022-05-05  1047  				    int state)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1048  {
-3cf122c20bf835 Jagath Jog J 2022-05-05  1049  	int ret, reg, msk, value, fi=
-eld_value;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1050  =
+vim +1252 lib/zstd/decompress/zstd_decompress.c
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1051  	switch (dir) {
-3cf122c20bf835 Jagath Jog J 2022-05-05  1052  	case IIO_EV_DIR_RISING:
-3cf122c20bf835 Jagath Jog J 2022-05-05  1053  		reg =3D BMA400_GEN1INT_CONF=
-IG0;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1054  		msk =3D BMA400_INT_GEN1_MSK;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1055  		value =3D 2;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1056  		set_mask_bits(&field_value,=
- BMA400_INT_GEN1_MSK,
-3cf122c20bf835 Jagath Jog J 2022-05-05  1057  			      FIELD_PREP(BMA400_IN=
-T_GEN1_MSK, state));
-3cf122c20bf835 Jagath Jog J 2022-05-05  1058  		break;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1059  	case IIO_EV_DIR_FALLING:
-3cf122c20bf835 Jagath Jog J 2022-05-05  1060  		reg =3D BMA400_GEN2INT_CONF=
-IG0;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1061  		msk =3D BMA400_INT_GEN2_MSK;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1062  		value =3D 0;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1063  		set_mask_bits(&field_value,=
- BMA400_INT_GEN2_MSK,
-3cf122c20bf835 Jagath Jog J 2022-05-05  1064  			      FIELD_PREP(BMA400_IN=
-T_GEN2_MSK, state));
-3cf122c20bf835 Jagath Jog J 2022-05-05  1065  		break;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1066  	default:
-3cf122c20bf835 Jagath Jog J 2022-05-05  1067  		return -EINVAL;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1068  	}
-3cf122c20bf835 Jagath Jog J 2022-05-05  1069  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1217  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1070  	/* Enabling all axis for int=
-errupt evaluation */
-3cf122c20bf835 Jagath Jog J 2022-05-05  1071  	ret =3D regmap_write(data->r=
-egmap, reg, 0xF8);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1072  	if (ret)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1073  		return ret;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1074  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1218  /*! ZSTD_loadDEntropy() :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1219   *  dict : must point at begi=
+nning of a valid zstd dictionary.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1220   * @return : size of entropy =
+tables read */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1221  size_t
+e0c1b49f5b674c Nick Terrell 2020-09-11  1222  ZSTD_loadDEntropy(ZSTD_entrop=
+yDTables_t* entropy,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1223                    const void*=
+ const dict, size_t const dictSize)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1224  {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1225      const BYTE* dictPtr =3D (=
+const BYTE*)dict;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1226      const BYTE* const dictEnd=
+ =3D dictPtr + dictSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1227  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1075  	/* OR combination of all axi=
-s for interrupt evaluation */
-3cf122c20bf835 Jagath Jog J 2022-05-05  1076  	ret =3D regmap_write(data->r=
-egmap, reg + BMA400_GEN_CONFIG1_OFF, value);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1077  	if (ret)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1078  		return ret;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1079  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1228      RETURN_ERROR_IF(dictSize =
+<=3D 8, dictionary_corrupted, "dict is too small");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1229      assert(MEM_readLE32(dict)=
+ =3D=3D ZSTD_MAGIC_DICTIONARY);   /* dict must be valid */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1230      dictPtr +=3D 8;   /* skip=
+ header =3D magic + dictID */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1231  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1080  	/* Initial value to avoid in=
-terrupts while enabling*/
-3cf122c20bf835 Jagath Jog J 2022-05-05  1081  	ret =3D regmap_write(data->r=
-egmap, reg + BMA400_GEN_CONFIG2_OFF, 0x0A);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1082  	if (ret)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1083  		return ret;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1084  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1232      ZSTD_STATIC_ASSERT(offset=
+of(ZSTD_entropyDTables_t, OFTable) =3D=3D offsetof(ZSTD_entropyDTables_t, L=
+LTable) + sizeof(entropy->LLTable));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1233      ZSTD_STATIC_ASSERT(offset=
+of(ZSTD_entropyDTables_t, MLTable) =3D=3D offsetof(ZSTD_entropyDTables_t, O=
+FTable) + sizeof(entropy->OFTable));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1234      ZSTD_STATIC_ASSERT(sizeof=
+(entropy->LLTable) + sizeof(entropy->OFTable) + sizeof(entropy->MLTable) >=
+=3D HUF_DECOMPRESS_WORKSPACE_SIZE);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1235      {   void* const workspace=
+ =3D &entropy->LLTable;   /* use fse tables as temporary workspace; implies=
+ fse tables are grouped together */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1236          size_t const workspac=
+eSize =3D sizeof(entropy->LLTable) + sizeof(entropy->OFTable) + sizeof(entr=
+opy->MLTable);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1237  #ifdef HUF_FORCE_DECOMPRESS_X1
+e0c1b49f5b674c Nick Terrell 2020-09-11  1238          /* in minimal huffman=
+, we always use X1 variants */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1239          size_t const hSize =
+=3D HUF_readDTableX1_wksp(entropy->hufTable,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1240                               =
+                   dictPtr, dictEnd - dictPtr,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1241                               =
+                   workspace, workspaceSize);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1242  #else
+e0c1b49f5b674c Nick Terrell 2020-09-11  1243          size_t const hSize =
+=3D HUF_readDTableX2_wksp(entropy->hufTable,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1244                               =
+                   dictPtr, (size_t)(dictEnd - dictPtr),
+e0c1b49f5b674c Nick Terrell 2020-09-11  1245                               =
+                   workspace, workspaceSize);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1246  #endif
+e0c1b49f5b674c Nick Terrell 2020-09-11  1247          RETURN_ERROR_IF(HUF_i=
+sError(hSize), dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1248          dictPtr +=3D hSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1249      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1250  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1085  	/* Initial duration value to=
- avoid interrupts while enabling*/
-3cf122c20bf835 Jagath Jog J 2022-05-05  1086  	ret =3D regmap_write(data->r=
-egmap, reg + BMA400_GEN_CONFIG31_OFF, 0x0F);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1087  	if (ret)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1088  		return ret;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1089  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1251      {   short offcodeNCount[M=
+axOff+1];
+e0c1b49f5b674c Nick Terrell 2020-09-11 @1252          unsigned offcodeMaxVa=
+lue =3D MaxOff, offcodeLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1253          size_t const offcodeH=
+eaderSize =3D FSE_readNCount(offcodeNCount, &offcodeMaxValue, &offcodeLog, =
+dictPtr, (size_t)(dictEnd-dictPtr));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1254          RETURN_ERROR_IF(FSE_i=
+sError(offcodeHeaderSize), dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1255          RETURN_ERROR_IF(offco=
+deMaxValue > MaxOff, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1256          RETURN_ERROR_IF(offco=
+deLog > OffFSELog, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1257          ZSTD_buildFSETable( e=
+ntropy->OFTable,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1258                              o=
+ffcodeNCount, offcodeMaxValue,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1259                              O=
+F_base, OF_bits,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1260                              o=
+ffcodeLog,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1261                              e=
+ntropy->workspace, sizeof(entropy->workspace),
+e0c1b49f5b674c Nick Terrell 2020-09-11  1262                              /=
+* bmi2 */0);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1263          dictPtr +=3D offcodeH=
+eaderSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1264      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1265  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1090  	ret =3D regmap_update_bits(d=
-ata->regmap, BMA400_INT1_MAP_REG, msk,
-3cf122c20bf835 Jagath Jog J 2022-05-05 @1091  				 field_value);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1092  	if (ret)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1093  		return ret;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1094  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1266      {   short matchlengthNCou=
+nt[MaxML+1];
+e0c1b49f5b674c Nick Terrell 2020-09-11  1267          unsigned matchlengthM=
+axValue =3D MaxML, matchlengthLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1268          size_t const matchlen=
+gthHeaderSize =3D FSE_readNCount(matchlengthNCount, &matchlengthMaxValue, &=
+matchlengthLog, dictPtr, (size_t)(dictEnd-dictPtr));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1269          RETURN_ERROR_IF(FSE_i=
+sError(matchlengthHeaderSize), dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1270          RETURN_ERROR_IF(match=
+lengthMaxValue > MaxML, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1271          RETURN_ERROR_IF(match=
+lengthLog > MLFSELog, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1272          ZSTD_buildFSETable( e=
+ntropy->MLTable,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1273                              m=
+atchlengthNCount, matchlengthMaxValue,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1274                              M=
+L_base, ML_bits,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1275                              m=
+atchlengthLog,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1276                              e=
+ntropy->workspace, sizeof(entropy->workspace),
+e0c1b49f5b674c Nick Terrell 2020-09-11  1277                              /=
+* bmi2 */ 0);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1278          dictPtr +=3D matchlen=
+gthHeaderSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1279      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1280  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1095  	ret =3D regmap_update_bits(d=
-ata->regmap, BMA400_INT_CONFIG0_REG, msk,
-3cf122c20bf835 Jagath Jog J 2022-05-05  1096  				 field_value);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1097  	if (ret)
-3cf122c20bf835 Jagath Jog J 2022-05-05  1098  		return ret;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1099  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1281      {   short litlengthNCount=
+[MaxLL+1];
+e0c1b49f5b674c Nick Terrell 2020-09-11  1282          unsigned litlengthMax=
+Value =3D MaxLL, litlengthLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1283          size_t const litlengt=
+hHeaderSize =3D FSE_readNCount(litlengthNCount, &litlengthMaxValue, &litlen=
+gthLog, dictPtr, (size_t)(dictEnd-dictPtr));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1284          RETURN_ERROR_IF(FSE_i=
+sError(litlengthHeaderSize), dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1285          RETURN_ERROR_IF(litle=
+ngthMaxValue > MaxLL, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1286          RETURN_ERROR_IF(litle=
+ngthLog > LLFSELog, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1287          ZSTD_buildFSETable( e=
+ntropy->LLTable,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1288                              l=
+itlengthNCount, litlengthMaxValue,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1289                              L=
+L_base, LL_bits,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1290                              l=
+itlengthLog,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1291                              e=
+ntropy->workspace, sizeof(entropy->workspace),
+e0c1b49f5b674c Nick Terrell 2020-09-11  1292                              /=
+* bmi2 */ 0);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1293          dictPtr +=3D litlengt=
+hHeaderSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1294      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1295  =
 
-3cf122c20bf835 Jagath Jog J 2022-05-05  1100  	set_mask_bits(&data->generic=
-_event_en, msk, field_value);
-3cf122c20bf835 Jagath Jog J 2022-05-05  1101  	return 0;
-3cf122c20bf835 Jagath Jog J 2022-05-05  1102  }
-3cf122c20bf835 Jagath Jog J 2022-05-05  1103  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  1296      RETURN_ERROR_IF(dictPtr+1=
+2 > dictEnd, dictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1297      {   int i;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1298          size_t const dictCont=
+entSize =3D (size_t)(dictEnd - (dictPtr+12));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1299          for (i=3D0; i<3; i++)=
+ {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1300              U32 const rep =3D=
+ MEM_readLE32(dictPtr); dictPtr +=3D 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1301              RETURN_ERROR_IF(r=
+ep=3D=3D0 || rep > dictContentSize,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1302                              d=
+ictionary_corrupted, "");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1303              entropy->rep[i] =
+=3D rep;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1304      }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1305  =
+
+e0c1b49f5b674c Nick Terrell 2020-09-11  1306      return (size_t)(dictPtr -=
+ (const BYTE*)dict);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1307  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1308  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5880331567016725345==--
+--===============4225099348156914555==--
 
