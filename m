@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1100573059061132543=="
+Content-Type: multipart/mixed; boundary="===============5877932386743187051=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/i2c/hi847.c:2295:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Thu, 21 Jul 2022 02:28:15 +0800
-Message-ID: <202207210243.hLC0zAII-lkp@intel.com>
+Subject: drivers/char/hw_random/core.c:429:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Wed, 20 Jul 2022 21:34:25 +0800
+Message-ID: <202207202141.uHkem5CH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1100573059061132543==
+--===============5877932386743187051==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,41 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/hi847.c:2295:13: warning: use of uninitialized value '<unknown>' [=
-CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: drivers/c=
+har/hw_random/core.c:429:13: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Shawn Tu <shawnx.tu@intel.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Dominik Brodowski <linux@dominikbrodowski.net>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ca85855bdcae8f84f1512e88b4c75009ea17ea2f
-commit: da15b409ef4c56e9741deddb91798370802d1d02 media: hi847: Add support =
-for Hi-847 sensor
-date:   6 months ago
+commit: 8208285632f950d2bfd489b10148e05134b7119e hwrng: core - introduce rn=
+g_quality sysfs attribute
+date:   5 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
+:::::: commit date: 5 months ago
 config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220721/202207210243.hLC0zAII-lkp(a)intel.com/config)
+ve/20220720/202207202141.uHkem5CH-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dda15b409ef4c56e9741deddb91798370802d1d02
+t/commit/?id=3D8208285632f950d2bfd489b10148e05134b7119e
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout da15b409ef4c56e9741deddb91798370802d1d02
+        git checkout 8208285632f950d2bfd489b10148e05134b7119e
         # save the config file
          ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
@@ -59,116 +57,88 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/i2c/hi847.c: In function 'hi847_test_pattern':
->> drivers/media/i2c/hi847.c:2295:13: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    2295 |         u32 val;
-         |             ^~~
-     'hi847_test_pattern': event 1
+   drivers/char/hw_random/core.c: In function 'rng_quality_store':
+>> drivers/char/hw_random/core.c:429:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     429 |         u16 quality;
+         |             ^~~~~~~
+     'rng_quality_store': event 1
        |
-       | 2295 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi847.c: In function 'hi847_set_ctrl_hflip':
-   drivers/media/i2c/hi847.c:2375:13: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    2375 |         u32 val;
-         |             ^~~
-     'hi847_set_ctrl_hflip': event 1
-       |
-       | 2375 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi847.c: In function 'hi847_set_ctrl_vflip':
-   drivers/media/i2c/hi847.c:2394:13: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    2394 |         u32 val;
-         |             ^~~
-     'hi847_set_ctrl_vflip': event 1
-       |
-       | 2394 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi847.c: In function 'hi847_identify_module':
-   drivers/media/i2c/hi847.c:2822:13: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    2822 |         u32 val;
-         |             ^~~
-     'hi847_identify_module': event 1
-       |
-       | 2822 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi847.c: In function 'hi847_check_hwcfg':
-   drivers/media/i2c/hi847.c:2845:13: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    2845 |         u32 mclk;
-         |             ^~~~
-     'hi847_check_hwcfg': event 1
-       |
-       | 2845 |         u32 mclk;
-       |      |             ^~~~
+       |  429 |         u16 quality;
+       |      |             ^~~~~~~
        |      |             |
        |      |             (1) use of uninitialized value '<unknown>' here
        |
 
-vim +2295 drivers/media/i2c/hi847.c
+vim +429 drivers/char/hw_random/core.c
 
-da15b409ef4c56 Shawn Tu 2022-01-11  2291  =
+8208285632f950 Dominik Brodowski 2022-02-13  424  =
 
-da15b409ef4c56 Shawn Tu 2022-01-11  2292  static int hi847_test_pattern(str=
-uct hi847 *hi847, u32 pattern)
-da15b409ef4c56 Shawn Tu 2022-01-11  2293  {
-da15b409ef4c56 Shawn Tu 2022-01-11  2294  	int ret;
-da15b409ef4c56 Shawn Tu 2022-01-11 @2295  	u32 val;
-da15b409ef4c56 Shawn Tu 2022-01-11  2296  =
+8208285632f950 Dominik Brodowski 2022-02-13  425  static ssize_t rng_qualit=
+y_store(struct device *dev,
+8208285632f950 Dominik Brodowski 2022-02-13  426  				 struct device_attrib=
+ute *attr,
+8208285632f950 Dominik Brodowski 2022-02-13  427  				 const char *buf, siz=
+e_t len)
+8208285632f950 Dominik Brodowski 2022-02-13  428  {
+8208285632f950 Dominik Brodowski 2022-02-13 @429  	u16 quality;
+8208285632f950 Dominik Brodowski 2022-02-13  430  	int ret =3D -EINVAL;
+8208285632f950 Dominik Brodowski 2022-02-13  431  =
 
-da15b409ef4c56 Shawn Tu 2022-01-11  2297  	if (pattern) {
-da15b409ef4c56 Shawn Tu 2022-01-11  2298  		ret =3D hi847_read_reg(hi847, H=
-I847_REG_ISP,
-da15b409ef4c56 Shawn Tu 2022-01-11  2299  				     HI847_REG_VALUE_16BIT, &=
-val);
-da15b409ef4c56 Shawn Tu 2022-01-11  2300  		if (ret)
-da15b409ef4c56 Shawn Tu 2022-01-11  2301  			return ret;
-da15b409ef4c56 Shawn Tu 2022-01-11  2302  =
+8208285632f950 Dominik Brodowski 2022-02-13  432  	if (len < 2)
+8208285632f950 Dominik Brodowski 2022-02-13  433  		return -EINVAL;
+8208285632f950 Dominik Brodowski 2022-02-13  434  =
 
-da15b409ef4c56 Shawn Tu 2022-01-11  2303  		ret =3D hi847_write_reg(hi847, =
-HI847_REG_ISP,
-da15b409ef4c56 Shawn Tu 2022-01-11  2304  				      HI847_REG_VALUE_16BIT,
-da15b409ef4c56 Shawn Tu 2022-01-11  2305  				      val | HI847_REG_ISP_TPG=
-_EN);
-da15b409ef4c56 Shawn Tu 2022-01-11  2306  		if (ret)
-da15b409ef4c56 Shawn Tu 2022-01-11  2307  			return ret;
-da15b409ef4c56 Shawn Tu 2022-01-11  2308  	}
-da15b409ef4c56 Shawn Tu 2022-01-11  2309  =
+8208285632f950 Dominik Brodowski 2022-02-13  435  	ret =3D mutex_lock_inter=
+ruptible(&rng_mutex);
+8208285632f950 Dominik Brodowski 2022-02-13  436  	if (ret)
+8208285632f950 Dominik Brodowski 2022-02-13  437  		return -ERESTARTSYS;
+8208285632f950 Dominik Brodowski 2022-02-13  438  =
 
-da15b409ef4c56 Shawn Tu 2022-01-11  2310  	ret =3D hi847_read_reg(hi847, HI=
-847_REG_TEST_PATTERN,
-da15b409ef4c56 Shawn Tu 2022-01-11  2311  			     HI847_REG_VALUE_16BIT, &v=
-al);
-da15b409ef4c56 Shawn Tu 2022-01-11  2312  	if (ret)
-da15b409ef4c56 Shawn Tu 2022-01-11  2313  		return ret;
-da15b409ef4c56 Shawn Tu 2022-01-11  2314  =
+8208285632f950 Dominik Brodowski 2022-02-13  439  	ret =3D kstrtou16(buf, 0=
+, &quality);
+8208285632f950 Dominik Brodowski 2022-02-13  440  	if (ret || quality > 102=
+4) {
+8208285632f950 Dominik Brodowski 2022-02-13  441  		ret =3D -EINVAL;
+8208285632f950 Dominik Brodowski 2022-02-13  442  		goto out;
+8208285632f950 Dominik Brodowski 2022-02-13  443  	}
+8208285632f950 Dominik Brodowski 2022-02-13  444  =
 
-da15b409ef4c56 Shawn Tu 2022-01-11  2315  	return hi847_write_reg(hi847, HI=
-847_REG_TEST_PATTERN,
-da15b409ef4c56 Shawn Tu 2022-01-11  2316  			       HI847_REG_VALUE_16BIT, =
-val | pattern << 8);
-da15b409ef4c56 Shawn Tu 2022-01-11  2317  }
-da15b409ef4c56 Shawn Tu 2022-01-11  2318  =
+8208285632f950 Dominik Brodowski 2022-02-13  445  	if (!current_rng) {
+8208285632f950 Dominik Brodowski 2022-02-13  446  		ret =3D -ENODEV;
+8208285632f950 Dominik Brodowski 2022-02-13  447  		goto out;
+8208285632f950 Dominik Brodowski 2022-02-13  448  	}
+8208285632f950 Dominik Brodowski 2022-02-13  449  =
+
+8208285632f950 Dominik Brodowski 2022-02-13  450  	current_rng->quality =3D=
+ quality;
+8208285632f950 Dominik Brodowski 2022-02-13  451  	current_quality =3D qual=
+ity; /* obsolete */
+8208285632f950 Dominik Brodowski 2022-02-13  452  =
+
+8208285632f950 Dominik Brodowski 2022-02-13  453  	/* the best available RN=
+G may have changed */
+8208285632f950 Dominik Brodowski 2022-02-13  454  	ret =3D enable_best_rng(=
+);
+8208285632f950 Dominik Brodowski 2022-02-13  455  =
+
+8208285632f950 Dominik Brodowski 2022-02-13  456  	/* start/stop rngd if ne=
+cessary */
+8208285632f950 Dominik Brodowski 2022-02-13  457  	if (current_rng)
+8208285632f950 Dominik Brodowski 2022-02-13  458  		hwrng_manage_rngd(curre=
+nt_rng);
+8208285632f950 Dominik Brodowski 2022-02-13  459  =
+
+8208285632f950 Dominik Brodowski 2022-02-13  460  out:
+8208285632f950 Dominik Brodowski 2022-02-13  461  	mutex_unlock(&rng_mutex);
+8208285632f950 Dominik Brodowski 2022-02-13  462  	return ret ? ret : len;
+8208285632f950 Dominik Brodowski 2022-02-13  463  }
+8208285632f950 Dominik Brodowski 2022-02-13  464  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1100573059061132543==--
+--===============5877932386743187051==--
 
