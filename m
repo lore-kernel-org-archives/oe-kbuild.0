@@ -1,318 +1,294 @@
-Content-Type: multipart/mixed; boundary="===============9036879846239663428=="
+Content-Type: multipart/mixed; boundary="===============2076992644351856253=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 4/4] thermal: mediatek: add another get_temp ops for thermal sensors
-Date: Fri, 22 Jul 2022 05:39:47 +0800
-Message-ID: <202207220518.s4Tr2WWY-lkp@intel.com>
+Subject: [vbabka-slab:for-next 7/7] mm/slob.c:309:14: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Thu, 21 Jul 2022 16:59:31 +0800
+Message-ID: <202207211653.boLW1Fll-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9036879846239663428==
+--===============2076992644351856253==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check warning: mm/slob.c=
+:309:14: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanaly=
+zer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220720181854.547881-5-aouledameur@baylibre.com>
-References: <20220720181854.547881-5-aouledameur@baylibre.com>
-TO: "Amjad Ouled-Ameur" <aouledameur@baylibre.com>
-TO: matthias.bgg(a)gmail.com
-CC: rafael(a)kernel.org
-CC: fparent(a)baylibre.com
-CC: amitk(a)kernel.org
-CC: daniel.lezcano(a)linaro.org
-CC: devicetree(a)vger.kernel.org
-CC: krzysztof.kozlowski+dt(a)linaro.org
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: linux-kernel(a)vger.kernel.org
-CC: linux-mediatek(a)lists.infradead.org
-CC: linux-pm(a)vger.kernel.org
-CC: robh+dt(a)kernel.org
-CC: rui.zhang(a)intel.com
-CC: "Amjad Ouled-Ameur" <aouledameur@baylibre.com>
-CC: default avatarMichael Kao <michael.kao@mediatek.com>
-CC: "default avatarHsin-Yi Wang" <hsinyi@chromium.org>
+CC: linux-mm(a)kvack.org
+TO: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+CC: Vlastimil Babka <vbabka@suse.cz>
 
-Hi Amjad,
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-n=
+ext
+head:   3041808b522031dccfbd898e520109569f039860
+commit: 3041808b522031dccfbd898e520109569f039860 [7/7] mm/slab_common: move=
+ generic bulk alloc/free functions to SLOB
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
+ve/20220721/202207211653.boLW1Fll-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/c=
+ommit/?id=3D3041808b522031dccfbd898e520109569f039860
+        git remote add vbabka-slab git://git.kernel.org/pub/scm/linux/kerne=
+l/git/vbabka/slab.git
+        git fetch --no-tags vbabka-slab for-next
+        git checkout 3041808b522031dccfbd898e520109569f039860
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on clk/clk-next soc/for-next linus/master v5.19-rc=
-7 next-20220721]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amjad-Ouled-Ameur/th=
-ermal-mediatek-Add-support-for-MT8365-SoC/20220721-022321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- thermal
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: ia64-randconfig-m041-20220718 (https://download.01.org/0day-ci/arch=
-ive/20220722/202207220518.s4Tr2WWY-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/thermal/mtk_thermal.c:1223 mtk_thermal_probe() error: uninitialized=
- symbol 'tzdev'.
 
-vim +/tzdev +1223 drivers/thermal/mtk_thermal.c
+gcc-analyzer warnings: (new ones prefixed by >>)
+   mm/slob.c: In function 'slob_alloc':
+>> mm/slob.c:309:14: warning: use of uninitialized value '<unknown>' [CWE-4=
+57] [-Wanalyzer-use-of-uninitialized-value]
+     309 |         bool _unused;
+         |              ^~~~~~~
+     'kmem_cache_alloc_bulk': events 1-4
+       |
+       |  708 | int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags=
+, size_t nr,
+       |      |     ^~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'kmem_cache_alloc_bulk'
+       |......
+       |  713 |         for (i =3D 0; i < nr; i++) {
+       |      |                     ~~~~~~
+       |      |                       |
+       |      |                       (2) following 'true' branch (when 'i =
+< nr')...
+       |  714 |                 void *x =3D p[i] =3D kmem_cache_alloc(s, fl=
+ags);
+       |      |                            ~     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                            |     |
+       |      |                            |     (4) calling 'kmem_cache_al=
+loc' from 'kmem_cache_alloc_bulk'
+       |      |                            (3) ...to here
+       |
+       +--> 'kmem_cache_alloc': events 5-6
+              |
+              |  638 | void *kmem_cache_alloc(struct kmem_cache *cachep, gf=
+p_t flags)
+              |      |       ^~~~~~~~~~~~~~~~
+              |      |       |
+              |      |       (5) entry to 'kmem_cache_alloc'
+              |  639 | {
+              |  640 |         return slob_alloc_node(cachep, flags, NUMA_N=
+O_NODE);
+              |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+              |      |                |
+              |      |                (6) calling 'slob_alloc_node' from 'k=
+mem_cache_alloc'
+              |
+              +--> 'slob_alloc_node': events 7-10
+                     |
+                     |  609 | static void *slob_alloc_node(struct kmem_cach=
+e *c, gfp_t flags, int node)
+                     |      |              ^~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (7) entry to 'slob_alloc_node'
+                     |......
+                     |  617 |         if (c->size < PAGE_SIZE) {
+                     |      |            ~  =
 
-89945047b1666c Henry Yen                 2020-04-30  1098  =
+                     |      |            |
+                     |      |            (8) following 'true' branch...
+                     |  618 |                 b =3D slob_alloc(c->size, fla=
+gs, c->align, node, 0);
+                     |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~
+                     |      |                     |                        =
+   |
+                     |      |                     |                        =
+   (9) ...to here
+                     |      |                     (10) calling 'slob_alloc'=
+ from 'slob_alloc_node'
+                     |
+                     +--> 'slob_alloc': events 11-12
+                            |
+                            |  301 | static void *slob_alloc(size_t size, g=
+fp_t gfp, int align, int node,
+                            |      |              ^~~~~~~~~~
+                            |      |              |
+                            |      |              (11) entry to 'slob_alloc'
+                            |......
+                            |  309 |         bool _unused;
+                            |      |              ~~~~~~~
+                            |      |              |
+                            |      |              (12) use of uninitialized=
+ value '<unknown>' here
+                            |
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1099  static int mtk_t=
-hermal_probe(struct platform_device *pdev)
-a92db1c8089e82 Sascha Hauer              2015-11-30  1100  {
-bd9403943d7d19 Michael Kao               2019-02-01  1101  	int ret, i, ctr=
-l_id;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1102  	struct device_n=
-ode *auxadc, *apmixedsys, *np =3D pdev->dev.of_node;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1103  	struct mtk_ther=
-mal *mt;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1104  	struct resource=
- *res;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1105  	u64 auxadc_phys=
-_base, apmixed_phys_base;
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1106  	struct thermal_=
-zone_device *tzdev;
-89945047b1666c Henry Yen                 2020-04-30  1107  	void __iomem *a=
-pmixed_base, *auxadc_base;
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1108  	struct mtk_ther=
-mal_zone *tz;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1109  =
+vim +309 mm/slob.c
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1110  	mt =3D devm_kza=
-lloc(&pdev->dev, sizeof(*mt), GFP_KERNEL);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1111  	if (!mt)
-a92db1c8089e82 Sascha Hauer              2015-11-30  1112  		return -ENOMEM;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1113  =
+10cef602950291 Matt Mackall            2006-01-08  297  =
 
-9efc58dfa14a20 Ryder Lee                 2018-04-16  1114  	mt->conf =3D of=
-_device_get_match_data(&pdev->dev);
-b7cf0053738c54 dawei.chien(a)mediatek.com  2016-08-18  1115  =
+95b35127f13661 Nicholas Piggin         2007-07-15  298  /*
+95b35127f13661 Nicholas Piggin         2007-07-15  299   * slob_alloc: entr=
+y point into the slob allocator.
+95b35127f13661 Nicholas Piggin         2007-07-15  300   */
+59bb47985c1db2 Vlastimil Babka         2019-10-06  301  static void *slob_a=
+lloc(size_t size, gfp_t gfp, int align, int node,
+59bb47985c1db2 Vlastimil Babka         2019-10-06  302  							int align_of=
+fset)
+95b35127f13661 Nicholas Piggin         2007-07-15  303  {
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  304) 	struct folio *foli=
+o;
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  305) 	struct slab *sp;
+20cecbae44528d Matt Mackall            2008-02-04  306  	struct list_head *=
+slob_list;
+95b35127f13661 Nicholas Piggin         2007-07-15  307  	slob_t *b =3D NULL;
+95b35127f13661 Nicholas Piggin         2007-07-15  308  	unsigned long flag=
+s;
+130e8e09e2675b Tobin C. Harding        2019-05-13 @309  	bool _unused;
+95b35127f13661 Nicholas Piggin         2007-07-15  310  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1116  	mt->clk_peri_th=
-erm =3D devm_clk_get(&pdev->dev, "therm");
-a92db1c8089e82 Sascha Hauer              2015-11-30  1117  	if (IS_ERR(mt->=
-clk_peri_therm))
-a92db1c8089e82 Sascha Hauer              2015-11-30  1118  		return PTR_ERR=
-(mt->clk_peri_therm);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1119  =
+20cecbae44528d Matt Mackall            2008-02-04  311  	if (size < SLOB_BR=
+EAK1)
+20cecbae44528d Matt Mackall            2008-02-04  312  		slob_list =3D &fr=
+ee_slob_small;
+20cecbae44528d Matt Mackall            2008-02-04  313  	else if (size < SL=
+OB_BREAK2)
+20cecbae44528d Matt Mackall            2008-02-04  314  		slob_list =3D &fr=
+ee_slob_medium;
+20cecbae44528d Matt Mackall            2008-02-04  315  	else
+20cecbae44528d Matt Mackall            2008-02-04  316  		slob_list =3D &fr=
+ee_slob_large;
+20cecbae44528d Matt Mackall            2008-02-04  317  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1120  	mt->clk_auxadc =
-=3D devm_clk_get(&pdev->dev, "auxadc");
-a92db1c8089e82 Sascha Hauer              2015-11-30  1121  	if (IS_ERR(mt->=
-clk_auxadc))
-a92db1c8089e82 Sascha Hauer              2015-11-30  1122  		return PTR_ERR=
-(mt->clk_auxadc);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1123  =
+95b35127f13661 Nicholas Piggin         2007-07-15  318  	spin_lock_irqsave(=
+&slob_lock, flags);
+95b35127f13661 Nicholas Piggin         2007-07-15  319  	/* Iterate through=
+ each partially free page, try to find room */
+adab7b68189d14 Tobin C. Harding        2019-05-13  320  	list_for_each_entr=
+y(sp, slob_list, slab_list) {
+130e8e09e2675b Tobin C. Harding        2019-05-13  321  		bool page_removed=
+_from_list =3D false;
+6193a2ff180920 Paul Mundt              2007-07-15  322  #ifdef CONFIG_NUMA
+6193a2ff180920 Paul Mundt              2007-07-15  323  		/*
+6193a2ff180920 Paul Mundt              2007-07-15  324  		 * If there's a n=
+ode specification, search for a partial
+6193a2ff180920 Paul Mundt              2007-07-15  325  		 * page with a ma=
+tching node id in the freelist.
+6193a2ff180920 Paul Mundt              2007-07-15  326  		 */
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  327) 		if (node !=3D NUM=
+A_NO_NODE && slab_nid(sp) !=3D node)
+6193a2ff180920 Paul Mundt              2007-07-15  328  			continue;
+6193a2ff180920 Paul Mundt              2007-07-15  329  #endif
+d6269543ef24aa Matt Mackall            2007-07-21  330  		/* Enough room on=
+ this page? */
+d6269543ef24aa Matt Mackall            2007-07-21  331  		if (sp->units < S=
+LOB_UNITS(size))
+d6269543ef24aa Matt Mackall            2007-07-21  332  			continue;
+6193a2ff180920 Paul Mundt              2007-07-15  333  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1124  	res =3D platfor=
-m_get_resource(pdev, IORESOURCE_MEM, 0);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1125  	mt->thermal_bas=
-e =3D devm_ioremap_resource(&pdev->dev, res);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1126  	if (IS_ERR(mt->=
-thermal_base))
-a92db1c8089e82 Sascha Hauer              2015-11-30  1127  		return PTR_ERR=
-(mt->thermal_base);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1128  =
+59bb47985c1db2 Vlastimil Babka         2019-10-06  334  		b =3D slob_page_a=
+lloc(sp, size, align, align_offset, &page_removed_from_list);
+d6269543ef24aa Matt Mackall            2007-07-21  335  		if (!b)
+d6269543ef24aa Matt Mackall            2007-07-21  336  			continue;
+d6269543ef24aa Matt Mackall            2007-07-21  337  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1129  	ret =3D mtk_the=
-rmal_get_calibration_data(&pdev->dev, mt);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1130  	if (ret)
-a92db1c8089e82 Sascha Hauer              2015-11-30  1131  		return ret;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1132  =
+130e8e09e2675b Tobin C. Harding        2019-05-13  338  		/*
+130e8e09e2675b Tobin C. Harding        2019-05-13  339  		 * If slob_page_a=
+lloc() removed sp from the list then we
+130e8e09e2675b Tobin C. Harding        2019-05-13  340  		 * cannot call li=
+st functions on sp.  If so allocation
+130e8e09e2675b Tobin C. Harding        2019-05-13  341  		 * did not fragme=
+nt the page anyway so optimisation is
+130e8e09e2675b Tobin C. Harding        2019-05-13  342  		 * unnecessary.
+130e8e09e2675b Tobin C. Harding        2019-05-13  343  		 */
+130e8e09e2675b Tobin C. Harding        2019-05-13  344  		if (!page_removed=
+_from_list) {
+130e8e09e2675b Tobin C. Harding        2019-05-13  345  			/*
+130e8e09e2675b Tobin C. Harding        2019-05-13  346  			 * Improve fragm=
+ent distribution and reduce our average
+d6269543ef24aa Matt Mackall            2007-07-21  347  			 * search time b=
+y starting our next search here. (see
+130e8e09e2675b Tobin C. Harding        2019-05-13  348  			 * Knuth vol 1, =
+sec 2.5, pg 449)
+130e8e09e2675b Tobin C. Harding        2019-05-13  349  			 */
+adab7b68189d14 Tobin C. Harding        2019-05-13  350  			if (!list_is_fir=
+st(&sp->slab_list, slob_list))
+adab7b68189d14 Tobin C. Harding        2019-05-13  351  				list_rotate_to_=
+front(&sp->slab_list, slob_list);
+130e8e09e2675b Tobin C. Harding        2019-05-13  352  		}
+95b35127f13661 Nicholas Piggin         2007-07-15  353  		break;
+95b35127f13661 Nicholas Piggin         2007-07-15  354  	}
+95b35127f13661 Nicholas Piggin         2007-07-15  355  	spin_unlock_irqres=
+tore(&slob_lock, flags);
+10cef602950291 Matt Mackall            2006-01-08  356  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1133  	mutex_init(&mt-=
->lock);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1134  =
+95b35127f13661 Nicholas Piggin         2007-07-15  357  	/* Not enough spac=
+e: must allocate a new page */
+95b35127f13661 Nicholas Piggin         2007-07-15  358  	if (!b) {
+6e9ed0cc4b963f Am=C3=A9rico Wang            2009-01-19  359  		b =3D slob_n=
+ew_pages(gfp & ~__GFP_ZERO, 0, node);
+95b35127f13661 Nicholas Piggin         2007-07-15  360  		if (!b)
+6e9ed0cc4b963f Am=C3=A9rico Wang            2009-01-19  361  			return NULL;
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  362) 		folio =3D virt_to=
+_folio(b);
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  363) 		__folio_set_slab(=
+folio);
+50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  364) 		sp =3D folio_slab=
+(folio);
+10cef602950291 Matt Mackall            2006-01-08  365  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1135  	mt->dev =3D &pd=
-ev->dev;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1136  =
+10cef602950291 Matt Mackall            2006-01-08  366  		spin_lock_irqsave=
+(&slob_lock, flags);
+95b35127f13661 Nicholas Piggin         2007-07-15  367  		sp->units =3D SLO=
+B_UNITS(PAGE_SIZE);
+b8c24c4aef94b1 Christoph Lameter       2012-06-13  368  		sp->freelist =3D =
+b;
+adab7b68189d14 Tobin C. Harding        2019-05-13  369  		INIT_LIST_HEAD(&s=
+p->slab_list);
+95b35127f13661 Nicholas Piggin         2007-07-15  370  		set_slob(b, SLOB_=
+UNITS(PAGE_SIZE), b + SLOB_UNITS(PAGE_SIZE));
+20cecbae44528d Matt Mackall            2008-02-04  371  		set_slob_page_fre=
+e(sp, slob_list);
+59bb47985c1db2 Vlastimil Babka         2019-10-06  372  		b =3D slob_page_a=
+lloc(sp, size, align, align_offset, &_unused);
+95b35127f13661 Nicholas Piggin         2007-07-15  373  		BUG_ON(!b);
+95b35127f13661 Nicholas Piggin         2007-07-15  374  		spin_unlock_irqre=
+store(&slob_lock, flags);
+10cef602950291 Matt Mackall            2006-01-08  375  	}
+9f88faee3ff7d6 Miles Chen              2017-11-15  376  	if (unlikely(gfp &=
+ __GFP_ZERO))
+d07dbea46405b3 Christoph Lameter       2007-07-17  377  		memset(b, 0, size=
+);
+95b35127f13661 Nicholas Piggin         2007-07-15  378  	return b;
+10cef602950291 Matt Mackall            2006-01-08  379  }
+10cef602950291 Matt Mackall            2006-01-08  380  =
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1137  	auxadc =3D of_p=
-arse_phandle(np, "mediatek,auxadc", 0);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1138  	if (!auxadc) {
-a92db1c8089e82 Sascha Hauer              2015-11-30  1139  		dev_err(&pdev-=
->dev, "missing auxadc node\n");
-a92db1c8089e82 Sascha Hauer              2015-11-30  1140  		return -ENODEV;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1141  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1142  =
 
-89945047b1666c Henry Yen                 2020-04-30  1143  	auxadc_base =3D=
- of_iomap(auxadc, 0);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1144  	auxadc_phys_bas=
-e =3D of_get_phys_base(auxadc);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1145  =
+:::::: The code at line 309 was first introduced by commit
+:::::: 130e8e09e2675bbc484581825fe29e2e5a6b8b0a slob: respect list_head abs=
+traction layer
 
-a92db1c8089e82 Sascha Hauer              2015-11-30  1146  	of_node_put(aux=
-adc);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1147  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1148  	if (auxadc_phys=
-_base =3D=3D OF_BAD_ADDR) {
-a92db1c8089e82 Sascha Hauer              2015-11-30  1149  		dev_err(&pdev-=
->dev, "Can't get auxadc phys address\n");
-a92db1c8089e82 Sascha Hauer              2015-11-30  1150  		return -EINVAL;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1151  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1152  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1153  	apmixedsys =3D =
-of_parse_phandle(np, "mediatek,apmixedsys", 0);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1154  	if (!apmixedsys=
-) {
-a92db1c8089e82 Sascha Hauer              2015-11-30  1155  		dev_err(&pdev-=
->dev, "missing apmixedsys node\n");
-a92db1c8089e82 Sascha Hauer              2015-11-30  1156  		return -ENODEV;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1157  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1158  =
-
-89945047b1666c Henry Yen                 2020-04-30  1159  	apmixed_base =
-=3D of_iomap(apmixedsys, 0);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1160  	apmixed_phys_ba=
-se =3D of_get_phys_base(apmixedsys);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1161  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1162  	of_node_put(apm=
-ixedsys);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1163  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1164  	if (apmixed_phy=
-s_base =3D=3D OF_BAD_ADDR) {
-a92db1c8089e82 Sascha Hauer              2015-11-30  1165  		dev_err(&pdev-=
->dev, "Can't get auxadc phys address\n");
-a92db1c8089e82 Sascha Hauer              2015-11-30  1166  		return -EINVAL;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1167  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1168  =
-
-703456ba76e944 Fabien Parent             2020-10-21  1169  	ret =3D device_=
-reset_optional(&pdev->dev);
-6760f3f74e72d6 Louis Yu                  2017-08-01  1170  	if (ret)
-6760f3f74e72d6 Louis Yu                  2017-08-01  1171  		return ret;
-6760f3f74e72d6 Louis Yu                  2017-08-01  1172  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1173  	ret =3D clk_pre=
-pare_enable(mt->clk_auxadc);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1174  	if (ret) {
-a92db1c8089e82 Sascha Hauer              2015-11-30  1175  		dev_err(&pdev-=
->dev, "Can't enable auxadc clk: %d\n", ret);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1176  		return ret;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1177  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1178  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1179  	ret =3D clk_pre=
-pare_enable(mt->clk_peri_therm);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1180  	if (ret) {
-a92db1c8089e82 Sascha Hauer              2015-11-30  1181  		dev_err(&pdev-=
->dev, "Can't enable peri clk: %d\n", ret);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1182  		goto err_disab=
-le_clk_auxadc;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1183  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1184  =
-
-b91b391dd49f5d Markus Schneider-Pargmann 2022-07-20  1185  	mtk_thermal_tur=
-n_on_buffer(mt, apmixed_base);
-b91b391dd49f5d Markus Schneider-Pargmann 2022-07-20  1186  =
-
-89945047b1666c Henry Yen                 2020-04-30  1187  	if (mt->conf->v=
-ersion =3D=3D MTK_THERMAL_V2) {
-89945047b1666c Henry Yen                 2020-04-30  1188  		mtk_thermal_re=
-lease_periodic_ts(mt, auxadc_base);
-89945047b1666c Henry Yen                 2020-04-30  1189  	}
-89945047b1666c Henry Yen                 2020-04-30  1190  =
-
-bd9403943d7d19 Michael Kao               2019-02-01  1191  	for (ctrl_id =
-=3D 0; ctrl_id < mt->conf->num_controller ; ctrl_id++)
-b7cf0053738c54 dawei.chien(a)mediatek.com  2016-08-18  1192  		for (i =3D 0=
-; i < mt->conf->num_banks; i++)
-eb4fc33eb26807 Eduardo Valentin          2016-02-18  1193  			mtk_thermal_i=
-nit_bank(mt, i, apmixed_phys_base,
-bd9403943d7d19 Michael Kao               2019-02-01  1194  					      auxad=
-c_phys_base, ctrl_id);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1195  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1196  	platform_set_dr=
-vdata(pdev, mt);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1197  =
-
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1198  	for (i =3D 0; i=
- < mt->conf->num_sensors + 1; i++) {
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1199  		tz =3D kmalloc=
-(sizeof(*tz), GFP_KERNEL);
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1200  		if (!tz)
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1201  			return -ENOME=
-M;
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1202  =
-
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1203  		tz->mt =3D mt;
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1204  		tz->id =3D i;
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1205  =
-
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1206  		tzdev =3D devm=
-_thermal_zone_of_sensor_register(&pdev->dev, i, tz, (i =3D=3D 0) ?
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1207  							     &mtk=
-_thermal_ops :
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1208  							     &mtk=
-_thermal_sensor_ops);
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1209  =
-
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1210  		if (IS_ERR(tzd=
-ev)) {
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1211  			if (PTR_ERR(t=
-zdev) =3D=3D -ENODEV) {
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1212  				dev_warn(&pd=
-ev->dev,
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1213  					 "sensor %d=
- not registered in thermal zone in dt\n", i);
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1214  				continue;
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1215  			}
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1216  			if (PTR_ERR(t=
-zdev) =3D=3D -EACCES) {
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1217  				ret =3D PTR_=
-ERR(tzdev);
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1218  				goto err_dis=
-able_clk_peri_therm;
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1219  			}
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1220  		}
-f478b3ee651af2 Amjad Ouled-Ameur         2022-07-20  1221  	}
-a92db1c8089e82 Sascha Hauer              2015-11-30  1222  =
-
-24e21d9f40ec3f Frank Wunderlich          2021-06-08 @1223  	ret =3D devm_th=
-ermal_add_hwmon_sysfs(tzdev);
-24e21d9f40ec3f Frank Wunderlich          2021-06-08  1224  	if (ret)
-24e21d9f40ec3f Frank Wunderlich          2021-06-08  1225  		dev_warn(&pdev=
-->dev, "error in thermal_add_hwmon_sysfs");
-24e21d9f40ec3f Frank Wunderlich          2021-06-08  1226  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1227  	return 0;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1228  =
-
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1229  err_disable_clk_=
-peri_therm:
-1f6b0889d0ea03 Axel Lin                  2016-09-07  1230  	clk_disable_unp=
-repare(mt->clk_peri_therm);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1231  err_disable_clk_=
-auxadc:
-a92db1c8089e82 Sascha Hauer              2015-11-30  1232  	clk_disable_unp=
-repare(mt->clk_auxadc);
-a92db1c8089e82 Sascha Hauer              2015-11-30  1233  =
-
-a92db1c8089e82 Sascha Hauer              2015-11-30  1234  	return ret;
-a92db1c8089e82 Sascha Hauer              2015-11-30  1235  }
-a92db1c8089e82 Sascha Hauer              2015-11-30  1236  =
-
+:::::: TO: Tobin C. Harding <tobin@kernel.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9036879846239663428==--
+--===============2076992644351856253==--
 
