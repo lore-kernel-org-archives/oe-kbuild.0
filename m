@@ -1,102 +1,186 @@
-Content-Type: multipart/mixed; boundary="===============6668342923989528188=="
+Content-Type: multipart/mixed; boundary="===============6189889580158643515=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 462/12552] drivers/dma-buf/st-dma-fence-unwrap.c:75:39-45: ERROR: reference preceded by free on line 70
-Date: Sat, 23 Jul 2022 04:58:56 +0800
-Message-ID: <202207230438.l22GDlCD-lkp@intel.com>
+Subject: drivers/media/i2c/ov13b10.c:639:16: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Fri, 22 Jul 2022 20:01:50 +0800
+Message-ID: <202207221918.zNmdntLI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6668342923989528188==
+--===============6189889580158643515==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+edia/i2c/ov13b10.c:639:16: warning: use of uninitialized value '<unknown>' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+CC: linux-kernel(a)vger.kernel.org
+TO: Arec Kao <arec.kao@intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   18c107a1f120d095404d141dfad8f594bdc44020
-commit: 0c5064fa8d5a02dc2dcc6c674a0ad1bbaf79efda [462/12552] dma-buf: clean=
-up dma_fence_unwrap selftest v2
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 weeks ago
-config: openrisc-randconfig-c004-20220721 (https://download.01.org/0day-ci/=
-archive/20220723/202207230438.l22GDlCD-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   68e77ffbfd06ae3ef8f2abf1c3b971383c866983
+commit: 7ee85054682299babdb32f597b11daeec2d3e9d9 media: Add sensor driver s=
+upport for the ov13b10 camera.
+date:   10 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
+ve/20220722/202207221918.zNmdntLI-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D7ee85054682299babdb32f597b11daeec2d3e9d9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 7ee85054682299babdb32f597b11daeec2d3e9d9
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma-buf/st-dma-fence-unwrap.c:75:39-45: ERROR: reference precede=
-d by free on line 70
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/media/i2c/ov13b10.c: In function 'ov13b10_write_reg':
+>> drivers/media/i2c/ov13b10.c:639:16: warning: use of uninitialized value =
+'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     639 |         __be32 val;
+         |                ^~~
+     'ov13b10_write_reg': event 1
+       |
+       |  639 |         __be32 val;
+       |      |                ^~~
+       |      |                |
+       |      |                (1) use of uninitialized value '<unknown>' h=
+ere
+       |
+   drivers/media/i2c/ov13b10.c: In function 'ov13b10_enable_test_pattern':
+   drivers/media/i2c/ov13b10.c:744:13: warning: use of uninitialized value =
+'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     744 |         u32 val;
+         |             ^~~
+     'ov13b10_enable_test_pattern': event 1
+       |
+       |  744 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/media/i2c/ov13b10.c: In function 'ov13b10_set_ctrl_hflip':
+   drivers/media/i2c/ov13b10.c:766:13: warning: use of uninitialized value =
+'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     766 |         u32 val;
+         |             ^~~
+     'ov13b10_set_ctrl_hflip': event 1
+       |
+       |  766 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/media/i2c/ov13b10.c: In function 'ov13b10_set_ctrl_vflip':
+   drivers/media/i2c/ov13b10.c:797:13: warning: use of uninitialized value =
+'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     797 |         u32 val;
+         |             ^~~
+     'ov13b10_set_ctrl_vflip': event 1
+       |
+       |  797 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/media/i2c/ov13b10.c: In function 'ov13b10_identify_module':
+   drivers/media/i2c/ov13b10.c:1152:13: warning: use of uninitialized value=
+ '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1152 |         u32 val;
+         |             ^~~
+     'ov13b10_identify_module': event 1
+       |
+       | 1152 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/media/i2c/ov13b10.c: In function 'ov13b10_check_hwcfg':
+   drivers/media/i2c/ov13b10.c:1318:13: warning: use of uninitialized value=
+ '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1318 |         u32 ext_clk;
+         |             ^~~~~~~
+     'ov13b10_check_hwcfg': event 1
+       |
+       | 1318 |         u32 ext_clk;
+       |      |             ^~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-vim +75 drivers/dma-buf/st-dma-fence-unwrap.c
+vim +639 drivers/media/i2c/ov13b10.c
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  45  =
+7ee85054682299 Arec Kao 2021-08-17  631  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  46  static struct dma_fence=
- *mock_array(unsigned int num_fences, ...)
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  47  {
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  48  	struct dma_fence_array=
- *array;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  49  	struct dma_fence **fen=
-ces;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  50  	va_list valist;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  51  	int i;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  52  =
+7ee85054682299 Arec Kao 2021-08-17  632  /* Write registers up to 4 at a ti=
+me */
+7ee85054682299 Arec Kao 2021-08-17  633  static int ov13b10_write_reg(struc=
+t ov13b10 *ov13b,
+7ee85054682299 Arec Kao 2021-08-17  634  			     u16 reg, u32 len, u32 __va=
+l)
+7ee85054682299 Arec Kao 2021-08-17  635  {
+7ee85054682299 Arec Kao 2021-08-17  636  	struct i2c_client *client =3D v4l=
+2_get_subdevdata(&ov13b->sd);
+7ee85054682299 Arec Kao 2021-08-17  637  	int buf_i, val_i;
+7ee85054682299 Arec Kao 2021-08-17  638  	u8 buf[6], *val_p;
+7ee85054682299 Arec Kao 2021-08-17 @639  	__be32 val;
+7ee85054682299 Arec Kao 2021-08-17  640  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  53  	fences =3D kcalloc(num=
-_fences, sizeof(*fences), GFP_KERNEL);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  54  	if (!fences)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  55  		goto error_put;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  56  =
+7ee85054682299 Arec Kao 2021-08-17  641  	if (len > 4)
+7ee85054682299 Arec Kao 2021-08-17  642  		return -EINVAL;
+7ee85054682299 Arec Kao 2021-08-17  643  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  57  	va_start(valist, num_f=
-ences);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  58  	for (i =3D 0; i < num_=
-fences; ++i)
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  59  		fences[i] =3D va_arg(=
-valist, typeof(*fences));
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  60  	va_end(valist);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  61  =
+7ee85054682299 Arec Kao 2021-08-17  644  	buf[0] =3D reg >> 8;
+7ee85054682299 Arec Kao 2021-08-17  645  	buf[1] =3D reg & 0xff;
+7ee85054682299 Arec Kao 2021-08-17  646  =
 
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  62  	array =3D dma_fence_ar=
-ray_create(num_fences, fences,
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  63  				       dma_fence_co=
-ntext_alloc(1),
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  64  				       1, false);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  65  	if (!array)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  66  		goto error_free;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  67  	return &array->base;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  68  =
+7ee85054682299 Arec Kao 2021-08-17  647  	val =3D cpu_to_be32(__val);
+7ee85054682299 Arec Kao 2021-08-17  648  	val_p =3D (u8 *)&val;
+7ee85054682299 Arec Kao 2021-08-17  649  	buf_i =3D 2;
+7ee85054682299 Arec Kao 2021-08-17  650  	val_i =3D 4 - len;
+7ee85054682299 Arec Kao 2021-08-17  651  =
 
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  69  error_free:
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11 @70  	kfree(fences);
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  71  =
+7ee85054682299 Arec Kao 2021-08-17  652  	while (val_i < 4)
+7ee85054682299 Arec Kao 2021-08-17  653  		buf[buf_i++] =3D val_p[val_i++];
+7ee85054682299 Arec Kao 2021-08-17  654  =
 
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  72  error_put:
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  73  	va_start(valist, num_f=
-ences);
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  74  	for (i =3D 0; i < num_=
-fences; ++i)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04 @75  		dma_fence_put(va_arg(=
-valist, typeof(*fences)));
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  76  	va_end(valist);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  77  	return NULL;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  78  }
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  79  =
+7ee85054682299 Arec Kao 2021-08-17  655  	if (i2c_master_send(client, buf, =
+len + 2) !=3D len + 2)
+7ee85054682299 Arec Kao 2021-08-17  656  		return -EIO;
+7ee85054682299 Arec Kao 2021-08-17  657  =
+
+7ee85054682299 Arec Kao 2021-08-17  658  	return 0;
+7ee85054682299 Arec Kao 2021-08-17  659  }
+7ee85054682299 Arec Kao 2021-08-17  660  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6668342923989528188==--
+--===============6189889580158643515==--
 
