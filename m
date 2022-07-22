@@ -1,186 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============6189889580158643515=="
+Content-Type: multipart/mixed; boundary="===============4107196863599874921=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/i2c/ov13b10.c:639:16: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Fri, 22 Jul 2022 20:01:50 +0800
-Message-ID: <202207221918.zNmdntLI-lkp@intel.com>
+Subject: Re: [PATCH] USB: HCD: Fix URB giveback issue in tasklet function
+Date: Fri, 22 Jul 2022 10:43:58 +0800
+Message-ID: <202207221022.P7qys2lb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6189889580158643515==
+--===============4107196863599874921==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/ov13b10.c:639:16: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: drivers/u=
+sb/core/hcd.c:1694:2: sparse: sparse: unused label 'restart'"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Arec Kao <arec.kao@intel.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <20220721060833.4173-1-WeitaoWang-oc@zhaoxin.com>
+References: <20220721060833.4173-1-WeitaoWang-oc@zhaoxin.com>
+TO: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+TO: stern(a)rowland.harvard.edu
+TO: gregkh(a)linuxfoundation.org
+TO: kishon(a)ti.com
+TO: dianders(a)chromium.org
+TO: s.shtylyov(a)omp.ru
+TO: mka(a)chromium.org
+TO: ming.lei(a)canonical.com
+TO: linux-usb(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: tonywwang(a)zhaoxin.com
+CC: weitaowang(a)zhaoxin.com
+CC: CobeChen(a)zhaoxin.com
+CC: TimGuo(a)zhaoxin.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   68e77ffbfd06ae3ef8f2abf1c3b971383c866983
-commit: 7ee85054682299babdb32f597b11daeec2d3e9d9 media: Add sensor driver s=
-upport for the ov13b10 camera.
-date:   10 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220722/202207221918.zNmdntLI-lkp(a)intel.com/config)
+Hi Weitao,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on linus/master v5.19-rc7 next-20220721]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Weitao-Wang/USB-HCD-=
+Fix-URB-giveback-issue-in-tasklet-function/20220721-144208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
+testing
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: arm-randconfig-s041-20220721 (https://download.01.org/0day-ci/archi=
+ve/20220722/202207221022.P7qys2lb-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7ee85054682299babdb32f597b11daeec2d3e9d9
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7ee85054682299babdb32f597b11daeec2d3e9d9
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/302398ba5a76bb39957=
+bad7a6a8cb9d0429cd43a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Weitao-Wang/USB-HCD-Fix-URB-giveba=
+ck-issue-in-tasklet-function/20220721-144208
+        git checkout 302398ba5a76bb39957bad7a6a8cb9d0429cd43a
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash drivers/usb/core/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_write_reg':
->> drivers/media/i2c/ov13b10.c:639:16: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     639 |         __be32 val;
-         |                ^~~
-     'ov13b10_write_reg': event 1
-       |
-       |  639 |         __be32 val;
-       |      |                ^~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_enable_test_pattern':
-   drivers/media/i2c/ov13b10.c:744:13: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     744 |         u32 val;
-         |             ^~~
-     'ov13b10_enable_test_pattern': event 1
-       |
-       |  744 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_set_ctrl_hflip':
-   drivers/media/i2c/ov13b10.c:766:13: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     766 |         u32 val;
-         |             ^~~
-     'ov13b10_set_ctrl_hflip': event 1
-       |
-       |  766 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_set_ctrl_vflip':
-   drivers/media/i2c/ov13b10.c:797:13: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     797 |         u32 val;
-         |             ^~~
-     'ov13b10_set_ctrl_vflip': event 1
-       |
-       |  797 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_identify_module':
-   drivers/media/i2c/ov13b10.c:1152:13: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1152 |         u32 val;
-         |             ^~~
-     'ov13b10_identify_module': event 1
-       |
-       | 1152 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_check_hwcfg':
-   drivers/media/i2c/ov13b10.c:1318:13: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1318 |         u32 ext_clk;
-         |             ^~~~~~~
-     'ov13b10_check_hwcfg': event 1
-       |
-       | 1318 |         u32 ext_clk;
-       |      |             ^~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/core/hcd.c:1694:2: sparse: sparse: unused label 'restart'
 
-vim +639 drivers/media/i2c/ov13b10.c
+vim +/restart +1694 drivers/usb/core/hcd.c
 
-7ee85054682299 Arec Kao 2021-08-17  631  =
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1686  =
 
-7ee85054682299 Arec Kao 2021-08-17  632  /* Write registers up to 4 at a ti=
-me */
-7ee85054682299 Arec Kao 2021-08-17  633  static int ov13b10_write_reg(struc=
-t ov13b10 *ov13b,
-7ee85054682299 Arec Kao 2021-08-17  634  			     u16 reg, u32 len, u32 __va=
-l)
-7ee85054682299 Arec Kao 2021-08-17  635  {
-7ee85054682299 Arec Kao 2021-08-17  636  	struct i2c_client *client =3D v4l=
-2_get_subdevdata(&ov13b->sd);
-7ee85054682299 Arec Kao 2021-08-17  637  	int buf_i, val_i;
-7ee85054682299 Arec Kao 2021-08-17  638  	u8 buf[6], *val_p;
-7ee85054682299 Arec Kao 2021-08-17 @639  	__be32 val;
-7ee85054682299 Arec Kao 2021-08-17  640  =
+e71ea55a5b6f916 Allen Pais  2020-08-17  1687  static void usb_giveback_urb_=
+bh(struct tasklet_struct *t)
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1688  {
+e71ea55a5b6f916 Allen Pais  2020-08-17  1689  	struct giveback_urb_bh *bh =
+=3D from_tasklet(bh, t, bh);
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1690  	struct list_head local_list;
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1691  =
 
-7ee85054682299 Arec Kao 2021-08-17  641  	if (len > 4)
-7ee85054682299 Arec Kao 2021-08-17  642  		return -EINVAL;
-7ee85054682299 Arec Kao 2021-08-17  643  =
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1692  	spin_lock_irq(&bh->lock);
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1693  	bh->running =3D true;
+94dfd7edfd5c9b6 Ming Lei    2013-07-03 @1694   restart:
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1695  	list_replace_init(&bh->head,=
+ &local_list);
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1696  	spin_unlock_irq(&bh->lock);
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1697  =
 
-7ee85054682299 Arec Kao 2021-08-17  644  	buf[0] =3D reg >> 8;
-7ee85054682299 Arec Kao 2021-08-17  645  	buf[1] =3D reg & 0xff;
-7ee85054682299 Arec Kao 2021-08-17  646  =
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1698  	while (!list_empty(&local_li=
+st)) {
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1699  		struct urb *urb;
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1700  =
 
-7ee85054682299 Arec Kao 2021-08-17  647  	val =3D cpu_to_be32(__val);
-7ee85054682299 Arec Kao 2021-08-17  648  	val_p =3D (u8 *)&val;
-7ee85054682299 Arec Kao 2021-08-17  649  	buf_i =3D 2;
-7ee85054682299 Arec Kao 2021-08-17  650  	val_i =3D 4 - len;
-7ee85054682299 Arec Kao 2021-08-17  651  =
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1701  		urb =3D list_entry(local_li=
+st.next, struct urb, urb_list);
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1702  		list_del_init(&urb->urb_lis=
+t);
+c7ccde6eac6d3c4 Alan Stern  2013-09-03  1703  		bh->completing_ep =3D urb->=
+ep;
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1704  		__usb_hcd_giveback_urb(urb);
+c7ccde6eac6d3c4 Alan Stern  2013-09-03  1705  		bh->completing_ep =3D NULL;
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1706  	}
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1707  =
 
-7ee85054682299 Arec Kao 2021-08-17  652  	while (val_i < 4)
-7ee85054682299 Arec Kao 2021-08-17  653  		buf[buf_i++] =3D val_p[val_i++];
-7ee85054682299 Arec Kao 2021-08-17  654  =
-
-7ee85054682299 Arec Kao 2021-08-17  655  	if (i2c_master_send(client, buf, =
-len + 2) !=3D len + 2)
-7ee85054682299 Arec Kao 2021-08-17  656  		return -EIO;
-7ee85054682299 Arec Kao 2021-08-17  657  =
-
-7ee85054682299 Arec Kao 2021-08-17  658  	return 0;
-7ee85054682299 Arec Kao 2021-08-17  659  }
-7ee85054682299 Arec Kao 2021-08-17  660  =
+302398ba5a76bb3 Weitao Wang 2022-07-21  1708  	/* giveback new URBs next ti=
+me to prevent this function from
+302398ba5a76bb3 Weitao Wang 2022-07-21  1709  	 * not exiting for a long ti=
+me.
+302398ba5a76bb3 Weitao Wang 2022-07-21  1710  	 */
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1711  	spin_lock_irq(&bh->lock);
+302398ba5a76bb3 Weitao Wang 2022-07-21  1712  	if (!list_empty(&bh->head)) {
+302398ba5a76bb3 Weitao Wang 2022-07-21  1713  		if (bh->hi_priority)
+302398ba5a76bb3 Weitao Wang 2022-07-21  1714  			tasklet_hi_schedule(&bh->b=
+h);
+302398ba5a76bb3 Weitao Wang 2022-07-21  1715  		else
+302398ba5a76bb3 Weitao Wang 2022-07-21  1716  			tasklet_schedule(&bh->bh);
+302398ba5a76bb3 Weitao Wang 2022-07-21  1717  	}
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1718  	bh->running =3D false;
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1719  	spin_unlock_irq(&bh->lock);
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1720  }
+94dfd7edfd5c9b6 Ming Lei    2013-07-03  1721  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6189889580158643515==--
+--===============4107196863599874921==--
 
