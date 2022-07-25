@@ -1,163 +1,164 @@
-Content-Type: multipart/mixed; boundary="===============8295360175611773343=="
+Content-Type: multipart/mixed; boundary="===============7302045884389599827=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/5] vduse: Support registering userspace memory for IOVA regions
+Subject: arch/arm64/kernel/signal.c:927:6: warning: no previous prototype for 'do_notify_resume'
 Date: Mon, 25 Jul 2022 16:58:21 +0000
-Message-ID: <202207241607.U3jN5m08-lkp@intel.com>
+Message-ID: <202207240330.VFswXEYq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8295360175611773343==
+--===============7302045884389599827==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "commit no functional change"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220720044144.90-5-xieyongji@bytedance.com>
-References: <20220720044144.90-5-xieyongji@bytedance.com>
-TO: Xie Yongji <xieyongji@bytedance.com>
-TO: mst(a)redhat.com
-TO: jasowang(a)redhat.com
-TO: xiaodong.liu(a)intel.com
-TO: maxime.coquelin(a)redhat.com
-TO: stefanha(a)redhat.com
-CC: songmuchun(a)bytedance.com
-CC: virtualization(a)lists.linux-foundation.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>
+CC: Joey Gouly <joey.gouly@arm.com>
 
-Hi Xie,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.19-rc7 next-20220722]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xie-Yongji/VDUSE-Sup=
-port-registering-userspace-memory-as-bounce-buffer/20220720-124408
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-ca85855bdcae8f84f1512e88b4c75009ea17ea2f
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: ia64-randconfig-m041-20220721 (https://download.01.org/0day-ci/arch=
-ive/20220724/202207241607.U3jN5m08-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   515f71412bb73ebd7f41f90e1684fc80b8730789
+commit: 4d1c2ee2709fd6e1655206cafcdb22737f5d7379 arm64: entry: move bulk of=
+ ret_to_user to C
+date:   12 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 12 months ago
+config: arm64-alldefconfig (https://download.01.org/0day-ci/archive/2022072=
+4/202207240330.VFswXEYq-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D4d1c2ee2709fd6e1655206cafcdb22737f5d7379
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4d1c2ee2709fd6e1655206cafcdb22737f5d7379
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ W=3D1 O=3Dbuild_dir ARCH=3Darm64 SHELL=3D/bin/bash arch/arm64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/vdpa/vdpa_user/vduse_dev.c:1024 vduse_dev_reg_umem() warn: possible=
- memory leak of 'umem'
+Note: functions only called from assembly code should be annotated with the=
+ asmlinkage attribute
+All warnings (new ones prefixed by >>):
 
-vim +/umem +1024 drivers/vdpa/vdpa_user/vduse_dev.c
+>> arch/arm64/kernel/signal.c:927:6: warning: no previous prototype for 'do=
+_notify_resume' [-Wmissing-prototypes]
+     927 | void do_notify_resume(struct pt_regs *regs, unsigned long thread=
+_flags)
+         |      ^~~~~~~~~~~~~~~~
 
-adfe5defa068df Xie Yongji 2022-07-20   958  =
 
-adfe5defa068df Xie Yongji 2022-07-20   959  static int vduse_dev_reg_umem(s=
-truct vduse_dev *dev,
-adfe5defa068df Xie Yongji 2022-07-20   960  			      u64 iova, u64 uaddr, u=
-64 size)
-adfe5defa068df Xie Yongji 2022-07-20   961  {
-adfe5defa068df Xie Yongji 2022-07-20   962  	struct page **page_list =3D NU=
-LL;
-adfe5defa068df Xie Yongji 2022-07-20   963  	struct vduse_umem *umem =3D NU=
-LL;
-adfe5defa068df Xie Yongji 2022-07-20   964  	long pinned =3D 0;
-adfe5defa068df Xie Yongji 2022-07-20   965  	unsigned long npages, lock_lim=
-it;
-adfe5defa068df Xie Yongji 2022-07-20   966  	int ret;
-adfe5defa068df Xie Yongji 2022-07-20   967  =
+vim +/do_notify_resume +927 arch/arm64/kernel/signal.c
 
-adfe5defa068df Xie Yongji 2022-07-20   968  	if (!dev->domain->bounce_map ||
-adfe5defa068df Xie Yongji 2022-07-20   969  	    size !=3D dev->domain->bou=
-nce_size ||
-adfe5defa068df Xie Yongji 2022-07-20   970  	    iova !=3D 0 || uaddr & ~PA=
-GE_MASK)
-adfe5defa068df Xie Yongji 2022-07-20   971  		return -EINVAL;
-adfe5defa068df Xie Yongji 2022-07-20   972  =
+873c3e89777c8c Will Deacon       2021-06-08  926  =
 
-adfe5defa068df Xie Yongji 2022-07-20   973  	mutex_lock(&dev->mem_lock);
-adfe5defa068df Xie Yongji 2022-07-20   974  	ret =3D -EEXIST;
-adfe5defa068df Xie Yongji 2022-07-20   975  	if (dev->umem)
-adfe5defa068df Xie Yongji 2022-07-20   976  		goto unlock;
-adfe5defa068df Xie Yongji 2022-07-20   977  =
+4d1c2ee2709fd6 Mark Rutland      2021-08-02 @927  void do_notify_resume(str=
+uct pt_regs *regs, unsigned long thread_flags)
+2c020ed8d148f7 Catalin Marinas   2012-03-05  928  {
+a2048e34d4655c Thomas Garnier    2017-09-07  929  	do {
+421dd6fa6709eb Chris Metcalf     2016-07-14  930  		if (thread_flags & _TIF=
+_NEED_RESCHED) {
+8d66772e869e79 James Morse       2017-11-02  931  			/* Unmask Debug and SE=
+rror for the next task */
+8d66772e869e79 James Morse       2017-11-02  932  			local_daif_restore(DAI=
+F_PROCCTX_NOIRQ);
+8d66772e869e79 James Morse       2017-11-02  933  =
 
-adfe5defa068df Xie Yongji 2022-07-20   978  	ret =3D -ENOMEM;
-adfe5defa068df Xie Yongji 2022-07-20   979  	npages =3D size >> PAGE_SHIFT;
-adfe5defa068df Xie Yongji 2022-07-20   980  	page_list =3D __vmalloc(array_=
-size(npages, sizeof(struct page *)),
-adfe5defa068df Xie Yongji 2022-07-20   981  			      GFP_KERNEL_ACCOUNT);
-adfe5defa068df Xie Yongji 2022-07-20   982  	umem =3D kzalloc(sizeof(*umem)=
-, GFP_KERNEL);
-adfe5defa068df Xie Yongji 2022-07-20   983  	if (!page_list || !umem)
-adfe5defa068df Xie Yongji 2022-07-20   984  		goto unlock;
-adfe5defa068df Xie Yongji 2022-07-20   985  =
+421dd6fa6709eb Chris Metcalf     2016-07-14  934  			schedule();
+421dd6fa6709eb Chris Metcalf     2016-07-14  935  		} else {
+8d66772e869e79 James Morse       2017-11-02  936  			local_daif_restore(DAI=
+F_PROCCTX);
+421dd6fa6709eb Chris Metcalf     2016-07-14  937  =
 
-adfe5defa068df Xie Yongji 2022-07-20   986  	mmap_read_lock(current->mm);
-adfe5defa068df Xie Yongji 2022-07-20   987  =
+9842ceae9fa8de Pratyush Anand    2016-11-02  938  			if (thread_flags & _TI=
+F_UPROBE)
+9842ceae9fa8de Pratyush Anand    2016-11-02  939  				uprobe_notify_resume(=
+regs);
+9842ceae9fa8de Pratyush Anand    2016-11-02  940  =
 
-adfe5defa068df Xie Yongji 2022-07-20   988  	lock_limit =3D PFN_DOWN(rlimit=
-(RLIMIT_MEMLOCK));
-adfe5defa068df Xie Yongji 2022-07-20   989  	if (npages + atomic64_read(&cu=
-rrent->mm->pinned_vm) > lock_limit)
-adfe5defa068df Xie Yongji 2022-07-20   990  		goto out;
-adfe5defa068df Xie Yongji 2022-07-20   991  =
+637ec831ea4f09 Vincenzo Frascino 2019-09-16  941  			if (thread_flags & _TI=
+F_MTE_ASYNC_FAULT) {
+637ec831ea4f09 Vincenzo Frascino 2019-09-16  942  				clear_thread_flag(TIF=
+_MTE_ASYNC_FAULT);
+637ec831ea4f09 Vincenzo Frascino 2019-09-16  943  				send_sig_fault(SIGSEG=
+V, SEGV_MTEAERR,
+637ec831ea4f09 Vincenzo Frascino 2019-09-16  944  					       (void __user =
+*)NULL, current);
+637ec831ea4f09 Vincenzo Frascino 2019-09-16  945  			}
+637ec831ea4f09 Vincenzo Frascino 2019-09-16  946  =
 
-adfe5defa068df Xie Yongji 2022-07-20   992  	pinned =3D pin_user_pages(uadd=
-r, npages, FOLL_LONGTERM | FOLL_WRITE,
-adfe5defa068df Xie Yongji 2022-07-20   993  				page_list, NULL);
-adfe5defa068df Xie Yongji 2022-07-20   994  	if (pinned !=3D npages) {
-adfe5defa068df Xie Yongji 2022-07-20   995  		ret =3D pinned < 0 ? pinned :=
- -ENOMEM;
-adfe5defa068df Xie Yongji 2022-07-20   996  		goto out;
-adfe5defa068df Xie Yongji 2022-07-20   997  	}
-adfe5defa068df Xie Yongji 2022-07-20   998  =
+192caabd4dd92c Jens Axboe        2020-10-22  947  			if (thread_flags & (_T=
+IF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
+2c020ed8d148f7 Catalin Marinas   2012-03-05  948  				do_signal(regs);
+2c020ed8d148f7 Catalin Marinas   2012-03-05  949  =
 
-adfe5defa068df Xie Yongji 2022-07-20   999  	ret =3D vduse_domain_add_user_=
-bounce_pages(dev->domain,
-adfe5defa068df Xie Yongji 2022-07-20  1000  						 page_list, pinned);
-adfe5defa068df Xie Yongji 2022-07-20  1001  	if (ret)
-adfe5defa068df Xie Yongji 2022-07-20  1002  		goto out;
-adfe5defa068df Xie Yongji 2022-07-20  1003  =
+2c020ed8d148f7 Catalin Marinas   2012-03-05  950  			if (thread_flags & _TI=
+F_NOTIFY_RESUME) {
+2c020ed8d148f7 Catalin Marinas   2012-03-05  951  				tracehook_notify_resu=
+me(regs);
+409d5db49867c2 Will Deacon       2018-06-20  952  				rseq_handle_notify_re=
+sume(NULL, regs);
+873c3e89777c8c Will Deacon       2021-06-08  953  =
 
-adfe5defa068df Xie Yongji 2022-07-20  1004  	atomic64_add(npages, &current-=
->mm->pinned_vm);
-adfe5defa068df Xie Yongji 2022-07-20  1005  =
+873c3e89777c8c Will Deacon       2021-06-08  954  				/*
+873c3e89777c8c Will Deacon       2021-06-08  955  				 * If we reschedule a=
+fter checking the affinity
+873c3e89777c8c Will Deacon       2021-06-08  956  				 * then we must ensur=
+e that TIF_NOTIFY_RESUME
+873c3e89777c8c Will Deacon       2021-06-08  957  				 * is set so that we =
+check the affinity again.
+873c3e89777c8c Will Deacon       2021-06-08  958  				 * Since tracehook_no=
+tify_resume() clears the
+873c3e89777c8c Will Deacon       2021-06-08  959  				 * flag, ensure that =
+the compiler doesn't move
+873c3e89777c8c Will Deacon       2021-06-08  960  				 * it after the affin=
+ity check.
+873c3e89777c8c Will Deacon       2021-06-08  961  				 */
+873c3e89777c8c Will Deacon       2021-06-08  962  				barrier();
+873c3e89777c8c Will Deacon       2021-06-08  963  =
 
-adfe5defa068df Xie Yongji 2022-07-20  1006  	umem->pages =3D page_list;
-adfe5defa068df Xie Yongji 2022-07-20  1007  	umem->npages =3D pinned;
-adfe5defa068df Xie Yongji 2022-07-20  1008  	umem->iova =3D iova;
-adfe5defa068df Xie Yongji 2022-07-20  1009  	umem->mm =3D current->mm;
-adfe5defa068df Xie Yongji 2022-07-20  1010  	mmgrab(current->mm);
-adfe5defa068df Xie Yongji 2022-07-20  1011  =
+873c3e89777c8c Will Deacon       2021-06-08  964  				if (cpu_affinity_inva=
+lid(regs))
+873c3e89777c8c Will Deacon       2021-06-08  965  					force_sig(SIGKILL);
+2c020ed8d148f7 Catalin Marinas   2012-03-05  966  			}
+005f78cd884944 Ard Biesheuvel    2014-05-08  967  =
 
-adfe5defa068df Xie Yongji 2022-07-20  1012  	dev->umem =3D umem;
-adfe5defa068df Xie Yongji 2022-07-20  1013  out:
-adfe5defa068df Xie Yongji 2022-07-20  1014  	if (ret && pinned > 0)
-adfe5defa068df Xie Yongji 2022-07-20  1015  		unpin_user_pages(page_list, p=
-inned);
-adfe5defa068df Xie Yongji 2022-07-20  1016  =
+005f78cd884944 Ard Biesheuvel    2014-05-08  968  			if (thread_flags & _TI=
+F_FOREIGN_FPSTATE)
+005f78cd884944 Ard Biesheuvel    2014-05-08  969  				fpsimd_restore_curren=
+t_state();
+421dd6fa6709eb Chris Metcalf     2016-07-14  970  		}
+005f78cd884944 Ard Biesheuvel    2014-05-08  971  =
 
-adfe5defa068df Xie Yongji 2022-07-20  1017  	mmap_read_unlock(current->mm);
-adfe5defa068df Xie Yongji 2022-07-20  1018  unlock:
-adfe5defa068df Xie Yongji 2022-07-20  1019  	if (ret) {
-adfe5defa068df Xie Yongji 2022-07-20  1020  		vfree(page_list);
-adfe5defa068df Xie Yongji 2022-07-20  1021  		kfree(umem);
-adfe5defa068df Xie Yongji 2022-07-20  1022  	}
-adfe5defa068df Xie Yongji 2022-07-20  1023  	mutex_unlock(&dev->mem_lock);
-adfe5defa068df Xie Yongji 2022-07-20 @1024  	return ret;
-adfe5defa068df Xie Yongji 2022-07-20  1025  }
-adfe5defa068df Xie Yongji 2022-07-20  1026  =
+8d66772e869e79 James Morse       2017-11-02  972  		local_daif_mask();
+421dd6fa6709eb Chris Metcalf     2016-07-14  973  		thread_flags =3D READ_O=
+NCE(current_thread_info()->flags);
+421dd6fa6709eb Chris Metcalf     2016-07-14  974  	} while (thread_flags & =
+_TIF_WORK_MASK);
+2c020ed8d148f7 Catalin Marinas   2012-03-05  975  }
+94b07c1f8c39c6 Dave Martin       2018-06-01  976  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8295360175611773343==--
+--===============7302045884389599827==--
 
