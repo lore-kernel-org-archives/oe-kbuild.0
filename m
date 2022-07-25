@@ -1,141 +1,163 @@
-Content-Type: multipart/mixed; boundary="===============5475478868559153414=="
+Content-Type: multipart/mixed; boundary="===============1571044682780389588=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3505/12552] net/wireless/mlme.c:328 cfg80211_mlme_assoc() warn: variable dereferenced before check 'req->bss' (see line 324)
+Subject: fs/netfs/buffered_read.c:337:23: warning: use of uninitialized value '<unknown>' [CWE-457]
 Date: Mon, 25 Jul 2022 16:58:21 +0000
-Message-ID: <202207242103.KGZT4s1I-lkp@intel.com>
+Message-ID: <202207231946.UCJxWODm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5475478868559153414==
+--===============1571044682780389588==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/netfs/=
+buffered_read.c:337:23: warning: use of uninitialized value '<unknown>' [CW=
+E-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Johannes Berg <johannes.berg@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Xiubo Li <xiubli@redhat.com>
+CC: Ilya Dryomov <idryomov@gmail.com>
+CC: David Howells <dhowells@redhat.com>
+CC: Bagas Sanjaya <bagasdotme@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   18c107a1f120d095404d141dfad8f594bdc44020
-commit: d648c23024bd01333acd2fd5e34bcde0ffb66b16 [3505/12552] wifi: nl80211=
-: support MLO in auth/assoc
-:::::: branch date: 2 days ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-m021-20220718 (https://download.01.org/0day-ci/arch=
-ive/20220724/202207242103.KGZT4s1I-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   70664fc10c0d722ec79d746d8ac1db8546c94114
+commit: fac47b43c760ea90e64b895dba60df0327be7775 netfs: do not unlock and p=
+ut the folio twice
+date:   9 days ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 9 days ago
+config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
+ve/20220723/202207231946.UCJxWODm-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dfac47b43c760ea90e64b895dba60df0327be7775
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout fac47b43c760ea90e64b895dba60df0327be7775
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/wireless/mlme.c:328 cfg80211_mlme_assoc() warn: variable dereferenced b=
-efore check 'req->bss' (see line 324)
-net/wireless/nl80211.c:10682 nl80211_associate() error: uninitialized symbo=
-l 'bssid'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   fs/netfs/buffered_read.c: In function 'netfs_write_begin':
+>> fs/netfs/buffered_read.c:337:23: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     337 |         struct folio *folio;
+         |                       ^~~~~
+     'netfs_write_begin': event 1
+       |
+       |  337 |         struct folio *folio;
+       |      |                       ^~~~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
 
-Old smatch warnings:
-net/wireless/nl80211.c:277 validate_ie_attr() warn: potential spectre issue=
- 'elem->data' [r]
-net/wireless/nl80211.c:4992 nl80211_parse_tx_bitrate_mask() warn: potential=
- spectre issue 'rdev->wiphy.bands' [r] (local cap)
-net/wireless/nl80211.c:4993 nl80211_parse_tx_bitrate_mask() warn: possible =
-spectre second half.  'sband'
-net/wireless/nl80211.c:5002 nl80211_parse_tx_bitrate_mask() warn: potential=
- spectre issue 'mask->control' [w] (local cap)
-net/wireless/nl80211.c:8861 nl80211_trigger_scan() warn: potential spectre =
-issue 'wiphy->bands' [r] (local cap)
-net/wireless/nl80211.c:8864 nl80211_trigger_scan() warn: potential spectre =
-issue 'request->rates' [r] (local cap)
-net/wireless/nl80211.c:9058 nl80211_parse_sched_scan_per_band_rssi() warn: =
-potential spectre issue 'match_sets->per_band_rssi_thold' [w] (local cap)
+vim +337 fs/netfs/buffered_read.c
 
-vim +328 net/wireless/mlme.c
+16211268fcb3667 David Howells           2022-03-01  297  =
 
-ee2aca343c9aa64 Johannes Berg 2013-02-21  294  =
+16211268fcb3667 David Howells           2022-03-01  298  /**
+16211268fcb3667 David Howells           2022-03-01  299   * netfs_write_beg=
+in - Helper to prepare for writing
+e81fb4198e27925 Linus Torvalds          2022-06-09  300   * @ctx: The netfs=
+ context
+16211268fcb3667 David Howells           2022-03-01  301   * @file: The file=
+ to read from
+16211268fcb3667 David Howells           2022-03-01  302   * @mapping: The m=
+apping to read from
+16211268fcb3667 David Howells           2022-03-01  303   * @pos: File posi=
+tion at which the write will begin
+16211268fcb3667 David Howells           2022-03-01  304   * @len: The lengt=
+h of the write (may extend beyond the end of the folio chosen)
+16211268fcb3667 David Howells           2022-03-01  305   * @_folio: Where =
+to put the resultant folio
+16211268fcb3667 David Howells           2022-03-01  306   * @_fsdata: Place=
+ for the netfs to store a cookie
+16211268fcb3667 David Howells           2022-03-01  307   *
+16211268fcb3667 David Howells           2022-03-01  308   * Pre-read data f=
+or a write-begin request by drawing data from the cache if
+16211268fcb3667 David Howells           2022-03-01  309   * possible, or th=
+e netfs if not.  Space beyond the EOF is zero-filled.
+16211268fcb3667 David Howells           2022-03-01  310   * Multiple I/O re=
+quests from different sources will get munged together.  If
+16211268fcb3667 David Howells           2022-03-01  311   * necessary, the =
+readahead window can be expanded in either direction to a
+16211268fcb3667 David Howells           2022-03-01  312   * more convenient=
+ alighment for RPC efficiency or to make storage in the cache
+16211268fcb3667 David Howells           2022-03-01  313   * feasible.
+16211268fcb3667 David Howells           2022-03-01  314   *
+16211268fcb3667 David Howells           2022-03-01  315   * The calling net=
+fs must provide a table of operations, only one of which,
+16211268fcb3667 David Howells           2022-03-01  316   * issue_op, is ma=
+ndatory.
+16211268fcb3667 David Howells           2022-03-01  317   *
+16211268fcb3667 David Howells           2022-03-01  318   * The check_write=
+_begin() operation can be provided to check for and flush
+16211268fcb3667 David Howells           2022-03-01  319   * conflicting wri=
+tes once the folio is grabbed and locked.  It is passed a
+16211268fcb3667 David Howells           2022-03-01  320   * pointer to the =
+fsdata cookie that gets returned to the VM to be passed to
+16211268fcb3667 David Howells           2022-03-01  321   * write_end.  It =
+is permitted to sleep.  It should return 0 if the request
+fac47b43c760ea9 Xiubo Li                2022-07-11  322   * should go ahead=
+ or it may return an error.  It may also unlock and put the
+fac47b43c760ea9 Xiubo Li                2022-07-11  323   * folio, provided=
+ it sets ``*foliop`` to NULL, in which case a return of 0
+fac47b43c760ea9 Xiubo Li                2022-07-11  324   * will cause the =
+folio to be re-got and the process to be retried.
+16211268fcb3667 David Howells           2022-03-01  325   *
+16211268fcb3667 David Howells           2022-03-01  326   * The calling net=
+fs must initialise a netfs context contiguous to the vfs
+16211268fcb3667 David Howells           2022-03-01  327   * inode before ca=
+lling this.
+16211268fcb3667 David Howells           2022-03-01  328   *
+16211268fcb3667 David Howells           2022-03-01  329   * This is usable =
+whether or not caching is enabled.
+16211268fcb3667 David Howells           2022-03-01  330   */
+e81fb4198e27925 Linus Torvalds          2022-06-09  331  int netfs_write_be=
+gin(struct netfs_inode *ctx,
+e81fb4198e27925 Linus Torvalds          2022-06-09  332  		      struct fil=
+e *file, struct address_space *mapping,
+de2a93115017795 Matthew Wilcox (Oracle  2022-02-22  333) 		      loff_t pos=
+, unsigned int len, struct folio **_folio,
+de2a93115017795 Matthew Wilcox (Oracle  2022-02-22  334) 		      void **_fs=
+data)
+16211268fcb3667 David Howells           2022-03-01  335  {
+16211268fcb3667 David Howells           2022-03-01  336  	struct netfs_io_r=
+equest *rreq;
+16211268fcb3667 David Howells           2022-03-01 @337  	struct folio *fol=
+io;
 
-0f7594489a8ab15 Johannes Berg 2022-05-31  295  /* Note: caller must cfg8021=
-1_put_bss() regardless of result */
-91bf9b26fc95c50 Johannes Berg 2013-05-15  296  int cfg80211_mlme_assoc(stru=
-ct cfg80211_registered_device *rdev,
-667503ddcb96f3b Johannes Berg 2009-07-07  297  			struct net_device *dev,
-f62fab735e99af2 Johannes Berg 2013-02-21  298  			struct cfg80211_assoc_req=
-uest *req)
-19957bb399e2722 Johannes Berg 2009-07-02  299  {
-19957bb399e2722 Johannes Berg 2009-07-02  300  	struct wireless_dev *wdev =
-=3D dev->ieee80211_ptr;
-d648c23024bd013 Johannes Berg 2022-05-31  301  	int err, i, j;
-19957bb399e2722 Johannes Berg 2009-07-02  302  =
+:::::: The code at line 337 was first introduced by commit
+:::::: 16211268fcb36672a84359362c2fc2c4695b0fc4 netfs: Split fs/netfs/read_=
+helper.c
 
-667503ddcb96f3b Johannes Berg 2009-07-07  303  	ASSERT_WDEV_LOCK(wdev);
-667503ddcb96f3b Johannes Berg 2009-07-07  304  =
-
-d648c23024bd013 Johannes Berg 2022-05-31  305  	for (i =3D 1; i < ARRAY_SIZ=
-E(req->links); i++) {
-d648c23024bd013 Johannes Berg 2022-05-31  306  		if (!req->links[i].bss)
-d648c23024bd013 Johannes Berg 2022-05-31  307  			continue;
-d648c23024bd013 Johannes Berg 2022-05-31  308  		for (j =3D 0; j < i; j++) {
-d648c23024bd013 Johannes Berg 2022-05-31  309  			if (req->links[i].bss =3D=
-=3D req->links[j].bss)
-d648c23024bd013 Johannes Berg 2022-05-31  310  				return -EINVAL;
-d648c23024bd013 Johannes Berg 2022-05-31  311  		}
-d648c23024bd013 Johannes Berg 2022-05-31  312  	}
-d648c23024bd013 Johannes Berg 2022-05-31  313  =
-
-7b0a0e3c3a88260 Johannes Berg 2022-04-14  314  	if (wdev->connected &&
-7b0a0e3c3a88260 Johannes Berg 2022-04-14  315  	    (!req->prev_bssid ||
-7b0a0e3c3a88260 Johannes Berg 2022-04-14  316  	     !ether_addr_equal(wdev=
-->u.client.connected_addr, req->prev_bssid)))
-19957bb399e2722 Johannes Berg 2009-07-02  317  		return -EALREADY;
-19957bb399e2722 Johannes Berg 2009-07-02  318  =
-
-f62fab735e99af2 Johannes Berg 2013-02-21  319  	cfg80211_oper_and_ht_capa(&=
-req->ht_capa_mask,
-7e7c8926b2f4e34 Ben Greear    2011-11-18  320  				  rdev->wiphy.ht_capa_mo=
-d_mask);
-f62fab735e99af2 Johannes Berg 2013-02-21  321  	cfg80211_oper_and_vht_capa(=
-&req->vht_capa_mask,
-ee2aca343c9aa64 Johannes Berg 2013-02-21  322  				   rdev->wiphy.vht_capa_=
-mod_mask);
-7e7c8926b2f4e34 Ben Greear    2011-11-18  323  =
-
-f62fab735e99af2 Johannes Berg 2013-02-21 @324  	err =3D rdev_assoc(rdev, de=
-v, req);
-0f7594489a8ab15 Johannes Berg 2022-05-31  325  	if (!err) {
-d648c23024bd013 Johannes Berg 2022-05-31  326  		int link_id;
-d648c23024bd013 Johannes Berg 2022-05-31  327  =
-
-d648c23024bd013 Johannes Berg 2022-05-31 @328  		if (req->bss) {
-0f7594489a8ab15 Johannes Berg 2022-05-31  329  			cfg80211_ref_bss(&rdev->w=
-iphy, req->bss);
-f1940c5730f0f05 Johannes Berg 2013-06-19  330  			cfg80211_hold_bss(bss_fro=
-m_pub(req->bss));
-0f7594489a8ab15 Johannes Berg 2022-05-31  331  		}
-d648c23024bd013 Johannes Berg 2022-05-31  332  =
-
-d648c23024bd013 Johannes Berg 2022-05-31  333  		for (link_id =3D 0; link_i=
-d < ARRAY_SIZE(req->links); link_id++) {
-d648c23024bd013 Johannes Berg 2022-05-31  334  			if (!req->links[link_id].=
-bss)
-d648c23024bd013 Johannes Berg 2022-05-31  335  				continue;
-d648c23024bd013 Johannes Berg 2022-05-31  336  			cfg80211_ref_bss(&rdev->w=
-iphy, req->links[link_id].bss);
-d648c23024bd013 Johannes Berg 2022-05-31  337  			cfg80211_hold_bss(bss_fro=
-m_pub(req->links[link_id].bss));
-d648c23024bd013 Johannes Berg 2022-05-31  338  		}
-d648c23024bd013 Johannes Berg 2022-05-31  339  	}
-19957bb399e2722 Johannes Berg 2009-07-02  340  	return err;
-19957bb399e2722 Johannes Berg 2009-07-02  341  }
-19957bb399e2722 Johannes Berg 2009-07-02  342  =
-
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5475478868559153414==--
+--===============1571044682780389588==--
 
