@@ -1,228 +1,399 @@
-Content-Type: multipart/mixed; boundary="===============8166224166327060356=="
+Content-Type: multipart/mixed; boundary="===============0890209229580839174=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tip:sched/core 6/31] kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
-Date: Mon, 25 Jul 2022 16:58:20 +0000
-Message-ID: <202207231210.s2H9yBxw-lkp@intel.com>
+Subject: drivers/net/ethernet/mediatek/mtk_eth_soc.c:1404:3: warning: Value stored to 'budget' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 25 Jul 2022 23:03:35 +0800
+Message-ID: <202207252207.1Xeei9vo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8166224166327060356==
+--===============0890209229580839174==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: kernel/sc=
-hed/fair.c:4049:30: sparse: sparse: cast to non-scalar"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:1404:3: warning: Value stored =
+to 'budget' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-CC: x86(a)kernel.org
-TO: Chengming Zhou <zhouchengming@bytedance.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Vincent Guittot <vincent.guittot@linaro.org>
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/c=
-ore
-head:   14b3f2d9ee8df3b6040f7e21f9fcd1d848938fd9
-commit: 51bf903b64bdde4e4c9009a9e2b4a589845d9d81 [6/31] sched/fair: Optimiz=
-e and simplify rq leaf_cfs_rq_list
-:::::: branch date: 2 days ago
-:::::: commit date: 6 weeks ago
-config: alpha-randconfig-s042-20220721 (https://download.01.org/0day-ci/arc=
-hive/20220723/202207231210.s2H9yBxw-lkp(a)intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e0dccc3b76fb35bb257b4118367a883073d7390e
+commit: a3c62a042237d1adeb0290dcb768e17edd6dcd25 net: mtk_eth: add COMPILE_=
+TEST support
+date:   7 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20220721 (https://download.01.org/0day-ci/archi=
+ve/20220725/202207252207.1Xeei9vo-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 72686d=
+68c137551cce816416190a18d45b4d4e2a)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commi=
-t/?id=3D51bf903b64bdde4e4c9009a9e2b4a589845d9d81
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/=
-tip/tip.git
-        git fetch --no-tags tip sched/core
-        git checkout 51bf903b64bdde4e4c9009a9e2b4a589845d9d81
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da3c62a042237d1adeb0290dcb768e17edd6dcd25
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a3c62a042237d1adeb0290dcb768e17edd6dcd25
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-lpha SHELL=3D/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:930:34: sparse: sparse: incorrect type in argument 1=
- (different address spaces) @@     expected struct sched_entity *se @@     =
-got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:930:34: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:930:34: sparse:     got struct sched_entity [noderef=
-] __rcu *
-   kernel/sched/fair.c:10918:9: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10918:9: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:10918:9: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:5083:22: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/sched/fair.c:5083:22: sparse:    struct task_struct [noderef] __r=
-cu *
-   kernel/sched/fair.c:5083:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:6770:20: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6770:20: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:6770:20: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:6904:9: sparse: sparse: incorrect type in assignment=
- (different address spaces) @@     expected struct sched_domain *[assigned]=
- tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6904:9: sparse:     expected struct sched_domain *[a=
-ssigned] tmp
-   kernel/sched/fair.c:6904:9: sparse:     got struct sched_domain [noderef=
-] __rcu *parent
-   kernel/sched/fair.c:7102:38: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct task_struct *curr @@  =
-   got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7102:38: sparse:     expected struct task_struct *cu=
-rr
-   kernel/sched/fair.c:7102:38: sparse:     got struct task_struct [noderef=
-] __rcu *curr
-   kernel/sched/fair.c:7400:38: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct task_struct *curr @@  =
-   got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7400:38: sparse:     expected struct task_struct *cu=
-rr
-   kernel/sched/fair.c:7400:38: sparse:     got struct task_struct [noderef=
-] __rcu *curr
-   kernel/sched/fair.c:8385:40: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct sched_domain *child @@=
-     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:8385:40: sparse:     expected struct sched_domain *c=
-hild
-   kernel/sched/fair.c:8385:40: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:8929:22: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/sched/fair.c:8929:22: sparse:    struct task_struct [noderef] __r=
-cu *
-   kernel/sched/fair.c:8929:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:10193:9: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10193:9: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:10193:9: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:9853:44: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct sched_domain *sd_paren=
-t @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:9853:44: sparse:     expected struct sched_domain *s=
-d_parent
-   kernel/sched/fair.c:9853:44: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:10289:9: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10289:9: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:10289:9: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
-   kernel/sched/fair.c:6155:28: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *sd @@    =
- got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6155:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6155:28: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:6161:28: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *sd @@    =
- got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6161:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6161:28: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:6168:28: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *sd @@    =
- got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6168:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6168:28: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:6176:17: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6176:17: sparse:     expected struct sched_domain *[=
-assigned] tmp
-   kernel/sched/fair.c:6176:17: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2171:9: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/sched/sched.h:2171:9: sparse:    struct task_struct [noderef] __r=
-cu *
-   kernel/sched/sched.h:2171:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __=
-rcu *
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __=
-rcu *
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/ceph/mds_client.c:4208:14: note: Calling 'ceph_mdsmap_get_state'
+                   newstate =3D ceph_mdsmap_get_state(newmap, i);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/mdsmap.h:53:2: note: Taking false branch
+           BUG_ON(w < 0);
+           ^
+   include/asm-generic/bug.h:161:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   include/linux/ceph/mdsmap.h:53:2: note: Loop condition is false.  Exitin=
+g loop
+           BUG_ON(w < 0);
+           ^
+   include/asm-generic/bug.h:161:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   include/linux/ceph/mdsmap.h:54:6: note: 'w' is < field 'possible_max_ran=
+k'
+           if (w >=3D m->possible_max_rank)
+               ^
+   include/linux/ceph/mdsmap.h:54:2: note: Taking false branch
+           if (w >=3D m->possible_max_rank)
+           ^
+   include/linux/ceph/mdsmap.h:56:9: note: Dereference of null pointer
+           return m->m_info[w].state;
+                  ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_cls.c:1296:4: warning: Value st=
+ored to 'offs' is never read [clang-analyzer-deadcode.DeadStores]
+                           offs +=3D mvpp2_cls_hek_field_size(MVPP22_CLS_HE=
+K_OPT_L4DIP);
+                           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_cls.c:1296:4: note: Value store=
+d to 'offs' is never read
+                           offs +=3D mvpp2_cls_hek_field_size(MVPP22_CLS_HE=
+K_OPT_L4DIP);
+                           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/net/ethernet/marvell/pxa168_eth.c:677:2: warning: Value stored t=
+o 'val' is never read [clang-analyzer-deadcode.DeadStores]
+           val &=3D ~SDMA_CMD_ERD;   /* abort dma command */
+           ^      ~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/pxa168_eth.c:677:2: note: Value stored to '=
+val' is never read
+           val &=3D ~SDMA_CMD_ERD;   /* abort dma command */
+           ^      ~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:344:7: warning: Branch condi=
+tion evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (err)
+                       ^~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:220:20: note: 'err' declared=
+ without an initial value
+           int val, ge_mode, err;
+                             ^~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:223:7: note: Assuming the co=
+ndition is true
+           if (!MTK_HAS_CAPS(eth->soc->caps, MTK_SOC_MT7628) &&
+                ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:808:34: note: expanded from =
+macro 'MTK_HAS_CAPS'
+   #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) =3D=3D (_x))
+                                            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:223:52: note: Left side of '=
+&&' is false
+           if (!MTK_HAS_CAPS(eth->soc->caps, MTK_SOC_MT7628) &&
+                                                             ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:322:6: note: Assuming field =
+'interface' is equal to PHY_INTERFACE_MODE_SGMII
+           if (state->interface =3D=3D PHY_INTERFACE_MODE_SGMII ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:322:51: note: Left side of '=
+||' is true
+           if (state->interface =3D=3D PHY_INTERFACE_MODE_SGMII ||
+                                                            ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:334:10: note: Assuming the c=
+ondition is true
+                   sid =3D (MTK_HAS_CAPS(eth->soc->caps, MTK_SHARED_SGMII))=
+ ?
+                          ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:808:34: note: expanded from =
+macro 'MTK_HAS_CAPS'
+   #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) =3D=3D (_x))
+                                            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:334:9: note: '?' condition i=
+s true
+                   sid =3D (MTK_HAS_CAPS(eth->soc->caps, MTK_SHARED_SGMII))=
+ ?
+                         ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:338:14: note: Field 'interfa=
+ce' is equal to PHY_INTERFACE_MODE_SGMII
+                   if (state->interface !=3D PHY_INTERFACE_MODE_SGMII)
+                              ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:338:3: note: Taking false br=
+anch
+                   if (state->interface !=3D PHY_INTERFACE_MODE_SGMII)
+                   ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:341:8: note: Taking false br=
+anch
+                   else if (phylink_autoneg_inband(mode))
+                        ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:344:7: note: Branch conditio=
+n evaluates to a garbage value
+                   if (err)
+                       ^~~
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1404:3: warning: Value store=
+d to 'budget' is never read [clang-analyzer-deadcode.DeadStores]
+                   budget =3D mtk_poll_tx_qdma(eth, budget, done, bytes);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1404:3: note: Value stored t=
+o 'budget' is never read
+                   budget =3D mtk_poll_tx_qdma(eth, budget, done, bytes);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1406:3: warning: Value store=
+d to 'budget' is never read [clang-analyzer-deadcode.DeadStores]
+                   budget =3D mtk_poll_tx_pdma(eth, budget, done, bytes);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1406:3: note: Value stored t=
+o 'budget' is never read
+                   budget =3D mtk_poll_tx_pdma(eth, budget, done, bytes);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   fs/namespace.c:2242:13: warning: Access to field 'd_inode' results in a =
+dereference of a null pointer (loaded from variable 'dentry') [clang-analyz=
+er-core.NullDereference]
+           inode_lock(dentry->d_inode);
+                      ^
+   fs/namespace.c:3816:1: note: Calling '__do_sys_pivot_root'
+   SYSCALL_DEFINE2(pivot_root, const char __user *, new_root,
+   ^
+   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS=
+__)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:249:14: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
+_));\
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   fs/namespace.c:3824:2: note: Taking false branch
+           if (!may_mount())
+           ^
+   fs/namespace.c:3829:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/namespace.c:3829:2: note: Taking false branch
+           if (error)
+           ^
+   fs/namespace.c:3834:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/namespace.c:3834:2: note: Taking false branch
+           if (error)
+           ^
+   fs/namespace.c:3838:6: note: 'error' is 0
+           if (error)
+               ^~~~~
+   fs/namespace.c:3838:2: note: Taking false branch
+           if (error)
+           ^
+   fs/namespace.c:3842:11: note: Calling 'lock_mount'
+           old_mp =3D lock_mount(&old);
+                    ^~~~~~~~~~~~~~~~
+   fs/namespace.c:2243:6: note: Assuming the condition is true
+           if (unlikely(cant_mount(dentry))) {
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   fs/namespace.c:2243:2: note: Taking false branch
+           if (unlikely(cant_mount(dentry))) {
+           ^
+   fs/namespace.c:2249:14: note: 'mnt' is non-null
+           if (likely(!mnt)) {
+                       ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/namespace.c:2249:2: note: Taking false branch
+           if (likely(!mnt)) {
+           ^
+   fs/namespace.c:2262:2: note: Null pointer value stored to 'dentry'
+           dentry =3D path->dentry =3D dget(mnt->mnt_root);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/namespace.c:2263:2: note: Control jumps to line 2242
+           goto retry;
+           ^
+   fs/namespace.c:2242:13: note: Access to field 'd_inode' results in a der=
+eference of a null pointer (loaded from variable 'dentry')
+           inode_lock(dentry->d_inode);
+                      ^~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/net/ethernet/qualcomm/emac/emac-mac.c:1411:13: warning: Access t=
+o field 'skb' results in a dereference of a null pointer (loaded from varia=
+ble 'tpbuf') [clang-analyzer-core.NullDereference]
+           tpbuf->skb =3D skb;
+                      ^
+   drivers/net/ethernet/qualcomm/emac/emac-mac.c:1444:2: note: Taking false=
+ branch
+           if (emac_tso_csum(adpt, tx_q, skb, &tpd) !=3D 0) {
+           ^
+   drivers/net/ethernet/qualcomm/emac/emac-mac.c:1449:6: note: Assuming fie=
+ld 'vlan_present' is 0
+           if (skb_vlan_tag_present(skb)) {
+               ^
+   include/linux/if_vlan.h:77:37: note: expanded from macro 'skb_vlan_tag_p=
+resent'
+   #define skb_vlan_tag_present(__skb)     ((__skb)->vlan_present)
 
-vim +4049 kernel/sched/fair.c
+vim +/budget +1404 drivers/net/ethernet/mediatek/mtk_eth_soc.c
 
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4046  =
+296c9120752bab Stefan Roese  2019-08-16  1391  =
 
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4047  static inline unsigned l=
-ong _task_util_est(struct task_struct *p)
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4048  {
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09 @4049  	struct util_est ue =3D =
-READ_ONCE(p->se.avg.util_est);
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4050  =
+296c9120752bab Stefan Roese  2019-08-16  1392  static int mtk_poll_tx(struc=
+t mtk_eth *eth, int budget)
+296c9120752bab Stefan Roese  2019-08-16  1393  {
+296c9120752bab Stefan Roese  2019-08-16  1394  	struct mtk_tx_ring *ring =
+=3D &eth->tx_ring;
+e9229ffd550b2d Felix Fietkau 2021-04-22  1395  	struct dim_sample dim_sampl=
+e =3D {};
+296c9120752bab Stefan Roese  2019-08-16  1396  	unsigned int done[MTK_MAX_D=
+EVS];
+296c9120752bab Stefan Roese  2019-08-16  1397  	unsigned int bytes[MTK_MAX_=
+DEVS];
+296c9120752bab Stefan Roese  2019-08-16  1398  	int total =3D 0, i;
+296c9120752bab Stefan Roese  2019-08-16  1399  =
 
-68d7a190682aa4e Dietmar Eggemann 2021-06-02  4051  	return max(ue.ewma, (ue=
-.enqueued & ~UTIL_AVG_UNCHANGED));
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4052  }
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4053  =
+296c9120752bab Stefan Roese  2019-08-16  1400  	memset(done, 0, sizeof(done=
+));
+296c9120752bab Stefan Roese  2019-08-16  1401  	memset(bytes, 0, sizeof(byt=
+es));
+296c9120752bab Stefan Roese  2019-08-16  1402  =
+
+296c9120752bab Stefan Roese  2019-08-16  1403  	if (MTK_HAS_CAPS(eth->soc->=
+caps, MTK_QDMA))
+296c9120752bab Stefan Roese  2019-08-16 @1404  		budget =3D mtk_poll_tx_qdm=
+a(eth, budget, done, bytes);
+296c9120752bab Stefan Roese  2019-08-16  1405  	else
+296c9120752bab Stefan Roese  2019-08-16  1406  		budget =3D mtk_poll_tx_pdm=
+a(eth, budget, done, bytes);
+296c9120752bab Stefan Roese  2019-08-16  1407  =
+
+656e705243fd0c John Crispin  2016-03-08  1408  	for (i =3D 0; i < MTK_MAC_C=
+OUNT; i++) {
+656e705243fd0c John Crispin  2016-03-08  1409  		if (!eth->netdev[i] || !do=
+ne[i])
+656e705243fd0c John Crispin  2016-03-08  1410  			continue;
+656e705243fd0c John Crispin  2016-03-08  1411  		netdev_completed_queue(eth=
+->netdev[i], done[i], bytes[i]);
+656e705243fd0c John Crispin  2016-03-08  1412  		total +=3D done[i];
+e9229ffd550b2d Felix Fietkau 2021-04-22  1413  		eth->tx_packets +=3D done[=
+i];
+e9229ffd550b2d Felix Fietkau 2021-04-22  1414  		eth->tx_bytes +=3D bytes[i=
+];
+656e705243fd0c John Crispin  2016-03-08  1415  	}
+656e705243fd0c John Crispin  2016-03-08  1416  =
+
+e9229ffd550b2d Felix Fietkau 2021-04-22  1417  	dim_update_sample(eth->tx_e=
+vents, eth->tx_packets, eth->tx_bytes,
+e9229ffd550b2d Felix Fietkau 2021-04-22  1418  			  &dim_sample);
+e9229ffd550b2d Felix Fietkau 2021-04-22  1419  	net_dim(&eth->tx_dim, dim_s=
+ample);
+e9229ffd550b2d Felix Fietkau 2021-04-22  1420  =
+
+ad3cba989e8b1b John Crispin  2016-06-10  1421  	if (mtk_queue_stopped(eth) =
+&&
+ad3cba989e8b1b John Crispin  2016-06-10  1422  	    (atomic_read(&ring->fre=
+e_count) > ring->thresh))
+13c822f6d468ca John Crispin  2016-04-08  1423  		mtk_wake_queue(eth);
+656e705243fd0c John Crispin  2016-03-08  1424  =
+
+656e705243fd0c John Crispin  2016-03-08  1425  	return total;
+656e705243fd0c John Crispin  2016-03-08  1426  }
+656e705243fd0c John Crispin  2016-03-08  1427  =
 
 
-:::::: The code at line 4049 was first introduced by commit
-:::::: 7f65ea42eb00bc902f1c37a71e984e4f4064cfa9 sched/fair: Add util_est on=
- top of PELT
+:::::: The code at line 1404 was first introduced by commit
+:::::: 296c9120752bab93151bd7220896dd302683a91c net: ethernet: mediatek: Ad=
+d MT7628/88 SoC support
 
-:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Stefan Roese <sr@denx.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8166224166327060356==--
+--===============0890209229580839174==--
 
