@@ -1,188 +1,343 @@
-Content-Type: multipart/mixed; boundary="===============6902309432407990563=="
+Content-Type: multipart/mixed; boundary="===============3322491833789900314=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cilium:pr/meta5 4/7] kernel/bpf/net.c:35:14: warning: use of uninitialized value '<unknown>' [CWE-457]
+Subject: Re: [PATCH 1/2] scsi: ufs: Add Multi-Circular Queue support
 Date: Mon, 25 Jul 2022 16:58:21 +0000
-Message-ID: <202207231130.qBeYc4uo-lkp@intel.com>
+Message-ID: <202207231904.OkiLJTiT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6902309432407990563==
+--===============3322491833789900314==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: kernel/bp=
-f/net.c:35:14: warning: use of uninitialized value '<unknown>' [CWE-457] [-=
-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <1658214120-22772-2-git-send-email-quic_cang@quicinc.com>
+References: <1658214120-22772-2-git-send-email-quic_cang@quicinc.com>
+TO: Can Guo <quic_cang@quicinc.com>
+TO: bvanassche(a)acm.org
+TO: stanley.chu(a)mediatek.com
+TO: adrian.hunter(a)intel.com
+TO: alim.akhtar(a)samsung.com
+TO: avri.altman(a)wdc.com
+TO: beanhuo(a)micron.com
+TO: quic_asutoshd(a)quicinc.com
+TO: quic_nguyenb(a)quicinc.com
+TO: quic_ziqichen(a)quicinc.com
+TO: linux-scsi(a)vger.kernel.org
+TO: kernel-team(a)android.com
+TO: quic_cang(a)quicinc.com
+CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Daejun Park <daejun7.park@samsung.com>
+CC: Jinyoung Choi <j-young.choi@samsung.com>
+CC: Kiwoong Kim <kwmad.kim@samsung.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Borkmann <daniel@iogearbox.net>
 
-tree:   https://github.com/cilium/linux.git pr/meta5
-head:   7033821ae5e03647290a224e76b72fe98a45ab07
-commit: fafe94e50da7d56dd12f94a7bf97a0e3a9dda12d [4/7] bpf: Add initial fd-=
-based API to attach tc BPF programs
-:::::: branch date: 12 hours ago
-:::::: commit date: 16 hours ago
-config: arm-randconfig-c002-20220722 (https://download.01.org/0day-ci/archi=
-ve/20220723/202207231130.qBeYc4uo-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/cilium/linux/commit/fafe94e50da7d56dd12f94a7bf=
-97a0e3a9dda12d
-        git remote add cilium https://github.com/cilium/linux.git
-        git fetch --no-tags cilium pr/meta5
-        git checkout fafe94e50da7d56dd12f94a7bf97a0e3a9dda12d
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+Hi Can,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next next-20220722]
+[cannot apply to linus/master v5.19-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Can-Guo/UFS-Multi-Ci=
+rcular-Queue-MCQ/20220719-150436
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-n=
+ext
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arc-randconfig-m041-20220718 (https://download.01.org/0day-ci/archi=
+ve/20220723/202207231904.OkiLJTiT-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   kernel/bpf/net.c: In function '__sch_prog_attach':
->> kernel/bpf/net.c:35:14: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      35 |         bool created;
-         |              ^~~~~~~
-     '__sch_prog_attach': event 1
-       |
-       |   35 |         bool created;
-       |      |              ^~~~~~~
-       |      |              |
-       |      |              (1) use of uninitialized value '<unknown>' here
-       |
-   kernel/bpf/net.c: In function '__sch_prog_query':
-   kernel/bpf/net.c:226:27: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     226 |         u32 i, flags =3D 0, cnt;
-         |                           ^~~
-     '__sch_prog_query': event 1
-       |
-       |  226 |         u32 i, flags =3D 0, cnt;
-       |      |                           ^~~
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
+New smatch warnings:
+drivers/ufs/core/ufshcd.c:2887 ufshcd_queuecommand() error: uninitialized s=
+ymbol 'hwq'.
+drivers/ufs/core/ufs-mcq.c:315 ufshcd_mcq_config_resource() warn: passing z=
+ero to 'PTR_ERR'
+drivers/ufs/core/ufs-mcq.c:334 ufshcd_mcq_config_resource() error: potentia=
+lly dereferencing uninitialized 'res_mem'.
+drivers/ufs/core/ufs-mcq.c:330 ufshcd_mcq_config_resource() warn: missing e=
+rror code 'ret'
 
-vim +35 kernel/bpf/net.c
+Old smatch warnings:
+arch/arc/include/asm/thread_info.h:62 current_thread_info() error: uninitia=
+lized symbol 'sp'.
+drivers/ufs/core/ufshcd.c:5360 ufshcd_uic_cmd_compl() error: we previously =
+assumed 'hba->active_uic_cmd' could be null (see line 5348)
 
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  28  =
+vim +/hwq +2887 drivers/ufs/core/ufshcd.c
 
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  29  static int __sch_prog_attach=
-(struct net_device *dev, bool ingress, u32 limit,
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  30  			     struct bpf_prog *npr=
-og, u32 prio, u32 flags)
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  31  {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  32  	struct bpf_prog_array_item =
-*item, *tmp;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  33  	struct sch_entry *entry, *p=
-eer;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  34  	struct bpf_prog *oprog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13 @35  	bool created;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  36  	int i, j;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  37  =
+4d2b8d40dd754e drivers/scsi/ufs/ufshcd.c Bart Van Assche    2020-01-22  278=
+4  =
 
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  38  	entry =3D dev_sch_entry_fet=
-ch(dev, ingress, &created);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  39  	if (!entry)
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  40  		return -ENOMEM;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  41  	for (i =3D 0; i < limit; i+=
-+) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  42  		item =3D &entry->items[i];
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  43  		oprog =3D item->prog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  44  		if (!oprog)
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  45  			break;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  46  		if (item->bpf_priority =3D=
-=3D prio) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  47  			if (flags & BPF_F_REPLACE=
-) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  48  				/* Pairs with READ_ONCE(=
-) in sch_run_progs(). */
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  49  				WRITE_ONCE(item->prog, n=
-prog);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  50  				if (sch_prog_refcounted(=
-oprog))
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  51  					bpf_prog_put(oprog);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  52  				dev_sch_entry_prio_set(e=
-ntry, prio, nprog);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  53  				return prio;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  54  			}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  55  			return -EBUSY;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  56  		}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  57  	}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  58  	if (dev_sch_entry_total(ent=
-ry) >=3D limit)
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  59  		return -ENOSPC;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  60  	prio =3D dev_sch_entry_prio=
-_new(entry, prio, nprog);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  61  	if (prio < 0) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  62  		if (created)
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  63  			dev_sch_entry_free(entry);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  64  		return -ENOMEM;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  65  	}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  66  	peer =3D dev_sch_entry_peer=
-(entry);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  67  	dev_sch_entry_clear(peer);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  68  	for (i =3D 0, j =3D 0; i < =
-limit; i++, j++) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  69  		item =3D &entry->items[i];
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  70  		tmp =3D &peer->items[j];
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  71  		oprog =3D item->prog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  72  		if (!oprog) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  73  			if (i =3D=3D j) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  74  				tmp->prog =3D nprog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  75  				tmp->bpf_priority =3D pr=
-io;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  76  			}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  77  			break;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  78  		} else if (item->bpf_prior=
-ity < prio) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  79  			tmp->prog =3D oprog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  80  			tmp->bpf_priority =3D ite=
-m->bpf_priority;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  81  		} else if (item->bpf_prior=
-ity > prio) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  82  			if (i =3D=3D j) {
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  83  				tmp->prog =3D nprog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  84  				tmp->bpf_priority =3D pr=
-io;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  85  				tmp =3D &peer->items[++j=
-];
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  86  			}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  87  			tmp->prog =3D oprog;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  88  			tmp->bpf_priority =3D ite=
-m->bpf_priority;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  89  		}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  90  	}
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  91  	dev_sch_entry_update(dev, p=
-eer, ingress);
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  92  	if (ingress)
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  93  		net_inc_ingress_queue();
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  94  	else
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  95  		net_inc_egress_queue();
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  96  	return prio;
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  97  }
-fafe94e50da7d5 Daniel Borkmann 2022-06-13  98  =
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  278=
+5  /**
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  278=
+6   * ufshcd_queuecommand - main entry point for SCSI requests
+8aa29f192ca675 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2018-03-01  278=
+7   * @host: SCSI host pointer
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  278=
+8   * @cmd: command from SCSI Midlayer
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  278=
+9   *
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+0   * Returns 0 for success, non-zero in case of failure
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+1   */
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+2  static int ufshcd_queuecommand(struct Scsi_Host *host, struct scsi_cmnd =
+*cmd)
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+3  {
+4728ab4a8e6490 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  279=
+4  	struct ufs_hba *hba =3D shost_priv(host);
+3f2c1002e0fcb6 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-08-09  279=
+5  	int tag =3D scsi_cmd_to_rq(cmd)->tag;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+6  	struct ufshcd_lrb *lrbp;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+7  	int err =3D 0;
+2b7356bcd24efd drivers/ufs/core/ufshcd.c Asutosh Das        2022-07-19  279=
+8  	struct ufs_hw_queue *hwq;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  279=
+9  =
+
+eaab9b57305496 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+0  	WARN_ONCE(tag < 0 || tag >=3D hba->nutrs, "Invalid tag %d\n", tag);
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  280=
+1  =
+
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+2  	/*
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+3  	 * Allows the UFS error handler to wait for prior ufshcd_queuecommand()
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+4  	 * calls.
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+5  	 */
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+6  	rcu_read_lock();
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  280=
+7  =
+
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  280=
+8  	switch (hba->ufshcd_state) {
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  280=
+9  	case UFSHCD_STATE_OPERATIONAL:
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+0  		break;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  281=
+1  	case UFSHCD_STATE_EH_SCHEDULED_NON_FATAL:
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+2  		/*
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+3  		 * SCSI error handler can call ->queuecommand() while UFS error
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+4  		 * handler is in progress. Error interrupts could change the
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+5  		 * state from UFSHCD_STATE_RESET to
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+6  		 * UFSHCD_STATE_EH_SCHEDULED_NON_FATAL. Prevent requests
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+7  		 * being issued in that case.
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+8  		 */
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  281=
+9  		if (ufshcd_eh_in_progress(hba)) {
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  282=
+0  			err =3D SCSI_MLQUEUE_HOST_BUSY;
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  282=
+1  			goto out;
+d489f18ad1fc33 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-10-08  282=
+2  		}
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+3  		break;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+4  	case UFSHCD_STATE_EH_SCHEDULED_FATAL:
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+5  		/*
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+6  		 * pm_runtime_get_sync() is used at error handling preparation
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+7  		 * stage. If a scsi cmd, e.g. the SSU cmd, is sent from hba's
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+8  		 * PM ops, it can never be finished if we let SCSI layer keep
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  282=
+9  		 * retrying it, which gets err handler stuck forever. Neither
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+0  		 * can we let the scsi cmd pass through, because UFS is in bad
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+1  		 * state, the scsi cmd may eventually time out, which will get
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+2  		 * err handler blocked for too long. So, just fail the scsi cmd
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+3  		 * sent from PM ops, err handler can recover PM error anyways.
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+4  		 */
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+5  		if (hba->pm_op_in_progress) {
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+6  			hba->force_reset =3D true;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+7  			set_host_byte(cmd, DID_BAD_TARGET);
+35c3730a965722 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-10-07  283=
+8  			scsi_done(cmd);
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  283=
+9  			goto out;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+0  		}
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+1  		fallthrough;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+2  	case UFSHCD_STATE_RESET:
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+3  		err =3D SCSI_MLQUEUE_HOST_BUSY;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+4  		goto out;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+5  	case UFSHCD_STATE_ERROR:
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+6  		set_host_byte(cmd, DID_ERROR);
+35c3730a965722 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-10-07  284=
+7  		scsi_done(cmd);
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+8  		goto out;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  284=
+9  	}
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  285=
+0  =
+
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  285=
+1  	hba->req_abort_count =3D 0;
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  285=
+2  =
+
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  285=
+3  	err =3D ufshcd_hold(hba, true);
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  285=
+4  	if (err) {
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  285=
+5  		err =3D SCSI_MLQUEUE_HOST_BUSY;
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  285=
+6  		goto out;
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  285=
+7  	}
+2dec9475a4028b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-09  285=
+8  	WARN_ON(ufshcd_is_clkgating_allowed(hba) &&
+2dec9475a4028b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-09  285=
+9  		(hba->clk_gating.state !=3D CLKS_ON));
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  286=
+0  =
+
+2b7356bcd24efd drivers/ufs/core/ufshcd.c Asutosh Das        2022-07-19  286=
+1  	if (is_mcq_enabled(hba))
+2b7356bcd24efd drivers/ufs/core/ufshcd.c Asutosh Das        2022-07-19  286=
+2  		lrbp =3D ufshcd_mcq_find_lrb(hba, scsi_cmd_to_rq(cmd), &hwq);
+2b7356bcd24efd drivers/ufs/core/ufshcd.c Asutosh Das        2022-07-19  286=
+3  	else
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  286=
+4  		lrbp =3D &hba->lrb[tag];
+2b7356bcd24efd drivers/ufs/core/ufshcd.c Asutosh Das        2022-07-19  286=
+5  =
+
+5a0b0cb9bee767 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2013-07-30  286=
+6  	WARN_ON(lrbp->cmd);
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  286=
+7  	lrbp->cmd =3D cmd;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  286=
+8  	lrbp->task_tag =3D tag;
+0ce147d48a3e33 drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2014-09-25  286=
+9  	lrbp->lun =3D ufshcd_scsi_to_upiu_lun(cmd->device->lun);
+51d1628fc45727 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2022-04-19  287=
+0  	lrbp->intr_cmd =3D !ufshcd_is_intr_aggr_allowed(hba);
+df043c745ea149 drivers/scsi/ufs/ufshcd.c Satya Tangirala    2020-07-06  287=
+1  =
+
+3f2c1002e0fcb6 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-08-09  287=
+2  	ufshcd_prepare_lrbp_crypto(scsi_cmd_to_rq(cmd), lrbp);
+df043c745ea149 drivers/scsi/ufs/ufshcd.c Satya Tangirala    2020-07-06  287=
+3  =
+
+e0b299e36004f5 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  287=
+4  	lrbp->req_abort_skip =3D false;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  287=
+5  =
+
+09d9e4d0418766 drivers/scsi/ufs/ufshcd.c Avri Altman        2021-10-30  287=
+6  	ufshpb_prep(hba, lrbp);
+2fff76f87542fa drivers/scsi/ufs/ufshcd.c Daejun Park        2021-07-12  287=
+7  =
+
+300bb13f5c7b1d drivers/scsi/ufs/ufshcd.c Joao Pinto         2016-05-11  287=
+8  	ufshcd_comp_scsi_upiu(hba, lrbp);
+300bb13f5c7b1d drivers/scsi/ufs/ufshcd.c Joao Pinto         2016-05-11  287=
+9  =
+
+75b1cc4ad63afa drivers/scsi/ufs/ufshcd.c Kiwoong Kim        2016-11-22  288=
+0  	err =3D ufshcd_map_sg(hba, lrbp);
+5a0b0cb9bee767 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2013-07-30  288=
+1  	if (err) {
+5a0b0cb9bee767 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2013-07-30  288=
+2  		lrbp->cmd =3D NULL;
+17c7d35f141ef6 drivers/scsi/ufs/ufshcd.c Can Guo            2019-12-05  288=
+3  		ufshcd_release(hba);
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  288=
+4  		goto out;
+5a0b0cb9bee767 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2013-07-30  288=
+5  	}
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  288=
+6  =
+
+2b7356bcd24efd drivers/ufs/core/ufshcd.c Asutosh Das        2022-07-19 @288=
+7  	ufshcd_send_command(hba, lrbp, hwq);
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  288=
+8  out:
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  288=
+9  	rcu_read_unlock();
+5675c381ea5136 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  289=
+0  =
+
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+1  	if (ufs_trigger_eh()) {
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+2  		unsigned long flags;
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+3  =
+
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+4  		spin_lock_irqsave(hba->host->host_lock, flags);
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+5  		ufshcd_schedule_eh_work(hba);
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+6  		spin_unlock_irqrestore(hba->host->host_lock, flags);
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  289=
+7  	}
+c11a1ae9b8f65e drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  289=
+8  =
+
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  289=
+9  	return err;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  290=
+0  }
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  290=
+1  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6902309432407990563==--
+--===============3322491833789900314==--
 
