@@ -1,186 +1,115 @@
-Content-Type: multipart/mixed; boundary="===============2338024744675573417=="
+Content-Type: multipart/mixed; boundary="===============6208014052113232092=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/i2c/ov13b10.c:639:16: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 25 Jul 2022 20:41:26 +0800
-Message-ID: <202207252003.zy4Qdsz3-lkp@intel.com>
+Subject: drivers/comedi/drivers/quatech_daqp_cs.c:691 daqp_do_insn_bits() warn: ignoring unreachable code.
+Date: Mon, 25 Jul 2022 19:50:33 +0800
+Message-ID: <202207251956.0C67LnJa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2338024744675573417==
+--===============6208014052113232092==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/ov13b10.c:639:16: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arec Kao <arec.kao@intel.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Bart Van Assche <bvanassche@acm.org>
+CC: Helge Deller <deller@gmx.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   e0dccc3b76fb35bb257b4118367a883073d7390e
-commit: 7ee85054682299babdb32f597b11daeec2d3e9d9 media: Add sensor driver s=
-upport for the ov13b10 camera.
-date:   10 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220725/202207252003.zy4Qdsz3-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7ee85054682299babdb32f597b11daeec2d3e9d9
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7ee85054682299babdb32f597b11daeec2d3e9d9
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: 6968e707d371ef80511448c6771daf445b4a5cf5 parisc: io: Improve the ou=
+tb(), outw() and outl() macros
+date:   7 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 months ago
+config: parisc-randconfig-m031-20220724 (https://download.01.org/0day-ci/ar=
+chive/20220725/202207251956.0C67LnJa-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_write_reg':
->> drivers/media/i2c/ov13b10.c:639:16: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     639 |         __be32 val;
-         |                ^~~
-     'ov13b10_write_reg': event 1
-       |
-       |  639 |         __be32 val;
-       |      |                ^~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_enable_test_pattern':
-   drivers/media/i2c/ov13b10.c:744:13: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     744 |         u32 val;
-         |             ^~~
-     'ov13b10_enable_test_pattern': event 1
-       |
-       |  744 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_set_ctrl_hflip':
-   drivers/media/i2c/ov13b10.c:766:13: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     766 |         u32 val;
-         |             ^~~
-     'ov13b10_set_ctrl_hflip': event 1
-       |
-       |  766 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_set_ctrl_vflip':
-   drivers/media/i2c/ov13b10.c:797:13: warning: use of uninitialized value =
-'<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     797 |         u32 val;
-         |             ^~~
-     'ov13b10_set_ctrl_vflip': event 1
-       |
-       |  797 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_identify_module':
-   drivers/media/i2c/ov13b10.c:1152:13: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1152 |         u32 val;
-         |             ^~~
-     'ov13b10_identify_module': event 1
-       |
-       | 1152 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/ov13b10.c: In function 'ov13b10_check_hwcfg':
-   drivers/media/i2c/ov13b10.c:1318:13: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1318 |         u32 ext_clk;
-         |             ^~~~~~~
-     'ov13b10_check_hwcfg': event 1
-       |
-       | 1318 |         u32 ext_clk;
-       |      |             ^~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+New smatch warnings:
+drivers/comedi/drivers/quatech_daqp_cs.c:691 daqp_do_insn_bits() warn: igno=
+ring unreachable code.
 
-vim +639 drivers/media/i2c/ov13b10.c
+Old smatch warnings:
+drivers/comedi/drivers/quatech_daqp_cs.c:190 daqp_ai_cancel() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/quatech_daqp_cs.c:278 daqp_ai_set_one_scanlist_entry=
+() warn: ignoring unreachable code.
+drivers/comedi/drivers/quatech_daqp_cs.c:307 daqp_ai_insn_read() warn: igno=
+ring unreachable code.
+drivers/comedi/drivers/quatech_daqp_cs.c:366 daqp_set_pacer() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/quatech_daqp_cs.c:474 daqp_ai_cmd() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/quatech_daqp_cs.c:644 daqp_ao_insn_write() warn: ign=
+oring unreachable code.
 
-7ee85054682299 Arec Kao 2021-08-17  631  =
+vim +691 drivers/comedi/drivers/quatech_daqp_cs.c
 
-7ee85054682299 Arec Kao 2021-08-17  632  /* Write registers up to 4 at a ti=
-me */
-7ee85054682299 Arec Kao 2021-08-17  633  static int ov13b10_write_reg(struc=
-t ov13b10 *ov13b,
-7ee85054682299 Arec Kao 2021-08-17  634  			     u16 reg, u32 len, u32 __va=
-l)
-7ee85054682299 Arec Kao 2021-08-17  635  {
-7ee85054682299 Arec Kao 2021-08-17  636  	struct i2c_client *client =3D v4l=
-2_get_subdevdata(&ov13b->sd);
-7ee85054682299 Arec Kao 2021-08-17  637  	int buf_i, val_i;
-7ee85054682299 Arec Kao 2021-08-17  638  	u8 buf[6], *val_p;
-7ee85054682299 Arec Kao 2021-08-17 @639  	__be32 val;
-7ee85054682299 Arec Kao 2021-08-17  640  =
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  679  =
 
-7ee85054682299 Arec Kao 2021-08-17  641  	if (len > 4)
-7ee85054682299 Arec Kao 2021-08-17  642  		return -EINVAL;
-7ee85054682299 Arec Kao 2021-08-17  643  =
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  680  static int daqp_do_insn_bits(struct comedi_device *=
+dev,
+0a85b6f0ab0d2e drivers/staging/comedi/drivers/quatech_daqp_cs.c Mithlesh Th=
+ukral  2009-06-08  681  			     struct comedi_subdevice *s,
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  682  			     struct comedi_insn *insn,
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  683  			     unsigned int *data)
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  684  {
+1801726e877872 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  685  	struct daqp_private *devpriv =3D dev->private;
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  686  =
 
-7ee85054682299 Arec Kao 2021-08-17  644  	buf[0] =3D reg >> 8;
-7ee85054682299 Arec Kao 2021-08-17  645  	buf[1] =3D reg & 0xff;
-7ee85054682299 Arec Kao 2021-08-17  646  =
+1801726e877872 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  687  	if (devpriv->stop)
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  688  		return -EIO;
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  689  =
 
-7ee85054682299 Arec Kao 2021-08-17  647  	val =3D cpu_to_be32(__val);
-7ee85054682299 Arec Kao 2021-08-17  648  	val_p =3D (u8 *)&val;
-7ee85054682299 Arec Kao 2021-08-17  649  	buf_i =3D 2;
-7ee85054682299 Arec Kao 2021-08-17  650  	val_i =3D 4 - len;
-7ee85054682299 Arec Kao 2021-08-17  651  =
+97f4289ad08cff drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-08-30  690  	if (comedi_dio_update_state(s, data))
+bd9d00f105bf0f drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2015-10-05 @691  		outb(s->state, dev->iobase + DAQP_DO_REG);
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  692  =
 
-7ee85054682299 Arec Kao 2021-08-17  652  	while (val_i < 4)
-7ee85054682299 Arec Kao 2021-08-17  653  		buf[buf_i++] =3D val_p[val_i++];
-7ee85054682299 Arec Kao 2021-08-17  654  =
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  693  	data[1] =3D s->state;
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  694  =
 
-7ee85054682299 Arec Kao 2021-08-17  655  	if (i2c_master_send(client, buf, =
-len + 2) !=3D len + 2)
-7ee85054682299 Arec Kao 2021-08-17  656  		return -EIO;
-7ee85054682299 Arec Kao 2021-08-17  657  =
+6a911d8aa54bc7 drivers/staging/comedi/drivers/quatech_daqp_cs.c H Hartley S=
+weeten 2013-02-04  695  	return insn->n;
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  696  }
+62ed666238aba1 drivers/staging/comedi/drivers/quatech_daqp_cs.c Brent Bacca=
+la     2009-02-17  697  =
 
-7ee85054682299 Arec Kao 2021-08-17  658  	return 0;
-7ee85054682299 Arec Kao 2021-08-17  659  }
-7ee85054682299 Arec Kao 2021-08-17  660  =
 
+:::::: The code at line 691 was first introduced by commit
+:::::: bd9d00f105bf0fb26a85f5ad3b75d0b161304478 staging: comedi: quatech_da=
+qp_cs: rename register offsets
+
+:::::: TO: H Hartley Sweeten <hsweeten@visionengravers.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2338024744675573417==--
+--===============6208014052113232092==--
 
