@@ -1,155 +1,188 @@
-Content-Type: multipart/mixed; boundary="===============2785712260423885518=="
+Content-Type: multipart/mixed; boundary="===============6902309432407990563=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [leon-rdma:rdma-rc 1/2] drivers/infiniband/core/cma.c:4434 rdma_accept() error: we previously assumed 'conn_param' could be null (see line 4426)
+Subject: [cilium:pr/meta5 4/7] kernel/bpf/net.c:35:14: warning: use of uninitialized value '<unknown>' [CWE-457]
 Date: Mon, 25 Jul 2022 16:58:21 +0000
-Message-ID: <202207250544.VhNQ2heH-lkp@intel.com>
+Message-ID: <202207231130.qBeYc4uo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2785712260423885518==
+--===============6902309432407990563==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: kernel/bp=
+f/net.c:35:14: warning: use of uninitialized value '<unknown>' [CWE-457] [-=
+Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: Daniel Borkmann <daniel@iogearbox.net>
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Zhang <markzhang@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+TO: Daniel Borkmann <daniel@iogearbox.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git=
- rdma-rc
-head:   8b074289be1a8f8c7de8adcd77aabea7b0852052
-commit: fbfa7566d139a1395b84788511023192993a7c0a [1/2] RDMA/cma: Limit join=
- multicast to UD QP type only
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: openrisc-randconfig-m041-20220724 (https://download.01.org/0day-ci/=
-archive/20220725/202207250544.VhNQ2heH-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/cilium/linux.git pr/meta5
+head:   7033821ae5e03647290a224e76b72fe98a45ab07
+commit: fafe94e50da7d56dd12f94a7bf97a0e3a9dda12d [4/7] bpf: Add initial fd-=
+based API to attach tc BPF programs
+:::::: branch date: 12 hours ago
+:::::: commit date: 16 hours ago
+config: arm-randconfig-c002-20220722 (https://download.01.org/0day-ci/archi=
+ve/20220723/202207231130.qBeYc4uo-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/cilium/linux/commit/fafe94e50da7d56dd12f94a7bf=
+97a0e3a9dda12d
+        git remote add cilium https://github.com/cilium/linux.git
+        git fetch --no-tags cilium pr/meta5
+        git checkout fafe94e50da7d56dd12f94a7bf97a0e3a9dda12d
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/infiniband/core/cma.c:4434 rdma_accept() error: we previously assum=
-ed 'conn_param' could be null (see line 4426)
+gcc-analyzer warnings: (new ones prefixed by >>)
+   kernel/bpf/net.c: In function '__sch_prog_attach':
+>> kernel/bpf/net.c:35:14: warning: use of uninitialized value '<unknown>' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      35 |         bool created;
+         |              ^~~~~~~
+     '__sch_prog_attach': event 1
+       |
+       |   35 |         bool created;
+       |      |              ^~~~~~~
+       |      |              |
+       |      |              (1) use of uninitialized value '<unknown>' here
+       |
+   kernel/bpf/net.c: In function '__sch_prog_query':
+   kernel/bpf/net.c:226:27: warning: use of uninitialized value '<unknown>'=
+ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     226 |         u32 i, flags =3D 0, cnt;
+         |                           ^~~
+     '__sch_prog_query': event 1
+       |
+       |  226 |         u32 i, flags =3D 0, cnt;
+       |      |                           ^~~
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
 
-vim +/conn_param +4434 drivers/infiniband/core/cma.c
+vim +35 kernel/bpf/net.c
 
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4396  =
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  28  =
 
-b09c4d70122091 Leon Romanovsky 2020-09-22  4397  /**
-b09c4d70122091 Leon Romanovsky 2020-09-22  4398   * rdma_accept - Called to=
- accept a connection request or response.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4399   * @id: Connection identif=
-ier associated with the request.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4400   * @conn_param: Informatio=
-n needed to establish the connection.  This must be
-b09c4d70122091 Leon Romanovsky 2020-09-22  4401   *   provided if accepting=
- a connection request.  If accepting a connection
-b09c4d70122091 Leon Romanovsky 2020-09-22  4402   *   response, this parame=
-ter must be NULL.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4403   *
-b09c4d70122091 Leon Romanovsky 2020-09-22  4404   * Typically, this routine=
- is only called by the listener to accept a connection
-b09c4d70122091 Leon Romanovsky 2020-09-22  4405   * request.  It must also =
-be called on the active side of a connection if the
-b09c4d70122091 Leon Romanovsky 2020-09-22  4406   * user is performing thei=
-r own QP transitions.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4407   *
-b09c4d70122091 Leon Romanovsky 2020-09-22  4408   * In the case of error, a=
- reject message is sent to the remote side and the
-b09c4d70122091 Leon Romanovsky 2020-09-22  4409   * state of the qp associa=
-ted with the id is modified to error, such that any
-b09c4d70122091 Leon Romanovsky 2020-09-22  4410   * previously posted recei=
-ve buffers would be flushed.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4411   *
-b09c4d70122091 Leon Romanovsky 2020-09-22  4412   * This function is for us=
-e by kernel ULPs and must be called from under the
-b09c4d70122091 Leon Romanovsky 2020-09-22  4413   * handler callback.
-b09c4d70122091 Leon Romanovsky 2020-09-22  4414   */
-b09c4d70122091 Leon Romanovsky 2020-09-22  4415  int rdma_accept(struct rdm=
-a_cm_id *id, struct rdma_conn_param *conn_param)
-e51060f08a6196 Sean Hefty      2006-06-17  4416  {
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4417  	struct rdma_id_private *i=
-d_priv =3D
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4418  		container_of(id, struct =
-rdma_id_private, id);
-e51060f08a6196 Sean Hefty      2006-06-17  4419  	int ret;
-e51060f08a6196 Sean Hefty      2006-06-17  4420  =
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  29  static int __sch_prog_attach=
+(struct net_device *dev, bool ingress, u32 limit,
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  30  			     struct bpf_prog *npr=
+og, u32 prio, u32 flags)
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  31  {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  32  	struct bpf_prog_array_item =
+*item, *tmp;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  33  	struct sch_entry *entry, *p=
+eer;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  34  	struct bpf_prog *oprog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13 @35  	bool created;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  36  	int i, j;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  37  =
 
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4421  	lockdep_assert_held(&id_p=
-riv->handler_mutex);
-83e9502d8db142 Nir Muchtar     2011-01-13  4422  =
-
-d114c6feedfe06 Jason Gunthorpe 2020-08-18  4423  	if (READ_ONCE(id_priv->st=
-ate) !=3D RDMA_CM_CONNECT)
-e51060f08a6196 Sean Hefty      2006-06-17  4424  		return -EINVAL;
-e51060f08a6196 Sean Hefty      2006-06-17  4425  =
-
-e51060f08a6196 Sean Hefty      2006-06-17 @4426  	if (!id->qp && conn_param=
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  38  	entry =3D dev_sch_entry_fet=
+ch(dev, ingress, &created);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  39  	if (!entry)
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  40  		return -ENOMEM;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  41  	for (i =3D 0; i < limit; i+=
++) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  42  		item =3D &entry->items[i];
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  43  		oprog =3D item->prog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  44  		if (!oprog)
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  45  			break;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  46  		if (item->bpf_priority =3D=
+=3D prio) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  47  			if (flags & BPF_F_REPLACE=
 ) {
-e51060f08a6196 Sean Hefty      2006-06-17  4427  		id_priv->qp_num =3D conn=
-_param->qp_num;
-e51060f08a6196 Sean Hefty      2006-06-17  4428  		id_priv->srq =3D conn_pa=
-ram->srq;
-e51060f08a6196 Sean Hefty      2006-06-17  4429  	}
-e51060f08a6196 Sean Hefty      2006-06-17  4430  =
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  48  				/* Pairs with READ_ONCE(=
+) in sch_run_progs(). */
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  49  				WRITE_ONCE(item->prog, n=
+prog);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  50  				if (sch_prog_refcounted(=
+oprog))
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  51  					bpf_prog_put(oprog);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  52  				dev_sch_entry_prio_set(e=
+ntry, prio, nprog);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  53  				return prio;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  54  			}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  55  			return -EBUSY;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  56  		}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  57  	}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  58  	if (dev_sch_entry_total(ent=
+ry) >=3D limit)
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  59  		return -ENOSPC;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  60  	prio =3D dev_sch_entry_prio=
+_new(entry, prio, nprog);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  61  	if (prio < 0) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  62  		if (created)
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  63  			dev_sch_entry_free(entry);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  64  		return -ENOMEM;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  65  	}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  66  	peer =3D dev_sch_entry_peer=
+(entry);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  67  	dev_sch_entry_clear(peer);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  68  	for (i =3D 0, j =3D 0; i < =
+limit; i++, j++) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  69  		item =3D &entry->items[i];
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  70  		tmp =3D &peer->items[j];
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  71  		oprog =3D item->prog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  72  		if (!oprog) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  73  			if (i =3D=3D j) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  74  				tmp->prog =3D nprog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  75  				tmp->bpf_priority =3D pr=
+io;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  76  			}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  77  			break;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  78  		} else if (item->bpf_prior=
+ity < prio) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  79  			tmp->prog =3D oprog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  80  			tmp->bpf_priority =3D ite=
+m->bpf_priority;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  81  		} else if (item->bpf_prior=
+ity > prio) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  82  			if (i =3D=3D j) {
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  83  				tmp->prog =3D nprog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  84  				tmp->bpf_priority =3D pr=
+io;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  85  				tmp =3D &peer->items[++j=
+];
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  86  			}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  87  			tmp->prog =3D oprog;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  88  			tmp->bpf_priority =3D ite=
+m->bpf_priority;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  89  		}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  90  	}
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  91  	dev_sch_entry_update(dev, p=
+eer, ingress);
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  92  	if (ingress)
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  93  		net_inc_ingress_queue();
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  94  	else
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  95  		net_inc_egress_queue();
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  96  	return prio;
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  97  }
+fafe94e50da7d5 Daniel Borkmann 2022-06-13  98  =
 
-72219cea8e246a Michael Wang    2015-05-05  4431  	if (rdma_cap_ib_cm(id->de=
-vice, id->port_num)) {
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4432  		if (id->qp_type =3D=3D I=
-B_QPT_UD) {
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4433  			ret =3D cma_send_sidr_r=
-ep(id_priv, IB_SIDR_SUCCESS,
-5c438135adf90b Sean Hefty      2013-05-29 @4434  						conn_param->qkey,
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4435  						conn_param->private_=
-data,
-628e5f6d39d5a6 Sean Hefty      2006-11-30  4436  						conn_param->private_=
-data_len);
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4437  		} else {
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4438  			if (conn_param)
-e51060f08a6196 Sean Hefty      2006-06-17  4439  				ret =3D cma_accept_ib(=
-id_priv, conn_param);
-e51060f08a6196 Sean Hefty      2006-06-17  4440  			else
-e51060f08a6196 Sean Hefty      2006-06-17  4441  				ret =3D cma_rep_recv(i=
-d_priv);
-f45ee80eb0dda1 Hefty, Sean     2011-10-06  4442  		}
-b6eb7011f561a2 Wenpeng Liang   2021-04-07  4443  	} else if (rdma_cap_iw_cm=
-(id->device, id->port_num)) {
-07ebafbaaa72aa Tom Tucker      2006-08-03  4444  		ret =3D cma_accept_iw(id=
-_priv, conn_param);
-b6eb7011f561a2 Wenpeng Liang   2021-04-07  4445  	} else {
-e51060f08a6196 Sean Hefty      2006-06-17  4446  		ret =3D -ENOSYS;
-b6eb7011f561a2 Wenpeng Liang   2021-04-07  4447  	}
-e51060f08a6196 Sean Hefty      2006-06-17  4448  	if (ret)
-e51060f08a6196 Sean Hefty      2006-06-17  4449  		goto reject;
-e51060f08a6196 Sean Hefty      2006-06-17  4450  =
-
-e51060f08a6196 Sean Hefty      2006-06-17  4451  	return 0;
-e51060f08a6196 Sean Hefty      2006-06-17  4452  reject:
-c5483388bb4d77 Sean Hefty      2007-09-24  4453  	cma_modify_qp_err(id_priv=
-);
-8094ba0ace7f6c Leon Romanovsky 2020-05-26  4454  	rdma_reject(id, NULL, 0, =
-IB_CM_REJ_CONSUMER_DEFINED);
-e51060f08a6196 Sean Hefty      2006-06-17  4455  	return ret;
-e51060f08a6196 Sean Hefty      2006-06-17  4456  }
-b09c4d70122091 Leon Romanovsky 2020-09-22  4457  EXPORT_SYMBOL(rdma_accept);
-e51060f08a6196 Sean Hefty      2006-06-17  4458  =
-
-
-:::::: The code at line 4434 was first introduced by commit
-:::::: 5c438135adf90b33cb00e5351becf1e557bbdd9d RDMA/cma: Set qkey for AF_IB
-
-:::::: TO: Sean Hefty <sean.hefty@intel.com>
-:::::: CC: Roland Dreier <roland@purestorage.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2785712260423885518==--
+--===============6902309432407990563==--
 
