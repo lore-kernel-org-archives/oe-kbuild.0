@@ -1,157 +1,143 @@
-Content-Type: multipart/mixed; boundary="===============6928695647060336921=="
+Content-Type: multipart/mixed; boundary="===============8640405182601379458=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/char/pcmcia/synclink_cs.c:340 irq_disable() warn: ignoring unreachable code.
+Subject: [cxl:preview 56/59] drivers/cxl/core/region.c:196 cxl_region_decode_commit() error: uninitialized symbol 'rc'.
 Date: Mon, 25 Jul 2022 16:58:25 +0000
-Message-ID: <202207240910.k3WWR5RV-lkp@intel.com>
+Message-ID: <202207242107.EP8EqaLr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6928695647060336921==
+--===============8640405182601379458==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
-CC: Helge Deller <deller@gmx.de>
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   515f71412bb73ebd7f41f90e1684fc80b8730789
-commit: 6968e707d371ef80511448c6771daf445b4a5cf5 parisc: io: Improve the ou=
-tb(), outw() and outl() macros
-date:   7 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 months ago
-config: parisc-randconfig-m031-20220724 (https://download.01.org/0day-ci/ar=
-chive/20220724/202207240910.k3WWR5RV-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
+head:   b282b26d11c50d48b336fedb5f74b2eca3f7b94c
+commit: 011dfa10ad42130a9620e4088c4c570066c46893 [56/59] cxl/hdm: Commit de=
+coder state to hardware
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-m041-20220722 (https://download.01.org/0day-ci/arc=
+hive/20220724/202207242107.EP8EqaLr-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/char/pcmcia/synclink_cs.c:340 irq_disable() warn: ignoring unreacha=
-ble code.
-drivers/char/pcmcia/synclink_cs.c:350 irq_enable() warn: ignoring unreachab=
-le code.
-drivers/char/pcmcia/synclink_cs.c:699 issue_command() warn: ignoring unreac=
-hable code.
-drivers/char/pcmcia/synclink_cs.c:1122 dsr_change() warn: ignoring unreacha=
-ble code.
-drivers/char/pcmcia/synclink_cs.c:1137 ri_change() warn: ignoring unreachab=
-le code.
-drivers/char/pcmcia/synclink_cs.c:3551 tx_set_idle() warn: ignoring unreach=
-able code.
+drivers/cxl/core/region.c:196 cxl_region_decode_commit() error: uninitializ=
+ed symbol 'rc'.
 
 Old smatch warnings:
-drivers/char/pcmcia/synclink_cs.c:343 irq_disable() warn: ignoring unreacha=
-ble code.
-drivers/char/pcmcia/synclink_cs.c:353 irq_enable() warn: ignoring unreachab=
-le code.
-drivers/char/pcmcia/synclink_cs.c:1023 tx_ready() warn: ignoring unreachabl=
-e code.
-drivers/char/pcmcia/synclink_cs.c:1025 tx_ready() warn: ignoring unreachabl=
-e code.
-drivers/char/pcmcia/synclink_cs.c:1388 mgslpc_program_hw() warn: ignoring u=
-nreachable code.
-drivers/char/pcmcia/synclink_cs.c:1873 set_interface() warn: ignoring unrea=
-chable code.
-drivers/char/pcmcia/synclink_cs.c:2176 mgslpc_break() warn: ignoring unreac=
-hable code.
-drivers/char/pcmcia/synclink_cs.c:2178 mgslpc_break() warn: ignoring unreac=
-hable code.
-drivers/char/pcmcia/synclink_cs.c:2490 mgslpc_open() error: we previously a=
-ssumed 'info' could be null (see line 2476)
-drivers/char/pcmcia/synclink_cs.c:2885 mgslpc_set_rate() warn: ignoring unr=
-eachable code.
-drivers/char/pcmcia/synclink_cs.c:2916 enable_auxclk() warn: ignoring unrea=
-chable code.
-drivers/char/pcmcia/synclink_cs.c:2988 loopback_enable() warn: ignoring unr=
-eachable code.
-drivers/char/pcmcia/synclink_cs.c:3013 hdlc_mode() warn: ignoring unreachab=
-le code.
-drivers/char/pcmcia/synclink_cs.c:3252 rx_stop() warn: ignoring unreachable=
- code.
-drivers/char/pcmcia/synclink_cs.c:3269 rx_start() warn: ignoring unreachabl=
-e code.
-drivers/char/pcmcia/synclink_cs.c:3329 reset_device() warn: ignoring unreac=
-hable code.
-drivers/char/pcmcia/synclink_cs.c:3383 async_mode() warn: ignoring unreacha=
-ble code.
-drivers/char/pcmcia/synclink_cs.c:3553 tx_set_idle() warn: ignoring unreach=
-able code.
-drivers/char/pcmcia/synclink_cs.c:3596 set_signals() warn: ignoring unreach=
-able code.
-drivers/char/pcmcia/synclink_cs.c:3720 register_test() warn: ignoring unrea=
-chable code.
-drivers/char/pcmcia/synclink_cs.c:3749 irq_test() warn: ignoring unreachabl=
-e code.
+drivers/cxl/core/region.c:205 cxl_region_decode_commit() error: uninitializ=
+ed symbol 'rc'.
+drivers/cxl/core/region.c:457 alloc_hpa() error: uninitialized symbol 'res'.
+drivers/cxl/core/region.c:995 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peig'.
+drivers/cxl/core/region.c:995 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peiw'.
+drivers/cxl/core/region.c:995 cxl_port_setup_targets() error: uninitialized=
+ symbol 'eiw'.
+drivers/cxl/core/region.c:999 cxl_port_setup_targets() error: uninitialized=
+ symbol 'peiw'.
+drivers/cxl/core/region.c:1000 cxl_port_setup_targets() error: uninitialize=
+d symbol 'peig'.
+drivers/cxl/core/region.c:1584 create_pmem_region_store() warn: unsigned 'r=
+c' is never less than zero.
 
-vim +340 drivers/char/pcmcia/synclink_cs.c
+vim +/rc +196 drivers/cxl/core/region.c
 
-^1da177e4c3f415 Linus Torvalds 2005-04-16  326  =
+011dfa10ad4213 Dan Williams 2022-06-08  158  =
 
-^1da177e4c3f415 Linus Torvalds 2005-04-16  327  #define set_reg_bits(info, =
-reg, mask) \
-^1da177e4c3f415 Linus Torvalds 2005-04-16  328  	write_reg(info, (reg), \
-^1da177e4c3f415 Linus Torvalds 2005-04-16  329  		 (unsigned char) (read_re=
-g(info, (reg)) | (mask)))
-^1da177e4c3f415 Linus Torvalds 2005-04-16  330  #define clear_reg_bits(info=
-, reg, mask) \
-^1da177e4c3f415 Linus Torvalds 2005-04-16  331  	write_reg(info, (reg), \
-^1da177e4c3f415 Linus Torvalds 2005-04-16  332  		 (unsigned char) (read_re=
-g(info, (reg)) & ~(mask)))
-^1da177e4c3f415 Linus Torvalds 2005-04-16  333  /*
-^1da177e4c3f415 Linus Torvalds 2005-04-16  334   * interrupt enable/disable=
- routines
-^1da177e4c3f415 Linus Torvalds 2005-04-16  335   */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  336  static void irq_disable(MGS=
-LPC_INFO *info, unsigned char channel, unsigned short mask)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  337  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  338  	if (channel =3D=3D CHA) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  339  		info->imra_value |=3D mas=
-k;
-^1da177e4c3f415 Linus Torvalds 2005-04-16 @340  		write_reg16(info, CHA + I=
-MR, info->imra_value);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  341  	} else {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  342  		info->imrb_value |=3D mas=
-k;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  343  		write_reg16(info, CHB + I=
-MR, info->imrb_value);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  344  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  345  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  346  static void irq_enable(MGSL=
-PC_INFO *info, unsigned char channel, unsigned short mask)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  347  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  348  	if (channel =3D=3D CHA) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  349  		info->imra_value &=3D ~ma=
-sk;
-^1da177e4c3f415 Linus Torvalds 2005-04-16 @350  		write_reg16(info, CHA + I=
-MR, info->imra_value);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  351  	} else {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  352  		info->imrb_value &=3D ~ma=
-sk;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  353  		write_reg16(info, CHB + I=
-MR, info->imrb_value);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  354  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  355  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  356  =
+011dfa10ad4213 Dan Williams 2022-06-08  159  static int cxl_region_decode_c=
+ommit(struct cxl_region *cxlr)
+011dfa10ad4213 Dan Williams 2022-06-08  160  {
+011dfa10ad4213 Dan Williams 2022-06-08  161  	struct cxl_region_params *p =
+=3D &cxlr->params;
+011dfa10ad4213 Dan Williams 2022-06-08  162  	int i, rc;
+011dfa10ad4213 Dan Williams 2022-06-08  163  =
 
+011dfa10ad4213 Dan Williams 2022-06-08  164  	for (i =3D 0; i < p->nr_targe=
+ts; i++) {
+011dfa10ad4213 Dan Williams 2022-06-08  165  		struct cxl_endpoint_decoder =
+*cxled =3D p->targets[i];
+011dfa10ad4213 Dan Williams 2022-06-08  166  		struct cxl_memdev *cxlmd =3D=
+ cxled_to_memdev(cxled);
+011dfa10ad4213 Dan Williams 2022-06-08  167  		struct cxl_region_ref *cxl_r=
+r;
+011dfa10ad4213 Dan Williams 2022-06-08  168  		struct cxl_decoder *cxld;
+011dfa10ad4213 Dan Williams 2022-06-08  169  		struct cxl_port *iter;
+011dfa10ad4213 Dan Williams 2022-06-08  170  		struct cxl_ep *ep;
+011dfa10ad4213 Dan Williams 2022-06-08  171  =
 
-:::::: The code at line 340 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+011dfa10ad4213 Dan Williams 2022-06-08  172  		/* commit bottom up */
+011dfa10ad4213 Dan Williams 2022-06-08  173  		for (iter =3D cxled_to_port(=
+cxled); !is_cxl_root(iter);
+011dfa10ad4213 Dan Williams 2022-06-08  174  		     iter =3D to_cxl_port(it=
+er->dev.parent)) {
+011dfa10ad4213 Dan Williams 2022-06-08  175  			cxl_rr =3D cxl_rr_load(iter=
+, cxlr);
+011dfa10ad4213 Dan Williams 2022-06-08  176  			cxld =3D cxl_rr->decoder;
+011dfa10ad4213 Dan Williams 2022-06-08  177  			rc =3D cxld->commit(cxld);
+011dfa10ad4213 Dan Williams 2022-06-08  178  			if (rc)
+011dfa10ad4213 Dan Williams 2022-06-08  179  				break;
+011dfa10ad4213 Dan Williams 2022-06-08  180  		}
+011dfa10ad4213 Dan Williams 2022-06-08  181  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+011dfa10ad4213 Dan Williams 2022-06-08  182  		/* success, all decoders up =
+to the root are programmed */
+011dfa10ad4213 Dan Williams 2022-06-08  183  		if (is_cxl_root(iter))
+011dfa10ad4213 Dan Williams 2022-06-08  184  			continue;
+011dfa10ad4213 Dan Williams 2022-06-08  185  =
+
+011dfa10ad4213 Dan Williams 2022-06-08  186  		/* programming @iter failed,=
+ teardown */
+011dfa10ad4213 Dan Williams 2022-06-08  187  		for (ep =3D cxl_ep_load(iter=
+, cxlmd); ep && iter;
+011dfa10ad4213 Dan Williams 2022-06-08  188  		     iter =3D ep->next, ep =
+=3D cxl_ep_load(iter, cxlmd)) {
+011dfa10ad4213 Dan Williams 2022-06-08  189  			cxl_rr =3D cxl_rr_load(iter=
+, cxlr);
+011dfa10ad4213 Dan Williams 2022-06-08  190  			cxld =3D cxl_rr->decoder;
+011dfa10ad4213 Dan Williams 2022-06-08  191  			cxld->reset(cxld);
+011dfa10ad4213 Dan Williams 2022-06-08  192  		}
+011dfa10ad4213 Dan Williams 2022-06-08  193  =
+
+011dfa10ad4213 Dan Williams 2022-06-08  194  		cxled->cxld.reset(&cxled->cx=
+ld);
+011dfa10ad4213 Dan Williams 2022-06-08  195  		if (i =3D=3D 0)
+011dfa10ad4213 Dan Williams 2022-06-08 @196  			return rc;
+011dfa10ad4213 Dan Williams 2022-06-08  197  		break;
+011dfa10ad4213 Dan Williams 2022-06-08  198  	}
+011dfa10ad4213 Dan Williams 2022-06-08  199  =
+
+011dfa10ad4213 Dan Williams 2022-06-08  200  	if (i >=3D p->nr_targets)
+011dfa10ad4213 Dan Williams 2022-06-08  201  		return 0;
+011dfa10ad4213 Dan Williams 2022-06-08  202  =
+
+011dfa10ad4213 Dan Williams 2022-06-08  203  	/* undo the targets that were=
+ successfully committed */
+011dfa10ad4213 Dan Williams 2022-06-08  204  	cxl_region_decode_reset(cxlr,=
+ i);
+011dfa10ad4213 Dan Williams 2022-06-08  205  	return rc;
+011dfa10ad4213 Dan Williams 2022-06-08  206  }
+011dfa10ad4213 Dan Williams 2022-06-08  207  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6928695647060336921==--
+--===============8640405182601379458==--
 
