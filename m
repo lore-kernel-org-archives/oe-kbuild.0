@@ -1,163 +1,163 @@
-Content-Type: multipart/mixed; boundary="===============1571044682780389588=="
+Content-Type: multipart/mixed; boundary="===============8295360175611773343=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/netfs/buffered_read.c:337:23: warning: use of uninitialized value '<unknown>' [CWE-457]
+Subject: Re: [PATCH v3 4/5] vduse: Support registering userspace memory for IOVA regions
 Date: Mon, 25 Jul 2022 16:58:21 +0000
-Message-ID: <202207231946.UCJxWODm-lkp@intel.com>
+Message-ID: <202207241607.U3jN5m08-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1571044682780389588==
+--===============8295360175611773343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: fs/netfs/=
-buffered_read.c:337:23: warning: use of uninitialized value '<unknown>' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220720044144.90-5-xieyongji@bytedance.com>
+References: <20220720044144.90-5-xieyongji@bytedance.com>
+TO: Xie Yongji <xieyongji@bytedance.com>
+TO: mst(a)redhat.com
+TO: jasowang(a)redhat.com
+TO: xiaodong.liu(a)intel.com
+TO: maxime.coquelin(a)redhat.com
+TO: stefanha(a)redhat.com
+CC: songmuchun(a)bytedance.com
+CC: virtualization(a)lists.linux-foundation.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Xiubo Li <xiubli@redhat.com>
-CC: Ilya Dryomov <idryomov@gmail.com>
-CC: David Howells <dhowells@redhat.com>
-CC: Bagas Sanjaya <bagasdotme@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   70664fc10c0d722ec79d746d8ac1db8546c94114
-commit: fac47b43c760ea90e64b895dba60df0327be7775 netfs: do not unlock and p=
-ut the folio twice
-date:   9 days ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 9 days ago
-config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220723/202207231946.UCJxWODm-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfac47b43c760ea90e64b895dba60df0327be7775
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fac47b43c760ea90e64b895dba60df0327be7775
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+Hi Xie,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.19-rc7 next-20220722]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xie-Yongji/VDUSE-Sup=
+port-registering-userspace-memory-as-bounce-buffer/20220720-124408
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+ca85855bdcae8f84f1512e88b4c75009ea17ea2f
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: ia64-randconfig-m041-20220721 (https://download.01.org/0day-ci/arch=
+ive/20220724/202207241607.U3jN5m08-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   fs/netfs/buffered_read.c: In function 'netfs_write_begin':
->> fs/netfs/buffered_read.c:337:23: warning: use of uninitialized value '<u=
-nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     337 |         struct folio *folio;
-         |                       ^~~~~
-     'netfs_write_begin': event 1
-       |
-       |  337 |         struct folio *folio;
-       |      |                       ^~~~~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
+smatch warnings:
+drivers/vdpa/vdpa_user/vduse_dev.c:1024 vduse_dev_reg_umem() warn: possible=
+ memory leak of 'umem'
 
-vim +337 fs/netfs/buffered_read.c
+vim +/umem +1024 drivers/vdpa/vdpa_user/vduse_dev.c
 
-16211268fcb3667 David Howells           2022-03-01  297  =
+adfe5defa068df Xie Yongji 2022-07-20   958  =
 
-16211268fcb3667 David Howells           2022-03-01  298  /**
-16211268fcb3667 David Howells           2022-03-01  299   * netfs_write_beg=
-in - Helper to prepare for writing
-e81fb4198e27925 Linus Torvalds          2022-06-09  300   * @ctx: The netfs=
- context
-16211268fcb3667 David Howells           2022-03-01  301   * @file: The file=
- to read from
-16211268fcb3667 David Howells           2022-03-01  302   * @mapping: The m=
-apping to read from
-16211268fcb3667 David Howells           2022-03-01  303   * @pos: File posi=
-tion at which the write will begin
-16211268fcb3667 David Howells           2022-03-01  304   * @len: The lengt=
-h of the write (may extend beyond the end of the folio chosen)
-16211268fcb3667 David Howells           2022-03-01  305   * @_folio: Where =
-to put the resultant folio
-16211268fcb3667 David Howells           2022-03-01  306   * @_fsdata: Place=
- for the netfs to store a cookie
-16211268fcb3667 David Howells           2022-03-01  307   *
-16211268fcb3667 David Howells           2022-03-01  308   * Pre-read data f=
-or a write-begin request by drawing data from the cache if
-16211268fcb3667 David Howells           2022-03-01  309   * possible, or th=
-e netfs if not.  Space beyond the EOF is zero-filled.
-16211268fcb3667 David Howells           2022-03-01  310   * Multiple I/O re=
-quests from different sources will get munged together.  If
-16211268fcb3667 David Howells           2022-03-01  311   * necessary, the =
-readahead window can be expanded in either direction to a
-16211268fcb3667 David Howells           2022-03-01  312   * more convenient=
- alighment for RPC efficiency or to make storage in the cache
-16211268fcb3667 David Howells           2022-03-01  313   * feasible.
-16211268fcb3667 David Howells           2022-03-01  314   *
-16211268fcb3667 David Howells           2022-03-01  315   * The calling net=
-fs must provide a table of operations, only one of which,
-16211268fcb3667 David Howells           2022-03-01  316   * issue_op, is ma=
-ndatory.
-16211268fcb3667 David Howells           2022-03-01  317   *
-16211268fcb3667 David Howells           2022-03-01  318   * The check_write=
-_begin() operation can be provided to check for and flush
-16211268fcb3667 David Howells           2022-03-01  319   * conflicting wri=
-tes once the folio is grabbed and locked.  It is passed a
-16211268fcb3667 David Howells           2022-03-01  320   * pointer to the =
-fsdata cookie that gets returned to the VM to be passed to
-16211268fcb3667 David Howells           2022-03-01  321   * write_end.  It =
-is permitted to sleep.  It should return 0 if the request
-fac47b43c760ea9 Xiubo Li                2022-07-11  322   * should go ahead=
- or it may return an error.  It may also unlock and put the
-fac47b43c760ea9 Xiubo Li                2022-07-11  323   * folio, provided=
- it sets ``*foliop`` to NULL, in which case a return of 0
-fac47b43c760ea9 Xiubo Li                2022-07-11  324   * will cause the =
-folio to be re-got and the process to be retried.
-16211268fcb3667 David Howells           2022-03-01  325   *
-16211268fcb3667 David Howells           2022-03-01  326   * The calling net=
-fs must initialise a netfs context contiguous to the vfs
-16211268fcb3667 David Howells           2022-03-01  327   * inode before ca=
-lling this.
-16211268fcb3667 David Howells           2022-03-01  328   *
-16211268fcb3667 David Howells           2022-03-01  329   * This is usable =
-whether or not caching is enabled.
-16211268fcb3667 David Howells           2022-03-01  330   */
-e81fb4198e27925 Linus Torvalds          2022-06-09  331  int netfs_write_be=
-gin(struct netfs_inode *ctx,
-e81fb4198e27925 Linus Torvalds          2022-06-09  332  		      struct fil=
-e *file, struct address_space *mapping,
-de2a93115017795 Matthew Wilcox (Oracle  2022-02-22  333) 		      loff_t pos=
-, unsigned int len, struct folio **_folio,
-de2a93115017795 Matthew Wilcox (Oracle  2022-02-22  334) 		      void **_fs=
-data)
-16211268fcb3667 David Howells           2022-03-01  335  {
-16211268fcb3667 David Howells           2022-03-01  336  	struct netfs_io_r=
-equest *rreq;
-16211268fcb3667 David Howells           2022-03-01 @337  	struct folio *fol=
-io;
+adfe5defa068df Xie Yongji 2022-07-20   959  static int vduse_dev_reg_umem(s=
+truct vduse_dev *dev,
+adfe5defa068df Xie Yongji 2022-07-20   960  			      u64 iova, u64 uaddr, u=
+64 size)
+adfe5defa068df Xie Yongji 2022-07-20   961  {
+adfe5defa068df Xie Yongji 2022-07-20   962  	struct page **page_list =3D NU=
+LL;
+adfe5defa068df Xie Yongji 2022-07-20   963  	struct vduse_umem *umem =3D NU=
+LL;
+adfe5defa068df Xie Yongji 2022-07-20   964  	long pinned =3D 0;
+adfe5defa068df Xie Yongji 2022-07-20   965  	unsigned long npages, lock_lim=
+it;
+adfe5defa068df Xie Yongji 2022-07-20   966  	int ret;
+adfe5defa068df Xie Yongji 2022-07-20   967  =
 
-:::::: The code at line 337 was first introduced by commit
-:::::: 16211268fcb36672a84359362c2fc2c4695b0fc4 netfs: Split fs/netfs/read_=
-helper.c
+adfe5defa068df Xie Yongji 2022-07-20   968  	if (!dev->domain->bounce_map ||
+adfe5defa068df Xie Yongji 2022-07-20   969  	    size !=3D dev->domain->bou=
+nce_size ||
+adfe5defa068df Xie Yongji 2022-07-20   970  	    iova !=3D 0 || uaddr & ~PA=
+GE_MASK)
+adfe5defa068df Xie Yongji 2022-07-20   971  		return -EINVAL;
+adfe5defa068df Xie Yongji 2022-07-20   972  =
 
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+adfe5defa068df Xie Yongji 2022-07-20   973  	mutex_lock(&dev->mem_lock);
+adfe5defa068df Xie Yongji 2022-07-20   974  	ret =3D -EEXIST;
+adfe5defa068df Xie Yongji 2022-07-20   975  	if (dev->umem)
+adfe5defa068df Xie Yongji 2022-07-20   976  		goto unlock;
+adfe5defa068df Xie Yongji 2022-07-20   977  =
+
+adfe5defa068df Xie Yongji 2022-07-20   978  	ret =3D -ENOMEM;
+adfe5defa068df Xie Yongji 2022-07-20   979  	npages =3D size >> PAGE_SHIFT;
+adfe5defa068df Xie Yongji 2022-07-20   980  	page_list =3D __vmalloc(array_=
+size(npages, sizeof(struct page *)),
+adfe5defa068df Xie Yongji 2022-07-20   981  			      GFP_KERNEL_ACCOUNT);
+adfe5defa068df Xie Yongji 2022-07-20   982  	umem =3D kzalloc(sizeof(*umem)=
+, GFP_KERNEL);
+adfe5defa068df Xie Yongji 2022-07-20   983  	if (!page_list || !umem)
+adfe5defa068df Xie Yongji 2022-07-20   984  		goto unlock;
+adfe5defa068df Xie Yongji 2022-07-20   985  =
+
+adfe5defa068df Xie Yongji 2022-07-20   986  	mmap_read_lock(current->mm);
+adfe5defa068df Xie Yongji 2022-07-20   987  =
+
+adfe5defa068df Xie Yongji 2022-07-20   988  	lock_limit =3D PFN_DOWN(rlimit=
+(RLIMIT_MEMLOCK));
+adfe5defa068df Xie Yongji 2022-07-20   989  	if (npages + atomic64_read(&cu=
+rrent->mm->pinned_vm) > lock_limit)
+adfe5defa068df Xie Yongji 2022-07-20   990  		goto out;
+adfe5defa068df Xie Yongji 2022-07-20   991  =
+
+adfe5defa068df Xie Yongji 2022-07-20   992  	pinned =3D pin_user_pages(uadd=
+r, npages, FOLL_LONGTERM | FOLL_WRITE,
+adfe5defa068df Xie Yongji 2022-07-20   993  				page_list, NULL);
+adfe5defa068df Xie Yongji 2022-07-20   994  	if (pinned !=3D npages) {
+adfe5defa068df Xie Yongji 2022-07-20   995  		ret =3D pinned < 0 ? pinned :=
+ -ENOMEM;
+adfe5defa068df Xie Yongji 2022-07-20   996  		goto out;
+adfe5defa068df Xie Yongji 2022-07-20   997  	}
+adfe5defa068df Xie Yongji 2022-07-20   998  =
+
+adfe5defa068df Xie Yongji 2022-07-20   999  	ret =3D vduse_domain_add_user_=
+bounce_pages(dev->domain,
+adfe5defa068df Xie Yongji 2022-07-20  1000  						 page_list, pinned);
+adfe5defa068df Xie Yongji 2022-07-20  1001  	if (ret)
+adfe5defa068df Xie Yongji 2022-07-20  1002  		goto out;
+adfe5defa068df Xie Yongji 2022-07-20  1003  =
+
+adfe5defa068df Xie Yongji 2022-07-20  1004  	atomic64_add(npages, &current-=
+>mm->pinned_vm);
+adfe5defa068df Xie Yongji 2022-07-20  1005  =
+
+adfe5defa068df Xie Yongji 2022-07-20  1006  	umem->pages =3D page_list;
+adfe5defa068df Xie Yongji 2022-07-20  1007  	umem->npages =3D pinned;
+adfe5defa068df Xie Yongji 2022-07-20  1008  	umem->iova =3D iova;
+adfe5defa068df Xie Yongji 2022-07-20  1009  	umem->mm =3D current->mm;
+adfe5defa068df Xie Yongji 2022-07-20  1010  	mmgrab(current->mm);
+adfe5defa068df Xie Yongji 2022-07-20  1011  =
+
+adfe5defa068df Xie Yongji 2022-07-20  1012  	dev->umem =3D umem;
+adfe5defa068df Xie Yongji 2022-07-20  1013  out:
+adfe5defa068df Xie Yongji 2022-07-20  1014  	if (ret && pinned > 0)
+adfe5defa068df Xie Yongji 2022-07-20  1015  		unpin_user_pages(page_list, p=
+inned);
+adfe5defa068df Xie Yongji 2022-07-20  1016  =
+
+adfe5defa068df Xie Yongji 2022-07-20  1017  	mmap_read_unlock(current->mm);
+adfe5defa068df Xie Yongji 2022-07-20  1018  unlock:
+adfe5defa068df Xie Yongji 2022-07-20  1019  	if (ret) {
+adfe5defa068df Xie Yongji 2022-07-20  1020  		vfree(page_list);
+adfe5defa068df Xie Yongji 2022-07-20  1021  		kfree(umem);
+adfe5defa068df Xie Yongji 2022-07-20  1022  	}
+adfe5defa068df Xie Yongji 2022-07-20  1023  	mutex_unlock(&dev->mem_lock);
+adfe5defa068df Xie Yongji 2022-07-20 @1024  	return ret;
+adfe5defa068df Xie Yongji 2022-07-20  1025  }
+adfe5defa068df Xie Yongji 2022-07-20  1026  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1571044682780389588==--
+--===============8295360175611773343==--
 
