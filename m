@@ -1,193 +1,270 @@
-Content-Type: multipart/mixed; boundary="===============8170747629696033596=="
+Content-Type: multipart/mixed; boundary="===============3826104889243646101=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface() warn: passing a valid pointer to 'PTR_ERR'
-Date: Mon, 25 Jul 2022 18:29:04 +0800
-Message-ID: <202207251805.7mLBLni5-lkp@intel.com>
+Subject: drivers/leds/flash/leds-mt6360.c:339:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 25 Jul 2022 16:37:46 +0800
+Message-ID: <202207251615.G7DbbDZh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8170747629696033596==
+--===============3826104889243646101==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/l=
+eds/flash/leds-mt6360.c:339:13: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Gene Chen <gene_chen@richtek.com>
+CC: Pavel Machek <pavel@ucw.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   e0dccc3b76fb35bb257b4118367a883073d7390e
-commit: d8701fe890ecbab239086e7053d62d0f08587d7c mtd: rawnand: renesas: Add=
- new NAND controller driver
-date:   7 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 7 months ago
-config: parisc-randconfig-m031-20220724 (https://download.01.org/0day-ci/ar=
-chive/20220725/202207251805.7mLBLni5-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+commit: 679f8652064bfa2f622c7b2bab86b1bf3207d6bc leds: Add mt6360 driver
+date:   6 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
+ve/20220725/202207251615.G7DbbDZh-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D679f8652064bfa2f622c7b2bab86b1bf3207d6bc
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 679f8652064bfa2f622c7b2bab86b1bf3207d6bc
+        # save the config file
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/mtd/nand/raw/renesas-nand-controller.c:900 rnandc_setup_interface()=
- warn: passing a valid pointer to 'PTR_ERR'
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/leds/flash/leds-mt6360.c: In function 'mt6360_fault_get':
+>> drivers/leds/flash/leds-mt6360.c:339:13: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     339 |         u16 fled_stat;
+         |             ^~~~~~~~~
+     'mt6360_fault_get': event 1
+       |
+       |  339 |         u16 fled_stat;
+       |      |             ^~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/leds/flash/leds-mt6360.c:340:22: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     340 |         unsigned int chg_stat, strobe_timeout_mask, fled_short_m=
+ask;
+         |                      ^~~~~~~~
+     'mt6360_fault_get': event 1
+       |
+       |  340 |         unsigned int chg_stat, strobe_timeout_mask, fled_sh=
+ort_mask;
+       |      |                      ^~~~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/leds/flash/leds-mt6360.c: In function 'mt6360_isnk_init_default_=
+state':
+   drivers/leds/flash/leds-mt6360.c:391:22: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     391 |         unsigned int regval;
+         |                      ^~~~~~
+     'mt6360_isnk_init_default_state': event 1
+       |
+       |  391 |         unsigned int regval;
+       |      |                      ^~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/leds/flash/leds-mt6360.c: In function 'mt6360_flash_init_default=
+_state':
+   drivers/leds/flash/leds-mt6360.c:427:22: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     427 |         unsigned int regval;
+         |                      ^~~~~~
+     'mt6360_flash_init_default_state': event 1
+       |
+       |  427 |         unsigned int regval;
+       |      |                      ^~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/leds/flash/leds-mt6360.c: In function 'mt6360_init_isnk_properti=
+es':
+   drivers/leds/flash/leds-mt6360.c:624:13: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     624 |         u32 val;
+         |             ^~~
+     'mt6360_init_isnk_properties': event 1
+       |
+       |  624 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/leds/flash/leds-mt6360.c:636:29: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     636 |                         u32 reg, color;
+         |                             ^~~
+     'mt6360_init_isnk_properties': events 1-3
+       |
+       |  627 |         if (led->led_no =3D=3D MT6360_VIRTUAL_MULTICOLOR) {
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'true' branch...
+       |......
+       |  630 |                 sub_led =3D devm_kzalloc(priv->dev,
+       |      |                           ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (2) ...to here
+       |  631 |                         sizeof(*sub_led) * MULTICOLOR_NUM_C=
+HANNELS, GFP_KERNEL);
+       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~
+       |  632 |                 if (!sub_led)
+       |      |                    ~
+       |      |                    |
+       |      |                    (3) following 'false' branch...
+       |
+     'mt6360_init_isnk_properties': event 4
+       |
+       |  635 |                 fwnode_for_each_child_node(init_data->fwnod=
+e, child) {
+       |      |                                            ~~~~~~~~~^~~~~~~~
+       |      |                                                     |
+       |      |                                                     (4) ...=
+to here
+   include/linux/property.h:101:49: note: in definition of macro 'fwnode_fo=
+r_each_child_node'
+       |  101 |         for (child =3D fwnode_get_next_child_node(fwnode, N=
+ULL); child;   \
+       |      |                                                 ^~~~~~
+       |
+     'mt6360_init_isnk_properties': event 5
+       |
+       |drivers/leds/flash/leds-mt6360.c:635:63:
+       |  635 |                 fwnode_for_each_child_node(init_data->fwnod=
+e, child) {
+       |      |                                                            =
+   ^~~~~
+       |      |                                                            =
+   |
+       |      |                                                            =
+   (5) following 'true' branch (when 'child' is non-NULL)...
+   include/linux/property.h:101:64: note: in definition of macro 'fwnode_fo=
+r_each_child_node'
+       |  101 |         for (child =3D fwnode_get_next_child_node(fwnode, N=
+ULL); child;   \
+       |      |                                                            =
+    ^~~~~
+       |
+     'mt6360_init_isnk_properties': events 6-7
+       |
+       |drivers/leds/flash/leds-mt6360.c:636:29:
+       |  636 |                         u32 reg, color;
+       |      |                             ^~~
+       |      |                             |
 
-vim +/PTR_ERR +900 drivers/mtd/nand/raw/renesas-nand-controller.c
+vim +339 drivers/leds/flash/leds-mt6360.c
 
-d8701fe890ecba Miquel Raynal 2021-12-17  888  =
+679f8652064bfa Gene Chen 2021-11-15  333  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  889  static int rnandc_setup_inter=
-face(struct nand_chip *chip, int chipnr,
-d8701fe890ecba Miquel Raynal 2021-12-17  890  				  const struct nand_inter=
-face_config *conf)
-d8701fe890ecba Miquel Raynal 2021-12-17  891  {
-d8701fe890ecba Miquel Raynal 2021-12-17  892  	struct rnand_chip *rnand =3D=
- to_rnand(chip);
-d8701fe890ecba Miquel Raynal 2021-12-17  893  	struct rnandc *rnandc =3D to=
-_rnandc(chip->controller);
-d8701fe890ecba Miquel Raynal 2021-12-17  894  	unsigned int period_ns =3D 1=
-000000000 / clk_get_rate(rnandc->eclk);
-d8701fe890ecba Miquel Raynal 2021-12-17  895  	const struct nand_sdr_timing=
-s *sdr;
-d8701fe890ecba Miquel Raynal 2021-12-17  896  	unsigned int cyc, cle, ale, =
-bef_dly, ca_to_data;
-d8701fe890ecba Miquel Raynal 2021-12-17  897  =
+679f8652064bfa Gene Chen 2021-11-15  334  static int mt6360_fault_get(struc=
+t led_classdev_flash *fl_cdev, u32 *fault)
+679f8652064bfa Gene Chen 2021-11-15  335  {
+679f8652064bfa Gene Chen 2021-11-15  336  	struct mt6360_led *led =3D
+679f8652064bfa Gene Chen 2021-11-15  337  		container_of(fl_cdev, struct mt=
+6360_led, flash);
+679f8652064bfa Gene Chen 2021-11-15  338  	struct mt6360_priv *priv =3D led=
+->priv;
+679f8652064bfa Gene Chen 2021-11-15 @339  	u16 fled_stat;
+679f8652064bfa Gene Chen 2021-11-15  340  	unsigned int chg_stat, strobe_ti=
+meout_mask, fled_short_mask;
+679f8652064bfa Gene Chen 2021-11-15  341  	u32 rfault =3D 0;
+679f8652064bfa Gene Chen 2021-11-15  342  	int ret;
+679f8652064bfa Gene Chen 2021-11-15  343  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  898  	sdr =3D nand_get_sdr_timings=
-(conf);
-d8701fe890ecba Miquel Raynal 2021-12-17  899  	if (IS_ERR(sdr))
-d8701fe890ecba Miquel Raynal 2021-12-17 @900  		return PTR_ERR(sdr);
-d8701fe890ecba Miquel Raynal 2021-12-17  901  =
+679f8652064bfa Gene Chen 2021-11-15  344  	mutex_lock(&priv->lock);
+679f8652064bfa Gene Chen 2021-11-15  345  	ret =3D regmap_read(priv->regmap=
+, MT6360_REG_CHGSTAT2, &chg_stat);
+679f8652064bfa Gene Chen 2021-11-15  346  	if (ret)
+679f8652064bfa Gene Chen 2021-11-15  347  		goto unlock;
+679f8652064bfa Gene Chen 2021-11-15  348  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  902  	if (sdr->tRP_min !=3D sdr->t=
-WP_min || sdr->tREH_min !=3D sdr->tWH_min) {
-d8701fe890ecba Miquel Raynal 2021-12-17  903  		dev_err(rnandc->dev, "Read =
-and write hold times must be identical\n");
-d8701fe890ecba Miquel Raynal 2021-12-17  904  		return -EINVAL;
-d8701fe890ecba Miquel Raynal 2021-12-17  905  	}
-d8701fe890ecba Miquel Raynal 2021-12-17  906  =
+679f8652064bfa Gene Chen 2021-11-15  349  	ret =3D regmap_raw_read(priv->re=
+gmap, MT6360_REG_FLEDSTAT1, &fled_stat,
+679f8652064bfa Gene Chen 2021-11-15  350  			      sizeof(fled_stat));
+679f8652064bfa Gene Chen 2021-11-15  351  	if (ret)
+679f8652064bfa Gene Chen 2021-11-15  352  		goto unlock;
+679f8652064bfa Gene Chen 2021-11-15  353  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  907  	if (chipnr < 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  908  		return 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  909  =
+679f8652064bfa Gene Chen 2021-11-15  354  	if (led->led_no =3D=3D MT6360_LE=
+D_FLASH1) {
+679f8652064bfa Gene Chen 2021-11-15  355  		strobe_timeout_mask =3D MT6360_=
+FLED1STRBTO_MASK;
+679f8652064bfa Gene Chen 2021-11-15  356  		fled_short_mask =3D MT6360_FLED=
+1SHORT_MASK;
+679f8652064bfa Gene Chen 2021-11-15  357  	} else {
+679f8652064bfa Gene Chen 2021-11-15  358  		strobe_timeout_mask =3D MT6360_=
+FLED2STRBTO_MASK;
+679f8652064bfa Gene Chen 2021-11-15  359  		fled_short_mask =3D MT6360_FLED=
+2SHORT_MASK;
+679f8652064bfa Gene Chen 2021-11-15  360  	}
+679f8652064bfa Gene Chen 2021-11-15  361  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  910  	rnand->timings_asyn =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  911  		TIMINGS_ASYN_TRWP(TO_CYCLES=
-64(sdr->tRP_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  912  		TIMINGS_ASYN_TRWH(TO_CYCLES=
-64(sdr->tREH_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  913  	rnand->tim_seq0 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  914  		TIM_SEQ0_TCCS(TO_CYCLES64(s=
-dr->tCCS_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  915  		TIM_SEQ0_TADL(TO_CYCLES64(s=
-dr->tADL_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  916  		TIM_SEQ0_TRHW(TO_CYCLES64(s=
-dr->tRHW_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  917  		TIM_SEQ0_TWHR(TO_CYCLES64(s=
-dr->tWHR_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  918  	rnand->tim_seq1 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  919  		TIM_SEQ1_TWB(TO_CYCLES64(sd=
-r->tWB_max, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  920  		TIM_SEQ1_TRR(TO_CYCLES64(sd=
-r->tRR_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  921  		TIM_SEQ1_TWW(TO_CYCLES64(sd=
-r->tWW_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  922  =
+679f8652064bfa Gene Chen 2021-11-15  362  	if (chg_stat & MT6360_FLEDCHGVIN=
+OVP_MASK)
+679f8652064bfa Gene Chen 2021-11-15  363  		rfault |=3D LED_FAULT_INPUT_VOL=
+TAGE;
+679f8652064bfa Gene Chen 2021-11-15  364  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  923  	cyc =3D sdr->tDS_min + sdr->=
-tDH_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  924  	cle =3D sdr->tCLH_min + sdr-=
->tCLS_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  925  	ale =3D sdr->tALH_min + sdr-=
->tALS_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  926  	bef_dly =3D sdr->tWB_max - s=
-dr->tDH_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  927  	ca_to_data =3D sdr->tWHR_min=
- + sdr->tREA_max - sdr->tDH_min;
-d8701fe890ecba Miquel Raynal 2021-12-17  928  =
+679f8652064bfa Gene Chen 2021-11-15  365  	if (fled_stat & strobe_timeout_m=
+ask)
+679f8652064bfa Gene Chen 2021-11-15  366  		rfault |=3D LED_FAULT_TIMEOUT;
+679f8652064bfa Gene Chen 2021-11-15  367  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  929  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  930  	 * D0 =3D CMD -> ADDR =3D tC=
-LH + tCLS - 1 cycle
-d8701fe890ecba Miquel Raynal 2021-12-17  931  	 * D1 =3D CMD -> CMD =3D tCL=
-H + tCLS - 1 cycle
-d8701fe890ecba Miquel Raynal 2021-12-17  932  	 * D2 =3D CMD -> DLY =3D tWB=
- - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  933  	 * D3 =3D CMD -> DATA =3D tW=
-HR + tREA - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  934  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  935  	rnand->tim_gen_seq0 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  936  		TIM_GEN_SEQ0_D0(TO_CYCLES64=
-(cle - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  937  		TIM_GEN_SEQ0_D1(TO_CYCLES64=
-(cle - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  938  		TIM_GEN_SEQ0_D2(TO_CYCLES64=
-(bef_dly, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  939  		TIM_GEN_SEQ0_D3(TO_CYCLES64=
-(ca_to_data, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  940  =
+679f8652064bfa Gene Chen 2021-11-15  368  	if (fled_stat & fled_short_mask)
+679f8652064bfa Gene Chen 2021-11-15  369  		rfault |=3D LED_FAULT_SHORT_CIR=
+CUIT;
+679f8652064bfa Gene Chen 2021-11-15  370  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  941  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  942  	 * D4 =3D ADDR -> CMD =3D tA=
-LH + tALS - 1 cyle
-d8701fe890ecba Miquel Raynal 2021-12-17  943  	 * D5 =3D ADDR -> ADDR =3D t=
-ALH + tALS - 1 cyle
-d8701fe890ecba Miquel Raynal 2021-12-17  944  	 * D6 =3D ADDR -> DLY =3D tW=
-B - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  945  	 * D7 =3D ADDR -> DATA =3D t=
-WHR + tREA - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  946  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  947  	rnand->tim_gen_seq1 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  948  		TIM_GEN_SEQ1_D4(TO_CYCLES64=
-(ale - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  949  		TIM_GEN_SEQ1_D5(TO_CYCLES64=
-(ale - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  950  		TIM_GEN_SEQ1_D6(TO_CYCLES64=
-(bef_dly, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  951  		TIM_GEN_SEQ1_D7(TO_CYCLES64=
-(ca_to_data, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  952  =
+679f8652064bfa Gene Chen 2021-11-15  371  	if (fled_stat & MT6360_FLEDLVF_M=
+ASK)
+679f8652064bfa Gene Chen 2021-11-15  372  		rfault |=3D LED_FAULT_UNDER_VOL=
+TAGE;
+679f8652064bfa Gene Chen 2021-11-15  373  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  953  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  954  	 * D8 =3D DLY -> DATA =3D tR=
-R + tREA
-d8701fe890ecba Miquel Raynal 2021-12-17  955  	 * D9 =3D DLY -> CMD =3D tRR
-d8701fe890ecba Miquel Raynal 2021-12-17  956  	 * D10 =3D DATA -> CMD =3D t=
-CLH + tCLS - 1 cycle
-d8701fe890ecba Miquel Raynal 2021-12-17  957  	 * D11 =3D DATA -> DLY =3D t=
-WB - tDH
-d8701fe890ecba Miquel Raynal 2021-12-17  958  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  959  	rnand->tim_gen_seq2 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  960  		TIM_GEN_SEQ2_D8(TO_CYCLES64=
-(sdr->tRR_min + sdr->tREA_max, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  961  		TIM_GEN_SEQ2_D9(TO_CYCLES64=
-(sdr->tRR_min, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  962  		TIM_GEN_SEQ2_D10(TO_CYCLES6=
-4(cle - cyc, period_ns)) |
-d8701fe890ecba Miquel Raynal 2021-12-17  963  		TIM_GEN_SEQ2_D11(TO_CYCLES6=
-4(bef_dly, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  964  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  965  	/* D12 =3D DATA -> END =3D t=
-CLH - tDH */
-d8701fe890ecba Miquel Raynal 2021-12-17  966  	rnand->tim_gen_seq3 =3D
-d8701fe890ecba Miquel Raynal 2021-12-17  967  		TIM_GEN_SEQ3_D12(TO_CYCLES6=
-4(sdr->tCLH_min - sdr->tDH_min, period_ns));
-d8701fe890ecba Miquel Raynal 2021-12-17  968  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  969  	return 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  970  }
-d8701fe890ecba Miquel Raynal 2021-12-17  971  =
+679f8652064bfa Gene Chen 2021-11-15  374  	*fault =3D rfault;
+679f8652064bfa Gene Chen 2021-11-15  375  unlock:
+679f8652064bfa Gene Chen 2021-11-15  376  	mutex_unlock(&priv->lock);
+679f8652064bfa Gene Chen 2021-11-15  377  	return ret;
+679f8652064bfa Gene Chen 2021-11-15  378  }
+679f8652064bfa Gene Chen 2021-11-15  379  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8170747629696033596==--
+--===============3826104889243646101==--
 
