@@ -1,116 +1,250 @@
-Content-Type: multipart/mixed; boundary="===============1166428374834897122=="
+Content-Type: multipart/mixed; boundary="===============1948432787188014498=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntaxError]
+Subject: [linux-next:master 10040/12552] drivers/media/usb/uvc/uvc_ctrl.c:2472 uvc_ctrl_init_ctrl() error: we previously assumed 'mapping' could be null (see line 2458)
 Date: Mon, 25 Jul 2022 16:58:21 +0000
-Message-ID: <202207232144.ulLoYH2R-lkp@intel.com>
+Message-ID: <202207240824.md1EuAnG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1166428374834897122==
+--===============1948432787188014498==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-io/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntaxError]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Ricardo Ribalda <ribalda@chromium.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   70664fc10c0d722ec79d746d8ac1db8546c94114
-commit: 8940de2e48902e95b588b6244d5a1b61a4d75c4a iio: adc: at91-sama5d2_adc=
-: convert to platform specific data structures
-date:   10 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 10 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   18c107a1f120d095404d141dfad8f594bdc44020
+commit: 86f7ef77315687df144042762325c53d9a3a28c9 [10040/12552] media: uvcvi=
+deo: Add support for per-device control mapping overrides
+:::::: branch date: 2 days ago
+:::::: commit date: 8 days ago
+config: xtensa-randconfig-m041-20220721 (https://download.01.org/0day-ci/ar=
+chive/20220724/202207240824.md1EuAnG-lkp(a)intel.com/config)
 compiler: xtensa-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 8940de2e48902e95b588b6244d5a1b61a4d75c4a
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/media/usb/uvc/uvc_ctrl.c:2472 uvc_ctrl_init_ctrl() error: we previo=
+usly assumed 'mapping' could be null (see line 2458)
+
+vim +/mapping +2472 drivers/media/usb/uvc/uvc_ctrl.c
+
+2bdd29cf3d4d32 drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2008-12-=
+06  2406  =
+
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2407  /*
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2408   * Add control information and hardcoded stock control mappings t=
+o the given
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2409   * device.
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2410   */
+866c6bdd5663d4 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2021-06-=
+18  2411  static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+866c6bdd5663d4 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2021-06-=
+18  2412  			       struct uvc_control *ctrl)
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2413  {
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2414  	const struct uvc_control_info *info =3D uvc_ctrls;
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2415  	const struct uvc_control_info *iend =3D info + ARRAY_SIZE(uvc_ct=
+rls);
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2416  	const struct uvc_control_mapping *mapping =3D uvc_ctrl_mappings;
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2417  	const struct uvc_control_mapping *mend =3D
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2418  		mapping + ARRAY_SIZE(uvc_ctrl_mappings);
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2419  =
+
+699b9a86a3f03a drivers/media/usb/uvc/uvc_ctrl.c   Laurent Pinchart 2022-06-=
+08  2420  	/*
+699b9a86a3f03a drivers/media/usb/uvc/uvc_ctrl.c   Laurent Pinchart 2022-06-=
+08  2421  	 * XU controls initialization requires querying the device for c=
+ontrol
+52c58ad6f95ff6 drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2422  	 * information. As some buggy UVC devices will crash when queried
+52c58ad6f95ff6 drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2423  	 * repeatedly in a tight loop, delay XU controls initialization =
+until
+52c58ad6f95ff6 drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2424  	 * first use.
+52c58ad6f95ff6 drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2425  	 */
+52c58ad6f95ff6 drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2426  	if (UVC_ENTITY_TYPE(ctrl->entity) =3D=3D UVC_VC_EXTENSION_UNIT)
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2427  		return;
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2428  =
+
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2429  	for (; info < iend; ++info) {
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2430  		if (uvc_entity_match_guid(ctrl->entity, info->entity) &&
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2431  		    ctrl->index =3D=3D info->index) {
+866c6bdd5663d4 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2021-06-=
+18  2432  			uvc_ctrl_add_info(chain->dev, ctrl, info);
+93df48d37c3f03 drivers/media/usb/uvc/uvc_ctrl.c   Hans de Goede    2020-07-=
+28  2433  			/*
+93df48d37c3f03 drivers/media/usb/uvc/uvc_ctrl.c   Hans de Goede    2020-07-=
+28  2434  			 * Retrieve control flags from the device. Ignore errors
+93df48d37c3f03 drivers/media/usb/uvc/uvc_ctrl.c   Hans de Goede    2020-07-=
+28  2435  			 * and work with default flag values from the uvc_ctrl
+93df48d37c3f03 drivers/media/usb/uvc/uvc_ctrl.c   Hans de Goede    2020-07-=
+28  2436  			 * array when the device doesn't properly implement
+93df48d37c3f03 drivers/media/usb/uvc/uvc_ctrl.c   Hans de Goede    2020-07-=
+28  2437  			 * GET_INFO on standard controls.
+93df48d37c3f03 drivers/media/usb/uvc/uvc_ctrl.c   Hans de Goede    2020-07-=
+28  2438  			 */
+866c6bdd5663d4 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2021-06-=
+18  2439  			uvc_ctrl_get_flags(chain->dev, ctrl, &ctrl->info);
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2440  			break;
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2441  		 }
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2442  	}
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2443  =
+
+071c8bb827c80a drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2444  	if (!ctrl->initialized)
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2445  		return;
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2446  =
+
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2447  	/*
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2448  	 * First check if the device provides a custom mapping for this =
+control,
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2449  	 * used to override standard mappings for non-conformant devices=
+. Don't
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2450  	 * process standard mappings if a custom mapping is found. This
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2451  	 * mechanism doesn't support combining standard and custom mappi=
+ngs for
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2452  	 * a single control.
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2453  	 */
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2454  	if (chain->dev->info->mappings) {
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2455  		bool custom =3D false;
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2456  		unsigned int i;
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2457  =
+
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07 @2458  		for (i =3D 0; (mapping =3D chain->dev->info->mappings[i]); ++i)=
+ {
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2459  			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2460  			    ctrl->info.selector =3D=3D mapping->selector) {
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2461  				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2462  				custom =3D true;
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2463  			}
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2464  		}
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2465  =
+
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2466  		if (custom)
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2467  			return;
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2468  	}
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2469  =
+
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2470  	/* Process common mappings next. */
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2471  	for (; mapping < mend; ++mapping) {
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07 @2472  		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2473  		    ctrl->info.selector =3D=3D mapping->selector)
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2474  			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2475  	}
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2476  =
+
+86f7ef77315687 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2477  	/* Finally process version-specific mappings. */
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2478  	if (chain->dev->uvc_version < 0x0150) {
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2479  		mapping =3D uvc_ctrl_mappings_uvc11;
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2480  		mend =3D mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2481  	} else {
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2482  		mapping =3D uvc_ctrl_mappings_uvc15;
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2483  		mend =3D mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc15);
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2484  	}
+710871163510cd drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2022-06-=
+07  2485  =
+
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2486  	for (; mapping < mend; ++mapping) {
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2487  		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+071c8bb827c80a drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+29  2488  		    ctrl->info.selector =3D=3D mapping->selector)
+866c6bdd5663d4 drivers/media/usb/uvc/uvc_ctrl.c   Ricardo Ribalda  2021-06-=
+18  2489  			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2490  	}
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2491  }
+ba2fa99668bb9b drivers/media/video/uvc/uvc_ctrl.c Laurent Pinchart 2010-09-=
+20  2492  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 2472 was first introduced by commit
+:::::: 710871163510cd78948a095e929e28c1434b4506 media: uvcvideo: Add missin=
+g value for power_line_frequency
 
->> drivers/iio/adc/ti-ads1015.c:601:46: warning: Shifting a negative value =
-is technically undefined behaviour [shiftNegativeLHS]
-     if (val >=3D 1 << (realbits - 1) || val < -1 << (realbits - 1)) {
-                                                ^
-   drivers/iio/adc/ti-ads1015.c:675:23: warning: Shifting a negative value =
-is technically undefined behaviour [shiftNegativeLHS]
-     low_thresh =3D max(-1 << (chan->scan_type.realbits - 1),
-                         ^
-   drivers/iio/adc/ti-ads1015.c:984:40: warning: Shifting a negative value =
-is technically undefined behaviour [shiftNegativeLHS]
-     data->thresh_data[i].low_thresh =3D -1 << (realbits - 1);
-                                          ^
->> drivers/iio/adc/at91-sama5d2_adc.c:530:46: warning: syntax error [syntax=
-Error]
-    .nr_channels =3D AT91_SAMA5D2_SINGLE_CHAN_CNT +
-                                                ^
-
-vim +530 drivers/iio/adc/at91-sama5d2_adc.c
-
-8940de2e48902e Eugen Hristev 2021-09-01  524  =
-
-8940de2e48902e Eugen Hristev 2021-09-01  525  static const struct at91_adc_=
-platform sama5d2_platform =3D {
-8940de2e48902e Eugen Hristev 2021-09-01  526  	.layout =3D &sama5d2_layout,
-8940de2e48902e Eugen Hristev 2021-09-01  527  	.adc_channels =3D &at91_sama=
-5d2_adc_channels,
-8940de2e48902e Eugen Hristev 2021-09-01  528  #define AT91_SAMA5D2_SINGLE_C=
-HAN_CNT 12
-8940de2e48902e Eugen Hristev 2021-09-01  529  #define AT91_SAMA5D2_DIFF_CHA=
-N_CNT 6
-8940de2e48902e Eugen Hristev 2021-09-01 @530  	.nr_channels =3D AT91_SAMA5D=
-2_SINGLE_CHAN_CNT +
-8940de2e48902e Eugen Hristev 2021-09-01  531  		       AT91_SAMA5D2_DIFF_CH=
-AN_CNT,
-8940de2e48902e Eugen Hristev 2021-09-01  532  #define AT91_SAMA5D2_TOUCH_X_=
-CHAN_IDX	(AT91_SAMA5D2_SINGLE_CHAN_CNT + \
-8940de2e48902e Eugen Hristev 2021-09-01  533  					AT91_SAMA5D2_DIFF_CHAN_C=
-NT * 2)
-8940de2e48902e Eugen Hristev 2021-09-01  534  	.touch_chan_x =3D AT91_SAMA5=
-D2_TOUCH_X_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  535  #define AT91_SAMA5D2_TOUCH_Y_=
-CHAN_IDX	(AT91_SAMA5D2_TOUCH_X_CHAN_IDX + 1)
-8940de2e48902e Eugen Hristev 2021-09-01  536  	.touch_chan_y =3D AT91_SAMA5=
-D2_TOUCH_Y_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  537  #define AT91_SAMA5D2_TOUCH_P_=
-CHAN_IDX	(AT91_SAMA5D2_TOUCH_Y_CHAN_IDX + 1)
-8940de2e48902e Eugen Hristev 2021-09-01  538  	.touch_chan_p =3D AT91_SAMA5=
-D2_TOUCH_P_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  539  #define AT91_SAMA5D2_MAX_CHAN=
-_IDX	AT91_SAMA5D2_TOUCH_P_CHAN_IDX
-8940de2e48902e Eugen Hristev 2021-09-01  540  	.max_channels =3D ARRAY_SIZE=
-(at91_sama5d2_adc_channels),
-8940de2e48902e Eugen Hristev 2021-09-01  541  	.max_index =3D AT91_SAMA5D2_=
-MAX_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  542  #define AT91_SAMA5D2_HW_TRIG_=
-CNT	3
-8940de2e48902e Eugen Hristev 2021-09-01  543  	.hw_trig_cnt =3D AT91_SAMA5D=
-2_HW_TRIG_CNT,
-5e1a1da0f8c914 Eugen Hristev 2017-06-15  544  };
-5e1a1da0f8c914 Eugen Hristev 2017-06-15  545  =
-
+:::::: TO: Ricardo Ribalda <ribalda@chromium.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1166428374834897122==--
+--===============1948432787188014498==--
 
