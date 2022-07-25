@@ -1,145 +1,122 @@
-Content-Type: multipart/mixed; boundary="===============1738274251127271727=="
+Content-Type: multipart/mixed; boundary="===============0977578890769062044=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:838 bnxt_ptp_init() warn: missing error code 'rc'
-Date: Mon, 25 Jul 2022 16:58:25 +0000
-Message-ID: <202207240423.JHbakhcu-lkp@intel.com>
+Subject: [cxl:preview 51/59] drivers/cxl/core/region.c:283 alloc_hpa() error: uninitialized symbol 'res'.
+Date: Mon, 25 Jul 2022 16:58:24 +0000
+Message-ID: <202207241907.SgcX2FVD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1738274251127271727==
+--===============0977578890769062044==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Pavan Chebbi <pavan.chebbi@broadcom.com>
-CC: Somnath Kotur <somnath.kotur@broadcom.com>
-CC: Michael Chan <michael.chan@broadcom.com>
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   515f71412bb73ebd7f41f90e1684fc80b8730789
-commit: 24ac1ecd524065cdcf8c27dc85ae37eccce8f2f6 bnxt_en: Add driver suppor=
-t to use Real Time Counter for PTP
-date:   6 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 6 months ago
-config: arc-randconfig-m041-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220724/202207240423.JHbakhcu-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
+head:   b282b26d11c50d48b336fedb5f74b2eca3f7b94c
+commit: c27d4f09f61590000d4d3b7ffc30a892e5e9ed9a [51/59] cxl/region: Alloca=
+te HPA capacity to regions
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-m041-20220722 (https://download.01.org/0day-ci/arc=
+hive/20220724/202207241907.SgcX2FVD-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:838 bnxt_ptp_init() warn: mis=
-sing error code 'rc'
+drivers/cxl/core/region.c:283 alloc_hpa() error: uninitialized symbol 'res'.
 
 Old smatch warnings:
-arch/arc/include/asm/thread_info.h:65 current_thread_info() error: uninitia=
-lized symbol 'sp'.
+drivers/cxl/core/region.c:552 create_pmem_region_store() warn: unsigned 'rc=
+' is never less than zero.
 
-vim +/rc +838 drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c
+vim +/res +283 drivers/cxl/core/region.c
 
-740c342e399981 Pavan Chebbi 2022-01-25  796  =
+c27d4f09f61590 Dan Williams 2022-04-25  272  =
 
-24ac1ecd524065 Pavan Chebbi 2022-01-25  797  int bnxt_ptp_init(struct bnxt =
-*bp, bool phc_cfg)
-118612d519d83b Michael Chan 2021-06-27  798  {
-118612d519d83b Michael Chan 2021-06-27  799  	struct bnxt_ptp_cfg *ptp =3D =
-bp->ptp_cfg;
-118612d519d83b Michael Chan 2021-06-27  800  	int rc;
-118612d519d83b Michael Chan 2021-06-27  801  =
+c27d4f09f61590 Dan Williams 2022-04-25  273  static int alloc_hpa(struct cx=
+l_region *cxlr, resource_size_t size)
+c27d4f09f61590 Dan Williams 2022-04-25  274  {
+c27d4f09f61590 Dan Williams 2022-04-25  275  	struct cxl_root_decoder *cxlr=
+d =3D to_cxl_root_decoder(cxlr->dev.parent);
+c27d4f09f61590 Dan Williams 2022-04-25  276  	struct cxl_region_params *p =
+=3D &cxlr->params;
+c27d4f09f61590 Dan Williams 2022-04-25  277  	struct resource *res;
+c27d4f09f61590 Dan Williams 2022-04-25  278  	u32 remainder =3D 0;
+c27d4f09f61590 Dan Williams 2022-04-25  279  =
 
-118612d519d83b Michael Chan 2021-06-27  802  	if (!ptp)
-118612d519d83b Michael Chan 2021-06-27  803  		return 0;
-118612d519d83b Michael Chan 2021-06-27  804  =
+c27d4f09f61590 Dan Williams 2022-04-25  280  	lockdep_assert_held_write(&cx=
+l_region_rwsem);
+c27d4f09f61590 Dan Williams 2022-04-25  281  =
 
-118612d519d83b Michael Chan 2021-06-27  805  	rc =3D bnxt_map_ptp_regs(bp);
-118612d519d83b Michael Chan 2021-06-27  806  	if (rc)
-118612d519d83b Michael Chan 2021-06-27  807  		return rc;
-118612d519d83b Michael Chan 2021-06-27  808  =
+c27d4f09f61590 Dan Williams 2022-04-25  282  	/* Nothing to do... */
+c27d4f09f61590 Dan Williams 2022-04-25 @283  	if (p->res && resource_size(r=
+es) =3D=3D size)
+c27d4f09f61590 Dan Williams 2022-04-25  284  		return 0;
+c27d4f09f61590 Dan Williams 2022-04-25  285  =
 
-24ac1ecd524065 Pavan Chebbi 2022-01-25  809  	if (bp->fw_cap & BNXT_FW_CAP_=
-PTP_RTC) {
-24ac1ecd524065 Pavan Chebbi 2022-01-25  810  		bnxt_ptp_timecounter_init(bp=
-, false);
-24ac1ecd524065 Pavan Chebbi 2022-01-25  811  		rc =3D bnxt_ptp_init_rtc(bp,=
- phc_cfg);
-24ac1ecd524065 Pavan Chebbi 2022-01-25  812  		if (rc)
-24ac1ecd524065 Pavan Chebbi 2022-01-25  813  			goto out;
-24ac1ecd524065 Pavan Chebbi 2022-01-25  814  	}
-24ac1ecd524065 Pavan Chebbi 2022-01-25  815  =
+c27d4f09f61590 Dan Williams 2022-04-25  286  	/* To change size the old siz=
+e must be freed first */
+c27d4f09f61590 Dan Williams 2022-04-25  287  	if (p->res)
+c27d4f09f61590 Dan Williams 2022-04-25  288  		return -EBUSY;
+c27d4f09f61590 Dan Williams 2022-04-25  289  =
 
-caf3eedbcd8d32 Pavan Chebbi 2021-07-28  816  	if (ptp->ptp_clock && bnxt_pp=
-s_config_ok(bp))
-a521c8a01d267b Michael Chan 2021-07-28  817  		return 0;
-a521c8a01d267b Michael Chan 2021-07-28  818  =
+c27d4f09f61590 Dan Williams 2022-04-25  290  	if (p->state >=3D CXL_CONFIG_=
+INTERLEAVE_ACTIVE)
+c27d4f09f61590 Dan Williams 2022-04-25  291  		return -EBUSY;
+c27d4f09f61590 Dan Williams 2022-04-25  292  =
 
-740c342e399981 Pavan Chebbi 2022-01-25  819  	bnxt_ptp_free(bp);
-740c342e399981 Pavan Chebbi 2022-01-25  820  =
+c27d4f09f61590 Dan Williams 2022-04-25  293  	/* ways, granularity and uuid=
+ (if PMEM) need to be set before HPA */
+c27d4f09f61590 Dan Williams 2022-04-25  294  	if (!p->interleave_ways || !p=
+->interleave_granularity ||
+c27d4f09f61590 Dan Williams 2022-04-25  295  	    (cxlr->mode =3D=3D CXL_DE=
+CODER_PMEM && uuid_is_null(&p->uuid)))
+c27d4f09f61590 Dan Williams 2022-04-25  296  		return -ENXIO;
+c27d4f09f61590 Dan Williams 2022-04-25  297  =
 
-118612d519d83b Michael Chan 2021-06-27  821  	atomic_set(&ptp->tx_avail, BN=
-XT_MAX_TX_TS);
-118612d519d83b Michael Chan 2021-06-27  822  	spin_lock_init(&ptp->ptp_lock=
-);
-118612d519d83b Michael Chan 2021-06-27  823  =
+c27d4f09f61590 Dan Williams 2022-04-25  298  	div_u64_rem(size, SZ_256M * p=
+->interleave_ways, &remainder);
+c27d4f09f61590 Dan Williams 2022-04-25  299  	if (remainder)
+c27d4f09f61590 Dan Williams 2022-04-25  300  		return -EINVAL;
+c27d4f09f61590 Dan Williams 2022-04-25  301  =
 
-24ac1ecd524065 Pavan Chebbi 2022-01-25  824  	if (!(bp->fw_cap & BNXT_FW_CA=
-P_PTP_RTC))
-740c342e399981 Pavan Chebbi 2022-01-25  825  		bnxt_ptp_timecounter_init(bp=
-, true);
-118612d519d83b Michael Chan 2021-06-27  826  =
+c27d4f09f61590 Dan Williams 2022-04-25  302  	res =3D alloc_free_mem_region=
+(cxlrd->res, size, SZ_256M,
+c27d4f09f61590 Dan Williams 2022-04-25  303  				    dev_name(&cxlr->dev));
+c27d4f09f61590 Dan Williams 2022-04-25  304  	if (IS_ERR(res)) {
+c27d4f09f61590 Dan Williams 2022-04-25  305  		dev_dbg(&cxlr->dev, "failed =
+to allocate HPA: %ld\n",
+c27d4f09f61590 Dan Williams 2022-04-25  306  			PTR_ERR(res));
+c27d4f09f61590 Dan Williams 2022-04-25  307  		return PTR_ERR(res);
+c27d4f09f61590 Dan Williams 2022-04-25  308  	}
+c27d4f09f61590 Dan Williams 2022-04-25  309  =
 
-118612d519d83b Michael Chan 2021-06-27  827  	ptp->ptp_info =3D bnxt_ptp_ca=
-ps;
-caf3eedbcd8d32 Pavan Chebbi 2021-07-28  828  	if ((bp->fw_cap & BNXT_FW_CAP=
-_PTP_PPS)) {
-caf3eedbcd8d32 Pavan Chebbi 2021-07-28  829  		if (bnxt_ptp_pps_init(bp))
-caf3eedbcd8d32 Pavan Chebbi 2021-07-28  830  			netdev_err(bp->dev, "1pps n=
-ot initialized, continuing without 1pps support\n");
-caf3eedbcd8d32 Pavan Chebbi 2021-07-28  831  	}
-118612d519d83b Michael Chan 2021-06-27  832  	ptp->ptp_clock =3D ptp_clock_=
-register(&ptp->ptp_info, &bp->pdev->dev);
-118612d519d83b Michael Chan 2021-06-27  833  	if (IS_ERR(ptp->ptp_clock)) {
-118612d519d83b Michael Chan 2021-06-27  834  		int err =3D PTR_ERR(ptp->ptp=
-_clock);
-118612d519d83b Michael Chan 2021-06-27  835  =
+c27d4f09f61590 Dan Williams 2022-04-25  310  	p->res =3D res;
+c27d4f09f61590 Dan Williams 2022-04-25  311  	p->state =3D CXL_CONFIG_INTER=
+LEAVE_ACTIVE;
+c27d4f09f61590 Dan Williams 2022-04-25  312  =
 
-118612d519d83b Michael Chan 2021-06-27  836  		ptp->ptp_clock =3D NULL;
-24ac1ecd524065 Pavan Chebbi 2022-01-25  837  		rc =3D err;
-24ac1ecd524065 Pavan Chebbi 2022-01-25 @838  		goto out;
-118612d519d83b Michael Chan 2021-06-27  839  	}
-d7859afb688024 Michael Chan 2021-07-18  840  	if (bp->flags & BNXT_FLAG_CHI=
-P_P5) {
-d7859afb688024 Michael Chan 2021-07-18  841  		spin_lock_bh(&ptp->ptp_lock);
-30e96f487f64c6 Michael Chan 2021-07-28  842  		bnxt_refclk_read(bp, NULL, &=
-ptp->current_time);
-d7859afb688024 Michael Chan 2021-07-18  843  		WRITE_ONCE(ptp->old_time, pt=
-p->current_time);
-d7859afb688024 Michael Chan 2021-07-18  844  		spin_unlock_bh(&ptp->ptp_loc=
-k);
-d7859afb688024 Michael Chan 2021-07-18  845  		ptp_schedule_worker(ptp->ptp=
-_clock, 0);
-d7859afb688024 Michael Chan 2021-07-18  846  	}
-118612d519d83b Michael Chan 2021-06-27  847  	return 0;
-24ac1ecd524065 Pavan Chebbi 2022-01-25  848  =
-
-24ac1ecd524065 Pavan Chebbi 2022-01-25  849  out:
-24ac1ecd524065 Pavan Chebbi 2022-01-25  850  	bnxt_ptp_free(bp);
-24ac1ecd524065 Pavan Chebbi 2022-01-25  851  	bnxt_unmap_ptp_regs(bp);
-24ac1ecd524065 Pavan Chebbi 2022-01-25  852  	return rc;
-118612d519d83b Michael Chan 2021-06-27  853  }
-118612d519d83b Michael Chan 2021-06-27  854  =
+c27d4f09f61590 Dan Williams 2022-04-25  313  	return 0;
+c27d4f09f61590 Dan Williams 2022-04-25  314  }
+c27d4f09f61590 Dan Williams 2022-04-25  315  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1738274251127271727==--
+--===============0977578890769062044==--
 
