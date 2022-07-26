@@ -1,860 +1,560 @@
-Content-Type: multipart/mixed; boundary="===============1335747067441476180=="
+Content-Type: multipart/mixed; boundary="===============4765602038856976460=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/intel/skylake/skl-topology.c:2578:38: sparse: sparse: incorrect type in assignment (different base types)
-Date: Thu, 21 Jul 2022 10:14:17 +0800
-Message-ID: <202207211053.DtC73dqu-lkp@intel.com>
+Subject: drivers/net/usb/hso.c:505:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides...
+Date: Tue, 26 Jul 2022 08:51:46 +0800
+Message-ID: <202207260830.2AUQ5Qyf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1335747067441476180==
+--===============4765602038856976460==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/net/usb/hso.c:505:9: warning: Call to function 'sprintf' is insecu=
+re as it does not provide bounding of the memory buffer or security checks =
+introduced in the C11 standard. Replace with analogous functions that suppo=
+rt length arguments or provides boundary checks such as 'sprintf_s' in case=
+ of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandli=
+ng]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Kareem Shaik <kareem.m.shaik@intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Gustaw Lewandowski <gustaw.lewandowski@linux.intel.com>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Alex Shi <alexs@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   353f7988dd8413c47718f7ca79c030b6fb62cfe5
-commit: a4ad42d28618eef83bee02e0a19af0d467bd9722 ASoC: Intel: Skylake: Supp=
-ort multiple format configs
-date:   11 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/202207=
-21/202207211053.DtC73dqu-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
+head:   e0dccc3b76fb35bb257b4118367a883073d7390e
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
+11
+date:   5 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20220721 (https://download.01.org/0day-ci/archi=
+ve/20220726/202207260830.2AUQ5Qyf-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 72686d=
+68c137551cce816416190a18d45b4d4e2a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da4ad42d28618eef83bee02e0a19af0d467bd9722
+t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout a4ad42d28618eef83bee02e0a19af0d467bd9722
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/isdn/hardware/mISDN/ driv=
-ers/net/wireless/mediatek/mt76/mt7915/ drivers/scsi/lpfc/ drivers/staging/v=
-t6655/ drivers/virt/ drivers/xen/ fs/nfs/ kernel/ samples/ sound/soc/intel/=
-skylake/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:363:7: not=
+e: 'type' is equal to PAGELIST_READ
+           if ((type =3D=3D PAGELIST_READ) &&
+                ^~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:363:6: not=
+e: Left side of '&&' is true
+           if ((type =3D=3D PAGELIST_READ) &&
+               ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364:8: not=
+e: Assuming the condition is true
+               ((pagelist->offset & (g_cache_line_size - 1)) ||
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364:52: no=
+te: Left side of '||' is true
+               ((pagelist->offset & (g_cache_line_size - 1)) ||
+                                                             ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:369:7: not=
+e: Assuming the condition is false
+                   if (down_interruptible(&g_free_fragments_sema)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:369:3: not=
+e: Taking false branch
+                   if (down_interruptible(&g_free_fragments_sema)) {
+                   ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:374:11: no=
+te: Assuming 'g_free_fragments' is non-null
+                   WARN_ON(!g_free_fragments);
+                           ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:376:3: not=
+e: Value assigned to 'g_free_fragments'
+                   down(&g_free_fragments_mutex);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:378:11: no=
+te: Assuming 'fragments' is null
+                   WARN_ON(!fragments);
+                           ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:379:22: no=
+te: Dereference of null pointer
+                   g_free_fragments =3D *(char **)g_free_fragments;
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:423:4: war=
+ning: Call to function 'memcpy' is insecure as it does not provide security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'memcpy_s' =
+in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuffe=
+rHandling]
+                           memcpy((char *)kmap(pages[0]) +
+                           ^~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:423:4: not=
+e: Call to function 'memcpy' is insecure as it does not provide security ch=
+ecks introduced in the C11 standard. Replace with analogous functions that =
+support length arguments or provides boundary checks such as 'memcpy_s' in =
+case of C11
+                           memcpy((char *)kmap(pages[0]) +
+                           ^~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:431:4: war=
+ning: Call to function 'memcpy' is insecure as it does not provide security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'memcpy_s' =
+in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuffe=
+rHandling]
+                           memcpy((char *)kmap(pages[num_pages - 1]) +
+                           ^~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:431:4: not=
+e: Call to function 'memcpy' is insecure as it does not provide security ch=
+ecks introduced in the C11 standard. Replace with analogous functions that =
+support length arguments or provides boundary checks such as 'memcpy_s' in =
+case of C11
+                           memcpy((char *)kmap(pages[num_pages - 1]) +
+                           ^~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:648:8: war=
+ning: Call to function 'snprintf' is insecure as it does not provide securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'snprintf=
+_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeB=
+ufferHandling]
+           len =3D snprintf(buf, sizeof(buf), "  Platform: 2835 (VC master)=
+");
+                 ^~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:648:8: not=
+e: Call to function 'snprintf' is insecure as it does not provide security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'snprintf_s'=
+ in case of C11
+           len =3D snprintf(buf, sizeof(buf), "  Platform: 2835 (VC master)=
+");
+                 ^~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1251:9: wa=
+rning: Call to function 'snprintf' is insecure as it does not provide secur=
+ity checks introduced in the C11 standard. Replace with analogous functions=
+ that support length arguments or provides boundary checks such as 'snprint=
+f_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafe=
+BufferHandling]
+                   len =3D snprintf(buf, sizeof(buf),
+                         ^~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1251:9: no=
+te: Call to function 'snprintf' is insecure as it does not provide security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'snprintf_s=
+' in case of C11
+                   len =3D snprintf(buf, sizeof(buf),
+                         ^~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1415:3: wa=
+rning: Call to function 'sprintf' is insecure as it does not provide securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+                   sprintf(entity, "VCHIQ:   ");
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1415:3: no=
+te: Call to function 'sprintf' is insecure as it does not provide security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+                   sprintf(entity, "VCHIQ:   ");
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1418:3: wa=
+rning: Call to function 'sprintf' is insecure as it does not provide securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+                   sprintf(entity, "%c%c%c%c:%03d",
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1418:3: no=
+te: Call to function 'sprintf' is insecure as it does not provide security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+                   sprintf(entity, "%c%c%c%c:%03d",
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1470:3: wa=
+rning: Call to function 'sprintf' is insecure as it does not provide securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+                   sprintf(entity, "%c%c%c%c:%03d",
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1470:3: no=
+te: Call to function 'sprintf' is insecure as it does not provide security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+                   sprintf(entity, "%c%c%c%c:%03d",
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1475:3: wa=
+rning: Call to function 'sprintf' is insecure as it does not provide securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+                   sprintf(entity, "PEER:   ");
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1475:3: no=
+te: Call to function 'sprintf' is insecure as it does not provide security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+                   sprintf(entity, "PEER:   ");
+                   ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1734:2: wa=
+rning: Call to function 'snprintf' is insecure as it does not provide secur=
+ity checks introduced in the C11 standard. Replace with analogous functions=
+ that support length arguments or provides boundary checks such as 'snprint=
+f_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafe=
+BufferHandling]
+           snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
+           ^~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1734:2: no=
+te: Call to function 'snprintf' is insecure as it does not provide security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'snprintf_s=
+' in case of C11
+           snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
+           ^~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1761:2: wa=
+rning: Call to function 'memset' is insecure as it does not provide securit=
+y checks introduced in the C11 standard. Replace with analogous functions t=
+hat support length arguments or provides boundary checks such as 'memset_s'=
+ in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuff=
+erHandling]
+           memset(&pdevinfo, 0, sizeof(pdevinfo));
+           ^~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1761:2: no=
+te: Call to function 'memset' is insecure as it does not provide security c=
+hecks introduced in the C11 standard. Replace with analogous functions that=
+ support length arguments or provides boundary checks such as 'memset_s' in=
+ case of C11
+           memset(&pdevinfo, 0, sizeof(pdevinfo));
+           ^~~~~~
+   Suppressed 43 warnings (41 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   80 warnings generated.
+>> drivers/net/usb/hso.c:505:9: warning: Call to function 'sprintf' is inse=
+cure as it does not provide bounding of the memory buffer or security check=
+s introduced in the C11 standard. Replace with analogous functions that sup=
+port length arguments or provides boundary checks such as 'sprintf_s' in ca=
+se of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHand=
+ling]
+           return sprintf(buf, "%s\n", port_name);
+                  ^~~~~~~
+   drivers/net/usb/hso.c:505:9: note: Call to function 'sprintf' is insecur=
+e as it does not provide bounding of the memory buffer or security checks i=
+ntroduced in the C11 standard. Replace with analogous functions that suppor=
+t length arguments or provides boundary checks such as 'sprintf_s' in case =
+of C11
+           return sprintf(buf, "%s\n", port_name);
+                  ^~~~~~~
+   drivers/net/usb/hso.c:785:2: warning: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(odev->mux_bulk_tx_buf, skb->data, skb->len);
+           ^~~~~~
+   drivers/net/usb/hso.c:785:2: note: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11
+           memcpy(odev->mux_bulk_tx_buf, skb->data, skb->len);
+           ^~~~~~
+   drivers/net/usb/hso.c:861:4: warning: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
+insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(((unsigned char *)(&odev->rx_ip_hdr)) +
+                           ^~~~~~
+   drivers/net/usb/hso.c:861:4: note: Call to function 'memcpy' is insecure=
+ as it does not provide security checks introduced in the C11 standard. Rep=
+lace with analogous functions that support length arguments or provides bou=
+ndary checks such as 'memcpy_s' in case of C11
+                           memcpy(((unsigned char *)(&odev->rx_ip_hdr)) +
+                           ^~~~~~
+   drivers/net/usb/hso.c:1346:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(serial->tx_buffer + serial->tx_buffer_count, buf, tx_byte=
+s);
+           ^~~~~~
+   drivers/net/usb/hso.c:1346:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(serial->tx_buffer + serial->tx_buffer_count, buf, tx_byte=
+s);
+           ^~~~~~
+   drivers/net/usb/hso.c:1398:18: warning: Dereference of null pointer (loa=
+ded from variable 'old') [clang-analyzer-core.NullDereference]
+                   tty->termios =3D *old;
+                                  ^~~~
+   drivers/net/usb/hso.c:1388:6: note: Assuming 'old' is null
+           if (old)
+               ^~~
+   drivers/net/usb/hso.c:1388:2: note: Taking false branch
+           if (old)
+           ^
+   drivers/net/usb/hso.c:1394:2: note: Loop condition is false.  Exiting lo=
+op
+           spin_lock_irqsave(&serial->serial_lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   drivers/net/usb/hso.c:1394:2: note: Loop condition is false.  Exiting lo=
+op
+           spin_lock_irqsave(&serial->serial_lock, flags);
+           ^
+   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   drivers/net/usb/hso.c:1395:6: note: Assuming field 'count' is 0
+           if (serial->port.count)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/net/usb/hso.c:1395:2: note: Taking false branch
+           if (serial->port.count)
+           ^
+   drivers/net/usb/hso.c:1398:18: note: Dereference of null pointer (loaded=
+ from variable 'old')
+                   tty->termios =3D *old;
+                                  ^~~~
+   drivers/net/usb/hso.c:1524:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(serial_state_notification, 0,
+           ^~~~~~
+   drivers/net/usb/hso.c:1524:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(serial_state_notification, 0,
+           ^~~~~~
+   drivers/net/usb/hso.c:1554:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&cprev, &tiocmget->icount, sizeof(struct uart_icount));
+           ^~~~~~
+   drivers/net/usb/hso.c:1554:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(&cprev, &tiocmget->icount, sizeof(struct uart_icount));
+           ^~~~~~
+   drivers/net/usb/hso.c:1559:3: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&cnow, &tiocmget->icount, sizeof(struct uart_icou=
+nt));
+                   ^~~~~~
+   drivers/net/usb/hso.c:1559:3: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+                   memcpy(&cnow, &tiocmget->icount, sizeof(struct uart_icou=
+nt));
+                   ^~~~~~
+   drivers/net/usb/hso.c:1595:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(icount, 0, sizeof(struct serial_icounter_struct));
+           ^~~~~~
+   drivers/net/usb/hso.c:1595:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(icount, 0, sizeof(struct serial_icounter_struct));
+           ^~~~~~
+   drivers/net/usb/hso.c:1600:2: warning: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&cnow, &tiocmget->icount, sizeof(struct uart_icount));
+           ^~~~~~
+   drivers/net/usb/hso.c:1600:2: note: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11
+           memcpy(&cnow, &tiocmget->icount, sizeof(struct uart_icount));
+           ^~~~~~
+   drivers/net/usb/hso.c:1815:2: warning: Call to function 'memset' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
+.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(serial->rx_data[0], 0, CTRL_URB_RX_SIZE);
+           ^~~~~~
+   drivers/net/usb/hso.c:1815:2: note: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11
+           memset(serial->rx_data[0], 0, CTRL_URB_RX_SIZE);
+           ^~~~~~
+   drivers/net/usb/hso.c:2078:3: warning: Call to function 'sprintf' is ins=
+ecure as it does not provide bounding of the memory buffer or security chec=
+ks introduced in the C11 standard. Replace with analogous functions that su=
+pport length arguments or provides boundary checks such as 'sprintf_s' in c=
+ase of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHan=
+dling]
+                   sprintf(port_dev, "%s", dev2net(hso_dev)->net->name);
+                   ^~~~~~~
+   drivers/net/usb/hso.c:2078:3: note: Call to function 'sprintf' is insecu=
+re as it does not provide bounding of the memory buffer or security checks =
+introduced in the C11 standard. Replace with analogous functions that suppo=
+rt length arguments or provides boundary checks such as 'sprintf_s' in case=
+ of C11
+                   sprintf(port_dev, "%s", dev2net(hso_dev)->net->name);
+                   ^~~~~~~
+   drivers/net/usb/hso.c:2080:3: warning: Call to function 'sprintf' is ins=
+ecure as it does not provide bounding of the memory buffer or security chec=
+ks introduced in the C11 standard. Replace with analogous functions that su=
+pport length arguments or provides boundary checks such as 'sprintf_s' in c=
+ase of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHan=
+dling]
+                   sprintf(port_dev, "/dev/%s%d", tty_filename,
 
-sparse warnings: (new ones prefixed by >>)
-   sound/soc/intel/skylake/skl-topology.c:2297:33: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2291:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2291:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse:     expected uns=
-igned int [usertype] dma_buffer_size
-   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] cpc @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse:     expected uns=
-igned int [usertype] cpc
-   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] is_pages @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse:     expected uns=
-igned int [usertype] is_pages
-   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] obs @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse:     expected uns=
-igned int [usertype] obs
-   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] ibs @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse:     expected uns=
-igned int [usertype] ibs
-   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2392:21: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] max_input_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse:     expected uns=
-igned char [usertype] max_input_pins
-   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] max_output_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse:     expected uns=
-igned char [usertype] max_output_pins
-   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse: sparse: incorrec=
-t type in argument 3 (different base types) @@     expected unsigned int [u=
-sertype] value @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse:     expected uns=
-igned int [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse: sparse: incorrec=
-t type in argument 3 (different base types) @@     expected unsigned int [u=
-sertype] value @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse:     expected uns=
-igned int [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] time_slot @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse:     expected uns=
-igned char [usertype] time_slot
-   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] core_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse:     expected uns=
-igned char [usertype] core_id
-   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int en=
-um skl_module_type m_type @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse:     expected uns=
-igned int enum skl_module_type m_type
-   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] dev_type @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse:     expected uns=
-igned char [usertype] dev_type
-   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int en=
-um skl_hw_conn_type hw_conn_type @@     got restricted __le32 [usertype] va=
-lue @@
-   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse:     expected uns=
-igned int enum skl_hw_conn_type hw_conn_type
-   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] instance_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse:     expected uns=
-igned int [usertype] instance_id
-   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] vbus_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse:     expected uns=
-igned int [usertype] vbus_id
-   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] params_fixup @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse:     expected uns=
-igned int [usertype] params_fixup
-   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] converter @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse:     expected uns=
-igned int [usertype] converter
-   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int en=
-um d0i3_capability d0i3_caps @@     got restricted __le32 [usertype] value =
-@@
-   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse:     expected uns=
-igned int enum d0i3_capability d0i3_caps
-   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected int static conf=
-_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse:     expected int=
- static conf_idx
-   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse: sparse: incorrec=
-t type in argument 3 (different base types) @@     expected unsigned int [u=
-sertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse:     expected uns=
-igned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse:     got restrict=
-ed __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse: sparse: incorrec=
-t type in argument 4 (different base types) @@     expected unsigned int [u=
-sertype] tkn_val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse:     expected uns=
-igned int [usertype] tkn_val
-   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse: sparse: incorrec=
-t type in argument 3 (different base types) @@     expected unsigned int [u=
-sertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse:     expected uns=
-igned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse:     got restrict=
-ed __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse: sparse: incorrec=
-t type in argument 4 (different base types) @@     expected unsigned int [u=
-sertype] tkn_val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse:     expected uns=
-igned int [usertype] tkn_val
-   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] res_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse:     expected uns=
-igned char [usertype] res_idx
-   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] fmt_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse:     expected uns=
-igned char [usertype] fmt_idx
-   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2541:31: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2542:38: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse: sparse: incorrec=
-t type in argument 3 (different base types) @@     expected unsigned int [u=
-sertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse:     expected uns=
-igned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse:     got restrict=
-ed __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse: sparse: incorrec=
-t type in argument 4 (different base types) @@     expected unsigned int [u=
-sertype] val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse:     expected uns=
-igned int [usertype] val
-   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2575:29: sparse: sparse: restrict=
-ed __le32 degrades to integer
->> sound/soc/intel/skylake/skl-topology.c:2578:38: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected int fmt_cfg_idx=
- @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2578:38: sparse:     expected int=
- fmt_cfg_idx
-   sound/soc/intel/skylake/skl-topology.c:2578:38: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] caps_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse:     expected uns=
-igned int [usertype] caps_size
-   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] set_params @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse:     expected uns=
-igned int [usertype] set_params
-   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] param_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse:     expected uns=
-igned int [usertype] param_id
-   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned char [=
-usertype] domain @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse:     expected uns=
-igned char [usertype] domain
-   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected unsigned int [u=
-sertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse:     expected uns=
-igned int [usertype] dma_buffer_size
-   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
-ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: too many=
- warnings
+vim +505 drivers/net/usb/hso.c
 
-vim +2578 sound/soc/intel/skylake/skl-topology.c
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  458  =
 
-db6ed55de6da112 Shreyas NC          2017-08-23  2365  =
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  459  /* Sysfs attribute */
+7567d603b3f1c5e YueHaibing         2021-05-20  460  static ssize_t hsotype_=
+show(struct device *dev,
+7567d603b3f1c5e YueHaibing         2021-05-20  461  			    struct device_at=
+tribute *attr, char *buf)
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  462  {
+1aec5bdfed91b50 Greg Kroah-Hartman 2009-04-30  463  	struct hso_device *hso=
+_dev =3D dev_get_drvdata(dev);
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  464  	char *port_name;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  465  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2366  /*
-6277e83292a2d4d Shreyas NC          2016-08-12  2367   * Parse tokens to fi=
-ll up the module private data
-6277e83292a2d4d Shreyas NC          2016-08-12  2368   */
-6277e83292a2d4d Shreyas NC          2016-08-12  2369  static int skl_tplg_g=
-et_token(struct device *dev,
-6277e83292a2d4d Shreyas NC          2016-08-12  2370  		struct snd_soc_tplg=
-_vendor_value_elem *tkn_elem,
-bcc2a2dc3ba8c3a Cezary Rojewski     2019-07-23  2371  		struct skl_dev *skl=
-, struct skl_module_cfg *mconfig)
-6277e83292a2d4d Shreyas NC          2016-08-12  2372  {
-6277e83292a2d4d Shreyas NC          2016-08-12  2373  	int tkn_count =3D 0;
-6277e83292a2d4d Shreyas NC          2016-08-12  2374  	int ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2375  	static int is_pipe_e=
-xists;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2376  	static int pin_index=
-, dir, conf_idx;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2377  	struct skl_module_if=
-ace *iface =3D NULL;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2378  	struct skl_module_re=
-s *res =3D NULL;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2379  	int res_idx =3D mcon=
-fig->res_idx;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2380  	int fmt_idx =3D mcon=
-fig->fmt_idx;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2381  =
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  466  	if (!hso_dev)
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  467  		return 0;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  468  =
 
-f6fa56e22559ade Ramesh Babu         2017-08-23  2382  	/*
-f6fa56e22559ade Ramesh Babu         2017-08-23  2383  	 * If the manifest s=
-tructure contains no modules, fill all
-f6fa56e22559ade Ramesh Babu         2017-08-23  2384  	 * the module data t=
-o 0th index.
-f6fa56e22559ade Ramesh Babu         2017-08-23  2385  	 * res_idx and fmt_i=
-dx are default set to 0.
-f6fa56e22559ade Ramesh Babu         2017-08-23  2386  	 */
-f6fa56e22559ade Ramesh Babu         2017-08-23  2387  	if (skl->nr_modules =
-=3D=3D 0) {
-f6fa56e22559ade Ramesh Babu         2017-08-23  2388  		res =3D &mconfig->m=
-odule->resources[res_idx];
-f6fa56e22559ade Ramesh Babu         2017-08-23  2389  		iface =3D &mconfig-=
->module->formats[fmt_idx];
-f6fa56e22559ade Ramesh Babu         2017-08-23  2390  	}
-6277e83292a2d4d Shreyas NC          2016-08-12  2391  =
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  469  	switch (hso_dev->port_=
+spec & HSO_PORT_MASK) {
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  470  	case HSO_PORT_CONTROL:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  471  		port_name =3D "Contro=
+l";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  472  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  473  	case HSO_PORT_APP:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  474  		port_name =3D "Applic=
+ation";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  475  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  476  	case HSO_PORT_APP2:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  477  		port_name =3D "Applic=
+ation2";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  478  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  479  	case HSO_PORT_GPS:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  480  		port_name =3D "GPS";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  481  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  482  	case HSO_PORT_GPS_CONT=
+ROL:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  483  		port_name =3D "GPS Co=
+ntrol";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  484  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  485  	case HSO_PORT_PCSC:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  486  		port_name =3D "PCSC";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  487  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  488  	case HSO_PORT_DIAG:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  489  		port_name =3D "Diagno=
+stic";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  490  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  491  	case HSO_PORT_DIAG2:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  492  		port_name =3D "Diagno=
+stic2";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  493  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  494  	case HSO_PORT_MODEM:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  495  		port_name =3D "Modem";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  496  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  497  	case HSO_PORT_NETWORK:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  498  		port_name =3D "Networ=
+k";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  499  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  500  	default:
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  501  		port_name =3D "Unknow=
+n";
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  502  		break;
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  503  	}
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  504  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2392  	if (tkn_elem->token =
-> SKL_TKN_MAX)
-6277e83292a2d4d Shreyas NC          2016-08-12  2393  		return -EINVAL;
-6277e83292a2d4d Shreyas NC          2016-08-12  2394  =
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13 @505  	return sprintf(buf, "%=
+s\n", port_name);
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  506  }
+7567d603b3f1c5e YueHaibing         2021-05-20  507  static DEVICE_ATTR_RO(h=
+sotype);
+72dc1c096c7051a Greg Kroah-Hartman 2008-05-13  508  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2395  	switch (tkn_elem->to=
-ken) {
-6277e83292a2d4d Shreyas NC          2016-08-12  2396  	case SKL_TKN_U8_IN_Q=
-UEUE_COUNT:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2397  		mconfig->module->ma=
-x_input_pins =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2398  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2399  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2400  	case SKL_TKN_U8_OUT_=
-QUEUE_COUNT:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2401  		mconfig->module->ma=
-x_output_pins =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2402  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2403  =
+:::::: The code at line 505 was first introduced by commit
+:::::: 72dc1c096c7051a48ab1dbb12f71976656b55eb5 HSO: add option hso driver
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2404  	case SKL_TKN_U8_DYN_=
-IN_PIN:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2405  		if (!mconfig->m_in_=
-pin)
-a86854d0c599b32 Kees Cook           2018-06-12  2406  			mconfig->m_in_pin =
-=3D
-a86854d0c599b32 Kees Cook           2018-06-12  2407  				devm_kcalloc(dev,=
- MAX_IN_QUEUE,
-a86854d0c599b32 Kees Cook           2018-06-12  2408  					     sizeof(*mco=
-nfig->m_in_pin),
-a86854d0c599b32 Kees Cook           2018-06-12  2409  					     GFP_KERNEL);
-6277e83292a2d4d Shreyas NC          2016-08-12  2410  		if (!mconfig->m_in_=
-pin)
-6277e83292a2d4d Shreyas NC          2016-08-12  2411  			return -ENOMEM;
-6277e83292a2d4d Shreyas NC          2016-08-12  2412  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2413  		skl_tplg_fill_pin_d=
-ynamic_val(mconfig->m_in_pin, MAX_IN_QUEUE,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2414  					      tkn_elem->=
-value);
-6277e83292a2d4d Shreyas NC          2016-08-12  2415  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2416  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2417  	case SKL_TKN_U8_DYN_=
-OUT_PIN:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2418  		if (!mconfig->m_out=
-_pin)
-a86854d0c599b32 Kees Cook           2018-06-12  2419  			mconfig->m_out_pin=
- =3D
-a86854d0c599b32 Kees Cook           2018-06-12  2420  				devm_kcalloc(dev,=
- MAX_IN_QUEUE,
-a86854d0c599b32 Kees Cook           2018-06-12  2421  					     sizeof(*mco=
-nfig->m_in_pin),
-a86854d0c599b32 Kees Cook           2018-06-12  2422  					     GFP_KERNEL);
-6277e83292a2d4d Shreyas NC          2016-08-12  2423  		if (!mconfig->m_out=
-_pin)
-6277e83292a2d4d Shreyas NC          2016-08-12  2424  			return -ENOMEM;
-6277e83292a2d4d Shreyas NC          2016-08-12  2425  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2426  		skl_tplg_fill_pin_d=
-ynamic_val(mconfig->m_out_pin, MAX_OUT_QUEUE,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2427  					      tkn_elem->=
-value);
-6277e83292a2d4d Shreyas NC          2016-08-12  2428  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2429  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2430  	case SKL_TKN_U8_TIME=
-_SLOT:
-6277e83292a2d4d Shreyas NC          2016-08-12  2431  		mconfig->time_slot =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2432  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2433  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2434  	case SKL_TKN_U8_CORE=
-_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2435  		mconfig->core_id =
-=3D tkn_elem->value;
-9c80c5a8831471e Takashi Iwai        2018-10-03  2436  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2437  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2438  	case SKL_TKN_U8_MOD_=
-TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2439  		mconfig->m_type =3D=
- tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2440  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2441  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2442  	case SKL_TKN_U8_DEV_=
-TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2443  		mconfig->dev_type =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2444  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2445  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2446  	case SKL_TKN_U8_HW_C=
-ONN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2447  		mconfig->hw_conn_ty=
-pe =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2448  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2449  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2450  	case SKL_TKN_U16_MOD=
-_INST_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2451  		mconfig->id.instanc=
-e_id =3D
-6277e83292a2d4d Shreyas NC          2016-08-12  2452  		tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2453  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2454  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2455  	case SKL_TKN_U32_MEM=
-_PAGES:
-6277e83292a2d4d Shreyas NC          2016-08-12  2456  	case SKL_TKN_U32_MAX=
-_MCPS:
-6277e83292a2d4d Shreyas NC          2016-08-12  2457  	case SKL_TKN_U32_OBS:
-6277e83292a2d4d Shreyas NC          2016-08-12  2458  	case SKL_TKN_U32_IBS:
-2b79b15c258a90c Colin Ian King      2017-09-20  2459  		ret =3D skl_tplg_fi=
-ll_res_tkn(dev, tkn_elem, res, pin_index, dir);
-f6fa56e22559ade Ramesh Babu         2017-08-23  2460  		if (ret < 0)
-f6fa56e22559ade Ramesh Babu         2017-08-23  2461  			return ret;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2462  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2463  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2464  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2465  	case SKL_TKN_U32_VBU=
-S_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2466  		mconfig->vbus_id =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2467  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2468  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2469  	case SKL_TKN_U32_PAR=
-AMS_FIXUP:
-6277e83292a2d4d Shreyas NC          2016-08-12  2470  		mconfig->params_fix=
-up =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2471  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2472  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2473  	case SKL_TKN_U32_CON=
-VERTER:
-6277e83292a2d4d Shreyas NC          2016-08-12  2474  		mconfig->converter =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2475  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2476  =
-
-c0116be3d191393 Subhransu S. Prusty 2017-05-04  2477  	case SKL_TKN_U32_D0I=
-3_CAPS:
-6bd9dcf339ebb29 Vinod Koul          2016-11-03  2478  		mconfig->d0i3_caps =
-=3D tkn_elem->value;
-6bd9dcf339ebb29 Vinod Koul          2016-11-03  2479  		break;
-6bd9dcf339ebb29 Vinod Koul          2016-11-03  2480  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2481  	case SKL_TKN_U32_PIP=
-E_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2482  		ret =3D skl_tplg_ad=
-d_pipe(dev,
-6277e83292a2d4d Shreyas NC          2016-08-12  2483  				mconfig, skl, tkn=
-_elem);
-6277e83292a2d4d Shreyas NC          2016-08-12  2484  =
-
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2485  		if (ret < 0) {
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2486  			if (ret =3D=3D -EE=
-XIST) {
-6277e83292a2d4d Shreyas NC          2016-08-12  2487  				is_pipe_exists =
-=3D 1;
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2488  				break;
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2489  			}
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2490  			return is_pipe_exi=
-sts;
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2491  		}
-6277e83292a2d4d Shreyas NC          2016-08-12  2492  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2493  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2494  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2495  	case SKL_TKN_U32_PIP=
-E_CONFIG_ID:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2496  		conf_idx =3D tkn_el=
-em->value;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2497  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2498  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2499  	case SKL_TKN_U32_PIP=
-E_CONN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2500  	case SKL_TKN_U32_PIP=
-E_PRIORITY:
-6277e83292a2d4d Shreyas NC          2016-08-12  2501  	case SKL_TKN_U32_PIP=
-E_MEM_PGS:
-8a0cb2360ddb941 Vinod Koul          2016-11-03  2502  	case SKL_TKN_U32_PMO=
-DE:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2503  	case SKL_TKN_U32_PIP=
-E_DIRECTION:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2504  	case SKL_TKN_U32_NUM=
-_CONFIGS:
-6277e83292a2d4d Shreyas NC          2016-08-12  2505  		if (is_pipe_exists)=
- {
-6277e83292a2d4d Shreyas NC          2016-08-12  2506  			ret =3D skl_tplg_f=
-ill_pipe_tkn(dev, mconfig->pipe,
-6277e83292a2d4d Shreyas NC          2016-08-12  2507  					tkn_elem->token,=
- tkn_elem->value);
-6277e83292a2d4d Shreyas NC          2016-08-12  2508  			if (ret < 0)
-6277e83292a2d4d Shreyas NC          2016-08-12  2509  				return ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2510  		}
-6277e83292a2d4d Shreyas NC          2016-08-12  2511  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2512  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2513  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2514  	case SKL_TKN_U32_PAT=
-H_MEM_PGS:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2515  	case SKL_TKN_U32_CFG=
-_FREQ:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2516  	case SKL_TKN_U8_CFG_=
-CHAN:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2517  	case SKL_TKN_U8_CFG_=
-BPS:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2518  		if (mconfig->pipe->=
-nr_cfgs) {
-f6fa56e22559ade Ramesh Babu         2017-08-23  2519  			ret =3D skl_tplg_f=
-ill_pipe_cfg(dev, mconfig->pipe,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2520  					tkn_elem->token,=
- tkn_elem->value,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2521  					conf_idx, dir);
-f6fa56e22559ade Ramesh Babu         2017-08-23  2522  			if (ret < 0)
-f6fa56e22559ade Ramesh Babu         2017-08-23  2523  				return ret;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2524  		}
-f6fa56e22559ade Ramesh Babu         2017-08-23  2525  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2526  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2527  	case SKL_TKN_CFG_MOD=
-_RES_ID:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2528  		mconfig->mod_cfg[co=
-nf_idx].res_idx =3D tkn_elem->value;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2529  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2530  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2531  	case SKL_TKN_CFG_MOD=
-_FMT_ID:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2532  		mconfig->mod_cfg[co=
-nf_idx].fmt_idx =3D tkn_elem->value;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2533  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2534  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2535  	/*
-6277e83292a2d4d Shreyas NC          2016-08-12  2536  	 * SKL_TKN_U32_DIR_P=
-IN_COUNT token has the value for both
-6277e83292a2d4d Shreyas NC          2016-08-12  2537  	 * direction and the=
- pin count. The first four bits represent
-6277e83292a2d4d Shreyas NC          2016-08-12  2538  	 * direction and nex=
-t four the pin count.
-6277e83292a2d4d Shreyas NC          2016-08-12  2539  	 */
-6277e83292a2d4d Shreyas NC          2016-08-12  2540  	case SKL_TKN_U32_DIR=
-_PIN_COUNT:
-6277e83292a2d4d Shreyas NC          2016-08-12 @2541  		dir =3D tkn_elem->v=
-alue & SKL_IN_DIR_BIT_MASK;
-6277e83292a2d4d Shreyas NC          2016-08-12  2542  		pin_index =3D (tkn_=
-elem->value &
-6277e83292a2d4d Shreyas NC          2016-08-12  2543  			SKL_PIN_COUNT_MASK=
-) >> 4;
-6277e83292a2d4d Shreyas NC          2016-08-12  2544  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2545  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2546  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2547  	case SKL_TKN_U32_FMT=
-_CH:
-6277e83292a2d4d Shreyas NC          2016-08-12  2548  	case SKL_TKN_U32_FMT=
-_FREQ:
-6277e83292a2d4d Shreyas NC          2016-08-12  2549  	case SKL_TKN_U32_FMT=
-_BIT_DEPTH:
-6277e83292a2d4d Shreyas NC          2016-08-12  2550  	case SKL_TKN_U32_FMT=
-_SAMPLE_SIZE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2551  	case SKL_TKN_U32_FMT=
-_CH_CONFIG:
-6277e83292a2d4d Shreyas NC          2016-08-12  2552  	case SKL_TKN_U32_FMT=
-_INTERLEAVE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2553  	case SKL_TKN_U32_FMT=
-_SAMPLE_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2554  	case SKL_TKN_U32_FMT=
-_CH_MAP:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2555  		ret =3D skl_tplg_wi=
-dget_fill_fmt(dev, iface, tkn_elem->token,
-6277e83292a2d4d Shreyas NC          2016-08-12  2556  				tkn_elem->value, =
-dir, pin_index);
-6277e83292a2d4d Shreyas NC          2016-08-12  2557  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2558  		if (ret < 0)
-6277e83292a2d4d Shreyas NC          2016-08-12  2559  			return ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2560  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2561  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2562  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2563  	case SKL_TKN_U32_PIN=
-_MOD_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2564  	case SKL_TKN_U32_PIN=
-_INST_ID:
-d956147473ec184 Sriram Periyasamy   2017-11-07  2565  	case SKL_TKN_UUID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2566  		ret =3D skl_tplg_fi=
-ll_pins_info(dev,
-6277e83292a2d4d Shreyas NC          2016-08-12  2567  				mconfig, tkn_elem=
-, dir,
-6277e83292a2d4d Shreyas NC          2016-08-12  2568  				pin_index);
-6277e83292a2d4d Shreyas NC          2016-08-12  2569  		if (ret < 0)
-6277e83292a2d4d Shreyas NC          2016-08-12  2570  			return ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2571  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2572  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2573  =
-
-a4ad42d28618eef Kareem Shaik        2021-08-18  2574  	case SKL_TKN_U32_FMT=
-_CFG_IDX:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2575  		if (tkn_elem->value=
- > SKL_MAX_PARAMS_TYPES)
-a4ad42d28618eef Kareem Shaik        2021-08-18  2576  			return -EINVAL;
-a4ad42d28618eef Kareem Shaik        2021-08-18  2577  =
-
-a4ad42d28618eef Kareem Shaik        2021-08-18 @2578  		mconfig->fmt_cfg_id=
-x =3D tkn_elem->value;
-a4ad42d28618eef Kareem Shaik        2021-08-18  2579  		break;
-a4ad42d28618eef Kareem Shaik        2021-08-18  2580  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2581  	case SKL_TKN_U32_CAP=
-S_SIZE:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2582  		mconfig->formats_co=
-nfig[mconfig->fmt_cfg_idx].caps_size =3D
-6277e83292a2d4d Shreyas NC          2016-08-12  2583  			tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2584  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2585  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2586  =
-
-133e6e5c27340fe Shreyas NC          2017-05-15  2587  	case SKL_TKN_U32_CAP=
-S_SET_PARAMS:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2588  		mconfig->formats_co=
-nfig[mconfig->fmt_cfg_idx].set_params =3D
-133e6e5c27340fe Shreyas NC          2017-05-15  2589  				tkn_elem->value;
-133e6e5c27340fe Shreyas NC          2017-05-15  2590  		break;
-133e6e5c27340fe Shreyas NC          2017-05-15  2591  =
-
-133e6e5c27340fe Shreyas NC          2017-05-15  2592  	case SKL_TKN_U32_CAP=
-S_PARAMS_ID:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2593  		mconfig->formats_co=
-nfig[mconfig->fmt_cfg_idx].param_id =3D
-133e6e5c27340fe Shreyas NC          2017-05-15  2594  				tkn_elem->value;
-133e6e5c27340fe Shreyas NC          2017-05-15  2595  		break;
-133e6e5c27340fe Shreyas NC          2017-05-15  2596  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2597  	case SKL_TKN_U32_PRO=
-C_DOMAIN:
-6277e83292a2d4d Shreyas NC          2016-08-12  2598  		mconfig->domain =3D
-6277e83292a2d4d Shreyas NC          2016-08-12  2599  			tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2600  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2601  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2602  =
-
-939df3ada789ccd Ramesh Babu         2017-06-19  2603  	case SKL_TKN_U32_DMA=
-_BUF_SIZE:
-939df3ada789ccd Ramesh Babu         2017-06-19  2604  		mconfig->dma_buffer=
-_size =3D tkn_elem->value;
-939df3ada789ccd Ramesh Babu         2017-06-19  2605  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2606  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2607  	case SKL_TKN_U8_IN_P=
-IN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2608  	case SKL_TKN_U8_OUT_=
-PIN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2609  	case SKL_TKN_U8_CONN=
-_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2610  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2611  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2612  	default:
-6277e83292a2d4d Shreyas NC          2016-08-12  2613  		dev_err(dev, "Token=
- %d not handled\n",
-6277e83292a2d4d Shreyas NC          2016-08-12  2614  				tkn_elem->token);
-6277e83292a2d4d Shreyas NC          2016-08-12  2615  		return -EINVAL;
-6277e83292a2d4d Shreyas NC          2016-08-12  2616  	}
-6277e83292a2d4d Shreyas NC          2016-08-12  2617  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2618  	tkn_count++;
-6277e83292a2d4d Shreyas NC          2016-08-12  2619  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2620  	return tkn_count;
-6277e83292a2d4d Shreyas NC          2016-08-12  2621  }
-6277e83292a2d4d Shreyas NC          2016-08-12  2622  =
-
+:::::: TO: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: CC: Jeff Garzik <jgarzik@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1335747067441476180==--
+--===============4765602038856976460==--
 
