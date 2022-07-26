@@ -1,309 +1,394 @@
-Content-Type: multipart/mixed; boundary="===============7683780599479854532=="
+Content-Type: multipart/mixed; boundary="===============6754627470689784148=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/container_of.h:18:15: warning: use of uninitialized value '((struct evict_node *)((char *)__mptr + 24))[35791393].link.next' [CWE-457]
-Date: Mon, 25 Jul 2022 16:58:25 +0000
-Message-ID: <202207241129.WQ0HvJ0Y-lkp@intel.com>
+Subject: drivers/edac/synopsys_edac.c:1043:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
+Date: Tue, 26 Jul 2022 21:03:28 +0800
+Message-ID: <202207262049.bP4ZpZLy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7683780599479854532==
+--===============6754627470689784148==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: include/l=
-inux/container_of.h:18:15: warning: use of uninitialized value '((struct ev=
-ict_node *)((char *)__mptr + 24))[35791393].link.next' [CWE-457] [-Wanalyze=
-r-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/edac/synopsys_edac.c:1043:9: warning: Call to function 'sprintf' i=
+s insecure as it does not provide bounding of the memory buffer or security=
+ checks introduced in the C11 standard. Replace with analogous functions th=
+at support length arguments or provides boundary checks such as 'sprintf_s'=
+ in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuff=
+erHandling]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sherry Sun <sherry.sun@nxp.com>
+CC: Borislav Petkov <bp@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   515f71412bb73ebd7f41f90e1684fc80b8730789
-commit: d2a8ebbf8192b84b11f1b204c4f7c602df32aeac kernel.h: split out contai=
-ner_of() and typeof_member() macros
-date:   9 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220717 (https://download.01.org/0day-ci/archi=
-ve/20220724/202207241129.WQ0HvJ0Y-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+head:   e0dccc3b76fb35bb257b4118367a883073d7390e
+commit: 5297ecfe2465951682f888b5f4c2efebe23d011a EDAC/synopsys: Add driver =
+support for i.MX platforms
+date:   3 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220721 (https://download.01.org/0day-ci/archi=
+ve/20220726/202207262049.bP4ZpZLy-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 72686d=
+68c137551cce816416190a18d45b4d4e2a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+t/commit/?id=3D5297ecfe2465951682f888b5f4c2efebe23d011a
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout d2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+        git checkout 5297ecfe2465951682f888b5f4c2efebe23d011a
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/selftests/test-drm_mm.c: In function 'misalignment':
-   drivers/gpu/drm/selftests/test-drm_mm.c:160:13: warning: use of uninitia=
-lized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     160 |         u64 rem;
-         |             ^~~
-     'igt_color': events 1-6
-       |
-       | 2032 | static int igt_color(void *ignored)
-       |      |            ^~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'igt_color'
-       |......
-       | 2050 |         for (n =3D 1; n <=3D count; n++) {
-       |      |                     ~~~~~~~~~~
-       |      |                       |
-       |      |                       (2) following 'true' branch...
-       | 2051 |                 node =3D kzalloc(sizeof(*node), GFP_KERNEL);
-       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                        |
-       |      |                        (3) ...to here
-       | 2052 |                 if (!node) {
-       |      |                    ~
-       |      |                    |
-       |      |                    (4) following 'false' branch (when 'node=
-' is non-NULL)...
-       |......
-       | 2057 |                 if (!expect_insert(&mm, node,
-       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                      |
-       |      |                      (5) ...to here
-       |      |                      (6) calling 'expect_insert' from 'igt_=
-color'
-       | 2058 |                                    n, 0, n,
-       |      |                                    ~~~~~~~~
-       | 2059 |                                    &insert_modes[0])) {
-       |      |                                    ~~~~~~~~~~~~~~~~~
-       |
-       +--> 'expect_insert': events 7-10
-              |
-              |  526 | static bool expect_insert(struct drm_mm *mm, struct =
-drm_mm_node *node,
-              |      |             ^~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) entry to 'expect_insert'
-              |......
-              |  535 |         if (err) {
-              |      |            ~ =
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/edac/synopsys_edac.c:521:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(p, 0, sizeof(*p));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/edac/synopsys_edac.c:564:3: warning: 1st function call argument =
+is an uninitialized value [clang-analyzer-core.CallAndMessage]
+                   writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+                   ^
+   arch/arm/include/asm/io.h:311:36: note: expanded from macro 'writel'
+   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+                                                 ^~~~~~~~~~~~~~~~~~~
+   arch/arm/include/asm/io.h:303:29: note: expanded from macro 'writel_rela=
+xed'
+   #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v=
+),c)
+                                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/include/asm/io.h:92:22: note: expanded from macro '__raw_writel'
+   #define __raw_writel __raw_writel
+                        ^
+   drivers/edac/synopsys_edac.c:536:14: note: 'regval' declared without an =
+initial value
+           int status, regval;
+                       ^~~~~~
+   drivers/edac/synopsys_edac.c:545:6: note: Assuming the condition is false
+           if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/edac/synopsys_edac.c:545:2: note: Taking false branch
+           if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)) {
+           ^
+   drivers/edac/synopsys_edac.c:553:6: note: Assuming 'status' is 0
+           if (status)
+               ^~~~~~
+   drivers/edac/synopsys_edac.c:553:2: note: Taking false branch
+           if (status)
+           ^
+   drivers/edac/synopsys_edac.c:560:11: note: Assuming 'edac_debug_level' i=
+s < 3
+           edac_dbg(3, "Total error count CE %d UE %d\n",
+                    ^
+   drivers/edac/edac_mc.h:75:6: note: expanded from macro 'edac_dbg'
+           if (level <=3D edac_debug_level)                                =
+  \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/edac/synopsys_edac.c:560:2: note: Taking false branch
+           edac_dbg(3, "Total error count CE %d UE %d\n",
+           ^
+   drivers/edac/edac_mc.h:75:2: note: expanded from macro 'edac_dbg'
+           if (level <=3D edac_debug_level)                                =
+  \
+           ^
+   drivers/edac/synopsys_edac.c:560:2: note: Loop condition is false.  Exit=
+ing loop
+           edac_dbg(3, "Total error count CE %d UE %d\n",
+           ^
+   drivers/edac/edac_mc.h:73:39: note: expanded from macro 'edac_dbg'
+   #define edac_dbg(level, fmt, ...)                                       \
+                                                                           ^
+   drivers/edac/synopsys_edac.c:563:6: note: Assuming the condition is true
+           if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/edac/synopsys_edac.c:563:2: note: Taking true branch
+           if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR))
+           ^
+   drivers/edac/synopsys_edac.c:564:3: note: Loop condition is false.  Exit=
+ing loop
+                   writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+                   ^
+   arch/arm/include/asm/io.h:311:25: note: expanded from macro 'writel'
+   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+                                      ^
+   arch/arm/include/asm/io.h:170:20: note: expanded from macro '__iowmb'
+   #define __iowmb()               do { } while (0)
+                                   ^
+   drivers/edac/synopsys_edac.c:564:3: note: 1st function call argument is =
+an uninitialized value
+                   writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+                   ^
+   arch/arm/include/asm/io.h:311:36: note: expanded from macro 'writel'
+   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+                                                 ^~~~~~~~~~~~~~~~~~~
+   arch/arm/include/asm/io.h:303:29: note: expanded from macro 'writel_rela=
+xed'
+   #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v=
+),c)
+                                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/include/asm/io.h:92:22: note: expanded from macro '__raw_writel'
+   #define __raw_writel __raw_writel
+                        ^
+   drivers/edac/synopsys_edac.c:1014:9: warning: Call to function 'sprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(data, "Poison0 Addr: 0x%08x\n\rPoison1 Addr: 0x%0=
+8x\n\r"
+                  ^~~~~~~
+   drivers/edac/synopsys_edac.c:1014:9: note: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(data, "Poison0 Addr: 0x%08x\n\rPoison1 Addr: 0x%0=
+8x\n\r"
+                  ^~~~~~~
+>> drivers/edac/synopsys_edac.c:1043:9: warning: Call to function 'sprintf'=
+ is insecure as it does not provide bounding of the memory buffer or securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+           return sprintf(data, "Data Poisoning: %s\n\r",
+                  ^~~~~~~
+   drivers/edac/synopsys_edac.c:1043:9: note: Call to function 'sprintf' is=
+ insecure as it does not provide bounding of the memory buffer or security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+           return sprintf(data, "Data Poisoning: %s\n\r",
+                  ^~~~~~~
+   Suppressed 36 warnings (36 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   49 warnings generated.
+   drivers/iio/dac/ti-dac5571.c:43:8: warning: Excessive padding in 'struct=
+ dac5571_data' (57 padding bytes, where 25 is optimal). Optimal fields orde=
+r: buf, powerdown, powerdown_mode, client, id, vref, spec, dac5571_cmd, dac=
+5571_pwrdwn, lock, val, consider reordering the fields or adding explicit p=
+adding members [clang-analyzer-optin.performance.Padding]
+   struct dac5571_data {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/iio/dac/ti-dac5571.c:43:8: note: Excessive padding in 'struct da=
+c5571_data' (57 padding bytes, where 25 is optimal). Optimal fields order: =
+buf, powerdown, powerdown_mode, client, id, vref, spec, dac5571_cmd, dac557=
+1_pwrdwn, lock, val, consider reordering the fields or adding explicit padd=
+ing members
+   struct dac5571_data {
+   ~~~~~~~^~~~~~~~~~~~~~
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (21 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   49 warnings generated.
+   drivers/iio/gyro/fxas21002c_core.c:137:8: warning: Excessive padding in =
+'struct fxas21002c_data' (51 padding bytes, where 19 is optimal). Optimal f=
+ields order: buffer, timestamp, mode, prev_mode, regmap, dready_trig, irq, =
+vdd, vddio, lock, regmap_fields, chip_id, consider reordering the fields or=
+ adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct fxas21002c_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~
+   drivers/iio/gyro/fxas21002c_core.c:137:8: note: Excessive padding in 'st=
+ruct fxas21002c_data' (51 padding bytes, where 19 is optimal). Optimal fiel=
+ds order: buffer, timestamp, mode, prev_mode, regmap, dready_trig, irq, vdd=
+, vddio, lock, regmap_fields, chip_id, consider reordering the fields or ad=
+ding explicit padding members
+   struct fxas21002c_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   35 warnings generated.
+   Suppressed 35 warnings (35 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   49 warnings generated.
+   drivers/iio/gyro/itg3200_core.c:94:3: warning: Value stored to 'ret' is =
+never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D itg3200_read_reg_s16(indio_dev, reg, val);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/gyro/itg3200_core.c:94:3: note: Value stored to 'ret' is nev=
+er read
+                   ret =3D itg3200_read_reg_s16(indio_dev, reg, val);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 48 warnings (48 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   36 warnings generated.
+   drivers/rpmsg/qcom_glink_ssr.c:110:2: warning: Call to function 'memset'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&msg, 0, sizeof(msg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/rpmsg/qcom_glink_ssr.c:110:2: note: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11
+           memset(&msg, 0, sizeof(msg));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 35 warnings (35 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   drivers/nvmem/meson-mx-efuse.c:158:3: warning: Call to function 'memcpy'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buf + i, &tmp,
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/nvmem/meson-mx-efuse.c:158:3: note: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buf + i, &tmp,
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
 
-              |      |            |
-              |      |            (8) following 'false' branch (when 'err =
-=3D=3D 0')...
-              |......
-              |  541 |         if (!assert_node(node, mm, size, alignment, =
-color)) {
-              |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-              |      |              |
-              |      |              (9) ...to here
-              |      |              (10) calling 'assert_node' from 'expect=
-_insert'
-              |
-              +--> 'assert_node': events 11-12
-                     |
-                     |  169 | static bool assert_node(struct drm_mm_node *n=
-ode, struct drm_mm *mm,
-                     |      |             ^~~~~~~~~~~
-                     |      |             |
-                     |      |             (11) entry to 'assert_node'
-                     |......
-                     |  185 |         if (misalignment(node, alignment)) {
-                     |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (12) calling 'misalignment' from =
-'assert_node'
-                     |
-                     +--> 'misalignment': events 13-14
-                            |
-                            |  158 | static u64 misalignment(struct drm_mm_=
-node *node, u64 alignment)
-                            |      |            ^~~~~~~~~~~~
-                            |      |            |
-                            |      |            (13) entry to 'misalignment'
-                            |  159 | {
-                            |  160 |         u64 rem;
-                            |      |             ~~~
-                            |      |             |
-                            |      |             (14) use of uninitialized =
-value '<unknown>' here
-                            |
-   In file included from include/linux/kernel.h:12,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:12,
-                    from drivers/gpu/drm/selftests/test-drm_mm.c:8:
-   drivers/gpu/drm/selftests/test-drm_mm.c: In function 'evict_nodes':
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct evict_node *)((char *)__mptr + 24))[35791393].link.next' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/selftests/test-drm_mm.c:1320:9: note: in expansion of ma=
-cro 'list_for_each_entry_safe'
-    1320 |         list_for_each_entry_safe(e, en, evict_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'igt_color_evict': events 1-6
-       |
-       | 2258 | static int igt_color_evict(void *ignored)
-       |      |            ^~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'igt_color_evict'
-       |......
-       | 2278 |         if (!nodes)
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch (when 'nodes' is no=
-n-NULL)...
-       |......
-       | 2281 |         order =3D drm_random_order(total_size, &prng);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-       | 2282 |         if (!order)
-       |      |            ~
-       |      |            |
-       |      |            (4) following 'false' branch (when 'order' is no=
-n-NULL)...
-       |......
-       | 2286 |         drm_mm_init(&mm, 0, 2*total_size - 1);
-       |      |                             ~~~~~~~~~~~~
-       |      |                              |
-       |      |                              (5) ...to here
-       | 2287 |         mm.color_adjust =3D separate_adjacent_colors;
-       | 2288 |         for (n =3D 0; n < total_size; n++) {
-       |      |                     ~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (6) following 'false' branch...
-       |
-     'igt_color_evict': event 7
-       |
-       |cc1:
-       | (7): ...to here
-       |
-     'igt_color_evict': event 8
-       |
-       | 2297 |         for (mode =3D evict_modes; mode->name; mode++) {
-       |      |                                  ^~~~
-       |      |                                  |
-       |      |                                  (8) following 'true' branc=
-h...
-       |
-     'igt_color_evict': event 9
-       |
-       |cc1:
-       | (9): ...to here
-       |
-     'igt_color_evict': event 10
-       |
-       | 2298 |                 for (n =3D 1; n <=3D total_size; n <<=3D 1)=
- {
-       |      |                             ~~^~~~~~~~~~~~~
-       |      |                               |
-       |      |                               (10) following 'false' branch=
-...
-       |
-     'igt_color_evict': event 11
-       |
-       |cc1:
-       | (11): ...to here
-       |
-     'igt_color_evict': event 12
-       |
-       | 2311 |                 for (n =3D 1; n < total_size; n <<=3D 1) {
-       |      |                             ~~^~~~~~~~~~~~
-       |      |                               |
-       |      |                               (12) following 'false' branch=
-...
-       |
-     'igt_color_evict': event 13
-       |
-       |cc1:
-       | (13): ...to here
-       |
-     'igt_color_evict': event 14
-       |
-       |include/linux/prime_numbers.h:36:36:
-       |   36 |         for (prime =3D (from); prime <=3D (max); prime =3D =
-next_prime_number(prime))
-   drivers/gpu/drm/selftests/test-drm_mm.c:2324:17: note: in expansion of m=
-acro 'for_each_prime_number_from'
-       | 2324 |                 for_each_prime_number_from(n, 1, min(total_=
-size, max_prime)) {
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |
-     'igt_color_evict': events 15-16
-       |
-       | 2325 |                         unsigned int nsize =3D (total_size =
-- n + 1) / 2;
-       |      |                                               ~~~~~~~~~~~^~~
-       |      |                                                          |
-       |      |                                                          (1=
-5) ...to here
+vim +1043 drivers/edac/synopsys_edac.c
 
-vim +18 include/linux/container_of.h
+1a81361f75d8a5 Manish Narani 2018-10-25  1035  =
 
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08   9  =
+1a81361f75d8a5 Manish Narani 2018-10-25  1036  static ssize_t inject_data_p=
+oison_show(struct device *dev,
+1a81361f75d8a5 Manish Narani 2018-10-25  1037  				       struct device_att=
+ribute *mattr,
+1a81361f75d8a5 Manish Narani 2018-10-25  1038  				       char *data)
+1a81361f75d8a5 Manish Narani 2018-10-25  1039  {
+1a81361f75d8a5 Manish Narani 2018-10-25  1040  	struct mem_ctl_info *mci =
+=3D to_mci(dev);
+1a81361f75d8a5 Manish Narani 2018-10-25  1041  	struct synps_edac_priv *pri=
+v =3D mci->pvt_info;
+1a81361f75d8a5 Manish Narani 2018-10-25  1042  =
 
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  10  /**
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  11   * container_of - cast a me=
-mber of a structure out to the containing structure
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  12   * @ptr:	the pointer to the=
- member.
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  13   * @type:	the type of the c=
-ontainer struct this is embedded in.
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  14   * @member:	the name of the=
- member within the struct.
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  15   *
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  16   */
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  17  #define container_of(ptr, t=
-ype, member) ({				\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08 @18  	void *__mptr =3D (void *)(=
-ptr);					\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  19  	BUILD_BUG_ON_MSG(!__same_t=
-ype(*(ptr), ((type *)0)->member) &&	\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  20  			 !__same_type(*(ptr), vo=
-id),			\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  21  			 "pointer type mismatch =
-in container_of()");	\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  22  	((type *)(__mptr - offseto=
-f(type, member))); })
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  23  =
+1a81361f75d8a5 Manish Narani 2018-10-25 @1043  	return sprintf(data, "Data =
+Poisoning: %s\n\r",
+1a81361f75d8a5 Manish Narani 2018-10-25  1044  			(((readl(priv->baseaddr +=
+ ECC_CFG1_OFST)) & 0x3) =3D=3D 0x3)
+1a81361f75d8a5 Manish Narani 2018-10-25  1045  			? ("Correctable Error") :=
+ ("UnCorrectable Error"));
+1a81361f75d8a5 Manish Narani 2018-10-25  1046  }
+1a81361f75d8a5 Manish Narani 2018-10-25  1047  =
 
+
+:::::: The code at line 1043 was first introduced by commit
+:::::: 1a81361f75d8a5cbe9d77c30fe0f42b7cda621c8 EDAC, synopsys: Add Error I=
+njection support for ZynqMP DDR controller
+
+:::::: TO: Manish Narani <manish.narani@xilinx.com>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7683780599479854532==--
+--===============6754627470689784148==--
 
