@@ -1,150 +1,238 @@
-Content-Type: multipart/mixed; boundary="===============8023742309590429194=="
+Content-Type: multipart/mixed; boundary="===============5517093599033424002=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/i2c/hi846.c:1320:12: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Tue, 19 Jul 2022 21:21:48 +0800
-Message-ID: <202207192102.CQUQWLVt-lkp@intel.com>
+Subject: sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: potentially dereferencing uninitialized 'sg'.
+Date: Tue, 26 Jul 2022 08:41:28 +0800
+Message-ID: <202207260808.bRb3csaF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8023742309590429194==
+--===============5517093599033424002==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/hi846.c:1320:12: warning: use of uninitialized value '<unknown>' [=
-CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Martin Kepplinger <martin.kepplinger@puri.sm>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Pavel Machek <pavel@ucw.cz>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   ca85855bdcae8f84f1512e88b4c75009ea17ea2f
-commit: e8c0882685f9152f0d729664a12bcbe749cb7736 media: i2c: add driver for=
- the SK Hynix Hi-846 8M pixel camera
+head:   e0dccc3b76fb35bb257b4118367a883073d7390e
+commit: 36ad9bf1d93d66b901342eab9f8ed6c1537655a6 ASoC: qdsp6: audioreach: a=
+dd topology support
 date:   9 months ago
-:::::: branch date: 13 hours ago
+:::::: branch date: 28 hours ago
 :::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220719/202207192102.CQUQWLVt-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c0882685f9152f0d729664a12bcbe749cb7736
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c0882685f9152f0d729664a12bcbe749cb7736
-        # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+config: openrisc-randconfig-m041-20220721 (https://download.01.org/0day-ci/=
+archive/20220726/202207260808.bRb3csaF-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:355 audioreach_parse_sg_tokens() error: uni=
+nitialized symbol 'sg'.
+sound/soc/qcom/qdsp6/topology.c:382 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:402 audioreach_parse_cont_tokens() error: u=
+ninitialized symbol 'cont'.
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/i2c/hi846.c: In function 'hi846_test_pattern':
->> drivers/media/i2c/hi846.c:1320:12: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1320 |         u8 val;
-         |            ^~~
-     'hi846_test_pattern': event 1
-       |
-       | 1320 |         u8 val;
-       |      |            ^~~
-       |      |            |
-       |      |            (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi846.c: In function 'hi846_start_streaming':
-   drivers/media/i2c/hi846.c:1526:12: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1526 |         u8 val;
-         |            ^~~
-     'hi846_start_streaming': event 1
-       |
-       | 1526 |         u8 val;
-       |      |            ^~~
-       |      |            |
-       |      |            (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi846.c: In function 'hi846_identify_module':
-   drivers/media/i2c/hi846.c:1942:12: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1942 |         u8 hi, lo;
-         |            ^~
-     'hi846_identify_module': event 1
-       |
-       | 1942 |         u8 hi, lo;
-       |      |            ^~
-       |      |            |
-       |      |            (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/media/i2c/hi846.c:1942:16: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1942 |         u8 hi, lo;
-         |                ^~
-     'hi846_identify_module': event 1
-       |
-       | 1942 |         u8 hi, lo;
-       |      |                ^~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
+Old smatch warnings:
+sound/soc/qcom/qdsp6/topology.c:339 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:342 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:357 audioreach_parse_sg_tokens() error: uni=
+nitialized symbol 'sg'.
+sound/soc/qcom/qdsp6/topology.c:385 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:388 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:391 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
 
-vim +1320 drivers/media/i2c/hi846.c
+vim +/sg +336 sound/soc/qcom/qdsp6/topology.c
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1316  =
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  302  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1317  static int hi846_test_pa=
-ttern(struct hi846 *hi846, u32 pattern)
-e8c0882685f915 Martin Kepplinger 2021-09-06  1318  {
-e8c0882685f915 Martin Kepplinger 2021-09-06  1319  	int ret;
-e8c0882685f915 Martin Kepplinger 2021-09-06 @1320  	u8 val;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1321  =
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  303  static struct audiorea=
+ch_sub_graph *audioreach_parse_sg_tokens(struct q6apm *apm,
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  304  						       struct sn=
+d_soc_tplg_private *private)
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  305  {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  306  	struct snd_soc_tplg_v=
+endor_value_elem *sg_elem;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  307  	struct snd_soc_tplg_v=
+endor_array *sg_array;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  308  	struct audioreach_gra=
+ph_info *info =3D NULL;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  309  	int graph_id, sub_gra=
+ph_id, tkn_count =3D 0;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  310  	struct audioreach_sub=
+_graph *sg;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  311  	bool found;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  312  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1322  	if (pattern) {
-e8c0882685f915 Martin Kepplinger 2021-09-06  1323  		ret =3D hi846_read_reg=
-(hi846, HI846_REG_ISP, &val);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1324  		if (ret)
-e8c0882685f915 Martin Kepplinger 2021-09-06  1325  			return ret;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1326  =
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  313  	sg_array =3D audiorea=
+ch_get_sg_array(private);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  314  	sg_elem =3D sg_array-=
+>value;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  315  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1327  		ret =3D hi846_write_re=
-g(hi846, HI846_REG_ISP,
-e8c0882685f915 Martin Kepplinger 2021-09-06  1328  				      val | HI846_RE=
-G_ISP_TPG_EN);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1329  		if (ret)
-e8c0882685f915 Martin Kepplinger 2021-09-06  1330  			return ret;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1331  	}
-e8c0882685f915 Martin Kepplinger 2021-09-06  1332  =
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  316  	while (tkn_count <=3D=
+ (le32_to_cpu(sg_array->num_elems) - 1)) {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  317  		switch (le32_to_cpu(=
+sg_elem->token)) {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  318  		case AR_TKN_U32_SUB_=
+GRAPH_INSTANCE_ID:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  319  			sub_graph_id =3D le=
+32_to_cpu(sg_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  320  			sg =3D audioreach_t=
+plg_alloc_sub_graph(apm, sub_graph_id, &found);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  321  			if (IS_ERR(sg)) {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  322  				return sg;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  323  			} else if (found) {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  324  				/* Already parsed =
+data for this sub-graph */
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  325  				return sg;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  326  			}
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  327  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  328  		case AR_TKN_DAI_INDE=
+X:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  329  			/* Sub graph is ass=
+ociated with predefined graph */
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  330  			graph_id =3D le32_t=
+o_cpu(sg_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  331  			info =3D audioreach=
+_tplg_alloc_graph_info(apm, graph_id, &found);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  332  			if (IS_ERR(info))
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  333  				return ERR_CAST(in=
+fo);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  334  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  335  		case AR_TKN_U32_SUB_=
+GRAPH_PERF_MODE:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26 @336  			sg->perf_mode =3D l=
+e32_to_cpu(sg_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  337  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  338  		case AR_TKN_U32_SUB_=
+GRAPH_DIRECTION:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  339  			sg->direction =3D l=
+e32_to_cpu(sg_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  340  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  341  		case AR_TKN_U32_SUB_=
+GRAPH_SCENARIO_ID:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  342  			sg->scenario_id =3D=
+ le32_to_cpu(sg_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  343  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  344  		default:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  345  			dev_err(apm->dev, "=
+Not a valid token %d for graph\n", sg_elem->token);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  346  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  347  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1333  	return hi846_write_reg(=
-hi846, HI846_REG_TEST_PATTERN, pattern);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1334  }
-e8c0882685f915 Martin Kepplinger 2021-09-06  1335  =
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  348  		}
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  349  		tkn_count++;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  350  		sg_elem++;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  351  	}
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  352  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  353  	/* Sub graph is assoc=
+iated with predefined graph */
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  354  	if (info)
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26 @355  		audioreach_tplg_add_=
+sub_graph(sg, info);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  356  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  357  	return sg;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  358  }
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  359  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  360  static struct audiorea=
+ch_container *audioreach_parse_cont_tokens(struct q6apm *apm,
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  361  							 struct audiore=
+ach_sub_graph *sg,
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  362  							 struct snd_soc=
+_tplg_private *private)
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  363  {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  364  	struct snd_soc_tplg_v=
+endor_value_elem *cont_elem;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  365  	struct snd_soc_tplg_v=
+endor_array *cont_array;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  366  	struct audioreach_con=
+tainer *cont;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  367  	int container_id, tkn=
+_count =3D 0;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  368  	bool found =3D false;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  369  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  370  	cont_array =3D audior=
+each_get_cont_array(private);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  371  	cont_elem =3D cont_ar=
+ray->value;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  372  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  373  	while (tkn_count <=3D=
+ (le32_to_cpu(cont_array->num_elems) - 1)) {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  374  		switch (le32_to_cpu(=
+cont_elem->token)) {
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  375  		case AR_TKN_U32_CONT=
+AINER_INSTANCE_ID:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  376  			container_id =3D le=
+32_to_cpu(cont_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  377  			cont =3D audioreach=
+_tplg_alloc_container(apm, sg, container_id, &found);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  378  			if (IS_ERR(cont) ||=
+ found)/* Error or Already parsed container data */
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  379  				return cont;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  380  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  381  		case AR_TKN_U32_CONT=
+AINER_CAPABILITY_ID:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26 @382  			cont->capability_id=
+ =3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  383  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  384  		case AR_TKN_U32_CONT=
+AINER_STACK_SIZE:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  385  			cont->stack_size =
+=3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  386  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  387  		case AR_TKN_U32_CONT=
+AINER_GRAPH_POS:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  388  			cont->graph_pos =3D=
+ le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  389  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  390  		case AR_TKN_U32_CONT=
+AINER_PROC_DOMAIN:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  391  			cont->proc_domain =
+=3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  392  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  393  		default:
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  394  			dev_err(apm->dev, "=
+Not a valid token %d for graph\n", cont_elem->token);
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  395  			break;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  396  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  397  		}
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  398  		tkn_count++;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  399  		cont_elem++;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  400  	}
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  401  =
+
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26 @402  	return cont;
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  403  }
+36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  404  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8023742309590429194==--
+--===============5517093599033424002==--
 
