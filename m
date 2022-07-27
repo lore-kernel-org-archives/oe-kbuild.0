@@ -1,194 +1,166 @@
-Content-Type: multipart/mixed; boundary="===============3499411778691258708=="
+Content-Type: multipart/mixed; boundary="===============1995441146878216681=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/i2c/ov08d10.c:1352:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Wed, 27 Jul 2022 12:10:43 +0800
-Message-ID: <202207271229.s2H99DMS-lkp@intel.com>
+Subject: Re: [RFC PATCH bpf-next 1/3] bpf: Add support for qp-trie map
+Date: Wed, 27 Jul 2022 12:00:22 +0800
+Message-ID: <202207271105.4Ac6T2QV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3499411778691258708==
+--===============1995441146878216681==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/ov08d10.c:1352:13: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: kernel/bp=
+f/bpf_qp_trie.c:648:25: sparse: sparse: division by zero"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Jimmy Su <jimmy.su@intel.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <20220726130005.3102470-2-houtao1@huawei.com>
+References: <20220726130005.3102470-2-houtao1@huawei.com>
+TO: Hou Tao <houtao1@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5de64d44968e4ae66ebdb0a2d08b443f189d3651
-commit: 7be91e02ed578234b1c29a0f5fa9e5ecdd954e06 media: i2c: Add ov08d10 ca=
-mera sensor driver
-date:   6 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20220718 (https://download.01.org/0day-ci/archi=
-ve/20220727/202207271229.s2H99DMS-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+Hi Hou,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/Add-support-=
+for-qp-trie-map/20220726-204347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
+ster
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: m68k-randconfig-s053-20220726 (https://download.01.org/0day-ci/arch=
+ive/20220727/202207271105.4Ac6T2QV-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7be91e02ed578234b1c29a0f5fa9e5ecdd954e06
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7be91e02ed578234b1c29a0f5fa9e5ecdd954e06
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/74890023aaa2d8ffed5=
+4d96d4999f10bf14ccfef
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hou-Tao/Add-support-for-qp-trie-ma=
+p/20220726-204347
+        git checkout 74890023aaa2d8ffed54d96d4999f10bf14ccfef
         # save the config file
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
+68k SHELL=3D/bin/bash kernel/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/i2c/ov08d10.c: In function 'ov08d10_get_hwcfg':
->> drivers/media/i2c/ov08d10.c:1352:13: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1352 |         u32 xvclk_rate;
-         |             ^~~~~~~~~~
-     'ov08d10_get_hwcfg': event 1
-       |
-       | 1352 |         u32 xvclk_rate;
-       |      |             ^~~~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/bpf_qp_trie.c:232:48: sparse: sparse: incorrect type in argum=
+ent 1 (different address spaces) @@     expected void *node @@     got void=
+ [noderef] __rcu * @@
+   kernel/bpf/bpf_qp_trie.c:232:48: sparse:     expected void *node
+   kernel/bpf/bpf_qp_trie.c:232:48: sparse:     got void [noderef] __rcu *
+   kernel/bpf/bpf_qp_trie.c:263:60: sparse: sparse: incorrect type in argum=
+ent 2 (different address spaces) @@     expected void *node @@     got void=
+ [noderef] __rcu * @@
+   kernel/bpf/bpf_qp_trie.c:263:60: sparse:     expected void *node
+   kernel/bpf/bpf_qp_trie.c:263:60: sparse:     got void [noderef] __rcu *
+   kernel/bpf/bpf_qp_trie.c:436:9: sparse: sparse: incompatible types in co=
+mparison expression (different address spaces):
+   kernel/bpf/bpf_qp_trie.c:436:9: sparse:    struct qp_trie_branch [nodere=
+f] __rcu *
+   kernel/bpf/bpf_qp_trie.c:436:9: sparse:    struct qp_trie_branch *
+   kernel/bpf/bpf_qp_trie.c:477:9: sparse: sparse: incompatible types in co=
+mparison expression (different address spaces):
+   kernel/bpf/bpf_qp_trie.c:477:9: sparse:    struct qp_trie_branch [nodere=
+f] __rcu *
+   kernel/bpf/bpf_qp_trie.c:477:9: sparse:    struct qp_trie_branch *
+   kernel/bpf/bpf_qp_trie.c:518:9: sparse: sparse: incompatible types in co=
+mparison expression (different address spaces):
+   kernel/bpf/bpf_qp_trie.c:518:9: sparse:    struct qp_trie_branch [nodere=
+f] __rcu *
+   kernel/bpf/bpf_qp_trie.c:518:9: sparse:    struct qp_trie_branch *
+   kernel/bpf/bpf_qp_trie.c:547:9: sparse: sparse: incompatible types in co=
+mparison expression (different address spaces):
+   kernel/bpf/bpf_qp_trie.c:547:9: sparse:    struct qp_trie_branch [nodere=
+f] __rcu *
+   kernel/bpf/bpf_qp_trie.c:547:9: sparse:    struct qp_trie_branch *
+   kernel/bpf/bpf_qp_trie.c:574:9: sparse: sparse: incompatible types in co=
+mparison expression (different address spaces):
+   kernel/bpf/bpf_qp_trie.c:574:9: sparse:    struct qp_trie_branch [nodere=
+f] __rcu *
+   kernel/bpf/bpf_qp_trie.c:574:9: sparse:    struct qp_trie_branch *
+   kernel/bpf/bpf_qp_trie.c:593:21: sparse: sparse: incorrect type in assig=
+nment (different address spaces) @@     expected void *new_sibling @@     g=
+ot void [noderef] __rcu * @@
+   kernel/bpf/bpf_qp_trie.c:600:9: sparse: sparse: incompatible types in co=
+mparison expression (different address spaces):
+   kernel/bpf/bpf_qp_trie.c:600:9: sparse:    struct qp_trie_branch [nodere=
+f] __rcu *
+   kernel/bpf/bpf_qp_trie.c:600:9: sparse:    struct qp_trie_branch *
+   kernel/bpf/bpf_qp_trie.c:923:14: sparse: sparse: incorrect type in assig=
+nment (different address spaces) @@     expected void **node @@     got voi=
+d [noderef] __rcu ** @@
+   kernel/bpf/bpf_qp_trie.c:934:22: sparse: sparse: incorrect type in assig=
+nment (different address spaces) @@     expected void **node @@     got voi=
+d [noderef] __rcu ** @@
+   kernel/bpf/bpf_qp_trie.c:953:14: sparse: sparse: incorrect type in assig=
+nment (different address spaces) @@     expected void **node @@     got voi=
+d [noderef] __rcu ** @@
+   kernel/bpf/bpf_qp_trie.c:973:22: sparse: sparse: incorrect type in assig=
+nment (different address spaces) @@     expected void **node @@     got voi=
+d [noderef] __rcu ** @@
+   kernel/bpf/bpf_qp_trie.c:1010:14: sparse: sparse: incorrect type in assi=
+gnment (different address spaces) @@     expected void **node @@     got vo=
+id [noderef] __rcu ** @@
+   kernel/bpf/bpf_qp_trie.c:1026:22: sparse: sparse: incorrect type in assi=
+gnment (different address spaces) @@     expected void **node @@     got vo=
+id [noderef] __rcu ** @@
+>> kernel/bpf/bpf_qp_trie.c:648:25: sparse: sparse: division by zero
 
-vim +1352 drivers/media/i2c/ov08d10.c
+vim +648 kernel/bpf/bpf_qp_trie.c
 
-7be91e02ed57823 Jimmy Su 2022-01-12  1344  =
+74890023aaa2d8f Hou Tao 2022-07-26  637  =
 
-7be91e02ed57823 Jimmy Su 2022-01-12  1345  static int ov08d10_get_hwcfg(str=
-uct ov08d10 *ov08d10, struct device *dev)
-7be91e02ed57823 Jimmy Su 2022-01-12  1346  {
-7be91e02ed57823 Jimmy Su 2022-01-12  1347  	struct fwnode_handle *ep;
-7be91e02ed57823 Jimmy Su 2022-01-12  1348  	struct fwnode_handle *fwnode =
-=3D dev_fwnode(dev);
-7be91e02ed57823 Jimmy Su 2022-01-12  1349  	struct v4l2_fwnode_endpoint bus=
-_cfg =3D {
-7be91e02ed57823 Jimmy Su 2022-01-12  1350  		.bus_type =3D V4L2_MBUS_CSI2_D=
-PHY
-7be91e02ed57823 Jimmy Su 2022-01-12  1351  	};
-7be91e02ed57823 Jimmy Su 2022-01-12 @1352  	u32 xvclk_rate;
-7be91e02ed57823 Jimmy Su 2022-01-12  1353  	unsigned int i, j;
-7be91e02ed57823 Jimmy Su 2022-01-12  1354  	int ret;
-7be91e02ed57823 Jimmy Su 2022-01-12  1355  =
+74890023aaa2d8f Hou Tao 2022-07-26  638  static struct bpf_map *qp_trie_all=
+oc(union bpf_attr *attr)
+74890023aaa2d8f Hou Tao 2022-07-26  639  {
+74890023aaa2d8f Hou Tao 2022-07-26  640  	struct qp_trie *trie;
+74890023aaa2d8f Hou Tao 2022-07-26  641  	unsigned int i;
+74890023aaa2d8f Hou Tao 2022-07-26  642  =
 
-7be91e02ed57823 Jimmy Su 2022-01-12  1356  	if (!fwnode)
-7be91e02ed57823 Jimmy Su 2022-01-12  1357  		return -ENXIO;
-7be91e02ed57823 Jimmy Su 2022-01-12  1358  =
+74890023aaa2d8f Hou Tao 2022-07-26  643  	trie =3D bpf_map_area_alloc(sizeo=
+f(*trie), bpf_map_attr_numa_node(attr));
+74890023aaa2d8f Hou Tao 2022-07-26  644  	if (!trie)
+74890023aaa2d8f Hou Tao 2022-07-26  645  		return ERR_PTR(-ENOMEM);
+74890023aaa2d8f Hou Tao 2022-07-26  646  =
 
-7be91e02ed57823 Jimmy Su 2022-01-12  1359  	ret =3D fwnode_property_read_u3=
-2(fwnode, "clock-frequency", &xvclk_rate);
-7be91e02ed57823 Jimmy Su 2022-01-12  1360  	if (ret)
-7be91e02ed57823 Jimmy Su 2022-01-12  1361  		return ret;
-7be91e02ed57823 Jimmy Su 2022-01-12  1362  =
+74890023aaa2d8f Hou Tao 2022-07-26  647  	/* roots are zeroed by bpf_map_ar=
+ea_alloc() */
+74890023aaa2d8f Hou Tao 2022-07-26 @648  	for (i =3D 0; i < ARRAY_SIZE(trie=
+->locks); i++)
+74890023aaa2d8f Hou Tao 2022-07-26  649  		spin_lock_init(&trie->locks[i]);
+74890023aaa2d8f Hou Tao 2022-07-26  650  =
 
-7be91e02ed57823 Jimmy Su 2022-01-12  1363  	if (xvclk_rate !=3D OV08D10_XVC=
-LK_19_2)
-7be91e02ed57823 Jimmy Su 2022-01-12  1364  		dev_warn(dev, "external clock =
-rate %u is unsupported",
-7be91e02ed57823 Jimmy Su 2022-01-12  1365  			 xvclk_rate);
-7be91e02ed57823 Jimmy Su 2022-01-12  1366  =
+74890023aaa2d8f Hou Tao 2022-07-26  651  	atomic_set(&trie->entries, 0);
+74890023aaa2d8f Hou Tao 2022-07-26  652  	bpf_map_init_from_attr(&trie->map=
+, attr);
+74890023aaa2d8f Hou Tao 2022-07-26  653  =
 
-7be91e02ed57823 Jimmy Su 2022-01-12  1367  	ep =3D fwnode_graph_get_next_en=
-dpoint(fwnode, NULL);
-7be91e02ed57823 Jimmy Su 2022-01-12  1368  	if (!ep)
-7be91e02ed57823 Jimmy Su 2022-01-12  1369  		return -ENXIO;
-7be91e02ed57823 Jimmy Su 2022-01-12  1370  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1371  	ret =3D v4l2_fwnode_endpoint_al=
-loc_parse(ep, &bus_cfg);
-7be91e02ed57823 Jimmy Su 2022-01-12  1372  	fwnode_handle_put(ep);
-7be91e02ed57823 Jimmy Su 2022-01-12  1373  	if (ret)
-7be91e02ed57823 Jimmy Su 2022-01-12  1374  		return ret;
-7be91e02ed57823 Jimmy Su 2022-01-12  1375  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1376  	/* Get number of data lanes */
-7be91e02ed57823 Jimmy Su 2022-01-12  1377  	if (bus_cfg.bus.mipi_csi2.num_d=
-ata_lanes !=3D 2) {
-7be91e02ed57823 Jimmy Su 2022-01-12  1378  		dev_err(dev, "number of CSI2 d=
-ata lanes %d is not supported",
-7be91e02ed57823 Jimmy Su 2022-01-12  1379  			bus_cfg.bus.mipi_csi2.num_dat=
-a_lanes);
-7be91e02ed57823 Jimmy Su 2022-01-12  1380  		ret =3D -EINVAL;
-7be91e02ed57823 Jimmy Su 2022-01-12  1381  		goto check_hwcfg_error;
-7be91e02ed57823 Jimmy Su 2022-01-12  1382  	}
-7be91e02ed57823 Jimmy Su 2022-01-12  1383  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1384  	dev_dbg(dev, "Using %u data lan=
-es\n", ov08d10->cur_mode->data_lanes);
-7be91e02ed57823 Jimmy Su 2022-01-12  1385  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1386  	ov08d10->priv_lane =3D &lane_cf=
-g_2;
-7be91e02ed57823 Jimmy Su 2022-01-12  1387  	ov08d10->modes_size =3D ov08d10=
-_modes_num(ov08d10);
-7be91e02ed57823 Jimmy Su 2022-01-12  1388  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1389  	if (!bus_cfg.nr_of_link_frequen=
-cies) {
-7be91e02ed57823 Jimmy Su 2022-01-12  1390  		dev_err(dev, "no link frequenc=
-ies defined");
-7be91e02ed57823 Jimmy Su 2022-01-12  1391  		ret =3D -EINVAL;
-7be91e02ed57823 Jimmy Su 2022-01-12  1392  		goto check_hwcfg_error;
-7be91e02ed57823 Jimmy Su 2022-01-12  1393  	}
-7be91e02ed57823 Jimmy Su 2022-01-12  1394  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1395  	for (i =3D 0; i < ARRAY_SIZE(ov=
-08d10->priv_lane->link_freq_menu); i++) {
-7be91e02ed57823 Jimmy Su 2022-01-12  1396  		for (j =3D 0; j < bus_cfg.nr_o=
-f_link_frequencies; j++) {
-7be91e02ed57823 Jimmy Su 2022-01-12  1397  			if (ov08d10->priv_lane->link_=
-freq_menu[i] =3D=3D
-7be91e02ed57823 Jimmy Su 2022-01-12  1398  			    bus_cfg.link_frequencies[=
-j])
-7be91e02ed57823 Jimmy Su 2022-01-12  1399  				break;
-7be91e02ed57823 Jimmy Su 2022-01-12  1400  		}
-7be91e02ed57823 Jimmy Su 2022-01-12  1401  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1402  		if (j =3D=3D bus_cfg.nr_of_lin=
-k_frequencies) {
-7be91e02ed57823 Jimmy Su 2022-01-12  1403  			dev_err(dev, "no link frequen=
-cy %lld supported",
-7be91e02ed57823 Jimmy Su 2022-01-12  1404  				ov08d10->priv_lane->link_fre=
-q_menu[i]);
-7be91e02ed57823 Jimmy Su 2022-01-12  1405  			ret =3D -EINVAL;
-7be91e02ed57823 Jimmy Su 2022-01-12  1406  			goto check_hwcfg_error;
-7be91e02ed57823 Jimmy Su 2022-01-12  1407  		}
-7be91e02ed57823 Jimmy Su 2022-01-12  1408  	}
-7be91e02ed57823 Jimmy Su 2022-01-12  1409  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1410  check_hwcfg_error:
-7be91e02ed57823 Jimmy Su 2022-01-12  1411  	v4l2_fwnode_endpoint_free(&bus_=
-cfg);
-7be91e02ed57823 Jimmy Su 2022-01-12  1412  =
-
-7be91e02ed57823 Jimmy Su 2022-01-12  1413  	return ret;
-7be91e02ed57823 Jimmy Su 2022-01-12  1414  }
-7be91e02ed57823 Jimmy Su 2022-01-12  1415  =
+74890023aaa2d8f Hou Tao 2022-07-26  654  	return &trie->map;
+74890023aaa2d8f Hou Tao 2022-07-26  655  }
+74890023aaa2d8f Hou Tao 2022-07-26  656  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3499411778691258708==--
+--===============1995441146878216681==--
 
