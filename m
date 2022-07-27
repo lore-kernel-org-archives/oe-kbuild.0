@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7189444877492395472=="
+Content-Type: multipart/mixed; boundary="===============4592239102277596919=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 12817/13276] drivers/dma/ppc4xx/adma.c:1329: warning: expecting prototype for ppc440spe_adma_device_estimate(). Prototype was for ppc440spe_adma_estimate() instead
-Date: Thu, 28 Jul 2022 02:19:45 +0800
-Message-ID: <202207280211.z8drxfwi-lkp@intel.com>
+Subject: [steev:lenovo-x13s-next-20220722 8/142] drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:12:9: sparse: this was the original definition
+Date: Thu, 28 Jul 2022 00:17:51 +0800
+Message-ID: <202207280019.VGbowqSv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7189444877492395472==
+--===============4592239102277596919==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,552 +15,426 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/dma/ppc4xx/adma.c:1329: warning: expecting prototype for ppc440spe=
-_adma_device_estimate(). Prototype was for ppc440spe_adma_estimate() instea=
-d"
+ drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:12:9: sparse: this was=
+ the original definition"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+CC: linux-kernel(a)vger.kernel.org
+TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+CC: Steev Klimaszewski <steev@kali.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   9250d2f72dc46a808b6aa23bf50dd670f1f52ddc
-commit: 0d913358a816b35fa5b75385e80f63b9abcf1b27 [12817/13276] powerpc/44x:=
- Fix build failure with GCC 12 (unrecognized opcode: `wrteei')
-:::::: branch date: 6 hours ago
-:::::: commit date: 29 hours ago
-config: powerpc-randconfig-c024-20220727 (https://download.01.org/0day-ci/a=
-rchive/20220728/202207280211.z8drxfwi-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+tree:   https://github.com/steev/linux lenovo-x13s-next-20220722
+head:   3908c7f1753c0530f24f55cc23b6c6a7cd0fd3fe
+commit: 5269d6cef9825d8d40bb77450e9a4cd5b4d3475f [8/142] phy: qcom-qmp: Add=
+ sc8280xp USB/DP combo phys
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-s053-20220727 (https://download.01.org/0day-ci/arc=
+hive/20220728/202207280019.VGbowqSv-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D0d913358a816b35fa5b75385e80f63b9abcf1b27
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 0d913358a816b35fa5b75385e80f63b9abcf1b27
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/steev/linux/commit/5269d6cef9825d8d40bb77450e9=
+a4cd5b4d3475f
+        git remote add steev https://github.com/steev/linux
+        git fetch --no-tags steev lenovo-x13s-next-20220722
+        git checkout 5269d6cef9825d8d40bb77450e9a4cd5b4d3475f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash drivers/dma/ppc4xx/
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dr=
+iscv SHELL=3D/bin/bash drivers/phy/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:189:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_CLKBUF_ENABLE redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+>> drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:12:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:190:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TX_EMP_POST1_LVL redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:13:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:191:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TX_DRV_LVL redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:15:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:192:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_RESET_TSYNC_EN redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:17:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:193:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_PRE_STALL_LDO_BOOST_EN redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:18:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:194:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TX_BAND redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:19:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:195:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_INTERFACE_SELECT redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:21:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:196:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_RES_CODE_LANE_TX redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:23:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:197:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_RES_CODE_LANE_RX redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:24:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:198:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_RES_CODE_LANE_OFFSET_TX redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:25:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:199:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_RES_CODE_LANE_OFFSET_RX redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:26:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:200:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TRANSCEIVER_BIAS_EN redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:31:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:201:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_HIGHZ_DRVR_EN redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:32:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:202:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TX_POL_INV redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:33:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:203:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_PARRATE_REC_DETECT_IDLE_EN redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:34:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:204:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_LANE_MODE_1 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:43:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:205:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_LANE_MODE_2 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:44:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:206:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_RCV_DETECT_LVL_2 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:49:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:207:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TRAN_DRVR_EMP_EN redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:56:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:208:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_TX_INTERFACE_MODE redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:57:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:209:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_PWM_GEAR_1_DIVIDER_BAND0_1 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:64:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:210:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_PWM_GEAR_2_DIVIDER_BAND0_1 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:65:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:211:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_PWM_GEAR_3_DIVIDER_BAND0_1 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:66:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:212:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_PWM_GEAR_4_DIVIDER_BAND0_1 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:67:9: sparse: this w=
+as the original definition
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file:
+   drivers/phy/qualcomm/phy-qcom-qmp.h:213:9: sparse: sparse: preprocessor =
+token QSERDES_V4_TX_VMODE_CTRL1 redefined
+   drivers/phy/qualcomm/phy-qcom-edp.c: note: in included file (through dri=
+vers/phy/qualcomm/phy-qcom-qmp.h):
+   drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h:68:9: sparse: this w=
+as the original definition
 
-   drivers/dma/ppc4xx/adma.c:233: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_interrupt'
-   drivers/dma/ppc4xx/adma.c:233: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_init_interrupt'
-   drivers/dma/ppc4xx/adma.c:261: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_null_xor'
-   drivers/dma/ppc4xx/adma.c:273: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_xor'
-   drivers/dma/ppc4xx/adma.c:273: warning: Function parameter or member 'sr=
-c_cnt' not described in 'ppc440spe_desc_init_xor'
-   drivers/dma/ppc4xx/adma.c:273: warning: Function parameter or member 'fl=
-ags' not described in 'ppc440spe_desc_init_xor'
-   drivers/dma/ppc4xx/adma.c:293: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_dma2pq'
-   drivers/dma/ppc4xx/adma.c:293: warning: Function parameter or member 'ds=
-t_cnt' not described in 'ppc440spe_desc_init_dma2pq'
-   drivers/dma/ppc4xx/adma.c:293: warning: Function parameter or member 'sr=
-c_cnt' not described in 'ppc440spe_desc_init_dma2pq'
-   drivers/dma/ppc4xx/adma.c:293: warning: Function parameter or member 'fl=
-ags' not described in 'ppc440spe_desc_init_dma2pq'
-   drivers/dma/ppc4xx/adma.c:320: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_dma01pq'
-   drivers/dma/ppc4xx/adma.c:320: warning: Function parameter or member 'ds=
-t_cnt' not described in 'ppc440spe_desc_init_dma01pq'
-   drivers/dma/ppc4xx/adma.c:320: warning: Function parameter or member 'sr=
-c_cnt' not described in 'ppc440spe_desc_init_dma01pq'
-   drivers/dma/ppc4xx/adma.c:320: warning: Function parameter or member 'fl=
-ags' not described in 'ppc440spe_desc_init_dma01pq'
-   drivers/dma/ppc4xx/adma.c:320: warning: Function parameter or member 'op=
-' not described in 'ppc440spe_desc_init_dma01pq'
-   drivers/dma/ppc4xx/adma.c:433: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_dma01pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:433: warning: Function parameter or member 'ds=
-t_cnt' not described in 'ppc440spe_desc_init_dma01pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:433: warning: Function parameter or member 'sr=
-c_cnt' not described in 'ppc440spe_desc_init_dma01pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:503: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_init_memcpy'
-   drivers/dma/ppc4xx/adma.c:503: warning: Function parameter or member 'fl=
-ags' not described in 'ppc440spe_desc_init_memcpy'
-   drivers/dma/ppc4xx/adma.c:526: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_set_src_addr'
-   drivers/dma/ppc4xx/adma.c:526: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_set_src_addr'
-   drivers/dma/ppc4xx/adma.c:526: warning: Function parameter or member 'sr=
-c_idx' not described in 'ppc440spe_desc_set_src_addr'
-   drivers/dma/ppc4xx/adma.c:526: warning: Function parameter or member 'ad=
-drh' not described in 'ppc440spe_desc_set_src_addr'
-   drivers/dma/ppc4xx/adma.c:526: warning: Function parameter or member 'ad=
-drl' not described in 'ppc440spe_desc_set_src_addr'
-   drivers/dma/ppc4xx/adma.c:560: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:560: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:560: warning: Function parameter or member 'mu=
-lt_index' not described in 'ppc440spe_desc_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:560: warning: Function parameter or member 'sg=
-_index' not described in 'ppc440spe_desc_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:560: warning: Function parameter or member 'mu=
-lt_value' not described in 'ppc440spe_desc_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:605: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_set_dest_addr'
-   drivers/dma/ppc4xx/adma.c:605: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_set_dest_addr'
-   drivers/dma/ppc4xx/adma.c:605: warning: Function parameter or member 'ad=
-drh' not described in 'ppc440spe_desc_set_dest_addr'
-   drivers/dma/ppc4xx/adma.c:605: warning: Function parameter or member 'ad=
-drl' not described in 'ppc440spe_desc_set_dest_addr'
-   drivers/dma/ppc4xx/adma.c:605: warning: Function parameter or member 'ds=
-t_idx' not described in 'ppc440spe_desc_set_dest_addr'
-   drivers/dma/ppc4xx/adma.c:645: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_set_byte_count'
-   drivers/dma/ppc4xx/adma.c:645: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_set_byte_count'
-   drivers/dma/ppc4xx/adma.c:645: warning: Function parameter or member 'by=
-te_count' not described in 'ppc440spe_desc_set_byte_count'
-   drivers/dma/ppc4xx/adma.c:666: warning: Function parameter or member 'by=
-te_count' not described in 'ppc440spe_desc_set_rxor_block_size'
-   drivers/dma/ppc4xx/adma.c:679: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_set_dcheck'
-   drivers/dma/ppc4xx/adma.c:679: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_set_dcheck'
-   drivers/dma/ppc4xx/adma.c:679: warning: Function parameter or member 'qw=
-ord' not described in 'ppc440spe_desc_set_dcheck'
-   drivers/dma/ppc4xx/adma.c:701: warning: Function parameter or member 'pr=
-ev_desc' not described in 'ppc440spe_xor_set_link'
-   drivers/dma/ppc4xx/adma.c:701: warning: Function parameter or member 'ne=
-xt_desc' not described in 'ppc440spe_xor_set_link'
-   drivers/dma/ppc4xx/adma.c:724: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_set_link'
-   drivers/dma/ppc4xx/adma.c:724: warning: Function parameter or member 'pr=
-ev_desc' not described in 'ppc440spe_desc_set_link'
-   drivers/dma/ppc4xx/adma.c:724: warning: Function parameter or member 'ne=
-xt_desc' not described in 'ppc440spe_desc_set_link'
-   drivers/dma/ppc4xx/adma.c:771: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_get_link'
-   drivers/dma/ppc4xx/adma.c:771: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_desc_get_link'
-   drivers/dma/ppc4xx/adma.c:783: warning: Function parameter or member 'de=
-sc' not described in 'ppc440spe_desc_is_aligned'
-   drivers/dma/ppc4xx/adma.c:783: warning: Function parameter or member 'nu=
-m_slots' not described in 'ppc440spe_desc_is_aligned'
-   drivers/dma/ppc4xx/adma.c:793: warning: Function parameter or member 'le=
-n' not described in 'ppc440spe_chan_xor_slot_count'
-   drivers/dma/ppc4xx/adma.c:793: warning: Function parameter or member 'sr=
-c_cnt' not described in 'ppc440spe_chan_xor_slot_count'
-   drivers/dma/ppc4xx/adma.c:793: warning: Function parameter or member 'sl=
-ots_per_op' not described in 'ppc440spe_chan_xor_slot_count'
-   drivers/dma/ppc4xx/adma.c:814: warning: Function parameter or member 'sr=
-cs' not described in 'ppc440spe_dma2_pq_slot_count'
-   drivers/dma/ppc4xx/adma.c:814: warning: Function parameter or member 'sr=
-c_cnt' not described in 'ppc440spe_dma2_pq_slot_count'
-   drivers/dma/ppc4xx/adma.c:814: warning: Function parameter or member 'le=
-n' not described in 'ppc440spe_dma2_pq_slot_count'
-   drivers/dma/ppc4xx/adma.c:898: warning: Function parameter or member 'ch=
-an' not described in 'ppc440spe_adma_device_clear_eot_status'
-   drivers/dma/ppc4xx/adma.c:1017: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_chan_is_busy'
-   drivers/dma/ppc4xx/adma.c:1050: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_chan_set_first_xor_descriptor'
-   drivers/dma/ppc4xx/adma.c:1050: warning: Function parameter or member 'n=
-ext_desc' not described in 'ppc440spe_chan_set_first_xor_descriptor'
-   drivers/dma/ppc4xx/adma.c:1076: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_dma_put_desc'
-   drivers/dma/ppc4xx/adma.c:1076: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_dma_put_desc'
-   drivers/dma/ppc4xx/adma.c:1095: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_chan_append'
-   drivers/dma/ppc4xx/adma.c:1174: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_chan_get_current_descriptor'
-   drivers/dma/ppc4xx/adma.c:1198: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_chan_run'
-   drivers/dma/ppc4xx/adma.c:1252: warning: Function parameter or member 's=
-rcs' not described in 'ppc440spe_can_rxor'
-   drivers/dma/ppc4xx/adma.c:1252: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_can_rxor'
-   drivers/dma/ppc4xx/adma.c:1252: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_can_rxor'
->> drivers/dma/ppc4xx/adma.c:1329: warning: expecting prototype for ppc440s=
-pe_adma_device_estimate(). Prototype was for ppc440spe_adma_estimate() inst=
-ead
-   drivers/dma/ppc4xx/adma.c:1422: warning: Function parameter or member 'e=
-ntry_idx' not described in 'ppc440spe_get_group_entry'
-   drivers/dma/ppc4xx/adma.c:1446: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_free_slots'
-   drivers/dma/ppc4xx/adma.c:1465: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_adma_run_tx_complete_actions'
-   drivers/dma/ppc4xx/adma.c:1465: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_run_tx_complete_actions'
-   drivers/dma/ppc4xx/adma.c:1465: warning: Function parameter or member 'c=
-ookie' not described in 'ppc440spe_adma_run_tx_complete_actions'
-   drivers/dma/ppc4xx/adma.c:1489: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_adma_clean_slot'
-   drivers/dma/ppc4xx/adma.c:1489: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_clean_slot'
-   drivers/dma/ppc4xx/adma.c:1534: warning: Function parameter or member 'c=
-han' not described in '__ppc440spe_adma_slot_cleanup'
-   drivers/dma/ppc4xx/adma.c:1662: warning: Function parameter or member 't=
-' not described in 'ppc440spe_adma_tasklet'
-   drivers/dma/ppc4xx/adma.c:1674: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_slot_cleanup'
-   drivers/dma/ppc4xx/adma.c:1686: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_alloc_slots'
-   drivers/dma/ppc4xx/adma.c:1686: warning: Function parameter or member 'n=
-um_slots' not described in 'ppc440spe_adma_alloc_slots'
-   drivers/dma/ppc4xx/adma.c:1686: warning: Function parameter or member 's=
-lots_per_op' not described in 'ppc440spe_adma_alloc_slots'
-   drivers/dma/ppc4xx/adma.c:1765: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_alloc_chan_resources'
-   drivers/dma/ppc4xx/adma.c:1846: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_rxor_set_region'
-   drivers/dma/ppc4xx/adma.c:1846: warning: Function parameter or member 'x=
-or_arg_no' not described in 'ppc440spe_rxor_set_region'
-   drivers/dma/ppc4xx/adma.c:1846: warning: Function parameter or member 'm=
-ask' not described in 'ppc440spe_rxor_set_region'
->> drivers/dma/ppc4xx/adma.c:1846: warning: expecting prototype for ppc440s=
-pe_rxor_set_region_data(). Prototype was for ppc440spe_rxor_set_region() in=
-stead
-   drivers/dma/ppc4xx/adma.c:1857: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_rxor_set_src'
-   drivers/dma/ppc4xx/adma.c:1857: warning: Function parameter or member 'x=
-or_arg_no' not described in 'ppc440spe_rxor_set_src'
-   drivers/dma/ppc4xx/adma.c:1857: warning: Function parameter or member 'a=
-ddr' not described in 'ppc440spe_rxor_set_src'
-   drivers/dma/ppc4xx/adma.c:1869: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:1869: warning: Function parameter or member 'x=
-or_arg_no' not described in 'ppc440spe_rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:1869: warning: Function parameter or member 'i=
-dx' not described in 'ppc440spe_rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:1869: warning: Function parameter or member 'm=
-ult' not described in 'ppc440spe_rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:1880: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_check_threshold'
-   drivers/dma/ppc4xx/adma.c:1896: warning: Function parameter or member 't=
-x' not described in 'ppc440spe_adma_tx_submit'
-   drivers/dma/ppc4xx/adma.c:1946: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_prep_dma_interrupt'
-   drivers/dma/ppc4xx/adma.c:1946: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_prep_dma_interrupt'
-   drivers/dma/ppc4xx/adma.c:1978: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_prep_dma_memcpy'
-   drivers/dma/ppc4xx/adma.c:1978: warning: Function parameter or member 'd=
-ma_dest' not described in 'ppc440spe_adma_prep_dma_memcpy'
-   drivers/dma/ppc4xx/adma.c:1978: warning: Function parameter or member 'd=
-ma_src' not described in 'ppc440spe_adma_prep_dma_memcpy'
-   drivers/dma/ppc4xx/adma.c:1978: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_adma_prep_dma_memcpy'
-   drivers/dma/ppc4xx/adma.c:1978: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_prep_dma_memcpy'
-   drivers/dma/ppc4xx/adma.c:2020: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_prep_dma_xor'
-   drivers/dma/ppc4xx/adma.c:2020: warning: Function parameter or member 'd=
-ma_dest' not described in 'ppc440spe_adma_prep_dma_xor'
-   drivers/dma/ppc4xx/adma.c:2020: warning: Function parameter or member 'd=
-ma_src' not described in 'ppc440spe_adma_prep_dma_xor'
-   drivers/dma/ppc4xx/adma.c:2020: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_prep_dma_xor'
-   drivers/dma/ppc4xx/adma.c:2020: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_adma_prep_dma_xor'
-   drivers/dma/ppc4xx/adma.c:2020: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_prep_dma_xor'
-   drivers/dma/ppc4xx/adma.c:2069: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_adma_init_dma2rxor_slot'
-   drivers/dma/ppc4xx/adma.c:2069: warning: Function parameter or member 's=
-rc' not described in 'ppc440spe_adma_init_dma2rxor_slot'
-   drivers/dma/ppc4xx/adma.c:2069: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_init_dma2rxor_slot'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 'p=
-pc440spe_chan' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 'd=
-st' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 'd=
-st_cnt' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 's=
-rc' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 's=
-cf' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2087: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_dma01_prep_mult'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 'p=
-pc440spe_chan' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 'd=
-st' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 's=
-rc' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 's=
-cf' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2173: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_dma01_prep_sum_product'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 'd=
-st' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 's=
-rc' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 's=
-cf' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2511: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_prep_dma_pq'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 'p=
-q' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 's=
-rc' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 's=
-cf' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 'p=
-qres' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2587: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_prep_dma_pqzero_sum'
-   drivers/dma/ppc4xx/adma.c:2765: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_prep_dma_xor_zero_sum'
-   drivers/dma/ppc4xx/adma.c:2765: warning: Function parameter or member 's=
-rc' not described in 'ppc440spe_adma_prep_dma_xor_zero_sum'
-   drivers/dma/ppc4xx/adma.c:2765: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_prep_dma_xor_zero_sum'
-   drivers/dma/ppc4xx/adma.c:2765: warning: Function parameter or member 'l=
-en' not described in 'ppc440spe_adma_prep_dma_xor_zero_sum'
-   drivers/dma/ppc4xx/adma.c:2765: warning: Function parameter or member 'r=
-esult' not described in 'ppc440spe_adma_prep_dma_xor_zero_sum'
-   drivers/dma/ppc4xx/adma.c:2765: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_prep_dma_xor_zero_sum'
-   drivers/dma/ppc4xx/adma.c:2785: warning: Function parameter or member 's=
-w_desc' not described in 'ppc440spe_adma_set_dest'
-   drivers/dma/ppc4xx/adma.c:2785: warning: Function parameter or member 'a=
-ddr' not described in 'ppc440spe_adma_set_dest'
-   drivers/dma/ppc4xx/adma.c:2785: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_set_dest'
-   drivers/dma/ppc4xx/adma.c:2832: warning: Function parameter or member 's=
-w_desc' not described in 'ppc440spe_adma_pq_set_dest'
-   drivers/dma/ppc4xx/adma.c:2832: warning: Function parameter or member 'a=
-ddrs' not described in 'ppc440spe_adma_pq_set_dest'
-   drivers/dma/ppc4xx/adma.c:2832: warning: Function parameter or member 'f=
-lags' not described in 'ppc440spe_adma_pq_set_dest'
-   drivers/dma/ppc4xx/adma.c:3022: warning: Function parameter or member 's=
-w_desc' not described in 'ppc440spe_adma_pqzero_sum_set_dest'
-   drivers/dma/ppc4xx/adma.c:3022: warning: Function parameter or member 'p=
-addr' not described in 'ppc440spe_adma_pqzero_sum_set_dest'
-   drivers/dma/ppc4xx/adma.c:3022: warning: Function parameter or member 'q=
-addr' not described in 'ppc440spe_adma_pqzero_sum_set_dest'
->> drivers/dma/ppc4xx/adma.c:3022: warning: expecting prototype for ppc440s=
-pe_adma_pq_zero_sum_set_dest(). Prototype was for ppc440spe_adma_pqzero_sum=
-_set_dest() instead
-   drivers/dma/ppc4xx/adma.c:3086: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_desc_set_xor_src_cnt'
-   drivers/dma/ppc4xx/adma.c:3086: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_desc_set_xor_src_cnt'
-   drivers/dma/ppc4xx/adma.c:3098: warning: Function parameter or member 's=
-w_desc' not described in 'ppc440spe_adma_pq_set_src'
-   drivers/dma/ppc4xx/adma.c:3098: warning: Function parameter or member 'a=
-ddr' not described in 'ppc440spe_adma_pq_set_src'
-   drivers/dma/ppc4xx/adma.c:3098: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_pq_set_src'
-   drivers/dma/ppc4xx/adma.c:3208: warning: Function parameter or member 's=
-w_desc' not described in 'ppc440spe_adma_memcpy_xor_set_src'
-   drivers/dma/ppc4xx/adma.c:3208: warning: Function parameter or member 'a=
-ddr' not described in 'ppc440spe_adma_memcpy_xor_set_src'
-   drivers/dma/ppc4xx/adma.c:3208: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_memcpy_xor_set_src'
-   drivers/dma/ppc4xx/adma.c:3224: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_adma_dma2rxor_inc_addr'
-   drivers/dma/ppc4xx/adma.c:3224: warning: Function parameter or member 'c=
-ursor' not described in 'ppc440spe_adma_dma2rxor_inc_addr'
-   drivers/dma/ppc4xx/adma.c:3224: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_dma2rxor_inc_addr'
-   drivers/dma/ppc4xx/adma.c:3224: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_dma2rxor_inc_addr'
-   drivers/dma/ppc4xx/adma.c:3242: warning: Function parameter or member 'h=
-desc' not described in 'ppc440spe_adma_dma2rxor_prep_src'
-   drivers/dma/ppc4xx/adma.c:3242: warning: Function parameter or member 'c=
-ursor' not described in 'ppc440spe_adma_dma2rxor_prep_src'
-   drivers/dma/ppc4xx/adma.c:3242: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_dma2rxor_prep_src'
-   drivers/dma/ppc4xx/adma.c:3242: warning: Function parameter or member 's=
-rc_cnt' not described in 'ppc440spe_adma_dma2rxor_prep_src'
-   drivers/dma/ppc4xx/adma.c:3242: warning: Function parameter or member 'a=
-ddr' not described in 'ppc440spe_adma_dma2rxor_prep_src'
-   drivers/dma/ppc4xx/adma.c:3360: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_adma_dma2rxor_set_src'
-   drivers/dma/ppc4xx/adma.c:3360: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_dma2rxor_set_src'
-   drivers/dma/ppc4xx/adma.c:3360: warning: Function parameter or member 'a=
-ddr' not described in 'ppc440spe_adma_dma2rxor_set_src'
-   drivers/dma/ppc4xx/adma.c:3401: warning: Function parameter or member 'd=
-esc' not described in 'ppc440spe_adma_dma2rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:3401: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_dma2rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:3401: warning: Function parameter or member 'm=
-ult' not described in 'ppc440spe_adma_dma2rxor_set_mult'
-   drivers/dma/ppc4xx/adma.c:3437: warning: Function parameter or member 'c=
-ursor' not described in 'ppc440spe_init_rxor_cursor'
-   drivers/dma/ppc4xx/adma.c:3449: warning: Function parameter or member 's=
-w_desc' not described in 'ppc440spe_adma_pq_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:3449: warning: Function parameter or member 'm=
-ult' not described in 'ppc440spe_adma_pq_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:3449: warning: Function parameter or member 'i=
-ndex' not described in 'ppc440spe_adma_pq_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:3449: warning: Function parameter or member 'd=
-st_pos' not described in 'ppc440spe_adma_pq_set_src_mult'
-   drivers/dma/ppc4xx/adma.c:3533: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_free_chan_resources'
-   drivers/dma/ppc4xx/adma.c:3593: warning: Function parameter or member 'i=
-rq' not described in 'ppc440spe_adma_eot_handler'
-   drivers/dma/ppc4xx/adma.c:3593: warning: Function parameter or member 'd=
-ata' not described in 'ppc440spe_adma_eot_handler'
-   drivers/dma/ppc4xx/adma.c:3610: warning: Function parameter or member 'i=
-rq' not described in 'ppc440spe_adma_err_handler'
-   drivers/dma/ppc4xx/adma.c:3610: warning: Function parameter or member 'd=
-ata' not described in 'ppc440spe_adma_err_handler'
-   drivers/dma/ppc4xx/adma.c:3626: warning: Function parameter or member 'u=
-nused' not described in 'ppc440spe_test_callback'
-   drivers/dma/ppc4xx/adma.c:3634: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_adma_issue_pending'
-   drivers/dma/ppc4xx/adma.c:3654: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_chan_start_null_xor'
-   drivers/dma/ppc4xx/adma.c:3700: warning: Function parameter or member 'c=
-han' not described in 'ppc440spe_test_raid6'
-   drivers/dma/ppc4xx/adma.c:4005: warning: Function parameter or member 'o=
-fdev' not described in 'ppc440spe_adma_probe'
-   drivers/dma/ppc4xx/adma.c:4234: warning: Function parameter or member 'o=
-fdev' not described in 'ppc440spe_adma_remove'
+vim +12 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v4.h
+
+32d2cf532515beb Dmitry Baryshkov 2022-07-05    8  =
+
+32d2cf532515beb Dmitry Baryshkov 2022-07-05    9  /* Only for QMP V4 PHY - =
+TX registers */
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   10  #define QSERDES_V4_TX_BIS=
+T_MODE_LANENO			0x000
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   11  #define QSERDES_V4_TX_BIS=
+T_INVERT			0x004
+32d2cf532515beb Dmitry Baryshkov 2022-07-05  @12  #define QSERDES_V4_TX_CLK=
+BUF_ENABLE			0x008
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   13  #define QSERDES_V4_TX_TX_=
+EMP_POST1_LVL			0x00c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   14  #define QSERDES_V4_TX_TX_=
+IDLE_LVL_LARGE_AMP		0x010
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   15  #define QSERDES_V4_TX_TX_=
+DRV_LVL			0x014
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   16  #define QSERDES_V4_TX_TX_=
+DRV_LVL_OFFSET			0x018
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   17  #define QSERDES_V4_TX_RES=
+ET_TSYNC_EN			0x01c
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   18  #define QSERDES_V4_TX_PRE=
+_STALL_LDO_BOOST_EN		0x020
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   19  #define QSERDES_V4_TX_TX_=
+BAND				0x024
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   20  #define QSERDES_V4_TX_SLE=
+W_CNTL				0x028
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   21  #define QSERDES_V4_TX_INT=
+ERFACE_SELECT			0x02c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   22  #define QSERDES_V4_TX_LPB=
+_EN				0x030
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   23  #define QSERDES_V4_TX_RES=
+_CODE_LANE_TX			0x034
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   24  #define QSERDES_V4_TX_RES=
+_CODE_LANE_RX			0x038
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   25  #define QSERDES_V4_TX_RES=
+_CODE_LANE_OFFSET_TX		0x03c
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   26  #define QSERDES_V4_TX_RES=
+_CODE_LANE_OFFSET_RX		0x040
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   27  #define QSERDES_V4_TX_PER=
+L_LENGTH1			0x044
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   28  #define QSERDES_V4_TX_PER=
+L_LENGTH2			0x048
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   29  #define QSERDES_V4_TX_SER=
+DES_BYP_EN_OUT			0x04c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   30  #define QSERDES_V4_TX_DEB=
+UG_BUS_SEL			0x050
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   31  #define QSERDES_V4_TX_TRA=
+NSCEIVER_BIAS_EN		0x054
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   32  #define QSERDES_V4_TX_HIG=
+HZ_DRVR_EN			0x058
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   33  #define QSERDES_V4_TX_TX_=
+POL_INV			0x05c
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   34  #define QSERDES_V4_TX_PAR=
+RATE_REC_DETECT_IDLE_EN	0x060
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   35  #define QSERDES_V4_TX_BIS=
+T_PATTERN1			0x064
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   36  #define QSERDES_V4_TX_BIS=
+T_PATTERN2			0x068
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   37  #define QSERDES_V4_TX_BIS=
+T_PATTERN3			0x06c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   38  #define QSERDES_V4_TX_BIS=
+T_PATTERN4			0x070
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   39  #define QSERDES_V4_TX_BIS=
+T_PATTERN5			0x074
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   40  #define QSERDES_V4_TX_BIS=
+T_PATTERN6			0x078
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   41  #define QSERDES_V4_TX_BIS=
+T_PATTERN7			0x07c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   42  #define QSERDES_V4_TX_BIS=
+T_PATTERN8			0x080
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   43  #define QSERDES_V4_TX_LAN=
+E_MODE_1			0x084
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   44  #define QSERDES_V4_TX_LAN=
+E_MODE_2			0x088
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   45  #define QSERDES_V4_TX_LAN=
+E_MODE_3			0x08c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   46  #define QSERDES_V4_TX_ATB=
+_SEL1				0x090
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   47  #define QSERDES_V4_TX_ATB=
+_SEL2				0x094
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   48  #define QSERDES_V4_TX_RCV=
+_DETECT_LVL			0x098
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   49  #define QSERDES_V4_TX_RCV=
+_DETECT_LVL_2			0x09c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   50  #define QSERDES_V4_TX_PRB=
+S_SEED1			0x0a0
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   51  #define QSERDES_V4_TX_PRB=
+S_SEED2			0x0a4
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   52  #define QSERDES_V4_TX_PRB=
+S_SEED3			0x0a8
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   53  #define QSERDES_V4_TX_PRB=
+S_SEED4			0x0ac
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   54  #define QSERDES_V4_TX_RES=
+ET_GEN				0x0b0
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   55  #define QSERDES_V4_TX_RES=
+ET_GEN_MUXES			0x0b4
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   56  #define QSERDES_V4_TX_TRA=
+N_DRVR_EMP_EN			0x0b8
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   57  #define QSERDES_V4_TX_TX_=
+INTERFACE_MODE			0x0bc
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   58  #define QSERDES_V4_TX_PWM=
+_CTRL				0x0c0
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   59  #define QSERDES_V4_TX_PWM=
+_ENCODED_OR_DATA		0x0c4
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   60  #define QSERDES_V4_TX_PWM=
+_GEAR_1_DIVIDER_BAND2		0x0c8
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   61  #define QSERDES_V4_TX_PWM=
+_GEAR_2_DIVIDER_BAND2		0x0cc
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   62  #define QSERDES_V4_TX_PWM=
+_GEAR_3_DIVIDER_BAND2		0x0d0
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   63  #define QSERDES_V4_TX_PWM=
+_GEAR_4_DIVIDER_BAND2		0x0d4
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   64  #define QSERDES_V4_TX_PWM=
+_GEAR_1_DIVIDER_BAND0_1	0x0d8
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   65  #define QSERDES_V4_TX_PWM=
+_GEAR_2_DIVIDER_BAND0_1	0x0dc
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   66  #define QSERDES_V4_TX_PWM=
+_GEAR_3_DIVIDER_BAND0_1	0x0e0
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   67  #define QSERDES_V4_TX_PWM=
+_GEAR_4_DIVIDER_BAND0_1	0x0e4
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   68  #define QSERDES_V4_TX_VMO=
+DE_CTRL1			0x0e8
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   69  #define QSERDES_V4_TX_ALO=
+G_OBSV_BUS_CTRL_1		0x0ec
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   70  #define QSERDES_V4_TX_BIS=
+T_STATUS			0x0f0
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   71  #define QSERDES_V4_TX_BIS=
+T_ERROR_COUNT1			0x0f4
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   72  #define QSERDES_V4_TX_BIS=
+T_ERROR_COUNT2			0x0f8
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   73  #define QSERDES_V4_TX_ALO=
+G_OBSV_BUS_STATUS_1		0x0fc
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   74  #define QSERDES_V4_TX_LAN=
+E_DIG_CONFIG			0x100
+32d2cf532515beb Dmitry Baryshkov 2022-07-05   75  #define QSERDES_V4_TX_PI_=
+QEC_CTRL			0x104
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   76  #define QSERDES_V4_TX_PRE=
+_EMPH				0x108
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   77  #define QSERDES_V4_TX_SW_=
+RESET				0x10c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   78  #define QSERDES_V4_TX_DCC=
+_OFFSET			0x110
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   79  #define QSERDES_V4_TX_DIG=
+_BKUP_CTRL			0x114
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   80  #define QSERDES_V4_TX_DEB=
+UG_BUS0			0x118
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   81  #define QSERDES_V4_TX_DEB=
+UG_BUS1			0x11c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   82  #define QSERDES_V4_TX_DEB=
+UG_BUS2			0x120
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   83  #define QSERDES_V4_TX_DEB=
+UG_BUS3			0x124
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   84  #define QSERDES_V4_TX_REA=
+D_EQCODE			0x128
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   85  #define QSERDES_V4_TX_REA=
+D_OFFSETCODE			0x12c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   86  #define QSERDES_V4_TX_IA_=
+ERROR_COUNTER_LOW		0x130
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   87  #define QSERDES_V4_TX_IA_=
+ERROR_COUNTER_HIGH		0x134
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   88  #define QSERDES_V4_TX_VGA=
+_READ_CODE			0x138
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   89  #define QSERDES_V4_TX_VTH=
+_READ_CODE			0x13c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   90  #define QSERDES_V4_TX_DFE=
+_TAP1_READ_CODE		0x140
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   91  #define QSERDES_V4_TX_DFE=
+_TAP2_READ_CODE		0x144
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   92  #define QSERDES_V4_TX_IDA=
+C_STATUS_I			0x148
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   93  #define QSERDES_V4_TX_IDA=
+C_STATUS_IBAR			0x14c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   94  #define QSERDES_V4_TX_IDA=
+C_STATUS_Q			0x150
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   95  #define QSERDES_V4_TX_IDA=
+C_STATUS_QBAR			0x154
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   96  #define QSERDES_V4_TX_IDA=
+C_STATUS_A			0x158
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   97  #define QSERDES_V4_TX_IDA=
+C_STATUS_ABAR			0x15c
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   98  #define QSERDES_V4_TX_IDA=
+C_STATUS_SM_ON			0x160
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05   99  #define QSERDES_V4_TX_IDA=
+C_STATUS_CAL_DONE		0x164
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05  100  #define QSERDES_V4_TX_IDA=
+C_STATUS_SIGNERROR		0x168
+1195c1dabf41643 Dmitry Baryshkov 2022-07-05  101  #define QSERDES_V4_TX_DCC=
+_CAL_STATUS			0x16c
+32d2cf532515beb Dmitry Baryshkov 2022-07-05  102  =
 
 
-vim +1329 drivers/dma/ppc4xx/adma.c
+:::::: The code at line 12 was first introduced by commit
+:::::: 32d2cf532515beb5c2c34a1cbcf9c34d0fb040a8 phy: qcom-qmp: move QSERDES=
+ V4 registers to separate headers
 
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1313  =
-
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1314  /**
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1315   * ppc440spe_adma_devic=
-e_estimate - estimate the efficiency of processing
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1316   *	the operation given =
-on this channel. It's assumed that 'chan' is
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1317   *	capable to process '=
-cap' type of operation.
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1318   * @chan: channel to use
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1319   * @cap: type of transa=
-ction
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1320   * @dst_lst: array of d=
-estination pointers
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1321   * @dst_cnt: number of =
-destination operands
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1322   * @src_lst: array of s=
-ource pointers
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1323   * @src_cnt: number of =
-source operands
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1324   * @src_sz: size of eac=
-h source operand
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1325   */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1326  static int ppc440spe_ad=
-ma_estimate(struct dma_chan *chan,
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1327  	enum dma_transaction_t=
-ype cap, struct page **dst_lst, int dst_cnt,
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1328  	struct page **src_lst,=
- int src_cnt, size_t src_sz)
-12458ea06efd7b Anatolij Gustschin 2009-12-11 @1329  {
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1330  	int ef =3D 1;
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1331  =
-
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1332  	if (cap =3D=3D DMA_PQ =
-|| cap =3D=3D DMA_PQ_VAL) {
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1333  		/* If RAID-6 capabili=
-ties were not activated don't try
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1334  		 * to use them
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1335  		 */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1336  		if (unlikely(!ppc440s=
-pe_r6_enabled))
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1337  			return -1;
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1338  	}
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1339  	/*  In the current imp=
-lementation of ppc440spe ADMA driver it
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1340  	 * makes sense to pick=
- out only pq case, because it may be
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1341  	 * processed:
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1342  	 * (1) either using Bi=
-skup method on DMA2;
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1343  	 * (2) or on DMA0/1.
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1344  	 *  Thus we give a fav=
-our to (1) if the sources are suitable;
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1345  	 * else let it be proc=
-essed on one of the DMA0/1 engines.
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1346  	 *  In the sum_product=
- case where destination is also the
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1347  	 * source process it o=
-n DMA0/1 only.
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1348  	 */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1349  	if (cap =3D=3D DMA_PQ =
-&& chan->chan_id =3D=3D PPC440SPE_XOR_ID) {
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1350  =
-
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1351  		if (dst_cnt =3D=3D 1 =
-&& src_cnt =3D=3D 2 && dst_lst[0] =3D=3D src_lst[1])
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1352  			ef =3D 0; /* sum_pro=
-duct case, process on DMA0/1 */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1353  		else if (ppc440spe_ca=
-n_rxor(src_lst, src_cnt, src_sz))
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1354  			ef =3D 3; /* overrid=
-e (DMA0/1 + idle) */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1355  		else
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1356  			ef =3D 0; /* can't p=
-rocess on DMA2 if !rxor */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1357  	}
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1358  =
-
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1359  	/* channel idleness in=
-creases the priority */
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1360  	if (likely(ef) &&
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1361  	    !ppc440spe_chan_is=
-_busy(to_ppc440spe_adma_chan(chan)))
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1362  		ef++;
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1363  =
-
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1364  	return ef;
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1365  }
-12458ea06efd7b Anatolij Gustschin 2009-12-11  1366  =
-
-
-:::::: The code at line 1329 was first introduced by commit
-:::::: 12458ea06efd7b44281e68fe59c950ec7d59c649 ppc440spe-adma: adds update=
-d ppc440spe adma driver
-
-:::::: TO: Anatolij Gustschin <agust@denx.de>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7189444877492395472==--
+--===============4592239102277596919==--
 
