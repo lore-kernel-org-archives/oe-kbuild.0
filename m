@@ -1,231 +1,245 @@
-Content-Type: multipart/mixed; boundary="===============4120894455115035676=="
+Content-Type: multipart/mixed; boundary="===============4518215847932904239=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/mips/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:397 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead of &
-Date: Fri, 29 Jul 2022 00:46:29 +0800
-Message-ID: <202207290022.D0OZREnO-lkp@intel.com>
+Subject: drivers/clk/versatile/clk-icst.c:65:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Fri, 29 Jul 2022 00:05:40 +0800
+Message-ID: <202207290056.2LXHbk2T-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4120894455115035676==
+--===============4518215847932904239==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/clk/versatile/clk-icst.c:65:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Nick Terrell <terrelln@fb.com>
+TO: Jean Delvare <jdelvare@suse.de>
+CC: Stephen Boyd <sboyd@kernel.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
+
+Hi Jean,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6e7765cb477a9753670d4351d14de93f1e9dbbd4
-commit: e0c1b49f5b674cca7b10549c53b3791d0bbc90a8 lib: zstd: Upgrade to late=
-st upstream zstd version 1.4.10
-date:   9 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 9 months ago
-config: mips-randconfig-m031-20220727 (https://download.01.org/0day-ci/arch=
-ive/20220729/202207290022.D0OZREnO-lkp(a)intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
+commit: 323fd5955f844d1b6acf1a1af488da460f657ff2 clk: versatile: Rename ICS=
+T to CLK_ICST
+date:   10 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220724 (https://download.01.org/0day-ci/archi=
+ve/20220729/202207290056.2LXHbk2T-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D323fd5955f844d1b6acf1a1af488da460f657ff2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 323fd5955f844d1b6acf1a1af488da460f657ff2
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/mips/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:=
-397 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instea=
-d of &
-arch/mips/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:=
-397 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instea=
-d of &
-arch/mips/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:=
-850 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instea=
-d of &
-arch/mips/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:=
-850 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instea=
-d of &
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/slab.h:15,
+                    from drivers/clk/versatile/clk-icst.c:14:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1349:13: warning: the comparison will always eval=
+uate as 'true' for the address of 'mem_section' will never be NULL [-Waddre=
+ss]
+    1349 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1335:27: note: 'mem_section' declared here
+    1335 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS=
+_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   drivers/clk/versatile/clk-icst.c: In function 'vco_get':
+>> drivers/clk/versatile/clk-icst.c:65:13: warning: use of uninitialized va=
+lue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      65 |         u32 val;
+         |             ^~~
+     'vco_get': event 1
+       |
+       |   65 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-vim +397 arch/mips/boot/compressed/../../../../lib/zstd/decompress/huf_deco=
-mpress.c
+vim +65 drivers/clk/versatile/clk-icst.c
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  348  =
+91b87a4795c42b9 Linus Walleij 2012-06-11   57  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  349  FORCE_INLINE_TEMPLATE size_t
-e0c1b49f5b674c Nick Terrell 2020-09-11  350  HUF_decompress4X1_usingDTable_=
-internal_body(
-e0c1b49f5b674c Nick Terrell 2020-09-11  351            void* dst,  size_t d=
-stSize,
-e0c1b49f5b674c Nick Terrell 2020-09-11  352      const void* cSrc, size_t c=
-SrcSize,
-e0c1b49f5b674c Nick Terrell 2020-09-11  353      const HUF_DTable* DTable)
-e0c1b49f5b674c Nick Terrell 2020-09-11  354  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  355      /* Check */
-e0c1b49f5b674c Nick Terrell 2020-09-11  356      if (cSrcSize < 10) return =
-ERROR(corruption_detected);  /* strict minimum : jump table + 1 byte per st=
-ream */
-e0c1b49f5b674c Nick Terrell 2020-09-11  357  =
+7a9ad671ac0a0ec Linus Walleij 2012-11-20   58  /**
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   59   * vco_get() - get ICST VCO =
+settings from a certain ICST
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   60   * @icst: the ICST clock to =
+get
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   61   * @vco: the VCO struct to r=
+eturn the value in
+7a9ad671ac0a0ec Linus Walleij 2012-11-20   62   */
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   63  static int vco_get(struct cl=
+k_icst *icst, struct icst_vco *vco)
+7a9ad671ac0a0ec Linus Walleij 2012-11-20   64  {
+7a9ad671ac0a0ec Linus Walleij 2012-11-20  @65  	u32 val;
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   66  	int ret;
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   67  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  358      {   const BYTE* const ista=
-rt =3D (const BYTE*) cSrc;
-e0c1b49f5b674c Nick Terrell 2020-09-11  359          BYTE* const ostart =3D=
- (BYTE*) dst;
-e0c1b49f5b674c Nick Terrell 2020-09-11  360          BYTE* const oend =3D o=
-start + dstSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  361          BYTE* const olimit =3D=
- oend - 3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  362          const void* const dtPt=
-r =3D DTable + 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  363          const HUF_DEltX1* cons=
-t dt =3D (const HUF_DEltX1*)dtPtr;
-e0c1b49f5b674c Nick Terrell 2020-09-11  364  =
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   68  	ret =3D regmap_read(icst->m=
+ap, icst->vcoreg_off, &val);
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   69  	if (ret)
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12   70  		return ret;
+5e23c593057520d Linus Walleij 2016-08-22   71  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  365          /* Init */
-e0c1b49f5b674c Nick Terrell 2020-09-11  366          BIT_DStream_t bitD1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  367          BIT_DStream_t bitD2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  368          BIT_DStream_t bitD3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  369          BIT_DStream_t bitD4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  370          size_t const length1 =
-=3D MEM_readLE16(istart);
-e0c1b49f5b674c Nick Terrell 2020-09-11  371          size_t const length2 =
-=3D MEM_readLE16(istart+2);
-e0c1b49f5b674c Nick Terrell 2020-09-11  372          size_t const length3 =
-=3D MEM_readLE16(istart+4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  373          size_t const length4 =
-=3D cSrcSize - (length1 + length2 + length3 + 6);
-e0c1b49f5b674c Nick Terrell 2020-09-11  374          const BYTE* const ista=
-rt1 =3D istart + 6;  /* jumpTable */
-e0c1b49f5b674c Nick Terrell 2020-09-11  375          const BYTE* const ista=
-rt2 =3D istart1 + length1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  376          const BYTE* const ista=
-rt3 =3D istart2 + length2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  377          const BYTE* const ista=
-rt4 =3D istart3 + length3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  378          const size_t segmentSi=
-ze =3D (dstSize+3) / 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  379          BYTE* const opStart2 =
-=3D ostart + segmentSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  380          BYTE* const opStart3 =
-=3D opStart2 + segmentSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  381          BYTE* const opStart4 =
-=3D opStart3 + segmentSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  382          BYTE* op1 =3D ostart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  383          BYTE* op2 =3D opStart2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  384          BYTE* op3 =3D opStart3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  385          BYTE* op4 =3D opStart4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  386          DTableDesc const dtd =
-=3D HUF_getDTableDesc(DTable);
-e0c1b49f5b674c Nick Terrell 2020-09-11  387          U32 const dtLog =3D dt=
-d.tableLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  388          U32 endSignal =3D 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  389  =
+5e23c593057520d Linus Walleij 2016-08-22   72  	/*
+5e23c593057520d Linus Walleij 2016-08-22   73  	 * The Integrator/AP core c=
+lock can only access the low eight
+5e23c593057520d Linus Walleij 2016-08-22   74  	 * bits of the v PLL divide=
+r. Bit 8 is tied low and always zero,
+5e23c593057520d Linus Walleij 2016-08-22   75  	 * r is hardwired to 22 and=
+ output divider s is hardwired to 1
+5e23c593057520d Linus Walleij 2016-08-22   76  	 * (divide by 2) according =
+to the document
+5e23c593057520d Linus Walleij 2016-08-22   77  	 * "Integrator CM926EJ-S, C=
+M946E-S, CM966E-S, CM1026EJ-S and
+5e23c593057520d Linus Walleij 2016-08-22   78  	 * CM1136JF-S User Guide" A=
+RM DUI 0138E, page 3-13 thru 3-14.
+5e23c593057520d Linus Walleij 2016-08-22   79  	 */
+5e23c593057520d Linus Walleij 2016-08-22   80  	if (icst->ctype =3D=3D ICST=
+_INTEGRATOR_AP_CM) {
+5e23c593057520d Linus Walleij 2016-08-22   81  		vco->v =3D val & INTEGRATO=
+R_AP_CM_BITS;
+5e23c593057520d Linus Walleij 2016-08-22   82  		vco->r =3D 22;
+5e23c593057520d Linus Walleij 2016-08-22   83  		vco->s =3D 1;
+5e23c593057520d Linus Walleij 2016-08-22   84  		return 0;
+5e23c593057520d Linus Walleij 2016-08-22   85  	}
+5e23c593057520d Linus Walleij 2016-08-22   86  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  390          if (length4 > cSrcSize=
-) return ERROR(corruption_detected);   /* overflow */
-e0c1b49f5b674c Nick Terrell 2020-09-11  391          CHECK_F( BIT_initDStre=
-am(&bitD1, istart1, length1) );
-e0c1b49f5b674c Nick Terrell 2020-09-11  392          CHECK_F( BIT_initDStre=
-am(&bitD2, istart2, length2) );
-e0c1b49f5b674c Nick Terrell 2020-09-11  393          CHECK_F( BIT_initDStre=
-am(&bitD3, istart3, length3) );
-e0c1b49f5b674c Nick Terrell 2020-09-11  394          CHECK_F( BIT_initDStre=
-am(&bitD4, istart4, length4) );
-e0c1b49f5b674c Nick Terrell 2020-09-11  395  =
+fa62e10d2613b9e Linus Walleij 2016-08-27   87  	/*
+fa62e10d2613b9e Linus Walleij 2016-08-27   88  	 * The Integrator/AP system=
+ clock on the base board can only
+fa62e10d2613b9e Linus Walleij 2016-08-27   89  	 * access the low eight bit=
+s of the v PLL divider. Bit 8 is tied low
+fa62e10d2613b9e Linus Walleij 2016-08-27   90  	 * and always zero, r is ha=
+rdwired to 46, and the output divider is
+fa62e10d2613b9e Linus Walleij 2016-08-27   91  	 * hardwired to 3 (divide b=
+y 4) according to the document
+fa62e10d2613b9e Linus Walleij 2016-08-27   92  	 * "Integrator AP ASIC Deve=
+lopment Motherboard" ARM DUI 0098B,
+fa62e10d2613b9e Linus Walleij 2016-08-27   93  	 * page 3-16.
+fa62e10d2613b9e Linus Walleij 2016-08-27   94  	 */
+fa62e10d2613b9e Linus Walleij 2016-08-27   95  	if (icst->ctype =3D=3D ICST=
+_INTEGRATOR_AP_SYS) {
+fa62e10d2613b9e Linus Walleij 2016-08-27   96  		vco->v =3D val & INTEGRATO=
+R_AP_SYS_BITS;
+fa62e10d2613b9e Linus Walleij 2016-08-27   97  		vco->r =3D 46;
+fa62e10d2613b9e Linus Walleij 2016-08-27   98  		vco->s =3D 3;
+fa62e10d2613b9e Linus Walleij 2016-08-27   99  		return 0;
+fa62e10d2613b9e Linus Walleij 2016-08-27  100  	}
+fa62e10d2613b9e Linus Walleij 2016-08-27  101  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  396          /* up to 16 symbols pe=
-r loop (4 symbols per stream) in 64-bit mode */
-e0c1b49f5b674c Nick Terrell 2020-09-11 @397          for ( ; (endSignal) & =
-(op4 < olimit) ; ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  398              HUF_DECODE_SYMBOLX=
-1_2(op1, &bitD1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  399              HUF_DECODE_SYMBOLX=
-1_2(op2, &bitD2);
-e0c1b49f5b674c Nick Terrell 2020-09-11  400              HUF_DECODE_SYMBOLX=
-1_2(op3, &bitD3);
-e0c1b49f5b674c Nick Terrell 2020-09-11  401              HUF_DECODE_SYMBOLX=
-1_2(op4, &bitD4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  402              HUF_DECODE_SYMBOLX=
-1_1(op1, &bitD1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  403              HUF_DECODE_SYMBOLX=
-1_1(op2, &bitD2);
-e0c1b49f5b674c Nick Terrell 2020-09-11  404              HUF_DECODE_SYMBOLX=
-1_1(op3, &bitD3);
-e0c1b49f5b674c Nick Terrell 2020-09-11  405              HUF_DECODE_SYMBOLX=
-1_1(op4, &bitD4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  406              HUF_DECODE_SYMBOLX=
-1_2(op1, &bitD1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  407              HUF_DECODE_SYMBOLX=
-1_2(op2, &bitD2);
-e0c1b49f5b674c Nick Terrell 2020-09-11  408              HUF_DECODE_SYMBOLX=
-1_2(op3, &bitD3);
-e0c1b49f5b674c Nick Terrell 2020-09-11  409              HUF_DECODE_SYMBOLX=
-1_2(op4, &bitD4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  410              HUF_DECODE_SYMBOLX=
-1_0(op1, &bitD1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  411              HUF_DECODE_SYMBOLX=
-1_0(op2, &bitD2);
-e0c1b49f5b674c Nick Terrell 2020-09-11  412              HUF_DECODE_SYMBOLX=
-1_0(op3, &bitD3);
-e0c1b49f5b674c Nick Terrell 2020-09-11  413              HUF_DECODE_SYMBOLX=
-1_0(op4, &bitD4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  414              endSignal &=3D BIT=
-_reloadDStreamFast(&bitD1) =3D=3D BIT_DStream_unfinished;
-e0c1b49f5b674c Nick Terrell 2020-09-11  415              endSignal &=3D BIT=
-_reloadDStreamFast(&bitD2) =3D=3D BIT_DStream_unfinished;
-e0c1b49f5b674c Nick Terrell 2020-09-11  416              endSignal &=3D BIT=
-_reloadDStreamFast(&bitD3) =3D=3D BIT_DStream_unfinished;
-e0c1b49f5b674c Nick Terrell 2020-09-11  417              endSignal &=3D BIT=
-_reloadDStreamFast(&bitD4) =3D=3D BIT_DStream_unfinished;
-e0c1b49f5b674c Nick Terrell 2020-09-11  418          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  419  =
+fa62e10d2613b9e Linus Walleij 2016-08-27  102  	/*
+fa62e10d2613b9e Linus Walleij 2016-08-27  103  	 * The Integrator/AP PCI cl=
+ock is using an odd pattern to create
+fa62e10d2613b9e Linus Walleij 2016-08-27  104  	 * the child clock, basical=
+ly a single bit called DIVX/Y is used
+fa62e10d2613b9e Linus Walleij 2016-08-27  105  	 * to select between two di=
+fferent hardwired values: setting the
+fa62e10d2613b9e Linus Walleij 2016-08-27  106  	 * bit to 0 yields v =3D 17=
+, r =3D 22 and OD =3D 1, whereas setting the
+fa62e10d2613b9e Linus Walleij 2016-08-27  107  	 * bit to 1 yields v =3D 14=
+, r =3D 14 and OD =3D 1 giving the frequencies
+fa62e10d2613b9e Linus Walleij 2016-08-27  108  	 * 33 or 25 MHz respectivel=
+y.
+fa62e10d2613b9e Linus Walleij 2016-08-27  109  	 */
+fa62e10d2613b9e Linus Walleij 2016-08-27  110  	if (icst->ctype =3D=3D ICST=
+_INTEGRATOR_AP_PCI) {
+fa62e10d2613b9e Linus Walleij 2016-08-27  111  		bool divxy =3D !!(val & IN=
+TEGRATOR_AP_PCI_25_33_MHZ);
+fa62e10d2613b9e Linus Walleij 2016-08-27  112  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  420          /* check corruption */
-e0c1b49f5b674c Nick Terrell 2020-09-11  421          /* note : should not b=
-e necessary : op# advance in lock step, and we control op4.
-e0c1b49f5b674c Nick Terrell 2020-09-11  422           *        but curiousl=
-y, binary generated by gcc 7.2 & 7.3 with -mbmi2 runs faster when >=3D1 tes=
-t is present */
-e0c1b49f5b674c Nick Terrell 2020-09-11  423          if (op1 > opStart2) re=
-turn ERROR(corruption_detected);
-e0c1b49f5b674c Nick Terrell 2020-09-11  424          if (op2 > opStart3) re=
-turn ERROR(corruption_detected);
-e0c1b49f5b674c Nick Terrell 2020-09-11  425          if (op3 > opStart4) re=
-turn ERROR(corruption_detected);
-e0c1b49f5b674c Nick Terrell 2020-09-11  426          /* note : op4 supposed=
- already verified within main loop */
-e0c1b49f5b674c Nick Terrell 2020-09-11  427  =
+fa62e10d2613b9e Linus Walleij 2016-08-27  113  		vco->v =3D divxy ? 17 : 14;
+fa62e10d2613b9e Linus Walleij 2016-08-27  114  		vco->r =3D divxy ? 22 : 14;
+fa62e10d2613b9e Linus Walleij 2016-08-27  115  		vco->s =3D 1;
+fa62e10d2613b9e Linus Walleij 2016-08-27  116  		return 0;
+fa62e10d2613b9e Linus Walleij 2016-08-27  117  	}
+fa62e10d2613b9e Linus Walleij 2016-08-27  118  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  428          /* finish bitStreams o=
-ne by one */
-e0c1b49f5b674c Nick Terrell 2020-09-11  429          HUF_decodeStreamX1(op1=
-, &bitD1, opStart2, dt, dtLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  430          HUF_decodeStreamX1(op2=
-, &bitD2, opStart3, dt, dtLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  431          HUF_decodeStreamX1(op3=
-, &bitD3, opStart4, dt, dtLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  432          HUF_decodeStreamX1(op4=
-, &bitD4, oend,     dt, dtLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  433  =
+5e23c593057520d Linus Walleij 2016-08-22  119  	/*
+5e23c593057520d Linus Walleij 2016-08-22  120  	 * The Integrator/CP core c=
+lock can access the low eight bits
+5e23c593057520d Linus Walleij 2016-08-22  121  	 * of the v PLL divider. Bi=
+t 8 is tied low and always zero,
+5e23c593057520d Linus Walleij 2016-08-22  122  	 * r is hardwired to 22 and=
+ the output divider s is accessible
+5e23c593057520d Linus Walleij 2016-08-22  123  	 * in bits 8 thru 10 accord=
+ing to the document
+5e23c593057520d Linus Walleij 2016-08-22  124  	 * "Integrator/CM940T, CM92=
+0T, CM740T, and CM720T User Guide"
+5e23c593057520d Linus Walleij 2016-08-22  125  	 * ARM DUI 0157A, page 3-20=
+ thru 3-23 and 4-10.
+5e23c593057520d Linus Walleij 2016-08-22  126  	 */
+5e23c593057520d Linus Walleij 2016-08-22  127  	if (icst->ctype =3D=3D ICST=
+_INTEGRATOR_CP_CM_CORE) {
+5e23c593057520d Linus Walleij 2016-08-22  128  		vco->v =3D val & 0xFF;
+5e23c593057520d Linus Walleij 2016-08-22  129  		vco->r =3D 22;
+5e23c593057520d Linus Walleij 2016-08-22  130  		vco->s =3D (val >> 8) & 7;
+5e23c593057520d Linus Walleij 2016-08-22  131  		return 0;
+5e23c593057520d Linus Walleij 2016-08-22  132  	}
+5e23c593057520d Linus Walleij 2016-08-22  133  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  434          /* check */
-e0c1b49f5b674c Nick Terrell 2020-09-11  435          { U32 const endCheck =
-=3D BIT_endOfDStream(&bitD1) & BIT_endOfDStream(&bitD2) & BIT_endOfDStream(=
-&bitD3) & BIT_endOfDStream(&bitD4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  436            if (!endCheck) retur=
-n ERROR(corruption_detected); }
-e0c1b49f5b674c Nick Terrell 2020-09-11  437  =
+5e23c593057520d Linus Walleij 2016-08-22  134  	if (icst->ctype =3D=3D ICST=
+_INTEGRATOR_CP_CM_MEM) {
+5e23c593057520d Linus Walleij 2016-08-22  135  		vco->v =3D (val >> 12) & 0=
+xFF;
+5e23c593057520d Linus Walleij 2016-08-22  136  		vco->r =3D 22;
+5e23c593057520d Linus Walleij 2016-08-22  137  		vco->s =3D (val >> 20) & 7;
+5e23c593057520d Linus Walleij 2016-08-22  138  		return 0;
+5e23c593057520d Linus Walleij 2016-08-22  139  	}
+5e23c593057520d Linus Walleij 2016-08-22  140  =
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  438          /* decoded size */
-e0c1b49f5b674c Nick Terrell 2020-09-11  439          return dstSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  440      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  441  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  442  =
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12  141  	vco->v =3D val & 0x1ff;
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12  142  	vco->r =3D (val >> 9) & 0x7=
+f;
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12  143  	vco->s =3D (val >> 16) & 03;
+179c8fb3c2a6cc8 Linus Walleij 2015-10-12  144  	return 0;
+7a9ad671ac0a0ec Linus Walleij 2012-11-20  145  }
+7a9ad671ac0a0ec Linus Walleij 2012-11-20  146  =
 
+
+:::::: The code at line 65 was first introduced by commit
+:::::: 7a9ad671ac0a0ec2fc86887a9416f837c0cfb801 clk: make ICST driver handl=
+e the VCO registers
+
+:::::: TO: Linus Walleij <linus.walleij@linaro.org>
+:::::: CC: Mike Turquette <mturquette@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4120894455115035676==--
+--===============4518215847932904239==--
 
