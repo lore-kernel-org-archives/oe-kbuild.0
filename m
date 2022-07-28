@@ -1,140 +1,119 @@
-Content-Type: multipart/mixed; boundary="===============1968277912732175710=="
+Content-Type: multipart/mixed; boundary="===============1738678581658632241=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
-Date: Thu, 28 Jul 2022 14:41:27 +0800
-Message-ID: <202207281457.UpGaVUe9-lkp@intel.com>
+Subject: Re: [PATCH 5/5] LoongArch: Support modules with new relocation types
+Date: Thu, 28 Jul 2022 14:21:14 +0800
+Message-ID: <202207281410.U2YZjgJz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1968277912732175710==
+--===============1738678581658632241==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: arch/arm/=
-kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if =
-in function body so the label might be used in code that is removed by the =
-preprocessor. [unusedLabelConfiguration]"
+:::::: Manual check reason: "low confidence static check warning: arch/loon=
+garch/kernel/module-sections.c:92:17: sparse: sparse: statement expected af=
+ter case label"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <4007f3ef167f93ffd9fcae841e144a0fc89f0117.camel@xry111.site>
+References: <4007f3ef167f93ffd9fcae841e144a0fc89f0117.camel@xry111.site>
+TO: Xi Ruoyao <xry111@xry111.site>
+TO: loongarch(a)lists.linux.dev
 CC: linux-kernel(a)vger.kernel.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Ard Biesheuvel <ardb@kernel.org>
+CC: WANG Xuerui <kernel@xen0n.name>
+CC: Huacai Chen <chenhuacai@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6e7765cb477a9753670d4351d14de93f1e9dbbd4
-commit: c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34 ARM: unwind: set frame.pc =
-correctly for current-thread unwinding
-date:   5 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 5 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Xi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on kees/for-next/execve]
+[also build test WARNING on linus/master v5.19-rc8 next-20220727]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xi-Ruoyao/LoongArch-=
+Support-new-relocation-types/20220728-004805
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-=
+next/execve
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: loongarch-randconfig-s051-20220727 (https://download.01.org/0day-ci=
+/archive/20220728/202207281410.U2YZjgJz-lkp(a)intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/befc276145cba2e7aaf=
+88a302986cb3882f75aec
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xi-Ruoyao/LoongArch-Support-new-re=
+location-types/20220728-004805
+        git checkout befc276145cba2e7aaf88a302986cb3882f75aec
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dl=
+oongarch SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+sparse warnings: (new ones prefixed by >>)
+>> arch/loongarch/kernel/module-sections.c:92:17: sparse: sparse: statement=
+ expected after case label
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +92 arch/loongarch/kernel/module-sections.c
 
->> arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. T=
-here is #if in function body so the label might be used in code that is rem=
-oved by the preprocessor. [unusedLabelConfiguration]
-   here:
-   ^
-   arch/arm/kernel/stacktrace.c:133:61: warning: Parameter 'tsk' can be dec=
-lared with const [constParameter]
-   static noinline void __save_stack_trace(struct task_struct *tsk,
-                                                               ^
+fcdfe9d22bed084 Huacai Chen 2022-05-31  71  =
 
-vim +/here +163 arch/arm/kernel/stacktrace.c
+8e6c412c34a1a98 Xi Ruoyao   2022-07-28  72  static void count_max_entries(E=
+lf_Rela *relas, int num,
+8e6c412c34a1a98 Xi Ruoyao   2022-07-28  73  			      unsigned int *plts, un=
+signed int *gots)
+fcdfe9d22bed084 Huacai Chen 2022-05-31  74  {
+fcdfe9d22bed084 Huacai Chen 2022-05-31  75  	unsigned int i, type;
+fcdfe9d22bed084 Huacai Chen 2022-05-31  76  =
 
-f16fb1ecc5a1cb Russell King          2007-04-28  131  =
-
-3683f44c42e991 Russell King          2014-05-03  132  /* This must be noinl=
-ine to so that our skip calculation works correctly */
-3683f44c42e991 Russell King          2014-05-03  133  static noinline void =
-__save_stack_trace(struct task_struct *tsk,
-3683f44c42e991 Russell King          2014-05-03  134  	struct stack_trace *=
-trace, unsigned int nosched)
-f16fb1ecc5a1cb Russell King          2007-04-28  135  {
-f16fb1ecc5a1cb Russell King          2007-04-28  136  	struct stack_trace_d=
-ata data;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  137  	struct stackframe fr=
-ame;
-f16fb1ecc5a1cb Russell King          2007-04-28  138  =
-
-f16fb1ecc5a1cb Russell King          2007-04-28  139  	data.trace =3D trace;
-f16fb1ecc5a1cb Russell King          2007-04-28  140  	data.skip =3D trace-=
->skip;
-3683f44c42e991 Russell King          2014-05-03  141  	data.no_sched_functi=
-ons =3D nosched;
-f76e9154736e9a Nicolas Pitre         2008-04-24  142  =
-
-f76e9154736e9a Nicolas Pitre         2008-04-24  143  	if (tsk !=3D current=
-) {
-f76e9154736e9a Nicolas Pitre         2008-04-24  144  #ifdef CONFIG_SMP
-f76e9154736e9a Nicolas Pitre         2008-04-24  145  		/*
-d5996b2ff0e26c Russell King          2011-01-15  146  		 * What guarantees =
-do we have here that 'tsk' is not
-d5996b2ff0e26c Russell King          2011-01-15  147  		 * running on anoth=
-er CPU?  For now, ignore it as we
-d5996b2ff0e26c Russell King          2011-01-15  148  		 * can't guarantee =
-we won't explode.
-f76e9154736e9a Nicolas Pitre         2008-04-24  149  		 */
-d5996b2ff0e26c Russell King          2011-01-15  150  		return;
-f76e9154736e9a Nicolas Pitre         2008-04-24  151  #else
-2d7c11bfc91637 Catalin Marinas       2009-02-11  152  		frame.fp =3D thread=
-_saved_fp(tsk);
-2d7c11bfc91637 Catalin Marinas       2009-02-11  153  		frame.sp =3D thread=
-_saved_sp(tsk);
-2d7c11bfc91637 Catalin Marinas       2009-02-11  154  		frame.lr =3D 0;		/*=
- recovered from the stack */
-2d7c11bfc91637 Catalin Marinas       2009-02-11  155  		frame.pc =3D thread=
-_saved_pc(tsk);
-f76e9154736e9a Nicolas Pitre         2008-04-24  156  #endif
-f76e9154736e9a Nicolas Pitre         2008-04-24  157  	} else {
-3683f44c42e991 Russell King          2014-05-03  158  		/* We don't want th=
-is function nor the caller */
-3683f44c42e991 Russell King          2014-05-03  159  		data.skip +=3D 2;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  160  		frame.fp =3D (unsig=
-ned long)__builtin_frame_address(0);
-74dbeee0fcded9 Behan Webster         2014-09-27  161  		frame.sp =3D curren=
-t_stack_pointer;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  162  		frame.lr =3D (unsig=
-ned long)__builtin_return_address(0);
-c46c2c9b43f4f0 Russell King (Oracle  2022-03-09 @163) here:
-c46c2c9b43f4f0 Russell King (Oracle  2022-03-09  164) 		frame.pc =3D (unsig=
-ned long)&&here;
-f76e9154736e9a Nicolas Pitre         2008-04-24  165  	}
-fed240d9c97438 Masami Hiramatsu      2021-10-21  166  #ifdef CONFIG_KRETPRO=
-BES
-fed240d9c97438 Masami Hiramatsu      2021-10-21  167  	frame.kr_cur =3D NUL=
-L;
-fed240d9c97438 Masami Hiramatsu      2021-10-21  168  	frame.tsk =3D tsk;
-fed240d9c97438 Masami Hiramatsu      2021-10-21  169  #endif
-f16fb1ecc5a1cb Russell King          2007-04-28  170  =
-
-2d7c11bfc91637 Catalin Marinas       2009-02-11  171  	walk_stackframe(&fra=
-me, save_trace, &data);
-f76e9154736e9a Nicolas Pitre         2008-04-24  172  }
-f76e9154736e9a Nicolas Pitre         2008-04-24  173  =
+fcdfe9d22bed084 Huacai Chen 2022-05-31  77  	for (i =3D 0; i < num; i++) {
+fcdfe9d22bed084 Huacai Chen 2022-05-31  78  		type =3D ELF_R_TYPE(relas[i].=
+r_info);
+befc276145cba2e Xi Ruoyao   2022-07-28  79  		switch (type) {
+befc276145cba2e Xi Ruoyao   2022-07-28  80  		case R_LARCH_SOP_PUSH_PLT_PCR=
+EL:
+befc276145cba2e Xi Ruoyao   2022-07-28  81  		case R_LARCH_B26:
+fcdfe9d22bed084 Huacai Chen 2022-05-31  82  			if (!duplicate_rela(relas, i=
+))
+fcdfe9d22bed084 Huacai Chen 2022-05-31  83  				(*plts)++;
+befc276145cba2e Xi Ruoyao   2022-07-28  84  			break;
+befc276145cba2e Xi Ruoyao   2022-07-28  85  		case R_LARCH_SOP_PUSH_GPREL:
+befc276145cba2e Xi Ruoyao   2022-07-28  86  		case R_LARCH_GOT_PC_HI20:
+8e6c412c34a1a98 Xi Ruoyao   2022-07-28  87  			if (!duplicate_rela(relas, i=
+))
+8e6c412c34a1a98 Xi Ruoyao   2022-07-28  88  				(*gots)++;
+befc276145cba2e Xi Ruoyao   2022-07-28  89  			break;
+befc276145cba2e Xi Ruoyao   2022-07-28  90  		default:
+befc276145cba2e Xi Ruoyao   2022-07-28  91  			/* Do nothing. */
+befc276145cba2e Xi Ruoyao   2022-07-28 @92  		}
+fcdfe9d22bed084 Huacai Chen 2022-05-31  93  	}
+fcdfe9d22bed084 Huacai Chen 2022-05-31  94  }
+fcdfe9d22bed084 Huacai Chen 2022-05-31  95  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1968277912732175710==--
+--===============1738678581658632241==--
 
