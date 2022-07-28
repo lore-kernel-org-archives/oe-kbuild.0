@@ -1,239 +1,300 @@
-Content-Type: multipart/mixed; boundary="===============2352187095037286691=="
+Content-Type: multipart/mixed; boundary="===============6042956947963868295=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4526/13542] security/integrity/evm/evm_main.c:460:17: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Thu, 28 Jul 2022 23:24:32 +0800
-Message-ID: <202207282331.hPZiHPEC-lkp@intel.com>
+Subject: drivers/net/can/rcar/rcar_can.c:812:6: warning: Redundant initialization for 'err'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Thu, 28 Jul 2022 19:56:53 +0800
+Message-ID: <202207281908.9KmisYaP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2352187095037286691==
+--===============6042956947963868295==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "commit no functional change"
-:::::: Manual check reason: "low confidence static check warning: security/=
-integrity/evm/evm_main.c:460:17: warning: use of uninitialized value '<unkn=
-own>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/net/can/rcar/rcar_can.c:812:6: warning: Redundant initialization f=
+or 'err'. The initialized value is overwritten before it is read. [redundan=
+tInitialization]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Christian Brauner <brauner@kernel.org>
-CC: Seth Forshee <sforshee@digitalocean.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Cai Huoqing <caihuoqing@baidu.com>
+CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   7c5e07b73ff3011c9b82d4a3286a3362b951ad2b
-commit: 35faf3109a78516f60ca13f957083d5e5535fde0 [4526/13542] fs: port to i=
-attr ownership update helpers
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20220727 (https://download.01.org/0day-ci/archi=
-ve/20220728/202207282331.hPZiHPEC-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D35faf3109a78516f60ca13f957083d5e5535fde0
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 35faf3109a78516f60ca13f957083d5e5535fde0
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6e7765cb477a9753670d4351d14de93f1e9dbbd4
+commit: ac4224087312d7212bd3411f1e393f4b7cb1ff15 can: rcar: Kconfig: Add he=
+lper dependency on COMPILE_TEST
+date:   11 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 11 months ago
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout ac4224087312d7212bd3411f1e393f4b7cb1ff15
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   security/integrity/evm/evm_main.c: In function 'evm_xattr_acl_change':
->> security/integrity/evm/evm_main.c:460:17: warning: use of uninitialized =
-value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     460 |         umode_t mode;
-         |                 ^~~~
-     'evm_xattr_change': events 1-4
-       |
-       |  504 | static int evm_xattr_change(struct user_namespace *mnt_user=
-ns,
-       |      |            ^~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'evm_xattr_change'
-       |......
-       |  511 |         if (posix_xattr_acl(xattr_name))
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'true' branch...
-       |  512 |                 return evm_xattr_acl_change(mnt_userns, den=
-try, xattr_name,
-       |      |                 ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~
-       |      |                 |      |
-       |      |                 |      (4) calling 'evm_xattr_acl_change' f=
-rom 'evm_xattr_change'
-       |      |                 (3) ...to here
-       |  513 |                                             xattr_value, xa=
-ttr_value_len);
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~
-       |
-       +--> 'evm_xattr_acl_change': events 5-6
-              |
-              |  455 | static int evm_xattr_acl_change(struct user_namespac=
-e *mnt_userns,
-              |      |            ^~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (5) entry to 'evm_xattr_acl_change'
-              |......
-              |  460 |         umode_t mode;
-              |      |                 ~~~~
-              |      |                 |
-              |      |                 (6) use of uninitialized value '<unk=
-nown>' here
-              |
-   security/integrity/evm/evm_main.c:461:40: warning: use of uninitialized =
-value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     461 |         struct posix_acl *acl =3D NULL, *acl_res;
-         |                                        ^~~~~~~
-     'evm_xattr_change': events 1-4
-       |
-       |  504 | static int evm_xattr_change(struct user_namespace *mnt_user=
-ns,
-       |      |            ^~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'evm_xattr_change'
-       |......
-       |  511 |         if (posix_xattr_acl(xattr_name))
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'true' branch...
-       |  512 |                 return evm_xattr_acl_change(mnt_userns, den=
-try, xattr_name,
-       |      |                 ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~
-       |      |                 |      |
-       |      |                 |      (4) calling 'evm_xattr_acl_change' f=
-rom 'evm_xattr_change'
-       |      |                 (3) ...to here
-       |  513 |                                             xattr_value, xa=
-ttr_value_len);
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~
-       |
-       +--> 'evm_xattr_acl_change': events 5-6
-              |
-              |  455 | static int evm_xattr_acl_change(struct user_namespac=
-e *mnt_userns,
-              |      |            ^~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (5) entry to 'evm_xattr_acl_change'
-              |......
-              |  461 |         struct posix_acl *acl =3D NULL, *acl_res;
-              |      |                                        ~~~~~~~
-              |      |                                        |
-              |      |                                        (6) use of un=
-initialized value '<unknown>' here
-              |
 
-vim +460 security/integrity/evm/evm_main.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-7102ebcd65c1cdb Mimi Zohar    2011-05-12  442  =
+>> drivers/net/can/rcar/rcar_can.c:812:6: warning: Redundant initialization=
+ for 'err'. The initialized value is overwritten before it is read. [redund=
+antInitialization]
+    err =3D register_candev(ndev);
+        ^
+   drivers/net/can/rcar/rcar_can.c:749:10: note: err is initialized
+    int err =3D -ENODEV;
+            ^
+   drivers/net/can/rcar/rcar_can.c:812:6: note: err is overwritten
+    err =3D register_candev(ndev);
+        ^
+>> drivers/net/can/rcar/rcar_can.c:480:9: warning: Shifting signed 32-bit v=
+alue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    writel(RCAR_CAN_FIDCR_IDE | RCAR_CAN_FIDCR_RTR, &priv->regs->fidcr[1]);
+           ^
+   drivers/net/can/rcar/rcar_can.c:603:40: warning: Shifting signed 32-bit =
+value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigne=
+d]
+     data =3D (cf->can_id & CAN_EFF_MASK) | RCAR_CAN_IDE;
+                                          ^
+   drivers/net/can/rcar/rcar_can.c:656:13: warning: Shifting signed 32-bit =
+value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigne=
+d]
+    if (data & RCAR_CAN_IDE)
+               ^
+>> drivers/net/can/rcar/rcar_can.c:480:9: warning: Signed integer overflow =
+for expression '1<<31'. [integerOverflow]
+    writel(RCAR_CAN_FIDCR_IDE | RCAR_CAN_FIDCR_RTR, &priv->regs->fidcr[1]);
+           ^
+   drivers/net/can/rcar/rcar_can.c:603:40: warning: Signed integer overflow=
+ for expression '1<<31'. [integerOverflow]
+     data =3D (cf->can_id & CAN_EFF_MASK) | RCAR_CAN_IDE;
+                                          ^
+   drivers/net/can/rcar/rcar_can.c:656:13: warning: Signed integer overflow=
+ for expression '1<<31'. [integerOverflow]
+    if (data & RCAR_CAN_IDE)
+               ^
 
-1886ab01a3fb98e Roberto Sassu 2021-05-14  443  /*
-1886ab01a3fb98e Roberto Sassu 2021-05-14  444   * evm_xattr_acl_change - ch=
-eck if passed ACL changes the inode mode
-1886ab01a3fb98e Roberto Sassu 2021-05-14  445   * @mnt_userns: user namespa=
-ce of the idmapped mount
-1886ab01a3fb98e Roberto Sassu 2021-05-14  446   * @dentry: pointer to the a=
-ffected dentry
-1886ab01a3fb98e Roberto Sassu 2021-05-14  447   * @xattr_name: requested xa=
-ttr
-1886ab01a3fb98e Roberto Sassu 2021-05-14  448   * @xattr_value: requested x=
-attr value
-1886ab01a3fb98e Roberto Sassu 2021-05-14  449   * @xattr_value_len: request=
-ed xattr value length
-1886ab01a3fb98e Roberto Sassu 2021-05-14  450   *
-1886ab01a3fb98e Roberto Sassu 2021-05-14  451   * Check if passed ACL chang=
-es the inode mode, which is protected by EVM.
-1886ab01a3fb98e Roberto Sassu 2021-05-14  452   *
-1886ab01a3fb98e Roberto Sassu 2021-05-14  453   * Returns 1 if passed ACL c=
-auses inode mode change, 0 otherwise.
-1886ab01a3fb98e Roberto Sassu 2021-05-14  454   */
-1886ab01a3fb98e Roberto Sassu 2021-05-14  455  static int evm_xattr_acl_cha=
-nge(struct user_namespace *mnt_userns,
-1886ab01a3fb98e Roberto Sassu 2021-05-14  456  				struct dentry *dentry, c=
-onst char *xattr_name,
-1886ab01a3fb98e Roberto Sassu 2021-05-14  457  				const void *xattr_value,=
- size_t xattr_value_len)
-1886ab01a3fb98e Roberto Sassu 2021-05-14  458  {
-1886ab01a3fb98e Roberto Sassu 2021-05-14  459  #ifdef CONFIG_FS_POSIX_ACL
-1886ab01a3fb98e Roberto Sassu 2021-05-14 @460  	umode_t mode;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  461  	struct posix_acl *acl =3D N=
-ULL, *acl_res;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  462  	struct inode *inode =3D d_b=
-acking_inode(dentry);
-1886ab01a3fb98e Roberto Sassu 2021-05-14  463  	int rc;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  464  =
+vim +/err +812 drivers/net/can/rcar/rcar_can.c
 
-1886ab01a3fb98e Roberto Sassu 2021-05-14  465  	/*
-1886ab01a3fb98e Roberto Sassu 2021-05-14  466  	 * user_ns is not relevant =
-here, ACL_USER/ACL_GROUP don't have impact
-1886ab01a3fb98e Roberto Sassu 2021-05-14  467  	 * on the inode mode (see p=
-osix_acl_equiv_mode()).
-1886ab01a3fb98e Roberto Sassu 2021-05-14  468  	 */
-1886ab01a3fb98e Roberto Sassu 2021-05-14  469  	acl =3D posix_acl_from_xatt=
-r(&init_user_ns, xattr_value, xattr_value_len);
-1886ab01a3fb98e Roberto Sassu 2021-05-14  470  	if (IS_ERR_OR_NULL(acl))
-1886ab01a3fb98e Roberto Sassu 2021-05-14  471  		return 1;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  472  =
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  742  =
 
-1886ab01a3fb98e Roberto Sassu 2021-05-14  473  	acl_res =3D acl;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  474  	/*
-1886ab01a3fb98e Roberto Sassu 2021-05-14  475  	 * Passing mnt_userns is ne=
-cessary to correctly determine the GID in
-1886ab01a3fb98e Roberto Sassu 2021-05-14  476  	 * an idmapped mount, as th=
-e GID is used to clear the setgid bit in
-1886ab01a3fb98e Roberto Sassu 2021-05-14  477  	 * the inode mode.
-1886ab01a3fb98e Roberto Sassu 2021-05-14  478  	 */
-1886ab01a3fb98e Roberto Sassu 2021-05-14  479  	rc =3D posix_acl_update_mod=
-e(mnt_userns, inode, &mode, &acl_res);
-1886ab01a3fb98e Roberto Sassu 2021-05-14  480  =
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  743  static int rcar_can_probe(struct platform_device *pdev)
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  744  {
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  745  	struct rcar_can_priv *priv;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  746  	struct net_device *ndev;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  747  	void __iomem *addr;
+a268de6c68e493 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  748  	u32 clock_select =3D CLKR_CLKP1;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  749  	int err =3D -ENODEV;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  750  	int irq;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  751  =
 
-1886ab01a3fb98e Roberto Sassu 2021-05-14  481  	posix_acl_release(acl);
-1886ab01a3fb98e Roberto Sassu 2021-05-14  482  =
+30cc0ed73e3390 drivers/net/can/rcar/rcar_can.c Geert Uytterhoeven 2019-08-1=
+4  752  	of_property_read_u32(pdev->dev.of_node, "renesas,can-clock-select",
+30cc0ed73e3390 drivers/net/can/rcar/rcar_can.c Geert Uytterhoeven 2019-08-1=
+4  753  			     &clock_select);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  754  =
 
-1886ab01a3fb98e Roberto Sassu 2021-05-14  483  	if (rc)
-1886ab01a3fb98e Roberto Sassu 2021-05-14  484  		return 1;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  485  =
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  755  	irq =3D platform_get_irq(pdev, 0);
+5e63e6baa159fa drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
+0  756  	if (irq < 0) {
+5e63e6baa159fa drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
+0  757  		err =3D irq;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  758  		goto fail;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  759  	}
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  760  =
 
-1886ab01a3fb98e Roberto Sassu 2021-05-14  486  	if (inode->i_mode !=3D mode)
-1886ab01a3fb98e Roberto Sassu 2021-05-14  487  		return 1;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  488  #endif
-1886ab01a3fb98e Roberto Sassu 2021-05-14  489  	return 0;
-1886ab01a3fb98e Roberto Sassu 2021-05-14  490  }
-1886ab01a3fb98e Roberto Sassu 2021-05-14  491  =
+ac9921ded292bf drivers/net/can/rcar/rcar_can.c YueHaibing         2019-10-1=
+5  761  	addr =3D devm_platform_ioremap_resource(pdev, 0);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  762  	if (IS_ERR(addr)) {
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  763  		err =3D PTR_ERR(addr);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  764  		goto fail;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  765  	}
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  766  =
+
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  767  	ndev =3D alloc_candev(sizeof(struct rcar_can_priv), RCAR_CAN_FIFO_=
+DEPTH);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  768  	if (!ndev) {
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  769  		dev_err(&pdev->dev, "alloc_candev() failed\n");
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  770  		err =3D -ENOMEM;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  771  		goto fail;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  772  	}
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  773  =
+
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  774  	priv =3D netdev_priv(ndev);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  775  =
+
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  776  	priv->clk =3D devm_clk_get(&pdev->dev, "clkp1");
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  777  	if (IS_ERR(priv->clk)) {
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  778  		err =3D PTR_ERR(priv->clk);
+585bc2ac4cc0e2 drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
+0  779  		dev_err(&pdev->dev, "cannot get peripheral clock, error %d\n",
+585bc2ac4cc0e2 drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
+0  780  			err);
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  781  		goto fail_clk;
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  782  	}
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  783  =
+
+68c8d209cd4337 drivers/net/can/rcar/rcar_can.c Fabrizio Castro    2018-09-1=
+0  784  	if (!(BIT(clock_select) & RCAR_SUPPORTED_CLOCKS)) {
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  785  		err =3D -EINVAL;
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  786  		dev_err(&pdev->dev, "invalid CAN clock selected\n");
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  787  		goto fail_clk;
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  788  	}
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  789  	priv->can_clk =3D devm_clk_get(&pdev->dev, clock_names[clock_selec=
+t]);
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  790  	if (IS_ERR(priv->can_clk)) {
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  791  		err =3D PTR_ERR(priv->can_clk);
+585bc2ac4cc0e2 drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
+0  792  		dev_err(&pdev->dev, "cannot get CAN clock, error %d\n", err);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  793  		goto fail_clk;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  794  	}
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  795  =
+
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  796  	ndev->netdev_ops =3D &rcar_can_netdev_ops;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  797  	ndev->irq =3D irq;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  798  	ndev->flags |=3D IFF_ECHO;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  799  	priv->ndev =3D ndev;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  800  	priv->regs =3D addr;
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  801  	priv->clock_select =3D clock_select;
+862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
+1  802  	priv->can.clock.freq =3D clk_get_rate(priv->can_clk);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  803  	priv->can.bittiming_const =3D &rcar_can_bittiming_const;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  804  	priv->can.do_set_mode =3D rcar_can_do_set_mode;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  805  	priv->can.do_get_berr_counter =3D rcar_can_get_berr_counter;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  806  	priv->can.ctrlmode_supported =3D CAN_CTRLMODE_BERR_REPORTING;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  807  	platform_set_drvdata(pdev, ndev);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  808  	SET_NETDEV_DEV(ndev, &pdev->dev);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  809  =
+
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  810  	netif_napi_add(ndev, &priv->napi, rcar_can_rx_poll,
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  811  		       RCAR_CAN_NAPI_WEIGHT);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7 @812  	err =3D register_candev(ndev);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  813  	if (err) {
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  814  		dev_err(&pdev->dev, "register_candev() failed, error %d\n",
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  815  			err);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  816  		goto fail_candev;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  817  	}
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  818  =
+
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  819  	devm_can_led_init(ndev);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  820  =
+
+ca257b9e2d807a drivers/net/can/rcar/rcar_can.c Geert Uytterhoeven 2017-04-0=
+3  821  	dev_info(&pdev->dev, "device registered (IRQ%d)\n", ndev->irq);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  822  =
+
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  823  	return 0;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  824  fail_candev:
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  825  	netif_napi_del(&priv->napi);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  826  fail_clk:
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  827  	free_candev(ndev);
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  828  fail:
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  829  	return err;
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  830  }
+fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
+7  831  =
 
 
-:::::: The code at line 460 was first introduced by commit
-:::::: 1886ab01a3fb98ee7f7739ae50eb9492f5df3641 evm: Allow setxattr() and s=
-etattr() for unmodified metadata
+:::::: The code at line 812 was first introduced by commit
+:::::: fd1159318e55e901cf269de90163b19fd62938cb can: add Renesas R-Car CAN =
+driver
 
-:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
-:::::: CC: Mimi Zohar <zohar@linux.ibm.com>
+:::::: TO: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2352187095037286691==--
+--===============6042956947963868295==--
 
