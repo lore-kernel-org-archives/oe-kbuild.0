@@ -1,300 +1,189 @@
-Content-Type: multipart/mixed; boundary="===============6042956947963868295=="
+Content-Type: multipart/mixed; boundary="===============8119695813335976571=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/can/rcar/rcar_can.c:812:6: warning: Redundant initialization for 'err'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Thu, 28 Jul 2022 19:56:53 +0800
-Message-ID: <202207281908.9KmisYaP-lkp@intel.com>
+Subject: [linux-next:master 9805/13276] drivers/interconnect/imx/imx.c:45:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Thu, 28 Jul 2022 18:25:25 +0800
+Message-ID: <202207281809.5KW3F7St-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6042956947963868295==
+--===============8119695813335976571==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/net/can/rcar/rcar_can.c:812:6: warning: Redundant initialization f=
-or 'err'. The initialized value is overwritten before it is read. [redundan=
-tInitialization]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/i=
+nterconnect/imx/imx.c:45:13: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Cai Huoqing <caihuoqing@baidu.com>
-CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Peng Fan <peng.fan@nxp.com>
+CC: Georgi Djakov <djakov@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6e7765cb477a9753670d4351d14de93f1e9dbbd4
-commit: ac4224087312d7212bd3411f1e393f4b7cb1ff15 can: rcar: Kconfig: Add he=
-lper dependency on COMPILE_TEST
-date:   11 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 11 months ago
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout ac4224087312d7212bd3411f1e393f4b7cb1ff15
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   9250d2f72dc46a808b6aa23bf50dd670f1f52ddc
+commit: 7980d85a9443029c39a9d131c13732258e44a8de [9805/13276] interconnect:=
+ imx: configure NoC mode/prioriry/ext_control
+:::::: branch date: 22 hours ago
+:::::: commit date: 13 days ago
+config: arm-randconfig-c002-20220727 (https://download.01.org/0day-ci/archi=
+ve/20220728/202207281809.5KW3F7St-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D7980d85a9443029c39a9d131c13732258e44a8de
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 7980d85a9443029c39a9d131c13732258e44a8de
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/interconnect/imx/imx.c: In function 'imx_icc_node_set':
+>> drivers/interconnect/imx/imx.c:45:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      45 |         u64 freq;
+         |             ^~~~
+     'imx_icc_set': events 1-2
+       |
+       |   87 | static int imx_icc_set(struct icc_node *src, struct icc_nod=
+e *dst)
+       |      |            ^~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'imx_icc_set'
+       |......
+       |   91 |         ret =3D imx_icc_node_set(src);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'imx_icc_node_set' from 'imx_icc_=
+set'
+       |
+       +--> 'imx_icc_node_set': events 3-4
+              |
+              |   39 | static int imx_icc_node_set(struct icc_node *node)
+              |      |            ^~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (3) entry to 'imx_icc_node_set'
+              |......
+              |   45 |         u64 freq;
+              |      |             ~~~~
+              |      |             |
+              |      |             (4) use of uninitialized value '<unknown=
+>' here
+              |
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +45 drivers/interconnect/imx/imx.c
 
->> drivers/net/can/rcar/rcar_can.c:812:6: warning: Redundant initialization=
- for 'err'. The initialized value is overwritten before it is read. [redund=
-antInitialization]
-    err =3D register_candev(ndev);
-        ^
-   drivers/net/can/rcar/rcar_can.c:749:10: note: err is initialized
-    int err =3D -ENODEV;
-            ^
-   drivers/net/can/rcar/rcar_can.c:812:6: note: err is overwritten
-    err =3D register_candev(ndev);
-        ^
->> drivers/net/can/rcar/rcar_can.c:480:9: warning: Shifting signed 32-bit v=
-alue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    writel(RCAR_CAN_FIDCR_IDE | RCAR_CAN_FIDCR_RTR, &priv->regs->fidcr[1]);
-           ^
-   drivers/net/can/rcar/rcar_can.c:603:40: warning: Shifting signed 32-bit =
-value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigne=
-d]
-     data =3D (cf->can_id & CAN_EFF_MASK) | RCAR_CAN_IDE;
-                                          ^
-   drivers/net/can/rcar/rcar_can.c:656:13: warning: Shifting signed 32-bit =
-value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigne=
-d]
-    if (data & RCAR_CAN_IDE)
-               ^
->> drivers/net/can/rcar/rcar_can.c:480:9: warning: Signed integer overflow =
-for expression '1<<31'. [integerOverflow]
-    writel(RCAR_CAN_FIDCR_IDE | RCAR_CAN_FIDCR_RTR, &priv->regs->fidcr[1]);
-           ^
-   drivers/net/can/rcar/rcar_can.c:603:40: warning: Signed integer overflow=
- for expression '1<<31'. [integerOverflow]
-     data =3D (cf->can_id & CAN_EFF_MASK) | RCAR_CAN_IDE;
-                                          ^
-   drivers/net/can/rcar/rcar_can.c:656:13: warning: Signed integer overflow=
- for expression '1<<31'. [integerOverflow]
-    if (data & RCAR_CAN_IDE)
-               ^
+9d6c7ee7c4bb21 Abel Vesa       2022-01-06  38  =
 
-vim +/err +812 drivers/net/can/rcar/rcar_can.c
+f0d8048525d7d8 Leonard Crestez 2020-04-28  39  static int imx_icc_node_set(=
+struct icc_node *node)
+f0d8048525d7d8 Leonard Crestez 2020-04-28  40  {
+f0d8048525d7d8 Leonard Crestez 2020-04-28  41  	struct device *dev =3D node=
+->provider->dev;
+f0d8048525d7d8 Leonard Crestez 2020-04-28  42  	struct imx_icc_node *node_d=
+ata =3D node->data;
+7980d85a944302 Peng Fan        2022-07-03  43  	void __iomem *base;
+7980d85a944302 Peng Fan        2022-07-03  44  	u32 prio;
+f0d8048525d7d8 Leonard Crestez 2020-04-28 @45  	u64 freq;
+f0d8048525d7d8 Leonard Crestez 2020-04-28  46  =
 
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  742  =
+7980d85a944302 Peng Fan        2022-07-03  47  	if (node_data->setting && n=
+ode->peak_bw) {
+7980d85a944302 Peng Fan        2022-07-03  48  		base =3D node_data->settin=
+g->reg + node_data->imx_provider->noc_base;
+7980d85a944302 Peng Fan        2022-07-03  49  		if (node_data->setting->mo=
+de =3D=3D IMX_NOC_MODE_FIXED) {
+7980d85a944302 Peng Fan        2022-07-03  50  			prio =3D node_data->setti=
+ng->prio_level;
+7980d85a944302 Peng Fan        2022-07-03  51  			prio =3D PRIORITY_COMP_MA=
+RK | (prio << 8) | prio;
+7980d85a944302 Peng Fan        2022-07-03  52  			writel(prio, base + IMX_N=
+OC_PRIO_REG);
+7980d85a944302 Peng Fan        2022-07-03  53  			writel(node_data->setting=
+->mode, base + IMX_NOC_MODE_REG);
+7980d85a944302 Peng Fan        2022-07-03  54  			writel(node_data->setting=
+->ext_control, base + IMX_NOC_EXT_CTL_REG);
+7980d85a944302 Peng Fan        2022-07-03  55  			dev_dbg(dev, "%s: mode: 0=
+x%x, prio: 0x%x, ext_control: 0x%x\n",
+7980d85a944302 Peng Fan        2022-07-03  56  				node_data->desc->name, n=
+ode_data->setting->mode, prio,
+7980d85a944302 Peng Fan        2022-07-03  57  				node_data->setting->ext_=
+control);
+7980d85a944302 Peng Fan        2022-07-03  58  		} else if (node_data->sett=
+ing->mode =3D=3D IMX_NOC_MODE_UNCONFIGURED) {
+7980d85a944302 Peng Fan        2022-07-03  59  			dev_dbg(dev, "%s: mode no=
+t unconfigured\n", node_data->desc->name);
+7980d85a944302 Peng Fan        2022-07-03  60  		} else {
+7980d85a944302 Peng Fan        2022-07-03  61  			dev_info(dev, "%s: mode: =
+%d not supported\n",
+7980d85a944302 Peng Fan        2022-07-03  62  				 node_data->desc->name, =
+node_data->setting->mode);
+7980d85a944302 Peng Fan        2022-07-03  63  			return -EOPNOTSUPP;
+7980d85a944302 Peng Fan        2022-07-03  64  		}
+7980d85a944302 Peng Fan        2022-07-03  65  	}
+7980d85a944302 Peng Fan        2022-07-03  66  =
 
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  743  static int rcar_can_probe(struct platform_device *pdev)
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  744  {
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  745  	struct rcar_can_priv *priv;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  746  	struct net_device *ndev;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  747  	void __iomem *addr;
-a268de6c68e493 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  748  	u32 clock_select =3D CLKR_CLKP1;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  749  	int err =3D -ENODEV;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  750  	int irq;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  751  =
+f0d8048525d7d8 Leonard Crestez 2020-04-28  67  	if (!node_data->qos_dev)
+f0d8048525d7d8 Leonard Crestez 2020-04-28  68  		return 0;
+f0d8048525d7d8 Leonard Crestez 2020-04-28  69  =
 
-30cc0ed73e3390 drivers/net/can/rcar/rcar_can.c Geert Uytterhoeven 2019-08-1=
-4  752  	of_property_read_u32(pdev->dev.of_node, "renesas,can-clock-select",
-30cc0ed73e3390 drivers/net/can/rcar/rcar_can.c Geert Uytterhoeven 2019-08-1=
-4  753  			     &clock_select);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  754  =
+f0d8048525d7d8 Leonard Crestez 2020-04-28  70  	freq =3D (node->avg_bw + no=
+de->peak_bw) * node_data->desc->adj->bw_mul;
+f0d8048525d7d8 Leonard Crestez 2020-04-28  71  	do_div(freq, node_data->des=
+c->adj->bw_div);
+f0d8048525d7d8 Leonard Crestez 2020-04-28  72  	dev_dbg(dev, "node %s devic=
+e %s avg_bw %ukBps peak_bw %ukBps min_freq %llukHz\n",
+f0d8048525d7d8 Leonard Crestez 2020-04-28  73  		node->name, dev_name(node_=
+data->qos_dev),
+f0d8048525d7d8 Leonard Crestez 2020-04-28  74  		node->avg_bw, node->peak_b=
+w, freq);
+f0d8048525d7d8 Leonard Crestez 2020-04-28  75  =
 
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  755  	irq =3D platform_get_irq(pdev, 0);
-5e63e6baa159fa drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
-0  756  	if (irq < 0) {
-5e63e6baa159fa drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
-0  757  		err =3D irq;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  758  		goto fail;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  759  	}
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  760  =
+f0d8048525d7d8 Leonard Crestez 2020-04-28  76  	if (freq > S32_MAX) {
+f0d8048525d7d8 Leonard Crestez 2020-04-28  77  		dev_err(dev, "%s can't req=
+uest more than S32_MAX freq\n",
+f0d8048525d7d8 Leonard Crestez 2020-04-28  78  				node->name);
+f0d8048525d7d8 Leonard Crestez 2020-04-28  79  		return -ERANGE;
+f0d8048525d7d8 Leonard Crestez 2020-04-28  80  	}
+f0d8048525d7d8 Leonard Crestez 2020-04-28  81  =
 
-ac9921ded292bf drivers/net/can/rcar/rcar_can.c YueHaibing         2019-10-1=
-5  761  	addr =3D devm_platform_ioremap_resource(pdev, 0);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  762  	if (IS_ERR(addr)) {
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  763  		err =3D PTR_ERR(addr);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  764  		goto fail;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  765  	}
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  766  =
+f0d8048525d7d8 Leonard Crestez 2020-04-28  82  	dev_pm_qos_update_request(&=
+node_data->qos_req, freq);
+f0d8048525d7d8 Leonard Crestez 2020-04-28  83  =
 
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  767  	ndev =3D alloc_candev(sizeof(struct rcar_can_priv), RCAR_CAN_FIFO_=
-DEPTH);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  768  	if (!ndev) {
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  769  		dev_err(&pdev->dev, "alloc_candev() failed\n");
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  770  		err =3D -ENOMEM;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  771  		goto fail;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  772  	}
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  773  =
-
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  774  	priv =3D netdev_priv(ndev);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  775  =
-
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  776  	priv->clk =3D devm_clk_get(&pdev->dev, "clkp1");
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  777  	if (IS_ERR(priv->clk)) {
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  778  		err =3D PTR_ERR(priv->clk);
-585bc2ac4cc0e2 drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
-0  779  		dev_err(&pdev->dev, "cannot get peripheral clock, error %d\n",
-585bc2ac4cc0e2 drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
-0  780  			err);
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  781  		goto fail_clk;
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  782  	}
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  783  =
-
-68c8d209cd4337 drivers/net/can/rcar/rcar_can.c Fabrizio Castro    2018-09-1=
-0  784  	if (!(BIT(clock_select) & RCAR_SUPPORTED_CLOCKS)) {
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  785  		err =3D -EINVAL;
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  786  		dev_err(&pdev->dev, "invalid CAN clock selected\n");
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  787  		goto fail_clk;
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  788  	}
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  789  	priv->can_clk =3D devm_clk_get(&pdev->dev, clock_names[clock_selec=
-t]);
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  790  	if (IS_ERR(priv->can_clk)) {
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  791  		err =3D PTR_ERR(priv->can_clk);
-585bc2ac4cc0e2 drivers/net/can/rcar_can.c      Sergei Shtylyov    2015-06-2=
-0  792  		dev_err(&pdev->dev, "cannot get CAN clock, error %d\n", err);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  793  		goto fail_clk;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  794  	}
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  795  =
-
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  796  	ndev->netdev_ops =3D &rcar_can_netdev_ops;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  797  	ndev->irq =3D irq;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  798  	ndev->flags |=3D IFF_ECHO;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  799  	priv->ndev =3D ndev;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  800  	priv->regs =3D addr;
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  801  	priv->clock_select =3D clock_select;
-862e2b6af9413b drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-08-0=
-1  802  	priv->can.clock.freq =3D clk_get_rate(priv->can_clk);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  803  	priv->can.bittiming_const =3D &rcar_can_bittiming_const;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  804  	priv->can.do_set_mode =3D rcar_can_do_set_mode;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  805  	priv->can.do_get_berr_counter =3D rcar_can_get_berr_counter;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  806  	priv->can.ctrlmode_supported =3D CAN_CTRLMODE_BERR_REPORTING;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  807  	platform_set_drvdata(pdev, ndev);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  808  	SET_NETDEV_DEV(ndev, &pdev->dev);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  809  =
-
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  810  	netif_napi_add(ndev, &priv->napi, rcar_can_rx_poll,
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  811  		       RCAR_CAN_NAPI_WEIGHT);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7 @812  	err =3D register_candev(ndev);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  813  	if (err) {
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  814  		dev_err(&pdev->dev, "register_candev() failed, error %d\n",
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  815  			err);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  816  		goto fail_candev;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  817  	}
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  818  =
-
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  819  	devm_can_led_init(ndev);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  820  =
-
-ca257b9e2d807a drivers/net/can/rcar/rcar_can.c Geert Uytterhoeven 2017-04-0=
-3  821  	dev_info(&pdev->dev, "device registered (IRQ%d)\n", ndev->irq);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  822  =
-
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  823  	return 0;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  824  fail_candev:
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  825  	netif_napi_del(&priv->napi);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  826  fail_clk:
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  827  	free_candev(ndev);
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  828  fail:
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  829  	return err;
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  830  }
-fd1159318e55e9 drivers/net/can/rcar_can.c      Sergei Shtylyov    2014-05-1=
-7  831  =
+f0d8048525d7d8 Leonard Crestez 2020-04-28  84  	return 0;
+f0d8048525d7d8 Leonard Crestez 2020-04-28  85  }
+f0d8048525d7d8 Leonard Crestez 2020-04-28  86  =
 
 
-:::::: The code at line 812 was first introduced by commit
-:::::: fd1159318e55e901cf269de90163b19fd62938cb can: add Renesas R-Car CAN =
+:::::: The code at line 45 was first introduced by commit
+:::::: f0d8048525d7d8618a79550cd70de9ce0a6a496f interconnect: Add imx core =
 driver
 
-:::::: TO: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+:::::: TO: Leonard Crestez <leonard.crestez@nxp.com>
+:::::: CC: Georgi Djakov <georgi.djakov@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6042956947963868295==--
+--===============8119695813335976571==--
 
