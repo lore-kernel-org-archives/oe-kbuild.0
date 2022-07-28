@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4518215847932904239=="
+Content-Type: multipart/mixed; boundary="===============2352187095037286691=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/clk/versatile/clk-icst.c:65:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Fri, 29 Jul 2022 00:05:40 +0800
-Message-ID: <202207290056.2LXHbk2T-lkp@intel.com>
+Subject: [linux-next:master 4526/13542] security/integrity/evm/evm_main.c:460:17: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Thu, 28 Jul 2022 23:24:32 +0800
+Message-ID: <202207282331.hPZiHPEC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4518215847932904239==
+--===============2352187095037286691==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,44 +16,38 @@ Content-Transfer-Encoding: quoted-printable
 
 :::::: Manual check reason: "low confidence bisect report"
 :::::: Manual check reason: "commit no functional change"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/clk/versatile/clk-icst.c:65:13: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: security/=
+integrity/evm/evm_main.c:460:17: warning: use of uninitialized value '<unkn=
+own>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Jean Delvare <jdelvare@suse.de>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Christian Brauner <brauner@kernel.org>
+CC: Seth Forshee <sforshee@digitalocean.com>
 
-Hi Jean,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6e7765cb477a9753670d4351d14de93f1e9dbbd4
-commit: 323fd5955f844d1b6acf1a1af488da460f657ff2 clk: versatile: Rename ICS=
-T to CLK_ICST
-date:   10 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220724 (https://download.01.org/0day-ci/archi=
-ve/20220729/202207290056.2LXHbk2T-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   7c5e07b73ff3011c9b82d4a3286a3362b951ad2b
+commit: 35faf3109a78516f60ca13f957083d5e5535fde0 [4526/13542] fs: port to i=
+attr ownership update helpers
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20220727 (https://download.01.org/0day-ci/archi=
+ve/20220728/202207282331.hPZiHPEC-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D323fd5955f844d1b6acf1a1af488da460f657ff2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 323fd5955f844d1b6acf1a1af488da460f657ff2
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D35faf3109a78516f60ca13f957083d5e5535fde0
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 35faf3109a78516f60ca13f957083d5e5535fde0
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -63,183 +57,183 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from drivers/clk/versatile/clk-icst.c:14:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1349:13: warning: the comparison will always eval=
-uate as 'true' for the address of 'mem_section' will never be NULL [-Waddre=
-ss]
-    1349 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1335:27: note: 'mem_section' declared here
-    1335 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS=
-_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   drivers/clk/versatile/clk-icst.c: In function 'vco_get':
->> drivers/clk/versatile/clk-icst.c:65:13: warning: use of uninitialized va=
-lue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      65 |         u32 val;
-         |             ^~~
-     'vco_get': event 1
+   security/integrity/evm/evm_main.c: In function 'evm_xattr_acl_change':
+>> security/integrity/evm/evm_main.c:460:17: warning: use of uninitialized =
+value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     460 |         umode_t mode;
+         |                 ^~~~
+     'evm_xattr_change': events 1-4
        |
-       |   65 |         u32 val;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |  504 | static int evm_xattr_change(struct user_namespace *mnt_user=
+ns,
+       |      |            ^~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'evm_xattr_change'
+       |......
+       |  511 |         if (posix_xattr_acl(xattr_name))
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'true' branch...
+       |  512 |                 return evm_xattr_acl_change(mnt_userns, den=
+try, xattr_name,
+       |      |                 ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+       |      |                 |      |
+       |      |                 |      (4) calling 'evm_xattr_acl_change' f=
+rom 'evm_xattr_change'
+       |      |                 (3) ...to here
+       |  513 |                                             xattr_value, xa=
+ttr_value_len);
+       |      |                                             ~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
        |
+       +--> 'evm_xattr_acl_change': events 5-6
+              |
+              |  455 | static int evm_xattr_acl_change(struct user_namespac=
+e *mnt_userns,
+              |      |            ^~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'evm_xattr_acl_change'
+              |......
+              |  460 |         umode_t mode;
+              |      |                 ~~~~
+              |      |                 |
+              |      |                 (6) use of uninitialized value '<unk=
+nown>' here
+              |
+   security/integrity/evm/evm_main.c:461:40: warning: use of uninitialized =
+value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     461 |         struct posix_acl *acl =3D NULL, *acl_res;
+         |                                        ^~~~~~~
+     'evm_xattr_change': events 1-4
+       |
+       |  504 | static int evm_xattr_change(struct user_namespace *mnt_user=
+ns,
+       |      |            ^~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'evm_xattr_change'
+       |......
+       |  511 |         if (posix_xattr_acl(xattr_name))
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'true' branch...
+       |  512 |                 return evm_xattr_acl_change(mnt_userns, den=
+try, xattr_name,
+       |      |                 ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+       |      |                 |      |
+       |      |                 |      (4) calling 'evm_xattr_acl_change' f=
+rom 'evm_xattr_change'
+       |      |                 (3) ...to here
+       |  513 |                                             xattr_value, xa=
+ttr_value_len);
+       |      |                                             ~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |
+       +--> 'evm_xattr_acl_change': events 5-6
+              |
+              |  455 | static int evm_xattr_acl_change(struct user_namespac=
+e *mnt_userns,
+              |      |            ^~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'evm_xattr_acl_change'
+              |......
+              |  461 |         struct posix_acl *acl =3D NULL, *acl_res;
+              |      |                                        ~~~~~~~
+              |      |                                        |
+              |      |                                        (6) use of un=
+initialized value '<unknown>' here
+              |
 
-vim +65 drivers/clk/versatile/clk-icst.c
+vim +460 security/integrity/evm/evm_main.c
 
-91b87a4795c42b9 Linus Walleij 2012-06-11   57  =
+7102ebcd65c1cdb Mimi Zohar    2011-05-12  442  =
 
-7a9ad671ac0a0ec Linus Walleij 2012-11-20   58  /**
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   59   * vco_get() - get ICST VCO =
-settings from a certain ICST
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   60   * @icst: the ICST clock to =
-get
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   61   * @vco: the VCO struct to r=
-eturn the value in
-7a9ad671ac0a0ec Linus Walleij 2012-11-20   62   */
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   63  static int vco_get(struct cl=
-k_icst *icst, struct icst_vco *vco)
-7a9ad671ac0a0ec Linus Walleij 2012-11-20   64  {
-7a9ad671ac0a0ec Linus Walleij 2012-11-20  @65  	u32 val;
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   66  	int ret;
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   67  =
+1886ab01a3fb98e Roberto Sassu 2021-05-14  443  /*
+1886ab01a3fb98e Roberto Sassu 2021-05-14  444   * evm_xattr_acl_change - ch=
+eck if passed ACL changes the inode mode
+1886ab01a3fb98e Roberto Sassu 2021-05-14  445   * @mnt_userns: user namespa=
+ce of the idmapped mount
+1886ab01a3fb98e Roberto Sassu 2021-05-14  446   * @dentry: pointer to the a=
+ffected dentry
+1886ab01a3fb98e Roberto Sassu 2021-05-14  447   * @xattr_name: requested xa=
+ttr
+1886ab01a3fb98e Roberto Sassu 2021-05-14  448   * @xattr_value: requested x=
+attr value
+1886ab01a3fb98e Roberto Sassu 2021-05-14  449   * @xattr_value_len: request=
+ed xattr value length
+1886ab01a3fb98e Roberto Sassu 2021-05-14  450   *
+1886ab01a3fb98e Roberto Sassu 2021-05-14  451   * Check if passed ACL chang=
+es the inode mode, which is protected by EVM.
+1886ab01a3fb98e Roberto Sassu 2021-05-14  452   *
+1886ab01a3fb98e Roberto Sassu 2021-05-14  453   * Returns 1 if passed ACL c=
+auses inode mode change, 0 otherwise.
+1886ab01a3fb98e Roberto Sassu 2021-05-14  454   */
+1886ab01a3fb98e Roberto Sassu 2021-05-14  455  static int evm_xattr_acl_cha=
+nge(struct user_namespace *mnt_userns,
+1886ab01a3fb98e Roberto Sassu 2021-05-14  456  				struct dentry *dentry, c=
+onst char *xattr_name,
+1886ab01a3fb98e Roberto Sassu 2021-05-14  457  				const void *xattr_value,=
+ size_t xattr_value_len)
+1886ab01a3fb98e Roberto Sassu 2021-05-14  458  {
+1886ab01a3fb98e Roberto Sassu 2021-05-14  459  #ifdef CONFIG_FS_POSIX_ACL
+1886ab01a3fb98e Roberto Sassu 2021-05-14 @460  	umode_t mode;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  461  	struct posix_acl *acl =3D N=
+ULL, *acl_res;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  462  	struct inode *inode =3D d_b=
+acking_inode(dentry);
+1886ab01a3fb98e Roberto Sassu 2021-05-14  463  	int rc;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  464  =
 
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   68  	ret =3D regmap_read(icst->m=
-ap, icst->vcoreg_off, &val);
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   69  	if (ret)
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12   70  		return ret;
-5e23c593057520d Linus Walleij 2016-08-22   71  =
+1886ab01a3fb98e Roberto Sassu 2021-05-14  465  	/*
+1886ab01a3fb98e Roberto Sassu 2021-05-14  466  	 * user_ns is not relevant =
+here, ACL_USER/ACL_GROUP don't have impact
+1886ab01a3fb98e Roberto Sassu 2021-05-14  467  	 * on the inode mode (see p=
+osix_acl_equiv_mode()).
+1886ab01a3fb98e Roberto Sassu 2021-05-14  468  	 */
+1886ab01a3fb98e Roberto Sassu 2021-05-14  469  	acl =3D posix_acl_from_xatt=
+r(&init_user_ns, xattr_value, xattr_value_len);
+1886ab01a3fb98e Roberto Sassu 2021-05-14  470  	if (IS_ERR_OR_NULL(acl))
+1886ab01a3fb98e Roberto Sassu 2021-05-14  471  		return 1;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  472  =
 
-5e23c593057520d Linus Walleij 2016-08-22   72  	/*
-5e23c593057520d Linus Walleij 2016-08-22   73  	 * The Integrator/AP core c=
-lock can only access the low eight
-5e23c593057520d Linus Walleij 2016-08-22   74  	 * bits of the v PLL divide=
-r. Bit 8 is tied low and always zero,
-5e23c593057520d Linus Walleij 2016-08-22   75  	 * r is hardwired to 22 and=
- output divider s is hardwired to 1
-5e23c593057520d Linus Walleij 2016-08-22   76  	 * (divide by 2) according =
-to the document
-5e23c593057520d Linus Walleij 2016-08-22   77  	 * "Integrator CM926EJ-S, C=
-M946E-S, CM966E-S, CM1026EJ-S and
-5e23c593057520d Linus Walleij 2016-08-22   78  	 * CM1136JF-S User Guide" A=
-RM DUI 0138E, page 3-13 thru 3-14.
-5e23c593057520d Linus Walleij 2016-08-22   79  	 */
-5e23c593057520d Linus Walleij 2016-08-22   80  	if (icst->ctype =3D=3D ICST=
-_INTEGRATOR_AP_CM) {
-5e23c593057520d Linus Walleij 2016-08-22   81  		vco->v =3D val & INTEGRATO=
-R_AP_CM_BITS;
-5e23c593057520d Linus Walleij 2016-08-22   82  		vco->r =3D 22;
-5e23c593057520d Linus Walleij 2016-08-22   83  		vco->s =3D 1;
-5e23c593057520d Linus Walleij 2016-08-22   84  		return 0;
-5e23c593057520d Linus Walleij 2016-08-22   85  	}
-5e23c593057520d Linus Walleij 2016-08-22   86  =
+1886ab01a3fb98e Roberto Sassu 2021-05-14  473  	acl_res =3D acl;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  474  	/*
+1886ab01a3fb98e Roberto Sassu 2021-05-14  475  	 * Passing mnt_userns is ne=
+cessary to correctly determine the GID in
+1886ab01a3fb98e Roberto Sassu 2021-05-14  476  	 * an idmapped mount, as th=
+e GID is used to clear the setgid bit in
+1886ab01a3fb98e Roberto Sassu 2021-05-14  477  	 * the inode mode.
+1886ab01a3fb98e Roberto Sassu 2021-05-14  478  	 */
+1886ab01a3fb98e Roberto Sassu 2021-05-14  479  	rc =3D posix_acl_update_mod=
+e(mnt_userns, inode, &mode, &acl_res);
+1886ab01a3fb98e Roberto Sassu 2021-05-14  480  =
 
-fa62e10d2613b9e Linus Walleij 2016-08-27   87  	/*
-fa62e10d2613b9e Linus Walleij 2016-08-27   88  	 * The Integrator/AP system=
- clock on the base board can only
-fa62e10d2613b9e Linus Walleij 2016-08-27   89  	 * access the low eight bit=
-s of the v PLL divider. Bit 8 is tied low
-fa62e10d2613b9e Linus Walleij 2016-08-27   90  	 * and always zero, r is ha=
-rdwired to 46, and the output divider is
-fa62e10d2613b9e Linus Walleij 2016-08-27   91  	 * hardwired to 3 (divide b=
-y 4) according to the document
-fa62e10d2613b9e Linus Walleij 2016-08-27   92  	 * "Integrator AP ASIC Deve=
-lopment Motherboard" ARM DUI 0098B,
-fa62e10d2613b9e Linus Walleij 2016-08-27   93  	 * page 3-16.
-fa62e10d2613b9e Linus Walleij 2016-08-27   94  	 */
-fa62e10d2613b9e Linus Walleij 2016-08-27   95  	if (icst->ctype =3D=3D ICST=
-_INTEGRATOR_AP_SYS) {
-fa62e10d2613b9e Linus Walleij 2016-08-27   96  		vco->v =3D val & INTEGRATO=
-R_AP_SYS_BITS;
-fa62e10d2613b9e Linus Walleij 2016-08-27   97  		vco->r =3D 46;
-fa62e10d2613b9e Linus Walleij 2016-08-27   98  		vco->s =3D 3;
-fa62e10d2613b9e Linus Walleij 2016-08-27   99  		return 0;
-fa62e10d2613b9e Linus Walleij 2016-08-27  100  	}
-fa62e10d2613b9e Linus Walleij 2016-08-27  101  =
+1886ab01a3fb98e Roberto Sassu 2021-05-14  481  	posix_acl_release(acl);
+1886ab01a3fb98e Roberto Sassu 2021-05-14  482  =
 
-fa62e10d2613b9e Linus Walleij 2016-08-27  102  	/*
-fa62e10d2613b9e Linus Walleij 2016-08-27  103  	 * The Integrator/AP PCI cl=
-ock is using an odd pattern to create
-fa62e10d2613b9e Linus Walleij 2016-08-27  104  	 * the child clock, basical=
-ly a single bit called DIVX/Y is used
-fa62e10d2613b9e Linus Walleij 2016-08-27  105  	 * to select between two di=
-fferent hardwired values: setting the
-fa62e10d2613b9e Linus Walleij 2016-08-27  106  	 * bit to 0 yields v =3D 17=
-, r =3D 22 and OD =3D 1, whereas setting the
-fa62e10d2613b9e Linus Walleij 2016-08-27  107  	 * bit to 1 yields v =3D 14=
-, r =3D 14 and OD =3D 1 giving the frequencies
-fa62e10d2613b9e Linus Walleij 2016-08-27  108  	 * 33 or 25 MHz respectivel=
-y.
-fa62e10d2613b9e Linus Walleij 2016-08-27  109  	 */
-fa62e10d2613b9e Linus Walleij 2016-08-27  110  	if (icst->ctype =3D=3D ICST=
-_INTEGRATOR_AP_PCI) {
-fa62e10d2613b9e Linus Walleij 2016-08-27  111  		bool divxy =3D !!(val & IN=
-TEGRATOR_AP_PCI_25_33_MHZ);
-fa62e10d2613b9e Linus Walleij 2016-08-27  112  =
+1886ab01a3fb98e Roberto Sassu 2021-05-14  483  	if (rc)
+1886ab01a3fb98e Roberto Sassu 2021-05-14  484  		return 1;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  485  =
 
-fa62e10d2613b9e Linus Walleij 2016-08-27  113  		vco->v =3D divxy ? 17 : 14;
-fa62e10d2613b9e Linus Walleij 2016-08-27  114  		vco->r =3D divxy ? 22 : 14;
-fa62e10d2613b9e Linus Walleij 2016-08-27  115  		vco->s =3D 1;
-fa62e10d2613b9e Linus Walleij 2016-08-27  116  		return 0;
-fa62e10d2613b9e Linus Walleij 2016-08-27  117  	}
-fa62e10d2613b9e Linus Walleij 2016-08-27  118  =
-
-5e23c593057520d Linus Walleij 2016-08-22  119  	/*
-5e23c593057520d Linus Walleij 2016-08-22  120  	 * The Integrator/CP core c=
-lock can access the low eight bits
-5e23c593057520d Linus Walleij 2016-08-22  121  	 * of the v PLL divider. Bi=
-t 8 is tied low and always zero,
-5e23c593057520d Linus Walleij 2016-08-22  122  	 * r is hardwired to 22 and=
- the output divider s is accessible
-5e23c593057520d Linus Walleij 2016-08-22  123  	 * in bits 8 thru 10 accord=
-ing to the document
-5e23c593057520d Linus Walleij 2016-08-22  124  	 * "Integrator/CM940T, CM92=
-0T, CM740T, and CM720T User Guide"
-5e23c593057520d Linus Walleij 2016-08-22  125  	 * ARM DUI 0157A, page 3-20=
- thru 3-23 and 4-10.
-5e23c593057520d Linus Walleij 2016-08-22  126  	 */
-5e23c593057520d Linus Walleij 2016-08-22  127  	if (icst->ctype =3D=3D ICST=
-_INTEGRATOR_CP_CM_CORE) {
-5e23c593057520d Linus Walleij 2016-08-22  128  		vco->v =3D val & 0xFF;
-5e23c593057520d Linus Walleij 2016-08-22  129  		vco->r =3D 22;
-5e23c593057520d Linus Walleij 2016-08-22  130  		vco->s =3D (val >> 8) & 7;
-5e23c593057520d Linus Walleij 2016-08-22  131  		return 0;
-5e23c593057520d Linus Walleij 2016-08-22  132  	}
-5e23c593057520d Linus Walleij 2016-08-22  133  =
-
-5e23c593057520d Linus Walleij 2016-08-22  134  	if (icst->ctype =3D=3D ICST=
-_INTEGRATOR_CP_CM_MEM) {
-5e23c593057520d Linus Walleij 2016-08-22  135  		vco->v =3D (val >> 12) & 0=
-xFF;
-5e23c593057520d Linus Walleij 2016-08-22  136  		vco->r =3D 22;
-5e23c593057520d Linus Walleij 2016-08-22  137  		vco->s =3D (val >> 20) & 7;
-5e23c593057520d Linus Walleij 2016-08-22  138  		return 0;
-5e23c593057520d Linus Walleij 2016-08-22  139  	}
-5e23c593057520d Linus Walleij 2016-08-22  140  =
-
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12  141  	vco->v =3D val & 0x1ff;
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12  142  	vco->r =3D (val >> 9) & 0x7=
-f;
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12  143  	vco->s =3D (val >> 16) & 03;
-179c8fb3c2a6cc8 Linus Walleij 2015-10-12  144  	return 0;
-7a9ad671ac0a0ec Linus Walleij 2012-11-20  145  }
-7a9ad671ac0a0ec Linus Walleij 2012-11-20  146  =
+1886ab01a3fb98e Roberto Sassu 2021-05-14  486  	if (inode->i_mode !=3D mode)
+1886ab01a3fb98e Roberto Sassu 2021-05-14  487  		return 1;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  488  #endif
+1886ab01a3fb98e Roberto Sassu 2021-05-14  489  	return 0;
+1886ab01a3fb98e Roberto Sassu 2021-05-14  490  }
+1886ab01a3fb98e Roberto Sassu 2021-05-14  491  =
 
 
-:::::: The code at line 65 was first introduced by commit
-:::::: 7a9ad671ac0a0ec2fc86887a9416f837c0cfb801 clk: make ICST driver handl=
-e the VCO registers
+:::::: The code at line 460 was first introduced by commit
+:::::: 1886ab01a3fb98ee7f7739ae50eb9492f5df3641 evm: Allow setxattr() and s=
+etattr() for unmodified metadata
 
-:::::: TO: Linus Walleij <linus.walleij@linaro.org>
-:::::: CC: Mike Turquette <mturquette@linaro.org>
+:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
+:::::: CC: Mimi Zohar <zohar@linux.ibm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4518215847932904239==--
+--===============2352187095037286691==--
 
