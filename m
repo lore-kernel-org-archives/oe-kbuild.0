@@ -1,83 +1,96 @@
-Content-Type: multipart/mixed; boundary="===============4470904415242184531=="
+Content-Type: multipart/mixed; boundary="===============5414257242627077222=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/bridge/br_private.h:901 br_multicast_rport_from_node_skb() warn: inconsistent indenting
-Date: Mon, 01 Aug 2022 03:26:35 +0800
-Message-ID: <202208010331.xAA53Wvo-lkp@intel.com>
+Subject: Re: [PATCH drm-misc-next v6 3/5] drm/gem: rename GEM CMA helpers to GEM DMA helpers
+Date: Sun, 31 Jul 2022 23:31:10 +0800
+Message-ID: <202207312337.CwA6jvYb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4470904415242184531==
+--===============5414257242627077222==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "commit no functional change"
+:::::: =
+
+
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220721130133.829693-4-dakr@redhat.com>
+References: <20220721130133.829693-4-dakr@redhat.com>
+TO: Danilo Krummrich <dakr@redhat.com>
+TO: daniel(a)ffwll.ch
+TO: laurent.pinchart(a)ideasonboard.com
+TO: airlied(a)linux.ie
+TO: tzimmermann(a)suse.de
+TO: mripard(a)kernel.org
+TO: sam(a)ravnborg.org
+CC: Danilo Krummrich <dakr@redhat.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Nikolay Aleksandrov <nikolay@nvidia.com>
+CC: dri-devel(a)lists.freedesktop.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6a010258447d386186ca10cd374d888ac66ffe1a
-commit: 9632233e7de8da43711bb7cd3e054af32fedcc38 net: bridge: multicast: fa=
-ctor out port multicast context
-date:   1 year ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 1 year ago
-config: arc-randconfig-m041-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220801/202208010331.xAA53Wvo-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+Hi Danilo,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to linus/master v5.19-rc8 next-20220728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm=
+-rename-CMA-helpers-to-DMA-helpers/20220721-210404
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: nios2-buildonly-randconfig-r006-20220721 (https://download.01.org/0=
+day-ci/archive/20220731/202207312337.CwA6jvYb-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/140c3d95439b5852acd=
+816850625036ac3a1019d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-rename-CMA-he=
+lpers-to-DMA-helpers/20220721-210404
+        git checkout 140c3d95439b5852acd816850625036ac3a1019d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ W=3D1 O=3Dbuild_dir ARCH=3Dnios2 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/bridge/br_private.h:901 br_multicast_rport_from_node_skb() warn: incons=
-istent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-net/bridge/br_forward.c:317 br_multicast_flood() error: we previously assum=
-ed 'p' could be null (see line 293)
-
-vim +901 net/bridge/br_private.h
-
-44ebb081dc6934 Linus L=C3=BCssing       2021-05-13  890  =
-
-44ebb081dc6934 Linus L=C3=BCssing       2021-05-13  891  static inline stru=
-ct net_bridge_port *
-44ebb081dc6934 Linus L=C3=BCssing       2021-05-13  892  br_multicast_rport=
-_from_node_skb(struct hlist_node *rp, struct sk_buff *skb) {
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  893  	struct net_bridge_mcas=
-t_port *mctx;
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  894  =
-
-a3c02e769efe66 Linus L=C3=BCssing       2021-05-13  895  #if IS_ENABLED(CON=
-FIG_IPV6)
-a3c02e769efe66 Linus L=C3=BCssing       2021-05-13  896  	if (skb->protocol=
- =3D=3D htons(ETH_P_IPV6))
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  897  		mctx =3D hlist_entry_=
-safe(rp, struct net_bridge_mcast_port,
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  898  					ip6_rlist);
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  899  	else
-a3c02e769efe66 Linus L=C3=BCssing       2021-05-13  900  #endif
-9632233e7de8da Nikolay Aleksandrov 2021-07-19 @901  		mctx =3D hlist_entry_=
-safe(rp, struct net_bridge_mcast_port,
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  902  					ip4_rlist);
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  903  =
-
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  904  	if (mctx)
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  905  		return mctx->port;
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  906  	else
-9632233e7de8da Nikolay Aleksandrov 2021-07-19  907  		return NULL;
-44ebb081dc6934 Linus L=C3=BCssing       2021-05-13  908  }
-44ebb081dc6934 Linus L=C3=BCssing       2021-05-13  909  =
-
+>> nios2-linux-ld: drivers/gpu/drm/mxsfb/lcdif_drv.o:(.rodata+0x218): undef=
+ined reference to `drm_gem_dma_prime_import_sg_table'
+>> nios2-linux-ld: drivers/gpu/drm/mxsfb/lcdif_drv.o:(.rodata+0x220): undef=
+ined reference to `drm_gem_dma_dumb_create'
+   nios2-linux-ld: drivers/gpu/drm/mxsfb/lcdif_kms.o: in function `lcdif_pl=
+ane_primary_atomic_update':
+>> lcdif_kms.c:(.text+0x3a8): undefined reference to `drm_fb_dma_get_gem_ad=
+dr'
+   lcdif_kms.c:(.text+0x3a8): relocation truncated to fit: R_NIOS2_CALL26 a=
+gainst `drm_fb_dma_get_gem_addr'
+   nios2-linux-ld: drivers/gpu/drm/mxsfb/lcdif_kms.o: in function `lcdif_cr=
+tc_atomic_enable':
+   lcdif_kms.c:(.text+0x658): undefined reference to `drm_fb_dma_get_gem_ad=
+dr'
+   lcdif_kms.c:(.text+0x658): relocation truncated to fit: R_NIOS2_CALL26 a=
+gainst `drm_fb_dma_get_gem_addr'
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4470904415242184531==--
+--===============5414257242627077222==--
 
