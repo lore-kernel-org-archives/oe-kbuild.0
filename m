@@ -1,310 +1,378 @@
-Content-Type: multipart/mixed; boundary="===============4015566731517188250=="
+Content-Type: multipart/mixed; boundary="===============3222938278952856898=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] media: i2c: imx334: support lower bandwidth mode
-Date: Mon, 01 Aug 2022 12:34:17 +0800
-Message-ID: <202208011237.RWmAl1tP-lkp@intel.com>
+Subject: [samba-ksmbd:ksmbd-for-next-next 12/12] fs/ksmbd/smbacl.c:1213 smb_check_perm_dacl() warn: variable dereferenced before check 'pntsd' (see line 1212)
+Date: Mon, 01 Aug 2022 07:09:59 +0800
+Message-ID: <202208010716.Io52CJih-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4015566731517188250==
+--===============3222938278952856898==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220728063044.19276-1-shravan.chippa@microchip.com>
-References: <20220728063044.19276-1-shravan.chippa@microchip.com>
-TO: shravan kumar <shravan.chippa@microchip.com>
-TO: paul.j.murphy(a)intel.com
-TO: daniele.alessandrelli(a)intel.com
-TO: mchehab(a)kernel.org
-CC: linux-media(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: Shravan Chippa <shravan.chippa@microchip.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Prakash Battu <Prakash.Battu@microchip.com>
+TO: Namjae Jeon <linkinjeon@kernel.org>
+CC: Hyunchul Lee <hyc.lee@gmail.com>
 
-Hi shravan,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v5.19 next-20220728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/shravan-kumar/media-=
-i2c-imx334-support-lower-bandwidth-mode/20220728-143143
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   d0b73d20ca9100c7b969b65d8a1ff49cdd1fa9c9
+commit: d0b73d20ca9100c7b969b65d8a1ff49cdd1fa9c9 [12/12] ksmbd: fix heap-ba=
+sed overflow in set_ntacl_dacl()
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
 config: arc-randconfig-m041-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220801/202208011237.RWmAl1tP-lkp(a)intel.com/config)
+ve/20220801/202208010716.Io52CJih-lkp(a)intel.com/config)
 compiler: arceb-elf-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/media/i2c/imx334.c:735 imx334_enum_frame_size() warn: ignoring unre=
-achable code.
-drivers/media/i2c/imx334.c:832 imx334_set_pad_format() warn: unsigned 'code=
-' is never less than zero.
+New smatch warnings:
+fs/ksmbd/smbacl.c:1213 smb_check_perm_dacl() warn: variable dereferenced be=
+fore check 'pntsd' (see line 1212)
+fs/ksmbd/smb2pdu.c:5182 smb2_get_info_sec() error: uninitialized symbol 'se=
+cdesclen'.
 
-vim +735 drivers/media/i2c/imx334.c
+Old smatch warnings:
+fs/ksmbd/smb2pdu.c:549 smb2_allocate_rsp_buf() warn: Please consider using =
+kvzalloc instead of kvmalloc
+fs/ksmbd/smb2pdu.c:3293 smb2_open() warn: Function too hairy.  No more merg=
+es.
+fs/ksmbd/smb2pdu.c:6123 smb2_read_pipe() warn: Please consider using kvzall=
+oc instead of kvmalloc
+fs/ksmbd/smb2pdu.c:6275 smb2_read() warn: Please consider using kvzalloc in=
+stead of kvmalloc
+fs/ksmbd/smb2pdu.c:6424 smb2_write_rdma_channel() warn: Please consider usi=
+ng kvzalloc instead of kvmalloc
 
-9746b11715c3949 Martina Krasteva 2021-02-03  717  =
+vim +/pntsd +1213 fs/ksmbd/smbacl.c
 
-9746b11715c3949 Martina Krasteva 2021-02-03  718  /**
-9746b11715c3949 Martina Krasteva 2021-02-03  719   * imx334_enum_frame_size=
-() - Enumerate V4L2 sub-device frame sizes
-9746b11715c3949 Martina Krasteva 2021-02-03  720   * @sd: pointer to imx334=
- V4L2 sub-device structure
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  721   * @sd_state: V4L2 sub-de=
-vice state
-9746b11715c3949 Martina Krasteva 2021-02-03  722   * @fsize: V4L2 sub-devic=
-e size enumeration need to be filled
-9746b11715c3949 Martina Krasteva 2021-02-03  723   *
-9746b11715c3949 Martina Krasteva 2021-02-03  724   * Return: 0 if successfu=
-l, error code otherwise.
-9746b11715c3949 Martina Krasteva 2021-02-03  725   */
-9746b11715c3949 Martina Krasteva 2021-02-03  726  static int imx334_enum_fr=
-ame_size(struct v4l2_subdev *sd,
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  727  				  struct v4l2_subdev_=
-state *sd_state,
-9746b11715c3949 Martina Krasteva 2021-02-03  728  				  struct v4l2_subdev_=
-frame_size_enum *fsize)
-9746b11715c3949 Martina Krasteva 2021-02-03  729  {
-99a7e6eda2d21df Shravan Chippa   2022-07-28  730  	int i;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  731  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1187  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  732  	if (fsize->index >=3D AR=
-RAY_SIZE(supported_modes))
-9746b11715c3949 Martina Krasteva 2021-02-03  733  		return -EINVAL;
-9746b11715c3949 Martina Krasteva 2021-02-03  734  =
+ef24c962d0f290 fs/ksmbd/smbacl.c Hyunchul Lee      2021-06-30  1188  int sm=
+b_check_perm_dacl(struct ksmbd_conn *conn, struct path *path,
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1189  			__l=
+e32 *pdaccess, int uid)
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1190  {
+465d720485eff1 fs/ksmbd/smbacl.c Hyunchul Lee      2021-07-03  1191  	struc=
+t user_namespace *user_ns =3D mnt_user_ns(path->mnt);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1192  	struc=
+t smb_ntsd *pntsd =3D NULL;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1193  	struc=
+t smb_acl *pdacl;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1194  	struc=
+t posix_acl *posix_acls;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1195  	int r=
+c =3D 0, pntsd_size, acl_size, aces_size, pdacl_size, dacl_offset;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1196  	struc=
+t smb_sid sid;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1197  	int g=
+ranted =3D le32_to_cpu(*pdaccess & ~FILE_MAXIMAL_ACCESS_LE);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1198  	struc=
+t smb_ace *ace;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1199  	int i=
+, found =3D 0;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1200  	unsig=
+ned int access_bits =3D 0;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1201  	struc=
+t smb_ace *others_ace =3D NULL;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1202  	struc=
+t posix_acl_entry *pa_entry;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1203  	unsig=
+ned int sid_type =3D SIDOWNER;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1204  	unsig=
+ned short ace_size;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1205  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28 @735  	for (i =3D 0; i < ARRAY_=
-SIZE(codes); i++) {
-99a7e6eda2d21df Shravan Chippa   2022-07-28  736  		if (codes[i] =3D=3D fsi=
-ze->code)
-99a7e6eda2d21df Shravan Chippa   2022-07-28  737  			break;
-9746b11715c3949 Martina Krasteva 2021-02-03  738  		return -EINVAL;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  739  	}
-9746b11715c3949 Martina Krasteva 2021-02-03  740  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1206  	ksmbd=
+_debug(SMB, "check permission using windows acl\n");
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1207  	pntsd=
+_size =3D ksmbd_vfs_get_sd_xattr(conn, user_ns,
+af34983e831587 fs/ksmbd/smbacl.c Hyunchul Lee      2021-06-30  1208  					 =
+   path->dentry, &pntsd);
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1209  	if (p=
+ntsd_size <=3D 0)
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1210  		goto=
+ err_out;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1211  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  741  	fsize->min_width =3D sup=
-ported_modes[fsize->index].width;
-9746b11715c3949 Martina Krasteva 2021-02-03  742  	fsize->max_width =3D fsi=
-ze->min_width;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  743  	fsize->min_height =3D su=
-pported_modes[fsize->index].height;
-9746b11715c3949 Martina Krasteva 2021-02-03  744  	fsize->max_height =3D fs=
-ize->min_height;
-9746b11715c3949 Martina Krasteva 2021-02-03  745  =
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28 @1212  	dacl_=
+offset =3D le32_to_cpu(pntsd->dacloffset);
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28 @1213  	if (!=
+pntsd || !pntsd->dacloffset ||
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1214  	    (=
+dacl_offset + sizeof(struct smb_acl) > pntsd_size))
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1215  		goto=
+ err_out;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1216  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  746  	return 0;
-9746b11715c3949 Martina Krasteva 2021-02-03  747  }
-9746b11715c3949 Martina Krasteva 2021-02-03  748  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1217  	pdacl=
+ =3D (struct smb_acl *)((char *)pntsd + le32_to_cpu(pntsd->dacloffset));
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1218  	acl_s=
+ize =3D pntsd_size - dacl_offset;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1219  	pdacl=
+_size =3D le16_to_cpu(pdacl->size);
+50355b0b20103a fs/cifsd/smbacl.c Namjae Jeon       2021-03-19  1220  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  749  /**
-9746b11715c3949 Martina Krasteva 2021-02-03  750   * imx334_fill_pad_format=
-() - Fill subdevice pad format
-9746b11715c3949 Martina Krasteva 2021-02-03  751   *                       =
-     from selected sensor mode
-9746b11715c3949 Martina Krasteva 2021-02-03  752   * @imx334: pointer to im=
-x334 device
-9746b11715c3949 Martina Krasteva 2021-02-03  753   * @mode: pointer to imx3=
-34_mode sensor mode
-9746b11715c3949 Martina Krasteva 2021-02-03  754   * @fmt: V4L2 sub-device =
-format need to be filled
-9746b11715c3949 Martina Krasteva 2021-02-03  755   */
-9746b11715c3949 Martina Krasteva 2021-02-03  756  static void imx334_fill_p=
-ad_format(struct imx334 *imx334,
-9746b11715c3949 Martina Krasteva 2021-02-03  757  				   const struct imx33=
-4_mode *mode,
-9746b11715c3949 Martina Krasteva 2021-02-03  758  				   struct v4l2_subdev=
-_format *fmt)
-9746b11715c3949 Martina Krasteva 2021-02-03  759  {
-9746b11715c3949 Martina Krasteva 2021-02-03  760  	fmt->format.width =3D mo=
-de->width;
-9746b11715c3949 Martina Krasteva 2021-02-03  761  	fmt->format.height =3D m=
-ode->height;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  762  	fmt->format.code =3D imx=
-334->cur_code;
-9746b11715c3949 Martina Krasteva 2021-02-03  763  	fmt->format.field =3D V4=
-L2_FIELD_NONE;
-9746b11715c3949 Martina Krasteva 2021-02-03  764  	fmt->format.colorspace =
-=3D V4L2_COLORSPACE_RAW;
-9746b11715c3949 Martina Krasteva 2021-02-03  765  	fmt->format.ycbcr_enc =
-=3D V4L2_YCBCR_ENC_DEFAULT;
-9746b11715c3949 Martina Krasteva 2021-02-03  766  	fmt->format.quantization=
- =3D V4L2_QUANTIZATION_DEFAULT;
-9746b11715c3949 Martina Krasteva 2021-02-03  767  	fmt->format.xfer_func =
-=3D V4L2_XFER_FUNC_NONE;
-9746b11715c3949 Martina Krasteva 2021-02-03  768  }
-9746b11715c3949 Martina Krasteva 2021-02-03  769  =
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1221  	if (p=
+dacl_size > acl_size || pdacl_size < sizeof(struct smb_acl))
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1222  		goto=
+ err_out;
+50355b0b20103a fs/cifsd/smbacl.c Namjae Jeon       2021-03-19  1223  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  770  /**
-9746b11715c3949 Martina Krasteva 2021-02-03  771   * imx334_get_pad_format(=
-) - Get subdevice pad format
-9746b11715c3949 Martina Krasteva 2021-02-03  772   * @sd: pointer to imx334=
- V4L2 sub-device structure
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  773   * @sd_state: V4L2 sub-de=
-vice state
-9746b11715c3949 Martina Krasteva 2021-02-03  774   * @fmt: V4L2 sub-device =
-format need to be set
-9746b11715c3949 Martina Krasteva 2021-02-03  775   *
-9746b11715c3949 Martina Krasteva 2021-02-03  776   * Return: 0 if successfu=
-l, error code otherwise.
-9746b11715c3949 Martina Krasteva 2021-02-03  777   */
-9746b11715c3949 Martina Krasteva 2021-02-03  778  static int imx334_get_pad=
-_format(struct v4l2_subdev *sd,
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  779  				 struct v4l2_subdev_s=
-tate *sd_state,
-9746b11715c3949 Martina Krasteva 2021-02-03  780  				 struct v4l2_subdev_f=
-ormat *fmt)
-9746b11715c3949 Martina Krasteva 2021-02-03  781  {
-9746b11715c3949 Martina Krasteva 2021-02-03  782  	struct imx334 *imx334 =
-=3D to_imx334(sd);
-9746b11715c3949 Martina Krasteva 2021-02-03  783  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1224  	if (!=
+pdacl->num_aces) {
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1225  		if (=
+!(pdacl_size - sizeof(struct smb_acl)) &&
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1226  		    =
+*pdaccess & ~(FILE_READ_CONTROL_LE | FILE_WRITE_DAC_LE)) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1227  			rc =
+=3D -EACCES;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1228  			got=
+o err_out;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1229  		}
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1230  		goto=
+ err_out;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1231  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1232  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  784  	mutex_lock(&imx334->mute=
-x);
-9746b11715c3949 Martina Krasteva 2021-02-03  785  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1233  	if (*=
+pdaccess & FILE_MAXIMAL_ACCESS_LE) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1234  		gran=
+ted =3D READ_CONTROL | WRITE_DAC | FILE_READ_ATTRIBUTES |
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1235  			DEL=
+ETE;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1236  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  786  	if (fmt->which =3D=3D V4=
-L2_SUBDEV_FORMAT_TRY) {
-9746b11715c3949 Martina Krasteva 2021-02-03  787  		struct v4l2_mbus_framef=
-mt *framefmt;
-9746b11715c3949 Martina Krasteva 2021-02-03  788  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1237  		ace =
+=3D (struct smb_ace *)((char *)pdacl + sizeof(struct smb_acl));
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1238  		aces=
+_size =3D acl_size - sizeof(struct smb_acl);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1239  		for =
+(i =3D 0; i < le32_to_cpu(pdacl->num_aces); i++) {
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1240  			if =
+(offsetof(struct smb_ace, access_req) > aces_size)
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1241  				br=
+eak;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1242  			ace=
+_size =3D le16_to_cpu(ace->size);
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1243  			if =
+(ace_size > aces_size)
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1244  				br=
+eak;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1245  			ace=
+s_size -=3D ace_size;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1246  			gra=
+nted |=3D le32_to_cpu(ace->access_req);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1247  			ace=
+ =3D (struct smb_ace *)((char *)ace + le16_to_cpu(ace->size));
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1248  		}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1249  =
 
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  789  		framefmt =3D v4l2_subde=
-v_get_try_format(sd, sd_state, fmt->pad);
-9746b11715c3949 Martina Krasteva 2021-02-03  790  		fmt->format =3D *framef=
-mt;
-9746b11715c3949 Martina Krasteva 2021-02-03  791  	} else {
-9746b11715c3949 Martina Krasteva 2021-02-03  792  		imx334_fill_pad_format(=
-imx334, imx334->cur_mode, fmt);
-9746b11715c3949 Martina Krasteva 2021-02-03  793  	}
-9746b11715c3949 Martina Krasteva 2021-02-03  794  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1250  		if (=
+!pdacl->num_aces)
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1251  			gra=
+nted =3D GENERIC_ALL_FLAGS;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1252  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1253  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  795  	mutex_unlock(&imx334->mu=
-tex);
-9746b11715c3949 Martina Krasteva 2021-02-03  796  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1254  	if (!=
+uid)
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1255  		sid_=
+type =3D SIDUNIX_USER;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1256  	id_to=
+_sid(uid, sid_type, &sid);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1257  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  797  	return 0;
-9746b11715c3949 Martina Krasteva 2021-02-03  798  }
-9746b11715c3949 Martina Krasteva 2021-02-03  799  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1258  	ace =
+=3D (struct smb_ace *)((char *)pdacl + sizeof(struct smb_acl));
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1259  	aces_=
+size =3D acl_size - sizeof(struct smb_acl);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1260  	for (=
+i =3D 0; i < le32_to_cpu(pdacl->num_aces); i++) {
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1261  		if (=
+offsetof(struct smb_ace, access_req) > aces_size)
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1262  			bre=
+ak;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1263  		ace_=
+size =3D le16_to_cpu(ace->size);
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1264  		if (=
+ace_size > aces_size)
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1265  			bre=
+ak;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1266  		aces=
+_size -=3D ace_size;
+d0b73d20ca9100 fs/ksmbd/smbacl.c Namjae Jeon       2022-07-28  1267  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  800  static int imx219_get_for=
-mat_code(struct imx334 *imx334, struct v4l2_subdev_format *fmt)
-99a7e6eda2d21df Shravan Chippa   2022-07-28  801  {
-99a7e6eda2d21df Shravan Chippa   2022-07-28  802  	int i;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  803  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1268  		if (=
+!compare_sids(&sid, &ace->sid) ||
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1269  		    =
+!compare_sids(&sid_unix_NFS_mode, &ace->sid)) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1270  			fou=
+nd =3D 1;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1271  			bre=
+ak;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1272  		}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1273  		if (=
+!compare_sids(&sid_everyone, &ace->sid))
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1274  			oth=
+ers_ace =3D ace;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1275  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  804  	for (i =3D 0; i < ARRAY_=
-SIZE(codes); i++) {
-99a7e6eda2d21df Shravan Chippa   2022-07-28  805  		if (codes[i] =3D=3D fmt=
-->format.code)
-99a7e6eda2d21df Shravan Chippa   2022-07-28  806  			return codes[i];
-99a7e6eda2d21df Shravan Chippa   2022-07-28  807  	}
-99a7e6eda2d21df Shravan Chippa   2022-07-28  808  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1276  		ace =
+=3D (struct smb_ace *)((char *)ace + le16_to_cpu(ace->size));
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1277  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1278  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  809  	return -EINVAL;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  810  }
-99a7e6eda2d21df Shravan Chippa   2022-07-28  811  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1279  	if (*=
+pdaccess & FILE_MAXIMAL_ACCESS_LE && found) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1280  		gran=
+ted =3D READ_CONTROL | WRITE_DAC | FILE_READ_ATTRIBUTES |
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1281  			DEL=
+ETE;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1282  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  812  /**
-9746b11715c3949 Martina Krasteva 2021-02-03  813   * imx334_set_pad_format(=
-) - Set subdevice pad format
-9746b11715c3949 Martina Krasteva 2021-02-03  814   * @sd: pointer to imx334=
- V4L2 sub-device structure
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  815   * @sd_state: V4L2 sub-de=
-vice state
-9746b11715c3949 Martina Krasteva 2021-02-03  816   * @fmt: V4L2 sub-device =
-format need to be set
-9746b11715c3949 Martina Krasteva 2021-02-03  817   *
-9746b11715c3949 Martina Krasteva 2021-02-03  818   * Return: 0 if successfu=
-l, error code otherwise.
-9746b11715c3949 Martina Krasteva 2021-02-03  819   */
-9746b11715c3949 Martina Krasteva 2021-02-03  820  static int imx334_set_pad=
-_format(struct v4l2_subdev *sd,
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  821  				 struct v4l2_subdev_s=
-tate *sd_state,
-9746b11715c3949 Martina Krasteva 2021-02-03  822  				 struct v4l2_subdev_f=
-ormat *fmt)
-9746b11715c3949 Martina Krasteva 2021-02-03  823  {
-9746b11715c3949 Martina Krasteva 2021-02-03  824  	struct imx334 *imx334 =
-=3D to_imx334(sd);
-9746b11715c3949 Martina Krasteva 2021-02-03  825  	const struct imx334_mode=
- *mode;
-9746b11715c3949 Martina Krasteva 2021-02-03  826  	int ret =3D 0;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  827  	u32 code;
-9746b11715c3949 Martina Krasteva 2021-02-03  828  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1283  		gran=
+ted |=3D le32_to_cpu(ace->access_req);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1284  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  829  	mutex_lock(&imx334->mute=
-x);
-9746b11715c3949 Martina Krasteva 2021-02-03  830  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1285  		if (=
+!pdacl->num_aces)
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1286  			gra=
+nted =3D GENERIC_ALL_FLAGS;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1287  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1288  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  831  	code =3D imx219_get_form=
-at_code(imx334, fmt);
-99a7e6eda2d21df Shravan Chippa   2022-07-28 @832  	if (code < 0)
-99a7e6eda2d21df Shravan Chippa   2022-07-28  833  		return -EINVAL;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  834  =
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1289  	if (I=
+S_ENABLED(CONFIG_FS_POSIX_ACL)) {
+ef24c962d0f290 fs/ksmbd/smbacl.c Hyunchul Lee      2021-06-30  1290  		posi=
+x_acls =3D get_acl(d_inode(path->dentry), ACL_TYPE_ACCESS);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1291  		if (=
+posix_acls && !found) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1292  			uns=
+igned int id =3D -1;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1293  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  835  	imx334->cur_code =3D cod=
-e;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  836  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1294  			pa_=
+entry =3D posix_acls->a_entries;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1295  			for=
+ (i =3D 0; i < posix_acls->a_count; i++, pa_entry++) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1296  				if=
+ (pa_entry->e_tag =3D=3D ACL_USER)
+0e844efebdf9c0 fs/ksmbd/smbacl.c Christian Brauner 2021-08-23  1297  					i=
+d =3D posix_acl_uid_translate(user_ns, pa_entry);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1298  				el=
+se if (pa_entry->e_tag =3D=3D ACL_GROUP)
+0e844efebdf9c0 fs/ksmbd/smbacl.c Christian Brauner 2021-08-23  1299  					i=
+d =3D posix_acl_gid_translate(user_ns, pa_entry);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1300  				el=
+se
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1301  					c=
+ontinue;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1302  =
 
-99a7e6eda2d21df Shravan Chippa   2022-07-28  837  	mode =3D v4l2_find_neare=
-st_size(supported_modes,
-99a7e6eda2d21df Shravan Chippa   2022-07-28  838  				      ARRAY_SIZE(supp=
-orted_modes),
-99a7e6eda2d21df Shravan Chippa   2022-07-28  839  				      width, height,
-99a7e6eda2d21df Shravan Chippa   2022-07-28  840  				      fmt->format.wid=
-th, fmt->format.height);
-99a7e6eda2d21df Shravan Chippa   2022-07-28  841  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1303  				if=
+ (id =3D=3D uid) {
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1304  					m=
+ode_to_access_flags(pa_entry->e_perm,
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1305  						=
+	     0777,
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1306  						=
+	     &access_bits);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1307  					i=
+f (!access_bits)
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1308  						=
+access_bits =3D
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1309  						=
+	SET_MINIMUM_RIGHTS;
+d21a580dafc69a fs/ksmbd/smbacl.c Xin Xiong         2022-04-29  1310  					p=
+osix_acl_release(posix_acls);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1311  					g=
+oto check_access_bits;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1312  				}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1313  			}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1314  		}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1315  		if (=
+posix_acls)
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1316  			pos=
+ix_acl_release(posix_acls);
+777cad1604d68e fs/ksmbd/smbacl.c Namjae Jeon       2021-08-13  1317  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1318  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  842  	imx334_fill_pad_format(i=
-mx334, mode, fmt);
-9746b11715c3949 Martina Krasteva 2021-02-03  843  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1319  	if (!=
+found) {
+64b39f4a2fd293 fs/cifsd/smbacl.c Namjae Jeon       2021-03-30  1320  		if (=
+others_ace) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1321  			ace=
+ =3D others_ace;
+64b39f4a2fd293 fs/cifsd/smbacl.c Namjae Jeon       2021-03-30  1322  		} el=
+se {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1323  			ksm=
+bd_debug(SMB, "Can't find corresponding sid\n");
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1324  			rc =
+=3D -EACCES;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1325  			got=
+o err_out;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1326  		}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1327  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1328  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  844  	if (fmt->which =3D=3D V4=
-L2_SUBDEV_FORMAT_TRY) {
-9746b11715c3949 Martina Krasteva 2021-02-03  845  		struct v4l2_mbus_framef=
-mt *framefmt;
-9746b11715c3949 Martina Krasteva 2021-02-03  846  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1329  	switc=
+h (ace->type) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1330  	case =
+ACCESS_ALLOWED_ACE_TYPE:
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1331  		acce=
+ss_bits =3D le32_to_cpu(ace->access_req);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1332  		brea=
+k;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1333  	case =
+ACCESS_DENIED_ACE_TYPE:
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1334  	case =
+ACCESS_DENIED_CALLBACK_ACE_TYPE:
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1335  		acce=
+ss_bits =3D le32_to_cpu(~ace->access_req);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1336  		brea=
+k;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1337  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1338  =
 
-0d346d2a6f54f06 Tomi Valkeinen   2021-06-10  847  		framefmt =3D v4l2_subde=
-v_get_try_format(sd, sd_state, fmt->pad);
-9746b11715c3949 Martina Krasteva 2021-02-03  848  		*framefmt =3D fmt->form=
-at;
-99a7e6eda2d21df Shravan Chippa   2022-07-28  849  	} else if (imx334->cur_m=
-ode !=3D mode) {
-9746b11715c3949 Martina Krasteva 2021-02-03  850  		ret =3D imx334_update_c=
-ontrols(imx334, mode);
-9746b11715c3949 Martina Krasteva 2021-02-03  851  		if (!ret)
-9746b11715c3949 Martina Krasteva 2021-02-03  852  			imx334->cur_mode =3D m=
-ode;
-9746b11715c3949 Martina Krasteva 2021-02-03  853  	}
-9746b11715c3949 Martina Krasteva 2021-02-03  854  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1339  check_=
+access_bits:
+070fb21e5912b6 fs/cifsd/smbacl.c Namjae Jeon       2021-05-26  1340  	if (g=
+ranted &
+070fb21e5912b6 fs/cifsd/smbacl.c Namjae Jeon       2021-05-26  1341  	    ~=
+(access_bits | FILE_READ_ATTRIBUTES | READ_CONTROL | WRITE_DAC | DELETE)) {
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1342  		ksmb=
+d_debug(SMB, "Access denied with winACL, granted : %x, access_req : %x\n",
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1343  			   =
+ granted, le32_to_cpu(ace->access_req));
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1344  		rc =
+=3D -EACCES;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1345  		goto=
+ err_out;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1346  	}
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1347  =
 
-9746b11715c3949 Martina Krasteva 2021-02-03  855  	mutex_unlock(&imx334->mu=
-tex);
-9746b11715c3949 Martina Krasteva 2021-02-03  856  =
-
-9746b11715c3949 Martina Krasteva 2021-02-03  857  	return ret;
-9746b11715c3949 Martina Krasteva 2021-02-03  858  }
-9746b11715c3949 Martina Krasteva 2021-02-03  859  =
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1348  	*pdac=
+cess =3D cpu_to_le32(granted);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1349  err_ou=
+t:
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1350  	kfree=
+(pntsd);
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1351  	retur=
+n rc;
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1352  }
+e2f34481b24db2 fs/cifsd/smbacl.c Namjae Jeon       2021-03-16  1353  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4015566731517188250==--
+--===============3222938278952856898==--
 
