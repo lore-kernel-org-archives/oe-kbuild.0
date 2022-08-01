@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8297326386620661673=="
+Content-Type: multipart/mixed; boundary="===============8272798109449054536=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [kees:for-next/kspp 5/11] drivers/md/dm-verity-loadpin.c:16:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Tue, 02 Aug 2022 09:55:12 +0800
-Message-ID: <202208020921.p8oEY4uF-lkp@intel.com>
+Subject: fs/cifs/fscache.c:241:23: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Tue, 02 Aug 2022 05:00:18 +0800
+Message-ID: <202208020440.2UM83bxo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8297326386620661673==
+--===============8272798109449054536==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-d/dm-verity-loadpin.c:16:13: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: fs/cifs/f=
+scache.c:241:23: warning: use of uninitialized value '<unknown>' [CWE-457] =
+[-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Matthias Kaehlcke <mka@chromium.org>
-CC: Kees Cook <keescook@chromium.org>
+TO: David Howells <dhowells@redhat.com>
+CC: Steve French <stfrench@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-=
-next/kspp
-head:   27603a606fda0806d7c08914bc976931aa42020e
-commit: b6c1c5745ccc68ac5d57c7ffb51ea25a86d0e97b [5/11] dm: Add verity help=
-ers for LoadPin
-:::::: branch date: 4 days ago
-:::::: commit date: 3 weeks ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0cec3f24a7cedc726f8790d693aaff2c535dc4ce
+commit: 0174ee9947bd0f24fee2794b35258960d108b7aa cifs: Implement cache I/O =
+by accessing the cache directly
+date:   6 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 6 months ago
 config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220802/202208020921.p8oEY4uF-lkp(a)intel.com/config)
+ve/20220802/202208020440.2UM83bxo-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/co=
-mmit/?id=3Db6c1c5745ccc68ac5d57c7ffb51ea25a86d0e97b
-        git remote add kees https://git.kernel.org/pub/scm/linux/kernel/git=
-/kees/linux.git
-        git fetch --no-tags kees for-next/kspp
-        git checkout b6c1c5745ccc68ac5d57c7ffb51ea25a86d0e97b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D0174ee9947bd0f24fee2794b35258960d108b7aa
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 0174ee9947bd0f24fee2794b35258960d108b7aa
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -56,91 +57,146 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/md/dm-verity-loadpin.c: In function 'is_trusted_verity_target':
->> drivers/md/dm-verity-loadpin.c:16:13: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      16 |         u8 *root_digest;
-         |             ^~~~~~~~~~~
-     'is_trusted_verity_target': event 1
+   In file included from fs/cifs/fscache.h:13,
+                    from fs/cifs/fscache.c:9:
+   In function 'fscache_read',
+       inlined from 'fscache_fallback_read_page' at fs/cifs/fscache.c:166:8:
+   include/linux/fscache.h:499:19: warning: dereference of NULL '0' [CWE-47=
+6] [-Wanalyzer-null-dereference]
+     499 |         return ops->read(cres, start_pos, iter, read_hole,
+         |                ~~~^~~~~~
+     'fscache_fallback_read_page': event 1
        |
-       |   16 |         u8 *root_digest;
-       |      |             ^~~~~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |fs/cifs/fscache.c:163:12:
+       |  163 |         if (ret < 0)
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch (when 'ret >=3D 0')=
+...
        |
-   drivers/md/dm-verity-loadpin.c:17:22: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      17 |         unsigned int digest_size;
-         |                      ^~~~~~~~~~~
-     'is_trusted_verity_target': event 1
+     'fscache_fallback_read_page': event 2
        |
-       |   17 |         unsigned int digest_size;
-       |      |                      ^~~~~~~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
+       |include/linux/pagemap.h:687:29:
+       |  687 |         return ((loff_t)page->index) << PAGE_SHIFT;
+       |      |                         ~~~~^~~~~~~
+       |      |                             |
+       |      |                             (2) ...to here
        |
-   drivers/md/dm-verity-loadpin.c: In function 'dm_verity_loadpin_is_bdev_t=
-rusted':
-   drivers/md/dm-verity-loadpin.c:49:13: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      49 |         int srcu_idx;
-         |             ^~~~~~~~
-     'dm_verity_loadpin_is_bdev_trusted': event 1
+     'fscache_fallback_read_page': events 3-5
        |
-       |   49 |         int srcu_idx;
-       |      |             ^~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |include/linux/fscache.h:426:58:
+       |  426 |         return fscache_resources_valid(cres) ? cres->ops : =
+NULL;
+       |......
+       |  499 |         return ops->read(cres, start_pos, iter, read_hole,
+       |      |                ~~~~~~~~~                                  =
+
+       |      |                   |
+       |      |                   (4) ...to here
+       |      |                   (5) dereference of NULL '<unknown>'
+       |
+   In function 'fscache_write',
+       inlined from 'fscache_fallback_write_page' at fs/cifs/fscache.c:199:=
+9:
+   include/linux/fscache.h:557:19: warning: dereference of NULL '0' [CWE-47=
+6] [-Wanalyzer-null-dereference]
+     557 |         return ops->write(cres, start_pos, iter, term_func, term=
+_func_priv);
+         |                ~~~^~~~~~~
+     'fscache_fallback_write_page': events 1-3
+       |
+       |fs/cifs/fscache.c:193:12:
+       |  193 |         if (ret < 0)
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch (when 'ret >=3D 0')=
+...
+       |......
+       |  196 |         ret =3D cres.ops->prepare_write(&cres, &start, &len=
+, i_size_read(inode),
+       |      |               ~~~~~~~~
+       |      |                   |
+       |      |                   (2) ...to here
+       |  197 |                                       no_space_allocated_ye=
+t);
+       |  198 |         if (ret =3D=3D 0)
+       |      |            ~
+       |      |            |
+       |      |            (3) following 'true' branch (when 'ret =3D=3D 0'=
+)...
+       |
+     'fscache_fallback_write_page': event 4
+       |
+       |include/linux/pagemap.h:687:29:
+       |  687 |         return ((loff_t)page->index) << PAGE_SHIFT;
+       |      |                         ~~~~^~~~~~~
+       |      |                             |
+       |      |                             (4) ...to here
+       |
+     'fscache_fallback_write_page': events 5-7
+       |
+       |include/linux/fscache.h:426:58:
+       |  426 |         return fscache_resources_valid(cres) ? cres->ops : =
+NULL;
+       |......
+       |  557 |         return ops->write(cres, start_pos, iter, term_func,=
+ term_func_priv);
+       |      |                ~~~~~~~~~~                                 =
+
+       |      |                   |
+       |      |                   (6) ...to here
+       |      |                   (7) dereference of NULL '<unknown>'
+       |
+   fs/cifs/fscache.c: In function '__cifs_fscache_query_occupancy':
+>> fs/cifs/fscache.c:241:23: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     241 |         loff_t start, data_start;
+         |                       ^~~~~~~~~~
+     '__cifs_fscache_query_occupancy': event 1
+       |
+       |  241 |         loff_t start, data_start;
+       |      |                       ^~~~~~~~~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   fs/cifs/fscache.c:242:21: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     242 |         size_t len, data_len;
+         |                     ^~~~~~~~
+     '__cifs_fscache_query_occupancy': event 1
+       |
+       |  242 |         size_t len, data_len;
+       |      |                     ^~~~~~~~
+       |      |                     |
+       |      |                     (1) use of uninitialized value '<unknow=
+n>' here
        |
 
-vim +16 drivers/md/dm-verity-loadpin.c
+vim +241 fs/cifs/fscache.c
 
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  13  =
+0174ee9947bd0f David Howells 2022-01-27  230  =
 
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  14  static bool is_trusted_ver=
-ity_target(struct dm_target *ti)
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  15  {
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27 @16  	u8 *root_digest;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  17  	unsigned int digest_size;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  18  	struct dm_verity_loadpin_=
-trusted_root_digest *trd;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  19  	bool trusted =3D false;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  20  =
-
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  21  	if (!dm_is_verity_target(=
-ti))
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  22  		return false;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  23  =
-
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  24  	if (dm_verity_get_root_di=
-gest(ti, &root_digest, &digest_size))
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  25  		return false;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  26  =
-
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  27  	list_for_each_entry(trd, =
-&dm_verity_loadpin_trusted_root_digests, node) {
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  28  		if ((trd->len =3D=3D dig=
-est_size) &&
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  29  		    !memcmp(trd->data, r=
-oot_digest, digest_size)) {
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  30  			trusted =3D true;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  31  			break;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  32  		}
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  33  	}
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  34  =
-
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  35  	kfree(root_digest);
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  36  =
-
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  37  	return trusted;
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  38  }
-b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  39  =
-
+0174ee9947bd0f David Howells 2022-01-27  231  /*
+0174ee9947bd0f David Howells 2022-01-27  232   * Query the cache occupancy.
+0174ee9947bd0f David Howells 2022-01-27  233   */
+0174ee9947bd0f David Howells 2022-01-27  234  int __cifs_fscache_query_occu=
+pancy(struct inode *inode,
+0174ee9947bd0f David Howells 2022-01-27  235  				   pgoff_t first, unsigne=
+d int nr_pages,
+0174ee9947bd0f David Howells 2022-01-27  236  				   pgoff_t *_data_first,
+0174ee9947bd0f David Howells 2022-01-27  237  				   unsigned int *_data_nr=
+_pages)
+0174ee9947bd0f David Howells 2022-01-27  238  {
+0174ee9947bd0f David Howells 2022-01-27  239  	struct netfs_cache_resources=
+ cres;
+0174ee9947bd0f David Howells 2022-01-27  240  	struct fscache_cookie *cooki=
+e =3D cifs_inode_cookie(inode);
+0174ee9947bd0f David Howells 2022-01-27 @241  	loff_t start, data_start;
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8297326386620661673==--
+--===============8272798109449054536==--
 
