@@ -1,298 +1,354 @@
-Content-Type: multipart/mixed; boundary="===============1540990656664300614=="
+Content-Type: multipart/mixed; boundary="===============1605506663516947601=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH 27/48] target: core: fix parsing PR OUT TID
-Date: Sat, 06 Aug 2022 04:01:16 +0800
-Message-ID: <202208060306.OumJ9c0l-lkp@intel.com>
+Subject: drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c:119 lan966x_mdb_ip_add() warn: passing a valid pointer to 'PTR_ERR'
+Date: Mon, 01 Aug 2022 17:49:06 +0800
+Message-ID: <202208011734.bXY8KTpR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1540990656664300614==
+--===============1605506663516947601==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220803162857.27770-28-d.bogdanov@yadro.com>
-References: <20220803162857.27770-28-d.bogdanov@yadro.com>
-TO: Dmitry Bogdanov <d.bogdanov@yadro.com>
+BCC: lkp(a)intel.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Horatiu Vultur <horatiu.vultur@microchip.com>
 
-Hi Dmitry,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on v5.19]
-[also build test WARNING on linus/master next-20220805]
-[cannot apply to mkp-scsi/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Bogdanov/Targ=
-et-cluster-implementation-over-DLM/20220804-003430
-base:    3d7cb6b04c3f3115719235cc6866b10326de34cd
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: csky-randconfig-m031-20220803 (https://download.01.org/0day-ci/arch=
-ive/20220806/202208060306.OumJ9c0l-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3d7cb6b04c3f3115719235cc6866b10326de34cd
+commit: 7aacb894b1adf8b0f46e6370417350a6bac20c55 net: lan966x: Extend switc=
+hdev with mdb support
+date:   7 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 7 months ago
+config: arc-randconfig-m041-20220731 (https://download.01.org/0day-ci/archi=
+ve/20220801/202208011734.bXY8KTpR-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/target/target_core_fabric_lib.c:343 iscsi_parse_pr_out_transport_id=
-() error: uninitialized symbol 'p'.
-drivers/target/target_core_fabric_lib.c:424 target_parse_pr_out_transport_i=
-d() warn: ignoring unreachable code.
+drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c:119 lan966x_mdb_ip_add=
+() warn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c:262 lan966x_mdb_l2_add=
+() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/p +343 drivers/target/target_core_fabric_lib.c
+vim +/PTR_ERR +119 drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c
 
-421431f2fd129f Dmitry Bogdanov    2022-06-29  267  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  104  =
 
-421431f2fd129f Dmitry Bogdanov    2022-06-29  268  u32 iscsi_parse_pr_out_t=
-ransport_id(
-421431f2fd129f Dmitry Bogdanov    2022-06-29  269  	const char *buf,
-421431f2fd129f Dmitry Bogdanov    2022-06-29  270  	char *initiatorname,
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  271  	char **port_nexus_ptr)
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  272  {
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  273  	char *p;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  274  	int i;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  275  	u8 format_code =3D (buf=
-[0] & 0xc0);
-421431f2fd129f Dmitry Bogdanov    2022-06-29  276  	u32 out_tid_len;
-421431f2fd129f Dmitry Bogdanov    2022-06-29  277  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  105  static int lan966x_mdb_ip_ad=
+d(struct lan966x_port *port,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  106  			      const struct switch=
+dev_obj_port_mdb *mdb,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  107  			      enum macaccess_entr=
+y_type type)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  108  {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  109  	bool cpu_port =3D netif_is_=
+bridge_master(mdb->obj.orig_dev);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  110  	struct lan966x *lan966x =3D=
+ port->lan966x;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  111  	struct lan966x_mdb_entry *m=
+db_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  112  	unsigned char mac[ETH_ALEN];
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  113  	bool cpu_copy =3D false;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  114  =
 
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  278  	/*
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  279  	 * Check for FORMAT COD=
-E 00b or 01b from spc4r17, section 7.5.4.6:
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  280  	 *
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  281  	 *       TransportID fo=
-r initiator ports using SCSI over iSCSI,
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  282  	 *       from Table 388=
- -- iSCSI TransportID formats.
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  283  	 *
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  284  	 *    00b     Initiator=
- port is identified using the world wide unique
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  285  	 *            SCSI devi=
-ce name of the iSCSI initiator
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  286  	 *            device co=
-ntaining the initiator port (see table 389).
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  287  	 *    01b     Initiator=
- port is identified using the world wide unique
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  288  	 *            initiator=
- port identifier (see table 390).10b to 11b
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  289  	 *            Reserved
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  290  	 */
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  291  	if ((format_code !=3D 0=
-x00) && (format_code !=3D 0x40)) {
-6708bb27bb2703 Andy Grover        2011-06-08  292  		pr_err("Illegal format=
- code: 0x%02x for iSCSI"
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  293  			" Initiator Transport=
- ID\n", format_code);
-421431f2fd129f Dmitry Bogdanov    2022-06-29  294  		return 0;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  295  	}
-68edbce4fb4b17 Joern Engel        2014-09-02  296  	/* The shift works than=
-ks to integer promotion rules */
-421431f2fd129f Dmitry Bogdanov    2022-06-29  297  	out_tid_len =3D get_una=
-ligned_be16(&buf[2]);
-169622eee4373d Mike Christie      2020-07-01  298  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  115  	mdb_entry =3D lan966x_mdb_e=
+ntry_get(lan966x, mdb->addr, mdb->vid);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  116  	if (!mdb_entry) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  117  		mdb_entry =3D lan966x_mdb_=
+entry_add(lan966x, mdb);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  118  		if (IS_ERR(mdb_entry))
+7aacb894b1adf8 Horatiu Vultur 2022-01-04 @119  			return PTR_ERR(mdb_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  120  	} else {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  121  		lan966x_mdb_encode_mac(mac=
+, mdb_entry, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  122  		lan966x_mac_forget(lan966x=
+, mac, mdb_entry->vid, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  123  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  124  =
 
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  299  	/*
-35d1efe80500a5 Masanari Iida      2012-08-16  300  	 * Check for ',i,0x' se=
-parator between iSCSI Name and iSCSI Initiator
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  301  	 * Session ID as define=
-d in Table 390 - iSCSI initiator port TransportID
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  302  	 * format.
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  303  	 */
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  304  	if (format_code =3D=3D =
-0x40) {
-8359cf43b9dccd J=C3=B6rn Engel         2011-11-24  305  		p =3D strstr(&buf=
-[4], ",i,0x");
-6708bb27bb2703 Andy Grover        2011-06-08  306  		if (!p) {
-35d1efe80500a5 Masanari Iida      2012-08-16  307  			pr_err("Unable to loc=
-ate \",i,0x\" separator"
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  308  				" for Initiator port=
- identifier: %s\n",
-8359cf43b9dccd J=C3=B6rn Engel         2011-11-24  309  				&buf[4]);
-421431f2fd129f Dmitry Bogdanov    2022-06-29  310  			return 0;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  311  		}
-421431f2fd129f Dmitry Bogdanov    2022-06-29  312  		memcpy(initiatorname, =
-&buf[4], p - buf - 4);
-421431f2fd129f Dmitry Bogdanov    2022-06-29  313  		initiatorname[p - buf =
-- 4] =3D '\0'; /* Terminate iSCSI Name */
-35d1efe80500a5 Masanari Iida      2012-08-16  314  		p +=3D 5; /* Skip over=
- ",i,0x" separator */
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  315  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  125  	if (cpu_port)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  126  		mdb_entry->cpu_copy++;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  127  	else
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  128  		mdb_entry->ports |=3D BIT(=
+port->chip_port);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  129  =
 
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  316  		*port_nexus_ptr =3D p;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  317  		/*
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  318  		 * Go ahead and do the=
- lower case conversion of the received
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  319  		 * 12 ASCII characters=
- representing the ISID in the TransportID
-25985edcedea63 Lucas De Marchi    2011-03-30  320  		 * for comparison agai=
-nst the running iSCSI session's ISID from
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  321  		 * iscsi_target.c:lio_=
-sess_get_initiator_sid()
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  322  		 */
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  323  		for (i =3D 0; i < 12; =
-i++) {
-639341bf8836f2 Mike Christie      2020-07-01  324  			/*
-639341bf8836f2 Mike Christie      2020-07-01  325  			 * The first ISCSI IN=
-ITIATOR SESSION ID field byte
-639341bf8836f2 Mike Christie      2020-07-01  326  			 * containing an ASCI=
-I null character terminates the
-639341bf8836f2 Mike Christie      2020-07-01  327  			 * ISCSI INITIATOR SE=
-SSION ID field without regard for
-639341bf8836f2 Mike Christie      2020-07-01  328  			 * the specified leng=
-th of the iSCSI TransportID or the
-639341bf8836f2 Mike Christie      2020-07-01  329  			 * contents of the AD=
-DITIONAL LENGTH field.
-639341bf8836f2 Mike Christie      2020-07-01  330  			 */
-639341bf8836f2 Mike Christie      2020-07-01  331  			if (*p =3D=3D '\0')
-639341bf8836f2 Mike Christie      2020-07-01  332  				break;
-639341bf8836f2 Mike Christie      2020-07-01  333  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  130  	/* Copy the frame to CPU on=
+ly if the CPU is in the VLAN */
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  131  	if (lan966x_vlan_cpu_member=
+_cpu_vlan_mask(lan966x, mdb_entry->vid) &&
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  132  	    mdb_entry->cpu_copy)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  133  		cpu_copy =3D true;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  134  =
 
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  334  			if (isdigit(*p)) {
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  335  				p++;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  336  				continue;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  337  			}
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  338  			*p =3D tolower(*p);
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  339  			p++;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  340  		}
-421431f2fd129f Dmitry Bogdanov    2022-06-29  341  	} else {
-421431f2fd129f Dmitry Bogdanov    2022-06-29  342  		strscpy(initiatorname,=
- &buf[4], out_tid_len);
-421431f2fd129f Dmitry Bogdanov    2022-06-29 @343  		initiatorname[p - buf]=
- =3D '\0'; /* Terminate iSCSI Name */
-13ef143ddd93a5 Bodo Stroesser     2020-04-08  344  		*port_nexus_ptr =3D NU=
-LL;
-421431f2fd129f Dmitry Bogdanov    2022-06-29  345  	}
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  346  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  135  	lan966x_mdb_encode_mac(mac,=
+ mdb_entry, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  136  	return lan966x_mac_ip_learn=
+(lan966x, cpu_copy,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  137  				    mac, mdb_entry->vid,=
+ type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  138  }
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  139  =
 
-421431f2fd129f Dmitry Bogdanov    2022-06-29  347  	/* Add four bytes for i=
-SCSI Transport ID header */
-421431f2fd129f Dmitry Bogdanov    2022-06-29  348  	out_tid_len +=3D 4;
-421431f2fd129f Dmitry Bogdanov    2022-06-29  349  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  140  static int lan966x_mdb_ip_de=
+l(struct lan966x_port *port,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  141  			      const struct switch=
+dev_obj_port_mdb *mdb,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  142  			      enum macaccess_entr=
+y_type type)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  143  {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  144  	bool cpu_port =3D netif_is_=
+bridge_master(mdb->obj.orig_dev);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  145  	struct lan966x *lan966x =3D=
+ port->lan966x;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  146  	struct lan966x_mdb_entry *m=
+db_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  147  	unsigned char mac[ETH_ALEN];
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  148  	u16 ports;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  149  =
 
-421431f2fd129f Dmitry Bogdanov    2022-06-29  350  	return out_tid_len;
-c66ac9db8d4ad9 Nicholas Bellinger 2010-12-17  351  }
-2650d71e244fb3 Christoph Hellwig  2015-05-01  352  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  150  	mdb_entry =3D lan966x_mdb_e=
+ntry_get(lan966x, mdb->addr, mdb->vid);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  151  	if (!mdb_entry)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  152  		return -ENOENT;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  153  =
 
-879815a20d04fa Dmitry Bogdanov    2022-07-27  353  int target_get_pr_transp=
-ort_id_len(struct t10_pr_registration *pr_reg)
-2650d71e244fb3 Christoph Hellwig  2015-05-01  354  {
-879815a20d04fa Dmitry Bogdanov    2022-07-27  355  	switch (pr_reg->pr_tid[=
-0] & 0xF) {
-2650d71e244fb3 Christoph Hellwig  2015-05-01  356  	case SCSI_PROTOCOL_FCP:
-2650d71e244fb3 Christoph Hellwig  2015-05-01  357  	case SCSI_PROTOCOL_SBP:
-2650d71e244fb3 Christoph Hellwig  2015-05-01  358  	case SCSI_PROTOCOL_SRP:
-2650d71e244fb3 Christoph Hellwig  2015-05-01  359  	case SCSI_PROTOCOL_SAS:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  360  		return 24;
-2650d71e244fb3 Christoph Hellwig  2015-05-01  361  	case SCSI_PROTOCOL_ISCS=
-I:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  362  		return get_unaligned_b=
-e16(&pr_reg->pr_tid[2]) + 4;
-2650d71e244fb3 Christoph Hellwig  2015-05-01  363  	default:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  364  		WARN(1, "Unknown proto=
-_id: %#x\n", pr_reg->pr_tid[0] & 0xF);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  365  		return -EINVAL;
-2650d71e244fb3 Christoph Hellwig  2015-05-01  366  	}
-2650d71e244fb3 Christoph Hellwig  2015-05-01  367  }
-2650d71e244fb3 Christoph Hellwig  2015-05-01  368  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  154  	ports =3D mdb_entry->ports;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  155  	if (cpu_port) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  156  		/* If there are still othe=
+r references to the CPU port then
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  157  		 * there is no point to de=
+lete and add again the same entry
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  158  		 */
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  159  		mdb_entry->cpu_copy--;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  160  		if (mdb_entry->cpu_copy)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  161  			return 0;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  162  	} else {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  163  		ports &=3D ~BIT(port->chip=
+_port);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  164  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  165  =
 
-46be2a3c945e34 Dmitry Bogdanov    2021-12-24  369  int target_get_pr_transp=
-ort_id(
-879815a20d04fa Dmitry Bogdanov    2022-07-27  370  		struct t10_pr_registra=
-tion *pr_reg,
-2650d71e244fb3 Christoph Hellwig  2015-05-01  371  		unsigned char *buf)
-2650d71e244fb3 Christoph Hellwig  2015-05-01  372  {
-879815a20d04fa Dmitry Bogdanov    2022-07-27  373  	int len =3D  target_get=
-_pr_transport_id_len(pr_reg);
-879815a20d04fa Dmitry Bogdanov    2022-07-27  374  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  166  	lan966x_mdb_encode_mac(mac,=
+ mdb_entry, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  167  	lan966x_mac_forget(lan966x,=
+ mac, mdb_entry->vid, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  168  =
 
-879815a20d04fa Dmitry Bogdanov    2022-07-27  375  	if (len > 0)
-879815a20d04fa Dmitry Bogdanov    2022-07-27  376  		memcpy(buf, pr_reg->pr=
-_tid, len);
-879815a20d04fa Dmitry Bogdanov    2022-07-27  377  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  169  	mdb_entry->ports =3D ports;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  170  =
 
-879815a20d04fa Dmitry Bogdanov    2022-07-27  378  	return  len;
-879815a20d04fa Dmitry Bogdanov    2022-07-27  379  }
-879815a20d04fa Dmitry Bogdanov    2022-07-27  380  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  171  	if (!mdb_entry->ports && !m=
+db_entry->cpu_copy) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  172  		list_del(&mdb_entry->list);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  173  		kfree(mdb_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  174  		return 0;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  175  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  176  =
 
-879815a20d04fa Dmitry Bogdanov    2022-07-27  381  int target_gen_pr_transp=
-ort_id(
-879815a20d04fa Dmitry Bogdanov    2022-07-27  382  	struct t10_pr_registrat=
-ion *pr_reg,
-879815a20d04fa Dmitry Bogdanov    2022-07-27  383  	int proto_id,
-879815a20d04fa Dmitry Bogdanov    2022-07-27  384  	const char *initiatorna=
-me,
-879815a20d04fa Dmitry Bogdanov    2022-07-27  385  	unsigned char *isid)
-879815a20d04fa Dmitry Bogdanov    2022-07-27  386  {
-879815a20d04fa Dmitry Bogdanov    2022-07-27  387  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  177  	lan966x_mdb_encode_mac(mac,=
+ mdb_entry, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  178  	return lan966x_mac_ip_learn=
+(lan966x, mdb_entry->cpu_copy,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  179  				    mac, mdb_entry->vid,=
+ type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  180  }
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  181  =
 
-879815a20d04fa Dmitry Bogdanov    2022-07-27  388  	switch (proto_id) {
-2650d71e244fb3 Christoph Hellwig  2015-05-01  389  	case SCSI_PROTOCOL_SAS:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  390  		return sas_get_pr_tran=
-sport_id(initiatorname, pr_reg->pr_tid);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  391  	case SCSI_PROTOCOL_SBP:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  392  		return sbp_get_pr_tran=
-sport_id(initiatorname, pr_reg->pr_tid);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  393  	case SCSI_PROTOCOL_SRP:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  394  		return srp_get_pr_tran=
-sport_id(initiatorname, pr_reg->pr_tid);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  395  	case SCSI_PROTOCOL_FCP:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  396  		return fc_get_pr_trans=
-port_id(initiatorname, pr_reg->pr_tid);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  397  	case SCSI_PROTOCOL_ISCS=
-I:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  398  		return iscsi_get_pr_tr=
-ansport_id(initiatorname, isid, pr_reg->pr_tid);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  399  	default:
-879815a20d04fa Dmitry Bogdanov    2022-07-27  400  		pr_err("Unknown proto_=
-id: 0x%02x\n", proto_id);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  401  		return -EINVAL;
-2650d71e244fb3 Christoph Hellwig  2015-05-01  402  	}
-2650d71e244fb3 Christoph Hellwig  2015-05-01  403  }
-2650d71e244fb3 Christoph Hellwig  2015-05-01  404  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  182  static struct lan966x_pgid_e=
+ntry *
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  183  lan966x_pgid_entry_add(struc=
+t lan966x *lan966x, int index, u16 ports)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  184  {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  185  	struct lan966x_pgid_entry *=
+pgid_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  186  =
 
-421431f2fd129f Dmitry Bogdanov    2022-06-29  405  u32 target_parse_pr_out_=
-transport_id(
-421431f2fd129f Dmitry Bogdanov    2022-06-29  406  	const char *buf, char *=
-initiatorname, char **port_nexus_ptr)
-2650d71e244fb3 Christoph Hellwig  2015-05-01  407  {
-421431f2fd129f Dmitry Bogdanov    2022-06-29  408  	switch (buf[0] & 0xF) {
-2650d71e244fb3 Christoph Hellwig  2015-05-01  409  	case SCSI_PROTOCOL_SAS:
-421431f2fd129f Dmitry Bogdanov    2022-06-29  410  		return sas_parse_pr_ou=
-t_transport_id(buf, initiatorname, port_nexus_ptr);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  411  	case SCSI_PROTOCOL_SBP:
-421431f2fd129f Dmitry Bogdanov    2022-06-29  412  		return sbp_parse_pr_ou=
-t_transport_id(buf, initiatorname, port_nexus_ptr);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  413  	case SCSI_PROTOCOL_SRP:
-421431f2fd129f Dmitry Bogdanov    2022-06-29  414  		return srp_parse_pr_ou=
-t_transport_id(buf, initiatorname, port_nexus_ptr);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  415  	case SCSI_PROTOCOL_FCP:
-421431f2fd129f Dmitry Bogdanov    2022-06-29  416  		return fc_parse_pr_out=
-_transport_id(buf, initiatorname, port_nexus_ptr);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  417  	case SCSI_PROTOCOL_ISCS=
-I:
-421431f2fd129f Dmitry Bogdanov    2022-06-29  418  		return iscsi_parse_pr_=
-out_transport_id(buf, initiatorname, port_nexus_ptr);
-2650d71e244fb3 Christoph Hellwig  2015-05-01  419  	default:
-421431f2fd129f Dmitry Bogdanov    2022-06-29  420  		pr_err("Unknown proto_=
-id: 0x%02x\n", buf[0] & 0xF);
-421431f2fd129f Dmitry Bogdanov    2022-06-29  421  		return 0;
-2650d71e244fb3 Christoph Hellwig  2015-05-01  422  	}
-2650d71e244fb3 Christoph Hellwig  2015-05-01  423  =
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  187  	pgid_entry =3D kzalloc(size=
+of(*pgid_entry), GFP_KERNEL);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  188  	if (!pgid_entry)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  189  		return ERR_PTR(-ENOMEM);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  190  =
 
-2650d71e244fb3 Christoph Hellwig  2015-05-01 @424  	*port_nexus_ptr =3D NUL=
-L;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  191  	pgid_entry->ports =3D ports;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  192  	pgid_entry->index =3D index;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  193  	refcount_set(&pgid_entry->r=
+efcount, 1);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  194  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  195  	list_add_tail(&pgid_entry->=
+list, &lan966x->pgid_entries);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  196  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  197  	return pgid_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  198  }
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  199  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  200  static struct lan966x_pgid_e=
+ntry *
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  201  lan966x_pgid_entry_get(struc=
+t lan966x *lan966x,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  202  		       struct lan966x_mdb_=
+entry *mdb_entry)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  203  {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  204  	struct lan966x_pgid_entry *=
+pgid_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  205  	int index;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  206  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  207  	/* Try to find an existing =
+pgid that uses the same ports as the
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  208  	 * mdb_entry
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  209  	 */
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  210  	list_for_each_entry(pgid_en=
+try, &lan966x->pgid_entries, list) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  211  		if (pgid_entry->ports =3D=
+=3D mdb_entry->ports) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  212  			refcount_inc(&pgid_entry-=
+>refcount);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  213  			return pgid_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  214  		}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  215  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  216  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  217  	/* Try to find an empty pgi=
+d entry and allocate one in case it finds it,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  218  	 * otherwise it means that =
+there are no more resources
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  219  	 */
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  220  	for (index =3D PGID_GP_STAR=
+T; index < PGID_GP_END; index++) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  221  		bool used =3D false;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  222  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  223  		list_for_each_entry(pgid_e=
+ntry, &lan966x->pgid_entries, list) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  224  			if (pgid_entry->index =3D=
+=3D index) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  225  				used =3D true;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  226  				break;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  227  			}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  228  		}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  229  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  230  		if (!used)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  231  			return lan966x_pgid_entry=
+_add(lan966x, index,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  232  						      mdb_entry->ports=
+);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  233  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  234  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  235  	return ERR_PTR(-ENOSPC);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  236  }
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  237  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  238  static void lan966x_pgid_ent=
+ry_del(struct lan966x *lan966x,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  239  				   struct lan966x_pgid_e=
+ntry *pgid_entry)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  240  {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  241  	if (!refcount_dec_and_test(=
+&pgid_entry->refcount))
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  242  		return;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  243  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  244  	list_del(&pgid_entry->list);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  245  	kfree(pgid_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  246  }
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  247  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  248  static int lan966x_mdb_l2_ad=
+d(struct lan966x_port *port,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  249  			      const struct switch=
+dev_obj_port_mdb *mdb,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  250  			      enum macaccess_entr=
+y_type type)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  251  {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  252  	bool cpu_port =3D netif_is_=
+bridge_master(mdb->obj.orig_dev);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  253  	struct lan966x *lan966x =3D=
+ port->lan966x;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  254  	struct lan966x_pgid_entry *=
+pgid_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  255  	struct lan966x_mdb_entry *m=
+db_entry;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  256  	unsigned char mac[ETH_ALEN];
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  257  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  258  	mdb_entry =3D lan966x_mdb_e=
+ntry_get(lan966x, mdb->addr, mdb->vid);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  259  	if (!mdb_entry) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  260  		mdb_entry =3D lan966x_mdb_=
+entry_add(lan966x, mdb);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  261  		if (IS_ERR(mdb_entry))
+7aacb894b1adf8 Horatiu Vultur 2022-01-04 @262  			return PTR_ERR(mdb_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  263  	} else {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  264  		lan966x_pgid_entry_del(lan=
+966x, mdb_entry->pgid);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  265  		lan966x_mdb_encode_mac(mac=
+, mdb_entry, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  266  		lan966x_mac_forget(lan966x=
+, mac, mdb_entry->vid, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  267  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  268  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  269  	if (cpu_port) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  270  		mdb_entry->ports |=3D BIT(=
+CPU_PORT);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  271  		mdb_entry->cpu_copy++;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  272  	} else {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  273  		mdb_entry->ports |=3D BIT(=
+port->chip_port);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  274  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  275  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  276  	pgid_entry =3D lan966x_pgid=
+_entry_get(lan966x, mdb_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  277  	if (IS_ERR(pgid_entry)) {
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  278  		list_del(&mdb_entry->list);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  279  		kfree(mdb_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  280  		return PTR_ERR(pgid_entry);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  281  	}
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  282  	mdb_entry->pgid =3D pgid_en=
+try;
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  283  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  284  	/* Copy the frame to CPU on=
+ly if the CPU is in the VLAN */
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  285  	if (!lan966x_vlan_cpu_membe=
+r_cpu_vlan_mask(lan966x, mdb_entry->vid) &&
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  286  	    mdb_entry->cpu_copy)
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  287  		mdb_entry->ports &=3D BIT(=
+CPU_PORT);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  288  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  289  	lan_rmw(ANA_PGID_PGID_SET(m=
+db_entry->ports),
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  290  		ANA_PGID_PGID,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  291  		lan966x, ANA_PGID(pgid_ent=
+ry->index));
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  292  =
+
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  293  	return lan966x_mac_learn(la=
+n966x, pgid_entry->index, mdb_entry->mac,
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  294  				 mdb_entry->vid, type);
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  295  }
+7aacb894b1adf8 Horatiu Vultur 2022-01-04  296  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1540990656664300614==--
+--===============1605506663516947601==--
 
