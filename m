@@ -1,169 +1,160 @@
-Content-Type: multipart/mixed; boundary="===============3780282163536714142=="
+Content-Type: multipart/mixed; boundary="===============4882139430379761063=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer operation overflow
-Date: Tue, 02 Aug 2022 01:47:22 +0800
-Message-ID: <202208020134.fBi5w6ss-lkp@intel.com>
+Subject: [zen:5.19/ksm 3/5] mm/madvise.c:1577 __do_sys_pmadv_ksm() error: uninitialized symbol 'ret'.
+Date: Mon, 01 Aug 2022 22:44:40 +0800
+Message-ID: <202208012230.q3ccfayt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3780282163536714142==
+--===============4882139430379761063==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer op=
-eration overflow"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: steven(a)liquorix.net
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0fac198def2b41138850867b6aa92044c76ff802
-commit: 8f8d8b0334cc4e7908b78e73936a7673bbef0411 thermal/drivers/tegra: Cor=
-rect compile-testing of drivers
-date:   12 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 12 months ago
-config: mips-randconfig-s043-20220801 (https://download.01.org/0day-ci/arch=
-ive/20220802/202208020134.fBi5w6ss-lkp(a)intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8f8d8b0334cc4e7908b78e73936a7673bbef0411
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8f8d8b0334cc4e7908b78e73936a7673bbef0411
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-ips SHELL=3D/bin/bash drivers/thermal/tegra/
+tree:   https://github.com/zen-kernel/zen-kernel 5.19/ksm
+head:   60031e6bc73f810a6a291c7c0bffd68630249d8e
+commit: 2fc88334edcae00c712c95f7092d44e695d4f1de [3/5] mm: introduce pmadv_=
+ksm system call
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20801/202208012230.q3ccfayt-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/thermal/tegra/soctherm.c: note: in included file (through includ=
-e/linux/bitops.h, include/linux/kernel.h, include/linux/list.h, ...):
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
+smatch warnings:
+mm/madvise.c:1577 __do_sys_pmadv_ksm() error: uninitialized symbol 'ret'.
+mm/madvise.c:1577 __do_sys_pmadv_ksm() error: uninitialized symbol 'ret'.
 
-vim +445 arch/mips/include/asm/bitops.h
+vim +/ret +1577 mm/madvise.c
 
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  431  =
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1496  =
 
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  432  /*
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  433   * ffs - find first bit set.
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  434   * @word: The word to search
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  435   *
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  436   * This is defined the same way as
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  437   * the libc and compiler builtin ffs routines, therefore
-99b40ced9ef63c arch/mips/include/asm/bitops.h Geert Uytterhoeven 2021-01-08=
-  438   * differs in spirit from the below ffz (man ffs).
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  439   */
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  440  static inline int ffs(int word)
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  441  {
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  442  	if (!word)
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  443  		return 0;
-2caf190002770b include/asm-mips/bitops.h      Ralf Baechle       2006-01-30=
-  444  =
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1497  SYSCALL_DEFINE3(pmadv=
+_ksm, int, pidfd, int, behaviour, unsigned int, flags)
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1498  {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1499  #ifdef CONFIG_KSM
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1500  	ssize_t ret;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1501  	struct pid *pid;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1502  	struct task_struct *=
+task;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1503  	struct mm_struct *mm;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1504  	unsigned int f_flags;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1505  	struct vm_area_struc=
+t *vma;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1506  =
 
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
- @445  	return fls(word & -word);
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  446  }
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  447  =
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1507  	if (flags !=3D 0) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1508  		ret =3D -EINVAL;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1509  		goto out;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1510  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1511  =
 
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1512  	switch (behaviour) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1513  		case MADV_MERGEABLE:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1514  		case MADV_UNMERGEAB=
+LE:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1515  			break;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1516  		default:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1517  			ret =3D -EINVAL;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1518  			goto out;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1519  			break;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1520  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1521  =
 
-:::::: The code at line 445 was first introduced by commit
-:::::: bc818247203a7bfc40296a3f5b760de84fb8e0d1 [MIPS] Fix bitops for MIPS3=
-2/MIPS64 CPUs.
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1522  	pid =3D pidfd_get_pi=
+d(pidfd, &f_flags);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1523  	if (IS_ERR(pid)) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1524  		ret =3D PTR_ERR(pid=
+);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1525  		goto out;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1526  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1527  =
 
-:::::: TO: Atsushi Nemoto <anemo@mba.ocn.ne.jp>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1528  	task =3D get_pid_tas=
+k(pid, PIDTYPE_PID);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1529  	if (!task) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1530  		ret =3D -ESRCH;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1531  		goto put_pid;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1532  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1533  =
+
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1534  	/* Require PTRACE_MO=
+DE_READ to avoid leaking ASLR metadata. */
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1535  	mm =3D mm_access(tas=
+k, PTRACE_MODE_READ_FSCREDS);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1536  	if (IS_ERR_OR_NULL(m=
+m)) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1537  		ret =3D IS_ERR(mm) =
+? PTR_ERR(mm) : -ESRCH;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1538  		goto release_task;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1539  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1540  =
+
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1541  	/* Require CAP_SYS_N=
+ICE for influencing process performance. */
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1542  	if (!capable(CAP_SYS=
+_NICE)) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1543  		ret =3D -EPERM;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1544  		goto release_mm;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1545  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1546  =
+
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1547  	if (mmap_write_lock_=
+killable(mm)) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1548  		ret =3D -EINTR;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1549  		goto release_mm;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1550  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1551  =
+
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1552  	for (vma =3D mm->mma=
+p; vma; vma =3D vma->vm_next) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1553  		switch (behaviour) {
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1554  			case MADV_MERGEABL=
+E:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1555  				ret =3D ksm_madvi=
+se_merge(vma->vm_mm, vma, &vma->vm_flags);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1556  				break;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1557  			case MADV_UNMERGEA=
+BLE:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1558  				ret =3D ksm_madvi=
+se_unmerge(vma, vma->vm_start, vma->vm_end, &vma->vm_flags);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1559  				break;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1560  			default:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1561  				/* look, ma, no b=
+rain */
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1562  				break;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1563  		}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1564  		if (ret)
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1565  			break;
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1566  	}
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1567  =
+
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1568  	mmap_write_unlock(mm=
+);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1569  =
+
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1570  release_mm:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1571  	mmput(mm);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1572  release_task:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1573  	put_task_struct(task=
+);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1574  put_pid:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1575  	put_pid(pid);
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04  1576  out:
+2fc88334edcae00 Oleksandr Natalenko 2021-10-04 @1577  	return ret;
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3780282163536714142==--
+--===============4882139430379761063==--
 
