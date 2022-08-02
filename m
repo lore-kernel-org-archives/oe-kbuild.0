@@ -1,123 +1,146 @@
-Content-Type: multipart/mixed; boundary="===============6276974460905485660=="
+Content-Type: multipart/mixed; boundary="===============8297326386620661673=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 8547/14565] drivers/opp/core.c:876 dev_pm_opp_config_clks_simple() error: uninitialized symbol 'ret'.
-Date: Sat, 06 Aug 2022 05:12:30 +0800
-Message-ID: <202208060502.J5TJW2Zh-lkp@intel.com>
+Subject: [kees:for-next/kspp 5/11] drivers/md/dm-verity-loadpin.c:16:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Tue, 02 Aug 2022 09:55:12 +0800
+Message-ID: <202208020921.p8oEY4uF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6276974460905485660==
+--===============8297326386620661673==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp(a)intel.com
-CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: =
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   e894659f149e779bc1b49016231d75994f6a29e9
-commit: 8174a3a613af1a911ab19da812824f7180b261f9 [8547/14565] OPP: Provide =
-a simple implementation to configure multiple clocks
-:::::: branch date: 5 hours ago
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+d/dm-verity-loadpin.c:16:13: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
+CC: kbuild-all(a)lists.01.org
+BCC: lkp(a)intel.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Matthias Kaehlcke <mka@chromium.org>
+CC: Kees Cook <keescook@chromium.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-=
+next/kspp
+head:   27603a606fda0806d7c08914bc976931aa42020e
+commit: b6c1c5745ccc68ac5d57c7ffb51ea25a86d0e97b [5/11] dm: Add verity help=
+ers for LoadPin
+:::::: branch date: 4 days ago
 :::::: commit date: 3 weeks ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-806/202208060502.J5TJW2Zh-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
+ve/20220802/202208020921.p8oEY4uF-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/co=
+mmit/?id=3Db6c1c5745ccc68ac5d57c7ffb51ea25a86d0e97b
+        git remote add kees https://git.kernel.org/pub/scm/linux/kernel/git=
+/kees/linux.git
+        git fetch --no-tags kees for-next/kspp
+        git checkout b6c1c5745ccc68ac5d57c7ffb51ea25a86d0e97b
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/opp/core.c:876 dev_pm_opp_config_clks_simple() error: uninitialized=
- symbol 'ret'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/md/dm-verity-loadpin.c: In function 'is_trusted_verity_target':
+>> drivers/md/dm-verity-loadpin.c:16:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      16 |         u8 *root_digest;
+         |             ^~~~~~~~~~~
+     'is_trusted_verity_target': event 1
+       |
+       |   16 |         u8 *root_digest;
+       |      |             ^~~~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/md/dm-verity-loadpin.c:17:22: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      17 |         unsigned int digest_size;
+         |                      ^~~~~~~~~~~
+     'is_trusted_verity_target': event 1
+       |
+       |   17 |         unsigned int digest_size;
+       |      |                      ^~~~~~~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/md/dm-verity-loadpin.c: In function 'dm_verity_loadpin_is_bdev_t=
+rusted':
+   drivers/md/dm-verity-loadpin.c:49:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      49 |         int srcu_idx;
+         |             ^~~~~~~~
+     'dm_verity_loadpin_is_bdev_trusted': event 1
+       |
+       |   49 |         int srcu_idx;
+       |      |             ^~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-Old smatch warnings:
-drivers/opp/core.c:2372 _opp_attach_genpd() warn: passing zero to 'PTR_ERR'
-drivers/opp/core.c:2811 _opp_set_availability() warn: passing a valid point=
-er to 'PTR_ERR'
-drivers/opp/core.c:2887 dev_pm_opp_adjust_voltage() warn: passing a valid p=
-ointer to 'PTR_ERR'
+vim +16 drivers/md/dm-verity-loadpin.c
 
-vim +/ret +876 drivers/opp/core.c
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  13  =
 
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar 2016-12-01  845  =
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  14  static bool is_trusted_ver=
+ity_target(struct dm_target *ti)
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  15  {
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27 @16  	u8 *root_digest;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  17  	unsigned int digest_size;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  18  	struct dm_verity_loadpin_=
+trusted_root_digest *trd;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  19  	bool trusted =3D false;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  20  =
 
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  846  =
-/*
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  847  =
- * Simple implementation for configuring multiple clocks. Configure clocks =
-in
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  848  =
- * the order in which they are present in the array while scaling up.
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  849  =
- */
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  850  =
-int dev_pm_opp_config_clks_simple(struct device *dev,
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  851  =
-		struct opp_table *opp_table, struct dev_pm_opp *opp, void *data,
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  852  =
-		bool scaling_down)
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  853  {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  854  =
-	int ret, i;
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  855  =
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  21  	if (!dm_is_verity_target(=
+ti))
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  22  		return false;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  23  =
 
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  856  =
-	if (scaling_down) {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  857  =
-		for (i =3D opp_table->clk_count - 1; i >=3D 0; i--) {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  858  =
-			ret =3D clk_set_rate(opp_table->clks[i], opp->rates[i]);
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  859  =
-			if (ret) {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  860  =
-				dev_err(dev, "%s: failed to set clock rate: %d\n", __func__,
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  861  =
-					ret);
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  862  =
-				return ret;
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  863  =
-			}
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  864  =
-		}
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  865  =
-	} else {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  866  =
-		for (i =3D 0; i < opp_table->clk_count; i++) {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  867  =
-			ret =3D clk_set_rate(opp_table->clks[i], opp->rates[i]);
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  868  =
-			if (ret) {
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  869  =
-				dev_err(dev, "%s: failed to set clock rate: %d\n", __func__,
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  870  =
-					ret);
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  871  =
-				return ret;
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  872  =
-			}
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  873  =
-		}
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  874  =
-	}
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  875  =
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  24  	if (dm_verity_get_root_di=
+gest(ti, &root_digest, &digest_size))
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  25  		return false;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  26  =
 
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10 @876  =
-	return ret;
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  877  }
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  878  =
-EXPORT_SYMBOL_GPL(dev_pm_opp_config_clks_simple);
-8174a3a613af1a drivers/opp/core.c            Viresh Kumar 2022-06-10  879  =
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  27  	list_for_each_entry(trd, =
+&dm_verity_loadpin_trusted_root_digests, node) {
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  28  		if ((trd->len =3D=3D dig=
+est_size) &&
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  29  		    !memcmp(trd->data, r=
+oot_digest, digest_size)) {
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  30  			trusted =3D true;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  31  			break;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  32  		}
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  33  	}
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  34  =
+
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  35  	kfree(root_digest);
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  36  =
+
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  37  	return trusted;
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  38  }
+b6c1c5745ccc68 Matthias Kaehlcke 2022-06-27  39  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6276974460905485660==--
+--===============8297326386620661673==--
 
