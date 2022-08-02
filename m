@@ -1,373 +1,241 @@
-Content-Type: multipart/mixed; boundary="===============7986992236333139210=="
+Content-Type: multipart/mixed; boundary="===============1029458379092634965=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 12915/13542] net/tls/tls_sw.c:160:23: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Tue, 02 Aug 2022 18:48:21 +0800
-Message-ID: <202208021840.hXtTmTps-lkp@intel.com>
+Subject: [kees:for-next/kspp 6/11] security/loadpin/loadpin.c:264:15: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Tue, 02 Aug 2022 15:20:31 +0800
+Message-ID: <202208021544.E2q3RF5s-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7986992236333139210==
+--===============1029458379092634965==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: net/tls/t=
-ls_sw.c:160:23: warning: Branch condition evaluates to a garbage value [cla=
-ng-analyzer-core.uninitialized.Branch]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: security/=
+loadpin/loadpin.c:264:15: warning: use of uninitialized value '<unknown>' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jakub Kicinski <kuba@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Matthias Kaehlcke <mka@chromium.org>
+CC: Kees Cook <keescook@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   7c5e07b73ff3011c9b82d4a3286a3362b951ad2b
-commit: dd47ed3620e693636b4d912db4810fe0c092eb2c [12915/13542] tls: rx: fac=
-tor SW handling out of tls_rx_one_record()
-:::::: branch date: 5 days ago
-:::::: commit date: 7 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-=
+next/kspp
+head:   27603a606fda0806d7c08914bc976931aa42020e
+commit: 3f805f8cc23ba35679dd01446929292911c2b469 [6/11] LoadPin: Enable loa=
+ding from trusted dm-verity devices
+:::::: branch date: 4 days ago
+:::::: commit date: 4 weeks ago
 config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220802/202208021840.hXtTmTps-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00=
-cabf479aa7eb6dbb063b7ba41ea57bce9e)
+ve/20220802/202208021544.E2q3RF5s-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Ddd47ed3620e693636b4d912db4810fe0c092eb2c
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout dd47ed3620e693636b4d912db4810fe0c092eb2c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/co=
+mmit/?id=3D3f805f8cc23ba35679dd01446929292911c2b469
+        git remote add kees https://git.kernel.org/pub/scm/linux/kernel/git=
+/kees/linux.git
+        git fetch --no-tags kees for-next/kspp
+        git checkout 3f805f8cc23ba35679dd01446929292911c2b469
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   net/decnet/dn_route.c:1118:16: note: Left side of '&&' is false
-                   BUG_ON(neigh && neigh->dev !=3D dev_out);
-                                ^
-   net/decnet/dn_route.c:1118:3: note: Taking false branch
-                   BUG_ON(neigh && neigh->dev !=3D dev_out);
-                   ^
-   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   net/decnet/dn_route.c:1118:3: note: Loop condition is false.  Exiting lo=
-op
-                   BUG_ON(neigh && neigh->dev !=3D dev_out);
-                   ^
-   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   net/decnet/dn_route.c:1122:7: note: 'neigh' is null
-                   if (neigh)
-                       ^~~~~
-   net/decnet/dn_route.c:1122:3: note: Taking false branch
-                   if (neigh)
-                   ^
-   net/decnet/dn_route.c:1124:7: note: 'gateway' is equal to 0
-                   if (gateway =3D=3D 0)
-                       ^~~~~~~
-   net/decnet/dn_route.c:1124:3: note: Taking true branch
-                   if (gateway =3D=3D 0)
-                   ^
-   net/decnet/dn_route.c:1126:7: note: Assuming field 'saddr' is not equal =
-to 0
-                   if (fld.saddr =3D=3D 0) {
-                       ^~~~~~~~~~~~~~
-   net/decnet/dn_route.c:1126:3: note: Taking false branch
-                   if (fld.saddr =3D=3D 0) {
-                   ^
-   net/decnet/dn_route.c:1135:3: note: Control jumps to line 1175
-                   goto make_route;
-                   ^
-   net/decnet/dn_route.c:1175:6: note: Assuming the condition is false
-           if (dev_out->flags & IFF_LOOPBACK)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/decnet/dn_route.c:1175:2: note: Taking false branch
-           if (dev_out->flags & IFF_LOOPBACK)
-           ^
-   net/decnet/dn_route.c:1179:6: note: Assuming 'rt' is not equal to NULL
-           if (rt =3D=3D NULL)
-               ^~~~~~~~~~
-   net/decnet/dn_route.c:1179:2: note: Taking false branch
-           if (rt =3D=3D NULL)
-           ^
-   net/decnet/dn_route.c:1192:22: note: Assuming 'gateway' is not equal to 0
-           rt->rt_gateway    =3D gateway ? gateway : fld.daddr;
-                               ^~~~~~~
-   net/decnet/dn_route.c:1192:22: note: '?' condition is true
-   net/decnet/dn_route.c:1205:2: note: Taking false branch
-           if (flags & RTCF_LOCAL)
-           ^
-   net/decnet/dn_route.c:1208:8: note: Calling 'dn_rt_set_next_hop'
-           err =3D dn_rt_set_next_hop(rt, &res);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/decnet/dn_route.c:875:6: note: 'fi' is null
-           if (fi) {
-               ^~
-   net/decnet/dn_route.c:875:2: note: Taking false branch
-           if (fi) {
-           ^
-   net/decnet/dn_route.c:883:6: note: Assuming 'dev' is equal to NULL
-           if (dev !=3D NULL && rt->n =3D=3D NULL) {
-               ^~~~~~~~~~~
-   net/decnet/dn_route.c:883:18: note: Left side of '&&' is false
-           if (dev !=3D NULL && rt->n =3D=3D NULL) {
-                           ^
-   net/decnet/dn_route.c:890:39: note: Access to field 'mtu' results in a d=
-ereference of a null pointer (loaded from field 'dev')
-           if (dst_metric(&rt->dst, RTAX_MTU) > rt->dst.dev->mtu)
-                                                ^       ~~~
-   net/decnet/dn_route.c:1183:2: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&rt->fld, 0, sizeof(rt->fld));
-           ^~~~~~
-   net/decnet/dn_route.c:1183:2: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-           memset(&rt->fld, 0, sizeof(rt->fld));
-           ^~~~~~
-   net/decnet/dn_route.c:1449:2: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&rt->fld, 0, sizeof(rt->fld));
-           ^~~~~~
-   net/decnet/dn_route.c:1449:2: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-           memset(&rt->fld, 0, sizeof(rt->fld));
-           ^~~~~~
-   net/decnet/dn_route.c:1654:2: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&fld, 0, sizeof(fld));
-           ^~~~~~
-   net/decnet/dn_route.c:1654:2: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-           memset(&fld, 0, sizeof(fld));
-           ^~~~~~
-   net/decnet/dn_route.c:1686:3: warning: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(cb, 0, sizeof(struct dn_skb_cb));
-                   ^~~~~~
-   net/decnet/dn_route.c:1686:3: note: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11
-                   memset(cb, 0, sizeof(struct dn_skb_cb));
-                   ^~~~~~
-   Suppressed 67 warnings (67 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   120 warnings generated.
->> net/tls/tls_sw.c:160:23: warning: Branch condition evaluates to a garbag=
-e value [clang-analyzer-core.uninitialized.Branch]
-                   char content_type =3D darg->zc ? darg->tail : 0;
-                                       ^
-   net/tls/tls_sw.c:2114:6: note: 'timeo' is >=3D 0
-           if (timeo < 0)
-               ^~~~~
-   net/tls/tls_sw.c:2114:2: note: Taking false branch
-           if (timeo < 0)
-           ^
-   net/tls/tls_sw.c:2117:6: note: Assuming the condition is false
-           if (!skb_queue_empty(&ctx->rx_list)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:2117:2: note: Taking false branch
-           if (!skb_queue_empty(&ctx->rx_list)) {
-           ^
-   net/tls/tls_sw.c:2124:7: note: 'err' is > 0
-                   if (err <=3D 0)
-                       ^~~
-   net/tls/tls_sw.c:2124:3: note: Taking false branch
-                   if (err <=3D 0)
-                   ^
-   net/tls/tls_sw.c:2129:9: note: Calling 'tls_rx_one_record'
-                   err =3D tls_rx_one_record(sk, NULL, &darg);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:1671:8: note: Calling 'tls_decrypt_device'
-           err =3D tls_decrypt_device(sk, tls_ctx, darg);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:1642:6: note: Assuming field 'rx_conf' is equal to TLS_=
-HW
-           if (tls_ctx->rx_conf !=3D TLS_HW)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:1642:2: note: Taking false branch
-           if (tls_ctx->rx_conf !=3D TLS_HW)
-           ^
-   net/tls/tls_sw.c:1646:6: note: Assuming 'err' is > 0
-           if (err <=3D 0)
-               ^~~~~~~~
-   net/tls/tls_sw.c:1646:2: note: Taking false branch
-           if (err <=3D 0)
-           ^
-   net/tls/tls_sw.c:1649:8: note: Calling 'tls_padding_length'
-           pad =3D tls_padding_length(prot, tls_strp_msg(ctx), darg);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:158:6: note: Assuming the condition is true
-           if (prot->version =3D=3D TLS_1_3_VERSION) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:158:2: note: Taking true branch
-           if (prot->version =3D=3D TLS_1_3_VERSION) {
-           ^
-   net/tls/tls_sw.c:160:23: note: Branch condition evaluates to a garbage v=
-alue
-                   char content_type =3D darg->zc ? darg->tail : 0;
-                                       ^~~~~~~~
-   net/tls/tls_sw.c:391:2: warning: Use of memory after it is freed [clang-=
-analyzer-unix.Malloc]
-           list_for_each_entry_safe(rec, tmp, &ctx->tx_list, list) {
-           ^
-   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^
-   net/tls/tls_sw.c:2391:15: note: Assuming 'tls_ctx' is non-null
-           if (unlikely(!tls_ctx))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/tls/tls_sw.c:2391:2: note: Taking false branch
-           if (unlikely(!tls_ctx))
-           ^
-   net/tls/tls_sw.c:2395:6: note: Assuming the condition is false
-           if (test_bit(BIT_TX_CLOSING, &ctx->tx_bitmask))
-               ^
-   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
-o 'test_bit'
-   #define test_bit arch_test_bit
-                    ^
-   net/tls/tls_sw.c:2395:2: note: Taking false branch
-           if (test_bit(BIT_TX_CLOSING, &ctx->tx_bitmask))
-           ^
-   net/tls/tls_sw.c:2398:7: note: '?' condition is true
-           if (!test_and_clear_bit(BIT_TX_SCHEDULED, &ctx->tx_bitmask))
-                ^
-   arch/arm/include/asm/bitops.h:193:34: note: expanded from macro 'test_an=
-d_clear_bit'
-   #define test_and_clear_bit(nr,p)        ATOMIC_BITOP(test_and_clear_bit,=
-nr,p)
-                                           ^
-   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
-ITOP'
-           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
-r,p))
-            ^
-   net/tls/tls_sw.c:2398:2: note: Taking false branch
-           if (!test_and_clear_bit(BIT_TX_SCHEDULED, &ctx->tx_bitmask))
-           ^
-   net/tls/tls_sw.c:2402:2: note: Calling 'tls_tx_records'
-           tls_tx_records(sk, -1);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   net/tls/tls_sw.c:369:2: note: Taking true branch
-           if (tls_is_partially_sent_record(tls_ctx)) {
+gcc-analyzer warnings: (new ones prefixed by >>)
+   security/loadpin/loadpin.c: In function 'read_trusted_verity_root_digest=
+s':
+>> security/loadpin/loadpin.c:264:15: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     264 |         void *data;
+         |               ^~~~
+     'read_trusted_verity_root_digests': event 1
+       |
+       |  264 |         void *data;
+       |      |               ^~~~
+       |      |               |
+       |      |               (1) use of uninitialized value '<unknown>' he=
+re
+       |
+   security/loadpin/loadpin.c:266:15: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     266 |         char *p, *d;
+         |               ^
+     'read_trusted_verity_root_digests': event 1
+       |
+       |  266 |         char *p, *d;
+       |      |               ^
+       |      |               |
+       |      |               (1) use of uninitialized value '<unknown>' he=
+re
+       |
+   security/loadpin/loadpin.c: In function 'dm_verity_ioctl':
+   security/loadpin/loadpin.c:358:22: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     358 |         unsigned int fd;
+         |                      ^~
+     'dm_verity_ioctl': event 1
+       |
+       |  358 |         unsigned int fd;
+       |      |                      ^~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
 
-vim +160 net/tls/tls_sw.c
+vim +264 security/loadpin/loadpin.c
 
-0927f71dbcfb59 Doron Roberts-Kedes 2018-08-28  149  =
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  260  =
 
-ce61327ce989b6 Jakub Kicinski      2022-07-05  150  static int tls_padding_=
-length(struct tls_prot_info *prot, struct sk_buff *skb,
-ce61327ce989b6 Jakub Kicinski      2022-07-05  151  			      struct tls_dec=
-rypt_arg *darg)
-130b392c6cd6b2 Dave Watson         2019-01-30  152  {
-130b392c6cd6b2 Dave Watson         2019-01-30  153  	struct strp_msg *rxm =
-=3D strp_msg(skb);
-c3f6bb74137c68 Jakub Kicinski      2022-04-07  154  	struct tls_msg *tlm =
-=3D tls_msg(skb);
-130b392c6cd6b2 Dave Watson         2019-01-30  155  	int sub =3D 0;
-130b392c6cd6b2 Dave Watson         2019-01-30  156  =
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  261  static int read_trusted_v=
+erity_root_digests(unsigned int fd)
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  262  {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  263  	struct fd f;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27 @264  	void *data;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  265  	int rc;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  266  	char *p, *d;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  267  =
 
-130b392c6cd6b2 Dave Watson         2019-01-30  157  	/* Determine zero-padd=
-ing length */
-b53f4976fb1f73 Jakub Kicinski      2019-05-09  158  	if (prot->version =3D=
-=3D TLS_1_3_VERSION) {
-5deee41b19b325 Jakub Kicinski      2022-04-07  159  		int offset =3D rxm->f=
-ull_len - TLS_TAG_SIZE - 1;
-ce61327ce989b6 Jakub Kicinski      2022-07-05 @160  		char content_type =3D=
- darg->zc ? darg->tail : 0;
-130b392c6cd6b2 Dave Watson         2019-01-30  161  		int err;
-130b392c6cd6b2 Dave Watson         2019-01-30  162  =
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  268  	if (deny_reading_verity_=
+digests)
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  269  		return -EPERM;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  270  =
 
-130b392c6cd6b2 Dave Watson         2019-01-30  163  		while (content_type =
-=3D=3D 0) {
-5deee41b19b325 Jakub Kicinski      2022-04-07  164  			if (offset < prot->p=
-repend_size)
-130b392c6cd6b2 Dave Watson         2019-01-30  165  				return -EBADMSG;
-5deee41b19b325 Jakub Kicinski      2022-04-07  166  			err =3D skb_copy_bit=
-s(skb, rxm->offset + offset,
-130b392c6cd6b2 Dave Watson         2019-01-30  167  					    &content_type,=
- 1);
-b53f4976fb1f73 Jakub Kicinski      2019-05-09  168  			if (err)
-b53f4976fb1f73 Jakub Kicinski      2019-05-09  169  				return err;
-130b392c6cd6b2 Dave Watson         2019-01-30  170  			if (content_type)
-130b392c6cd6b2 Dave Watson         2019-01-30  171  				break;
-130b392c6cd6b2 Dave Watson         2019-01-30  172  			sub++;
-5deee41b19b325 Jakub Kicinski      2022-04-07  173  			offset--;
-130b392c6cd6b2 Dave Watson         2019-01-30  174  		}
-c3f6bb74137c68 Jakub Kicinski      2022-04-07  175  		tlm->control =3D cont=
-ent_type;
-130b392c6cd6b2 Dave Watson         2019-01-30  176  	}
-130b392c6cd6b2 Dave Watson         2019-01-30  177  	return sub;
-130b392c6cd6b2 Dave Watson         2019-01-30  178  }
-130b392c6cd6b2 Dave Watson         2019-01-30  179  =
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  271  	/* The list of trusted r=
+oot digests can only be set up once */
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  272  	if (!list_empty(&dm_veri=
+ty_loadpin_trusted_root_digests))
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  273  		return -EPERM;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  274  =
 
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  275  	f =3D fdget(fd);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  276  	if (!f.file)
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  277  		return -EINVAL;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  278  =
 
-:::::: The code at line 160 was first introduced by commit
-:::::: ce61327ce989b63c0bd1cc7afee00e218ee696ac tls: rx: support optimistic=
- decrypt to user buffer with TLS 1.3
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  279  	data =3D kzalloc(SZ_4K, =
+GFP_KERNEL);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  280  	if (!data) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  281  		rc =3D -ENOMEM;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  282  		goto err;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  283  	}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  284  =
 
-:::::: TO: Jakub Kicinski <kuba@kernel.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  285  	rc =3D kernel_read_file(=
+f.file, 0, (void **)&data, SZ_4K - 1, NULL, READING_POLICY);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  286  	if (rc < 0)
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  287  		goto err;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  288  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  289  	p =3D data;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  290  	p[rc] =3D '\0';
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  291  	p =3D strim(p);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  292  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  293  	p =3D strim(data);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  294  	while ((d =3D strsep(&p,=
+ "\n")) !=3D NULL) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  295  		int len =3D strlen(d);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  296  		struct dm_verity_loadpi=
+n_trusted_root_digest *trd;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  297  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  298  		if (len % 2) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  299  			rc =3D -EPROTO;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  300  			goto err;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  301  		}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  302  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  303  		len /=3D 2;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  304  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  305  		trd =3D kzalloc(struct_=
+size(trd, data, len), GFP_KERNEL);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  306  		if (!trd) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  307  			rc =3D -ENOMEM;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  308  			goto err;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  309  		}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  310  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  311  		if (hex2bin(trd->data, =
+d, len)) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  312  			kfree(trd);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  313  			rc =3D -EPROTO;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  314  			goto err;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  315  		}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  316  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  317  		trd->len =3D len;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  318  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  319  		list_add_tail(&trd->nod=
+e, &dm_verity_loadpin_trusted_root_digests);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  320  	}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  321  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  322  	if (list_empty(&dm_verit=
+y_loadpin_trusted_root_digests)) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  323  		rc =3D -EPROTO;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  324  		goto err;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  325  	}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  326  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  327  	kfree(data);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  328  	fdput(f);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  329  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  330  	return 0;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  331  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  332  err:
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  333  	kfree(data);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  334  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  335  	/* any failure in loadin=
+g/parsing invalidates the entire list */
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  336  	{
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  337  		struct dm_verity_loadpi=
+n_trusted_root_digest *trd, *tmp;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  338  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  339  		list_for_each_entry_saf=
+e(trd, tmp, &dm_verity_loadpin_trusted_root_digests, node) {
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  340  			list_del(&trd->node);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  341  			kfree(trd);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  342  		}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  343  	}
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  344  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  345  	/* disallow further atte=
+mpts after reading a corrupt/invalid file */
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  346  	deny_reading_verity_dige=
+sts =3D true;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  347  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  348  	fdput(f);
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  349  =
+
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  350  	return rc;
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  351  }
+3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  352  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7986992236333139210==--
+--===============1029458379092634965==--
 
