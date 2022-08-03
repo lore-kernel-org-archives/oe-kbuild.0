@@ -1,100 +1,217 @@
-Content-Type: multipart/mixed; boundary="===============5710172337758380011=="
+Content-Type: multipart/mixed; boundary="===============5874376579498504612=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/thunderbolt/ctl.c:165:22: warning: Uninitialized variables: iter.kref, iter.ctl, iter.request, iter.request_size, iter.request_type, iter.response, iter.response_size, iter.response_type, iter.npackets, iter.match, iter.copy, iter.callback, iter.c...
-Date: Wed, 03 Aug 2022 17:18:20 +0800
-Message-ID: <202208031703.OQVTqNpN-lkp@intel.com>
+Subject: [linux-next:master 13182/14285] drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing zero to 'PTR_ERR'
+Date: Wed, 03 Aug 2022 16:27:46 +0800
+Message-ID: <202208031640.ZLy3zCCE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5710172337758380011==
+--===============5874376579498504612==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/t=
-hunderbolt/ctl.c:165:22: warning: Uninitialized variables: iter.kref, iter.=
-ctl, iter.request, iter.request_size, iter.request_type, iter.response, ite=
-r.response_size, iter.response_type, iter.npackets, iter.match, iter.copy, =
-iter.callback, iter.callback_data, iter.flags, iter.work, iter.result, iter=
-.list [uninitvar]"
-:::::: =
-
-
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Jakob Koschel <jakobkoschel@gmail.com>
-CC: Mika Westerberg <mika.westerberg@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Vadim Pasternak <vadimp@nvidia.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e2b542100719a93f8cdf6d90185410d38a57a4c1
-commit: 03941ed91c7231e4973fb50de6c349974405df4e thunderbolt: Replace usage=
- of found with dedicated list iterator variable
-date:   4 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 months ago
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 03941ed91c7231e4973fb50de6c349974405df4e
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   42d670bda02fdba0f3944c92f545984501e5788d
+commit: b4b830a34d8046633231b7fe87f6f2cb6240dc9f [13182/14285] platform/mel=
+lanox: mlxreg-lc: Fix error flow and extend verbosity
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20803/202208031640.ZLy3zCCE-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing z=
+ero to 'PTR_ERR'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/PTR_ERR +866 drivers/platform/mellanox/mlxreg-lc.c
 
->> drivers/thunderbolt/ctl.c:165:22: warning: Uninitialized variables: iter=
-.kref, iter.ctl, iter.request, iter.request_size, iter.request_type, iter.r=
-esponse, iter.response_size, iter.response_type, iter.npackets, iter.match,=
- iter.copy, iter.callback, iter.callback_data, iter.flags, iter.work, iter.=
-result, iter.list [uninitvar]
-     tb_cfg_request_get(iter);
-                        ^
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  798  =
 
-vim +165 drivers/thunderbolt/ctl.c
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  799  static int mlxreg_lc_probe=
+(struct platform_device *pdev)
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  800  {
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  801  	struct mlxreg_core_hotplu=
+g_platform_data *par_pdata;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  802  	struct mlxreg_core_data *=
+data;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  803  	struct mlxreg_lc *mlxreg_=
+lc;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  804  	void *regmap;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  805  	int i, err;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  806  =
 
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  157  =
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  807  	data =3D dev_get_platdata=
+(&pdev->dev);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  808  	if (!data)
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  809  		return -EINVAL;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  810  =
 
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  158  static struct tb_cfg_reques=
-t *
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  159  tb_cfg_request_find(struct =
-tb_ctl *ctl, struct ctl_pkg *pkg)
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  160  {
-03941ed91c7231 Jakob Koschel   2022-03-24  161  	struct tb_cfg_request *req=
- =3D NULL, *iter;
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  162  =
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  811  	mlxreg_lc =3D devm_kzallo=
+c(&pdev->dev, sizeof(*mlxreg_lc), GFP_KERNEL);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  812  	if (!mlxreg_lc)
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  813  		return -ENOMEM;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  814  =
 
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  163  	mutex_lock(&pkg->ctl->requ=
-est_queue_lock);
-03941ed91c7231 Jakob Koschel   2022-03-24  164  	list_for_each_entry(iter, =
-&pkg->ctl->request_queue, list) {
-03941ed91c7231 Jakob Koschel   2022-03-24 @165  		tb_cfg_request_get(iter);
-03941ed91c7231 Jakob Koschel   2022-03-24  166  		if (iter->match(iter, pkg=
-)) {
-03941ed91c7231 Jakob Koschel   2022-03-24  167  			req =3D iter;
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  168  			break;
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  169  		}
-03941ed91c7231 Jakob Koschel   2022-03-24  170  		tb_cfg_request_put(iter);
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  171  	}
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  172  	mutex_unlock(&pkg->ctl->re=
-quest_queue_lock);
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  173  =
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  815  	mutex_init(&mlxreg_lc->lo=
+ck);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  816  	/* Set event notification=
+ callback. */
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  817  	if (data->notifier) {
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  818  		data->notifier->user_han=
+dler =3D mlxreg_lc_event_handler;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  819  		data->notifier->handle =
+=3D mlxreg_lc;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  820  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  821  	data->hpdev.adapter =3D i=
+2c_get_adapter(data->hpdev.nr);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  822  	if (!data->hpdev.adapter)=
+ {
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  823  		dev_err(&pdev->dev, "Fai=
+led to get adapter for bus %d\n",
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  824  			data->hpdev.nr);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  825  		err =3D -EFAULT;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  826  		goto i2c_get_adapter_fai=
+l;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  827  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  828  =
 
-03941ed91c7231 Jakob Koschel   2022-03-24  174  	return req;
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  175  }
-d7f781bfdbf4eb Mika Westerberg 2017-06-06  176  =
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  829  	/* Create device at the t=
+op of line card I2C tree.*/
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  830  	data->hpdev.client =3D i2=
+c_new_client_device(data->hpdev.adapter,
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  831  						   data->hpdev.brdin=
+fo);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  832  	if (IS_ERR(data->hpdev.cl=
+ient)) {
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  833  		dev_err(&pdev->dev, "Fai=
+led to create client %s at bus %d at addr 0x%02x\n",
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  834  			data->hpdev.brdinfo->ty=
+pe, data->hpdev.nr, data->hpdev.brdinfo->addr);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  835  		err =3D PTR_ERR(data->hp=
+dev.client);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  836  		goto i2c_new_device_fail;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  837  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  838  =
+
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  839  	regmap =3D devm_regmap_in=
+it_i2c(data->hpdev.client,
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  840  				      &mlxreg_lc_regma=
+p_conf);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  841  	if (IS_ERR(regmap)) {
+b4b830a34d80466 Vadim Pasternak 2022-07-19  842  		dev_err(&pdev->dev, "Fai=
+led to create regmap for client %s at bus %d at addr 0x%02x\n",
+b4b830a34d80466 Vadim Pasternak 2022-07-19  843  			data->hpdev.brdinfo->ty=
+pe, data->hpdev.nr, data->hpdev.brdinfo->addr);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  844  		err =3D PTR_ERR(regmap);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  845  		goto devm_regmap_init_i2=
+c_fail;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  846  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  847  =
+
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  848  	/* Set default registers.=
+ */
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  849  	for (i =3D 0; i < mlxreg_=
+lc_regmap_conf.num_reg_defaults; i++) {
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  850  		err =3D regmap_write(reg=
+map, mlxreg_lc_regmap_default[i].reg,
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  851  				   mlxreg_lc_regmap_de=
+fault[i].def);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  852  		if (err) {
+b4b830a34d80466 Vadim Pasternak 2022-07-19  853  			dev_err(&pdev->dev, "Fa=
+iled to set default regmap %d for client %s at bus %d at addr 0x%02x\n",
+b4b830a34d80466 Vadim Pasternak 2022-07-19  854  				i, data->hpdev.brdinfo=
+->type, data->hpdev.nr,
+b4b830a34d80466 Vadim Pasternak 2022-07-19  855  				data->hpdev.brdinfo->a=
+ddr);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  856  			goto regmap_write_fail;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  857  		}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  858  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  859  =
+
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  860  	/* Sync registers with ha=
+rdware. */
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  861  	regcache_mark_dirty(regma=
+p);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  862  	err =3D regcache_sync(reg=
+map);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  863  	if (err) {
+b4b830a34d80466 Vadim Pasternak 2022-07-19  864  		dev_err(&pdev->dev, "Fai=
+led to sync regmap for client %s at bus %d at addr 0x%02x\n",
+b4b830a34d80466 Vadim Pasternak 2022-07-19  865  			data->hpdev.brdinfo->ty=
+pe, data->hpdev.nr, data->hpdev.brdinfo->addr);
+b4b830a34d80466 Vadim Pasternak 2022-07-19 @866  		err =3D PTR_ERR(regmap);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  867  		goto regcache_sync_fail;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  868  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  869  =
+
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  870  	par_pdata =3D data->hpdev=
+.brdinfo->platform_data;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  871  	mlxreg_lc->par_regmap =3D=
+ par_pdata->regmap;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  872  	mlxreg_lc->data =3D data;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  873  	mlxreg_lc->dev =3D &pdev-=
+>dev;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  874  	platform_set_drvdata(pdev=
+, mlxreg_lc);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  875  =
+
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  876  	/* Configure line card. */
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  877  	err =3D mlxreg_lc_config_=
+init(mlxreg_lc, regmap, data);
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  878  	if (err)
+b4b830a34d80466 Vadim Pasternak 2022-07-19  879  		goto mlxreg_lc_config_in=
+it_fail;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  880  =
+
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  881  	return err;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  882  =
+
+b4b830a34d80466 Vadim Pasternak 2022-07-19  883  mlxreg_lc_config_init_fail:
+b4b830a34d80466 Vadim Pasternak 2022-07-19  884  regcache_sync_fail:
+b4b830a34d80466 Vadim Pasternak 2022-07-19  885  regmap_write_fail:
+b4b830a34d80466 Vadim Pasternak 2022-07-19  886  devm_regmap_init_i2c_fail:
+b4b830a34d80466 Vadim Pasternak 2022-07-19  887  	if (data->hpdev.client) {
+b4b830a34d80466 Vadim Pasternak 2022-07-19  888  		i2c_unregister_device(da=
+ta->hpdev.client);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  889  		data->hpdev.client =3D N=
+ULL;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  890  	}
+b4b830a34d80466 Vadim Pasternak 2022-07-19  891  i2c_new_device_fail:
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  892  	i2c_put_adapter(data->hpd=
+ev.adapter);
+b4b830a34d80466 Vadim Pasternak 2022-07-19  893  	data->hpdev.adapter =3D N=
+ULL;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  894  i2c_get_adapter_fail:
+b4b830a34d80466 Vadim Pasternak 2022-07-19  895  	/* Clear event notificati=
+on callback and handle. */
+b4b830a34d80466 Vadim Pasternak 2022-07-19  896  	if (data->notifier) {
+b4b830a34d80466 Vadim Pasternak 2022-07-19  897  		data->notifier->user_han=
+dler =3D NULL;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  898  		data->notifier->handle =
+=3D NULL;
+b4b830a34d80466 Vadim Pasternak 2022-07-19  899  	}
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  900  	return err;
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  901  }
+62f9529b8d5c87b Vadim Pasternak 2021-10-02  902  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5710172337758380011==--
+--===============5874376579498504612==--
 
