@@ -1,217 +1,398 @@
-Content-Type: multipart/mixed; boundary="===============5874376579498504612=="
+Content-Type: multipart/mixed; boundary="===============7120002162314040490=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 13182/14285] drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing zero to 'PTR_ERR'
-Date: Wed, 03 Aug 2022 16:27:46 +0800
-Message-ID: <202208031640.ZLy3zCCE-lkp@intel.com>
+Subject: [linux-next:master 8236/14285] arch/s390/kvm/interrupt.c:3365:13: warning: Although the value stored to 'found' is used in the enclosing expression, the value is never actually read from 'found' [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 03 Aug 2022 10:40:28 +0800
+Message-ID: <202208031008.BukmgeA5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5874376579498504612==
+--===============7120002162314040490==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: arch/s390=
+/kvm/interrupt.c:3365:13: warning: Although the value stored to 'found' is =
+used in the enclosing expression, the value is never actually read from 'fo=
+und' [clang-analyzer-deadcode.DeadStores]"
+:::::: =
+
+
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Vadim Pasternak <vadimp@nvidia.com>
-CC: Hans de Goede <hdegoede@redhat.com>
+TO: Matthew Rosato <mjrosato@linux.ibm.com>
+CC: Christian Borntraeger <borntraeger@linux.ibm.com>
+CC: Pierre Morel <pmorel@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
-head:   42d670bda02fdba0f3944c92f545984501e5788d
-commit: b4b830a34d8046633231b7fe87f6f2cb6240dc9f [13182/14285] platform/mel=
-lanox: mlxreg-lc: Fix error flow and extend verbosity
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20803/202208031640.ZLy3zCCE-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+head:   7c5e07b73ff3011c9b82d4a3286a3362b951ad2b
+commit: 73f91b004321f2510fa79e66035dbbf1870fcf56 [8236/14285] KVM: s390: pc=
+i: enable host forwarding of Adapter Event Notifications
+:::::: branch date: 6 days ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-c005-20220801 (https://download.01.org/0day-ci/arch=
+ive/20220803/202208031008.BukmgeA5-lkp(a)intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00=
+cabf479aa7eb6dbb063b7ba41ea57bce9e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D73f91b004321f2510fa79e66035dbbf1870fcf56
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 73f91b004321f2510fa79e66035dbbf1870fcf56
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing z=
-ero to 'PTR_ERR'
+clang-analyzer warnings: (new ones prefixed by >>)
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3022:3: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&irq, 0, sizeof(irq));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3022:3: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+                   memset(&irq, 0, sizeof(irq));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3035:4: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memset(&irq, 0, sizeof(irq));
+                           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3035:4: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+                           memset(&irq, 0, sizeof(irq));
+                           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3049:3: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&irq, 0, sizeof(irq));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3049:3: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+                   memset(&irq, 0, sizeof(irq));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3170:2: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(gi->origin, 0, sizeof(struct kvm_s390_gisa));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:3170:2: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+           memset(gi->origin, 0, sizeof(struct kvm_s390_gisa));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> arch/s390/kvm/interrupt.c:3365:13: warning: Although the value stored to=
+ 'found' is used in the enclosing expression, the value is never actually r=
+ead from 'found' [clang-analyzer-deadcode.DeadStores]
+                                   first =3D found =3D false;
+                                           ^       ~~~~~
+   arch/s390/kvm/interrupt.c:3365:13: note: Although the value stored to 'f=
+ound' is used in the enclosing expression, the value is never actually read=
+ from 'found'
+                                   first =3D found =3D false;
+                                           ^       ~~~~~
+   arch/s390/kvm/trace-s390.h:125:1: warning: Dereference of null pointer [=
+clang-analyzer-core.NullDereference]
+   TRACE_EVENT(kvm_s390_inject_vm,
+   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
+ACE'
+                           cpu_online(raw_smp_processor_id()),             \
+                                      ^
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   arch/s390/kvm/interrupt.c:2674:2: note: Control jumps to 'case 10:'  at =
+line 2707
+           switch (attr->group) {
+           ^
+   arch/s390/kvm/interrupt.c:2708:7: note: Calling 'flic_inject_airq'
+                   r =3D flic_inject_airq(dev->kvm, attr);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:2643:6: note: Assuming 'adapter' is non-null
+           if (!adapter)
+               ^~~~~~~~
+   arch/s390/kvm/interrupt.c:2643:2: note: Taking false branch
+           if (!adapter)
+           ^
+   arch/s390/kvm/interrupt.c:2646:9: note: Calling 'kvm_s390_inject_airq'
+           return kvm_s390_inject_airq(kvm, adapter);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:2618:34: note: Left side of '||' is true
+           if (!test_kvm_facility(kvm, 72) || !adapter->suppressible)
+                                           ^
+   arch/s390/kvm/interrupt.c:2619:10: note: Calling 'kvm_s390_inject_vm'
+                   return kvm_s390_inject_vm(kvm, &s390int);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/kvm/interrupt.c:2021:6: note: Assuming 'inti' is non-null
+           if (!inti)
+               ^~~~~
+   arch/s390/kvm/interrupt.c:2021:2: note: Taking false branch
+           if (!inti)
+           ^
+   arch/s390/kvm/interrupt.c:2025:2: note: Control jumps to 'case 0:'  at l=
+ine 2045
+           switch (inti->type) {
+           ^
+   arch/s390/kvm/interrupt.c:2050:3: note:  Execution continues on line 2055
+                   break;
+                   ^
+   arch/s390/kvm/interrupt.c:2055:2: note: Calling 'trace_kvm_s390_inject_v=
+m'
+           trace_kvm_s390_inject_vm(s390int->type, s390int->parm, s390int->=
+parm64,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   arch/s390/kvm/trace-s390.h:125:1: note: Assuming the condition is true
+   TRACE_EVENT(kvm_s390_inject_vm,
+   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
+CE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:247:7: note: expanded from macro '__DECLARE_T=
+RACE'
+                   if (static_key_false(&__tracepoint_##name.key))         \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/kvm/trace-s390.h:125:1: note: Taking true branch
+   TRACE_EVENT(kvm_s390_inject_vm,
+   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
+CE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^
+   include/linux/tracepoint.h:247:3: note: expanded from macro '__DECLARE_T=
+RACE'
+                   if (static_key_false(&__tracepoint_##name.key))         \
+                   ^
+   arch/s390/kvm/trace-s390.h:125:1: note: Dereference of null pointer
+   TRACE_EVENT(kvm_s390_inject_vm,
+   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
+ACE'
+                           cpu_online(raw_smp_processor_id()),             \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   include/linux/tracepoint.h:250:18: note: expanded from macro '__DECLARE_=
+TRACE'
+                                   TP_CONDITION(cond), 0);                 \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITI=
+ON'
+   #define TP_CONDITION(args...)   args
+                                   ^
+   include/linux/tracepoint.h:188:9: note: expanded from macro '__DO_TRACE'
+                   if (!(cond))                                            \
+                         ^~~~
+   arch/s390/kvm/trace-s390.h:150:1: warning: Dereference of null pointer [=
+clang-analyzer-core.NullDereference]
+   TRACE_EVENT(kvm_s390_inject_vcpu,
 
-vim +/PTR_ERR +866 drivers/platform/mellanox/mlxreg-lc.c
+vim +3365 arch/s390/kvm/interrupt.c
 
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  798  =
+73f91b004321f2 Matthew Rosato 2022-06-06  3343  =
 
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  799  static int mlxreg_lc_probe=
-(struct platform_device *pdev)
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  800  {
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  801  	struct mlxreg_core_hotplu=
-g_platform_data *par_pdata;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  802  	struct mlxreg_core_data *=
-data;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  803  	struct mlxreg_lc *mlxreg_=
-lc;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  804  	void *regmap;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  805  	int i, err;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  806  =
+73f91b004321f2 Matthew Rosato 2022-06-06  3344  static void aen_process_gai=
+t(u8 isc)
+73f91b004321f2 Matthew Rosato 2022-06-06  3345  {
+73f91b004321f2 Matthew Rosato 2022-06-06  3346  	bool found =3D false, firs=
+t =3D true;
+73f91b004321f2 Matthew Rosato 2022-06-06  3347  	union zpci_sic_iib iib =3D=
+ {{0}};
+73f91b004321f2 Matthew Rosato 2022-06-06  3348  	unsigned long si, flags;
+73f91b004321f2 Matthew Rosato 2022-06-06  3349  =
 
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  807  	data =3D dev_get_platdata=
-(&pdev->dev);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  808  	if (!data)
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  809  		return -EINVAL;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  810  =
+73f91b004321f2 Matthew Rosato 2022-06-06  3350  	spin_lock_irqsave(&aift->g=
+ait_lock, flags);
+73f91b004321f2 Matthew Rosato 2022-06-06  3351  =
 
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  811  	mlxreg_lc =3D devm_kzallo=
-c(&pdev->dev, sizeof(*mlxreg_lc), GFP_KERNEL);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  812  	if (!mlxreg_lc)
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  813  		return -ENOMEM;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  814  =
+73f91b004321f2 Matthew Rosato 2022-06-06  3352  	if (!aift->gait) {
+73f91b004321f2 Matthew Rosato 2022-06-06  3353  		spin_unlock_irqrestore(&a=
+ift->gait_lock, flags);
+73f91b004321f2 Matthew Rosato 2022-06-06  3354  		return;
+73f91b004321f2 Matthew Rosato 2022-06-06  3355  	}
+73f91b004321f2 Matthew Rosato 2022-06-06  3356  =
 
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  815  	mutex_init(&mlxreg_lc->lo=
-ck);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  816  	/* Set event notification=
- callback. */
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  817  	if (data->notifier) {
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  818  		data->notifier->user_han=
-dler =3D mlxreg_lc_event_handler;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  819  		data->notifier->handle =
-=3D mlxreg_lc;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  820  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  821  	data->hpdev.adapter =3D i=
-2c_get_adapter(data->hpdev.nr);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  822  	if (!data->hpdev.adapter)=
- {
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  823  		dev_err(&pdev->dev, "Fai=
-led to get adapter for bus %d\n",
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  824  			data->hpdev.nr);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  825  		err =3D -EFAULT;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  826  		goto i2c_get_adapter_fai=
-l;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  827  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  828  =
+73f91b004321f2 Matthew Rosato 2022-06-06  3357  	for (si =3D 0;;) {
+73f91b004321f2 Matthew Rosato 2022-06-06  3358  		/* Scan adapter summary i=
+ndicator bit vector */
+73f91b004321f2 Matthew Rosato 2022-06-06  3359  		si =3D airq_iv_scan(aift-=
+>sbv, si, airq_iv_end(aift->sbv));
+73f91b004321f2 Matthew Rosato 2022-06-06  3360  		if (si =3D=3D -1UL) {
+73f91b004321f2 Matthew Rosato 2022-06-06  3361  			if (first || found) {
+73f91b004321f2 Matthew Rosato 2022-06-06  3362  				/* Re-enable interrupts=
+. */
+73f91b004321f2 Matthew Rosato 2022-06-06  3363  				zpci_set_irq_ctrl(SIC_I=
+RQ_MODE_SINGLE, isc,
+73f91b004321f2 Matthew Rosato 2022-06-06  3364  						  &iib);
+73f91b004321f2 Matthew Rosato 2022-06-06 @3365  				first =3D found =3D fal=
+se;
+73f91b004321f2 Matthew Rosato 2022-06-06  3366  			} else {
+73f91b004321f2 Matthew Rosato 2022-06-06  3367  				/* Interrupts on and al=
+l bits processed */
+73f91b004321f2 Matthew Rosato 2022-06-06  3368  				break;
+73f91b004321f2 Matthew Rosato 2022-06-06  3369  			}
+73f91b004321f2 Matthew Rosato 2022-06-06  3370  			found =3D false;
+73f91b004321f2 Matthew Rosato 2022-06-06  3371  			si =3D 0;
+73f91b004321f2 Matthew Rosato 2022-06-06  3372  			/* Scan again after re-e=
+nabling interrupts */
+73f91b004321f2 Matthew Rosato 2022-06-06  3373  			continue;
+73f91b004321f2 Matthew Rosato 2022-06-06  3374  		}
+73f91b004321f2 Matthew Rosato 2022-06-06  3375  		found =3D true;
+73f91b004321f2 Matthew Rosato 2022-06-06  3376  		aen_host_forward(si);
+73f91b004321f2 Matthew Rosato 2022-06-06  3377  	}
+73f91b004321f2 Matthew Rosato 2022-06-06  3378  =
 
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  829  	/* Create device at the t=
-op of line card I2C tree.*/
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  830  	data->hpdev.client =3D i2=
-c_new_client_device(data->hpdev.adapter,
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  831  						   data->hpdev.brdin=
-fo);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  832  	if (IS_ERR(data->hpdev.cl=
-ient)) {
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  833  		dev_err(&pdev->dev, "Fai=
-led to create client %s at bus %d at addr 0x%02x\n",
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  834  			data->hpdev.brdinfo->ty=
-pe, data->hpdev.nr, data->hpdev.brdinfo->addr);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  835  		err =3D PTR_ERR(data->hp=
-dev.client);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  836  		goto i2c_new_device_fail;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  837  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  838  =
-
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  839  	regmap =3D devm_regmap_in=
-it_i2c(data->hpdev.client,
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  840  				      &mlxreg_lc_regma=
-p_conf);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  841  	if (IS_ERR(regmap)) {
-b4b830a34d80466 Vadim Pasternak 2022-07-19  842  		dev_err(&pdev->dev, "Fai=
-led to create regmap for client %s at bus %d at addr 0x%02x\n",
-b4b830a34d80466 Vadim Pasternak 2022-07-19  843  			data->hpdev.brdinfo->ty=
-pe, data->hpdev.nr, data->hpdev.brdinfo->addr);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  844  		err =3D PTR_ERR(regmap);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  845  		goto devm_regmap_init_i2=
-c_fail;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  846  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  847  =
-
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  848  	/* Set default registers.=
- */
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  849  	for (i =3D 0; i < mlxreg_=
-lc_regmap_conf.num_reg_defaults; i++) {
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  850  		err =3D regmap_write(reg=
-map, mlxreg_lc_regmap_default[i].reg,
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  851  				   mlxreg_lc_regmap_de=
-fault[i].def);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  852  		if (err) {
-b4b830a34d80466 Vadim Pasternak 2022-07-19  853  			dev_err(&pdev->dev, "Fa=
-iled to set default regmap %d for client %s at bus %d at addr 0x%02x\n",
-b4b830a34d80466 Vadim Pasternak 2022-07-19  854  				i, data->hpdev.brdinfo=
-->type, data->hpdev.nr,
-b4b830a34d80466 Vadim Pasternak 2022-07-19  855  				data->hpdev.brdinfo->a=
-ddr);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  856  			goto regmap_write_fail;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  857  		}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  858  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  859  =
-
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  860  	/* Sync registers with ha=
-rdware. */
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  861  	regcache_mark_dirty(regma=
-p);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  862  	err =3D regcache_sync(reg=
-map);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  863  	if (err) {
-b4b830a34d80466 Vadim Pasternak 2022-07-19  864  		dev_err(&pdev->dev, "Fai=
-led to sync regmap for client %s at bus %d at addr 0x%02x\n",
-b4b830a34d80466 Vadim Pasternak 2022-07-19  865  			data->hpdev.brdinfo->ty=
-pe, data->hpdev.nr, data->hpdev.brdinfo->addr);
-b4b830a34d80466 Vadim Pasternak 2022-07-19 @866  		err =3D PTR_ERR(regmap);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  867  		goto regcache_sync_fail;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  868  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  869  =
-
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  870  	par_pdata =3D data->hpdev=
-.brdinfo->platform_data;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  871  	mlxreg_lc->par_regmap =3D=
- par_pdata->regmap;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  872  	mlxreg_lc->data =3D data;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  873  	mlxreg_lc->dev =3D &pdev-=
->dev;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  874  	platform_set_drvdata(pdev=
-, mlxreg_lc);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  875  =
-
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  876  	/* Configure line card. */
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  877  	err =3D mlxreg_lc_config_=
-init(mlxreg_lc, regmap, data);
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  878  	if (err)
-b4b830a34d80466 Vadim Pasternak 2022-07-19  879  		goto mlxreg_lc_config_in=
-it_fail;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  880  =
-
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  881  	return err;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  882  =
-
-b4b830a34d80466 Vadim Pasternak 2022-07-19  883  mlxreg_lc_config_init_fail:
-b4b830a34d80466 Vadim Pasternak 2022-07-19  884  regcache_sync_fail:
-b4b830a34d80466 Vadim Pasternak 2022-07-19  885  regmap_write_fail:
-b4b830a34d80466 Vadim Pasternak 2022-07-19  886  devm_regmap_init_i2c_fail:
-b4b830a34d80466 Vadim Pasternak 2022-07-19  887  	if (data->hpdev.client) {
-b4b830a34d80466 Vadim Pasternak 2022-07-19  888  		i2c_unregister_device(da=
-ta->hpdev.client);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  889  		data->hpdev.client =3D N=
-ULL;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  890  	}
-b4b830a34d80466 Vadim Pasternak 2022-07-19  891  i2c_new_device_fail:
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  892  	i2c_put_adapter(data->hpd=
-ev.adapter);
-b4b830a34d80466 Vadim Pasternak 2022-07-19  893  	data->hpdev.adapter =3D N=
-ULL;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  894  i2c_get_adapter_fail:
-b4b830a34d80466 Vadim Pasternak 2022-07-19  895  	/* Clear event notificati=
-on callback and handle. */
-b4b830a34d80466 Vadim Pasternak 2022-07-19  896  	if (data->notifier) {
-b4b830a34d80466 Vadim Pasternak 2022-07-19  897  		data->notifier->user_han=
-dler =3D NULL;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  898  		data->notifier->handle =
-=3D NULL;
-b4b830a34d80466 Vadim Pasternak 2022-07-19  899  	}
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  900  	return err;
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  901  }
-62f9529b8d5c87b Vadim Pasternak 2021-10-02  902  =
+73f91b004321f2 Matthew Rosato 2022-06-06  3379  	spin_unlock_irqrestore(&ai=
+ft->gait_lock, flags);
+73f91b004321f2 Matthew Rosato 2022-06-06  3380  }
+73f91b004321f2 Matthew Rosato 2022-06-06  3381  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5874376579498504612==--
+--===============7120002162314040490==--
 
