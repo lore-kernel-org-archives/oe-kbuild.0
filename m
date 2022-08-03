@@ -1,289 +1,431 @@
-Content-Type: multipart/mixed; boundary="===============5456730203746264333=="
+Content-Type: multipart/mixed; boundary="===============7859514470507122124=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/afs/fsclient.c:1674:50: warning: use of uninitialized value 'count' [CWE-457]
-Date: Wed, 03 Aug 2022 09:05:47 +0800
-Message-ID: <202208030916.T0KrSrmK-lkp@intel.com>
+Subject: [linux-next:master 9724/13542] net/mac80211/mlme.c:1161:4: warning: Value stored to 'at_extension' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 03 Aug 2022 08:44:44 +0800
+Message-ID: <202208030858.knIauqwf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5456730203746264333==
+--===============7859514470507122124==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: fs/afs/fs=
-client.c:1674:50: warning: use of uninitialized value 'count' [CWE-457] [-W=
-analyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: net/mac80=
+211/mlme.c:1161:4: warning: Value stored to 'at_extension' is never read [c=
+lang-analyzer-deadcode.DeadStores]"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
-CC: Marc Dionne <marc.dionne@auristor.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Johannes Berg <johannes.berg@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   569bede0cff5e98c0f862d486406b79dcada8eea
-commit: b537a3c21775075395af475dcc6ef212fcf29db8 afs: Fix corruption in rea=
-ds at fpos 2G-4G from an OpenAFS server
-date:   11 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220803/202208030916.T0KrSrmK-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   7c5e07b73ff3011c9b82d4a3286a3362b951ad2b
+commit: 81151ce462e533551f3284bfdb8e0f461c9220e6 [9724/13542] wifi: mac8021=
+1: support MLO authentication/association with one link
+:::::: branch date: 6 days ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20803/202208030858.knIauqwf-lkp(a)intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00=
+cabf479aa7eb6dbb063b7ba41ea57bce9e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db537a3c21775075395af475dcc6ef212fcf29db8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b537a3c21775075395af475dcc6ef212fcf29db8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D81151ce462e533551f3284bfdb8e0f461c9220e6
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 81151ce462e533551f3284bfdb8e0f461c9220e6
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   fs/afs/fsclient.c: In function 'afs_deliver_fs_fetch_data':
-   fs/afs/fsclient.c:305:23: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     305 |         const __be32 *bp;
-         |                       ^~
-     'afs_deliver_fs_fetch_data': event 1
-       |
-       |  305 |         const __be32 *bp;
-       |      |                       ^~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   fs/afs/fsclient.c: In function 'afs_fs_setattr_size64':
-   fs/afs/fsclient.c:1180:17: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1180 |         __be32 *bp;
-         |                 ^~
-     'afs_fs_setattr_size64': event 1
-       |
-       | 1180 |         __be32 *bp;
-       |      |                 ^~
-       |      |                 |
-       |      |                 (1) use of uninitialized value '<unknown>' =
-here
-       |
-   fs/afs/fsclient.c: In function 'afs_fs_setattr_size':
-   fs/afs/fsclient.c:1222:17: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1222 |         __be32 *bp;
-         |                 ^~
-     'afs_fs_setattr_size': event 1
-       |
-       | 1222 |         __be32 *bp;
-       |      |                 ^~
-       |      |                 |
-       |      |                 (1) use of uninitialized value '<unknown>' =
-here
-       |
-   fs/afs/fsclient.c: In function 'afs_fs_setattr':
-   fs/afs/fsclient.c:1263:17: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1263 |         __be32 *bp;
-         |                 ^~
-     'afs_fs_setattr': event 1
-       |
-       | 1263 |         __be32 *bp;
-       |      |                 ^~
-       |      |                 |
-       |      |                 (1) use of uninitialized value '<unknown>' =
-here
-       |
-   fs/afs/fsclient.c: In function 'afs_deliver_fs_get_volume_status':
-   fs/afs/fsclient.c:1296:23: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1296 |         const __be32 *bp;
-         |                       ^~
-     'afs_deliver_fs_get_volume_status': event 1
-       |
-       | 1296 |         const __be32 *bp;
-       |      |                       ^~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   fs/afs/fsclient.c: In function 'afs_deliver_fs_get_capabilities':
->> fs/afs/fsclient.c:1674:50: warning: use of uninitialized value 'count' [=
-CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1674 |                 afs_extract_discard(call, (count - 1) * sizeof(_=
-_be32));
-         |                                           ~~~~~~~^~~~
-     'afs_deliver_fs_get_capabilities': events 1-6
-       |
-       | 1638 |         u32 count;
-       |      |             ^~~~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1643 |         switch (call->unmarshall) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'case 2:' branch...
-       |......
-       | 1669 |         case 2:
-       |      |         ~~~~ =
+clang-analyzer warnings: (new ones prefixed by >>)
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:198:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(&sta_ht_cap, &sband->ht_cap, sizeof(sta_ht_cap));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:263:3: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&he_oper_vht_cap, he_oper->optional, 3);
+                   ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:263:3: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+                   memcpy(&he_oper_vht_cap, he_oper->optional, 3);
+                   ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:544:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&ht_cap, &sband->ht_cap, sizeof(ht_cap));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:544:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(&ht_cap, &sband->ht_cap, sizeof(ht_cap));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:620:2: warning: Call to function 'memcpy' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&vht_cap, &sband->vht_cap, sizeof(vht_cap));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:620:2: note: Call to function 'memcpy' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memcpy_s' in case of C11
+           memcpy(&vht_cap, &sband->vht_cap, sizeof(vht_cap));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+>> net/mac80211/mlme.c:1161:4: warning: Value stored to 'at_extension' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                           at_extension =3D true;
+                           ^              ~~~~
+   net/mac80211/mlme.c:1161:4: note: Value stored to 'at_extension' is neve=
+r read
+                           at_extension =3D true;
+                           ^              ~~~~
+   net/mac80211/mlme.c:1229:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(common->mld_mac_addr, sdata->vif.addr, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1229:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(common->mld_mac_addr, sdata->vif.addr, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1419:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(mgmt->da, bssid, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1419:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(mgmt->da, bssid, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1420:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(mgmt->sa, link->conf->addr, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1420:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(mgmt->sa, link->conf->addr, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1421:2: warning: Call to function 'memcpy' is insecu=
+re as it does not provide security checks introduced in the C11 standard. R=
+eplace with analogous functions that support length arguments or provides b=
+oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
+nsecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(mgmt->bssid, bssid, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   net/mac80211/mlme.c:1421:2: note: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11
+           memcpy(mgmt->bssid, bssid, ETH_ALEN);
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
 
-       |      |         |
-       |      |         (3) ...to here
-       | 1670 |                 ret =3D afs_extract_data(call, false);
-       | 1671 |                 if (ret < 0)
-       |      |                    ~
-       |      |                    |
-       |      |                    (4) following 'false' branch (when 'ret =
->=3D 0')...
-       |......
-       | 1674 |                 afs_extract_discard(call, (count - 1) * siz=
-eof(__be32));
-       |      |                                           ~~~~~~~~~~~
-       |      |                                                  |
-       |      |                                                  (5) ...to =
-here
-       |      |                                                  (6) use of=
- uninitialized value 'count' here
-       |
-   fs/afs/fsclient.c: In function 'afs_deliver_fs_inline_bulk_status':
-   fs/afs/fsclient.c:1744:23: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1744 |         const __be32 *bp;
-         |                       ^~
-     'afs_deliver_fs_inline_bulk_status': event 1
-       |
-       | 1744 |         const __be32 *bp;
-       |      |                       ^~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   fs/afs/fsclient.c: In function 'afs_deliver_fs_fetch_acl':
-   fs/afs/fsclient.c:1943:23: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1943 |         const __be32 *bp;
-         |                       ^~
-     'afs_deliver_fs_fetch_acl': event 1
-       |
-       | 1943 |         const __be32 *bp;
-       |      |                       ^~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
+vim +/at_extension +1161 net/mac80211/mlme.c
 
-vim +/count +1674 fs/afs/fsclient.c
+978420c2105ca9 Johannes Berg 2022-07-12  1137  =
 
-d2ddc776a4581d David Howells       2017-11-02  1632  =
+81151ce462e533 Johannes Berg 2022-06-01  1138  static void ieee80211_add_no=
+n_inheritance_elem(struct sk_buff *skb,
+81151ce462e533 Johannes Berg 2022-06-01  1139  					       const u16 *outer,
+81151ce462e533 Johannes Berg 2022-06-01  1140  					       const u16 *inner)
+81151ce462e533 Johannes Berg 2022-06-01  1141  {
+81151ce462e533 Johannes Berg 2022-06-01  1142  	unsigned int skb_len =3D sk=
+b->len;
+81151ce462e533 Johannes Berg 2022-06-01  1143  	bool added =3D false;
+81151ce462e533 Johannes Berg 2022-06-01  1144  	int i, j;
+81151ce462e533 Johannes Berg 2022-06-01  1145  	u8 *len, *list_len =3D NULL;
+81151ce462e533 Johannes Berg 2022-06-01  1146  =
 
-d2ddc776a4581d David Howells       2017-11-02  1633  /*
-d2ddc776a4581d David Howells       2017-11-02  1634   * Deliver reply data =
-to an FS.GetCapabilities operation.
-d2ddc776a4581d David Howells       2017-11-02  1635   */
-d2ddc776a4581d David Howells       2017-11-02  1636  static int afs_deliver=
-_fs_get_capabilities(struct afs_call *call)
-d2ddc776a4581d David Howells       2017-11-02  1637  {
-d2ddc776a4581d David Howells       2017-11-02  1638  	u32 count;
-d2ddc776a4581d David Howells       2017-11-02  1639  	int ret;
-d2ddc776a4581d David Howells       2017-11-02  1640  =
+81151ce462e533 Johannes Berg 2022-06-01  1147  	skb_put_u8(skb, WLAN_EID_EX=
+TENSION);
+81151ce462e533 Johannes Berg 2022-06-01  1148  	len =3D skb_put(skb, 1);
+81151ce462e533 Johannes Berg 2022-06-01  1149  	skb_put_u8(skb, WLAN_EID_EX=
+T_NON_INHERITANCE);
+81151ce462e533 Johannes Berg 2022-06-01  1150  =
 
-fc276122496df1 David Howells       2019-11-21  1641  	_enter("{%u,%zu}", ca=
-ll->unmarshall, iov_iter_count(call->iter));
-d2ddc776a4581d David Howells       2017-11-02  1642  =
+81151ce462e533 Johannes Berg 2022-06-01  1151  	for (i =3D 0; i < PRESENT_E=
+LEMS_MAX && outer[i]; i++) {
+81151ce462e533 Johannes Berg 2022-06-01  1152  		u16 elem =3D outer[i];
+81151ce462e533 Johannes Berg 2022-06-01  1153  		bool have_inner =3D false;
+81151ce462e533 Johannes Berg 2022-06-01  1154  		bool at_extension =3D fals=
+e;
+81151ce462e533 Johannes Berg 2022-06-01  1155  =
 
-d2ddc776a4581d David Howells       2017-11-02  1643  	switch (call->unmarsh=
-all) {
-d2ddc776a4581d David Howells       2017-11-02  1644  	case 0:
-12bdcf333fe13e David Howells       2018-10-20  1645  		afs_extract_to_tmp(c=
-all);
-d2ddc776a4581d David Howells       2017-11-02  1646  		call->unmarshall++;
-df561f6688fef7 Gustavo A. R. Silva 2020-08-23  1647  		fallthrough;
-d2ddc776a4581d David Howells       2017-11-02  1648  =
+81151ce462e533 Johannes Berg 2022-06-01  1156  		/* should@least be sort=
+ed in the sense of normal -> ext */
+81151ce462e533 Johannes Berg 2022-06-01  1157  		WARN_ON(at_extension && el=
+em < PRESENT_ELEM_EXT_OFFS);
+81151ce462e533 Johannes Berg 2022-06-01  1158  =
 
-2988160827b780 Gustavo A. R. Silva 2019-05-19  1649  		/* Extract the capab=
-ilities word count */
-d2ddc776a4581d David Howells       2017-11-02  1650  	case 1:
-12bdcf333fe13e David Howells       2018-10-20  1651  		ret =3D afs_extract_=
-data(call, true);
-d2ddc776a4581d David Howells       2017-11-02  1652  		if (ret < 0)
-d2ddc776a4581d David Howells       2017-11-02  1653  			return ret;
-d2ddc776a4581d David Howells       2017-11-02  1654  =
+81151ce462e533 Johannes Berg 2022-06-01  1159  		/* switch to extension lis=
+t */
+81151ce462e533 Johannes Berg 2022-06-01  1160  		if (!at_extension && elem =
+>=3D PRESENT_ELEM_EXT_OFFS) {
+81151ce462e533 Johannes Berg 2022-06-01 @1161  			at_extension =3D true;
+81151ce462e533 Johannes Berg 2022-06-01  1162  			if (!list_len)
+81151ce462e533 Johannes Berg 2022-06-01  1163  				skb_put_u8(skb, 0);
+81151ce462e533 Johannes Berg 2022-06-01  1164  			list_len =3D NULL;
+81151ce462e533 Johannes Berg 2022-06-01  1165  		}
+81151ce462e533 Johannes Berg 2022-06-01  1166  =
 
-d2ddc776a4581d David Howells       2017-11-02  1655  		count =3D ntohl(call=
-->tmp);
-d2ddc776a4581d David Howells       2017-11-02  1656  		call->count =3D coun=
-t;
-d2ddc776a4581d David Howells       2017-11-02  1657  		call->count2 =3D cou=
-nt;
-b537a3c2177507 David Howells       2021-09-10  1658  		if (count =3D=3D 0) {
-b537a3c2177507 David Howells       2021-09-10  1659  			call->unmarshall =
-=3D 4;
-b537a3c2177507 David Howells       2021-09-10  1660  			call->tmp =3D 0;
-b537a3c2177507 David Howells       2021-09-10  1661  			break;
-b537a3c2177507 David Howells       2021-09-10  1662  		}
-b537a3c2177507 David Howells       2021-09-10  1663  =
+81151ce462e533 Johannes Berg 2022-06-01  1167  		for (j =3D 0; j < PRESENT_=
+ELEMS_MAX && inner[j]; j++) {
+81151ce462e533 Johannes Berg 2022-06-01  1168  			if (elem =3D=3D inner[j])=
+ {
+81151ce462e533 Johannes Berg 2022-06-01  1169  				have_inner =3D true;
+81151ce462e533 Johannes Berg 2022-06-01  1170  				break;
+81151ce462e533 Johannes Berg 2022-06-01  1171  			}
+81151ce462e533 Johannes Berg 2022-06-01  1172  		}
+81151ce462e533 Johannes Berg 2022-06-01  1173  =
 
-b537a3c2177507 David Howells       2021-09-10  1664  		/* Extract the first=
- word of the capabilities to call->tmp */
-b537a3c2177507 David Howells       2021-09-10  1665  		afs_extract_to_tmp(c=
-all);
-d2ddc776a4581d David Howells       2017-11-02  1666  		call->unmarshall++;
-df561f6688fef7 Gustavo A. R. Silva 2020-08-23  1667  		fallthrough;
-d2ddc776a4581d David Howells       2017-11-02  1668  =
+81151ce462e533 Johannes Berg 2022-06-01  1174  		if (have_inner)
+81151ce462e533 Johannes Berg 2022-06-01  1175  			continue;
+81151ce462e533 Johannes Berg 2022-06-01  1176  =
 
-d2ddc776a4581d David Howells       2017-11-02  1669  	case 2:
-12bdcf333fe13e David Howells       2018-10-20  1670  		ret =3D afs_extract_=
-data(call, false);
-d2ddc776a4581d David Howells       2017-11-02  1671  		if (ret < 0)
-d2ddc776a4581d David Howells       2017-11-02  1672  			return ret;
-d2ddc776a4581d David Howells       2017-11-02  1673  =
+81151ce462e533 Johannes Berg 2022-06-01  1177  		if (!list_len) {
+81151ce462e533 Johannes Berg 2022-06-01  1178  			list_len =3D skb_put(skb,=
+ 1);
+81151ce462e533 Johannes Berg 2022-06-01  1179  			*list_len =3D 0;
+81151ce462e533 Johannes Berg 2022-06-01  1180  		}
+81151ce462e533 Johannes Berg 2022-06-01  1181  		*list_len +=3D 1;
+81151ce462e533 Johannes Berg 2022-06-01  1182  		skb_put_u8(skb, (u8)elem);
+81151ce462e533 Johannes Berg 2022-06-01  1183  	}
+81151ce462e533 Johannes Berg 2022-06-01  1184  =
 
-b537a3c2177507 David Howells       2021-09-10 @1674  		afs_extract_discard(=
-call, (count - 1) * sizeof(__be32));
-b537a3c2177507 David Howells       2021-09-10  1675  		call->unmarshall++;
-b537a3c2177507 David Howells       2021-09-10  1676  		fallthrough;
-b537a3c2177507 David Howells       2021-09-10  1677  =
-
-b537a3c2177507 David Howells       2021-09-10  1678  		/* Extract remaining=
- capabilities words */
-b537a3c2177507 David Howells       2021-09-10  1679  	case 3:
-b537a3c2177507 David Howells       2021-09-10  1680  		ret =3D afs_extract_=
-data(call, false);
-b537a3c2177507 David Howells       2021-09-10  1681  		if (ret < 0)
-b537a3c2177507 David Howells       2021-09-10  1682  			return ret;
-d2ddc776a4581d David Howells       2017-11-02  1683  =
-
-d2ddc776a4581d David Howells       2017-11-02  1684  		call->unmarshall++;
-d2ddc776a4581d David Howells       2017-11-02  1685  		break;
-d2ddc776a4581d David Howells       2017-11-02  1686  	}
-d2ddc776a4581d David Howells       2017-11-02  1687  =
-
-d2ddc776a4581d David Howells       2017-11-02  1688  	_leave(" =3D 0 [done]=
-");
-d2ddc776a4581d David Howells       2017-11-02  1689  	return 0;
-d2ddc776a4581d David Howells       2017-11-02  1690  }
-d2ddc776a4581d David Howells       2017-11-02  1691  =
+81151ce462e533 Johannes Berg 2022-06-01  1185  	if (!added)
+81151ce462e533 Johannes Berg 2022-06-01  1186  		skb_trim(skb, skb_len);
+81151ce462e533 Johannes Berg 2022-06-01  1187  	else
+81151ce462e533 Johannes Berg 2022-06-01  1188  		*len =3D skb->len - skb_le=
+n - 2;
+81151ce462e533 Johannes Berg 2022-06-01  1189  }
+81151ce462e533 Johannes Berg 2022-06-01  1190  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5456730203746264333==--
+--===============7859514470507122124==--
 
