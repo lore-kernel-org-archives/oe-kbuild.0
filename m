@@ -1,169 +1,115 @@
-Content-Type: multipart/mixed; boundary="===============1029816549778625759=="
+Content-Type: multipart/mixed; boundary="===============1575436304050416627=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer operation overflow
-Date: Thu, 04 Aug 2022 06:03:03 +0800
-Message-ID: <202208040526.IREZlE2g-lkp@intel.com>
+Subject: [hverkuil-media-tree:tegrav8 2/7] drivers/media/i2c/tc358840.c:320:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Thu, 04 Aug 2022 04:10:47 +0800
+Message-ID: <202208040403.Pyz3NxBi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1029816549778625759==
+--===============1575436304050416627==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer op=
-eration overflow"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+edia/i2c/tc358840.c:320:13: warning: use of uninitialized value '<unknown>'=
+ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Hans Verkuil <hverkuil@xs4all.nl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ff89dd08c0f0a3fd330c9ef9d775e880f82c291e
-commit: 8f8d8b0334cc4e7908b78e73936a7673bbef0411 thermal/drivers/tegra: Cor=
-rect compile-testing of drivers
-date:   12 months ago
-:::::: branch date: 51 minutes ago
-:::::: commit date: 12 months ago
-config: mips-randconfig-s052-20220801 (https://download.01.org/0day-ci/arch=
-ive/20220804/202208040526.IREZlE2g-lkp(a)intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   git://linuxtv.org/hverkuil/media_tree.git tegrav8
+head:   386823032a34ce7926c18033b0ca34de9145a206
+commit: f51f9140626da0e72ade6bd437ac2fe13e9b0425 [2/7] tc358840: add Toshib=
+a tc358840 HDMI-to-CSI bridge.
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
+ve/20220804/202208040403.Pyz3NxBi-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8f8d8b0334cc4e7908b78e73936a7673bbef0411
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8f8d8b0334cc4e7908b78e73936a7673bbef0411
+        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media=
+_tree.git
+        git fetch --no-tags hverkuil-media-tree tegrav8
+        git checkout f51f9140626da0e72ade6bd437ac2fe13e9b0425
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-ips SHELL=3D/bin/bash drivers/thermal/tegra/
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/thermal/tegra/soctherm.c: note: in included file (through includ=
-e/linux/bitops.h, include/linux/kernel.h, include/linux/list.h, ...):
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
->> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
-operation overflow
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In function 'i2c_rd16',
+       inlined from 'i2c_wr16_and_or' at drivers/media/i2c/tc358840.c:334:2=
+1:
+>> drivers/media/i2c/tc358840.c:320:13: warning: use of uninitialized value=
+ '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     320 |         u16 val;
+         |             ^~~
+     'enable_audio_block_and_i2s': events 1-2
+       |
+       | 3332 | static void enable_audio_block_and_i2s(struct v4l2_subdev *=
+sd)
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'enable_audio_block_and_i2s'
+       |......
+       | 3335 |         i2c_wr16_and_or(sd, I2S_PUDCTL, 0, 0);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (2) calling 'i2c_wr16_and_or' from 'enable_audio_bl=
+ock_and_i2s'
+       |
+       +--> 'i2c_wr16_and_or': events 3-4
+              |
+              |  320 |         u16 val;
+              |      |             ~~~
+              |      |             |
+              |      |             (4) use of uninitialized value '<unknown=
+>' here
+              |......
+              |  332 | static void i2c_wr16_and_or(struct v4l2_subdev *sd, =
+u16 reg, u16 mask, u16 val)
+              |      |             ^~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to 'i2c_wr16_and_or'
+              |
 
-vim +445 arch/mips/include/asm/bitops.h
+vim +320 drivers/media/i2c/tc358840.c
 
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  431  =
+f51f9140626da0e Hans Verkuil 2020-02-21  317  =
 
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  432  /*
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  433   * ffs - find first bit set.
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  434   * @word: The word to search
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  435   *
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  436   * This is defined the same way as
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  437   * the libc and compiler builtin ffs routines, therefore
-99b40ced9ef63c arch/mips/include/asm/bitops.h Geert Uytterhoeven 2021-01-08=
-  438   * differs in spirit from the below ffz (man ffs).
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  439   */
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  440  static inline int ffs(int word)
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  441  {
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  442  	if (!word)
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
-  443  		return 0;
-2caf190002770b include/asm-mips/bitops.h      Ralf Baechle       2006-01-30=
-  444  =
+f51f9140626da0e Hans Verkuil 2020-02-21  318  static u16 i2c_rd16(struct v4=
+l2_subdev *sd, u16 reg)
+f51f9140626da0e Hans Verkuil 2020-02-21  319  {
+f51f9140626da0e Hans Verkuil 2020-02-21 @320  	u16 val;
+f51f9140626da0e Hans Verkuil 2020-02-21  321  =
 
-bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
- @445  	return fls(word & -word);
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  446  }
-6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
-  447  =
+f51f9140626da0e Hans Verkuil 2020-02-21  322  	i2c_rd(sd, reg, (u8 *)&val, =
+2);
+f51f9140626da0e Hans Verkuil 2020-02-21  323  =
 
+f51f9140626da0e Hans Verkuil 2020-02-21  324  	return val;
+f51f9140626da0e Hans Verkuil 2020-02-21  325  }
+f51f9140626da0e Hans Verkuil 2020-02-21  326  =
 
-:::::: The code at line 445 was first introduced by commit
-:::::: bc818247203a7bfc40296a3f5b760de84fb8e0d1 [MIPS] Fix bitops for MIPS3=
-2/MIPS64 CPUs.
-
-:::::: TO: Atsushi Nemoto <anemo@mba.ocn.ne.jp>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1029816549778625759==--
+--===============1575436304050416627==--
 
