@@ -1,219 +1,169 @@
-Content-Type: multipart/mixed; boundary="===============3837265207254011277=="
+Content-Type: multipart/mixed; boundary="===============1029816549778625759=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-457]
-Date: Sat, 06 Aug 2022 05:53:43 +0800
-Message-ID: <202208060501.k6Ga2XKJ-lkp@intel.com>
+Subject: arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer operation overflow
+Date: Thu, 04 Aug 2022 06:03:03 +0800
+Message-ID: <202208040526.IREZlE2g-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3837265207254011277==
+--===============1029816549778625759==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: kernel/sy=
-sctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanal=
-yzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer op=
+eration overflow"
 :::::: =
 
 
-BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
+BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Yuwei Wang <wangyuweihx@gmail.com>
-CC: Paolo Abeni <pabeni@redhat.com>
+TO: Dmitry Osipenko <digetx@gmail.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   9e2f40233670c70c25e0681cb66d50d1e2742829
-commit: c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c sysctl: add proc_dointvec_=
-ms_jiffies_minmax
-date:   5 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
-ve/20220806/202208060501.k6Ga2XKJ-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+head:   ff89dd08c0f0a3fd330c9ef9d775e880f82c291e
+commit: 8f8d8b0334cc4e7908b78e73936a7673bbef0411 thermal/drivers/tegra: Cor=
+rect compile-testing of drivers
+date:   12 months ago
+:::::: branch date: 51 minutes ago
+:::::: commit date: 12 months ago
+config: mips-randconfig-s052-20220801 (https://download.01.org/0day-ci/arch=
+ive/20220804/202208040526.IREZlE2g-lkp(a)intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dc381d02b2fd5f82d2207db1b9b25ff60d0d9c27c
+t/commit/?id=3D8f8d8b0334cc4e7908b78e73936a7673bbef0411
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c
+        git checkout 8f8d8b0334cc4e7908b78e73936a7673bbef0411
         # save the config file
+        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
+ips SHELL=3D/bin/bash drivers/thermal/tegra/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   kernel/sysctl.c: In function 'do_proc_dointvec_ms_jiffies_minmax_conv':
->> kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]
-    1256 |                 if ((param->min && *param->min > tmp) ||
-         |                                    ~~~~~~~~~~~~^~~~~
-     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-8
-       |
-       | 1243 |         int tmp, ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1252 |         if (ret)
-       |      |            ~ =
+sparse warnings: (new ones prefixed by >>)
+   drivers/thermal/tegra/soctherm.c: note: in included file (through includ=
+e/linux/bitops.h, include/linux/kernel.h, include/linux/list.h, ...):
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
+>> arch/mips/include/asm/bitops.h:445:27: sparse: sparse: constant integer =
+operation overflow
 
-       |      |            |
-       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       | 1255 |         if (write) {
-       |      |            ~ =
+vim +445 arch/mips/include/asm/bitops.h
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'true' branch (when 'write !=3D 0'=
-)...
-       | 1256 |                 if ((param->min && *param->min > tmp) ||
-       |      |                    ~ ~~~~~~~~~~    ~~~~~~~~~~~~~~~~~
-       |      |                    |      |        |           |
-       |      |                    |      |        |           (8) use of u=
-ninitialized value 'tmp' here
-       |      |                    |      |        (7) ...to here
-       |      |                    |      (5) ...to here
-       |      |                    (6) following 'true' branch...
-       |
-   kernel/sysctl.c:1257:60: warning: use of uninitialized value 'tmp' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]
-    1257 |                                 (param->max && *param->max < tmp=
-))
-         |                                                ~~~~~~~~~~~~^~~~~
-     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-8
-       |
-       | 1243 |         int tmp, ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1252 |         if (ret)
-       |      |            ~ =
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  431  =
 
-       |      |            |
-       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       | 1255 |         if (write) {
-       |      |            ~ =
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  432  /*
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+  433   * ffs - find first bit set.
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  434   * @word: The word to search
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  435   *
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+  436   * This is defined the same way as
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+  437   * the libc and compiler builtin ffs routines, therefore
+99b40ced9ef63c arch/mips/include/asm/bitops.h Geert Uytterhoeven 2021-01-08=
+  438   * differs in spirit from the below ffz (man ffs).
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  439   */
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+  440  static inline int ffs(int word)
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  441  {
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+  442  	if (!word)
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+  443  		return 0;
+2caf190002770b include/asm-mips/bitops.h      Ralf Baechle       2006-01-30=
+  444  =
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'true' branch (when 'write !=3D 0'=
-)...
-       | 1256 |                 if ((param->min && *param->min > tmp) ||
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                           |                           |
-       |      |                           (5) ...to here              (6) f=
-ollowing 'true' branch...
-       | 1257 |                                 (param->max && *param->max =
-< tmp))
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-       |      |                                                |           |
-       |      |                                                |           =
-(8) use of uninitialized value 'tmp' here
-       |      |                                                (7) ...to he=
-re
-       |
-   kernel/sysctl.c:1259:23: warning: use of uninitialized value 'tmp' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]
-    1259 |                 *valp =3D tmp;
-         |                 ~~~~~~^~~~~
-     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-6
-       |
-       | 1243 |         int tmp, ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1252 |         if (ret)
-       |      |            ~ =
+bc818247203a7b include/asm-mips/bitops.h      Atsushi Nemoto     2006-04-17=
+ @445  	return fls(word & -word);
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  446  }
+6590326505e3f7 include/asm-mips/bitops.h      Ralf Baechle       2005-07-12=
+  447  =
 
-       |      |            |
-       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       | 1255 |         if (write) {
-       |      |            ~ =
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'true' branch (when 'write !=3D 0'=
-)...
-       | 1256 |                 if ((param->min && *param->min > tmp) ||
-       |      |                      ~~~~~~~~~~
-       |      |                           |
-       |      |                           (5) ...to here
-       |......
-       | 1259 |                 *valp =3D tmp;
-       |      |                 ~~~~~~~~~~~
-       |      |                       |
-       |      |                       (6) use of uninitialized value 'tmp' =
-here
-       |
+:::::: The code at line 445 was first introduced by commit
+:::::: bc818247203a7bfc40296a3f5b760de84fb8e0d1 [MIPS] Fix bitops for MIPS3=
+2/MIPS64 CPUs.
 
-vim +/tmp +1256 kernel/sysctl.c
-
-f461d2dcd511c0 Christoph Hellwig 2020-04-24  1239  =
-
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1240  static int do_proc_doint=
-vec_ms_jiffies_minmax_conv(bool *negp, unsigned long *lvalp,
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1241  						int *valp, int wri=
-te, void *data)
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1242  {
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1243  	int tmp, ret;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1244  	struct do_proc_dointvec=
-_minmax_conv_param *param =3D data;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1245  	/*
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1246  	 * If writing, first do=
- so via a temporary local int so we can
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1247  	 * bounds-check it befo=
-re touching *valp.
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1248  	 */
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1249  	int *ip =3D write ? &tm=
-p : valp;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1250  =
-
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1251  	ret =3D do_proc_dointve=
-c_ms_jiffies_conv(negp, lvalp, ip, write, data);
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1252  	if (ret)
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1253  		return ret;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1254  =
-
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1255  	if (write) {
-c381d02b2fd5f8 Yuwei Wang        2022-06-29 @1256  		if ((param->min && *pa=
-ram->min > tmp) ||
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1257  				(param->max && *para=
-m->max < tmp))
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1258  			return -EINVAL;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1259  		*valp =3D tmp;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1260  	}
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1261  	return 0;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1262  }
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1263  =
-
+:::::: TO: Atsushi Nemoto <anemo@mba.ocn.ne.jp>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3837265207254011277==--
+--===============1029816549778625759==--
 
