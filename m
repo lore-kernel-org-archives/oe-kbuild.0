@@ -1,398 +1,289 @@
-Content-Type: multipart/mixed; boundary="===============7120002162314040490=="
+Content-Type: multipart/mixed; boundary="===============5456730203746264333=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 8236/14285] arch/s390/kvm/interrupt.c:3365:13: warning: Although the value stored to 'found' is used in the enclosing expression, the value is never actually read from 'found' [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 03 Aug 2022 10:40:28 +0800
-Message-ID: <202208031008.BukmgeA5-lkp@intel.com>
+Subject: fs/afs/fsclient.c:1674:50: warning: use of uninitialized value 'count' [CWE-457]
+Date: Wed, 03 Aug 2022 09:05:47 +0800
+Message-ID: <202208030916.T0KrSrmK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7120002162314040490==
+--===============5456730203746264333==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: arch/s390=
-/kvm/interrupt.c:3365:13: warning: Although the value stored to 'found' is =
-used in the enclosing expression, the value is never actually read from 'fo=
-und' [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/afs/fs=
+client.c:1674:50: warning: use of uninitialized value 'count' [CWE-457] [-W=
+analyzer-use-of-uninitialized-value]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Matthew Rosato <mjrosato@linux.ibm.com>
-CC: Christian Borntraeger <borntraeger@linux.ibm.com>
-CC: Pierre Morel <pmorel@linux.ibm.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: David Howells <dhowells@redhat.com>
+CC: Marc Dionne <marc.dionne@auristor.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   7c5e07b73ff3011c9b82d4a3286a3362b951ad2b
-commit: 73f91b004321f2510fa79e66035dbbf1870fcf56 [8236/14285] KVM: s390: pc=
-i: enable host forwarding of Adapter Event Notifications
-:::::: branch date: 6 days ago
-:::::: commit date: 3 weeks ago
-config: s390-randconfig-c005-20220801 (https://download.01.org/0day-ci/arch=
-ive/20220803/202208031008.BukmgeA5-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00=
-cabf479aa7eb6dbb063b7ba41ea57bce9e)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   569bede0cff5e98c0f862d486406b79dcada8eea
+commit: b537a3c21775075395af475dcc6ef212fcf29db8 afs: Fix corruption in rea=
+ds at fpos 2G-4G from an OpenAFS server
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
+ve/20220803/202208030916.T0KrSrmK-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D73f91b004321f2510fa79e66035dbbf1870fcf56
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 73f91b004321f2510fa79e66035dbbf1870fcf56
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db537a3c21775075395af475dcc6ef212fcf29db8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b537a3c21775075395af475dcc6ef212fcf29db8
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3022:3: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&irq, 0, sizeof(irq));
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3022:3: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-                   memset(&irq, 0, sizeof(irq));
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3035:4: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memset(&irq, 0, sizeof(irq));
-                           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3035:4: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-                           memset(&irq, 0, sizeof(irq));
-                           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3049:3: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(&irq, 0, sizeof(irq));
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3049:3: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-                   memset(&irq, 0, sizeof(irq));
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3170:2: warning: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(gi->origin, 0, sizeof(struct kvm_s390_gisa));
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:3170:2: note: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11
-           memset(gi->origin, 0, sizeof(struct kvm_s390_gisa));
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
->> arch/s390/kvm/interrupt.c:3365:13: warning: Although the value stored to=
- 'found' is used in the enclosing expression, the value is never actually r=
-ead from 'found' [clang-analyzer-deadcode.DeadStores]
-                                   first =3D found =3D false;
-                                           ^       ~~~~~
-   arch/s390/kvm/interrupt.c:3365:13: note: Although the value stored to 'f=
-ound' is used in the enclosing expression, the value is never actually read=
- from 'found'
-                                   first =3D found =3D false;
-                                           ^       ~~~~~
-   arch/s390/kvm/trace-s390.h:125:1: warning: Dereference of null pointer [=
-clang-analyzer-core.NullDereference]
-   TRACE_EVENT(kvm_s390_inject_vm,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-                                      ^
-   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
-                                   ^
-   arch/s390/kvm/interrupt.c:2674:2: note: Control jumps to 'case 10:'  at =
-line 2707
-           switch (attr->group) {
-           ^
-   arch/s390/kvm/interrupt.c:2708:7: note: Calling 'flic_inject_airq'
-                   r =3D flic_inject_airq(dev->kvm, attr);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:2643:6: note: Assuming 'adapter' is non-null
-           if (!adapter)
-               ^~~~~~~~
-   arch/s390/kvm/interrupt.c:2643:2: note: Taking false branch
-           if (!adapter)
-           ^
-   arch/s390/kvm/interrupt.c:2646:9: note: Calling 'kvm_s390_inject_airq'
-           return kvm_s390_inject_airq(kvm, adapter);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:2618:34: note: Left side of '||' is true
-           if (!test_kvm_facility(kvm, 72) || !adapter->suppressible)
-                                           ^
-   arch/s390/kvm/interrupt.c:2619:10: note: Calling 'kvm_s390_inject_vm'
-                   return kvm_s390_inject_vm(kvm, &s390int);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:2021:6: note: Assuming 'inti' is non-null
-           if (!inti)
-               ^~~~~
-   arch/s390/kvm/interrupt.c:2021:2: note: Taking false branch
-           if (!inti)
-           ^
-   arch/s390/kvm/interrupt.c:2025:2: note: Control jumps to 'case 0:'  at l=
-ine 2045
-           switch (inti->type) {
-           ^
-   arch/s390/kvm/interrupt.c:2050:3: note:  Execution continues on line 2055
-                   break;
-                   ^
-   arch/s390/kvm/interrupt.c:2055:2: note: Calling 'trace_kvm_s390_inject_v=
-m'
-           trace_kvm_s390_inject_vm(s390int->type, s390int->parm, s390int->=
-parm64,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   arch/s390/kvm/trace-s390.h:125:1: note: Assuming the condition is true
-   TRACE_EVENT(kvm_s390_inject_vm,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
-CE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:247:7: note: expanded from macro '__DECLARE_T=
-RACE'
-                   if (static_key_false(&__tracepoint_##name.key))         \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kvm/trace-s390.h:125:1: note: Taking true branch
-   TRACE_EVENT(kvm_s390_inject_vm,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
-CE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^
-   include/linux/tracepoint.h:247:3: note: expanded from macro '__DECLARE_T=
-RACE'
-                   if (static_key_false(&__tracepoint_##name.key))         \
-                   ^
-   arch/s390/kvm/trace-s390.h:125:1: note: Dereference of null pointer
-   TRACE_EVENT(kvm_s390_inject_vm,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
-                                   ^
-   include/linux/tracepoint.h:250:18: note: expanded from macro '__DECLARE_=
-TRACE'
-                                   TP_CONDITION(cond), 0);                 \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITI=
-ON'
-   #define TP_CONDITION(args...)   args
-                                   ^
-   include/linux/tracepoint.h:188:9: note: expanded from macro '__DO_TRACE'
-                   if (!(cond))                                            \
-                         ^~~~
-   arch/s390/kvm/trace-s390.h:150:1: warning: Dereference of null pointer [=
-clang-analyzer-core.NullDereference]
-   TRACE_EVENT(kvm_s390_inject_vcpu,
+gcc-analyzer warnings: (new ones prefixed by >>)
+   fs/afs/fsclient.c: In function 'afs_deliver_fs_fetch_data':
+   fs/afs/fsclient.c:305:23: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     305 |         const __be32 *bp;
+         |                       ^~
+     'afs_deliver_fs_fetch_data': event 1
+       |
+       |  305 |         const __be32 *bp;
+       |      |                       ^~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   fs/afs/fsclient.c: In function 'afs_fs_setattr_size64':
+   fs/afs/fsclient.c:1180:17: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1180 |         __be32 *bp;
+         |                 ^~
+     'afs_fs_setattr_size64': event 1
+       |
+       | 1180 |         __be32 *bp;
+       |      |                 ^~
+       |      |                 |
+       |      |                 (1) use of uninitialized value '<unknown>' =
+here
+       |
+   fs/afs/fsclient.c: In function 'afs_fs_setattr_size':
+   fs/afs/fsclient.c:1222:17: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1222 |         __be32 *bp;
+         |                 ^~
+     'afs_fs_setattr_size': event 1
+       |
+       | 1222 |         __be32 *bp;
+       |      |                 ^~
+       |      |                 |
+       |      |                 (1) use of uninitialized value '<unknown>' =
+here
+       |
+   fs/afs/fsclient.c: In function 'afs_fs_setattr':
+   fs/afs/fsclient.c:1263:17: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1263 |         __be32 *bp;
+         |                 ^~
+     'afs_fs_setattr': event 1
+       |
+       | 1263 |         __be32 *bp;
+       |      |                 ^~
+       |      |                 |
+       |      |                 (1) use of uninitialized value '<unknown>' =
+here
+       |
+   fs/afs/fsclient.c: In function 'afs_deliver_fs_get_volume_status':
+   fs/afs/fsclient.c:1296:23: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1296 |         const __be32 *bp;
+         |                       ^~
+     'afs_deliver_fs_get_volume_status': event 1
+       |
+       | 1296 |         const __be32 *bp;
+       |      |                       ^~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   fs/afs/fsclient.c: In function 'afs_deliver_fs_get_capabilities':
+>> fs/afs/fsclient.c:1674:50: warning: use of uninitialized value 'count' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1674 |                 afs_extract_discard(call, (count - 1) * sizeof(_=
+_be32));
+         |                                           ~~~~~~~^~~~
+     'afs_deliver_fs_get_capabilities': events 1-6
+       |
+       | 1638 |         u32 count;
+       |      |             ^~~~~
+       |      |             |
+       |      |             (1) region created on stack here
+       |......
+       | 1643 |         switch (call->unmarshall) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 2:' branch...
+       |......
+       | 1669 |         case 2:
+       |      |         ~~~~ =
 
-vim +3365 arch/s390/kvm/interrupt.c
+       |      |         |
+       |      |         (3) ...to here
+       | 1670 |                 ret =3D afs_extract_data(call, false);
+       | 1671 |                 if (ret < 0)
+       |      |                    ~
+       |      |                    |
+       |      |                    (4) following 'false' branch (when 'ret =
+>=3D 0')...
+       |......
+       | 1674 |                 afs_extract_discard(call, (count - 1) * siz=
+eof(__be32));
+       |      |                                           ~~~~~~~~~~~
+       |      |                                                  |
+       |      |                                                  (5) ...to =
+here
+       |      |                                                  (6) use of=
+ uninitialized value 'count' here
+       |
+   fs/afs/fsclient.c: In function 'afs_deliver_fs_inline_bulk_status':
+   fs/afs/fsclient.c:1744:23: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1744 |         const __be32 *bp;
+         |                       ^~
+     'afs_deliver_fs_inline_bulk_status': event 1
+       |
+       | 1744 |         const __be32 *bp;
+       |      |                       ^~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   fs/afs/fsclient.c: In function 'afs_deliver_fs_fetch_acl':
+   fs/afs/fsclient.c:1943:23: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1943 |         const __be32 *bp;
+         |                       ^~
+     'afs_deliver_fs_fetch_acl': event 1
+       |
+       | 1943 |         const __be32 *bp;
+       |      |                       ^~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
 
-73f91b004321f2 Matthew Rosato 2022-06-06  3343  =
+vim +/count +1674 fs/afs/fsclient.c
 
-73f91b004321f2 Matthew Rosato 2022-06-06  3344  static void aen_process_gai=
-t(u8 isc)
-73f91b004321f2 Matthew Rosato 2022-06-06  3345  {
-73f91b004321f2 Matthew Rosato 2022-06-06  3346  	bool found =3D false, firs=
-t =3D true;
-73f91b004321f2 Matthew Rosato 2022-06-06  3347  	union zpci_sic_iib iib =3D=
- {{0}};
-73f91b004321f2 Matthew Rosato 2022-06-06  3348  	unsigned long si, flags;
-73f91b004321f2 Matthew Rosato 2022-06-06  3349  =
+d2ddc776a4581d David Howells       2017-11-02  1632  =
 
-73f91b004321f2 Matthew Rosato 2022-06-06  3350  	spin_lock_irqsave(&aift->g=
-ait_lock, flags);
-73f91b004321f2 Matthew Rosato 2022-06-06  3351  =
+d2ddc776a4581d David Howells       2017-11-02  1633  /*
+d2ddc776a4581d David Howells       2017-11-02  1634   * Deliver reply data =
+to an FS.GetCapabilities operation.
+d2ddc776a4581d David Howells       2017-11-02  1635   */
+d2ddc776a4581d David Howells       2017-11-02  1636  static int afs_deliver=
+_fs_get_capabilities(struct afs_call *call)
+d2ddc776a4581d David Howells       2017-11-02  1637  {
+d2ddc776a4581d David Howells       2017-11-02  1638  	u32 count;
+d2ddc776a4581d David Howells       2017-11-02  1639  	int ret;
+d2ddc776a4581d David Howells       2017-11-02  1640  =
 
-73f91b004321f2 Matthew Rosato 2022-06-06  3352  	if (!aift->gait) {
-73f91b004321f2 Matthew Rosato 2022-06-06  3353  		spin_unlock_irqrestore(&a=
-ift->gait_lock, flags);
-73f91b004321f2 Matthew Rosato 2022-06-06  3354  		return;
-73f91b004321f2 Matthew Rosato 2022-06-06  3355  	}
-73f91b004321f2 Matthew Rosato 2022-06-06  3356  =
+fc276122496df1 David Howells       2019-11-21  1641  	_enter("{%u,%zu}", ca=
+ll->unmarshall, iov_iter_count(call->iter));
+d2ddc776a4581d David Howells       2017-11-02  1642  =
 
-73f91b004321f2 Matthew Rosato 2022-06-06  3357  	for (si =3D 0;;) {
-73f91b004321f2 Matthew Rosato 2022-06-06  3358  		/* Scan adapter summary i=
-ndicator bit vector */
-73f91b004321f2 Matthew Rosato 2022-06-06  3359  		si =3D airq_iv_scan(aift-=
->sbv, si, airq_iv_end(aift->sbv));
-73f91b004321f2 Matthew Rosato 2022-06-06  3360  		if (si =3D=3D -1UL) {
-73f91b004321f2 Matthew Rosato 2022-06-06  3361  			if (first || found) {
-73f91b004321f2 Matthew Rosato 2022-06-06  3362  				/* Re-enable interrupts=
-. */
-73f91b004321f2 Matthew Rosato 2022-06-06  3363  				zpci_set_irq_ctrl(SIC_I=
-RQ_MODE_SINGLE, isc,
-73f91b004321f2 Matthew Rosato 2022-06-06  3364  						  &iib);
-73f91b004321f2 Matthew Rosato 2022-06-06 @3365  				first =3D found =3D fal=
-se;
-73f91b004321f2 Matthew Rosato 2022-06-06  3366  			} else {
-73f91b004321f2 Matthew Rosato 2022-06-06  3367  				/* Interrupts on and al=
-l bits processed */
-73f91b004321f2 Matthew Rosato 2022-06-06  3368  				break;
-73f91b004321f2 Matthew Rosato 2022-06-06  3369  			}
-73f91b004321f2 Matthew Rosato 2022-06-06  3370  			found =3D false;
-73f91b004321f2 Matthew Rosato 2022-06-06  3371  			si =3D 0;
-73f91b004321f2 Matthew Rosato 2022-06-06  3372  			/* Scan again after re-e=
-nabling interrupts */
-73f91b004321f2 Matthew Rosato 2022-06-06  3373  			continue;
-73f91b004321f2 Matthew Rosato 2022-06-06  3374  		}
-73f91b004321f2 Matthew Rosato 2022-06-06  3375  		found =3D true;
-73f91b004321f2 Matthew Rosato 2022-06-06  3376  		aen_host_forward(si);
-73f91b004321f2 Matthew Rosato 2022-06-06  3377  	}
-73f91b004321f2 Matthew Rosato 2022-06-06  3378  =
+d2ddc776a4581d David Howells       2017-11-02  1643  	switch (call->unmarsh=
+all) {
+d2ddc776a4581d David Howells       2017-11-02  1644  	case 0:
+12bdcf333fe13e David Howells       2018-10-20  1645  		afs_extract_to_tmp(c=
+all);
+d2ddc776a4581d David Howells       2017-11-02  1646  		call->unmarshall++;
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  1647  		fallthrough;
+d2ddc776a4581d David Howells       2017-11-02  1648  =
 
-73f91b004321f2 Matthew Rosato 2022-06-06  3379  	spin_unlock_irqrestore(&ai=
-ft->gait_lock, flags);
-73f91b004321f2 Matthew Rosato 2022-06-06  3380  }
-73f91b004321f2 Matthew Rosato 2022-06-06  3381  =
+2988160827b780 Gustavo A. R. Silva 2019-05-19  1649  		/* Extract the capab=
+ilities word count */
+d2ddc776a4581d David Howells       2017-11-02  1650  	case 1:
+12bdcf333fe13e David Howells       2018-10-20  1651  		ret =3D afs_extract_=
+data(call, true);
+d2ddc776a4581d David Howells       2017-11-02  1652  		if (ret < 0)
+d2ddc776a4581d David Howells       2017-11-02  1653  			return ret;
+d2ddc776a4581d David Howells       2017-11-02  1654  =
+
+d2ddc776a4581d David Howells       2017-11-02  1655  		count =3D ntohl(call=
+->tmp);
+d2ddc776a4581d David Howells       2017-11-02  1656  		call->count =3D coun=
+t;
+d2ddc776a4581d David Howells       2017-11-02  1657  		call->count2 =3D cou=
+nt;
+b537a3c2177507 David Howells       2021-09-10  1658  		if (count =3D=3D 0) {
+b537a3c2177507 David Howells       2021-09-10  1659  			call->unmarshall =
+=3D 4;
+b537a3c2177507 David Howells       2021-09-10  1660  			call->tmp =3D 0;
+b537a3c2177507 David Howells       2021-09-10  1661  			break;
+b537a3c2177507 David Howells       2021-09-10  1662  		}
+b537a3c2177507 David Howells       2021-09-10  1663  =
+
+b537a3c2177507 David Howells       2021-09-10  1664  		/* Extract the first=
+ word of the capabilities to call->tmp */
+b537a3c2177507 David Howells       2021-09-10  1665  		afs_extract_to_tmp(c=
+all);
+d2ddc776a4581d David Howells       2017-11-02  1666  		call->unmarshall++;
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  1667  		fallthrough;
+d2ddc776a4581d David Howells       2017-11-02  1668  =
+
+d2ddc776a4581d David Howells       2017-11-02  1669  	case 2:
+12bdcf333fe13e David Howells       2018-10-20  1670  		ret =3D afs_extract_=
+data(call, false);
+d2ddc776a4581d David Howells       2017-11-02  1671  		if (ret < 0)
+d2ddc776a4581d David Howells       2017-11-02  1672  			return ret;
+d2ddc776a4581d David Howells       2017-11-02  1673  =
+
+b537a3c2177507 David Howells       2021-09-10 @1674  		afs_extract_discard(=
+call, (count - 1) * sizeof(__be32));
+b537a3c2177507 David Howells       2021-09-10  1675  		call->unmarshall++;
+b537a3c2177507 David Howells       2021-09-10  1676  		fallthrough;
+b537a3c2177507 David Howells       2021-09-10  1677  =
+
+b537a3c2177507 David Howells       2021-09-10  1678  		/* Extract remaining=
+ capabilities words */
+b537a3c2177507 David Howells       2021-09-10  1679  	case 3:
+b537a3c2177507 David Howells       2021-09-10  1680  		ret =3D afs_extract_=
+data(call, false);
+b537a3c2177507 David Howells       2021-09-10  1681  		if (ret < 0)
+b537a3c2177507 David Howells       2021-09-10  1682  			return ret;
+d2ddc776a4581d David Howells       2017-11-02  1683  =
+
+d2ddc776a4581d David Howells       2017-11-02  1684  		call->unmarshall++;
+d2ddc776a4581d David Howells       2017-11-02  1685  		break;
+d2ddc776a4581d David Howells       2017-11-02  1686  	}
+d2ddc776a4581d David Howells       2017-11-02  1687  =
+
+d2ddc776a4581d David Howells       2017-11-02  1688  	_leave(" =3D 0 [done]=
+");
+d2ddc776a4581d David Howells       2017-11-02  1689  	return 0;
+d2ddc776a4581d David Howells       2017-11-02  1690  }
+d2ddc776a4581d David Howells       2017-11-02  1691  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7120002162314040490==--
+--===============5456730203746264333==--
 
