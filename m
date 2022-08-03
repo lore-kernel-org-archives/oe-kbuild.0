@@ -1,115 +1,118 @@
-Content-Type: multipart/mixed; boundary="===============1575436304050416627=="
+Content-Type: multipart/mixed; boundary="===============2699050770441548452=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hverkuil-media-tree:tegrav8 2/7] drivers/media/i2c/tc358840.c:320:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Thu, 04 Aug 2022 04:10:47 +0800
-Message-ID: <202208040403.Pyz3NxBi-lkp@intel.com>
+Subject: [mark:arm64/stacktrace/rework-cleanup 3/8] arch/arm64/kernel/sdei.c:66:21: error: use of undeclared identifier 'sdei_stack_normal_ptr'
+Date: Thu, 04 Aug 2022 04:10:44 +0800
+Message-ID: <202208040427.vAzlkXzS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1575436304050416627==
+--===============2699050770441548452==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/tc358840.c:320:13: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "commit no functional change"
 :::::: =
 
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Kalesh Singh <kaleshsingh@google.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git tegrav8
-head:   386823032a34ce7926c18033b0ca34de9145a206
-commit: f51f9140626da0e72ade6bd437ac2fe13e9b0425 [2/7] tc358840: add Toshib=
-a tc358840 HDMI-to-CSI bridge.
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220804/202208040403.Pyz3NxBi-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm6=
+4/stacktrace/rework-cleanup
+head:   ff57049f8e5ec88c03b804c73bb4dd44ffa88896
+commit: 10b1649e7fc666d82f11a5b4463013b3e46a7a53 [3/8] arm64: stacktrace: m=
+ove SDEI stack helpers to stacktrace code
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: arm64-buildonly-randconfig-r003-20220803 (https://download.01.org/0=
+day-ci/archive/20220804/202208040427.vAzlkXzS-lkp(a)intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 495519=
+e5f8232d144ed26e9c18dbcbac6a5f25eb)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media=
-_tree.git
-        git fetch --no-tags hverkuil-media-tree tegrav8
-        git checkout f51f9140626da0e72ade6bd437ac2fe13e9b0425
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/co=
+mmit/?id=3D10b1649e7fc666d82f11a5b4463013b3e46a7a53
+        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git=
+/mark/linux.git
+        git fetch --no-tags mark arm64/stacktrace/rework-cleanup
+        git checkout 10b1649e7fc666d82f11a5b4463013b3e46a7a53
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
+1 O=3Dbuild_dir ARCH=3Darm64 SHELL=3D/bin/bash arch/arm64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In function 'i2c_rd16',
-       inlined from 'i2c_wr16_and_or' at drivers/media/i2c/tc358840.c:334:2=
-1:
->> drivers/media/i2c/tc358840.c:320:13: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     320 |         u16 val;
-         |             ^~~
-     'enable_audio_block_and_i2s': events 1-2
-       |
-       | 3332 | static void enable_audio_block_and_i2s(struct v4l2_subdev *=
-sd)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'enable_audio_block_and_i2s'
-       |......
-       | 3335 |         i2c_wr16_and_or(sd, I2S_PUDCTL, 0, 0);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (2) calling 'i2c_wr16_and_or' from 'enable_audio_bl=
-ock_and_i2s'
-       |
-       +--> 'i2c_wr16_and_or': events 3-4
-              |
-              |  320 |         u16 val;
-              |      |             ~~~
-              |      |             |
-              |      |             (4) use of uninitialized value '<unknown=
->' here
-              |......
-              |  332 | static void i2c_wr16_and_or(struct v4l2_subdev *sd, =
-u16 reg, u16 mask, u16 val)
-              |      |             ^~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (3) entry to 'i2c_wr16_and_or'
-              |
+All errors (new ones prefixed by >>):
 
-vim +320 drivers/media/i2c/tc358840.c
+>> arch/arm64/kernel/sdei.c:66:21: error: use of undeclared identifier 'sde=
+i_stack_normal_ptr'
+                   _free_sdei_stack(&sdei_stack_normal_ptr, cpu);
+                                     ^
+>> arch/arm64/kernel/sdei.c:67:21: error: use of undeclared identifier 'sde=
+i_stack_critical_ptr'
+                   _free_sdei_stack(&sdei_stack_critical_ptr, cpu);
+                                     ^
+   arch/arm64/kernel/sdei.c:92:27: error: use of undeclared identifier 'sde=
+i_stack_normal_ptr'
+                   err =3D _init_sdei_stack(&sdei_stack_normal_ptr, cpu);
+                                           ^
+   arch/arm64/kernel/sdei.c:95:27: error: use of undeclared identifier 'sde=
+i_stack_critical_ptr'
+                   err =3D _init_sdei_stack(&sdei_stack_critical_ptr, cpu);
+                                           ^
+   4 errors generated.
 
-f51f9140626da0e Hans Verkuil 2020-02-21  317  =
 
-f51f9140626da0e Hans Verkuil 2020-02-21  318  static u16 i2c_rd16(struct v4=
-l2_subdev *sd, u16 reg)
-f51f9140626da0e Hans Verkuil 2020-02-21  319  {
-f51f9140626da0e Hans Verkuil 2020-02-21 @320  	u16 val;
-f51f9140626da0e Hans Verkuil 2020-02-21  321  =
+vim +/sdei_stack_normal_ptr +66 arch/arm64/kernel/sdei.c
 
-f51f9140626da0e Hans Verkuil 2020-02-21  322  	i2c_rd(sd, reg, (u8 *)&val, =
-2);
-f51f9140626da0e Hans Verkuil 2020-02-21  323  =
+f5df26961853d6 James Morse 2018-01-08  57  =
 
-f51f9140626da0e Hans Verkuil 2020-02-21  324  	return val;
-f51f9140626da0e Hans Verkuil 2020-02-21  325  }
-f51f9140626da0e Hans Verkuil 2020-02-21  326  =
+f5df26961853d6 James Morse 2018-01-08  58  static void free_sdei_stacks(voi=
+d)
+f5df26961853d6 James Morse 2018-01-08  59  {
+f5df26961853d6 James Morse 2018-01-08  60  	int cpu;
+f5df26961853d6 James Morse 2018-01-08  61  =
 
+eec3bf6861a870 Will Deacon 2020-12-01  62  	if (!IS_ENABLED(CONFIG_VMAP_STA=
+CK))
+eec3bf6861a870 Will Deacon 2020-12-01  63  		return;
+eec3bf6861a870 Will Deacon 2020-12-01  64  =
+
+f5df26961853d6 James Morse 2018-01-08  65  	for_each_possible_cpu(cpu) {
+f5df26961853d6 James Morse 2018-01-08 @66  		_free_sdei_stack(&sdei_stack_n=
+ormal_ptr, cpu);
+f5df26961853d6 James Morse 2018-01-08 @67  		_free_sdei_stack(&sdei_stack_c=
+ritical_ptr, cpu);
+f5df26961853d6 James Morse 2018-01-08  68  	}
+f5df26961853d6 James Morse 2018-01-08  69  }
+f5df26961853d6 James Morse 2018-01-08  70  =
+
+
+:::::: The code at line 66 was first introduced by commit
+:::::: f5df26961853d6809d704cedcaf082c57f635a64 arm64: kernel: Add arch-spe=
+cific SDEI entry code and CPU masking
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1575436304050416627==--
+--===============2699050770441548452==--
 
