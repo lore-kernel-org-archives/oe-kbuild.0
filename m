@@ -1,548 +1,1162 @@
-Content-Type: multipart/mixed; boundary="===============1788717996593199974=="
+Content-Type: multipart/mixed; boundary="===============0728071290013291964=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 6/7] media: i2c: ov9282: Set v4l2 subdev name according to sensor model
-Date: Wed, 03 Aug 2022 07:12:21 +0800
-Message-ID: <202208030644.UFmtMaV9-lkp@intel.com>
+Subject: fs/ntfs3/fsntfs.c:1264:32: warning: use of uninitialized value 'clen' [CWE-457]
+Date: Sat, 06 Aug 2022 05:33:03 +0800
+Message-ID: <202208060516.P6uQhYug-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1788717996593199974==
+--===============0728071290013291964==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/i2c/ov9282.c:1054:3: warning: Undefined or garbage value returned to c=
-aller [clang-analyzer-core.uninitialized.UndefReturn]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/ntfs3/fsntfs.c:1264:32: warning: use of uninitialized value 'clen' [CWE=
+-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
-CC: llvm(a)lists.linux.dev
-CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220728130237.3396663-7-alexander.stein@ew.tq-group.com>
-References: <20220728130237.3396663-7-alexander.stein@ew.tq-group.com>
-TO: Alexander Stein <alexander.stein@ew.tq-group.com>
-TO: "Paul J . Murphy" <paul.j.murphy@intel.com>
-TO: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Alexander Stein <alexander.stein@ew.tq-group.com>
-CC: devicetree(a)vger.kernel.org
-CC: Sakari Ailus <sakari.ailus@iki.fi>
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-Hi Alexander,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v5.19 next-20220728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/OV92=
-81-support/20220728-210448
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-c002-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220803/202208030644.UFmtMaV9-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00=
-cabf479aa7eb6dbb063b7ba41ea57bce9e)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9e2f40233670c70c25e0681cb66d50d1e2742829
+commit: 6e5be40d32fb1907285277c02e74493ed43d77fe fs/ntfs3: Add NTFS3 in fs/=
+Kconfig and fs/Makefile
+date:   12 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
+ve/20220806/202208060516.P6uQhYug-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/ee28006553d4d23f600=
-b0076ef6066710519f156
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexander-Stein/OV9281-support/202=
-20728-210448
-        git checkout ee28006553d4d23f600b0076ef6066710519f156
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6e5be40d32fb1907285277c02e74493ed43d77fe
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6e5be40d32fb1907285277c02e74493ed43d77fe
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   include/linux/printk.h:690:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:674:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:480:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:451:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:426:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   include/linux/hid.h:1056:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:690:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:674:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   include/linux/printk.h:480:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                              ^~~~~~~~~~~
-   include/linux/printk.h:452:19: note: expanded from macro 'printk_index_w=
-rap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                                   ^~~~~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   drivers/hwmon/sht3x.c:268:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", data->temperature);
-                  ^~~~~~~
-   drivers/hwmon/sht3x.c:268:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", data->temperature);
-                  ^~~~~~~
-   drivers/hwmon/sht3x.c:279:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%u\n", data->humidity);
-                  ^~~~~~~
-   drivers/hwmon/sht3x.c:279:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%u\n", data->humidity);
-                  ^~~~~~~
-   drivers/hwmon/sht3x.c:356:2: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(position, commands->write_command, SHT3X_CMD_LENGTH);
-           ^~~~~~
-   drivers/hwmon/sht3x.c:356:2: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-           memcpy(position, commands->write_command, SHT3X_CMD_LENGTH);
-           ^~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   drivers/input/joystick/magellan.c:144:2: warning: Call to function 'snpr=
-intf' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'snprintf_s' in case of C11 [clang-an=
-alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(magellan->phys, sizeof(magellan->phys), "%s/input0", se=
-rio->phys);
-           ^~~~~~~~
-   drivers/input/joystick/magellan.c:144:2: note: Call to function 'snprint=
-f' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(magellan->phys, sizeof(magellan->phys), "%s/input0", se=
-rio->phys);
-           ^~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   36 warnings generated.
-   drivers/input/joystick/psxpad-spi.c:101:2: warning: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(pad->sendbuf, PSX_CMD_ENTER_CFG, sizeof(PSX_CMD_ENTER_CFG=
-));
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:101:2: note: Call to function 'memcp=
-y' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(pad->sendbuf, PSX_CMD_ENTER_CFG, sizeof(PSX_CMD_ENTER_CFG=
-));
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:110:2: warning: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(pad->sendbuf, PSX_CMD_ENABLE_MOTOR,
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:110:2: note: Call to function 'memcp=
-y' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(pad->sendbuf, PSX_CMD_ENABLE_MOTOR,
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:122:2: warning: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(pad->sendbuf, PSX_CMD_EXIT_CFG, sizeof(PSX_CMD_EXIT_CFG));
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:122:2: note: Call to function 'memcp=
-y' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(pad->sendbuf, PSX_CMD_EXIT_CFG, sizeof(PSX_CMD_EXIT_CFG));
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:213:2: warning: Call to function 'me=
-mcpy' is insecure as it does not provide security checks introduced in the =
-C11 standard. Replace with analogous functions that support length argument=
-s or provides boundary checks such as 'memcpy_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(pad->sendbuf, PSX_CMD_POLL, sizeof(PSX_CMD_POLL));
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:213:2: note: Call to function 'memcp=
-y' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(pad->sendbuf, PSX_CMD_POLL, sizeof(PSX_CMD_POLL));
-           ^~~~~~
-   drivers/input/joystick/psxpad-spi.c:306:2: warning: Call to function 'sn=
-printf' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'snprintf_s' in case of C11 [clang-=
-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(pad->phys, sizeof(pad->phys), "%s/input", dev_name(&spi=
-->dev));
-           ^~~~~~~~
-   drivers/input/joystick/psxpad-spi.c:306:2: note: Call to function 'snpri=
-ntf' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(pad->phys, sizeof(pad->phys), "%s/input", dev_name(&spi=
-->dev));
-           ^~~~~~~~
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
->> drivers/media/i2c/ov9282.c:1054:3: warning: Undefined or garbage value r=
-eturned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-                   return ret;
-                   ^      ~~~
-   drivers/media/i2c/ov9282.c:1041:2: note: 'ret' declared without an initi=
-al value
-           int ret;
-           ^~~~~~~
-   drivers/media/i2c/ov9282.c:1044:6: note: Assuming 'ov9282' is non-null
-           if (!ov9282)
-               ^~~~~~~
-   drivers/media/i2c/ov9282.c:1044:2: note: Taking false branch
-           if (!ov9282)
-           ^
-   drivers/media/i2c/ov9282.c:1052:6: note: Assuming 'sensor_name' is null
-           if (!sensor_name) {
-               ^~~~~~~~~~~~
-   drivers/media/i2c/ov9282.c:1052:2: note: Taking true branch
-           if (!sensor_name) {
-           ^
-   drivers/media/i2c/ov9282.c:1053:3: note: Loop condition is false.  Exiti=
-ng loop
-                   dev_err(ov9282->dev, "Sensor name is missing");
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:447:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:426:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/media/i2c/ov9282.c:1054:3: note: Undefined or garbage value retu=
-rned to caller
-                   return ret;
-                   ^      ~~~
-   Suppressed 47 warnings (45 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   Suppressed 46 warnings (45 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   drivers/media/i2c/ov9650.c:606:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D ov965x_write(ov965x, REG_COM8, reg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:606:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D ov965x_write(ov965x, REG_COM8, reg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 46 warnings (45 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   50 warnings generated.
-   drivers/media/i2c/rdacm21.c:373:11: warning: The left operand of '=3D=3D=
-' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   if (val =3D=3D OV10640_ID_HIGH)
-                           ^
-   drivers/media/i2c/rdacm21.c:550:6: note: Assuming 'dev' is non-null
-           if (!dev)
-               ^~~~
-   drivers/media/i2c/rdacm21.c:550:2: note: Taking false branch
-           if (!dev)
-           ^
-   drivers/media/i2c/rdacm21.c:557:6: note: 'ret' is >=3D 0
-           if (ret < 0) {
-               ^~~
-   drivers/media/i2c/rdacm21.c:557:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/media/i2c/rdacm21.c:564:2: note: Taking false branch
-           if (IS_ERR(dev->isp))
-           ^
-   drivers/media/i2c/rdacm21.c:567:8: note: Calling 'rdacm21_initialize'
-           ret =3D rdacm21_initialize(dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/rdacm21.c:481:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:481:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:489:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:489:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:493:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:493:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:501:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:501:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:505:6: note: Assuming 'ret' is 0
-           if (ret)
+gcc-analyzer warnings: (new ones prefixed by >>)
+              |      |                             ~~~~~~~~~~~~
+              |      |                                     |
+              |      |                                     (7) ...to here
+              |......
+              | 1234 |                         bh =3D ntfs_bread(sb, block);
+              |      |                              ~~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (8) calling 'ntfs_bread=
+' from 'ntfs_read_run_nb'
+              |
+              +--> 'ntfs_bread': events 9-10
+                     |
+                     |fs/ntfs3/ntfs_fs.h:962:35:
+                     |  962 | static inline struct buffer_head *ntfs_bread(=
+struct super_block *sb,
+                     |      |                                   ^~~~~~~~~~
+                     |      |                                   |
+                     |      |                                   (9) entry t=
+o 'ntfs_bread'
+                     |......
+                     |  967 |         if (bh)
+                     |      |            ~                       =
 
-vim +1054 drivers/media/i2c/ov9282.c
+                     |      |            |
+                     |      |            (10) following 'true' branch...
+                     |
+                   'ntfs_bread': event 11
+                     |
+                     |cc1:
+                     | (11): ...to here
+                     |
+              <------+
+              |
+            'ntfs_read_run_nb': events 12-17
+              |
+              |fs/ntfs3/fsntfs.c:1234:30:
+              | 1234 |                         bh =3D ntfs_bread(sb, block);
+              |      |                              ^~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (12) returning to 'ntfs=
+_read_run_nb' from 'ntfs_bread'
+              | 1235 |                         if (!bh) {
+              |      |                            ~  =
 
-ded4a31a12fead Alexander Stein  2022-07-28  1030  =
+              |      |                            |
+              |      |                            (13) following 'false' br=
+anch (when 'bh' is non-NULL)...
+              |......
+              | 1240 |                         if (buf) {
+              |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1031  /**
-14ea315bbeb75a Martina Krasteva 2021-05-27  1032   * ov9282_probe() - I2C c=
-lient device binding
-14ea315bbeb75a Martina Krasteva 2021-05-27  1033   * @client: pointer to i2=
-c client device
-14ea315bbeb75a Martina Krasteva 2021-05-27  1034   *
-14ea315bbeb75a Martina Krasteva 2021-05-27  1035   * Return: 0 if successfu=
-l, error code otherwise.
-14ea315bbeb75a Martina Krasteva 2021-05-27  1036   */
-14ea315bbeb75a Martina Krasteva 2021-05-27  1037  static int ov9282_probe(s=
-truct i2c_client *client)
-14ea315bbeb75a Martina Krasteva 2021-05-27  1038  {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1039  	struct ov9282 *ov9282;
-ee28006553d4d2 Alexander Stein  2022-07-28  1040  	const char *sensor_name;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1041  	int ret;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1042  =
+              |      |                            |
+              |      |                            (14) ...to here
+              |      |                            (15) following 'false' br=
+anch (when 'buf' is NULL)...
+              |......
+              | 1245 |                         if (!nb) {
+              |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1043  	ov9282 =3D devm_kzalloc(=
-&client->dev, sizeof(*ov9282), GFP_KERNEL);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1044  	if (!ov9282)
-14ea315bbeb75a Martina Krasteva 2021-05-27  1045  		return -ENOMEM;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1046  =
+              |      |                            |
+              |      |                            (16) ...to here
+              |      |                            (17) following 'true' bra=
+nch (when 'nb' is NULL)...
+              |
+            'ntfs_read_run_nb': event 18
+              |
+              |include/linux/compiler.h:86:20:
+              |   86 | # define barrier() __asm__ __volatile__("": : :"memo=
+ry")
+              |      |                    ^~~~~~~
+              |      |                    |
+              |      |                    (18) ...to here
+   include/asm-generic/barrier.h:152:33: note: in expansion of macro 'barri=
+er'
+              |  152 | #define smp_mb__before_atomic() barrier()
+              |      |                                 ^~~~~~~
+   include/linux/buffer_head.h:284:9: note: in expansion of macro 'smp_mb__=
+before_atomic'
+              |  284 |         smp_mb__before_atomic();
+              |      |         ^~~~~~~~~~~~~~~~~~~~~
+              |
+       <------+
+       |
+     'ntfs_read_bh': events 19-22
+       |
+       |fs/ntfs3/fsntfs.c:1298:19:
+       | 1298 |         int err =3D ntfs_read_run_nb(sbi, run, vbo, rhdr, b=
+ytes, nb);
+       |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+       |      |                   |
+       |      |                   (19) returning to 'ntfs_read_bh' from 'nt=
+fs_read_run_nb'
+       | 1299 | =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1047  	ov9282->dev =3D &client-=
->dev;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1048  =
+       | 1300 |         if (err)
+       |      |            ~       =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1049  	/* Initialize subdev */
-14ea315bbeb75a Martina Krasteva 2021-05-27  1050  	v4l2_i2c_subdev_init(&ov=
-9282->sd, client, &ov9282_subdev_ops);
-ee28006553d4d2 Alexander Stein  2022-07-28  1051  	sensor_name =3D device_g=
-et_match_data(ov9282->dev);
-ee28006553d4d2 Alexander Stein  2022-07-28  1052  	if (!sensor_name) {
-ee28006553d4d2 Alexander Stein  2022-07-28  1053  		dev_err(ov9282->dev, "S=
-ensor name is missing");
-ee28006553d4d2 Alexander Stein  2022-07-28 @1054  		return ret;
-ee28006553d4d2 Alexander Stein  2022-07-28  1055  	}
-ee28006553d4d2 Alexander Stein  2022-07-28  1056  	v4l2_i2c_subdev_set_name=
-(&ov9282->sd, client, sensor_name, NULL);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1057  =
+       |      |            |
+       |      |            (20) following 'false' branch (when 'err =3D=3D =
+0')...
+       | 1301 |                 return err;
+       | 1302 |         return ntfs_fix_post_read(rhdr, nb->bytes, true);
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (21) ...to here
+       |      |                (22) calling 'ntfs_fix_post_read' from 'ntfs=
+_read_bh'
+       |
+       +--> 'ntfs_fix_post_read': event 23
+              |
+              |  146 | int ntfs_fix_post_read(struct NTFS_RECORD_HEADER *rh=
+dr, size_t bytes,
+              |      |     ^~~~~~~~~~~~~~~~~~
+              |      |     |
+              |      |     (23) entry to 'ntfs_fix_post_read'
+              |
+            'ntfs_fix_post_read': event 24
+              |
+              |  153 |         fo =3D le16_to_cpu(rhdr->fix_off);
+              |
+   fs/ntfs3/fsntfs.c: In function 'ntfs_read_run_nb':
+>> fs/ntfs3/fsntfs.c:1264:32: warning: use of uninitialized value 'clen' [C=
+WE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1264 |                 vcn_next =3D vcn + clen;
+         |                            ~~~~^~~~~~
+     'ntfs_read_run_nb': events 1-7
+       |
+       | 1180 | int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const struct=
+ runs_tree *run,
+       |      |     ^~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ntfs_read_run_nb'
+       |......
+       | 1190 |         CLST lcn, clen;
+       |      |                   ~~~~
+       |      |                   |
+       |      |                   (2) region created on stack here
+       |......
+       | 1195 |         if (!run) {
+       |      |            ~
+       |      |            |
+       |      |            (3) following 'true' branch (when 'run' is NULL)=
+...
+       | 1196 |                 /* first reading of $Volume + $MFTMirr + Lo=
+gFile goes here*/
+       | 1197 |                 if (vbo > MFT_REC_VOL * sbi->record_size) {
+       |      |                    ~                    ~~~~~~~~~~~~~~~~
+       |      |                    |                       |
+       |      |                    |                       (4) ...to here
+       |      |                    (5) following 'false' branch...
+       |......
+       | 1203 |                 lbo =3D vbo + sbi->mft.lbo;
+       |      |                             ~~~~~~~~~~~~
+       |      |                                     |
+       |      |                                     (6) ...to here
+       |......
+       | 1234 |                         bh =3D ntfs_bread(sb, block);
+       |      |                              ~~~~~~~~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (7) calling 'ntfs_bread' from =
+'ntfs_read_run_nb'
+       |
+       +--> 'ntfs_bread': events 8-9
+              |
+              |fs/ntfs3/ntfs_fs.h:962:35:
+              |  962 | static inline struct buffer_head *ntfs_bread(struct =
+super_block *sb,
+              |      |                                   ^~~~~~~~~~
+              |      |                                   |
+              |      |                                   (8) entry to 'ntfs=
+_bread'
+              |......
+              |  967 |         if (bh)
+              |      |            ~                       =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1058  	ret =3D ov9282_parse_hw_=
-config(ov9282);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1059  	if (ret) {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1060  		dev_err(ov9282->dev, "H=
-W configuration is not supported");
-14ea315bbeb75a Martina Krasteva 2021-05-27  1061  		return ret;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1062  	}
-14ea315bbeb75a Martina Krasteva 2021-05-27  1063  =
+              |      |            |
+              |      |            (9) following 'true' branch...
+              |
+            'ntfs_bread': event 10
+              |
+              |cc1:
+              | (10): ...to here
+              |
+       <------+
+       |
+     'ntfs_read_run_nb': events 11-16
+       |
+       |fs/ntfs3/fsntfs.c:1234:30:
+       | 1234 |                         bh =3D ntfs_bread(sb, block);
+       |      |                              ^~~~~~~~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (11) returning to 'ntfs_read_r=
+un_nb' from 'ntfs_bread'
+       | 1235 |                         if (!bh) {
+       |      |                            ~  =
 
-ded4a31a12fead Alexander Stein  2022-07-28  1064  	ret =3D ov9282_get_regul=
-ators(ov9282);
-ded4a31a12fead Alexander Stein  2022-07-28  1065  	if (ret) {
-ded4a31a12fead Alexander Stein  2022-07-28  1066  		dev_err(&client->dev, "=
-Failed to get power regulators\n");
-ded4a31a12fead Alexander Stein  2022-07-28  1067  		return ret;
-ded4a31a12fead Alexander Stein  2022-07-28  1068  	}
-ded4a31a12fead Alexander Stein  2022-07-28  1069  =
+       |      |                            |
+       |      |                            (12) following 'false' branch (w=
+hen 'bh' is non-NULL)...
+       |......
+       | 1240 |                         if (buf) {
+       |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1070  	mutex_init(&ov9282->mute=
-x);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1071  =
+       |      |                            |
+       |      |                            (13) ...to here
+       |      |                            (14) following 'false' branch (w=
+hen 'buf' is NULL)...
+       |......
+       | 1245 |                         if (!nb) {
+       |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1072  	ret =3D ov9282_power_on(=
-ov9282->dev);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1073  	if (ret) {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1074  		dev_err(ov9282->dev, "f=
-ailed to power-on the sensor");
-14ea315bbeb75a Martina Krasteva 2021-05-27  1075  		goto error_mutex_destro=
-y;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1076  	}
-14ea315bbeb75a Martina Krasteva 2021-05-27  1077  =
+       |      |                            |
+       |      |                            (15) ...to here
+       |      |                            (16) following 'true' branch (wh=
+en 'nb' is NULL)...
+       |
+     'ntfs_read_run_nb': event 17
+       |
+       |include/linux/compiler.h:86:20:
+       |   86 | # define barrier() __asm__ __volatile__("": : :"memory")
+       |      |                    ^~~~~~~
+       |      |                    |
+       |      |                    (17) ...to here
+   include/asm-generic/barrier.h:152:33: note: in expansion of macro 'barri=
+er'
+       |  152 | #define smp_mb__before_atomic() barrier()
+       |      |                                 ^~~~~~~
+   include/linux/buffer_head.h:284:9: note: in expansion of macro 'smp_mb__=
+before_atomic'
+       |  284 |         smp_mb__before_atomic();
+       |      |         ^~~~~~~~~~~~~~~~~~~~~
+       |
+     'ntfs_read_run_nb': events 18-22
+       |
+       |fs/ntfs3/fsntfs.c:1256:28:
+       | 1256 |                         if (!bytes)
+       |      |                            ^
+       |      |                            |
+       |      |                            (18) following 'false' branch (w=
+hen 'bytes !=3D 0')...
+       | 1257 |                                 return 0;
+       | 1258 |                         len32 -=3D op;
+       |      |                         ~~~~~~~~~~~
+       |      |                               |
+       |      |                               (19) ...to here
+       |......
+       | 1262 |                 } while (len32);
+       |      |                          ~~~~~
+       |      |                          |
+       |      |                          (20) following 'false' branch (whe=
+n 'len32 =3D=3D 0')...
+       | 1263 | =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1078  	/* Check module identity=
- */
-14ea315bbeb75a Martina Krasteva 2021-05-27  1079  	ret =3D ov9282_detect(ov=
-9282);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1080  	if (ret) {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1081  		dev_err(ov9282->dev, "f=
-ailed to find sensor: %d", ret);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1082  		goto error_power_off;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1083  	}
-14ea315bbeb75a Martina Krasteva 2021-05-27  1084  =
+       | 1264 |                 vcn_next =3D vcn + clen;
+       |      |                            ~~~~~~~~~~
+       |      |                                |
+       |      |                                (21) ...to here
+       |      |                                (22) use of uninitialized va=
+lue 'clen' here
+       |
+>> fs/ntfs3/fsntfs.c:1264:32: warning: use of uninitialized value 'clen' [C=
+WE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1264 |                 vcn_next =3D vcn + clen;
+         |                            ~~~~^~~~~~
+     'ntfs_read_bh': events 1-2
+       |
+       | 1294 | int ntfs_read_bh(struct ntfs_sb_info *sbi, const struct run=
+s_tree *run, u64 vbo,
+       |      |     ^~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ntfs_read_bh'
+       |......
+       | 1298 |         int err =3D ntfs_read_run_nb(sbi, run, vbo, rhdr, b=
+ytes, nb);
+       |      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+       |      |                   |
+       |      |                   (2) calling 'ntfs_read_run_nb' from 'ntfs=
+_read_bh'
+       |
+       +--> 'ntfs_read_run_nb': events 3-9
+              |
+              | 1180 | int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const=
+ struct runs_tree *run,
+              |      |     ^~~~~~~~~~~~~~~~
+              |      |     |
+              |      |     (3) entry to 'ntfs_read_run_nb'
+              |......
+              | 1190 |         CLST lcn, clen;
+              |      |                   ~~~~
+              |      |                   |
+              |      |                   (4) region created on stack here
+              |......
+              | 1195 |         if (!run) {
+              |      |            ~
+              |      |            |
+              |      |            (5) following 'true' branch (when 'run' i=
+s NULL)...
+              | 1196 |                 /* first reading of $Volume + $MFTMi=
+rr + LogFile goes here*/
+              | 1197 |                 if (vbo > MFT_REC_VOL * sbi->record_=
+size) {
+              |      |                    ~                    ~~~~~~~~~~~~=
+~~~~
+              |      |                    |                       |
+              |      |                    |                       (6) ...to=
+ here
+              |      |                    (7) following 'false' branch...
+              |......
+              | 1203 |                 lbo =3D vbo + sbi->mft.lbo;
+              |      |                             ~~~~~~~~~~~~
+              |      |                                     |
+              |      |                                     (8) ...to here
+              |......
+              | 1234 |                         bh =3D ntfs_bread(sb, block);
+              |      |                              ~~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (9) calling 'ntfs_bread=
+' from 'ntfs_read_run_nb'
+              |
+              +--> 'ntfs_bread': events 10-11
+                     |
+                     |fs/ntfs3/ntfs_fs.h:962:35:
+                     |  962 | static inline struct buffer_head *ntfs_bread(=
+struct super_block *sb,
+                     |      |                                   ^~~~~~~~~~
+                     |      |                                   |
+                     |      |                                   (10) entry =
+to 'ntfs_bread'
+                     |......
+                     |  967 |         if (bh)
+                     |      |            ~                       =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1085  	/* Set default mode to m=
-ax resolution */
-14ea315bbeb75a Martina Krasteva 2021-05-27  1086  	ov9282->cur_mode =3D &su=
-pported_mode;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1087  	ov9282->vblank =3D ov928=
-2->cur_mode->vblank;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1088  =
+                     |      |            |
+                     |      |            (11) following 'true' branch...
+                     |
+                   'ntfs_bread': event 12
+                     |
+                     |cc1:
+                     | (12): ...to here
+                     |
+              <------+
+              |
+            'ntfs_read_run_nb': events 13-18
+              |
+              |fs/ntfs3/fsntfs.c:1234:30:
+              | 1234 |                         bh =3D ntfs_bread(sb, block);
+              |      |                              ^~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (13) returning to 'ntfs=
+_read_run_nb' from 'ntfs_bread'
+              | 1235 |                         if (!bh) {
+              |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1089  	ret =3D ov9282_init_cont=
-rols(ov9282);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1090  	if (ret) {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1091  		dev_err(ov9282->dev, "f=
-ailed to init controls: %d", ret);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1092  		goto error_power_off;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1093  	}
-14ea315bbeb75a Martina Krasteva 2021-05-27  1094  =
+              |      |                            |
+              |      |                            (14) following 'false' br=
+anch (when 'bh' is non-NULL)...
+              |......
+              | 1240 |                         if (buf) {
+              |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1095  	/* Initialize subdev */
-14ea315bbeb75a Martina Krasteva 2021-05-27  1096  	ov9282->sd.flags |=3D V4=
-L2_SUBDEV_FL_HAS_DEVNODE;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1097  	ov9282->sd.entity.functi=
-on =3D MEDIA_ENT_F_CAM_SENSOR;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1098  =
+              |      |                            |
+              |      |                            (15) ...to here
+              |      |                            (16) following 'false' br=
+anch (when 'buf' is NULL)...
+              |......
+              | 1245 |                         if (!nb) {
+              |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1099  	/* Initialize source pad=
- */
-14ea315bbeb75a Martina Krasteva 2021-05-27  1100  	ov9282->pad.flags =3D ME=
-DIA_PAD_FL_SOURCE;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1101  	ret =3D media_entity_pad=
-s_init(&ov9282->sd.entity, 1, &ov9282->pad);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1102  	if (ret) {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1103  		dev_err(ov9282->dev, "f=
-ailed to init entity pads: %d", ret);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1104  		goto error_handler_free;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1105  	}
-14ea315bbeb75a Martina Krasteva 2021-05-27  1106  =
+              |      |                            |
+              |      |                            (17) ...to here
+              |      |                            (18) following 'true' bra=
+nch (when 'nb' is NULL)...
+              |
+            'ntfs_read_run_nb': event 19
+              |
+              |include/linux/compiler.h:86:20:
+              |   86 | # define barrier() __asm__ __volatile__("": : :"memo=
+ry")
+              |      |                    ^~~~~~~
+              |      |                    |
+              |      |                    (19) ...to here
+   include/asm-generic/barrier.h:152:33: note: in expansion of macro 'barri=
+er'
+              |  152 | #define smp_mb__before_atomic() barrier()
+              |      |                                 ^~~~~~~
+   include/linux/buffer_head.h:284:9: note: in expansion of macro 'smp_mb__=
+before_atomic'
+              |  284 |         smp_mb__before_atomic();
+              |      |         ^~~~~~~~~~~~~~~~~~~~~
+              |
+            'ntfs_read_run_nb': events 20-24
+              |
+              |fs/ntfs3/fsntfs.c:1256:28:
+              | 1256 |                         if (!bytes)
+              |      |                            ^
+              |      |                            |
+              |      |                            (20) following 'false' br=
+anch (when 'bytes !=3D 0')...
+              | 1257 |                                 return 0;
+              | 1258 |                         len32 -=3D op;
+              |      |                         ~~~~~~~~~~~
+              |      |                               |
+              |      |                               (21) ...to here
+              |......
+              | 1262 |                 } while (len32);
+              |      |                          ~~~~~
+              |      |                          |
+              |      |                          (22) following 'false' bran=
+ch (when 'len32 =3D=3D 0')...
+              | 1263 | =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1107  	ret =3D v4l2_async_regis=
-ter_subdev_sensor(&ov9282->sd);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1108  	if (ret < 0) {
-14ea315bbeb75a Martina Krasteva 2021-05-27  1109  		dev_err(ov9282->dev,
-14ea315bbeb75a Martina Krasteva 2021-05-27  1110  			"failed to register as=
-ync subdev: %d", ret);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1111  		goto error_media_entity;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1112  	}
-14ea315bbeb75a Martina Krasteva 2021-05-27  1113  =
+              | 1264 |                 vcn_next =3D vcn + clen;
+              |      |                            ~~~~~~~~~~
+              |      |                                |
+              |      |                                (23) ...to here
+              |      |                                (24) use of uninitial=
+ized value 'clen' here
+              |
+>> fs/ntfs3/fsntfs.c:1265:22: warning: use of uninitialized value 'idx' [CW=
+E-457] [-Wanalyzer-use-of-uninitialized-value]
+    1265 |                 if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen=
+) ||
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ntfs_read_run_nb': events 1-7
+       |
+       | 1180 | int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const struct=
+ runs_tree *run,
+       |      |     ^~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ntfs_read_run_nb'
+       |......
+       | 1192 |         size_t idx;
+       |      |                ~~~
+       |      |                |
+       |      |                (2) region created on stack here
+       |......
+       | 1195 |         if (!run) {
+       |      |            ~
+       |      |            |
+       |      |            (3) following 'true' branch (when 'run' is NULL)=
+...
+       | 1196 |                 /* first reading of $Volume + $MFTMirr + Lo=
+gFile goes here*/
+       | 1197 |                 if (vbo > MFT_REC_VOL * sbi->record_size) {
+       |      |                    ~                    ~~~~~~~~~~~~~~~~
+       |      |                    |                       |
+       |      |                    |                       (4) ...to here
+       |      |                    (5) following 'false' branch...
+       |......
+       | 1203 |                 lbo =3D vbo + sbi->mft.lbo;
+       |      |                             ~~~~~~~~~~~~
+       |      |                                     |
+       |      |                                     (6) ...to here
+       |......
+       | 1234 |                         bh =3D ntfs_bread(sb, block);
+       |      |                              ~~~~~~~~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (7) calling 'ntfs_bread' from =
+'ntfs_read_run_nb'
+       |
+       +--> 'ntfs_bread': events 8-9
+              |
+              |fs/ntfs3/ntfs_fs.h:962:35:
+              |  962 | static inline struct buffer_head *ntfs_bread(struct =
+super_block *sb,
+              |      |                                   ^~~~~~~~~~
+              |      |                                   |
+              |      |                                   (8) entry to 'ntfs=
+_bread'
+              |......
+              |  967 |         if (bh)
+              |      |            ~                       =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1114  	pm_runtime_set_active(ov=
-9282->dev);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1115  	pm_runtime_enable(ov9282=
-->dev);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1116  	pm_runtime_idle(ov9282->=
-dev);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1117  =
+              |      |            |
+              |      |            (9) following 'true' branch...
+              |
+            'ntfs_bread': event 10
+              |
+              |cc1:
+              | (10): ...to here
+              |
+       <------+
+       |
+     'ntfs_read_run_nb': events 11-16
+       |
+       |fs/ntfs3/fsntfs.c:1234:30:
+       | 1234 |                         bh =3D ntfs_bread(sb, block);
+       |      |                              ^~~~~~~~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (11) returning to 'ntfs_read_r=
+un_nb' from 'ntfs_bread'
+       | 1235 |                         if (!bh) {
+       |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1118  	return 0;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1119  =
+       |      |                            |
+       |      |                            (12) following 'false' branch (w=
+hen 'bh' is non-NULL)...
+       |......
+       | 1240 |                         if (buf) {
+       |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1120  error_media_entity:
-14ea315bbeb75a Martina Krasteva 2021-05-27  1121  	media_entity_cleanup(&ov=
-9282->sd.entity);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1122  error_handler_free:
-14ea315bbeb75a Martina Krasteva 2021-05-27  1123  	v4l2_ctrl_handler_free(o=
-v9282->sd.ctrl_handler);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1124  error_power_off:
-14ea315bbeb75a Martina Krasteva 2021-05-27  1125  	ov9282_power_off(ov9282-=
->dev);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1126  error_mutex_destroy:
-14ea315bbeb75a Martina Krasteva 2021-05-27  1127  	mutex_destroy(&ov9282->m=
-utex);
-14ea315bbeb75a Martina Krasteva 2021-05-27  1128  =
+       |      |                            |
+       |      |                            (13) ...to here
+       |      |                            (14) following 'false' branch (w=
+hen 'buf' is NULL)...
+       |......
+       | 1245 |                         if (!nb) {
+       |      |                            ~  =
 
-14ea315bbeb75a Martina Krasteva 2021-05-27  1129  	return ret;
-14ea315bbeb75a Martina Krasteva 2021-05-27  1130  }
-14ea315bbeb75a Martina Krasteva 2021-05-27  1131  =
+       |      |                            |
+       |      |                            (15) ...to here
+       |      |                            (16) following 'true' branch (wh=
+en 'nb' is NULL)...
+       |
+     'ntfs_read_run_nb': event 17
+       |
+       |include/linux/compiler.h:86:20:
+       |   86 | # define barrier() __asm__ __volatile__("": : :"memory")
+       |      |                    ^~~~~~~
+       |      |                    |
+       |      |                    (17) ...to here
+   include/asm-generic/barrier.h:152:33: note: in expansion of macro 'barri=
+er'
+       |  152 | #define smp_mb__before_atomic() barrier()
+       |      |                                 ^~~~~~~
+   include/linux/buffer_head.h:284:9: note: in expansion of macro 'smp_mb__=
+before_atomic'
+       |  284 |         smp_mb__before_atomic();
+       |      |         ^~~~~~~~~~~~~~~~~~~~~
+       |
+     'ntfs_read_run_nb': events 18-22
+       |
+       |fs/ntfs3/fsntfs.c:1256:28:
+       | 1256 |                         if (!bytes)
+       |      |                            ^
+       |      |                            |
+       |      |                            (18) following 'false' branch (w=
+hen 'bytes !=3D 0')...
+       | 1257 |                                 return 0;
+       | 1258 |                         len32 -=3D op;
+       |      |                         ~~~~~~~~~~~
+       |      |                               |
+       |      |                               (19) ...to here
+       |......
+       | 1262 |                 } while (len32);
+       |      |                          ~~~~~
+       |      |                          |
+       |      |                          (20) following 'false' branch (whe=
+n 'len32 =3D=3D 0')...
+       | 1263 | =
 
+       | 1264 |                 vcn_next =3D vcn + clen;
+       |      |                            ~~~~~~~~~~
+       |      |                                |
+       |      |                                (21) ...to here
+       | 1265 |                 if (!run_get_entry(run, ++idx, &vcn, &lcn, =
+&clen) ||
+       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                      |
+       |      |                      (22) use of uninitialized value 'idx' =
+here
+       |
+>> fs/ntfs3/fsntfs.c:1265:22: warning: use of uninitialized value 'idx' [CW=
+E-457] [-Wanalyzer-use-of-uninitialized-value]
+    1265 |                 if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen=
+) ||
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ntfs_read_bh': events 1-2
+       |
+       | 1294 | int ntfs_read_bh(struct ntfs_sb_info *sbi, const struct run=
+s_tree *run, u64 vbo,
+       |      |     ^~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ntfs_read_bh'
+       |......
+       | 1298 |         int err =3D ntfs_read_run_nb(sbi, run, vbo, rhdr, b=
+ytes, nb);
+       |      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+       |      |                   |
+       |      |                   (2) calling 'ntfs_read_run_nb' from 'ntfs=
+_read_bh'
+       |
+       +--> 'ntfs_read_run_nb': events 3-9
+              |
+              | 1180 | int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const=
+ struct runs_tree *run,
+              |      |     ^~~~~~~~~~~~~~~~
+              |      |     |
+              |      |     (3) entry to 'ntfs_read_run_nb'
+              |......
+              | 1192 |         size_t idx;
+              |      |                ~~~
+              |      |                |
+              |      |                (4) region created on stack here
+              |......
+              | 1195 |         if (!run) {
+              |      |            ~
+              |      |            |
+              |      |            (5) following 'true' branch (when 'run' i=
+s NULL)...
+              | 1196 |                 /* first reading of $Volume + $MFTMi=
+rr + LogFile goes here*/
+              | 1197 |                 if (vbo > MFT_REC_VOL * sbi->record_=
+size) {
+              |      |                    ~                    ~~~~~~~~~~~~=
+~~~~
+              |      |                    |                       |
+              |      |                    |                       (6) ...to=
+ here
+              |      |                    (7) following 'false' branch...
+              |......
+              | 1203 |                 lbo =3D vbo + sbi->mft.lbo;
+              |      |                             ~~~~~~~~~~~~
+              |      |                                     |
+              |      |                                     (8) ...to here
+              |......
+              | 1234 |                         bh =3D ntfs_bread(sb, block);
+              |      |                              ~~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (9) calling 'ntfs_bread=
+' from 'ntfs_read_run_nb'
+              |
+              +--> 'ntfs_bread': events 10-11
+                     |
+                     |fs/ntfs3/ntfs_fs.h:962:35:
+                     |  962 | static inline struct buffer_head *ntfs_bread(=
+struct super_block *sb,
+                     |      |                                   ^~~~~~~~~~
+                     |      |                                   |
+                     |      |                                   (10) entry =
+to 'ntfs_bread'
+                     |......
+                     |  967 |         if (bh)
+                     |      |            ~                       =
+
+                     |      |            |
+                     |      |            (11) following 'true' branch...
+                     |
+                   'ntfs_bread': event 12
+                     |
+                     |cc1:
+                     | (12): ...to here
+                     |
+              <------+
+              |
+            'ntfs_read_run_nb': events 13-18
+              |
+              |fs/ntfs3/fsntfs.c:1234:30:
+              | 1234 |                         bh =3D ntfs_bread(sb, block);
+              |      |                              ^~~~~~~~~~~~~~~~~~~~~
+              |      |                              |
+              |      |                              (13) returning to 'ntfs=
+_read_run_nb' from 'ntfs_bread'
+              | 1235 |                         if (!bh) {
+              |      |                            ~  =
+
+              |      |                            |
+              |      |                            (14) following 'false' br=
+anch (when 'bh' is non-NULL)...
+              |......
+              | 1240 |                         if (buf) {
+              |      |                            ~  =
+
+              |      |                            |
+              |      |                            (15) ...to here
+              |      |                            (16) following 'false' br=
+anch (when 'buf' is NULL)...
+              |......
+              | 1245 |                         if (!nb) {
+              |      |                            ~  =
+
+              |      |                            |
+              |      |                            (17) ...to here
+              |      |                            (18) following 'true' bra=
+nch (when 'nb' is NULL)...
+              |
+            'ntfs_read_run_nb': event 19
+              |
+              |include/linux/compiler.h:86:20:
+              |   86 | # define barrier() __asm__ __volatile__("": : :"memo=
+ry")
+              |      |                    ^~~~~~~
+              |      |                    |
+              |      |                    (19) ...to here
+   include/asm-generic/barrier.h:152:33: note: in expansion of macro 'barri=
+er'
+              |  152 | #define smp_mb__before_atomic() barrier()
+--
+       |   11 | #define Add2Ptr(P, I)           ((void *)((u8 *)(P) + (I)))
+       |      |                                 ~^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                  |
+       |      |                                  (28) ...to here
+   fs/ntfs3/ntfs.h:665:16: note: in expansion of macro 'Add2Ptr'
+       |  665 |         return Add2Ptr(e, le16_to_cpu(e->size));
+       |      |                ^~~~~~~
+       |
+     'indx_delete_entry': event 29
+       |
+       |fs/ntfs3/index.c:2289:23:
+       | 2289 |                 err =3D indx_get_entry_to_replace(indx, ni,=
+ next, &re, fnd2);
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (29) calling 'indx_get_entry_to_repla=
+ce' from 'indx_delete_entry'
+       |
+       +--> 'indx_get_entry_to_replace': event 30
+              |
+              | 2104 | static int indx_get_entry_to_replace(struct ntfs_ind=
+ex *indx,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (30) entry to 'indx_get_entry_to_replace'
+              |
+            'indx_get_entry_to_replace': events 31-32
+              |
+              | 2117 |         *de_to_replace =3D NULL;
+              |......
+              | 2123 |                 err =3D indx_read(indx, ni, vbn, &n);
+              |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                       |
+              |      |                       (32) calling 'indx_read' from =
+'indx_get_entry_to_replace'
+              |
+              +--> 'indx_read': events 33-34
+                     |
+                     | 1016 | int indx_read(struct ntfs_index *indx, struct=
+ ntfs_inode *ni, CLST vbn,
+                     |      |     ^~~~~~~~~
+                     |      |     |
+                     |      |     (33) entry to 'indx_read'
+                     |......
+                     | 1028 |         if (!in) {
+                     |      |            ~
+                     |      |            |
+                     |      |            (34) following 'true' branch (when=
+ 'in' is NULL)...
+                     |
+                   'indx_read': event 35
+                     |
+                     |fs/ntfs3/debug.h:59:33:
+                     |   59 | #define ntfs_zalloc(s)          kzalloc(s, GF=
+P_NOFS)
+                     |      |                                 ^~~~~~~~~~~~~=
+~~~~~~~
+                     |      |                                 |
+                     |      |                                 (35) ...to he=
+re
+   fs/ntfs3/index.c:1029:22: note: in expansion of macro 'ntfs_zalloc'
+                     | 1029 |                 in =3D ntfs_zalloc(sizeof(str=
+uct indx_node));
+                     |      |                      ^~~~~~~~~~~
+                     |
+                   'indx_read': events 36-37
+                     |
+                     | 1030 |                 if (!in)
+                     |      |                    ^
+                     |      |                    |
+                     |      |                    (36) following 'false' bra=
+nch (when 'in' is non-NULL)...
+                     |......
+                     | 1036 |         ib =3D in->index;
+                     |      |         ~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (37) ...to here
+                     |
+              <------+
+              |
+            'indx_get_entry_to_replace': events 38-41
+              |
+              |  627 |         if (i < 0 || i >=3D ARRAY_SIZE(fnd->nodes))
+              |      |            ~           =
+
+              |      |            |
+              |      |            (41) following 'true' branch...
+              |......
+              | 2123 |                 err =3D indx_read(indx, ni, vbn, &n);
+              |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                       |
+              |      |                       (38) returning to 'indx_get_en=
+try_to_replace' from 'indx_read'
+              | 2124 |                 if (err)
+              |      |                    ~   =
+
+              |      |                    |
+              |      |                    (39) following 'false' branch (wh=
+en 'err =3D=3D 0')...
+              |......
+              | 2127 |                 e =3D hdr_first_de(&n->index->ihdr);
+              |      |                                    ~~
+              |      |                                    |
+              |      |                                    (40) ...to here
+              |
+            'indx_get_entry_to_replace': events 42-43
+              |
+              |fs/ntfs3/ntfs.h:677:17:
+              |  677 |         return e->flags & NTFS_IE_LAST;
+              |      |                ~^~~~~~~
+              |      |                 |
+              |      |                 (42) ...to here
+              |      |                 (43) dereference of NULL 'e'
+              |
+   fs/ntfs3/index.c: In function 'indx_read':
+>> fs/ntfs3/index.c:1025:27: warning: use of uninitialized value '*node' [C=
+WE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1025 |         struct indx_node *in =3D *node;
+         |                           ^~
+     'indx_delete_entry': events 1-2
+       |
+       | 2199 | int indx_delete_entry(struct ntfs_index *indx, struct ntfs_=
+inode *ni,
+       |      |     ^~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'indx_delete_entry'
+       |......
+       | 2218 |         if (!fnd) {
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |
+     'indx_delete_entry': event 3
+       |
+       |fs/ntfs3/debug.h:59:33:
+       |   59 | #define ntfs_zalloc(s)          kzalloc(s, GFP_NOFS)
+       |      |                                 ^~~~~~~~~~~~~~~~~~~~
+       |      |                                 |
+       |      |                                 (3) ...to here
+   fs/ntfs3/ntfs_fs.h:603:16: note: in expansion of macro 'ntfs_zalloc'
+       |  603 |         return ntfs_zalloc(sizeof(struct ntfs_fnd));
+       |      |                ^~~~~~~~~~~
+       |
+     'indx_delete_entry': events 4-6
+       |
+       |fs/ntfs3/index.c:2224:12:
+       | 2224 |         if (!fnd2) {
+       |      |            ^
+       |      |            |
+       |      |            (4) following 'false' branch...
+       |......
+       | 2229 |         root =3D indx_get_root(indx, ni, &attr, &mi);
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (5) ...to here
+       |      |                (6) calling 'indx_get_root' from 'indx_delet=
+e_entry'
+       |
+       +--> 'indx_get_root': events 7-11
+              |
+              |  985 | struct INDEX_ROOT *indx_get_root(struct ntfs_index *=
+indx, struct ntfs_inode *ni,
+              |      |                    ^~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (7) entry to 'indx_get_root'
+              |......
+              |  994 |         if (!a)
+              |      |            ~        =
+
+              |      |            |
+              |      |            (8) following 'false' branch (when 'a' is=
+ non-NULL)...
+              |......
+              |  997 |         if (attr)
+              |      |            ~        =
+
+              |      |            |
+              |      |            (9) ...to here
+              |      |            (10) following 'true' branch (when 'attr'=
+ is non-NULL)...
+              |  998 |                 *attr =3D a;
+              |      |                 ~~~~~~~~~
+              |      |                       |
+              |      |                       (11) ...to here
+              |
+            'indx_get_root': event 12
+              |
+              |fs/ntfs3/ntfs.h:450:12:
+              |  450 |         if (attr->non_res)
+              |      |            ^
+              |      |            |
+              |      |            (12) following 'false' branch...
+              |
+            'indx_get_root': events 13-14
+              |
+              |  453 |         asize =3D le32_to_cpu(attr->size);
+              |......
+              |  456 |         if (asize < datasize + off)
+              |      |            ~   =
+
+              |      |            |
+              |      |            (14) following 'false' branch...
+              |
+            'indx_get_root': events 15-16
+              |
+              |  459 |         rsize =3D le32_to_cpu(attr->res.data_size);
+              |  460 |         if (rsize < datasize)
+              |      |            ~   =
+
+              |      |            |
+              |      |            (16) following 'false' branch (when 'rsiz=
+e > 31')...
+              |
+            'indx_get_root': event 17
+              |
+              |fs/ntfs3/debug.h:11:34:
+              |   11 | #define Add2Ptr(P, I)           ((void *)((u8 *)(P) =
++ (I)))
+              |      |                                 ~^~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+              |      |                                  |
+              |      |                                  (17) ...to here
+   fs/ntfs3/ntfs.h:463:16: note: in expansion of macro 'Add2Ptr'
+              |  463 |         return Add2Ptr(attr, off);
+              |      |                ^~~~~~~
+              |
+       <------+
+       |
+     'indx_delete_entry': events 18-27
+
+vim +/clen +1264 fs/ntfs3/fsntfs.c
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1179  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1180  int ntfs_read_run_nb(st=
+ruct ntfs_sb_info *sbi, const struct runs_tree *run,
+82cae269cfa953 Konstantin Komarov 2021-08-13  1181  		     u64 vbo, void *b=
+uf, u32 bytes, struct ntfs_buffers *nb)
+82cae269cfa953 Konstantin Komarov 2021-08-13  1182  {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1183  	int err;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1184  	struct super_block *sb=
+ =3D sbi->sb;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1185  	u32 blocksize =3D sb->=
+s_blocksize;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1186  	u8 cluster_bits =3D sb=
+i->cluster_bits;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1187  	u32 off =3D vbo & sbi-=
+>cluster_mask;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1188  	u32 nbh =3D 0;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1189  	CLST vcn_next, vcn =3D=
+ vbo >> cluster_bits;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1190  	CLST lcn, clen;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1191  	u64 lbo, len;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1192  	size_t idx;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1193  	struct buffer_head *bh;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1194  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1195  	if (!run) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1196  		/* first reading of $=
+Volume + $MFTMirr + LogFile goes here*/
+82cae269cfa953 Konstantin Komarov 2021-08-13  1197  		if (vbo > MFT_REC_VOL=
+ * sbi->record_size) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1198  			err =3D -ENOENT;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1199  			goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1200  		}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1201  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1202  		/* use absolute boot'=
+s 'MFTCluster' to read record */
+82cae269cfa953 Konstantin Komarov 2021-08-13  1203  		lbo =3D vbo + sbi->mf=
+t.lbo;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1204  		len =3D sbi->record_s=
+ize;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1205  	} else if (!run_lookup=
+_entry(run, vcn, &lcn, &clen, &idx)) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1206  		err =3D -ENOENT;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1207  		goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1208  	} else {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1209  		if (lcn =3D=3D SPARSE=
+_LCN) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1210  			err =3D -EINVAL;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1211  			goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1212  		}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1213  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1214  		lbo =3D ((u64)lcn << =
+cluster_bits) + off;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1215  		len =3D ((u64)clen <<=
+ cluster_bits) - off;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1216  	}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1217  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1218  	off =3D lbo & (blocksi=
+ze - 1);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1219  	if (nb) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1220  		nb->off =3D off;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1221  		nb->bytes =3D bytes;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1222  	}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1223  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1224  	for (;;) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1225  		u32 len32 =3D len >=
+=3D bytes ? bytes : len;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1226  		sector_t block =3D lb=
+o >> sb->s_blocksize_bits;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1227  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1228  		do {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1229  			u32 op =3D blocksize=
+ - off;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1230  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1231  			if (op > len32)
+82cae269cfa953 Konstantin Komarov 2021-08-13  1232  				op =3D len32;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1233  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1234  			bh =3D ntfs_bread(sb=
+, block);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1235  			if (!bh) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1236  				err =3D -EIO;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1237  				goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1238  			}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1239  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1240  			if (buf) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1241  				memcpy(buf, bh->b_d=
+ata + off, op);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1242  				buf =3D Add2Ptr(buf=
+, op);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1243  			}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1244  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1245  			if (!nb) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1246  				put_bh(bh);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1247  			} else if (nbh >=3D =
+ARRAY_SIZE(nb->bh)) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1248  				err =3D -EINVAL;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1249  				goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1250  			} else {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1251  				nb->bh[nbh++] =3D b=
+h;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1252  				nb->nbufs =3D nbh;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1253  			}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1254  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1255  			bytes -=3D op;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1256  			if (!bytes)
+82cae269cfa953 Konstantin Komarov 2021-08-13  1257  				return 0;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1258  			len32 -=3D op;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1259  			block +=3D 1;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1260  			off =3D 0;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1261  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1262  		} while (len32);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1263  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13 @1264  		vcn_next =3D vcn + cl=
+en;
+82cae269cfa953 Konstantin Komarov 2021-08-13 @1265  		if (!run_get_entry(ru=
+n, ++idx, &vcn, &lcn, &clen) ||
+82cae269cfa953 Konstantin Komarov 2021-08-13  1266  		    vcn !=3D vcn_next=
+) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1267  			err =3D -ENOENT;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1268  			goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1269  		}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1270  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1271  		if (lcn =3D=3D SPARSE=
+_LCN) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1272  			err =3D -EINVAL;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1273  			goto out;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1274  		}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1275  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1276  		lbo =3D ((u64)lcn << =
+cluster_bits);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1277  		len =3D ((u64)clen <<=
+ cluster_bits);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1278  	}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1279  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1280  out:
+82cae269cfa953 Konstantin Komarov 2021-08-13  1281  	if (!nbh)
+82cae269cfa953 Konstantin Komarov 2021-08-13  1282  		return err;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1283  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1284  	while (nbh) {
+82cae269cfa953 Konstantin Komarov 2021-08-13  1285  		put_bh(nb->bh[--nbh]);
+82cae269cfa953 Konstantin Komarov 2021-08-13  1286  		nb->bh[nbh] =3D NULL;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1287  	}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1288  =
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  1289  	nb->nbufs =3D 0;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1290  	return err;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1291  }
+82cae269cfa953 Konstantin Komarov 2021-08-13  1292  =
+
+
+:::::: The code at line 1264 was first introduced by commit
+:::::: 82cae269cfa953032fbb8980a7d554d60fb00b17 fs/ntfs3: Add initializatio=
+n of super block
+
+:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1788717996593199974==--
+--===============0728071290013291964==--
 
