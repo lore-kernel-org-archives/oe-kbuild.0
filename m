@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5383933908849164956=="
+Content-Type: multipart/mixed; boundary="===============0663207235121625902=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rmk-arm:zii 56/87] drivers/net/phy/sfp.c:1991 sfp_print_module_info() warn: format string contains non-ascii character '\xc2'
-Date: Fri, 05 Aug 2022 12:06:26 +0800
-Message-ID: <202208051258.tAYMP2qp-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/adreno/a3xx_gpu.c:603 a3xx_gpu_init() warn: passing zero to 'ERR_PTR'
+Date: Fri, 05 Aug 2022 12:05:37 +0800
+Message-ID: <202208051207.t2gyKiE4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5383933908849164956==
+--===============0663207235121625902==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,263 +15,188 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Russell King <rmk+kernel@arm.linux.org.uk>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: Dave Airlie <airlied@redhat.com>
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm zii
-head:   315d00812d1f8ed8bbbce4e4fd8d32fc883900a0
-commit: 4c6b663272249085c137885b311de64777d98ba2 [56/87] net: sfp: display =
-SFP module information       [*not for mainline*]
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: csky-randconfig-m031-20220803 (https://download.01.org/0day-ci/arch=
-ive/20220805/202208051258.tAYMP2qp-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Dave,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   31be1d0fbd950395701d9fd47d8fb1f99c996f61
+commit: 970eae15600a883e4ad27dd0757b18871cc983ab BackMerge tag 'v5.15-rc7' =
+into drm-next
+date:   9 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 9 months ago
+config: openrisc-randconfig-m041-20220804 (https://download.01.org/0day-ci/=
+archive/20220805/202208051207.t2gyKiE4-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/phy/sfp.c:1991 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xc2'
-drivers/net/phy/sfp.c:1991 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xb5'
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a3xx_gpu.c:603 a3xx_gpu_init() warn: passing zer=
+o to 'ERR_PTR'
+drivers/gpu/drm/msm/adreno/a4xx_gpu.c:730 a4xx_gpu_init() warn: passing zer=
+o to 'ERR_PTR'
 
-Old smatch warnings:
-drivers/net/phy/sfp.c:477 sfp_soft_get_state() warn: passing zero to 'ERR_P=
-TR'
-drivers/net/phy/sfp.c:1825 sfp_sm_mod_hpower() warn: passing zero to 'ERR_P=
-TR'
-drivers/net/phy/sfp.c:1843 sfp_sm_mod_hpower() warn: passing zero to 'ERR_P=
-TR'
-drivers/net/phy/sfp.c:1909 sfp_cotsworks_fixup_check() warn: passing zero t=
-o 'ERR_PTR'
-drivers/net/phy/sfp.c:1992 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xc2'
-drivers/net/phy/sfp.c:1992 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xb5'
-drivers/net/phy/sfp.c:1995 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xc2'
-drivers/net/phy/sfp.c:1995 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xb5'
-drivers/net/phy/sfp.c:1998 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xc2'
-drivers/net/phy/sfp.c:1998 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xb5'
-drivers/net/phy/sfp.c:2001 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xc2'
-drivers/net/phy/sfp.c:2001 sfp_print_module_info() warn: format string cont=
-ains non-ascii character '\xb5'
-drivers/net/phy/sfp.c:2046 sfp_sm_mod_probe() warn: passing zero to 'ERR_PT=
-R'
-drivers/net/phy/sfp.c:2073 sfp_sm_mod_probe() warn: passing zero to 'ERR_PT=
-R'
-drivers/net/phy/sfp.c:2122 sfp_sm_mod_probe() warn: passing zero to 'ERR_PT=
-R'
-drivers/net/phy/sfp.c:2727 sfp_probe() warn: passing a valid pointer to 'PT=
-R_ERR'
+vim +/ERR_PTR +603 drivers/gpu/drm/msm/adreno/a3xx_gpu.c
 
-vim +1991 drivers/net/phy/sfp.c
+70c70f091b1ffd1 Rob Clark      2014-05-30  514  =
 
-b18432c5a49c941 Chris Healy  2020-07-14  1917  =
+7198e6b03155f6d Rob Clark      2013-07-19  515  struct msm_gpu *a3xx_gpu_in=
+it(struct drm_device *dev)
+7198e6b03155f6d Rob Clark      2013-07-19  516  {
+7198e6b03155f6d Rob Clark      2013-07-19  517  	struct a3xx_gpu *a3xx_gpu =
+=3D NULL;
+55459968176f131 Rob Clark      2013-12-05  518  	struct adreno_gpu *adreno_=
+gpu;
+7198e6b03155f6d Rob Clark      2013-07-19  519  	struct msm_gpu *gpu;
+060530f1ea6740e Rob Clark      2014-03-03  520  	struct msm_drm_private *pr=
+iv =3D dev->dev_private;
+060530f1ea6740e Rob Clark      2014-03-03  521  	struct platform_device *pd=
+ev =3D priv->gpu_pdev;
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  522  	struct icc_path *ocmem_icc=
+_path;
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  523  	struct icc_path *icc_path;
+7198e6b03155f6d Rob Clark      2013-07-19  524  	int ret;
+7198e6b03155f6d Rob Clark      2013-07-19  525  =
 
-4c6b66327224908 Russell King 2015-09-13  1918  static void sfp_print_module=
-_info(struct sfp *sfp, const struct sfp_eeprom_id *id, bool cotsworks)
-4c6b66327224908 Russell King 2015-09-13  1919  {
-4c6b66327224908 Russell King 2015-09-13  1920  	unsigned int br_nom, br_min=
-, br_max;
-4c6b66327224908 Russell King 2015-09-13  1921  	char date[9];
-4c6b66327224908 Russell King 2015-09-13  1922  	char options[80];
-4c6b66327224908 Russell King 2015-09-13  1923  =
+7198e6b03155f6d Rob Clark      2013-07-19  526  	if (!pdev) {
+6a41da17e87dee2 Mamta Shukla   2018-10-20  527  		DRM_DEV_ERROR(dev->dev, "=
+no a3xx device\n");
+7198e6b03155f6d Rob Clark      2013-07-19  528  		ret =3D -ENXIO;
+7198e6b03155f6d Rob Clark      2013-07-19  529  		goto fail;
+7198e6b03155f6d Rob Clark      2013-07-19  530  	}
+7198e6b03155f6d Rob Clark      2013-07-19  531  =
 
-4c6b66327224908 Russell King 2015-09-13  1924  	/* Cotsworks also gets the =
-date code wrong. */
-4c6b66327224908 Russell King 2015-09-13  1925  	date[0] =3D id->ext.datecod=
-e[4 - 2 * cotsworks];
-4c6b66327224908 Russell King 2015-09-13  1926  	date[1] =3D id->ext.datecod=
-e[5 - 2 * cotsworks];
-4c6b66327224908 Russell King 2015-09-13  1927  	date[2] =3D '-';
-4c6b66327224908 Russell King 2015-09-13  1928  	date[3] =3D id->ext.datecod=
-e[2 + 2 * cotsworks];
-4c6b66327224908 Russell King 2015-09-13  1929  	date[4] =3D id->ext.datecod=
-e[3 + 2 * cotsworks];
-4c6b66327224908 Russell King 2015-09-13  1930  	date[5] =3D '-';
-4c6b66327224908 Russell King 2015-09-13  1931  	date[6] =3D id->ext.datecod=
-e[0];
-4c6b66327224908 Russell King 2015-09-13  1932  	date[7] =3D id->ext.datecod=
-e[1];
-4c6b66327224908 Russell King 2015-09-13  1933  	date[8] =3D '\0';
-4c6b66327224908 Russell King 2015-09-13  1934  =
+7198e6b03155f6d Rob Clark      2013-07-19  532  	a3xx_gpu =3D kzalloc(sizeo=
+f(*a3xx_gpu), GFP_KERNEL);
+7198e6b03155f6d Rob Clark      2013-07-19  533  	if (!a3xx_gpu) {
+7198e6b03155f6d Rob Clark      2013-07-19  534  		ret =3D -ENOMEM;
+7198e6b03155f6d Rob Clark      2013-07-19  535  		goto fail;
+7198e6b03155f6d Rob Clark      2013-07-19  536  	}
+7198e6b03155f6d Rob Clark      2013-07-19  537  =
 
-4c6b66327224908 Russell King 2015-09-13  1935  	if (id->base.br_nominal =3D=
-=3D 0) {
-4c6b66327224908 Russell King 2015-09-13  1936  		br_min =3D br_nom =3D br_m=
-ax =3D 0;
-4c6b66327224908 Russell King 2015-09-13  1937  	} else if (id->base.br_nomi=
-nal =3D=3D 255) {
-4c6b66327224908 Russell King 2015-09-13  1938  		br_nom =3D 250 * id->ext.b=
-r_max;
-4c6b66327224908 Russell King 2015-09-13  1939  		br_max =3D br_nom + br_nom=
- * id->ext.br_min / 100;
-4c6b66327224908 Russell King 2015-09-13  1940  		br_min =3D br_nom - br_nom=
- * id->ext.br_min / 100;
-4c6b66327224908 Russell King 2015-09-13  1941  	} else {
-4c6b66327224908 Russell King 2015-09-13  1942  		br_nom =3D id->base.br_nom=
-inal * 100;
-4c6b66327224908 Russell King 2015-09-13  1943  		br_min =3D br_nom - id->ba=
-se.br_nominal * id->ext.br_min;
-4c6b66327224908 Russell King 2015-09-13  1944  		br_max =3D br_nom + id->ba=
-se.br_nominal * id->ext.br_max;
-4c6b66327224908 Russell King 2015-09-13  1945  	}
-4c6b66327224908 Russell King 2015-09-13  1946  =
+55459968176f131 Rob Clark      2013-12-05  538  	adreno_gpu =3D &a3xx_gpu->=
+base;
+55459968176f131 Rob Clark      2013-12-05  539  	gpu =3D &adreno_gpu->base;
+7198e6b03155f6d Rob Clark      2013-07-19  540  =
 
-4c6b66327224908 Russell King 2015-09-13  1947  	dev_info(sfp->dev, "module =
-%.*s %.*s rev %.*s sn %.*s dc %s\n",
-4c6b66327224908 Russell King 2015-09-13  1948  		 (int)sizeof(id->base.vend=
-or_name), id->base.vendor_name,
-4c6b66327224908 Russell King 2015-09-13  1949  		 (int)sizeof(id->base.vend=
-or_pn), id->base.vendor_pn,
-4c6b66327224908 Russell King 2015-09-13  1950  		 (int)sizeof(id->base.vend=
-or_rev), id->base.vendor_rev,
-4c6b66327224908 Russell King 2015-09-13  1951  		 (int)sizeof(id->ext.vendo=
-r_sn), id->ext.vendor_sn, date);
-4c6b66327224908 Russell King 2015-09-13  1952  	dev_info(sfp->dev, "  %s co=
-nnector, encoding %s, bitrate %u.%03u (%u.%03u-%u.%03u) Gbps\n",
-4c6b66327224908 Russell King 2015-09-13  1953  		 sff_connector(id->base.co=
-nnector),
-4c6b66327224908 Russell King 2015-09-13  1954  		 sff_encoding(id->base.enc=
-oding),
-4c6b66327224908 Russell King 2015-09-13  1955  		 br_nom / 1000, br_nom % 1=
-000,
-4c6b66327224908 Russell King 2015-09-13  1956  		 br_min / 1000, br_min % 1=
-000, br_max / 1000, br_max % 1000);
-4c6b66327224908 Russell King 2015-09-13  1957  	dev_info(sfp->dev, "  1000B=
-aseSX%c 1000BaseLX%c 1000BaseCX%c 1000BaseT%c 100BaseLX%c 100BaseFX%c BaseB=
-X10%c BasePX%c\n",
-4c6b66327224908 Russell King 2015-09-13  1958  		 id->base.e1000_base_sx ? =
-'+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1959  		 id->base.e1000_base_lx ? =
-'+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1960  		 id->base.e1000_base_cx ? =
-'+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1961  		 id->base.e1000_base_t ? '=
-+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1962  		 id->base.e100_base_lx ? '=
-+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1963  		 id->base.e100_base_fx ? '=
-+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1964  		 id->base.e_base_bx10 ? '+=
-' : '-',
-4c6b66327224908 Russell King 2015-09-13  1965  		 id->base.e_base_px ? '+' =
-: '-');
-4c6b66327224908 Russell King 2015-09-13  1966  	dev_info(sfp->dev, "  10GBa=
-seSR%c 10GBaseLR%c 10GBaseLRM%c 10GBaseER%c\n",
-4c6b66327224908 Russell King 2015-09-13  1967  		 id->base.e10g_base_sr ? '=
-+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1968  		 id->base.e10g_base_lr ? '=
-+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1969  		 id->base.e10g_base_lrm ? =
-'+' : '-',
-4c6b66327224908 Russell King 2015-09-13  1970  		 id->base.e10g_base_er ? '=
-+' : '-');
-4c6b66327224908 Russell King 2015-09-13  1971  =
+70c70f091b1ffd1 Rob Clark      2014-05-30  541  	gpu->perfcntrs =3D perfcnt=
+rs;
+70c70f091b1ffd1 Rob Clark      2014-05-30  542  	gpu->num_perfcntrs =3D ARR=
+AY_SIZE(perfcntrs);
+70c70f091b1ffd1 Rob Clark      2014-05-30  543  =
 
-4c6b66327224908 Russell King 2015-09-13  1972  	if (!id->base.sfp_ct_passiv=
-e && !id->base.sfp_ct_active &&
-4c6b66327224908 Russell King 2015-09-13  1973  	    !id->base.e1000_base_t)=
+3bcefb0497f9fca Rob Clark      2014-09-05  544  	adreno_gpu->registers =3D =
+a3xx_registers;
+3bcefb0497f9fca Rob Clark      2014-09-05  545  =
+
+f97decac5f4c2d8 Jordan Crouse  2017-10-20  546  	ret =3D adreno_gpu_init(de=
+v, pdev, adreno_gpu, &funcs, 1);
+7198e6b03155f6d Rob Clark      2013-07-19  547  	if (ret)
+7198e6b03155f6d Rob Clark      2013-07-19  548  		goto fail;
+7198e6b03155f6d Rob Clark      2013-07-19  549  =
+
+55459968176f131 Rob Clark      2013-12-05  550  	/* if needed, allocate gme=
+m: */
+55459968176f131 Rob Clark      2013-12-05  551  	if (adreno_is_a330(adreno_=
+gpu)) {
+26c0b26dcd005d9 Brian Masney   2019-08-23  552  		ret =3D adreno_gpu_ocmem_=
+init(&adreno_gpu->base.pdev->dev,
+26c0b26dcd005d9 Brian Masney   2019-08-23  553  					    adreno_gpu, &a3xx_=
+gpu->ocmem);
+26c0b26dcd005d9 Brian Masney   2019-08-23  554  		if (ret)
+26c0b26dcd005d9 Brian Masney   2019-08-23  555  			goto fail;
+55459968176f131 Rob Clark      2013-12-05  556  	}
+55459968176f131 Rob Clark      2013-12-05  557  =
+
+667ce33e57d0de4 Rob Clark      2016-09-28  558  	if (!gpu->aspace) {
+871d812aa43e635 Rob Clark      2013-11-16  559  		/* TODO we think it is po=
+ssible to configure the GPU to
+871d812aa43e635 Rob Clark      2013-11-16  560  		 * restrict access to VRA=
+M carveout.  But the required
+871d812aa43e635 Rob Clark      2013-11-16  561  		 * registers are unknown.=
+  For now just bail out and
+871d812aa43e635 Rob Clark      2013-11-16  562  		 * limp along with just m=
+odesetting.  If it turns out
+871d812aa43e635 Rob Clark      2013-11-16  563  		 * to not be possible to =
+restrict access, then we must
+871d812aa43e635 Rob Clark      2013-11-16  564  		 * implement a cmdstream =
+validator.
+871d812aa43e635 Rob Clark      2013-11-16  565  		 */
+6a41da17e87dee2 Mamta Shukla   2018-10-20  566  		DRM_DEV_ERROR(dev->dev, "=
+No memory protection without IOMMU\n");
+3f7759e7b7585a0 Iskren Chernev 2020-12-30  567  		if (!allow_vram_carveout)=
  {
-4c6b66327224908 Russell King 2015-09-13  1974  		char len_9um[16], len_om[1=
-6];
-4c6b66327224908 Russell King 2015-09-13  1975  =
+871d812aa43e635 Rob Clark      2013-11-16  568  			ret =3D -ENXIO;
+871d812aa43e635 Rob Clark      2013-11-16  569  			goto fail;
+871d812aa43e635 Rob Clark      2013-11-16  570  		}
+3f7759e7b7585a0 Iskren Chernev 2020-12-30  571  	}
+871d812aa43e635 Rob Clark      2013-11-16  572  =
 
-4c6b66327224908 Russell King 2015-09-13  1976  		dev_info(sfp->dev, "  Wave=
-length %unm, fiber lengths:\n",
-4c6b66327224908 Russell King 2015-09-13  1977  			 be16_to_cpup(&id->base.o=
-ptical_wavelength));
-4c6b66327224908 Russell King 2015-09-13  1978  =
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  573  	icc_path =3D devm_of_icc_g=
+et(&pdev->dev, "gfx-mem");
+3eda901995371d3 Dan Carpenter  2021-10-01  574  	if (IS_ERR(icc_path)) {
+3eda901995371d3 Dan Carpenter  2021-10-01  575  		ret =3D PTR_ERR(icc_path);
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  576  		goto fail;
+3eda901995371d3 Dan Carpenter  2021-10-01  577  	}
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  578  =
 
-4c6b66327224908 Russell King 2015-09-13  1979  		if (id->base.link_len[0] =
-=3D=3D 255)
-4c6b66327224908 Russell King 2015-09-13  1980  			strcpy(len_9um, ">254km");
-4c6b66327224908 Russell King 2015-09-13  1981  		else if (id->base.link_len=
-[1] && id->base.link_len[1] !=3D 255)
-4c6b66327224908 Russell King 2015-09-13  1982  			sprintf(len_9um, "%um",
-4c6b66327224908 Russell King 2015-09-13  1983  				id->base.link_len[1] * 1=
-00);
-4c6b66327224908 Russell King 2015-09-13  1984  		else if (id->base.link_len=
-[0])
-4c6b66327224908 Russell King 2015-09-13  1985  			sprintf(len_9um, "%ukm", =
-id->base.link_len[0]);
-4c6b66327224908 Russell King 2015-09-13  1986  		else if (id->base.link_len=
-[1] =3D=3D 255)
-4c6b66327224908 Russell King 2015-09-13  1987  			strcpy(len_9um, ">25.4km"=
-);
-4c6b66327224908 Russell King 2015-09-13  1988  		else
-4c6b66327224908 Russell King 2015-09-13  1989  			strcpy(len_9um, "unsuppor=
-ted");
-4c6b66327224908 Russell King 2015-09-13  1990  =
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  579  	ocmem_icc_path =3D devm_of=
+_icc_get(&pdev->dev, "ocmem");
+3eda901995371d3 Dan Carpenter  2021-10-01  580  	if (IS_ERR(ocmem_icc_path)=
+) {
+3eda901995371d3 Dan Carpenter  2021-10-01  581  		ret =3D PTR_ERR(ocmem_icc=
+_path);
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  582  		/* allow -ENODATA, ocmem =
+icc is optional */
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  583  		if (ret !=3D -ENODATA)
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  584  			goto fail;
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  585  		ocmem_icc_path =3D NULL;
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  586  	}
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  587  =
 
-4c6b66327224908 Russell King 2015-09-13 @1991  		dev_info(sfp->dev, "    9=
-=C2=B5m SM    : %s\n", len_9um);
-4c6b66327224908 Russell King 2015-09-13  1992  		dev_info(sfp->dev, " 62.5=
-=C2=B5m MM OM1: %s\n",
-4c6b66327224908 Russell King 2015-09-13  1993  			 sff_link_len(len_om, siz=
-eof(len_om),
-4c6b66327224908 Russell King 2015-09-13  1994  				      id->base.link_len[=
-3], 10));
-4c6b66327224908 Russell King 2015-09-13  1995  		dev_info(sfp->dev, "   50=
-=C2=B5m MM OM2: %s\n",
-4c6b66327224908 Russell King 2015-09-13  1996  			 sff_link_len(len_om, siz=
-eof(len_om),
-4c6b66327224908 Russell King 2015-09-13  1997  				      id->base.link_len[=
-2], 10));
-4c6b66327224908 Russell King 2015-09-13  1998  		dev_info(sfp->dev, "   50=
-=C2=B5m MM OM3: %s\n",
-4c6b66327224908 Russell King 2015-09-13  1999  			 sff_link_len(len_om, siz=
-eof(len_om),
-4c6b66327224908 Russell King 2015-09-13  2000  				      id->base.link_len[=
-5], 10));
-4c6b66327224908 Russell King 2015-09-13  2001  		dev_info(sfp->dev, "   50=
-=C2=B5m MM OM4: %s\n",
-4c6b66327224908 Russell King 2015-09-13  2002  			 sff_link_len(len_om, siz=
-eof(len_om),
-4c6b66327224908 Russell King 2015-09-13  2003  				      id->base.link_len[=
-4], 10));
-4c6b66327224908 Russell King 2015-09-13  2004  	} else {
-4c6b66327224908 Russell King 2015-09-13  2005  		char len[16];
-4c6b66327224908 Russell King 2015-09-13  2006  		dev_info(sfp->dev, "  Copp=
-er length: %s\n",
-4c6b66327224908 Russell King 2015-09-13  2007  			 sff_link_len(len, sizeof=
-(len),
-4c6b66327224908 Russell King 2015-09-13  2008  				      id->base.link_len[=
-4], 1));
-4c6b66327224908 Russell King 2015-09-13  2009  	}
-4c6b66327224908 Russell King 2015-09-13  2010  =
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  588  =
 
-4c6b66327224908 Russell King 2015-09-13  2011  	dev_info(sfp->dev, "  Optio=
-ns: %s\n",
-4c6b66327224908 Russell King 2015-09-13  2012  		 sff_bitfield(options, siz=
-eof(options), sfp_options,
-4c6b66327224908 Russell King 2015-09-13  2013  			      be16_to_cpu(id->ext=
-.options)));
-4c6b66327224908 Russell King 2015-09-13  2014  	dev_info(sfp->dev, "  Diagn=
-ostics: %s\n",
-4c6b66327224908 Russell King 2015-09-13  2015  		 sff_bitfield(options, siz=
-eof(options), diagmon,
-4c6b66327224908 Russell King 2015-09-13  2016  			      id->ext.diagmon));
-4c6b66327224908 Russell King 2015-09-13  2017  	dev_info(sfp->dev, "  EnhOp=
-ts: %s\n",
-4c6b66327224908 Russell King 2015-09-13  2018  		 sff_bitfield(options, siz=
-eof(options), sfp_enhopts,
-4c6b66327224908 Russell King 2015-09-13  2019  			      id->ext.enhopts));
-4c6b66327224908 Russell King 2015-09-13  2020  }
-4c6b66327224908 Russell King 2015-09-13  2021  =
+d163ba0b65f2e46 Brian Masney   2019-11-21  589  	/*
+d163ba0b65f2e46 Brian Masney   2019-11-21  590  	 * Set the ICC path to max=
+imum speed for now by multiplying the fastest
+d163ba0b65f2e46 Brian Masney   2019-11-21  591  	 * frequency by the bus wi=
+dth (8). We'll want to scale this later on to
+d163ba0b65f2e46 Brian Masney   2019-11-21  592  	 * improve battery life.
+d163ba0b65f2e46 Brian Masney   2019-11-21  593  	 */
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  594  	icc_set_bw(icc_path, 0, Bp=
+s_to_icc(gpu->fast_rate) * 8);
+5785dd7a8ef0de8 Akhil P Oommen 2020-10-28  595  	icc_set_bw(ocmem_icc_path,=
+ 0, Bps_to_icc(gpu->fast_rate) * 8);
+d163ba0b65f2e46 Brian Masney   2019-11-21  596  =
 
+871d812aa43e635 Rob Clark      2013-11-16  597  	return gpu;
+7198e6b03155f6d Rob Clark      2013-07-19  598  =
+
+7198e6b03155f6d Rob Clark      2013-07-19  599  fail:
+7198e6b03155f6d Rob Clark      2013-07-19  600  	if (a3xx_gpu)
+7198e6b03155f6d Rob Clark      2013-07-19  601  		a3xx_destroy(&a3xx_gpu->b=
+ase.base);
+7198e6b03155f6d Rob Clark      2013-07-19  602  =
+
+7198e6b03155f6d Rob Clark      2013-07-19 @603  	return ERR_PTR(ret);
+
+:::::: The code at line 603 was first introduced by commit
+:::::: 7198e6b03155f6dadecadba004eb83b81a6ffe4c drm/msm: add a3xx gpu suppo=
+rt
+
+:::::: TO: Rob Clark <robdclark@gmail.com>
+:::::: CC: Rob Clark <robdclark@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5383933908849164956==--
+--===============0663207235121625902==--
 
