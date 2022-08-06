@@ -1,354 +1,226 @@
-Content-Type: multipart/mixed; boundary="===============1605506663516947601=="
+Content-Type: multipart/mixed; boundary="===============5434321268514614572=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c:119 lan966x_mdb_ip_add() warn: passing a valid pointer to 'PTR_ERR'
-Date: Mon, 01 Aug 2022 17:49:06 +0800
-Message-ID: <202208011734.bXY8KTpR-lkp@intel.com>
+Subject: Re: [PATCH] thunderbolt: thunderbolt: add vendor's NVM formats
+Date: Sat, 06 Aug 2022 08:06:00 +0800
+Message-ID: <202208060712.imnSSzbl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1605506663516947601==
+--===============5434321268514614572==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Horatiu Vultur <horatiu.vultur@microchip.com>
+:::::: =
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3d7cb6b04c3f3115719235cc6866b10326de34cd
-commit: 7aacb894b1adf8b0f46e6370417350a6bac20c55 net: lan966x: Extend switc=
-hdev with mdb support
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-config: arc-randconfig-m041-20220731 (https://download.01.org/0day-ci/archi=
-ve/20220801/202208011734.bXY8KTpR-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+:::::: Manual check reason: "low confidence static check warning: drivers/t=
+hunderbolt/nvm.c:75:17: sparse: sparse: typename in expression"
+:::::: =
+
+
+BCC: lkp(a)intel.com
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20220805092224.2536-1-Chloe_Chen@asmedia.com.tw>
+References: <20220805092224.2536-1-Chloe_Chen@asmedia.com.tw>
+TO: Szuying Chen <chensiying21@gmail.com>
+TO: andreas.noever(a)gmail.com
+TO: michael.jamet(a)intel.com
+TO: mika.westerberg(a)linux.intel.com
+TO: YehezkelShB(a)gmail.com
+TO: linux-usb(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: Yd_Tseng(a)asmedia.com.tw
+CC: Richard_Hsu(a)asmedia.com.tw
+CC: Chloe_Chen(a)asmedia.com.tw
+
+Hi Szuying,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.19 next-20220805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Szuying-Chen/thunder=
+bolt-thunderbolt-add-vendor-s-NVM-formats/20220805-172732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+b2a88c212e652e94f1e4b635910972ac57ba4e97
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20220=
+806/202208060712.imnSSzbl-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/cc64350d27db3b30e5c=
+eef2b5d6a3c48b9a4d989
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Szuying-Chen/thunderbolt-thunderbo=
+lt-add-vendor-s-NVM-formats/20220805-172732
+        git checkout cc64350d27db3b30e5ceef2b5d6a3c48b9a4d989
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Di386 SHELL=3D/bin/bash drivers/thunderbolt/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c:119 lan966x_mdb_ip_add=
-() warn: passing a valid pointer to 'PTR_ERR'
-drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c:262 lan966x_mdb_l2_add=
-() warn: passing a valid pointer to 'PTR_ERR'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/thunderbolt/nvm.c:75:17: sparse: sparse: typename in expression
+   drivers/thunderbolt/nvm.c:75:24: sparse: sparse: Expected ; at end of st=
+atement
+   drivers/thunderbolt/nvm.c:75:24: sparse: sparse: got tb_nvm
+   drivers/thunderbolt/nvm.c:109:17: sparse: sparse: typename in expression
+   drivers/thunderbolt/nvm.c:109:26: sparse: sparse: Expected ; at end of s=
+tatement
+   drivers/thunderbolt/nvm.c:109:26: sparse: sparse: got int
+   drivers/thunderbolt/nvm.c:75:17: sparse: sparse: undefined identifier 's=
+truct'
+   drivers/thunderbolt/nvm.c:79:17: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:80:28: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:81:39: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:89:17: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:94:17: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:95:17: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:97:41: sparse: sparse: undefined identifier 'n=
+vm'
+   drivers/thunderbolt/nvm.c:101:45: sparse: sparse: undefined identifier '=
+nvm'
+   drivers/thunderbolt/nvm.c:105:27: sparse: sparse: undefined identifier '=
+nvm'
+   drivers/thunderbolt/nvm.c:109:17: sparse: sparse: undefined identifier '=
+unsigned'
+   drivers/thunderbolt/nvm.c:116:17: sparse: sparse: undefined identifier '=
+image_size'
+   drivers/thunderbolt/nvm.c:117:21: sparse: sparse: undefined identifier '=
+image_size'
+   drivers/thunderbolt/nvm.c:121:57: sparse: sparse: undefined identifier '=
+image_size'
 
-vim +/PTR_ERR +119 drivers/net/ethernet/microchip/lan966x/lan966x_mdb.c
+vim +75 drivers/thunderbolt/nvm.c
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  104  =
+cc64350d27db3b Szuying Chen 2022-08-05   62  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  105  static int lan966x_mdb_ip_ad=
-d(struct lan966x_port *port,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  106  			      const struct switch=
-dev_obj_port_mdb *mdb,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  107  			      enum macaccess_entr=
-y_type type)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  108  {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  109  	bool cpu_port =3D netif_is_=
-bridge_master(mdb->obj.orig_dev);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  110  	struct lan966x *lan966x =3D=
- port->lan966x;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  111  	struct lan966x_mdb_entry *m=
-db_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  112  	unsigned char mac[ETH_ALEN];
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  113  	bool cpu_copy =3D false;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  114  =
+cc64350d27db3b Szuying Chen 2022-08-05   63  static int tb_nvm_vendor_apply=
+(struct tb_switch *sw, unsigned int handle)
+cc64350d27db3b Szuying Chen 2022-08-05   64  {
+cc64350d27db3b Szuying Chen 2022-08-05   65  	int ret =3D 0;
+cc64350d27db3b Szuying Chen 2022-08-05   66  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  115  	mdb_entry =3D lan966x_mdb_e=
-ntry_get(lan966x, mdb->addr, mdb->vid);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  116  	if (!mdb_entry) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  117  		mdb_entry =3D lan966x_mdb_=
-entry_add(lan966x, mdb);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  118  		if (IS_ERR(mdb_entry))
-7aacb894b1adf8 Horatiu Vultur 2022-01-04 @119  			return PTR_ERR(mdb_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  120  	} else {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  121  		lan966x_mdb_encode_mac(mac=
-, mdb_entry, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  122  		lan966x_mac_forget(lan966x=
-, mac, mdb_entry->vid, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  123  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  124  =
+cc64350d27db3b Szuying Chen 2022-08-05   67  	switch (handle) {
+cc64350d27db3b Szuying Chen 2022-08-05   68  	case 0:
+cc64350d27db3b Szuying Chen 2022-08-05   69  		if (sw->no_nvm_upgrade)
+cc64350d27db3b Szuying Chen 2022-08-05   70  			sw->no_nvm_upgrade =3D fals=
+e;
+cc64350d27db3b Szuying Chen 2022-08-05   71  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  125  	if (cpu_port)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  126  		mdb_entry->cpu_copy++;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  127  	else
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  128  		mdb_entry->ports |=3D BIT(=
-port->chip_port);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  129  =
+cc64350d27db3b Szuying Chen 2022-08-05   72  		break;
+cc64350d27db3b Szuying Chen 2022-08-05   73  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  130  	/* Copy the frame to CPU on=
-ly if the CPU is in the VLAN */
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  131  	if (lan966x_vlan_cpu_member=
-_cpu_vlan_mask(lan966x, mdb_entry->vid) &&
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  132  	    mdb_entry->cpu_copy)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  133  		cpu_copy =3D true;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  134  =
+cc64350d27db3b Szuying Chen 2022-08-05   74  	case 1:
+cc64350d27db3b Szuying Chen 2022-08-05  @75  		struct tb_nvm *nvm;
+cc64350d27db3b Szuying Chen 2022-08-05   76  		u32 val;
+cc64350d27db3b Szuying Chen 2022-08-05   77  		u32 nvm_size;
+cc64350d27db3b Szuying Chen 2022-08-05   78  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  135  	lan966x_mdb_encode_mac(mac,=
- mdb_entry, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  136  	return lan966x_mac_ip_learn=
-(lan966x, cpu_copy,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  137  				    mac, mdb_entry->vid,=
- type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  138  }
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  139  =
+cc64350d27db3b Szuying Chen 2022-08-05   79  		nvm =3D tb_nvm_alloc(&sw->de=
+v);
+cc64350d27db3b Szuying Chen 2022-08-05   80  		if (IS_ERR(nvm)) {
+cc64350d27db3b Szuying Chen 2022-08-05   81  			ret =3D PTR_ERR(nvm);
+cc64350d27db3b Szuying Chen 2022-08-05   82  			break;
+cc64350d27db3b Szuying Chen 2022-08-05   83  		}
+cc64350d27db3b Szuying Chen 2022-08-05   84  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  140  static int lan966x_mdb_ip_de=
-l(struct lan966x_port *port,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  141  			      const struct switch=
-dev_obj_port_mdb *mdb,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  142  			      enum macaccess_entr=
-y_type type)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  143  {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  144  	bool cpu_port =3D netif_is_=
-bridge_master(mdb->obj.orig_dev);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  145  	struct lan966x *lan966x =3D=
- port->lan966x;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  146  	struct lan966x_mdb_entry *m=
-db_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  147  	unsigned char mac[ETH_ALEN];
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  148  	u16 ports;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  149  =
+cc64350d27db3b Szuying Chen 2022-08-05   85  		ret =3D usb4_switch_nvm_read=
+(sw, NVM_Date, &val, sizeof(val));
+cc64350d27db3b Szuying Chen 2022-08-05   86  		if (ret)
+cc64350d27db3b Szuying Chen 2022-08-05   87  			break;
+cc64350d27db3b Szuying Chen 2022-08-05   88  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  150  	mdb_entry =3D lan966x_mdb_e=
-ntry_get(lan966x, mdb->addr, mdb->vid);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  151  	if (!mdb_entry)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  152  		return -ENOENT;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  153  =
+cc64350d27db3b Szuying Chen 2022-08-05   89  		nvm->vendor.date =3D (((u8)v=
+al) << 0x10 | ((u8)(val >> 0x8)) << 0x8 | (u8)(val >> 0x10));
+cc64350d27db3b Szuying Chen 2022-08-05   90  		ret =3D usb4_switch_nvm_read=
+(sw, NVM_CUSTOMER_ID, &val, sizeof(val));
+cc64350d27db3b Szuying Chen 2022-08-05   91  		if (ret)
+cc64350d27db3b Szuying Chen 2022-08-05   92  			break;
+cc64350d27db3b Szuying Chen 2022-08-05   93  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  154  	ports =3D mdb_entry->ports;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  155  	if (cpu_port) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  156  		/* If there are still othe=
-r references to the CPU port then
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  157  		 * there is no point to de=
-lete and add again the same entry
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  158  		 */
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  159  		mdb_entry->cpu_copy--;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  160  		if (mdb_entry->cpu_copy)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  161  			return 0;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  162  	} else {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  163  		ports &=3D ~BIT(port->chip=
-_port);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  164  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  165  =
+cc64350d27db3b Szuying Chen 2022-08-05   94  		nvm->vendor.customerID =3D (=
+((u8)val) << 0x8 | ((u8)(val >> 0x8)));
+cc64350d27db3b Szuying Chen 2022-08-05   95  		nvm->vendor.version =3D (u8)=
+(val >> 0x10);
+cc64350d27db3b Szuying Chen 2022-08-05   96  		nvm_size =3D SZ_512K;
+cc64350d27db3b Szuying Chen 2022-08-05   97  		ret =3D tb_nvm_add_active(nv=
+m, nvm_size, tb_switch_nvm_read);
+cc64350d27db3b Szuying Chen 2022-08-05   98  		if (ret)
+cc64350d27db3b Szuying Chen 2022-08-05   99  			break;
+cc64350d27db3b Szuying Chen 2022-08-05  100  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  166  	lan966x_mdb_encode_mac(mac,=
- mdb_entry, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  167  	lan966x_mac_forget(lan966x,=
- mac, mdb_entry->vid, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  168  =
+cc64350d27db3b Szuying Chen 2022-08-05  101  		ret =3D tb_nvm_add_non_activ=
+e(nvm, NVM_MAX_SIZE, tb_switch_nvm_write);
+cc64350d27db3b Szuying Chen 2022-08-05  102  		if (ret)
+cc64350d27db3b Szuying Chen 2022-08-05  103  			break;
+cc64350d27db3b Szuying Chen 2022-08-05  104  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  169  	mdb_entry->ports =3D ports;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  170  =
+cc64350d27db3b Szuying Chen 2022-08-05  105  		sw->nvm =3D nvm;
+cc64350d27db3b Szuying Chen 2022-08-05  106  		break;
+cc64350d27db3b Szuying Chen 2022-08-05  107  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  171  	if (!mdb_entry->ports && !m=
-db_entry->cpu_copy) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  172  		list_del(&mdb_entry->list);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  173  		kfree(mdb_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  174  		return 0;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  175  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  176  =
+cc64350d27db3b Szuying Chen 2022-08-05  108  	case 2:
+cc64350d27db3b Szuying Chen 2022-08-05  109  		unsigned int image_size;
+cc64350d27db3b Szuying Chen 2022-08-05  110  		const u8 *buf =3D sw->nvm->b=
+uf;
+cc64350d27db3b Szuying Chen 2022-08-05  111  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  177  	lan966x_mdb_encode_mac(mac,=
- mdb_entry, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  178  	return lan966x_mac_ip_learn=
-(lan966x, mdb_entry->cpu_copy,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  179  				    mac, mdb_entry->vid,=
- type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  180  }
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  181  =
+cc64350d27db3b Szuying Chen 2022-08-05  112  		if (!buf) {
+cc64350d27db3b Szuying Chen 2022-08-05  113  			ret =3D -EINVAL;
+cc64350d27db3b Szuying Chen 2022-08-05  114  			break;
+cc64350d27db3b Szuying Chen 2022-08-05  115  		}
+cc64350d27db3b Szuying Chen 2022-08-05  116  		image_size =3D sw->nvm->buf_=
+data_size;
+cc64350d27db3b Szuying Chen 2022-08-05  117  		if (image_size < NVM_MIN_SIZ=
+E || image_size > NVM_MAX_SIZE) {
+cc64350d27db3b Szuying Chen 2022-08-05  118  			ret =3D -EINVAL;
+cc64350d27db3b Szuying Chen 2022-08-05  119  			break;
+cc64350d27db3b Szuying Chen 2022-08-05  120  		}
+cc64350d27db3b Szuying Chen 2022-08-05  121  		ret =3D usb4_switch_nvm_writ=
+e(sw, 0, buf, image_size);
+cc64350d27db3b Szuying Chen 2022-08-05  122  		if (!ret)
+cc64350d27db3b Szuying Chen 2022-08-05  123  			sw->nvm->flushed =3D true;
+cc64350d27db3b Szuying Chen 2022-08-05  124  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  182  static struct lan966x_pgid_e=
-ntry *
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  183  lan966x_pgid_entry_add(struc=
-t lan966x *lan966x, int index, u16 ports)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  184  {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  185  	struct lan966x_pgid_entry *=
-pgid_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  186  =
+cc64350d27db3b Szuying Chen 2022-08-05  125  		break;
+cc64350d27db3b Szuying Chen 2022-08-05  126  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  187  	pgid_entry =3D kzalloc(size=
-of(*pgid_entry), GFP_KERNEL);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  188  	if (!pgid_entry)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  189  		return ERR_PTR(-ENOMEM);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  190  =
+cc64350d27db3b Szuying Chen 2022-08-05  127  	default:
+cc64350d27db3b Szuying Chen 2022-08-05  128  		break;
+cc64350d27db3b Szuying Chen 2022-08-05  129  	}
+cc64350d27db3b Szuying Chen 2022-08-05  130  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  191  	pgid_entry->ports =3D ports;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  192  	pgid_entry->index =3D index;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  193  	refcount_set(&pgid_entry->r=
-efcount, 1);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  194  =
+cc64350d27db3b Szuying Chen 2022-08-05  131  	if ((handle =3D=3D 1) && (ret=
+ !=3D 0))
+cc64350d27db3b Szuying Chen 2022-08-05  132  		tb_nvm_free(sw->nvm);
+cc64350d27db3b Szuying Chen 2022-08-05  133  =
 
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  195  	list_add_tail(&pgid_entry->=
-list, &lan966x->pgid_entries);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  196  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  197  	return pgid_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  198  }
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  199  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  200  static struct lan966x_pgid_e=
-ntry *
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  201  lan966x_pgid_entry_get(struc=
-t lan966x *lan966x,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  202  		       struct lan966x_mdb_=
-entry *mdb_entry)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  203  {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  204  	struct lan966x_pgid_entry *=
-pgid_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  205  	int index;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  206  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  207  	/* Try to find an existing =
-pgid that uses the same ports as the
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  208  	 * mdb_entry
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  209  	 */
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  210  	list_for_each_entry(pgid_en=
-try, &lan966x->pgid_entries, list) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  211  		if (pgid_entry->ports =3D=
-=3D mdb_entry->ports) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  212  			refcount_inc(&pgid_entry-=
->refcount);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  213  			return pgid_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  214  		}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  215  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  216  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  217  	/* Try to find an empty pgi=
-d entry and allocate one in case it finds it,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  218  	 * otherwise it means that =
-there are no more resources
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  219  	 */
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  220  	for (index =3D PGID_GP_STAR=
-T; index < PGID_GP_END; index++) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  221  		bool used =3D false;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  222  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  223  		list_for_each_entry(pgid_e=
-ntry, &lan966x->pgid_entries, list) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  224  			if (pgid_entry->index =3D=
-=3D index) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  225  				used =3D true;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  226  				break;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  227  			}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  228  		}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  229  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  230  		if (!used)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  231  			return lan966x_pgid_entry=
-_add(lan966x, index,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  232  						      mdb_entry->ports=
-);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  233  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  234  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  235  	return ERR_PTR(-ENOSPC);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  236  }
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  237  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  238  static void lan966x_pgid_ent=
-ry_del(struct lan966x *lan966x,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  239  				   struct lan966x_pgid_e=
-ntry *pgid_entry)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  240  {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  241  	if (!refcount_dec_and_test(=
-&pgid_entry->refcount))
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  242  		return;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  243  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  244  	list_del(&pgid_entry->list);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  245  	kfree(pgid_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  246  }
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  247  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  248  static int lan966x_mdb_l2_ad=
-d(struct lan966x_port *port,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  249  			      const struct switch=
-dev_obj_port_mdb *mdb,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  250  			      enum macaccess_entr=
-y_type type)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  251  {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  252  	bool cpu_port =3D netif_is_=
-bridge_master(mdb->obj.orig_dev);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  253  	struct lan966x *lan966x =3D=
- port->lan966x;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  254  	struct lan966x_pgid_entry *=
-pgid_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  255  	struct lan966x_mdb_entry *m=
-db_entry;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  256  	unsigned char mac[ETH_ALEN];
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  257  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  258  	mdb_entry =3D lan966x_mdb_e=
-ntry_get(lan966x, mdb->addr, mdb->vid);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  259  	if (!mdb_entry) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  260  		mdb_entry =3D lan966x_mdb_=
-entry_add(lan966x, mdb);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  261  		if (IS_ERR(mdb_entry))
-7aacb894b1adf8 Horatiu Vultur 2022-01-04 @262  			return PTR_ERR(mdb_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  263  	} else {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  264  		lan966x_pgid_entry_del(lan=
-966x, mdb_entry->pgid);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  265  		lan966x_mdb_encode_mac(mac=
-, mdb_entry, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  266  		lan966x_mac_forget(lan966x=
-, mac, mdb_entry->vid, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  267  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  268  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  269  	if (cpu_port) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  270  		mdb_entry->ports |=3D BIT(=
-CPU_PORT);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  271  		mdb_entry->cpu_copy++;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  272  	} else {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  273  		mdb_entry->ports |=3D BIT(=
-port->chip_port);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  274  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  275  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  276  	pgid_entry =3D lan966x_pgid=
-_entry_get(lan966x, mdb_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  277  	if (IS_ERR(pgid_entry)) {
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  278  		list_del(&mdb_entry->list);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  279  		kfree(mdb_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  280  		return PTR_ERR(pgid_entry);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  281  	}
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  282  	mdb_entry->pgid =3D pgid_en=
-try;
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  283  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  284  	/* Copy the frame to CPU on=
-ly if the CPU is in the VLAN */
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  285  	if (!lan966x_vlan_cpu_membe=
-r_cpu_vlan_mask(lan966x, mdb_entry->vid) &&
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  286  	    mdb_entry->cpu_copy)
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  287  		mdb_entry->ports &=3D BIT(=
-CPU_PORT);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  288  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  289  	lan_rmw(ANA_PGID_PGID_SET(m=
-db_entry->ports),
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  290  		ANA_PGID_PGID,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  291  		lan966x, ANA_PGID(pgid_ent=
-ry->index));
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  292  =
-
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  293  	return lan966x_mac_learn(la=
-n966x, pgid_entry->index, mdb_entry->mac,
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  294  				 mdb_entry->vid, type);
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  295  }
-7aacb894b1adf8 Horatiu Vultur 2022-01-04  296  =
+cc64350d27db3b Szuying Chen 2022-08-05  134  	return ret;
+cc64350d27db3b Szuying Chen 2022-08-05  135  }
+cc64350d27db3b Szuying Chen 2022-08-05  136  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1605506663516947601==--
+--===============5434321268514614572==--
 
