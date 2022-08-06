@@ -1,422 +1,609 @@
-Content-Type: multipart/mixed; boundary="===============2883155059776578417=="
+Content-Type: multipart/mixed; boundary="===============2557273180825459991=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/md/dm.c:1638:27: warning: use of uninitialized value '*(int *)((char *)&ci + offsetof(struct clone_info, is_abnormal_io))' [CWE-457]
-Date: Sat, 06 Aug 2022 21:27:56 +0800
-Message-ID: <202208062129.vyBN7Cvo-lkp@intel.com>
+Subject: drivers/clk/imx/clk-imx8ulp.c:71 imx8ulp_clk_cgc1_init() warn: passing zero to 'PTR_ERR'
+Date: Sat, 06 Aug 2022 21:27:43 +0800
+Message-ID: <202208062126.KqLkwqkz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2883155059776578417==
+--===============2557273180825459991==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-d/dm.c:1638:27: warning: use of uninitialized value '*(int *)((char *)&ci +=
- offsetof(struct clone_info, is_abnormal_io))' [CWE-457] [-Wanalyzer-use-of=
--uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mike Snitzer <snitzer@kernel.org>
+TO: Jacky Bai <ping.bai@nxp.com>
+CC: Abel Vesa <abel.vesa@nxp.com>
+CC: Peng Fan <peng.fan@nxp.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: 4edadf6dcb54d2a86eeb424f27122dc0076d9267 dm: improve abnormal bio p=
-rocessing
-date:   3 months ago
+commit: c43a801a57890b15e16a0502edf145d59c91baf7 clk: imx: Add clock driver=
+ for imx8ulp
+date:   10 months ago
 :::::: branch date: 14 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220801 (https://download.01.org/0day-ci/archi=
-ve/20220806/202208062129.vyBN7Cvo-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D4edadf6dcb54d2a86eeb424f27122dc0076d9267
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4edadf6dcb54d2a86eeb424f27122dc0076d9267
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+:::::: commit date: 10 months ago
+config: powerpc-randconfig-m041-20220805 (https://download.01.org/0day-ci/a=
+rchive/20220806/202208062126.KqLkwqkz-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-                     | 1455 |         while ((ti =3D dm_table_get_target(ci=
-->map, target_nr++))) {
-                     |      |                ~
-                     |      |                |
-                     |      |                (12) following 'true' branch (=
-when 'ti' is non-NULL)...
-                     | 1456 |                 int bios;
-                     |      |                 ~~~
-                     |      |                 |
-                     |      |                 (13) ...to here
-                     |......
-                     | 1459 |                 bios =3D __send_duplicate_bio=
-s(ci, ti, ti->num_flush_bios, NULL);
-                     |      |                        ~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                        |
-                     |      |                        (14) calling '__send_d=
-uplicate_bios' from '__send_empty_flush'
-                     |
-                     +--> '__send_duplicate_bios': events 15-22
-                            |
-                            | 1406 | static int __send_duplicate_bios(struc=
-t clone_info *ci, struct dm_target *ti,
-                            |      |            ^~~~~~~~~~~~~~~~~~~~~
-                            |      |            |
-                            |      |            (15) entry to '__send_dupli=
-cate_bios'
-                            |......
-                            | 1409 |         struct bio_list blist =3D BIO_=
-EMPTY_LIST;
-                            |      |                         ~~~~~
-                            |      |                         |
-                            |      |                         (16) 'blist.he=
-ad' is NULL
-                            |      |                         (17) 'blist.ta=
-il' is NULL
-                            |......
-                            | 1413 |         switch (num_bios) {
-                            |      |         ~~~~~~
-                            |      |         |
-                            |      |         (18) following 'case 1:' branc=
-h...
-                            |......
-                            | 1416 |         case 1:
-                            |      |         ~~~~
-                            |      |         |
-                            |      |         (19) ...to here
-                            | 1417 |                 if (len)
-                            |      |                    ~
-                            |      |                    |
-                            |      |                    (20) following 'fal=
-se' branch (when 'len' is NULL)...
-                            | 1418 |                         setup_split_ac=
-counting(ci, *len);
-                            | 1419 |                 clone =3D alloc_tio(ci=
-, ti, 0, len, GFP_NOIO);
-                            |      |                 ~~~~~   ~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-                            |      |                 |       |
-                            |      |                 |       (22) calling '=
-alloc_tio' from '__send_duplicate_bios'
-                            |      |                 (21) ...to here
-                            |
-                            +--> 'alloc_tio': events 23-26
-                                   |
-                                   |  615 | static struct bio *alloc_tio(st=
-ruct clone_info *ci, struct dm_target *ti,
-                                   |      |                    ^~~~~~~~~
-                                   |      |                    |
-                                   |      |                    (23) entry t=
-o 'alloc_tio'
-                                   |......
-                                   |  621 |         if (!ci->io->tio.io) {
-                                   |      |            ~        =
+smatch warnings:
+drivers/clk/imx/clk-imx8ulp.c:71 imx8ulp_clk_cgc1_init() warn: passing zero=
+ to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:153 imx8ulp_clk_cgc2_init() warn: passing zer=
+o to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:236 imx8ulp_clk_pcc3_init() warn: passing zer=
+o to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:315 imx8ulp_clk_pcc4_init() warn: passing zer=
+o to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:363 imx8ulp_clk_pcc5_init() warn: passing zer=
+o to 'PTR_ERR'
 
-                                   |      |            |
-                                   |      |            (24) following 'fals=
-e' branch...
-                                   |......
-                                   |  627 |                 clone =3D bio_a=
-lloc_clone(ci->bio->bi_bdev, ci->bio,
-                                   |      |                 ~~~~~
-                                   |      |                 |
-                                   |      |                 (25) ...to here
-                                   |  628 |                                =
-         gfp_mask, &ci->io->md->bs);
-                                   |  629 |                 if (!clone)
-                                   |      |                    ~
-                                   |      |                    |
-                                   |      |                    (26) followi=
-ng 'true' branch (when 'clone' is NULL)...
-                                   |
-                                 'alloc_tio': event 27
-                                   |
-                                   |cc1:
-                                   | (27): ...to here
-                                   |
-                            <------+
-                            |
-                          '__send_duplicate_bios': events 28-29
-                            |
-                            | 1419 |                 clone =3D alloc_tio(ci=
-, ti, 0, len, GFP_NOIO);
-                            |      |                         ^~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-                            |      |                         |
-                            |      |                         (28) return of=
- NULL to '__send_duplicate_bios' from 'alloc_tio'
-                            | 1420 |                 __map_bio(clone);
-                            |      |                 ~~~~~~~~~~~~~~~~
-                            |      |                 |
-                            |      |                 (29) calling '__map_bi=
-o' from '__send_duplicate_bios'
-                            |
-                            +--> '__map_bio': events 30-31
-                                   |
-                                   | 1290 | static void __map_bio(struct bi=
-o *clone)
-                                   |      |             ^~~~~~~~~
-                                   |      |             |
-                                   |      |             (30) entry to '__ma=
-p_bio'
-                                   |......
-                                   | 1293 |         struct dm_target *ti =
-=3D tio->ti;
-                                   |      |                           ~~
-                                   |      |                           |
-                                   |      |                           (31) =
-dereference of NULL 'clone'
-                                   |
-   drivers/md/dm.c: In function 'dm_split_and_process_bio':
->> drivers/md/dm.c:1638:27: warning: use of uninitialized value '*(int *)((=
-char *)&ci + offsetof(struct clone_info, is_abnormal_io))' [CWE-457] [-Wana=
-lyzer-use-of-uninitialized-value]
-    1638 |         struct clone_info ci;
-         |                           ^~
-     'dm_submit_bio': events 1-2
-       |
-       | 1692 | static void dm_submit_bio(struct bio *bio)
-       |      |             ^~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'dm_submit_bio'
-       |......
-       | 1701 |         if (unlikely(test_bit(DMF_BLOCK_IO_FOR_SUSPEND, &md=
-->flags)) ||
-       |      |            ~ =
+vim +/PTR_ERR +71 drivers/clk/imx/clk-imx8ulp.c
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |
-     'dm_submit_bio': event 3
-       |
-       |include/linux/compiler.h:78:42:
-       |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-       |      |                                          ^~~~~
-       |      |                                          |
-       |      |                                          (3) ...to here
-   drivers/md/dm.c:1702:13: note: in expansion of macro 'unlikely'
-       | 1702 |             unlikely(!map)) {
-       |      |             ^~~~~~~~
-       |
-     'dm_submit_bio': events 4-6
-       |
-       | 1701 |         if (unlikely(test_bit(DMF_BLOCK_IO_FOR_SUSPEND, &md=
-->flags)) ||
-       |......
-       | 1712 |         dm_split_and_process_bio(md, map, bio);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             =
-           =
+c43a801a57890b1 Jacky Bai 2021-09-14   50  =
 
-       |      |         |
-       |      |         (5) ...to here
-       |      |         (6) calling 'dm_split_and_process_bio' from 'dm_sub=
-mit_bio'
-       |
-       +--> 'dm_split_and_process_bio': events 7-9
-              |
-              | 1635 | static void dm_split_and_process_bio(struct mapped_d=
-evice *md,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) entry to 'dm_split_and_process_bio'
-              |......
-              | 1638 |         struct clone_info ci;
-              |      |                           ~~
-              |      |                           |
-              |      |                           (8) region created on stac=
-k here
-              |      |                           (9) use of uninitialized v=
-alue '*(int *)((char *)&ci + offsetof(struct clone_info, is_abnormal_io))' =
-here
-              |
-   drivers/md/dm.c: In function 'dm_submit_bio':
-   drivers/md/dm.c:1695:13: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1695 |         int srcu_idx;
-         |             ^~~~~~~~
-     'dm_submit_bio': event 1
-       |
-       | 1695 |         int srcu_idx;
-       |      |             ^~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/md/dm.c: In function 'dm_pr_reserve':
-   drivers/md/dm.c:3117:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3117 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_reserve': event 1
-       |
-       | 3117 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/md/dm.c: In function 'dm_pr_release':
-   drivers/md/dm.c:3137:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3137 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_release': event 1
-       |
-       | 3137 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/md/dm.c: In function 'dm_pr_preempt':
-   drivers/md/dm.c:3158:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3158 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_preempt': event 1
-       |
-       | 3158 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/md/dm.c: In function 'dm_pr_clear':
-   drivers/md/dm.c:3178:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3178 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_clear': event 1
-       |
-       | 3178 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
+c43a801a57890b1 Jacky Bai 2021-09-14   51  static int imx8ulp_clk_cgc1_init=
+(struct platform_device *pdev)
+c43a801a57890b1 Jacky Bai 2021-09-14   52  {
+c43a801a57890b1 Jacky Bai 2021-09-14   53  	struct device *dev =3D &pdev->d=
+ev;
+c43a801a57890b1 Jacky Bai 2021-09-14   54  	struct clk_hw_onecell_data *clk=
+_data;
+c43a801a57890b1 Jacky Bai 2021-09-14   55  	struct clk_hw **clks;
+c43a801a57890b1 Jacky Bai 2021-09-14   56  	void __iomem *base;
+c43a801a57890b1 Jacky Bai 2021-09-14   57  =
 
-vim +1638 drivers/md/dm.c
+c43a801a57890b1 Jacky Bai 2021-09-14   58  	clk_data =3D devm_kzalloc(dev, =
+struct_size(clk_data, hws, IMX8ULP_CLK_CGC1_END),
+c43a801a57890b1 Jacky Bai 2021-09-14   59  			   GFP_KERNEL);
+c43a801a57890b1 Jacky Bai 2021-09-14   60  	if (!clk_data)
+c43a801a57890b1 Jacky Bai 2021-09-14   61  		return -ENOMEM;
+c43a801a57890b1 Jacky Bai 2021-09-14   62  =
 
-978e51ba38e00e Mike Snitzer      2017-12-09  1631  =
+c43a801a57890b1 Jacky Bai 2021-09-14   63  	clk_data->num =3D IMX8ULP_CLK_C=
+GC1_END;
+c43a801a57890b1 Jacky Bai 2021-09-14   64  	clks =3D clk_data->hws;
+c43a801a57890b1 Jacky Bai 2021-09-14   65  =
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1632  /*
-14fe594d679c9b Alasdair G Kergon 2013-03-01  1633   * Entry point to split =
-a bio into clones and submit them to the targets.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1634   */
-96c9865cb6dd06 Mike Snitzer      2022-02-17  1635  static void dm_split_and=
-_process_bio(struct mapped_device *md,
-83d5e5b0af907d Mikulas Patocka   2013-07-10  1636  				     struct dm_table=
- *map, struct bio *bio)
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1637  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @1638  	struct clone_info ci;
-4857abf66434d9 Mike Snitzer      2022-03-25  1639  	struct dm_io *io;
-84b98f4ce4d1d1 Mike Snitzer      2022-03-17  1640  	blk_status_t error =3D =
-BLK_STS_OK;
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1641  	bool is_abnormal;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1642  =
+c43a801a57890b1 Jacky Bai 2021-09-14   66  	clks[IMX8ULP_CLK_DUMMY] =3D imx=
+_clk_hw_fixed("dummy", 0);
+c43a801a57890b1 Jacky Bai 2021-09-14   67  =
 
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1643  	is_abnormal =3D is_abno=
-rmal_io(bio);
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1644  	if (unlikely(is_abnorma=
-l)) {
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1645  		/*
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1646  		 * Use blk_queue_split=
-() for abnormal IO (e.g. discard, etc)
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1647  		 * otherwise associate=
-d queue_limits won't be imposed.
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1648  		 */
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1649  		blk_queue_split(&bio);
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1650  	}
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1651  =
+c43a801a57890b1 Jacky Bai 2021-09-14   68  	/* CGC1 */
+c43a801a57890b1 Jacky Bai 2021-09-14   69  	base =3D devm_platform_ioremap_=
+resource(pdev, 0);
+c43a801a57890b1 Jacky Bai 2021-09-14   70  	if (WARN_ON(IS_ERR(base)))
+c43a801a57890b1 Jacky Bai 2021-09-14  @71  		return PTR_ERR(base);
+c43a801a57890b1 Jacky Bai 2021-09-14   72  =
 
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1652  	init_clone_info(&ci, md=
-, map, bio, is_abnormal);
-4857abf66434d9 Mike Snitzer      2022-03-25  1653  	io =3D ci.io;
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1654  =
+c43a801a57890b1 Jacky Bai 2021-09-14   73  	clks[IMX8ULP_CLK_SPLL2_PRE_SEL]=
+	=3D imx_clk_hw_mux_flags("spll2_pre_sel", base + 0x510, 0, 1, pll_pre_sels=
+, ARRAY_SIZE(pll_pre_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b1 Jacky Bai 2021-09-14   74  	clks[IMX8ULP_CLK_SPLL3_PRE_SEL]=
+	=3D imx_clk_hw_mux_flags("spll3_pre_sel", base + 0x610, 0, 1, pll_pre_sels=
+, ARRAY_SIZE(pll_pre_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b1 Jacky Bai 2021-09-14   75  =
 
-1eff9d322a4442 Jens Axboe        2016-08-05  1655  	if (bio->bi_opf & REQ_P=
-REFLUSH) {
-332f2b1e7360dc Mike Snitzer      2022-03-10  1656  		__send_empty_flush(&ci=
+c43a801a57890b1 Jacky Bai 2021-09-14   76  	clks[IMX8ULP_CLK_SPLL2] =3D imx=
+_clk_hw_pllv4(IMX_PLLV4_IMX8ULP, "spll2", "spll2_pre_sel", base + 0x500);
+c43a801a57890b1 Jacky Bai 2021-09-14   77  	clks[IMX8ULP_CLK_SPLL3] =3D imx=
+_clk_hw_pllv4(IMX_PLLV4_IMX8ULP, "spll3", "spll3_pre_sel", base + 0x600);
+c43a801a57890b1 Jacky Bai 2021-09-14   78  	clks[IMX8ULP_CLK_SPLL3_VCODIV] =
+=3D imx_clk_hw_divider("spll3_vcodiv", "spll3", base + 0x604, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   79  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14   80  	clks[IMX8ULP_CLK_SPLL3_PFD0] =
+=3D imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd0", "spll3_vcodiv", base =
++ 0x614, 0);
+c43a801a57890b1 Jacky Bai 2021-09-14   81  	clks[IMX8ULP_CLK_SPLL3_PFD1] =
+=3D imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd1", "spll3_vcodiv", base =
++ 0x614, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14   82  	clks[IMX8ULP_CLK_SPLL3_PFD2] =
+=3D imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd2", "spll3_vcodiv", base =
++ 0x614, 2);
+c43a801a57890b1 Jacky Bai 2021-09-14   83  	clks[IMX8ULP_CLK_SPLL3_PFD3] =
+=3D imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd3", "spll3_vcodiv", base =
++ 0x614, 3);
+c43a801a57890b1 Jacky Bai 2021-09-14   84  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14   85  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV=
+1_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd0_div1_gate", "spll3_pfd0", base =
++ 0x608, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14   86  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV=
+2_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd0_div2_gate", "spll3_pfd0", base =
++ 0x608, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14   87  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV=
+1_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd1_div1_gate", "spll3_pfd1", base =
++ 0x608, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14   88  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV=
+2_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd1_div2_gate", "spll3_pfd1", base =
++ 0x608, 31);
+c43a801a57890b1 Jacky Bai 2021-09-14   89  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV=
+1_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd2_div1_gate", "spll3_pfd2", base =
++ 0x60c, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14   90  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV=
+2_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd2_div2_gate", "spll3_pfd2", base =
++ 0x60c, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14   91  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV=
+1_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd3_div1_gate", "spll3_pfd3", base =
++ 0x60c, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14   92  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV=
+2_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd3_div2_gate", "spll3_pfd3", base =
++ 0x60c, 31);
+c43a801a57890b1 Jacky Bai 2021-09-14   93  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV=
+1] =3D imx_clk_hw_divider("spll3_pfd0_div1", "spll3_pfd0_div1_gate", base +=
+ 0x608, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   94  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV=
+2] =3D imx_clk_hw_divider("spll3_pfd0_div2", "spll3_pfd0_div2_gate", base +=
+ 0x608, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   95  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV=
+1] =3D imx_clk_hw_divider("spll3_pfd1_div1", "spll3_pfd1_div1_gate", base +=
+ 0x608, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   96  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV=
+2] =3D imx_clk_hw_divider("spll3_pfd1_div2", "spll3_pfd1_div2_gate", base +=
+ 0x608, 24, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   97  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV=
+1] =3D imx_clk_hw_divider("spll3_pfd2_div1", "spll3_pfd2_div1_gate", base +=
+ 0x60c, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   98  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV=
+2] =3D imx_clk_hw_divider("spll3_pfd2_div2", "spll3_pfd2_div2_gate", base +=
+ 0x60c, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14   99  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV=
+1] =3D imx_clk_hw_divider("spll3_pfd3_div1", "spll3_pfd3_div1_gate", base +=
+ 0x60c, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  100  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV=
+2] =3D imx_clk_hw_divider("spll3_pfd3_div2", "spll3_pfd3_div2_gate", base +=
+ 0x60c, 24, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  101  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  102  	clks[IMX8ULP_CLK_A35_SEL] =3D i=
+mx_clk_hw_mux2("a35_sel", base + 0x14, 28, 2, a35_sels, ARRAY_SIZE(a35_sels=
+));
+c43a801a57890b1 Jacky Bai 2021-09-14  103  	clks[IMX8ULP_CLK_A35_DIV] =3D i=
+mx_clk_hw_divider_flags("a35_div", "a35_sel", base + 0x14, 21, 6, CLK_SET_R=
+ATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  104  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  105  	clks[IMX8ULP_CLK_NIC_SEL] =3D i=
+mx_clk_hw_mux2("nic_sel", base + 0x34, 28, 2, nic_sels, ARRAY_SIZE(nic_sels=
+));
+c43a801a57890b1 Jacky Bai 2021-09-14  106  	clks[IMX8ULP_CLK_NIC_AD_DIVPLAT=
+] =3D imx_clk_hw_divider_flags("nic_ad_divplat", "nic_sel", base + 0x34, 21=
+, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  107  	clks[IMX8ULP_CLK_NIC_PER_DIVPLA=
+T] =3D imx_clk_hw_divider_flags("nic_per_divplat", "nic_ad_divplat", base +=
+ 0x34, 14, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  108  	clks[IMX8ULP_CLK_XBAR_AD_DIVPLA=
+T] =3D imx_clk_hw_divider_flags("xbar_ad_divplat", "nic_ad_divplat", base +=
+ 0x38, 14, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  109  	clks[IMX8ULP_CLK_XBAR_DIVBUS] =
+=3D imx_clk_hw_divider_flags("xbar_divbus", "nic_ad_divplat", base + 0x38, =
+7, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  110  	clks[IMX8ULP_CLK_XBAR_AD_SLOW] =
+=3D imx_clk_hw_divider_flags("xbar_ad_slow", "nic_ad_divplat", base + 0x38,=
+ 0, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  111  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  112  	clks[IMX8ULP_CLK_SOSC_DIV1_GATE=
+] =3D imx_clk_hw_gate_dis("sosc_div1_gate", "sosc", base + 0x108, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14  113  	clks[IMX8ULP_CLK_SOSC_DIV2_GATE=
+] =3D imx_clk_hw_gate_dis("sosc_div2_gate", "sosc", base + 0x108, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14  114  	clks[IMX8ULP_CLK_SOSC_DIV3_GATE=
+] =3D imx_clk_hw_gate_dis("sosc_div3_gate", "sosc", base + 0x108, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14  115  	clks[IMX8ULP_CLK_SOSC_DIV1] =3D=
+ imx_clk_hw_divider("sosc_div1", "sosc_div1_gate", base + 0x108, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  116  	clks[IMX8ULP_CLK_SOSC_DIV2] =3D=
+ imx_clk_hw_divider("sosc_div2", "sosc_div2_gate", base + 0x108, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  117  	clks[IMX8ULP_CLK_SOSC_DIV3] =3D=
+ imx_clk_hw_divider("sosc_div3", "sosc_div3_gate", base + 0x108, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  118  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  119  	clks[IMX8ULP_CLK_FROSC_DIV1_GAT=
+E] =3D imx_clk_hw_gate_dis("frosc_div1_gate", "frosc", base + 0x208, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14  120  	clks[IMX8ULP_CLK_FROSC_DIV2_GAT=
+E] =3D imx_clk_hw_gate_dis("frosc_div2_gate", "frosc", base + 0x208, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14  121  	clks[IMX8ULP_CLK_FROSC_DIV3_GAT=
+E] =3D imx_clk_hw_gate_dis("frosc_div3_gate", "frosc", base + 0x208, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14  122  	clks[IMX8ULP_CLK_FROSC_DIV1] =
+=3D imx_clk_hw_divider("frosc_div1", "frosc_div1_gate", base + 0x208, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  123  	clks[IMX8ULP_CLK_FROSC_DIV2] =
+=3D imx_clk_hw_divider("frosc_div2", "frosc_div2_gate", base + 0x208, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  124  	clks[IMX8ULP_CLK_FROSC_DIV3] =
+=3D imx_clk_hw_divider("frosc_div3", "frosc_div3_gate", base + 0x208, 16, 6=
 );
-e27363472f9bc9 Mike Snitzer      2022-03-09  1657  		/* dm_io_complete subm=
-its any data associated with flush */
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1658  		goto out;
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1659  	}
-a1e1cb72d96491 Mike Snitzer      2019-01-17  1660  =
+c43a801a57890b1 Jacky Bai 2021-09-14  125  	clks[IMX8ULP_CLK_AUD_CLK1] =3D =
+imx_clk_hw_mux2("aud_clk1", base + 0x900, 0, 3, aud_clk1_sels, ARRAY_SIZE(a=
+ud_clk1_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  126  	clks[IMX8ULP_CLK_SAI4_SEL] =3D =
+imx_clk_hw_mux2("sai4_sel", base + 0x904, 0, 2, sai45_sels, ARRAY_SIZE(sai4=
+5_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  127  	clks[IMX8ULP_CLK_SAI5_SEL] =3D =
+imx_clk_hw_mux2("sai5_sel", base + 0x904, 8, 2, sai45_sels, ARRAY_SIZE(sai4=
+5_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  128  	clks[IMX8ULP_CLK_ENET_TS_SEL] =
+=3D imx_clk_hw_mux2("enet_ts", base + 0x700, 24, 3, enet_ts_sels, ARRAY_SIZ=
+E(enet_ts_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  129  =
 
-96c9865cb6dd06 Mike Snitzer      2022-02-17  1661  	error =3D __split_and_p=
-rocess_bio(&ci);
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1662  	if (error || !ci.sector=
-_count)
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1663  		goto out;
-18a25da84354c6 NeilBrown         2017-09-06  1664  	/*
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1665  	 * Remainder must be pa=
-ssed to submit_bio_noacct() so it gets handled
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1666  	 * *after* bios already=
- submitted have been completely processed.
-18a25da84354c6 NeilBrown         2017-09-06  1667  	 */
-7dd76d1feec70a Ming Lei          2022-04-12  1668  	bio_trim(bio, io->secto=
-rs, ci.sector_count);
-7dd76d1feec70a Ming Lei          2022-04-12  1669  	trace_block_split(bio, =
-bio->bi_iter.bi_sector);
-7dd76d1feec70a Ming Lei          2022-04-12  1670  	bio_inc_remaining(bio);
-3e08773c3841e9 Christoph Hellwig 2021-10-12  1671  	submit_bio_noacct(bio);
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1672  out:
-b99fdcdc36369d Ming Lei          2022-03-04  1673  	/*
-b99fdcdc36369d Ming Lei          2022-03-04  1674  	 * Drop the extra refer=
-ence count for non-POLLED bio, and hold one
-b99fdcdc36369d Ming Lei          2022-03-04  1675  	 * reference for POLLED=
- bio, which will be released in dm_poll_bio
-b99fdcdc36369d Ming Lei          2022-03-04  1676  	 *
-ec211631ae24b1 Ming Lei          2022-04-12  1677  	 * Add every dm_io inst=
-ance into the dm_io list head which is stored
-ec211631ae24b1 Ming Lei          2022-04-12  1678  	 * in bio->bi_private, =
-so that dm_poll_bio can poll them all.
-b99fdcdc36369d Ming Lei          2022-03-04  1679  	 */
-0f14d60a023cc4 Ming Lei          2022-04-12  1680  	if (error || !ci.submit=
-_as_polled) {
-0f14d60a023cc4 Ming Lei          2022-04-12  1681  		/*
-0f14d60a023cc4 Ming Lei          2022-04-12  1682  		 * In case of submissi=
-on failure, the extra reference for
-0f14d60a023cc4 Ming Lei          2022-04-12  1683  		 * submitting io isn't=
- consumed yet
-0f14d60a023cc4 Ming Lei          2022-04-12  1684  		 */
-0f14d60a023cc4 Ming Lei          2022-04-12  1685  		if (error)
-0f14d60a023cc4 Ming Lei          2022-04-12  1686  			atomic_dec(&io->io_co=
-unt);
-0f14d60a023cc4 Ming Lei          2022-04-12  1687  		dm_io_dec_pending(io, =
-error);
-0f14d60a023cc4 Ming Lei          2022-04-12  1688  	} else
-4857abf66434d9 Mike Snitzer      2022-03-25  1689  		dm_queue_poll_io(bio, =
-io);
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1690  }
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1691  =
+c43a801a57890b1 Jacky Bai 2021-09-14  130  	imx_check_clk_hws(clks, clk_dat=
+a->num);
+c43a801a57890b1 Jacky Bai 2021-09-14  131  =
 
+c43a801a57890b1 Jacky Bai 2021-09-14  132  	return devm_of_clk_add_hw_provi=
+der(dev, of_clk_hw_onecell_get, clk_data);
+c43a801a57890b1 Jacky Bai 2021-09-14  133  }
+c43a801a57890b1 Jacky Bai 2021-09-14  134  =
 
-:::::: The code at line 1638 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+c43a801a57890b1 Jacky Bai 2021-09-14  135  static int imx8ulp_clk_cgc2_init=
+(struct platform_device *pdev)
+c43a801a57890b1 Jacky Bai 2021-09-14  136  {
+c43a801a57890b1 Jacky Bai 2021-09-14  137  	struct device *dev =3D &pdev->d=
+ev;
+c43a801a57890b1 Jacky Bai 2021-09-14  138  	struct clk_hw_onecell_data *clk=
+_data;
+c43a801a57890b1 Jacky Bai 2021-09-14  139  	struct clk_hw **clks;
+c43a801a57890b1 Jacky Bai 2021-09-14  140  	void __iomem *base;
+c43a801a57890b1 Jacky Bai 2021-09-14  141  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+c43a801a57890b1 Jacky Bai 2021-09-14  142  	clk_data =3D devm_kzalloc(dev, =
+struct_size(clk_data, hws, IMX8ULP_CLK_CGC2_END),
+c43a801a57890b1 Jacky Bai 2021-09-14  143  			   GFP_KERNEL);
+c43a801a57890b1 Jacky Bai 2021-09-14  144  	if (!clk_data)
+c43a801a57890b1 Jacky Bai 2021-09-14  145  		return -ENOMEM;
+c43a801a57890b1 Jacky Bai 2021-09-14  146  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  147  	clk_data->num =3D IMX8ULP_CLK_C=
+GC2_END;
+c43a801a57890b1 Jacky Bai 2021-09-14  148  	clks =3D clk_data->hws;
+c43a801a57890b1 Jacky Bai 2021-09-14  149  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  150  	/* CGC2 */
+c43a801a57890b1 Jacky Bai 2021-09-14  151  	base =3D devm_platform_ioremap_=
+resource(pdev, 0);
+c43a801a57890b1 Jacky Bai 2021-09-14  152  	if (WARN_ON(IS_ERR(base)))
+c43a801a57890b1 Jacky Bai 2021-09-14 @153  		return PTR_ERR(base);
+c43a801a57890b1 Jacky Bai 2021-09-14  154  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  155  	clks[IMX8ULP_CLK_PLL4_PRE_SEL] =
+=3D imx_clk_hw_mux_flags("pll4_pre_sel", base + 0x610, 0, 1, pll_pre_sels, =
+ARRAY_SIZE(pll_pre_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b1 Jacky Bai 2021-09-14  156  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  157  	clks[IMX8ULP_CLK_PLL4]	=3D imx_=
+clk_hw_pllv4(IMX_PLLV4_IMX8ULP, "pll4", "pll4_pre_sel", base + 0x600);
+c43a801a57890b1 Jacky Bai 2021-09-14  158  	clks[IMX8ULP_CLK_PLL4_VCODIV] =
+=3D imx_clk_hw_divider("pll4_vcodiv", "pll4", base + 0x604, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  159  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  160  	clks[IMX8ULP_CLK_HIFI_SEL] =3D =
+imx_clk_hw_mux_flags("hifi_sel", base + 0x14, 28, 3, hifi_sels, ARRAY_SIZE(=
+hifi_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b1 Jacky Bai 2021-09-14  161  	clks[IMX8ULP_CLK_HIFI_DIVCORE] =
+=3D imx_clk_hw_divider("hifi_core_div", "hifi_sel", base + 0x14, 21, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  162  	clks[IMX8ULP_CLK_HIFI_DIVPLAT] =
+=3D imx_clk_hw_divider("hifi_plat_div", "hifi_core_div", base + 0x14, 14, 6=
+);
+c43a801a57890b1 Jacky Bai 2021-09-14  163  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  164  	clks[IMX8ULP_CLK_DDR_SEL] =3D i=
+mx_clk_hw_mux_flags("ddr_sel", base + 0x40, 28, 3, ddr_sels, ARRAY_SIZE(ddr=
+_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b1 Jacky Bai 2021-09-14  165  	clks[IMX8ULP_CLK_DDR_DIV] =3D i=
+mx_clk_hw_divider_flags("ddr_div", "ddr_sel", base + 0x40, 21, 6, CLK_IS_CR=
+ITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  166  	clks[IMX8ULP_CLK_LPAV_AXI_SEL] =
+=3D imx_clk_hw_mux("lpav_sel", base + 0x3c, 28, 2, lpav_sels, ARRAY_SIZE(lp=
+av_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  167  	clks[IMX8ULP_CLK_LPAV_AXI_DIV] =
+=3D imx_clk_hw_divider_flags("lpav_axi_div", "lpav_sel", base + 0x3c, 21, 6=
+, CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  168  	clks[IMX8ULP_CLK_LPAV_AHB_DIV] =
+=3D imx_clk_hw_divider_flags("lpav_ahb_div", "lpav_axi_div", base + 0x3c, 1=
+4, 6, CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  169  	clks[IMX8ULP_CLK_LPAV_BUS_DIV] =
+=3D imx_clk_hw_divider_flags("lpav_bus_div", "lpav_axi_div", base + 0x3c, 7=
+, 6, CLK_IS_CRITICAL);
+c43a801a57890b1 Jacky Bai 2021-09-14  170  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  171  	clks[IMX8ULP_CLK_PLL4_PFD0] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd0", "pll4_vcodiv", base + 0x6=
+14, 0);
+c43a801a57890b1 Jacky Bai 2021-09-14  172  	clks[IMX8ULP_CLK_PLL4_PFD1] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd1", "pll4_vcodiv", base + 0x6=
+14, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  173  	clks[IMX8ULP_CLK_PLL4_PFD2] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd2", "pll4_vcodiv", base + 0x6=
+14, 2);
+c43a801a57890b1 Jacky Bai 2021-09-14  174  	clks[IMX8ULP_CLK_PLL4_PFD3] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd3", "pll4_vcodiv", base + 0x6=
+14, 3);
+c43a801a57890b1 Jacky Bai 2021-09-14  175  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  176  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd0_div1_gate", "pll4_pfd0", base + 0=
+x608, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14  177  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd0_div2_gate", "pll4_pfd0", base + 0=
+x608, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14  178  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd1_div1_gate", "pll4_pfd1", base + 0=
+x608, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14  179  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd1_div2_gate", "pll4_pfd1", base + 0=
+x608, 31);
+c43a801a57890b1 Jacky Bai 2021-09-14  180  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd2_div1_gate", "pll4_pfd2", base + 0=
+x60c, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14  181  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd2_div2_gate", "pll4_pfd2", base + 0=
+x60c, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14  182  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd3_div1_gate", "pll4_pfd3", base + 0=
+x60c, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14  183  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("pll4_pfd3_div2_gate", "pll4_pfd3", base + 0=
+x60c, 31);
+c43a801a57890b1 Jacky Bai 2021-09-14  184  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV1=
+] =3D imx_clk_hw_divider("pll4_pfd0_div1", "pll4_pfd0_div1_gate", base + 0x=
+608, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  185  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV2=
+] =3D imx_clk_hw_divider("pll4_pfd0_div2", "pll4_pfd0_div2_gate", base + 0x=
+608, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  186  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV1=
+] =3D imx_clk_hw_divider("pll4_pfd1_div1", "pll4_pfd1_div1_gate", base + 0x=
+608, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  187  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV2=
+] =3D imx_clk_hw_divider("pll4_pfd1_div2", "pll4_pfd1_div2_gate", base + 0x=
+608, 24, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  188  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV1=
+] =3D imx_clk_hw_divider("pll4_pfd2_div1", "pll4_pfd2_div1_gate", base + 0x=
+60c, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  189  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV2=
+] =3D imx_clk_hw_divider("pll4_pfd2_div2", "pll4_pfd2_div2_gate", base + 0x=
+60c, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  190  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV1=
+] =3D imx_clk_hw_divider("pll4_pfd3_div1", "pll4_pfd3_div1_gate", base + 0x=
+60c, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  191  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV2=
+] =3D imx_clk_hw_divider("pll4_pfd3_div2", "pll4_pfd3_div2_gate", base + 0x=
+60c, 24, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  192  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  193  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("cgc2_sosc_div1_gate", "sosc", base + 0x108,=
+ 7);
+c43a801a57890b1 Jacky Bai 2021-09-14  194  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("cgc2_sosc_div2_gate", "sosc", base + 0x108,=
+ 15);
+c43a801a57890b1 Jacky Bai 2021-09-14  195  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV3=
+_GATE] =3D imx_clk_hw_gate_dis("cgc2_sosc_div3_gate", "sosc", base + 0x108,=
+ 23);
+c43a801a57890b1 Jacky Bai 2021-09-14  196  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV1=
+] =3D imx_clk_hw_divider("cgc2_sosc_div1", "cgc2_sosc_div1_gate", base + 0x=
+108, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  197  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV2=
+] =3D imx_clk_hw_divider("cgc2_sosc_div2", "cgc2_sosc_div2_gate", base + 0x=
+108, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  198  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV3=
+] =3D imx_clk_hw_divider("cgc2_sosc_div3", "cgc2_sosc_div3_gate", base + 0x=
+108, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  199  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  200  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV=
+1_GATE] =3D imx_clk_hw_gate_dis("cgc2_frosc_div1_gate", "frosc", base + 0x2=
+08, 7);
+c43a801a57890b1 Jacky Bai 2021-09-14  201  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV=
+2_GATE] =3D imx_clk_hw_gate_dis("cgc2_frosc_div2_gate", "frosc", base + 0x2=
+08, 15);
+c43a801a57890b1 Jacky Bai 2021-09-14  202  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV=
+3_GATE] =3D imx_clk_hw_gate_dis("cgc2_frosc_div3_gate", "frosc", base + 0x2=
+08, 23);
+c43a801a57890b1 Jacky Bai 2021-09-14  203  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV=
+1] =3D imx_clk_hw_divider("cgc2_frosc_div1", "cgc2_frosc_div1_gate", base +=
+ 0x208, 0, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  204  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV=
+2] =3D imx_clk_hw_divider("cgc2_frosc_div2", "cgc2_frosc_div2_gate", base +=
+ 0x208, 8, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  205  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV=
+3] =3D imx_clk_hw_divider("cgc2_frosc_div3", "cgc2_frosc_div3_gate", base +=
+ 0x208, 16, 6);
+c43a801a57890b1 Jacky Bai 2021-09-14  206  	clks[IMX8ULP_CLK_AUD_CLK2]  =3D=
+ imx_clk_hw_mux2("aud_clk2", base + 0x900, 0, 3, aud_clk2_sels, ARRAY_SIZE(=
+aud_clk2_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  207  	clks[IMX8ULP_CLK_SAI6_SEL]  =3D=
+ imx_clk_hw_mux2("sai6_sel", base + 0x904, 0, 3, sai67_sels, ARRAY_SIZE(sai=
+67_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  208  	clks[IMX8ULP_CLK_SAI7_SEL]  =3D=
+ imx_clk_hw_mux2("sai7_sel", base + 0x904, 8, 3, sai67_sels, ARRAY_SIZE(sai=
+67_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  209  	clks[IMX8ULP_CLK_SPDIF_SEL] =3D=
+ imx_clk_hw_mux2("spdif_sel", base + 0x910, 0, 3, sai67_sels, ARRAY_SIZE(sa=
+i67_sels));
+c43a801a57890b1 Jacky Bai 2021-09-14  210  	clks[IMX8ULP_CLK_DSI_PHY_REF] =
+=3D imx_clk_hw_fixed("dsi_phy_ref", 24000000);
+c43a801a57890b1 Jacky Bai 2021-09-14  211  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  212  	imx_check_clk_hws(clks, clk_dat=
+a->num);
+c43a801a57890b1 Jacky Bai 2021-09-14  213  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  214  	return devm_of_clk_add_hw_provi=
+der(dev, of_clk_hw_onecell_get, clk_data);
+c43a801a57890b1 Jacky Bai 2021-09-14  215  }
+c43a801a57890b1 Jacky Bai 2021-09-14  216  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  217  static int imx8ulp_clk_pcc3_init=
+(struct platform_device *pdev)
+c43a801a57890b1 Jacky Bai 2021-09-14  218  {
+c43a801a57890b1 Jacky Bai 2021-09-14  219  	struct device *dev =3D &pdev->d=
+ev;
+c43a801a57890b1 Jacky Bai 2021-09-14  220  	struct clk_hw_onecell_data *clk=
+_data;
+c43a801a57890b1 Jacky Bai 2021-09-14  221  	struct clk_hw **clks;
+c43a801a57890b1 Jacky Bai 2021-09-14  222  	void __iomem *base;
+c43a801a57890b1 Jacky Bai 2021-09-14  223  	int ret;
+c43a801a57890b1 Jacky Bai 2021-09-14  224  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  225  	clk_data =3D devm_kzalloc(dev, =
+struct_size(clk_data, hws, IMX8ULP_CLK_PCC3_END),
+c43a801a57890b1 Jacky Bai 2021-09-14  226  			   GFP_KERNEL);
+c43a801a57890b1 Jacky Bai 2021-09-14  227  	if (!clk_data)
+c43a801a57890b1 Jacky Bai 2021-09-14  228  		return -ENOMEM;
+c43a801a57890b1 Jacky Bai 2021-09-14  229  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  230  	clk_data->num =3D IMX8ULP_CLK_P=
+CC3_END;
+c43a801a57890b1 Jacky Bai 2021-09-14  231  	clks =3D clk_data->hws;
+c43a801a57890b1 Jacky Bai 2021-09-14  232  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  233  	/* PCC3 */
+c43a801a57890b1 Jacky Bai 2021-09-14  234  	base =3D devm_platform_ioremap_=
+resource(pdev, 0);
+c43a801a57890b1 Jacky Bai 2021-09-14  235  	if (WARN_ON(IS_ERR(base)))
+c43a801a57890b1 Jacky Bai 2021-09-14 @236  		return PTR_ERR(base);
+c43a801a57890b1 Jacky Bai 2021-09-14  237  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  238  	clks[IMX8ULP_CLK_WDOG3] =3D imx=
+8ulp_clk_hw_composite("wdog3", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph=
+_bus_sels), true, true, true, base + 0xa8, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  239  	clks[IMX8ULP_CLK_WDOG4] =3D imx=
+8ulp_clk_hw_composite("wdog4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph=
+_bus_sels), true, true, true, base + 0xac, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  240  	clks[IMX8ULP_CLK_LPIT1] =3D imx=
+8ulp_clk_hw_composite("lpit1", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph=
+_bus_sels), true, true, true, base + 0xc8, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  241  	clks[IMX8ULP_CLK_TPM4] =3D imx8=
+ulp_clk_hw_composite("tpm4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_b=
+us_sels), true, true, true, base + 0xcc, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  242  	clks[IMX8ULP_CLK_TPM5] =3D imx8=
+ulp_clk_hw_composite("tpm5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_b=
+us_sels), true, true, true, base + 0xd0, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  243  	clks[IMX8ULP_CLK_FLEXIO1] =3D i=
+mx8ulp_clk_hw_composite("flexio1", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_pe=
+riph_bus_sels), true, true, true, base + 0xd4, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  244  	clks[IMX8ULP_CLK_I3C2] =3D imx8=
+ulp_clk_hw_composite("i3c2", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_b=
+us_sels), true, true, true, base + 0xd8, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  245  	clks[IMX8ULP_CLK_LPI2C4] =3D im=
+x8ulp_clk_hw_composite("lpi2c4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_peri=
+ph_bus_sels), true, true, true, base + 0xdc, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  246  	clks[IMX8ULP_CLK_LPI2C5] =3D im=
+x8ulp_clk_hw_composite("lpi2c5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_peri=
+ph_bus_sels), true, true, true, base + 0xe0, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  247  	clks[IMX8ULP_CLK_LPUART4] =3D i=
+mx8ulp_clk_hw_composite("lpuart4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_pe=
+riph_bus_sels), true, true, true, base + 0xe4, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  248  	clks[IMX8ULP_CLK_LPUART5] =3D i=
+mx8ulp_clk_hw_composite("lpuart5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_pe=
+riph_bus_sels), true, true, true, base + 0xe8, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  249  	clks[IMX8ULP_CLK_LPSPI4] =3D im=
+x8ulp_clk_hw_composite("lpspi4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_peri=
+ph_bus_sels), true, true, true, base + 0xec, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  250  	clks[IMX8ULP_CLK_LPSPI5] =3D im=
+x8ulp_clk_hw_composite("lpspi5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_peri=
+ph_bus_sels), true, true, true, base + 0xf0, 1);
+c43a801a57890b1 Jacky Bai 2021-09-14  251  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  252  	clks[IMX8ULP_CLK_DMA1_MP] =3D i=
+mx_clk_hw_gate("pcc_dma1_mp", "xbar_ad_divplat", base + 0x4, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  253  	clks[IMX8ULP_CLK_DMA1_CH0] =3D =
+imx_clk_hw_gate("pcc_dma1_ch0", "xbar_ad_divplat", base + 0x8, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  254  	clks[IMX8ULP_CLK_DMA1_CH1] =3D =
+imx_clk_hw_gate("pcc_dma1_ch1", "xbar_ad_divplat", base + 0xc, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  255  	clks[IMX8ULP_CLK_DMA1_CH2] =3D =
+imx_clk_hw_gate("pcc_dma1_ch2", "xbar_ad_divplat", base + 0x10, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  256  	clks[IMX8ULP_CLK_DMA1_CH3] =3D =
+imx_clk_hw_gate("pcc_dma1_ch3", "xbar_ad_divplat", base + 0x14, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  257  	clks[IMX8ULP_CLK_DMA1_CH4] =3D =
+imx_clk_hw_gate("pcc_dma1_ch4", "xbar_ad_divplat", base + 0x18, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  258  	clks[IMX8ULP_CLK_DMA1_CH5] =3D =
+imx_clk_hw_gate("pcc_dma1_ch5", "xbar_ad_divplat", base + 0x1c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  259  	clks[IMX8ULP_CLK_DMA1_CH6] =3D =
+imx_clk_hw_gate("pcc_dma1_ch6", "xbar_ad_divplat", base + 0x20, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  260  	clks[IMX8ULP_CLK_DMA1_CH7] =3D =
+imx_clk_hw_gate("pcc_dma1_ch7", "xbar_ad_divplat", base + 0x24, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  261  	clks[IMX8ULP_CLK_DMA1_CH8] =3D =
+imx_clk_hw_gate("pcc_dma1_ch8", "xbar_ad_divplat", base + 0x28, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  262  	clks[IMX8ULP_CLK_DMA1_CH9] =3D =
+imx_clk_hw_gate("pcc_dma1_ch9", "xbar_ad_divplat", base + 0x2c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  263  	clks[IMX8ULP_CLK_DMA1_CH10] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch10", "xbar_ad_divplat", base + 0x30, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  264  	clks[IMX8ULP_CLK_DMA1_CH11] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch11", "xbar_ad_divplat", base + 0x34, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  265  	clks[IMX8ULP_CLK_DMA1_CH12] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch12", "xbar_ad_divplat", base + 0x38, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  266  	clks[IMX8ULP_CLK_DMA1_CH13] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch13", "xbar_ad_divplat", base + 0x3c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  267  	clks[IMX8ULP_CLK_DMA1_CH14] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch14", "xbar_ad_divplat", base + 0x40, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  268  	clks[IMX8ULP_CLK_DMA1_CH15] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch15", "xbar_ad_divplat", base + 0x44, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  269  	clks[IMX8ULP_CLK_DMA1_CH16] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch16", "xbar_ad_divplat", base + 0x48, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  270  	clks[IMX8ULP_CLK_DMA1_CH17] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch17", "xbar_ad_divplat", base + 0x4c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  271  	clks[IMX8ULP_CLK_DMA1_CH18] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch18", "xbar_ad_divplat", base + 0x50, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  272  	clks[IMX8ULP_CLK_DMA1_CH19] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch19", "xbar_ad_divplat", base + 0x54, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  273  	clks[IMX8ULP_CLK_DMA1_CH20] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch20", "xbar_ad_divplat", base + 0x58, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  274  	clks[IMX8ULP_CLK_DMA1_CH21] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch21", "xbar_ad_divplat", base + 0x5c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  275  	clks[IMX8ULP_CLK_DMA1_CH22] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch22", "xbar_ad_divplat", base + 0x60, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  276  	clks[IMX8ULP_CLK_DMA1_CH23] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch23", "xbar_ad_divplat", base + 0x64, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  277  	clks[IMX8ULP_CLK_DMA1_CH24] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch24", "xbar_ad_divplat", base + 0x68, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  278  	clks[IMX8ULP_CLK_DMA1_CH25] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch25", "xbar_ad_divplat", base + 0x6c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  279  	clks[IMX8ULP_CLK_DMA1_CH26] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch26", "xbar_ad_divplat", base + 0x70, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  280  	clks[IMX8ULP_CLK_DMA1_CH27] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch27", "xbar_ad_divplat", base + 0x74, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  281  	clks[IMX8ULP_CLK_DMA1_CH28] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch28", "xbar_ad_divplat", base + 0x78, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  282  	clks[IMX8ULP_CLK_DMA1_CH29] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch29", "xbar_ad_divplat", base + 0x7c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  283  	clks[IMX8ULP_CLK_DMA1_CH30] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch30", "xbar_ad_divplat", base + 0x80, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  284  	clks[IMX8ULP_CLK_DMA1_CH31] =3D=
+ imx_clk_hw_gate("pcc_dma1_ch31", "xbar_ad_divplat", base + 0x84, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  285  	clks[IMX8ULP_CLK_MU0_B] =3D imx=
+_clk_hw_gate("mu0_b", "xbar_ad_divplat", base + 0x88, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  286  	clks[IMX8ULP_CLK_MU3_A] =3D imx=
+_clk_hw_gate("mu3_a", "xbar_ad_divplat", base + 0x8c, 30);
+c43a801a57890b1 Jacky Bai 2021-09-14  287  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  288  	imx_check_clk_hws(clks, clk_dat=
+a->num);
+c43a801a57890b1 Jacky Bai 2021-09-14  289  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  290  	ret =3D devm_of_clk_add_hw_prov=
+ider(dev, of_clk_hw_onecell_get, clk_data);
+c43a801a57890b1 Jacky Bai 2021-09-14  291  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  292  	imx_register_uart_clocks(1);
+c43a801a57890b1 Jacky Bai 2021-09-14  293  =
+
+c43a801a57890b1 Jacky Bai 2021-09-14  294  	return ret;
+c43a801a57890b1 Jacky Bai 2021-09-14  295  }
+c43a801a57890b1 Jacky Bai 2021-09-14  296  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2883155059776578417==--
+--===============2557273180825459991==--
 
