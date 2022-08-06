@@ -1,116 +1,260 @@
-Content-Type: multipart/mixed; boundary="===============3178118363763584397=="
+Content-Type: multipart/mixed; boundary="===============0984192954295311284=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wwan/qcom_bam_dmux.c:507 bam_dmux_cmd_data() warn: potential spectre issue 'dmux->netdevs' [r]
-Date: Sun, 07 Aug 2022 03:58:36 +0800
-Message-ID: <202208070356.1gnHFtII-lkp@intel.com>
+Subject: drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sun, 07 Aug 2022 03:48:11 +0800
+Message-ID: <202208070327.sGrcPNyl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3178118363763584397==
+--===============0984192954295311284==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only Kconfig file updated"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Stephan Gerhold <stephan@gerhold.net>
+TO: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Jean Delvare <jdelvare@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: 21a0ffd9b38c61d79b5ade54893b0f59f2e8c2c3 net: wwan: Add Qualcomm BA=
-M-DMUX WWAN network driver
-date:   8 months ago
+commit: b97adb596399581df42a5f94e14235359f150373 hwmon: Allow to compile AS=
+B100 and FSCHMD on !X86
+date:   3 weeks ago
 :::::: branch date: 20 hours ago
-:::::: commit date: 8 months ago
-config: openrisc-randconfig-m031-20220801 (https://download.01.org/0day-ci/=
-archive/20220807/202208070356.1gnHFtII-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220807/202208070327.sGrcPNyl-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db97adb596399581df42a5f94e14235359f150373
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b97adb596399581df42a5f94e14235359f150373
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/wwan/qcom_bam_dmux.c:507 bam_dmux_cmd_data() warn: potential sp=
-ectre issue 'dmux->netdevs' [r]
-drivers/net/wwan/qcom_bam_dmux.c:509 bam_dmux_cmd_data() warn: possible spe=
-ctre second half.  'netdev'
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/hwmon/asb100.c: In function 'pwm1_enable_store':
+>> drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     579 |         unsigned long val;
+         |                       ^~~
+     'pwm1_enable_store': event 1
+       |
+       |  579 |         unsigned long val;
+       |      |                       ^~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   In file included from include/linux/bitops.h:7,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hwmon/asb100.c:28:
+   drivers/hwmon/asb100.c: In function 'asb100_update_device':
+   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      11 |         typeof(x) __dummy2; \
+         |                   ^~~~~~~~
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+     105 |         (typecheck(unsigned long, a) && \
+         |          ^~~~~~~~~
+   drivers/hwmon/asb100.c:945:13: note: in expansion of macro 'time_after'
+     945 |         if (time_after(jiffies, data->last_updated + HZ + HZ / 2)
+         |             ^~~~~~~~~~
+     'asb100_update_device': event 1
+       |
+       |include/linux/typecheck.h:11:19:
+       |   11 |         typeof(x) __dummy2; \
+       |      |                   ^~~~~~~~
+       |      |                   |
+       |      |                   (1) use of uninitialized value '<unknown>=
+' here
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+       |  105 |         (typecheck(unsigned long, a) && \
+       |      |          ^~~~~~~~~
+   drivers/hwmon/asb100.c:945:13: note: in expansion of macro 'time_after'
+       |  945 |         if (time_after(jiffies, data->last_updated + HZ + H=
+Z / 2)
+       |      |             ^~~~~~~~~~
+       |
+--
+   drivers/hwmon/fschmd.c: In function 'temp_max_store':
+>> drivers/hwmon/fschmd.c:362:14: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     362 |         long v;
+         |              ^
+     'temp_max_store': event 1
+       |
+       |  362 |         long v;
+       |      |              ^
+       |      |              |
+       |      |              (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/hwmon/fschmd.c: In function 'fan_div_store':
+   drivers/hwmon/fschmd.c:436:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     436 |         unsigned long v;
+         |                       ^
+     'fan_div_store': event 1
+       |
+       |  436 |         unsigned long v;
+       |      |                       ^
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   drivers/hwmon/fschmd.c: In function 'pwm_auto_point1_pwm_store':
+   drivers/hwmon/fschmd.c:525:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     525 |         unsigned long v;
+         |                       ^
+     'pwm_auto_point1_pwm_store': event 1
+       |
+       |  525 |         unsigned long v;
+       |      |                       ^
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   drivers/hwmon/fschmd.c: In function 'alert_led_store':
+   drivers/hwmon/fschmd.c:570:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     570 |         unsigned long v;
+         |                       ^
+     'alert_led_store': event 1
+       |
+       |  570 |         unsigned long v;
+       |      |                       ^
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   In file included from include/linux/bitops.h:7,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hwmon/fschmd.c:22:
+   drivers/hwmon/fschmd.c: In function 'fschmd_update_device':
+   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      11 |         typeof(x) __dummy2; \
+         |                   ^~~~~~~~
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+     105 |         (typecheck(unsigned long, a) && \
+         |          ^~~~~~~~~
+   drivers/hwmon/fschmd.c:1306:13: note: in expansion of macro 'time_after'
+    1306 |         if (time_after(jiffies, data->last_updated + 2 * HZ) || =
+!data->valid) {
+         |             ^~~~~~~~~~
+     'fschmd_update_device': event 1
+       |
+       |include/linux/typecheck.h:11:19:
+       |   11 |         typeof(x) __dummy2; \
+       |      |                   ^~~~~~~~
+       |      |                   |
+       |      |                   (1) use of uninitialized value '<unknown>=
+' here
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+       |  105 |         (typecheck(unsigned long, a) && \
+       |      |          ^~~~~~~~~
+   drivers/hwmon/fschmd.c:1306:13: note: in expansion of macro 'time_after'
+       | 1306 |         if (time_after(jiffies, data->last_updated + 2 * HZ=
+) || !data->valid) {
+       |      |             ^~~~~~~~~~
+       |
 
-vim +507 drivers/net/wwan/qcom_bam_dmux.c
+vim +579 drivers/hwmon/asb100.c
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  501  =
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  572  =
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  502  static void bam_dmux_cmd_da=
-ta(struct bam_dmux_skb_dma *skb_dma)
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  503  {
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  504  	struct bam_dmux *dmux =3D =
-skb_dma->dmux;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  505  	struct sk_buff *skb =3D sk=
-b_dma->skb;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  506  	struct bam_dmux_hdr *hdr =
-=3D (struct bam_dmux_hdr *)skb->data;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27 @507  	struct net_device *netdev =
-=3D dmux->netdevs[hdr->ch];
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  508  =
+82e73f7f953877 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  573  s=
+tatic ssize_t pwm1_enable_store(struct device *dev,
+82e73f7f953877 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  574  	=
+			 struct device_attribute *attr,
+82e73f7f953877 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  575  	=
+			 const char *buf, size_t count)
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  576  {
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  577  	=
+struct i2c_client *client =3D to_i2c_client(dev);
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  578  	=
+struct asb100_data *data =3D i2c_get_clientdata(client);
+8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14 @579  	=
+unsigned long val;
+8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  580  	=
+int err;
+8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  581  =
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27 @509  	if (!netdev || !netif_runn=
-ing(netdev)) {
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  510  		dev_warn(dmux->dev, "Data=
- for inactive channel %u\n", hdr->ch);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  511  		return;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  512  	}
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  513  =
+8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  582  	=
+err =3D kstrtoul(buf, 10, &val);
+8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  583  	=
+if (err)
+8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  584  	=
+	return err;
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  585  =
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  514  	if (hdr->len > BAM_DMUX_MA=
-X_DATA_SIZE) {
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  515  		dev_err(dmux->dev, "Data =
-larger than buffer? (%u > %u)\n",
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  516  			hdr->len, (u16)BAM_DMUX_=
-MAX_DATA_SIZE);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  517  		return;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  518  	}
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  519  =
+9a61bf6300533d drivers/hwmon/asb100.c     Ingo Molnar    2006-01-18  586  	=
+mutex_lock(&data->update_lock);
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  587  	=
+data->pwm &=3D 0x0f; /* keep the duty cycle bits */
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  588  	=
+data->pwm |=3D (val ? 0x80 : 0x00);
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  589  	=
+asb100_write_value(client, ASB100_REG_PWM1, data->pwm);
+9a61bf6300533d drivers/hwmon/asb100.c     Ingo Molnar    2006-01-18  590  	=
+mutex_unlock(&data->update_lock);
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  591  	=
+return count;
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  592  }
+^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  593  =
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  520  	skb_dma->skb =3D NULL; /* =
-Hand over to network stack */
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  521  =
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  522  	skb_pull(skb, sizeof(*hdr)=
-);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  523  	skb_trim(skb, hdr->len);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  524  	skb->dev =3D netdev;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  525  =
+:::::: The code at line 579 was first introduced by commit
+:::::: 8c103696fa59e1b810bf24a63304acd5ab585c12 hwmon: (asb100): Fix checkp=
+atch issues
 
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  526  	/* Only Raw-IP/QMAP is sup=
-ported by this driver */
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  527  	switch (skb->data[0] & 0xf=
-0) {
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  528  	case 0x40:
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  529  		skb->protocol =3D htons(E=
-TH_P_IP);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  530  		break;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  531  	case 0x60:
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  532  		skb->protocol =3D htons(E=
-TH_P_IPV6);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  533  		break;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  534  	default:
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  535  		skb->protocol =3D htons(E=
-TH_P_MAP);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  536  		break;
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  537  	}
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  538  =
-
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  539  	netif_receive_skb(skb);
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  540  }
-21a0ffd9b38c61 Stephan Gerhold 2021-11-27  541  =
-
+:::::: TO: Guenter Roeck <linux@roeck-us.net>
+:::::: CC: Guenter Roeck <guenter.roeck@ericsson.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3178118363763584397==--
+--===============0984192954295311284==--
 
