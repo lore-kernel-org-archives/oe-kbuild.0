@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6590061194878900614=="
+Content-Type: multipart/mixed; boundary="===============3813112191435251527=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/fortify-string.h:20:45: warning: use of uninitialized value '*(unsigned char *)(&stat_buf[31])' [CWE-457]
-Date: Sat, 06 Aug 2022 13:15:42 +0800
-Message-ID: <202208061306.V3xJHvQj-lkp@intel.com>
+Subject: fs/ntfs3/lznt.c:234:16: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sat, 06 Aug 2022 11:41:13 +0800
+Message-ID: <202208061153.2tYzBT3t-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6590061194878900614==
+--===============3813112191435251527==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: include/l=
-inux/fortify-string.h:20:45: warning: use of uninitialized value '*(unsigne=
-d char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/ntfs3/lznt.c:234:16: warning: use of uninitialized value '<unknown>' [C=
+WE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: 3009f891bb9f328945ebd5b71e12df7e2467f3dd fortify: Allow strlen() an=
-d strnlen() to pass compile-time known lengths
-date:   11 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
-ve/20220806/202208061306.V3xJHvQj-lkp(a)intel.com/config)
+commit: 6e5be40d32fb1907285277c02e74493ed43d77fe fs/ntfs3: Add NTFS3 in fs/=
+Kconfig and fs/Makefile
+date:   12 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220801 (https://download.01.org/0day-ci/archi=
+ve/20220806/202208061153.2tYzBT3t-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D3009f891bb9f328945ebd5b71e12df7e2467f3dd
+t/commit/?id=3D6e5be40d32fb1907285277c02e74493ed43d77fe
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 3009f891bb9f328945ebd5b71e12df7e2467f3dd
+        git checkout 6e5be40d32fb1907285277c02e74493ed43d77fe
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -56,593 +56,135 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-                            |
-                            +--> 'uart_port_ref': event 33
-                                   |
-                                   |   58 | static inline struct uart_port =
-*uart_port_ref(struct uart_state *state)
-                                   |      |                                =
- ^~~~~~~~~~~~~
-                                   |      |                                =
- |
-                                   |      |                                =
- (33) entry to 'uart_port_ref'
-                                   |
-                                 'uart_port_ref': event 34
-                                   |
-                                   |include/linux/atomic/atomic-arch-fallba=
-ck.h:1161:20:
-                                   | 1161 |                 if (unlikely(c =
-=3D=3D u))
-                                   |      |                    ^
-                                   |      |                    |
-                                   |      |                    (34) followi=
-ng 'false' branch...
-                                   |
-                                 'uart_port_ref': event 35
-                                   |
-                                   |  995 | #define arch_atomic_try_cmpxchg=
- arch_atomic_try_cmpxchg
-                                   |      |                                =
- ^
-                                   |      |                                =
- |
-                                   |      |                                =
- (35) ...to here
-   include/linux/atomic/atomic-arch-fallback.h:1163:19: note: in expansion =
-of macro 'arch_atomic_try_cmpxchg'
-                                   | 1163 |         } while (!arch_atomic_t=
-ry_cmpxchg(v, &c, c + a));
-                                   |      |                   ^~~~~~~~~~~~~=
-~~~~~~~~~~
-                                   |
-                            <------+
-                            |
-                          'uart_port_startup': event 36
-                            |
-                            |drivers/tty/serial/serial_core.c:73:45:
-                            |   73 |                 struct uart_port *__up=
-ort =3D uart_port_ref(state);       \
-                            |      |                                       =
-      ^~~~~~~~~~~~~~~~~~~~
-                            |      |                                       =
-      |
-                            |      |                                       =
-      (36) returning to 'uart_port_startup' from 'uart_port_ref'
-   drivers/tty/serial/serial_core.c:207:9: note: in expansion of macro 'uar=
-t_port_lock'
-                            |  207 |         uart_port_lock(state, flags);
-                            |      |         ^~~~~~~~~~~~~~
-                            |
-                          'uart_port_startup': event 37
-                            |
-                            |   74 |                 if (__uport)          =
-                                  \
-                            |      |                    ^
-                            |      |                    |
-                            |      |                    (37) following 'fal=
-se' branch (when '__uport' is NULL)...
-   drivers/tty/serial/serial_core.c:207:9: note: in expansion of macro 'uar=
-t_port_lock'
-                            |  207 |         uart_port_lock(state, flags);
-                            |      |         ^~~~~~~~~~~~~~
-                            |
-                          'uart_port_startup': events 38-39
-                            |
-                            |  208 |         if (!state->xmit.buf) {
-                            |      |            ~ ~~~~~~~~~~~^~~~
-                            |      |            |            |
-                            |      |            |            (38) ...to here
-                            |      |            (39) following 'false' bran=
-ch...
-                            |
-                          'uart_port_startup': event 40
-                            |
-                            |   82 |                 if (__uport) {        =
-                                  \
-                            |      |                    ^
-                            |      |                    |
-                            |      |                    (40) ...to here
-   drivers/tty/serial/serial_core.c:213:17: note: in expansion of macro 'ua=
-rt_port_unlock'
-                            |  213 |                 uart_port_unlock(uport=
-, flags);
-                            |      |                 ^~~~~~~~~~~~~~~~
-                            |
-                          'uart_port_startup': event 41
-                            |
-                            |   82 |                 if (__uport) {        =
-                                  \
-                            |      |                    ^
-                            |      |                    |
-                            |      |                    (41) following 'tru=
-e' branch...
-   drivers/tty/serial/serial_core.c:213:17: note: in expansion of macro 'ua=
-rt_port_unlock'
-                            |  213 |                 uart_port_unlock(uport=
-, flags);
-                            |      |                 ^~~~~~~~~~~~~~~~
-                            |
-                          'uart_port_startup': events 42-43
-                            |
-                            |arch/arm/include/asm/irqflags.h:159:9:
-                            |  159 |         asm volatile(
-                            |      |         ^~~
-                            |      |         |
-                            |      |         (42) ...to here
-                            |......
-                            |  171 |         asm volatile(
-                            |      |         ~~~
-                            |      |         |
-                            |      |         (43) use of uninitialized valu=
-e 'flags' here
-                            |
-   In file included from include/linux/string.h:253,
-                    from include/linux/bitmap.h:10,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14:
-   In function 'strnlen',
-       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
-       inlined from 'uart_line_info' at drivers/tty/serial/serial_core.c:18=
-60:3:
->> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
-e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
-lized-value]
-      20 |                 if (__builtin_constant_p(__p[p_len]) && \
-         |                                          ~~~^~~~~~~
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-      77 |         size_t p_len =3D __compiletime_strlen(p);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-     'uart_line_info': events 1-7
+   fs/ntfs3/lznt.c: In function 'decompress_chunk':
+>> fs/ntfs3/lznt.c:234:16: warning: use of uninitialized value '<unknown>' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     234 |         size_t offset, length;
+         |                ^~~~~~
+     'decompress_chunk': event 1
        |
-       |drivers/tty/serial/serial_core.c:1804:14:
-       | 1804 |         char stat_buf[32];
-       |      |              ^~~~~~~~
-       |      |              |
-       |      |              (1) region created on stack here
-       |......
-       | 1810 |         if (!uport)
-       |      |            ~  =
+       |  234 |         size_t offset, length;
+       |      |                ^~~~~~
+       |      |                |
+       |      |                (1) use of uninitialized value '<unknown>' h=
+ere
+       |
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
-       |      |                ~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (3) ...to here
-       |......
-       | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
-       |      |            ~  =
+vim +234 fs/ntfs3/lznt.c
 
-       |      |            |
-       |      |            (4) following 'false' branch...
-       |......
-       | 1826 |         if (capable(CAP_SYS_ADMIN)) {
-       |      |            ~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            ||
-       |      |            |(5) ...to here
-       |      |            (6) following 'true' branch...
-       | 1827 |                 pm_state =3D state->pm_state;
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                          |
-       |      |                          (7) ...to here
-       |
-     'uart_line_info': event 8
-       |
-       | 1850 |         if (uport->mctrl & (bit)) \
-       |      |            ^
-       |      |            |
-       |      |            (8) following 'true' branch...
-   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
-NFOBIT'
-       | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
-       |      |                 ^~~~~~~
-       |
-     'uart_line_info': event 9
-       |
-       |include/linux/fortify-string.h:20:45:
-       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
-       |      |                                          ~~~^~~~~~~
-       |      |                                             |
-       |      |                                             (9) ...to here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-       |   77 |         size_t p_len =3D __compiletime_strlen(p);
-       |      |                        ^~~~~~~~~~~~~~~~~~~~
-       |
-     'uart_line_info': event 10
-       |
-       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
-       |      |                                          ~~~^~~~~~~
-       |      |                                             |
-       |      |                                             (10) use of uni=
-nitialized value '*(unsigned char *)(&stat_buf[31])' here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-       |   77 |         size_t p_len =3D __compiletime_strlen(p);
-       |      |                        ^~~~~~~~~~~~~~~~~~~~
-       |
-   In function 'strnlen',
-       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
-       inlined from 'strncat' at include/linux/fortify-string.h:192:10,
-       inlined from 'uart_line_info' at drivers/tty/serial/serial_core.c:18=
-60:3:
->> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
-e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
-lized-value]
-      20 |                 if (__builtin_constant_p(__p[p_len]) && \
-         |                                          ~~~^~~~~~~
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-      77 |         size_t p_len =3D __compiletime_strlen(p);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-     'uart_line_info': events 1-7
-       |
-       |drivers/tty/serial/serial_core.c:1804:14:
-       | 1804 |         char stat_buf[32];
-       |      |              ^~~~~~~~
-       |      |              |
-       |      |              (1) region created on stack here
-       |......
-       | 1810 |         if (!uport)
-       |      |            ~  =
+522e010b58379f Konstantin Komarov 2021-08-13  225  =
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
-       |      |                ~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (3) ...to here
-       |......
-       | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
-       |      |            ~  =
+522e010b58379f Konstantin Komarov 2021-08-13  226  static inline ssize_t de=
+compress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
+522e010b58379f Konstantin Komarov 2021-08-13  227  				       const u8 *cmp=
+r_end)
+522e010b58379f Konstantin Komarov 2021-08-13  228  {
+522e010b58379f Konstantin Komarov 2021-08-13  229  	u8 *up =3D unc;
+522e010b58379f Konstantin Komarov 2021-08-13  230  	u8 ch =3D *cmpr++;
+522e010b58379f Konstantin Komarov 2021-08-13  231  	size_t bit =3D 0;
+522e010b58379f Konstantin Komarov 2021-08-13  232  	size_t index =3D 0;
+522e010b58379f Konstantin Komarov 2021-08-13  233  	u16 pair;
+522e010b58379f Konstantin Komarov 2021-08-13 @234  	size_t offset, length;
+522e010b58379f Konstantin Komarov 2021-08-13  235  =
 
-       |      |            |
-       |      |            (4) following 'false' branch...
-       |......
-       | 1826 |         if (capable(CAP_SYS_ADMIN)) {
-       |      |            ~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            ||
-       |      |            |(5) ...to here
-       |      |            (6) following 'true' branch...
-       | 1827 |                 pm_state =3D state->pm_state;
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                          |
-       |      |                          (7) ...to here
-       |
-     'uart_line_info': event 8
-       |
-       | 1850 |         if (uport->mctrl & (bit)) \
-       |      |            ^
-       |      |            |
-       |      |            (8) following 'true' branch...
-   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
-NFOBIT'
-       | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
-       |      |                 ^~~~~~~
-       |
-     'uart_line_info': event 9
-       |
-       |include/linux/fortify-string.h:20:45:
-       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
-       |      |                                          ~~~^~~~~~~
-       |      |                                             |
-       |      |                                             (9) ...to here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-       |   77 |         size_t p_len =3D __compiletime_strlen(p);
-       |      |                        ^~~~~~~~~~~~~~~~~~~~
-       |
-     'uart_line_info': events 10-12
-       |
-       |   89 |         if (p_size <=3D ret && maxlen !=3D ret)
-       |      |            ^
-       |      |            |
-       |      |            (10) following 'false' branch...
-       |......
-       |  104 |         if (p_size <=3D ret)
-       |      |            ~
-       |      |            |
-       |      |            (11) ...to here
-       |      |            (12) following 'false' branch...
-       |
-     'uart_line_info': event 13
-       |
-       |drivers/tty/serial/serial_core.c:1851:17:
-       | 1851 |                 strncat(stat_buf, (str), sizeof(stat_buf) -=
- \
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |                 |
-       |      |                 (13) ...to here
-       | 1852 |                         strlen(stat_buf) - 2)
-       |      |                         ~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
-NFOBIT'
-       | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
-       |      |                 ^~~~~~~
-       |
-     'uart_line_info': event 14
-       |
-       |include/linux/fortify-string.h:20:45:
-       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
-       |      |                                          ~~~^~~~~~~
-       |      |                                             |
-       |      |                                             (14) use of uni=
-nitialized value '*(unsigned char *)(&stat_buf[31])' here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-       |   77 |         size_t p_len =3D __compiletime_strlen(p);
-       |      |                        ^~~~~~~~~~~~~~~~~~~~
-       |
-   In function 'strnlen',
-       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
-       inlined from 'uart_line_info'@drivers/tty/serial/serial_core.c:18=
-60:3:
->> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
-e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
-lized-value]
-      20 |                 if (__builtin_constant_p(__p[p_len]) && \
-         |                                          ~~~^~~~~~~
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-      77 |         size_t p_len =3D __compiletime_strlen(p);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-     'uart_proc_show': events 1-4
-       |
-       |drivers/tty/serial/serial_core.c:1878:12:
-       | 1878 | static int uart_proc_show(struct seq_file *m, void *v)
-       |      |            ^~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'uart_proc_show'
-       |......
-       | 1885 |         for (i =3D 0; i < drv->nr; i++)
-       |      |                     ~~~~~~~~~~~
-       |      |                       |
-       |      |                       (2) following 'true' branch...
-       | 1886 |                 uart_line_info(m, drv, i);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-       |      |                 (4) calling 'uart_line_info' from 'uart_pro=
-c_show'
-       |
-       +--> 'uart_line_info': events 5-12
-              |
-              | 1798 | static void uart_line_info(struct seq_file *m, struc=
-t uart_driver *drv, int i)
-              |      |             ^~~~~~~~~~~~~~
-              |      |             |
-              |      |             (5) entry to 'uart_line_info'
-              |......
-              | 1804 |         char stat_buf[32];
-              |      |              ~~~~~~~~
-              |      |              |
-              |      |              (6) region created on stack here
-              |......
-              | 1810 |         if (!uport)
-              |      |            ~ =
+522e010b58379f Konstantin Komarov 2021-08-13  236  	/* Do decompression unt=
+il pointers are inside range */
+522e010b58379f Konstantin Komarov 2021-08-13  237  	while (up < unc_end && =
+cmpr < cmpr_end) {
+522e010b58379f Konstantin Komarov 2021-08-13  238  		/* Correct index */
+522e010b58379f Konstantin Komarov 2021-08-13  239  		while (unc + s_max_off=
+[index] < up)
+522e010b58379f Konstantin Komarov 2021-08-13  240  			index +=3D 1;
+522e010b58379f Konstantin Komarov 2021-08-13  241  =
 
-              |      |            |
-              |      |            (7) following 'false' branch...
-              |......
-              | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
-              |      |                ~~~~~~~~~~~~~
-              |      |                     |
-              |      |                     (8) ...to here
-              |......
-              | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
-              |      |            ~ =
+522e010b58379f Konstantin Komarov 2021-08-13  242  		/* Check the current f=
+lag for zero */
+522e010b58379f Konstantin Komarov 2021-08-13  243  		if (!(ch & (1 << bit))=
+) {
+522e010b58379f Konstantin Komarov 2021-08-13  244  			/* Just copy byte */
+522e010b58379f Konstantin Komarov 2021-08-13  245  			*up++ =3D *cmpr++;
+522e010b58379f Konstantin Komarov 2021-08-13  246  			goto next;
+522e010b58379f Konstantin Komarov 2021-08-13  247  		}
+522e010b58379f Konstantin Komarov 2021-08-13  248  =
 
-              |      |            |
-              |      |            (9) following 'false' branch...
-              |......
-              | 1826 |         if (capable(CAP_SYS_ADMIN)) {
-              |      |            ~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            ||
-              |      |            |(10) ...to here
-              |      |            (11) following 'true' branch...
-              | 1827 |                 pm_state =3D state->pm_state;
-              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                          |
-              |      |                          (12) ...to here
-              |
-            'uart_line_info': event 13
-              |
-              | 1850 |         if (uport->mctrl & (bit)) \
-              |      |            ^
-              |      |            |
-              |      |            (13) following 'true' branch...
-   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
-NFOBIT'
-              | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
-              |      |                 ^~~~~~~
-              |
-            'uart_line_info': event 14
-              |
-              |include/linux/fortify-string.h:20:45:
-              |   20 |                 if (__builtin_constant_p(__p[p_len])=
- && \
-              |      |                                          ~~~^~~~~~~
-              |      |                                             |
-              |      |                                             (14) ...=
-to here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-              |   77 |         size_t p_len =3D __compiletime_strlen(p);
-              |      |                        ^~~~~~~~~~~~~~~~~~~~
-              |
-            'uart_line_info': event 15
-              |
-              |   20 |                 if (__builtin_constant_p(__p[p_len])=
- && \
-              |      |                                          ~~~^~~~~~~
-              |      |                                             |
-              |      |                                             (15) use=
- of uninitialized value '*(unsigned char *)(&stat_buf[31])' here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-              |   77 |         size_t p_len =3D __compiletime_strlen(p);
-              |      |                        ^~~~~~~~~~~~~~~~~~~~
-              |
-   In function 'strnlen',
-       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
-       inlined from 'strncat' at include/linux/fortify-string.h:192:10,
-       inlined from 'uart_line_info' at drivers/tty/serial/serial_core.c:18=
-60:3:
->> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
-e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
-lized-value]
-      20 |                 if (__builtin_constant_p(__p[p_len]) && \
-         |                                          ~~~^~~~~~~
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-      77 |         size_t p_len =3D __compiletime_strlen(p);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-     'uart_proc_show': events 1-4
-       |
-       |drivers/tty/serial/serial_core.c:1878:12:
-       | 1878 | static int uart_proc_show(struct seq_file *m, void *v)
-       |      |            ^~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'uart_proc_show'
-       |......
-       | 1885 |         for (i =3D 0; i < drv->nr; i++)
-       |      |                     ~~~~~~~~~~~
-       |      |                       |
-       |      |                       (2) following 'true' branch...
-       | 1886 |                 uart_line_info(m, drv, i);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-       |      |                 (4) calling 'uart_line_info' from 'uart_pro=
-c_show'
-       |
-       +--> 'uart_line_info': events 5-12
-              |
-              | 1798 | static void uart_line_info(struct seq_file *m, struc=
-t uart_driver *drv, int i)
-              |      |             ^~~~~~~~~~~~~~
-              |      |             |
-              |      |             (5) entry to 'uart_line_info'
-              |......
-              | 1804 |         char stat_buf[32];
-              |      |              ~~~~~~~~
-              |      |              |
-              |      |              (6) region created on stack here
-              |......
-              | 1810 |         if (!uport)
-              |      |            ~ =
+522e010b58379f Konstantin Komarov 2021-08-13  249  		/* Check for boundary =
+*/
+522e010b58379f Konstantin Komarov 2021-08-13  250  		if (cmpr + 1 >=3D cmpr=
+_end)
+522e010b58379f Konstantin Komarov 2021-08-13  251  			return -EINVAL;
+522e010b58379f Konstantin Komarov 2021-08-13  252  =
 
-              |      |            |
-              |      |            (7) following 'false' branch...
-              |......
-              | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
-              |      |                ~~~~~~~~~~~~~
-              |      |                     |
-              |      |                     (8) ...to here
-              |......
-              | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
-              |      |            ~ =
+522e010b58379f Konstantin Komarov 2021-08-13  253  		/* Read a short from l=
+ittle endian stream */
+522e010b58379f Konstantin Komarov 2021-08-13  254  		pair =3D cmpr[1];
+522e010b58379f Konstantin Komarov 2021-08-13  255  		pair <<=3D 8;
+522e010b58379f Konstantin Komarov 2021-08-13  256  		pair |=3D cmpr[0];
+522e010b58379f Konstantin Komarov 2021-08-13  257  =
 
-              |      |            |
-              |      |            (9) following 'false' branch...
-              |......
-              | 1826 |         if (capable(CAP_SYS_ADMIN)) {
-              |      |            ~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            ||
-              |      |            |(10) ...to here
-              |      |            (11) following 'true' branch...
-              | 1827 |                 pm_state =3D state->pm_state;
-              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                          |
-              |      |                          (12) ...to here
-              |
-            'uart_line_info': event 13
-              |
-              | 1850 |         if (uport->mctrl & (bit)) \
-              |      |            ^
-              |      |            |
-              |      |            (13) following 'true' branch...
-   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
-NFOBIT'
-              | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
-              |      |                 ^~~~~~~
-              |
-            'uart_line_info': event 14
-              |
-              |include/linux/fortify-string.h:20:45:
-              |   20 |                 if (__builtin_constant_p(__p[p_len])=
- && \
-              |      |                                          ~~~^~~~~~~
-              |      |                                             |
-              |      |                                             (14) ...=
-to here
-   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
-piletime_strlen'
-              |   77 |         size_t p_len =3D __compiletime_strlen(p);
-              |      |                        ^~~~~~~~~~~~~~~~~~~~
-              |
-            'uart_line_info': events 15-17
-              |
-              |   89 |         if (p_size <=3D ret && maxlen !=3D ret)
-              |      |            ^
-              |      |            |
-              |      |            (15) following 'false' branch...
-              |......
-              |  104 |         if (p_size <=3D ret)
-              |      |            ~
-              |      |            |
-              |      |            (16) ...to here
-              |      |            (17) following 'false' branch...
-              |
-            'uart_line_info': event 18
-              |
-              |drivers/tty/serial/serial_core.c:1851:17:
-              | 1851 |                 strncat(stat_buf, (str), sizeof(stat=
-_buf) - \
-              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-              |      |                 |
+522e010b58379f Konstantin Komarov 2021-08-13  258  		cmpr +=3D 2;
+522e010b58379f Konstantin Komarov 2021-08-13  259  =
 
-vim +20 include/linux/fortify-string.h
+522e010b58379f Konstantin Komarov 2021-08-13  260  		/* Translate packed in=
+formation into offset and length */
+522e010b58379f Konstantin Komarov 2021-08-13  261  		length =3D parse_pair(=
+pair, &offset, index);
+522e010b58379f Konstantin Komarov 2021-08-13  262  =
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  12  =
+522e010b58379f Konstantin Komarov 2021-08-13  263  		/* Check offset for bo=
+undary */
+522e010b58379f Konstantin Komarov 2021-08-13  264  		if (unc + offset > up)
+522e010b58379f Konstantin Komarov 2021-08-13  265  			return -EINVAL;
+522e010b58379f Konstantin Komarov 2021-08-13  266  =
 
-3009f891bb9f32 Kees Cook      2021-08-02  13  #define __compiletime_strlen(=
-p)				\
-3009f891bb9f32 Kees Cook      2021-08-02  14  ({							\
-3009f891bb9f32 Kees Cook      2021-08-02  15  	unsigned char *__p =3D (unsi=
-gned char *)(p);      \
-3009f891bb9f32 Kees Cook      2021-08-02  16  	size_t ret =3D (size_t)-1;		=
-	\
-3009f891bb9f32 Kees Cook      2021-08-02  17  	size_t p_size =3D __builtin_=
-object_size(p, 1);	\
-3009f891bb9f32 Kees Cook      2021-08-02  18  	if (p_size !=3D (size_t)-1) =
-{			\
-3009f891bb9f32 Kees Cook      2021-08-02  19  		size_t p_len =3D p_size - 1=
-;		\
-3009f891bb9f32 Kees Cook      2021-08-02 @20  		if (__builtin_constant_p(__=
-p[p_len]) &&	\
-3009f891bb9f32 Kees Cook      2021-08-02  21  		    __p[p_len] =3D=3D '\0')=
-			\
-3009f891bb9f32 Kees Cook      2021-08-02  22  			ret =3D __builtin_strlen(_=
-_p);	\
-3009f891bb9f32 Kees Cook      2021-08-02  23  	}						\
-3009f891bb9f32 Kees Cook      2021-08-02  24  	ret;						\
-3009f891bb9f32 Kees Cook      2021-08-02  25  })
-3009f891bb9f32 Kees Cook      2021-08-02  26  =
+522e010b58379f Konstantin Komarov 2021-08-13  267  		/* Truncate the length=
+ if necessary */
+522e010b58379f Konstantin Komarov 2021-08-13  268  		if (up + length >=3D u=
+nc_end)
+522e010b58379f Konstantin Komarov 2021-08-13  269  			length =3D unc_end - =
+up;
+522e010b58379f Konstantin Komarov 2021-08-13  270  =
 
+522e010b58379f Konstantin Komarov 2021-08-13  271  		/* Now we copy bytes. =
+This is the heart of LZ algorithm. */
+522e010b58379f Konstantin Komarov 2021-08-13  272  		for (; length > 0; len=
+gth--, up++)
+522e010b58379f Konstantin Komarov 2021-08-13  273  			*up =3D *(up - offset=
+);
+522e010b58379f Konstantin Komarov 2021-08-13  274  =
+
+522e010b58379f Konstantin Komarov 2021-08-13  275  next:
+522e010b58379f Konstantin Komarov 2021-08-13  276  		/* Advance flag bit va=
+lue */
+522e010b58379f Konstantin Komarov 2021-08-13  277  		bit =3D (bit + 1) & 7;
+522e010b58379f Konstantin Komarov 2021-08-13  278  =
+
+522e010b58379f Konstantin Komarov 2021-08-13  279  		if (!bit) {
+522e010b58379f Konstantin Komarov 2021-08-13  280  			if (cmpr >=3D cmpr_en=
+d)
+522e010b58379f Konstantin Komarov 2021-08-13  281  				break;
+522e010b58379f Konstantin Komarov 2021-08-13  282  =
+
+522e010b58379f Konstantin Komarov 2021-08-13  283  			ch =3D *cmpr++;
+522e010b58379f Konstantin Komarov 2021-08-13  284  		}
+522e010b58379f Konstantin Komarov 2021-08-13  285  	}
+522e010b58379f Konstantin Komarov 2021-08-13  286  =
+
+522e010b58379f Konstantin Komarov 2021-08-13  287  	/* return the size of u=
+ncompressed data */
+522e010b58379f Konstantin Komarov 2021-08-13  288  	return up - unc;
+522e010b58379f Konstantin Komarov 2021-08-13  289  }
+522e010b58379f Konstantin Komarov 2021-08-13  290  =
+
+
+:::::: The code at line 234 was first introduced by commit
+:::::: 522e010b58379fbe19b38fdef5016bca0c3cf405 fs/ntfs3: Add compression
+
+:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6590061194878900614==--
+--===============3813112191435251527==--
 
