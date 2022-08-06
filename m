@@ -1,260 +1,162 @@
-Content-Type: multipart/mixed; boundary="===============0984192954295311284=="
+Content-Type: multipart/mixed; boundary="===============7330918063149683955=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sun, 07 Aug 2022 03:48:11 +0800
-Message-ID: <202208070327.sGrcPNyl-lkp@intel.com>
+Subject: drivers/net/ethernet/actions/owl-emac.c:210 owl_emac_ring_prepare_rx() error: potentially dereferencing uninitialized 'desc'.
+Date: Sun, 07 Aug 2022 01:45:55 +0800
+Message-ID: <202208070132.61ALGbPW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0984192954295311284==
+--===============7330918063149683955==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "only Kconfig file updated"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unkno=
-wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Jean Delvare <jdelvare@suse.de>
+TO: Cai Huoqing <caihuoqing@baidu.com>
+
+Hi Cai,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: b97adb596399581df42a5f94e14235359f150373 hwmon: Allow to compile AS=
-B100 and FSCHMD on !X86
-date:   3 weeks ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220807/202208070327.sGrcPNyl-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db97adb596399581df42a5f94e14235359f150373
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b97adb596399581df42a5f94e14235359f150373
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: fbcf8a340150abd20bf44fc706362b0827157fe8 net: ethernet: actions: Ad=
+d helper dependency on COMPILE_TEST
+date:   12 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 12 months ago
+config: openrisc-randconfig-m031-20220801 (https://download.01.org/0day-ci/=
+archive/20220807/202208070132.61ALGbPW-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/hwmon/asb100.c: In function 'pwm1_enable_store':
->> drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unk=
-nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     579 |         unsigned long val;
-         |                       ^~~
-     'pwm1_enable_store': event 1
-       |
-       |  579 |         unsigned long val;
-       |      |                       ^~~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   In file included from include/linux/bitops.h:7,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from arch/arm/include/asm/div64.h:107,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/hwmon/asb100.c:28:
-   drivers/hwmon/asb100.c: In function 'asb100_update_device':
-   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
-nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      11 |         typeof(x) __dummy2; \
-         |                   ^~~~~~~~
-   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
-     105 |         (typecheck(unsigned long, a) && \
-         |          ^~~~~~~~~
-   drivers/hwmon/asb100.c:945:13: note: in expansion of macro 'time_after'
-     945 |         if (time_after(jiffies, data->last_updated + HZ + HZ / 2)
-         |             ^~~~~~~~~~
-     'asb100_update_device': event 1
-       |
-       |include/linux/typecheck.h:11:19:
-       |   11 |         typeof(x) __dummy2; \
-       |      |                   ^~~~~~~~
-       |      |                   |
-       |      |                   (1) use of uninitialized value '<unknown>=
-' here
-   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
-       |  105 |         (typecheck(unsigned long, a) && \
-       |      |          ^~~~~~~~~
-   drivers/hwmon/asb100.c:945:13: note: in expansion of macro 'time_after'
-       |  945 |         if (time_after(jiffies, data->last_updated + HZ + H=
-Z / 2)
-       |      |             ^~~~~~~~~~
-       |
---
-   drivers/hwmon/fschmd.c: In function 'temp_max_store':
->> drivers/hwmon/fschmd.c:362:14: warning: use of uninitialized value '<unk=
-nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     362 |         long v;
-         |              ^
-     'temp_max_store': event 1
-       |
-       |  362 |         long v;
-       |      |              ^
-       |      |              |
-       |      |              (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/hwmon/fschmd.c: In function 'fan_div_store':
-   drivers/hwmon/fschmd.c:436:23: warning: use of uninitialized value '<unk=
-nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     436 |         unsigned long v;
-         |                       ^
-     'fan_div_store': event 1
-       |
-       |  436 |         unsigned long v;
-       |      |                       ^
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   drivers/hwmon/fschmd.c: In function 'pwm_auto_point1_pwm_store':
-   drivers/hwmon/fschmd.c:525:23: warning: use of uninitialized value '<unk=
-nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     525 |         unsigned long v;
-         |                       ^
-     'pwm_auto_point1_pwm_store': event 1
-       |
-       |  525 |         unsigned long v;
-       |      |                       ^
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   drivers/hwmon/fschmd.c: In function 'alert_led_store':
-   drivers/hwmon/fschmd.c:570:23: warning: use of uninitialized value '<unk=
-nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     570 |         unsigned long v;
-         |                       ^
-     'alert_led_store': event 1
-       |
-       |  570 |         unsigned long v;
-       |      |                       ^
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   In file included from include/linux/bitops.h:7,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from arch/arm/include/asm/div64.h:107,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/hwmon/fschmd.c:22:
-   drivers/hwmon/fschmd.c: In function 'fschmd_update_device':
-   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
-nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      11 |         typeof(x) __dummy2; \
-         |                   ^~~~~~~~
-   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
-     105 |         (typecheck(unsigned long, a) && \
-         |          ^~~~~~~~~
-   drivers/hwmon/fschmd.c:1306:13: note: in expansion of macro 'time_after'
-    1306 |         if (time_after(jiffies, data->last_updated + 2 * HZ) || =
-!data->valid) {
-         |             ^~~~~~~~~~
-     'fschmd_update_device': event 1
-       |
-       |include/linux/typecheck.h:11:19:
-       |   11 |         typeof(x) __dummy2; \
-       |      |                   ^~~~~~~~
-       |      |                   |
-       |      |                   (1) use of uninitialized value '<unknown>=
-' here
-   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
-       |  105 |         (typecheck(unsigned long, a) && \
-       |      |          ^~~~~~~~~
-   drivers/hwmon/fschmd.c:1306:13: note: in expansion of macro 'time_after'
-       | 1306 |         if (time_after(jiffies, data->last_updated + 2 * HZ=
-) || !data->valid) {
-       |      |             ^~~~~~~~~~
-       |
+smatch warnings:
+drivers/net/ethernet/actions/owl-emac.c:210 owl_emac_ring_prepare_rx() erro=
+r: potentially dereferencing uninitialized 'desc'.
+drivers/net/ethernet/actions/owl-emac.c:233 owl_emac_ring_prepare_tx() erro=
+r: potentially dereferencing uninitialized 'desc'.
 
-vim +579 drivers/hwmon/asb100.c
+vim +/desc +210 drivers/net/ethernet/actions/owl-emac.c
 
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  572  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  178  =
 
-82e73f7f953877 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  573  s=
-tatic ssize_t pwm1_enable_store(struct device *dev,
-82e73f7f953877 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  574  	=
-			 struct device_attribute *attr,
-82e73f7f953877 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  575  	=
-			 const char *buf, size_t count)
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  576  {
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  577  	=
-struct i2c_client *client =3D to_i2c_client(dev);
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  578  	=
-struct asb100_data *data =3D i2c_get_clientdata(client);
-8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14 @579  	=
-unsigned long val;
-8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  580  	=
-int err;
-8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  581  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  179  static int owl_emac_ring=
+_prepare_rx(struct owl_emac_priv *priv)
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  180  {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  181  	struct owl_emac_ring *r=
+ing =3D &priv->rx_ring;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  182  	struct device *dev =3D =
+owl_emac_get_dev(priv);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  183  	struct net_device *netd=
+ev =3D priv->netdev;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  184  	struct owl_emac_ring_de=
+sc *desc;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  185  	struct sk_buff *skb;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  186  	dma_addr_t dma_addr;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  187  	int i;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  188  =
 
-8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  582  	=
-err =3D kstrtoul(buf, 10, &val);
-8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  583  	=
-if (err)
-8c103696fa59e1 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  584  	=
-	return err;
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  585  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  189  	for (i =3D 0; i < ring-=
+>size; i++) {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  190  		skb =3D owl_emac_alloc=
+_skb(netdev);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  191  		if (!skb)
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  192  			return -ENOMEM;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  193  =
 
-9a61bf6300533d drivers/hwmon/asb100.c     Ingo Molnar    2006-01-18  586  	=
-mutex_lock(&data->update_lock);
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  587  	=
-data->pwm &=3D 0x0f; /* keep the duty cycle bits */
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  588  	=
-data->pwm |=3D (val ? 0x80 : 0x00);
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  589  	=
-asb100_write_value(client, ASB100_REG_PWM1, data->pwm);
-9a61bf6300533d drivers/hwmon/asb100.c     Ingo Molnar    2006-01-18  590  	=
-mutex_unlock(&data->update_lock);
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  591  	=
-return count;
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  592  }
-^1da177e4c3f41 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  593  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  194  		dma_addr =3D owl_emac_=
+dma_map_rx(priv, skb);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  195  		if (dma_mapping_error(=
+dev, dma_addr)) {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  196  			dev_kfree_skb(skb);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  197  			return -ENOMEM;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  198  		}
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  199  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  200  		desc =3D &ring->descs[=
+i];
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  201  		desc->status =3D OWL_E=
+MAC_BIT_RDES0_OWN;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  202  		desc->control =3D skb_=
+tailroom(skb) & OWL_EMAC_MSK_RDES1_RBS1;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  203  		desc->buf_addr =3D dma=
+_addr;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  204  		desc->reserved =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  205  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  206  		ring->skbs[i] =3D skb;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  207  		ring->skbs_dma[i] =3D =
+dma_addr;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  208  	}
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  209  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22 @210  	desc->control |=3D OWL_=
+EMAC_BIT_RDES1_RER;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  211  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  212  	ring->head =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  213  	ring->tail =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  214  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  215  	return 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  216  }
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  217  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  218  static void owl_emac_rin=
+g_prepare_tx(struct owl_emac_priv *priv)
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  219  {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  220  	struct owl_emac_ring *r=
+ing =3D &priv->tx_ring;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  221  	struct owl_emac_ring_de=
+sc *desc;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  222  	int i;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  223  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  224  	for (i =3D 0; i < ring-=
+>size; i++) {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  225  		desc =3D &ring->descs[=
+i];
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  226  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  227  		desc->status =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  228  		desc->control =3D OWL_=
+EMAC_BIT_TDES1_IC;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  229  		desc->buf_addr =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  230  		desc->reserved =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  231  	}
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  232  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22 @233  	desc->control |=3D OWL_=
+EMAC_BIT_TDES1_TER;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  234  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  235  	memset(ring->skbs_dma, =
+0, sizeof(dma_addr_t) * ring->size);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  236  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  237  	ring->head =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  238  	ring->tail =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  239  }
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  240  =
 
 
-:::::: The code at line 579 was first introduced by commit
-:::::: 8c103696fa59e1b810bf24a63304acd5ab585c12 hwmon: (asb100): Fix checkp=
-atch issues
+:::::: The code at line 210 was first introduced by commit
+:::::: de6e0b198239857943db395377dc1d2ddd6c05df net: ethernet: actions: Add=
+ Actions Semi Owl Ethernet MAC driver
 
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Guenter Roeck <guenter.roeck@ericsson.com>
+:::::: TO: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0984192954295311284==--
+--===============7330918063149683955==--
 
