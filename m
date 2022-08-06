@@ -1,346 +1,292 @@
-Content-Type: multipart/mixed; boundary="===============1653092654484328488=="
+Content-Type: multipart/mixed; boundary="===============6613180632798938613=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/trace/trace_probe.c:1061:30: warning: use of NULL 'event_name' where non-null expected [CWE-476]
-Date: Sat, 06 Aug 2022 21:17:08 +0800
-Message-ID: <202208062156.YfcFCvo2-lkp@intel.com>
+Subject: Re: [RFC PATCH v1] pinctrl: imx8m: kconfig: Depends on SOC_IMX8M
+Date: Sat, 06 Aug 2022 20:36:07 +0800
+Message-ID: <202208062030.11RYGgce-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1653092654484328488==
+--===============6613180632798938613==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: kernel/tr=
-ace/trace_probe.c:1061:30: warning: use of NULL 'event_name' where non-null=
- expected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: Manual check reason: "only Kconfig file updated"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Masami Hiramatsu <mhiramat@kernel.org>
-CC: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+In-Reply-To: <20220802110232.130758-1-francesco.dolcini@toradex.com>
+References: <20220802110232.130758-1-francesco.dolcini@toradex.com>
+TO: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: 8e242060c6a4947e8ae7d29794af6a581db08841 tracing/probes: Reject eve=
-nts which have the same name of existing one
-date:   12 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220806/202208062156.YfcFCvo2-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Francesco,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linus/master v5.19 next-20220805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Dolcini/pi=
+nctrl-imx8m-kconfig-Depends-on-SOC_IMX8M/20220802-190320
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctr=
+l.git devel
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: alpha-randconfig-r033-20220805 (https://download.01.org/0day-ci/arc=
+hive/20220806/202208062030.11RYGgce-lkp(a)intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8e242060c6a4947e8ae7d29794af6a581db08841
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8e242060c6a4947e8ae7d29794af6a581db08841
+        # https://github.com/intel-lab-lkp/linux/commit/8cf69707b586a5aaa92=
+ba9757f2d98383b220a43
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Francesco-Dolcini/pinctrl-imx8m-kc=
+onfig-Depends-on-SOC_IMX8M/20220802-190320
+        git checkout 8cf69707b586a5aaa92ba9757f2d98383b220a43
         # save the config file
+        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+ W=3D1 O=3Dbuild_dir ARCH=3Dalpha SHELL=3D/bin/bash drivers/pinctrl/freesca=
+le/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-       |  760 | int traceprobe_parse_probe_arg(struct trace_probe *tp, int =
-i, const char *arg,
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'traceprobe_parse_probe_arg'
-       |......
-       |  770 |         if (body) {
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'true' branch (when 'body' is non-=
-NULL)...
-       |  771 |                 if (body - arg > MAX_ARG_NAME_LEN) {
-       |      |                    ~~~~~~~~~~~
-       |      |                    |     |
-       |      |                    |     (3) ...to here
-       |      |                    (4) following 'false' branch...
-       |......
-       |  774 |                 } else if (body =3D=3D arg) {
-       |      |                           ~
-       |      |                           |
-       |      |                           (5) ...to here
-       |      |                           (6) following 'false' branch (whe=
-n 'arg !=3D body')...
-       |......
-       |  778 |                 parg->name =3D kmemdup_nul(arg, body - arg,=
- GFP_KERNEL);
-       |      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~
-       |      |                              |
-       |      |                              (7) ...to here
-       |......
-       |  785 |         if (!parg->name)
-       |      |            ~
-       |      |            |
-       |      |            (8) following 'false' branch...
-       |......
-       |  788 |         if (!is_good_name(parg->name)) {
-       |      |            ~ ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            | |
-       |      |            | (9) ...to here
-       |      |            (10) following 'true' branch...
-       |......
-       |  792 |         if (traceprobe_conflict_field_name(parg->name, tp->=
-args, i)) {
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |      |             |                                            |
-       |      |             |                                            (1=
-1) ...to here
-       |      |             (12) calling 'traceprobe_conflict_field_name' f=
-rom 'traceprobe_parse_probe_arg'
-       |
-       +--> 'traceprobe_conflict_field_name': event 13
-              |
-              |  744 | static int traceprobe_conflict_field_name(const char=
- *name,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (13) entry to 'traceprobe_conflict_field_=
-name'
-              |
-            'traceprobe_conflict_field_name': events 14-15
-              |
-              |  749 |         for (i =3D 0; i < ARRAY_SIZE(reserved_field_=
-names); i++)
-              |  750 |                 if (strcmp(reserved_field_names[i], =
-name) =3D=3D 0)
-              |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-              |      |                     |
-              |      |                     (15) ...to here
-              |
-       <------+
-       |
-     'traceprobe_parse_probe_arg': events 16-19
-       |
-       |  792 |         if (traceprobe_conflict_field_name(parg->name, tp->=
-args, i)) {
-       |      |            ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |      |            ||
-       |      |            |(16) returning to 'traceprobe_parse_probe_arg' =
-from 'traceprobe_conflict_field_name'
-       |      |            (17) following 'false' branch...
-       |......
-       |  797 |         return traceprobe_parse_probe_arg_body(body, &tp->s=
-ize, parg, flags,
-       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (18) ...to here
-       |      |                (19) calling 'traceprobe_parse_probe_arg_bod=
-y' from 'traceprobe_parse_probe_arg'
-       |  798 |                                                body - arg);
-       |      |                                                ~~~~~~~~~~~
-       |
-       +--> 'traceprobe_parse_probe_arg_body': events 20-21
-              |
-              |  546 | static int traceprobe_parse_probe_arg_body(const cha=
-r *argv, ssize_t *size,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (20) entry to 'traceprobe_parse_probe_arg=
-_body'
-              |......
-              |  549 |         struct fetch_insn *code, *scode, *tmp =3D NU=
-LL;
-              |      |                            ~~~~
-              |      |                            |
-              |      |                            (21) use of uninitialized=
- value '<unknown>' here
-              |
-   kernel/trace/trace_probe.c: In function 'traceprobe_update_arg':
-   kernel/trace/trace_probe.c:820:14: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     820 |         long offset;
-         |              ^~~~~~
-     'traceprobe_update_arg': event 1
-       |
-       |  820 |         long offset;
-       |      |              ^~~~~~
-       |      |              |
-       |      |              (1) use of uninitialized value '<unknown>' here
-       |
-   kernel/trace/trace_probe.c: In function 'find_trace_event_call':
->> kernel/trace/trace_probe.c:1061:30: warning: use of NULL 'event_name' wh=
-ere non-null expected [CWE-476] [-Wanalyzer-null-argument]
-    1061 |                 if (!name || strcmp(event_name, name))
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
-     'trace_probe_register_event_call': event 1
-       |
-       | 1069 | int trace_probe_register_event_call(struct trace_probe *tp)
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'trace_probe_register_event_call'
-       |
-     'trace_probe_register_event_call': event 2
-       |
-       |include/asm-generic/bug.h:122:12:
-       |  122 |         if (unlikely(__ret_warn_on))                       =
-             \
-       |      |            ^
-       |      |            |
-       |      |            (2) following 'false' branch...
-   include/linux/lockdep.h:310:17: note: in expansion of macro 'WARN_ON'
-       |  310 |                 WARN_ON(debug_locks &&                     =
-             \
-       |      |                 ^~~~~~~
-   kernel/trace/trace_probe.c:1074:9: note: in expansion of macro 'lockdep_=
-assert_held'
-       | 1074 |         lockdep_assert_held(&event_mutex);
-       |      |         ^~~~~~~~~~~~~~~~~~~
-       |
-     'trace_probe_register_event_call': event 3
-       |
-       |kernel/trace/trace_probe.h:284:18:
-       |  284 |         return tp->event->call.class->system;
-       |      |                ~~^~~~~~~
-       |      |                  |
-       |      |                  (3) ...to here
-       |
-     'trace_probe_register_event_call': event 4
-       |
-       |kernel/trace/trace_probe.c:1076:13:
-       | 1076 |         if (find_trace_event_call(trace_probe_group_name(tp=
-),
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |             |
-       |      |             (4) calling 'trace_probe_name' from 'trace_prob=
-e_register_event_call'
-       | 1077 |                                   trace_probe_name(tp)))
-       |      |                                   ~~~~~~~~~~~~~~~~~~~~~
-       |
-       +--> 'trace_probe_name': events 5-6
-              |
-              |kernel/trace/trace_probe.h:277:27:
-              |  277 | static inline const char *trace_probe_name(struct tr=
-ace_probe *tp)
-              |      |                           ^~~~~~~~~~~~~~~~
-              |      |                           |
-              |      |                           (5) entry to 'trace_probe_=
-name'
-              |  278 | {
-              |  279 |         return trace_event_name(&tp->event->call);
-              |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                |
-              |      |                (6) calling 'trace_event_name' from '=
-trace_probe_name'
-              |
-              +--> 'trace_event_name': events 7-9
-                     |
-                     |include/linux/trace_events.h:437:1:
-                     |  437 | trace_event_name(struct trace_event_call *cal=
-l)
-                     |      | ^~~~~~~~~~~~~~~~
-                     |      | |
-                     |      | (7) entry to 'trace_event_name'
-                     |  438 | {
-                     |  439 |         if (call->flags & TRACE_EVENT_FL_TRAC=
-EPOINT)
-                     |      |            ~
-                     |      |            |
-                     |      |            (8) following 'true' branch...
-                     |  440 |                 return call->tp ? call->tp->n=
-ame : NULL;
-                     |      |                        ~~~~~~~~
-                     |      |                            |
-                     |      |                            (9) ...to here
-                     |
-                   'trace_event_name': event 10
-                     |
-                     |  440 |                 return call->tp ? call->tp->n=
-ame : NULL;
-                     |
-                   'trace_event_name': event 11
-                     |
-                     |cc1:
-                     | (11): ...to here
-                     |
-              <------+
-              |
-            'trace_probe_name': event 12
-              |
-              |kernel/trace/trace_probe.h:279:16:
-              |  279 |         return trace_event_name(&tp->event->call);
-              |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                |
-              |      |                (12) returning to 'trace_probe_name' =
-from 'trace_event_name'
-              |
-       <------+
-       |
-     'trace_probe_register_event_call': events 13-14
-       |
-       |kernel/trace/trace_probe.c:1076:13:
-       | 1076 |         if (find_trace_event_call(trace_probe_group_name(tp=
-),
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |             |
-       |      |             (13) returning to 'trace_probe_register_event_c=
-all' from 'trace_probe_name'
-       |      |             (14) calling 'find_trace_event_call' from 'trac=
-e_probe_register_event_call'
+All warnings (new ones prefixed by >>):
 
-vim +/event_name +1061 kernel/trace/trace_probe.c
+   drivers/pinctrl/freescale/pinctrl-imx.c: In function 'imx_pmx_set':
+   drivers/pinctrl/freescale/pinctrl-imx.c:260:16: error: implicit declarat=
+ion of function 'pinmux_generic_get_function'; did you mean 'pinmux_generic=
+_free_functions'? [-Werror=3Dimplicit-function-declaration]
+     260 |         func =3D pinmux_generic_get_function(pctldev, selector);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                pinmux_generic_free_functions
+>> drivers/pinctrl/freescale/pinctrl-imx.c:260:14: warning: assignment to '=
+struct function_desc *' from 'int' makes pointer from integer without a cas=
+t [-Wint-conversion]
+     260 |         func =3D pinmux_generic_get_function(pctldev, selector);
+         |              ^
+   In file included from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/of_device.h:5,
+                    from drivers/pinctrl/freescale/pinctrl-imx.c:16:
+   drivers/pinctrl/freescale/pinctrl-imx.c:267:21: error: invalid use of un=
+defined type 'struct function_desc'
+     267 |                 func->name, grp->name);
+         |                     ^~
+   include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_pri=
+ntk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);    =
+        \
+         |                                                ^~~~~~~~~~~
+   drivers/pinctrl/freescale/pinctrl-imx.c:266:9: note: in expansion of mac=
+ro 'dev_dbg'
+     266 |         dev_dbg(ipctl->dev, "enable function %s group %s\n",
+         |         ^~~~~~~
+   drivers/pinctrl/freescale/pinctrl-imx.c: At top level:
+   drivers/pinctrl/freescale/pinctrl-imx.c:287:32: error: 'pinmux_generic_g=
+et_function_count' undeclared here (not in a function); did you mean 'pinmu=
+x_generic_free_functions'?
+     287 |         .get_functions_count =3D pinmux_generic_get_function_cou=
+nt,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                pinmux_generic_free_functions
+   drivers/pinctrl/freescale/pinctrl-imx.c:288:30: error: 'pinmux_generic_g=
+et_function_name' undeclared here (not in a function); did you mean 'pinmux=
+_generic_free_functions'?
+     288 |         .get_function_name =3D pinmux_generic_get_function_name,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                              pinmux_generic_free_functions
+   drivers/pinctrl/freescale/pinctrl-imx.c:289:32: error: 'pinmux_generic_g=
+et_function_groups' undeclared here (not in a function); did you mean 'pinm=
+ux_generic_free_functions'?
+     289 |         .get_function_groups =3D pinmux_generic_get_function_gro=
+ups,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                pinmux_generic_free_functions
+   drivers/pinctrl/freescale/pinctrl-imx.c: In function 'imx_pinconf_parse_=
+generic_config':
+   drivers/pinctrl/freescale/pinctrl-imx.c:341:15: error: implicit declarat=
+ion of function 'pinconf_generic_parse_dt_config'; did you mean 'pinconf_ge=
+neric_dump_config'? [-Werror=3Dimplicit-function-declaration]
+     341 |         ret =3D pinconf_generic_parse_dt_config(np, pctl, &confi=
+gs,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               pinconf_generic_dump_config
+   drivers/pinctrl/freescale/pinctrl-imx.c: In function 'imx_pinctrl_parse_=
+functions':
+   drivers/pinctrl/freescale/pinctrl-imx.c:656:14: warning: assignment to '=
+struct function_desc *' from 'int' makes pointer from integer without a cas=
+t [-Wint-conversion]
+     656 |         func =3D pinmux_generic_get_function(pctl, index);
+         |              ^
+   drivers/pinctrl/freescale/pinctrl-imx.c:661:13: error: invalid use of un=
+defined type 'struct function_desc'
+     661 |         func->name =3D np->name;
+         |             ^~
+   drivers/pinctrl/freescale/pinctrl-imx.c:662:13: error: invalid use of un=
+defined type 'struct function_desc'
+     662 |         func->num_group_names =3D of_get_child_count(np);
+         |             ^~
+   drivers/pinctrl/freescale/pinctrl-imx.c:663:17: error: invalid use of un=
+defined type 'struct function_desc'
+     663 |         if (func->num_group_names =3D=3D 0) {
+         |                 ^~
+   drivers/pinctrl/freescale/pinctrl-imx.c:668:52: error: invalid use of un=
+defined type 'struct function_desc'
+     668 |         group_names =3D devm_kcalloc(ipctl->dev, func->num_group=
+_names,
+         |                                                    ^~
+   drivers/pinctrl/freescale/pinctrl-imx.c:675:13: error: invalid use of un=
+defined type 'struct function_desc'
+     675 |         func->group_names =3D group_names;
+         |             ^~
+   drivers/pinctrl/freescale/pinctrl-imx.c: In function 'imx_pinctrl_probe_=
+dt':
+   drivers/pinctrl/freescale/pinctrl-imx.c:752:59: error: invalid applicati=
+on of 'sizeof' to incomplete type 'struct function_desc'
+     752 |                 function =3D devm_kzalloc(&pdev->dev, sizeof(*fu=
+nction),
+         |                                                           ^
+   drivers/pinctrl/freescale/pinctrl-imx.c:758:40: error: 'struct pinctrl_d=
+ev' has no member named 'pin_function_tree'
+     758 |                 radix_tree_insert(&pctl->pin_function_tree, i, f=
+unction);
+         |                                        ^~
+   drivers/pinctrl/freescale/pinctrl-imx.c:761:13: error: 'struct pinctrl_d=
+ev' has no member named 'num_functions'
+     761 |         pctl->num_functions =3D nfuncs;
+         |             ^~
+   cc1: some warnings being treated as errors
 
-46e5376d404d14 Masami Hiramatsu 2019-06-01  1049  =
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PINCTRL_IMX
+   Depends on [n]: PINCTRL [=3Dy] && OF [=3Dn]
+   Selected by [y]:
+   - PINCTRL_IMX8MP [=3Dy] && PINCTRL [=3Dy] && SOC_IMX8M [=3Dy]
+   Selected by [m]:
+   - PINCTRL_IMX8MM [=3Dm] && PINCTRL [=3Dy] && SOC_IMX8M [=3Dy]
+   - PINCTRL_IMX8MN [=3Dm] && PINCTRL [=3Dy] && SOC_IMX8M [=3Dy]
 
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1050  static struct trace_event=
-_call *
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1051  find_trace_event_call(con=
-st char *system, const char *event_name)
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1052  {
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1053  	struct trace_event_call =
-*tp_event;
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1054  	const char *name;
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1055  =
 
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1056  	list_for_each_entry(tp_e=
-vent, &ftrace_events, list) {
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1057  		if (!tp_event->class->s=
-ystem ||
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1058  		    strcmp(system, tp_e=
-vent->class->system))
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1059  			continue;
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1060  		name =3D trace_event_na=
-me(tp_event);
-8e242060c6a494 Masami Hiramatsu 2021-08-19 @1061  		if (!name || strcmp(eve=
-nt_name, name))
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1062  			continue;
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1063  		return tp_event;
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1064  	}
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1065  =
+vim +260 drivers/pinctrl/freescale/pinctrl-imx.c
 
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1066  	return NULL;
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1067  }
-8e242060c6a494 Masami Hiramatsu 2021-08-19  1068  =
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  240  =
+
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  241  static int imx_pmx_set(struct pinctrl_dev *pctldev, unsigned sele=
+ctor,
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  242  		       unsigned group)
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  243  {
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  244  	struct imx_pinctrl *ipctl =3D pinctrl_dev_get_drvdata(pctldev);
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  245  	const struct imx_pinctrl_soc_info *info =3D ipctl->info;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  246  	struct function_desc *func;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  247  	struct group_desc *grp;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  248  	struct imx_pin *pin;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  249  	unsigned int npins;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  250  	int i, err;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  251  =
+
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  252  	/*
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  253  	 * Configure the mux mode for each pin in the group for a specif=
+ic
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  254  	 * function.
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  255  	 */
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  256  	grp =3D pinctrl_generic_get_group(pctldev, group);
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  257  	if (!grp)
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  258  		return -EINVAL;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  259  =
+
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30 @260  	func =3D pinmux_generic_get_function(pctldev, selector);
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  261  	if (!func)
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  262  		return -EINVAL;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  263  =
+
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  264  	npins =3D grp->num_pins;
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  265  =
+
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  266  	dev_dbg(ipctl->dev, "enable function %s group %s\n",
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  267  		func->name, grp->name);
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  268  =
+
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  269  	for (i =3D 0; i < npins; i++) {
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  270  		/*
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  271  		 * For IMX_USE_SCU case, we postpone the mux setting
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  272  		 * until config is set as we can set them together
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  273  		 * in one IPC call
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  274  		 */
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  275  		pin =3D &((struct imx_pin *)(grp->data))[i];
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  276  		if (!(info->flags & IMX_USE_SCU)) {
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  277  			err =3D imx_pmx_set_one_pin_mmio(ipctl, pin);
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  278  			if (err)
+b96eea718bf697 drivers/pinctrl/freescale/pinctrl-imx.c A.s. Dong    2018-10=
+-30  279  				return err;
+ae75ff81453840 drivers/pinctrl/pinctrl-imx.c           Dong Aisheng 2012-04=
+-27  280  		}
+ae75ff81453840 drivers/pinctrl/pinctrl-imx.c           Dong Aisheng 2012-04=
+-27  281  	}
+ae75ff81453840 drivers/pinctrl/pinctrl-imx.c           Dong Aisheng 2012-04=
+-27  282  =
+
+ae75ff81453840 drivers/pinctrl/pinctrl-imx.c           Dong Aisheng 2012-04=
+-27  283  	return 0;
+ae75ff81453840 drivers/pinctrl/pinctrl-imx.c           Dong Aisheng 2012-04=
+-27  284  }
+ae75ff81453840 drivers/pinctrl/pinctrl-imx.c           Dong Aisheng 2012-04=
+-27  285  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1653092654484328488==--
+--===============6613180632798938613==--
 
