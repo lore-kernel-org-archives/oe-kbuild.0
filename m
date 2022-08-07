@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8474471088345718306=="
+Content-Type: multipart/mixed; boundary="===============6255501981660328354=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/container_of.h:18:15: warning: use of uninitialized value '((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457]
-Date: Sat, 13 Aug 2022 08:37:18 +0800
-Message-ID: <202208130859.iUqAbbx8-lkp@intel.com>
+Subject: fs/iomap/buffered-io.c:1175:14: warning: use of uninitialized value '*ioend.io_bio' [CWE-457]
+Date: Sun, 07 Aug 2022 18:33:21 +0800
+Message-ID: <202208071841.OBfPTNbg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8474471088345718306==
+--===============6255501981660328354==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,41 +15,41 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: include/l=
-inux/container_of.h:18:15: warning: use of uninitialized value '((struct hi=
-dma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457] [-Wanalyze=
-r-use-of-uninitialized-value]"
+:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check warning: fs/iomap/=
+buffered-io.c:1175:14: warning: use of uninitialized value '*ioend.io_bio' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Christoph Hellwig <hch@lst.de>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   4a9350597aff50bbd0f4b80ccf49d2e02d1111f5
-commit: d2a8ebbf8192b84b11f1b204c4f7c602df32aeac kernel.h: split out contai=
-ner_of() and typeof_member() macros
-date:   9 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220811 (https://download.01.org/0day-ci/archi=
-ve/20220813/202208130859.iUqAbbx8-lkp(a)intel.com/config)
+head:   1612c382ffbdf1f673caec76502b1c00e6d35363
+commit: 6e478521df535b9d5ef5eb84d4352f235bbbef99 iomap,xfs: Convert ->disca=
+rd_page to ->discard_folio
+date:   8 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
+ve/20220807/202208071841.OBfPTNbg-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+t/commit/?id=3D6e478521df535b9d5ef5eb84d4352f235bbbef99
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout d2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+        git checkout 6e478521df535b9d5ef5eb84d4352f235bbbef99
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -59,678 +59,193 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-              |
-              |  459 | static int hidma_terminate_channel(struct dma_chan *=
-chan)
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (3) entry to 'hidma_terminate_channel'
-              |......
-              |  470 |         hidma_process_completed(mchan);
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (4) calling 'hidma_process_completed' from '=
-hidma_terminate_channel'
-              |
-              +--> 'hidma_process_completed': events 5-6
-                     |
-                     |  108 | static void hidma_process_completed(struct hi=
-dma_chan *mchan)
-                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (5) entry to 'hidma_process_compl=
-eted'
-                     |......
-                     |  117 |         struct list_head list;
-                     |      |                          ~~~~
-                     |      |                          |
-                     |      |                          (6) region created o=
-n stack here
-                     |
-                   'hidma_process_completed': event 7
-                     |
-                     |include/linux/list.h:498:12:
-                     |  498 |         if (!list_empty(list)) {
-                     |      |            ^
-                     |      |            |
-                     |      |            (7) following 'false' branch...
-                     |
-                   'hidma_process_completed': event 8
-                     |
-                     |include/linux/spinlock.h:293:17:
-                     |  293 |                 _raw_spin_unlock_irqrestore(l=
-ock, flags);       \
-                     |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (8) ...to here
-   include/linux/spinlock.h:417:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-                     |  417 |         raw_spin_unlock_irqrestore(&lock->rlo=
-ck, flags);
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-                   'hidma_process_completed': event 9
-                     |
-                     |include/linux/list.h:717:14:
-                     |  717 |              !list_entry_is_head(pos, head, m=
-ember);                    \
-                     |      |              ^
-                     |      |              |
-                     |      |              (9) following 'true' branch...
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-                     |  127 |         list_for_each_entry_safe(mdesc, next,=
- &list, node) {
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-                   'hidma_process_completed': events 10-11
-                     |
-                     |  129 |                 struct dmaengine_desc_callbac=
-k cb;
-                     |      |                                              =
-  ^~
-                     |      |                                              =
-  |
-                     |      |                                              =
-  (10) ...to here
-                     |......
-                     |  145 |                 dma_cookie_complete(desc);
-                     |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~    =
-   =
-
-                     |      |                 |
-                     |      |                 (11) calling 'dma_cookie_comp=
-lete' from 'hidma_process_completed'
-                     |
-                     +--> 'dma_cookie_complete': event 12
-                            |
-                            |drivers/dma/qcom/../dmaengine.h:52:20:
-                            |   52 | static inline void dma_cookie_complete=
-(struct dma_async_tx_descriptor *tx)
-                            |      |                    ^~~~~~~~~~~~~~~~~~~
-                            |      |                    |
-                            |      |                    (12) entry to 'dma_=
-cookie_complete'
-                            |
-                          'dma_cookie_complete': event 13
-                            |
-                            |include/asm-generic/bug.h:65:35:
-                            |   65 | #define BUG_ON(condition) do { if (unl=
-ikely(condition)) BUG(); } while (0)
-                            |      |                                   ^
-                            |      |                                   |
-                            |      |                                   (13)=
- following 'false' branch...
-   drivers/dma/qcom/../dmaengine.h:54:9: note: in expansion of macro 'BUG_O=
-N'
-                            |   54 |         BUG_ON(tx->cookie < DMA_MIN_CO=
-OKIE);
-                            |      |         ^~~~~~
-                            |
-                          'dma_cookie_complete': events 14-15
-                            |
-                            |   55 |         tx->chan->completed_cookie =3D=
- tx->cookie;
-                            |      |         ~~^~~~~~
-                            |      |           |
-                            |      |           (14) ...to here
-                            |      |           (15) use of uninitialized va=
-lue '*tx.chan' here
-                            |
-   In file included from include/linux/kernel.h:12,
-                    from include/linux/list.h:9,
-                    from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16:
-   drivers/dma/qcom/hidma.c: In function 'hidma_process_completed':
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-     127 |         list_for_each_entry_safe(mdesc, next, &list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'hidma_process_completed': event 1
+   fs/iomap/buffered-io.c: In function 'iomap_submit_ioend':
+>> fs/iomap/buffered-io.c:1175:14: warning: use of uninitialized value '*io=
+end.io_bio' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1175 |         ioend->io_bio->bi_private =3D ioend;
+         |         ~~~~~^~~~~~~~
+     'iomap_writepage_map': event 1
        |
-       |  117 |         struct list_head list;
+       | 1308 | iomap_writepage_map(struct iomap_writepage_ctx *wpc,
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'iomap_writepage_map'
+       |
+     'iomap_writepage_map': event 2
+       |
+       | 1318 |         LIST_HEAD(submit_list);
+       |      |                   ^~~~~~~~~~~
+       |      |                   |
+       |      |                   (2) region created on stack here
+   include/linux/list.h:26:26: note: in definition of macro 'LIST_HEAD'
+       |   26 |         struct list_head name =3D LIST_HEAD_INIT(name)
        |      |                          ^~~~
+       |
+     'iomap_writepage_map': event 3
+       |
+       |include/linux/once_lite.h:15:38:
+       |   15 |                 bool __ret_do_once =3D !!(condition);      =
+               \
+       |      |                                      ^~~~~~~~~~~~~
+       |      |                                      |
+       |      |                                      (3) following 'false' =
+branch (when 'iop' is NULL)...
+   include/asm-generic/bug.h:146:9: note: in expansion of macro 'DO_ONCE_LI=
+TE_IF'
+       |  146 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+       |      |         ^~~~~~~~~~~~~~~
+   fs/iomap/buffered-io.c:1320:9: note: in expansion of macro 'WARN_ON_ONCE'
+       | 1320 |         WARN_ON_ONCE(iop && atomic_read(&iop->write_bytes_p=
+ending) !=3D 0);
+       |      |         ^~~~~~~~~~~~
+       |
+     'iomap_writepage_map': event 4
+       |
+       |cc1:
+       | (4): ...to here
+       |
+     'iomap_writepage_map': event 5
+       |
+       |include/linux/once_lite.h:17:20:
+       |   17 |                 if (unlikely(__ret_do_once && !__already_do=
+ne)) {       \
+       |      |                    ^
+       |      |                    |
+       |      |                    (5) following 'false' branch...
+   include/asm-generic/bug.h:146:9: note: in expansion of macro 'DO_ONCE_LI=
+TE_IF'
+       |  146 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+       |      |         ^~~~~~~~~~~~~~~
+   fs/iomap/buffered-io.c:1320:9: note: in expansion of macro 'WARN_ON_ONCE'
+       | 1320 |         WARN_ON_ONCE(iop && atomic_read(&iop->write_bytes_p=
+ending) !=3D 0);
+       |      |         ^~~~~~~~~~~~
+       |
+     'iomap_writepage_map': event 6
+       |
+       |include/linux/pagemap.h:691:29:
+       |  691 |         return ((loff_t)page->index) << PAGE_SHIFT;
+       |      |                         ~~~~^~~~~~~
+       |      |                             |
+       |      |                             (6) ...to here
+       |
+     'iomap_writepage_map': event 7
+       |
+       |include/linux/once_lite.h:17:20:
+       |   17 |                 if (unlikely(__ret_do_once && !__already_do=
+ne)) {       \
+       |      |                    ^
+       |      |                    |
+       |      |                    (7) following 'false' branch...
+   include/asm-generic/bug.h:146:9: note: in expansion of macro 'DO_ONCE_LI=
+TE_IF'
+       |  146 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+       |      |         ^~~~~~~~~~~~~~~
+   fs/iomap/buffered-io.c:1345:9: note: in expansion of macro 'WARN_ON_ONCE'
+       | 1345 |         WARN_ON_ONCE(!wpc->ioend && !list_empty(&submit_lis=
+t));
+       |      |         ^~~~~~~~~~~~
+       |
+     'iomap_writepage_map': event 8
+       |
+       |include/asm-generic/rwonce.h:44:26:
+       |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_t=
+ypeof(x) *)&(x))
+       |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
        |      |                          |
-       |      |                          (1) region created on stack here
+       |      |                          (8) ...to here
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+       |   50 |         __READ_ONCE(x);                                    =
+             \
+       |      |         ^~~~~~~~~~~
+   include/linux/page-flags.h:198:30: note: in expansion of macro 'READ_ONC=
+E'
+       |  198 |         unsigned long head =3D READ_ONCE(page->compound_hea=
+d);
+       |      |                              ^~~~~~~~~
        |
-     'hidma_process_completed': event 2
+     'iomap_writepage_map': events 9-10
        |
-       |include/linux/list.h:498:12:
-       |  498 |         if (!list_empty(list)) {
+       |fs/iomap/buffered-io.c:1356:12:
+       | 1356 |         if (unlikely(error)) {
        |      |            ^
        |      |            |
-       |      |            (2) following 'false' branch...
-       |
-     'hidma_process_completed': event 3
-       |
-       |include/linux/spinlock.h:293:17:
-       |  293 |                 _raw_spin_unlock_irqrestore(lock, flags);  =
-     \
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-   include/linux/spinlock.h:417:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-       |  417 |         raw_spin_unlock_irqrestore(&lock->rlock, flags);
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |
-     'hidma_process_completed': event 4
-       |
-       |include/linux/container_of.h:18:15:
-       |   18 |         void *__mptr =3D (void *)(ptr);                    =
-               \
-       |      |               ^~~~~~
-       |      |               |
-       |      |               (4) use of uninitialized value '((struct hidm=
-a_desc *)((char *)__mptr + 28))[71582787].node.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-       |  511 |         container_of(ptr, type, member)
-       |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-       |  555 |         list_entry((pos)->member.next, typeof(*(pos)), memb=
-er)
-       |      |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-       |  716 |                 n =3D list_next_entry(pos, member);        =
-               \
-       |      |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-       |  127 |         list_for_each_entry_safe(mdesc, next, &list, node) {
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-       |
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-     127 |         list_for_each_entry_safe(mdesc, next, &list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'hidma_terminate_channel': events 1-2
-       |
-       |  459 | static int hidma_terminate_channel(struct dma_chan *chan)
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'hidma_terminate_channel'
+       |      |            (9) following 'false' branch...
        |......
-       |  470 |         hidma_process_completed(mchan);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       | 1372 |         set_page_writeback(page);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~
        |      |         |
-       |      |         (2) calling 'hidma_process_completed' from 'hidma_t=
-erminate_channel'
-       |
-       +--> 'hidma_process_completed': events 3-4
-              |
-              |  108 | static void hidma_process_completed(struct hidma_cha=
-n *mchan)
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (3) entry to 'hidma_process_completed'
-              |......
-              |  117 |         struct list_head list;
-              |      |                          ~~~~
-              |      |                          |
-              |      |                          (4) region created on stack=
- here
-              |
-            'hidma_process_completed': event 5
-              |
-              |include/linux/list.h:498:12:
-              |  498 |         if (!list_empty(list)) {
-              |      |            ^
-              |      |            |
-              |      |            (5) following 'false' branch...
-              |
-            'hidma_process_completed': event 6
-              |
-              |include/linux/spinlock.h:293:17:
-              |  293 |                 _raw_spin_unlock_irqrestore(lock, fl=
-ags);       \
-              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-              |      |                 |
-              |      |                 (6) ...to here
-   include/linux/spinlock.h:417:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-              |  417 |         raw_spin_unlock_irqrestore(&lock->rlock, fla=
-gs);
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'hidma_process_completed': event 7
-              |
-              |include/linux/container_of.h:18:15:
-              |   18 |         void *__mptr =3D (void *)(ptr);             =
-                      \
-              |      |               ^~~~~~
-              |      |               |
-              |      |               (7) use of uninitialized value '((stru=
-ct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-              |  511 |         container_of(ptr, type, member)
-              |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-              |  555 |         list_entry((pos)->member.next, typeof(*(pos)=
-), member)
-              |      |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-              |  716 |                 n =3D list_next_entry(pos, member); =
-                      \
-              |      |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-              |  127 |         list_for_each_entry_safe(mdesc, next, &list,=
- node) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-              |
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-     127 |         list_for_each_entry_safe(mdesc, next, &list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'hidma_callback': events 1-2
-       |
-       |  165 | static void hidma_callback(void *data)
-       |      |             ^~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'hidma_callback'
-       |......
-       |  186 |         hidma_process_completed(mchan);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (2) calling 'hidma_process_completed' from 'hidma_c=
-allback'
-       |
-       +--> 'hidma_process_completed': events 3-4
-              |
-              |  108 | static void hidma_process_completed(struct hidma_cha=
-n *mchan)
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (3) entry to 'hidma_process_completed'
-              |......
-              |  117 |         struct list_head list;
-              |      |                          ~~~~
-              |      |                          |
-              |      |                          (4) region created on stack=
- here
-              |
-            'hidma_process_completed': event 5
-              |
-              |include/linux/list.h:498:12:
-              |  498 |         if (!list_empty(list)) {
-              |      |            ^
-              |      |            |
-              |      |            (5) following 'false' branch...
-              |
-            'hidma_process_completed': event 6
-              |
-              |include/linux/spinlock.h:293:17:
-              |  293 |                 _raw_spin_unlock_irqrestore(lock, fl=
-ags);       \
-              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-              |      |                 |
-              |      |                 (6) ...to here
-   include/linux/spinlock.h:417:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-              |  417 |         raw_spin_unlock_irqrestore(&lock->rlock, fla=
-gs);
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-            'hidma_process_completed': event 7
-              |
-              |include/linux/container_of.h:18:15:
-              |   18 |         void *__mptr =3D (void *)(ptr);             =
-                      \
-              |      |               ^~~~~~
-              |      |               |
-              |      |               (7) use of uninitialized value '((stru=
-ct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-              |  511 |         container_of(ptr, type, member)
-              |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-              |  555 |         list_entry((pos)->member.next, typeof(*(pos)=
-), member)
-              |      |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-              |  716 |                 n =3D list_next_entry(pos, member); =
-                      \
-              |      |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-              |  127 |         list_for_each_entry_safe(mdesc, next, &list,=
- node) {
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-              |
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-     127 |         list_for_each_entry_safe(mdesc, next, &list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'hidma_free_chan_resources': events 1-2
-       |
-       |  524 | static void hidma_free_chan_resources(struct dma_chan *dmac=
-h)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'hidma_free_chan_resources'
-       |......
-       |  533 |         hidma_terminate_channel(dmach);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (2) calling 'hidma_terminate_channel' from 'hidma_f=
-ree_chan_resources'
-       |
-       +--> 'hidma_terminate_channel': events 3-4
-              |
-              |  459 | static int hidma_terminate_channel(struct dma_chan *=
-chan)
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (3) entry to 'hidma_terminate_channel'
-              |......
-              |  470 |         hidma_process_completed(mchan);
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (4) calling 'hidma_process_completed' from '=
-hidma_terminate_channel'
-              |
-              +--> 'hidma_process_completed': events 5-6
-                     |
-                     |  108 | static void hidma_process_completed(struct hi=
-dma_chan *mchan)
-                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (5) entry to 'hidma_process_compl=
-eted'
-                     |......
-                     |  117 |         struct list_head list;
-                     |      |                          ~~~~
-                     |      |                          |
-                     |      |                          (6) region created o=
-n stack here
-                     |
-                   'hidma_process_completed': event 7
-                     |
-                     |include/linux/list.h:498:12:
-                     |  498 |         if (!list_empty(list)) {
-                     |      |            ^
-                     |      |            |
-                     |      |            (7) following 'false' branch...
-                     |
-                   'hidma_process_completed': event 8
-                     |
-                     |include/linux/spinlock.h:293:17:
-                     |  293 |                 _raw_spin_unlock_irqrestore(l=
-ock, flags);       \
-                     |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (8) ...to here
-   include/linux/spinlock.h:417:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-                     |  417 |         raw_spin_unlock_irqrestore(&lock->rlo=
-ck, flags);
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-                   'hidma_process_completed': event 9
-                     |
-                     |include/linux/container_of.h:18:15:
-                     |   18 |         void *__mptr =3D (void *)(ptr);      =
-                             \
-                     |      |               ^~~~~~
-                     |      |               |
-                     |      |               (9) use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-                     |  511 |         container_of(ptr, type, member)
-                     |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-                     |  555 |         list_entry((pos)->member.next, typeof=
-(*(pos)), member)
-                     |      |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-                     |  716 |                 n =3D list_next_entry(pos, me=
-mber);                       \
-                     |      |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-                     |  127 |         list_for_each_entry_safe(mdesc, next,=
- &list, node) {
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-                     |
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-     127 |         list_for_each_entry_safe(mdesc, next, &list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'hidma_terminate_all': events 1-2
-       |
-       |  506 | static int hidma_terminate_all(struct dma_chan *chan)
-       |      |            ^~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'hidma_terminate_all'
-       |......
-       |  512 |         rc =3D hidma_terminate_channel(chan);
-       |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |              |
-       |      |              (2) calling 'hidma_terminate_channel' from 'hi=
-dma_terminate_all'
-       |
-       +--> 'hidma_terminate_channel': events 3-4
-              |
-              |  459 | static int hidma_terminate_channel(struct dma_chan *=
-chan)
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (3) entry to 'hidma_terminate_channel'
-              |......
-              |  470 |         hidma_process_completed(mchan);
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (4) calling 'hidma_process_completed' from '=
-hidma_terminate_channel'
-              |
-              +--> 'hidma_process_completed': events 5-6
-                     |
-                     |  108 | static void hidma_process_completed(struct hi=
-dma_chan *mchan)
-                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (5) entry to 'hidma_process_compl=
-eted'
-                     |......
-                     |  117 |         struct list_head list;
-                     |      |                          ~~~~
-                     |      |                          |
-                     |      |                          (6) region created o=
-n stack here
-                     |
-                   'hidma_process_completed': event 7
-                     |
-                     |include/linux/list.h:498:12:
-                     |  498 |         if (!list_empty(list)) {
-                     |      |            ^
-                     |      |            |
-                     |      |            (7) following 'false' branch...
-                     |
-                   'hidma_process_completed': event 8
-                     |
-                     |include/linux/spinlock.h:293:17:
-                     |  293 |                 _raw_spin_unlock_irqrestore(l=
-ock, flags);       \
-                     |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (8) ...to here
-   include/linux/spinlock.h:417:9: note: in expansion of macro 'raw_spin_un=
-lock_irqrestore'
-                     |  417 |         raw_spin_unlock_irqrestore(&lock->rlo=
-ck, flags);
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-                   'hidma_process_completed': event 9
-                     |
-                     |include/linux/container_of.h:18:15:
-                     |   18 |         void *__mptr =3D (void *)(ptr);      =
-                             \
-                     |      |               ^~~~~~
-                     |      |               |
-                     |      |               (9) use of uninitialized value =
-'((struct hidma_desc *)((char *)__mptr + 28))[71582787].node.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-                     |  511 |         container_of(ptr, type, member)
-                     |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-                     |  555 |         list_entry((pos)->member.next, typeof=
-(*(pos)), member)
-                     |      |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-                     |  716 |                 n =3D list_next_entry(pos, me=
-mber);                       \
-                     |      |                     ^~~~~~~~~~~~~~~
-   drivers/dma/qcom/hidma.c:127:9: note: in expansion of macro 'list_for_ea=
-ch_entry_safe'
-                     |  127 |         list_for_each_entry_safe(mdesc, next,=
- &list, node) {
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-   drivers/dma/qcom/hidma.c:133:29: warning: use of uninitialized value '*(=
-struct dma_async_tx_descriptor *)mdesc.cookie' [CWE-457] [-Wanalyzer-use-of=
--uninitialized-value]
-     133 |                 last_cookie =3D desc->cookie;
-         |                 ~~~~~~~~~~~~^~~~~~~~~~~~~~
-     'hidma_process_completed': event 1
-       |
-       |  117 |         struct list_head list;
-       |      |                          ^~~~
-       |      |                          |
-       |      |                          (1) region created on stack here
-       |
-     'hidma_process_completed': event 2
+       |      |         (10) ...to here
 
-vim +18 include/linux/container_of.h
+vim +1175 fs/iomap/buffered-io.c
 
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08   9  =
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1162  =
 
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  10  /**
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  11   * container_of - cast a me=
-mber of a structure out to the containing structure
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  12   * @ptr:	the pointer to the=
- member.
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  13   * @type:	the type of the c=
-ontainer struct this is embedded in.
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  14   * @member:	the name of the=
- member within the struct.
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  15   *
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  16   */
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  17  #define container_of(ptr, t=
-ype, member) ({				\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08 @18  	void *__mptr =3D (void *)(=
-ptr);					\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  19  	BUILD_BUG_ON_MSG(!__same_t=
-ype(*(ptr), ((type *)0)->member) &&	\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  20  			 !__same_type(*(ptr), vo=
-id),			\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  21  			 "pointer type mismatch =
-in container_of()");	\
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  22  	((type *)(__mptr - offseto=
-f(type, member))); })
-d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  23  =
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1163  /*
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1164   * Submit the final bi=
+o for an ioend.
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1165   *
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1166   * If @error is non-ze=
+ro, it means that we have a situation where some part of
+f1f264b4c134ee Andreas Gruenbacher 2021-08-02  1167   * the submission proc=
+ess has failed after we've marked pages for writeback
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1168   * and unlocked them. =
+ In this situation, we need to fail the bio instead of
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1169   * submitting it.  Thi=
+s typically only happens on a filesystem shutdown.
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1170   */
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1171  static int
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1172  iomap_submit_ioend(str=
+uct iomap_writepage_ctx *wpc, struct iomap_ioend *ioend,
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1173  		int error)
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1174  {
+598ecfbaa742ac Christoph Hellwig   2019-10-17 @1175  	ioend->io_bio->bi_pri=
+vate =3D ioend;
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1176  	ioend->io_bio->bi_end=
+_io =3D iomap_writepage_end_bio;
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1177  =
 
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1178  	if (wpc->ops->prepare=
+_ioend)
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1179  		error =3D wpc->ops->=
+prepare_ioend(ioend, error);
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1180  	if (error) {
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1181  		/*
+f1f264b4c134ee Andreas Gruenbacher 2021-08-02  1182  		 * If we're failing =
+the IO now, just mark the ioend with an
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1183  		 * error and finish =
+it.  This will run IO completion immediately
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1184  		 * as there is only =
+one reference to the ioend at this point in
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1185  		 * time.
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1186  		 */
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1187  		ioend->io_bio->bi_st=
+atus =3D errno_to_blk_status(error);
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1188  		bio_endio(ioend->io_=
+bio);
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1189  		return error;
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1190  	}
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1191  =
+
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1192  	submit_bio(ioend->io_=
+bio);
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1193  	return 0;
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1194  }
+598ecfbaa742ac Christoph Hellwig   2019-10-17  1195  =
+
+
+:::::: The code at line 1175 was first introduced by commit
+:::::: 598ecfbaa742aca0dcdbbea25681406f95cc0b63 iomap: lift the xfs writeba=
+ck code to iomap
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Darrick J. Wong <darrick.wong@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8474471088345718306==--
+--===============6255501981660328354==--
 
