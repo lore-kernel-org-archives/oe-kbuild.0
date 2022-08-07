@@ -1,269 +1,284 @@
-Content-Type: multipart/mixed; boundary="===============4608682661159704872=="
+Content-Type: multipart/mixed; boundary="===============0981729141141676566=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/mediatek/common/mtk-btcvsd.c:365:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sat, 13 Aug 2022 19:24:59 +0800
-Message-ID: <202208131910.ZFw3TPxZ-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.10 2/25] drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c:1053:12: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+Date: Sun, 07 Aug 2022 20:15:19 +0800
+Message-ID: <202208072057.wo4TznZk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4608682661159704872==
+--===============0981729141141676566==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- sound/soc/mediatek/common/mtk-btcvsd.c:365:13: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c:1053:12: warning: %d in format =
+string (no. 1) requires 'int' but the argument type is 'unsigned int'. [inv=
+alidPrintfArgType_sint]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Trevor Wu <trevor.wu@mediatek.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   69dac8e431af26173ca0a1ebc87054e01c585bcc
-commit: 6746cc858259985a945a07075a19ec4d24352407 ASoC: mediatek: mt8195: ad=
-d platform driver
-date:   12 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220810 (https://download.01.org/0day-ci/archi=
-ve/20220813/202208131910.ZFw3TPxZ-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6746cc858259985a945a07075a19ec4d24352407
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 6746cc858259985a945a07075a19ec4d24352407
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.10
+head:   38577b2007cb6cbe54b2dfb4b4f38db77471426f
+commit: bc59bde9d736054abff8a37b581594f42761d628 [2/25] UPSTREAM: drm/amdgp=
+u/pm: fix powerplay OD interface
+:::::: branch date: 22 hours ago
+:::::: commit date: 3 days ago
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout bc59bde9d736054abff8a37b581594f42761d628
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/mediatek/common/mtk-btcvsd.c: In function 'mtk_btcvsd_read_fro=
-m_bt':
->> sound/soc/mediatek/common/mtk-btcvsd.c:365:13: warning: use of uninitial=
-ized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     365 |         int pv;
-         |             ^~
-     'mtk_btcvsd_snd_irq_handler': events 1-12
-       |
-       |  481 | static irqreturn_t mtk_btcvsd_snd_irq_handler(int irq_id, v=
-oid *dev)
-       |      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                    |
-       |      |                    (1) entry to 'mtk_btcvsd_snd_irq_handler'
-       |......
-       |  500 |         if (((control >> 31) & 1) =3D=3D 0) {
-       |      |            ~        =
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  506 |         if (packet_type >=3D BT_SCO_CVSD_MAX) {
-       |      |            ~        =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'false' branch (when 'packet_type =
-<=3D 5')...
-       |......
-       |  512 |         packet_length =3D btsco_packet_info[packet_type][0];
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (5) ...to here
-       |......
-       |  553 |         if (bt->rx->state =3D=3D BT_SCO_STATE_RUNNING ||
-       |      |            ~        =
-
-       |      |            |
-       |      |            (6) following 'true' branch...
-       |  554 |             bt->rx->state =3D=3D BT_SCO_STATE_ENDING) {
-       |  555 |                 if (bt->rx->xrun) {
-       |      |                     ~~
-       |      |                     |
-       |      |                     (7) ...to here
-       |......
-       |  568 |                 if (!bt->rx->xrun &&
-       |      |                    ~~~~~~~~~~~~~~~~~
-       |      |                    |              |
-       |      |                    |              (10) following 'true' bra=
-nch...
-       |      |                    (8) following 'true' branch...
-       |  569 |                     (bt->rx->packet_w - bt->rx->packet_r <=
-=3D
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                            |
-       |      |                            (9) ...to here
-       |  570 |                      SCO_RX_PACKER_BUF_NUM - buf_cnt_rx)) {
-       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |  571 |                         mtk_btcvsd_read_from_bt(bt,
-       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (11) ...to here
-       |      |                         (12) calling 'mtk_btcvsd_read_from_=
-bt' from 'mtk_btcvsd_snd_irq_handler'
-       |  572 |                                                 packet_type,
-       |      |                                                 ~~~~~~~~~~~~
-       |  573 |                                                 packet_leng=
-th,
-       |      |                                                 ~~~~~~~~~~~=
-~~~
-       |  574 |                                                 packet_num,
-       |      |                                                 ~~~~~~~~~~~
-       |  575 |                                                 buf_cnt_rx,
-       |      |                                                 ~~~~~~~~~~~
-       |  576 |                                                 control);
-       |      |                                                 ~~~~~~~~
-       |
-       +--> 'mtk_btcvsd_read_from_bt': events 13-14
-              |
-              |  357 | static int mtk_btcvsd_read_from_bt(struct mtk_btcvsd=
-_snd *bt,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (13) entry to 'mtk_btcvsd_read_from_bt'
-              |......
-              |  365 |         int pv;
-              |      |             ~~
-              |      |             |
-              |      |             (14) use of uninitialized value '<unknow=
-n>' here
-              |
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu10_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c:1053:12: warning: %=
+d in format string (no. 1) requires 'int' but the argument type is 'unsigne=
+d int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c:2931:0: warning: S=
+yntax error in #if [preprocessorErrorDirective]
+   #if 0
+   ^
 --
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c: In function 'mt8195_dai_etd=
-m_parse_of':
->> sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2499:13: warning: use of uni=
-nitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-val=
-ue]
-    2499 |         u32 sel;
-         |             ^~~
-     'mt8195_dai_etdm_parse_of': event 1
-       |
-       | 2499 |         u32 sel;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/v=
+ega20_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c:3940:43: warning: =
+syntax error [syntaxError]
+      "[PowerOffAsic] Failed to disable DPM!",
+                                             ^
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu7_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:1316:45: warning: sy=
+ntax error [syntaxError]
+       "Failed to enable AC DC GPIO Interrupt!",
+                                               ^
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/v=
+ega10_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c:2507:36: warning: =
+syntax error [syntaxError]
+      "Failed to upload FuseOVerride!",
+                                      ^
 
-vim +365 sound/soc/mediatek/common/mtk-btcvsd.c
+vim +1053 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  356  =
+a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
+             2017-05-11  1016  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  357  static int mtk_btcvsd_read_=
-from_bt(struct mtk_btcvsd_snd *bt,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  358  				   enum bt_sco_packet_l=
-en packet_type,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  359  				   unsigned int packet_=
-length,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  360  				   unsigned int packet_=
-num,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  361  				   unsigned int blk_siz=
-e,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  362  				   unsigned int control)
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  363  {
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  364  	unsigned int i;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30 @365  	int pv;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  366  	u8 *src;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  367  	unsigned int packet_buf_of=
-s;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  368  	unsigned long flags;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  369  	unsigned long connsys_addr=
-_rx, ap_addr_rx;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  370  =
+c425688520990d drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-03-06  1017  static int smu10_print_clock_levels(struct p=
+p_hwmgr *hwmgr,
+a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
+             2017-05-11  1018  		enum pp_clock_type type, char *buf)
+a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
+             2017-05-11  1019  {
+c425688520990d drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-03-06  1020  	struct smu10_hwmgr *data =3D (struct smu10_=
+hwmgr *)(hwmgr->backend);
+c425688520990d drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-03-06  1021  	struct smu10_voltage_dependency_table *mclk=
+_table =3D
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1022  			data->clock_vol_info.vdd_dep_on_fclk;
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1023  	uint32_t i, now, size =3D 0;
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1024  	uint32_t min_freq, max_freq =3D 0;
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1025  	uint32_t ret =3D 0;
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1026  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  371  	connsys_addr_rx =3D *bt->b=
-t_reg_pkt_r;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  372  	ap_addr_rx =3D (unsigned l=
-ong)bt->bt_sram_bank2_base +
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  373  		     (connsys_addr_rx & 0=
-xFFFF);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  374  =
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1027  	switch (type) {
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1028  	case PP_SCLK:
+a0ec225633d9f6 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Evan Qu=
+an           2020-03-27  1029  		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetG=
+fxclkFrequency, &now);
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1030  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  375  	if (connsys_addr_rx =3D=3D=
- 0xdeadfeed) {
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  376  		/* bt return 0xdeadfeed i=
-f read register during bt sleep */
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  377  		dev_warn(bt->dev, "%s(), =
-connsys_addr_rx =3D=3D 0xdeadfeed",
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  378  			 __func__);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  379  		return -EIO;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  380  	}
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  381  =
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1031  	/* driver only know min/max gfx_clk, Add le=
+vel 1 for all other gfx clks */
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1032  		if (now =3D=3D data->gfx_max_freq_limit/10=
+0)
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1033  			i =3D 2;
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1034  		else if (now =3D=3D data->gfx_min_freq_lim=
+it/100)
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1035  			i =3D 0;
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1036  		else
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1037  			i =3D 1;
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1038  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  382  	src =3D (u8 *)ap_addr_rx;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  383  =
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1039  		size +=3D sprintf(buf + size, "0: %uMhz %s=
+\n",
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1040  					data->gfx_min_freq_limit/100,
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1041  					i =3D=3D 0 ? "*" : "");
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1042  		size +=3D sprintf(buf + size, "1: %uMhz %s=
+\n",
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1043  					i =3D=3D 1 ? now : SMU10_UMD_PSTATE_GFX=
+CLK,
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1044  					i =3D=3D 1 ? "*" : "");
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1045  		size +=3D sprintf(buf + size, "2: %uMhz %s=
+\n",
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1046  					data->gfx_max_freq_limit/100,
+21c77de3566115 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Rex Zhu=
+             2018-04-20  1047  					i =3D=3D 2 ? "*" : "");
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1048  		break;
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1049  	case PP_MCLK:
+a0ec225633d9f6 drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c    Evan Qu=
+an           2020-03-27  1050  		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetF=
+clkFrequency, &now);
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1051  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  384  	mtk_btcvsd_snd_data_transf=
-er(BT_SCO_DIRECT_BT2ARM, src,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  385  				     bt->rx->temp_packe=
-t_buf, packet_length,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  386  				     packet_num);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  387  =
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1052  		for (i =3D 0; i < mclk_table->count; i++)
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02 @1053  			size +=3D sprintf(buf + size, "%d: %uMhz =
+%s\n",
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1054  					i,
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1055  					mclk_table->entries[i].clk / 100,
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1056  					((mclk_table->entries[i].clk / 100)
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1057  					 =3D=3D now) ? "*" : "");
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1058  		break;
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1059  	case OD_SCLK:
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1060  		if (hwmgr->od_enabled) {
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1061  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC=
+_MSG_GetMinGfxclkFrequency, &min_freq);
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1062  			if (ret)
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1063  				return ret;
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1064  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC=
+_MSG_GetMaxGfxclkFrequency, &max_freq);
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1065  			if (ret)
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1066  				return ret;
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1067  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  388  	spin_lock_irqsave(&bt->rx_=
-lock, flags);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  389  	for (i =3D 0; i < blk_size=
-; i++) {
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  390  		packet_buf_ofs =3D (bt->r=
-x->packet_w & SCO_RX_PACKET_MASK) *
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  391  				 bt->rx->packet_size;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  392  		memcpy(bt->rx_packet_buf =
-+ packet_buf_ofs,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  393  		       bt->rx->temp_packe=
-t_buf + (SCO_RX_PLC_SIZE * i),
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  394  		       SCO_RX_PLC_SIZE);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  395  		if ((control & btsco_pack=
-et_valid_mask[packet_type][i]) =3D=3D
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  396  		    btsco_packet_valid_ma=
-sk[packet_type][i])
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  397  			pv =3D 1;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  398  		else
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  399  			pv =3D 0;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  400  =
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1068  			size +=3D sprintf(buf + size, "%s:\n", "O=
+D_SCLK");
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1069  			size +=3D sprintf(buf + size, "0: %10uMhz=
+\n",
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1070  			(data->gfx_actual_soft_min_freq > 0) ? da=
+ta->gfx_actual_soft_min_freq : min_freq);
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1071  			size +=3D sprintf(buf + size, "1: %10uMhz=
+\n",
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1072  			(data->gfx_actual_soft_max_freq > 0) ? da=
+ta->gfx_actual_soft_max_freq : max_freq);
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1073  		}
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1074  		break;
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1075  	case OD_RANGE:
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1076  		if (hwmgr->od_enabled) {
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1077  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC=
+_MSG_GetMinGfxclkFrequency, &min_freq);
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1078  			if (ret)
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1079  				return ret;
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1080  			ret =3D smum_send_msg_to_smc(hwmgr, PPSMC=
+_MSG_GetMaxGfxclkFrequency, &max_freq);
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1081  			if (ret)
+1d2e821a40c72c drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-12-18  1082  				return ret;
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1083  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  401  		packet_buf_ofs +=3D SCO_R=
-X_PLC_SIZE;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  402  		memcpy(bt->rx_packet_buf =
-+ packet_buf_ofs, (void *)&pv,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  403  		       SCO_CVSD_PACKET_VA=
-LID_SIZE);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  404  		bt->rx->packet_w++;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  405  	}
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  406  	spin_unlock_irqrestore(&bt=
-->rx_lock, flags);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  407  	return 0;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  408  }
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  409  =
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1084  			size +=3D sprintf(buf + size, "%s:\n", "O=
+D_RANGE");
+bc59bde9d73605 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Linux P=
+atches Robot 2022-08-02  1085  			size +=3D sprintf(buf + size, "SCLK: %7uM=
+Hz %10uMHz\n",
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1086  				min_freq, max_freq);
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1087  		}
+12a6727dee5d11 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c Xiaojia=
+n Du         2020-09-27  1088  		break;
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1089  	default:
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1090  		break;
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1091  	}
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1092  =
 
+5f628d997d1e41 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Evan Qu=
+an           2017-09-26  1093  	return size;
+a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
+             2017-05-11  1094  }
+a960d61cbd6254 drivers/gpu/drm/amd/powerplay/hwmgr/rv_hwmgr.c       Rex Zhu=
+             2017-05-11  1095  =
 
-:::::: The code at line 365 was first introduced by commit
-:::::: 4bd8597dc36c376a2bb1ef2c72984615bdeb68de ASoC: mediatek: add btcvsd =
-driver
-
-:::::: TO: KaiChieh Chuang <kaichieh.chuang@mediatek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4608682661159704872==--
+--===============0981729141141676566==--
 
