@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4577668671028380685=="
+Content-Type: multipart/mixed; boundary="===============3576652403534230630=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.10/dovetail-xenomai 41/207] drivers/pinctrl/samsung/pinctrl-s3c24xx.c:160:32: error: passing argument 1 of 'spin_unlock_irqrestore' from incompatible pointer type
-Date: Mon, 08 Aug 2022 08:02:10 +0800
-Message-ID: <202208080714.84vGyCkq-lkp@intel.com>
+Subject: drivers/soc/ux500/ux500-soc-id.c:179:31: sparse: sparse: incorrect type in argument 1 (different address spaces)
+Date: Mon, 08 Aug 2022 06:10:16 +0800
+Message-ID: <202208080650.Q2srrXN0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4577668671028380685==
+--===============3576652403534230630==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,240 +20,156 @@ Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Hao Li <hao3.li@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/dovetail-xenomai
-head:   1ec5fba16dd51c564b43e1de41ff50e30ecd0e9b
-commit: aecbe5feac8e1a307a3357c83536307dd8a9f224 [41/207] pinctrl: samsung:=
- irq_pipeline: convert per-bank lock to hard form
-:::::: branch date: 9 days ago
-:::::: commit date: 4 months ago
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220808=
-/202208080714.84vGyCkq-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3bc1bc0b59d04e997db25b84babf459ca1cd80b7
+commit: a19402634c435a4eae226df53c141cdbb9922e7b random: make consistent us=
+e of buf and len
+date:   3 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-s031-20220805 (https://download.01.org/0day-ci/archi=
+ve/20220808/202208080650.Q2srrXN0-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/aecbe5feac8e1a307=
-a3357c83536307dd8a9f224
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
-it
-        git fetch --no-tags intel-lts 5.10/dovetail-xenomai
-        git checkout aecbe5feac8e1a307a3357c83536307dd8a9f224
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da19402634c435a4eae226df53c141cdbb9922e7b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a19402634c435a4eae226df53c141cdbb9922e7b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- W=3D1 O=3Dbuild_dir ARCH=3Dm68k SHELL=3D/bin/bash
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash drivers/soc/ux500/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-Note: the intel-lts/5.10/dovetail-xenomai HEAD 1ec5fba16dd51c564b43e1de41ff=
-50e30ecd0e9b builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/ux500/ux500-soc-id.c:179:31: sparse: sparse: incorrect type =
+in argument 1 (different address spaces) @@     expected void const *buf @@=
+     got void [noderef] __iomem *[assigned] uid @@
+   drivers/soc/ux500/ux500-soc-id.c:179:31: sparse:     expected void const=
+ *buf
+   drivers/soc/ux500/ux500-soc-id.c:179:31: sparse:     got void [noderef] =
+__iomem *[assigned] uid
+   drivers/soc/ux500/ux500-soc-id.c:181:26: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+   drivers/soc/ux500/ux500-soc-id.c:181:26: sparse: sparse: incorrect type =
+in argument 1 (different address spaces) @@     expected void const volatil=
+e [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/ux500/ux500-soc-id.c:181:26: sparse:     expected void const=
+ volatile [noderef] __iomem *addr
+   drivers/soc/ux500/ux500-soc-id.c:181:26: sparse:     got unsigned int [u=
+sertype] *
+   drivers/soc/ux500/ux500-soc-id.c:182:26: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+   drivers/soc/ux500/ux500-soc-id.c:182:26: sparse: sparse: incorrect type =
+in argument 1 (different address spaces) @@     expected void const volatil=
+e [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/ux500/ux500-soc-id.c:182:26: sparse:     expected void const=
+ volatile [noderef] __iomem *addr
+   drivers/soc/ux500/ux500-soc-id.c:182:26: sparse:     got unsigned int [u=
+sertype] *
+   drivers/soc/ux500/ux500-soc-id.c:182:47: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+   drivers/soc/ux500/ux500-soc-id.c:182:47: sparse: sparse: incorrect type =
+in argument 1 (different address spaces) @@     expected void const volatil=
+e [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/ux500/ux500-soc-id.c:182:47: sparse:     expected void const=
+ volatile [noderef] __iomem *addr
+   drivers/soc/ux500/ux500-soc-id.c:182:47: sparse:     got unsigned int [u=
+sertype] *
+   drivers/soc/ux500/ux500-soc-id.c:183:26: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+   drivers/soc/ux500/ux500-soc-id.c:183:26: sparse: sparse: incorrect type =
+in argument 1 (different address spaces) @@     expected void const volatil=
+e [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/ux500/ux500-soc-id.c:183:26: sparse:     expected void const=
+ volatile [noderef] __iomem *addr
+   drivers/soc/ux500/ux500-soc-id.c:183:26: sparse:     got unsigned int [u=
+sertype] *
+   drivers/soc/ux500/ux500-soc-id.c:183:47: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+   drivers/soc/ux500/ux500-soc-id.c:183:47: sparse: sparse: incorrect type =
+in argument 1 (different address spaces) @@     expected void const volatil=
+e [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/ux500/ux500-soc-id.c:183:47: sparse:     expected void const=
+ volatile [noderef] __iomem *addr
+   drivers/soc/ux500/ux500-soc-id.c:183:47: sparse:     got unsigned int [u=
+sertype] *
 
-All errors (new ones prefixed by >>):
+vim +179 drivers/soc/ux500/ux500-soc-id.c
 
-   In file included from include/linux/ratelimit_types.h:7,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/pinctrl/samsung/pinctrl-s3c24xx.c:12:
-   drivers/pinctrl/samsung/pinctrl-s3c24xx.c: In function 's3c24xx_eint_set=
-_function':
->> drivers/pinctrl/samsung/pinctrl-s3c24xx.c:153:27: error: passing argumen=
-t 1 of 'spinlock_check' from incompatible pointer type [-Werror=3Dincompati=
-ble-pointer-types]
-     153 |         spin_lock_irqsave(&bank->slock, flags);
-         |                           ^~~~~~~~~~~~
-         |                           |
-         |                           hard_spinlock_t * {aka struct raw_spin=
-lock *}
-   include/linux/spinlock_types.h:217:9: note: in definition of macro 'LOCK=
-_ALTERNATIVES'
-     217 |         __raw_form
-         |         ^~~~~~~~~~
-   include/linux/spinlock.h:266:48: note: in expansion of macro '__RAWLOCK'
-     266 |                 flags =3D _raw_spin_lock_irqsave(__RAWLOCK(lock)=
-);        \
-         |                                                ^~~~~~~~~
-   include/linux/spinlock.h:416:9: note: in expansion of macro 'raw_spin_lo=
-ck_irqsave'
-     416 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-s3c24xx.c:153:9: note: in expansion of m=
-acro 'spin_lock_irqsave'
-     153 |         spin_lock_irqsave(&bank->slock, flags);
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/wait.h:9,
-                    from include/linux/pid.h:6,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6:
-   include/linux/spinlock.h:358:67: note: expected 'spinlock_t *' {aka 'str=
-uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
-aw_spinlock *'}
-     358 | static __always_inline raw_spinlock_t *spinlock_check(spinlock_t=
- *lock)
-         |                                                       ~~~~~~~~~~=
-~~^~~~
->> drivers/pinctrl/samsung/pinctrl-s3c24xx.c:160:32: error: passing argumen=
-t 1 of 'spin_unlock_irqrestore' from incompatible pointer type [-Werror=3Di=
-ncompatible-pointer-types]
-     160 |         spin_unlock_irqrestore(&bank->slock, flags);
-         |                                ^~~~~~~~~~~~
-         |                                |
-         |                                hard_spinlock_t * {aka struct raw=
-_spinlock *}
-   include/linux/spinlock.h:439:64: note: expected 'spinlock_t *' {aka 'str=
-uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
-aw_spinlock *'}
-     439 | static __always_inline void spin_unlock_irqrestore(spinlock_t *l=
-ock, unsigned long flags)
-         |                                                    ~~~~~~~~~~~~^=
-~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/ratelimit_types.h:7,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/pinctrl/samsung/pinctrl-s3c64xx.c:14:
-   drivers/pinctrl/samsung/pinctrl-s3c64xx.c: In function 's3c64xx_irq_set_=
-function':
->> drivers/pinctrl/samsung/pinctrl-s3c64xx.c:289:27: error: passing argumen=
-t 1 of 'spinlock_check' from incompatible pointer type [-Werror=3Dincompati=
-ble-pointer-types]
-     289 |         spin_lock_irqsave(&bank->slock, flags);
-         |                           ^~~~~~~~~~~~
-         |                           |
-         |                           hard_spinlock_t * {aka struct raw_spin=
-lock *}
-   include/linux/spinlock_types.h:217:9: note: in definition of macro 'LOCK=
-_ALTERNATIVES'
-     217 |         __raw_form
-         |         ^~~~~~~~~~
-   include/linux/spinlock.h:266:48: note: in expansion of macro '__RAWLOCK'
-     266 |                 flags =3D _raw_spin_lock_irqsave(__RAWLOCK(lock)=
-);        \
-         |                                                ^~~~~~~~~
-   include/linux/spinlock.h:416:9: note: in expansion of macro 'raw_spin_lo=
-ck_irqsave'
-     416 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-s3c64xx.c:289:9: note: in expansion of m=
-acro 'spin_lock_irqsave'
-     289 |         spin_lock_irqsave(&bank->slock, flags);
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/wait.h:9,
-                    from include/linux/pid.h:6,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6:
-   include/linux/spinlock.h:358:67: note: expected 'spinlock_t *' {aka 'str=
-uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
-aw_spinlock *'}
-     358 | static __always_inline raw_spinlock_t *spinlock_check(spinlock_t=
- *lock)
-         |                                                       ~~~~~~~~~~=
-~~^~~~
->> drivers/pinctrl/samsung/pinctrl-s3c64xx.c:296:32: error: passing argumen=
-t 1 of 'spin_unlock_irqrestore' from incompatible pointer type [-Werror=3Di=
-ncompatible-pointer-types]
-     296 |         spin_unlock_irqrestore(&bank->slock, flags);
-         |                                ^~~~~~~~~~~~
-         |                                |
-         |                                hard_spinlock_t * {aka struct raw=
-_spinlock *}
-   include/linux/spinlock.h:439:64: note: expected 'spinlock_t *' {aka 'str=
-uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
-aw_spinlock *'}
-     439 | static __always_inline void spin_unlock_irqrestore(spinlock_t *l=
-ock, unsigned long flags)
-         |                                                    ~~~~~~~~~~~~^=
-~~~
-   cc1: some warnings being treated as errors
+d7a1a4f47d804b drivers/soc/ux500/ux500-soc-id.c Sudeep Holla  2020-05-23  1=
+66  =
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
-   Depends on [n]: DISCONTIGMEM [=3Dn] || NUMA
-   Selected by [y]:
-   - SINGLE_MEMORY_CHUNK [=3Dy] && MMU [=3Dy]
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+67  static const char *db8500_read_soc_id(struct device_node *backupram)
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+68  {
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+69  	void __iomem *base;
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+70  	void __iomem *uid;
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+71  	const char *retstr;
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+72  =
+
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+73  	base =3D of_iomap(backupram, 0);
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+74  	if (!base)
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+75  		return NULL;
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+76  	uid =3D base + 0x1fc0;
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+77  =
+
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+78  	/* Throw these device-specific numbers into the entropy pool */
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20 @1=
+79  	add_device_randomness(uid, 0x14);
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+80  	retstr =3D kasprintf(GFP_KERNEL, "%08x%08x%08x%08x%08x",
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+81  			 readl((u32 *)uid+0),
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+82  			 readl((u32 *)uid+1), readl((u32 *)uid+2),
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+83  			 readl((u32 *)uid+3), readl((u32 *)uid+4));
+18a992787896fe drivers/soc/ux500/ux500-soc-id.c Arnd Bergmann 2016-06-22  1=
+84  	iounmap(base);
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+85  	return retstr;
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+86  }
+cd1dc431d02afd arch/arm/mach-ux500/id.c         Arnd Bergmann 2016-06-20  1=
+87  =
 
 
-vim +/spin_unlock_irqrestore +160 drivers/pinctrl/samsung/pinctrl-s3c24xx.c
+:::::: The code at line 179 was first introduced by commit
+:::::: cd1dc431d02afda521bed53b7c87a678a3ac246f ARM: ux500: consolidate soc=
+_device code in id.c
 
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  137  =
-
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  138  static void s3c24xx_eint_set_function(struct samsung_pin=
-ctrl_drv_data *d,
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  139  					struct samsung_pin_bank *bank, int pin)
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  140  {
-94ce944bed8a84 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Tomasz Figa       =
-  2014-09-23  141  	const struct samsung_pin_bank_type *bank_type =3D bank-=
->type;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  142  	unsigned long flags;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  143  	void __iomem *reg;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  144  	u8 shift;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  145  	u32 mask;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  146  	u32 val;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  147  =
-
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  148  	/* Make sure that pin is configured as interrupt */
-cee7413d84044a drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowsk=
-i 2017-06-15  149  	reg =3D d->virt_base + bank->pctl_offset;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  150  	shift =3D pin * bank_type->fld_width[PINCFG_TYPE_FUNC];
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  151  	mask =3D (1 << bank_type->fld_width[PINCFG_TYPE_FUNC]) =
-- 1;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  152  =
-
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21 @153  	spin_lock_irqsave(&bank->slock, flags);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  154  =
-
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  155  	val =3D readl(reg);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  156  	val &=3D ~(mask << shift);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  157  	val |=3D bank->eint_func << shift;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  158  	writel(val, reg);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  159  =
-
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21 @160  	spin_unlock_irqrestore(&bank->slock, flags);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  161  }
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
-  2013-05-21  162  =
-
-
-:::::: The code at line 160 was first introduced by commit
-:::::: af99a7507469d4fa6dd4d8d633e093b1ff7aff6e pinctrl: Add pinctrl-s3c24x=
-x driver
-
-:::::: TO: Heiko Stuebner <heiko@sntech.de>
-:::::: CC: Kukjin Kim <kgene.kim@samsung.com>
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4577668671028380685==--
+--===============3576652403534230630==--
 
