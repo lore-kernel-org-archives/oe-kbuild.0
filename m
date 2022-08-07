@@ -1,404 +1,241 @@
-Content-Type: multipart/mixed; boundary="===============6287472830344465750=="
+Content-Type: multipart/mixed; boundary="===============4418269410034662670=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 3/5] cpumask: fix invalid uniprocessor mask assumption
-Date: Sat, 13 Aug 2022 23:10:27 +0800
-Message-ID: <202208132214.IbhtWzlp-lkp@intel.com>
+Subject: Re: [PATCH v2 1/3] drivers: serial: earlycon: Correct argument name
+Date: Sun, 07 Aug 2022 11:40:05 +0800
+Message-ID: <202208071111.oWn8uZfx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6287472830344465750==
+--===============4418269410034662670==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- kernel/trace/ring_buffer.c:1826:3: warning: Use of memory after it is free=
-d [clang-analyzer-unix.Malloc]"
+:::::: Manual check reason: "commit no functional change"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <e78c55ecb98172356248a7a89da501479ead6ae0.1659077534.git.sande=
-r@svanheule.net>
-References: <e78c55ecb98172356248a7a89da501479ead6ae0.1659077534.git.sander=
-@svanheule.net>
-TO: Sander Vanheule <sander@svanheule.net>
+In-Reply-To: <20220806163255.10404-2-markuss.broks@gmail.com>
+References: <20220806163255.10404-2-markuss.broks@gmail.com>
+TO: Markuss Broks <markuss.broks@gmail.com>
 TO: linux-kernel(a)vger.kernel.org
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Brendan Higgins <brendanhiggins@google.com>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: David Gow <davidgow@google.com>
-CC: Borislav Petkov <bp@alien8.de>
+CC: ~postmarketos/upstreaming(a)lists.sr.ht
+CC: phone-devel(a)vger.kernel.org
+CC: Markuss Broks <markuss.broks@gmail.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Ard Biesheuvel <ardb@kernel.org>
 CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: "H . Peter Anvin" <hpa@zytor.com>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: "Ma=C3=ADra Canal" <mairacanal@riseup.net>
-CC: Marco Elver <elver@google.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Valentin Schneider <vschneid@redhat.com>
-CC: Yury Norov <yury.norov@gmail.com>
-CC: Sander Vanheule <sander@svanheule.net>
+CC: Jiri Slaby <jirislaby@kernel.org>
+CC: Helge Deller <deller@gmx.de>
+CC: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Borislav Petkov <bp@suse.de>
+CC: Kees Cook <keescook@chromium.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Randy Dunlap <rdunlap@infradead.org>
+CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Michal Suchanek <msuchanek@suse.de>
+CC: Javier Martinez Canillas <javierm@redhat.com>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Wei Ming Chen <jj251510319013@gmail.com>
+CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+CC: Tony Lindgren <tony@atomide.com>
+CC: linux-doc(a)vger.kernel.org
+CC: linux-efi(a)vger.kernel.org
+CC: linux-serial(a)vger.kernel.org
+CC: linux-fbdev(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
+CC: Rob Herring <robh@kernel.org>
 
-Hi Sander,
+Hi Markuss,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on v5.19]
-[cannot apply to akpm-mm/mm-everything tip/master linus/master bp/for-next =
-next-20220812]
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on efi/next staging/staging-testing usb/usb-testing =
+linus/master v5.19 next-20220805]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/cpum=
-ask-fix-invalid-uniprocessor-assumptions/20220729-150359
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git a1a5482=
-a2c6e38a3ebed32e571625c56a8cc41a6
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: mips-randconfig-c004-20220808 (https://download.01.org/0day-ci/arch=
-ive/20220813/202208132214.IbhtWzlp-lkp(a)intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Markuss-Broks/Add-ge=
+neric-framebuffer-support-to-EFI-earlycon-driver/20220807-003646
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/202=
+20807/202208071111.oWn8uZfx-lkp(a)intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 5f1c7e=
 2cc5a3c07cbc2412e851a7283c1841f520)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/7b65d53bebb7b5378fd=
-a6fd2fa4202d2a4c3a5c9
+        # https://github.com/intel-lab-lkp/linux/commit/dedd7c138e9492439ee=
+da05fa75a18bf19883a08
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sander-Vanheule/cpumask-fix-invali=
-d-uniprocessor-assumptions/20220729-150359
-        git checkout 7b65d53bebb7b5378fda6fd2fa4202d2a4c3a5c9
+        git fetch --no-tags linux-review Markuss-Broks/Add-generic-framebuf=
+fer-support-to-EFI-earlycon-driver/20220807-003646
+        git checkout dedd7c138e9492439eeda05fa75a18bf19883a08
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
-
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
+1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^
-   mm/compaction.c:693:6: note: Assuming 'block_start_pfn' is >=3D field 'z=
-one_start_pfn'
-           if (block_start_pfn < cc->zone->zone_start_pfn)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/compaction.c:693:2: note: Taking false branch
-           if (block_start_pfn < cc->zone->zone_start_pfn)
-           ^
-   mm/compaction.c:697:9: note: Assuming 'pfn' is >=3D 'end_pfn'
-           for (; pfn < end_pfn; pfn +=3D isolated,
-                  ^~~~~~~~~~~~~
-   mm/compaction.c:697:2: note: Loop condition is false. Execution continue=
-s on line 739
-           for (; pfn < end_pfn; pfn +=3D isolated,
-           ^
-   mm/compaction.c:739:2: note: Calling 'split_map_pages'
-           split_map_pages(&freelist);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/compaction.c:93:2: note: Assigned value is garbage or undefined
-           list_for_each_entry_safe(page, next, list, lru) {
-           ^
-   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^              ~~~~~~~~~~~~~
-   Suppressed 39 warnings (37 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   Suppressed 32 warnings (32 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   37 warnings generated.
-   Suppressed 37 warnings (37 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   37 warnings generated.
-   Suppressed 37 warnings (37 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   37 warnings generated.
-   Suppressed 37 warnings (37 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   Suppressed 32 warnings (32 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   33 warnings generated.
-   kernel/trace/trace_event_perf.c:416:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&raw_data[size - sizeof(u64)], 0, sizeof(u64));
-           ^~~~~~
-   kernel/trace/trace_event_perf.c:416:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(&raw_data[size - sizeof(u64)], 0, sizeof(u64));
-           ^~~~~~
-   Suppressed 32 warnings (32 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   kernel/utsname_sysctl.c:39:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&uts_table, table, sizeof(uts_table));
-           ^~~~~~
-   kernel/utsname_sysctl.c:39:2: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-           memcpy(&uts_table, table, sizeof(uts_table));
-           ^~~~~~
-   kernel/utsname_sysctl.c:49:2: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(tmp_data, get_uts(table), sizeof(tmp_data));
-           ^~~~~~
-   kernel/utsname_sysctl.c:49:2: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-           memcpy(tmp_data, get_uts(table), sizeof(tmp_data));
-           ^~~~~~
-   kernel/utsname_sysctl.c:61:3: warning: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security=
-.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(get_uts(table), tmp_data, sizeof(tmp_data));
-                   ^~~~~~
-   kernel/utsname_sysctl.c:61:3: note: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11
-                   memcpy(get_uts(table), tmp_data, sizeof(tmp_data));
-                   ^~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   40 warnings generated.
->> kernel/trace/ring_buffer.c:1826:3: warning: Use of memory after it is fr=
-eed [clang-analyzer-unix.Malloc]
-                   rb_free_cpu_buffer(buffer->buffers[cpu]);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:1825:2: note: Assuming 'cpu' is < 1
-           for_each_buffer_cpu(buffer, cpu)
-           ^
-   kernel/trace/ring_buffer.c:289:2: note: expanded from macro 'for_each_bu=
-ffer_cpu'
-           for_each_cpu(cpu, buffer->cpumask)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cpumask.h:218:3: note: expanded from macro 'for_each_cpu'
-                   (cpu) < nr_cpu_ids;)
-                   ^~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:1825:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for_each_buffer_cpu(buffer, cpu)
-           ^
-   kernel/trace/ring_buffer.c:289:2: note: expanded from macro 'for_each_bu=
-ffer_cpu'
-           for_each_cpu(cpu, buffer->cpumask)
-           ^
-   include/linux/cpumask.h:216:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D -1;                                \
-           ^
-   kernel/trace/ring_buffer.c:1826:3: note: Calling 'rb_free_cpu_buffer'
-                   rb_free_cpu_buffer(buffer->buffers[cpu]);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:1723:6: note: Assuming 'head' is null
-           if (head) {
-               ^~~~
-   kernel/trace/ring_buffer.c:1723:2: note: Taking false branch
-           if (head) {
-           ^
-   kernel/trace/ring_buffer.c:1732:2: note: Memory is released
-           kfree(cpu_buffer);
-           ^~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:1826:3: note: Returning; memory was released =
-via 1st parameter
-                   rb_free_cpu_buffer(buffer->buffers[cpu]);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:1825:2: note: Assuming 'cpu' is < 1
-           for_each_buffer_cpu(buffer, cpu)
-           ^
-   kernel/trace/ring_buffer.c:289:2: note: expanded from macro 'for_each_bu=
-ffer_cpu'
-           for_each_cpu(cpu, buffer->cpumask)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cpumask.h:218:3: note: expanded from macro 'for_each_cpu'
-                   (cpu) < nr_cpu_ids;)
-                   ^~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:1825:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for_each_buffer_cpu(buffer, cpu)
-           ^
-   kernel/trace/ring_buffer.c:289:2: note: expanded from macro 'for_each_bu=
-ffer_cpu'
-           for_each_cpu(cpu, buffer->cpumask)
-           ^
-   include/linux/cpumask.h:216:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D -1;                                \
-           ^
-   kernel/trace/ring_buffer.c:1826:3: note: Use of memory after it is freed
-                   rb_free_cpu_buffer(buffer->buffers[cpu]);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:2262:3: warning: Use of memory after it is fr=
-eed [clang-analyzer-unix.Malloc]
-                   list_for_each_entry_safe(bpage, tmp, &cpu_buffer->new_pa=
-ges,
-                   ^
-   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   kernel/trace/ring_buffer.c:2094:6: note: Assuming 'buffer' is non-null
-           if (!buffer)
-               ^~~~~~~
-   kernel/trace/ring_buffer.c:2094:2: note: Taking false branch
-           if (!buffer)
-           ^
-   kernel/trace/ring_buffer.c:2098:6: note: Assuming the condition is false
-           if (cpu_id !=3D RING_BUFFER_ALL_CPUS &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:2098:37: note: Left side of '&&' is false
-           if (cpu_id !=3D RING_BUFFER_ALL_CPUS &&
-                                              ^
-   kernel/trace/ring_buffer.c:2105:6: note: Assuming 'nr_pages' is >=3D 2
-           if (nr_pages < 2)
-               ^~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:2105:2: note: Taking false branch
-           if (nr_pages < 2)
-           ^
-   kernel/trace/ring_buffer.c:2112:2: note: Taking true branch
-           if (cpu_id =3D=3D RING_BUFFER_ALL_CPUS) {
-           ^
-   kernel/trace/ring_buffer.c:2118:3: note: Assuming 'cpu' is >=3D 1
-                   for_each_buffer_cpu(buffer, cpu) {
-                   ^
-   kernel/trace/ring_buffer.c:289:2: note: expanded from macro 'for_each_bu=
-ffer_cpu'
-           for_each_cpu(cpu, buffer->cpumask)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cpumask.h:218:3: note: expanded from macro 'for_each_cpu'
-                   (cpu) < nr_cpu_ids;)
+All errors (new ones prefixed by >>):
 
-vim +1826 kernel/trace/ring_buffer.c
+>> drivers/tty/serial/earlycon.c:246:12: error: conflicting types for 'of_s=
+etup_earlycon'
+   int __init of_setup_earlycon(const struct earlycon_id *match,
+              ^
+   include/linux/serial_core.h:708:12: note: previous declaration is here
+   extern int of_setup_earlycon(const struct earlycon_id *match,
+              ^
+   1 error generated.
 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1813  =
 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1814  /**
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1815   * ring_buffer_f=
-ree - free a ring buffer.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1816   * @buffer: the =
-buffer to free.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1817   */
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1818  void
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1819) ring_buffer_free=
-(struct trace_buffer *buffer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1820  {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1821  	int cpu;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1822  =
+vim +/of_setup_earlycon +246 drivers/tty/serial/earlycon.c
 
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1823  	cpuhp_state_rem=
-ove_instance(CPUHP_TRACE_RB_PREPARE, &buffer->node);
-554f786e284a6c Steven Rostedt            2009-03-11  1824  =
+8477614d9f7c5c Peter Hurley       2016-01-16  245  =
 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1825  	for_each_buffer=
-_cpu(buffer, cpu)
-7a8e76a3829f10 Steven Rostedt            2008-09-29 @1826  		rb_free_cpu_bu=
-ffer(buffer->buffers[cpu]);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1827  =
+c90fe9c0394b06 Peter Hurley       2016-01-16 @246  int __init of_setup_earl=
+ycon(const struct earlycon_id *match,
+dedd7c138e9492 Markuss Broks      2022-08-06  247  			     int offset,
+4d118c9a866590 Peter Hurley       2016-01-16  248  			     const char *opti=
+ons)
+b0b6abd34c1b50 Rob Herring        2014-03-27  249  {
+b0b6abd34c1b50 Rob Herring        2014-03-27  250  	int err;
+b0b6abd34c1b50 Rob Herring        2014-03-27  251  	struct uart_port *port =
+=3D &early_console_dev.port;
+088da2a17619cf Peter Hurley       2016-01-16  252  	const __be32 *val;
+088da2a17619cf Peter Hurley       2016-01-16  253  	bool big_endian;
+c90fe9c0394b06 Peter Hurley       2016-01-16  254  	u64 addr;
+b0b6abd34c1b50 Rob Herring        2014-03-27  255  =
 
-bd3f02212d6a45 Eric Dumazet              2009-08-07  1828  	kfree(buffer->b=
-uffers);
-9e01c1b74c9531 Rusty Russell             2009-01-01  1829  	free_cpumask_va=
-r(buffer->cpumask);
-9e01c1b74c9531 Rusty Russell             2009-01-01  1830  =
+65e20e8cbbccaf Michael Walle      2022-06-28  256  	if (early_con.flags & C=
+ON_ENABLED)
+65e20e8cbbccaf Michael Walle      2022-06-28  257  		return -EALREADY;
+65e20e8cbbccaf Michael Walle      2022-06-28  258  =
 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1831  	kfree(buffer);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1832  }
-c4f50183f90fb1 Robert Richter            2008-12-11  1833  EXPORT_SYMBOL_GP=
-L(ring_buffer_free);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1834  =
+e1dd3bef6d03c9 Geert Uytterhoeven 2015-11-27  259  	spin_lock_init(&port->l=
+ock);
+b0b6abd34c1b50 Rob Herring        2014-03-27  260  	port->iotype =3D UPIO_M=
+EM;
+dedd7c138e9492 Markuss Broks      2022-08-06  261  	addr =3D of_flat_dt_tra=
+nslate_address(offset);
+c90fe9c0394b06 Peter Hurley       2016-01-16  262  	if (addr =3D=3D OF_BAD_=
+ADDR) {
+c90fe9c0394b06 Peter Hurley       2016-01-16  263  		pr_warn("[%s] bad addr=
+ess\n", match->name);
+c90fe9c0394b06 Peter Hurley       2016-01-16  264  		return -ENXIO;
+c90fe9c0394b06 Peter Hurley       2016-01-16  265  	}
+b0b6abd34c1b50 Rob Herring        2014-03-27  266  	port->mapbase =3D addr;
+b0b6abd34c1b50 Rob Herring        2014-03-27  267  =
+
+dedd7c138e9492 Markuss Broks      2022-08-06  268  	val =3D of_get_flat_dt_=
+prop(offset, "reg-offset", NULL);
+088da2a17619cf Peter Hurley       2016-01-16  269  	if (val)
+088da2a17619cf Peter Hurley       2016-01-16  270  		port->mapbase +=3D be3=
+2_to_cpu(*val);
+1f66dd36bb1843 Greentime Hu       2018-02-13  271  	port->membase =3D early=
+con_map(port->mapbase, SZ_4K);
+1f66dd36bb1843 Greentime Hu       2018-02-13  272  =
+
+dedd7c138e9492 Markuss Broks      2022-08-06  273  	val =3D of_get_flat_dt_=
+prop(offset, "reg-shift", NULL);
+088da2a17619cf Peter Hurley       2016-01-16  274  	if (val)
+088da2a17619cf Peter Hurley       2016-01-16  275  		port->regshift =3D be3=
+2_to_cpu(*val);
+dedd7c138e9492 Markuss Broks      2022-08-06  276  	big_endian =3D of_get_f=
+lat_dt_prop(offset, "big-endian", NULL) !=3D NULL ||
+088da2a17619cf Peter Hurley       2016-01-16  277  		(IS_ENABLED(CONFIG_CPU=
+_BIG_ENDIAN) &&
+dedd7c138e9492 Markuss Broks      2022-08-06  278  		 of_get_flat_dt_prop(o=
+ffset, "native-endian", NULL) !=3D NULL);
+dedd7c138e9492 Markuss Broks      2022-08-06  279  	val =3D of_get_flat_dt_=
+prop(offset, "reg-io-width", NULL);
+088da2a17619cf Peter Hurley       2016-01-16  280  	if (val) {
+088da2a17619cf Peter Hurley       2016-01-16  281  		switch (be32_to_cpu(*v=
+al)) {
+088da2a17619cf Peter Hurley       2016-01-16  282  		case 1:
+088da2a17619cf Peter Hurley       2016-01-16  283  			port->iotype =3D UPIO=
+_MEM;
+088da2a17619cf Peter Hurley       2016-01-16  284  			break;
+088da2a17619cf Peter Hurley       2016-01-16  285  		case 2:
+088da2a17619cf Peter Hurley       2016-01-16  286  			port->iotype =3D UPIO=
+_MEM16;
+088da2a17619cf Peter Hurley       2016-01-16  287  			break;
+088da2a17619cf Peter Hurley       2016-01-16  288  		case 4:
+088da2a17619cf Peter Hurley       2016-01-16  289  			port->iotype =3D (big=
+_endian) ? UPIO_MEM32BE : UPIO_MEM32;
+088da2a17619cf Peter Hurley       2016-01-16  290  			break;
+088da2a17619cf Peter Hurley       2016-01-16  291  		default:
+088da2a17619cf Peter Hurley       2016-01-16  292  			pr_warn("[%s] unsuppo=
+rted reg-io-width\n", match->name);
+088da2a17619cf Peter Hurley       2016-01-16  293  			return -EINVAL;
+088da2a17619cf Peter Hurley       2016-01-16  294  		}
+088da2a17619cf Peter Hurley       2016-01-16  295  	}
+088da2a17619cf Peter Hurley       2016-01-16  296  =
+
+dedd7c138e9492 Markuss Broks      2022-08-06  297  	val =3D of_get_flat_dt_=
+prop(offset, "current-speed", NULL);
+31cb9a8575ca04 Eugeniy Paltsev    2017-08-21  298  	if (val)
+31cb9a8575ca04 Eugeniy Paltsev    2017-08-21  299  		early_console_dev.baud=
+ =3D be32_to_cpu(*val);
+31cb9a8575ca04 Eugeniy Paltsev    2017-08-21  300  =
+
+dedd7c138e9492 Markuss Broks      2022-08-06  301  	val =3D of_get_flat_dt_=
+prop(offset, "clock-frequency", NULL);
+814453adea7d08 Michal Simek       2018-04-10  302  	if (val)
+814453adea7d08 Michal Simek       2018-04-10  303  		port->uartclk =3D be32=
+_to_cpu(*val);
+814453adea7d08 Michal Simek       2018-04-10  304  =
+
+4d118c9a866590 Peter Hurley       2016-01-16  305  	if (options) {
+31cb9a8575ca04 Eugeniy Paltsev    2017-08-21  306  		early_console_dev.baud=
+ =3D simple_strtoul(options, NULL, 0);
+4d118c9a866590 Peter Hurley       2016-01-16  307  		strlcpy(early_console_=
+dev.options, options,
+4d118c9a866590 Peter Hurley       2016-01-16  308  			sizeof(early_console_=
+dev.options));
+4d118c9a866590 Peter Hurley       2016-01-16  309  	}
+05d961320ba624 Peter Hurley       2016-01-16  310  	earlycon_init(&early_co=
+nsole_dev, match->name);
+4d118c9a866590 Peter Hurley       2016-01-16  311  	err =3D match->setup(&e=
+arly_console_dev, options);
+f28295cc8ce14b Hsin-Yi Wang       2020-09-15  312  	earlycon_print_info(&ea=
+rly_console_dev);
+b0b6abd34c1b50 Rob Herring        2014-03-27  313  	if (err < 0)
+b0b6abd34c1b50 Rob Herring        2014-03-27  314  		return err;
+b0b6abd34c1b50 Rob Herring        2014-03-27  315  	if (!early_console_dev.=
+con->write)
+b0b6abd34c1b50 Rob Herring        2014-03-27  316  		return -ENODEV;
+b0b6abd34c1b50 Rob Herring        2014-03-27  317  =
+
+b0b6abd34c1b50 Rob Herring        2014-03-27  318  =
+
+b0b6abd34c1b50 Rob Herring        2014-03-27  319  	register_console(early_=
+console_dev.con);
+b0b6abd34c1b50 Rob Herring        2014-03-27  320  	return 0;
+b0b6abd34c1b50 Rob Herring        2014-03-27  321  }
+8477614d9f7c5c Peter Hurley       2016-01-16  322  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6287472830344465750==--
+--===============4418269410034662670==--
 
