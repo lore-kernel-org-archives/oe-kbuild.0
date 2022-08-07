@@ -1,216 +1,1189 @@
-Content-Type: multipart/mixed; boundary="===============1304148271037323771=="
+Content-Type: multipart/mixed; boundary="===============5217661021645436780=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/logicvc/logicvc_layer.c:320 logicvc_layer_buffer_find_setup() warn: impossible condition '(hoffset > (((((1))) << (16)) - 1)) => (0-u16max > u16max)'
-Date: Mon, 08 Aug 2022 01:54:51 +0800
-Message-ID: <202208080120.WBB2PMKu-lkp@intel.com>
+Subject: lib/stackinit_kunit.c:51:49: warning: use of uninitialized value '*ptr' [CWE-457]
+Date: Mon, 08 Aug 2022 01:44:22 +0800
+Message-ID: <202208080126.F4mXtN65-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1304148271037323771==
+--===============5217661021645436780==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: lib/stack=
+init_kunit.c:51:49: warning: use of uninitialized value '*ptr' [CWE-457] [-=
+Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-CC: Maxime Ripard <mripard@kernel.org>
+TO: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1612c382ffbdf1f673caec76502b1c00e6d35363
-commit: efeeaefe9be56e8ae5e5b4e9ff6d2275ec977ec5 drm: Add support for the L=
-ogiCVC display controller
-date:   8 weeks ago
+commit: 02788ebcf521fe78c24eb221fd1ed7f86792c330 lib: stackinit: Convert to=
+ KUnit
+date:   5 months ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 8 weeks ago
-config: microblaze-randconfig-m041-20220805 (https://download.01.org/0day-c=
-i/archive/20220808/202208080120.WBB2PMKu-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
+ve/20220808/202208080126.F4mXtN65-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D02788ebcf521fe78c24eb221fd1ed7f86792c330
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 02788ebcf521fe78c24eb221fd1ed7f86792c330
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/logicvc/logicvc_layer.c:320 logicvc_layer_buffer_find_setup=
-() warn: impossible condition '(hoffset > (((((1))) << (16)) - 1)) =3D> (0-=
-u16max > u16max)'
+gcc-analyzer warnings: (new ones prefixed by >>)
+              |      |            ^
+              |      |            |
+              |      |            (11) following 'false' branch (when 'fill=
+ =3D=3D 0')...
+   lib/stackinit_kunit.c:317:17: note: in expansion of macro 'DEFINE_TEST'
+              |  317 |                 DEFINE_TEST(name ## _ ## init,      =
+            \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:324:17: note: in expansion of macro 'DEFINE_STRUCT=
+_TEST'
+              |  324 |                 DEFINE_STRUCT_TEST(trailing_hole, in=
+it, xfail); \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:341:1: note: in expansion of macro 'DEFINE_STRUCT_=
+TESTS'
+              |  341 | DEFINE_STRUCT_TESTS(assigned_copy, ALWAYS_FAIL);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_trailing_hole_assigned_copy': event 12
+              |
+              |  235 |         memcpy(check_buf, target_start, target_size)=
+;           \
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (12) ...to here
+   lib/stackinit_kunit.c:317:17: note: in expansion of macro 'DEFINE_TEST'
+              |  317 |                 DEFINE_TEST(name ## _ ## init,      =
+            \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:324:17: note: in expansion of macro 'DEFINE_STRUCT=
+_TEST'
+              |  324 |                 DEFINE_STRUCT_TEST(trailing_hole, in=
+it, xfail); \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:341:1: note: in expansion of macro 'DEFINE_STRUCT_=
+TESTS'
+              |  341 | DEFINE_STRUCT_TESTS(assigned_copy, ALWAYS_FAIL);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_trailing_hole_assigned_copy': event 13
+              |
+              |include/linux/fortify-string.h:223:12:
+              |  223 |         if (p_size < size || q_size < size)
+              |      |            ^
+              |      |            |
+              |      |            (13) following 'false' branch...
+              |
+            'leaf_trailing_hole_assigned_copy': event 14
+              |
+              |   41 | #define __underlying_memcpy     __builtin_memcpy
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (14) ...to here
+   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
+derlying_memcpy'
+              |  225 |         return __underlying_memcpy(p, q, size);
+              |      |                ^~~~~~~~~~~~~~~~~~~
+              |
+       <------+
+       |
+     'test_trailing_hole_assigned_copy': event 15
+       |
+       |lib/stackinit_kunit.c:173:19:
+       |  173 |         ignored =3D leaf_ ##name((unsigned long)&ignored, 0=
+,      \
+       |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                   |
+       |      |                   (15) returning to 'test_trailing_hole_ass=
+igned_copy' from 'leaf_trailing_hole_assigned_copy'
+       |  174 |                                 FETCH_ARG_ ## which(zero));=
+     \
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:317:17: note: in expansion of macro 'DEFINE_TEST'
+       |  317 |                 DEFINE_TEST(name ## _ ## init,             =
+     \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:324:17: note: in expansion of macro 'DEFINE_STRUCT=
+_TEST'
+       |  324 |                 DEFINE_STRUCT_TEST(trailing_hole, init, xfa=
+il); \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:341:1: note: in expansion of macro 'DEFINE_STRUCT_=
+TESTS'
+       |  341 | DEFINE_STRUCT_TESTS(assigned_copy, ALWAYS_FAIL);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+     'test_trailing_hole_assigned_copy': event 16
+       |
+       |  178 |                 range_contains(fill_start, fill_size,      =
+     \
+   include/kunit/test.h:782:28: note: in definition of macro 'KUNIT_ASSERTI=
+ON'
+       |  782 |                            pass,                           =
+                    \
+       |      |                            ^~~~
+   include/kunit/test.h:830:9: note: in expansion of macro 'KUNIT_UNARY_ASS=
+ERTION'
+       |  830 |         KUNIT_UNARY_ASSERTION(test,                        =
+                    \
+       |      |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1614:9: note: in expansion of macro 'KUNIT_TRUE_MSG=
+_ASSERTION'
+       | 1614 |         KUNIT_TRUE_MSG_ASSERTION(test,                     =
+                    \
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:177:9: note: in expansion of macro 'KUNIT_ASSERT_T=
+RUE_MSG'
+       |  177 |         KUNIT_ASSERT_TRUE_MSG(test,                        =
+     \
+       |      |         ^~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:317:17: note: in expansion of macro 'DEFINE_TEST'
+       |  317 |                 DEFINE_TEST(name ## _ ## init,             =
+     \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:324:17: note: in expansion of macro 'DEFINE_STRUCT=
+_TEST'
+       |  324 |                 DEFINE_STRUCT_TEST(trailing_hole, init, xfa=
+il); \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:341:1: note: in expansion of macro 'DEFINE_STRUCT_=
+TESTS'
+       |  341 | DEFINE_STRUCT_TESTS(assigned_copy, ALWAYS_FAIL);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+   lib/stackinit_kunit.c: In function 'do_nothing_u8_none':
+>> lib/stackinit_kunit.c:51:49: warning: use of uninitialized value '*ptr' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      51 | #define DO_NOTHING_RETURN_SCALAR(ptr)           *(ptr)
+         |                                                 ^~~~~~
+   lib/stackinit_kunit.c:204:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+     204 |                 return DO_NOTHING_RETURN_ ## which(ptr);        \
+         |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+     305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+         |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+     309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);            \
+         |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+     343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+         | ^~~~~~~~~~~~~~~~~~~
+     'test_u8_none': event 1
+       |
+       |  149 | static noinline void test_ ## name (struct kunit *test)    =
+     \
+       |      |                      ^~~~~
+       |      |                      |
+       |      |                      (1) entry to 'test_u8_none'
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);       =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+     'test_u8_none': event 2
+       |
+       |  163 |         ignored =3D leaf_ ##name((unsigned long)&ignored, 1=
+,      \
+       |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                   |
+       |      |                   (2) calling 'leaf_u8_none' from 'test_u8_=
+none'
+       |  164 |                                 FETCH_ARG_ ## which(zero));=
+     \
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);       =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'leaf_u8_none': event 3
+              |
+              |  208 | static noinline int leaf_ ## name(unsigned long sp, =
+bool fill,  \
+              |      |                     ^~~~~
+              |      |                     |
+              |      |                     (3) entry to 'leaf_u8_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);=
+            \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u8_none': event 4
+              |
+              |  212 |         var_type var                                =
+            \
+              |      |                  ^~~
+              |      |                  |
+              |      |                  (4) region created on stack here
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);=
+            \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u8_none': event 5
+              |
+              |  223 |         if (fill) {                                 =
+            \
+              |      |            ^
+              |      |            |
+              |      |            (5) following 'true' branch (when 'fill !=
+=3D 0')...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);=
+            \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+--
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);=
+            \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u8_none': event 15
+              |
+              |   56 |                 (var) =3D do_nothing_ ## name(&(var))
+              |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                         |
+              |      |                         (15) calling 'do_nothing_u8_=
+none' from 'leaf_u8_none'
+   lib/stackinit_kunit.c:232:9: note: in expansion of macro 'DO_NOTHING_CAL=
+L_SCALAR'
+              |  232 |         DO_NOTHING_CALL_ ## which(var, name);       =
+            \
+              |      |         ^~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  309 |                 DEFINE_SCALAR_TEST(u8, init, xfail);=
+            \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'do_nothing_u8_none': event 16
+                     |
+                     |  200 | do_nothing_ ## name(var_type *ptr)           =
+                   \
+                     |      | ^~~~~~~~~~~
+                     |      | |
+                     |      | (16) entry to 'do_nothing_u8_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  309 |                 DEFINE_SCALAR_TEST(u8, init, =
+xfail);            \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u8_none': event 17
+                     |
+                     |  203 |         if ((unsigned long)ptr > 0x2)        =
+                   \
+                     |      |            ^
+                     |      |            |
+                     |      |            (17) following 'false' branch...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  309 |                 DEFINE_SCALAR_TEST(u8, init, =
+xfail);            \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u8_none': event 18
+                     |
+                     |   51 | #define DO_NOTHING_RETURN_SCALAR(ptr)        =
+   *(ptr)
+                     |      |                                              =
+   ^~~~~~
+                     |      |                                              =
+   |
+                     |      |                                              =
+   (18) ...to here
+   lib/stackinit_kunit.c:206:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+                     |  206 |                 return DO_NOTHING_RETURN_ ## =
+which(ptr + 1);    \
+                     |      |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  309 |                 DEFINE_SCALAR_TEST(u8, init, =
+xfail);            \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u8_none': event 19
+                     |
+                     |   51 | #define DO_NOTHING_RETURN_SCALAR(ptr)        =
+   *(ptr)
+                     |      |                                              =
+   ^~~~~~
+                     |      |                                              =
+   |
+                     |      |                                              =
+   (19) use of uninitialized value 'ptr[1]' here
+   lib/stackinit_kunit.c:206:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+                     |  206 |                 return DO_NOTHING_RETURN_ ## =
+which(ptr + 1);    \
+                     |      |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:309:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  309 |                 DEFINE_SCALAR_TEST(u8, init, =
+xfail);            \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+   lib/stackinit_kunit.c: In function 'do_nothing_u16_none':
+>> lib/stackinit_kunit.c:51:49: warning: use of uninitialized value '*ptr' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      51 | #define DO_NOTHING_RETURN_SCALAR(ptr)           *(ptr)
+         |                                                 ^~~~~~
+   lib/stackinit_kunit.c:204:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+     204 |                 return DO_NOTHING_RETURN_ ## which(ptr);        \
+         |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+     305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+         |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+     310 |                 DEFINE_SCALAR_TEST(u16, init, xfail);           \
+         |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+     343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+         | ^~~~~~~~~~~~~~~~~~~
+     'test_u16_none': event 1
+       |
+       |  149 | static noinline void test_ ## name (struct kunit *test)    =
+     \
+       |      |                      ^~~~~
+       |      |                      |
+       |      |                      (1) entry to 'test_u16_none'
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail);      =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+     'test_u16_none': event 2
+       |
+       |  163 |         ignored =3D leaf_ ##name((unsigned long)&ignored, 1=
+,      \
+       |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                   |
+       |      |                   (2) calling 'leaf_u16_none' from 'test_u1=
+6_none'
+       |  164 |                                 FETCH_ARG_ ## which(zero));=
+     \
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail);      =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'leaf_u16_none': event 3
+              |
+              |  208 | static noinline int leaf_ ## name(unsigned long sp, =
+bool fill,  \
+              |      |                     ^~~~~
+              |      |                     |
+              |      |                     (3) entry to 'leaf_u16_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u16_none': event 4
+              |
+              |  212 |         var_type var                                =
+            \
+              |      |                  ^~~
+              |      |                  |
+              |      |                  (4) region created on stack here
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u16_none': event 5
+              |
+              |  223 |         if (fill) {                                 =
+            \
+              |      |            ^
+              |      |            |
+              |      |            (5) following 'true' branch (when 'fill !=
+=3D 0')...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+--
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u16_none': event 17
+              |
+              |   56 |                 (var) =3D do_nothing_ ## name(&(var))
+              |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                         |
+              |      |                         (17) calling 'do_nothing_u16=
+_none' from 'leaf_u16_none'
+   lib/stackinit_kunit.c:232:9: note: in expansion of macro 'DO_NOTHING_CAL=
+L_SCALAR'
+              |  232 |         DO_NOTHING_CALL_ ## which(var, name);       =
+            \
+              |      |         ^~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  310 |                 DEFINE_SCALAR_TEST(u16, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'do_nothing_u16_none': event 18
+                     |
+                     |  200 | do_nothing_ ## name(var_type *ptr)           =
+                   \
+                     |      | ^~~~~~~~~~~
+                     |      | |
+                     |      | (18) entry to 'do_nothing_u16_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  310 |                 DEFINE_SCALAR_TEST(u16, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u16_none': event 19
+                     |
+                     |  203 |         if ((unsigned long)ptr > 0x2)        =
+                   \
+                     |      |            ^
+                     |      |            |
+                     |      |            (19) following 'false' branch...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  310 |                 DEFINE_SCALAR_TEST(u16, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u16_none': event 20
+                     |
+                     |   51 | #define DO_NOTHING_RETURN_SCALAR(ptr)        =
+   *(ptr)
+                     |      |                                              =
+   ^~~~~~
+                     |      |                                              =
+   |
+                     |      |                                              =
+   (20) ...to here
+   lib/stackinit_kunit.c:206:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+                     |  206 |                 return DO_NOTHING_RETURN_ ## =
+which(ptr + 1);    \
+                     |      |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  310 |                 DEFINE_SCALAR_TEST(u16, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u16_none': event 21
+                     |
+                     |   51 | #define DO_NOTHING_RETURN_SCALAR(ptr)        =
+   *(ptr)
+                     |      |                                              =
+   ^~~~~~
+                     |      |                                              =
+   |
+                     |      |                                              =
+   (21) use of uninitialized value 'ptr[1]' here
+   lib/stackinit_kunit.c:206:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+                     |  206 |                 return DO_NOTHING_RETURN_ ## =
+which(ptr + 1);    \
+                     |      |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:310:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  310 |                 DEFINE_SCALAR_TEST(u16, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+   lib/stackinit_kunit.c: In function 'do_nothing_u32_none':
+>> lib/stackinit_kunit.c:51:49: warning: use of uninitialized value '*ptr' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      51 | #define DO_NOTHING_RETURN_SCALAR(ptr)           *(ptr)
+         |                                                 ^~~~~~
+   lib/stackinit_kunit.c:204:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+     204 |                 return DO_NOTHING_RETURN_ ## which(ptr);        \
+         |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+     305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+         |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+     311 |                 DEFINE_SCALAR_TEST(u32, init, xfail);           \
+         |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+     343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+         | ^~~~~~~~~~~~~~~~~~~
+     'test_u32_none': event 1
+       |
+       |  149 | static noinline void test_ ## name (struct kunit *test)    =
+     \
+       |      |                      ^~~~~
+       |      |                      |
+       |      |                      (1) entry to 'test_u32_none'
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail);      =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+     'test_u32_none': event 2
+       |
+       |  163 |         ignored =3D leaf_ ##name((unsigned long)&ignored, 1=
+,      \
+       |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                   |
+       |      |                   (2) calling 'leaf_u32_none' from 'test_u3=
+2_none'
+       |  164 |                                 FETCH_ARG_ ## which(zero));=
+     \
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail);      =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'leaf_u32_none': event 3
+              |
+              |  208 | static noinline int leaf_ ## name(unsigned long sp, =
+bool fill,  \
+              |      |                     ^~~~~
+              |      |                     |
+              |      |                     (3) entry to 'leaf_u32_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u32_none': event 4
+              |
+              |  212 |         var_type var                                =
+            \
+              |      |                  ^~~
+              |      |                  |
+              |      |                  (4) region created on stack here
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u32_none': event 5
+              |
+              |  223 |         if (fill) {                                 =
+            \
+              |      |            ^
+              |      |            |
+              |      |            (5) following 'true' branch (when 'fill !=
+=3D 0')...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+--
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u32_none': event 17
+              |
+              |   56 |                 (var) =3D do_nothing_ ## name(&(var))
+              |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                         |
+              |      |                         (17) calling 'do_nothing_u32=
+_none' from 'leaf_u32_none'
+   lib/stackinit_kunit.c:232:9: note: in expansion of macro 'DO_NOTHING_CAL=
+L_SCALAR'
+              |  232 |         DO_NOTHING_CALL_ ## which(var, name);       =
+            \
+              |      |         ^~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  311 |                 DEFINE_SCALAR_TEST(u32, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'do_nothing_u32_none': event 18
+                     |
+                     |  200 | do_nothing_ ## name(var_type *ptr)           =
+                   \
+                     |      | ^~~~~~~~~~~
+                     |      | |
+                     |      | (18) entry to 'do_nothing_u32_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  311 |                 DEFINE_SCALAR_TEST(u32, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u32_none': event 19
+                     |
+                     |  203 |         if ((unsigned long)ptr > 0x2)        =
+                   \
+                     |      |            ^
+                     |      |            |
+                     |      |            (19) following 'false' branch...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  311 |                 DEFINE_SCALAR_TEST(u32, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u32_none': event 20
+                     |
+                     |   51 | #define DO_NOTHING_RETURN_SCALAR(ptr)        =
+   *(ptr)
+                     |      |                                              =
+   ^~~~~~
+                     |      |                                              =
+   |
+                     |      |                                              =
+   (20) ...to here
+   lib/stackinit_kunit.c:206:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+                     |  206 |                 return DO_NOTHING_RETURN_ ## =
+which(ptr + 1);    \
+                     |      |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  311 |                 DEFINE_SCALAR_TEST(u32, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+                   'do_nothing_u32_none': event 21
+                     |
+                     |   51 | #define DO_NOTHING_RETURN_SCALAR(ptr)        =
+   *(ptr)
+                     |      |                                              =
+   ^~~~~~
+                     |      |                                              =
+   |
+                     |      |                                              =
+   (21) use of uninitialized value 'ptr[1]' here
+   lib/stackinit_kunit.c:206:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+                     |  206 |                 return DO_NOTHING_RETURN_ ## =
+which(ptr + 1);    \
+                     |      |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+                     |  305 |                 DEFINE_TEST(name ## _ ## init=
+, name, SCALAR,    \
+                     |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:311:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+                     |  311 |                 DEFINE_SCALAR_TEST(u32, init,=
+ xfail);           \
+                     |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+                     |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+                     |      | ^~~~~~~~~~~~~~~~~~~
+                     |
+   lib/stackinit_kunit.c: In function 'do_nothing_u64_none':
+>> lib/stackinit_kunit.c:51:49: warning: use of uninitialized value '*ptr' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      51 | #define DO_NOTHING_RETURN_SCALAR(ptr)           *(ptr)
+         |                                                 ^~~~~~
+   lib/stackinit_kunit.c:204:24: note: in expansion of macro 'DO_NOTHING_RE=
+TURN_SCALAR'
+     204 |                 return DO_NOTHING_RETURN_ ## which(ptr);        \
+         |                        ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+     305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+         |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:312:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+     312 |                 DEFINE_SCALAR_TEST(u64, init, xfail);           \
+         |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+     343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+         | ^~~~~~~~~~~~~~~~~~~
+     'test_u64_none': event 1
+       |
+       |  149 | static noinline void test_ ## name (struct kunit *test)    =
+     \
+       |      |                      ^~~~~
+       |      |                      |
+       |      |                      (1) entry to 'test_u64_none'
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:312:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  312 |                 DEFINE_SCALAR_TEST(u64, init, xfail);      =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+     'test_u64_none': event 2
+       |
+       |  163 |         ignored =3D leaf_ ##name((unsigned long)&ignored, 1=
+,      \
+       |      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+       |      |                   |
+       |      |                   (2) calling 'leaf_u64_none' from 'test_u6=
+4_none'
+       |  164 |                                 FETCH_ARG_ ## which(zero));=
+     \
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:239:1: note: in expansion of macro 'DEFINE_TEST_DR=
+IVER'
+       |  239 | DEFINE_TEST_DRIVER(name, var_type, which, xfail)
+       |      | ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+       |  305 |                 DEFINE_TEST(name ## _ ## init, name, SCALAR=
+,    \
+       |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:312:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+       |  312 |                 DEFINE_SCALAR_TEST(u64, init, xfail);      =
+     \
+       |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+       |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+       |      | ^~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'leaf_u64_none': event 3
+              |
+              |  208 | static noinline int leaf_ ## name(unsigned long sp, =
+bool fill,  \
+              |      |                     ^~~~~
+              |      |                     |
+              |      |                     (3) entry to 'leaf_u64_none'
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:312:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  312 |                 DEFINE_SCALAR_TEST(u64, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u64_none': event 4
+              |
+              |  212 |         var_type var                                =
+            \
+              |      |                  ^~~
+              |      |                  |
+              |      |                  (4) region created on stack here
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:312:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  312 |                 DEFINE_SCALAR_TEST(u64, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+              |      | ^~~~~~~~~~~~~~~~~~~
+              |
+            'leaf_u64_none': event 5
+              |
+              |  223 |         if (fill) {                                 =
+            \
+              |      |            ^
+              |      |            |
+              |      |            (5) following 'true' branch (when 'fill !=
+=3D 0')...
+   lib/stackinit_kunit.c:305:17: note: in expansion of macro 'DEFINE_TEST'
+              |  305 |                 DEFINE_TEST(name ## _ ## init, name,=
+ SCALAR,    \
+              |      |                 ^~~~~~~~~~~
+   lib/stackinit_kunit.c:312:17: note: in expansion of macro 'DEFINE_SCALAR=
+_TEST'
+              |  312 |                 DEFINE_SCALAR_TEST(u64, init, xfail)=
+;           \
+              |      |                 ^~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: in expansion of macro 'DEFINE_SCALAR_=
+TESTS'
+              |  343 | DEFINE_SCALAR_TESTS(none, STRONG_PASS);
 
-Old smatch warnings:
-drivers/gpu/drm/logicvc/logicvc_layer.c:492 logicvc_layer_init() warn: miss=
-ing error code 'ret'
+vim +51 lib/stackinit_kunit.c
 
-vim +320 drivers/gpu/drm/logicvc/logicvc_layer.c
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  50  =
 
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  257  =
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23 @51  #define DO_NO=
+THING_RETURN_SCALAR(ptr)		*(ptr)
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  52  #define DO_NO=
+THING_RETURN_STRING(ptr)		/**/
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  53  #define DO_NO=
+THING_RETURN_STRUCT(ptr)		/**/
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  54  =
 
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  258  int logicvc_layer_buffer=
-_find_setup(struct logicvc_drm *logicvc,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  259  				    struct logicvc_l=
-ayer *layer,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  260  				    struct drm_plane=
-_state *state,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  261  				    struct logicvc_l=
-ayer_buffer_setup *setup)
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  262  {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  263  	struct drm_device *drm_=
-dev =3D &logicvc->drm_dev;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  264  	struct drm_framebuffer =
-*fb =3D state->fb;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  265  	/* All the supported fo=
-rmats have a single data plane. */
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  266  	u32 layer_bytespp =3D f=
-b->format->cpp[0];
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  267  	u32 layer_stride =3D la=
-yer_bytespp * logicvc->config.row_stride;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  268  	u32 base_offset =3D lay=
-er->config.base_offset * layer_stride;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  269  	u32 buffer_offset =3D l=
-ayer->config.buffer_offset * layer_stride;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  270  	u8 buffer_sel =3D 0;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  271  	u16 voffset =3D 0;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  272  	u16 hoffset =3D 0;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  273  	phys_addr_t fb_addr;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  274  	u32 fb_offset;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  275  	u32 gap;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  276  =
 
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  277  	if (!logicvc->reserved_=
-mem_base) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  278  		drm_err(drm_dev, "No r=
-eserved memory base was registered!\n");
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  279  		return -ENOMEM;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  280  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  281  =
+:::::: The code at line 51 was first introduced by commit
+:::::: 50ceaa95ea09703722b30b4afa617c972071cd7f lib: Introduce test_stackin=
+it module
 
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  282  	fb_addr =3D drm_fb_cma_=
-get_gem_addr(fb, state, 0);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  283  	if (fb_addr < logicvc->=
-reserved_mem_base) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  284  		drm_err(drm_dev,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  285  			"Framebuffer memory b=
-elow reserved memory base!\n");
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  286  		return -EINVAL;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  287  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  288  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  289  	fb_offset =3D (u32) (fb=
-_addr - logicvc->reserved_mem_base);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  290  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  291  	if (fb_offset < base_of=
-fset) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  292  		drm_err(drm_dev,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  293  			"Framebuffer offset b=
-elow layer base offset!\n");
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  294  		return -EINVAL;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  295  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  296  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  297  	gap =3D fb_offset - bas=
-e_offset;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  298  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  299  	/* Use the possible vid=
-eo buffers selection. */
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  300  	if (gap && buffer_offse=
-t) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  301  		buffer_sel =3D gap / b=
-uffer_offset;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  302  		if (buffer_sel > LOGIC=
-VC_BUFFER_SEL_MAX)
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  303  			buffer_sel =3D LOGICV=
-C_BUFFER_SEL_MAX;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  304  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  305  		gap -=3D buffer_sel * =
-buffer_offset;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  306  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  307  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  308  	/* Use the vertical off=
-set. */
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  309  	if (gap && layer_stride=
- && logicvc->config.layers_configurable) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  310  		voffset =3D gap / laye=
-r_stride;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  311  		if (voffset > LOGICVC_=
-LAYER_VOFFSET_MAX)
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  312  			voffset =3D LOGICVC_L=
-AYER_VOFFSET_MAX;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  313  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  314  		gap -=3D voffset * lay=
-er_stride;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  315  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  316  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  317  	/* Use the horizontal o=
-ffset. */
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  318  	if (gap && layer_bytesp=
-p && logicvc->config.layers_configurable) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  319  		hoffset =3D gap / laye=
-r_bytespp;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20 @320  		if (hoffset > LOGICVC_=
-DIMENSIONS_MAX)
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  321  			hoffset =3D LOGICVC_D=
-IMENSIONS_MAX;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  322  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  323  		gap -=3D hoffset * lay=
-er_bytespp;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  324  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  325  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  326  	if (gap) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  327  		drm_err(drm_dev,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  328  			"Unable to find layer=
- %d buffer setup for 0x%x byte gap\n",
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  329  			layer->index, fb_offs=
-et - base_offset);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  330  		return -EINVAL;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  331  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  332  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  333  	drm_dbg_kms(drm_dev, "F=
-ound layer %d buffer setup for 0x%x byte gap:\n",
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  334  		    layer->index, fb_o=
-ffset - base_offset);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  335  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  336  	drm_dbg_kms(drm_dev, "-=
- buffer_sel =3D 0x%x chunks of 0x%x bytes\n",
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  337  		    buffer_sel, buffer=
-_offset);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  338  	drm_dbg_kms(drm_dev, "-=
- voffset =3D 0x%x chunks of 0x%x bytes\n", voffset,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  339  		    layer_stride);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  340  	drm_dbg_kms(drm_dev, "-=
- hoffset =3D 0x%x chunks of 0x%x bytes\n", hoffset,
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  341  		    layer_bytespp);
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  342  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  343  	if (setup) {
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  344  		setup->buffer_sel =3D =
-buffer_sel;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  345  		setup->voffset =3D vof=
-fset;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  346  		setup->hoffset =3D hof=
-fset;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  347  	}
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  348  =
-
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  349  	return 0;
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  350  }
-efeeaefe9be56e8 Paul Kocialkowski 2022-05-20  351  =
-
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1304148271037323771==--
+--===============5217661021645436780==--
 
