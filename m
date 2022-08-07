@@ -1,254 +1,164 @@
-Content-Type: multipart/mixed; boundary="===============3188366343186235308=="
+Content-Type: multipart/mixed; boundary="===============1559497803589310564=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/trace/pid_list.c:134:22: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 08 Aug 2022 05:09:21 +0800
-Message-ID: <202208080514.7nLnMIGj-lkp@intel.com>
+Subject: arch/arm/mach-at91/pm.c:598:30: sparse: sparse: incorrect type in assignment (different address spaces)
+Date: Mon, 08 Aug 2022 04:38:52 +0800
+Message-ID: <202208080402.ehSZX7aq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3188366343186235308==
+--===============1559497803589310564==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: kernel/tr=
-ace/pid_list.c:134:22: warning: use of uninitialized value '<unknown>' [CWE=
--457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "only Kconfig file updated"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+TO: Eugen Hristev <eugen.hristev@microchip.com>
+CC: Nicolas Ferre <nicolas.ferre@microchip.com>
+CC: Claudiu Beznea <claudiu.beznea@microchip.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   1612c382ffbdf1f673caec76502b1c00e6d35363
-commit: 8d6e90983ade25ec7925211ac31d9ccaf64b7edf tracing: Create a sparse b=
-itmask for pid filtering
-date:   10 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220808/202208080514.7nLnMIGj-lkp(a)intel.com/config)
+head:   3bc1bc0b59d04e997db25b84babf459ca1cd80b7
+commit: 56bc29659182a9d4b58d8364420f5a9c59d709e8 ARM: at91: add new SoC sam=
+a7g5
+date:   1 year, 1 month ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm-randconfig-s031-20220805 (https://download.01.org/0day-ci/archi=
+ve/20220808/202208080402.ehSZX7aq-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8d6e90983ade25ec7925211ac31d9ccaf64b7edf
+t/commit/?id=3D56bc29659182a9d4b58d8364420f5a9c59d709e8
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 8d6e90983ade25ec7925211ac31d9ccaf64b7edf
+        git checkout 56bc29659182a9d4b58d8364420f5a9c59d709e8
         # save the config file
+        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   kernel/trace/pid_list.c: In function 'trace_pid_list_is_set':
->> kernel/trace/pid_list.c:134:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     134 |         unsigned int upper1;
-         |                      ^~~~~~
-     'trace_pid_list_is_set': event 1
-       |
-       |  134 |         unsigned int upper1;
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c:135:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     135 |         unsigned int upper2;
-         |                      ^~~~~~
-     'trace_pid_list_is_set': event 1
-       |
-       |  135 |         unsigned int upper2;
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c:136:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     136 |         unsigned int lower;
-         |                      ^~~~~
-     'trace_pid_list_is_set': event 1
-       |
-       |  136 |         unsigned int lower;
-       |      |                      ^~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c: In function 'trace_pid_list_set':
-   kernel/trace/pid_list.c:173:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     173 |         unsigned int upper1;
-         |                      ^~~~~~
-     'trace_pid_list_set': event 1
-       |
-       |  173 |         unsigned int upper1;
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c:174:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     174 |         unsigned int upper2;
-         |                      ^~~~~~
-     'trace_pid_list_set': event 1
-       |
-       |  174 |         unsigned int upper2;
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c:175:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     175 |         unsigned int lower;
-         |                      ^~~~~
-     'trace_pid_list_set': event 1
-       |
-       |  175 |         unsigned int lower;
-       |      |                      ^~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c: In function 'trace_pid_list_clear':
-   kernel/trace/pid_list.c:226:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     226 |         unsigned int upper1;
-         |                      ^~~~~~
-     'trace_pid_list_clear': event 1
-       |
-       |  226 |         unsigned int upper1;
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c:227:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     227 |         unsigned int upper2;
-         |                      ^~~~~~
-     'trace_pid_list_clear': event 1
-       |
-       |  227 |         unsigned int upper2;
-       |      |                      ^~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c:228:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     228 |         unsigned int lower;
-         |                      ^~~~~
-     'trace_pid_list_clear': event 1
-       |
-       |  228 |         unsigned int lower;
-       |      |                      ^~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
-   kernel/trace/pid_list.c: In function 'trace_pid_list_next':
-   kernel/trace/pid_list.c:279:22: warning: use of uninitialized value '<un=
-known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     279 |         unsigned int upper1;
-         |                      ^~~~~~
-     'trace_pid_list_next': event 1
-       |
-       |  279 |         unsigned int upper1;
-       |      |                      ^~~~~~
-       |      |                      |
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm/mach-at91/pm.c:598:30: sparse: sparse: incorrect type in assign=
+ment (different address spaces) @@     expected void ( *static [assigned] [=
+toplevel] at91_suspend_sram_fn )( ... ) @@     got void [noderef] __iomem *=
+ @@
+   arch/arm/mach-at91/pm.c:598:30: sparse:     expected void ( *static [ass=
+igned] [toplevel] at91_suspend_sram_fn )( ... )
+   arch/arm/mach-at91/pm.c:598:30: sparse:     got void [noderef] __iomem *
 
-vim +134 kernel/trace/pid_list.c
+vim +598 arch/arm/mach-at91/pm.c
 
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  117) =
+fbc7edca5a7dd4 Alexandre Belloni  2015-09-30  563  =
 
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  118) /**
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  119)  * trace_pid_list_i=
-s_set - test if the pid is set in the list
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  120)  * @pid_list: The p=
-id list to test
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  121)  * @pid: The pid to=
- to see if set in the list.
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  122)  *
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  123)  * Tests if @pid is=
- is set in the @pid_list. This is usually called
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  124)  * from the schedul=
-er when a task is scheduled. Its pid is checked
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  125)  * if it should be =
-traced or not.
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  126)  *
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  127)  * Return true if t=
-he pid is in the list, false otherwise.
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  128)  */
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  129) bool trace_pid_list=
-_is_set(struct trace_pid_list *pid_list, unsigned int pid)
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  130) {
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  131) 	union upper_chunk =
-*upper_chunk;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  132) 	union lower_chunk =
-*lower_chunk;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  133) 	unsigned long flag=
-s;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23 @134) 	unsigned int upper=
-1;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  135) 	unsigned int upper=
-2;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  136) 	unsigned int lower;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  137) 	bool ret =3D false;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  138) =
+d2e46790559676 Alexandre Belloni  2015-01-15  564  static void __init at91_=
+pm_sram_init(void)
+d2e46790559676 Alexandre Belloni  2015-01-15  565  {
+d2e46790559676 Alexandre Belloni  2015-01-15  566  	struct gen_pool *sram_p=
+ool;
+d2e46790559676 Alexandre Belloni  2015-01-15  567  	phys_addr_t sram_pbase;
+d2e46790559676 Alexandre Belloni  2015-01-15  568  	unsigned long sram_base;
+d2e46790559676 Alexandre Belloni  2015-01-15  569  	struct device_node *nod=
+e;
+4a031f7dbe497a Alexandre Belloni  2015-03-03  570  	struct platform_device =
+*pdev =3D NULL;
+d2e46790559676 Alexandre Belloni  2015-01-15  571  =
 
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  139) 	if (!pid_list)
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  140) 		return false;
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  141) =
+4a031f7dbe497a Alexandre Belloni  2015-03-03  572  	for_each_compatible_nod=
+e(node, NULL, "mmio-sram") {
+4a031f7dbe497a Alexandre Belloni  2015-03-03  573  		pdev =3D of_find_devic=
+e_by_node(node);
+4a031f7dbe497a Alexandre Belloni  2015-03-03  574  		if (pdev) {
+4a031f7dbe497a Alexandre Belloni  2015-03-03  575  			of_node_put(node);
+4a031f7dbe497a Alexandre Belloni  2015-03-03  576  			break;
+4a031f7dbe497a Alexandre Belloni  2015-03-03  577  		}
+d2e46790559676 Alexandre Belloni  2015-01-15  578  	}
+d2e46790559676 Alexandre Belloni  2015-01-15  579  =
 
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  142) 	if (pid_split(pid,=
- &upper1, &upper2, &lower) < 0)
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  143) 		return false;
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  144) =
+d2e46790559676 Alexandre Belloni  2015-01-15  580  	if (!pdev) {
+d2e46790559676 Alexandre Belloni  2015-01-15  581  		pr_warn("%s: failed to=
+ find sram device!\n", __func__);
+4a031f7dbe497a Alexandre Belloni  2015-03-03  582  		return;
+d2e46790559676 Alexandre Belloni  2015-01-15  583  	}
+d2e46790559676 Alexandre Belloni  2015-01-15  584  =
 
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  145) 	raw_spin_lock_irqs=
-ave(&pid_list->lock, flags);
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  146) 	upper_chunk =3D pi=
-d_list->upper[upper1];
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  147) 	if (upper_chunk) {
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  148) 		lower_chunk =3D u=
-pper_chunk->data[upper2];
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  149) 		if (lower_chunk)
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  150) 			ret =3D test_bit=
-(lower, lower_chunk->data);
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  151) 	}
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  152) 	raw_spin_unlock_ir=
-qrestore(&pid_list->lock, flags);
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  153) =
+73858173593c31 Vladimir Zapolskiy 2015-09-04  585  	sram_pool =3D gen_pool_=
+get(&pdev->dev, NULL);
+d2e46790559676 Alexandre Belloni  2015-01-15  586  	if (!sram_pool) {
+d2e46790559676 Alexandre Belloni  2015-01-15  587  		pr_warn("%s: sram pool=
+ unavailable!\n", __func__);
+f87a4f022c44e5 yu kuai            2020-06-04  588  		goto out_put_device;
+d2e46790559676 Alexandre Belloni  2015-01-15  589  	}
+d2e46790559676 Alexandre Belloni  2015-01-15  590  =
 
-8d6e90983ade25 Steven Rostedt (VMware  2021-09-23  154) 	return ret;
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  155) }
-6954e415264eeb Steven Rostedt (VMware  2021-09-23  156) =
+5726a8b9686348 Wenyou Yang        2015-03-09  591  	sram_base =3D gen_pool_=
+alloc(sram_pool, at91_pm_suspend_in_sram_sz);
+d2e46790559676 Alexandre Belloni  2015-01-15  592  	if (!sram_base) {
+5726a8b9686348 Wenyou Yang        2015-03-09  593  		pr_warn("%s: unable to=
+ alloc sram!\n", __func__);
+f87a4f022c44e5 yu kuai            2020-06-04  594  		goto out_put_device;
+d2e46790559676 Alexandre Belloni  2015-01-15  595  	}
+d2e46790559676 Alexandre Belloni  2015-01-15  596  =
 
+d2e46790559676 Alexandre Belloni  2015-01-15  597  	sram_pbase =3D gen_pool=
+_virt_to_phys(sram_pool, sram_base);
+5726a8b9686348 Wenyou Yang        2015-03-09 @598  	at91_suspend_sram_fn =
+=3D __arm_ioremap_exec(sram_pbase,
+5726a8b9686348 Wenyou Yang        2015-03-09  599  					at91_pm_suspend_in_=
+sram_sz, false);
+5726a8b9686348 Wenyou Yang        2015-03-09  600  	if (!at91_suspend_sram_=
+fn) {
+d94e688cae5661 Wenyou Yang        2015-03-09  601  		pr_warn("SRAM: Could n=
+ot map\n");
+f87a4f022c44e5 yu kuai            2020-06-04  602  		goto out_put_device;
+d94e688cae5661 Wenyou Yang        2015-03-09  603  	}
+d94e688cae5661 Wenyou Yang        2015-03-09  604  =
+
+5726a8b9686348 Wenyou Yang        2015-03-09  605  	/* Copy the pm suspend =
+handler to SRAM */
+5726a8b9686348 Wenyou Yang        2015-03-09  606  	at91_suspend_sram_fn =
+=3D fncpy(at91_suspend_sram_fn,
+5726a8b9686348 Wenyou Yang        2015-03-09  607  			&at91_pm_suspend_in_s=
+ram, at91_pm_suspend_in_sram_sz);
+f87a4f022c44e5 yu kuai            2020-06-04  608  	return;
+f87a4f022c44e5 yu kuai            2020-06-04  609  =
+
+f87a4f022c44e5 yu kuai            2020-06-04  610  out_put_device:
+f87a4f022c44e5 yu kuai            2020-06-04  611  	put_device(&pdev->dev);
+f87a4f022c44e5 yu kuai            2020-06-04  612  	return;
+d2e46790559676 Alexandre Belloni  2015-01-15  613  }
+d2e46790559676 Alexandre Belloni  2015-01-15  614  =
+
+
+:::::: The code at line 598 was first introduced by commit
+:::::: 5726a8b9686348e8d203f1bbf9d5fc1bb5899518 ARM: at91/pm: rename functi=
+on name: at91_slow_clock() --> at91_pm_suspend_sram_fn()
+
+:::::: TO: Wenyou Yang <wenyou.yang@atmel.com>
+:::::: CC: Nicolas Ferre <nicolas.ferre@atmel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3188366343186235308==--
+--===============1559497803589310564==--
 
